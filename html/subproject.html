@@ -1,0 +1,14 @@
+{% load i18n %}
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Translations</h2>
+
+<ul>
+{% for trans in obj.translation_set.all %}
+<li><a href="{{ trans.get_absolute_url }}">{{ trans.language.name }} ({{ trans.translated }}% translated)</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+

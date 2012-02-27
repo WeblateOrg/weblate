@@ -8,6 +8,7 @@ def show_project(request, project):
 
     return render_to_response('project.html', RequestContext({
         'object': obj,
+        'title': '%s @ Weblate' % obj.name,
     })
 
 def show_subproject(request, project, subproject):
@@ -15,12 +16,14 @@ def show_subproject(request, project, subproject):
 
     return render_to_response('subproject.html', RequestContext({
         'object': obj,
+        'title': '%s/%s @ Weblate' % (obj.name, obj.project.name),
     })
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Language, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
-    return render_to_response('language.html', RequestContext({
+    return render_to_response('translation.html', RequestContext({
         'object': obj,
+        'title': '%s %s/%s @ Weblate' % (obj.language.name, obj.subproject.name, obj.subproject.project.name),
     })
 

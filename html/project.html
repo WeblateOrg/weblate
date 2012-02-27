@@ -1,0 +1,13 @@
+{% load i18n %}
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Subprojects</h2>
+
+<ul>
+{% for prj in obj.subproject_set.all %}
+<li><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
