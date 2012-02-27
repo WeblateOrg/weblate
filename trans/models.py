@@ -37,6 +37,8 @@ class SubProject(models.Model):
     repo = models.CharField(max_length = 200)
     branch = models.CharField(max_length = 50)
     filemask = models.CharField(max_length = 200)
+    style_choices = (('po', 'po'), ('ts', 'ts'))
+    style = models.CharField(max_length = 10, choices = style_choices)
 
     @models.permalink
     def get_absolute_url(self):
