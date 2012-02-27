@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from lang.models import Language
+from glob import glob
 import os
 import os.path
 import git
@@ -102,6 +103,22 @@ class SubProject(models.Model):
             repo.git.merge('origin/%s' % self.branch)
         except:
             repo.git.merge('--abort')
+
+    def create_translations(self):
+        '''
+        Loads translations from git.
+        '''
+        repo = self.get_repo()
+        tree = repo.tree()
+
+        # Glob files
+        files = glob(os.path.join(self.get_path(), self.filemask))
+        prefix = os.path.join(self.get_path(), '')
+        files = [f.replace(prefix, '') for f in files]
+
+        # Get blobs for files
+        translations = [tree[f] for f in files]
+
 
     def save(self, *args, **kwargs):
         self.configure_repo()
