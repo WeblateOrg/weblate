@@ -12,7 +12,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-         return ('trans.views.project', (), {'project': self.slug})
+         return ('trans.views.show_project', (), {'project': self.slug})
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100)
@@ -23,7 +23,7 @@ class SubProject(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-         return ('trans.views.subproject', (), {'project': self.project.slug, 'subproject': self.slug})
+         return ('trans.views.show_subproject', (), {'project': self.project.slug, 'subproject': self.slug})
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
@@ -35,7 +35,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-         return ('trans.views.translation', (), {'project': self.subproject.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
+         return ('trans.views.show_translation', (), {'project': self.subproject.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
