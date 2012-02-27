@@ -1,6 +1,8 @@
 from django.db import models
 from lang.models import Language
 
+PLURAL_SEPARATOR = '\x00\x00'
+
 class Project(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
@@ -29,3 +31,23 @@ class Unit(models.Model):
     flags = models.TextField()
     source = models.TextField()
     target = models.TextField()
+
+    def is_plural(self):
+        return self.source.find(PLURAL_SEPARATOR) != -1
+
+    def get_source_plurals(self):
+        return self.source.split(PLURAL_SEPARATOR)
+
+    def get_target_plurals(self):
+        ret = self.target.split(PLURAL_SEPARATOR)
+        plurals = self.translation.language.nplurals
+        if len(ret) == plurals:
+            return ret
+
+        while len(ret) < plurals:
+            ret.append('')
+
+        while len(ret) > plurals:
+            del(ret[-1])
+
+        return ret
