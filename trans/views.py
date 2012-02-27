@@ -17,7 +17,6 @@ def show_subproject(request, project, subproject):
         'object': obj,
     })
 
-
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Language, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
