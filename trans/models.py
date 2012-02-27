@@ -6,6 +6,8 @@ import os
 import os.path
 import git
 
+from trans.managers import TranslationManager
+
 PLURAL_SEPARATOR = '\x00\x00'
 
 class Project(models.Model):
@@ -117,15 +119,22 @@ class SubProject(models.Model):
         files = [f.replace(prefix, '') for f in files]
 
         # Get blobs for files
-        return [tree[f] for f in files]
+        return [(self.get_lang_code(f), f, tree[f]) for f in files]
 
     def create_translations(self):
         '''
         Loads translations from git.
         '''
         blobs = self.get_translation_blobs()
-        for blob in blobs:
-            Translation.objects.update_from_blob(self, blob)
+        for code, path, blob in blobs:
+            Translation.objects.update_from_blob(self, code, path, blob)
+
+    def get_lang_code(self, path):
+        '''
+        Parses language code from path.
+        '''
+        parts = self.filemask.split('*')
+        return path[len(parts[0]):-len(parts[1])]
 
     def save(self, *args, **kwargs):
         self.configure_repo()
@@ -138,10 +147,12 @@ class SubProject(models.Model):
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
-    translated = models.FloatField()
-    fuzzy = models.FloatField()
-    revision = models.CharField(max_length = 40)
+    translated = models.FloatField(default = 0)
+    fuzzy = models.FloatField(default = 0)
+    revision = models.CharField(max_length = 40, default = '', blank = True)
     filename = models.CharField(max_length = 200)
+
+    objects = TranslationManager()
 
     @models.permalink
     def get_absolute_url(self):
