@@ -25,5 +25,5 @@ class UnitAdmin(admin.ModelAdmin):
     list_display = ['source', 'target']
     search_fields = ['source', 'target']
 
-admin.site.register(Unit,Unit Admin)
+admin.site.register(Unit, UnitAdmin)
 
