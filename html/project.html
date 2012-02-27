@@ -2,10 +2,17 @@
 {% load i18n %}
 
 {% block content %}
-<h2>Subprojects</h2>
+
+<h2>{% trans "Project Information" %}</h2>
+
+<p>{% trans "Project website:" %} <a href="{{ object.web }}">{{ object.web }}</a></p>
+<p>{% trans "Mailing list for translators:" %} <a href="mailto:{{ object.mail }}">{{ object.mail }}</a></p>
+<p>{% trans "Instructions for translators:" %} <a href="{{ object.instructions }}">{{ object.instructions }}</a></p>
+
+<h2>{% trans "Subprojects" %}</h2>
 
 <ul>
-{% for prj in obj.subproject_set.all %}
+{% for prj in object.subproject_set.all %}
 <li><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></li>
 {% endfor %}
 </ul>
