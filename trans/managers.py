@@ -14,3 +14,16 @@ class TranslationManager(models.Manager):
             filename = path)
         trans.update_from_blob(blob)
 
+class UnitManager(models.Manager):
+    def update_from_unit(self, translation, unit):
+        '''
+        Process translation toolkit unit and stores/updates database entry.
+        '''
+        src = '\x00\x00'.join(unit.source.strings)
+        ctx = unit.getcontext()
+        dbunit, created = self.get_or_create(
+            translation = translation,
+            source = src,
+            context = ctx)
+        dbunit.update_from_unit(unit)
+        return dbunit

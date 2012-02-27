@@ -7,7 +7,7 @@ import os.path
 import git
 from translate.storage import factory
 
-from trans.managers import TranslationManager
+from trans.managers import TranslationManager, UnitManager
 
 PLURAL_SEPARATOR = '\x00\x00'
 
@@ -175,20 +175,43 @@ class Translation(models.Model):
         # Load po file
         store = factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
         for unit in store.units:
-            print unit
+            newunit = Unit.objects.update_from_unit(self, unit)
+            try:
+                oldunits.remove(newunit.id)
+            except:
+                pass
+
+        # Delete not used units
+        Unit.objects.filter(translation = self, id__in = oldunits).delete()
 
         # Update revision
         self.revision = blob.hexsha
-#        self.save()
+        self.save()
 
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
-    location = models.TextField()
-    context = models.TextField()
-    flags = models.TextField()
+    location = models.TextField(default = '', blank = True)
+    context = models.TextField(default = '', blank = True)
+    flags = models.TextField(default = '', blank = True)
     source = models.TextField()
-    target = models.TextField()
+    target = models.TextField(default = '', blank = True)
+    fuzzy = models.BooleanField(default = False)
+
+    objects = UnitManager()
+
+    def update_from_unit(self, unit):
+        location = ', '.join(unit.getlocations())
+        flags = '' # FIXME
+        target = PLURAL_SEPARATOR.join(unit.target.strings)
+        fuzzy = unit.isfuzzy()
+        if location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy:
+            return
+        self.location = location
+        self.flags = flags
+        self.target = target
+        self.fuzzy = fuzzy
+        self.save()
 
     def is_plural(self):
         return self.source.find(PLURAL_SEPARATOR) != -1
