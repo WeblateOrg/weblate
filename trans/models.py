@@ -19,5 +19,6 @@ class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
     translated = models.FloatField()
+    fuzzy = models.FloatField()
     revision = models.CharField(max_length = 40)
     filename = models.CharField(max_length = 200)
