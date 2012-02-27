@@ -5,6 +5,7 @@ from glob import glob
 import os
 import os.path
 import git
+from translate.storage import factory
 
 from trans.managers import TranslationManager
 
@@ -171,10 +172,20 @@ class Translation(models.Model):
 
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
 
+        # Load po file
+        store = factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
+        for unit in store.units:
+            print unit
+
+        # Update revision
+        self.revision = blob.hexsha
+#        self.save()
+
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     location = models.TextField()
+    context = models.TextField()
     flags = models.TextField()
     source = models.TextField()
     target = models.TextField()
