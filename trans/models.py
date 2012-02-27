@@ -22,3 +22,10 @@ class Translation(models.Model):
     fuzzy = models.FloatField()
     revision = models.CharField(max_length = 40)
     filename = models.CharField(max_length = 200)
+
+class Unit(models.Model):
+    translation = models.ForeignKey(Translation)
+    location = models.TextField()
+    flags = models.TextField()
+    source = models.TextField()
+    target = models.TextField()
