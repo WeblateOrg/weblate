@@ -72,13 +72,13 @@ class SubProject(models.Model):
         try:
             origin = repo.remotes.origin
         except:
-            origin = repo.create_remote('origin', self.repo)
+            repo.git.remote('add', 'origin', self.repo)
+            origin = repo.remotes.origin
         # Check remote source
         if origin.url != self.repo:
-            repo.delete_remote('origin')
-            origin = repo.create_remote('origin', self.repo)
+            repo.git.remote('set-url', 'origin', self.repo)
         # Update
-        origin.pull()
+        repo.git.remote('update', 'origin')
 
     def configure_branch(self):
         '''
