@@ -14,5 +14,7 @@ should be primarily handled on git side.
 Requirements
 ------------
 
-Django - https://www.djangoproject.com/
-Translate-toolkit - http://translate.sourceforge.net/wiki/toolkit/index
+Django
+    https://www.djangoproject.com/
+Translate-toolkit
+    http://translate.sourceforge.net/wiki/toolkit/index
