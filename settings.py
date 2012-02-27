@@ -1,4 +1,7 @@
 # Django settings for weblate project.
+# -*- coding: UTF-8 -*-
+
+from socket import gethostname
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
