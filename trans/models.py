@@ -36,6 +36,7 @@ class SubProject(models.Model):
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200)
     branch = models.CharField(max_length = 50)
+    filemask = models.CharField(max_length = 200)
 
     @models.permalink
     def get_absolute_url(self):
