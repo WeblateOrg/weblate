@@ -202,7 +202,7 @@ class Unit(models.Model):
     def update_from_unit(self, unit):
         location = ', '.join(unit.getlocations())
         flags = '' # FIXME
-        target = PLURAL_SEPARATOR.join(unit.target.strings)
+        target = join_plural(unit.target.strings)
         fuzzy = unit.isfuzzy()
         if location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy:
             return
