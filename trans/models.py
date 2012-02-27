@@ -3,6 +3,7 @@ from django.conf import settings
 from lang.models import Language
 import os
 import os.path
+import git
 
 PLURAL_SEPARATOR = '\x00\x00'
 
@@ -28,6 +29,7 @@ class Project(models.Model):
         p = self.get_path()
         if not os.path.exists(p):
             os.makedirs(p)
+
         super(Project, self).save(*args, **kwargs)
 
 class SubProject(models.Model):
@@ -45,7 +47,21 @@ class SubProject(models.Model):
          return ('trans.views.show_subproject', (), {'project': self.project.slug, 'subproject': self.slug})
 
     def __unicode__(self):
-        return '%s/%s' (self.project.__unicode__(), self.name)
+        return '%s/%s' % (self.project.__unicode__(), self.name)
+
+    def get_path(self):
+        return os.path.join(self.project.get_path(), self.slug)
+
+    def save(self, *args, **kwargs):
+        # Get/Clone repo
+        p = self.get_path()
+        try:
+            repo = git.Repo(p)
+        except:
+            src = git.Repo(self.repo)
+            repo = src.clone(p)
+
+        super(SubProject, self).save(*args, **kwargs)
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
@@ -60,7 +76,7 @@ class Translation(models.Model):
          return ('trans.views.show_translation', (), {'project': self.subproject.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
 
     def __unicode__(self):
-        return '%s@%s' (self.language.name, self.subproject.__unicode__())
+        return '%s@%s' % (self.language.name, self.subproject.__unicode__())
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
