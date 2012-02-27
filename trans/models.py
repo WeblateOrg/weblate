@@ -10,12 +10,20 @@ class Project(models.Model):
     mail = models.EmailField()
     instructions = models.URLField()
 
+    @models.permalink
+    def get_absolute_url(self):
+         return ('trans.views.project', (), {'project': self.slug})
+
 class SubProject(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200)
     branch = models.CharField(max_length = 50)
+
+    @models.permalink
+    def get_absolute_url(self):
+         return ('trans.views.subproject', (), {'project': self.project.slug, 'subproject': self.slug})
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
@@ -24,6 +32,10 @@ class Translation(models.Model):
     fuzzy = models.FloatField()
     revision = models.CharField(max_length = 40)
     filename = models.CharField(max_length = 200)
+
+    @models.permalink
+    def get_absolute_url(self):
+         return ('trans.views.translation', (), {'project': self.subproject.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
