@@ -1,7 +1,7 @@
 Weblate
 =======
 
-Weblate is web based translation tool. It is based on translate-toolkit and
+Weblate is web based translation tool. It is based on polib and
 heavily uses git backed to store project.
 
 Project goals
@@ -25,8 +25,8 @@ Requirements
 
 Django
     https://www.djangoproject.com/
-Translate-toolkit
-    http://translate.sourceforge.net/wiki/toolkit/index
+polib
+    http://pypi.python.org/pypi/polib
 GitPython (>= 0.3)
     http://gitorious.org/projects/git-python/
 
