@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class Language(models.Model):
+    code = models.SlugField(db_index = True)
+    name = models.CharField(max_length = 100)
+    nplurals = models.SmallIntegerField(default = 0)
+    pluralequation = models.CharField(max_length = 255, blank = True)
