@@ -1,5 +1,8 @@
 from django.db import models
+from django.conf import settings
 from lang.models import Language
+import os
+import os.path
 
 PLURAL_SEPARATOR = '\x00\x00'
 
@@ -12,7 +15,17 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-         return ('trans.views.show_project', (), {'project': self.slug})
+        return ('trans.views.show_project', (), {'project': self.slug})
+
+    def get_path(self):
+        return os.path.join(settings.GIT_ROOT, self.slug)
+
+    def save(self, *args, **kwargs):
+        # Create filesystem directory for storing data
+        p = self.get_path()
+        if not os.path.exists(p):
+            os.makedirs(p)
+        super(Project, self).save(*args, **kwargs)
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100)
