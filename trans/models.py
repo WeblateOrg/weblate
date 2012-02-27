@@ -4,11 +4,14 @@ from lang.models import Language
 from glob import glob
 import os
 import os.path
+import logging
 import git
 from translate.storage import factory
 
 from trans.managers import TranslationManager, UnitManager
 from util import is_plural, split_plural, join_plural
+
+logger = logging.getLogger('weblate')
 
 class Project(models.Model):
     name = models.CharField(max_length = 100)
@@ -127,6 +130,7 @@ class SubProject(models.Model):
         '''
         blobs = self.get_translation_blobs()
         for code, path, blob in blobs:
+            logger.info('processing %s', path)
             Translation.objects.update_from_blob(self, code, path, blob)
 
     def get_lang_code(self, path):
