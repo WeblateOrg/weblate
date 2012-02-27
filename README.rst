@@ -27,7 +27,7 @@ Django
     https://www.djangoproject.com/
 Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
-GitPython
+GitPython (>= 0.3)
     http://gitorious.org/projects/git-python/
 
 Authors
