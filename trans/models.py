@@ -8,8 +8,7 @@ import git
 from translate.storage import factory
 
 from trans.managers import TranslationManager, UnitManager
-
-PLURAL_SEPARATOR = '\x00\x00'
+from util import is_plural, split_plural, join_plural
 
 class Project(models.Model):
     name = models.CharField(max_length = 100)
@@ -214,13 +213,13 @@ class Unit(models.Model):
         self.save()
 
     def is_plural(self):
-        return self.source.find(PLURAL_SEPARATOR) != -1
+        return is_plural(self.source)
 
     def get_source_plurals(self):
-        return self.source.split(PLURAL_SEPARATOR)
+        return split_plural(self.source)
 
     def get_target_plurals(self):
-        ret = self.target.split(PLURAL_SEPARATOR)
+        ret = split_plural(self.target)
         plurals = self.translation.language.nplurals
         if len(ret) == plurals:
             return ret
