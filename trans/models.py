@@ -161,6 +161,17 @@ class Translation(models.Model):
     def __unicode__(self):
         return '%s@%s' % (self.language.name, self.subproject.__unicode__())
 
+    def update_from_blob(self, blob):
+        '''
+        Updates translation data from blob.
+        '''
+        # Check if we're not already up to date
+        if self.revision == blob.hexsha:
+            return
+
+        oldunits = set(self.unit_set.all().values_list('id', flat = True))
+
+
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     location = models.TextField()

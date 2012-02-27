@@ -7,11 +7,10 @@ class TranslationManager(models.Manager):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
-        print code
         lang = Language.objects.get(code = code)
         trans, created = self.get_or_create(
             language = lang,
             subproject = subproject,
             filename = path)
-        print trans
+        trans.update_from_blob(blob)
 
