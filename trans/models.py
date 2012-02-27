@@ -104,9 +104,9 @@ class SubProject(models.Model):
         except:
             repo.git.merge('--abort')
 
-    def create_translations(self):
+    def get_translation_blobs(self):
         '''
-        Loads translations from git.
+        Scans directory for translation blobs and returns them as list.
         '''
         repo = self.get_repo()
         tree = repo.tree()
@@ -117,13 +117,21 @@ class SubProject(models.Model):
         files = [f.replace(prefix, '') for f in files]
 
         # Get blobs for files
-        translations = [tree[f] for f in files]
+        return [tree[f] for f in files]
 
+    def create_translations(self):
+        '''
+        Loads translations from git.
+        '''
+        blobs = self.get_translation_blobs()
+        for blob in blobs:
+            Translation.objects.update_from_blob(self, blob)
 
     def save(self, *args, **kwargs):
         self.configure_repo()
         self.configure_branch()
         self.update_branch()
+        self.create_translations()
 
         super(SubProject, self).save(*args, **kwargs)
 
