@@ -20,6 +20,9 @@ class Project(models.Model):
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
+    def __unicode__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
         # Create filesystem directory for storing data
         p = self.get_path()
@@ -38,6 +41,9 @@ class SubProject(models.Model):
     def get_absolute_url(self):
          return ('trans.views.show_subproject', (), {'project': self.project.slug, 'subproject': self.slug})
 
+    def __unicode__(self):
+        return '%s/%s' (self.project.__unicode__(), self.name)
+
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
@@ -49,6 +55,9 @@ class Translation(models.Model):
     @models.permalink
     def get_absolute_url(self):
          return ('trans.views.show_translation', (), {'project': self.subproject.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
+
+    def __unicode__(self):
+        return '%s@%s' (self.language.name, self.subproject.__unicode__())
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
