@@ -52,14 +52,61 @@ class SubProject(models.Model):
     def get_path(self):
         return os.path.join(self.project.get_path(), self.slug)
 
-    def save(self, *args, **kwargs):
-        # Get/Clone repo
+    def get_repo(self):
+        '''
+        Gets Git repository object.
+        '''
         p = self.get_path()
         try:
-            repo = git.Repo(p)
+            return git.Repo(p)
         except:
-            src = git.Repo(self.repo)
-            repo = src.clone(p)
+            return git.Repo.init(p)
+
+    def configure_repo(self):
+        '''
+        Ensures repository is correctly configured and points to current remote.
+        '''
+        # Create/Open repo
+        repo = self.get_repo()
+        # Get/Create origin remote
+        try:
+            origin = repo.remotes.origin
+        except:
+            origin = repo.create_remote('origin', self.repo)
+        # Check remote source
+        if origin.url != self.repo:
+            repo.delete_remote('origin')
+            origin = repo.create_remote('origin', self.repo)
+        # Update
+        origin.pull()
+
+    def configure_branch(self):
+        '''
+        Ensures local tracking branch exists and is checkouted.
+        '''
+        repo = self.get_repo()
+        try:
+            head = repo.heads[self.branch]
+        except:
+            repo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
+            head = repo.heads[self.branch]
+        repo.git.checkout(self.branch)
+
+    def update_branch(self):
+        '''
+        Updates current branch to match remote (if possible).
+        '''
+        repo = self.get_repo()
+        repo.remotes.origin.pull()
+        try:
+            repo.git.merge('origin/%s' % self.branch)
+        except:
+            repo.git.merge('--abort')
+
+    def save(self, *args, **kwargs):
+        self.configure_repo()
+        self.configure_branch()
+        self.update_branch()
 
         super(SubProject, self).save(*args, **kwargs)
 
