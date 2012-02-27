@@ -203,18 +203,18 @@ class Unit(models.Model):
 
     objects = UnitManager()
 
-    def update_from_unit(self, unit):
+    def update_from_unit(self, unit, force):
         location = ', '.join(unit.getlocations())
         flags = '' # FIXME
         target = join_plural(unit.target.strings)
         fuzzy = unit.isfuzzy()
-        if location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy:
+        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy:
             return
         self.location = location
         self.flags = flags
         self.target = target
         self.fuzzy = fuzzy
-        self.save()
+        self.save(force_insert = force)
 
     def is_plural(self):
         return is_plural(self.source)

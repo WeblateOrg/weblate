@@ -23,9 +23,19 @@ class UnitManager(models.Manager):
         '''
         src = join_plural(unit.source.strings)
         ctx = unit.getcontext()
-        dbunit, created = self.get_or_create(
-            translation = translation,
-            source = src,
-            context = ctx)
-        dbunit.update_from_unit(unit)
+        import trans.models
+        try:
+            dbunit = self.get(
+                translation = translation,
+                source = src,
+                context = ctx)
+            force = False
+        except:
+            dbunit = trans.models.Unit(
+                translation = translation,
+                source = src,
+                context = ctx)
+            force = True
+
+        dbunit.update_from_unit(unit, force)
         return dbunit
