@@ -156,3 +156,6 @@ LOGGING = {
         },
     }
 }
+
+# Path where git repositories are stored, it needs to be writable
+GIT_ROOT = '%s/repos/' % WEB_ROOT
