@@ -18,3 +18,8 @@ Django
     https://www.djangoproject.com/
 Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
+
+Authors
+-------
+
+This tool was written by Michal Čihař <michal@cihar.com>.
