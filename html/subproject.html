@@ -13,7 +13,7 @@
 
 <ul>
 {% for trans in object.translation_set.all %}
-<li><a href="{{ trans.get_absolute_url }}">{{ trans.language.name }} ({{ trans.translated }}% translated)</a></li>
+<li><a href="{{ trans.get_absolute_url }}">{{ trans.language.name }} ({{ trans.translated }}% translated{% if trans.fuzzy %}, {{ trans.fuzzy }}% fuzzy{% endif %})</a></li>
 {% endfor %}
 </ul>
 
