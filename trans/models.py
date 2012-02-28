@@ -258,6 +258,8 @@ class Translation(models.Model):
             store.save()
             self.git_commit(author)
 
+        return need_save, pounit
+
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
@@ -311,7 +313,9 @@ class Unit(models.Model):
 
     def save_backend(self, request, propagate = True):
         # Store to backend
-        self.translation.update_unit(self, request)
+        (saved, pounit) = self.translation.update_unit(self, request)
+        self.translated = pounit.istranslated()
+        self.fuzzy = pounit.isfuzzy()
         self.save(backend = True)
         # Propagate to other projects
         if propagate:
