@@ -5,7 +5,7 @@ from lang.models import Language
 from util import is_plural, split_plural, join_plural, msg_checksum
 
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, blob):
+    def update_from_blob(self, subproject, code, path, blob, force = False):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -14,7 +14,7 @@ class TranslationManager(models.Manager):
             language = lang,
             subproject = subproject,
             filename = path)
-        trans.update_from_blob(blob)
+        trans.update_from_blob(blob, force)
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):

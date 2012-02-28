@@ -140,14 +140,14 @@ class SubProject(models.Model):
         # Get blobs for files
         return [(self.get_lang_code(f), f, tree[f]) for f in files]
 
-    def create_translations(self):
+    def create_translations(self, force = False):
         '''
         Loads translations from git.
         '''
         blobs = self.get_translation_blobs()
         for code, path, blob in blobs:
             logger.info('processing %s', path)
-            Translation.objects.update_from_blob(self, code, path, blob)
+            Translation.objects.update_from_blob(self, code, path, blob, force)
 
     def get_lang_code(self, path):
         '''
@@ -199,12 +199,12 @@ class Translation(models.Model):
     def get_store(self):
         return factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
 
-    def update_from_blob(self, blob):
+    def update_from_blob(self, blob, force = False):
         '''
         Updates translation data from blob.
         '''
         # Check if we're not already up to date
-        if self.revision == blob.hexsha:
+        if self.revision == blob.hexsha and not force:
             return
 
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
