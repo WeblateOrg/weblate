@@ -164,8 +164,8 @@ class SubProject(models.Model):
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
-    translated = models.FloatField(default = 0)
-    fuzzy = models.FloatField(default = 0)
+    translated = models.FloatField(default = 0, db_index = True)
+    fuzzy = models.FloatField(default = 0, db_index = True)
     revision = models.CharField(max_length = 40, default = '', blank = True)
     filename = models.CharField(max_length = 200)
 
@@ -221,13 +221,14 @@ class Translation(models.Model):
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
+    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     location = models.TextField(default = '', blank = True)
     context = models.TextField(default = '', blank = True)
     flags = models.TextField(default = '', blank = True)
     source = models.TextField()
     target = models.TextField(default = '', blank = True)
-    fuzzy = models.BooleanField(default = False)
-    translated = models.BooleanField(default = False)
+    fuzzy = models.BooleanField(default = False, db_index = True)
+    translated = models.BooleanField(default = False, db_index = True)
 
     objects = UnitManager()
 

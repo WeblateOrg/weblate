@@ -2,7 +2,7 @@ from django.db import models
 
 from lang.models import Language
 
-from util import is_plural, split_plural, join_plural
+from util import is_plural, split_plural, join_plural, msg_checksum
 
 class TranslationManager(models.Manager):
     def update_from_blob(self, subproject, code, path, blob):
@@ -23,16 +23,17 @@ class UnitManager(models.Manager):
         '''
         src = join_plural(unit.source.strings)
         ctx = unit.getcontext()
+        checksum = msg_checksum(src, ctx)
         import trans.models
         try:
             dbunit = self.get(
                 translation = translation,
-                source = src,
-                context = ctx)
+                checksum = checksum)
             force = False
         except:
             dbunit = trans.models.Unit(
                 translation = translation,
+                checksum = checksum,
                 source = src,
                 context = ctx)
             force = True

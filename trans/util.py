@@ -1,3 +1,4 @@
+import hashlib
 
 PLURAL_SEPARATOR = '\x00\x00'
 
@@ -12,4 +13,15 @@ def split_plural(s):
 
 def join_plural(s):
     return PLURAL_SEPARATOR.join(s)
+
+def msg_checksum(source, context):
+    '''
+    Returns checksum of source string, used for quick lookup.
+
+    We use MD5 as it is faster than SHA1.
+    '''
+    m = hashlib.md5()
+    m.update(source)
+    m.update(context)
+    return m.hexdigest()
 
