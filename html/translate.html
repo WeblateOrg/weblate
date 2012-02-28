@@ -7,7 +7,7 @@
 
 <h2>{% trans "Translate" %}</h2>
 
-<p>{% blocktrans %}Showing string {{ unit.position }} out of {{ total }}.{% endblocktrans %}</p>
+<p>{% blocktrans with unit.position as position %}Showing string {{ position }} out of {{ total }}.{% endblocktrans %}</p>
 
 {% endblock %}
 
