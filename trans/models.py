@@ -222,12 +222,11 @@ class Translation(models.Model):
         self.revision = blob.hexsha
         self.save()
 
-    def git_commit(self, request):
+    def git_commit(self, author):
         '''
         Commits translation to git.
         '''
         repo = self.subproject.get_repo()
-        author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
         logger.info('Commiting %s as %s', self.filename, author)
         repo.git.commit(
             self.filename,
@@ -254,8 +253,9 @@ class Translation(models.Model):
                 # We should have only one match
                 break
         if need_save:
+            author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
             store.save()
-            self.git_commit(request)
+            self.git_commit(author)
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
