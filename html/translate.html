@@ -12,7 +12,7 @@
 <form action="{{ unit.translation.get_translate_url }}" method="post">
 {% csrf_token %}
 <input type="hidden" name="type" value="{{ type }}" />
-<input type="hidden" name="oldpos" value="{{ unit.pos }}" />
+<input type="hidden" name="oldpos" value="{{ unit.position }}" />
 </form>
 
 {% endblock %}
