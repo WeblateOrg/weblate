@@ -228,9 +228,10 @@ class Translation(models.Model):
         '''
         repo = self.subproject.get_repo()
         repo.git.commit(
+            self.filename,
             author = '%s <%s>' % (request.user.get_full_name(), request.user.email),
-            m = 'Translated using Weblate',
-            self.filename)
+            m = 'Translated using Weblate'
+            )
 
     def update_unit(self, request, unit):
         '''
