@@ -44,4 +44,5 @@ def translate(request, project, subproject, lang):
         'title': '%s @ Weblate' % (obj.__unicode__()),
         'unit': unit,
         'total': total,
+        'type': rqtype,
     }))

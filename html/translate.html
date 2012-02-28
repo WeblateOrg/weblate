@@ -9,6 +9,12 @@
 
 <p>{% blocktrans with unit.position as position %}Showing string {{ position }} out of {{ total }}.{% endblocktrans %}</p>
 
+<form action="{{ unit.translation.get_translate_url }}" method="post">
+{% csrf_token %}
+<input type="hidden" name="type" value="{{ type }}" />
+<input type="hidden" name="oldpos" value="{{ unit.pos }}" />
+</form>
+
 {% endblock %}
 
 
