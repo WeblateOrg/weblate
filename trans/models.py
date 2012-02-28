@@ -198,7 +198,7 @@ class Translation(models.Model):
         # Load po file
         store = factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
         for unit in store.units:
-            if unit.isheader() or unit.isobsolete():
+            if unit.istranslatable():
                 continue
             newunit = Unit.objects.update_from_unit(self, unit)
             try:
