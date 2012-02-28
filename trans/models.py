@@ -314,6 +314,7 @@ class Unit(models.Model):
             allunits = Unit.objects.filter(
                 checksum = self.checksum,
                 translation__subproject__project = self.translation.subproject.project,
+                translation__language = self.translation.language
             ).exclude(id = self.id)
             for unit in allunits:
                 unit.target = self.target
