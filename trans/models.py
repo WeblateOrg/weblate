@@ -25,7 +25,9 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('trans.views.show_project', (), {'project': self.slug})
+        return ('trans.views.show_project', (), {
+            'project': self.slug
+        })
 
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
@@ -56,7 +58,10 @@ class SubProject(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-         return ('trans.views.show_subproject', (), {'project': self.project.slug, 'subproject': self.slug})
+        return ('trans.views.show_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
 
     def __unicode__(self):
         return '%s/%s' % (self.project.__unicode__(), self.name)
@@ -171,7 +176,11 @@ class Translation(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-         return ('trans.views.show_translation', (), {'project': self.subproject.project.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
+        return ('trans.views.show_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
 
     def __unicode__(self):
         return '%s %s' % (self.language.name, self.subproject.__unicode__())
