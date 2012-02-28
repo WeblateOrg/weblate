@@ -224,6 +224,7 @@ class Unit(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     location = models.TextField(default = '', blank = True)
     context = models.TextField(default = '', blank = True)
+    comment = models.TextField(default = '', blank = True)
     flags = models.TextField(default = '', blank = True)
     source = models.TextField()
     target = models.TextField(default = '', blank = True)
@@ -238,13 +239,15 @@ class Unit(models.Model):
         target = join_plural(unit.target.strings)
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
-        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy and translated == self.translated:
+        comment = unit.getnotes()
+        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment:
             return
         self.location = location
         self.flags = flags
         self.target = target
         self.fuzzy = fuzzy
         self.translated = translated
+        self.comment = comment
         self.save(force_insert = force)
 
     def is_plural(self):
