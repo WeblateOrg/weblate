@@ -211,6 +211,7 @@ class Unit(models.Model):
     source = models.TextField()
     target = models.TextField(default = '', blank = True)
     fuzzy = models.BooleanField(default = False)
+    translated = models.BooleanField(default = False)
 
     objects = UnitManager()
 
@@ -219,12 +220,14 @@ class Unit(models.Model):
         flags = '' # FIXME
         target = join_plural(unit.target.strings)
         fuzzy = unit.isfuzzy()
-        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy:
+        translated = unit.istranslated()
+        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy and translated == self.translated:
             return
         self.location = location
         self.flags = flags
         self.target = target
         self.fuzzy = fuzzy
+        self.translated = translated
         self.save(force_insert = force)
 
     def is_plural(self):
