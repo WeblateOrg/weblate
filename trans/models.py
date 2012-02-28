@@ -211,10 +211,10 @@ class Translation(models.Model):
 
         # Load po file
         store = self.get_store()
-        for unit in store.units:
+        for pos, unit in enumerate(store.units):
             if unit.istranslatable():
                 continue
-            newunit = Unit.objects.update_from_unit(self, unit)
+            newunit = Unit.objects.update_from_unit(self, unit, pos)
             try:
                 oldunits.remove(newunit.id)
             except:
@@ -296,18 +296,23 @@ class Unit(models.Model):
     target = models.TextField(default = '', blank = True)
     fuzzy = models.BooleanField(default = False, db_index = True)
     translated = models.BooleanField(default = False, db_index = True)
+    position = models.IntegerField(db_index = True)
 
     objects = UnitManager()
 
-    def update_from_unit(self, unit, force):
+    class Meta:
+        ordering = ['position']
+
+    def update_from_unit(self, unit, pos, force):
         location = ', '.join(unit.getlocations())
         flags = ', '.join(unit.typecomments)
         target = join_plural(unit.target.strings)
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
         comment = unit.getnotes()
-        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment:
+        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
             return
+        self.position = pos
         self.location = location
         self.flags = flags
         self.target = target

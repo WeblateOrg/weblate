@@ -17,7 +17,7 @@ class TranslationManager(models.Manager):
         trans.update_from_blob(blob)
 
 class UnitManager(models.Manager):
-    def update_from_unit(self, translation, unit):
+    def update_from_unit(self, translation, unit, pos):
         '''
         Process translation toolkit unit and stores/updates database entry.
         '''
@@ -38,7 +38,7 @@ class UnitManager(models.Manager):
                 context = ctx)
             force = True
 
-        dbunit.update_from_unit(unit, force)
+        dbunit.update_from_unit(unit, pos, force)
         return dbunit
 
     def filter_type(self, rqtype):
