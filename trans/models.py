@@ -227,9 +227,11 @@ class Translation(models.Model):
         Commits translation to git.
         '''
         repo = self.subproject.get_repo()
+        author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
+        logger.info('Commiting %s as %s', self.filename, author)
         repo.git.commit(
             self.filename,
-            author = '%s <%s>' % (request.user.get_full_name(), request.user.email),
+            author = author,
             m = 'Translated using Weblate'
             )
 
