@@ -319,7 +319,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
-        self.save(force_insert = force)
+        self.save(force_insert = force, backend = True)
 
     def is_plural(self):
         return is_plural(self.source)
