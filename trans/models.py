@@ -90,7 +90,7 @@ class SubProject(models.Model):
         if origin.url != self.repo:
             repo.git.remote('set-url', 'origin', self.repo)
         # Update
-        logging.info('updating repo %s', self.__unicode__())
+        logger.info('updating repo %s', self.__unicode__())
         repo.git.remote('update', 'origin')
 
     def configure_branch(self):
@@ -115,7 +115,7 @@ class SubProject(models.Model):
             repo.git.merge('origin/%s' % self.branch)
         except:
             repo.git.merge('--abort')
-            logging.warning('failed merge on repo %s', self.__unicode__())
+            logger.warning('failed merge on repo %s', self.__unicode__())
 
     def get_translation_blobs(self):
         '''
