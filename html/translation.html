@@ -3,18 +3,7 @@
 
 {% block content %}
 
-<h2>{% trans "Project Information" %}</h2>
-
-<p>{% trans "Project website:" %} <a href="{{ object.subproject.project.web }}">{{ object.subproject.project.web }}</a></p>
-<p>{% trans "Mailing list for translators:" %} <a href="mailto:{{ object.subproject.project.mail }}">{{ object.subproject.project.mail }}</a></p>
-<p>{% trans "Instructions for translators:" %} <a href="{{ object.subproject.project.instructions }}">{{ object.subproject.project.instructions }}</a></p>
-<p>{% trans "Git repository:" %} <code>{{ object.subproject.repo }}</code> ({% blocktrans with object.subproject.branch as branch %}{{ branch }} brach{% endblocktrans %})</p>
-<p>
-{% blocktrans with object.unit_set.all.count as count and object.translated as translated and object.fuzzy as fuzzy %}
-There are {{ count }} strings, out of which {{ translated }}% is translated
-and {{ fuzzy }}% is fuzzy.
-{% endblocktrans %}
-</p>
+{% include "translation_info.html" %}
 
 {% endblock %}
 

@@ -1,0 +1,11 @@
+{% load i18n %}
+
+{% with object.subproject as object %}
+{% include "subproject_info.html" %}
+{% endwith %}
+<p>
+{% blocktrans with object.unit_set.all.count as count and object.translated as translated and object.fuzzy as fuzzy %}
+There are {{ count }} strings, out of which {{ translated }}% is translated
+and {{ fuzzy }}% is fuzzy.
+{% endblocktrans %}
+</p>

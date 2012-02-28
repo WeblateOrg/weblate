@@ -2,12 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans "Project Information" %}</h2>
-
-<p>{% trans "Project website:" %} <a href="{{ object.project.web }}">{{ object.project.web }}</a></p>
-<p>{% trans "Mailing list for translators:" %} <a href="mailto:{{ object.project.mail }}">{{ object.project.mail }}</a></p>
-<p>{% trans "Instructions for translators:" %} <a href="{{ object.project.instructions }}">{{ object.project.instructions }}</a></p>
-<p>{% trans "Git repository:" %} <code>{{ object.repo }}</code> ({% blocktrans with object.branch as branch %}{{ branch }} brach{% endblocktrans %})</p>
+{% include "subproject_info.html" %}
 
 <h2>{% trans "Translations" %}</h2>
 

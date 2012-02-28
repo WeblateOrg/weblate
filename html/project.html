@@ -3,11 +3,7 @@
 
 {% block content %}
 
-<h2>{% trans "Project Information" %}</h2>
-
-<p>{% trans "Project website:" %} <a href="{{ object.web }}">{{ object.web }}</a></p>
-<p>{% trans "Mailing list for translators:" %} <a href="mailto:{{ object.mail }}">{{ object.mail }}</a></p>
-<p>{% trans "Instructions for translators:" %} <a href="{{ object.instructions }}">{{ object.instructions }}</a></p>
+{% include "project_info.html" %}
 
 <h2>{% trans "Subprojects" %}</h2>
 
