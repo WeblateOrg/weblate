@@ -40,3 +40,11 @@ class UnitManager(models.Manager):
 
         dbunit.update_from_unit(unit, force)
         return dbunit
+
+    def filter_type(self, rqtype):
+        if rqtype == 'all':
+            return self.all()
+        elif rqtype == 'fuzzy':
+            return self.filter(fuzzy = True)
+        elif rqtype == 'untranslated':
+            return self.filter(translated = False)

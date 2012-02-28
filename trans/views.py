@@ -30,9 +30,16 @@ def show_translation(request, project, subproject, lang):
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
-
+    rqtype = request.REQUEST.get('type', 'all')
+    offset = request.REQUEST.get('offset', '0')
+    try:
+        offset = int(offset)
+    except:
+        offset = 0
+    units = obj.unit_set.filter_type(rqtype)
 
     return render_to_response('translate.html', RequestContext(request, {
         'object': obj,
         'title': '%s @ Weblate' % (obj.__unicode__()),
+        'unit': units[offset],
     }))
