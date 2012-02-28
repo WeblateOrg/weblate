@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.conf import settings
 from lang.models import Language
 from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.safestring import mark_safe
 from glob import glob
 import os
 import os.path
@@ -363,3 +364,13 @@ class Unit(models.Model):
         else:
             del kwargs['backend']
         super(Unit, self).save(*args, **kwargs)
+
+    def get_location_links(self):
+        ret = []
+        for location in self.location.split(','):
+            location = location.strip()
+            filename, line = location.split(':')
+            link = 'https://github.com/phpmyadmin/phpmyadmin/blob/master/%s#L%s' % (filename, line)
+            ret.append('<a href="%s">%s</a>' % (link, location))
+        return mark_safe('\n'.join(ret))
+
