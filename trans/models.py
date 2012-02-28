@@ -204,8 +204,8 @@ class Translation(models.Model):
         total = self.unit_set.count()
         fuzzy = self.unit_set.filter(fuzzy = True).count()
         translated = self.unit_set.filter(translated = True).count()
-        self.fuzzy = fuzzy * 1.0 / total
-        self.translated = translated * 1.0 / total
+        self.fuzzy = round(fuzzy * 100.0 / total, 1)
+        self.translated = round(translated * 100.0 / total, 1)
         self.revision = blob.hexsha
         self.save()
 
