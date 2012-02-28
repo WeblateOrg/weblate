@@ -254,6 +254,7 @@ class Translation(models.Model):
                 break
         if need_save:
             author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
+            store.updateheader(add = True, last_translator = author)
             store.save()
             self.git_commit(author)
 
