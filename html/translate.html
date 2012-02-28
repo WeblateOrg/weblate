@@ -14,6 +14,7 @@
 <input type="hidden" name="type" value="{{ type }}" />
 <input type="hidden" name="oldpos" value="{{ unit.position }}" />
 </form>
+<a href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">Skip</a>
 
 {% endblock %}
 
