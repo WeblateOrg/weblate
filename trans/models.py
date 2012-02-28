@@ -233,7 +233,7 @@ class Translation(models.Model):
             m = 'Translated using Weblate'
             )
 
-    def update_unit(self, request, unit):
+    def update_unit(self, unit, request):
         '''
         Updates backend file and unit.
         '''
@@ -242,14 +242,17 @@ class Translation(models.Model):
         pounits = store.findunits(src)
         for pounit in pounits:
             if pounit.getcontext() == unit.context:
-                if unit.target != join_plural(unit.target.strings):
-                    pounit.settarget(unit.get_target_plurals())
+                if unit.target != join_plural(pounit.target.strings):
+                    if unit.is_plural():
+                        pounit.settarget(unit.get_target_plurals())
+                    else:
+                        pounit.settarget(unit.target)
                     need_save = True
                 # We should have only one match
                 break
         if need_save:
             store.save()
-            self.git_commit()
+            self.git_commit(request)
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
@@ -305,11 +308,11 @@ class Unit(models.Model):
     def save_backend(self, request, propagate = True):
         # Store to backend
         self.translation.update_unit(self, request)
-        self.save(request)
+        self.save(backend = True)
         # Propagate to other projects
         if propagate:
             allunits = Unit.objects.filter(
-                checksum = unit.checksum,
+                checksum = self.checksum,
                 translation__subproject__project = self.translation.subproject.project,
             ).exclude(id == self.id)
             for unit in allunits:
@@ -317,6 +320,8 @@ class Unit(models.Model):
                 unit.save_backend(request, False)
 
     def save(self, *args, **kwargs):
-        if not 'request' in kwargs:
-            logger.error('Unit.save called without request object: %s', '\n'.join(traceback.format_stack()))
+        if not 'backend' in kwargs:
+            logger.error('Unit.save called without backend sync: %s', ''.join(traceback.format_stack()))
+        else:
+            del kwargs['backend']
         super(Unit, self).save(*args, **kwargs)
