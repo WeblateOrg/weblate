@@ -242,6 +242,7 @@ class Translation(models.Model):
         store = self.get_store()
         src = unit.get_source_plurals()[0]
         pounits = store.findunits(src)
+        need_save = False
         for pounit in pounits:
             if pounit.getcontext() == unit.context:
                 if unit.target != join_plural(pounit.target.strings):
