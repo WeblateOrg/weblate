@@ -314,7 +314,7 @@ class Unit(models.Model):
             allunits = Unit.objects.filter(
                 checksum = self.checksum,
                 translation__subproject__project = self.translation.subproject.project,
-            ).exclude(id == self.id)
+            ).exclude(id = self.id)
             for unit in allunits:
                 unit.target = self.target
                 unit.save_backend(request, False)
