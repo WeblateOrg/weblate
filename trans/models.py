@@ -198,7 +198,12 @@ class Translation(models.Model):
         # Delete not used units
         Unit.objects.filter(translation = self, id__in = oldunits).delete()
 
-        # Update revision
+        # Update revision and stats
+        total = self.unit_set.count()
+        fuzzy = self.unit_set.filter(fuzzy = True).count()
+        translated = self.unit_set.filter(translated = True).count()
+        self.fuzzy = fuzzy * 1.0 / total
+        self.translated = translated * 1.0 / total
         self.revision = blob.hexsha
         self.save()
 
