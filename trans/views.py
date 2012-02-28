@@ -20,7 +20,7 @@ def show_subproject(request, project, subproject):
     }))
 
 def show_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Language, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
