@@ -244,7 +244,8 @@ class Translation(models.Model):
         need_save = False
         for pounit in pounits:
             if pounit.getcontext() == unit.context:
-                if unit.target != join_plural(pounit.target.strings):
+                if unit.target != join_plural(pounit.target.strings) or unit.fuzzy != pounit.isfuzzy():
+                    pounit.markfuzzy(unit.fuzzy)
                     if unit.is_plural():
                         pounit.settarget(unit.get_target_plurals())
                     else:
@@ -315,7 +316,6 @@ class Unit(models.Model):
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
         self.translated = pounit.istranslated()
-        self.fuzzy = pounit.isfuzzy()
         self.save(backend = True)
         # Propagate to other projects
         if propagate:
