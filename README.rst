@@ -19,6 +19,7 @@ Planned features
 * Tight git integration
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
+* Links to source files for context
 
 Requirements
 ------------
