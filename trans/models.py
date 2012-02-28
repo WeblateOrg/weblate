@@ -212,7 +212,7 @@ class Translation(models.Model):
         # Load po file
         store = self.get_store()
         for pos, unit in enumerate(store.units):
-            if unit.istranslatable():
+            if not unit.istranslatable():
                 continue
             newunit = Unit.objects.update_from_unit(self, unit, pos)
             try:
