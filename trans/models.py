@@ -6,6 +6,7 @@ import os
 import os.path
 import logging
 import git
+import traceback
 from translate.storage import factory
 
 from trans.managers import TranslationManager, UnitManager
@@ -185,6 +186,9 @@ class Translation(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.language.name, self.subproject.__unicode__())
 
+    def get_store(self):
+        return factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
+
     def update_from_blob(self, blob):
         '''
         Updates translation data from blob.
@@ -196,7 +200,7 @@ class Translation(models.Model):
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
 
         # Load po file
-        store = factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
+        store = self.get_store()
         for unit in store.units:
             if unit.istranslatable():
                 continue
@@ -218,6 +222,33 @@ class Translation(models.Model):
         self.revision = blob.hexsha
         self.save()
 
+    def git_commit(self, request):
+        '''
+        Commits translation to git.
+        '''
+        repo = self.subproject.get_repo()
+        repo.git.commit(
+            author = '%s <%s>' % (request.user.get_full_name(), request.user.email),
+            m = 'Translated using Weblate',
+            self.filename)
+
+    def update_unit(self, request, unit):
+        '''
+        Updates backend file and unit.
+        '''
+        store = self.get_store()
+        src = unit.get_source_plurals()[0]
+        pounits = store.findunits(src)
+        for pounit in pounits:
+            if pounit.getcontext() == unit.context:
+                if unit.target != join_plural(unit.target.strings):
+                    pounit.settarget(unit.get_target_plurals())
+                    need_save = True
+                # We should have only one match
+                break
+        if need_save:
+            store.save()
+            self.git_commit()
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
@@ -269,3 +300,22 @@ class Unit(models.Model):
             del(ret[-1])
 
         return ret
+
+    def save_backend(self, request, propagate = True):
+        # Store to backend
+        self.translation.update_unit(self, request)
+        self.save(request)
+        # Propagate to other projects
+        if propagate:
+            allunits = Unit.objects.filter(
+                checksum = unit.checksum,
+                translation__subproject__project = self.translation.subproject.project,
+            ).exclude(id == self.id)
+            for unit in allunits:
+                unit.target = self.target
+                unit.save_backend(request, False)
+
+    def save(self, *args, **kwargs):
+        if not 'request' in kwargs:
+            logger.error('Unit.save called without request object: %s', traceback.format_exc(e))
+        super(Unit, self).save(*args, **kwargs)
