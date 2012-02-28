@@ -235,7 +235,7 @@ class Unit(models.Model):
 
     def update_from_unit(self, unit, force):
         location = ', '.join(unit.getlocations())
-        flags = '' # FIXME
+        flags = ', '.join(unit.typecomments)
         target = join_plural(unit.target.strings)
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
