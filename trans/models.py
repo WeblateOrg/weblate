@@ -185,8 +185,13 @@ class Translation(models.Model):
             'lang': self.language.code
         })
 
+    @models.permalink
     def get_translate_url(self):
-        return '%stranslate/' % self.get_absolute_url()
+        return ('trans.views.translate', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
 
     def __unicode__(self):
         return '%s %s' % (self.language.name, self.subproject.__unicode__())

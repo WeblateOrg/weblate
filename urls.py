@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^(?P<project>[^/]*)/$', 'trans.views.show_project'),
     url(r'^(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_subproject'),
     url(r'^(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_translation'),
+    url(r'^(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'trans.views.translate'),
 )

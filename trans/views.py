@@ -27,3 +27,12 @@ def show_translation(request, project, subproject, lang):
         'title': '%s @ Weblate' % (obj.__unicode__()),
     }))
 
+def translate(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+
+
+    return render_to_response('translate.html', RequestContext(request, {
+        'object': obj,
+        'title': '%s @ Weblate' % (obj.__unicode__()),
+    }))
