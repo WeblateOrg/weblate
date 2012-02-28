@@ -317,5 +317,5 @@ class Unit(models.Model):
 
     def save(self, *args, **kwargs):
         if not 'request' in kwargs:
-            logger.error('Unit.save called without request object: %s', traceback.format_exc(e))
+            logger.error('Unit.save called without request object: %s', '\n'.join(traceback.format_stack()))
         super(Unit, self).save(*args, **kwargs)
