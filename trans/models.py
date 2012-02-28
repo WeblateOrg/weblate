@@ -52,6 +52,7 @@ class SubProject(models.Model):
     slug = models.SlugField(db_index = True)
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200)
+    repoweb = models.URLField()
     branch = models.CharField(max_length = 50)
     filemask = models.CharField(max_length = 200)
     style_choices = (('po', 'GNU Gettext'), ('ts', 'Qt TS'))
@@ -370,7 +371,7 @@ class Unit(models.Model):
         for location in self.location.split(','):
             location = location.strip()
             filename, line = location.split(':')
-            link = 'https://github.com/phpmyadmin/phpmyadmin/blob/master/%s#L%s' % (filename, line)
+            link = '%s%s#L%s' % (self.translation.subproject.repoweb, filename, line)
             ret.append('<a href="%s">%s</a>' % (link, location))
         return mark_safe('\n'.join(ret))
 
