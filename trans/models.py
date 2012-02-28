@@ -20,6 +20,9 @@ class Project(models.Model):
     mail = models.EmailField()
     instructions = models.URLField()
 
+    class Meta:
+        ordering = ['name']
+
     @models.permalink
     def get_absolute_url(self):
         return ('trans.views.show_project', (), {'project': self.slug})
@@ -47,6 +50,9 @@ class SubProject(models.Model):
     filemask = models.CharField(max_length = 200)
     style_choices = (('po', 'GNU Gettext'), ('ts', 'Qt TS'))
     style = models.CharField(max_length = 10, choices = style_choices)
+
+    class Meta:
+        ordering = ['name']
 
     @models.permalink
     def get_absolute_url(self):
@@ -159,6 +165,9 @@ class Translation(models.Model):
     filename = models.CharField(max_length = 200)
 
     objects = TranslationManager()
+
+    class Meta:
+        ordering = ['language__name']
 
     @models.permalink
     def get_absolute_url(self):
