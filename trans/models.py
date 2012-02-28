@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from lang.models import Language
+from django.utils.translation import ugettext_lazy, ugettext as _
 from glob import glob
 import os
 import os.path
@@ -183,6 +185,9 @@ class Translation(models.Model):
             'lang': self.language.code
         })
 
+    def get_translate_url(self):
+        return '%stranslate/' % self.get_absolute_url()
+
     def __unicode__(self):
         return '%s %s' % (self.language.name, self.subproject.__unicode__())
 
@@ -260,6 +265,20 @@ class Translation(models.Model):
             self.git_commit(author)
 
         return need_save, pounit
+
+    def get_checks(self):
+        '''
+        Returns list of failing checks on current translation.
+        '''
+        result = []
+        nottranslated = self.unit_set.filter(translated = False).count()
+        fuzzy = self.unit_set.filter(fuzzy = True).count()
+        if nottranslated > 0:
+            result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
+        if fuzzy > 0:
+            result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
+        return result
+
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)

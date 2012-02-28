@@ -5,6 +5,17 @@
 
 {% include "translation_info.html" %}
 
+{% with object.get_checks as checks%}
+{% if checks %}
+<h2>{% trans "Strings to check" %}</h2>
+<ul>
+{% for c in checks %}
+<li><a href="{{ ojbect.get_translate_url }}?type={{ c.0 }}">{{ c.1 }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
 {% endblock %}
 
 
