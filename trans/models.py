@@ -165,7 +165,7 @@ class Translation(models.Model):
          return ('trans.views.show_translation', (), {'project': self.subproject.slug, 'subproject': self.subproject.slug, 'lang': self.language.code})
 
     def __unicode__(self):
-        return '%s@%s' % (self.language.name, self.subproject.__unicode__())
+        return '%s %s' % (self.language.name, self.subproject.__unicode__())
 
     def update_from_blob(self, blob):
         '''
