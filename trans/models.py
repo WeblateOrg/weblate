@@ -229,18 +229,26 @@ class Translation(models.Model):
         Unit.objects.filter(translation = self, id__in = oldunits).delete()
 
         # Update revision and stats
-        self.update_stats(False)
-        self.revision = blob.hexsha
-        self.save()
+        self.update_stats(blob)
 
-    def update_stats(self, dosave = True):
+    def get_git_blob(self):
+        '''
+        Returns current Git blob for file.
+        '''
+        repo = self.translation.get_repo()
+        tree = repo.tree()
+        return tree[self.filename]
+
+    def update_stats(self, blob = None):
+        if blob is None:
+            blob = self.get_git_blob()
         total = self.unit_set.count()
         fuzzy = self.unit_set.filter(fuzzy = True).count()
         translated = self.unit_set.filter(translated = True).count()
         self.fuzzy = round(fuzzy * 100.0 / total, 1)
         self.translated = round(translated * 100.0 / total, 1)
-        if dosave:
-            self.save()
+        self.revision = blob.hexsha
+        self.save()
 
     def git_commit(self, author):
         '''
