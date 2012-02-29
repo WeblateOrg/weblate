@@ -17,7 +17,7 @@ def show_project(request, project):
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
-        'title': '%s @ Weblate' % (obj.__unicode__()),
+        'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
     }))
 
 def show_subproject(request, project, subproject):
@@ -25,7 +25,7 @@ def show_subproject(request, project, subproject):
 
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
-        'title': '%s @ Weblate' % (obj.__unicode__()),
+        'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
     }))
 
 def show_translation(request, project, subproject, lang):
@@ -33,7 +33,7 @@ def show_translation(request, project, subproject, lang):
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
-        'title': '%s @ Weblate' % (obj.__unicode__()),
+        'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
     }))
 
 def translate(request, project, subproject, lang):
@@ -50,7 +50,7 @@ def translate(request, project, subproject, lang):
 
     return render_to_response('translate.html', RequestContext(request, {
         'object': obj,
-        'title': '%s @ Weblate' % (obj.__unicode__()),
+        'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
         'unit': unit,
         'total': total,
         'type': rqtype,
