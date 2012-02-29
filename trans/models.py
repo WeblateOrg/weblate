@@ -48,13 +48,13 @@ class Project(models.Model):
         super(Project, self).save(*args, **kwargs)
 
 class SubProject(models.Model):
-    name = models.CharField(max_length = 100)
-    slug = models.SlugField(db_index = True)
+    name = models.CharField(max_length = 100, help_text = _('Name to displa'))
+    slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
     project = models.ForeignKey(Project)
-    repo = models.CharField(max_length = 200)
-    repoweb = models.URLField()
-    branch = models.CharField(max_length = 50)
-    filemask = models.CharField(max_length = 200)
+    repo = models.CharField(max_length = 200, help_text = _('URL of Git repositoru'))
+    repoweb = models.URLField(help_text = _('Link to repository browser, use %(file)s and %(line)s as filename and line placeholders'))
+    branch = models.CharField(max_length = 50, help_text = _('Git branch to translate'))
+    filemask = models.CharField(max_length = 200, help_text = _('Mask of files to translate, use * istead of language code'))
     style_choices = (('po', 'GNU Gettext'), ('ts', 'Qt TS'))
     style = models.CharField(max_length = 10, choices = style_choices)
 
