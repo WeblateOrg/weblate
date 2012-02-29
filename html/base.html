@@ -9,6 +9,9 @@
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
 
   <title>{{ title }}</title>
+{% if description %}
+  <meta name="description" content="{{ description }}" />
+{% endif %}
   
   <link rel="stylesheet" type="text/css" href="/media/style.css" />
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
