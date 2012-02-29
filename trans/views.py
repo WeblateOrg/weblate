@@ -54,6 +54,7 @@ def translate(request, project, subproject, lang):
     if request.method == 'POST':
         form = TranslationForm(request.POST)
         if form.is_valid():
+            obj.check_sync()
             unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
             unit.target = form.cleaned_data['target']
             unit.fuzzy = form.cleaned_data['fuzzy']

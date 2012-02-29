@@ -207,6 +207,13 @@ class Translation(models.Model):
     def get_store(self):
         return factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
 
+    def check_sync(self):
+        '''
+        Checks whether database is in sync with git and possibly does update.
+        '''
+        blob = self.get_git_blob()
+        self.update_from_blob(blob)
+
     def update_from_blob(self, blob, force = False):
         '''
         Updates translation data from blob.
