@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans "Projects" %}</h2>
+
+<ul>
+{% for prj in projects %}
+<li><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+

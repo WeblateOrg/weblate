@@ -1,7 +1,16 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.conf import settings
 
 from trans.models import Project, SubProject, Translation, Unit
+
+def home(request):
+    projects = Project.objects.all()
+
+    return render_to_response('index.html', RequestContext(request, {
+        'projects': projects,
+        'title': settings.SITE_TITLE,
+    }))
 
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
