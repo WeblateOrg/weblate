@@ -414,6 +414,9 @@ class Unit(models.Model):
             ret.append('<a href="%s">%s</a>' % (link, location))
         return mark_safe('\n'.join(ret))
 
+    def suggestions(self):
+        return Suggestion.objects.filter(checksum = self.checksum)
+
 class Suggestion(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     target = models.TextField()
