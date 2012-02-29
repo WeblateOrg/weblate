@@ -52,20 +52,26 @@ def translate(request, project, subproject, lang):
     except:
         pos = -1
 
+    unit = None
+
     # Any form submitted?
     if request.method == 'POST':
         form = TranslationForm(request.POST)
         if form.is_valid():
             obj.check_sync()
-            unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
-            unit.target = form.cleaned_data['target']
-            unit.fuzzy = form.cleaned_data['fuzzy']
-            unit.save_backend(request)
+            try:
+                unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
+                unit.target = form.cleaned_data['target']
+                unit.fuzzy = form.cleaned_data['fuzzy']
+                unit.save_backend(request)
 
-            # Check and save
-            return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
+                # Check and save
+                return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
+            except Unit.DoesNotExist:
+                messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
 
-    else:
+    # If we failed to get unit above or on no POST
+    if unit is None:
         # What unit to show
         if direction == 'back':
             units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos)
