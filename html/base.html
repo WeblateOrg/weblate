@@ -8,7 +8,7 @@
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
 
-  <title>{% if title %}{{ title }}{% else %}{{ fallbacktitle }}{% endif %}</title>
+  <title>{% include "title.html" %}</title>
 {% if description %}
   <meta name="description" content="{{ description }}" />
 {% endif %}
@@ -26,7 +26,7 @@
  </head>
 
  <body>
-    <h1>{% if title %}{{ title }}{% else %}{{ fallbacktitle }}{% endif %}</h1>
+    <h1>{% include "title.html" %}</h1>
 
 <ul class="menu">
 {% if user.is_authenticated %}
