@@ -28,6 +28,15 @@
  <body>
     <h1>{{ title }}</h1>
 
+<ul class="menu">
+{% if user.is_authenticated %}
+<li>{% blocktrans with user.get_full_name as name %}Logged in as <a href="/profile/">{{ name }}</a>{% endblocktrans %}</li>
+<li><a href="/logout/">{% trans "Logout" %}</a></li>
+{% else %}
+<li><a href="/login/">{% trans "Login" %}</a></li>
+{% endif %}
+</ul>
+
 {% if messages %}
 {% for message in messages %}
 <div class="ui-widget">
