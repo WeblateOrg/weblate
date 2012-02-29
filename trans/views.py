@@ -53,8 +53,13 @@ def translate(request, project, subproject, lang):
     if request.method == 'POST':
         form = TranslationForm(request.POST)
         if form.is_valid():
+            unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
+            unit.target = form.cleaned_data['target']
+            unit.fuzzy = form.cleaned_data['fuzzy']
+            unit.save_backend(request)
+
             # Check and save
-            return HttpResponseRedirect('%s?type=%s&amp;oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
+            return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
 
     else:
         # What unit to show
