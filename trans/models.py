@@ -12,6 +12,7 @@ import git
 import traceback
 from translate.storage import factory
 
+import trans
 from trans.managers import TranslationManager, UnitManager
 from util import is_plural, split_plural, join_plural
 
@@ -285,7 +286,11 @@ class Translation(models.Model):
                 break
         if need_save:
             author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
-            store.updateheader(add = True, last_translator = author)
+            store.updateheader(
+                add = True,
+                last_translator = author,
+                x_generator = 'Weblate %s' % trans.VERSION
+                )
             store.save()
             self.git_commit(author)
 
