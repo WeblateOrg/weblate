@@ -35,7 +35,7 @@
 {% if user.is_authenticated %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" />
 {% else %}
-{% blocktrans %}<a href="/login/">Login</a> for saving translations.{% endblocktrans %}
+{% blocktrans %}<a href="/accounts/login/">Login</a> for saving translations.{% endblocktrans %}
 {% endif %}
 <input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" />
 </td></tr>
