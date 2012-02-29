@@ -137,6 +137,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
     'trans.context_processors.version',
+    'trans.context_processors.title',
     )
 
 # A sample logging configuration. The only tangible logging
@@ -184,3 +185,5 @@ GIT_ROOT = '%s/repos/' % WEB_ROOT
 
 # Title of site to use
 SITE_TITLE = 'Weblate'
+
+LOGIN_REDIRECT_URL = '/'
