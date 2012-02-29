@@ -291,6 +291,7 @@ class Translation(models.Model):
                 add = True,
                 last_translator = author,
                 plural_forms = self.language.get_plural_form(),
+                language = self.language.code,
                 x_generator = 'Weblate %s' % trans.VERSION
                 )
             store.save()
