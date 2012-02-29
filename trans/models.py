@@ -84,6 +84,9 @@ class SubProject(models.Model):
         except:
             return git.Repo.init(p)
 
+    def get_repoweb_link(self, filename, line):
+        return self.repoweb % {'file': filename, 'line': line}
+
     def configure_repo(self):
         '''
         Ensures repository is correctly configured and points to current remote.
@@ -377,7 +380,7 @@ class Unit(models.Model):
         for location in self.location.split(','):
             location = location.strip()
             filename, line = location.split(':')
-            link = '%s%s#L%s' % (self.translation.subproject.repoweb, filename, line)
+            link = self.translation.subproject.get_repoweb_link(filename, line)
             ret.append('<a href="%s">%s</a>' % (link, location))
         return mark_safe('\n'.join(ret))
 
