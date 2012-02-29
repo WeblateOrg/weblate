@@ -66,9 +66,14 @@ def translate(request, project, subproject, lang):
     else:
         # What unit to show
         if direction == 'back':
-            unit = obj.unit_set.filter_type(rqtype).filter(position__lt = pos)[0]
+            units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos)
         else:
-            unit = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)[0]
+            units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
+
+        try:
+            unit = units[0]
+        except IndexError:
+            return HttpResponseRedirect(obj.get_absolute_url())
 
         # Prepare form
         form = TranslationForm(initial = {
