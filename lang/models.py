@@ -8,3 +8,6 @@ class Language(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_plural_form(self):
+        return 'nplurals=%d; plural=%s;' % (self.nplurals, self.pluralequation)

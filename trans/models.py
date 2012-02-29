@@ -11,6 +11,7 @@ import logging
 import git
 import traceback
 from translate.storage import factory
+from datetime import datetime
 
 import trans
 from trans.managers import TranslationManager, UnitManager
@@ -289,6 +290,7 @@ class Translation(models.Model):
             store.updateheader(
                 add = True,
                 last_translator = author,
+                plural_forms = self.language.get_plural_form(),
                 x_generator = 'Weblate %s' % trans.VERSION
                 )
             store.save()
