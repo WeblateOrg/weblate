@@ -14,7 +14,7 @@
 <input type="hidden" name="type" value="{{ type }}" />
 <input type="hidden" name="oldpos" value="{{ unit.position }}" />
 <table class="translator">
-<tr><th>{% trans "Source" %}</th><th>{% trans "Translation" %}<th></tr>
+<tr><th class="source">{% trans "Source" %}</th><th>{% trans "Translation" %}<th></tr>
 {% if unit.is_plural %}
 {% else %}
 <tr><td>{{ unit.source }}</td><td colspan="2">
