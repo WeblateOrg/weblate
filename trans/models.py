@@ -235,7 +235,7 @@ class Translation(models.Model):
         '''
         Returns current Git blob for file.
         '''
-        repo = self.translation.get_repo()
+        repo = self.subproject.get_repo()
         tree = repo.tree()
         return tree[self.filename]
 
