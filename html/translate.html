@@ -17,7 +17,12 @@
 <tr><th>{% trans "Source" %}</th><th>{% trans "Translation" %}<th></tr>
 {% if unit.is_plural %}
 {% else %}
-<tr><td>{{ unit.source }}</td><td colspan="2">{{ form.target }}</td></tr>
+<tr><td>{{ unit.source }}</td><td colspan="2">
+{{ form.checksum }}
+{{ form.target }}
+<br />
+{{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" %}</label>
+</td></tr>
 {% endif %}
 <tr><th>{% trans "Location" %}</th></tr>
 <tr><td>{{ unit.get_location_links }}</td></tr>
