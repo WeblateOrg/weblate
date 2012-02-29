@@ -32,7 +32,10 @@
 <a class="button" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back">{% trans "Previous" %}</a>
 <a class="button" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Next" %}</a>
 </td><td>
-<input class="button" type="submit" value="{% trans "Save" %}" />
+{{ if user.is_authenticated }}
+<input class="button" type="submit" value="{% trans "Save" %}" name="save" />
+{{ endif }}
+<input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" />
 </td></tr>
 
 </table>

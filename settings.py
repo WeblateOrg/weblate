@@ -1,7 +1,7 @@
 # Django settings for weblate project.
 # -*- coding: UTF-8 -*-
 
-from socket import gethostname
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -23,17 +23,7 @@ DATABASES = {
     }
 }
 
-HOSTNAME = gethostname()
-if HOSTNAME == 'rincewind':
-    WEB_ROOT = '/home/mcihar/private/weblate/'
-elif HOSTNAME == 'raptor':
-    WEB_ROOT = '/home/nijel/work/weblate/'
-elif HOSTNAME == 'nutt':
-    WEB_ROOT = '/home/nijel/weblate/'
-elif HOSTNAME == 'web':
-    WEB_ROOT = '/var/lib/django/weblate/'
-else:
-    WEB_ROOT = '/home/nijel/work/weblate/'
+WEB_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
