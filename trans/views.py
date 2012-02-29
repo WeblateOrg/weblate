@@ -1,7 +1,9 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from trans.models import Project, SubProject, Translation, Unit
 from trans.forms import TranslationForm
@@ -73,6 +75,7 @@ def translate(request, project, subproject, lang):
         try:
             unit = units[0]
         except IndexError:
+            messages.add_message(request, messages.INFO, _('You have reached end of translating.'))
             return HttpResponseRedirect(obj.get_absolute_url())
 
         # Prepare form
