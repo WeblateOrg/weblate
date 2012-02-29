@@ -19,7 +19,10 @@
 {% else %}
 <tr><td>{{ unit.source }}</td><td colspan="2">{{ form.target }}</td></tr>
 {% endif %}
+<tr><th>{% trans "Location" %}</th></tr>
 <tr><td>{{ unit.get_location_links }}</td></tr>
+<tr><th>{% trans "Flags" %}</th></tr>
+<tr><td>{{ unit.flags }}</td></tr>
 <tr><td></td><td>
 <input type="submit" value="{% trans "Save" %}" />
 <a href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Skip" %}</a>
