@@ -151,7 +151,7 @@ class SubProject(models.Model):
         '''
         blobs = self.get_translation_blobs()
         for code, path, blob in blobs:
-            logger.info('processing %s', path)
+            logger.info('checking %s', path)
             Translation.objects.update_from_blob(self, code, path, blob, force)
 
     def get_lang_code(self, path):
@@ -211,6 +211,8 @@ class Translation(models.Model):
         # Check if we're not already up to date
         if self.revision == blob.hexsha and not force:
             return
+
+        logger.info('processing %s, revision has changed', self.filename)
 
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
 
