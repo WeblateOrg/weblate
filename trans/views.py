@@ -43,6 +43,7 @@ def translate(request, project, subproject, lang):
 
     # Check where we are
     rqtype = request.REQUEST.get('type', 'all')
+    direction = request.REQUEST.get('dir', 'forward')
     pos = request.REQUEST.get('oldpos', '-1')
     try:
         pos = int(pos)
@@ -63,7 +64,10 @@ def translate(request, project, subproject, lang):
 
     else:
         # What unit to show
-        unit = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)[0]
+        if direction == 'back':
+            unit = obj.unit_set.filter_type(rqtype).filter(position__lt = pos)[0]
+        else:
+            unit = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)[0]
 
         # Prepare form
         form = TranslationForm(initial = {

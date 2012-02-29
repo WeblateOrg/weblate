@@ -29,8 +29,9 @@
 <tr><th>{% trans "Flags" %}</th></tr>
 <tr><td>{{ unit.flags }}</td></tr>
 <tr><td></td><td>
+<a href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back">{% trans "Previous" %}</a>
 <input type="submit" value="{% trans "Save" %}" />
-<a href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Skip" %}</a>
+<a href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Next" %}</a>
 
 </table>
 </form>
