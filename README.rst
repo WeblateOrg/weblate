@@ -31,6 +31,11 @@ Translate-toolkit
 GitPython (>= 0.3)
     http://gitorious.org/projects/git-python/
 
+Project name
+------------
+
+The project is named as mixture of words web and translate.
+
 Authors
 -------
 
