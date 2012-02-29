@@ -11,6 +11,7 @@ import logging
 import git
 import traceback
 from translate.storage import factory
+from translate.storage import poheader
 from datetime import datetime
 
 import trans
@@ -287,11 +288,14 @@ class Translation(models.Model):
                 break
         if need_save:
             author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
+            po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
+
             store.updateheader(
                 add = True,
                 last_translator = author,
                 plural_forms = self.language.get_plural_form(),
                 language = self.language.code,
+                PO_Revision_Date = po_revision_date,
                 x_generator = 'Weblate %s' % trans.VERSION
                 )
             store.save()
