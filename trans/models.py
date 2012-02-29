@@ -353,6 +353,7 @@ class Unit(models.Model):
         (saved, pounit) = self.translation.update_unit(self, request)
         self.translated = pounit.istranslated()
         self.save(backend = True)
+        self.translation.update_stats()
         # Propagate to other projects
         if propagate:
             allunits = Unit.objects.filter(
