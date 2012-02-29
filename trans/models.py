@@ -416,5 +416,5 @@ class Unit(models.Model):
 
 class Suggestion(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
-    target = models.TextField(default = '', blank = True)
+    target = models.TextField()
     user = models.ForeignKey(User, null = True, blank = True)
