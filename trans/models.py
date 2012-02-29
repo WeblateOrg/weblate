@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.contrib.auth.models import User
 from django.conf import settings
 from lang.models import Language
 from django.utils.translation import ugettext_lazy, ugettext as _
@@ -413,3 +414,7 @@ class Unit(models.Model):
             ret.append('<a href="%s">%s</a>' % (link, location))
         return mark_safe('\n'.join(ret))
 
+class Suggestion(models.Model):
+    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
+    target = models.TextField(default = '', blank = True)
+    user = models.ForeignKey(User, null = True, blank = True)
