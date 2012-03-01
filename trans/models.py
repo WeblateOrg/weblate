@@ -129,9 +129,11 @@ class SubProject(models.Model):
         Updates current branch to match remote (if possible).
         '''
         repo = self.get_repo()
+        logger.info('pulling from remote repo %s', self.__unicode__())
         repo.remotes.origin.pull()
         try:
             repo.git.merge('origin/%s' % self.branch)
+            logger.info('merged remote into repo %s', self.__unicode__())
         except:
             repo.git.merge('--abort')
             logger.warning('failed merge on repo %s', self.__unicode__())
