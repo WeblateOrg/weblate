@@ -24,15 +24,31 @@
 <tr><th class="source">{% trans "Source" %}</th><th>{% trans "Translation" %}<th></tr>
 {% if unit.is_plural %}
 {% else %}
-<tr><td>{{ unit.source }}</td><td colspan="2">
+<tr><td>{{ unit.source }}</td><td>
 {{ form.checksum }}
 {{ form.target }}
 <br />
 {{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" %}</label>
 </td></tr>
 {% endif %}
-<tr><th>{% trans "Location" %}</th></tr>
-<tr><td>{{ unit.get_location_links }}</td></tr>
+<tr><th>{% trans "Location" %}</th>
+<th>{% trans "Suggestions" %}</th>
+</tr>
+<tr><td>{{ unit.get_location_links }}</td>
+<td colspan="3">
+{% with unit.suggestions as suggestions %}
+{% if suggestions %}
+<ul>
+{% for suggestion in suggestions %}
+<li><span class="translatetext">{{ suggestion.target }}</span> by {{ suggestion.user }}</li>
+{% endfor %}
+</ul>
+{% else %}
+{% trans "There are no suggestions for this string." %}
+{% endif %}
+{% endwith %}
+</td>
+</tr>
 <tr><th>{% trans "Flags" %}</th></tr>
 <tr><td>{{ unit.flags }}</td></tr>
 <tr><td class="right">
