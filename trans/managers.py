@@ -42,9 +42,18 @@ class UnitManager(models.Manager):
         return dbunit
 
     def filter_type(self, rqtype):
+        import trans.models
         if rqtype == 'all':
             return self.all()
         elif rqtype == 'fuzzy':
             return self.filter(fuzzy = True)
         elif rqtype == 'untranslated':
             return self.filter(translated = False)
+        elif rqtype == 'suggestions':
+            sample = self.all()[0]
+            sugs = trans.models.Suggestion.objects.filter(
+                language = sample.translation.language,
+                project = sample.translation.subproject.project)
+            sugs = sugs.values_list('checksum', flat = True)
+            return self.filter(checksum__in = sugs)
+

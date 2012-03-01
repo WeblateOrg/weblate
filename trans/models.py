@@ -318,10 +318,13 @@ class Translation(models.Model):
         result = []
         nottranslated = self.unit_set.filter_type('untranslated').count()
         fuzzy = self.unit_set.filter_type('fuzzy').count()
+        suggestions = self.unit_set.filter_type('suggestions').count()
         if nottranslated > 0:
             result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
         if fuzzy > 0:
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
+        if suggestions > 0:
+            result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
         return result
 
 
