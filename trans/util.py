@@ -21,7 +21,7 @@ def msg_checksum(source, context):
     We use MD5 as it is faster than SHA1.
     '''
     m = hashlib.md5()
-    m.update(source)
-    m.update(context)
+    m.update(source.encode('utf-8'))
+    m.update(context.encode('utf-8'))
     return m.hexdigest()
 
