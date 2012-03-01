@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'registration',
     'trans',
     'lang',
 )
@@ -190,3 +191,5 @@ COMMIT_MESSAGE = 'Translated using Weblate.'
 SITE_TITLE = 'Weblate'
 
 LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_ACTIVATION_DAYS = 7

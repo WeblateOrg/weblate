@@ -30,6 +30,8 @@ Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
 GitPython (>= 0.3)
     http://gitorious.org/projects/git-python/
+Django-registration
+    https://bitbucket.org/ubernostrum/django-registration/
 
 Installation
 ------------
