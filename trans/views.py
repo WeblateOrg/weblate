@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext
 from django.conf import settings
@@ -9,6 +10,7 @@ from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from trans.forms import TranslationForm
 from util import is_plural, split_plural, join_plural
 import logging
+import os.path
 
 logger = logging.getLogger('weblate')
 
@@ -48,12 +50,16 @@ def download_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     store = obj.get_store()
+    srcfilename = obj.get_filename()
     mime = store.Mimetypes[0]
     ext = store.Extensions[0]
     filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
 
-    response = HttpResponse(mimetype = mime)
+    wrapper = FileWrapper(file(srcfilename))
+
+    response = HttpResponse(wrapper, mimetype = mime)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    response['Content-Length'] = os.path.getsize(srcfilename)
 
     return response
 
