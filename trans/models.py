@@ -106,7 +106,11 @@ class SubProject(models.Model):
             repo.git.remote('set-url', 'origin', self.repo)
         # Update
         logger.info('updating repo %s', self.__unicode__())
-        repo.git.remote('update', 'origin')
+        try:
+            repo.git.remote('update', 'origin')
+        except Exception, e:
+            logger.error('Failed to update Git repo: %s', str(e))
+
 
     def configure_branch(self):
         '''
