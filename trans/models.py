@@ -287,9 +287,8 @@ class Translation(models.Model):
         '''
         store = self.get_store()
         src = unit.get_source_plurals()[0]
-        pounits = store.findunits(src)
         need_save = False
-        for pounit in pounits:
+        for pounit in store.findunits(src):
             if pounit.getcontext() == unit.context:
                 if hasattr(pounit.target, 'strings'):
                     potarget = join_plural(pounit.target.strings)
