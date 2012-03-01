@@ -284,7 +284,7 @@ class Translation(models.Model):
         repo.git.commit(
             self.filename,
             author = author,
-            m = 'Translated using Weblate'
+            m = settings.COMMIT_MESSAGE
             )
 
     def update_unit(self, unit, request):
