@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block breadcums %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+{% endblock %}
+
 {% block content %}
 {% include "subproject_info.html" %}
 

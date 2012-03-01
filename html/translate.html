@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block breadcums %}
+<li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
+<li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
+<li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language.name }}</a></li>
+{% endblock %}
+
 {% block content %}
 
 {% include "translation_info.html" %}
