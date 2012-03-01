@@ -209,6 +209,14 @@ class Translation(models.Model):
         })
 
     @models.permalink
+    def get_download_url(self):
+        return ('trans.views.download_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    @models.permalink
     def get_translate_url(self):
         return ('trans.views.translate', (), {
             'project': self.subproject.project.slug,

@@ -22,6 +22,10 @@
 {% endif %}
 {% endwith %}
 
+<h2>{% trans "Download and upload" %}</h2>
+
+<a href="{{ object.get_download_url }}">{% trans "Download" %}</a>
+
 {% endblock %}
 
 
