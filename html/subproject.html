@@ -15,11 +15,11 @@
 {% for trans in object.translation_set.all %}
 <li><a href="{{ trans.get_absolute_url }}">{{ trans.language.name }}
 {% if trans.fuzzy %}
-    {% blocktrans with trans.translated as translated and trans.fuzzy as fuzzy %}
+    {% blocktrans with trans.get_translated_percent as translated and trans.get_fuzzy_percent as fuzzy %}
     ({{ translated }}% translated, {{ fuzzy }}% fuzzy)
     {% endblocktrans %}
 {% else %}
-    {% blocktrans with trans.translated as translated %}
+    {% blocktrans with trans.get_translated_percent as translated %}
     ({{ translated }}% translated)
     {% endblocktrans %}
 {% endif %}

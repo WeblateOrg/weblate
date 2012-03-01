@@ -176,15 +176,23 @@ class SubProject(models.Model):
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
-    translated = models.FloatField(default = 0, db_index = True)
-    fuzzy = models.FloatField(default = 0, db_index = True)
     revision = models.CharField(max_length = 40, default = '', blank = True)
-    filename = models.CharField(max_length = 200)
+    filename = models.CharField(max_length = 200)\
+
+    translated = models.IntegerField(default = 0, db_index = True)
+    fuzzy = models.IntegerField(default = 0, db_index = True)
+    total = models.IntegerField(default = 0, db_index = True)
 
     objects = TranslationManager()
 
     class Meta:
         ordering = ['language__name']
+
+    def get_fuzzy_percent(self):
+        return round(self.fuzzy * 100.0 / self.total, 1)
+
+    def get_translated_percent(self):
+        return round(self.translated * 100.0 / self.total, 1)
 
     @models.permalink
     def get_absolute_url(self):
@@ -255,11 +263,9 @@ class Translation(models.Model):
     def update_stats(self, blob = None):
         if blob is None:
             blob = self.get_git_blob()
-        total = self.unit_set.count()
-        fuzzy = self.unit_set.filter(fuzzy = True).count()
-        translated = self.unit_set.filter(translated = True).count()
-        self.fuzzy = round(fuzzy * 100.0 / total, 1)
-        self.translated = round(translated * 100.0 / total, 1)
+        self.total = self.unit_set.count()
+        self.fuzzy = self.unit_set.filter(fuzzy = True).count()
+        self.translated = self.unit_set.filter(translated = True).count()
         self.revision = blob.hexsha
         self.save()
 

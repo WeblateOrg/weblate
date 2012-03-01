@@ -4,7 +4,7 @@
 {% include "subproject_info.html" %}
 {% endwith %}
 <p>
-{% blocktrans with object.unit_set.all.count as count and object.translated as translated and object.fuzzy as fuzzy %}
+{% blocktrans with object.unit_set.all.count as count and object.get_translated_percent as translated and object.get_fuzzy_percent as fuzzy %}
 There are {{ count }} strings, out of which {{ translated }}% is translated
 and {{ fuzzy }}% is fuzzy.
 {% endblocktrans %}
