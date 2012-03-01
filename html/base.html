@@ -26,7 +26,7 @@
  </head>
 
  <body>
-    <h1>{% include "title.html" %}</h1>
+    <h1 class="ui-state-default">{% include "title.html" %}</h1>
 
 <ul class="menu">
 {% if user.is_authenticated %}
@@ -55,8 +55,10 @@
 {% endfor %}
 {% endif %}
 
+<div class="content">
 {% block content %}
 {% endblock %}
+</div>
  <ul class="footer">
   <li>{% blocktrans %}Powered by <a href="http://weblate.org">Weblate {{ version }}</a>{% endblocktrans %}</li>
  </ul>
