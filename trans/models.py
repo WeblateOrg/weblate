@@ -59,8 +59,6 @@ class SubProject(models.Model):
     repoweb = models.URLField(help_text = _('Link to repository browser, use %(file)s and %(line)s as filename and line placeholders'))
     branch = models.CharField(max_length = 50, help_text = _('Git branch to translate'))
     filemask = models.CharField(max_length = 200, help_text = _('Mask of files to translate, use * istead of language code'))
-    style_choices = (('po', 'GNU Gettext'), ('ts', 'Qt TS'))
-    style = models.CharField(max_length = 10, choices = style_choices)
 
     class Meta:
         ordering = ['name']
