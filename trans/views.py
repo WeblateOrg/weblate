@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
@@ -43,6 +43,19 @@ def show_translation(request, project, subproject, lang):
         'object': obj,
         'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
     }))
+
+def download_translation(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    store = translation.get_store()
+    mime = store.Mimetypes[0]
+    ext = store.Extensions[0]
+    filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
+
+    response = HttpResponse(mimetype = mime)
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response
 
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
