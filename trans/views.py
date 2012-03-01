@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 
-from trans.models import Project, SubProject, Translation, Unit
+from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from trans.forms import TranslationForm
 import logging
 
@@ -65,8 +65,12 @@ def translate(request, project, subproject, lang):
             try:
                 unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
                 if 'suggest' in request.POST:
-                    # FIXME: implement suggestions
-                    pass
+                    Suggestion.objects.create(
+                        target = form.cleaned_data['target'],
+                        checksum = unit.checksum,
+                        language = unit.translation.language,
+                        project = unit.translation.subproject.project,
+                        user = request.user)
                 elif not request.user.is_authenticated():
                     messages.add_message(request, messages.ERROR, _('You need to login to be able to save translations!'))
                 else:
