@@ -142,17 +142,19 @@ class SubProject(models.Model):
         # Glob files
         files = glob(os.path.join(self.get_path(), self.filemask))
         prefix = os.path.join(self.get_path(), '')
-        files = [f.replace(prefix, '') for f in files]
-
-        # Get blobs for files
-        return [(self.get_lang_code(f), f, tree[f]) for f in files]
+        for f in files:
+            filename = f.replace(prefix, '')
+            yield (
+                self.get_lang_code(filename),
+                filename,
+                tree[filename]
+                )
 
     def create_translations(self, force = False):
         '''
         Loads translations from git.
         '''
-        blobs = self.get_translation_blobs()
-        for code, path, blob in blobs:
+        for code, path, blob in self.get_translation_blobs():
             logger.info('checking %s', path)
             Translation.objects.update_from_blob(self, code, path, blob, force)
 
