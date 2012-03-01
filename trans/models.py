@@ -169,9 +169,10 @@ class SubProject(models.Model):
         self.configure_repo()
         self.configure_branch()
         self.update_branch()
-        self.create_translations()
 
         super(SubProject, self).save(*args, **kwargs)
+
+        self.create_translations()
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
