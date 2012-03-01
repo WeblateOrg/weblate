@@ -412,6 +412,10 @@ class Unit(models.Model):
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
         self.translated = pounit.istranslated()
+        if hasattr(pounit, 'typecomments'):
+            self.flags = ', '.join(pounit.typecomments)
+        else:
+            self.flags = ''
         self.save(backend = True)
         self.translation.update_stats()
         # Propagate to other projects
