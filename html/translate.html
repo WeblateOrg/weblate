@@ -34,13 +34,11 @@
 <br />
 {{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" %}</label>
 </td></tr>
-<tr><th>{% trans "Location" %}</th>
-<th>{% trans "Suggestions" %}</th>
-</tr>
-<tr><td>{{ unit.get_location_links }}</td>
-<td colspan="3">
 {% with unit.suggestions as suggestions %}
 {% if suggestions %}
+<tr>
+<th>{% trans "Suggestions" %}</th>
+<td class="suggestions">
 <table>
 {% for suggestion in suggestions %}
 <tr><td class="translatetext">{{ suggestion.target|fmttranslation }}</td></tr>
@@ -53,10 +51,13 @@
 </td>
 {% endfor %}
 </table>
-{% else %}
-{% trans "There are no suggestions for this string." %}
+</td>
+</tr>
 {% endif %}
 {% endwith %}
+<tr>
+<th>{% trans "Used in" %}</th>
+<td>{{ unit.get_location_links }}</td>
 </td>
 </tr>
 <tr><th>{% trans "Flags" %}</th></tr>
