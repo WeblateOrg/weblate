@@ -43,6 +43,7 @@
 {% endblock %}
 </ul>
 
+<div class="content">
 {% if messages %}
 {% for message in messages %}
 <div class="ui-widget">
@@ -55,7 +56,6 @@
 {% endfor %}
 {% endif %}
 
-<div class="content">
 {% block content %}
 {% endblock %}
 </div>
