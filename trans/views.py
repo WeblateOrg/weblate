@@ -102,12 +102,14 @@ def translate(request, project, subproject, lang):
             suggestion.delete()
         else:
             messages.add_message(request, messages.ERROR, _('Invalid suggestion!'))
-        return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
+        return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay' % (obj.get_translate_url(), rqtype, pos))
 
     # If we failed to get unit above or on no POST
     if unit is None:
         # What unit to show
-        if direction == 'back':
+        if direction == 'stay':
+            units = obj.unit_set.filter(position = pos)
+        elif direction == 'back':
             units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos)
         else:
             units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
