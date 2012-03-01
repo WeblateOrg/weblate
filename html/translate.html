@@ -39,11 +39,12 @@
 <td colspan="3">
 {% with unit.suggestions as suggestions %}
 {% if suggestions %}
-<ul>
+<table>
 {% for suggestion in suggestions %}
-<li><span class="translatetext">{{ suggestion.target|fmttranslation }}</span> by {{ suggestion.user }}</li>
+<tr><td class="translatetext">{{ suggestion.target|fmttranslation }}</td></tr>
+<tr><td>{% blocktrans with suggestion.user as user %}Suggested by {{ user }}{% endblocktrans %}</td>
 {% endfor %}
-</ul>
+</table>
 {% else %}
 {% trans "There are no suggestions for this string." %}
 {% endif %}
