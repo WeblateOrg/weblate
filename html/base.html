@@ -37,6 +37,12 @@
 {% endif %}
 </ul>
 
+<ul class="breadcums">
+<li><a href="/">{% trans "Home" %}</a></li>
+{% block breadcums %}
+{% endblock %}
+</ul>
+
 {% if messages %}
 {% for message in messages %}
 <div class="ui-widget">
