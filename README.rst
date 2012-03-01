@@ -36,11 +36,26 @@ Installation
 
 Install all required components (see above), adjust settings.py and then run
 ./manage.py syncdb to create database structure. Now you should be able to
-create translation projects using admin interface.
+create translation projects using admin interface. You probably also want to
+run ./manage.py setuplang to get default list of languages.
 
 As setup of translation project includes fetching Git repositories, you might
 want to preseed these, repos are stored in path defined by GIT_ROOT in
 settings.py in <project>/<subproject> directories.
+
+Management commands
+-------------------
+
+The ./manage.py is extended with following commands:
+
+loadpo
+    Reloads translations from disk (eg. in case you did some updates in Git
+    repository).
+setuplang
+    Setups list of languages (it has own list and all defined in
+    translate-toolkit).
+updategit
+    Fetches remote Git repositories and updates internal cache.
 
 Project name
 ------------
