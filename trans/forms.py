@@ -19,8 +19,12 @@ class PluralTextarea(forms.Textarea):
             ret.append(super(PluralTextarea, self).render(fieldname, val, attrs))
         return mark_safe('<br />'.join(ret))
 
+class PluralField(forms.CharField):
+    def __init__(self, max_length=None, min_length=None, *args, **kwargs):
+        super(PluralField, self).__init__(*args, widget = PluralTextarea, **kwargs)
+
 class TranslationForm(forms.Form):
     checksum = forms.CharField(widget = forms.HiddenInput)
-    target = forms.CharField(widget = PluralTextarea, required = False)
+    target = PluralField(required = False)
     fuzzy = forms.BooleanField(label = ugettext_lazy('Fuzzy'), required = False)
 
