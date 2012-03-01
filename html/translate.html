@@ -24,11 +24,11 @@
 <table class="translator">
 <tr>
 <th class="source">{% trans "Source" %}</th>
-<th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}<th>
+<td class="translatetext">{{ unit.source|fmttranslation }}</td>
 </tr>
 <tr>
-<td class="translatetext">{{ unit.source|fmttranslation }}</td>
-<td>
+<th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>
+<td class="translator">
 {{ form.checksum }}
 {{ form.target }}
 <br />
