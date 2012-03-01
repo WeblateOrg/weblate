@@ -140,9 +140,8 @@ class SubProject(models.Model):
         tree = repo.tree()
 
         # Glob files
-        files = glob(os.path.join(self.get_path(), self.filemask))
         prefix = os.path.join(self.get_path(), '')
-        for f in files:
+        for f in glob(os.path.join(self.get_path(), self.filemask)):
             filename = f.replace(prefix, '')
             yield (
                 self.get_lang_code(filename),
