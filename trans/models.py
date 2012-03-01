@@ -368,6 +368,8 @@ class Unit(models.Model):
         return split_plural(self.source)
 
     def get_target_plurals(self):
+        if not self.is_plural():
+            return self.target
         ret = split_plural(self.target)
         plurals = self.translation.language.nplurals
         if len(ret) == plurals:
