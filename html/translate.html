@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load weblate %}
 
 {% block breadcums %}
 <li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
@@ -24,7 +25,7 @@
 <tr><th class="source">{% trans "Source" %}</th><th>{% trans "Translation" %}<th></tr>
 {% if unit.is_plural %}
 {% else %}
-<tr><td class="translatetext">{{ unit.source }}</td><td>
+<tr><td class="translatetext">{{ unit.source|fmttranslation }}</td><td>
 {{ form.checksum }}
 {{ form.target }}
 <br />
@@ -40,7 +41,7 @@
 {% if suggestions %}
 <ul>
 {% for suggestion in suggestions %}
-<li><span class="translatetext">{{ suggestion.target }}</span> by {{ suggestion.user }}</li>
+<li><span class="translatetext">{{ suggestion.target|fmttranslation }}</span> by {{ suggestion.user }}</li>
 {% endfor %}
 </ul>
 {% else %}
