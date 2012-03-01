@@ -1,7 +1,7 @@
 from django.db import models
 
 class Language(models.Model):
-    code = models.SlugField(db_index = True)
+    code = models.SlugField(unique = True)
     name = models.CharField(max_length = 100)
     nplurals = models.SmallIntegerField(default = 0)
     pluralequation = models.CharField(max_length = 255, blank = True)
