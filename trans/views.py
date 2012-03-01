@@ -84,6 +84,26 @@ def translate(request, project, subproject, lang):
                 logger.error('message %s disappeared!', form.cleaned_data['checksum'])
                 messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
 
+    # Handle suggestions
+    if 'accept' in request.GET or 'delete' in request.GET:
+        if 'accept' in request.GET:
+            sugid = request.GET['accept']
+        else:
+            sugid = request.GET['delete']
+        try:
+            sugid = int(sugid)
+            suggestion = Suggestion.objects.get(pk = sugid)
+        except:
+            suggestion = None
+
+        if suggestion is not None:
+            if 'accept' in request.GET:
+                suggestion.accept(request)
+            suggestion.delete()
+        else:
+            messages.add_message(request, messages.ERROR, _('Invalid suggestion!'))
+        return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
+
     # If we failed to get unit above or on no POST
     if unit is None:
         # What unit to show
