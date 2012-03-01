@@ -22,8 +22,13 @@
 <input type="hidden" name="type" value="{{ type }}" />
 <input type="hidden" name="oldpos" value="{{ unit.position }}" />
 <table class="translator">
-<tr><th class="source">{% trans "Source" %}</th><th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}<th></tr>
-<tr><td class="translatetext">{{ unit.source|fmttranslation }}</td><td>
+<tr>
+<th class="source">{% trans "Source" %}</th>
+<th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}<th>
+</tr>
+<tr>
+<td class="translatetext">{{ unit.source|fmttranslation }}</td>
+<td>
 {{ form.checksum }}
 {{ form.target }}
 <br />
