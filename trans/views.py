@@ -47,7 +47,7 @@ def show_translation(request, project, subproject, lang):
 def download_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
-    store = translation.get_store()
+    store = obj.get_store()
     mime = store.Mimetypes[0]
     ext = store.Extensions[0]
     filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
