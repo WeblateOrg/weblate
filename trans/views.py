@@ -7,6 +7,7 @@ from django.contrib import messages
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from trans.forms import TranslationForm
+from util import is_plural, split_plural, join_plural
 import logging
 
 logger = logging.getLogger('weblate')
@@ -66,7 +67,7 @@ def translate(request, project, subproject, lang):
                 unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
                 if 'suggest' in request.POST:
                     Suggestion.objects.create(
-                        target = form.cleaned_data['target'],
+                        target = join_plural(form.cleaned_data['target']),
                         checksum = unit.checksum,
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
@@ -74,7 +75,7 @@ def translate(request, project, subproject, lang):
                 elif not request.user.is_authenticated():
                     messages.add_message(request, messages.ERROR, _('You need to login to be able to save translations!'))
                 else:
-                    unit.target = form.cleaned_data['target']
+                    unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
                     unit.save_backend(request)
 

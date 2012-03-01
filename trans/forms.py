@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils.safestring import mark_safe
+from django.utils.encoding import smart_unicode
 
 class PluralTextarea(forms.Textarea):
     '''
@@ -10,7 +11,6 @@ class PluralTextarea(forms.Textarea):
         if type(value) != list:
             return super(PluralTextarea, self).render(name, value, attrs)
         ret = []
-        print value
         for idx, val in enumerate(value):
             if idx > 0:
                 fieldname = '%s_%d' % (name, idx)
@@ -19,9 +19,24 @@ class PluralTextarea(forms.Textarea):
             ret.append(super(PluralTextarea, self).render(fieldname, val, attrs))
         return mark_safe('<br />'.join(ret))
 
+    def value_from_datadict(self, data, files, name):
+        ret = [smart_unicode(data.get(name, None))]
+        for idx in range(1, 10):
+            fieldname = '%s_%d' % (name, idx)
+            if not fieldname in data:
+                break
+            ret.append(smart_unicode(data.get(fieldname, None)))
+        if len(ret) == 0:
+            return ret[0]
+        return ret
+
 class PluralField(forms.CharField):
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
         super(PluralField, self).__init__(*args, widget = PluralTextarea, **kwargs)
+
+    def to_python(self, value):
+        # We can get list from PluralTextarea
+        return value
 
 class TranslationForm(forms.Form):
     checksum = forms.CharField(widget = forms.HiddenInput)
