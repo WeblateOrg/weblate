@@ -45,8 +45,8 @@
 <tr><td>
 {% blocktrans with suggestion.user.get_full_name as user %}Suggested by {{ user }}{% endblocktrans %}
 <div class="suggestionactions">
-<a href="{{ suggestion.get_accept_url }}" class="sug-accept">Accept</a>
-<a href="{{ suggestion.get_delete_url }}" class="sug-delete">Delete</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ oldpos }}&amp;accept={{ suggestion.id }}" class="sug-accept">Accept</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ oldpos }}&amp;delete={{ suggestion.id }}" class="sug-delete">Delete</a>
 </div>
 </td>
 {% endfor %}

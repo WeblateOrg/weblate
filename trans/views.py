@@ -111,6 +111,7 @@ def translate(request, project, subproject, lang):
         'object': obj,
         'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
         'unit': unit,
+        'oldpos': pos,
         'total': total,
         'type': rqtype,
         'form': form,
