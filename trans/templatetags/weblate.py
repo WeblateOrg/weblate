@@ -5,6 +5,8 @@ from django.utils.encoding import force_unicode
 from django import template
 import re
 
+from trans.util import split_plural
+
 register = template.Library()
 
 
@@ -15,9 +17,14 @@ def fmt_whitespace(value):
 @register.filter
 @stringfilter
 def fmttranslation(value):
-    value = escape(force_unicode(value))
-    value = re.sub(r'\r\n|\r|\n', '\n', value) # normalize newlines
-    paras = re.split('\n', value)
-    paras = [fmt_whitespace(p) for p in paras]
-    value = '<br />'.join(paras)
+    plurals = split_plural(value)
+    parts = []
+    for value in plurals:
+        value = escape(force_unicode(value))
+        value = re.sub(r'\r\n|\r|\n', '\n', value) # normalize newlines
+        paras = re.split('\n', value)
+        paras = [fmt_whitespace(p) for p in paras]
+        value = '<br />'.join(paras)
+        parts.append(value)
+    value = '<hr />'.join(parts)
     return mark_safe(value)
