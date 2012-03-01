@@ -227,8 +227,11 @@ class Translation(models.Model):
     def __unicode__(self):
         return '%s %s' % (self.language.name, self.subproject.__unicode__())
 
+    def get_filename(self):
+        return os.path.join(self.subproject.get_path(), self.filename)
+
     def get_store(self):
-        return factory.getobject(os.path.join(self.subproject.get_path(), self.filename))
+        return factory.getobject(self.get_filename())
 
     def check_sync(self):
         '''
