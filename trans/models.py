@@ -292,7 +292,11 @@ class Translation(models.Model):
         need_save = False
         for pounit in pounits:
             if pounit.getcontext() == unit.context:
-                if unit.target != join_plural(pounit.target.strings) or unit.fuzzy != pounit.isfuzzy():
+                if hasattr(pounit.target, 'strings'):
+                    potarget = join_plural(pounit.target.strings)
+                else:
+                    potarget = pounit.target
+                if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
                     pounit.markfuzzy(unit.fuzzy)
                     if unit.is_plural():
                         pounit.settarget(unit.get_target_plurals())
@@ -303,16 +307,17 @@ class Translation(models.Model):
                 break
         if need_save:
             author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
-            po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
+            if hasattr(store, 'updateheader'):
+                po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
-            store.updateheader(
-                add = True,
-                last_translator = author,
-                plural_forms = self.language.get_plural_form(),
-                language = self.language.code,
-                PO_Revision_Date = po_revision_date,
-                x_generator = 'Weblate %s' % trans.VERSION
-                )
+                store.updateheader(
+                    add = True,
+                    last_translator = author,
+                    plural_forms = self.language.get_plural_form(),
+                    language = self.language.code,
+                    PO_Revision_Date = po_revision_date,
+                    x_generator = 'Weblate %s' % trans.VERSION
+                    )
             store.save()
             self.git_commit(author)
 
@@ -355,8 +360,14 @@ class Unit(models.Model):
 
     def update_from_unit(self, unit, pos, force):
         location = ', '.join(unit.getlocations())
-        flags = ', '.join(unit.typecomments)
-        target = join_plural(unit.target.strings)
+        if hasattr(unit, 'typecomments'):
+            flags = ', '.join(unit.typecomments)
+        else:
+            flags = ''
+        if hasattr(unit.target, 'strings'):
+            target = join_plural(unit.target.strings)
+        else:
+            target = unit.target
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
         comment = unit.getnotes()

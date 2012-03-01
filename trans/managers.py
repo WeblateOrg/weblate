@@ -21,7 +21,10 @@ class UnitManager(models.Manager):
         '''
         Process translation toolkit unit and stores/updates database entry.
         '''
-        src = join_plural(unit.source.strings)
+        if hasattr(unit.source, 'strings'):
+            src = join_plural(unit.source.strings)
+        else:
+            src = unit.source
         ctx = unit.getcontext()
         checksum = msg_checksum(src, ctx)
         import trans.models
