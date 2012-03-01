@@ -25,8 +25,8 @@ class Project(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
     web = models.URLField()
-    mail = models.EmailField()
-    instructions = models.URLField()
+    mail = models.EmailField(blank = True)
+    instructions = models.URLField(blank = True)
 
     class Meta:
         ordering = ['name']
