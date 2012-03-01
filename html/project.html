@@ -3,6 +3,10 @@
 
 {% block content %}
 
+{% block breadcums %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+{% endblock %}
+
 {% include "project_info.html" %}
 
 <h2>{% trans "Subprojects" %}</h2>
