@@ -6,6 +6,9 @@ class Language(models.Model):
     nplurals = models.SmallIntegerField(default = 0)
     pluralequation = models.CharField(max_length = 255, blank = True)
 
+    class Meta:
+        ordering = ['name']
+
     def __unicode__(self):
         return self.name
 
