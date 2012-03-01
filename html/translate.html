@@ -58,10 +58,11 @@
 <tr>
 <th>{% trans "Used in" %}</th>
 <td>{{ unit.get_location_links }}</td>
-</td>
 </tr>
-<tr><th>{% trans "Flags" %}</th></tr>
-<tr><td>{{ unit.flags }}</td></tr>
+<tr>
+<th>{% trans "Flags" %}</th>
+<td>{{ unit.flags }}</td>
+</tr>
 <tr><td class="right">
 <a class="button" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back">{% trans "Previous" %}</a>
 <a class="button" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Next" %}</a>
