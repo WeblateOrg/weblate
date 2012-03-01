@@ -417,7 +417,8 @@ class Unit(models.Model):
     def suggestions(self):
         return Suggestion.objects.filter(
             checksum = self.checksum,
-            project = self.translation.subproject.project
+            project = self.translation.subproject.project,
+            language = self.translation.language
         )
 
 class Suggestion(models.Model):
@@ -425,3 +426,4 @@ class Suggestion(models.Model):
     target = models.TextField()
     user = models.ForeignKey(User, null = True, blank = True)
     project = models.ForeignKey(Project)
+    language = models.ForeignKey(Language)
