@@ -123,7 +123,7 @@ def translate(request, project, subproject, lang):
         # Prepare form
         form = TranslationForm(initial = {
             'checksum': unit.checksum,
-            'target': unit.target,
+            'target': unit.get_target_plurals(),
             'fuzzy': unit.fuzzy,
         })
 
