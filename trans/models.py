@@ -427,3 +427,14 @@ class Suggestion(models.Model):
     user = models.ForeignKey(User, null = True, blank = True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
+
+    def accept(self, request):
+        allunits = Unit.objects.filter(
+            checksum = self.checksum,
+            translation__subproject__project = self.project,
+            translation__language = self.language
+        )
+        for unit in allunits:
+            unit.target = self.target
+            unit.fuzzy = False
+            unit.save_backend(request, False)
