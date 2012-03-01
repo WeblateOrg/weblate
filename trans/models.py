@@ -415,9 +415,13 @@ class Unit(models.Model):
         return mark_safe('\n'.join(ret))
 
     def suggestions(self):
-        return Suggestion.objects.filter(checksum = self.checksum)
+        return Suggestion.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project
+        )
 
 class Suggestion(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     target = models.TextField()
     user = models.ForeignKey(User, null = True, blank = True)
+    project = models.ForeignKey(Project)
