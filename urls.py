@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
     # Auth
     url(r'^accounts/', include('registration.urls')),
+    url(r'^accounts/profile/', 'accounts.views.profile'),
 
     # Media files
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',

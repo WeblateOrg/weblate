@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from lang.models import Language
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, unique = True)
+    user = models.ForeignKey(User, unique = True, editable = False)
     language = models.CharField(verbose_name=_(u"Interface Language"),
                    max_length=10, choices=settings.LANGUAGES)
     languages = models.ManyToManyField(Language)
