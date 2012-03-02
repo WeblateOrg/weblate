@@ -20,12 +20,13 @@ class PluralTextarea(forms.Textarea):
         return mark_safe('<br />'.join(ret))
 
     def value_from_datadict(self, data, files, name):
-        ret = [smart_unicode(data.get(name, None))]
+        ret = [data.get(name, None)]
         for idx in range(1, 10):
             fieldname = '%s_%d' % (name, idx)
             if not fieldname in data:
                 break
-            ret.append(smart_unicode(data.get(fieldname, None)))
+            ret.append(data.get(fieldname, None))
+        ret = [smart_unicode(r.replace('\r', '')) for r in ret]
         if len(ret) == 0:
             return ret[0]
         return ret
