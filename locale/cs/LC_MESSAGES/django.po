@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-02 16:02+0100\n"
+"POT-Creation-Date: 2012-03-02 16:25+0100\n"
 "PO-Revision-Date: 2012-03-02 16:04+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,17 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 0.1\n"
 
-#: accounts/models.py:13
+#: accounts/models.py:14
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
+
+#: accounts/models.py:20
+msgid "Languages"
+msgstr ""
+
+#: accounts/models.py:24
+msgid "Secondary languages"
+msgstr ""
 
 #: html/base.html:4
 msgid "en"
@@ -55,6 +63,28 @@ msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 #: html/index.html:6
 msgid "Projects"
 msgstr "Projekty"
+
+#: html/profile.html:11
+#, fuzzy
+msgid "Please fix errors in the form."
+msgstr "Prosím opravte chyby v registračním formuláři."
+
+#: html/profile.html:20
+msgid "Preferences"
+msgstr ""
+
+#: html/profile.html:26 html/registration/registration_form.html:33
+msgid "Password"
+msgstr "Heslo"
+
+#: html/profile.html:28
+#, python-format
+msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+msgstr ""
+
+#: html/profile.html:31 html/translate.html:75
+msgid "Save"
+msgstr "Uložit"
 
 #: html/project.html:12
 msgid "Subprojects"
@@ -152,10 +182,6 @@ msgstr "Předchozí"
 #: html/translate.html:72
 msgid "Next"
 msgstr "Následující"
-
-#: html/translate.html:75
-msgid "Save"
-msgstr "Uložit"
 
 #: html/translate.html:77
 msgid "<a href=\"/accounts/login/\">Login</a> for saving translations."
@@ -257,10 +283,6 @@ msgstr "E-mail"
 msgid "(will be used as Git author)"
 msgstr "(bude použit jako autor v Gitu)"
 
-#: html/registration/registration_form.html:33
-msgid "Password"
-msgstr "Heslo"
-
 #: html/registration/registration_form.html:39
 msgid "Password (again)"
 msgstr "Heslo (znovu)"
@@ -324,6 +346,10 @@ msgstr "Chybný návrh!"
 #: trans/views.py:140
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
+
+#, fuzzy
+#~ msgid "Save "
+#~ msgstr "Uložit"
 
 #~ msgid ""
 #~ "\n"
