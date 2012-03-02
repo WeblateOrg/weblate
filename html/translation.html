@@ -4,7 +4,7 @@
 {% block breadcums %}
 <li><a href="{{ object.subproject.project.get_absolute_url }}">{{ object.subproject.project }}</a></li>
 <li><a href="{{ object.subproject.get_absolute_url }}">{{ object.subproject.name }}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{{ object.language.name }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{% trans object.language.name %}</a></li>
 {% endblock %}
 
 {% block content %}

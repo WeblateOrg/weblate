@@ -5,7 +5,7 @@
 {% block breadcums %}
 <li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
 <li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
-<li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language.name }}</a></li>
+<li><a href="{{ unit.translation.get_absolute_url }}">{% trans unit.translation.language.name %}</a></li>
 <li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
 {% endblock %}
 
