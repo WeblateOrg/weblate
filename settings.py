@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'registration',
     'trans',
     'lang',
+    'accounts',
 )
 
 
@@ -193,3 +194,5 @@ SITE_TITLE = 'Weblate'
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+AUTH_PROFILE_MODULE = 'accounts.Profile'
