@@ -16,9 +16,12 @@
 
 <form method="post" action="{% url 'accounts.views.profile' %}">
 {% csrf_token %}
+<fieldset>
+<legend>{% trans "Preferences" %}</legend>
 <table>
 {{ form.as_table }}
 </table>
+</fieldset>
 
 <input type="submit" value="{% trans "Save "%}" class="button" />
 </form>
