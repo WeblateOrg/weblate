@@ -17,8 +17,10 @@
 
 <p>{% blocktrans with unit.position as position %}Showing string {{ position }} out of {{ total }}.{% endblocktrans %}
 <span class="navi">
+<a class="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos=1&amp;dir=stay">{% trans "First" %}</a>
 <a class="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back">{% trans "Previous" %}</a>
 <a class="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Next" %}</a>
+<a class="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ total }}&amp;dir=stay">{% trans "Last" %}</a>
 </span>
 </p>
 
