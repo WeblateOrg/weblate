@@ -5,7 +5,13 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<div class="ui-widget">
+    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
+        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
+        {% trans "Your username and password didn't match. Please try again." %}
+        </p>
+    </div>
+</div>
 {% endif %}
 
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
