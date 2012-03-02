@@ -27,6 +27,10 @@
 <td class="translatetext">{{ unit.source|fmttranslation }}</td>
 </tr>
 <tr>
+<td></td>
+<td><a href="#" id="copy-text">{% trans "Copy" %}</td>
+</tr>
+<tr>
 <th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>
 <td class="translator">
 {{ form.checksum }}

@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'trans.views.translate'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.download_translation'),
 
+    url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
+
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

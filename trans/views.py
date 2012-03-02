@@ -157,3 +157,10 @@ def translate(request, project, subproject, lang):
         'type': rqtype,
         'form': form,
     }))
+
+def get_string(request, checksum):
+    units = Unit.objects.filter(checksum = checksum)
+    if units.count() == 0:
+        return HttpResponse('')
+
+    return HttpResponse(units[0].get_source_plurals()[0])
