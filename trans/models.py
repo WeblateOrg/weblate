@@ -225,7 +225,7 @@ class Translation(models.Model):
         })
 
     def __unicode__(self):
-        return '%s %s' % (self.language.name, self.subproject.__unicode__())
+        return '%s - %s' % (self.subproject.__unicode__(), _(self.language.name))
 
     def get_filename(self):
         return os.path.join(self.subproject.get_path(), self.filename)
