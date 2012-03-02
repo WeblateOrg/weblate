@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% if form.errors %}
+{% if form.errors or userform.errors %}
 <div class="ui-widget">
     <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
         <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
@@ -20,6 +20,12 @@
 <legend>{% trans "Preferences" %}</legend>
 <table>
 {{ form.as_table }}
+</table>
+</fieldset>
+<fieldset>
+<legend>{% trans "Account" %}</legend>
+<table>
+{{ userform.as_table }}
 </table>
 </fieldset>
 <fieldset>
