@@ -130,7 +130,7 @@ def translate(request, project, subproject, lang):
         if direction == 'stay':
             units = obj.unit_set.filter(position = pos)
         elif direction == 'back':
-            units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos)
+            units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos).order_by('-position')
         else:
             units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
 
