@@ -10,10 +10,20 @@ from lang.models import Language
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique = True, editable = False)
-    language = models.CharField(verbose_name=_(u"Interface Language"),
-                   max_length=10, choices=settings.LANGUAGES)
-    languages = models.ManyToManyField(Language)
-    secondary_languages = models.ManyToManyField(Language, related_name = 'secondary_profile_set')
+    language = models.CharField(
+        verbose_name = _(u"Interface Language"),
+        max_length = 10,
+        choices = settings.LANGUAGES
+    )
+    languages = models.ManyToManyField(
+        Language,
+        verbose_name = _('Languages')
+    )
+    secondary_languages = models.ManyToManyField(
+        Language,
+        verbose_name = _('Secondary languages'),
+        related_name = 'secondary_profile_set'
+    )
 
 
 @receiver(user_logged_in)
