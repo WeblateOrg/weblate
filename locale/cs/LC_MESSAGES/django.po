@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-02 16:40+0100\n"
+"POT-Creation-Date: 2012-03-02 17:06+0100\n"
 "PO-Revision-Date: 2012-03-02 16:42+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,7 +90,7 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: html/profile.html:38 html/translate.html:75
+#: html/profile.html:38 html/translate.html:79
 msgid "Save"
 msgstr "Uložit"
 
@@ -114,7 +114,7 @@ msgstr "Diskuzní konference pro překladatele:"
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
 
-#: html/subproject.html:12 html/translate.html:34
+#: html/subproject.html:12 html/translate.html:41
 msgid "Translations"
 msgstr "Překlady"
 
@@ -150,52 +150,60 @@ msgstr "Přeložit"
 msgid "Showing string %(position)s out of %(total)s."
 msgstr "Zobrazuji řetězec %(position)s z %(total)s."
 
-#: html/translate.html:26
+#: html/translate.html:20
+msgid "First"
+msgstr ""
+
+#: html/translate.html:21
+msgid "Previous"
+msgstr "Předchozí"
+
+#: html/translate.html:22
+msgid "Next"
+msgstr "Následující"
+
+#: html/translate.html:23
+msgid "Last"
+msgstr ""
+
+#: html/translate.html:33
 msgid "Source"
 msgstr "Zdroj"
 
-#: html/translate.html:31
+#: html/translate.html:38
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: html/translate.html:34
+#: html/translate.html:41
 msgid "Translation"
 msgstr "Překlad"
 
-#: html/translate.html:39 trans/forms.py:45
+#: html/translate.html:46 trans/forms.py:45
 msgid "Fuzzy"
 msgstr "Nejasný"
 
-#: html/translate.html:44
+#: html/translate.html:51
 msgid "Suggestions"
 msgstr "Návrhy"
 
-#: html/translate.html:50
+#: html/translate.html:57
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Navrhl %(user)s"
 
-#: html/translate.html:63
+#: html/translate.html:70
 msgid "Used in"
 msgstr "Použito v"
 
-#: html/translate.html:67
+#: html/translate.html:74
 msgid "Flags"
 msgstr "Příznaky"
 
-#: html/translate.html:71
-msgid "Previous"
-msgstr "Předchozí"
-
-#: html/translate.html:72
-msgid "Next"
-msgstr "Následující"
-
-#: html/translate.html:77
+#: html/translate.html:81
 msgid "<a href=\"/accounts/login/\">Login</a> for saving translations."
 msgstr "Pro ukládání překladů <a href=\"/accounts/login/\">se přihlaste</a>."
 
-#: html/translate.html:79
+#: html/translate.html:83
 msgid "Suggest"
 msgstr "Navrhnout"
 
@@ -255,8 +263,8 @@ msgstr[0] ""
 "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
 "    %(days)s den. \n"
 "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
-"znovu.</a>\n"
+"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
+"</a>\n"
 "    "
 msgstr[1] ""
 "\n"
@@ -264,8 +272,8 @@ msgstr[1] ""
 "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
 "    %(days)s dny. \n"
 "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
-"znovu.</a>\n"
+"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
+"</a>\n"
 "    "
 msgstr[2] ""
 "\n"
@@ -273,8 +281,8 @@ msgstr[2] ""
 "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
 "    %(days)s dnů. \n"
 "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
-"znovu.</a>\n"
+"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
+"</a>\n"
 "    "
 
 #: html/registration/login.html:11
@@ -350,6 +358,10 @@ msgstr "Větev Gitu k překladu"
 #: trans/models.py:61
 msgid "Mask of files to translate, use * istead of language code"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
+
+#: trans/models.py:345
+msgid "All strings"
+msgstr ""
 
 #: trans/models.py:350
 #, python-format
