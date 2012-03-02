@@ -5,4 +5,4 @@ def version(request):
     return {'version': trans.VERSION}
 
 def title(request):
-    return {'fallbacktitle': settings.SITE_TITLE}
+    return {'site_title': settings.SITE_TITLE}
