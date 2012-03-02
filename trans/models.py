@@ -342,7 +342,7 @@ class Translation(models.Model):
         '''
         Returns list of failing checks on current translation.
         '''
-        result = []
+        result = [('all', _('All strings'))]
         nottranslated = self.unit_set.filter_type('untranslated').count()
         fuzzy = self.unit_set.filter_type('fuzzy').count()
         suggestions = self.unit_set.filter_type('suggestions').count()
