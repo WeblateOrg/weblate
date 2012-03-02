@@ -52,7 +52,7 @@ class Project(models.Model):
         super(Project, self).save(*args, **kwargs)
 
 class SubProject(models.Model):
-    name = models.CharField(max_length = 100, help_text = _('Name to displa'))
+    name = models.CharField(max_length = 100, help_text = _('Name to display'))
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200, help_text = _('URL of Git repository'))
