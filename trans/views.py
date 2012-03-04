@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
-from trans.forms import TranslationForm
+from trans.forms import TranslationForm, UploadForm
 from util import is_plural, split_plural, join_plural
 import logging
 import os.path
@@ -40,10 +40,12 @@ def show_subproject(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    form = UploadForm()
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
         'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
+        'form': form,
     }))
 
 def download_translation(request, project, subproject, lang):
@@ -171,3 +173,14 @@ def get_string(request, checksum):
         return HttpResponse('')
 
     return HttpResponse(units[0].get_source_plurals()[0])
+
+def upload_translation(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    if request.method == 'POST':
+        form = UploadForm(request.POST)
+        if form.is_valid():
+            # FIXME: process upload
+            messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
