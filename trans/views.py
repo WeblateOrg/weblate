@@ -180,7 +180,10 @@ def upload_translation(request, project, subproject, lang):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            # FIXME: process upload
-            messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
+            try:
+                obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'])
+                messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
+            except Exception, e:
+                messages.add_message(request, messages.ERROR, _('File content merge failed: %s' % str(e)))
 
     return HttpResponseRedirect(obj.get_absolute_url())

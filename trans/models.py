@@ -354,6 +354,33 @@ class Translation(models.Model):
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
         return result
 
+    def merge_upload(self, request, fileobj, overwrite, mergefuzzy = False):
+        store2 = factory.getobjects(fileobj)
+        store1 = self.get_store()
+        store.require_index()
+
+        for unit2 in store2.units:
+            if unit2.isheader():
+                if isinstance(store1, poheader):
+                    store1.mergeheaders(store2)
+                continue
+            unit1 = store1.findid(unit2.getid())
+            if unit1 is None:
+                unit1 = store1.findunit(unit2.source)
+            if unit1 is None:
+                logger.error("The template does not contain the following unit:\n%s", str(unit2))
+            else:
+                if len(unit2.target.strip()) == 0:
+                    continue
+                if not mergefuzzy:
+                    if unit2.isfuzzy():
+                        continue
+                unit1.merge(unit2, overwrite=overwrite)
+        store1.save()
+        author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
+        self.git_commit(author)
+
+
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
