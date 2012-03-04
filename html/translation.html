@@ -28,6 +28,7 @@
 
 {% if user.is_authenticated %}
 <form action="{% url 'trans.views.upload_translation' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
 <table>
 {{ form.as_table }}
 <tr><td></td><td><input type="submit" value="{% trans "Upload" %}" /></td></tr>
