@@ -1,5 +1,5 @@
 from django import forms
-from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 
@@ -42,5 +42,8 @@ class PluralField(forms.CharField):
 class TranslationForm(forms.Form):
     checksum = forms.CharField(widget = forms.HiddenInput)
     target = PluralField(required = False)
-    fuzzy = forms.BooleanField(label = ugettext_lazy('Fuzzy'), required = False)
+    fuzzy = forms.BooleanField(label = _('Fuzzy'), required = False)
 
+class UploadForm(forms.Form):
+    file  = forms.FileField()
+    overwrite = forms.BooleanField(label = _('Overwrite existing translations'), required = False)
