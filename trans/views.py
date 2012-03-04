@@ -178,7 +178,7 @@ def upload_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     if request.method == 'POST':
-        form = UploadForm(request.POST)
+        form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             # FIXME: process upload
             messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
