@@ -379,8 +379,7 @@ class Translation(models.Model):
         store1.save()
         author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
         self.git_commit(author)
-
-
+        self.check_sync()
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
