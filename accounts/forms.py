@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
+        exclude = [
+            'suggested',
+            'translated',
+            ]
 
 class UserForm(forms.ModelForm):
     class Meta:
