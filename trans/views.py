@@ -91,12 +91,19 @@ def translate(request, project, subproject, lang):
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
                         user = request.user)
+                    if request.user.is_authenticated():
+                        profile = request.user.getprofile()
+                        profile.suggested += 1
+                        profile.save()
                 elif not request.user.is_authenticated():
                     messages.add_message(request, messages.ERROR, _('You need to login to be able to save translations!'))
                 else:
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
                     unit.save_backend(request)
+                    profile = request.user.getprofile()
+                    profile.translated += 1
+                    profile.save()
 
                 # Check and save
                 return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
