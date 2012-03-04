@@ -24,6 +24,8 @@ class Profile(models.Model):
         verbose_name = _('Secondary languages'),
         related_name = 'secondary_profile_set'
     )
+    suggested = models.IntegerField(default = 0)
+    translated = models.IntegerField(default = 0)
 
 
 @receiver(user_logged_in)
