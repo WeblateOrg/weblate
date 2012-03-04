@@ -27,7 +27,7 @@
 <a href="{{ object.get_download_url }}">{% trans "Download" %}</a>
 
 {% if user.is_authenticated %}
-<form action="{% url 'trans.views.upload_translation' %}" method="post">
+<form action="{% url 'trans.views.upload_translation' %}" method="post" enctype="multipart/form-data">
 <table>
 {{ form.as_table }}
 <tr><td></td><td><input type="submit" value="{% trans "Upload" %}" /></td></tr>
