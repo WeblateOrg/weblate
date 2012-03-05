@@ -1,7 +1,9 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.conf import settings
+from django.contrib import messages
 from django.utils.translation import ugettext as _
+from django.http import HttpResponseRedirect
 
 from accounts.forms import ProfileForm, UserForm, ContactForm
 
@@ -25,8 +27,11 @@ def profile(request):
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
+        if form.is_valid():
+            messages.add_message(request, messages.INFO, _('Message has been sent to administrator.'))
+            return HttpResponseRedirect('/')
     else:
-        form = ContectForm()
+        form = ContactForm()
 
     return render_to_response('contact.html', RequestContext(request, {
         'form': form,

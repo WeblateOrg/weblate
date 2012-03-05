@@ -21,9 +21,9 @@ class UserForm(forms.ModelForm):
             'email',
             ]
 
-class ContactForm(models.Form):
-    subject = models.CharField(label = _('Subject'), required = True)
-    message = models.CharField(
+class ContactForm(forms.Form):
+    subject = forms.CharField(label = _('Subject'), required = True)
+    message = forms.CharField(
         label = _('Message'),
         required = True,
         widget = forms.Textarea

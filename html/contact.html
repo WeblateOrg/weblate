@@ -4,10 +4,10 @@
 
 {% block content %}
 
-<form method="post" action="{% url 'accounts.views.contant' %}">
+<form method="post" action="{% url 'accounts.views.contact' %}">
 {% csrf_token %}
 <table>
-{{ table.as_table }}
+{{ form.as_table }}
 <tr><td></td><td><input type="submit" class="button" value="{% trans "Send" %}" /></td></tr>
 </table>
 </form>
