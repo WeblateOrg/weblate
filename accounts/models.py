@@ -17,12 +17,14 @@ class Profile(models.Model):
     )
     languages = models.ManyToManyField(
         Language,
-        verbose_name = _('Languages')
+        verbose_name = _('Languages'),
+        blank = True,
     )
     secondary_languages = models.ManyToManyField(
         Language,
         verbose_name = _('Secondary languages'),
-        related_name = 'secondary_profile_set'
+        related_name = 'secondary_profile_set',
+        blank = True,
     )
     suggested = models.IntegerField(default = 0, db_index = True)
     translated = models.IntegerField(default = 0, db_index = True)
