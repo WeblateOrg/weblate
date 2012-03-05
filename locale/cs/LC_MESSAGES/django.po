@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 16:26+0100\n"
+"POT-Creation-Date: 2012-03-05 16:39+0100\n"
 "PO-Revision-Date: 2012-03-05 16:27+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,15 +46,15 @@ msgstr "Jazyky"
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
-#: accounts/views.py:30
+#: accounts/views.py:32
 msgid "User profile"
 msgstr "Uživatelský profil"
 
-#: accounts/views.py:44
+#: accounts/views.py:46
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:57
+#: accounts/views.py:59
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -117,7 +117,7 @@ msgstr "Jazyk"
 msgid "Translated"
 msgstr "Přeloženo"
 
-#: html/index.html:14 html/subproject.html:20 html/translate.html:44
+#: html/index.html:14 html/subproject.html:20 html/translate.html:45
 #: trans/forms.py:45
 msgid "Fuzzy"
 msgstr "Nejasný"
@@ -176,7 +176,7 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: html/profile.html:40 html/translate.html:87
+#: html/profile.html:40 html/translate.html:88
 msgid "Save"
 msgstr "Uložit"
 
@@ -204,7 +204,7 @@ msgstr "Emailová konference pro překladatele:"
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
 
-#: html/subproject.html:13 html/translate.html:39
+#: html/subproject.html:13 html/translate.html:40
 msgid "Translations"
 msgstr "Překlady"
 
@@ -226,73 +226,76 @@ msgstr "Git repozitář:"
 msgid "%(branch)s brach"
 msgstr "větev %(branch)s"
 
-#: html/translate.html:9
+#: html/translate.html:10
 msgid "translate"
 msgstr "překlad"
 
-#: html/translate.html:14
+#: html/translate.html:15
 msgid "Translate"
 msgstr "Přeložit"
 
-#: html/translate.html:16
+#: html/translate.html:17
 #, python-format
 msgid "Showing string %(position)s out of %(total)s."
 msgstr "Zobrazuji řetězec %(position)s z %(total)s."
 
-#: html/translate.html:18
+#: html/translate.html:19
 msgid "First"
 msgstr "První"
 
-#: html/translate.html:19
+#: html/translate.html:20
 msgid "Previous"
 msgstr "Předchozí"
 
-#: html/translate.html:20
+#: html/translate.html:21
 msgid "Next"
 msgstr "Následující"
 
-#: html/translate.html:21
+#: html/translate.html:22
 msgid "Last"
 msgstr "Poslední"
 
-#: html/translate.html:31
+#: html/translate.html:32
 msgid "Source"
 msgstr "Zdroj"
 
-#: html/translate.html:36
+#: html/translate.html:37
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: html/translate.html:39
+#: html/translate.html:40
 msgid "Translation"
 msgstr "Překlad"
 
-#: html/translate.html:49
+#: html/translate.html:50
 msgid "Suggestions"
 msgstr "Návrhy"
 
-#: html/translate.html:56
+#: html/translate.html:57
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Navrhl %(user)s"
 
-#: html/translate.html:58
+#: html/translate.html:59
 msgid "Suggested by anonymous user"
 msgstr "Navrhl nepřihlášený uživatel"
 
-#: html/translate.html:75
+#: html/translate.html:76
 msgid "Used in"
 msgstr "Použito v"
 
-#: html/translate.html:81
+#: html/translate.html:82
 msgid "Flags"
 msgstr "Příznaky"
 
-#: html/translate.html:89
-msgid "<a href=\"/accounts/login/\">Login</a> for saving translations."
+#: html/translate.html:92
+#, fuzzy, python-format
+msgid ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Login</a> for saving "
+"translations."
 msgstr "Pro ukládání překladů <a href=\"/accounts/login/\">se přihlaste</a>."
 
-#: html/translate.html:91
+#: html/translate.html:95
 msgid "Suggest"
 msgstr "Navrhnout"
 
@@ -348,6 +351,12 @@ msgstr ""
 #: html/registration/activate.html:15
 #, python-format
 msgid ""
+"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+msgstr ""
+
+#: html/registration/activate.html:20
+#, python-format
+msgid ""
 "\n"
 "    Your account could not be activated.\n"
 "    This may be because it is already active or because you waited over \n"
@@ -394,6 +403,13 @@ msgstr[2] ""
 #: html/registration/login.html:11
 msgid "Your username and password didn't match. Please try again."
 msgstr "Uživatelské jméno a heslo neodpovídají. Prosím zkuste to znovu."
+
+#: html/registration/login.html:36
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
 
 #: html/registration/logout.html:7
 msgid "Thanks for using Weblate!"
