@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 from accounts.models import Profile
 from django.contrib.auth.models import User
@@ -19,3 +20,12 @@ class UserForm(forms.ModelForm):
             'last_name',
             'email',
             ]
+
+class ContactForm(models.Form):
+    subject = models.CharField(label = _('Subject'), required = True)
+    message = models.CharField(
+        label = _('Message'),
+        required = True,
+        widget = forms.Textarea
+    )
+

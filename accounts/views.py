@@ -1,7 +1,9 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.conf import settings
+from django.utils.translation import ugettext as _
 
-from accounts.forms import ProfileForm, UserForm
+from accounts.forms import ProfileForm, UserForm, ContactForm
 
 def profile(request):
 
@@ -19,3 +21,14 @@ def profile(request):
         'form': form,
         'userform': userform,
         }))
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+    else:
+        form = ContectForm()
+
+    return render_to_response('contact.html', RequestContext(request, {
+        'form': form,
+        'title': '%s @ %s' % (_('Contact'), settings.SITE_TITLE),
+    }))
