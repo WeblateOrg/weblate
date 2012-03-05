@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 13:58+0100\n"
+"POT-Creation-Date: 2012-03-05 14:08+0100\n"
 "PO-Revision-Date: 2012-03-05 14:03+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,16 +292,25 @@ msgid "Strings to check"
 msgstr "Řetězce ke kontrole"
 
 #: html/translation.html:26
-msgid "Download and upload"
-msgstr "Stáhnout a nahrát"
-
-#: html/translation.html:28
 msgid "Download"
 msgstr "Stáhnout"
 
-#: html/translation.html:35
+#: html/translation.html:29
+#, python-format
+msgid ""
+"You can <a href=\"%(download_url)s\">download</a> file for offline "
+"translation."
+msgstr ""
+
+#: html/translation.html:33 html/translation.html.py:40
 msgid "Upload"
 msgstr "Nahrát"
+
+#: html/translation.html:35
+msgid ""
+"Uploaded file will be merged with current translation. In case you want to "
+"overwrite already translated strings, don't forget to enable it."
+msgstr ""
 
 #: html/translation_info.html:8
 #, python-format
@@ -414,6 +423,10 @@ msgstr "(bude použit jako autor v Gitu)"
 msgid "Password (again)"
 msgstr "Heslo (znovu)"
 
+#: trans/forms.py:48
+msgid "File"
+msgstr ""
+
 #: trans/forms.py:49
 msgid "Overwrite existing translations"
 msgstr "Přepsat stávající překlady"
@@ -498,6 +511,9 @@ msgstr "V nahraném souboru nebyly žádné nové řetězce."
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
+
+#~ msgid "Download and upload"
+#~ msgstr "Stáhnout a nahrát"
 
 #~ msgid "(%(translated)s%% translated, %(fuzzy)s%% fuzzy)"
 #~ msgstr "(%(translated)s%% přeloženo, %(fuzzy)s%% nejasných)"
