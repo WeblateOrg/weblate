@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block content %}
+
+<form method="post" action="{% url 'accounts.views.contant' %}">
+{% csrf_token %}
+<table>
+{{ table.as_table }}
+<tr><td></td><td><input type="submit" class="button" value="{% trans "Send" %}" /></td></tr>
+</table>
+</form>
+
+{% endblock %}
+
