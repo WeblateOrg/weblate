@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from trans.forms import TranslationForm, UploadForm
@@ -174,6 +175,7 @@ def get_string(request, checksum):
 
     return HttpResponse(units[0].get_source_plurals()[0])
 
+@login_required
 def upload_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
