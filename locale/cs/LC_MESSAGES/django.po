@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 12:13+0100\n"
+"POT-Creation-Date: 2012-03-05 13:58+0100\n"
 "PO-Revision-Date: 2012-03-05 12:15+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,6 +104,42 @@ msgstr "Odeslat"
 msgid "Projects"
 msgstr "Projekty"
 
+#: html/index.html:11
+#, fuzzy
+msgid "Project"
+msgstr "Projekty"
+
+#: html/index.html:12 html/index.html.py:35 html/project.html:18
+#: html/subproject.html:19
+#, fuzzy
+msgid "Translated"
+msgstr "Přeložit"
+
+#: html/index.html:27
+#, fuzzy
+msgid "Users"
+msgstr "Uživatelské jméno"
+
+#: html/index.html:29
+#, fuzzy
+msgid "Best translators"
+msgstr "Překlady"
+
+#: html/index.html:34 html/index.html.py:52
+#, fuzzy
+msgid "User"
+msgstr "Uživatelské jméno"
+
+#: html/index.html:47
+#, fuzzy
+msgid "Best suggestions"
+msgstr "Návrhy"
+
+#: html/index.html:53
+#, fuzzy
+msgid "Suggested"
+msgstr "Navrhnout"
+
 #: html/profile.html:11
 msgid "Please fix errors in the form."
 msgstr "Prosím opravte chyby ve formuláři."
@@ -138,6 +174,11 @@ msgstr "Uložit"
 msgid "Subprojects"
 msgstr "Podprojekty"
 
+#: html/project.html:17
+#, fuzzy
+msgid "Subproject"
+msgstr "Podprojekty"
+
 #: html/project_info.html:2
 msgid "Project Information"
 msgstr "Informace o projektu"
@@ -158,24 +199,23 @@ msgstr "Návod pro překladatele:"
 msgid "Translations"
 msgstr "Překlady"
 
-#: html/subproject.html:19
-#, python-format
-msgid "(%(translated)s%% translated, %(fuzzy)s%% fuzzy)"
-msgstr "(%(translated)s%% přeloženo, %(fuzzy)s%% nejasných)"
+#: html/subproject.html:18
+#, fuzzy
+msgid "Language"
+msgstr "Jazyky"
 
-#: html/subproject.html:21
-#, python-format
-msgid "(%(translated)s%% translated)"
-msgstr "(%(translated)s%% přeloženo)"
+#: html/subproject.html:20 html/translate.html:46 trans/forms.py:45
+msgid "Fuzzy"
+msgstr "Nejasný"
 
-#: html/subproject.html:29
+#: html/subproject.html:38
 #, python-format
 msgid ""
 "Should your language be missing, plese <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Pokud váš jazyk chybí, prosím <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">napište nám</a>."
+"Pokud váš jazyk chybí, prosím <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">napište nám</a>."
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -227,10 +267,6 @@ msgstr "Kopírovat"
 msgid "Translation"
 msgstr "Překlad"
 
-#: html/translate.html:46 trans/forms.py:45
-msgid "Fuzzy"
-msgstr "Nejasný"
-
 #: html/translate.html:51
 msgid "Suggestions"
 msgstr "Návrhy"
@@ -276,7 +312,7 @@ msgstr "Stáhnout"
 msgid "Upload"
 msgstr "Nahrát"
 
-#: html/translation_info.html:7
+#: html/translation_info.html:8
 #, python-format
 msgid ""
 "There are %(count)s strings, out of which %(translated)s%% is translated and "
@@ -391,19 +427,19 @@ msgstr "Heslo (znovu)"
 msgid "Overwrite existing translations"
 msgstr "Přepsat stávající překlady"
 
-#: trans/models.py:55
+#: trans/models.py:61
 msgid "Name to display"
 msgstr "Zobrazené jméno"
 
-#: trans/models.py:56
+#: trans/models.py:62
 msgid "Name used in URLs"
 msgstr "Jméno použité v URL"
 
-#: trans/models.py:58
+#: trans/models.py:64
 msgid "URL of Git repository"
 msgstr "URL Git repozitáře"
 
-#: trans/models.py:59
+#: trans/models.py:65
 #, python-format
 msgid ""
 "Link to repository browser, use %(file)s and %(line)s as filename and line "
@@ -412,65 +448,71 @@ msgstr ""
 "Odkaz na prohlížení Gitu, použijte %(file)s a %(line)s místo jména souboru a "
 "řádky"
 
-#: trans/models.py:60
+#: trans/models.py:66
 msgid "Git branch to translate"
 msgstr "Větev Gitu k překladu"
 
-#: trans/models.py:61
+#: trans/models.py:67
 msgid "Mask of files to translate, use * istead of language code"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
 
-#: trans/models.py:350
+#: trans/models.py:360
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:355
+#: trans/models.py:365
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:357
+#: trans/models.py:367
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:359
+#: trans/models.py:369
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/views.py:106
+#: trans/views.py:112
 msgid "You need to login to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:119
+#: trans/views.py:125
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:124
+#: trans/views.py:130
 msgid "You need to login to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:141
+#: trans/views.py:147
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:157
+#: trans/views.py:163
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:195
+#: trans/views.py:201
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:197
+#: trans/views.py:203
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:199
+#: trans/views.py:205
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
+
+#~ msgid "(%(translated)s%% translated, %(fuzzy)s%% fuzzy)"
+#~ msgstr "(%(translated)s%% přeloženo, %(fuzzy)s%% nejasných)"
+
+#~ msgid "(%(translated)s%% translated)"
+#~ msgstr "(%(translated)s%% přeloženo)"
 
 #, fuzzy
 #~ msgid "Save "
