@@ -20,6 +20,12 @@ logger = logging.getLogger('weblate')
 def home(request):
     projects = Project.objects.all()
 
+    usertranslations = None
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+
+        usertranslations = Translation.objects.filter(language__in = profile.languages.all())
+
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
 
@@ -27,6 +33,7 @@ def home(request):
         'projects': projects,
         'top_translations': top_translations,
         'top_suggestions': top_suggestions,
+        'usertranslations': usertranslations,
         'title': settings.SITE_TITLE,
     }))
 
