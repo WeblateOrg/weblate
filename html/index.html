@@ -3,6 +3,7 @@
 
 {% block content %}
 
+{% if usertranslations %}
 <h2>{% trans "Your translations" %}</h2>
 
 <table>
@@ -25,6 +26,7 @@
 {% endfor %}
 </tbody>
 </table>
+{% endif %}
 
 <h2>{% trans "Projects" %}</h2>
 
