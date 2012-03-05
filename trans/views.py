@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AnonymousUser
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from trans.forms import TranslationForm, UploadForm
@@ -88,12 +89,15 @@ def translate(request, project, subproject, lang):
             try:
                 unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
                 if 'suggest' in request.POST:
+                    user = request.user
+                    if isinstance(user, AnonymousUser):
+                        user = None
                     Suggestion.objects.create(
                         target = join_plural(form.cleaned_data['target']),
                         checksum = unit.checksum,
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
-                        user = request.user)
+                        user = user)
                     if request.user.is_authenticated():
                         profile = request.user.get_profile()
                         profile.suggested += 1
