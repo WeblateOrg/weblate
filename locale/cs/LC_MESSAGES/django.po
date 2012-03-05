@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 10:36+0100\n"
+"POT-Creation-Date: 2012-03-05 10:47+0100\n"
 "PO-Revision-Date: 2012-03-05 10:38+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,7 +90,7 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: html/profile.html:40 html/translate.html:79
+#: html/profile.html:40 html/translate.html:85
 msgid "Save"
 msgstr "Uložit"
 
@@ -186,24 +186,29 @@ msgstr "Nejasný"
 msgid "Suggestions"
 msgstr "Návrhy"
 
-#: html/translate.html:57
+#: html/translate.html:58
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Navrhl %(user)s"
 
-#: html/translate.html:70
+#: html/translate.html:60
+#, fuzzy
+msgid "Suggested by anonymous user"
+msgstr "Navrhl %(user)s"
+
+#: html/translate.html:76
 msgid "Used in"
 msgstr "Použito v"
 
-#: html/translate.html:74
+#: html/translate.html:80
 msgid "Flags"
 msgstr "Příznaky"
 
-#: html/translate.html:81
+#: html/translate.html:87
 msgid "<a href=\"/accounts/login/\">Login</a> for saving translations."
 msgstr "Pro ukládání překladů <a href=\"/accounts/login/\">se přihlaste</a>."
 
-#: html/translate.html:83
+#: html/translate.html:89
 msgid "Suggest"
 msgstr "Navrhnout"
 
@@ -386,31 +391,36 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/views.py:101
+#: trans/views.py:106
 msgid "You need to login to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:114
+#: trans/views.py:119
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:133
+#: trans/views.py:124
+#, fuzzy
+msgid "You need to login to be able to manage suggestions!"
+msgstr "Pro ukládání překladů musíte být přihlášen!"
+
+#: trans/views.py:141
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:149
+#: trans/views.py:157
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:186
+#: trans/views.py:195
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:188
+#: trans/views.py:197
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:190
+#: trans/views.py:199
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
