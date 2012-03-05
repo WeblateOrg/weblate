@@ -355,13 +355,15 @@ class Translation(models.Model):
         return result
 
     def merge_upload(self, request, fileobj, overwrite, mergefuzzy = False):
-        store2 = factory.getobjects(fileobj)
+        # Needed to behave like something what translate toolkit expects
+        fileobj.mode = "r"
+        store2 = factory.getobject(fileobj)
         store1 = self.get_store()
-        store.require_index()
+        store1.require_index()
 
         for unit2 in store2.units:
             if unit2.isheader():
-                if isinstance(store1, poheader):
+                if isinstance(store1, poheader.poheader):
                     store1.mergeheaders(store2)
                 continue
             unit1 = store1.findid(unit2.getid())
@@ -377,7 +379,7 @@ class Translation(models.Model):
                         continue
                 unit1.merge(unit2, overwrite=overwrite)
         store1.save()
-        author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
+        author = u'%s <%s>' % (request.user.get_full_name(), request.user.email)
         self.git_commit(author)
         self.check_sync()
 
