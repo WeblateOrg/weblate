@@ -72,10 +72,12 @@
 </tr>
 {% endif %}
 {% endwith %}
+{% if unit.location %}
 <tr>
 <th>{% trans "Used in" %}</th>
 <td>{{ unit.get_location_links }}</td>
 </tr>
+{% endif %}
 <tr>
 <th>{% trans "Flags" %}</th>
 <td>{{ unit.flags }}</td>
