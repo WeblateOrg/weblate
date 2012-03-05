@@ -12,17 +12,26 @@
 
 <h2>{% trans "Translations" %}</h2>
 
-<ul>
+<table>
+<thead>
+<tr>
+<th>{% trans "Language" %}</th>
+<th colspan="2">{% trans "Translated" %}</th>
+<th>{% trans "Fuzzy" %}</th>
+</tr>
+<tbody>
 {% for trans in object.translation_set.all %}
-<li><a href="{{ trans.get_absolute_url }}">{% trans trans.language.name %}
-{% if trans.fuzzy %}
-    {% blocktrans with trans.get_translated_percent as translated and trans.get_fuzzy_percent as fuzzy %}({{ translated }}% translated, {{ fuzzy }}% fuzzy){% endblocktrans %}
-{% else %}
-    {% blocktrans with trans.get_translated_percent as translated %}({{ translated }}% translated){% endblocktrans %}
-{% endif %}
-</a></li>
+{% with trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy %}
+<tr>
+<th><a href="{{ trans.get_absolute_url }}">{% trans trans.language.name %}</a></th>
+<td class="percent">{{ percent }}%</td>
+<td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
+<td class="percent">{{ fuzzy }}%</td>
+</tr>
+{% endwith %}
 {% endfor %}
-</ul>
+</tbody>
+</table>
 
 {% url 'accounts.views.contact' as contact_url %}
 
