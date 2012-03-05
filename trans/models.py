@@ -296,6 +296,12 @@ class Translation(models.Model):
         self.revision = blob.hexsha
         self.save()
 
+    def get_author_name(self, request):
+        full_name = request.user.get_full_name()
+        if full_name == '':
+            full_name = request.user.username
+        return '%s <%s>' % (full_name, request.user.email)
+
     def git_commit(self, author):
         '''
         Commits translation to git.
@@ -336,7 +342,7 @@ class Translation(models.Model):
                 # We should have only one match
                 break
         if need_save:
-            author = '%s <%s>' % (request.user.get_full_name(), request.user.email)
+            author = self.get_author_name(request)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -394,7 +400,7 @@ class Translation(models.Model):
                         continue
                 unit1.merge(unit2, overwrite=overwrite)
         store1.save()
-        author = u'%s <%s>' % (request.user.get_full_name(), request.user.email)
+        author = self.get_author_name(request)
         ret = self.git_commit(author)
         self.check_sync()
         return ret
