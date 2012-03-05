@@ -6,6 +6,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
 from django.core.mail import mail_admins
 
+from accounts.models import set_lang
 from accounts.forms import ProfileForm, UserForm, ContactForm
 
 def profile(request):
@@ -16,6 +17,9 @@ def profile(request):
         if form.is_valid() and userform.is_valid():
             form.save()
             userform.save()
+            set_lang(request.user, request = request, user = request.user)
+            # Need to redirect to allow language change
+            return HttpResponseRedirect('/accounts/profile/')
     else:
         form = ProfileForm(instance = request.user.get_profile())
         userform = UserForm(instance = request.user)
