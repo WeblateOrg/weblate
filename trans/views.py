@@ -11,6 +11,7 @@ from django.contrib.auth.models import AnonymousUser
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from trans.forms import TranslationForm, UploadForm
 from util import is_plural, split_plural, join_plural
+from accounts.models import Profile
 import logging
 import os.path
 
@@ -19,8 +20,13 @@ logger = logging.getLogger('weblate')
 def home(request):
     projects = Project.objects.all()
 
+    top_translations = Profile.objects.order_by('-translated')[:10]
+    top_suggestions = Profile.objects.order_by('-suggested')[:10]
+
     return render_to_response('index.html', RequestContext(request, {
         'projects': projects,
+        'top_translations': top_translations,
+        'top_suggestions': top_suggestions,
         'title': settings.SITE_TITLE,
     }))
 

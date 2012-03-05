@@ -24,5 +24,44 @@
 </tbody>
 </table>
 
+<h2>{% trans "Users" %}</h2>
+
+<h3>{% trans "Best translators" %}</h3>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Translated" %}</th>
+</tr>
+<tbody>
+{% for u in top_translations %}
+<tr>
+<td>{{ u.user.get_full_name }}</td>
+<td class="percent">{{ u.translated }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<h3>{% trans "Best suggestions" %}</h3>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Suggested" %}</th>
+</tr>
+<tbody>
+{% for u in top_suggestions %}
+<tr>
+<td>{{ u.user.get_full_name }}</td>
+<td class="percent">{{ u.suggested }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+
 {% endblock %}
 
