@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-04 10:23+0100\n"
+"POT-Creation-Date: 2012-03-05 10:36+0100\n"
 "PO-Revision-Date: 2012-03-05 10:10+0100\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,7 +87,8 @@ msgstr "Heslo"
 #: html/profile.html:36
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
-msgstr "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
+msgstr ""
+"Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
 #: html/profile.html:40 html/translate.html:79
 msgid "Save"
@@ -228,8 +229,8 @@ msgid ""
 "There are %(count)s strings, out of which %(translated)s%% is translated and "
 "%(fuzzy)s%% is fuzzy."
 msgstr ""
-"Překlad čítá %(count)s řetězců, ze kterých je %(translated)s%% přeloženo a %"
-"(fuzzy)s%% nejasných."
+"Překlad čítá %(count)s řetězců, ze kterých je %(translated)s%% přeloženo a "
+"%(fuzzy)s%% nejasných."
 
 #: html/registration/activate.html:9
 #, python-format
@@ -266,8 +267,8 @@ msgstr[0] ""
 "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
 "    %(days)s den. \n"
 "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
-"znovu.</a>\n"
+"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
+"</a>\n"
 "    "
 msgstr[1] ""
 "\n"
@@ -275,8 +276,8 @@ msgstr[1] ""
 "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
 "    %(days)s dny. \n"
 "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
-"znovu.</a>\n"
+"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
+"</a>\n"
 "    "
 msgstr[2] ""
 "\n"
@@ -284,8 +285,8 @@ msgstr[2] ""
 "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
 "    %(days)s dnů. \n"
 "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
-"znovu.</a>\n"
+"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
+"</a>\n"
 "    "
 
 #: html/registration/login.html:11
@@ -366,21 +367,21 @@ msgstr "Větev Gitu k překladu"
 msgid "Mask of files to translate, use * istead of language code"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
 
-#: trans/models.py:345
+#: trans/models.py:350
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:350
+#: trans/models.py:355
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:352
+#: trans/models.py:357
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:354
+#: trans/models.py:359
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
@@ -401,11 +402,15 @@ msgstr "Chybný návrh!"
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:185
+#: trans/views.py:186
 msgid "File content successfully merged into translation."
 msgstr ""
 
-#: trans/views.py:187
+#: trans/views.py:188
+msgid "There were no new strings in uploaded file."
+msgstr ""
+
+#: trans/views.py:190
 #, python-format
 msgid "File content merge failed: %s"
 msgstr ""
