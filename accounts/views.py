@@ -27,6 +27,7 @@ def profile(request):
     return render_to_response('profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
+        'title': '%s @ %s' % (_('User profile'), settings.SITE_TITLE),
         }))
 
 def contact(request):
