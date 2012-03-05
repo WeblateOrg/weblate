@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 10:47+0100\n"
+"POT-Creation-Date: 2012-03-05 12:13+0100\n"
 "PO-Revision-Date: 2012-03-05 10:50+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 0.1\n"
+
+#: accounts/forms.py:25
+#, fuzzy
+msgid "Subject"
+msgstr "Podprojekty"
+
+#: accounts/forms.py:26
+msgid "Your name"
+msgstr ""
+
+#: accounts/forms.py:27
+msgid "Your email"
+msgstr ""
+
+#: accounts/forms.py:29
+msgid "Message"
+msgstr ""
 
 #: accounts/models.py:14
 msgid "Interface Language"
@@ -30,35 +47,57 @@ msgstr "Jazyky"
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
-#: html/base.html:4
+#: accounts/views.py:39
+msgid "Message has been sent to administrator."
+msgstr ""
+
+#: accounts/views.py:52
+msgid "Contact"
+msgstr ""
+
+#: html/base.html:5
 msgid "en"
 msgstr "cs"
 
-#: html/base.html:33
+#: html/base.html:34
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Přihlášen jako %(name)s"
 
-#: html/base.html:34
+#: html/base.html:35
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: html/base.html:36 html/registration/registration_form.html:49
+#: html/base.html:37 html/registration/registration_form.html:49
 msgid "Register"
 msgstr "Registrace"
 
-#: html/base.html:37 html/registration/login.html:30
+#: html/base.html:38 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: html/base.html:42
+#: html/base.html:43
 msgid "Home"
 msgstr "Domů"
 
-#: html/base.html:64
+#: html/base.html:65
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+
+#: html/base.html:66
+msgid "Contact us"
+msgstr ""
+
+#: html/contact.html:7
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+
+#: html/contact.html:13
+msgid "Send"
+msgstr ""
 
 #: html/index.html:6
 msgid "Projects"
@@ -114,19 +153,26 @@ msgstr "Emailová konference pro překladatele:"
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
 
-#: html/subproject.html:12 html/translate.html:41
+#: html/subproject.html:13 html/translate.html:41
 msgid "Translations"
 msgstr "Překlady"
 
-#: html/subproject.html:18
+#: html/subproject.html:19
 #, python-format
 msgid "(%(translated)s%% translated, %(fuzzy)s%% fuzzy)"
 msgstr "(%(translated)s%% přeloženo, %(fuzzy)s%% nejasných)"
 
-#: html/subproject.html:20
+#: html/subproject.html:21
 #, python-format
 msgid "(%(translated)s%% translated)"
 msgstr "(%(translated)s%% přeloženo)"
+
+#: html/subproject.html:29
+#, python-format
+msgid ""
+"Should your language be missing, plese <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">contact us</a>."
+msgstr ""
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
