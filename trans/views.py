@@ -120,6 +120,9 @@ def translate(request, project, subproject, lang):
 
     # Handle suggestions
     if 'accept' in request.GET or 'delete' in request.GET:
+        if not request.user.is_authenticated():
+            messages.add_message(request, messages.ERROR, _('You need to login to be able to manage suggestions!'))
+            return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay' % (obj.get_translate_url(), rqtype, pos))
         if 'accept' in request.GET:
             sugid = request.GET['accept']
         else:
