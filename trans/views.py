@@ -24,7 +24,7 @@ def home(request):
     if request.user.is_authenticated():
         profile = request.user.get_profile()
 
-        usertranslations = Translation.objects.filter(language__in = profile.languages.all())
+        usertranslations = Translation.objects.filter(language__in = profile.languages.all()).order_by('subproject__project__name', 'subproject__name')
 
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
