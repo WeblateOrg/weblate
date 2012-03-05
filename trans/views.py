@@ -181,8 +181,11 @@ def upload_translation(request, project, subproject, lang):
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'])
-                messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
+                ret = obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'])
+                if ret:
+                    messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
+                else:
+                    messages.add_message(request, messages.INFO, _('There were no new strings in uploaded file.'))
             except Exception, e:
                 messages.add_message(request, messages.ERROR, _('File content merge failed: %s' % str(e)))
 

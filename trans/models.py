@@ -291,12 +291,17 @@ class Translation(models.Model):
         Commits translation to git.
         '''
         repo = self.subproject.get_repo()
+        status = repo.git.status('--porcelain', '--', self.filename)
+        if status == '':
+            # No changes to commit
+            return False
         logger.info('Commiting %s as %s', self.filename, author)
         repo.git.commit(
             self.filename,
             author = author,
             m = settings.COMMIT_MESSAGE
             )
+        return True
 
     def update_unit(self, unit, request):
         '''
@@ -380,8 +385,9 @@ class Translation(models.Model):
                 unit1.merge(unit2, overwrite=overwrite)
         store1.save()
         author = u'%s <%s>' % (request.user.get_full_name(), request.user.email)
-        self.git_commit(author)
+        ret = self.git_commit(author)
         self.check_sync()
+        return ret
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
