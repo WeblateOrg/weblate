@@ -31,7 +31,11 @@ def contact(request):
             messages.add_message(request, messages.INFO, _('Message has been sent to administrator.'))
             return HttpResponseRedirect('/')
     else:
-        form = ContactForm()
+        initial = {}
+        if request.user.is_authenticated():
+            initial['name'] = request.user.get_full_name()
+            initial['email'] = request.user.email
+        form = ContactForm(initial = initial)
 
     return render_to_response('contact.html', RequestContext(request, {
         'form': form,
