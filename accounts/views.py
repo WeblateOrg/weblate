@@ -5,10 +5,12 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
 from django.core.mail import mail_admins
+from django.contrib.auth.decorators import login_required
 
 from accounts.models import set_lang
 from accounts.forms import ProfileForm, UserForm, ContactForm
 
+@login_required
 def profile(request):
 
     if request.method == 'POST':
