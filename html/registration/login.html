@@ -31,4 +31,9 @@
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
+<p>
+{% url 'registration.views.register' as register_url %}
+{% blocktrans %}Do not have an account yet? You can <a href="{{ register_url }}">register</a>.{% endblocktrans %}
+</p>
+
 {% endblock %}
