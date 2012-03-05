@@ -185,6 +185,10 @@ class SubProject(models.Model):
 
         self.create_translations()
 
+    def get_translated_percent(self):
+        translations = self.translation_set.aggregate(Sum('translated'), Sum('total'))
+        return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
+
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)

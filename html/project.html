@@ -11,10 +11,24 @@
 
 <h2>{% trans "Subprojects" %}</h2>
 
-<ul>
+<table>
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th colspan="2">{% trans "Translated" %}</th>
+</tr>
+<tbody>
 {% for prj in object.subproject_set.all %}
-<li><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></li>
+{% with prj.get_translated_percent as percent %}
+<tr>
+<th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
+<td class="percent">{{ percent }}%</td>
+<td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
+</tr>
+{% endwith %}
 {% endfor %}
 </ul>
+</tbody>
+</table>
 
 {% endblock %}
