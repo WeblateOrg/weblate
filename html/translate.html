@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load url from future %}
 {% load i18n %}
 {% load weblate %}
 
@@ -86,7 +87,10 @@
 {% if user.is_authenticated %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" />
 {% else %}
-{% blocktrans %}<a href="/accounts/login/">Login</a> for saving translations.{% endblocktrans %}
+{% url 'django.contrib.auth.views.login' as login_url %}
+{% with unit.translation.get_translate_url as translate_url %}
+{% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Login</a> for saving translations.{% endblocktrans %}
+{% endwith %}
 {% endif %}
 <input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" />
 </td></tr>
