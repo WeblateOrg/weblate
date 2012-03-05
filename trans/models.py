@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.conf import settings
 from lang.models import Language
+from django.db.models import Sum
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils.safestring import mark_safe
 from glob import glob
@@ -50,6 +51,11 @@ class Project(models.Model):
             os.makedirs(p)
 
         super(Project, self).save(*args, **kwargs)
+
+    def get_translated_percent(self):
+        translations = Translation.objects.filter(subproject__project = self).aggregate(Sum('translated'), Sum('total'))
+        return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
+
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))

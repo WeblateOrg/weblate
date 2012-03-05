@@ -18,4 +18,5 @@ $(document).ready(function(){
     });
     $('.accordion').accordion();
     $('.errorlist').addClass('ui-state-error ui-corner-all');
+    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
 });
