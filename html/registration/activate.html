@@ -11,6 +11,7 @@
     <b>{{ username }}</b>.{% endblocktrans %}
 </p>
 {% else %}
+<p>
     {% url 'registration.views.register' as reg_url %}
     {% blocktrans count expiration_days as days %}
     Your account could not be activated.
@@ -25,6 +26,7 @@
     If this is not the case, please contact the website administrator. 
     Otherwise, you may <a href="{{ reg_url }}">register again.</a>
     {% endblocktrans %}.
+</p>
 {% endif %}
 
 {% endblock %}
