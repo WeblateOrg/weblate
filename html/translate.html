@@ -78,10 +78,12 @@
 <td>{{ unit.get_location_links }}</td>
 </tr>
 {% endif %}
+{% if unit.flags %}
 <tr>
 <th>{% trans "Flags" %}</th>
 <td>{{ unit.flags }}</td>
 </tr>
+{% endif %}
 <tr><td></td><td>
 {% if user.is_authenticated %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" />
