@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 14:34+0100\n"
+"POT-Creation-Date: 2012-03-05 16:26+0100\n"
 "PO-Revision-Date: 2012-03-05 14:35+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,15 +42,19 @@ msgstr "Jazyk rozhraní"
 msgid "Languages"
 msgstr "Jazyky"
 
-#: accounts/models.py:24
+#: accounts/models.py:25
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
-#: accounts/views.py:43
+#: accounts/views.py:30
+msgid "User profile"
+msgstr ""
+
+#: accounts/views.py:44
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:56
+#: accounts/views.py:57
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -58,33 +62,33 @@ msgstr "Kontakt"
 msgid "en"
 msgstr "cs"
 
-#: html/base.html:34
+#: html/base.html:33
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Přihlášen jako %(name)s"
 
-#: html/base.html:35
+#: html/base.html:34
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: html/base.html:37 html/registration/registration_form.html:49
+#: html/base.html:36 html/registration/registration_form.html:49
 msgid "Register"
 msgstr "Registrace"
 
-#: html/base.html:38 html/registration/login.html:30
+#: html/base.html:37 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: html/base.html:43
+#: html/base.html:42
 msgid "Home"
 msgstr "Domů"
 
-#: html/base.html:65
+#: html/base.html:64
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:66
+#: html/base.html:65
 msgid "Contact us"
 msgstr "Napište nám"
 
@@ -100,49 +104,49 @@ msgstr ""
 msgid "Send"
 msgstr "Odeslat"
 
-#: html/index.html:6
+#: html/index.html:7
 msgid "Your translations"
 msgstr "Vaše překlady"
 
-#: html/index.html:11 html/subproject.html:18
+#: html/index.html:12 html/subproject.html:18
 msgid "Language"
 msgstr "Jazyk"
 
-#: html/index.html:12 html/index.html.py:35 html/index.html.py:58
+#: html/index.html:13 html/index.html.py:37 html/index.html.py:60
 #: html/project.html:18 html/subproject.html:19
 msgid "Translated"
 msgstr "Přeloženo"
 
-#: html/index.html:13 html/subproject.html:20 html/translate.html:46
+#: html/index.html:14 html/subproject.html:20 html/translate.html:44
 #: trans/forms.py:45
 msgid "Fuzzy"
 msgstr "Nejasný"
 
-#: html/index.html:29
+#: html/index.html:31
 msgid "Projects"
 msgstr "Projekty"
 
-#: html/index.html:34
+#: html/index.html:36
 msgid "Project"
 msgstr "Projekt"
 
-#: html/index.html:50
+#: html/index.html:52
 msgid "Users"
 msgstr "Uživatelé"
 
-#: html/index.html:52
+#: html/index.html:54
 msgid "Best translators"
 msgstr "Nejlepší překladatelé"
 
-#: html/index.html:57 html/index.html.py:75
+#: html/index.html:59 html/index.html.py:77
 msgid "User"
 msgstr "Uživatel"
 
-#: html/index.html:70
+#: html/index.html:72
 msgid "Best suggestions"
 msgstr "Nejlepší navrhovatelé"
 
-#: html/index.html:76
+#: html/index.html:78
 msgid "Suggested"
 msgstr "Navrhnuto"
 
@@ -172,7 +176,7 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: html/profile.html:40 html/translate.html:89
+#: html/profile.html:40 html/translate.html:87
 msgid "Save"
 msgstr "Uložit"
 
@@ -200,7 +204,7 @@ msgstr "Emailová konference pro překladatele:"
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
 
-#: html/subproject.html:13 html/translate.html:41
+#: html/subproject.html:13 html/translate.html:39
 msgid "Translations"
 msgstr "Překlady"
 
@@ -226,69 +230,69 @@ msgstr "větev %(branch)s"
 msgid "translate"
 msgstr "překlad"
 
-#: html/translate.html:16
+#: html/translate.html:14
 msgid "Translate"
 msgstr "Přeložit"
 
-#: html/translate.html:18
+#: html/translate.html:16
 #, python-format
 msgid "Showing string %(position)s out of %(total)s."
 msgstr "Zobrazuji řetězec %(position)s z %(total)s."
 
-#: html/translate.html:20
+#: html/translate.html:18
 msgid "First"
 msgstr "První"
 
-#: html/translate.html:21
+#: html/translate.html:19
 msgid "Previous"
 msgstr "Předchozí"
 
-#: html/translate.html:22
+#: html/translate.html:20
 msgid "Next"
 msgstr "Následující"
 
-#: html/translate.html:23
+#: html/translate.html:21
 msgid "Last"
 msgstr "Poslední"
 
-#: html/translate.html:33
+#: html/translate.html:31
 msgid "Source"
 msgstr "Zdroj"
 
-#: html/translate.html:38
+#: html/translate.html:36
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: html/translate.html:41
+#: html/translate.html:39
 msgid "Translation"
 msgstr "Překlad"
 
-#: html/translate.html:51
+#: html/translate.html:49
 msgid "Suggestions"
 msgstr "Návrhy"
 
-#: html/translate.html:58
+#: html/translate.html:56
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Navrhl %(user)s"
 
-#: html/translate.html:60
+#: html/translate.html:58
 msgid "Suggested by anonymous user"
 msgstr "Navrhl nepřihlášený uživatel"
 
-#: html/translate.html:77
+#: html/translate.html:75
 msgid "Used in"
 msgstr "Použito v"
 
-#: html/translate.html:83
+#: html/translate.html:81
 msgid "Flags"
 msgstr "Příznaky"
 
-#: html/translate.html:91
+#: html/translate.html:89
 msgid "<a href=\"/accounts/login/\">Login</a> for saving translations."
 msgstr "Pro ukládání překladů <a href=\"/accounts/login/\">se přihlaste</a>."
 
-#: html/translate.html:93
+#: html/translate.html:91
 msgid "Suggest"
 msgstr "Navrhnout"
 
@@ -469,21 +473,21 @@ msgstr "Větev Gitu k překladu"
 msgid "Mask of files to translate, use * istead of language code"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
 
-#: trans/models.py:360
+#: trans/models.py:366
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:365
+#: trans/models.py:371
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:367
+#: trans/models.py:373
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:369
+#: trans/models.py:375
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
