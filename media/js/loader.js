@@ -17,4 +17,5 @@ $(document).ready(function(){
         return false;
     });
     $('.accordion').accordion();
+    $('.errorlist').addClass('ui-state-error ui-corner-all');
 });
