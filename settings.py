@@ -146,6 +146,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'trans.context_processors.version',
     'trans.context_processors.title',
+    'trans.context_processors.date',
     )
 
 # A sample logging configuration. The only tangible logging
