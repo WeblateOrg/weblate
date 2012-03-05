@@ -493,6 +493,8 @@ class Unit(models.Model):
 
     def get_location_links(self):
         ret = []
+        if len(self.location) == 0:
+            return ''
         for location in self.location.split(','):
             location = location.strip()
             filename, line = location.split(':')
