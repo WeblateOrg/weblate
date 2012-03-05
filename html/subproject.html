@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load url from future %}
 
 {% block breadcums %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -22,6 +23,10 @@
 </a></li>
 {% endfor %}
 </ul>
+
+{% url 'accounts.views.contact' as contact_url %}
+
+<p>{% blocktrans %}Should your language be missing, plese <a href="{{ contact_url }}">contact us</a>.{% endblocktrans %}</li>
 
 {% endblock %}
 
