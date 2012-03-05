@@ -94,7 +94,7 @@ def translate(request, project, subproject, lang):
                         project = unit.translation.subproject.project,
                         user = request.user)
                     if request.user.is_authenticated():
-                        profile = request.user.getprofile()
+                        profile = request.user.get_profile()
                         profile.suggested += 1
                         profile.save()
                 elif not request.user.is_authenticated():
@@ -103,7 +103,7 @@ def translate(request, project, subproject, lang):
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
                     unit.save_backend(request)
-                    profile = request.user.getprofile()
+                    profile = request.user.get_profile()
                     profile.translated += 1
                     profile.save()
 
