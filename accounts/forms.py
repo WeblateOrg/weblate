@@ -23,6 +23,8 @@ class UserForm(forms.ModelForm):
 
 class ContactForm(forms.Form):
     subject = forms.CharField(label = _('Subject'), required = True)
+    name = forms.CharField(label = _('Your name'), required = True)
+    email = forms.EmailField(label = _('Your email'), required = True)
     message = forms.CharField(
         label = _('Message'),
         required = True,
