@@ -35,6 +35,8 @@ def contact(request):
         if request.user.is_authenticated():
             initial['name'] = request.user.get_full_name()
             initial['email'] = request.user.email
+        if 'subject' in request.GET:
+            initial['subject'] = request.GET['subject']
         form = ContactForm(initial = initial)
 
     return render_to_response('contact.html', RequestContext(request, {
