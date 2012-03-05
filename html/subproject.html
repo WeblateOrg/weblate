@@ -26,7 +26,7 @@
 
 {% url 'accounts.views.contact' as contact_url %}
 
-<p>{% blocktrans %}Should your language be missing, plese <a href="{{ contact_url }}">contact us</a>.{% endblocktrans %}</li>
+<p>{% blocktrans %}Should your language be missing, plese <a href="{{ contact_url }}?subject=New+language+request+for+{{ object }}">contact us</a>.{% endblocktrans %}</li>
 
 {% endblock %}
 
