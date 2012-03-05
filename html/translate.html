@@ -55,10 +55,12 @@
 <tr><td class="translatetext">{{ suggestion.target|fmttranslation }}</td></tr>
 <tr><td>
 {% blocktrans with suggestion.user.get_full_name as user %}Suggested by {{ user }}{% endblocktrans %}
+{% if user.is_authenticated %}
 <div class="suggestionactions">
 <a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;accept={{ suggestion.id }}" class="sug-accept">Accept</a>
 <a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;delete={{ suggestion.id }}" class="sug-delete">Delete</a>
 </div>
+{% endif %}
 </td>
 {% endfor %}
 </table>
