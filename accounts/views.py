@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
+from django.core.mail import mail_admins
 
 from accounts.forms import ProfileForm, UserForm, ContactForm
 
@@ -28,6 +29,13 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
+            mail_admins(
+                form.cleaned_data['subject'],
+                'Message from %s <%s>:\n\n%s' % (
+                    form.cleaned_data['name'],
+                    form.cleaned_data['email'],
+                    form.cleaned_data['message']
+                ))
             messages.add_message(request, messages.INFO, _('Message has been sent to administrator.'))
             return HttpResponseRedirect('/')
     else:
