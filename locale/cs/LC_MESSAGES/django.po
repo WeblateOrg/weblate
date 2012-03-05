@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-05 14:08+0100\n"
+"POT-Creation-Date: 2012-03-05 14:34+0100\n"
 "PO-Revision-Date: 2012-03-05 14:10+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,11 +46,11 @@ msgstr "Jazyky"
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
-#: accounts/views.py:39
+#: accounts/views.py:43
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:52
+#: accounts/views.py:56
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -101,35 +101,49 @@ msgid "Send"
 msgstr "Odeslat"
 
 #: html/index.html:6
-msgid "Projects"
-msgstr "Projekty"
+#, fuzzy
+msgid "Your translations"
+msgstr "Překlady"
 
-#: html/index.html:11
-msgid "Project"
-msgstr "Projekt"
+#: html/index.html:11 html/subproject.html:18
+msgid "Language"
+msgstr "Jazyk"
 
-#: html/index.html:12 html/index.html.py:35 html/project.html:18
-#: html/subproject.html:19
+#: html/index.html:12 html/index.html.py:35 html/index.html.py:58
+#: html/project.html:18 html/subproject.html:19
 msgid "Translated"
 msgstr "Přeloženo"
 
-#: html/index.html:27
+#: html/index.html:13 html/subproject.html:20 html/translate.html:46
+#: trans/forms.py:45
+msgid "Fuzzy"
+msgstr "Nejasný"
+
+#: html/index.html:29
+msgid "Projects"
+msgstr "Projekty"
+
+#: html/index.html:34
+msgid "Project"
+msgstr "Projekt"
+
+#: html/index.html:50
 msgid "Users"
 msgstr "Uživatelé"
 
-#: html/index.html:29
+#: html/index.html:52
 msgid "Best translators"
 msgstr "Nejlepší překladatelé"
 
-#: html/index.html:34 html/index.html.py:52
+#: html/index.html:57 html/index.html.py:75
 msgid "User"
 msgstr "Uživatel"
 
-#: html/index.html:47
+#: html/index.html:70
 msgid "Best suggestions"
 msgstr "Nejlepší navrhovatelé"
 
-#: html/index.html:53
+#: html/index.html:76
 msgid "Suggested"
 msgstr "Navrhnuto"
 
@@ -159,7 +173,7 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: html/profile.html:40 html/translate.html:85
+#: html/profile.html:40 html/translate.html:89
 msgid "Save"
 msgstr "Uložit"
 
@@ -190,14 +204,6 @@ msgstr "Návod pro překladatele:"
 #: html/subproject.html:13 html/translate.html:41
 msgid "Translations"
 msgstr "Překlady"
-
-#: html/subproject.html:18
-msgid "Language"
-msgstr "Jazyk"
-
-#: html/subproject.html:20 html/translate.html:46 trans/forms.py:45
-msgid "Fuzzy"
-msgstr "Nejasný"
 
 #: html/subproject.html:38
 #, python-format
@@ -271,19 +277,19 @@ msgstr "Navrhl %(user)s"
 msgid "Suggested by anonymous user"
 msgstr "Navrhl nepřihlášený uživatel"
 
-#: html/translate.html:76
+#: html/translate.html:77
 msgid "Used in"
 msgstr "Použito v"
 
-#: html/translate.html:80
+#: html/translate.html:83
 msgid "Flags"
 msgstr "Příznaky"
 
-#: html/translate.html:87
+#: html/translate.html:91
 msgid "<a href=\"/accounts/login/\">Login</a> for saving translations."
 msgstr "Pro ukládání překladů <a href=\"/accounts/login/\">se přihlaste</a>."
 
-#: html/translate.html:89
+#: html/translate.html:93
 msgid "Suggest"
 msgstr "Navrhnout"
 
@@ -483,35 +489,35 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/views.py:112
+#: trans/views.py:119
 msgid "You need to login to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:125
+#: trans/views.py:132
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:130
+#: trans/views.py:137
 msgid "You need to login to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:147
+#: trans/views.py:154
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:163
+#: trans/views.py:170
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:201
+#: trans/views.py:208
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:203
+#: trans/views.py:210
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:205
+#: trans/views.py:212
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
