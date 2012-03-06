@@ -15,7 +15,7 @@ Features
 --------
 
 * Easy web based translation
-* Propagation of translations accross sub-projects (for different branches)
+* Propagation of translations across sub-projects (for different branches)
 * Tight git integration
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
