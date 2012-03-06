@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-06 15:30+0100\n"
+"POT-Creation-Date: 2012-03-06 16:01+0100\n"
 "PO-Revision-Date: 2012-03-06 15:32+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,38 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 0.1\n"
 
-#: urls.py:26
+#: urls.py:32 urls.py:38
 msgid "User registration"
 msgstr "Registrace uživatele"
+
+#: urls.py:43
+msgid "Account activation"
+msgstr ""
+
+#: urls.py:49 html/base.html:37 html/registration/login.html:30
+msgid "Login"
+msgstr "Přihlásit"
+
+#: urls.py:56
+msgid "Logged out"
+msgstr ""
+
+#: urls.py:61
+#, fuzzy
+msgid "Change password"
+msgstr "Heslo"
+
+#: urls.py:65
+#, fuzzy
+msgid "Password changed"
+msgstr "Heslo (znovu)"
+
+#: urls.py:69 urls.py:73 urls.py:77 urls.py:81
+#: html/registration/password_reset_complete.html:4
+#: html/registration/password_reset_confirm.html:6
+#, fuzzy
+msgid "Password reset"
+msgstr "Heslo"
 
 #: accounts/forms.py:26
 msgid "Subject"
@@ -113,11 +142,8 @@ msgstr "Odhlásit"
 msgid "Register"
 msgstr "Registrace"
 
-#: html/base.html:37 html/registration/login.html:30
-msgid "Login"
-msgstr "Přihlásit"
-
-#: html/base.html:42
+#: html/base.html:42 html/registration/password_reset_complete.html:4
+#: html/registration/password_reset_confirm.html:4
 msgid "Home"
 msgstr "Domů"
 
@@ -473,6 +499,116 @@ msgstr "Děkujeme za použití Weblate!"
 #: html/registration/logout.html:9
 msgid "Login again"
 msgstr "Přihlásit znovu"
+
+#: html/registration/password_change_done.html:6
+msgid "Your password was changed."
+msgstr ""
+
+#: html/registration/password_change_form.html:11
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: html/registration/password_change_form.html:17
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: html/registration/password_change_form.html:22
+#: html/registration/password_reset_confirm.html:21
+msgid "Change my password"
+msgstr ""
+
+#: html/registration/password_reset_complete.html:6
+#: html/registration/password_reset_complete.html:10
+msgid "Password reset complete"
+msgstr ""
+
+#: html/registration/password_reset_complete.html:12
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: html/registration/password_reset_complete.html:14
+msgid "Log in"
+msgstr ""
+
+#: html/registration/password_reset_confirm.html:4
+#, fuzzy
+msgid "Password reset confirmation"
+msgstr "Informace o projektu"
+
+#: html/registration/password_reset_confirm.html:12
+msgid "Enter new password"
+msgstr ""
+
+#: html/registration/password_reset_confirm.html:14
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: html/registration/password_reset_confirm.html:18
+#, fuzzy
+msgid "New password:"
+msgstr "Heslo"
+
+#: html/registration/password_reset_confirm.html:20
+msgid "Confirm password:"
+msgstr ""
+
+#: html/registration/password_reset_confirm.html:26
+msgid "Password reset unsuccessful"
+msgstr ""
+
+#: html/registration/password_reset_confirm.html:28
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: html/registration/password_reset_done.html:7
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+
+#: html/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: html/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: html/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr ""
+
+#: html/registration/password_reset_email.html:10
+#, fuzzy
+msgid "Thanks for using our site!"
+msgstr "Děkujeme za použití Weblate!"
+
+#: html/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: html/registration/password_reset_form.html:6
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+
+#: html/registration/password_reset_form.html:10
+msgid "Reset my password"
+msgstr ""
 
 #: html/registration/registration_complete.html:7
 msgid ""
