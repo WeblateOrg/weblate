@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from accounts.models import Profile
 from django.contrib.auth.models import User
+from registration.forms import RegistrationFormUniqueEmail
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -31,3 +32,5 @@ class ContactForm(forms.Form):
         widget = forms.Textarea
     )
 
+class RegistrationForm(RegistrationFormUniqueEmail):
+    pass

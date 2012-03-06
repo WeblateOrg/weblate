@@ -1,5 +1,8 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
+
+from accounts.forms import RegistrationForm
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,6 +22,7 @@ urlpatterns = patterns('',
 
     # Auth
     url(r'^accounts/', include('registration.urls')),
+    url(r'^accoints/register/$', 'registration.views.register', {'form_class': RegistrationForm}, name='registration_register'),
     url(r'^accounts/profile/', 'accounts.views.profile'),
 
     url(r'^contact/', 'accounts.views.contact'),
