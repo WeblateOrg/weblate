@@ -17,7 +17,7 @@ class Command(BaseCommand):
         for code, props in data.languages.items():
             lang, created = Language.objects.get_or_create(
                 code = code)
-            lang.name = props[0].split(';')[-1]
+            lang.name = props[0].split(';')[0]
             lang.nplurals = props[1]
             lang.pluralequation = props[2]
             lang.save()
