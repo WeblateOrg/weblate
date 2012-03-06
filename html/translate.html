@@ -38,6 +38,12 @@
 <th class="source">{% trans "Source" %}</th>
 <td class="translatetext">{{ unit.source|fmttranslation }}</td>
 </tr>
+{% if unit.context %}
+<tr>
+<th>{% trans "Context" %}</th>
+<td>{{ unit.context }}</td>
+</tr>
+{% endif %}
 <tr>
 <td></td>
 <td><a href="#" id="copy-text">{% trans "Copy" %}</td>
