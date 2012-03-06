@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-06 15:15+0100\n"
+"POT-Creation-Date: 2012-03-06 15:30+0100\n"
 "PO-Revision-Date: 2012-03-06 14:55+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 0.1\n"
+
+#: urls.py:26
+msgid "User registration"
+msgstr "Registrace uživatele"
 
 #: accounts/forms.py:26
 msgid "Subject"
@@ -33,6 +37,32 @@ msgstr "Váš email"
 #: accounts/forms.py:30
 msgid "Message"
 msgstr "Zpráva"
+
+#: accounts/forms.py:36
+#, fuzzy
+msgid "First name"
+msgstr "První"
+
+#: accounts/forms.py:37
+#, fuzzy
+msgid "Last name"
+msgstr "Poslední"
+
+#: accounts/forms.py:43
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: accounts/forms.py:44
+msgid "Email address"
+msgstr ""
+
+#: accounts/forms.py:45 html/profile.html:33
+msgid "Password"
+msgstr "Heslo"
+
+#: accounts/forms.py:46
+msgid "Password (again)"
+msgstr "Heslo (znovu)"
 
 #: accounts/i18n.py:6
 msgid "This username is already taken. Please choose another."
@@ -81,7 +111,7 @@ msgstr "Přihlášen jako %(name)s"
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: html/base.html:36 html/registration/registration_form.html:49
+#: html/base.html:36 html/registration/registration_form.html:23
 msgid "Register"
 msgstr "Registrace"
 
@@ -175,10 +205,6 @@ msgstr "Účet"
 #: html/profile.html:31
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
-
-#: html/profile.html:33 html/registration/registration_form.html:33
-msgid "Password"
-msgstr "Heslo"
 
 #: html/profile.html:36
 #, python-format
@@ -463,25 +489,9 @@ msgstr ""
 msgid "Please fix errors in registration form."
 msgstr "Prosím opravte chyby v registračním formuláři."
 
-#: html/registration/registration_form.html:20
-msgid "User registration"
-msgstr "Registrace uživatele"
-
-#: html/registration/registration_form.html:21
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#: html/registration/registration_form.html:27
-msgid "E-mail"
-msgstr "E-mail"
-
-#: html/registration/registration_form.html:27
-msgid "(will be used as Git author)"
-msgstr "(bude použit jako autor v Gitu)"
-
-#: html/registration/registration_form.html:39
-msgid "Password (again)"
-msgstr "Heslo (znovu)"
+#: html/registration/registration_form.html:22
+msgid "By registering you agree to use your name and email in Git commits."
+msgstr ""
 
 #: trans/forms.py:48
 msgid "File"
@@ -587,6 +597,12 @@ msgstr "V nahraném souboru nebyly žádné nové řetězce."
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
+
+#~ msgid "E-mail"
+#~ msgstr "E-mail"
+
+#~ msgid "(will be used as Git author)"
+#~ msgstr "(bude použit jako autor v Gitu)"
 
 #~ msgid "en"
 #~ msgstr "cs"
