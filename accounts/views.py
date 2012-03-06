@@ -29,7 +29,7 @@ def profile(request):
     response = render_to_response('profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
-        'title': '%s @ %s' % (_('User profile'), settings.SITE_TITLE),
+        'title': _('User profile'),
         }))
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, request.user.get_profile().language)
     return response
@@ -58,5 +58,5 @@ def contact(request):
 
     return render_to_response('contact.html', RequestContext(request, {
         'form': form,
-        'title': '%s @ %s' % (_('Contact'), settings.SITE_TITLE),
+        'title': _('Contact'),
     }))

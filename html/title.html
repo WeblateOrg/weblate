@@ -1,5 +1,9 @@
 {% if title %}
-{{ title }}
+{{ title }} @ {{ site_title }}
+{% else %}
+{% if object %}
+{{ object }} @ {{ site_title }}
 {% else %}
 {{ site_title }}
+{% endif %}
 {% endif %}
