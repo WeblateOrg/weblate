@@ -23,7 +23,10 @@ urlpatterns = patterns('',
 
     # Auth
     url(r'^accounts/', include('registration.urls')),
-    url(r'^accoints/register/$', 'registration.views.register', {'form_class': RegistrationForm, 'extra_context': {'title': _('User registration')}}, name='registration_register'),
+    url(r'^accoints/register/$', 'registration.views.register', {
+            'form_class': RegistrationForm,
+            'extra_context': {'title': _('User registration')}},
+            name='registration_register'),
     url(r'^accounts/profile/', 'accounts.views.profile'),
 
     url(r'^contact/', 'accounts.views.contact'),
