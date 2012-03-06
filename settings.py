@@ -207,3 +207,5 @@ AUTH_PROFILE_MODULE = 'accounts.Profile'
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 EMAIL_SEND_HTML = False
+
+EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_TITLE
