@@ -16,36 +16,10 @@
 
 <form action="{% url 'registration.views.register' %}" method="post" accept-charset="utf-8">
 {% csrf_token %}
-<fieldset>
-        <legend>{% trans "User registration" %}</legend>
-        <label for="id_username">{% trans "Username" %}</label>
-        <p>{{ form.username }}
-                {% if form.username.errors %}
-                        <br /><span class="ui-state-error">* {{ form.username.errors|join:"; " }}</span>
-                {% endif %}
-        </p>
-        <label for="id_email">{% trans "E-mail" %} {% trans "(will be used as Git author)" %}</label>
-        <p>{{ form.email }}
-                {% if form.email.errors %}
-                        <br /><span class="ui-state-error">* {{ form.email.errors|join:"; " }}</span>
-                {% endif %}
-        </p>
-        <label for="id_password1">{% trans "Password" %}</label>
-        <p>{{ form.password1 }}
-                {% if form.password1.errors %}
-                        <br /><span class="ui-state-error">* {{ form.password1.errors|join:"; " }}</span>
-                {% endif %}
-        </p>
-        <label for="id_password2">{% trans "Password (again)" %}</label>
-        <p>{{ form.password2 }}
-                {% if form.password2.errors %}
-                        <br /><span class="ui-state-error">* {{ form.password2.errors|join:"; " }}</span>
-                {% endif %}
-        </p>
-        {% if form.non_field_errors %}
-                <ul class="ui-state-error">{{ form.non_field_errors.as_ul }}</ul>
-        {% endif %}
-</fieldset>
+<table>
+{{ form.as_table }}
+</table>
+<p>{% trans "By registering you agree to use your name and email in Git commits." %}</p>
 <p><input type="submit" value="{% trans 'Register' %}" /></p>
 </form>
 

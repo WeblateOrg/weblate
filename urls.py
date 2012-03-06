@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 
 from accounts.forms import RegistrationForm
@@ -22,7 +23,7 @@ urlpatterns = patterns('',
 
     # Auth
     url(r'^accounts/', include('registration.urls')),
-    url(r'^accoints/register/$', 'registration.views.register', {'form_class': RegistrationForm}, name='registration_register'),
+    url(r'^accoints/register/$', 'registration.views.register', {'form_class': RegistrationForm, 'extra_context': {'title': _('User registration')}}, name='registration_register'),
     url(r'^accounts/profile/', 'accounts.views.profile'),
 
     url(r'^contact/', 'accounts.views.contact'),

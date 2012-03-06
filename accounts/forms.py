@@ -33,4 +33,21 @@ class ContactForm(forms.Form):
     )
 
 class RegistrationForm(RegistrationFormUniqueEmail):
-    pass
+    first_name = forms.CharField(label = _('First name'))
+    last_name = forms.CharField(label = _('Last name'))
+
+    def __init__(self, *args, **kwargs):
+
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+
+        self.fields['username'].label = _('Username')
+        self.fields['email'].label = _('Email address')
+        self.fields['password1'].label = _('Password')
+        self.fields['password2'].label = _('Password (again)')
+
+    def save(self, *args, **kwargs):
+        new_user = super(RegistrationForm, self).save(*args, **kwargs)
+        new_user.first_name = self.cleaned_data['first_name']
+        new_user.last_name = self.cleaned_data['last_name']
+        new_user.save()
+        return new_user
