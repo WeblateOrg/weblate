@@ -44,6 +44,12 @@
 <td>{{ unit.context }}</td>
 </tr>
 {% endif %}
+{% if unit.comment %}
+<tr>
+<th>{% trans "Comments" %}</th>
+<td>{{ unit.comment }}</td>
+</tr>
+{% endif %}
 <tr>
 <td></td>
 <td><a href="#" id="copy-text">{% trans "Copy" %}</td>
