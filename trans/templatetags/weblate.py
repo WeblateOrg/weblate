@@ -31,6 +31,7 @@ def fmttranslation(value):
     return mark_safe(value)
 
 
-@register.simple_tag
-def site_title():
+@register.filter
+@stringfilter
+def site_title(value):
     return settings.SITE_TITLE
