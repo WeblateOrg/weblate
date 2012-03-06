@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ -z "$1" ] ; then
+    echo 'Usage: ./scripts/set-version VERSION'
+    exit 1
+fi
+
+sed -i "s/VERSION =.*/VERSION = '$1'/" trans/__init__.py
+
+# Update ChangeLog
+tmp=`mktemp`
+cp ChangeLog $tmp
+cat > ChangeLog <<EOT
+weblate $1
+-----------
+
+Relased on ? 2012.
+
+EOT
+cat >> ChangeLog < $tmp
+rm $tmp
