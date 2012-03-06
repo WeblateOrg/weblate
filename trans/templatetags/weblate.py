@@ -3,6 +3,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django import template
+from django.conf import settings
 import re
 
 from trans.util import split_plural
@@ -28,3 +29,8 @@ def fmttranslation(value):
         parts.append(value)
     value = '<hr />'.join(parts)
     return mark_safe(value)
+
+
+@register.simple_tag
+def site_title():
+    return settings.SITE_TITLE
