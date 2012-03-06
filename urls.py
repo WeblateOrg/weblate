@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', 'registration.views.register', {
             'form_class': RegistrationForm,
             'extra_context': {'title': _('User registration')}},
-            name='registration_register'),
+            name='weblate_register'),
     url(r'^accounts/', include('registration.urls')),
     url(r'^accounts/profile/', 'accounts.views.profile'),
 
