@@ -26,11 +26,13 @@ def profile(request):
         form = ProfileForm(instance = request.user.get_profile())
         userform = UserForm(instance = request.user)
 
-    return render_to_response('profile.html', RequestContext(request, {
+    response = render_to_response('profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
         'title': '%s @ %s' % (_('User profile'), settings.SITE_TITLE),
         }))
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, request.user.get_profile().language)
+    return response
 
 def contact(request):
     if request.method == 'POST':
