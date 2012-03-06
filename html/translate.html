@@ -23,7 +23,9 @@
 </span>
 </p>
 
+{% if search_query %}
 <p>{% blocktrans %}Searching for "{{ search_query }}".{% endblocktrans %}</p>
+{% endif %}
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">
 {% csrf_token %}
