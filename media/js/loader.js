@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(function() {
     $('.button').button();
     $('ul.menu li a').button();
     $('ul.breadcums').buttonset();
