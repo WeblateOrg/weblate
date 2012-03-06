@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-06 14:55+0100\n"
+"POT-Creation-Date: 2012-03-06 15:15+0100\n"
 "PO-Revision-Date: 2012-03-06 14:55+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,21 +18,35 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 0.1\n"
 
-#: accounts/forms.py:25
+#: accounts/forms.py:26
 msgid "Subject"
 msgstr "Předmět"
 
-#: accounts/forms.py:26
+#: accounts/forms.py:27
 msgid "Your name"
 msgstr "Vaše jméno"
 
-#: accounts/forms.py:27
+#: accounts/forms.py:28
 msgid "Your email"
 msgstr "Váš email"
 
-#: accounts/forms.py:29
+#: accounts/forms.py:30
 msgid "Message"
 msgstr "Zpráva"
+
+#: accounts/i18n.py:6
+msgid "This username is already taken. Please choose another."
+msgstr ""
+
+#: accounts/i18n.py:7
+msgid "You must type the same password each time"
+msgstr ""
+
+#: accounts/i18n.py:8
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
 
 #: accounts/models.py:14
 msgid "Interface Language"
@@ -50,11 +64,11 @@ msgstr "Alternativní jazyky"
 msgid "User profile"
 msgstr "Uživatelský profil"
 
-#: accounts/views.py:46
+#: accounts/views.py:48
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:59
+#: accounts/views.py:61
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -541,35 +555,35 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/views.py:146
+#: trans/views.py:142
 msgid "You need to login to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:164
+#: trans/views.py:160
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:169
+#: trans/views.py:165
 msgid "You need to login to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:191
+#: trans/views.py:187
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:217
+#: trans/views.py:213
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:261
+#: trans/views.py:256
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:263
+#: trans/views.py:258
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:265
+#: trans/views.py:260
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
