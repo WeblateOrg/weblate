@@ -23,6 +23,13 @@
 {% endif %}
 {% endwith %}
 
+<h2>{% trans "Search" %}</h2>
+
+<form action="{{ object.get_translate_url }}" method="GET">
+{{ search_form.as_p }}
+<input type="submit" value="{% trans "Search" %}" class="button" />
+</form>
+
 <h2>{% trans "Download" %}</h2>
 
 {% with object.get_download_url as download_url %}

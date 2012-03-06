@@ -16,17 +16,23 @@
 
 <p>{% blocktrans with unit.position as position %}Showing string {{ position }} out of {{ total }}.{% endblocktrans %}
 <span class="navi">
-<a class="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos=1&amp;dir=stay">{% trans "First" %}</a>
-<a class="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back">{% trans "Previous" %}</a>
-<a class="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}">{% trans "Next" %}</a>
-<a class="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ total }}&amp;dir=stay">{% trans "Last" %}</a>
+<a class="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
+<a class="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
+<a class="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
+<a class="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
 </span>
 </p>
+
+<p>{% blocktrans %}Searching for "{{ search_query }}".{% endblocktrans %}</p>
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">
 {% csrf_token %}
 <input type="hidden" name="type" value="{{ type }}" />
 <input type="hidden" name="oldpos" value="{{ unit.position }}" />
+<input type="hidden" name="q" value="{{ search_query }}" />
+<input type="hidden" name="src" value="{{ search_source }}" />
+<input type="hidden" name="tgt" value="{{ search_target }}" />
+<input type="hidden" name="ctx" value="{{ search_context }}" />
 <table class="translator">
 <tr>
 <th class="source">{% trans "Source" %}</th>
@@ -60,8 +66,8 @@
 {% endif %}
 {% if user.is_authenticated %}
 <div class="suggestionactions">
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;accept={{ suggestion.id }}" class="sug-accept">Accept</a>
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;delete={{ suggestion.id }}" class="sug-delete">Delete</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">Accept</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">Delete</a>
 </div>
 {% endif %}
 </td>

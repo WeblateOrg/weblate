@@ -7,9 +7,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
+from django.db.models import Q
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
-from trans.forms import TranslationForm, UploadForm
+from trans.forms import TranslationForm, UploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 import logging
@@ -56,11 +57,13 @@ def show_subproject(request, project, subproject):
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     form = UploadForm()
+    search_form = SearchForm()
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
         'title': '%s @ %s' % (obj.__unicode__(), settings.SITE_TITLE),
         'form': form,
+        'search_form': search_form,
     }))
 
 def download_translation(request, project, subproject, lang):
@@ -80,6 +83,11 @@ def download_translation(request, project, subproject, lang):
 
     return response
 
+def bool2str(val):
+    if val:
+        return 'on'
+    return ''
+
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
@@ -93,6 +101,25 @@ def translate(request, project, subproject, lang):
         pos = -1
 
     unit = None
+
+    s = SearchForm(request.GET)
+    if s.is_valid():
+        search_query = s.cleaned_data['q']
+        search_source = s.cleaned_data['src']
+        search_target = s.cleaned_data['tgt']
+        search_context = s.cleaned_data['ctx']
+        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s' % (
+            search_query,
+            bool2str(search_source),
+            bool2str(search_target),
+            bool2str(search_context)
+        )
+    else:
+        search_query = ''
+        search_source = True
+        search_target = True
+        search_context = True
+        search_url = ''
 
     # Any form submitted?
     if request.method == 'POST':
@@ -126,7 +153,12 @@ def translate(request, project, subproject, lang):
                     profile.save()
 
                 # Check and save
-                return HttpResponseRedirect('%s?type=%s&oldpos=%d' % (obj.get_translate_url(), rqtype, pos))
+                return HttpResponseRedirect('%s?type=%s&oldpos=%d%s' % (
+                    obj.get_translate_url(),
+                    rqtype,
+                    pos,
+                    search_url
+                ))
             except Unit.DoesNotExist:
                 logger.error('message %s disappeared!', form.cleaned_data['checksum'])
                 messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
@@ -135,7 +167,12 @@ def translate(request, project, subproject, lang):
     if 'accept' in request.GET or 'delete' in request.GET:
         if not request.user.is_authenticated():
             messages.add_message(request, messages.ERROR, _('You need to login to be able to manage suggestions!'))
-            return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay' % (obj.get_translate_url(), rqtype, pos))
+            return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                obj.get_translate_url(),
+                rqtype,
+                pos,
+                search_url
+            ))
         if 'accept' in request.GET:
             sugid = request.GET['accept']
         else:
@@ -152,7 +189,12 @@ def translate(request, project, subproject, lang):
             suggestion.delete()
         else:
             messages.add_message(request, messages.ERROR, _('Invalid suggestion!'))
-        return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay' % (obj.get_translate_url(), rqtype, pos))
+        return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+            obj.get_translate_url(),
+            rqtype,
+            pos,
+            search_url
+        ))
 
     # If we failed to get unit above or on no POST
     if unit is None:
@@ -163,6 +205,11 @@ def translate(request, project, subproject, lang):
             units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos).order_by('-position')
         else:
             units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
+        if search_query != '':
+            query = Q()
+            if search_source:
+                query |= Q(source__icontains = search_query)
+            units = units.filter(query)
 
         try:
             unit = units[0]
@@ -186,6 +233,12 @@ def translate(request, project, subproject, lang):
         'total': total,
         'type': rqtype,
         'form': form,
+        'search_query': search_query,
+        'search_url': search_url,
+        'search_query': search_query,
+        'search_source': bool2str(search_source),
+        'search_target': bool2str(search_target),
+        'search_context': bool2str(search_context),
     }))
 
 def get_string(request, checksum):

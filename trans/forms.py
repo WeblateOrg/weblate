@@ -47,3 +47,9 @@ class TranslationForm(forms.Form):
 class UploadForm(forms.Form):
     file  = forms.FileField(label = _('File'))
     overwrite = forms.BooleanField(label = _('Overwrite existing translations'), required = False)
+
+class SearchForm(forms.Form):
+    q = forms.CharField(label = _('Query'))
+    src = forms.BooleanField(label = _('Search in source strings'), required = False, initial = True)
+    tgt = forms.BooleanField(label = _('Search in target strings'), required = False, initial = True)
+    ctx = forms.BooleanField(label = _('Search in context strings'), required = False, initial = True)
