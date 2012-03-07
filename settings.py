@@ -147,6 +147,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'trans.context_processors.version',
     'trans.context_processors.title',
     'trans.context_processors.date',
+    'trans.context_processors.url',
     )
 
 # A sample logging configuration. The only tangible logging

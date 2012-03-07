@@ -14,3 +14,8 @@ def date(request):
         'current_year': datetime.utcnow().strftime('%Y'),
         'current_month': datetime.utcnow().strftime('%m'),
         }
+
+def url(request):
+    return {
+        'current_url': request.get_full_path(),
+    }
