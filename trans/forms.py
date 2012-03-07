@@ -18,11 +18,12 @@ class PluralTextarea(forms.Textarea):
         for idx, val in enumerate(value):
             if idx > 0:
                 fieldname = '%s_%d' % (name, idx)
+                attrs['id'] += '_%d' % idx
             else:
                 fieldname = name
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
             label = self.get_plural_label(idx)
-            ret.append('<label>%s</label>%s' % (label, textarea))
+            ret.append('<label for="%s">%s</label>%s' % (attrs['id'], label, textarea))
         return mark_safe('<br />'.join(ret))
 
     def value_from_datadict(self, data, files, name):
