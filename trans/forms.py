@@ -1,5 +1,5 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 
@@ -21,7 +21,11 @@ class PluralTextarea(forms.Textarea):
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
             label = lang.get_plural_label(idx)
             ret.append('<label class="plural" for="%s">%s</label>%s' % (attrs['id'], label, textarea))
-        return mark_safe('<br />'.join(ret))
+        pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
+            ugettext('This equation is used to identify which plural form will be used based on given count (n).'),
+            ugettext('Plural equation'),
+            lang.pluralequation)
+        return mark_safe('<br />'.join(ret) + pluralmsg)
 
     def value_from_datadict(self, data, files, name):
         ret = [data.get(name, None)]
