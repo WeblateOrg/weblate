@@ -8,17 +8,20 @@ fi
 
 sed -i "s/VERSION =.*/VERSION = '$1'/" trans/__init__.py
 
-# Update ChangeLog
+# Update docs/changes.rst
 tmp=`mktemp`
-cp ChangeLog $tmp
-cat > ChangeLog <<EOT
+cp docs/changes.rst $tmp
+cat > docs/changes.rst <<EOT
+Changes
+=======
+
 weblate $1
 -----------
 
 Relased on ? 2012.
 
 EOT
-cat >> ChangeLog < $tmp
+sed '1D;2D;3D' >> docs/changes.rst < $tmp
 rm $tmp
 
-git commit -a -m "Setting version to $1"
+#git commit -a -m "Setting version to $1"

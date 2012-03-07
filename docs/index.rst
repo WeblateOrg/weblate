@@ -12,12 +12,13 @@ Contents:
     :maxdepth: 2
 
     about
-    license
+    changes
     install
     config
     admin
     management
     todo
+    license
 
 
 Indices and tables
