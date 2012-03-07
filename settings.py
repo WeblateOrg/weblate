@@ -199,15 +199,20 @@ COMMIT_MESSAGE = 'Translated using Weblate.'
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
+# Default location for login
 LOGIN_REDIRECT_URL = '/'
 
+# How long activation mail is valid
 ACCOUNT_ACTIVATION_DAYS = 7
 
+# Profile module
 AUTH_PROFILE_MODULE = 'accounts.Profile'
 
-
+# Sending HTML in mails
 EMAIL_SEND_HTML = False
 
+# Subject of emails includes site title
 EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_TITLE
 
+# Enable remote hooks
 ENABLE_HOOKS = False
