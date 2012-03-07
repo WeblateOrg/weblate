@@ -14,6 +14,11 @@ Features
 * Upload and automatic merging of po files
 * Links to source files for context
 
+Documentation
+-------------
+
+Detailed documentation is available in docs/ directory in the sources.
+
 License
 -------
 
