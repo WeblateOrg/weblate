@@ -14,6 +14,8 @@ Contents:
     about
     license
     install
+    config
+    admin
     management
     todo
 
