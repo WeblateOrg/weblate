@@ -8,6 +8,7 @@ Relased on ? 2012.
 
 * Better display of source for plural translations.
 * New documentation in Sphinx format.
+* Displays secondary languages.
 
 weblate 0.2
 -----------
