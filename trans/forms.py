@@ -8,7 +8,11 @@ class PluralTextarea(forms.Textarea):
     Text area extension which possibly handles plurals.
     '''
     def render(self, name, value, attrs=None):
-        if type(value) != list:
+        if isinstance(value, tuple):
+            lang, value = value
+        else:
+            lang = None
+        if not isinstance(value, list):
             return super(PluralTextarea, self).render(name, value, attrs)
         ret = []
         for idx, val in enumerate(value):
