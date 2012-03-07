@@ -4,7 +4,6 @@ Weblate
 Weblate is web based translation tool. It is based on translate-toolkit and
 heavily uses git backed to store project.
 
-
 Features
 --------
 
@@ -14,20 +13,6 @@ Features
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
 * Links to source files for context
-
-Management commands
--------------------
-
-The ./manage.py is extended with following commands:
-
-loadpo
-    Reloads translations from disk (eg. in case you did some updates in Git
-    repository).
-setuplang
-    Setups list of languages (it has own list and all defined in
-    translate-toolkit).
-updategit
-    Fetches remote Git repositories and updates internal cache.
 
 License
 -------

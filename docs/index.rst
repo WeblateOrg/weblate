@@ -13,6 +13,7 @@ Contents:
 
     about
     install
+    management
     todo
 
 
