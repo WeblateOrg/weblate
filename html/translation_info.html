@@ -5,6 +5,6 @@
 {% endwith %}
 <p>
 {% with object.unit_set.all.count as count and object.get_translated_percent as translated and object.get_fuzzy_percent as fuzzy %}
-{% blocktrans %}There are {{ count }} strings, out of which {{ translated }}% is translated and {{ fuzzy }}% is fuzzy.{% endblocktrans %}
+{% blocktrans %}There are {{ count }} strings, out of which {{ translated }}&#37; is translated and {{ fuzzy }}&#37; is fuzzy.{% endblocktrans %}
 {% endwith %}
 </p>
