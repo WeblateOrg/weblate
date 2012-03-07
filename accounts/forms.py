@@ -42,6 +42,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
 
         self.fields['username'].label = _('Username')
         self.fields['email'].label = _('Email address')
+        self.fields['email'].help_text = _('Activation email will be sent here')
         self.fields['password1'].label = _('Password')
         self.fields['password2'].label = _('Password (again)')
 
