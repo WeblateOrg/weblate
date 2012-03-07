@@ -105,7 +105,10 @@ def translate(request, project, subproject, lang):
 
     unit = None
 
-    s = SearchForm(request.GET)
+    if request.method == 'POST':
+        s = SearchForm(request.POST)
+    else:
+        s = SearchForm(request.GET)
     if s.is_valid():
         search_query = s.cleaned_data['q']
         search_source = s.cleaned_data['src']
