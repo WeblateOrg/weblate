@@ -44,7 +44,9 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         self.fields['email'].label = _('Email address')
         self.fields['email'].help_text = _('Activation email will be sent here')
         self.fields['password1'].label = _('Password')
+        self.fields['password1'].help_text = _('At least six characters long')
         self.fields['password2'].label = _('Password (again)')
+        self.fields['password2'].help_text = _('Repeat the password so we can verify you typed it in correctly')
 
     def save(self, *args, **kwargs):
         new_user = super(RegistrationForm, self).save(*args, **kwargs)
@@ -52,3 +54,8 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         new_user.last_name = self.cleaned_data['last_name']
         new_user.save()
         return new_user
+
+    def clean_password1(self):
+        if len(self.cleaned_data['password1']) < 6:
+            raise forms.ValidationError(_(u'Passwords needs to have at least six characters.'))
+        return self.cleaned_data['password1']
