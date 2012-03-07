@@ -18,8 +18,12 @@ class Command(BaseCommand):
             lang, created = Language.objects.get_or_create(
                 code = code)
             lang.name = props[0].split(';')[0]
-            lang.nplurals = props[1]
-            lang.pluralequation = props[2]
+            if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
+                lang.nplurals = 4
+                lang.pluralequation = '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'
+            else:
+                lang.nplurals = props[1]
+                lang.pluralequation = props[2]
             lang.save()
         for props in EXTRALANGS:
             lang, created = Language.objects.get_or_create(
