@@ -221,6 +221,17 @@ def translate(request, project, subproject, lang):
 
         if profile:
             secondary = Unit.objects.filter(checksum = unit.checksum, translation__language__in = profile.secondary_languages.all())
+            # distinct('target') works with Django 1.4 so let's emulate that
+            # based on presumption we won't get too many results
+            targets = {}
+            res = []
+            for s in secondary:
+                if s.target in targets:
+                    continue
+                targets[s.target] = 1
+                res.append(s)
+            secondary = res
+
         # Prepare form
         form = TranslationForm(initial = {
             'checksum': unit.checksum,
