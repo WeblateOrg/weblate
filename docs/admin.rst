@@ -51,5 +51,5 @@ Interacting with others
 -----------------------
 
 You can trigger update of underlaying git repository for every subproject by
-accessing URL :file:`/hooks/project/subproject/update/`. This can be used for
+accessing URL :file:`/hooks/p/project/subproject/update/`. This can be used for
 example as as Post-Receive URLs on Github.
