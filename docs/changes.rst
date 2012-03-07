@@ -6,6 +6,9 @@ weblate 0.3
 
 Relased on ? 2012.
 
+* Better display of source for plural translations.
+* New documentation in Sphinx format.
+
 weblate 0.2
 -----------
 
