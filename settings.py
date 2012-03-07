@@ -204,7 +204,6 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 AUTH_PROFILE_MODULE = 'accounts.Profile'
 
-ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 EMAIL_SEND_HTML = False
 
