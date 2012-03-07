@@ -10,6 +10,20 @@ Adding new resources
 All translation resources need to be available as Git repositories and are
 organized as project/subproject structure.
 
+Weblate supports wide range of translation formats supported by translate
+toolkit, for example:
+
+* GNU Gettext
+* XLIFF
+* Java properties
+* Windows RC files
+* Qt Linguist .ts
+* Symbian localization files
+* CSV
+* INI
+
+.. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
+
 Project
 -------
 
