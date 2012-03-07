@@ -10,6 +10,7 @@ class PluralTextarea(forms.Textarea):
     def render(self, name, value, attrs=None):
         lang, value = value
         if not isinstance(value, list):
+            attrs['class'] = 'translation'
             return super(PluralTextarea, self).render(name, value, attrs)
         ret = []
         for idx, val in enumerate(value):
