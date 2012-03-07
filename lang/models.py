@@ -20,8 +20,8 @@ class Language(models.Model):
         '''
         Returns label for plural form.
         '''
+        if idx == 0:
+            return _('Singular')
         if self.pluralequation in ['(n != 1)', '(n > 1)', 'n > 1']:
-            if idx == 0:
-                return _('Singular')
             return _('Plural')
         return _('Plural form %d') % idx
