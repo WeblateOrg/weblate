@@ -20,7 +20,7 @@ class PluralTextarea(forms.Textarea):
                 fieldname = name
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
             label = lang.get_plural_label(idx)
-            ret.append('<label class="plural" for="%s">%s</label>%s' % (attrs['id'], label, textarea))
+            ret.append('<label class="plural" for="%s">%s</label><br />%s' % (attrs['id'], label, textarea))
         pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
             ugettext('This equation is used to identify which plural form will be used based on given count (n).'),
             ugettext('Plural equation'),
