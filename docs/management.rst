@@ -19,4 +19,7 @@ The ./manage.py is extended with following commands:
 
     Fetches remote Git repositories and updates internal cache.
 
+    You can either define which subproject to update (eg. ``weblate/master``) or
+    use ``--all`` to update all existing subprojects.
+
 
