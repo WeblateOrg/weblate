@@ -18,6 +18,7 @@ class PluralTextarea(forms.Textarea):
                 attrs['id'] += '_%d' % idx
             else:
                 fieldname = name
+            attrs['class'] = 'translation'
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
             label = lang.get_plural_label(idx)
             ret.append('<label class="plural" for="%s">%s</label><br />%s' % (attrs['id'], label, textarea))
