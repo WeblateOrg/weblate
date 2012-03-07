@@ -87,6 +87,11 @@ def bool2str(val):
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+    else:
+        profile = None
+
     # Check where we are
     rqtype = request.REQUEST.get('type', 'all')
     direction = request.REQUEST.get('dir', 'forward')
@@ -134,8 +139,7 @@ def translate(request, project, subproject, lang):
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
                         user = user)
-                    if request.user.is_authenticated():
-                        profile = request.user.get_profile()
+                    if profile is not None:
                         profile.suggested += 1
                         profile.save()
                 elif not request.user.is_authenticated():
@@ -144,9 +148,9 @@ def translate(request, project, subproject, lang):
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
                     unit.save_backend(request)
-                    profile = request.user.get_profile()
-                    profile.translated += 1
-                    profile.save()
+                    if profile is not None:
+                        profile.translated += 1
+                        profile.save()
 
                 # Check and save
                 return HttpResponseRedirect('%s?type=%s&oldpos=%d%s' % (
