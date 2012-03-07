@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext
+from django.contrib import messages
+from django.utils.safestring import mark_safe
 
 from lang.models import Language
 
@@ -35,8 +37,18 @@ class Profile(models.Model):
 
 @receiver(user_logged_in)
 def set_lang(sender, **kwargs):
-    lang_code = kwargs['user'].get_profile().language
-    kwargs['request'].session['django_language'] = lang_code
+    request = kwargs['request']
+    user = kwargs['user']
+    try:
+        profile = user.get_profile()
+    except Profile.DoesNotExist, e:
+        profile, newprofile = Profile.objects.get_or_create(user = user)
+        if newprofile:
+            profile.save
+            messages.add_message(request, messages.INFO,
+                mark_safe(gettext('Your profile has been migrated, you might want to adjust preferences.')))
+    lang_code = user.get_profile().language
+    request.session['django_language'] = lang_code
 
 def create_profile_callback(sender, **kwargs):
     '''
