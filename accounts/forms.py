@@ -66,7 +66,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
 
     def clean_password1(self):
         if len(self.cleaned_data['password1']) < 6:
-            raise forms.ValidationError(_(u'Passwords needs to have at least six characters.'))
+            raise forms.ValidationError(_(u'Password needs to have at least six characters.'))
         return self.cleaned_data['password1']
 
     def clean_username(self):
