@@ -92,6 +92,8 @@ def translate(request, project, subproject, lang):
     else:
         profile = None
 
+    secondary = None
+
     # Check where we are
     rqtype = request.REQUEST.get('type', 'all')
     direction = request.REQUEST.get('dir', 'forward')
@@ -217,6 +219,8 @@ def translate(request, project, subproject, lang):
             messages.add_message(request, messages.INFO, _('You have reached end of translating.'))
             return HttpResponseRedirect(obj.get_absolute_url())
 
+        if profile:
+            secondary = Unit.objects.filter(checksum = unit.checksum, translation__language__in = profile.secondary_languages.all())
         # Prepare form
         form = TranslationForm(initial = {
             'checksum': unit.checksum,
@@ -232,6 +236,7 @@ def translate(request, project, subproject, lang):
         'total': total,
         'type': rqtype,
         'form': form,
+        'secondary': secondary,
         'search_query': search_query,
         'search_url': search_url,
         'search_query': search_query,

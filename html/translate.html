@@ -36,6 +36,14 @@
 <input type="hidden" name="tgt" value="{{ search_target }}" />
 <input type="hidden" name="ctx" value="{{ search_context }}" />
 <table class="translator">
+{% if secondary %}
+{% for unit in secondary %}
+<tr>
+<th class="source">{% trans unit.translation.language.name %}</th>
+<td class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</td>
+</tr>
+{% endfor %}
+{% endif %}
 <tr>
 <th class="source">{% trans "Source" %}</th>
 <td class="translatetext">{{ unit.source|fmttranslation }}</td>
