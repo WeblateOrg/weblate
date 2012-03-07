@@ -1,3 +1,8 @@
+function text_change(e) {
+    $('#id_fuzzy').attr('checked', false);
+}
+
+
 $(function() {
     $('.button').button();
     $('ul.menu li a').button();
@@ -9,7 +14,7 @@ $(function() {
     $('.button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
     $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
     $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
-    $('#id_target').change(function f() {$('#id_fuzzy').attr('checked', false);}).focus();
+    $('#id_target').change(text_change).keypress(text_change).focus();
     $('#copy-text').button({text: false, icons: { primary: "ui-icon-arrowthick-1-s" }}).click(function f() {
         $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
             $('#id_target').text(data);
