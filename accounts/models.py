@@ -29,6 +29,9 @@ class Profile(models.Model):
     suggested = models.IntegerField(default = 0, db_index = True)
     translated = models.IntegerField(default = 0, db_index = True)
 
+    def __unicode__(self):
+        return self.user.username
+
 
 @receiver(user_logged_in)
 def set_lang(sender, **kwargs):
