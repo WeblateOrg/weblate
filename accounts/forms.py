@@ -22,6 +22,14 @@ class UserForm(forms.ModelForm):
             'email',
             ]
 
+    def __init__(self, *args, **kwargs):
+
+        super(UserForm, self).__init__(*args, **kwargs)
+
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
+
 class ContactForm(forms.Form):
     subject = forms.CharField(label = _('Subject'), required = True)
     name = forms.CharField(label = _('Your name'), required = True)
