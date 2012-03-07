@@ -32,3 +32,10 @@ and finds all translated files.
     might want to preseed these, repos are stored in path defined by
     :envvar:`GIT_ROOT` in :file:`settings.py` in :file:`<project>/<subproject>`
     directories.
+
+Interacting with others
+-----------------------
+
+You can trigger update of underlaying git repository for every subproject by
+accessing URL :file:`/hooks/project/subproject/update/`. This can be used for
+example as as Post-Receive URLs on Github.

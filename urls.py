@@ -20,6 +20,9 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.download_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_translation'),
 
+
+    url(r'^hooks/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.views.update_subproject'),
+
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
 
     # Admin interface

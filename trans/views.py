@@ -260,3 +260,9 @@ def upload_translation(request, project, subproject, lang):
                 messages.add_message(request, messages.ERROR, _('File content merge failed: %s' % str(e)))
 
     return HttpResponseRedirect(obj.get_absolute_url())
+
+def update_subproject(request, project, subproject):
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    obj.update_branch()
+    obj.create_translations()
+    return HttpResponse('updated')
