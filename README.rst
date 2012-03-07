@@ -21,30 +21,6 @@ Features
 * Upload and automatic merging of po files
 * Links to source files for context
 
-Requirements
-------------
-
-Django
-    https://www.djangoproject.com/
-Translate-toolkit
-    http://translate.sourceforge.net/wiki/toolkit/index
-GitPython (>= 0.3)
-    http://gitorious.org/projects/git-python/
-Django-registration
-    https://bitbucket.org/ubernostrum/django-registration/
-
-Installation
-------------
-
-Install all required components (see above), adjust settings.py and then run
-./manage.py syncdb to create database structure. Now you should be able to
-create translation projects using admin interface. You probably also want to
-run ./manage.py setuplang to get default list of languages.
-
-As setup of translation project includes fetching Git repositories, you might
-want to preseed these, repos are stored in path defined by GIT_ROOT in
-settings.py in <project>/<subproject> directories.
-
 Management commands
 -------------------
 
