@@ -4,12 +4,6 @@ Weblate
 Weblate is web based translation tool. It is based on translate-toolkit and
 heavily uses git backed to store project.
 
-Project goals
--------------
-
-Minimalistic web based translation with direct commit to git on each
-translation made. There is no plan in heavy conflict resolution as these
-should be primarily handled on git side.
 
 Features
 --------
@@ -34,16 +28,6 @@ setuplang
     translate-toolkit).
 updategit
     Fetches remote Git repositories and updates internal cache.
-
-Project name
-------------
-
-The project is named as mixture of words web and translate.
-
-Authors
--------
-
-This tool was written by Michal Čihař <michal@cihar.com>.
 
 License
 -------
