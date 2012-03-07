@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+VERSION=`python -c 'import trans; print trans.VERSION'`
+
+git tag -s weblate-$VERSION -m "Version $VERSION"
