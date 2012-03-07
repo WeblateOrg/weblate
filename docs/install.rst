@@ -16,13 +16,14 @@ Django-registration
 Installation
 ------------
 
-Install all required components (see above), adjust settings.py and then run
-./manage.py syncdb to create database structure. Now you should be able to
-create translation projects using admin interface. You probably also want to
-run ./manage.py setuplang to get default list of languages.
+Install all required components (see above), adjust :file:`settings.py` and
+then run :program:`./manage.py syncdb` to create database structure. Now you
+should be able to create translation projects using admin interface. You
+probably also want to run :program:`./manage.py setuplang` to get default list
+of languages.
 
 As setup of translation project includes fetching Git repositories, you might
 want to preseed these, repos are stored in path defined by GIT_ROOT in
-settings.py in <project>/<subproject> directories.
+:file:`settings.py` in :file:`<project>/<subproject>` directories.
 
 
