@@ -47,6 +47,8 @@ and finds all translated files.
     :envvar:`GIT_ROOT` in :file:`settings.py` in :file:`<project>/<subproject>`
     directories.
 
+.. _hooks:
+
 Interacting with others
 -----------------------
 

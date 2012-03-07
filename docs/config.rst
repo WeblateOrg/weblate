@@ -7,6 +7,12 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     Message used on each commit Weblate does.
 
+.. envvar:: ENABLE_HOOKS
+
+    Whether to enable anonymous remote hooks.
+
+    .. seealso:: :ref:`hooks`
+
 .. envvar:: GIT_ROOT
 
     Path where Weblate will store cloned Git repositories. Defaults to

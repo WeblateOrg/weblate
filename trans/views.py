@@ -3,7 +3,7 @@ from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
@@ -262,6 +262,8 @@ def upload_translation(request, project, subproject, lang):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 def update_subproject(request, project, subproject):
+    if not settings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     obj.update_branch()
     obj.create_translations()
