@@ -8,10 +8,7 @@ class PluralTextarea(forms.Textarea):
     Text area extension which possibly handles plurals.
     '''
     def render(self, name, value, attrs=None):
-        if isinstance(value, tuple):
-            self.lang, value = value
-        else:
-            self.lang = None
+        lang, value = value
         if not isinstance(value, list):
             return super(PluralTextarea, self).render(name, value, attrs)
         ret = []
@@ -22,7 +19,7 @@ class PluralTextarea(forms.Textarea):
             else:
                 fieldname = name
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
-            label = self.get_plural_label(idx)
+            label = lang.get_plural_label(idx)
             ret.append('<label class="plural" for="%s">%s</label>%s' % (attrs['id'], label, textarea))
         return mark_safe('<br />'.join(ret))
 
@@ -37,12 +34,6 @@ class PluralTextarea(forms.Textarea):
         if len(ret) == 0:
             return ret[0]
         return ret
-
-    def get_plural_label(self, idx):
-        '''
-        Returns label for plural form.
-        '''
-        return gettext('Plural form %d') % idx
 
 class PluralField(forms.CharField):
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):

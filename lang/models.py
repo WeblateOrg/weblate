@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext as _
 
 class Language(models.Model):
     code = models.SlugField(unique = True)
@@ -14,3 +15,10 @@ class Language(models.Model):
 
     def get_plural_form(self):
         return 'nplurals=%d; plural=%s;' % (self.nplurals, self.pluralequation)
+
+    def get_plural_label(self, idx):
+        '''
+        Returns label for plural form.
+        '''
+        print self.pluralequation
+        return _('Plural form %d') % idx
