@@ -23,7 +23,7 @@ class PluralTextarea(forms.Textarea):
                 fieldname = name
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
             label = self.get_plural_label(idx)
-            ret.append('<label for="%s">%s</label>%s' % (attrs['id'], label, textarea))
+            ret.append('<label class="plural" for="%s">%s</label>%s' % (attrs['id'], label, textarea))
         return mark_safe('<br />'.join(ret))
 
     def value_from_datadict(self, data, files, name):
