@@ -41,6 +41,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].label = _('Username')
+        self.fields['username'].help_text = _('At least five characters long')
         self.fields['email'].label = _('Email address')
         self.fields['email'].help_text = _('Activation email will be sent here')
         self.fields['password1'].label = _('Password')
@@ -59,3 +60,8 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         if len(self.cleaned_data['password1']) < 6:
             raise forms.ValidationError(_(u'Passwords needs to have at least six characters.'))
         return self.cleaned_data['password1']
+
+    def clean_username(self):
+        if len(self.cleaned_data['username']) < 5:
+            raise forms.ValidationError(_(u'Username needs to have at least five characters.'))
+        return super(RegistrationForm, self).clean_username()
