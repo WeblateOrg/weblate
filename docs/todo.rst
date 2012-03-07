@@ -1,3 +1,6 @@
+Planned features list
+=====================
+
 Possible features for future releases
 
 * Auto translate using some online service
