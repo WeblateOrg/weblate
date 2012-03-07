@@ -49,13 +49,13 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].label = _('Username')
-        self.fields['username'].help_text = _('At least five characters long')
+        self.fields['username'].help_text = _('At least five characters long.')
         self.fields['email'].label = _('Email address')
-        self.fields['email'].help_text = _('Activation email will be sent here')
+        self.fields['email'].help_text = _('Activation email will be sent here.')
         self.fields['password1'].label = _('Password')
-        self.fields['password1'].help_text = _('At least six characters long')
+        self.fields['password1'].help_text = _('At least six characters long.')
         self.fields['password2'].label = _('Password (again)')
-        self.fields['password2'].help_text = _('Repeat the password so we can verify you typed it in correctly')
+        self.fields['password2'].help_text = _('Repeat the password so we can verify you typed it in correctly.')
 
     def save(self, *args, **kwargs):
         new_user = super(RegistrationForm, self).save(*args, **kwargs)
