@@ -165,6 +165,9 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
+        'syslog': {
+            'format': 'weblate: %(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
         },
@@ -185,7 +188,7 @@ LOGGING = {
         'syslog':{
             'level':'DEBUG',
             'class':'logging.handlers.SysLogHandler',
-            'formatter': 'verbose',
+            'formatter': 'syslog',
             'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
         },
