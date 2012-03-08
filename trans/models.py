@@ -145,7 +145,7 @@ class SubProject(models.Model):
             repo.git.merge('--abort')
             logger.warning('failed merge on repo %s', self.__unicode__())
             mail_admins(
-                'failed merge on repo %s', self.__unicode__(),
+                'failed merge on repo %s' % self.__unicode__(),
                 'Error\n:%s' % str(e)
             )
 
