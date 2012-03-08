@@ -44,6 +44,7 @@ LANGUAGES = (
     ('en', 'English'),
     ('es', u'Español'),
     ('fr', u'Français'),
+    ('pl', 'Polski'),
     ('tr', u'Türkçe'),
 )
 
