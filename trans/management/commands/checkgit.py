@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from trans.models import SubProject
 from optparse import make_option
-from django.conf import settings
 
 class Command(BaseCommand):
     help = 'checks status of git repo'
@@ -15,7 +14,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        settings.LOGGING['loggers']['weblate']['handlers'] = ['console']
         if options['all']:
             for s in SubProject.objects.all():
                 r = s.get_repo()
