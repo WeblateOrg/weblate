@@ -15,6 +15,7 @@ handler404 = 'trans.views.not_found'
 
 urlpatterns = patterns('',
     url(r'^$', 'trans.views.home'),
+    url(r'^projects/$', 'django.views.generic.simple.redirect_to', {'url': '/'}),
     url(r'^projects/(?P<project>[^/]*)/$', 'trans.views.show_project'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_subproject'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_translation'),
