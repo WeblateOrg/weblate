@@ -10,6 +10,7 @@ Relased on ? 2012.
 * New documentation in Sphinx format.
 * Displays secondary languages while translating.
 * Improved error page to give list of existing projects.
+* New per language stats.
 
 weblate 0.2
 -----------
