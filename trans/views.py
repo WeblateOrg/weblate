@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
 from lang.models import Language
@@ -303,6 +304,7 @@ def upload_translation(request, project, subproject, lang):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+@csrf_exempt
 def update_subproject(request, project, subproject):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
