@@ -10,6 +10,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion
+from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
@@ -35,6 +36,19 @@ def home(request):
         'top_translations': top_translations,
         'top_suggestions': top_suggestions,
         'usertranslations': usertranslations,
+    }))
+
+def show_languages(request):
+    return render_to_response('languages.html', RequestContext(request, {
+        'languages': Language.objects.all(),
+        'title': _('Languages'),
+    }))
+
+def show_language(request, lang):
+    obj = get_object_or_404(Language, code = lang)
+
+    return render_to_response('language.html', RequestContext(request, {
+        'object': obj,
     }))
 
 def show_project(request, project):

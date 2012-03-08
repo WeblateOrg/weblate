@@ -23,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.download_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_translation'),
 
+    url(r'^languages/$', 'trans.views.show_languages'),
+    url(r'^languages/(?P<lang>[^/]*)/$', 'trans.views.show_language'),
 
     url(r'^hooks/p/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.views.update_subproject'),
 
