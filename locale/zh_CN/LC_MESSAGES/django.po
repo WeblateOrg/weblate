@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 11:35+0100\n"
+"POT-Creation-Date: 2012-03-08 13:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: urls.py:38 urls.py:44
+#: urls.py:40 urls.py:46
 msgid "User registration"
 msgstr ""
 
-#: urls.py:49
+#: urls.py:51
 msgid "Account activation"
 msgstr ""
 
-#: urls.py:55 html/base.html:38 html/registration/login.html:30
+#: urls.py:57 html/base.html:38 html/registration/login.html:30
 msgid "Login"
 msgstr ""
 
-#: urls.py:62
+#: urls.py:64
 msgid "Logged out"
 msgstr ""
 
-#: urls.py:67
+#: urls.py:69
 msgid "Change password"
 msgstr ""
 
-#: urls.py:71
+#: urls.py:73
 msgid "Password changed"
 msgstr ""
 
-#: urls.py:75 urls.py:79 urls.py:83 urls.py:87
+#: urls.py:77 urls.py:81 urls.py:85 urls.py:89
 msgid "Password reset"
 msgstr ""
 
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Interface Language"
 msgstr ""
 
-#: accounts/models.py:22
+#: accounts/models.py:22 html/index.html:91 trans/views.py:44
 msgid "Languages"
 msgstr ""
 
@@ -207,50 +207,66 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: html/index.html:7
+#: html/index.html:8
 msgid "Your translations"
 msgstr ""
 
-#: html/index.html:12 html/translate.html:68
+#: html/index.html:13 html/translate.html:62
 msgid "Translation"
 msgstr ""
 
-#: html/index.html:13 html/index.html.py:37 html/index.html.py:60
-#: html/project.html:18 html/subproject.html:19
+#: html/index.html:14 html/index.html.py:38 html/index.html.py:61
+#: html/language.html:16 html/languages.html:15 html/project.html:18
+#: html/subproject.html:19
 msgid "Translated"
 msgstr ""
 
-#: html/index.html:14 html/subproject.html:20 html/translate.html:73
+#: html/index.html:15 html/subproject.html:20 html/translate.html:67
 #: trans/forms.py:55
 msgid "Fuzzy"
 msgstr ""
 
-#: html/index.html:31
+#: html/index.html:32
 msgid "Projects"
 msgstr ""
 
-#: html/index.html:36
+#: html/index.html:37
 msgid "Project"
 msgstr ""
 
-#: html/index.html:52
+#: html/index.html:53
 msgid "Users"
 msgstr ""
 
-#: html/index.html:54
+#: html/index.html:55
 msgid "Best translators"
 msgstr ""
 
-#: html/index.html:59 html/index.html.py:77
+#: html/index.html:60 html/index.html.py:78
 msgid "User"
 msgstr ""
 
-#: html/index.html:72
+#: html/index.html:73
 msgid "Best suggestions"
 msgstr ""
 
-#: html/index.html:78
+#: html/index.html:79
 msgid "Suggested"
+msgstr ""
+
+#: html/index.html:95
+#, python-format
+msgid ""
+"There are also <a href=\"%(lang_url)s\">per language statistics</a> "
+"available."
+msgstr ""
+
+#: html/language.html:6 html/languages.html:6
+msgid "languages"
+msgstr ""
+
+#: html/language.html:15 html/languages.html:14 html/subproject.html:18
+msgid "Language"
 msgstr ""
 
 #: html/profile.html:11
@@ -302,12 +318,8 @@ msgstr ""
 msgid "Instructions for translators:"
 msgstr ""
 
-#: html/subproject.html:13 html/translate.html:68
+#: html/subproject.html:13 html/translate.html:62
 msgid "Translations"
-msgstr ""
-
-#: html/subproject.html:18
-msgid "Language"
 msgstr ""
 
 #: html/subproject.html:38
@@ -369,28 +381,28 @@ msgid "Context"
 msgstr ""
 
 #: html/translate.html:59
-msgid "Comments"
-msgstr ""
-
-#: html/translate.html:65
 msgid "Copy"
 msgstr ""
 
-#: html/translate.html:78
+#: html/translate.html:72
 msgid "Suggestions"
 msgstr ""
 
-#: html/translate.html:85
+#: html/translate.html:79
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr ""
 
-#: html/translate.html:87
+#: html/translate.html:81
 msgid "Suggested by anonymous user"
 msgstr ""
 
-#: html/translate.html:104
+#: html/translate.html:98
 msgid "Used in"
+msgstr ""
+
+#: html/translate.html:104
+msgid "Comments"
 msgstr ""
 
 #: html/translate.html:110
@@ -599,15 +611,15 @@ msgstr ""
 msgid "By registering you agree to use your name and email in Git commits."
 msgstr ""
 
-#: lang/models.py:24
+#: lang/models.py:25
 msgid "Singular"
 msgstr ""
 
-#: lang/models.py:26
+#: lang/models.py:27
 msgid "Plural"
 msgstr ""
 
-#: lang/models.py:27
+#: lang/models.py:28
 #, python-format
 msgid "Plural form %d"
 msgstr ""
@@ -692,39 +704,39 @@ msgstr ""
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/views.py:151
+#: trans/views.py:165
 msgid "You need to login to be able to save translations!"
 msgstr ""
 
-#: trans/views.py:169
+#: trans/views.py:183
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/views.py:174
+#: trans/views.py:188
 msgid "You need to login to be able to manage suggestions!"
 msgstr ""
 
-#: trans/views.py:196
+#: trans/views.py:210
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: trans/views.py:222
+#: trans/views.py:236
 msgid "You have reached end of translating."
 msgstr ""
 
-#: trans/views.py:283
+#: trans/views.py:298
 msgid "File content successfully merged into translation."
 msgstr ""
 
-#: trans/views.py:285
+#: trans/views.py:300
 msgid "There were no new strings in uploaded file."
 msgstr ""
 
-#: trans/views.py:287
+#: trans/views.py:302
 #, python-format
 msgid "File content merge failed: %s"
 msgstr ""
 
-#: trans/views.py:303
+#: trans/views.py:318
 msgid "Page Not Found"
 msgstr ""
