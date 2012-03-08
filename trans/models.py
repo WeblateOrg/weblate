@@ -137,16 +137,19 @@ class SubProject(models.Model):
         '''
         repo = self.get_repo()
         logger.info('pulling from remote repo %s', self.__unicode__())
-        repo.remotes.origin.pull()
+        repo.remotes.origin.update()
         try:
             repo.git.merge('origin/%s' % self.branch)
             logger.info('merged remote into repo %s', self.__unicode__())
         except Exception, e:
+            status = repo.git.status()
             repo.git.merge('--abort')
             logger.warning('failed merge on repo %s', self.__unicode__())
+            msg = 'Error:\n%s' % str(e)
+            msg += '\n\nStatus:\n' + status
             mail_admins(
                 'failed merge on repo %s' % self.__unicode__(),
-                'Error\n:%s' % str(e)
+                msg
             )
 
     def get_translation_blobs(self):
