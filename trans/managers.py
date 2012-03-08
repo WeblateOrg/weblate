@@ -27,14 +27,23 @@ class UnitManager(models.Manager):
             src = unit.source
         ctx = unit.getcontext()
         checksum = msg_checksum(src, ctx)
-        import trans.models
+        from trans.models import Unit
+        dbunit = None
         try:
             dbunit = self.get(
                 translation = translation,
                 checksum = checksum)
             force = False
-        except:
-            dbunit = trans.models.Unit(
+        except Unit.MultipleObjectsReturned:
+            # Some inconsistency (possibly race condition), try to recover
+            self.filter(
+                translation = translation,
+                checksum = checksum).delete()
+        except Unit.DoesNotExist:
+            pass
+
+        if dbunit is None:
+            dbunit = Unit(
                 translation = translation,
                 checksum = checksum,
                 source = src,

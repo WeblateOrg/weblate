@@ -148,7 +148,12 @@ def translate(request, project, subproject, lang):
         if form.is_valid():
             obj.check_sync()
             try:
-                unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
+                try:
+                    unit = Unit.objects.get(checksum = form.cleaned_data['checksum'], translation = obj)
+                except Unit.MultipleObjectsReturned:
+                    # Possible temporary inconsistency caused by ongoing update of repo,
+                    # let's pretend everyting is okay
+                    unit = Unit.objects.filter(checksum = form.cleaned_data['checksum'], translation = obj)[0]
                 if 'suggest' in request.POST:
                     user = request.user
                     if isinstance(user, AnonymousUser):
