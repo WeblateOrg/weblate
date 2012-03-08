@@ -186,6 +186,7 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.SysLogHandler',
             'formatter': 'verbose',
+            'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
         },
     },
