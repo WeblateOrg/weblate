@@ -1,10 +1,26 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h2>Page Not Found</h2>
 
 <p>
-The page you are looking for was not found.
+{% trans "The page you are looking for was not found." %}
 </p>
+
+{% if projects %}
+<p>{% trans "However there are following translation projects available on this server:" %}</p>
+
+<ul>
+{% for p in projects %}
+    <li><a href="{{ p.get_absolute.url }}">{{ p }}</a>
+        <ul>
+        {% for s in p.subproject_set.all %}
+            <li><a href="{{ s.get_absolute.url }}">{{ s.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
 
 {% endblock %}

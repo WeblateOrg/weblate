@@ -1,9 +1,9 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
-from django.template import RequestContext
+from django.template import RequestContext, loader
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
@@ -291,3 +291,11 @@ def update_subproject(request, project, subproject):
     obj.update_branch()
     obj.create_translations()
     return HttpResponse('updated')
+
+def not_found(request):
+    t = loader.get_template('404.html')
+    return HttpResponseNotFound(t.render(RequestContext(request, {
+        'request_path': request.path,
+        'title': _('Page Not Found'),
+        'projects': Project.objects.all(),
+    })))

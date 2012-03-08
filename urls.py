@@ -11,6 +11,8 @@ from accounts.forms import RegistrationForm
 
 admin.autodiscover()
 
+handler404 = 'trans.views.not_found'
+
 urlpatterns = patterns('',
     url(r'^$', 'trans.views.home'),
     url(r'^projects/(?P<project>[^/]*)/$', 'trans.views.show_project'),
