@@ -1,11 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h2>Server Error</h2>
+<h2>{% trans "Server Error" %}</h2>
 
 <p>
-The server had serious problems while serving your request. We've just sent our
-trained monkeys to fix the issue.
+{% blocktrans %}The server had serious problems while serving your request. We've just sent our trained monkeys to fix the issue.{% endblocktrans %}
 </p>
 
 {% endblock %}
