@@ -12,6 +12,7 @@ Contents:
     :maxdepth: 2
 
     about
+    usage
     changes
     install
     config
