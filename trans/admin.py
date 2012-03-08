@@ -19,6 +19,7 @@ admin.site.register(SubProject, SubProjectAdmin)
 class TranslationAdmin(admin.ModelAdmin):
     list_display = ['subproject', 'language', 'translated', 'fuzzy', 'revision', 'filename']
     search_fields = ['subproject__slug', 'language__code', 'translated', 'fuzzy', 'revision', 'filename']
+    list_filter = ['subproject__project', 'subproject', 'language']
 
 admin.site.register(Translation, TranslationAdmin)
 
