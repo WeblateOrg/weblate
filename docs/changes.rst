@@ -4,7 +4,7 @@ Changes
 weblate 0.3
 -----------
 
-Relased on ? 2012.
+Relased on February 8th 2012.
 
 * Better display of source for plural translations.
 * New documentation in Sphinx format.
