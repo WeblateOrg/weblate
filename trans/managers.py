@@ -39,7 +39,7 @@ class UnitManager(models.Manager):
             self.filter(
                 translation = translation,
                 checksum = checksum).delete()
-        except Unit.DoesNotExist
+        except Unit.DoesNotExist:
             pass
 
         if dbunit is None:
