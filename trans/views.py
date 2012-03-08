@@ -223,7 +223,11 @@ def translate(request, project, subproject, lang):
             return HttpResponseRedirect(obj.get_absolute_url())
 
         if profile:
-            secondary = Unit.objects.filter(checksum = unit.checksum, translation__subproject__project = unit.translation.subproject.project, translation__language__in = profile.secondary_languages.exclude(id = unit.translation.language.id))
+            secondary = Unit.objects.filter(
+                checksum = unit.checksum,
+                translation__subproject__project = unit.translation.subproject.project,
+                translation__language__in = profile.secondary_languages.exclude(id = unit.translation.language.id)
+            )
             # distinct('target') works with Django 1.4 so let's emulate that
             # based on presumption we won't get too many results
             targets = {}
