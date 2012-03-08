@@ -6,6 +6,7 @@ from lang.models import Language
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils.safestring import mark_safe
+from django.core.mail import mail_admins
 from glob import glob
 import os
 import os.path
@@ -140,9 +141,13 @@ class SubProject(models.Model):
         try:
             repo.git.merge('origin/%s' % self.branch)
             logger.info('merged remote into repo %s', self.__unicode__())
-        except:
+        except Exception, e:
             repo.git.merge('--abort')
             logger.warning('failed merge on repo %s', self.__unicode__())
+            mail_admins(
+                'failed merge on repo %s', self.__unicode__(),
+                'Error\n:%s' % str(e)
+            )
 
     def get_translation_blobs(self):
         '''
