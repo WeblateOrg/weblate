@@ -493,6 +493,7 @@ class Unit(models.Model):
             ).exclude(id = self.id)
             for unit in allunits:
                 unit.target = self.target
+                unit.fuzzy = self.fuzzy
                 unit.save_backend(request, False)
 
     def save(self, *args, **kwargs):
