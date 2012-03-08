@@ -9,6 +9,7 @@ Relased on ? 2012.
 * Better display of source for plural translations.
 * New documentation in Sphinx format.
 * Displays secondary languages while translating.
+* Improved error page to give list of existing projects.
 
 weblate 0.2
 -----------
