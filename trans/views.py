@@ -225,6 +225,7 @@ def translate(request, project, subproject, lang):
         if profile:
             secondary = Unit.objects.filter(
                 checksum = unit.checksum,
+                translated = True,
                 translation__subproject__project = unit.translation.subproject.project,
                 translation__language__in = profile.secondary_languages.exclude(id = unit.translation.language.id)
             )
