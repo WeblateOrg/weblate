@@ -10,7 +10,7 @@ class Command(BaseCommand):
             action='store_true',
             dest='all',
             default=False,
-            help='Force rereading files even when they should be up to date'),
+            help='Update all projects'),
         )
 
     def handle(self, *args, **options):
