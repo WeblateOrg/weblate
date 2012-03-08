@@ -12,10 +12,10 @@
 
 <ul>
 {% for p in projects %}
-    <li><a href="{{ p.get_absolute.url }}">{{ p }}</a>
+    <li><a href="{{ p.get_absolute_url }}">{{ p }}</a>
         <ul>
         {% for s in p.subproject_set.all %}
-            <li><a href="{{ s.get_absolute.url }}">{{ s.name }}</a></li>
+            <li><a href="{{ s.get_absolute_url }}">{{ s.name }}</a></li>
         {% endfor %}
         </ul>
     </li>
