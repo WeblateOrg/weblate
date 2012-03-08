@@ -28,7 +28,10 @@ def fmttranslation(value, language=None):
         value = re.sub(r'\r\n|\r|\n', '\n', value) # normalize newlines
         paras = re.split('\n', value)
         paras = [fmt_whitespace(p) for p in paras]
-        value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
+        if len(plurals) > 1:
+            value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
+        else:
+            value = ''
         value += '<br />'.join(paras)
         parts.append(value)
     value = '<hr />'.join(parts)
