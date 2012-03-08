@@ -4,7 +4,10 @@ Changes
 weblate 0.4
 -----------
 
-Relased on ? 2012.
+Relased on February 8th 2012.
+
+* Added usage guide to documentation.
+* Fixed API hooks not to require CSRF protection.
 
 weblate 0.3
 -----------
