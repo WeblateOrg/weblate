@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load url from future %}
 
 {% block content %}
 
@@ -86,6 +87,13 @@
 {% endfor %}
 </tbody>
 </table>
+
+<h2>{% trans "Languages" %}</h2>
+
+<p>
+{% url 'trans.views.show_languages' as lang_url %}
+{% blocktrans %}There are also <a href="{{ lang_url }}">per language statistics</a> available.{% endblocktrans %}
+</p>
 
 
 {% endblock %}
