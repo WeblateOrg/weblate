@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
+from logging.handlers import SysLogHandler
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -184,7 +185,8 @@ LOGGING = {
         'syslog':{
             'level':'DEBUG',
             'class':'logging.handlers.SysLogHandler',
-            'formatter': 'verbose'
+            'formatter': 'verbose',
+            'facility': SysLogHandler.LOG_LOCAL2,
         },
     },
     'loggers': {
