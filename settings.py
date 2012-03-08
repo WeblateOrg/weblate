@@ -42,6 +42,7 @@ LANGUAGE_CODE = 'en-us'
 LANGUAGES = (
     ('cs', u'Česky'),
     ('en', 'English'),
+    ('tr', u'Türkçe'),
 )
 
 SITE_ID = 1
