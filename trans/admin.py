@@ -12,6 +12,7 @@ class SubProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'project', 'repo', 'branch']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'repo', 'branch']
+    list_filter = ['project']
 
 admin.site.register(SubProject, SubProjectAdmin)
 
