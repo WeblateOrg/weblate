@@ -1,0 +1,8 @@
+#!/bin/sh
+ 
+REGX='^"POT-Creation-Date:.*'
+REPL=`grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/'`
+ 
+sed -i -e "s/$REGX/$REPL/" "$2"
+ 
+git merge-file -L "" -L "" -L "" "$2" "$1" "$3"
