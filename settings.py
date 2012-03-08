@@ -150,6 +150,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'trans.context_processors.url',
     )
 
+if DEBUG:
+    DEFAULT_LOG = 'console'
+else:
+    DEFAULT_LOG = 'syslog'
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
@@ -176,6 +181,11 @@ LOGGING = {
             'class':'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'syslog':{
+            'level':'DEBUG',
+            'class':'logging.handlers.SysLogHandler',
+            'formatter': 'verbose'
+        },
     },
     'loggers': {
         'django.request': {
@@ -184,7 +194,7 @@ LOGGING = {
             'propagate': True,
         },
         'weblate': {
-            'handlers': ['console'],
+            'handlers': [DEFAULT_LOG],
             'level':'DEBUG',
         }
     }
