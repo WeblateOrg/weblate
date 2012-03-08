@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block breadcums %}
+<li><a href="/languages/">{% trans "languages" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{% trans object.name %}</a></li>
+{% endblock %}
+
 {% block content %}
 
 <table>
