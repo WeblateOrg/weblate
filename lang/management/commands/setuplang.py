@@ -18,6 +18,10 @@ class Command(BaseCommand):
             lang, created = Language.objects.get_or_create(
                 code = code)
             lang.name = props[0].split(';')[0]
+            # Use shorter name
+            if code == 'ia':
+                lang.name = 'Interlingua'
+            # Workaround bug in data
             if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
                 lang.nplurals = 4
                 lang.pluralequation = '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'
