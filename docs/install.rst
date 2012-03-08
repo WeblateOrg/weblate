@@ -21,3 +21,11 @@ then run :program:`./manage.py syncdb` to create database structure. Now you
 should be able to create translation projects using admin interface. You
 probably also want to run :program:`./manage.py setuplang` to get default list
 of languages.
+
+Running server
+--------------
+
+Running Weblate is not different from running any other Django based
+application.
+
+.. seealso:: https://docs.djangoproject.com/en/1.3/howto/deployment/
