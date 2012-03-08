@@ -47,6 +47,31 @@ and finds all translated files.
     :envvar:`GIT_ROOT` in :file:`settings.py` in :file:`<project>/<subproject>`
     directories.
 
+Updating repositories
+---------------------
+
+You should set up some way how backend repositories are updated from their
+source. You can either use hooks (see :ref:`hooks`) or just regularly run
+:command:`./manage.py updategit --all`.
+
+With Gettext po files, you might be often bitten by conflict in PO file
+headers. To avoid it, you can use shipped merge driver
+(:file:`scripts/git-merge-gettext-po`). To use it just put following
+configuration to your :file:`.gitconfig`:
+
+.. code-block:: ini
+
+   [merge "merge-gettext-po"]
+     name = merge driver for gettext po files
+     driver = /path/to/weblate/scripts/git-merge-gettext-po %O %A %B
+
+And enable it's use by defining proper attributes in given repository (eg. in
+:file:`.git/info/attribute`)::
+
+    *.po merge=merge-gettext-po
+
+.. seealso:: http://www.no-ack.org/2010/12/writing-git-merge-driver-for-po-files.html
+
 .. _hooks:
 
 Interacting with others
