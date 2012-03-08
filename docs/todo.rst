@@ -11,3 +11,4 @@ Possible features for future releases
 * Glossary of frequently used term (per project)
 * Cleanup of database
     * not usable suggestions
+    * long not activated users
