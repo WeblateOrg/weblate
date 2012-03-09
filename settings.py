@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'trans',
     'lang',
     'accounts',
+    'weblate',
 )
 
 
