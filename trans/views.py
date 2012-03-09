@@ -260,9 +260,17 @@ def translate(request, project, subproject, lang):
             if search_exact:
                 if search_source:
                     query |= Q(source = search_query)
+                if search_target:
+                    query |= Q(target = search_query)
+                if search_context:
+                    query |= Q(context = search_query)
             else:
                 if search_source:
                     query |= Q(source__icontains = search_query)
+                if search_target:
+                    query |= Q(target__icontains = search_query)
+                if search_context:
+                    query |= Q(context__icontains = search_query)
 
             units = units.filter(query)
 
