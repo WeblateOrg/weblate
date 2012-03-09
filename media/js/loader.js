@@ -7,6 +7,9 @@ $(function() {
     $('.button').button();
     $('ul.menu li a').button();
     $('ul.breadcums').buttonset();
+    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
+    $('.accordion').accordion();
+    $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
     $('.navi').buttonset();
@@ -48,7 +51,4 @@ $(function() {
             });
         }
     }
-    $('.accordion').accordion();
-    $('.errorlist').addClass('ui-state-error ui-corner-all');
-    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
 });
