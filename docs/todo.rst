@@ -3,7 +3,6 @@ Planned features list
 
 Possible features for future releases
 
-* Auto translate using some online service
 * Checking of messages
     * \n at beginning/end
     * php-format
