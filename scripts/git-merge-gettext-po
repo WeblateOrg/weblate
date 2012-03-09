@@ -1,8 +1,18 @@
 #!/bin/sh
+
+# Usage: git-merge-gettext-po %O %A %B
+# First param is merge ancestors version
+# Second param is current version
+# Third param is other branches' version
  
 REGX='^"POT-Creation-Date:.*'
+
+# Grab date from other branch
 REPL=`grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/'`
  
+# Push it into other files
 sed -i -e "s/$REGX/$REPL/" "$2"
- 
+sed -i -e "s/$REGX/$REPL/" "$1"
+
+# Do merge on these changed files
 git merge-file -L "" -L "" -L "" "$2" "$1" "$3"
