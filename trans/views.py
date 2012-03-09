@@ -311,6 +311,9 @@ def translate(request, project, subproject, lang):
     }))
 
 def get_string(request, checksum):
+    '''
+    AJAX handler for getting raw string.
+    '''
     units = Unit.objects.filter(checksum = checksum)
     if units.count() == 0:
         return HttpResponse('')
@@ -319,6 +322,9 @@ def get_string(request, checksum):
 
 @login_required
 def upload_translation(request, project, subproject, lang):
+    '''
+    Handling of translation uploads.
+    '''
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     if request.method == 'POST':
@@ -337,6 +343,9 @@ def upload_translation(request, project, subproject, lang):
 
 @csrf_exempt
 def update_subproject(request, project, subproject):
+    '''
+    API hook for updating git repos.
+    '''
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
@@ -345,6 +354,9 @@ def update_subproject(request, project, subproject):
     return HttpResponse('updated')
 
 def not_found(request):
+    '''
+    Error handler showing list of available projects.
+    '''
     t = loader.get_template('404.html')
     return HttpResponseNotFound(t.render(RequestContext(request, {
         'request_path': request.path,
