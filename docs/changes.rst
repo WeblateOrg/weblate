@@ -10,6 +10,7 @@ Relased on ? 2012.
 * Several new translations.
 * Improved merging of upstream changes.
 * Better handle concurrent git pull and translation.
+* Propagating works for fuzzy changes as well.
 
 weblate 0.4
 -----------
