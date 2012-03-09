@@ -7,6 +7,9 @@ $(function() {
     $('.button').button();
     $('ul.menu li a').button();
     $('ul.breadcums').buttonset();
+    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
+    $('.accordion').accordion();
+    $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
     $('.navi').buttonset();
@@ -15,7 +18,7 @@ $(function() {
     $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
     $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('textarea.translation').change(text_change).keypress(text_change).autogrow().focus();
-    $('#copy-text').button({text: false, icons: { primary: "ui-icon-arrowthick-1-s" }}).click(function f() {
+    $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
         $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
             $('#id_target').text(data);
         });
@@ -34,7 +37,18 @@ $(function() {
             return false;
         });
     }
-    $('.accordion').accordion();
-    $('.errorlist').addClass('ui-state-error ui-corner-all');
-    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
+    if (typeof(Microsoft) != 'undefined' && typeof(target_language) != 'undefined') {
+        var langs = Microsoft.Translator.getLanguages();
+        if (langs.indexOf(target_language) != -1) {
+            $('#copy-text').after('<a href="#" id="translate-microsoft">' + gettext('Translate using Microsoft Translator') + '</a>');
+            $('#translate-microsoft').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
+                $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+                    Microsoft.Translator.translate(data, 'en', target_language, function (ret) {
+                        $('#id_target').text(ret);
+                    });
+                });
+                return false;
+            });
+        }
+    }
 });
