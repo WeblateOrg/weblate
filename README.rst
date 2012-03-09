@@ -4,6 +4,8 @@ Weblate
 Weblate is web based translation tool. It is based on translate-toolkit and
 heavily uses git backed to store project.
 
+Weblate has it's website at <http://weblate.org/>.
+
 Features
 --------
 
