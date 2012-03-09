@@ -34,7 +34,9 @@ function load_translate_apis() {
     $('#translate-mymemory').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
         $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
             $.getJSON("http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language, function(data) {
-                $('#id_target').text(data.responseData.translatedText);
+                if (data.responseData != '') {
+                    $('#id_target').text(data.responseData.translatedText);
+                }
             });
         });
     });
