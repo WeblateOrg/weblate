@@ -22,6 +22,11 @@ Detailed documentation is available in docs/ directory in the sources.
 The documentation can be also viewed online on
 <http://weblate.readthedocs.org/>.
 
+Bugs
+----
+
+Please report bugs to <https://github.com/nijel/weblate/issues>.
+
 License
 -------
 
