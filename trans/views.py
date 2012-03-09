@@ -183,7 +183,7 @@ def translate(request, project, subproject, lang):
                         profile.save()
                 elif not request.user.is_authenticated():
                     # We accept translations only from authenticated
-                    messages.add_message(request, messages.ERROR, _('You need to login to be able to save translations!'))
+                    messages.add_message(request, messages.ERROR, _('You need to log in to be able to save translations!'))
                 else:
                     # Update unit and save it
                     unit.target = join_plural(form.cleaned_data['target'])
@@ -208,7 +208,7 @@ def translate(request, project, subproject, lang):
     if 'accept' in request.GET or 'delete' in request.GET:
         # Check for authenticated users
         if not request.user.is_authenticated():
-            messages.add_message(request, messages.ERROR, _('You need to login to be able to manage suggestions!'))
+            messages.add_message(request, messages.ERROR, _('You need to log in to be able to manage suggestions!'))
             return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
                 obj.get_translate_url(),
                 rqtype,
