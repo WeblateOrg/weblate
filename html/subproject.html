@@ -18,6 +18,7 @@
 <th>{% trans "Language" %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
 <th>{% trans "Fuzzy" %}</th>
+<th></th>
 </tr>
 <tbody>
 {% for trans in object.translation_set.all %}
@@ -27,6 +28,7 @@
 <td class="percent">{{ percent }}%</td>
 <td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ fuzzy }}%</td>
+<td>{% if percent < 100 %}<a href="{{ trans.get_translate_url }}?type=untranslated">{% trans "Translate" %}</a>{% endif %}</td>
 </tr>
 {% endwith %}
 {% endfor %}
