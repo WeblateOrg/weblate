@@ -46,6 +46,7 @@ LANGUAGES = (
     ('fr', u'Français'),
     ('pl', 'Polski'),
     ('tr', u'Türkçe'),
+    ('zh_CN', u'中文'),
 )
 
 SITE_ID = 1
