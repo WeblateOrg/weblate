@@ -13,6 +13,10 @@ admin.autodiscover()
 
 handler404 = 'trans.views.not_found'
 
+js_info_dict = {
+    'packages': ('weblate',),
+}
+
 urlpatterns = patterns('',
     url(r'^$', 'trans.views.home'),
     url(r'^projects/$', 'django.views.generic.simple.redirect_to', {'url': '/'}),
@@ -29,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^hooks/p/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.views.update_subproject'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
+    url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
