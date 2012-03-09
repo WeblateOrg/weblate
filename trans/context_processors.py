@@ -19,3 +19,8 @@ def url(request):
     return {
         'current_url': request.get_full_path(),
     }
+
+def mt(request):
+    return {
+        'apertium_api_key': settings.MT_APERTIUM_KEY,
+    }
