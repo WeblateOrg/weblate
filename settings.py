@@ -154,6 +154,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'trans.context_processors.title',
     'trans.context_processors.date',
     'trans.context_processors.url',
+    'trans.context_processors.mt',
     )
 
 if DEBUG:
@@ -210,6 +211,11 @@ LOGGING = {
         }
     }
 }
+
+# Machine translation API keys
+
+# Apertium Web Service, register at http://api.apertium.org/register.jsp
+MT_APERTIUM_KEY = None
 
 # Path where git repositories are stored, it needs to be writable
 GIT_ROOT = '%s/repos/' % WEB_ROOT

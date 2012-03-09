@@ -275,6 +275,7 @@ def translate(request, project, subproject, lang):
         'total': total,
         'type': rqtype,
         'form': form,
+        'target_language': obj.language.code,
         'secondary': secondary,
         'search_query': search_query,
         'search_url': search_url,

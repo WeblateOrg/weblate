@@ -18,6 +18,10 @@ All settings are stored in :file:`settings.py` (as usual for Django).
     Path where Weblate will store cloned Git repositories. Defaults to
     :file:`repos` subdirectory.
 
+.. envvar:: MT_APERTIUM_KEY
+
+    API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
+
 .. envvar:: SITE_TITLE
 
     Site title to be used in website and emails as well.
