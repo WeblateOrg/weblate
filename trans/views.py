@@ -135,14 +135,16 @@ def translate(request, project, subproject, lang):
         s = SearchForm(request.GET)
     if s.is_valid():
         search_query = s.cleaned_data['q']
+        search_exact = s.cleaned_data['exact']
         search_source = s.cleaned_data['src']
         search_target = s.cleaned_data['tgt']
         search_context = s.cleaned_data['ctx']
-        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s' % (
+        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&exact=%s' % (
             search_query,
             bool2str(search_source),
             bool2str(search_target),
-            bool2str(search_context)
+            bool2str(search_context),
+            bool2str(search_exact),
         )
     else:
         search_query = ''
@@ -255,8 +257,21 @@ def translate(request, project, subproject, lang):
         # Apply search conditions
         if search_query != '':
             query = Q()
-            if search_source:
-                query |= Q(source__icontains = search_query)
+            if search_exact:
+                if search_source:
+                    query |= Q(source = search_query)
+                if search_target:
+                    query |= Q(target = search_query)
+                if search_context:
+                    query |= Q(context = search_query)
+            else:
+                if search_source:
+                    query |= Q(source__icontains = search_query)
+                if search_target:
+                    query |= Q(target__icontains = search_query)
+                if search_context:
+                    query |= Q(context__icontains = search_query)
+
             units = units.filter(query)
 
         # Grab actual unit
@@ -306,6 +321,7 @@ def translate(request, project, subproject, lang):
         'search_url': search_url,
         'search_query': search_query,
         'search_source': bool2str(search_source),
+        'search_exact': bool2str(search_exact),
         'search_target': bool2str(search_target),
         'search_context': bool2str(search_context),
     }))
