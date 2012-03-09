@@ -2,6 +2,11 @@ function text_change(e) {
     $('#id_fuzzy').attr('checked', false);
 }
 
+function mt_set(txt) {
+    $('#id_target').text(txt);
+    $('#id_fuzzy').attr('checked', true);
+}
+
 var loading = 0;
 
 function inc_loading() {
@@ -38,7 +43,7 @@ function load_translate_apis() {
                 inc_loading();
                 apertium.translate(data, 'en', target_language, function (ret) {
                     if (!ret.error) {
-                        $('#id_target').text(ret.translation);
+                        mt_set(ret.translation);
                     }
                     dec_loading();
                 });
@@ -53,7 +58,7 @@ function load_translate_apis() {
                 get_source_string(function(data) {
                     inc_loading();
                     Microsoft.Translator.translate(data, 'en', target_language, function (ret) {
-                        $('#id_target').text(ret);
+                        mt_set(ret);
                         dec_loading();
                     });
                 });
@@ -66,7 +71,7 @@ function load_translate_apis() {
             inc_loading();
             $.getJSON("http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language, function(data) {
                 if (data.responseData != '') {
-                    $('#id_target').text(data.responseData.translatedText);
+                    mt_set(data.responseData.translatedText);
                 }
                 dec_loading();
             });
@@ -91,7 +96,7 @@ $(function() {
     $('textarea.translation').change(text_change).keypress(text_change).autogrow().focus();
     $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
         get_source_string(function(data) {
-            $('#id_target').text(data);
+            mt_set(data);
         });
         return false;
     });
