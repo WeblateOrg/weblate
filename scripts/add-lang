@@ -1,3 +1,7 @@
 #!/bin/sh
 
+set -e
+
 ./manage.py makemessages -l $1 -i 'repos/*'
+git add locale/pt_BR/
+git commit -m "Added $1 language"
