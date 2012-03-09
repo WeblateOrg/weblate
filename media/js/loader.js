@@ -34,6 +34,20 @@ $(function() {
             return false;
         });
     }
+    if (typeof(Microsoft) != 'undefined' && typeof(target_language) != 'undefined') {
+        var langs = Microsoft.Translator.getLanguages();
+        if (langs.indexOf(target_language) != -1) {
+            $('#copy-text').after('<a href="#" id="translate-microsoft">' + gettext('Translate using Microsoft Translator') + '</a>');
+            $('#translate-microsoft').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
+                $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+                    Microsoft.Translator.translate(data, 'en', target_language, function (ret) {
+                        $('#id_target').text(ret);
+                    });
+                });
+                return false;
+            });
+        }
+    }
     $('.accordion').accordion();
     $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});

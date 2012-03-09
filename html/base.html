@@ -24,6 +24,9 @@
 {% if apertium_api_key %}
   <script type="text/javascript" src="http://api.apertium.org/JSLibrary.js?key={{ apertium_api_key }}"></script>
 {% endif %}
+{% if microsoft_api_key %}
+  <script type="text/javascript" src="http://api.microsofttranslator.com/v1/Ajax.svc/Embed?appId={{ microsoft_api_key }}"></script>
+{% endif %}
   <script type="text/javascript">
   var target_language = '{{ target_language }}';
   </script>

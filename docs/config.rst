@@ -22,6 +22,10 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
 
+.. envvar:: MT_MICROSOFT_KEY
+
+    API key for Microsoft Translator service, you can register at http://www.bing.com/developers/createapp.aspx
+
 .. envvar:: SITE_TITLE
 
     Site title to be used in website and emails as well.
