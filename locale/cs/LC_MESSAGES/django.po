@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-09 15:17+0100\n"
+"POT-Creation-Date: 2012-03-09 16:04+0100\n"
 "PO-Revision-Date: 2012-03-08 20:02+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,7 +219,7 @@ msgstr "Odeslat"
 msgid "Your translations"
 msgstr "Vaše překlady"
 
-#: html/index.html:13 html/translate.html:62
+#: html/index.html:13 html/translate.html:63
 msgid "Translation"
 msgstr "Překlad"
 
@@ -230,7 +230,7 @@ msgid "Translated"
 msgstr "Přeloženo"
 
 #: html/index.html:15 html/language.html:17 html/subproject.html:20
-#: html/translate.html:67 trans/forms.py:55
+#: html/translate.html:68 trans/forms.py:55
 msgid "Fuzzy"
 msgstr "Nejasný"
 
@@ -306,7 +306,7 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: html/profile.html:40 html/translate.html:116
+#: html/profile.html:40 html/translate.html:117
 msgid "Save"
 msgstr "Uložit"
 
@@ -334,7 +334,7 @@ msgstr "Emailová konference pro překladatele:"
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
 
-#: html/subproject.html:13 html/translate.html:62
+#: html/subproject.html:13 html/translate.html:63
 msgid "Translations"
 msgstr "Překlady"
 
@@ -386,44 +386,44 @@ msgstr "Poslední"
 msgid "Searching for \"%(search_query)s\"."
 msgstr "Vyhledávám \"%(search_query)s\"."
 
-#: html/translate.html:48
+#: html/translate.html:49
 msgid "Source"
 msgstr "Zdroj"
 
-#: html/translate.html:53
+#: html/translate.html:54
 msgid "Context"
 msgstr "Kontext"
 
-#: html/translate.html:59
+#: html/translate.html:60
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: html/translate.html:72
+#: html/translate.html:73
 msgid "Suggestions"
 msgstr "Návrhy"
 
-#: html/translate.html:79
+#: html/translate.html:80
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Navrhl %(user)s"
 
-#: html/translate.html:81
+#: html/translate.html:82
 msgid "Suggested by anonymous user"
 msgstr "Navrhl nepřihlášený uživatel"
 
-#: html/translate.html:98
+#: html/translate.html:99
 msgid "Used in"
 msgstr "Použito v"
 
-#: html/translate.html:104
+#: html/translate.html:105
 msgid "Comments"
 msgstr "Komentáře"
 
-#: html/translate.html:110
+#: html/translate.html:111
 msgid "Flags"
 msgstr "Příznaky"
 
-#: html/translate.html:120
+#: html/translate.html:121
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Login</a> for saving "
@@ -432,7 +432,7 @@ msgstr ""
 "Pro ukládání překladů <a href=\"%(login_url)s?next=%(translate_url)s\">se "
 "přihlaste</a>."
 
-#: html/translate.html:123
+#: html/translate.html:124
 msgid "Suggest"
 msgstr "Navrhnout"
 
@@ -716,30 +716,34 @@ msgid "Query"
 msgstr "Dotaz"
 
 #: trans/forms.py:63
+msgid "Exact match"
+msgstr ""
+
+#: trans/forms.py:64
 msgid "Search in source strings"
 msgstr "Vyhledávat ve zdrojových řetězcích"
 
-#: trans/forms.py:64
+#: trans/forms.py:65
 msgid "Search in target strings"
 msgstr "Vyhledávat ve přeložených řetězcích"
 
-#: trans/forms.py:65
+#: trans/forms.py:66
 msgid "Search in context strings"
 msgstr "Vyhledávat ve řetězcích kontextu"
 
-#: trans/models.py:62
+#: trans/models.py:64
 msgid "Name to display"
 msgstr "Zobrazené jméno"
 
-#: trans/models.py:63
+#: trans/models.py:65
 msgid "Name used in URLs"
 msgstr "Jméno použité v URL"
 
-#: trans/models.py:65
+#: trans/models.py:67
 msgid "URL of Git repository"
 msgstr "URL Git repozitáře"
 
-#: trans/models.py:66
+#: trans/models.py:68
 #, python-format
 msgid ""
 "Link to repository browser, use %(file)s and %(line)s as filename and line "
@@ -748,67 +752,67 @@ msgstr ""
 "Odkaz na prohlížení Gitu, použijte %(file)s a %(line)s místo jména souboru a "
 "řádky"
 
-#: trans/models.py:67
+#: trans/models.py:69
 msgid "Git branch to translate"
 msgstr "Větev Gitu k překladu"
 
-#: trans/models.py:68
+#: trans/models.py:70
 msgid "Mask of files to translate, use * istead of language code"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
 
-#: trans/models.py:374
+#: trans/models.py:382
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:379
+#: trans/models.py:387
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:381
+#: trans/models.py:389
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:383
+#: trans/models.py:391
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/views.py:184
+#: trans/views.py:186
 msgid "You need to login to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:203
+#: trans/views.py:205
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:209
+#: trans/views.py:211
 msgid "You need to login to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:235
+#: trans/views.py:237
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:266
+#: trans/views.py:281
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:336
+#: trans/views.py:352
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:338
+#: trans/views.py:354
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:340
+#: trans/views.py:356
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
 
-#: trans/views.py:363
+#: trans/views.py:379
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 

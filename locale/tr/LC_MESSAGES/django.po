@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-09 15:17+0100\n"
+"POT-Creation-Date: 2012-03-09 16:04+0100\n"
 "PO-Revision-Date: 2012-03-09 13:56+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -223,7 +223,7 @@ msgstr "Gönder"
 msgid "Your translations"
 msgstr "Çevirileriniz"
 
-#: html/index.html:13 html/translate.html:62
+#: html/index.html:13 html/translate.html:63
 msgid "Translation"
 msgstr "Çeviri"
 
@@ -234,7 +234,7 @@ msgid "Translated"
 msgstr "Çevrilen"
 
 #: html/index.html:15 html/language.html:17 html/subproject.html:20
-#: html/translate.html:67 trans/forms.py:55
+#: html/translate.html:68 trans/forms.py:55
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
@@ -308,7 +308,7 @@ msgstr "Adınız ve epostanız Git sunumlarında hazırlayan olarak görünecek.
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "<a href=\"%(pw_url)s\">Ayrı sayfada</a> parolayı değiştirebilirsiniz."
 
-#: html/profile.html:40 html/translate.html:116
+#: html/profile.html:40 html/translate.html:117
 msgid "Save"
 msgstr "Kaydet"
 
@@ -336,7 +336,7 @@ msgstr "Çevirmenler için postalama listesi:"
 msgid "Instructions for translators:"
 msgstr "Çevirmenler için talimatlar:"
 
-#: html/subproject.html:13 html/translate.html:62
+#: html/subproject.html:13 html/translate.html:63
 msgid "Translations"
 msgstr "Çeviriler"
 
@@ -388,44 +388,44 @@ msgstr "Son"
 msgid "Searching for \"%(search_query)s\"."
 msgstr "\"%(search_query)s\" için aranıyor."
 
-#: html/translate.html:48
+#: html/translate.html:49
 msgid "Source"
 msgstr "Kaynak"
 
-#: html/translate.html:53
+#: html/translate.html:54
 msgid "Context"
 msgstr "Bağlam"
 
-#: html/translate.html:59
+#: html/translate.html:60
 msgid "Copy"
 msgstr "Kopyala"
 
-#: html/translate.html:72
+#: html/translate.html:73
 msgid "Suggestions"
 msgstr "Öneriler"
 
-#: html/translate.html:79
+#: html/translate.html:80
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "%(user)s tarafından önerildi"
 
-#: html/translate.html:81
+#: html/translate.html:82
 msgid "Suggested by anonymous user"
 msgstr "İsimsiz kullanıcı tarafından önerildi"
 
-#: html/translate.html:98
+#: html/translate.html:99
 msgid "Used in"
 msgstr "Kullanıldığı yer"
 
-#: html/translate.html:104
+#: html/translate.html:105
 msgid "Comments"
 msgstr "Yorumlar"
 
-#: html/translate.html:110
+#: html/translate.html:111
 msgid "Flags"
 msgstr "İşaretler"
 
-#: html/translate.html:120
+#: html/translate.html:121
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Login</a> for saving "
@@ -434,7 +434,7 @@ msgstr ""
 "Çevirileri kaydetmek için <a href=\"%(login_url)s?next=%(translate_url)s"
 "\">oturum aç</a>."
 
-#: html/translate.html:123
+#: html/translate.html:124
 msgid "Suggest"
 msgstr "Öner"
 
@@ -701,30 +701,34 @@ msgid "Query"
 msgstr "Sorgu"
 
 #: trans/forms.py:63
+msgid "Exact match"
+msgstr ""
+
+#: trans/forms.py:64
 msgid "Search in source strings"
 msgstr "Kaynak satırlarda ara"
 
-#: trans/forms.py:64
+#: trans/forms.py:65
 msgid "Search in target strings"
 msgstr "Hedef satırlarda ara"
 
-#: trans/forms.py:65
+#: trans/forms.py:66
 msgid "Search in context strings"
 msgstr "Bağlam satırlarında ara"
 
-#: trans/models.py:62
+#: trans/models.py:64
 msgid "Name to display"
 msgstr "Görüntülemek için ad"
 
-#: trans/models.py:63
+#: trans/models.py:65
 msgid "Name used in URLs"
 msgstr "URL'lede kullanılan ad"
 
-#: trans/models.py:65
+#: trans/models.py:67
 msgid "URL of Git repository"
 msgstr "Git havuzu URL'si"
 
-#: trans/models.py:66
+#: trans/models.py:68
 #, python-format
 msgid ""
 "Link to repository browser, use %(file)s and %(line)s as filename and line "
@@ -733,66 +737,66 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, %(file)s ve %(line)s, dosya adı ve satır yer "
 "tutucuları olarak kullan"
 
-#: trans/models.py:67
+#: trans/models.py:69
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models.py:68
+#: trans/models.py:70
 msgid "Mask of files to translate, use * istead of language code"
 msgstr "Çevirmek için dosyaların maskesi, dil kodu yerine * kullan"
 
-#: trans/models.py:374
+#: trans/models.py:382
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:379
+#: trans/models.py:387
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Çevrilmemiş satırlar (%d)"
 
-#: trans/models.py:381
+#: trans/models.py:389
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satırlar (%d)"
 
-#: trans/models.py:383
+#: trans/models.py:391
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satırlar (%d)"
 
-#: trans/views.py:184
+#: trans/views.py:186
 msgid "You need to login to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekir!"
 
-#: trans/views.py:203
+#: trans/views.py:205
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz mesaj bundan böyle mevcut değil!"
 
-#: trans/views.py:209
+#: trans/views.py:211
 msgid "You need to login to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekir!"
 
-#: trans/views.py:235
+#: trans/views.py:237
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:266
+#: trans/views.py:281
 msgid "You have reached end of translating."
 msgstr "Çevirinin sonuna geldiniz."
 
-#: trans/views.py:336
+#: trans/views.py:352
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:338
+#: trans/views.py:354
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:340
+#: trans/views.py:356
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:363
+#: trans/views.py:379
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
