@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 0.5
+-----------
+
+Relased on ? 2012.
+
 weblate 0.4
 -----------
 
