@@ -23,12 +23,14 @@ logger = logging.getLogger('weblate')
 def home(request):
     projects = Project.objects.all()
 
+    # Load user translations if user is authenticated
     usertranslations = None
     if request.user.is_authenticated():
         profile = request.user.get_profile()
 
         usertranslations = Translation.objects.filter(language__in = profile.languages.all()).order_by('subproject__project__name', 'subproject__name')
 
+    # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
 
@@ -80,15 +82,21 @@ def show_translation(request, project, subproject, lang):
 def download_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
+    # Retrieve ttkit store to get extension and mime type
     store = obj.get_store()
     srcfilename = obj.get_filename()
     mime = store.Mimetypes[0]
     ext = store.Extensions[0]
+
+    # Construct file name (do not use real filename as it is usually not that useful)
     filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
 
+    # Django wrapper for sending file
     wrapper = FileWrapper(file(srcfilename))
 
     response = HttpResponse(wrapper, mimetype = mime)
+
+    # Fill in response headers
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     response['Content-Length'] = os.path.getsize(srcfilename)
 
@@ -120,6 +128,7 @@ def translate(request, project, subproject, lang):
 
     unit = None
 
+    # Pre-process search form
     if request.method == 'POST':
         s = SearchForm(request.POST)
     else:
@@ -146,6 +155,7 @@ def translate(request, project, subproject, lang):
     if request.method == 'POST':
         form = TranslationForm(request.POST)
         if form.is_valid():
+            # Check whether translation is not outdated
             obj.check_sync()
             try:
                 try:
@@ -155,6 +165,7 @@ def translate(request, project, subproject, lang):
                     # let's pretend everyting is okay
                     unit = Unit.objects.filter(checksum = form.cleaned_data['checksum'], translation = obj)[0]
                 if 'suggest' in request.POST:
+                    # Handle suggesion saving
                     user = request.user
                     if isinstance(user, AnonymousUser):
                         user = None
@@ -164,20 +175,23 @@ def translate(request, project, subproject, lang):
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
                         user = user)
+                    # Update suggestion stats
                     if profile is not None:
                         profile.suggested += 1
                         profile.save()
                 elif not request.user.is_authenticated():
+                    # We accept translations only from authenticated
                     messages.add_message(request, messages.ERROR, _('You need to login to be able to save translations!'))
                 else:
+                    # Update unit and save it
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
                     unit.save_backend(request)
-                    if profile is not None:
-                        profile.translated += 1
-                        profile.save()
+                    # Update stats
+                    profile.translated += 1
+                    profile.save()
 
-                # Check and save
+                # Redirect to next entry
                 return HttpResponseRedirect('%s?type=%s&oldpos=%d%s' % (
                     obj.get_translate_url(),
                     rqtype,
@@ -188,8 +202,9 @@ def translate(request, project, subproject, lang):
                 logger.error('message %s disappeared!', form.cleaned_data['checksum'])
                 messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
 
-    # Handle suggestions
+    # Handle accepting/deleting suggestions
     if 'accept' in request.GET or 'delete' in request.GET:
+        # Check for authenticated users
         if not request.user.is_authenticated():
             messages.add_message(request, messages.ERROR, _('You need to login to be able to manage suggestions!'))
             return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
@@ -198,6 +213,8 @@ def translate(request, project, subproject, lang):
                 pos,
                 search_url
             ))
+
+        # Parse suggestion ID
         if 'accept' in request.GET:
             sugid = request.GET['accept']
         else:
@@ -210,10 +227,14 @@ def translate(request, project, subproject, lang):
 
         if suggestion is not None:
             if 'accept' in request.GET:
+                # Accept suggesiont
                 suggestion.accept(request)
+            # Delete suggestion in both cases (accepted ones are no longer needed)
             suggestion.delete()
         else:
             messages.add_message(request, messages.ERROR, _('Invalid suggestion!'))
+
+        # Redirect to same entry for possible editing
         return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
             obj.get_translate_url(),
             rqtype,
@@ -223,25 +244,29 @@ def translate(request, project, subproject, lang):
 
     # If we failed to get unit above or on no POST
     if unit is None:
-        # What unit to show
+        # What unit set is about to show
         if direction == 'stay':
             units = obj.unit_set.filter(position = pos)
         elif direction == 'back':
             units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos).order_by('-position')
         else:
             units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
+
+        # Apply search conditions
         if search_query != '':
             query = Q()
             if search_source:
                 query |= Q(source__icontains = search_query)
             units = units.filter(query)
 
+        # Grab actual unit
         try:
             unit = units[0]
         except IndexError:
             messages.add_message(request, messages.INFO, _('You have reached end of translating.'))
             return HttpResponseRedirect(obj.get_absolute_url())
 
+        # Show secondary languages for logged in users
         if profile:
             secondary = Unit.objects.filter(
                 checksum = unit.checksum,
