@@ -2,11 +2,17 @@ function text_change(e) {
     $('#id_fuzzy').attr('checked', false);
 }
 
+function get_source_string(callback) {
+    $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+        callback(data);
+    });
+}
+
 function load_translate_apis() {
     if (typeof(apertium) != 'undefined' && apertium.isTranslatablePair('en', target_language)) {
         $('#copy-text').after('<a href="#" id="translate-apertium">' + gettext('Translate using Apertium') + '</a>');
         $('#translate-apertium').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
-            $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+            get_source_string(function(data) {
                 apertium.translate(data, 'en', target_language, function (ret) {
                     if (!ret.error) {
                         $('#id_target').text(ret.translation);
@@ -21,7 +27,7 @@ function load_translate_apis() {
         if (langs.indexOf(target_language) != -1) {
             $('#copy-text').after('<a href="#" id="translate-microsoft">' + gettext('Translate using Microsoft Translator') + '</a>');
             $('#translate-microsoft').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
-                $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+                get_source_string(function(data) {
                     Microsoft.Translator.translate(data, 'en', target_language, function (ret) {
                         $('#id_target').text(ret);
                     });
@@ -32,7 +38,7 @@ function load_translate_apis() {
     }
     $('#copy-text').after('<a href="#" id="translate-mymemory">' + gettext('Translate using MyMemory') + '</a>');
     $('#translate-mymemory').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
-        $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+        get_source_string(function(data) {
             $.getJSON("http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language, function(data) {
                 if (data.responseData != '') {
                     $('#id_target').text(data.responseData.translatedText);
@@ -58,7 +64,7 @@ $(function() {
     $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('textarea.translation').change(text_change).keypress(text_change).autogrow().focus();
     $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
-        $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+        get_source_string(function(data) {
             $('#id_target').text(data);
         });
         return false;
