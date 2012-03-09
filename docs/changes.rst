@@ -6,7 +6,10 @@ weblate 0.5
 
 Relased on ? 2012.
 
-* Support for machine translation using Apertium and Microsoft Translator.
+* Support for machine translation using following online services:
+    * Apertium 
+    * Microsoft Translator
+    * MyMemory
 * Several new translations.
 * Improved merging of upstream changes.
 * Better handle concurrent git pull and translation.

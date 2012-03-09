@@ -66,3 +66,38 @@ As an anonymous user, you have no other choice than making a suggestion.
 However if you are logged in you can still decide to make only a suggestion
 instead of saving translation, for example in case you are unsure about the
 translation and you want somebody else to review it.
+
+Machine translation
+-------------------
+
+Based on configuration and your language, Weblate provides buttons for following
+machine translation tools.
+
+MyMemory
+++++++++
+
+Huge translation memory with machine translation.
+
+.. seealso::
+
+    http://mymemory.translated.net/
+
+Apertium
+++++++++
+
+A free/open-source machine translation platform providing translation to
+limited set of lanugages.
+
+.. seealso::
+
+    http://www.apertium.org/
+
+Microsoft Translator
+++++++++++++++++++++
+
+Machine translation service. Weblate is currently using deprecated v1 API,
+which might stop working in future.
+
+.. seealso::
+
+    http://www.microsofttranslator.com/
