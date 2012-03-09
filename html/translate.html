@@ -118,7 +118,7 @@
 {% else %}
 {% url 'django.contrib.auth.views.login' as login_url %}
 {% with unit.translation.get_translate_url as translate_url %}
-{% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Login</a> for saving translations.{% endblocktrans %}
+{% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
 {% endwith %}
 {% endif %}
 <input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" />
