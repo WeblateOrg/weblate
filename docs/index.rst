@@ -18,7 +18,6 @@ Contents:
     config
     admin
     management
-    todo
     license
 
 
