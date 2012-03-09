@@ -8,10 +8,14 @@ function get_source_string(callback) {
     });
 }
 
+function add_translate_button(id, text, callback) {
+    $('#copy-text').after('<a href="#" id="translate-' + id + '">' + text + '</a>');
+    $('#translate-' + id).button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(callback);
+}
+
 function load_translate_apis() {
     if (typeof(apertium) != 'undefined' && apertium.isTranslatablePair('en', target_language)) {
-        $('#copy-text').after('<a href="#" id="translate-apertium">' + gettext('Translate using Apertium') + '</a>');
-        $('#translate-apertium').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
+        add_translate_button('apertium', gettext('Translate using Apertium'), function () {
             get_source_string(function(data) {
                 apertium.translate(data, 'en', target_language, function (ret) {
                     if (!ret.error) {
@@ -25,8 +29,7 @@ function load_translate_apis() {
     if (typeof(Microsoft) != 'undefined') {
         var langs = Microsoft.Translator.getLanguages();
         if (langs.indexOf(target_language) != -1) {
-            $('#copy-text').after('<a href="#" id="translate-microsoft">' + gettext('Translate using Microsoft Translator') + '</a>');
-            $('#translate-microsoft').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
+            add_translate_button('microsoft', gettext('Translate using Microsoft Translator'), function () {
                 get_source_string(function(data) {
                     Microsoft.Translator.translate(data, 'en', target_language, function (ret) {
                         $('#id_target').text(ret);
@@ -36,8 +39,7 @@ function load_translate_apis() {
             });
         }
     }
-    $('#copy-text').after('<a href="#" id="translate-mymemory">' + gettext('Translate using MyMemory') + '</a>');
-    $('#translate-mymemory').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
+    add_translate_button('mymemory', gettext('Translate using MyMemory'), function () {
         get_source_string(function(data) {
             $.getJSON("http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language, function(data) {
                 if (data.responseData != '') {
