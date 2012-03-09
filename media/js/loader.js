@@ -22,8 +22,8 @@ $(function() {
         return false;
     });
     if (typeof(apertium) != 'undefined' && typeof(target_language) != 'undefined' && apertium.isTranslatablePair('en', target_language)) {
-        $('#copy-text').after('<a href="#" id="translate-apertium">Apertium</a>');
-        $('#translate-apertium').button({text: false, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
+        $('#copy-text').after('<a href="#" id="translate-apertium">' + gettext('Translate using Apertium') + '</a>');
+        $('#translate-apertium').button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(function f() {
             $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
                 apertium.translate(data, 'en', target_language, function (ret) {
                     if (!ret.error) {
