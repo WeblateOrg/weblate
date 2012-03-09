@@ -15,7 +15,7 @@ $(function() {
     $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
     $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('textarea.translation').change(text_change).keypress(text_change).autogrow().focus();
-    $('#copy-text').button({text: false, icons: { primary: "ui-icon-arrowthick-1-s" }}).click(function f() {
+    $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
         $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
             $('#id_target').text(data);
         });
