@@ -55,6 +55,8 @@ class Project(models.Model):
 
     def get_translated_percent(self):
         translations = Translation.objects.filter(subproject__project = self).aggregate(Sum('translated'), Sum('total'))
+        if translations['total__sum'] == 0:
+            return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
 
@@ -195,6 +197,8 @@ class SubProject(models.Model):
 
     def get_translated_percent(self):
         translations = self.translation_set.aggregate(Sum('translated'), Sum('total'))
+        if translations['total__sum'] == 0:
+            return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
 class Translation(models.Model):
@@ -213,9 +217,13 @@ class Translation(models.Model):
         ordering = ['language__name']
 
     def get_fuzzy_percent(self):
+        if self.total == 0:
+            return 0
         return round(self.fuzzy * 100.0 / self.total, 1)
 
     def get_translated_percent(self):
+        if self.total == 0:
+            return 0
         return round(self.translated * 100.0 / self.total, 1)
 
     @models.permalink
