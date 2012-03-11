@@ -148,6 +148,7 @@ def translate(request, project, subproject, lang):
         )
     else:
         search_query = ''
+        search_exact = False
         search_source = True
         search_target = True
         search_context = True
