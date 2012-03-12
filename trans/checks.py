@@ -3,6 +3,9 @@ from django.utils.translation import ugettext_lazy as _
 CHECKS = {}
 
 def plural_check(f):
+    '''
+    Generic decorator for working with plural translations.
+    '''
     def _plural_check(sources, targets, flags):
         if f(sources[0], targets[0], flags):
             return True
@@ -15,11 +18,15 @@ def plural_check(f):
 
     return _plural_check
 
+# Check for not translated entries
+
 @plural_check
 def check_same(source, target, flags):
     return (source == target)
 
 CHECKS['same'] = (_('Not translated'), check_same, _('Source and translated strings are same'))
+
+# Checks for newlines at beginning/end
 
 def check_newline(source, target, pos):
     if len(target) == 0:
