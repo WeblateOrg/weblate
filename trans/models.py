@@ -385,7 +385,7 @@ class Translation(models.Model):
 
         return need_save, pounit
 
-    def get_checks(self):
+    def get_translation_checks(self):
         '''
         Returns list of failing checks on current translation.
         '''
