@@ -3,6 +3,14 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 
+def escape_newline(value):
+    '''
+    Escapes newlines so that they are not lost in <textarea>.
+    '''
+    if len(value[0]) >= 1 and value[0][0] == '\n':
+        return '\n' + value
+    return value
+
 class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
@@ -11,10 +19,7 @@ class PluralTextarea(forms.Textarea):
         lang, value = value
         if len(value) == 1:
             attrs['class'] = 'translation'
-            # Prevent losing leading new line in <textarea>
-            if len(value[0]) >= 1 and value[0][0] == '\n':
-                value = '\n' + value
-            return super(PluralTextarea, self).render(name, value[0], attrs)
+            return super(PluralTextarea, self).render(name, escape_newline(value[0]), attrs)
         ret = []
         for idx, val in enumerate(value):
             if idx > 0:
@@ -23,10 +28,7 @@ class PluralTextarea(forms.Textarea):
             else:
                 fieldname = name
             attrs['class'] = 'translation'
-            # Prevent losing leading new line in <textarea>
-            if len(val) >= 1 and val[0] == '\n':
-                val = '\n' + val
-            textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
+            textarea = super(PluralTextarea, self).render(fieldname, escape_newline(val), attrs)
             label = lang.get_plural_label(idx)
             ret.append('<label class="plural" for="%s">%s</label><br />%s' % (attrs['id'], label, textarea))
         pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
