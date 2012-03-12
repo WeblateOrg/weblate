@@ -13,3 +13,5 @@ def fake():
     _("E-mail")
     _("Username")
     _("Password")
+    _('Hold down "Control", or "Command" on a Mac, to select more than one.')
+
