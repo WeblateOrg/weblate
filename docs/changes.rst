@@ -4,7 +4,7 @@ Changes
 weblate 0.5
 -----------
 
-Relased on ? 2012.
+Relased on February 12th 2012.
 
 * Support for machine translation using following online services:
     * Apertium 
