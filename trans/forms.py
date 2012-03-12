@@ -17,10 +17,14 @@ class PluralTextarea(forms.Textarea):
     '''
     def render(self, name, value, attrs=None):
         lang, value = value
+
+        # Need to add extra class
+        attrs['class'] = 'translation'
+
         # Handle single item translation
         if len(value) == 1:
-            attrs['class'] = 'translation'
             return super(PluralTextarea, self).render(name, escape_newline(value[0]), attrs)
+
         # Okay we have more strings
         ret = []
         for idx, val in enumerate(value):
@@ -30,8 +34,6 @@ class PluralTextarea(forms.Textarea):
                 attrs['id'] += '_%d' % idx
             else:
                 fieldname = name
-
-            attrs['class'] = 'translation'
 
             # Render textare
             textarea = super(PluralTextarea, self).render(fieldname, escape_newline(val), attrs)
