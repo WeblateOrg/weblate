@@ -15,6 +15,7 @@ Relased on ? 2012.
 * Better handle concurrent git pull and translation.
 * Propagating works for fuzzy changes as well.
 * Propagating works also for file upload.
+* Fixed file downloads while using FastCGI (and possibly others).
 
 weblate 0.4
 -----------
