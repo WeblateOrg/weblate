@@ -67,6 +67,18 @@
 <br />
 {{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" %}</label>
 </td></tr>
+{% with unit.checks as checks %}
+{% if checks %}
+<tr>
+<th>{% trans "Failing checks" %}</th>
+<td>
+{% for check in checks %}
+{{ check.get_check_display }}
+{% endfor %}
+</td>
+</tr>
+{% endif %}
+{% endwith %}
 {% with unit.suggestions as suggestions %}
 {% if suggestions %}
 <tr>
