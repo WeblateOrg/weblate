@@ -50,7 +50,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
 
         self.fields['username'].label = _('Username')
         self.fields['username'].help_text = _('At least five characters long.')
-        self.fields['email'].label = _('Email address')
+        self.fields['email'].label = _('E-mail')
         self.fields['email'].help_text = _('Activation email will be sent here.')
         self.fields['password1'].label = _('Password')
         self.fields['password1'].help_text = _('At least six characters long.')
