@@ -19,6 +19,7 @@ from translate.storage import poheader
 from datetime import datetime
 
 import trans
+import trans.checks
 from trans.managers import TranslationManager, UnitManager
 from util import is_plural, split_plural, join_plural
 
@@ -530,6 +531,7 @@ class Unit(models.Model):
             logger.error('Unit.save called without backend sync: %s', ''.join(traceback.format_stack()))
         else:
             del kwargs['backend']
+        self.check()
         super(Unit, self).save(*args, **kwargs)
 
     def get_location_links(self):
@@ -565,6 +567,29 @@ class Unit(models.Model):
             ignore = False
         )
 
+    def check(self):
+        src = self.get_source_plurals()
+        tgt = self.get_target_plurals()
+        failing = []
+        for check in trans.checks.CHECKS:
+            if check[2](src, tgt):
+                failing.append(check[0])
+
+        for check in self.checks():
+            if check.check in failing:
+                failing.remove(check.check)
+                continue
+            check.delete()
+
+        for check in failing:
+            Check.objects.create(
+                checksum = self.checksum,
+                project = self.translation.subproject.project,
+                language = self.translation.language,
+                ignore = False,
+                check = check
+            )
+
 class Suggestion(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     target = models.TextField()
@@ -583,9 +608,7 @@ class Suggestion(models.Model):
             unit.fuzzy = False
             unit.save_backend(request, False)
 
-CHECK_CHOICES = (
-    ('same', ugettext_lazy('Not translated')),
-)
+CHECK_CHOICES = [(x[0], x[1]) for x in trans.checks.CHECKS]
 
 class Check(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
