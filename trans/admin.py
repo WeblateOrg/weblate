@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trans.models import Project, SubProject, Translation, Unit, Suggestion
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']
@@ -34,4 +34,11 @@ class SuggestionAdmin(admin.ModelAdmin):
     search_fields = ['checksum', 'target']
 
 admin.site.register(Suggestion, SuggestionAdmin)
+
+class CheckAdmin(admin.ModelAdmin):
+    list_display = ['checksum', 'check', 'project', 'language']
+    search_fields = ['checksum', 'check']
+    list_filter = ['check', 'project']
+
+admin.site.register(Check, CheckAdmin)
 

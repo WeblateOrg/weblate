@@ -6,6 +6,9 @@ weblate 0.6
 
 Relased on ? 2012.
 
+* Added various checks for translated messages.
+* Improved handling of translations with new lines.
+
 weblate 0.5
 -----------
 

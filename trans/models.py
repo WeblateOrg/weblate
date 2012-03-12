@@ -19,6 +19,7 @@ from translate.storage import poheader
 from datetime import datetime
 
 import trans
+import trans.checks
 from trans.managers import TranslationManager, UnitManager
 from util import is_plural, split_plural, join_plural
 
@@ -384,7 +385,7 @@ class Translation(models.Model):
 
         return need_save, pounit
 
-    def get_checks(self):
+    def get_translation_checks(self):
         '''
         Returns list of failing checks on current translation.
         '''
@@ -398,6 +399,11 @@ class Translation(models.Model):
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
         if suggestions > 0:
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
+        for check in trans.checks.CHECKS:
+            cnt = self.unit_set.filter_type(check).count()
+            if cnt > 0:
+                desc =  trans.checks.CHECKS[check][2] + (' (%d)' % cnt)
+                result.append((check, desc))
         return result
 
     def merge_store(self, author, store2, overwrite, mergefuzzy = False):
@@ -489,7 +495,7 @@ class Unit(models.Model):
 
     def get_target_plurals(self):
         if not self.is_plural():
-            return self.target
+            return [self.target]
         ret = split_plural(self.target)
         plurals = self.translation.language.nplurals
         if len(ret) == plurals:
@@ -530,6 +536,7 @@ class Unit(models.Model):
             logger.error('Unit.save called without backend sync: %s', ''.join(traceback.format_stack()))
         else:
             del kwargs['backend']
+        self.check()
         super(Unit, self).save(*args, **kwargs)
 
     def get_location_links(self):
@@ -550,6 +557,44 @@ class Unit(models.Model):
             language = self.translation.language
         )
 
+    def checks(self):
+        return Check.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = self.translation.language
+        )
+
+    def active_checks(self):
+        return Check.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = self.translation.language,
+            ignore = False
+        )
+
+    def check(self):
+        src = self.get_source_plurals()
+        tgt = self.get_target_plurals()
+        failing = []
+        for check in trans.checks.CHECKS:
+            if trans.checks.CHECKS[check][1](src, tgt, self.flags):
+                failing.append(check)
+
+        for check in self.checks():
+            if check.check in failing:
+                failing.remove(check.check)
+                continue
+            check.delete()
+
+        for check in failing:
+            Check.objects.create(
+                checksum = self.checksum,
+                project = self.translation.subproject.project,
+                language = self.translation.language,
+                ignore = False,
+                check = check
+            )
+
 class Suggestion(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     target = models.TextField()
@@ -567,3 +612,15 @@ class Suggestion(models.Model):
             unit.target = self.target
             unit.fuzzy = False
             unit.save_backend(request, False)
+
+CHECK_CHOICES = [(x, trans.checks.CHECKS[x][0]) for x in trans.checks.CHECKS]
+
+class Check(models.Model):
+    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
+    project = models.ForeignKey(Project)
+    language = models.ForeignKey(Language)
+    check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
+    ignore = models.BooleanField(db_index = True)
+
+    def get_description(self):
+        return trans.checks.CHECKS[self.check][2]

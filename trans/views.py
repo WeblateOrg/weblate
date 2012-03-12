@@ -10,7 +10,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 
-from trans.models import Project, SubProject, Translation, Unit, Suggestion
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
 from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
@@ -192,6 +192,8 @@ def translate(request, project, subproject, lang):
                     # We accept translations only from authenticated
                     messages.add_message(request, messages.ERROR, _('You need to log in to be able to save translations!'))
                 else:
+                    # Remember old checks
+                    oldchecks = set(unit.active_checks().values_list('check', flat = True))
                     # Update unit and save it
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
@@ -199,6 +201,19 @@ def translate(request, project, subproject, lang):
                     # Update stats
                     profile.translated += 1
                     profile.save()
+                    # Get new set of checks
+                    newchecks = set(unit.active_checks().values_list('check', flat = True))
+                    # Did we introduce any new failures?
+                    if newchecks > oldchecks:
+                        # Show message to user
+                        messages.add_message(request, messages.ERROR, _('Some checks have failed on your translation!'))
+                        # Stay on same entry
+                        return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                            obj.get_translate_url(),
+                            rqtype,
+                            pos,
+                            search_url
+                        ))
 
                 # Redirect to next entry
                 return HttpResponseRedirect('%s?type=%s&oldpos=%d%s' % (
@@ -342,6 +357,13 @@ def get_string(request, checksum):
         return HttpResponse('')
 
     return HttpResponse(units[0].get_source_plurals()[0])
+
+@login_required
+def ignore_check(request, check_id):
+    obj = get_object_or_404(Check, pk = int(check_id))
+    obj.ignore = True
+    obj.save()
+    return HttpResponse('ok')
 
 @login_required
 def upload_translation(request, project, subproject, lang):
