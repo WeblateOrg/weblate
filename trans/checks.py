@@ -1,10 +1,32 @@
 from django.utils.translation import ugettext_lazy as _
 import re
 
-PRINTF_MATCH = re.compile('''
+PYTHON_PRINTF_MATCH = re.compile('''
         %(                          # initial %
-              (?:(?P<ord>\d+)\$|    # variable order, like %1$s
-              \((?P<key>\w+)\))?    # Python style variables, like %(var)s
+              (?:\((?P<key>\w+)\))?    # Python style variables, like %(var)s
+        (?P<fullvar>
+            [+#-]*                  # flags
+            (?:\d+)?                # width
+            (?:\.\d+)?              # precision
+            (hh\|h\|l\|ll)?         # length formatting
+            (?P<type>[\w%]))        # type (%s, %d, etc.)
+        )''', re.VERBOSE)
+
+
+PHP_PRINTF_MATCH = re.compile('''
+        %(                          # initial %
+              (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
+        (?P<fullvar>
+            [+#-]*                  # flags
+            (?:\d+)?                # width
+            (?:\.\d+)?              # precision
+            (hh\|h\|l\|ll)?         # length formatting
+            (?P<type>[\w%]))        # type (%s, %d, etc.)
+        )''', re.VERBOSE)
+
+
+C_PRINTF_MATCH = re.compile('''
+        %(                          # initial %
         (?P<fullvar>
             [+#-]*                  # flags
             (?:\d+)?                # width
@@ -63,12 +85,12 @@ CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and
 
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
-def check_format_strings(source, target):
+def check_format_strings(source, target, regex):
     '''
     Generic checker for format strings.
     '''
-    src_matches = set([x[0] for x in PRINTF_MATCH.findall(source)])
-    tgt_matches = set([x[0] for x in PRINTF_MATCH.findall(target)])
+    src_matches = set([x[0] for x in regex.findall(source)])
+    tgt_matches = set([x[0] for x in regex.findall(target)])
 
     if src_matches != tgt_matches:
         return True
@@ -81,7 +103,7 @@ def check_format_strings(source, target):
 def check_python_format(source, target, flags):
     if not 'python-format' in flags:
         return False
-    return check_format_strings(source, target)
+    return check_format_strings(source, target, PYTHON_PRINTF_MATCH)
 
 CHECKS['python_format'] = (_('Python format'), check_python_format, _('Format string does not match source'))
 
@@ -91,7 +113,7 @@ CHECKS['python_format'] = (_('Python format'), check_python_format, _('Format st
 def check_php_format(source, target, flags):
     if not 'php-format' in flags:
         return False
-    return check_format_strings(source, target)
+    return check_format_strings(source, target, PHP_PRINTF_MATCH)
 
 CHECKS['php_format'] = (_('PHP format'), check_php_format, _('Format string does not match source'))
 
@@ -101,6 +123,6 @@ CHECKS['php_format'] = (_('PHP format'), check_php_format, _('Format string does
 def check_c_format(source, target, flags):
     if not 'c-format' in flags:
         return False
-    return check_format_strings(source, target)
+    return check_format_strings(source, target, C_PRINTF_MATCH)
 
 CHECKS['c_format'] = (_('C format'), check_c_format, _('Format string does not match source'))
