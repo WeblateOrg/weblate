@@ -21,12 +21,21 @@ def check_same(source, target):
 
 CHECKS['same'] = (_('Not translated'), check_same, _('Source and translated strings are same'))
 
-@plural_check
-def check_newline(source, target):
-    if source[0] == '\n' and target[0] != '\n':
-        return True
-    if source[-1] == '\n' and target[-1] != '\n':
-        return True
-    return False
+def check_newline(source, target, pos):
+    if len(target) == 0:
+        return False
+    s = source[pos]
+    t = target[pos]
+    return (s == '\n' and t != '\n') or (s != '\n' and t == '\n')
 
-CHECKS['newline'] = (_('Newlines'), check_same, _('Source and translated do not both end/begin with newline'))
+@plural_check
+def check_begin_newline(source, target):
+    return check_newline(source, target, 0)
+
+CHECKS['begin_newline'] = (_('Starting newline'), check_begin_newline, _('Source and translated do not both start with newline'))
+
+@plural_check
+def check_end_newline(source, target):
+    return check_newline(source, target, -1)
+
+CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with newline'))
