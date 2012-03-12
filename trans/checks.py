@@ -132,10 +132,13 @@ CHECKS['c_format'] = (_('C format'), check_c_format, _('Format string does not m
 # Check for incomplete plural forms
 
 def check_plurals(sources, targets, flags):
+    # Is this plural?
     if len(sources) == 1:
         return False
+    # Is at least something translated?
     if targets == len(targets) * ['']:
         return False
+    # Check for empty translation
     return ('' in targets)
 
 CHECKS['plurals'] = (_('Missing plurals'), check_c_format, _('Some plural forms are not translated'))
