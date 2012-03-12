@@ -14,6 +14,7 @@ Relased on ? 2012.
 * Improved merging of upstream changes.
 * Better handle concurrent git pull and translation.
 * Propagating works for fuzzy changes as well.
+* Propagating works also for file upload.
 
 weblate 0.4
 -----------
