@@ -7,4 +7,4 @@ def check_same(sources, targets):
         return True
     return False
 
-CHECKS['same'] = (_('Not translated'), check_same))
+CHECKS['same'] = (_('Not translated'), check_same, _('Source and translated strings are same'))

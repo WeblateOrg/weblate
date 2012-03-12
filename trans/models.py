@@ -573,7 +573,7 @@ class Unit(models.Model):
         failing = []
         for check in trans.checks.CHECKS:
             if trans.checks.CHECKS[check][1](src, tgt):
-                failing.append(check])
+                failing.append(check)
 
         for check in self.checks():
             if check.check in failing:
@@ -616,3 +616,6 @@ class Check(models.Model):
     language = models.ForeignKey(Language)
     check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
     ignore = models.BooleanField(db_index = True)
+
+    def get_verbose_name(self):
+        return trans.checks.CHECKS[self.check]
