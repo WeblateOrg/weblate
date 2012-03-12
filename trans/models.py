@@ -423,7 +423,12 @@ class Translation(models.Model):
         store2 = factory.getobject(fileobj)
         author = self.get_author_name(request)
 
-        return self.merge_store(author, store2, overwrite, mergefuzzy)
+        ret = False
+
+        for s in Translation.objects.filter(language = self.language, subproject__project = self.subproject.project):
+            ret |= s.merge_store(author, store2, overwrite, mergefuzzy)
+
+        return ret
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
