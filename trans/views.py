@@ -10,7 +10,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 
-from trans.models import Project, SubProject, Translation, Unit, Suggestion
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
 from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
@@ -357,6 +357,12 @@ def get_string(request, checksum):
         return HttpResponse('')
 
     return HttpResponse(units[0].get_source_plurals()[0])
+
+def ignore_check(request, check_id):
+    obj = get_object_or_404(Check, pk = int(check_id))
+    obj.ignore = True
+    obj.save()
+    return HttpResponse('ok')
 
 @login_required
 def upload_translation(request, project, subproject, lang):

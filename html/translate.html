@@ -73,7 +73,10 @@
 <th>{% trans "Failing checks" %}</th>
 <td>
 {% for check in checks %}
+<span class="check" id="check-{{ check.id }}">
+<a href="#" class="ignorecheck" title="{% blocktrans with check.get_check_display as check %}Ignore: {{ check }}{% endblocktrans %}"></a>
 <abbr title="{{ check.get_description }}">{{ check.get_check_display }}</abbr>
+</span>
 {% endfor %}
 </td>
 </tr>

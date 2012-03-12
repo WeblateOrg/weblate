@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^hooks/p/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.views.update_subproject'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
+    url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.ignore_check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
     # Admin interface

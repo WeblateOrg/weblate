@@ -103,4 +103,11 @@ $(function() {
     if (typeof(target_language) != 'undefined') {
         load_translate_apis();
     }
+    $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
+        var parent_id = $(this).parent()[0].id;
+        var check_id = parent_id.substring(6);
+        $.get('/js/ignore-check/' + check_id + '/', function() {
+            $('#' + parent_id).remove();
+        });
+    });
 });
