@@ -567,3 +567,14 @@ class Suggestion(models.Model):
             unit.target = self.target
             unit.fuzzy = False
             unit.save_backend(request, False)
+
+CHECK_CHOICES = (
+    ('same', ugettext_lazy('Not translated')),
+)
+
+class Check(models.Model):
+    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
+    project = models.ForeignKey(Project)
+    language = models.ForeignKey(Language)
+    check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
+    ignore = models.BooleanField(db_index = True)
