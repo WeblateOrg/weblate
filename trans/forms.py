@@ -12,7 +12,7 @@ class PluralTextarea(forms.Textarea):
         if not isinstance(value, list):
             attrs['class'] = 'translation'
             # Prevent losing leading new line in <textarea>
-            if value[0] == '\n':
+            if len(value) >= 1 and value[0] == '\n':
                 value = '\n' + value
             return super(PluralTextarea, self).render(name, value, attrs)
         ret = []
@@ -24,7 +24,7 @@ class PluralTextarea(forms.Textarea):
                 fieldname = name
             attrs['class'] = 'translation'
             # Prevent losing leading new line in <textarea>
-            if val[0] == '\n':
+            if len(val) >= 1 and val[0] == '\n':
                 val = '\n' + val
             textarea = super(PluralTextarea, self).render(fieldname, val, attrs)
             label = lang.get_plural_label(idx)
