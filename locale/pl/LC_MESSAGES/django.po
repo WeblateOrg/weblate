@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-09 22:35+0100\n"
+"POT-Creation-Date: 2012-03-12 11:56+0100\n"
 "PO-Revision-Date: 2012-03-09 22:16+0200\n"
 "Last-Translator: Marcin Kozioł <lord_dark@wp.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,7 +71,7 @@ msgstr "Imię"
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: accounts/forms.py:51
+#: accounts/forms.py:51 accounts/i18n.py:14
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
@@ -79,15 +79,15 @@ msgstr "Nazwa użytkownika"
 msgid "At least five characters long."
 msgstr "Przynajmniej 5 znaków."
 
-#: accounts/forms.py:53
-msgid "Email address"
-msgstr "Adres e-mail"
+#: accounts/forms.py:53 accounts/i18n.py:13
+msgid "E-mail"
+msgstr ""
 
 #: accounts/forms.py:54
 msgid "Activation email will be sent here."
 msgstr "E-mail aktywacyjny zostanie wysłany tutaj."
 
-#: accounts/forms.py:55 html/profile.html:33
+#: accounts/forms.py:55 accounts/i18n.py:15 html/profile.html:33
 msgid "Password"
 msgstr "Hasło"
 
@@ -125,11 +125,29 @@ msgid ""
 "address."
 msgstr "Ten adres e-mail jest już używany. Proszę podać inny e-mail."
 
+#: accounts/i18n.py:9
+#, fuzzy
+msgid "Old password"
+msgstr "Hasło"
+
+#: accounts/i18n.py:10
+#, fuzzy
+msgid "New password"
+msgstr "Zmiana hasła"
+
+#: accounts/i18n.py:11
+msgid "New password confirmation"
+msgstr ""
+
+#: accounts/i18n.py:12
+msgid "The two password fields didn't match."
+msgstr ""
+
 #: accounts/models.py:16
 msgid "Interface Language"
 msgstr "Język interfejsu"
 
-#: accounts/models.py:22 html/index.html:99 trans/views.py:47
+#: accounts/models.py:22 html/index.html:99 trans/views.py:53
 msgid "Languages"
 msgstr "Języki"
 
@@ -736,19 +754,24 @@ msgstr "Szukaj w ciągach docelowych"
 msgid "Search in context strings"
 msgstr "Szukaj w ciągach kontekstowych"
 
-#: trans/models.py:64
+#: trans/models.py:31
+#, fuzzy, python-format
+msgid "Bad format string (%s)"
+msgstr "Nie przetłumaczone ciągi (%d)"
+
+#: trans/models.py:71
 msgid "Name to display"
 msgstr "Nazwa do wyświetlenia"
 
-#: trans/models.py:65
+#: trans/models.py:72
 msgid "Name used in URLs"
 msgstr "Nazwa używana w adresach URL"
 
-#: trans/models.py:67
+#: trans/models.py:74
 msgid "URL of Git repository"
 msgstr "Url repozytorium Git"
 
-#: trans/models.py:68
+#: trans/models.py:76
 #, python-format
 msgid ""
 "Link to repository browser, use %(file)s and %(line)s as filename and line "
@@ -757,69 +780,72 @@ msgstr ""
 "Link do przeglądarki repozytorium, użyj %(file)s oraz %(line)s jako nazwy "
 "pliku i symboli zastępczych linii"
 
-#: trans/models.py:69
+#: trans/models.py:78
 msgid "Git branch to translate"
 msgstr "Gałąź Gita do tłumaczenia"
 
-#: trans/models.py:70
+#: trans/models.py:79
 #, fuzzy
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "Maska plików do tłumaczenia, użyj * zamiast kodu języka"
 
-#: trans/models.py:382
+#: trans/models.py:391
 msgid "All strings"
 msgstr "Wszystkie ciągi"
 
-#: trans/models.py:387
+#: trans/models.py:396
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nie przetłumaczone ciągi (%d)"
 
-#: trans/models.py:389
+#: trans/models.py:398
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Niepewne ciągi (%d)"
 
-#: trans/models.py:391
+#: trans/models.py:400
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Ciągi z sugestiami (%d)"
 
-#: trans/views.py:186
+#: trans/views.py:193
 #, fuzzy
 msgid "You need to log in to be able to save translations!"
 msgstr "Musisz się zalogować, by zapisać tłumaczenia!"
 
-#: trans/views.py:205
+#: trans/views.py:212
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Wiadomość którą chciałbyś przetłumaczyć nie jest już dostępna!"
 
-#: trans/views.py:211
+#: trans/views.py:218
 #, fuzzy
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Musisz się zalogować, by zarządzać sugestiami!"
 
-#: trans/views.py:237
+#: trans/views.py:244
 msgid "Invalid suggestion!"
 msgstr "Nieprawidłowa sugestia!"
 
-#: trans/views.py:281
+#: trans/views.py:288
 msgid "You have reached end of translating."
 msgstr "Został osiągnięty koniec tłumaczenia."
 
-#: trans/views.py:352
+#: trans/views.py:359
 msgid "File content successfully merged into translation."
 msgstr "Zawartość pliku pomyślnie połączona w tłumaczeniu."
 
-#: trans/views.py:354
+#: trans/views.py:361
 msgid "There were no new strings in uploaded file."
 msgstr "Nie było nowych ciągów w przesłanym pliku."
 
-#: trans/views.py:356
+#: trans/views.py:363
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Scalanie zawartości pliku nie powiodło się: %s"
 
-#: trans/views.py:379
+#: trans/views.py:386
 msgid "Page Not Found"
 msgstr "Nie znaleziono strony"
+
+#~ msgid "Email address"
+#~ msgstr "Adres e-mail"
