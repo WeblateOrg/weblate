@@ -572,7 +572,7 @@ class Unit(models.Model):
         tgt = self.get_target_plurals()
         failing = []
         for check in trans.checks.CHECKS:
-            if trans.checks.CHECKS[check][1](src, tgt):
+            if trans.checks.CHECKS[check][1](src, tgt, self.flags):
                 failing.append(check)
 
         for check in self.checks():
