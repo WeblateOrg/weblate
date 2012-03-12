@@ -407,6 +407,9 @@ class Translation(models.Model):
         return result
 
     def merge_store(self, author, store2, overwrite, mergefuzzy = False):
+        '''
+        Merges ttkit store into current translation.
+        '''
         store1 = self.get_store()
         store1.require_index()
 
@@ -433,6 +436,9 @@ class Translation(models.Model):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, mergefuzzy = False):
+        '''
+        Top level handler for file uploads.
+        '''
         # Needed to behave like something what translate toolkit expects
         fileobj.mode = "r"
         store2 = factory.getobject(fileobj)
