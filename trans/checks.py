@@ -128,3 +128,14 @@ def check_c_format(source, target, flags):
     return check_format_strings(source, target, C_PRINTF_MATCH)
 
 CHECKS['c_format'] = (_('C format'), check_c_format, _('Format string does not match source'))
+
+# Check for incomplete plural forms
+
+def check_plurals(sources, targets, flags):
+    if len(sources) == 1:
+        return False
+    if targets == len(targets) * ['']:
+        return False
+    return ('' in targets)
+
+CHECKS['plurals'] = (_('Missing plurals'), check_c_format, _('Some plural forms are not translated'))
