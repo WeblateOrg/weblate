@@ -7,6 +7,7 @@ from django.db.models import Sum
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
+from django.core.exceptions import ValidationError
 from glob import glob
 import os
 import os.path
@@ -22,6 +23,12 @@ from trans.managers import TranslationManager, UnitManager
 from util import is_plural, split_plural, join_plural
 
 logger = logging.getLogger('weblate')
+
+def validate_repoweb(val):
+    try:
+        test = val % {'file': 'file.po', 'line': '9'}
+    except Exception, e:
+        raise ValidationError(_('Bad format string (%s)') % str(e))
 
 class Project(models.Model):
     name = models.CharField(max_length = 100)
@@ -65,7 +72,9 @@ class SubProject(models.Model):
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200, help_text = _('URL of Git repository'))
-    repoweb = models.URLField(help_text = _('Link to repository browser, use %(file)s and %(line)s as filename and line placeholders'))
+    repoweb = models.URLField(
+        help_text = _('Link to repository browser, use %(file)s and %(line)s as filename and line placeholders'),
+        validators = [validate_repoweb])
     branch = models.CharField(max_length = 50, help_text = _('Git branch to translate'))
     filemask = models.CharField(max_length = 200, help_text = _('Mask of files to translate, use * instead of language code'))
 
