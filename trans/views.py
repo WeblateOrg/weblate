@@ -358,6 +358,7 @@ def get_string(request, checksum):
 
     return HttpResponse(units[0].get_source_plurals()[0])
 
+@login_required
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk = int(check_id))
     obj.ignore = True
