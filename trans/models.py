@@ -391,10 +391,7 @@ class Translation(models.Model):
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
         return result
 
-    def merge_upload(self, request, fileobj, overwrite, mergefuzzy = False):
-        # Needed to behave like something what translate toolkit expects
-        fileobj.mode = "r"
-        store2 = factory.getobject(fileobj)
+    def merge_store(self, author, store2, overwrite, mergefuzzy = False):
         store1 = self.get_store()
         store1.require_index()
 
@@ -416,10 +413,17 @@ class Translation(models.Model):
                         continue
                 unit1.merge(unit2, overwrite=overwrite)
         store1.save()
-        author = self.get_author_name(request)
         ret = self.git_commit(author)
         self.check_sync()
         return ret
+
+    def merge_upload(self, request, fileobj, overwrite, mergefuzzy = False):
+        # Needed to behave like something what translate toolkit expects
+        fileobj.mode = "r"
+        store2 = factory.getobject(fileobj)
+        author = self.get_author_name(request)
+
+        return self.merge_store(author, store2, overwrite, mergefuzzy)
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
