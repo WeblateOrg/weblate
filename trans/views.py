@@ -204,7 +204,7 @@ def translate(request, project, subproject, lang):
                     # Get new set of checks
                     newchecks = set(unit.active_checks().values_list('check', flat = True))
                     # Did we introduce any new failures?
-                    if newchecks >= oldchecks:
+                    if newchecks > oldchecks:
                         # Show message to user
                         messages.add_message(request, messages.ERROR, _('Some checks have failed on your translation!'))
                         # Stay on same entry
