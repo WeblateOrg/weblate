@@ -9,12 +9,12 @@ class PluralTextarea(forms.Textarea):
     '''
     def render(self, name, value, attrs=None):
         lang, value = value
-        if not isinstance(value, list):
+        if len(value) == 1:
             attrs['class'] = 'translation'
             # Prevent losing leading new line in <textarea>
-            if len(value) >= 1 and value[0] == '\n':
+            if len(value[0]) >= 1 and value[0][0] == '\n':
                 value = '\n' + value
-            return super(PluralTextarea, self).render(name, value, attrs)
+            return super(PluralTextarea, self).render(name, value[0], attrs)
         ret = []
         for idx, val in enumerate(value):
             if idx > 0:
