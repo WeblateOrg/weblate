@@ -399,6 +399,11 @@ class Translation(models.Model):
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
         if suggestions > 0:
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
+        for check in trans.checks.CHECKS:
+            cnt = self.unit_set.filter_type(check).count()
+            if cnt > 0:
+                desc =  trans.checks.CHECKS[check][2] + (' (%d)' % cnt)
+                result.append((check, desc))
         return result
 
     def merge_store(self, author, store2, overwrite, mergefuzzy = False):
