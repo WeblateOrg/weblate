@@ -73,7 +73,7 @@
 <th>{% trans "Failing checks" %}</th>
 <td>
 {% for check in checks %}
-{{ check.get_check_display }}
+<abbr title="{{ check.get_description }}">{{ check.get_check_display }}</abbr>
 {% endfor %}
 </td>
 </tr>

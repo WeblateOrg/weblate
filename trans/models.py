@@ -617,5 +617,5 @@ class Check(models.Model):
     check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
     ignore = models.BooleanField(db_index = True)
 
-    def get_verbose_name(self):
-        return trans.checks.CHECKS[self.check]
+    def get_description(self):
+        return trans.checks.CHECKS[self.check][2]
