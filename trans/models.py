@@ -557,6 +557,14 @@ class Unit(models.Model):
             language = self.translation.language
         )
 
+    def active_checks(self):
+        return Check.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = self.translation.language,
+            ignore = False
+        )
+
 class Suggestion(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     target = models.TextField()
