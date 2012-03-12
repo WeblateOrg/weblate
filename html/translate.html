@@ -67,7 +67,7 @@
 <br />
 {{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" %}</label>
 </td></tr>
-{% with unit.checks as checks %}
+{% with unit.active_checks as checks %}
 {% if checks %}
 <tr>
 <th>{% trans "Failing checks" %}</th>
