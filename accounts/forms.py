@@ -29,6 +29,9 @@ class UserForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
         self.fields['email'].required = True
+        self.fields['first_name'].label = _('First name')
+        self.fields['last_name'].label = _('Last name')
+        self.fields['email'].label = _('E-mail')
 
 class ContactForm(forms.Form):
     subject = forms.CharField(label = _('Subject'), required = True)
