@@ -68,4 +68,11 @@ class UnitManager(models.Manager):
                 project = sample.translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
-
+        elif rqtype in [x[0] for x in trans.models.CHECK_CHOICES]:
+            sample = self.all()[0]
+            sugs = trans.models.Check.objects.filter(
+                language = sample.translation.language,
+                project = sample.translation.subproject.project,
+                check = rqtype)
+            sugs = sugs.values_list('checksum', flat = True)
+            return self.filter(checksum__in = sugs)
