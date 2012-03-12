@@ -89,6 +89,8 @@ def check_format_strings(source, target, regex):
     '''
     Generic checker for format strings.
     '''
+    if len(target) == 0:
+        return False
     src_matches = set([x[0] for x in regex.findall(source)])
     tgt_matches = set([x[0] for x in regex.findall(target)])
 
