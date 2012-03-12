@@ -74,7 +74,9 @@
 <td>
 {% for check in checks %}
 <span class="check" id="check-{{ check.id }}">
+{% if user.is_authenticated %}
 <a href="#" class="ignorecheck" title="{% blocktrans with check.get_check_display as check %}Ignore: {{ check }}{% endblocktrans %}"></a>
+{% endif %}
 <abbr title="{{ check.get_description }}">{{ check.get_check_display }}</abbr>
 </span>
 {% endfor %}
