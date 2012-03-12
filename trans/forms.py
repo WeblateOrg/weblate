@@ -17,24 +17,35 @@ class PluralTextarea(forms.Textarea):
     '''
     def render(self, name, value, attrs=None):
         lang, value = value
+        # Handle single item translation
         if len(value) == 1:
             attrs['class'] = 'translation'
             return super(PluralTextarea, self).render(name, escape_newline(value[0]), attrs)
+        # Okay we have more strings
         ret = []
         for idx, val in enumerate(value):
+            # Generate ID
             if idx > 0:
                 fieldname = '%s_%d' % (name, idx)
                 attrs['id'] += '_%d' % idx
             else:
                 fieldname = name
+
             attrs['class'] = 'translation'
+
+            # Render textare
             textarea = super(PluralTextarea, self).render(fieldname, escape_newline(val), attrs)
+            # Label for plural
             label = lang.get_plural_label(idx)
             ret.append('<label class="plural" for="%s">%s</label><br />%s' % (attrs['id'], label, textarea))
+
+        # Show plural equation for more strings
         pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
             ugettext('This equation is used to identify which plural form will be used based on given count (n).'),
             ugettext('Plural equation'),
             lang.pluralequation)
+
+        # Join output
         return mark_safe('<br />'.join(ret) + pluralmsg)
 
     def value_from_datadict(self, data, files, name):
