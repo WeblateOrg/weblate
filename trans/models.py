@@ -572,8 +572,8 @@ class Unit(models.Model):
         tgt = self.get_target_plurals()
         failing = []
         for check in trans.checks.CHECKS:
-            if check[2](src, tgt):
-                failing.append(check[0])
+            if trans.checks.CHECKS[check][1](src, tgt):
+                failing.append(check])
 
         for check in self.checks():
             if check.check in failing:
@@ -608,7 +608,7 @@ class Suggestion(models.Model):
             unit.fuzzy = False
             unit.save_backend(request, False)
 
-CHECK_CHOICES = [(x[0], x[1]) for x in trans.checks.CHECKS]
+CHECK_CHOICES = [(x, trans.checks.CHECKS[x][0]) for x in trans.checks.CHECKS]
 
 class Check(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
