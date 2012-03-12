@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 16:12+0100\n"
+"POT-Creation-Date: 2012-03-12 17:01+0100\n"
 "PO-Revision-Date: 2012-03-12 16:19+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -253,7 +253,7 @@ msgid "Translated"
 msgstr "Přeloženo"
 
 #: html/index.html:15 html/language.html:17 html/subproject.html:20
-#: html/translate.html:68 trans/forms.py:61
+#: html/translate.html:68 trans/forms.py:76
 msgid "Fuzzy"
 msgstr "Nejasný"
 
@@ -748,23 +748,31 @@ msgstr "Koncový nový řádek"
 msgid "Source and translated do not both end with newline"
 msgstr "Překlad a zdroj oba nekončí novým řádkem"
 
-#: trans/checks.py:108
+#: trans/checks.py:110
 msgid "Python format"
 msgstr "Formát Pythonu"
 
-#: trans/checks.py:108 trans/checks.py:118 trans/checks.py:128
+#: trans/checks.py:110 trans/checks.py:120 trans/checks.py:130
 msgid "Format string does not match source"
 msgstr "Formátovací řetězec v překladu neodpovídá zdroji"
 
-#: trans/checks.py:118
+#: trans/checks.py:120
 msgid "PHP format"
 msgstr "Formát PHP"
 
-#: trans/checks.py:128
+#: trans/checks.py:130
 msgid "C format"
 msgstr "Formát C"
 
-#: trans/forms.py:33
+#: trans/checks.py:144
+msgid "Missing plurals"
+msgstr ""
+
+#: trans/checks.py:144
+msgid "Some plural forms are not translated"
+msgstr ""
+
+#: trans/forms.py:46
 msgid ""
 "This equation is used to identify which plural form will be used based on "
 "given count (n)."
@@ -772,35 +780,35 @@ msgstr ""
 "Tato rovnice je použita pro zjištění, který množný tvar se použije, v "
 "závislosti na daném počtu (n)."
 
-#: trans/forms.py:34
+#: trans/forms.py:47
 msgid "Plural equation"
 msgstr "Rovnice množných tvarů"
 
-#: trans/forms.py:64
+#: trans/forms.py:79
 msgid "File"
 msgstr "Soubor"
 
-#: trans/forms.py:65
+#: trans/forms.py:80
 msgid "Overwrite existing translations"
 msgstr "Přepsat stávající překlady"
 
-#: trans/forms.py:68
+#: trans/forms.py:83
 msgid "Query"
 msgstr "Dotaz"
 
-#: trans/forms.py:69
+#: trans/forms.py:84
 msgid "Exact match"
 msgstr "Přesná shoda"
 
-#: trans/forms.py:70
+#: trans/forms.py:85
 msgid "Search in source strings"
 msgstr "Vyhledávat ve zdrojových řetězcích"
 
-#: trans/forms.py:71
+#: trans/forms.py:86
 msgid "Search in target strings"
 msgstr "Vyhledávat ve přeložených řetězcích"
 
-#: trans/forms.py:72
+#: trans/forms.py:87
 msgid "Search in context strings"
 msgstr "Vyhledávat ve řetězcích kontextu"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 16:12+0100\n"
+"POT-Creation-Date: 2012-03-12 17:01+0100\n"
 "PO-Revision-Date: 2012-03-12 11:50+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,7 +255,7 @@ msgid "Translated"
 msgstr "Przetłumaczone"
 
 #: html/index.html:15 html/language.html:17 html/subproject.html:20
-#: html/translate.html:68 trans/forms.py:61
+#: html/translate.html:68 trans/forms.py:76
 msgid "Fuzzy"
 msgstr "Niepewne"
 
@@ -751,23 +751,31 @@ msgstr ""
 msgid "Source and translated do not both end with newline"
 msgstr ""
 
-#: trans/checks.py:108
+#: trans/checks.py:110
 msgid "Python format"
 msgstr ""
 
-#: trans/checks.py:108 trans/checks.py:118 trans/checks.py:128
+#: trans/checks.py:110 trans/checks.py:120 trans/checks.py:130
 msgid "Format string does not match source"
 msgstr ""
 
-#: trans/checks.py:118
+#: trans/checks.py:120
 msgid "PHP format"
 msgstr ""
 
-#: trans/checks.py:128
+#: trans/checks.py:130
 msgid "C format"
 msgstr ""
 
-#: trans/forms.py:33
+#: trans/checks.py:144
+msgid "Missing plurals"
+msgstr ""
+
+#: trans/checks.py:144
+msgid "Some plural forms are not translated"
+msgstr ""
+
+#: trans/forms.py:46
 msgid ""
 "This equation is used to identify which plural form will be used based on "
 "given count (n)."
@@ -775,35 +783,35 @@ msgstr ""
 "Równanie to służy do określenia, która forma liczby mnogiej zostanie użyta w "
 "zależności od liczebności (n)."
 
-#: trans/forms.py:34
+#: trans/forms.py:47
 msgid "Plural equation"
 msgstr "Równanie liczby mnogiej"
 
-#: trans/forms.py:64
+#: trans/forms.py:79
 msgid "File"
 msgstr "Plik"
 
-#: trans/forms.py:65
+#: trans/forms.py:80
 msgid "Overwrite existing translations"
 msgstr "Zastąp istniejące tłumaczenia"
 
-#: trans/forms.py:68
+#: trans/forms.py:83
 msgid "Query"
 msgstr "Zapytanie"
 
-#: trans/forms.py:69
+#: trans/forms.py:84
 msgid "Exact match"
 msgstr "Dokładne dopasowanie"
 
-#: trans/forms.py:70
+#: trans/forms.py:85
 msgid "Search in source strings"
 msgstr "Szukaj w ciągach źródłowych"
 
-#: trans/forms.py:71
+#: trans/forms.py:86
 msgid "Search in target strings"
 msgstr "Szukaj w ciągach docelowych"
 
-#: trans/forms.py:72
+#: trans/forms.py:87
 msgid "Search in context strings"
 msgstr "Szukaj w ciągach kontekstowych"
 
