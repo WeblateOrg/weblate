@@ -20,3 +20,13 @@ def check_same(source, target):
     return (source == target)
 
 CHECKS['same'] = (_('Not translated'), check_same, _('Source and translated strings are same'))
+
+@plural_check
+def check_newline(source, target):
+    if source[0] == '\n' and target[0] != '\n':
+        return True
+    if source[-1] == '\n' and target[-1] != '\n':
+        return True
+    return False
+
+CHECKS['newline'] = (_('Newlines'), check_same, _('Source and translated do not both end/begin with newline'))
