@@ -18,6 +18,12 @@ from accounts.models import Profile
 import logging
 import os.path
 
+# See https://code.djangoproject.com/ticket/6027
+class FixedFileWrapper(FileWrapper):
+    def __iter__(self):
+        self.filelike.seek(0)
+        return self
+
 logger = logging.getLogger('weblate')
 
 def home(request):
@@ -92,7 +98,7 @@ def download_translation(request, project, subproject, lang):
     filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
 
     # Django wrapper for sending file
-    wrapper = FileWrapper(file(srcfilename))
+    wrapper = FixedFileWrapper(file(srcfilename))
 
     response = HttpResponse(wrapper, mimetype = mime)
 
