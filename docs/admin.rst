@@ -85,3 +85,20 @@ Interacting with others
 You can trigger update of underlaying git repository for every subproject by
 accessing URL :file:`/hooks/p/project/subproject/update/`. This can be used for
 example as as Post-Receive URLs on Github.
+
+.. _privileges:
+
+Access control
+--------------
+
+Weblate uses privileges system based on Django. It defines following extra privileges:
+
+* Can upload translation
+* Can overwrite with translation upload
+* Can save translation
+* Can accept suggestion
+* Can accept suggestion
+
+The default setup (after you run :program:`./manage.py setupgroups`) consists
+of single group `Users` which has all above privileges and all users are
+automatically added to this group.

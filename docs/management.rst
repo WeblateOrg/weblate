@@ -17,6 +17,13 @@ The ./manage.py is extended with following commands:
     Reloads translations from disk (eg. in case you did some updates in Git
     repository).
 
+.. option:: setupgroups
+
+    Configures default groups and (if called with ``--move``) assigns all users
+    to default group.
+
+    .. seealso:: :ref:`privileges`
+
 .. option:: setuplang
 
     Setups list of languages (it has own list and all defined in
