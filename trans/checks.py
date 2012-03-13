@@ -99,6 +99,12 @@ def check_end_stop(source, target, flags, language):
 
 CHECKS['end_stop'] = (_('Trailing stop'), check_end_newline, _('Source and translated do not both end with full stop'))
 
+@plural_check
+def check_end_question(source, target, flags, language):
+    return check_chars(source, target, -1, ['?', '՞', '؟', '⸮', '？', '፧', '꘏', '⳺'])
+
+CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with question mark'))
+
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
 def check_format_strings(source, target, regex):
