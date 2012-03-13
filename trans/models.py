@@ -433,7 +433,7 @@ class Translation(models.Model):
                 if not mergefuzzy:
                     if unit2.isfuzzy():
                         continue
-                unit1.merge(unit2, overwrite=overwrite)
+                unit1.merge(unit2, overwrite=overwrite, comments=False)
         store1.save()
         ret = self.git_commit(author)
         self.check_sync()
