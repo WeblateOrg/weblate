@@ -35,5 +35,6 @@ application.
 Upgrading
 ---------
 
-On upgrade to version 0.6 you should setup access control as described in
-installation section.
+On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
+:program:`./manage.py setupgroups --move` to setup access control as described
+in installation section.
