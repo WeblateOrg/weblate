@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from trans.models import SubProject
 from optparse import make_option
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group, Permission, User
 
 class Command(BaseCommand):
     help = 'setups default groups'
