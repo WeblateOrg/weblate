@@ -7,6 +7,7 @@ weblate 0.6
 Relased on ? 2012.
 
 * Added various checks for translated messages.
+* Tunable access control.
 * Improved handling of translations with new lines.
 
 weblate 0.5

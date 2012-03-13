@@ -16,6 +16,7 @@ Features
 * Upload and automatic merging of po files
 * Links to source files for context
 * Message consistency checks
+* Tunable access control
 
 Documentation
 -------------
