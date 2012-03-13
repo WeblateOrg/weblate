@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-12 17:01+0100\n"
+"POT-Creation-Date: 2012-03-13 13:09+0100\n"
 "PO-Revision-Date: 2012-03-09 22:45+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,19 +148,19 @@ msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
 
-#: accounts/models.py:16
+#: accounts/models.py:17
 msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-#: accounts/models.py:22 html/index.html:99 trans/views.py:53
+#: accounts/models.py:23 html/index.html:99 trans/views.py:53
 msgid "Languages"
 msgstr "Langues"
 
-#: accounts/models.py:27
+#: accounts/models.py:28
 msgid "Secondary languages"
 msgstr "Langues secondaires"
 
-#: accounts/models.py:49
+#: accounts/models.py:50
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Votre profil a été migré, vous pourriez vouloir ajuster les préférences."
@@ -332,7 +332,7 @@ msgstr ""
 "Vous pouvez modifier le mot de passe sur une <a href=\"%(pw_url)s\">page "
 "distincte</a>."
 
-#: html/profile.html:40 html/translate.html:134
+#: html/profile.html:40 html/translate.html:138
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -447,19 +447,19 @@ msgstr "Suggéré par %(user)s"
 msgid "Suggested by anonymous user"
 msgstr "Suggéré par un utilisateur anonyme"
 
-#: html/translate.html:116
+#: html/translate.html:120
 msgid "Used in"
 msgstr "Utilisé dans"
 
-#: html/translate.html:122
+#: html/translate.html:126
 msgid "Comments"
 msgstr "Commentaires"
 
-#: html/translate.html:128
+#: html/translate.html:132
 msgid "Flags"
 msgstr "Drapeaux"
 
-#: html/translate.html:138
+#: html/translate.html:142
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -468,7 +468,7 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Connectez-vous</a> afin de "
 "sauvegarder les traductions."
 
-#: html/translate.html:141
+#: html/translate.html:145
 msgid "Suggest"
 msgstr "Suggérer"
 
@@ -493,11 +493,11 @@ msgstr ""
 "Vous pouvez <a href=\"%(download_url)s\">télécharger</a> un fichier pour le "
 "traduire hors-ligne."
 
-#: html/translation.html:40 html/translation.html.py:47
+#: html/translation.html:40 html/translation.html.py:51
 msgid "Upload"
 msgstr "Téléverser"
 
-#: html/translation.html:42
+#: html/translation.html:43
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -505,6 +505,10 @@ msgstr ""
 "Le fichier téléversé sera fusionné avec les traductions actuelles. Si vous "
 "voulez écraser les chaînes déjà traduites, n'oubliez pas d'activer cette "
 "option."
+
+#: html/translation.html:45
+msgid "Uploaded file will be merged with current translation."
+msgstr ""
 
 #: html/translation_info.html:8
 #, python-format
@@ -793,27 +797,27 @@ msgstr "Équation pour pluriel"
 msgid "File"
 msgstr "Fichier"
 
-#: trans/forms.py:80
+#: trans/forms.py:82
 msgid "Overwrite existing translations"
 msgstr "Écraser les traductions existantes"
 
-#: trans/forms.py:83
+#: trans/forms.py:85
 msgid "Query"
 msgstr "Requête"
 
-#: trans/forms.py:84
+#: trans/forms.py:86
 msgid "Exact match"
 msgstr "Correspondance exacte"
 
-#: trans/forms.py:85
+#: trans/forms.py:87
 msgid "Search in source strings"
 msgstr "Chercher dans les chaînes source"
 
-#: trans/forms.py:86
+#: trans/forms.py:88
 msgid "Search in target strings"
 msgstr "Chercher dans les chaînes cible"
 
-#: trans/forms.py:87
+#: trans/forms.py:89
 msgid "Search in context strings"
 msgstr "Chercher dans les chaînes de contexte"
 
@@ -851,64 +855,79 @@ msgstr "Branche Git à traduire"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "Masque des fichiers à traduire, utilisez * au lieu du code de langue"
 
-#: trans/models.py:392
+#: trans/models.py:396
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models.py:397
+#: trans/models.py:401
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models.py:399
+#: trans/models.py:403
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models.py:401
+#: trans/models.py:405
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
 
-#: trans/views.py:193
+#: trans/views.py:196
 msgid "You need to log in to be able to save translations!"
 msgstr "Vous devez vous connecter afin de pouvoir sauvegarder les traductions!"
 
-#: trans/views.py:209
+#: trans/views.py:199
+#, fuzzy
+msgid "You don't have privileges to save translations!"
+msgstr "Vous devez vous connecter afin de pouvoir sauvegarder les traductions!"
+
+#: trans/views.py:215
 #, fuzzy
 msgid "Some checks have failed on your translation!"
 msgstr "Vous avez terminé la traduction."
 
-#: trans/views.py:227
+#: trans/views.py:233
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Le message que vous vouliez traduire n'est plus disponible!"
 
-#: trans/views.py:233
+#: trans/views.py:239
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions!"
 
-#: trans/views.py:259
+#: trans/views.py:250
+#, fuzzy
+msgid "You do not have privilege to accept suggestions!"
+msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions!"
+
+#: trans/views.py:260
+#, fuzzy
+msgid "You do not have privilege to delete suggestions!"
+msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions!"
+
+#: trans/views.py:281
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide!"
 
-#: trans/views.py:303
+#: trans/views.py:325
 msgid "You have reached end of translating."
 msgstr "Vous avez terminé la traduction."
 
-#: trans/views.py:381
+#: trans/views.py:408
 msgid "File content successfully merged into translation."
 msgstr "Le contenu du fichier a été fusionné avec succès à la traduction."
 
-#: trans/views.py:383
+#: trans/views.py:410
 msgid "There were no new strings in uploaded file."
 msgstr "Le fichier téléversé ne comportait pas de nouvelles chaînes."
 
-#: trans/views.py:385
+#: trans/views.py:412
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Échec de fusion du fichier : %s"
 
-#: trans/views.py:408
+#: trans/views.py:435
 msgid "Page Not Found"
 msgstr "Page introuvable"
 
