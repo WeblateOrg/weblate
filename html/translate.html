@@ -74,7 +74,7 @@
 <td>
 {% for check in checks %}
 <span class="check" id="check-{{ check.id }}">
-{% if user.is_authenticated %}
+{% if perm.trans.ignore_check %}
 <a href="#" class="ignorecheck" title="{% blocktrans with check.get_check_display as check %}Ignore: {{ check }}{% endblocktrans %}"></a>
 {% endif %}
 <abbr title="{{ check.get_description }}">{{ check.get_check_display }}</abbr>
@@ -98,10 +98,14 @@
 {% else %}
 {% trans "Suggested by anonymous user" %}
 {% endif %}
-{% if user.is_authenticated %}
+{% if perm.trans.accept_suggestion or perm.trans.delete_suggestion %}
 <div class="suggestionactions">
+{% if perm.trans.accept_suggestion %}
 <a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">Accept</a>
+{% endif %}
+{% if perm.trans.delete_suggestion %}
 <a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">Delete</a>
+{% endif %}
 </div>
 {% endif %}
 </td>
@@ -130,7 +134,7 @@
 </tr>
 {% endif %}
 <tr><td></td><td>
-{% if user.is_authenticated %}
+{% if perm.trans.save_translation %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" />
 {% else %}
 {% url 'django.contrib.auth.views.login' as login_url %}
