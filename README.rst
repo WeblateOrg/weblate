@@ -11,10 +11,11 @@ Features
 
 * Easy web based translation
 * Propagation of translations across sub-projects (for different branches)
-* Tight git integration
+* Tight git integration - every change is represented by Git commit
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
 * Links to source files for context
+* Message consistency checks
 
 Documentation
 -------------
