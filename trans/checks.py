@@ -87,11 +87,15 @@ def check_end_newline(source, target, flags, language):
 
 CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with newline'))
 
+# Whitespace check
+
 @plural_check
 def check_end_space(source, target, flags, language):
     return check_chars(source, target, -1, [' '])
 
 CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and translated do not both end with space'))
+
+# Check for punctation
 
 @plural_check
 def check_end_stop(source, target, flags, language):
