@@ -62,24 +62,27 @@ def check_same(source, target, flags, language):
 
 CHECKS['same'] = (_('Not translated'), check_same, _('Source and translated strings are same'))
 
-# Checks for newlines at beginning/end
-
-def check_newline(source, target, pos):
+def check_chars(source, target, pos, chars):
+    '''
+    Generic checker for chars presence.
+    '''
     if len(target) == 0:
         return False
     s = source[pos]
     t = target[pos]
-    return (s == '\n' and t != '\n') or (s != '\n' and t == '\n')
+    return (s in chars and t not in chars) or (s not in chars and t in chars)
+
+# Checks for newlines at beginning/end
 
 @plural_check
 def check_begin_newline(source, target, flags, language):
-    return check_newline(source, target, 0)
+    return check_chars(source, target, 0, ['\n'])
 
 CHECKS['begin_newline'] = (_('Starting newline'), check_begin_newline, _('Source and translated do not both start with newline'))
 
 @plural_check
 def check_end_newline(source, target, flags, language):
-    return check_newline(source, target, -1)
+    return check_chars(source, target, -1, ['\n'])
 
 CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with newline'))
 
