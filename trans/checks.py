@@ -105,6 +105,12 @@ def check_end_question(source, target, flags, language):
 
 CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with question mark'))
 
+@plural_check
+def check_end_exclamation(source, target, flags, language):
+    return check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
+
+CHECKS['end_exclamation'] = (_('Trailing exclamation'), check_end_exclamation, _('Source and translated do not both end with exclamation mark'))
+
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
 def check_format_strings(source, target, regex):
