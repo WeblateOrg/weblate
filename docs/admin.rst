@@ -114,7 +114,7 @@ interface.
 Fulltext search
 ---------------
 
-Weblate can optionally utilize fulltext index capability in MySQL to search
+Weblate can optionally utilize fulltext index cabability in MySQL to search
 for translations. You need first to manually add fulltext indices:
 
 .. code-block:: sql
