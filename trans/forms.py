@@ -7,7 +7,7 @@ def escape_newline(value):
     '''
     Escapes newlines so that they are not lost in <textarea>.
     '''
-    if len(value[0]) >= 1 and value[0][0] == '\n':
+    if len(value) >= 1 and value[0] == '\n':
         return '\n' + value
     return value
 
