@@ -44,6 +44,39 @@ as :file:`favicon.ico`.
 
 .. seealso:: https://docs.djangoproject.com/en/1.3/howto/deployment/
 
+Sample configuration for Lighttpd
++++++++++++++++++++++++++++++++++
+
+The configuration for Lighttpd web server might look like following::
+
+    fastcgi.server = (
+        "/weblate.fcgi" => (
+            "main" => (
+                "socket" => "/var/run/django/weblate.socket",
+                "check-local" => "disable",
+            )
+        ),
+    )
+    alias.url = (
+        "/media" => "/var/lib/django/weblate/media/",
+        "/static/admin" => "/usr/share/pyshared/django/contrib/admin/media/",
+    )
+
+    url.rewrite-once = (
+        "^(/*media.*)$" => "$1",
+        "^(/*static.*)$" => "$1",
+        "^/*favicon\.ico$" => "/media/favicon.ico",
+        "^/*robots\.txt$" => "/media/robots.txt",
+        "^(/.*)$" => "/weblate.fcgi$1",
+    )
+
+    expire.url                  = (
+        "/media/" => "access 1 months",
+        "/static/" => "access 1 months",
+        "/favicon.ico" => "access 1 months",
+    )
+
+
 Upgrading
 ---------
 
