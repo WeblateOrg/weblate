@@ -31,3 +31,9 @@ Running Weblate is not different from running any other Django based
 application.
 
 .. seealso:: https://docs.djangoproject.com/en/1.3/howto/deployment/
+
+Upgrading
+---------
+
+On upgrade to version 0.6 you should setup access control as described in
+installation section.
