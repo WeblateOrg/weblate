@@ -248,6 +248,3 @@ EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_TITLE
 
 # Enable remote hooks
 ENABLE_HOOKS = False
-
-# Use fulltext search, requires MySQL and additional setup
-USE_FULLTEXT = False

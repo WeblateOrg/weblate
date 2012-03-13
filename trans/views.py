@@ -308,13 +308,6 @@ def translate(request, project, subproject, lang):
                     query |= Q(target = search_query)
                 if search_context:
                     query |= Q(context = search_query)
-            elif settings.USE_FULLTEXT:
-                if search_source:
-                    query |= Q(source__search = search_query)
-                if search_target:
-                    query |= Q(target__search = search_query)
-                if search_context:
-                    query |= Q(context__search = search_query)
             else:
                 if search_source:
                     query |= Q(source__icontains = search_query)

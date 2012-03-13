@@ -108,21 +108,3 @@ group and create additional groups with finer privileges (eg. `Translators`
 group, which will be allowed to save translations and manage suggestions) and
 add selected users to this group. You can do all this from Django admin
 interface.
-
-.. _fulltext:
-
-Fulltext search
----------------
-
-Weblate can optionally utilize fulltext index cabability in MySQL to search
-for translations. You need first to manually add fulltext indices:
-
-.. code-block:: sql
-
-    CREATE FULLTEXT INDEX `ftx_source` ON `trans_unit` (`source`);
-    CREATE FULLTEXT INDEX `ftx_target` ON `trans_unit` (`target`);
-    CREATE FULLTEXT INDEX `ftx_context` ON `trans_unit` (`context`);
-
-Now you can enable using them by changing :envvar:`USE_FULLTEXT`.
-
-.. seealso:: https://docs.djangoproject.com/en/1.3/ref/models/querysets/#search

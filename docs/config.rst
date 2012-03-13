@@ -30,10 +30,5 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     Site title to be used in website and emails as well.
 
-.. envvar:: USE_FULLTEXT
-
-    Enable fulltext search using MySQL.
-
-    .. seealso:: :ref:`fulltext`
 
 .. seealso:: https://docs.djangoproject.com/en/1.3/ref/settings/
