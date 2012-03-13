@@ -5,7 +5,7 @@ from django.template import RequestContext, loader
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
@@ -191,6 +191,9 @@ def translate(request, project, subproject, lang):
                 elif not request.user.is_authenticated():
                     # We accept translations only from authenticated
                     messages.add_message(request, messages.ERROR, _('You need to log in to be able to save translations!'))
+                elif not request.user.has_perm('trans.save_translation'):
+                    # Need privilege to save
+                    messages.add_message(request, messages.ERROR, _('You don\'t have privileges to save translations!'))
                 else:
                     # Remember old checks
                     oldchecks = set(unit.active_checks().values_list('check', flat = True))
@@ -230,7 +233,7 @@ def translate(request, project, subproject, lang):
     if 'accept' in request.GET or 'delete' in request.GET:
         # Check for authenticated users
         if not request.user.is_authenticated():
-            messages.add_message(request, messages.ERROR, _('You need to log in to be able to manage suggestions!'))
+            messages.add_message(request, messages.ERROR, _('You need to log in to be able to manage suggestions!'
             return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
                 obj.get_translate_url(),
                 rqtype,
@@ -240,8 +243,24 @@ def translate(request, project, subproject, lang):
 
         # Parse suggestion ID
         if 'accept' in request.GET:
+            if not request.user.has_perm('trans.accept_suggestion'):
+                messages.add_message(request, messages.ERROR, _('You do not have privilege to accept suggestions!'))
+                return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                    obj.get_translate_url(),
+                    rqtype,
+                    pos,
+                    search_url
+                ))
             sugid = request.GET['accept']
         else:
+            if not request.user.has_perm('trans.delete_suggestion'):
+                messages.add_message(request, messages.ERROR, _('You do not have privilege to delete suggestions!'))
+                return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                    obj.get_translate_url(),
+                    rqtype,
+                    pos,
+                    search_url
+                ))
             sugid = request.GET['delete']
         try:
             sugid = int(sugid)
@@ -359,6 +378,7 @@ def get_string(request, checksum):
     return HttpResponse(units[0].get_source_plurals()[0])
 
 @login_required
+@permission_required('trans.ignore_check')
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk = int(check_id))
     obj.ignore = True
@@ -366,6 +386,7 @@ def ignore_check(request, check_id):
     return HttpResponse('ok')
 
 @login_required
+@permission_required('trans.upload_translation')
 def upload_translation(request, project, subproject, lang):
     '''
     Handling of translation uploads.
