@@ -30,6 +30,18 @@ Running server
 Running Weblate is not different from running any other Django based
 application.
 
+It is recommended to serve static files directly by your webserver, you should
+use that for following paths:
+
+:file:`/media`
+    Serves :file:`media` directory from Weblate.
+:file:`/static/admin`
+    Serves media files for Django admin interface (eg.
+    :file:`/usr/share/pyshared/django/contrib/admin/media/`).
+
+Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
+as :file:`favicon.ico`.
+
 .. seealso:: https://docs.djangoproject.com/en/1.3/howto/deployment/
 
 Upgrading
