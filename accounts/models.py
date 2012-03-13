@@ -7,6 +7,7 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import Group
 
 from lang.models import Language
 
@@ -58,5 +59,8 @@ def create_profile_callback(sender, **kwargs):
         profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
         if newprofile:
             profile.save
+
+        group = Group.objects.get(name = 'Users')
+        kwargs['instance'].groups.add(group)
 
 post_save.connect(create_profile_callback, sender = User)
