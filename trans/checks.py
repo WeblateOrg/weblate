@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from django.utils.translation import ugettext_lazy as _
 import re
 
@@ -91,6 +92,12 @@ def check_end_space(source, target, flags, language):
     return check_chars(source, target, -1, [' '])
 
 CHECKS['end_space'] = (_('Trailing space'), check_end_newline, _('Source and translated do not both end with space'))
+
+@plural_check
+def check_end_stop(source, target, flags, language):
+    return check_chars(source, target, -1, ['.', '。', '।', '۔'])
+
+CHECKS['end_stop'] = (_('Trailing stop'), check_end_newline, _('Source and translated do not both end with full stop'))
 
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
