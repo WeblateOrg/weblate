@@ -56,10 +56,12 @@ def create_profile_callback(sender, **kwargs):
     Automatically create profile when creating new user.
     '''
     if kwargs['created']:
+        # Create profile
         profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
         if newprofile:
             profile.save
 
+        # Add user to Users group if it exists
         try:
             group = Group.objects.get(name = 'Users')
             kwargs['instance'].groups.add(group)
