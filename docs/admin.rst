@@ -102,3 +102,9 @@ Weblate uses privileges system based on Django. It defines following extra privi
 The default setup (after you run :program:`./manage.py setupgroups`) consists
 of single group `Users` which has all above privileges and all users are
 automatically added to this group.
+
+To customize this setup, it is recommended to remove privileges from `Users`
+group and create additional groups with finer privileges (eg. `Translators`
+group, which will be allowed to save translations and manage suggestions) and
+add selected users to this group. You can do all this from Django admin
+interface.
