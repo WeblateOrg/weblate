@@ -60,7 +60,10 @@ def create_profile_callback(sender, **kwargs):
         if newprofile:
             profile.save
 
-        group = Group.objects.get(name = 'Users')
-        kwargs['instance'].groups.add(group)
+        try:
+            group = Group.objects.get(name = 'Users')
+            kwargs['instance'].groups.add(group)
+        except Group.DoesNotExist:
+            pass
 
 post_save.connect(create_profile_callback, sender = User)
