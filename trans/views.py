@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SearchForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 import logging
@@ -76,7 +76,10 @@ def show_subproject(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
-    form = UploadForm()
+    if request.user.has_perm('trans.overwrite_translation'):
+        form = UploadForm()
+    else:
+        form = SimpleUploadForm()
     search_form = SearchForm()
 
     return render_to_response('translation.html', RequestContext(request, {
@@ -394,7 +397,10 @@ def upload_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     if request.method == 'POST':
-        form = UploadForm(request.POST, request.FILES)
+        if request.user.has_perm('trans.overwrite_translation'):
+            form = UploadForm(request.POST, request.FILES)
+        else:
+            form = SimpleUploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 ret = obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'])

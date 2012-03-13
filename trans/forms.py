@@ -75,8 +75,10 @@ class TranslationForm(forms.Form):
     target = PluralField(required = False)
     fuzzy = forms.BooleanField(label = _('Fuzzy'), required = False)
 
-class UploadForm(forms.Form):
+class SimpleUploadForm(forms.Form):
     file  = forms.FileField(label = _('File'))
+
+class UploadForm(SimpleUploadForm):
     overwrite = forms.BooleanField(label = _('Overwrite existing translations'), required = False)
 
 class SearchForm(forms.Form):
