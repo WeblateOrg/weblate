@@ -86,6 +86,12 @@ def check_end_newline(source, target, flags, language):
 
 CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with newline'))
 
+@plural_check
+def check_end_space(source, target, flags, language):
+    return check_chars(source, target, -1, [' '])
+
+CHECKS['end_space'] = (_('Trailing space'), check_end_newline, _('Source and translated do not both end with space'))
+
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
 def check_format_strings(source, target, regex):
