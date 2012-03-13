@@ -95,13 +95,13 @@ CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and trans
 
 @plural_check
 def check_end_stop(source, target, flags, language):
-    return check_chars(source, target, -1, ['.', '。', '।', '۔'])
+    return check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
 
 CHECKS['end_stop'] = (_('Trailing stop'), check_end_stop, _('Source and translated do not both end with full stop'))
 
 @plural_check
 def check_end_question(source, target, flags, language):
-    return check_chars(source, target, -1, ['?', '՞', '؟', '⸮', '？', '፧', '꘏', '⳺'])
+    return check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
 
 CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with question mark'))
 
