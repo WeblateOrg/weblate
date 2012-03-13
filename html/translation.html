@@ -36,10 +36,14 @@
 <p>{% blocktrans %}You can <a href="{{ download_url }}">download</a> file for offline translation.{% endblocktrans %}</p>
 {% endwith %}
 
-{% if user.is_authenticated %}
+{% if perms.trans.upload_translation %}
 <h2>{% trans "Upload" %}</h2>
 
+{% if perms.trans.overwrite_translation %}
 <p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
+{% else %}
+<p>{% trans "Uploaded file will be merged with current translation." %}</p>
+{% endif %}
 
 <form action="{% url 'trans.views.upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
