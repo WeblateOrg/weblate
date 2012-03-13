@@ -225,6 +225,10 @@ class Translation(models.Model):
 
     class Meta:
         ordering = ['language__name']
+        permissions = (
+            ('upload_translation', "Can upload translation"),
+            ('overwrite_translation', "Can overwrite with translation upload"),
+        )
 
     def get_fuzzy_percent(self):
         if self.total == 0:
@@ -467,6 +471,9 @@ class Unit(models.Model):
     objects = UnitManager()
 
     class Meta:
+        permissions = (
+            ('save_translation', "Can save translation"),
+        )
         ordering = ['position']
 
     def update_from_unit(self, unit, pos, force):
@@ -608,6 +615,11 @@ class Suggestion(models.Model):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
 
+    class Meta:
+        permissions = (
+            ('accept_suggestion', "Can accept suggestion"),
+        )
+
     def accept(self, request):
         allunits = Unit.objects.filter(
             checksum = self.checksum,
@@ -627,6 +639,11 @@ class Check(models.Model):
     language = models.ForeignKey(Language)
     check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
     ignore = models.BooleanField(db_index = True)
+
+    class Meta:
+        permissions = (
+            ('ignore_check', "Can ignore check results"),
+        )
 
     def get_description(self):
         return trans.checks.CHECKS[self.check][2]
