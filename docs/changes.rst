@@ -7,6 +7,7 @@ weblate 0.7
 Relased on ? 2012.
 
 * Direct support for GitHub notifications.
+* Added support for cleaning up orphaned checks and translations.
 
 weblate 0.6
 -----------

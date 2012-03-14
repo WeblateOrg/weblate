@@ -12,6 +12,10 @@ The ./manage.py is extended with following commands:
     You can either define which subproject to check (eg. ``weblate/master``) or
     use ``--all`` to check all existing subprojects.
 
+.. option:: cleanuptrans
+
+    Cleanups orphnaed checks and translation suggestions.
+
 .. option:: loadpo
 
     Reloads translations from disk (eg. in case you did some updates in Git
