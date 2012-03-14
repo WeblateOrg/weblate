@@ -106,6 +106,12 @@ def check_end_stop(source, target, flags, language):
 CHECKS['end_stop'] = (_('Trailing stop'), check_end_stop, _('Source and translated do not both end with full stop'))
 
 @plural_check
+def check_end_colon(source, target, flags, language):
+    return check_chars(source, target, -1, [u':', u'：'])
+
+CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with colon'))
+
+@plural_check
 def check_end_question(source, target, flags, language):
     return check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
 
