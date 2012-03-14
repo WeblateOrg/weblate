@@ -10,6 +10,7 @@ Relased on ? 2012.
 * Tunable access control.
 * Improved handling of translations with new lines.
 * Please check upgrading instructions in case you are upgrading.
+* Added client side sorting of tables.
 
 weblate 0.5
 -----------

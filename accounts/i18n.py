@@ -19,3 +19,4 @@ def fake():
     _("Translate using Apertium")
     _("Translate using Microsoft Translator")
     _("Translate using MyMemory")
+    _("Sort this column")
