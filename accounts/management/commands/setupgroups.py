@@ -21,6 +21,7 @@ class Command(BaseCommand):
                 Permission.objects.get(codename = 'overwrite_translation'),
                 Permission.objects.get(codename = 'save_translation'),
                 Permission.objects.get(codename = 'accept_suggestion'),
+                Permission.objects.get(codename = 'delete_suggestion'),
                 Permission.objects.get(codename = 'ignore_check'),
             )
         if options['move']:
