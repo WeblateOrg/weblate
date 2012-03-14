@@ -6,6 +6,8 @@ weblate 0.7
 
 Relased on ? 2012.
 
+* Direct support for GitHub notifications.
+
 weblate 0.6
 -----------
 
