@@ -586,6 +586,8 @@ class Unit(models.Model):
         )
 
     def check(self):
+        if self.fuzzy:
+            return
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         failing = []
