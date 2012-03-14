@@ -2,13 +2,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext, loader
-from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
-from django.views.decorators.csrf import csrf_exempt
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
 from lang.models import Language
@@ -412,18 +410,6 @@ def upload_translation(request, project, subproject, lang):
                 messages.add_message(request, messages.ERROR, _('File content merge failed: %s' % unicode(e)))
 
     return HttpResponseRedirect(obj.get_absolute_url())
-
-@csrf_exempt
-def update_subproject(request, project, subproject):
-    '''
-    API hook for updating git repos.
-    '''
-    if not settings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
-    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
-    obj.update_branch()
-    obj.create_translations()
-    return HttpResponse('updated')
 
 def not_found(request):
     '''
