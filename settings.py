@@ -247,4 +247,4 @@ EMAIL_SEND_HTML = False
 EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_TITLE
 
 # Enable remote hooks
-ENABLE_HOOKS = False
+ENABLE_HOOKS = True
