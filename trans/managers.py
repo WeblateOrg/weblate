@@ -76,6 +76,6 @@ class UnitManager(models.Manager):
                 check = rqtype,
                 ignore = False)
             sugs = sugs.values_list('checksum', flat = True)
-            return self.filter(checksum__in = sugs)
+            return self.filter(checksum__in = sugs, fuzzy = False, translated = True)
         else:
             return self.all()
