@@ -107,9 +107,16 @@ CHECKS['end_stop'] = (_('Trailing stop'), check_end_stop, _('Source and translat
 
 @plural_check
 def check_end_colon(source, target, flags, language):
+    if language.code.split('_')[0] in ['fr', 'br']:
+        if len(target) == 0:
+            return False
+        if source[-1] == ':':
+            if target[-3:] != ' : ':
+                return True
+        return False
     return check_chars(source, target, -1, [u':', u'：'])
 
-CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with colon'))
+CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with colon or colon is not correctly spaced'))
 
 @plural_check
 def check_end_question(source, target, flags, language):
