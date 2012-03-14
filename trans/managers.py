@@ -73,7 +73,8 @@ class UnitManager(models.Manager):
             sugs = trans.models.Check.objects.filter(
                 language = sample.translation.language,
                 project = sample.translation.subproject.project,
-                check = rqtype)
+                check = rqtype,
+                ignore = False)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
         else:
