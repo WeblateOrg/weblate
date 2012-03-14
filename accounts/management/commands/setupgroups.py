@@ -15,15 +15,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         group, created = Group.objects.get_or_create(name = 'Users')
-        if created:
-            group.permissions.add(
-                Permission.objects.get(codename = 'upload_translation'),
-                Permission.objects.get(codename = 'overwrite_translation'),
-                Permission.objects.get(codename = 'save_translation'),
-                Permission.objects.get(codename = 'accept_suggestion'),
-                Permission.objects.get(codename = 'delete_suggestion'),
-                Permission.objects.get(codename = 'ignore_check'),
-            )
+        group.permissions.add(
+            Permission.objects.get(codename = 'upload_translation'),
+            Permission.objects.get(codename = 'overwrite_translation'),
+            Permission.objects.get(codename = 'save_translation'),
+            Permission.objects.get(codename = 'accept_suggestion'),
+            Permission.objects.get(codename = 'delete_suggestion'),
+            Permission.objects.get(codename = 'ignore_check'),
+        )
         if options['move']:
             for u in User.objects.all():
                 u.groups.add(group)
