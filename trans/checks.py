@@ -59,7 +59,8 @@ def plural_check(f):
 
 @plural_check
 def check_same(source, target, flags, language):
-    if language.code.split('_') == 'en':
+    print language.code.split('_')
+    if language.code.split('_')[0] == 'en':
         return False
     return (source == target)
 
