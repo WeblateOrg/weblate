@@ -9,8 +9,8 @@ Relased on February 14th 2012.
 * Added various checks for translated messages.
 * Tunable access control.
 * Improved handling of translations with new lines.
-* Please check upgrading instructions in case you are upgrading.
 * Added client side sorting of tables.
+* Please check upgrading instructions in case you are upgrading.
 
 weblate 0.5
 -----------
