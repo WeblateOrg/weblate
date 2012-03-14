@@ -111,7 +111,7 @@ def check_end_colon(source, target, flags, language):
         if len(target) == 0:
             return False
         if source[-1] == ':':
-            if target[-3:] != ' : ':
+            if target[-3:] not in [' : ', '&nbsp;: ']:
                 return True
         return False
     return check_chars(source, target, -1, [u':', u'：'])
