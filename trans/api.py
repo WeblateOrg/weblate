@@ -32,8 +32,8 @@ def github_hook(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
     try:
-        data = json.loads(request.raw_post_data)
-    except ValueError:
+        data = json.loads(request.POST['payload'])
+    except (ValueError, KeyError):
         return HttpResponseBadRequest('could not parse json!')
     repo = 'git://github.com/%s/%s.git' % (
         data['repository']['owner']['name'],
