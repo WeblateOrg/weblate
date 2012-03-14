@@ -20,8 +20,8 @@
 {% with trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy %}
 <tr>
 <th><a href="{{ trans.get_absolute_url }}">{{ trans.subproject }} - {% trans trans.language.name %}</a></th>
-<td class="percent">{{ percent }}%</td>
 <td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
+<td class="percent">{{ percent }}%</td>
 <td class="percent">{{ fuzzy }}%</td>
 <td>{% if percent < 100 %}<a href="{{ trans.get_translate_url }}?type=untranslated">{% trans "Translate" %}</a>{% endif %}</td>
 </tr>
@@ -44,8 +44,8 @@
 {% with prj.get_translated_percent as percent %}
 <tr>
 <th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
-<td class="percent">{{ percent }}%</td>
 <td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
+<td class="percent">{{ percent }}%</td>
 </tr>
 {% endwith %}
 {% endfor %}
