@@ -4,7 +4,7 @@ Changes
 weblate 0.6
 -----------
 
-Relased on ? 2012.
+Relased on February 14th 2012.
 
 * Added various checks for translated messages.
 * Tunable access control.
