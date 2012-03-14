@@ -79,6 +79,16 @@ function load_translate_apis() {
     });
 }
 
+function cell_cmp(a, b) {
+    if (a.indexOf('%') != -1 && b.indexOf('%') != -1) {
+        a = parseFloat(a.replace(',', '.'));
+        b = parseFloat(b.replace(',', '.'));
+    }
+    if (a == b) return 0;
+    if (a > b) return 1;
+    return -1;
+}
+
 $(function() {
     $('.button').button();
     $('ul.menu li a').button();
@@ -110,4 +120,49 @@ $(function() {
             $('#' + parent_id).remove();
         });
     });
+    $('table.sort').each(function() {
+        $(this).find('thead th')
+            .each(function(){
+
+            var th = $(this),
+                thIndex = th.index(),
+                inverse = 1,
+                tbody = th.parents('table').find('tbody'),
+                thead = th.parents('table').find('thead');
+            if (th.text() == '') {
+                return;
+            }
+            // Second column contains percent with colspan
+            if (thIndex >= 1) {
+                thIndex += 1;
+            }
+            th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort ui-icon ui-icon-carat-2-n-s" />');
+//            .wrapInner('<span class="sort" title="' +  + '"/>')
+
+            th.click(function(){
+
+                tbody.find('td,th').filter(function(){
+                    return $(this).index() === thIndex;
+                }).sortElements(function(a, b){
+                    return inverse * cell_cmp($.text([a]), $.text([b]));
+                }, function(){
+
+                    // parentNode is the element we want to move
+                    return this.parentNode;
+
+                });
+                thead.find('span.sort').removeClass('ui-icon-carat-1-n ui-icon-carat-1-s').addClass('ui-icon-carat-2-n-s');
+                if (inverse == 1) {
+                    $(this).find('span.sort').addClass('ui-icon-carat-1-n').removeClass('ui-icon-carat-2-n-s');
+                } else {
+                    $(this).find('span.sort').addClass('ui-icon-carat-1-s').removeClass('ui-icon-carat-2-n-s');
+                }
+
+                inverse = inverse * -1;
+
+            });
+        });
+
+    });
+
 });
