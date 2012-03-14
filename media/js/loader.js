@@ -83,6 +83,9 @@ function cell_cmp(a, b) {
     if (a.indexOf('%') != -1 && b.indexOf('%') != -1) {
         a = parseFloat(a.replace(',', '.'));
         b = parseFloat(b.replace(',', '.'));
+    } else {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
     }
     if (a == b) return 0;
     if (a > b) return 1;
