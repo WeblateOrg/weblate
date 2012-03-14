@@ -39,8 +39,9 @@ def github_hook(request):
         data['repository']['owner']['name'],
         data['repository']['name'],
         )
-    logger.info('received GitHub notification on repository %s', repo)
-    for s in SubProject.objects.filter(repo = repo):
+    branch = data['ref'].split('/')[-1]
+    logger.info('received GitHub notification on repository %s, branch %s', repo, branch)
+    for s in SubProject.objects.filter(repo = repo, branch = branch):
         logger.info('GitHub notification will update %s', s)
         s.update_branch()
         s.create_translations()
