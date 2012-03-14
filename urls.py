@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^languages/(?P<lang>[^/]*)/$', 'trans.views.show_language'),
 
     url(r'^hooks/p/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.api.update_subproject'),
+    url(r'^hooks/github/$', 'trans.api.github_hook'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.ignore_check'),

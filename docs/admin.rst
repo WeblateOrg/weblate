@@ -83,8 +83,15 @@ Interacting with others
 -----------------------
 
 You can trigger update of underlaying git repository for every subproject by
-accessing URL :file:`/hooks/p/project/subproject/update/`. This can be used for
-example as as Post-Receive URLs on Github.
+accessing URL :file:`/hooks/p/project/subproject/update/`. 
+
+For GitHub, there is a special URL :file:`/hooks/github/`, which parses GitHub
+notifications and updates related projects automatically.
+
+.. note::
+
+    The GitHub notification relies on Git urls you use to be in form 
+    git://github.com/owner/repo.git
 
 .. _privileges:
 
