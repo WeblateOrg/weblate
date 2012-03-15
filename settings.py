@@ -248,3 +248,6 @@ EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_TITLE
 
 # Enable remote hooks
 ENABLE_HOOKS = True
+
+# Number of nearby messages to show in each direction
+NEARBY_MESSAGES = 5

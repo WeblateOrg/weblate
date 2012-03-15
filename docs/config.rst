@@ -26,6 +26,10 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     API key for Microsoft Translator service, you can register at http://www.bing.com/developers/createapp.aspx
 
+.. envvar:: NEARBY_MESSAGES
+
+    How many messages around current one to show during translating.
+
 .. envvar:: SITE_TITLE
 
     Site title to be used in website and emails as well.

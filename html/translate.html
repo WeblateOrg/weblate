@@ -156,6 +156,19 @@
         <li><a href="/js/similar/{{ unit.id }}/">{% trans "Similar messages" %}</a></li>
     </ul>
     <div id="tab-nearby">
+    <table>
+    <thead>
+    <tr><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th></tr>
+    </thead>
+    <tbody>
+    {% for item in unit.nearby %}
+    <tr>
+    <td class="translatetext">{{ item.source|fmttranslation }}</td>
+    <td class="translatetext">{{ item.target|fmttranslation:unit.translation.language }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
     </div>
 </div>
 
