@@ -162,9 +162,9 @@
     </thead>
     <tbody>
     {% for item in unit.nearby %}
-    <tr>
-    <td class="translatetext">{{ item.source|fmttranslation }}</td>
-    <td class="translatetext">{{ item.target|fmttranslation:unit.translation.language }}</td>
+    <tr class="clickable">
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
     </tr>
     {% endfor %}
     </tbody>
