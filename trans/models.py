@@ -478,6 +478,9 @@ class Unit(models.Model):
         )
         ordering = ['position']
 
+    def get_absolute_url(self):
+        return '%s?oldpos=%d&dir=stay' % (self.translation.get_translate_url(), self.position)
+
     def update_from_unit(self, unit, pos, force):
         location = ', '.join(unit.getlocations())
         if hasattr(unit, 'typecomments'):
