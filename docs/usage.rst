@@ -160,18 +160,20 @@ checked in various language variants (Chinese or Japanese).
 Trailing question
 +++++++++++++++++
 
-Source and translated do not both end with question mark. Question mark is
-also checked in various language variants (Armenian, Arabic, Chinese, Korean,
-Japanese, Ethiopic, Vai or Coptic).
+Source and translated do not both end with question mark or it is not
+correctly spaced. This includes spacing rules for French or Breton. Question
+mark is also checked in various language variants (Armenian, Arabic, Chinese,
+Korean, Japanese, Ethiopic, Vai or Coptic).
 
 .. _check-end_exclamation:
 
 Trailing exclamation
 ++++++++++++++++++++
 
-Source and translated do not both end with exclamation mark. Exclamation mark
-is also check in various langauge variants (Chinese, Japanese, Korean,
-Armenian, Limbu, Myanmar or Nko).
+Source and translated do not both end with exclamation mark or it is not
+correctly spaced. This includes spacing rules for French or Breton.
+Exclamation mark is also check in various langauge variants (Chinese,
+Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
 .. _check-python_format:
 

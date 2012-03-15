@@ -120,15 +120,29 @@ CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and trans
 
 @plural_check
 def check_end_question(source, target, flags, language):
+    if language.code.split('_')[0] in ['fr', 'br']:
+        if len(target) == 0:
+            return False
+        if source[-1] == ':':
+            if target[-2:] not in [' ?', '&nbsp;?', u' ?']:
+                return True
+        return False
     return check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
 
-CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with a question mark'))
+CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with a question mark or it is not correctly spaced'))
 
 @plural_check
 def check_end_exclamation(source, target, flags, language):
+    if language.code.split('_')[0] in ['fr', 'br']:
+        if len(target) == 0:
+            return False
+        if source[-1] == ':':
+            if target[-2:] not in [' !', '&nbsp;!', u' !']:
+                return True
+        return False
     return check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
 
-CHECKS['end_exclamation'] = (_('Trailing exclamation'), check_end_exclamation, _('Source and translated do not both end with an exclamation mark'))
+CHECKS['end_exclamation'] = (_('Trailing exclamation'), check_end_exclamation, _('Source and translated do not both end with an exclamation mark or it is not correctly spaced'))
 
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
