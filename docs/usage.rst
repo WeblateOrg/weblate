@@ -101,3 +101,106 @@ which might stop working in future.
 .. seealso::
 
     http://www.microsofttranslator.com/
+
+Checks
+------
+
+Weblate does wide range of consistency checks on translated messages. The
+following section describes them in more detail. The checks take account also
+special rules for different languages, so if you think the result is wrong,
+please report a bug.
+
+.. _check-same:
+
+Not translated
+++++++++++++++
+
+The source and translated strings are same at least in one of plural forms.
+
+.. _check-begin_newline:
+
+Starting newline
+++++++++++++++++
+
+Source and translated do not both start with a newline.
+
+.. _check-end_newline:
+
+Trailing newline
+++++++++++++++++
+
+Source and translated do not both end with a newline.
+
+.. _check-end_space:
+
+Trailing space
+++++++++++++++
+
+Source and translated do not both end with a space.
+
+.. _check-end_stop:
+
+Trailing stop
++++++++++++++
+
+Source and translated do not both end with a full stop. Full stop is also
+checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
+
+.. _check-end_colon:
+
+Trailing colon
+++++++++++++++
+
+Source and translated do not both end with a colon or colon is not correctly
+spaced. This includes spacing rules for French or Breton. Colon is also
+checked in various language variants (Chinese or Japanese).
+
+.. _check-end_question:
+
+Trailing question
++++++++++++++++++
+
+Source and translated do not both end with question mark or it is not
+correctly spaced. This includes spacing rules for French or Breton. Question
+mark is also checked in various language variants (Armenian, Arabic, Chinese,
+Korean, Japanese, Ethiopic, Vai or Coptic).
+
+.. _check-end_exclamation:
+
+Trailing exclamation
+++++++++++++++++++++
+
+Source and translated do not both end with exclamation mark or it is not
+correctly spaced. This includes spacing rules for French or Breton.
+Exclamation mark is also check in various langauge variants (Chinese,
+Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
+
+.. _check-python_format:
+
+Python format
++++++++++++++
+
+Python format string does not match source.
+
+.. _check-php_format:
+
+PHP format
+++++++++++
+
+PHP format string does not match source.
+
+.. _check-c_format:
+
+C format
+++++++++
+
+C format string does not match source.
+
+.. _check-plurals:
+
+Missing plurals
++++++++++++++++
+
+Some plural forms are not translated. Check plural form definition to see for
+which counts each plural form is being used.
+

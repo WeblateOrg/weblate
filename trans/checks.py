@@ -81,13 +81,13 @@ def check_chars(source, target, pos, chars):
 def check_begin_newline(source, target, flags, language):
     return check_chars(source, target, 0, ['\n'])
 
-CHECKS['begin_newline'] = (_('Starting newline'), check_begin_newline, _('Source and translated do not both start with newline'))
+CHECKS['begin_newline'] = (_('Starting newline'), check_begin_newline, _('Source and translated do not both start with a newline'))
 
 @plural_check
 def check_end_newline(source, target, flags, language):
     return check_chars(source, target, -1, ['\n'])
 
-CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with newline'))
+CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with a newline'))
 
 # Whitespace check
 
@@ -95,7 +95,7 @@ CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and
 def check_end_space(source, target, flags, language):
     return check_chars(source, target, -1, [' '])
 
-CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and translated do not both end with space'))
+CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and translated do not both end with a space'))
 
 # Check for punctation
 
@@ -103,7 +103,7 @@ CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and trans
 def check_end_stop(source, target, flags, language):
     return check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
 
-CHECKS['end_stop'] = (_('Trailing stop'), check_end_stop, _('Source and translated do not both end with full stop'))
+CHECKS['end_stop'] = (_('Trailing stop'), check_end_stop, _('Source and translated do not both end with a full stop'))
 
 @plural_check
 def check_end_colon(source, target, flags, language):
@@ -116,19 +116,33 @@ def check_end_colon(source, target, flags, language):
         return False
     return check_chars(source, target, -1, [u':', u'：'])
 
-CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with colon or colon is not correctly spaced'))
+CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with a colon or colon is not correctly spaced'))
 
 @plural_check
 def check_end_question(source, target, flags, language):
+    if language.code.split('_')[0] in ['fr', 'br']:
+        if len(target) == 0:
+            return False
+        if source[-1] == ':':
+            if target[-2:] not in [' ?', '&nbsp;?', u' ?']:
+                return True
+        return False
     return check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
 
-CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with question mark'))
+CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with a question mark or it is not correctly spaced'))
 
 @plural_check
 def check_end_exclamation(source, target, flags, language):
+    if language.code.split('_')[0] in ['fr', 'br']:
+        if len(target) == 0:
+            return False
+        if source[-1] == ':':
+            if target[-2:] not in [' !', '&nbsp;!', u' !']:
+                return True
+        return False
     return check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
 
-CHECKS['end_exclamation'] = (_('Trailing exclamation'), check_end_exclamation, _('Source and translated do not both end with exclamation mark'))
+CHECKS['end_exclamation'] = (_('Trailing exclamation'), check_end_exclamation, _('Source and translated do not both end with an exclamation mark or it is not correctly spaced'))
 
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
