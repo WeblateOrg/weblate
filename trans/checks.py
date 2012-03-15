@@ -36,6 +36,39 @@ C_PRINTF_MATCH = re.compile('''
             (?P<type>[\w%]))        # type (%s, %d, etc.)
         )''', re.VERBOSE)
 
+# We ignore some words which are usually not translated
+SAME_BLACKLIST = [
+    'b',
+    'bzip2',
+    'data',
+    'e-mail',
+    'eib',
+    'export',
+    'firmware',
+    'gib',
+    'gzip',
+    'id',
+    'imei',
+    'import',
+    'kib',
+    'latex',
+    'mib',
+    'ok',
+    'open document',
+    'pdf',
+    'pib',
+    'port',
+    'server',
+    'sim',
+    'smsc',
+    'software',
+    'sql',
+    'text',
+    'tib',
+    'wiki',
+    'xml',
+    'zip',
+    ]
 
 CHECKS = {}
 
@@ -60,6 +93,8 @@ def plural_check(f):
 @plural_check
 def check_same(source, target, flags, language):
     if language.code.split('_')[0] == 'en':
+        return False
+    if source.lower() in SAME_BLACKLIST:
         return False
     return (source == target)
 

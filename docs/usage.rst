@@ -116,6 +116,8 @@ Not translated
 ++++++++++++++
 
 The source and translated strings are same at least in one of plural forms.
+This checks ignores some strings which are quite usually same in all
+languages.
 
 .. _check-begin_newline:
 
