@@ -172,6 +172,9 @@ $(function() {
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
+        },
+        cookie: {
+            expires: 31
         }
     });
     $('tr.clickable').click(function() {
