@@ -148,6 +148,17 @@
 </table>
 </form>
 
+<h2>{% trans "Translation context" %}</h2>
+
+<div class="tabs">
+    <ul>
+        <li><a href="#tab-nearby">{% trans "Nearby messages" %}</a></li>
+        <li><a href="/js/similar/{{ unit.id }}/">{% trans "Similar messages" %}</a></li>
+    </ul>
+    <div id="tab-nearby">
+    </div>
+</div>
+
 {% include "translation_info.html" %}
 
 {% endblock %}

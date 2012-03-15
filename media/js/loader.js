@@ -167,5 +167,12 @@ $(function() {
         });
 
     });
+    $("div.tabs").tabs({
+        ajaxOptions: {
+            error: function(xhr, status, index, anchor) {
+                $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
+            }
+        }
+    });
 
 });
