@@ -619,8 +619,6 @@ class Unit(models.Model):
         '''
         Returns list of nearby messages based on location.
         '''
-        print self.position - settings.NEARBY_MESSAGES
-        print self.position + settings.NEARBY_MESSAGES
         return Unit.objects.filter(
             translation = self.translation,
             position__gte = self.position - settings.NEARBY_MESSAGES,
