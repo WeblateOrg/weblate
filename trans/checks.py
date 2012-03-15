@@ -43,6 +43,7 @@ SAME_BLACKLIST = [
     'data',
     'e-mail',
     'eib',
+    'esperanto',
     'export',
     'firmware',
     'fulltext',
