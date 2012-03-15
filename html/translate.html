@@ -16,10 +16,10 @@
 
 <p>{% blocktrans with unit.position as position %}Showing string {{ position }} out of {{ total }}.{% endblocktrans %}
 <span class="navi">
-<a class="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
-<a class="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
-<a class="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
-<a class="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;oldpos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
+<a class="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
+<a class="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
+<a class="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
+<a class="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
 </span>
 </p>
 
@@ -30,7 +30,7 @@
 <form action="{{ unit.translation.get_translate_url }}" method="post">
 {% csrf_token %}
 <input type="hidden" name="type" value="{{ type }}" />
-<input type="hidden" name="oldpos" value="{{ unit.position }}" />
+<input type="hidden" name="pos" value="{{ unit.position }}" />
 <input type="hidden" name="q" value="{{ search_query }}" />
 <input type="hidden" name="exact" value="{{ search_exact }}" />
 <input type="hidden" name="src" value="{{ search_source }}" />
@@ -101,10 +101,10 @@
 {% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
 <div class="suggestionactions">
 {% if perms.trans.accept_suggestion %}
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">Accept</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">Accept</a>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;oldpos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">Delete</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">Delete</a>
 {% endif %}
 </div>
 {% endif %}

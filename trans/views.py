@@ -127,7 +127,7 @@ def translate(request, project, subproject, lang):
     # Check where we are
     rqtype = request.REQUEST.get('type', 'all')
     direction = request.REQUEST.get('dir', 'forward')
-    pos = request.REQUEST.get('oldpos', '-1')
+    pos = request.REQUEST.get('pos', '-1')
     try:
         pos = int(pos)
     except:
@@ -212,7 +212,7 @@ def translate(request, project, subproject, lang):
                         # Show message to user
                         messages.add_message(request, messages.ERROR, _('Some checks have failed on your translation!'))
                         # Stay on same entry
-                        return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                        return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                             obj.get_translate_url(),
                             rqtype,
                             pos,
@@ -220,7 +220,7 @@ def translate(request, project, subproject, lang):
                         ))
 
                 # Redirect to next entry
-                return HttpResponseRedirect('%s?type=%s&oldpos=%d%s' % (
+                return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
                     obj.get_translate_url(),
                     rqtype,
                     pos,
@@ -235,7 +235,7 @@ def translate(request, project, subproject, lang):
         # Check for authenticated users
         if not request.user.is_authenticated():
             messages.add_message(request, messages.ERROR, _('You need to log in to be able to manage suggestions!'))
-            return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+            return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                 obj.get_translate_url(),
                 rqtype,
                 pos,
@@ -246,7 +246,7 @@ def translate(request, project, subproject, lang):
         if 'accept' in request.GET:
             if not request.user.has_perm('trans.accept_suggestion'):
                 messages.add_message(request, messages.ERROR, _('You do not have privilege to accept suggestions!'))
-                return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                     obj.get_translate_url(),
                     rqtype,
                     pos,
@@ -256,7 +256,7 @@ def translate(request, project, subproject, lang):
         else:
             if not request.user.has_perm('trans.delete_suggestion'):
                 messages.add_message(request, messages.ERROR, _('You do not have privilege to delete suggestions!'))
-                return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+                return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                     obj.get_translate_url(),
                     rqtype,
                     pos,
@@ -279,7 +279,7 @@ def translate(request, project, subproject, lang):
             messages.add_message(request, messages.ERROR, _('Invalid suggestion!'))
 
         # Redirect to same entry for possible editing
-        return HttpResponseRedirect('%s?type=%s&oldpos=%d&dir=stay%s' % (
+        return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
             obj.get_translate_url(),
             rqtype,
             pos,
