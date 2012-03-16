@@ -43,7 +43,8 @@ IGNORE_WORDS = set([
     'with',
 ])
 
-IGNORE_SEARCH = set([
+# List of
+IGNORE_SIMILAR = set([
     'also',
     'href',
     'me',
@@ -143,9 +144,9 @@ class UnitManager(models.Manager):
     def separate_words(self, words):
         return settings.SEARCH_WORD_SPLIT_REGEX.split(words)
 
-    def get_search_list(self, words):
+    def get_similar_list(self, words):
         words = [word.lower() for word in self.separate_words(words)]
-        return [word for word in words if not word in IGNORE_SEARCH]
+        return [word for word in words if not word in IGNORE_SIMILAR]
 
     def __index_item(self, text, language, unit):
         from ftsearch.models import WordLocation, Word
