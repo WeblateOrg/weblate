@@ -394,11 +394,9 @@ def get_similar(request, unit_id):
     # Try to find 10 similar string, remove up to 5 words
     while similar.count() < 10 and cnt > 0 and len(words) - cnt < 5:
         for search in itertools.combinations(words, cnt):
-            print search
             similar |= Unit.objects.search(search, Language.objects.get(code = 'en')).filter(
                 translation__subproject__project = unit.translation.subproject.project,
                 translation__language = unit.translation.language).exclude(id = unit.id)
-        print similar.count()
         cnt -= 1
 
     return render_to_response('similar.html', RequestContext(request, {
