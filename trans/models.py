@@ -494,7 +494,8 @@ class Unit(models.Model):
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
         comment = unit.getnotes()
-        if not force and location == self.location and flags == self.flags and target == self.target and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
+        same_content = (target == self.target)
+        if not force and location == self.location and flags == self.flags and same_content and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
             return
         self.position = pos
         self.location = location
@@ -503,7 +504,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
-        self.save(force_insert = force, backend = True)
+        self.save(force_insert = force, backend = True, same_content = same_content)
 
     def is_plural(self):
         return is_plural(self.source)
@@ -554,8 +555,14 @@ class Unit(models.Model):
             logger.error('Unit.save called without backend sync: %s', ''.join(traceback.format_stack()))
         else:
             del kwargs['backend']
-        self.check()
+        if 'same_content' in kwargs:
+            same_content = kwargs['same_content']
+            del kwargs['same_content']
+        else:
+            same_content = False
         super(Unit, self).save(*args, **kwargs)
+        if not same_content:
+            self.check()
 
     def get_location_links(self):
         ret = []
