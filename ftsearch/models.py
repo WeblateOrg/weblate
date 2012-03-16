@@ -6,7 +6,7 @@ from lang.models import Language
 from trans.models import Unit
 
 class Word(models.Model):
-    word = models.CharField(max_length=255, db_index=True)
+    word = models.CharField(max_length=255)
     language = models.ForeignKey(Language, null = True, blank = True)
 
     def __unicode__(self):
