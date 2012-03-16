@@ -185,7 +185,6 @@ class UnitManager(models.Manager):
                 clause_list += ' and w%d.unit_id = w%d.unit_id and ' \
                                % (table_number - 1, table_number)
 
-            field_list += ',w%d.location' % table_number
             table_list += 'ftsearch_wordlocation w%d' % table_number
             clause_list += 'w%d.word_id=%d' % (table_number, word.id)
 
@@ -220,16 +219,3 @@ class UnitManager(models.Manager):
             return self.none()
 
         return self.filter(pk__in = [row[0] for row in rows])
-
-        # apply the weights to each row
-        weights = [(w, weight_fn(rows)) for w, weight_fn in settings.SEARCH_WEIGHTS]
-
-        # calculate total scores for each documents by applying weights
-        total_scores = dict([(row[0], 0) for row in rows])
-        for (weight, scores) in weights:
-            for document in total_scores:
-                total_scores[document] += weight * scores[document]
-
-
-        # sort by the calculated weights and return
-#        return sorted([(Unit.objects.get(pk = doc), score) for (doc, score) in total_scores.iteritems()], reverse=1)

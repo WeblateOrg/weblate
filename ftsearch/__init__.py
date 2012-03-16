@@ -11,20 +11,6 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from ftsearch.stemming import PorterStemmer
-from ftsearch.weights import frequency_score, location_score, distance_score
-
-
-VERSION = 0.1
-
-try:
-	getattr(settings, 'SEARCH_WEIGHTS')
-except AttributeError:
-	settings.SEARCH_WEIGHTS = (
-			(1.0, frequency_score),
-			(1.0, location_score),
-			(1.0, distance_score),
-	)
-
 
 try:
 	getattr(settings, 'SEARCH_STEMMER')
