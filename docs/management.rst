@@ -21,6 +21,13 @@ The ./manage.py is extended with following commands:
     Reloads translations from disk (eg. in case you did some updates in Git
     repository).
 
+.. option:: rebuild_index
+
+    Rebuilds index for fulltext search. This might be lengthy operation if you
+    have huge set of translation units.
+
+    You can use ``--clean`` to remove all words from database prior updating.
+
 .. option:: setupgroups
 
     Configures default groups and (if called with ``--move``) assigns all users

@@ -85,4 +85,5 @@ On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
 in installation section.
 
 On upgrade to version 0.7 you should run :program:`./manage.py syncdb` to
-setup new tables.
+setup new tables and :program:`./manage.py rebuild_index` to build index for
+fulltext search.
