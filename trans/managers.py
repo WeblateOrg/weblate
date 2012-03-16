@@ -204,7 +204,7 @@ class UnitManager(models.Manager):
 
     def search(self, query):
         from trans.models import Unit
-        if isinstance(query, str):
+        if isinstance(query, str) or isinstance(query, unicode):
             # split the string into a list of search terms
             query = self.__separate_words(query)
         elif not isinstance(query, list):
