@@ -216,6 +216,8 @@ class UnitManager(models.Manager):
 
         # get a row from the db for each matching word
         rows = self.__get_match_rows(stemmed_query, language)
+        if rows == ([], []):
+            return self.none()
 
         # apply the weights to each row
         weights = [(w, weight_fn(rows)) for w, weight_fn in settings.SEARCH_WEIGHTS]
