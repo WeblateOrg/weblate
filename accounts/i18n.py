@@ -21,3 +21,4 @@ def fake():
     _("Translate using MyMemory")
     _("Sort this column")
     _("AJAX request to load this content has failed!")
+    _("Loading...")

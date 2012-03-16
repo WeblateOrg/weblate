@@ -175,6 +175,17 @@ $(function() {
         },
         cookie: {
             expires: 31
+        },
+        cache: true,
+        load: function (e, ui) {
+            $(ui.panel).find(".tab-loading").remove();
+        },
+        show: function (e, ui) {
+            var $panel = $(ui.panel);
+
+            if ($panel.is(":empty")) {
+                $panel.append("<div class='tab-loading'>" + gettext("Loading...") + "</div>");
+            }
         }
     });
     $('tr.clickable').click(function() {
