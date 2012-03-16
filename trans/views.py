@@ -288,33 +288,40 @@ def translate(request, project, subproject, lang):
 
     # If we failed to get unit above or on no POST
     if unit is None:
-        # What unit set is about to show
-        if direction == 'stay':
-            units = obj.unit_set.filter(position = pos)
-        elif direction == 'back':
-            units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos).order_by('-position')
-        else:
-            units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
 
         # Apply search conditions
         if search_query != '':
-            query = Q()
             if search_exact:
+                query = Q()
                 if search_source:
                     query |= Q(source = search_query)
                 if search_target:
                     query |= Q(target = search_query)
                 if search_context:
                     query |= Q(context = search_query)
+                units = units.filter(query)
             else:
-                if search_source:
-                    query |= Q(source__icontains = search_query)
-                if search_target:
-                    query |= Q(target__icontains = search_query)
-                if search_context:
-                    query |= Q(context__icontains = search_query)
-
-            units = units.filter(query)
+                units = obj.unit_set.search(search_query)
+#                if search_source:
+#                    query |= Q(source__icontains = search_query)
+#                if search_target:
+#                    query |= Q(target__icontains = search_query)
+#                if search_context:
+#                    query |= Q(context__icontains = search_query)
+            if direction == 'stay':
+                units = units.filter(position = pos)
+            elif direction == 'back':
+                units = units.filter(position__lt = pos).order_by('-position')
+            else:
+                units = units.filter(position__gt = pos)
+        else:
+            # What unit set is about to show
+            if direction == 'stay':
+                units = obj.unit_set.filter(position = pos)
+            elif direction == 'back':
+                units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos).order_by('-position')
+            else:
+                units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
 
         # Grab actual unit
         try:
