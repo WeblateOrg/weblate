@@ -163,14 +163,14 @@ class UnitManager(models.Manager):
         self.__index_item('\n'.join(unit.get_source_plurals()), Language.objects.get(code = 'en'), unit)
         # Index translation
         self.__index_item('\n'.join(unit.get_target_plurals()), unit.translation.language, unit)
+        # Index context
+        if unit.context != '':
+            self.__index_item(unit.context, None, unit)
 
-    def __get_match_rows(self, query, language = None):
+    def __get_match_rows(self, query, language):
         from ftsearch.models import Word
         # Grab relevant words
-        if language is None:
-            word_objects = Word.objects.filter(word__in = query)
-        else:
-            word_objects = Word.objects.filter(word__in = query, language = language)
+        word_objects = Word.objects.filter(word__in = query, language = language)
 
         field_list = 'w0.unit_id'
         table_list = ''
@@ -202,7 +202,7 @@ class UnitManager(models.Manager):
 
         return [row for row in rows]
 
-    def search(self, query):
+    def search(self, query, language):
         from trans.models import Unit
         if isinstance(query, str) or isinstance(query, unicode):
             # split the string into a list of search terms
@@ -215,7 +215,7 @@ class UnitManager(models.Manager):
         stemmed_query = [p.stem(s.lower()) for s in query if s != '']
 
         # get a row from the db for each matching word
-        rows = self.__get_match_rows(stemmed_query)
+        rows = self.__get_match_rows(stemmed_query, language)
 
         # apply the weights to each row
         weights = [(w, weight_fn(rows)) for w, weight_fn in settings.SEARCH_WEIGHTS]

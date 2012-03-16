@@ -301,13 +301,13 @@ def translate(request, project, subproject, lang):
                     query |= Q(context = search_query)
                 units = units.filter(query)
             else:
-                units = obj.unit_set.search(search_query)
-#                if search_source:
-#                    query |= Q(source__icontains = search_query)
-#                if search_target:
-#                    query |= Q(target__icontains = search_query)
-#                if search_context:
-#                    query |= Q(context__icontains = search_query)
+                units = obj.unit_set.none()
+                if search_source:
+                    units |= obj.unit_set.search(search_query, Language.objects.get(code = 'en'))
+                if search_target:
+                    units |= obj.unit_set.search(search_query, unit.translation.language)
+                if search_context:
+                    units |= obj.unit_set.search(search_query, None)
             if direction == 'stay':
                 units = units.filter(position = pos)
             elif direction == 'back':

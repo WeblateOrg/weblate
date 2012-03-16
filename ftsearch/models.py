@@ -7,7 +7,7 @@ from trans.models import Unit
 
 class Word(models.Model):
     word = models.CharField(max_length=255, db_index=True)
-    origin = models.ForeignKey(Language, null = True, blank = True)
+    language = models.ForeignKey(Language, null = True, blank = True)
 
     def __unicode__(self):
         return "%s: %s" % (self.language.name, self.word)
