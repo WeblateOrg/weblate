@@ -8,6 +8,8 @@ Relased on ? 2012.
 
 * Direct support for GitHub notifications.
 * Added support for cleaning up orphaned checks and translations.
+* Displays nearby strings while translating.
+* Improved searching for string.
 
 weblate 0.6
 -----------
