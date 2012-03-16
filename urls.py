@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.ignore_check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'trans.views.get_similar'),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

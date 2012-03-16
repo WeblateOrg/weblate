@@ -378,6 +378,12 @@ def get_string(request, checksum):
 
     return HttpResponse(units[0].get_source_plurals()[0])
 
+def get_similar(request, unit_id):
+    unit = get_object_or_404(Unit, pk = int(unit_id))
+    return render_to_response('similar.html', RequestContext(request, {
+        'similar': [],
+    }))
+
 @login_required
 @permission_required('trans.ignore_check')
 def ignore_check(request, check_id):

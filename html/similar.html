@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load weblate %}
+{% if similar.count > 0 %}
+<table>
+    <thead>
+    <tr><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th></tr>
+    </thead>
+    <tbody>
+{% for item in similar %}
+    <tr class="clickable">
+    <td class="translatetext"><a href="{{ item.object.get_absolute_url }}">{{ item.object.source|fmttranslation }}</a></td>
+    <td class="translatetext"><a href="{{ item.object.get_absolute_url }}">{{ item.object.target|fmttranslation:item.object.translation.language }}</a></td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>{% trans "No similar strings found." %}</p>
+{% endif %}
