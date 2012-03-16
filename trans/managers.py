@@ -219,6 +219,8 @@ class UnitManager(models.Manager):
         if rows == ([], []):
             return self.none()
 
+        return self.filter(pk__in = [row[0] for row in rows])
+
         # apply the weights to each row
         weights = [(w, weight_fn(rows)) for w, weight_fn in settings.SEARCH_WEIGHTS]
 
@@ -228,7 +230,6 @@ class UnitManager(models.Manager):
             for document in total_scores:
                 total_scores[document] += weight * scores[document]
 
-        return self.filter(pk__in = total_scores.keys())
 
         # sort by the calculated weights and return
 #        return sorted([(Unit.objects.get(pk = doc), score) for (doc, score) in total_scores.iteritems()], reverse=1)
