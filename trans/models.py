@@ -563,6 +563,7 @@ class Unit(models.Model):
         super(Unit, self).save(*args, **kwargs)
         if not same_content:
             self.check()
+            Unit.objects.add_to_index(self)
 
     def get_location_links(self):
         ret = []
