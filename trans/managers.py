@@ -46,15 +46,20 @@ IGNORE_WORDS = set([
 # List of
 IGNORE_SIMILAR = set([
     'also',
+    'class',
     'href',
+    'http',
     'me',
     'most',
+    'net',
     'per',
+    'span',
     'their',
     'theirs',
     'you',
     'your',
     'yours',
+    'www',
 ]) | IGNORE_WORDS
 
 class TranslationManager(models.Manager):
@@ -146,7 +151,7 @@ class UnitManager(models.Manager):
 
     def get_similar_list(self, words):
         words = [word.lower() for word in self.separate_words(words)]
-        return [word for word in words if not word in IGNORE_SIMILAR]
+        return [word for word in words if not word in IGNORE_SIMILAR and len(word) > 0]
 
     def __index_item(self, text, language, unit):
         from ftsearch.models import WordLocation, Word
