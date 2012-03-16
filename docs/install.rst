@@ -83,3 +83,6 @@ Upgrading
 On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
 :program:`./manage.py setupgroups --move` to setup access control as described
 in installation section.
+
+On upgrade to version 0.7 you should run :program:`./manage.py syncdb` to
+setup new tables.
