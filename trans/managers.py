@@ -127,7 +127,7 @@ class UnitManager(models.Manager):
         from ftsearch.models import WordLocation
         return WordLocation.objects.filter(unit = unit).delete()
 
-    def __separate_words(self, words):
+    def separate_words(self, words):
         return settings.SEARCH_WORD_SPLIT_REGEX.split(words)
 
     def __index_item(self, text, language, unit):
@@ -135,7 +135,7 @@ class UnitManager(models.Manager):
 
         # Split to words
         p = settings.SEARCH_STEMMER()
-        stemmed_text = [p.stem(s.lower()) for s in self.__separate_words(text) if s != '']
+        stemmed_text = [p.stem(s.lower()) for s in self.separate_words(text) if s != '']
 
         # Store words in database
         for i, word in enumerate(stemmed_text):
@@ -205,7 +205,7 @@ class UnitManager(models.Manager):
         from trans.models import Unit
         if isinstance(query, str) or isinstance(query, unicode):
             # split the string into a list of search terms
-            query = self.__separate_words(query)
+            query = self.separate_words(query)
         elif not isinstance(query, list):
             raise TypeError("search must be called with a string or a list")
 
