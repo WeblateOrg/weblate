@@ -43,6 +43,19 @@ IGNORE_WORDS = set([
     'with',
 ])
 
+IGNORE_SEARCH = set([
+    'also',
+    'href',
+    'me',
+    'most',
+    'per',
+    'their',
+    'theirs',
+    'you',
+    'your',
+    'yours',
+]) | IGNORE_WORDS
+
 class TranslationManager(models.Manager):
     def update_from_blob(self, subproject, code, path, blob, force = False):
         '''
@@ -132,7 +145,7 @@ class UnitManager(models.Manager):
 
     def get_search_list(self, words):
         words = [word.lower() for word in self.separate_words(words)]
-        return [word for word in words if not word in IGNORE_WORDS]
+        return [word for word in words if not word in IGNORE_SEARCH]
 
     def __index_item(self, text, language, unit):
         from ftsearch.models import WordLocation, Word
