@@ -40,6 +40,11 @@ The ./manage.py is extended with following commands:
     Setups list of languages (it has own list and all defined in
     translate-toolkit).
 
+.. option:: updatechecks
+
+    Updates all check for all units. This could be useful only on upgrades
+    which do major changes to checks.
+
 .. option:: updategit
 
     Fetches remote Git repositories and updates internal cache.
