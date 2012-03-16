@@ -186,6 +186,11 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading...") + "</div>");
             }
+        },
+        load: function (e, ui) {
+            $('tr.clickable').click(function() {
+                window.location = $(this).find('a')[0].href;
+            });
         }
     });
     $('tr.clickable').click(function() {
