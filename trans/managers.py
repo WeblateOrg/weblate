@@ -191,7 +191,7 @@ class UnitManager(models.Manager):
             table_number += 1
 
         if not table_list or not clause_list:
-            return [], []
+            return []
 
         cur = connection.cursor()
         cur.execute('select %s from %s where %s' \
@@ -199,7 +199,7 @@ class UnitManager(models.Manager):
 
         rows = cur.fetchall()
 
-        return [row for row in rows]
+        return [row[0] for row in rows]
 
     def search(self, query, language):
         from trans.models import Unit
@@ -215,7 +215,7 @@ class UnitManager(models.Manager):
 
         # get a row from the db for each matching word
         rows = self.__get_match_rows(stemmed_query, language)
-        if rows == ([], []):
+        if rows == []:
             return self.none()
 
-        return self.filter(pk__in = [row[0] for row in rows])
+        return self.filter(pk__in = rows)
