@@ -305,7 +305,7 @@ def translate(request, project, subproject, lang):
                 if search_source:
                     units |= obj.unit_set.search(search_query, Language.objects.get(code = 'en'))
                 if search_target:
-                    units |= obj.unit_set.search(search_query, unit.translation.language)
+                    units |= obj.unit_set.search(search_query, obj.language)
                 if search_context:
                     units |= obj.unit_set.search(search_query, None)
             if direction == 'stay':
