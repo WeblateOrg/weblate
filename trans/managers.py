@@ -130,6 +130,10 @@ class UnitManager(models.Manager):
     def separate_words(self, words):
         return settings.SEARCH_WORD_SPLIT_REGEX.split(words)
 
+    def get_search_list(self, words):
+        words = [word.lower() for word in self.separate_words(words)]
+        return [word for word in words if not word in IGNORE_WORDS]
+
     def __index_item(self, text, language, unit):
         from ftsearch.models import WordLocation, Word
 
@@ -206,7 +210,7 @@ class UnitManager(models.Manager):
         if isinstance(query, str) or isinstance(query, unicode):
             # split the string into a list of search terms
             query = self.separate_words(query)
-        elif not isinstance(query, list):
+        elif not isinstance(query, list) and  not isinstance(query, tuple):
             raise TypeError("search must be called with a string or a list")
 
         p = settings.SEARCH_STEMMER()

@@ -8,8 +8,8 @@
     <tbody>
 {% for item in similar %}
     <tr class="clickable">
-    <td class="translatetext"><a href="{{ item.object.get_absolute_url }}">{{ item.object.source|fmttranslation }}</a></td>
-    <td class="translatetext"><a href="{{ item.object.get_absolute_url }}">{{ item.object.target|fmttranslation:item.object.translation.language }}</a></td>
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:item.translation.language }}</a></td>
     </tr>
 {% endfor %}
     </tbody>

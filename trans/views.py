@@ -14,6 +14,7 @@ from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, SearchFor
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 import logging
+import itertools
 import os.path
 
 # See https://code.djangoproject.com/ticket/6027
@@ -387,8 +388,18 @@ def get_string(request, checksum):
 
 def get_similar(request, unit_id):
     unit = get_object_or_404(Unit, pk = int(unit_id))
+    words = Unit.objects.get_search_list(unit.get_source_plurals()[0])
+    similar = Unit.objects.none()
+    cnt = len(words)
+    while similar.count() < 10 and cnt > 1 and len(words) - cnt < 5:
+        for search in itertools.combinations(words, cnt):
+            print search
+            similar |= Unit.objects.search(search, Language.objects.get(code = 'en')).filter(translation__subproject__project = unit.translation.subproject.project, translation__language = unit.translation.language).exclude(id = unit.id)
+        print similar.count()
+        cnt -= 1
+
     return render_to_response('similar.html', RequestContext(request, {
-        'similar': [],
+        'similar': similar,
     }))
 
 @login_required
