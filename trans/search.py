@@ -44,7 +44,7 @@ def create_index(sender=None, **kwargs):
 
 post_syncdb.connect(create_index)
 
-def get_ix_source():
+def get_source_index():
     if ix_source is None:
         ix_source = index.open_dir(
             settings.WHOOSH_INDEX,
@@ -52,10 +52,10 @@ def get_ix_source():
         )
     return ix_source
 
-def get_ix_translationg():
-    if ix_translationg is None:
-        ix_translationg = index.open_dir(
+def get_translation_index():
+    if ix_translation is None:
+        ix_translation = index.open_dir(
             settings.WHOOSH_INDEX,
             indexname = 'translationg'
         )
-    return ix_translationg
+    return ix_translation
