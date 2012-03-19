@@ -3,6 +3,8 @@ from django.conf import settings
 
 from lang.models import Language
 
+from whoosh import qparser
+
 from util import is_plural, split_plural, join_plural, msg_checksum
 
 import trans.search
@@ -178,21 +180,27 @@ class UnitManager(models.Manager):
         self.add_to_source_index(unit.checksum, unit.source, unit.context, writer_source)
         self.add_to_target_index(unit.checksum, unit.target, writer_target)
 
-    def search(self, query, source = True, translation = True):
-        from trans.models import Unit
-        if isinstance(query, str) or isinstance(query, unicode):
-            # split the string into a list of search terms
-            query = self.separate_words(query)
-        elif not isinstance(query, list) and  not isinstance(query, tuple):
-            raise TypeError("search must be called with a string or a list")
+    def search(self, query, source = True, context = True, translation = True):
+        ret = []
+        sample = self.all()[0]
+        if source or context:
+            with trans.search.get_source_searcher() as searcher:
+                if source:
+                    qp = qparser.QueryParser('source', trans.search.SourceSchema())
+                    q = qp.parse(query)
+                    for doc in searcher.docs_for_query(q):
+                        ret.append(searcher.stored_fields(doc)['checksum'])
+                if context:
+                    qp = qparser.QueryParser('context', trans.search.SourceSchema())
+                    q = qp.parse(query)
+                    for doc in searcher.docs_for_query(q):
+                        ret.append(searcher.stored_fields(doc)['checksum'])
 
-        p = settings.SEARCH_STEMMER()
-        # lowercase and stem each word
-        stemmed_query = [p.stem(s.lower()) for s in query if s != '']
+        if translation:
+            with trans.search.get_target_searcher(sample.translation.language.code) as searcher:
+                qp = qparser.QueryParser('target', trans.search.TargetSchema())
+                q = qp.parse(query)
+                for doc in searcher.docs_for_query(q):
+                    ret.append(searcher.stored_fields(doc)['checksum'])
 
-        # get a row from the db for each matching word
-        rows = self.__get_match_rows(stemmed_query, language)
-        if rows == []:
-            return self.none()
-
-        return self.filter(pk__in = rows)
+        return self.filter(checksum__in = ret)

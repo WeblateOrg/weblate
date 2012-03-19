@@ -10,7 +10,7 @@ from django.conf import settings
 from whoosh import index
 from whoosh.writing import BufferedWriter
 
-class TranslationSchema(SchemaClass):
+class TargetSchema(SchemaClass):
     checksum = ID(stored = True)
     target = TEXT
 
@@ -29,7 +29,7 @@ def create_source_index():
 def create_target_index(lang):
     ix_target = index.create_in(
         settings.WHOOSH_INDEX,
-        schema = TranslationSchema,
+        schema = TargetSchema,
         indexname = 'target-%s' % lang
     )
 
@@ -69,8 +69,8 @@ def get_target_writer(lang, buffered = True):
     if not buffered:
         return get_target_index(lang).writer()
     if not hasattr(get_target_writer, 'target_writer'):
-        get_target_index.target_writer = {}
-    if not lang in get_target_index.target_writer:
+        get_target_writer.target_writer = {}
+    if not lang in get_target_writer.target_writer:
         get_target_writer.target_writer[lang] = BufferedWriter(get_target_index(lang))
     return get_target_writer.target_writer[lang]
 
