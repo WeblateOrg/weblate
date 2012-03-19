@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
 from trans.models import Unit
-from ftsearch.models import WordLocation, Word
 from optparse import make_option
 
 class Command(BaseCommand):
