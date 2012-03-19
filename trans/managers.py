@@ -142,14 +142,6 @@ class UnitManager(models.Manager):
         else:
             return self.all()
 
-    def is_indexed(self, unit):
-        from ftsearch.models import WordLocation
-        return WordLocation.objects.filter(unit = unit).exists()
-
-    def remove_from_index(self, unit):
-        from ftsearch.models import WordLocation
-        return WordLocation.objects.filter(unit = unit).delete()
-
     def add_to_source_index(self, checksum, source, context, translation, writer):
         writer.update_document(
             checksum = checksum,
