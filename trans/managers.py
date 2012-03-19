@@ -177,20 +177,22 @@ class UnitManager(models.Manager):
                 location = i
             )
 
-    def add_to_index(self, unit):
-        from ftsearch.models import WordLocation
+    def add_to_index(self, unit, writer_translation = None, writer_source = None):
+        if writer_translation is None:
+            writer_translation = search.get_translation_writer()
+        if writer_source is None:
+            writer_source = search.get_source_writer()
 
-        # Remove if it is already indexed
-        if self.is_indexed(unit):
-            self.remove_from_index(unit)
-
-        # Index source
-        self.__index_item('\n'.join(unit.get_source_plurals()), Language.objects.get(code = 'en'), unit)
-        # Index translation
-        self.__index_item('\n'.join(unit.get_target_plurals()), unit.translation.language, unit)
-        # Index context
-        if unit.context != '':
-            self.__index_item(unit.context, None, unit)
+        writer_translation.add(
+            target = '\n'.join(unit.get_target_plurals()),
+            language = unit.translation.language.id,
+            unit = unit.id
+        )
+        writer_source.add(
+            source = '\n'.join(unit.get_source_plurals()),
+            context = unit.context,
+            unit = unit.id
+        )
 
     def __get_match_rows(self, query, language):
         from ftsearch.models import Word
