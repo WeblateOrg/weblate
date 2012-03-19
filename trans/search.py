@@ -22,14 +22,14 @@ class SourceSchema(SchemaClass):
     translation = NUMERIC
 
 def create_source_index():
-    ix_source = index.create_in(
+    return index.create_in(
         settings.WHOOSH_INDEX,
         schema = SourceSchema,
         indexname = 'source'
     )
 
 def create_target_index(lang):
-    ix_target = index.create_in(
+    return index.create_in(
         settings.WHOOSH_INDEX,
         schema = TargetSchema,
         indexname = 'target-%s' % lang
@@ -54,10 +54,13 @@ def get_target_index(lang):
     if not hasattr(get_target_index, 'ix_target'):
         get_target_index.ix_target = {}
     if not lang in get_target_index.ix_target:
-        get_target_index.ix_target[lang] = index.open_dir(
-            settings.WHOOSH_INDEX,
-            indexname = 'target-%s' % lang
-        )
+        try:
+            get_target_index.ix_target[lang] = index.open_dir(
+                settings.WHOOSH_INDEX,
+                indexname = 'target-%s' % lang
+            )
+        except whoosh.index.EmptyIndexError:
+            get_target_index.ix_target[lang] = create_target_index(lang)
     return get_target_index.ix_target[lang]
 
 def get_source_writer(buffered = True):
