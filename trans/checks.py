@@ -132,6 +132,11 @@ CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and
 
 @plural_check
 def check_end_space(source, target, flags, language):
+    if language.code.split('_')[0] in ['fr', 'br']:
+        if len(target) == 0:
+            return False
+        if source[-1] in [':', '!', '?'] and target[-1] == ' ':
+            return False
     return check_chars(source, target, -1, [' '])
 
 CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and translated do not both end with a space'))
