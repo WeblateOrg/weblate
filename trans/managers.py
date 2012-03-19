@@ -150,14 +150,6 @@ class UnitManager(models.Manager):
         from ftsearch.models import WordLocation
         return WordLocation.objects.filter(unit = unit).delete()
 
-    def separate_words(self, words):
-        return settings.SEARCH_WORD_SPLIT_REGEX.split(words)
-
-    def get_similar_list(self, words):
-        words = [word.lower() for word in self.separate_words(words)]
-        return [word for word in words if not word in IGNORE_SIMILAR and len(word) > 0]
-
-
     def add_to_source_index(self, checksum, source, context, translation, writer):
         writer.update_document(
             checksum = checksum,
@@ -215,3 +207,15 @@ class UnitManager(models.Manager):
                     ret.append(searcher.stored_fields(doc)['checksum'])
 
         return self.filter(checksum__in = ret)
+
+    def similar(self, unit):
+        ret = []
+        with trans.search.get_source_searcher() as searcher:
+            doc = searcher.document_number(checksum = unit.checksum)
+            mlt = searcher.more_like(doc, 'source', unit.source)
+            for m in mlt:
+                ret.append(m['checksum'])
+        return self.filter(
+                    translation__subproject__project = unit.translation.subproject.project,
+                    translation__language = unit.translation.language,
+                    checksum__in = ret).exclude(id = unit.id)
