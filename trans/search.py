@@ -73,3 +73,9 @@ def get_target_writer(lang, buffered = True):
     if not lang in get_target_index.target_writer:
         get_target_writer.target_writer[lang] = BufferedWriter(get_target_index(lang))
     return get_target_writer.target_writer[lang]
+
+def get_source_searcher():
+    return get_source_writer().searcher()
+
+def get_target_searcher(lang):
+    return get_target_writer(lang).searcher()
