@@ -162,7 +162,7 @@ def check_end_question(source, target, flags, language):
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
             return False
-        if source[-1] == ':':
+        if source[-1] == '?':
             if target[-2:] not in [' ?', '&nbsp;?', u' ?']:
                 return True
         return False
@@ -175,7 +175,7 @@ def check_end_exclamation(source, target, flags, language):
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
             return False
-        if source[-1] == ':':
+        if source[-1] == '!':
             if target[-2:] not in [' !', '&nbsp;!', u' !']:
                 return True
         return False
