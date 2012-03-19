@@ -20,5 +20,5 @@ class Command(BaseCommand):
 
         with trans.search.get_source_writer(buffered = False) as src_writer:
             with trans.search.get_translation_writer(buffered = False) as trans_writer:
-                for unit in Unit.objects.all():
+                for unit in Unit.objects.all().iterator():
                     Unit.objects.add_to_index(unit, trans_writer, src_writer)

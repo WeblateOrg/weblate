@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['all']:
-            for unit in Unit.objects.all():
+            for unit in Unit.objects.all().iterator():
                 unit.check()
         for arg in args:
             parts = arg.split('/')
