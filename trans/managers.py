@@ -155,58 +155,30 @@ class UnitManager(models.Manager):
         words = [word.lower() for word in self.separate_words(words)]
         return [word for word in words if not word in IGNORE_SIMILAR and len(word) > 0]
 
-    def add_to_index(self, unit, writer_translation = None, writer_source = None):
-        if writer_translation is None:
-            writer_translation = trans.search.get_translation_writer()
+
+    def add_to_source_index(self, checksum, source, context, writer):
+        writer.add_document(
+            checksum = checksum,
+            source = source,
+            context = context,
+        )
+
+    def add_to_target_index(self, checksum, target, writer):
+        writer.add_document(
+            checksum = checksum,
+            target = target,
+        )
+
+    def add_to_index(self, unit, writer_target = None, writer_source = None):
+        if writer_target is None:
+            writer_target = trans.search.get_target_writer(unit.target.language.code)
         if writer_source is None:
             writer_source = trans.search.get_source_writer()
 
-        writer_translation.add_document(
-            unit = unit.id,
-            target = '\n'.join(unit.get_target_plurals()),
-            language = unit.translation.language.id,
-        )
-        writer_source.add_document(
-            unit = unit.id,
-            source = '\n'.join(unit.get_source_plurals()),
-            context = unit.context,
-        )
+        self.add_to_source_index(unit.checksum, unit.source, unit.context, writer_source)
+        self.add_to_target_index(unit.checksum, unit.target, writer_target)
 
-    def __get_match_rows(self, query, language):
-        from ftsearch.models import Word
-        # Grab relevant words
-        word_objects = Word.objects.filter(word__in = query, language = language)
-
-        field_list = 'w0.unit_id'
-        table_list = ''
-        clause_list = ''
-
-        table_number = 0
-
-        for word in word_objects:
-
-            if table_number > 0:
-                table_list += ', '
-                clause_list += ' and w%d.unit_id = w%d.unit_id and ' \
-                               % (table_number - 1, table_number)
-
-            table_list += 'ftsearch_wordlocation w%d' % table_number
-            clause_list += 'w%d.word_id=%d' % (table_number, word.id)
-
-            table_number += 1
-
-        if not table_list or not clause_list:
-            return []
-
-        cur = connection.cursor()
-        cur.execute('select %s from %s where %s' \
-                % (field_list, table_list, clause_list))
-
-        rows = cur.fetchall()
-
-        return [row[0] for row in rows]
-
-    def search(self, query, language):
+    def search(self, query, source = True, translation = True):
         from trans.models import Unit
         if isinstance(query, str) or isinstance(query, unicode):
             # split the string into a list of search terms

@@ -11,12 +11,11 @@ from whoosh import index
 from whoosh.writing import BufferedWriter
 
 class TranslationSchema(SchemaClass):
-    unit = NUMERIC
+    checksum = ID(stored = True)
     target = TEXT
-    language = NUMERIC
 
 class SourceSchema(SchemaClass):
-    unit = NUMERIC
+    checksum = ID(stored = True)
     source = TEXT
     context = TEXT
 
@@ -27,17 +26,16 @@ def create_source_index():
         indexname = 'source'
     )
 
-def create_translation_index():
-    ix_translation = index.create_in(
+def create_target_index(lang):
+    ix_target = index.create_in(
         settings.WHOOSH_INDEX,
         schema = TranslationSchema,
-        indexname = 'translation'
+        indexname = 'target-%s' % lang
     )
 
 def create_index(sender=None, **kwargs):
     if not os.path.exists(settings.WHOOSH_INDEX):
         os.mkdir(settings.WHOOSH_INDEX)
-        create_translation_index()
         create_source_index()
 
 post_syncdb.connect(create_index)
@@ -50,13 +48,15 @@ def get_source_index():
         )
     return get_source_index.ix_source
 
-def get_translation_index():
-    if not hasattr(get_translation_index, 'ix_translation'):
-        get_translation_index.ix_translation = index.open_dir(
+def get_target_index(lang):
+    if not hasattr(get_target_index, 'ix_target'):
+        get_target_index.ix_target = {}
+    if not lang in get_target_index.ix_target:
+        get_target_index.ix_target[lang] = index.open_dir(
             settings.WHOOSH_INDEX,
-            indexname = 'translation'
+            indexname = 'target-%s' % lang
         )
-    return get_translation_index.ix_translation
+    return get_target_index.ix_target[lang]
 
 def get_source_writer(buffered = True):
     if not buffered:
@@ -65,9 +65,11 @@ def get_source_writer(buffered = True):
         get_source_writer.source_writer = BufferedWriter(get_source_index())
     return get_source_writer.source_writer
 
-def get_translation_writer(buffered = True):
+def get_target_writer(lang, buffered = True):
     if not buffered:
-        return get_translation_index().writer()
-    if not hasattr(get_translation_writer, 'translation_writer'):
-        get_translation_writer.translation_writer = BufferedWriter(get_translation_index())
-    return get_translation_writer.translation_writer
+        return get_target_index(lang).writer()
+    if not hasattr(get_target_writer, 'target_writer'):
+        get_target_index.target_writer = {}
+    if not lang in get_target_index.target_writer:
+        get_target_writer.target_writer[lang] = BufferedWriter(get_target_index(lang))
+    return get_target_writer.target_writer[lang]

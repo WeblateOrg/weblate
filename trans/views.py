@@ -302,13 +302,7 @@ def translate(request, project, subproject, lang):
                     query |= Q(context = search_query)
                 units = units.filter(query)
             else:
-                units = obj.unit_set.none()
-                if search_source:
-                    units |= obj.unit_set.search(search_query, Language.objects.get(code = 'en'))
-                if search_target:
-                    units |= obj.unit_set.search(search_query, obj.language)
-                if search_context:
-                    units |= obj.unit_set.search(search_query, None)
+                units = obj.unit_set.search(search_query, search_source, search _target)
             if direction == 'stay':
                 units = units.filter(position = pos)
             elif direction == 'back':

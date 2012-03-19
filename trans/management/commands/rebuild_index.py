@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from trans.models import Unit
+from lang.models import Language
 import trans.search
 from optparse import make_option
 
@@ -14,11 +15,18 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        languages = Language.objects.all()
         if options['clean']:
             trans.search.create_source_index()
-            trans.search.create_translation_index()
+            for lang in languages:
+                trans.search.create_target_index(lang = lang.code)
 
-        with trans.search.get_source_writer(buffered = False) as src_writer:
-            with trans.search.get_translation_writer(buffered = False) as trans_writer:
-                for unit in Unit.objects.all().iterator():
-                    Unit.objects.add_to_index(unit, trans_writer, src_writer)
+        with trans.search.get_source_writer(buffered = False) as writer:
+            for unit in Unit.objects.values('checksum', 'source', 'context').distinct().iterator():
+                Unit.objects.add_to_source_index(unit['checksum'], unit['source'], unit['context'], writer)
+
+        for lang in languages:
+            with trans.search.get_target_writer(lang = lang.code, buffered = False) as writer:
+                for unit in Unit.objects.filter(translation__language = lang).exclude(target = '').values('checksum', 'target').iterator():
+                    Unit.objects.add_to_target_index(unit['checksum'], unit['target'], writer)
+
