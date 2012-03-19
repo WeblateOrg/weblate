@@ -159,7 +159,7 @@ class UnitManager(models.Manager):
 
     def add_to_index(self, unit, writer_target = None, writer_source = None):
         if writer_target is None:
-            writer_target = trans.search.get_target_writer(unit.target.language.code)
+            writer_target = trans.search.get_target_writer(unit.translation.language.code)
         if writer_source is None:
             writer_source = trans.search.get_source_writer()
 
