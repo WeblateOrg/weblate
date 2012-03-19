@@ -17,6 +17,8 @@ class Command(BaseCommand):
         if options['clean']:
             trans.search.create_source_index()
             trans.search.create_translation_index()
-        units = Unit.objects.all()
-        for unit in units:
-            Unit.objects.add_to_index(unit)
+
+        with trans.search.get_source_writer(buffered = False) as src_writer:
+            with trans.search.get_translation_writer(buffered = False) as trans_writer:
+                for unit in Unit.objects.all():
+                    Unit.objects.add_to_index(unit, trans_writer, src_writer)

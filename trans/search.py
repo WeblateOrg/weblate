@@ -10,9 +10,6 @@ from django.conf import settings
 from whoosh import index
 from whoosh.writing import BufferedWriter
 
-ix_translation = None
-ix_source = None
-
 class TranslationSchema(SchemaClass):
     unit = ID(stored = True)
     target = TEXT
@@ -46,35 +43,31 @@ def create_index(sender=None, **kwargs):
 post_syncdb.connect(create_index)
 
 def get_source_index():
-    if ix_source is None:
-        ix_source = index.open_dir(
+    if not hasattr(get_source_index, 'ix_source'):
+        get_source_index.ix_source = index.open_dir(
             settings.WHOOSH_INDEX,
             indexname = 'source'
         )
-    return ix_source
+    return get_source_index.ix_source
 
 def get_translation_index():
-    if ix_translation is None:
-        ix_translation = index.open_dir(
+    if not hasattr(get_translation_index, 'ix_translation'):
+        get_translation_index.ix_translation = index.open_dir(
             settings.WHOOSH_INDEX,
-            indexname = 'translationg'
+            indexname = 'translation'
         )
-    return ix_translation
-
-source_writer = None
+    return get_translation_index.ix_translation
 
 def get_source_writer(buffered = True):
     if not buffered:
-        return ix_source.writer()
-    if source_writer is None:
-        source_writer = BufferedWriter(ix_source)
-    return source_writer
-
-translation_writer = None
+        return get_source_index().writer()
+    if not hasattr(get_source_writer, 'source_writer'):
+        get_source_writer.source_writer = BufferedWriter(get_source_index())
+    return get_source_writer.source_writer
 
 def get_translation_writer(buffered = True):
     if not buffered:
-        return ix_translation.writer()
-    if translation_writer is None:
-        translation_writer = BufferedWriter(ix_translation)
-    return translation_writer
+        return get_translation_index().writer()
+    if not hasattr(get_translation_writer, 'translation_writer'):
+        get_translation_writer.translation_writer = BufferedWriter(get_translation_index())
+    return get_translation_writer.translation_writer
