@@ -45,11 +45,14 @@ The ./manage.py is extended with following commands:
     Updates all check for all units. This could be useful only on upgrades
     which do major changes to checks.
 
+    You can either define which project or subproject to update (eg.
+    ``weblate/master``) or use ``--all`` to update all existing subprojects.
+
 .. option:: updategit
 
     Fetches remote Git repositories and updates internal cache.
 
-    You can either define which subproject to update (eg. ``weblate/master``) or
-    use ``--all`` to update all existing subprojects.
+    You can either define which project or subproject to update (eg.
+    ``weblate/master``) or use ``--all`` to update all existing subprojects.
 
 
