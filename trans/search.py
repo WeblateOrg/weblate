@@ -22,19 +22,25 @@ class SourceSchema(SchemaClass):
     source = TEXT
     context = TEXT
 
+def create_source_index():
+    ix_source = index.create_in(
+        settings.WHOOSH_INDEX,
+        schema = SourceSchema,
+        indexname = 'source'
+    )
+
+def create_translation_index():
+    ix_translation = index.create_in(
+        settings.WHOOSH_INDEX,
+        schema = TranslationSchema,
+        indexname = 'translation'
+    )
+
 def create_index(sender=None, **kwargs):
     if not os.path.exists(settings.WHOOSH_INDEX):
         os.mkdir(settings.WHOOSH_INDEX)
-        ix_translation = index.create_in(
-            settings.WHOOSH_INDEX,
-            schema = TranslationSchema,
-            indexname = 'translation'
-        )
-        ix_source = index.create_in(
-            settings.WHOOSH_INDEX,
-            schema = SourceSchema,
-            indexname = 'source'
-        )
+        create_translation_index()
+        create_source_index()
 
 post_syncdb.connect(create_index)
 
