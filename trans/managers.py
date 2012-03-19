@@ -155,28 +155,6 @@ class UnitManager(models.Manager):
         words = [word.lower() for word in self.separate_words(words)]
         return [word for word in words if not word in IGNORE_SIMILAR and len(word) > 0]
 
-    def __index_item(self, text, language, unit):
-        from ftsearch.models import WordLocation, Word
-
-        # Split to words
-        p = settings.SEARCH_STEMMER()
-        stemmed_text = [p.stem(s.lower()) for s in self.separate_words(text) if s != '']
-
-        # Store words in database
-        for i, word in enumerate(stemmed_text):
-            if word in IGNORE_WORDS:
-                continue
-
-            wordobj, created = Word.objects.get_or_create(
-                word = word,
-                language = language
-            )
-            WordLocation.objects.create(
-                unit = unit,
-                word = wordobj,
-                location = i
-            )
-
     def add_to_index(self, unit, writer_translation = None, writer_source = None):
         if writer_translation is None:
             writer_translation = search.get_translation_writer()
