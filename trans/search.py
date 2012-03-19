@@ -8,6 +8,7 @@ from whoosh.fields import SchemaClass, TEXT, KEYWORD, ID, NUMERIC
 from django.db.models.signals import post_syncdb
 from django.conf import settings
 from whoosh import index
+from whoosh.writing import BufferedWriter
 
 ix_translation = None
 ix_source = None
@@ -59,3 +60,21 @@ def get_translation_index():
             indexname = 'translationg'
         )
     return ix_translation
+
+source_writer = None
+
+def get_source_writer(buffered = True):
+    if not buffered:
+        return ix_source.writer()
+    if source_writer is None:
+        source_writer = BufferedWriter(ix_source)
+    return source_writer
+
+translation_writer = None
+
+def get_translation_writer(buffered = True):
+    if not buffered:
+        return ix_translation.writer()
+    if translation_writer is None:
+        translation_writer = BufferedWriter(ix_translation)
+    return translation_writer
