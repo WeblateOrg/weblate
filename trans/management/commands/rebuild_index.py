@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from trans.models import Unit
-from ftsearch.models import WordLocation, Word
+import trans.search
 from optparse import make_option
 
 class Command(BaseCommand):
@@ -15,8 +15,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['clean']:
-            Word.objects.all().delete()
-        WordLocation.objects.all().delete()
+            trans.search.create_source_index()
+            trans.search.create_translation_index()
         units = Unit.objects.all()
         for unit in units:
             Unit.objects.add_to_index(unit)
