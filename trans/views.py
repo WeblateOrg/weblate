@@ -390,7 +390,7 @@ def get_similar(request, unit_id):
     unit = get_object_or_404(Unit, pk = int(unit_id))
     words = Unit.objects.get_similar_list(unit.get_source_plurals()[0])
     similar = Unit.objects.none()
-    cnt = len(words)
+    cnt = min(len(words), 5)
     # Try to find 10 similar string, remove up to 5 words
     while similar.count() < 10 and cnt > 0 and len(words) - cnt < 5:
         for search in itertools.combinations(words, cnt):
