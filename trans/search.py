@@ -11,12 +11,12 @@ from whoosh import index
 from whoosh.writing import BufferedWriter
 
 class TranslationSchema(SchemaClass):
-    unit = ID(stored = True)
+    unit = NUMERIC
     target = TEXT
-    language = NUMERIC(stored = True)
+    language = NUMERIC
 
 class SourceSchema(SchemaClass):
-    unit = ID(stored = True)
+    unit = NUMERIC
     source = TEXT
     context = TEXT
 

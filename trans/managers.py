@@ -164,12 +164,12 @@ class UnitManager(models.Manager):
         writer_translation.add_document(
             target = '\n'.join(unit.get_target_plurals()),
             language = unit.translation.language.id,
-            unit = str(unit.id)
+            unit = unit.id
         )
         writer_source.add_document(
             source = '\n'.join(unit.get_source_plurals()),
             context = unit.context,
-            unit = str(unit.id)
+            unit = unit.id
         )
 
     def __get_match_rows(self, query, language):
