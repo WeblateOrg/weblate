@@ -140,7 +140,6 @@ INSTALLED_APPS = (
     'trans',
     'lang',
     'accounts',
-    'ftsearch',
     'weblate',
 )
 
