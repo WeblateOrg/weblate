@@ -162,14 +162,14 @@ class UnitManager(models.Manager):
             writer_source = trans.search.get_source_writer()
 
         writer_translation.add_document(
+            unit = unit.id,
             target = '\n'.join(unit.get_target_plurals()),
             language = unit.translation.language.id,
-            unit = unit.id
         )
         writer_source.add_document(
+            unit = unit.id,
             source = '\n'.join(unit.get_source_plurals()),
             context = unit.context,
-            unit = unit.id
         )
 
     def __get_match_rows(self, query, language):
