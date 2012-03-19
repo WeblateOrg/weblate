@@ -161,12 +161,12 @@ class UnitManager(models.Manager):
         if writer_source is None:
             writer_source = trans.search.get_source_writer()
 
-        writer_translation.add(
+        writer_translation.add_document(
             target = '\n'.join(unit.get_target_plurals()),
             language = unit.translation.language.id,
             unit = unit.id
         )
-        writer_source.add(
+        writer_source.add_document(
             source = '\n'.join(unit.get_source_plurals()),
             context = unit.context,
             unit = unit.id
