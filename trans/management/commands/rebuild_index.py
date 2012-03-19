@@ -22,11 +22,21 @@ class Command(BaseCommand):
                 trans.search.create_target_index(lang = lang.code)
 
         with trans.search.get_source_writer(buffered = False) as writer:
-            for unit in Unit.objects.values('checksum', 'source', 'context').distinct().iterator():
-                Unit.objects.add_to_source_index(unit['checksum'], unit['source'], unit['context'], writer)
+            for unit in Unit.objects.values('checksum', 'source', 'context', 'translation_id').distinct().iterator():
+                Unit.objects.add_to_source_index(
+                    unit['checksum'],
+                    unit['source'],
+                    unit['context'],
+                    unit['translation_id'],
+                    writer)
 
         for lang in languages:
             with trans.search.get_target_writer(lang = lang.code, buffered = False) as writer:
-                for unit in Unit.objects.filter(translation__language = lang).exclude(target = '').values('checksum', 'target').iterator():
-                    Unit.objects.add_to_target_index(unit['checksum'], unit['target'], writer)
+                for unit in Unit.objects.filter(translation__language =
+                    lang).exclude(target = '').values('checksum', 'target', 'translation_id').iterator():
+                    Unit.objects.add_to_target_index(
+                        unit['checksum'],
+                        unit['target'],
+                        unit['translation_id'],
+                        writer)
 

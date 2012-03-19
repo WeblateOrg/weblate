@@ -158,17 +158,19 @@ class UnitManager(models.Manager):
         return [word for word in words if not word in IGNORE_SIMILAR and len(word) > 0]
 
 
-    def add_to_source_index(self, checksum, source, context, writer):
-        writer.add_document(
+    def add_to_source_index(self, checksum, source, context, translation, writer):
+        writer.update_document(
             checksum = checksum,
             source = source,
             context = context,
+            translation = translation,
         )
 
-    def add_to_target_index(self, checksum, target, writer):
-        writer.add_document(
+    def add_to_target_index(self, checksum, target, translation, writer):
+        writer.update_document(
             checksum = checksum,
             target = target,
+            translation = translation,
         )
 
     def add_to_index(self, unit, writer_target = None, writer_source = None):
@@ -177,8 +179,17 @@ class UnitManager(models.Manager):
         if writer_source is None:
             writer_source = trans.search.get_source_writer()
 
-        self.add_to_source_index(unit.checksum, unit.source, unit.context, writer_source)
-        self.add_to_target_index(unit.checksum, unit.target, writer_target)
+        self.add_to_source_index(
+            unit.checksum,
+            unit.source,
+            unit.context,
+            unit.translation_id,
+            writer_source)
+        self.add_to_target_index(
+            unit.checksum,
+            unit.target,
+            unit.translation_id,
+            writer_target)
 
     def search(self, query, source = True, context = True, translation = True):
         ret = []
