@@ -385,6 +385,17 @@ def get_similar(request, unit_id):
 
     similar = Unit.objects.similar(unit)
 
+    # distinct('target') works with Django 1.4 so let's emulate that
+    # based on presumption we won't get too many results
+    targets = {}
+    res = []
+    for s in similar:
+        if s.target in targets:
+            continue
+        targets[s.target] = 1
+        res.append(s)
+    similar = res
+
     return render_to_response('similar.html', RequestContext(request, {
         'similar': similar,
     }))
