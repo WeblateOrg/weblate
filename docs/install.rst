@@ -12,6 +12,8 @@ GitPython (>= 0.3)
     http://gitorious.org/projects/git-python/
 Django-registration
     https://bitbucket.org/ubernostrum/django-registration/
+Whoosh
+    http://bitbucket.org/mchaput/whoosh/
 
 Installation
 ------------
