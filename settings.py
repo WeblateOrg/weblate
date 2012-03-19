@@ -140,7 +140,6 @@ INSTALLED_APPS = (
     'trans',
     'lang',
     'accounts',
-    'ftsearch',
     'weblate',
 )
 
@@ -252,3 +251,6 @@ ENABLE_HOOKS = True
 
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
+
+# Where to put Whoosh index
+WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')

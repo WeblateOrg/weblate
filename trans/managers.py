@@ -3,7 +3,11 @@ from django.conf import settings
 
 from lang.models import Language
 
+from whoosh import qparser
+
 from util import is_plural, split_plural, join_plural, msg_checksum
+
+import trans.search
 
 IGNORE_WORDS = set([
     'a',
@@ -138,107 +142,72 @@ class UnitManager(models.Manager):
         else:
             return self.all()
 
-    def is_indexed(self, unit):
-        from ftsearch.models import WordLocation
-        return WordLocation.objects.filter(unit = unit).exists()
+    def add_to_source_index(self, checksum, source, context, translation, writer):
+        writer.update_document(
+            checksum = checksum,
+            source = source,
+            context = context,
+            translation = translation,
+        )
 
-    def remove_from_index(self, unit):
-        from ftsearch.models import WordLocation
-        return WordLocation.objects.filter(unit = unit).delete()
+    def add_to_target_index(self, checksum, target, translation, writer):
+        writer.update_document(
+            checksum = checksum,
+            target = target,
+            translation = translation,
+        )
 
-    def separate_words(self, words):
-        return settings.SEARCH_WORD_SPLIT_REGEX.split(words)
+    def add_to_index(self, unit, writer_target = None, writer_source = None):
+        if writer_target is None:
+            writer_target = trans.search.get_target_writer(unit.target.language.code)
+        if writer_source is None:
+            writer_source = trans.search.get_source_writer()
 
-    def get_similar_list(self, words):
-        words = [word.lower() for word in self.separate_words(words)]
-        return [word for word in words if not word in IGNORE_SIMILAR and len(word) > 0]
+        self.add_to_source_index(
+            unit.checksum,
+            unit.source,
+            unit.context,
+            unit.translation_id,
+            writer_source)
+        self.add_to_target_index(
+            unit.checksum,
+            unit.target,
+            unit.translation_id,
+            writer_target)
 
-    def __index_item(self, text, language, unit):
-        from ftsearch.models import WordLocation, Word
+    def search(self, query, source = True, context = True, translation = True):
+        ret = []
+        sample = self.all()[0]
+        if source or context:
+            with trans.search.get_source_searcher() as searcher:
+                if source:
+                    qp = qparser.QueryParser('source', trans.search.SourceSchema())
+                    q = qp.parse(query)
+                    for doc in searcher.docs_for_query(q):
+                        ret.append(searcher.stored_fields(doc)['checksum'])
+                if context:
+                    qp = qparser.QueryParser('context', trans.search.SourceSchema())
+                    q = qp.parse(query)
+                    for doc in searcher.docs_for_query(q):
+                        ret.append(searcher.stored_fields(doc)['checksum'])
 
-        # Split to words
-        p = settings.SEARCH_STEMMER()
-        stemmed_text = [p.stem(s.lower()) for s in self.separate_words(text) if s != '']
+        if translation:
+            with trans.search.get_target_searcher(sample.translation.language.code) as searcher:
+                qp = qparser.QueryParser('target', trans.search.TargetSchema())
+                q = qp.parse(query)
+                for doc in searcher.docs_for_query(q):
+                    ret.append(searcher.stored_fields(doc)['checksum'])
 
-        # Store words in database
-        for i, word in enumerate(stemmed_text):
-            if word in IGNORE_WORDS:
-                continue
+        return self.filter(checksum__in = ret)
 
-            wordobj, created = Word.objects.get_or_create(
-                word = word,
-                language = language
-            )
-            WordLocation.objects.create(
-                unit = unit,
-                word = wordobj,
-                location = i
-            )
-
-    def add_to_index(self, unit):
-        from ftsearch.models import WordLocation
-
-        # Remove if it is already indexed
-        if self.is_indexed(unit):
-            self.remove_from_index(unit)
-
-        # Index source
-        self.__index_item('\n'.join(unit.get_source_plurals()), Language.objects.get(code = 'en'), unit)
-        # Index translation
-        self.__index_item('\n'.join(unit.get_target_plurals()), unit.translation.language, unit)
-        # Index context
-        if unit.context != '':
-            self.__index_item(unit.context, None, unit)
-
-    def __get_match_rows(self, query, language):
-        from ftsearch.models import Word
-        # Grab relevant words
-        word_objects = Word.objects.filter(word__in = query, language = language)
-
-        field_list = 'w0.unit_id'
-        table_list = ''
-        clause_list = ''
-
-        table_number = 0
-
-        for word in word_objects:
-
-            if table_number > 0:
-                table_list += ', '
-                clause_list += ' and w%d.unit_id = w%d.unit_id and ' \
-                               % (table_number - 1, table_number)
-
-            table_list += 'ftsearch_wordlocation w%d' % table_number
-            clause_list += 'w%d.word_id=%d' % (table_number, word.id)
-
-            table_number += 1
-
-        if not table_list or not clause_list:
-            return []
-
-        cur = connection.cursor()
-        cur.execute('select %s from %s where %s' \
-                % (field_list, table_list, clause_list))
-
-        rows = cur.fetchall()
-
-        return [row[0] for row in rows]
-
-    def search(self, query, language):
-        from trans.models import Unit
-        if isinstance(query, str) or isinstance(query, unicode):
-            # split the string into a list of search terms
-            query = self.separate_words(query)
-        elif not isinstance(query, list) and  not isinstance(query, tuple):
-            raise TypeError("search must be called with a string or a list")
-
-        p = settings.SEARCH_STEMMER()
-        # lowercase and stem each word
-        stemmed_query = [p.stem(s.lower()) for s in query if s != '']
-
-        # get a row from the db for each matching word
-        rows = self.__get_match_rows(stemmed_query, language)
-        if rows == []:
-            return self.none()
-
-        return self.filter(pk__in = rows)
+    def similar(self, unit):
+        ret = []
+        with trans.search.get_source_searcher() as searcher:
+            doc = searcher.document_number(checksum = unit.checksum)
+            mlt = searcher.more_like(doc, 'source', unit.source)
+            for m in mlt:
+                ret.append(m['checksum'])
+        return self.filter(
+                    translation__subproject__project = unit.translation.subproject.project,
+                    translation__language = unit.translation.language,
+                    checksum__in = ret).exclude(id = unit.id)

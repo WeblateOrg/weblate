@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
 from trans.models import Unit
-from ftsearch.models import WordLocation, Word
 from optparse import make_option
 
 class Command(BaseCommand):
@@ -17,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['all']:
-            for unit in Unit.objects.all():
+            for unit in Unit.objects.all().iterator():
                 unit.check()
         for arg in args:
             parts = arg.split('/')

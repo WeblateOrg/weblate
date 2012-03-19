@@ -302,13 +302,7 @@ def translate(request, project, subproject, lang):
                     query |= Q(context = search_query)
                 units = units.filter(query)
             else:
-                units = obj.unit_set.none()
-                if search_source:
-                    units |= obj.unit_set.search(search_query, Language.objects.get(code = 'en'))
-                if search_target:
-                    units |= obj.unit_set.search(search_query, obj.language)
-                if search_context:
-                    units |= obj.unit_set.search(search_query, None)
+                units = obj.unit_set.search(search_query, search_source, search_context, search_target)
             if direction == 'stay':
                 units = units.filter(position = pos)
             elif direction == 'back':
@@ -388,27 +382,8 @@ def get_string(request, checksum):
 
 def get_similar(request, unit_id):
     unit = get_object_or_404(Unit, pk = int(unit_id))
-    words = Unit.objects.get_similar_list(unit.get_source_plurals()[0])
-    similar = Unit.objects.none()
-    cnt = min(len(words), 5)
-    # Try to find 10 similar string, remove up to 5 words
-    while similar.count() < 10 and cnt > 0 and len(words) - cnt < 5:
-        for search in itertools.combinations(words, cnt):
-            similar |= Unit.objects.search(search, Language.objects.get(code = 'en')).filter(
-                translation__subproject__project = unit.translation.subproject.project,
-                translation__language = unit.translation.language).exclude(id = unit.id)
-        cnt -= 1
 
-    # distinct('target') works with Django 1.4 so let's emulate that
-    # based on presumption we won't get too many results
-    targets = {}
-    res = []
-    for s in similar:
-        if s.target in targets:
-            continue
-        targets[s.target] = 1
-        res.append(s)
-    similar = res
+    similar = Unit.objects.similar(unit)
 
     return render_to_response('similar.html', RequestContext(request, {
         'similar': similar,
