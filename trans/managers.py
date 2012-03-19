@@ -5,6 +5,8 @@ from lang.models import Language
 
 from util import is_plural, split_plural, join_plural, msg_checksum
 
+import search
+
 IGNORE_WORDS = set([
     'a',
     'an',
