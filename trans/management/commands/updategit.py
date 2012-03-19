@@ -19,8 +19,14 @@ class Command(BaseCommand):
                 s.update_branch()
                 s.create_translations()
         for arg in args:
-            prj, subprj = arg.split('/')
-            s = SubProject.objects.get(slug = subprj, project__slug = prj)
-            s.update_branch()
-            s.create_translations()
+            parts = arg.split('/')
+            if len(parts) == 2:
+                prj, subprj = parts
+                s = SubProject.objects.get(slug = subprj, project__slug = prj)
+                s.update_branch()
+                s.create_translations()
 
+            else:
+                for s in SubProject.objects.filter(project__slug = parts[0]):
+                    s.update_branch()
+                    s.create_translations()
