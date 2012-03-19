@@ -5,7 +5,7 @@ from lang.models import Language
 
 from util import is_plural, split_plural, join_plural, msg_checksum
 
-import search
+import trans.search
 
 IGNORE_WORDS = set([
     'a',
@@ -157,9 +157,9 @@ class UnitManager(models.Manager):
 
     def add_to_index(self, unit, writer_translation = None, writer_source = None):
         if writer_translation is None:
-            writer_translation = search.get_translation_writer()
+            writer_translation = trans.search.get_translation_writer()
         if writer_source is None:
-            writer_source = search.get_source_writer()
+            writer_source = trans.search.get_source_writer()
 
         writer_translation.add(
             target = '\n'.join(unit.get_target_plurals()),
