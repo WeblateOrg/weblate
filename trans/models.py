@@ -672,3 +672,17 @@ class Check(models.Model):
 
     def get_description(self):
         return trans.checks.CHECKS[self.check][2]
+
+class Dictionary(models.Model):
+    project = models.ForeignKey(Project)
+    language = models.ForeignKey(Language)
+    source = models.CharField(max_length = 200, db_index = True)
+    target = models.CharField(max_length = 200)
+
+    def __unicode__(self):
+        return '%s/%s: %s -> %s' % (
+            self.project,
+            self.language,
+            self.source,
+            self.target
+        )
