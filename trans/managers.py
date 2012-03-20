@@ -208,7 +208,7 @@ class UnitManager(models.Manager):
         ret = set()
         with trans.search.get_source_searcher() as searcher:
             # Extract up to 10 terms from the source
-            terms = [t[0] for t in searcher.key_terms_from_text('source', unit.source, numterms = 10)]
+            terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10)]
             cnt = len(terms)
             # Try to find 10 similar string, remove up to 4 words
             while len(ret) < 10 and cnt > 0  and len(terms) - cnt < 4:
