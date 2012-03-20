@@ -1,5 +1,6 @@
 from django.db import models, connection
 from django.conf import settings
+import itertools
 
 from lang.models import Language
 
@@ -204,13 +205,18 @@ class UnitManager(models.Manager):
         return self.filter(checksum__in = ret)
 
     def similar(self, unit):
-        ret = []
+        import whoosh.classify
+        ret = set()
         with trans.search.get_source_searcher() as searcher:
-            doc = searcher.document_number(checksum = unit.checksum)
-            mlt = searcher.more_like(doc, 'source', unit.source)
-            for m in mlt:
-                if m['checksum'] != unit.checksum:
-                    ret.append(m['checksum'])
+            # Extract up to 10 terms from the source
+            terms = [t[0] for t in searcher.key_terms_from_text('source', unit.source, numterms = 10)]
+            cnt = len(terms)
+            # Try to find 10 similar string, remove up to 5 words
+            while len(ret) < 10 and cnt > 0  and len(terms) - cnt < 5:
+                for search in itertools.combinations(terms, cnt):
+                   ret = ret.union(self.search(' '.join(search), True, False, False, True))
+                cnt -= 1
+
         return self.filter(
                     translation__subproject__project = unit.translation.subproject.project,
                     translation__language = unit.translation.language,
