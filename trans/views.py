@@ -13,7 +13,7 @@ from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
-from whoosh.analysis import StandardAnalyzer
+from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import logging
 import os.path
 
@@ -402,8 +402,14 @@ def get_similar(request, unit_id):
 
 def get_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk = int(unit_id))
+    # split to words
     ana = StandardAnalyzer()
-    words = [token.text for token in ana(unit.get_source_plurals()[0])]
+    words_std = [token.text for token in ana(unit.get_source_plurals()[0])]
+    # additionally extract stems, to catch things like plurals
+    ana = StemmingAnalyzer()
+    words_stem = [token.text for token in ana(unit.get_source_plurals()[0])]
+    # join both lists
+    words = set(words_std).union(words_stem)
 
     return render_to_response('dictionary.html', RequestContext(request, {
         'dictionary': Dictionary.objects.filter(
