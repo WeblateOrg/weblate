@@ -670,6 +670,13 @@ class Check(models.Model):
             ('ignore_check', "Can ignore check results"),
         )
 
+    def __unicode__(self):
+        return '%s/%s: %s' % (
+            self.project,
+            self.language,
+            self.check,
+        )
+
     def get_description(self):
         return trans.checks.CHECKS[self.check][2]
 
