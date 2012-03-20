@@ -6,6 +6,11 @@ weblate 0.8
 
 Relased on ? 2012.
 
+* Replaced own full text search with Whoosh.
+* Various fixes and improvements to checks.
+* New command updatechecks.
+* Lot of translation updates.
+
 weblate 0.7
 -----------
 
