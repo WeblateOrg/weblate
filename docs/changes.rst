@@ -10,6 +10,7 @@ Relased on ? 2012.
 * Various fixes and improvements to checks.
 * New command updatechecks.
 * Lot of translation updates.
+* Added dictionary for storing most frequently used terms.
 
 weblate 0.7
 -----------
