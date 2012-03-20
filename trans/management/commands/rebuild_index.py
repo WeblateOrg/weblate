@@ -1,27 +1,19 @@
-from django.core.management.base import BaseCommand, CommandError
+from trans.management.commands import UnitCommand
 from trans.models import Unit
 from lang.models import Language
 import trans.search
 from optparse import make_option
 from django.db.models import Q
 
-class Command(BaseCommand):
+class Command(UnitCommand):
     help = 'updates index for fulltext search'
-    args = '<project/subproject>'
-    option_list = BaseCommand.option_list + (
+    option_list = UnitCommand.option_list + (
         make_option('--clean',
             action='store_true',
             dest='clean',
             default=False,
             help='removes also all words from database'),
-        ) + (
-        make_option('--all',
-            action='store_true',
-            dest='all',
-            default=False,
-            help='Update all projects'),
         )
-
 
     def handle(self, *args, **options):
         languages = Language.objects.all()
@@ -30,22 +22,7 @@ class Command(BaseCommand):
             for lang in languages:
                 trans.search.create_target_index(lang = lang.code)
 
-        if options['all']:
-            base = Unit.objects.all()
-        else:
-            base = Unit.objects.none()
-            for arg in args:
-                parts = arg.split('/')
-                print parts
-                if len(parts) == 2:
-                    prj, subprj = parts
-                    base |= Unit.objects.filter(
-                        translation__subproject__slug = subprj,
-                        translation__subproject__project__slug = prj)
-
-                else:
-                    prj = parts[0]
-                    base |= Unit.objects.filter(translation__subproject__project__slug = prj)
+        base = self.get_units(*args, **options)
 
         if base.count() == 0:
             return
