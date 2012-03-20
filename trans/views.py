@@ -8,11 +8,12 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
-from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary
 from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
+from whoosh.analysis import StandardAnalyzer
 import logging
 import os.path
 
@@ -397,6 +398,19 @@ def get_similar(request, unit_id):
 
     return render_to_response('similar.html', RequestContext(request, {
         'similar': similar,
+    }))
+
+def get_dictionary(request, unit_id):
+    unit = get_object_or_404(Unit, pk = int(unit_id))
+    ana = StandardAnalyzer()
+    words = [token.text for token in ana(unit.get_source_plurals()[0])]
+
+    return render_to_response('dictionary.html', RequestContext(request, {
+        'dictionary': Dictionary.objects.filter(
+            project = unit.translation.subproject.project,
+            language = unit.translation.language,
+            source__in = words
+        ),
     }))
 
 @login_required

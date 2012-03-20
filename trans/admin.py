@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']
@@ -43,3 +43,9 @@ class CheckAdmin(admin.ModelAdmin):
 
 admin.site.register(Check, CheckAdmin)
 
+class DictionaryAdmin(admin.ModelAdmin):
+    list_display = ['source', 'target', 'project', 'language']
+    search_fields = ['source', 'target']
+    list_filter = ['project', 'language']
+
+admin.site.register(Dictionary, DictionaryAdmin)
