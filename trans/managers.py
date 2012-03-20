@@ -205,17 +205,18 @@ class UnitManager(models.Manager):
         return self.filter(checksum__in = ret)
 
     def similar(self, unit):
-        import whoosh.classify
         ret = set()
         with trans.search.get_source_searcher() as searcher:
             # Extract up to 10 terms from the source
             terms = [t[0] for t in searcher.key_terms_from_text('source', unit.source, numterms = 10)]
             cnt = len(terms)
-            # Try to find 10 similar string, remove up to 5 words
-            while len(ret) < 10 and cnt > 0  and len(terms) - cnt < 5:
+            # Try to find 10 similar string, remove up to 4 words
+            while len(ret) < 10 and cnt > 0  and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
                 cnt -= 1
+
+        ret.remove(unit.checksum)
 
         return self.filter(
                     translation__subproject__project = unit.translation.subproject.project,
