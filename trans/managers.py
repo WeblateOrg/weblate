@@ -206,8 +206,9 @@ class UnitManager(models.Manager):
             doc = searcher.document_number(checksum = unit.checksum)
             mlt = searcher.more_like(doc, 'source', unit.source)
             for m in mlt:
-                ret.append(m['checksum'])
+                if m['checksum'] != unit.checksum:
+                    ret.append(m['checksum'])
         return self.filter(
                     translation__subproject__project = unit.translation.subproject.project,
                     translation__language = unit.translation.language,
-                    checksum__in = ret).exclude(checksum = unit.checksum).exclude(target = '')
+                    checksum__in = ret).exclude(target = '')
