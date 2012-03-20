@@ -175,7 +175,7 @@ class UnitManager(models.Manager):
             unit.translation_id,
             writer_target)
 
-    def search(self, query, source = True, context = True, translation = True):
+    def search(self, query, source = True, context = True, translation = True, checksums = False):
         ret = []
         sample = self.all()[0]
         if source or context:
@@ -197,6 +197,9 @@ class UnitManager(models.Manager):
                 q = qp.parse(query)
                 for doc in searcher.docs_for_query(q):
                     ret.append(searcher.stored_fields(doc)['checksum'])
+
+        if checksums:
+            return ret
 
         return self.filter(checksum__in = ret)
 
