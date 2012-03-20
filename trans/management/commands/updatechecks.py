@@ -1,32 +1,14 @@
-from django.core.management.base import BaseCommand, CommandError
-from trans.models import Unit
+from trans.management.commands import UnitCommand
 from optparse import make_option
 
-class Command(BaseCommand):
+class Command(UnitCommand):
     help = 'updates checks for units'
-    args = '<project/subproject>'
-    option_list = BaseCommand.option_list + (
-        make_option('--all',
-            action='store_true',
-            dest='all',
-            default=False,
-            help='Update all projects'),
-        )
 
     def handle(self, *args, **options):
-        if options['all']:
-            for unit in Unit.objects.all().iterator():
-                unit.check()
-        for arg in args:
-            parts = arg.split('/')
-            if len(parts) == 2:
-                prj, subprj = parts
-                for unit in Unit.objects.filter(
-                        translation__subproject__slug = subprj,
-                        translation__subproject__project__slug = prj):
-                    unit.check()
+        base = self.get_units(*args, **options)
 
-            else:
-                prj = parts[0]
-                for unit in Unit.objects.filter(translation__subproject__project__slug = prj):
-                    unit.check()
+        if base.count() == 0:
+            return
+
+        for unit in base.iterator():
+            unit.check()
