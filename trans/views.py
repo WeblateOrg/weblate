@@ -14,7 +14,6 @@ from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, SearchFor
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 import logging
-import itertools
 import os.path
 
 # See https://code.djangoproject.com/ticket/6027
