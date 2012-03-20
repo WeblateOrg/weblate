@@ -29,7 +29,6 @@ class Command(UnitCommand):
 
         with trans.search.get_source_writer(buffered = False) as writer:
             for unit in base.values('checksum', 'source', 'context', 'translation_id').iterator():
-                print unit
                 Unit.objects.add_to_source_index(
                     unit['checksum'],
                     unit['source'],

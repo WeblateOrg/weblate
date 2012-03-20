@@ -19,7 +19,6 @@ class UnitCommand(BaseCommand):
             base = Unit.objects.none()
             for arg in args:
                 parts = arg.split('/')
-                print parts
                 if len(parts) == 2:
                     prj, subprj = parts
                     base |= Unit.objects.filter(
