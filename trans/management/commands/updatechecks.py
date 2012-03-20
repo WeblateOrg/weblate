@@ -13,7 +13,6 @@ class Command(BaseCommand):
             help='Update all projects'),
         )
 
-
     def handle(self, *args, **options):
         if options['all']:
             for unit in Unit.objects.all().iterator():
