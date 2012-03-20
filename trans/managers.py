@@ -145,7 +145,7 @@ class UnitManager(models.Manager):
 
     def add_to_source_index(self, checksum, source, context, translation, writer):
         writer.update_document(
-            checksum = checksum,
+            checksum = unicode(checksum),
             source = source,
             context = context,
             translation = translation,
@@ -153,7 +153,7 @@ class UnitManager(models.Manager):
 
     def add_to_target_index(self, checksum, target, translation, writer):
         writer.update_document(
-            checksum = checksum,
+            checksum = unicode(checksum),
             target = target,
             translation = translation,
         )
