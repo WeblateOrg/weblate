@@ -470,7 +470,6 @@ def js_config(request):
     if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
         listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % settings.MT_APERTIUM_KEY)
         pairs = listpairs.read()
-        print pairs
         parsed = json.loads(pairs)
         apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
     else:
