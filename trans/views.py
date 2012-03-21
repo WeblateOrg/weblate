@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext, loader
@@ -16,6 +17,8 @@ from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import logging
 import os.path
+import json
+import urllib2
 
 # See https://code.djangoproject.com/ticket/6027
 class FixedFileWrapper(FileWrapper):
@@ -464,4 +467,16 @@ def not_found(request):
     })))
 
 def js_config(request):
-    return render_to_response('config.js', RequestContext(request, {}), mimetype = 'application/javascript')
+    if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
+        listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % settings.MT_APERTIUM_KEY)
+        pairs = listpairs.read()
+        print pairs
+        parsed = json.loads(pairs)
+        apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
+    else:
+        apertium_langs = None
+
+    return render_to_response('config.js', RequestContext(request, {
+            'apertium_langs': apertium_langs,
+        }),
+        mimetype = 'application/javascript')
