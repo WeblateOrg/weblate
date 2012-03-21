@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.ignore_check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(r'^js/config/$', 'trans.views.js_config'),
     url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'trans.views.get_similar'),
     url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'trans.views.get_dictionary'),
 

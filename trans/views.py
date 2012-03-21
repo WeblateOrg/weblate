@@ -462,3 +462,6 @@ def not_found(request):
         'title': _('Page Not Found'),
         'projects': Project.objects.all(),
     })))
+
+def js_config(request):
+    return render_to_response('config.js', RequestContext(request, {}), mimetype = 'application/javascript')
