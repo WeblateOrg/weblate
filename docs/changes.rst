@@ -11,6 +11,7 @@ Relased on ? 2012.
 * New command updatechecks.
 * Lot of translation updates.
 * Added dictionary for storing most frequently used terms.
+* Added /admin/report/ for overview of repositories status.
 
 weblate 0.7
 -----------
