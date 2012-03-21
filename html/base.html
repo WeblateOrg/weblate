@@ -23,12 +23,6 @@
   <script src="/media/js/loader.js" type="text/javascript"></script>
   <script src="{% url 'django.views.i18n.javascript_catalog' %}" type="text/javascript"></script>
 {% if target_language %}
-{% if apertium_api_key %}
-  <script type="text/javascript" src="http://api.apertium.org/JSLibrary.js?key={{ apertium_api_key }}"></script>
-{% endif %}
-{% if microsoft_api_key %}
-  <script type="text/javascript" src="http://api.microsofttranslator.com/v1/Ajax.svc/Embed?appId={{ microsoft_api_key }}"></script>
-{% endif %}
   <script type="text/javascript">
   var target_language = '{{ target_language }}';
   </script>
