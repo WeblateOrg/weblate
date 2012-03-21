@@ -41,6 +41,7 @@ urlpatterns = patterns('',
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/report/$', 'trans.admin_views.report'),
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
