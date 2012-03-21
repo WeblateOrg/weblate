@@ -31,51 +31,67 @@ function get_source_string(callback) {
     });
 }
 
+function failed_mt(jqXHR, textStatus, errorThrown) {
+    dec_loading();
+    $('<div title="' + gettext('Failed translation') + '"><p>' + gettext('The request for machine translation has failed.') + '</p><p>' + gettext('Error details:') + ' ' + textStatus + '</p></div>').dialog();
+}
+
+function process_mt(data, textStatus, jqXHR) {
+    if (typeof(data.responseData) == 'undefined') {
+        mt_set(data);
+    } else if (data.responseData != '') {
+        mt_set(data.responseData.translatedText);
+    }
+    dec_loading();
+}
+
 function add_translate_button(id, text, callback) {
     $('#copy-text').after('<a href="#" id="translate-' + id + '">' + text + '</a>');
     $('#translate-' + id).button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(callback);
 }
 
 function load_translate_apis() {
-    if (typeof(apertium) != 'undefined' && apertium.isTranslatablePair('en', target_language)) {
+    if (typeof(APERTIUM_LANGS) != 'undefined' && APERTIUM_LANGS.indexOf(target_language) != -1) {
         add_translate_button('apertium', gettext('Translate using Apertium'), function () {
             get_source_string(function(data) {
                 inc_loading();
-                apertium.translate(data, 'en', target_language, function (ret) {
-                    if (!ret.error) {
-                        mt_set(ret.translation);
-                    }
-                    dec_loading();
+                $.ajax({
+                    url: "http://api.apertium.org/json/translate?q=" + data + "&langpair=en|" + target_language + "&key=" + APERTIUM_API_KEY,
+                    success: process_mt,
+                    error: failed_mt,
+                    timeout: 10000,
+                    dataType: 'json',
                 });
             });
             return false;
         });
     }
-    if (typeof(Microsoft) != 'undefined') {
-        var langs = Microsoft.Translator.getLanguages();
-        if (langs.indexOf(target_language) != -1) {
-            add_translate_button('microsoft', gettext('Translate using Microsoft Translator'), function () {
-                get_source_string(function(data) {
-                    inc_loading();
-                    Microsoft.Translator.translate(data, 'en', target_language, function (ret) {
-                        mt_set(ret);
-                        dec_loading();
-                    });
+    if (typeof(MICROSOFT_LANGS) != 'undefined' && MICROSOFT_LANGS.indexOf(target_language) != -1) {
+        add_translate_button('apertium', gettext('Translate using Microsoft Translator'), function () {
+            get_source_string(function(data) {
+                inc_loading();
+                $.ajax({
+                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + data + "&from=en&to=" + target_language,
+                    success: process_mt,
+                    error: failed_mt,
+                    dataType: 'jsonp',
+                    jsonp: "oncomplete",
                 });
-                return false;
             });
-        }
+            return false;
+        });
     }
     add_translate_button('mymemory', gettext('Translate using MyMemory'), function () {
         get_source_string(function(data) {
             inc_loading();
-            $.getJSON("http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language, function(data) {
-                if (data.responseData != '') {
-                    mt_set(data.responseData.translatedText);
-                }
-                dec_loading();
+            $.ajax({
+                url: "http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language,
+                success: process_mt,
+                error: failed_mt,
+                dataType: 'json',
             });
         });
+        return false;
     });
 }
 

@@ -95,8 +95,7 @@ limited set of lanugages.
 Microsoft Translator
 ++++++++++++++++++++
 
-Machine translation service. Weblate is currently using deprecated v1 API,
-which might stop working in future.
+Machine translation service provided by Microsoft.
 
 .. seealso::
 
