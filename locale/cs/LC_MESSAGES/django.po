@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 08:22+0100\n"
+"POT-Creation-Date: 2012-03-21 15:08+0100\n"
 "PO-Revision-Date: 2012-03-21 08:28+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 0.7\n"
 
-#: urls.py:49 urls.py:55
+#: urls.py:53 urls.py:59
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: urls.py:60
+#: urls.py:64
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:66 html/base.html:52 html/registration/login.html:30
+#: urls.py:70 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: urls.py:73
+#: urls.py:77
 msgid "Logged out"
 msgstr "Odhlášen"
 
-#: urls.py:78
+#: urls.py:82
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: urls.py:82
+#: urls.py:86
 msgid "Password changed"
 msgstr "Heslo bylo změněno"
 
-#: urls.py:86 urls.py:90 urls.py:94 urls.py:98
+#: urls.py:90 urls.py:94 urls.py:98 urls.py:102
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -171,11 +171,25 @@ msgstr "AJAX požadavek na nahrání obsahu selhal!"
 msgid "Loading..."
 msgstr "Načítám..."
 
+#: accounts/i18n.py:25
+#, fuzzy
+msgid "Failed translation"
+msgstr "Překlad"
+
+#: accounts/i18n.py:26
+#, fuzzy
+msgid "The request for machine translation has failed."
+msgstr "AJAX požadavek na nahrání obsahu selhal!"
+
+#: accounts/i18n.py:27
+msgid "Error details:"
+msgstr ""
+
 #: accounts/models.py:17
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
 
-#: accounts/models.py:23 html/index.html:99 trans/views.py:52
+#: accounts/models.py:23 html/index.html:99 trans/views.py:57
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -220,33 +234,33 @@ msgstr ""
 "Server měl vážné problémy se zpracováním vašeho požadavku. Zrovna jsme "
 "vyslali cvičené opice, aby problém opravily."
 
-#: html/base.html:48
+#: html/base.html:43
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Přihlášen jako %(name)s"
 
-#: html/base.html:49
+#: html/base.html:44
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: html/base.html:51 html/registration/registration_form.html:25
+#: html/base.html:46 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Registrace"
 
-#: html/base.html:57
+#: html/base.html:52 html/admin/report.html:8
 msgid "Home"
 msgstr "Domů"
 
-#: html/base.html:79
+#: html/base.html:74
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:80
+#: html/base.html:75
 msgid "Contact us"
 msgstr "Napište nám"
 
-#: html/base.html:81
+#: html/base.html:76
 msgid "Documentation"
 msgstr "Dokumentace"
 
@@ -563,6 +577,20 @@ msgid ""
 msgstr ""
 "Překlad čítá %(count)s řetězců, ze kterých je %(translated)s&#37; přeloženo "
 "a %(fuzzy)s&#37; nejasných."
+
+#: html/admin/custom-index.html:10
+msgid "Reports"
+msgstr ""
+
+#: html/admin/custom-index.html:14 html/admin/report.html:4
+#: html/admin/report.html.py:13
+#, fuzzy
+msgid "Status of repositories"
+msgstr "URL Git repozitáře"
+
+#: html/admin/report.html:8
+msgid "Status"
+msgstr ""
 
 #: html/registration/activate.html:9
 #, python-format
@@ -965,56 +993,56 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/views.py:195
+#: trans/views.py:200
 msgid "You need to log in to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:198
+#: trans/views.py:203
 msgid "You don't have privileges to save translations!"
 msgstr "Pro ukládání překladů nemáte oprávnění!"
 
-#: trans/views.py:214
+#: trans/views.py:219
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem překladu selhaly některé kontroly!"
 
-#: trans/views.py:232
+#: trans/views.py:237
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:238
+#: trans/views.py:243
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:249
+#: trans/views.py:254
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Pro přijmutí návrhu nemáte oprávnění!"
 
-#: trans/views.py:259
+#: trans/views.py:264
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Pro odstranění návrhu nemáte oprávnění!"
 
-#: trans/views.py:280
+#: trans/views.py:285
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:325
+#: trans/views.py:330
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:447
+#: trans/views.py:452
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:449
+#: trans/views.py:454
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:451
+#: trans/views.py:456
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
 
-#: trans/views.py:462
+#: trans/views.py:467
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
