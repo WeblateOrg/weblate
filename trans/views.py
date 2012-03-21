@@ -468,10 +468,14 @@ def not_found(request):
 
 def js_config(request):
     if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
-        listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % settings.MT_APERTIUM_KEY)
-        pairs = listpairs.read()
-        parsed = json.loads(pairs)
-        apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
+        try:
+            listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % settings.MT_APERTIUM_KEY)
+            pairs = listpairs.read()
+            parsed = json.loads(pairs)
+            apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
+        except Exception, e:
+            logger.error('failed to get supported languages from Apertium, using defaults (%s)', str(e))
+            apertium_langs = ['gl', 'ca', 'es', 'eo']
     else:
         apertium_langs = None
 
