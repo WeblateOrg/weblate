@@ -468,8 +468,8 @@ def not_found(request):
         'projects': Project.objects.all(),
     })))
 
-# Cache this page for one day, it should not really change much
-@cache_page(24 * 3600)
+# Cache this page for one month, it should not really change much
+@cache_page(30 * 24 * 3600)
 def js_config(request):
     if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
         try:
