@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-20 14:31+0100\n"
+"POT-Creation-Date: 2012-03-21 08:22+0100\n"
 "PO-Revision-Date: 2012-03-17 02:02+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 0.7\n"
 
-#: urls.py:48 urls.py:54
+#: urls.py:49 urls.py:55
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:59
+#: urls.py:60
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:65 html/base.html:52 html/registration/login.html:30
+#: urls.py:66 html/base.html:52 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:72
+#: urls.py:73
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:77
+#: urls.py:78
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:81
+#: urls.py:82
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:85 urls.py:89 urls.py:93 urls.py:97
+#: urls.py:86 urls.py:90 urls.py:94 urls.py:98
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -177,7 +177,7 @@ msgstr "Yükleniyor..."
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:23 html/index.html:99 trans/views.py:51
+#: accounts/models.py:23 html/index.html:99 trans/views.py:52
 msgid "Languages"
 msgstr "Diller"
 
@@ -266,14 +266,24 @@ msgstr ""
 msgid "Send"
 msgstr "Gönder"
 
+#: html/dictionary.html:6 html/similar.html:6 html/translate.html:49
+#: html/translate.html.py:162
+msgid "Source"
+msgstr "Kaynak"
+
+#: html/dictionary.html:6 html/index.html:13 html/similar.html:6
+#: html/translate.html:63 html/translate.html.py:162
+msgid "Translation"
+msgstr "Çeviri"
+
+#: html/dictionary.html:18
+#, fuzzy
+msgid "No related strings found in dictionary."
+msgstr "Bulunan benzer satırlar yok."
+
 #: html/index.html:8
 msgid "Your translations"
 msgstr "Çevirileriniz"
-
-#: html/index.html:13 html/similar.html:6 html/translate.html:63
-#: html/translate.html.py:161
-msgid "Translation"
-msgstr "Çeviri"
 
 #: html/index.html:14 html/index.html.py:40 html/index.html.py:64
 #: html/language.html:16 html/languages.html:15 html/project.html:18
@@ -383,10 +393,6 @@ msgstr "Çevirmenler için postalama listesi:"
 #: html/project_info.html:9
 msgid "Instructions for translators:"
 msgstr "Çevirmenler için talimatlar:"
-
-#: html/similar.html:6 html/translate.html:49 html/translate.html.py:161
-msgid "Source"
-msgstr "Kaynak"
 
 #: html/similar.html:18
 msgid "No similar strings found."
@@ -510,6 +516,10 @@ msgstr "Yakın mesajlar"
 #: html/translate.html:156
 msgid "Similar messages"
 msgstr "Benzer mesajlar"
+
+#: html/translate.html:157
+msgid "Words in dictionary"
+msgstr ""
 
 #: html/translation.html:17
 msgid "Strings to check"
@@ -944,56 +954,56 @@ msgstr "Belirsiz satırlar (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satırlar (%d)"
 
-#: trans/views.py:194
+#: trans/views.py:195
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:197
+#: trans/views.py:198
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:213
+#: trans/views.py:214
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:231
+#: trans/views.py:232
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz mesaj bundan böyle mevcut değil!"
 
-#: trans/views.py:237
+#: trans/views.py:238
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:248
+#: trans/views.py:249
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:258
+#: trans/views.py:259
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:279
+#: trans/views.py:280
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:324
+#: trans/views.py:325
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:427
+#: trans/views.py:447
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:429
+#: trans/views.py:449
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:431
+#: trans/views.py:451
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:442
+#: trans/views.py:462
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
