@@ -17,6 +17,8 @@ js_info_dict = {
     'packages': ('weblate',),
 }
 
+admin.site.index_template = 'admin/custom-index.html'
+
 urlpatterns = patterns('',
     url(r'^$', 'trans.views.home'),
     url(r'^projects/$', 'django.views.generic.simple.redirect_to', {'url': '/'}),
