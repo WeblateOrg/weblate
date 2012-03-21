@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
@@ -467,6 +468,8 @@ def not_found(request):
         'projects': Project.objects.all(),
     })))
 
+# Cache this page for one day, it should not really change much
+@cache_page(24 * 3600)
 def js_config(request):
     if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
         try:
