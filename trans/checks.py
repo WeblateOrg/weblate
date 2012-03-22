@@ -247,3 +247,22 @@ def check_plurals(sources, targets, flags, language, unit):
     return ('' in targets)
 
 CHECKS['plurals'] = (_('Missing plurals'), check_c_format, _('Some plural forms are not translated'))
+
+# Check for inconsistent translations
+
+def check_consistency(sources, targets, flags, language, unit):
+    from trans.models import Unit
+    related = Unit.objects.filter(
+        translation__language = language,
+        translation__subproject__project = unit.translation.subproject.project,
+        checksum = unit.checksum
+        ).exclude(
+        id = unit.id
+        )
+    for unit2 in related.iterator():
+        if unit2.target != unit.target:
+            return True
+
+    return False
+
+CHECKS['inconsistent'] = (_('Inconsistent'), check_consistency, _('More different translations of one string in a project'))
