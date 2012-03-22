@@ -80,13 +80,13 @@ def plural_check(f):
     '''
     Generic decorator for working with plural translations.
     '''
-    def _plural_check(sources, targets, flags, language):
-        if f(sources[0], targets[0], flags, language):
+    def _plural_check(sources, targets, flags, language, unit):
+        if f(sources[0], targets[0], flags, language, unit):
             return True
         if len(sources) == 1:
             return False
         for t in targets[1:]:
-            if f(sources[1], t, flags, language):
+            if f(sources[1], t, flags, language, unit):
                 return True
         return False
 
@@ -95,7 +95,7 @@ def plural_check(f):
 # Check for not translated entries
 
 @plural_check
-def check_same(source, target, flags, language):
+def check_same(source, target, flags, language, unit):
     if language.code.split('_')[0] == 'en':
         return False
     if source.lower() in SAME_BLACKLIST:
@@ -117,13 +117,13 @@ def check_chars(source, target, pos, chars):
 # Checks for newlines at beginning/end
 
 @plural_check
-def check_begin_newline(source, target, flags, language):
+def check_begin_newline(source, target, flags, language, unit):
     return check_chars(source, target, 0, ['\n'])
 
 CHECKS['begin_newline'] = (_('Starting newline'), check_begin_newline, _('Source and translated do not both start with a newline'))
 
 @plural_check
-def check_end_newline(source, target, flags, language):
+def check_end_newline(source, target, flags, language, unit):
     return check_chars(source, target, -1, ['\n'])
 
 CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and translated do not both end with a newline'))
@@ -131,7 +131,7 @@ CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and
 # Whitespace check
 
 @plural_check
-def check_end_space(source, target, flags, language):
+def check_end_space(source, target, flags, language, unit):
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
             return False
@@ -144,13 +144,13 @@ CHECKS['end_space'] = (_('Trailing space'), check_end_space, _('Source and trans
 # Check for punctation
 
 @plural_check
-def check_end_stop(source, target, flags, language):
+def check_end_stop(source, target, flags, language, unit):
     return check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
 
 CHECKS['end_stop'] = (_('Trailing stop'), check_end_stop, _('Source and translated do not both end with a full stop'))
 
 @plural_check
-def check_end_colon(source, target, flags, language):
+def check_end_colon(source, target, flags, language, unit):
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
             return False
@@ -163,7 +163,7 @@ def check_end_colon(source, target, flags, language):
 CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with a colon or colon is not correctly spaced'))
 
 @plural_check
-def check_end_question(source, target, flags, language):
+def check_end_question(source, target, flags, language, unit):
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
             return False
@@ -176,7 +176,7 @@ def check_end_question(source, target, flags, language):
 CHECKS['end_question'] = (_('Trailing question'), check_end_question, _('Source and translated do not both end with a question mark or it is not correctly spaced'))
 
 @plural_check
-def check_end_exclamation(source, target, flags, language):
+def check_end_exclamation(source, target, flags, language, unit):
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
             return False
@@ -207,7 +207,7 @@ def check_format_strings(source, target, regex):
 # Check for Python format string
 
 @plural_check
-def check_python_format(source, target, flags, language):
+def check_python_format(source, target, flags, language, unit):
     if not 'python-format' in flags:
         return False
     return check_format_strings(source, target, PYTHON_PRINTF_MATCH)
@@ -217,7 +217,7 @@ CHECKS['python_format'] = (_('Python format'), check_python_format, _('Format st
 # Check for PHP format string
 
 @plural_check
-def check_php_format(source, target, flags, language):
+def check_php_format(source, target, flags, language, unit):
     if not 'php-format' in flags:
         return False
     return check_format_strings(source, target, PHP_PRINTF_MATCH)
@@ -227,7 +227,7 @@ CHECKS['php_format'] = (_('PHP format'), check_php_format, _('Format string does
 # Check for C format string
 
 @plural_check
-def check_c_format(source, target, flags, language):
+def check_c_format(source, target, flags, language, unit):
     if not 'c-format' in flags:
         return False
     return check_format_strings(source, target, C_PRINTF_MATCH)
@@ -236,7 +236,7 @@ CHECKS['c_format'] = (_('C format'), check_c_format, _('Format string does not m
 
 # Check for incomplete plural forms
 
-def check_plurals(sources, targets, flags, language):
+def check_plurals(sources, targets, flags, language, unit):
     # Is this plural?
     if len(sources) == 1:
         return False
