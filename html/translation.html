@@ -47,7 +47,9 @@
 
 <form action="{% url 'trans.views.upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
-{{ form.as_p }}
+<table>
+{{ form.as_table }}
+</table>
 <p><input type="submit" value="{% trans "Upload" %}" /></p>
 </form>
 {% endif %}
