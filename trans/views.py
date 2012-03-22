@@ -454,8 +454,12 @@ def upload_translation(request, project, subproject, lang):
                 author = '%s <%s>' % (form.cleaned_data['author_name'], form.cleaned_data['author_email'])
             else:
                 author = None
+            if request.user.has_perm('trans.overwrite_translation'):
+                overwrite = form.cleaned_data['overwrite']
+            else:
+                overwrite = False
             try:
-                ret = obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'], author)
+                ret = obj.merge_upload(request, request.FILES['file'], overwrite, author)
                 if ret:
                     messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
                 else:
