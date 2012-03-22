@@ -91,5 +91,5 @@ setup new tables and :program:`./manage.py rebuild_index` to build index for
 fulltext search.
 
 On upgrade to version 0.8 you should run :program:`./manage.py syncdb` to setup
-new tables and :program:`./manage.py rebuild_index` to rebuild index for
-fulltext search.
+new tables, :program:`./manage.py setupgroups` to update privileges setup and
+:program:`./manage.py rebuild_index` to rebuild index for fulltext search.
