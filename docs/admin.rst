@@ -100,16 +100,16 @@ Access control
 
 Weblate uses privileges system based on Django. It defines following extra privileges:
 
-* Can upload translation
-* Can overwrite with translation upload
-* Can define author of translation upload
-* Can save translation
-* Can accept suggestion
-* Can accept suggestion
+* Can upload translation [Users, Managers]
+* Can overwrite with translation upload [Users, Managers]
+* Can define author of translation upload  [Managers]
+* Can save translation [Users, Managers]
+* Can accept suggestion [Users, Managers]
+* Can accept suggestion [Users, Managers]
 
 The default setup (after you run :program:`./manage.py setupgroups`) consists
-of single group `Users` which has all above privileges and all users are
-automatically added to this group.
+of two groups `Users` and `Managers` which have privileges as descibed above.
+All new users are automatically added to `Users` group.
 
 To customize this setup, it is recommended to remove privileges from `Users`
 group and create additional groups with finer privileges (eg. `Translators`
