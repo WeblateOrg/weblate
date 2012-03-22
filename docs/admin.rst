@@ -102,6 +102,7 @@ Weblate uses privileges system based on Django. It defines following extra privi
 
 * Can upload translation
 * Can overwrite with translation upload
+* Can define author of translation upload
 * Can save translation
 * Can accept suggestion
 * Can accept suggestion
