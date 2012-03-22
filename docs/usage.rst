@@ -205,3 +205,11 @@ Missing plurals
 Some plural forms are not translated. Check plural form definition to see for
 which counts each plural form is being used.
 
+.. _check-inconsistent:
+
+Inconsistent
+++++++++++++
+
+More different translations of one string in a project. This can also lead to
+inconsistencies in displayed checks. You can find other translations of this
+string on :guilabel:`Similar messages` tab.
