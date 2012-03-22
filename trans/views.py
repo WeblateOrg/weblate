@@ -12,7 +12,7 @@ from django.db.models import Q
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, SearchForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
@@ -80,7 +80,9 @@ def show_subproject(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
-    if request.user.has_perm('trans.overwrite_translation'):
+    if request.user.has_perm('trans.author_translation'):
+        form = ExtraUploadForm()
+    elif request.user.has_perm('trans.overwrite_translation'):
         form = UploadForm()
     else:
         form = SimpleUploadForm()
@@ -441,13 +443,19 @@ def upload_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     if request.method == 'POST':
-        if request.user.has_perm('trans.overwrite_translation'):
+        if request.user.has_perm('trans.author_translation'):
+            form = ExtraUploadForm(request.POST, request.FILES)
+        elif request.user.has_perm('trans.overwrite_translation'):
             form = UploadForm(request.POST, request.FILES)
         else:
             form = SimpleUploadForm(request.POST, request.FILES)
         if form.is_valid():
+            if request.user.has_perm('trans.author_translation'):
+                author = '%s <%s>' % (form.cleaned_data['author_name'], form.cleaned_data['author_email'])
+            else:
+                author = None
             try:
-                ret = obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'])
+                ret = obj.merge_upload(request, request.FILES['file'], form.cleaned_data['overwrite'], author)
                 if ret:
                     messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
                 else:

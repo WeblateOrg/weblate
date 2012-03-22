@@ -81,6 +81,18 @@ class SimpleUploadForm(forms.Form):
 class UploadForm(SimpleUploadForm):
     overwrite = forms.BooleanField(label = _('Overwrite existing translations'), required = False)
 
+class ExtraUploadForm(UploadForm):
+    author_name = forms.CharField(
+        label = _('Author name'),
+        required = False,
+        help_text = _('Keep empty for using currently logged in user.')
+        )
+    author_email = forms.EmailField(
+        label = _('Author email'),
+        required = False,
+        help_text = _('Keep empty for using currently logged in user.')
+        )
+
 class SearchForm(forms.Form):
     q = forms.CharField(label = _('Query'))
     exact = forms.BooleanField(label = _('Exact match'), required = False, initial = False)

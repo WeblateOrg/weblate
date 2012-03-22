@@ -228,6 +228,7 @@ class Translation(models.Model):
         permissions = (
             ('upload_translation', "Can upload translation"),
             ('overwrite_translation', "Can overwrite with translation upload"),
+            ('author_translation', "Can define author of translation upload"),
         )
 
     def get_fuzzy_percent(self):
@@ -441,14 +442,15 @@ class Translation(models.Model):
         self.check_sync()
         return ret
 
-    def merge_upload(self, request, fileobj, overwrite, mergefuzzy = False):
+    def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False):
         '''
         Top level handler for file uploads.
         '''
         # Needed to behave like something what translate toolkit expects
         fileobj.mode = "r"
         store2 = factory.getobject(fileobj)
-        author = self.get_author_name(request)
+        if author is None:
+            author = self.get_author_name(request)
 
         ret = False
 
