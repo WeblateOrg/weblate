@@ -216,10 +216,8 @@ class UnitManager(models.Manager):
                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
                 cnt -= 1
 
-        if unit.checksum in ret:
-            ret.remove(unit.checksum)
-
         return self.filter(
                     translation__subproject__project = unit.translation.subproject.project,
                     translation__language = unit.translation.language,
-                    checksum__in = ret).exclude(target = '')
+                    checksum__in = ret).exclude(
+                    target__in = ['', unit.target])
