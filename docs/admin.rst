@@ -90,8 +90,9 @@ notifications and updates related projects automatically.
 
 .. note::
 
-    The GitHub notification relies on Git urls you use to be in form 
-    git://github.com/owner/repo.git
+    The GitHub notification relies on Git repository urls you use to be in form
+    git://github.com/owner/repo.git, otherwise automatic detection of used
+    repository will fail.
 
 .. _privileges:
 
