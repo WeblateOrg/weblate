@@ -13,6 +13,13 @@ class SubProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'repo', 'branch']
     list_filter = ['project']
+    actions = ['update_from_git']
+
+    def update_from_git(self, request, queryset):
+        for s in queryset:
+            s.update_branch()
+            s.create_translations()
+        self.message_user(request, "Updated %d git repos." % queryset.count())
 
 admin.site.register(SubProject, SubProjectAdmin)
 
