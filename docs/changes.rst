@@ -13,6 +13,7 @@ Relased on ? 2012.
 * Added dictionary for storing most frequently used terms.
 * Added /admin/report/ for overview of repositories status.
 * Machine translation services no longer block page loading.
+* Management interface now contains also useful actions to update data.
 
 weblate 0.7
 -----------
