@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-23 12:43+0100\n"
+"POT-Creation-Date: 2012-03-23 14:40+0100\n"
 "PO-Revision-Date: 2012-03-22 17:56+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,7 +189,7 @@ msgstr "Hata ayrıntıları:"
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:23 html/index.html:99 trans/views.py:57
+#: accounts/models.py:23 html/index.html:119 trans/views.py:59
 msgid "Languages"
 msgstr "Diller"
 
@@ -283,8 +283,9 @@ msgstr "Gönder"
 msgid "Source"
 msgstr "Kaynak"
 
-#: html/dictionary.html:6 html/index.html:13 html/other.html:6
-#: html/similar.html:6 html/translate.html:63 html/translate.html.py:163
+#: html/dictionary.html:6 html/index.html:13 html/index.html.py:64
+#: html/other.html:6 html/similar.html:6 html/translate.html:63
+#: html/translate.html.py:163
 msgid "Translation"
 msgstr "Çeviri"
 
@@ -296,7 +297,7 @@ msgstr "Sözlükte bulunan ilgili satırlar yok."
 msgid "Your translations"
 msgstr "Çevirileriniz"
 
-#: html/index.html:14 html/index.html.py:40 html/index.html.py:64
+#: html/index.html:14 html/index.html.py:40 html/index.html.py:84
 #: html/language.html:16 html/languages.html:15 html/project.html:18
 #: html/subproject.html:19
 msgid "Translated"
@@ -321,26 +322,34 @@ msgid "Project"
 msgstr "Proje"
 
 #: html/index.html:55
-msgid "Users"
-msgstr "Kullanıcılar"
+msgid "Summaries"
+msgstr ""
 
-#: html/index.html:58
-msgid "Most active translators"
-msgstr "En aktif çevirmenler"
+#: html/index.html:57
+msgid "Recent changes"
+msgstr ""
 
-#: html/index.html:63 html/index.html.py:83
+#: html/index.html:62
+msgid "Date"
+msgstr ""
+
+#: html/index.html:63 html/index.html.py:83 html/index.html.py:103
 msgid "User"
 msgstr "Kullanıcı"
 
 #: html/index.html:78
+msgid "Most active translators"
+msgstr "En aktif çevirmenler"
+
+#: html/index.html:98
 msgid "Most active suggesters"
 msgstr "En aktif öneride bulunanlar"
 
-#: html/index.html:84
+#: html/index.html:104
 msgid "Suggested"
 msgstr "Önerilen"
 
-#: html/index.html:103
+#: html/index.html:123
 #, python-format
 msgid ""
 "There are also <a href=\"%(lang_url)s\">per language statistics</a> "
@@ -1009,58 +1018,61 @@ msgstr "Belirsiz satırlar (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satırlar (%d)"
 
-#: trans/views.py:202
+#: trans/views.py:204
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:205
+#: trans/views.py:207
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:221
+#: trans/views.py:223
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:239
+#: trans/views.py:241
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz mesaj bundan böyle mevcut değil!"
 
-#: trans/views.py:245
+#: trans/views.py:247
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:256
+#: trans/views.py:258
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:266
+#: trans/views.py:268
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:287
+#: trans/views.py:289
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:332
+#: trans/views.py:334
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:473
+#: trans/views.py:475
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:475
+#: trans/views.py:477
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:477
+#: trans/views.py:479
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:488
+#: trans/views.py:490
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
+
+#~ msgid "Users"
+#~ msgstr "Kullanıcılar"
 
 #, fuzzy
 #~ msgid "Project "
