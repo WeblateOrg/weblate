@@ -211,7 +211,7 @@ class UnitManager(models.Manager):
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
             # Try to find 10 similar string, remove up to 4 words
-            while len(ret) < 10 and cnt > 0  and len(terms) - cnt < 4:
+            while len(ret) < 5 and cnt > 0  and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
                 cnt -= 1
