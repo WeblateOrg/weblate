@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load weblate %}
+{% if other %}
+<table>
+    <thead>
+    <tr><th>{% trans "Project "%}</th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th></tr>
+    </thead>
+    <tbody>
+{% for item in other %}
+    <tr>
+    <td>{{ item.translation.subproject }}</td>
+    <td class="translatetext">{{ item.source|fmttranslation }}</td>
+    <td class="translatetext">{{ item.target|fmttranslation:item.translation.language }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>{% trans "No other strings found." %}</p>
+{% endif %}
+

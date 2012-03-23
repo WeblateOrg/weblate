@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
     url(r'^js/config/$', 'trans.views.js_config'),
     url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'trans.views.get_similar'),
+    url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'trans.views.get_other'),
     url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'trans.views.get_dictionary'),
 
     # Admin interface

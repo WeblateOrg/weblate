@@ -407,6 +407,15 @@ def get_similar(request, unit_id):
         'similar': similar,
     }))
 
+def get_other(request, unit_id):
+    unit = get_object_or_404(Unit, pk = int(unit_id))
+
+    other = Unit.objects.same(unit)
+
+    return render_to_response('other.html', RequestContext(request, {
+        'other': other,
+    }))
+
 def get_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk = int(unit_id))
     # split to words
