@@ -179,8 +179,8 @@
     <table>
     {% for change in changes %}
     <tr>
-    <td>{{ change.timestamp|date:"DATETIME_FORMAT" }}</td>
     <td>{{ change.user.get_full_name }}</td>
+    <td>{{ change.timestamp|date:"DATETIME_FORMAT" }}</td>
     </tr>
     {% endfor %}
     </table>
