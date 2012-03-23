@@ -13,11 +13,12 @@ Contents:
 
     about
     usage
-    changes
     install
     config
     admin
     management
+    faq
+    changes
     license
 
 
