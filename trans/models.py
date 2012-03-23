@@ -489,6 +489,12 @@ class Unit(models.Model):
         )
         ordering = ['position']
 
+    def __unicode__(self):
+        return '%s on %s' % (
+            self.checksum,
+            self.translation,
+        )
+
     def get_absolute_url(self):
         return '%s?pos=%d&dir=stay' % (self.translation.get_translate_url(), self.position)
 
