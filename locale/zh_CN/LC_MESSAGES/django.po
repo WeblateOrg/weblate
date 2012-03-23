@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-22 13:52+0100\n"
+"POT-Creation-Date: 2012-03-23 12:21+0100\n"
 "PO-Revision-Date: 2012-03-10 04:57+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 0.4\n"
 
-#: urls.py:53 urls.py:59
+#: urls.py:54 urls.py:60
 msgid "User registration"
 msgstr "注册新用户"
 
-#: urls.py:64
+#: urls.py:65
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:70 html/base.html:47 html/registration/login.html:30
+#: urls.py:71 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
-#: urls.py:77
+#: urls.py:78
 msgid "Logged out"
 msgstr "已退出"
 
-#: urls.py:82
+#: urls.py:83
 msgid "Change password"
 msgstr "修改密码"
 
-#: urls.py:86
+#: urls.py:87
 msgid "Password changed"
 msgstr "密码已修改"
 
-#: urls.py:90 urls.py:94 urls.py:98 urls.py:102
+#: urls.py:91 urls.py:95 urls.py:99 urls.py:103
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -271,13 +271,13 @@ msgstr "请使用英语，否则我们可能无法理解您的要求。"
 msgid "Send"
 msgstr "发送"
 
-#: html/dictionary.html:6 html/similar.html:6 html/translate.html:49
-#: html/translate.html.py:162
+#: html/dictionary.html:6 html/other.html:6 html/similar.html:6
+#: html/translate.html:49 html/translate.html.py:163
 msgid "Source"
 msgstr "源"
 
-#: html/dictionary.html:6 html/index.html:13 html/similar.html:6
-#: html/translate.html:63 html/translate.html.py:162
+#: html/dictionary.html:6 html/index.html:13 html/other.html:6
+#: html/similar.html:6 html/translate.html:63 html/translate.html.py:163
 msgid "Translation"
 msgstr "翻译"
 
@@ -348,6 +348,16 @@ msgstr "语言"
 #: html/language.html:15 html/languages.html:14 html/subproject.html:18
 msgid "Language"
 msgstr "语言"
+
+#: html/other.html:6
+#, fuzzy
+msgid "Project "
+msgstr "项目"
+
+#: html/other.html:19
+#, fuzzy
+msgid "No other strings found."
+msgstr "未翻译条目 (%d)"
 
 #: html/profile.html:11
 msgid "Please fix errors in the form."
@@ -523,6 +533,11 @@ msgid "Similar messages"
 msgstr ""
 
 #: html/translate.html:157
+#, fuzzy
+msgid "All locations"
+msgstr "所有条目"
+
+#: html/translate.html:158
 msgid "Words in dictionary"
 msgstr ""
 
@@ -960,21 +975,21 @@ msgstr "要翻译的 Git 分支"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "要翻译的文件，使用 * 代替语言代码"
 
-#: trans/models.py:397
+#: trans/models.py:406
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:402
+#: trans/models.py:411
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:404
+#: trans/models.py:413
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:406
+#: trans/models.py:415
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
@@ -1019,20 +1034,20 @@ msgstr "无效建议！"
 msgid "You have reached end of translating."
 msgstr "本次翻译已结束。"
 
-#: trans/views.py:464
+#: trans/views.py:473
 msgid "File content successfully merged into translation."
 msgstr "已成功将文件内容合并到当前翻译。"
 
-#: trans/views.py:466
+#: trans/views.py:475
 msgid "There were no new strings in uploaded file."
 msgstr "上传的文件中没有新翻译的条目。"
 
-#: trans/views.py:468
+#: trans/views.py:477
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "文件内容合并失败：%s"
 
-#: trans/views.py:479
+#: trans/views.py:488
 msgid "Page Not Found"
 msgstr "页面未找到"
 
