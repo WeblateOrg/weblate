@@ -210,8 +210,8 @@ class UnitManager(models.Manager):
             # Extract up to 10 terms from the source
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
-            # Try to find 10 similar string, remove up to 4 words
-            while len(ret) < 5 and cnt > 0  and len(terms) - cnt < 4:
+            # Try to find at least configured number of similar strings, remove up to 4 words
+            while len(ret) < settings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
                 cnt -= 1

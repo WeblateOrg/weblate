@@ -30,6 +30,11 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     How many messages around current one to show during translating.
 
+.. envvar:: SIMILAR_MESSAGES
+
+    Number of similar messages to lookup. This is not a hard limit, just a
+    number Weblate tries to find if it is possible.
+
 .. envvar:: SITE_TITLE
 
     Site title to be used in website and emails as well.
