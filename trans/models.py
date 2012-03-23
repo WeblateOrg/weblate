@@ -282,15 +282,17 @@ class Translation(models.Model):
         '''
         Checks whether database is in sync with git and possibly does update.
         '''
-        blob = self.get_git_blob()
-        self.update_from_blob(blob)
+        self.update_from_blob()
 
-    def update_from_blob(self, blob, force = False):
+    def update_from_blob(self, blob_hash = None, force = False):
         '''
         Updates translation data from blob.
         '''
+        if blob_hash is None:
+            blob_hash = self.get_git_blob_hash()
+
         # Check if we're not already up to date
-        if self.revision == blob.hexsha and not force:
+        if self.revision == blob_hash and not force:
             return
 
         logger.info('processing %s, revision has changed', self.filename)
@@ -316,19 +318,21 @@ class Translation(models.Model):
 
     def get_git_blob_hash(self):
         '''
-        Returns current Git blob for file.
+        Returns current Git blob hash for file.
         '''
         gitrepo = self.subproject.get_repo()
         tree = gitrepo.tree()
-        return tree[self.filename]
+        ret = tree[self.filename].hexsha
+        del gitrepo
+        return ret
 
-    def update_stats(self, blob = None):
-        if blob is None:
-            blob = self.get_git_blob()
+    def update_stats(self, blob_hash = None):
+        if blob_hash is None:
+            blob_hash = self.get_git_blob_hash()
         self.total = self.unit_set.count()
         self.fuzzy = self.unit_set.filter(fuzzy = True).count()
         self.translated = self.unit_set.filter(translated = True).count()
-        self.revision = blob.hexsha
+        self.revision = blob_hash
         self.save()
 
     def get_author_name(self, request):
