@@ -703,6 +703,6 @@ class Dictionary(models.Model):
         )
 
 class Change(models.Model):
-    unit = models.ForeighKey(Unit)
+    unit = models.ForeignKey(Unit)
     user = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add = True)
