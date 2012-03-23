@@ -181,7 +181,7 @@ class SubProject(models.Model):
             yield (
                 self.get_lang_code(filename),
                 filename,
-                tree[filename]
+                tree[filename].hexsha
                 )
         del gitrepo
 
@@ -189,9 +189,9 @@ class SubProject(models.Model):
         '''
         Loads translations from git.
         '''
-        for code, path, blob in self.get_translation_blobs():
+        for code, path, blob_hash in self.get_translation_blobs():
             logger.info('checking %s', path)
-            Translation.objects.update_from_blob(self, code, path, blob, force)
+            Translation.objects.update_from_blob(self, code, path, blob_hash, force)
 
     def get_lang_code(self, path):
         '''
@@ -314,7 +314,7 @@ class Translation(models.Model):
         Unit.objects.filter(translation = self, id__in = oldunits).delete()
 
         # Update revision and stats
-        self.update_stats(blob)
+        self.update_stats(blob_hash)
 
     def get_git_blob_hash(self):
         '''
