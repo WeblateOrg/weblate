@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
-from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm
 from util import is_plural, split_plural, join_plural
@@ -43,11 +43,13 @@ def home(request):
     # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
+    last_changes = Change.objects.order_by('-timestamp')[:10]
 
     return render_to_response('index.html', RequestContext(request, {
         'projects': projects,
         'top_translations': top_translations,
         'top_suggestions': top_suggestions,
+        'last_changes': last_changes,
         'usertranslations': usertranslations,
     }))
 

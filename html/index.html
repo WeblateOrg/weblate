@@ -55,6 +55,28 @@
 <h2>{% trans "Users" %}</h2>
 
 <div class="floatbox">
+<h3>{% trans "Recent changes" %}</h3>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Date" %}</th>
+<th>{% trans "User" %}</th>
+<th>{% trans "Project" %}</th>
+</tr>
+<tbody>
+{% for c in last_changes %}
+<tr>
+<td>{{ c.timestamp|date:"DATETIME_FORMAT" }}</td>
+<td>{{ c.user.get_full_name }}</td>
+<td>{{ c.unit.translation }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<div class="floatbox">
 <h3>{% trans "Most active translators" %}</h3>
 
 <table>
