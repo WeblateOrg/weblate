@@ -68,7 +68,7 @@ IGNORE_SIMILAR = set([
 ]) | IGNORE_WORDS
 
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, blob, force = False):
+    def update_from_blob(self, subproject, code, path, blob_hash, force = False):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -77,7 +77,7 @@ class TranslationManager(models.Manager):
             language = lang,
             subproject = subproject,
             filename = path)
-        trans.update_from_blob(blob, force)
+        trans.update_from_blob(blob_hash, force)
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):

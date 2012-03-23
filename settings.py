@@ -43,6 +43,7 @@ LANGUAGES = (
     ('cs', u'Česky'),
     ('de', 'Deutsch'),
     ('en', 'English'),
+    ('el', 'Ελληνικά'),
     ('es', u'Español'),
     ('fr', u'Français'),
     ('nl', 'Nederlands'),
