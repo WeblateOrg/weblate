@@ -113,49 +113,51 @@ class SubProject(models.Model):
         Ensures repository is correctly configured and points to current remote.
         '''
         # Create/Open repo
-        repo = self.get_repo()
+        gitrepo = self.get_repo()
         # Get/Create origin remote
         try:
-            origin = repo.remotes.origin
+            origin = gitrepo.remotes.origin
         except:
-            repo.git.remote('add', 'origin', self.repo)
-            origin = repo.remotes.origin
+            gitrepo.git.remote('add', 'origin', self.repo)
+            origin = gitrepo.remotes.origin
         # Check remote source
         if origin.url != self.repo:
-            repo.git.remote('set-url', 'origin', self.repo)
+            gitrepo.git.remote('set-url', 'origin', self.repo)
         # Update
         logger.info('updating repo %s', self.__unicode__())
         try:
-            repo.git.remote('update', 'origin')
+            gitrepo.git.remote('update', 'origin')
         except Exception, e:
             logger.error('Failed to update Git repo: %s', str(e))
+        del gitrepo
 
 
     def configure_branch(self):
         '''
         Ensures local tracking branch exists and is checkouted.
         '''
-        repo = self.get_repo()
+        gitrepo = self.get_repo()
         try:
-            head = repo.heads[self.branch]
+            head = gitrepo.heads[self.branch]
         except:
-            repo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
-            head = repo.heads[self.branch]
-        repo.git.checkout(self.branch)
+            gitrepo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
+            head = gitrepo.heads[self.branch]
+        gitrepo.git.checkout(self.branch)
+        del gitrepo
 
     def update_branch(self):
         '''
         Updates current branch to match remote (if possible).
         '''
-        repo = self.get_repo()
+        gitrepo = self.get_repo()
         logger.info('pulling from remote repo %s', self.__unicode__())
-        repo.remotes.origin.update()
+        gitrepo.remotes.origin.update()
         try:
-            repo.git.merge('origin/%s' % self.branch)
+            gitrepo.git.merge('origin/%s' % self.branch)
             logger.info('merged remote into repo %s', self.__unicode__())
         except Exception, e:
-            status = repo.git.status()
-            repo.git.merge('--abort')
+            status = gitrepo.git.status()
+            gitrepo.git.merge('--abort')
             logger.warning('failed merge on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
             msg += '\n\nStatus:\n' + status
@@ -163,13 +165,14 @@ class SubProject(models.Model):
                 'failed merge on repo %s' % self.__unicode__(),
                 msg
             )
+        del gitrepo
 
     def get_translation_blobs(self):
         '''
         Scans directory for translation blobs and returns them as list.
         '''
-        repo = self.get_repo()
-        tree = repo.tree()
+        gitrepo = self.get_repo()
+        tree = gitrepo.tree()
 
         # Glob files
         prefix = os.path.join(self.get_path(), '')
@@ -180,6 +183,7 @@ class SubProject(models.Model):
                 filename,
                 tree[filename]
                 )
+        del gitrepo
 
     def create_translations(self, force = False):
         '''
@@ -310,12 +314,12 @@ class Translation(models.Model):
         # Update revision and stats
         self.update_stats(blob)
 
-    def get_git_blob(self):
+    def get_git_blob_hash(self):
         '''
         Returns current Git blob for file.
         '''
-        repo = self.subproject.get_repo()
-        tree = repo.tree()
+        gitrepo = self.subproject.get_repo()
+        tree = gitrepo.tree()
         return tree[self.filename]
 
     def update_stats(self, blob = None):
@@ -337,17 +341,18 @@ class Translation(models.Model):
         '''
         Commits translation to git.
         '''
-        repo = self.subproject.get_repo()
-        status = repo.git.status('--porcelain', '--', self.filename)
+        gitrepo = self.subproject.get_repo()
+        status = gitrepo.git.status('--porcelain', '--', self.filename)
         if status == '':
             # No changes to commit
             return False
         logger.info('Commiting %s as %s', self.filename, author)
-        repo.git.commit(
+        gitrepo.git.commit(
             self.filename,
             author = author,
             m = settings.COMMIT_MESSAGE
             )
+        del gitrepo
         return True
 
     def update_unit(self, unit, request):
