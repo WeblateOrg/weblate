@@ -16,8 +16,8 @@ Contents:
     install
     config
     admin
-    faq
     management
+    faq
     changes
     license
 
