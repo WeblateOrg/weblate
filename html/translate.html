@@ -157,6 +157,7 @@
         <li><a href="/js/other/{{ unit.id }}/">{% trans "All locations" %}</a></li>
         <li><a href="/js/dictionary/{{ unit.id }}/">{% trans "Words in dictionary" %}</a></li>
         <li><a href="#tab-changes">{% trans "Recent edits" %}</a></li>
+        <li><a href="#tab-project">{% trans "Project" %}</a></li>
     </ul>
     <div id="tab-nearby">
     <table>
@@ -187,9 +188,10 @@
     <p>{% trans "No recent activity has been recorder." %}</p>
     {% endif %}
     </div>
+    <div id="tab-project">
+    {% include "translation_info.html" %}
+    </div>
 </div>
-
-{% include "translation_info.html" %}
 
 {% endblock %}
 
