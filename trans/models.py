@@ -549,6 +549,7 @@ class Unit(models.Model):
             self.flags = ''
         self.save(backend = True)
         self.translation.update_stats()
+        Change.objects.create(unit = self, user = request.user)
         # Propagate to other projects
         if propagate:
             allunits = Unit.objects.same(self).exclude(id = self.id)
