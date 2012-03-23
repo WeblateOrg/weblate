@@ -205,7 +205,7 @@ class UnitManager(models.Manager):
         return self.filter(checksum__in = ret)
 
     def similar(self, unit):
-        ret = set()
+        ret = set([unit.checksum])
         with trans.search.get_source_searcher() as searcher:
             # Extract up to 10 terms from the source
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10)]
