@@ -700,3 +700,8 @@ class Dictionary(models.Model):
             self.source,
             self.target
         )
+
+class Change(models.Model):
+    unit = models.ForeighKey(Unit)
+    user = models.ForeignKey(User)
+    timestamp = models.DateTimeField(auto_now_add = True)
