@@ -7,10 +7,10 @@
     </thead>
     <tbody>
 {% for item in other %}
-    <tr>
+    <tr class="clickable">
     <td>{{ item.translation.subproject }}</td>
-    <td class="translatetext">{{ item.source|fmttranslation }}</td>
-    <td class="translatetext">{{ item.target|fmttranslation:item.translation.language }}</td>
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:item.translation.language }}</a></td>
     </tr>
 {% endfor %}
     </tbody>
