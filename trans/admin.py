@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary
+from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']
@@ -63,3 +63,10 @@ class DictionaryAdmin(admin.ModelAdmin):
     list_filter = ['project', 'language']
 
 admin.site.register(Dictionary, DictionaryAdmin)
+
+class ChangeAdmin(admin.ModelAdmin):
+    list_display = ['unit', 'user', 'timestamp']
+    date_hierarchy = 'timestamp'
+    list_filter = ['unit__translation__subproject__project', 'unit__translation__language']
+
+admin.site.register(Change, ChangeAdmin)
