@@ -174,7 +174,6 @@
     </table>
     </div>
     <div id="tab-changes">
-    {% with unit.change_set.all as changes %}
     {% if changes %}
     <table>
     {% for change in changes %}
@@ -187,7 +186,6 @@
     {% else %}
     <p>{% trans "No recent activity has been recorder." %}</p>
     {% endif %}
-    {% endwith %}
     </div>
 </div>
 

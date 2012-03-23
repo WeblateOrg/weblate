@@ -365,6 +365,7 @@ def translate(request, project, subproject, lang):
     return render_to_response('translate.html', RequestContext(request, {
         'object': obj,
         'unit': unit,
+        'changes': unit.change_set.all()[:10],
         'total': total,
         'type': rqtype,
         'form': form,
