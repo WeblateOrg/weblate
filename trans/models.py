@@ -714,7 +714,7 @@ class Change(models.Model):
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
 
     class Meta:
-        ordering = ['timestamp']
+        ordering = ['-timestamp']
 
     def __unicode__(self):
         return '%s on %s by %s' % (
