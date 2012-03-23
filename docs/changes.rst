@@ -14,6 +14,7 @@ Relased on ? 2012.
 * Added /admin/report/ for overview of repositories status.
 * Machine translation services no longer block page loading.
 * Management interface now contains also useful actions to update data.
+* Records log of changes made by users.
 
 weblate 0.7
 -----------
