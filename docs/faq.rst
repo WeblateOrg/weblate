@@ -17,3 +17,14 @@ The easiest way to do this is to run:
         git gc
         popd
     done
+
+Fulltext search is too slow
+---------------------------
+
+Depending on various conditions (frequency of updates, server restarts and
+other), fulltext index might get too fragmented over time. It is recommended to
+rebuild it from scratch time to time:
+
+.. code-block:: sh
+
+    ./manage.py rebuild_index --clean
