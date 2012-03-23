@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-23 15:02+0100\n"
+"POT-Creation-Date: 2012-03-23 15:10+0100\n"
 "PO-Revision-Date: 2012-03-23 14:43+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,13 +275,13 @@ msgid "Send"
 msgstr "Odeslat"
 
 #: html/dictionary.html:6 html/other.html:6 html/similar.html:6
-#: html/translate.html:49 html/translate.html.py:164
+#: html/translate.html:49 html/translate.html.py:165
 msgid "Source"
 msgstr "Zdroj"
 
 #: html/dictionary.html:6 html/index.html:13 html/index.html.py:64
 #: html/other.html:6 html/similar.html:6 html/translate.html:63
-#: html/translate.html.py:164
+#: html/translate.html.py:165
 msgid "Translation"
 msgstr "Překlad"
 
@@ -294,17 +294,17 @@ msgid "Your translations"
 msgstr "Vaše překlady"
 
 #: html/index.html:14 html/index.html.py:40 html/index.html.py:84
-#: html/language.html:16 html/languages.html:15 html/project.html:18
-#: html/subproject.html:19
+#: html/language.html:16 html/languages.html:15 html/project.html:20
+#: html/subproject.html:21
 msgid "Translated"
 msgstr "Přeloženo"
 
-#: html/index.html:15 html/language.html:17 html/subproject.html:20
+#: html/index.html:15 html/language.html:17 html/subproject.html:22
 #: html/translate.html:68 trans/forms.py:76
 msgid "Fuzzy"
 msgstr "Nejasný"
 
-#: html/index.html:26 html/language.html:28 html/subproject.html:31
+#: html/index.html:26 html/language.html:28 html/subproject.html:33
 #: html/translate.html:15
 msgid "Translate"
 msgstr "Přeložit"
@@ -313,7 +313,7 @@ msgstr "Přeložit"
 msgid "Projects"
 msgstr "Projekty"
 
-#: html/index.html:39 html/other.html:6
+#: html/index.html:39 html/other.html:6 html/translate.html:160
 msgid "Project"
 msgstr "Projekt"
 
@@ -358,7 +358,7 @@ msgstr ""
 msgid "languages"
 msgstr "jazyky"
 
-#: html/language.html:15 html/languages.html:14 html/subproject.html:18
+#: html/language.html:15 html/languages.html:14 html/subproject.html:20
 msgid "Language"
 msgstr "Jazyk"
 
@@ -392,27 +392,27 @@ msgstr ""
 msgid "Save"
 msgstr "Uložit"
 
-#: html/project.html:12
+#: html/project.html:10 html/subproject.html:11 html/translation.html:13
+msgid "Project Information"
+msgstr "Informace o projektu"
+
+#: html/project.html:14
 msgid "Subprojects"
 msgstr "Podprojekty"
 
-#: html/project.html:17
+#: html/project.html:19
 msgid "Subproject"
 msgstr "Podprojekt"
 
 #: html/project_info.html:2
-msgid "Project Information"
-msgstr "Informace o projektu"
-
-#: html/project_info.html:4
 msgid "Project website:"
 msgstr "Stránky projektu:"
 
-#: html/project_info.html:6
+#: html/project_info.html:4
 msgid "Mailing list for translators:"
 msgstr "Emailová konference pro překladatele:"
 
-#: html/project_info.html:9
+#: html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
 
@@ -420,11 +420,11 @@ msgstr "Návod pro překladatele:"
 msgid "No similar strings found."
 msgstr "Nebyly nalezeny žádné podobné řetězce."
 
-#: html/subproject.html:13 html/translate.html:63
+#: html/subproject.html:15 html/translate.html:63
 msgid "Translations"
 msgstr "Překlady"
 
-#: html/subproject.html:40
+#: html/subproject.html:42
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -532,6 +532,10 @@ msgid "Translation context"
 msgstr "Souvislosti překladu"
 
 #: html/translate.html:155
+msgid "Messages placed around this one"
+msgstr ""
+
+#: html/translate.html:155
 msgid "Nearby messages"
 msgstr "Okolní řetězce"
 
@@ -540,35 +544,52 @@ msgid "Similar messages"
 msgstr "Podobné řetězce"
 
 #: html/translate.html:157
+msgid "Same message used in different subprojects"
+msgstr ""
+
+#: html/translate.html:157
 msgid "All locations"
 msgstr "Všechna umístění"
+
+#: html/translate.html:158
+#, fuzzy
+msgid "Words extracted from dictionary"
+msgstr "Slovník"
 
 #: html/translate.html:158
 msgid "Words in dictionary"
 msgstr "Slovník"
 
 #: html/translate.html:159
+msgid "List of recent changes done in Weblate"
+msgstr ""
+
+#: html/translate.html:159
 #, fuzzy
 msgid "Recent edits"
 msgstr "Nedávné změny"
 
-#: html/translate.html:187
+#: html/translate.html:160
+msgid "Information about project"
+msgstr ""
+
+#: html/translate.html:188
 msgid "No recent activity has been recorder."
 msgstr ""
 
-#: html/translation.html:17
+#: html/translation.html:19
 msgid "Strings to check"
 msgstr "Řetězce ke kontrole"
 
-#: html/translation.html:26 html/translation.html.py:30
+#: html/translation.html:28 html/translation.html.py:32
 msgid "Search"
 msgstr "Hledat"
 
-#: html/translation.html:33
+#: html/translation.html:35
 msgid "Download"
 msgstr "Stáhnout"
 
-#: html/translation.html:36
+#: html/translation.html:38
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
@@ -577,11 +598,11 @@ msgstr ""
 "Můžete si <a href=\"%(download_url)s\">stáhnout</a> soubor pro překlad na "
 "vašem počítači."
 
-#: html/translation.html:40 html/translation.html.py:53
+#: html/translation.html:42 html/translation.html.py:55
 msgid "Upload"
 msgstr "Nahrát"
 
-#: html/translation.html:43
+#: html/translation.html:45
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -589,7 +610,7 @@ msgstr ""
 "Nahraný soubor bude sloučen se stávajícími překlady. Pokud chcete přepsat "
 "již přeložené řetězce, nezapomeňte to povolit."
 
-#: html/translation.html:45
+#: html/translation.html:47
 msgid "Uploaded file will be merged with current translation."
 msgstr "Nahraný soubor bude sloučen se stávajícími překlady."
 
