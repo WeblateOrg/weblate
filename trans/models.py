@@ -169,7 +169,7 @@ class SubProject(models.Model):
 
     def get_translation_blobs(self):
         '''
-        Scans directory for translation blobs and returns them as list.
+        Iterator over translations in filesystem.
         '''
         gitrepo = self.get_repo()
         tree = gitrepo.tree()
