@@ -221,3 +221,13 @@ class UnitManager(models.Manager):
                     translation__language = unit.translation.language,
                     checksum__in = ret).exclude(
                     target__in = ['', unit.target])
+
+    def same(self, unit):
+        '''
+        Units with same source withing same project.
+        '''
+        return self.filter(
+            checksum = unit.checksum,
+            translation__subproject__project = unit.translation.subproject.project,
+            translation__language = unit.translation.language
+        )

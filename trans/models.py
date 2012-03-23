@@ -542,11 +542,7 @@ class Unit(models.Model):
         self.translation.update_stats()
         # Propagate to other projects
         if propagate:
-            allunits = Unit.objects.filter(
-                checksum = self.checksum,
-                translation__subproject__project = self.translation.subproject.project,
-                translation__language = self.translation.language
-            ).exclude(id = self.id)
+            allunits = Unit.objects.same(self).exclude(id = self.id)
             for unit in allunits:
                 unit.target = self.target
                 unit.fuzzy = self.fuzzy
