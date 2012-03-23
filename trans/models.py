@@ -706,3 +706,10 @@ class Change(models.Model):
     unit = models.ForeignKey(Unit)
     user = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add = True)
+
+    def __unicode__(self):
+        return '%s on %s by %s' % (
+            self.unit,
+            self.timestamp,
+            self.user,
+        )
