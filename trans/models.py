@@ -711,7 +711,10 @@ class Dictionary(models.Model):
 class Change(models.Model):
     unit = models.ForeignKey(Unit)
     user = models.ForeignKey(User)
-    timestamp = models.DateTimeField(auto_now_add = True)
+    timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
+
+    class Meta:
+        ordering = ['timestamp']
 
     def __unicode__(self):
         return '%s on %s by %s' % (
