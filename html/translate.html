@@ -156,6 +156,7 @@
         <li><a href="/js/similar/{{ unit.id }}/">{% trans "Similar messages" %}</a></li>
         <li><a href="/js/other/{{ unit.id }}/">{% trans "All locations" %}</a></li>
         <li><a href="/js/dictionary/{{ unit.id }}/">{% trans "Words in dictionary" %}</a></li>
+        <li><a href="#tab-changes">{% trans "Recent edits" %}</a></li>
     </ul>
     <div id="tab-nearby">
     <table>
@@ -171,6 +172,22 @@
     {% endfor %}
     </tbody>
     </table>
+    </div>
+    <div id="tab-changes">
+    {% with unit.change_set.all as changes %}
+    {% if changes %}
+    <table>
+    {% for change in changes %}
+    <tr>
+    <td>{{ change.timestamp|date:"DATETIME_FORMAT" }}</td>
+    <td>{{ change.user.get_full_name }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% else %}
+    <p>{% trans "No recent activity has been recorder." %}</p>
+    {% endif %}
+    {% endwith %}
     </div>
 </div>
 
