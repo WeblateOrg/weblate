@@ -279,4 +279,4 @@ def check_consistency(sources, targets, flags, language, unit):
 
     return False
 
-CHECKS['inconsistent'] = (_('Inconsistent'), check_consistency, _('Message has more different translations in this project'))
+CHECKS['inconsistent'] = (_('Inconsistent'), check_consistency, _('This message has more than one translation in this project'))
