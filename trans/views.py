@@ -124,16 +124,7 @@ def bool2str(val):
         return 'on'
     return ''
 
-def translate(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
-
-    if request.user.is_authenticated():
-        profile = request.user.get_profile()
-    else:
-        profile = None
-
-    secondary = None
-
+def parse_search_url(request):
     # Check where we are
     rqtype = request.REQUEST.get('type', 'all')
     direction = request.REQUEST.get('dir', 'forward')
@@ -142,8 +133,6 @@ def translate(request, project, subproject, lang):
         pos = int(pos)
     except:
         pos = -1
-
-    unit = None
 
     # Pre-process search form
     if request.method == 'POST':
@@ -170,6 +159,32 @@ def translate(request, project, subproject, lang):
         search_target = True
         search_context = True
         search_url = ''
+
+    return (
+        rqtype,
+        direction,
+        pos,
+        search_query,
+        search_exact,
+        search_source,
+        search_target,
+        search_context,
+        search_url
+        )
+
+
+def translate(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+    else:
+        profile = None
+
+    secondary = None
+    unit = None
+
+    rqtype, direction, pos, search_query, search_exact, search_source, search_target, search_context, search_url = parse_search_url(request)
 
     # Any form submitted?
     if request.method == 'POST':
