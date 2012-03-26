@@ -582,16 +582,23 @@ class Unit(models.Model):
                 unit.save_backend(request, False)
 
     def save(self, *args, **kwargs):
+        '''
+        Wrapper around save to warn when save did not come from
+        git backend (eg. commit or by parsing file).
+        '''
+        # Warn if request is not coming from backend
         if not 'backend' in kwargs:
             logger.error('Unit.save called without backend sync: %s', ''.join(traceback.format_stack()))
         else:
             del kwargs['backend']
-        if 'same_content' in kwargs:
-            same_content = kwargs['same_content']
-            del kwargs['same_content']
-        else:
-            same_content = False
+
+        # Pop parameter indicating that we don't have to process content
+        same_content = kwargs.pop('same_content', False)
+
+        # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
+
+        # Update checks and fulltext index if content has changed
         if not same_content:
             self.check()
             Unit.objects.add_to_index(self)
