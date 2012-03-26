@@ -76,7 +76,7 @@ class SubProject(models.Model):
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200, help_text = _('URL of Git repository'))
     repoweb = models.URLField(
-        help_text = _('Link to repository browser, use %(file)s and %(line)s as filename and line placeholders'),
+        help_text = _('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
         validators = [validate_repoweb])
     branch = models.CharField(max_length = 50, help_text = _('Git branch to translate'))
     filemask = models.CharField(max_length = 200, help_text = _('Mask of files to translate, use * instead of language code'))
@@ -108,7 +108,11 @@ class SubProject(models.Model):
             return git.Repo.init(p)
 
     def get_repoweb_link(self, filename, line):
-        return self.repoweb % {'file': filename, 'line': line}
+        return self.repoweb % {
+            'file': filename,
+            'line': line,
+            'branch': self.branch
+        }
 
     def configure_repo(self):
         '''
