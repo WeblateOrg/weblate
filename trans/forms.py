@@ -99,3 +99,7 @@ class SearchForm(forms.Form):
     src = forms.BooleanField(label = _('Search in source strings'), required = False, initial = True)
     tgt = forms.BooleanField(label = _('Search in target strings'), required = False, initial = True)
     ctx = forms.BooleanField(label = _('Search in context strings'), required = False, initial = False)
+
+class MergeForm(forms.Form):
+    checksum = forms.CharField()
+    merge = forms.IntegerField()

@@ -207,6 +207,7 @@ $(function() {
             $('tr.clickable').click(function() {
                 window.location = $(this).find('a')[0].href;
             });
+            $('.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
         }
     });
     $('tr.clickable').click(function() {

@@ -12,7 +12,7 @@ from django.db.models import Q
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
@@ -255,6 +255,22 @@ def translate(request, project, subproject, lang):
                 logger.error('message %s disappeared!', form.cleaned_data['checksum'])
                 messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
 
+    # Handle translation merging
+    if 'merge' in request.GET:
+        if not request.user.has_perm('trans.save_translation'):
+            # Need privilege to save
+            messages.add_message(request, messages.ERROR, _('You don\'t have privileges to save translations!'))
+        else:
+            mergeform = MergeForm(request.GET)
+            if mergeform.is_valid():
+                # Redirect to next entry
+                return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
+                    obj.get_translate_url(),
+                    rqtype,
+                    pos,
+                    search_url
+                ))
+
     # Handle accepting/deleting suggestions
     if 'accept' in request.GET or 'delete' in request.GET:
         # Check for authenticated users
@@ -430,8 +446,13 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
+    rqtype, direction, pos, search_query, search_exact, search_source, search_target, search_context, search_url = parse_search_url(request)
+
     return render_to_response('js/other.html', RequestContext(request, {
         'other': other,
+        'unit': unit,
+        'type': rqtype,
+        'search_url': search_url,
     }))
 
 def get_dictionary(request, unit_id):
