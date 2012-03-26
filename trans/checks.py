@@ -206,8 +206,12 @@ def check_format_strings(source, target, regex):
         return False
     src_matches = set([x[0] for x in regex.findall(source)])
     tgt_matches = set([x[0] for x in regex.findall(target)])
-    src_matches.remove('%')
-    tgt_matches.remove('%')
+    # We ignore %% as this is really not relevant. However it needs
+    # to be matched to prevent handling %%s as %s.
+    if '%' in src_matches:
+        src_matches.remove('%')
+    if '%' in tgt_matches:
+        tgt_matches.remove('%')
 
     if src_matches != tgt_matches:
         return True
