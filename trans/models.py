@@ -329,6 +329,9 @@ class Translation(models.Model):
         return ret
 
     def update_stats(self, blob_hash = None):
+        '''
+        Updates translation statistics.
+        '''
         if blob_hash is None:
             blob_hash = self.get_git_blob_hash()
         self.total = self.unit_set.count()
@@ -594,6 +597,9 @@ class Unit(models.Model):
             Unit.objects.add_to_index(self)
 
     def get_location_links(self):
+        '''
+        Generates links to source files where translation was used.
+        '''
         ret = []
         if len(self.location) == 0:
             return ''
