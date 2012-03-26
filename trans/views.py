@@ -261,15 +261,37 @@ def translate(request, project, subproject, lang):
             # Need privilege to save
             messages.add_message(request, messages.ERROR, _('You don\'t have privileges to save translations!'))
         else:
-            mergeform = MergeForm(request.GET)
-            if mergeform.is_valid():
-                # Redirect to next entry
-                return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
-                    obj.get_translate_url(),
-                    rqtype,
-                    pos,
-                    search_url
-                ))
+            try:
+                mergeform = MergeForm(request.GET)
+                if mergeform.is_valid():
+                    try:
+                        unit = Unit.objects.get(checksum = mergeform.cleaned_data['checksum'], translation = obj)
+                    except Unit.MultipleObjectsReturned:
+                        # Possible temporary inconsistency caused by ongoing update of repo,
+                        # let's pretend everyting is okay
+                        unit = Unit.objects.filter(checksum = mergeform.cleaned_data['checksum'], translation = obj)[0]
+
+                    merged = Unit.objects.get(pk = mergeform.cleaned_data['merge'])
+
+                    if unit.checksum != merged.checksum:
+                        messages.add_message(request, messages.ERROR, _('Can not merge different messages!'))
+                    else:
+                        unit.target = merged.target
+                        unit.fuzzy = merged.fuzzy
+                        unit.save_backend(request)
+                        # Update stats
+                        profile.translated += 1
+                        profile.save()
+                        # Redirect to next entry
+                        return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
+                            obj.get_translate_url(),
+                            rqtype,
+                            pos,
+                            search_url
+                        ))
+            except Unit.DoesNotExist:
+                logger.error('message %s disappeared!', form.cleaned_data['checksum'])
+                messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
 
     # Handle accepting/deleting suggestions
     if 'accept' in request.GET or 'delete' in request.GET:
