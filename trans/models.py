@@ -10,6 +10,8 @@ from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from glob import glob
 import os
+import time
+import random
 import os.path
 import logging
 import git
@@ -351,11 +353,21 @@ class Translation(models.Model):
             # No changes to commit
             return False
         logger.info('Commiting %s as %s', self.filename, author)
-        gitrepo.git.commit(
-            self.filename,
-            author = author,
-            m = settings.COMMIT_MESSAGE
-            )
+        try:
+            gitrepo.git.commit(
+                self.filename,
+                author = author,
+                m = settings.COMMIT_MESSAGE
+                )
+        except git.GitCommandError:
+            # There might be another attempt on commit in same time
+            # so we will sleep a bit an retry
+            time.sleep(random.random() * 2)
+            gitrepo.git.commit(
+                self.filename,
+                author = author,
+                m = settings.COMMIT_MESSAGE
+                )
         del gitrepo
         return True
 
