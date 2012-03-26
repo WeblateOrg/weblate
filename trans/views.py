@@ -406,7 +406,7 @@ def get_similar(request, unit_id):
         res.append(s)
     similar = res
 
-    return render_to_response('similar.html', RequestContext(request, {
+    return render_to_response('js/similar.html', RequestContext(request, {
         'similar': similar,
     }))
 
@@ -415,7 +415,7 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
-    return render_to_response('other.html', RequestContext(request, {
+    return render_to_response('js/other.html', RequestContext(request, {
         'other': other,
     }))
 
@@ -430,7 +430,7 @@ def get_dictionary(request, unit_id):
     # join both lists
     words = set(words_std).union(words_stem)
 
-    return render_to_response('dictionary.html', RequestContext(request, {
+    return render_to_response('js/dictionary.html', RequestContext(request, {
         'dictionary': Dictionary.objects.filter(
             project = unit.translation.subproject.project,
             language = unit.translation.language,
@@ -519,7 +519,7 @@ def js_config(request):
     else:
         microsoft_langs = None
 
-    return render_to_response('config.js', RequestContext(request, {
+    return render_to_response('js/config.js', RequestContext(request, {
             'apertium_langs': apertium_langs,
             'microsoft_langs': microsoft_langs,
         }),
