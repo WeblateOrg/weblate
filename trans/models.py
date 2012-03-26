@@ -343,6 +343,13 @@ class Translation(models.Model):
             full_name = request.user.username
         return '%s <%s>' % (full_name, request.user.email)
 
+    def __git_commit(self, gitrepo, author):
+        gitrepo.git.commit(
+            self.filename,
+            author = author,
+            m = settings.COMMIT_MESSAGE
+            )
+
     def git_commit(self, author):
         '''
         Commits translation to git.
@@ -354,20 +361,12 @@ class Translation(models.Model):
             return False
         logger.info('Commiting %s as %s', self.filename, author)
         try:
-            gitrepo.git.commit(
-                self.filename,
-                author = author,
-                m = settings.COMMIT_MESSAGE
-                )
+            self.__git_commit(gitrepo, author)
         except git.GitCommandError:
             # There might be another attempt on commit in same time
             # so we will sleep a bit an retry
             time.sleep(random.random() * 2)
-            gitrepo.git.commit(
-                self.filename,
-                author = author,
-                m = settings.COMMIT_MESSAGE
-                )
+            self.__git_commit(gitrepo, author)
         del gitrepo
         return True
 
