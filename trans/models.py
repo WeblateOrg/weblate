@@ -344,6 +344,9 @@ class Translation(models.Model):
         return '%s <%s>' % (full_name, request.user.email)
 
     def __git_commit(self, gitrepo, author):
+        '''
+        Commits translation to git.
+        '''
         gitrepo.git.commit(
             self.filename,
             author = author,
@@ -352,7 +355,7 @@ class Translation(models.Model):
 
     def git_commit(self, author):
         '''
-        Commits translation to git.
+        Wrapper for commiting translation to git.
         '''
         gitrepo = self.subproject.get_repo()
         status = gitrepo.git.status('--porcelain', '--', self.filename)
