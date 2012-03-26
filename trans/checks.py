@@ -37,7 +37,7 @@ C_PRINTF_MATCH = re.compile('''
         )''', re.VERBOSE)
 
 # We ignore some words which are usually not translated
-SAME_BLACKLIST = [
+SAME_BLACKLIST = frozenset((
     'b',
     'bluetooth',
     'bzip2',
@@ -80,7 +80,7 @@ SAME_BLACKLIST = [
     'wiki',
     'xml',
     'zip',
-    ]
+    ))
 
 CHECKS = {}
 
