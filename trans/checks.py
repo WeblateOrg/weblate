@@ -98,7 +98,7 @@ def plural_check(f):
 def check_same(source, target, flags, language, unit):
     if language.code.split('_')[0] == 'en':
         return False
-    if source.lower() in SAME_BLACKLIST:
+    if source.lower() in SAME_BLACKLIST or source.lower().rstrip(': ') in SAME_BLACKLIST:
         return False
     return (source == target)
 
