@@ -56,13 +56,13 @@ def home(request):
 
 def show_checks(request):
     return render_to_response('checks.html', RequestContext(request, {
-        'checks': Check.objects.values('check').annotate(count = Count('id')),
+        'checks': Check.objects.filter(ignore = False).values('check').annotate(count = Count('id')),
         'title': _('Checks'),
     }))
 
 def show_check(request, name):
     try:
-        sample = Check.objects.filter(check = name)[0]
+        sample = Check.objects.filter(check = name, ignore = False)[0]
     except IndexError:
         raise Http404('No check matches the given query.')
 
@@ -75,13 +75,13 @@ def show_check(request, name):
 def show_check_project(request, name, project):
     prj = get_object_or_404(Project, slug = project)
     try:
-        sample = Check.objects.filter(check = name, project = prj)[0]
+        sample = Check.objects.filter(check = name, project = prj, ignore = False)[0]
     except IndexError:
         raise Http404('No check matches the given query.')
-    langs = Check.objects.filter(check = name, project = prj).values_list('language', flat = True).distinct()
+    langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
     for lang in langs:
-        checks = Check.objects.filter(check = name, project = prj, language = lang).values_list('checksum', flat = True).distinct()
+        checks = Check.objects.filter(check = name, project = prj, language = lang, ignore = False).values_list('checksum', flat = True).distinct()
         res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject__project = prj).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
         units |= res
     return render_to_response('check_project.html', RequestContext(request, {
@@ -94,13 +94,13 @@ def show_check_project(request, name, project):
 def show_check_subproject(request, name, project, subproject):
     subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     try:
-        sample = Check.objects.filter(check = name, project = subprj.project)[0]
+        sample = Check.objects.filter(check = name, project = subprj.project, ignore = False)[0]
     except IndexError:
         raise Http404('No check matches the given query.')
-    langs = Check.objects.filter(check = name, project = subprj.project).values_list('language', flat = True).distinct()
+    langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
     for lang in langs:
-        checks = Check.objects.filter(check = name, project = subprj.project, language = lang).values_list('checksum', flat = True).distinct()
+        checks = Check.objects.filter(check = name, project = subprj.project, language = lang, ignore = False).values_list('checksum', flat = True).distinct()
         res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang).values('translation__language__code').annotate(count = Count('id'))
         units |= res
     return render_to_response('check_subproject.html', RequestContext(request, {
