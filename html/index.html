@@ -116,12 +116,12 @@
 
 <div class="clearer"></div>
 
-<h3>{% trans "Languages" %}</h3>
+<h3>{% trans "Others" %}</h3>
 
-<p>
-{% url 'trans.views.show_languages' as lang_url %}
-{% blocktrans %}There are also <a href="{{ lang_url }}">per language statistics</a> available.{% endblocktrans %}
-</p>
+<ul>
+<li><a href="{% url 'trans.views.show_languages' %}">{% trans "Languages summary" %}</a></li>
+<li><a href="{% url 'trans.views.show_checks' %}">{% trans "Checks overview" %}</a></li>
+</ul>
 
 
 {% endblock %}
