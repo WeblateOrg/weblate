@@ -70,3 +70,7 @@ def project_name(prj):
 @register.simple_tag
 def subproject_name(prj, subprj):
     return SubProject.objects.get(project__slug = prj, slug = subprj).__unicode__()
+
+@register.simple_tag
+def language_name(code):
+    return Language.objects.get(code = code).__unicode__()

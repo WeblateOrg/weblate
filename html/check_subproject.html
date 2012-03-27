@@ -29,7 +29,7 @@
 <tbody>
 {% for check in checks %}
 <tr>
-<th><a href="{% url 'trans.views.show_translation' project=subproject.project.slug subproject=subproject.slug lang=check.translation__language__code %}">{{ check.translation__language__code }}</a></th>
+<th><a href="{% url 'trans.views.show_translation' project=subproject.project.slug subproject=subproject.slug lang=check.translation__language__code %}">{% language_name check.translation__language__code %}</a></th>
 <td><a href="{% url 'trans.views.translate' project=subproject.project.slug subproject=subproject.slug lang=check.translation__language__code %}?type={{ sample.check }}">{{ check.count }}</a></td>
 </tr>
 {% endfor %}
