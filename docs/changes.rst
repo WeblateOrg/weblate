@@ -15,6 +15,7 @@ Relased on ? 2012.
 * Machine translation services no longer block page loading.
 * Management interface now contains also useful actions to update data.
 * Records log of changes made by users.
+* Ability to postpone commit to Git to generate less commits from single user.
 
 weblate 0.7
 -----------
