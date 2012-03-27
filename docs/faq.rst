@@ -28,3 +28,9 @@ rebuild it from scratch time to time:
 .. code-block:: sh
 
     ./manage.py rebuild_index --clean
+
+Does Weblate support other VCS than Git?
+----------------------------------------
+
+Not currently. Weblate requires distributed VCS and could be probably adjusted
+to work with anything else than Git, but somebody has to implement this support.
