@@ -43,7 +43,7 @@ def htmlDiff(old, new):
     con = {'=': (lambda x: x),
            '+': (lambda x: "<ins>" + x + "</ins>"),
            '-': (lambda x: "<del>" + x + "</del>")}
-    return " ".join([(con[a])(" ".join(b)) for a, b in stringDiff(old, new)])
+    return "".join([(con[a])("".join(b)) for a, b in diff(old, new)])
 
 #Examples:
 #print htmlDiff("The world is a tragedy to those who feel, but a comedy to those who think",
