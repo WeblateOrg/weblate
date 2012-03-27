@@ -373,7 +373,7 @@ class Translation(models.Model):
             m = settings.COMMIT_MESSAGE
             )
 
-    def git_commit(self, author):
+    def git_commit(self, author, force_commit = False):
         '''
         Wrapper for commiting translation to git.
         '''
@@ -381,6 +381,9 @@ class Translation(models.Model):
         status = gitrepo.git.status('--porcelain', '--', self.filename)
         if status == '':
             # No changes to commit
+            return False
+        if not force_commit and settings.LAZY_COMMITS:
+            logger.info('Delaying commiting %s as %s', self.filename, author)
             return False
         logger.info('Commiting %s as %s', self.filename, author)
         try:
@@ -481,7 +484,7 @@ class Translation(models.Model):
                     continue
                 unit1.merge(unit2, overwrite=True, comments=False)
         store1.save()
-        ret = self.git_commit(author)
+        ret = self.git_commit(author, True)
         self.check_sync()
         return ret
 
