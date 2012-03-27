@@ -357,11 +357,24 @@ class Translation(models.Model):
         self.revision = blob_hash
         self.save()
 
-    def get_author_name(self, request):
-        full_name = request.user.get_full_name()
+    def get_last_author(self):
+        try:
+            change = self.change_set.order_by('-timestamp')[0]
+            return self.get_author_name(change.user)
+        except:
+            return None
+
+    def pre_commit(self, author):
+        last = self.get_last_author()
+        if author == last or last is None:
+            return
+        self.git_commit(last, True)
+
+    def get_author_name(self, user):
+        full_name = user.get_full_name()
         if full_name == '':
-            full_name = request.user.username
-        return '%s <%s>' % (full_name, request.user.email)
+            full_name = user.username
+        return '%s <%s>' % (full_name, user.email)
 
     def __git_commit(self, gitrepo, author):
         '''
@@ -419,7 +432,8 @@ class Translation(models.Model):
                 # We should have only one match
                 break
         if need_save:
-            author = self.get_author_name(request)
+            author = self.get_author_name(request.user)
+            self.pre_commit(author)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -483,6 +497,7 @@ class Translation(models.Model):
                 if not overwrite and unit1.istranslated():
                     continue
                 unit1.merge(unit2, overwrite=True, comments=False)
+        self.pre_commit(author)
         store1.save()
         ret = self.git_commit(author, True)
         self.check_sync()
@@ -496,7 +511,7 @@ class Translation(models.Model):
         fileobj.mode = "r"
         store2 = factory.getobject(fileobj)
         if author is None:
-            author = self.get_author_name(request)
+            author = self.get_author_name(request.user)
 
         ret = False
 
