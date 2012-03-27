@@ -258,5 +258,8 @@ NEARBY_MESSAGES = 5
 # Minimal number of similar messages to show
 SIMILAR_MESSAGES = 5
 
+# Enable lazy commits
+LAZY_COMMITS = True
+
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
