@@ -16,6 +16,7 @@ Relased on ? 2012.
 * Management interface now contains also useful actions to update data.
 * Records log of changes made by users.
 * Ability to postpone commit to Git to generate less commits from single user.
+* Possibility to browse failing checks.
 
 weblate 0.7
 -----------
