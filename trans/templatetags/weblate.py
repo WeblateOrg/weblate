@@ -9,6 +9,8 @@ import re
 
 from trans.util import split_plural
 from lang.models import Language
+from trans.models import Project
+import trans.checks
 
 register = template.Library()
 
@@ -52,3 +54,19 @@ def fmttranslationdiff(value, other):
 @stringfilter
 def site_title(value):
     return settings.SITE_TITLE
+
+@register.simple_tag
+def check_name(check):
+    return trans.checks.CHECKS[check][0]
+
+@register.simple_tag
+def check_description(check):
+    return trans.checks.CHECKS[check][2]
+
+@register.simple_tag
+def project_name(prj):
+    return Project.objects.get(pk = prj).name
+
+@register.simple_tag
+def project_url(prj):
+    return Project.objects.get(pk = prj).get_absolute_url()

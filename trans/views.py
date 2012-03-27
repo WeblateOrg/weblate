@@ -61,10 +61,11 @@ def show_checks(request):
     }))
 
 def show_check(request, name):
-    obj = get_object_or_404(Check, check = name)
-
+    sample = Check.objects.filter(check = name)[0]
     return render_to_response('check.html', RequestContext(request, {
-        'object': obj,
+        'checks': Check.objects.filter(check = name).values('project').annotate(count = Count('id')),
+        'title': sample.get_check_display(),
+        'check': sample,
     }))
 
 def show_languages(request):

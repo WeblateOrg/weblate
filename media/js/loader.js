@@ -140,6 +140,7 @@ $(function() {
         });
     });
     $('table.sort').each(function() {
+        var table = $(this);
         $(this).find('thead th')
             .each(function(){
 
@@ -152,7 +153,7 @@ $(function() {
                 return;
             }
             // Second column contains percent with colspan
-            if (thIndex >= 1) {
+            if (thIndex >= 1 && !table.hasClass('simple')) {
                 thIndex += 1;
             }
             th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort ui-icon ui-icon-carat-2-n-s" />');
