@@ -13,7 +13,7 @@ class SubProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'repo', 'branch']
     list_filter = ['project']
-    actions = ['update_from_git', 'update_checks']
+    actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
         for s in queryset:
@@ -26,6 +26,11 @@ class SubProjectAdmin(admin.ModelAdmin):
             unit.check()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
+
+    def force_commit(self, request, queryset):
+        for s in queryset:
+            s.check_commit_needed()
+        self.message_user(request, "Flushed changes in %d git repos." % queryset.count())
 
 admin.site.register(SubProject, SubProjectAdmin)
 
