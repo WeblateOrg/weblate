@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django import template
 from django.conf import settings
+from trans.simplediff import htmlDiff
 import re
 
 from trans.util import split_plural
@@ -18,13 +19,18 @@ def fmt_whitespace(value):
 
 @register.filter
 @stringfilter
-def fmttranslation(value, language=None):
+def fmttranslation(value, language = None, diff = None):
     if language is None:
         language = Language.objects.get(code = 'en')
     plurals = split_plural(value)
+    if diff is not None:
+        diff = split_plural(diff)
     parts = []
     for idx, value in enumerate(plurals):
         value = escape(force_unicode(value))
+        if diff is not None:
+            diffvalue = escape(force_unicode(diff[idx]))
+            value = htmlDiff(diffvalue, value)
         value = re.sub(r'\r\n|\r|\n', '\n', value) # normalize newlines
         paras = re.split('\n', value)
         paras = [fmt_whitespace(p) for p in paras]
@@ -37,6 +43,10 @@ def fmttranslation(value, language=None):
     value = '<hr />'.join(parts)
     return mark_safe(value)
 
+@register.filter
+@stringfilter
+def fmttranslationdiff(value, other):
+    return fmttranslation(value, other.translation.language, other.target)
 
 @register.filter
 @stringfilter
