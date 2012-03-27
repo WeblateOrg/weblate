@@ -8,7 +8,8 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllow
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
-from django.db.models import Q
+from django.db.models import Q, Count
+
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
@@ -51,6 +52,19 @@ def home(request):
         'top_suggestions': top_suggestions,
         'last_changes': last_changes,
         'usertranslations': usertranslations,
+    }))
+
+def show_checks(request):
+    return render_to_response('checks.html', RequestContext(request, {
+        'checks': Check.objects.values('check').annotate(count = Count('id')),
+        'title': _('Checks'),
+    }))
+
+def show_check(request, name):
+    obj = get_object_or_404(Check, check = name)
+
+    return render_to_response('check.html', RequestContext(request, {
+        'object': obj,
     }))
 
 def show_languages(request):
