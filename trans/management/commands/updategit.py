@@ -16,17 +16,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['all']:
             for s in SubProject.objects.all():
-                s.update_branch()
-                s.create_translations()
+                s.do_update()
         for arg in args:
             parts = arg.split('/')
             if len(parts) == 2:
                 prj, subprj = parts
                 s = SubProject.objects.get(slug = subprj, project__slug = prj)
-                s.update_branch()
-                s.create_translations()
+                s.do_update()
 
             else:
                 for s in SubProject.objects.filter(project__slug = parts[0]):
-                    s.update_branch()
-                    s.create_translations()
+                    s.do_update()

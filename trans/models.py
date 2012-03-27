@@ -151,6 +151,21 @@ class SubProject(models.Model):
         gitrepo.git.checkout(self.branch)
         del gitrepo
 
+    def do_update(self):
+        '''
+        Wrapper for doing repository update and pushing them to translations.
+        '''
+        self.check_commit_needed()
+        self.update_branch()
+        self.create_translations()
+
+    def check_commit_needed(self):
+        '''
+        Checks whether there is any translation which needs commit.
+        '''
+        for translation in self.translation_set.all():
+            translation.check_commit_needed(None)
+
     def update_branch(self):
         '''
         Updates current branch to match remote (if possible).
@@ -209,6 +224,7 @@ class SubProject(models.Model):
     def save(self, *args, **kwargs):
         self.configure_repo()
         self.configure_branch()
+        self.check_commit_needed()
         self.update_branch()
 
         super(SubProject, self).save(*args, **kwargs)
@@ -357,11 +373,24 @@ class Translation(models.Model):
         self.revision = blob_hash
         self.save()
 
-    def get_author_name(self, request):
-        full_name = request.user.get_full_name()
+    def get_last_author(self):
+        try:
+            change = self.change_set.order_by('-timestamp')[0]
+            return self.get_author_name(change.user)
+        except:
+            return None
+
+    def check_commit_needed(self, author):
+        last = self.get_last_author()
+        if author == last or last is None:
+            return
+        self.git_commit(last, True)
+
+    def get_author_name(self, user):
+        full_name = user.get_full_name()
         if full_name == '':
-            full_name = request.user.username
-        return '%s <%s>' % (full_name, request.user.email)
+            full_name = user.username
+        return '%s <%s>' % (full_name, user.email)
 
     def __git_commit(self, gitrepo, author):
         '''
@@ -373,7 +402,7 @@ class Translation(models.Model):
             m = settings.COMMIT_MESSAGE
             )
 
-    def git_commit(self, author):
+    def git_commit(self, author, force_commit = False):
         '''
         Wrapper for commiting translation to git.
         '''
@@ -381,6 +410,9 @@ class Translation(models.Model):
         status = gitrepo.git.status('--porcelain', '--', self.filename)
         if status == '':
             # No changes to commit
+            return False
+        if not force_commit and settings.LAZY_COMMITS:
+            logger.info('Delaying commiting %s as %s', self.filename, author)
             return False
         logger.info('Commiting %s as %s', self.filename, author)
         try:
@@ -416,7 +448,8 @@ class Translation(models.Model):
                 # We should have only one match
                 break
         if need_save:
-            author = self.get_author_name(request)
+            author = self.get_author_name(request.user)
+            self.check_commit_needed(author)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -480,8 +513,9 @@ class Translation(models.Model):
                 if not overwrite and unit1.istranslated():
                     continue
                 unit1.merge(unit2, overwrite=True, comments=False)
+        self.check_commit_needed(author)
         store1.save()
-        ret = self.git_commit(author)
+        ret = self.git_commit(author, True)
         self.check_sync()
         return ret
 
@@ -493,7 +527,7 @@ class Translation(models.Model):
         fileobj.mode = "r"
         store2 = factory.getobject(fileobj)
         if author is None:
-            author = self.get_author_name(request)
+            author = self.get_author_name(request.user)
 
         ret = False
 
