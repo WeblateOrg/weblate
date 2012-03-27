@@ -77,7 +77,7 @@
 {% if perms.trans.ignore_check %}
 <a href="#" class="ignorecheck" title="{% blocktrans with check.get_check_display as check %}Ignore: {{ check }}{% endblocktrans %}"></a>
 {% endif %}
-<a href="http://weblate.readthedocs.org/en/weblate-{{ version }}/usage.html#check-{{ check.check }}" title="{{ check.get_description }}">{{ check.get_check_display }}</a>
+<a href="{{ check.get_absolute_url }}" title="{{ check.get_description }}">{{ check.get_check_display }}</a>
 </span>
 {% endfor %}
 </td>
