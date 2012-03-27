@@ -117,3 +117,13 @@ group and create additional groups with finer privileges (eg. `Translators`
 group, which will be allowed to save translations and manage suggestions) and
 add selected users to this group. You can do all this from Django admin
 interface.
+
+.. _lazy-commit:
+
+Lazy commits
+------------
+
+Default behaviour (configured by :envvar:`LAZY_COMMITS`) of Weblate is to group
+commits from same author into one if possible. This heavily reduces number of
+commits, however you might need to do implicit sync to get Git repository in
+sync (you can do this in admin interface).

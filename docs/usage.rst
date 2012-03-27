@@ -20,7 +20,7 @@ Profile information
 -------------------
 
 User profile contains your preferences, name and email. Name and email
-are bing used in Git commits, so keep this information accurate.
+are being used in Git commits, so keep this information accurate.
 
 In preferences, you can choose user interface language, languages which you
 prefer to translate (list of these will be offered to you on main page) and
