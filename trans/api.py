@@ -17,8 +17,7 @@ def update_subproject(request, project, subproject):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
-    obj.update_branch()
-    obj.create_translations()
+    obj.do_update()
     return HttpResponse('updated')
 
 
@@ -43,7 +42,6 @@ def github_hook(request):
     logger.info('received GitHub notification on repository %s, branch %s', repo, branch)
     for s in SubProject.objects.filter(repo = repo, branch = branch):
         logger.info('GitHub notification will update %s', s)
-        s.update_branch()
-        s.create_translations()
+        s.do_update()
 
     return HttpResponse('updated')
