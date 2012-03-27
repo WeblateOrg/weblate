@@ -261,6 +261,15 @@ def translate(request, project, subproject, lang):
                     user = request.user
                     if isinstance(user, AnonymousUser):
                         user = None
+                    if form.cleaned_data['target'] == len(form.cleaned_data['target']) * ['']:
+                        messages.add_message(request, messages.ERROR, _('Your suggestion is empty!'))
+                        # Stay on same entry
+                        return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
+                            obj.get_translate_url(),
+                            rqtype,
+                            pos,
+                            search_url
+                        ))
                     Suggestion.objects.create(
                         target = join_plural(form.cleaned_data['target']),
                         checksum = unit.checksum,
