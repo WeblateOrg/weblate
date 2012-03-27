@@ -127,3 +127,9 @@ Default behaviour (configured by :envvar:`LAZY_COMMITS`) of Weblate is to group
 commits from same author into one if possible. This heavily reduces number of
 commits, however you might need to do implicit sync to get Git repository in
 sync (you can do this in admin interface).
+
+The changes are in this mode committed once one of following conditions happen:
+
+* somebody else works on the translation
+* merge from upstream occurs
+* import of translation happens
