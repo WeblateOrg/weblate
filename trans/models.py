@@ -375,9 +375,9 @@ class Translation(models.Model):
 
     def get_last_author(self):
         try:
-            change = self.change_set.order_by('-timestamp')[0]
+            change = Change.objects.filter(unit__translation = self).order_by('-timestamp')[0]
             return self.get_author_name(change.user)
-        except:
+        except IndexError:
             return None
 
     def check_commit_needed(self, author):
