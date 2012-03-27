@@ -10,6 +10,10 @@
 
 {% block content %}
 
+<p>
+{% blocktrans with check.get_absolute_url as link %}More information about this check is available in <a href="{{ link }}">documentation</a>.{% endblocktrans %}
+</p>
+
 <table class="sort simple">
 <thead>
 <tr>
