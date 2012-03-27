@@ -8,6 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for lang in Language.objects.all():
+            translatedunits = Unit.objects.filter(translation__language = lang, translated = True).values('checksum').distinct()
+            Check.objects.filter(language = lang).exclude(checksum__in = translatedunits).delete()
             units = Unit.objects.filter(translation__language = lang).values('checksum').distinct()
-            Check.objects.filter(language = lang).exclude(checksum__in = units).delete()
             Suggestion.objects.filter(language = lang).exclude(checksum__in = units).delete()
