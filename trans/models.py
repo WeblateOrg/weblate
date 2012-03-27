@@ -579,7 +579,8 @@ class Unit(models.Model):
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
         comment = unit.getnotes()
-        same_content = (target == self.target)
+        # Update checks on fuzzy update or on content change
+        same_content = (target == self.target and fuzzy == self.fuzzy)
         if not force and location == self.location and flags == self.flags and same_content and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
             return
         self.position = pos
