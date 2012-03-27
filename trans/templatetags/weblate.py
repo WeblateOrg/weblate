@@ -9,7 +9,7 @@ import re
 
 from trans.util import split_plural
 from lang.models import Language
-from trans.models import Project
+from trans.models import Project, SubProject
 import trans.checks
 
 register = template.Library()
@@ -65,8 +65,8 @@ def check_description(check):
 
 @register.simple_tag
 def project_name(prj):
-    return Project.objects.get(pk = prj).name
+    return Project.objects.get(slug = prj).__unicode__()
 
 @register.simple_tag
-def project_url(prj):
-    return Project.objects.get(pk = prj).get_absolute_url()
+def subproject_name(prj, subprj):
+    return SubProject.objects.get(project__slug = prj, slug = subprj).__unicode__()

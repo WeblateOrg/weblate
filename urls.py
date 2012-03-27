@@ -34,6 +34,8 @@ urlpatterns = patterns('',
 
     url(r'^checks/$', 'trans.views.show_checks'),
     url(r'^checks/(?P<name>[^/]*)/$', 'trans.views.show_check'),
+    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$', 'trans.views.show_check_project'),
+    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_check_subproject'),
 
     url(r'^hooks/p/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.api.update_subproject'),
     url(r'^hooks/github/$', 'trans.api.github_hook'),
