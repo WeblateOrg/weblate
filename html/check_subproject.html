@@ -7,7 +7,7 @@
 <li><a href="{% url 'trans.views.show_checks' %}">{% trans "checks" %}</a></li>
 <li><a href="{% url 'trans.views.show_check' name=sample.check %}">{{ sample.get_check_display }}</a></li>
 <li><a href="{% url 'trans.views.show_check_project' name=sample.check project=subproject.project.slug %}">{{ subproject.project }}</a></li>
-<li><a href="{% url 'trans.views.show_check_subproject' name=sample.check project=subproject.project.slug subproject=subproject.slug %}">{{ subproject }}</a></li>
+<li><a href="{% url 'trans.views.show_check_subproject' name=sample.check project=subproject.project.slug subproject=subproject.slug %}">{{ subproject.name }}</a></li>
 {% endblock %}
 
 {% block content %}
