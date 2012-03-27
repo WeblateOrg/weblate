@@ -364,7 +364,7 @@ class Translation(models.Model):
         except:
             return None
 
-    def pre_commit(self, author):
+    def check_commit_needed(self, author):
         last = self.get_last_author()
         if author == last or last is None:
             return
@@ -433,7 +433,7 @@ class Translation(models.Model):
                 break
         if need_save:
             author = self.get_author_name(request.user)
-            self.pre_commit(author)
+            self.check_commit_needed(author)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -497,7 +497,7 @@ class Translation(models.Model):
                 if not overwrite and unit1.istranslated():
                     continue
                 unit1.merge(unit2, overwrite=True, comments=False)
-        self.pre_commit(author)
+        self.check_commit_needed(author)
         store1.save()
         ret = self.git_commit(author, True)
         self.check_sync()
