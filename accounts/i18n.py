@@ -16,7 +16,6 @@ def fake():
     _('Hold down "Control", or "Command" on a Mac, to select more than one.')
 
     # Javascript messages
-    _("Failed translation")
     _("Translate using Apertium")
     _("Translate using Microsoft Translator")
     _("Translate using MyMemory")
