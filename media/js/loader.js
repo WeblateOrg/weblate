@@ -95,10 +95,17 @@ function load_translate_apis() {
     });
 }
 
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 function cell_cmp(a, b) {
     if (a.indexOf('%') != -1 && b.indexOf('%') != -1) {
         a = parseFloat(a.replace(',', '.'));
         b = parseFloat(b.replace(',', '.'));
+    } else if (isNumber(a) && isNumber(b)) {
+        a  = parseFloat(a);
+        b  = parseFloat(b);
     } else {
         a = a.toLowerCase();
         b = b.toLowerCase();
