@@ -772,7 +772,7 @@ class Check(models.Model):
     def get_description(self):
         return trans.checks.CHECKS[self.check][2]
 
-    def get_absolute_url(self):
+    def get_doc_url(self):
         return 'http://weblate.readthedocs.org/en/weblate-%s/usage.html#check-%s' % (
             trans.VERSION,
             self.check,
