@@ -6,6 +6,7 @@
 {% block breadcums %}
 <li><a href="{% url 'trans.views.show_checks' %}">{% trans "checks" %}</a></li>
 <li><a href="{% url 'trans.views.show_check' name=sample.check %}">{{ sample.get_check_display }}</a></li>
+<li><a href="{% url 'trans.views.show_check_project' name=sample.check project=project.slug %}">{{ project }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -27,12 +28,13 @@
 <tbody>
 {% for check in checks %}
 <tr>
-<th><a href="{% url 'trans.views.show_project' project=check.project__slug %}">{% project_name check.project__slug %}</a></th>
-<td><a href="{% url 'trans.views.show_check_project' name=sample.check project=check.project__slug %}">{{ check.count }}</a></td>
+<th><a href="{% url 'trans.views.show_subproject' project=check.translation__subproject__project__slug subproject=check.translation__subproject__slug %}">{% subproject_name check.translation__subproject__project__slug check.translation__subproject__slug %}</a></th>
+<td><a href="{% url 'trans.views.show_check_subproject' name=sample.check project=check.translation__subproject__project__slug subproject=check.translation__subproject__slug %}">{{ check.count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
 
 {% endblock %}
+
 
