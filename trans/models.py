@@ -216,6 +216,7 @@ class SubProject(models.Model):
     def save(self, *args, **kwargs):
         self.configure_repo()
         self.configure_branch()
+        self.check_commit_needed()
         self.update_branch()
 
         super(SubProject, self).save(*args, **kwargs)
