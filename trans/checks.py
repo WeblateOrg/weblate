@@ -263,7 +263,7 @@ def check_plurals(sources, targets, flags, language, unit):
     # Check for empty translation
     return ('' in targets)
 
-CHECKS['plurals'] = (_('Missing plurals'), check_c_format, _('Some plural forms are not translated'))
+CHECKS['plurals'] = (_('Missing plurals'), check_plurals, _('Some plural forms are not translated'))
 
 # Check for inconsistent translations
 
