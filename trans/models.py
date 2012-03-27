@@ -151,6 +151,13 @@ class SubProject(models.Model):
         gitrepo.git.checkout(self.branch)
         del gitrepo
 
+    def check_commit_needed(self):
+        '''
+        Checks whether there is any translation which needs commit.
+        '''
+        for translation in self.translation_set.all():
+            translation.check_commit_needed(None)
+
     def update_branch(self):
         '''
         Updates current branch to match remote (if possible).
