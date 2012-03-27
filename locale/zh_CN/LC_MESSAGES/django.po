@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-27 09:48+0200\n"
+"POT-Creation-Date: 2012-03-27 15:56+0200\n"
 "PO-Revision-Date: 2012-03-10 04:57+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 0.4\n"
 
-#: urls.py:54 urls.py:60
+#: urls.py:59 urls.py:65
 msgid "User registration"
 msgstr "注册新用户"
 
-#: urls.py:65
+#: urls.py:70
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:71 html/base.html:47 html/registration/login.html:30
+#: urls.py:76 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
-#: urls.py:78
+#: urls.py:83
 msgid "Logged out"
 msgstr "已退出"
 
-#: urls.py:83
+#: urls.py:88
 msgid "Change password"
 msgstr "修改密码"
 
-#: urls.py:87
+#: urls.py:92
 msgid "Password changed"
 msgstr "密码已修改"
 
-#: urls.py:91 urls.py:95 urls.py:99 urls.py:103
+#: urls.py:96 urls.py:100 urls.py:104 urls.py:108
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -147,40 +147,40 @@ msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
 
-#: accounts/i18n.py:19 accounts/i18n.py:26
+#: accounts/i18n.py:19
+msgid "Translate using Apertium"
+msgstr "使用 Apertium 翻译"
+
+#: accounts/i18n.py:20
+msgid "Translate using Microsoft Translator"
+msgstr "使用 Microsoft Translator 翻译"
+
+#: accounts/i18n.py:21
+msgid "Translate using MyMemory"
+msgstr "使用 MyMemory 翻译"
+
+#: accounts/i18n.py:22
+msgid "Sort this column"
+msgstr ""
+
+#: accounts/i18n.py:23
+msgid "AJAX request to load this content has failed!"
+msgstr ""
+
+#: accounts/i18n.py:24
+msgid "Loading..."
+msgstr ""
+
+#: accounts/i18n.py:25
 #, fuzzy
 msgid "Failed translation"
 msgstr "翻译"
 
-#: accounts/i18n.py:20
-msgid "Translate using Apertium"
-msgstr "使用 Apertium 翻译"
-
-#: accounts/i18n.py:21
-msgid "Translate using Microsoft Translator"
-msgstr "使用 Microsoft Translator 翻译"
-
-#: accounts/i18n.py:22
-msgid "Translate using MyMemory"
-msgstr "使用 MyMemory 翻译"
-
-#: accounts/i18n.py:23
-msgid "Sort this column"
-msgstr ""
-
-#: accounts/i18n.py:24
-msgid "AJAX request to load this content has failed!"
-msgstr ""
-
-#: accounts/i18n.py:25
-msgid "Loading..."
-msgstr ""
-
-#: accounts/i18n.py:27
+#: accounts/i18n.py:26
 msgid "The request for machine translation has failed."
 msgstr ""
 
-#: accounts/i18n.py:28
+#: accounts/i18n.py:27
 msgid "Error details:"
 msgstr ""
 
@@ -188,7 +188,7 @@ msgstr ""
 msgid "Interface Language"
 msgstr "界面语言"
 
-#: accounts/models.py:23 html/index.html:119 trans/views.py:59
+#: accounts/models.py:23 trans/views.py:116
 msgid "Languages"
 msgstr "语言"
 
@@ -261,6 +261,39 @@ msgstr "联系我们"
 msgid "Documentation"
 msgstr "文档"
 
+#: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
+#: html/checks.html:7
+#, fuzzy
+msgid "checks"
+msgstr "要检查的条目"
+
+#: html/check.html:18 html/check_project.html:19 html/check_subproject.html:20
+#, python-format
+msgid ""
+"More information about this check is available in the <a href=\"%(link)s"
+"\">documentation</a>."
+msgstr ""
+
+#: html/check.html:24 html/check_project.html:25 html/index.html:39
+#: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
+msgid "Project"
+msgstr "项目"
+
+#: html/check.html:25 html/check_project.html:26 html/check_subproject.html:27
+#: html/checks.html:16
+msgid "Failures"
+msgstr ""
+
+#: html/check_subproject.html:26 html/index.html:13 html/index.html.py:64
+#: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
+#: html/js/other.html:6 html/js/similar.html:6
+msgid "Translation"
+msgstr "翻译"
+
+#: html/checks.html:15
+msgid "Check"
+msgstr ""
+
 #: html/contact.html:7
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
@@ -274,12 +307,6 @@ msgstr "发送"
 #: html/index.html:8
 msgid "Your translations"
 msgstr "您的翻译"
-
-#: html/index.html:13 html/index.html.py:64 html/translate.html:63
-#: html/translate.html.py:165 html/js/dictionary.html:6 html/js/other.html:6
-#: html/js/similar.html:6
-msgid "Translation"
-msgstr "翻译"
 
 #: html/index.html:14 html/index.html.py:40 html/index.html.py:84
 #: html/language.html:16 html/languages.html:15 html/project.html:20
@@ -299,10 +326,6 @@ msgstr "翻译"
 
 #: html/index.html:34
 msgid "Projects"
-msgstr "项目"
-
-#: html/index.html:39 html/translate.html:160 html/js/other.html:6
-msgid "Project"
 msgstr "项目"
 
 #: html/index.html:55
@@ -333,12 +356,18 @@ msgstr "最活跃建议者"
 msgid "Suggested"
 msgstr "已建议"
 
+#: html/index.html:119
+msgid "Others"
+msgstr ""
+
+#: html/index.html:122
+#, fuzzy
+msgid "Languages summary"
+msgstr "语言"
+
 #: html/index.html:123
-#, python-format
-msgid ""
-"There are also <a href=\"%(lang_url)s\">per language statistics</a> "
-"available."
-msgstr "我们还有<a href=\"%(lang_url)s\">按语言统计</a>。"
+msgid "Checks overview"
+msgstr ""
 
 #: html/language.html:6 html/languages.html:6
 msgid "languages"
@@ -633,7 +662,7 @@ msgstr "注册新用户"
 msgid "No other strings found."
 msgstr "未翻译条目 (%d)"
 
-#: html/js/similar.html:18
+#: html/js/similar.html:19
 #, fuzzy
 msgid "No similar strings found."
 msgstr "未翻译条目 (%d)"
@@ -817,118 +846,118 @@ msgstr "复数形式"
 msgid "Plural form %d"
 msgstr ""
 
-#: trans/checks.py:113
+#: trans/checks.py:116
 #, fuzzy
 msgid "Not translated"
 msgstr "翻译"
 
-#: trans/checks.py:113
+#: trans/checks.py:116
 #, fuzzy
 msgid "Source and translated strings are same"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:131
+#: trans/checks.py:134
 msgid "Starting newline"
 msgstr ""
 
-#: trans/checks.py:131
+#: trans/checks.py:134
 #, fuzzy
 msgid "Source and translated do not both start with a newline"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:137
+#: trans/checks.py:140
 msgid "Trailing newline"
 msgstr ""
 
-#: trans/checks.py:137
+#: trans/checks.py:140
 #, fuzzy
 msgid "Source and translated do not both end with a newline"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:150
+#: trans/checks.py:153
 #, fuzzy
 msgid "Trailing space"
 msgstr "要检查的条目"
 
-#: trans/checks.py:150
+#: trans/checks.py:153
 #, fuzzy
 msgid "Source and translated do not both end with a space"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:158
+#: trans/checks.py:161
 msgid "Trailing stop"
 msgstr ""
 
-#: trans/checks.py:158
+#: trans/checks.py:161
 #, fuzzy
 msgid "Source and translated do not both end with a full stop"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:171
+#: trans/checks.py:174
 #, fuzzy
 msgid "Trailing colon"
 msgstr "翻译"
 
-#: trans/checks.py:171
+#: trans/checks.py:174
 #, fuzzy
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:184
+#: trans/checks.py:187
 #, fuzzy
 msgid "Trailing question"
 msgstr "翻译"
 
-#: trans/checks.py:184
+#: trans/checks.py:187
 #, fuzzy
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:197
+#: trans/checks.py:200
 #, fuzzy
 msgid "Trailing exclamation"
 msgstr "翻译"
 
-#: trans/checks.py:197
+#: trans/checks.py:200
 #, fuzzy
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:229
+#: trans/checks.py:232
 msgid "Python format"
 msgstr ""
 
-#: trans/checks.py:229 trans/checks.py:239 trans/checks.py:249
+#: trans/checks.py:232 trans/checks.py:242 trans/checks.py:252
 msgid "Format string does not match source"
 msgstr ""
 
-#: trans/checks.py:239
+#: trans/checks.py:242
 msgid "PHP format"
 msgstr ""
 
-#: trans/checks.py:249
+#: trans/checks.py:252
 msgid "C format"
 msgstr ""
 
-#: trans/checks.py:263
+#: trans/checks.py:266
 msgid "Missing plurals"
 msgstr ""
 
-#: trans/checks.py:263
+#: trans/checks.py:266
 msgid "Some plural forms are not translated"
 msgstr ""
 
-#: trans/checks.py:282
+#: trans/checks.py:285
 msgid "Inconsistent"
 msgstr ""
 
-#: trans/checks.py:282
+#: trans/checks.py:285
 msgid "This message has more than one translation in this project"
 msgstr ""
 
@@ -1017,85 +1046,94 @@ msgstr "要翻译的 Git 分支"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "要翻译的文件，使用 * 代替语言代码"
 
-#: trans/models.py:427
+#: trans/models.py:473
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:432
+#: trans/models.py:478
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:434
+#: trans/models.py:480
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:436
+#: trans/models.py:482
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/views.py:219
+#: trans/views.py:60
+msgid "Checks"
+msgstr ""
+
+#: trans/views.py:276
 msgid "You need to log in to be able to save translations!"
 msgstr "您需要登录才能保存翻译！"
 
-#: trans/views.py:222 trans/views.py:262
+#: trans/views.py:279 trans/views.py:319
 #, fuzzy
 msgid "You don't have privileges to save translations!"
 msgstr "您需要登录才能保存翻译！"
 
-#: trans/views.py:238
+#: trans/views.py:295
 #, fuzzy
 msgid "Some checks have failed on your translation!"
 msgstr "本次翻译已结束。"
 
-#: trans/views.py:256 trans/views.py:294
+#: trans/views.py:313 trans/views.py:351
 msgid "Message you wanted to translate is no longer available!"
 msgstr "您要翻译的条目不存在！"
 
-#: trans/views.py:277
+#: trans/views.py:334
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:300
+#: trans/views.py:357
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:311
+#: trans/views.py:368
 #, fuzzy
 msgid "You do not have privilege to accept suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:321
+#: trans/views.py:378
 #, fuzzy
 msgid "You do not have privilege to delete suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:342
+#: trans/views.py:399
 msgid "Invalid suggestion!"
 msgstr "无效建议！"
 
-#: trans/views.py:387
+#: trans/views.py:444
 msgid "You have reached end of translating."
 msgstr "本次翻译已结束。"
 
-#: trans/views.py:534
+#: trans/views.py:591
 msgid "File content successfully merged into translation."
 msgstr "已成功将文件内容合并到当前翻译。"
 
-#: trans/views.py:536
+#: trans/views.py:593
 msgid "There were no new strings in uploaded file."
 msgstr "上传的文件中没有新翻译的条目。"
 
-#: trans/views.py:538
+#: trans/views.py:595
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "文件内容合并失败：%s"
 
-#: trans/views.py:549
+#: trans/views.py:606
 msgid "Page Not Found"
 msgstr "页面未找到"
+
+#~ msgid ""
+#~ "There are also <a href=\"%(lang_url)s\">per language statistics</a> "
+#~ "available."
+#~ msgstr "我们还有<a href=\"%(lang_url)s\">按语言统计</a>。"
 
 #~ msgid "Users"
 #~ msgstr "用户"

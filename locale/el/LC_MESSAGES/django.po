@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-27 09:48+0200\n"
+"POT-Creation-Date: 2012-03-27 15:56+0200\n"
 "PO-Revision-Date: 2012-03-23 12:51+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:54 urls.py:60
+#: urls.py:59 urls.py:65
 msgid "User registration"
 msgstr "Εγγραφή χρήστη"
 
-#: urls.py:65
+#: urls.py:70
 msgid "Account activation"
 msgstr "Ενεργοποιήση λογαριασμού"
 
-#: urls.py:71 html/base.html:47 html/registration/login.html:30
+#: urls.py:76 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: urls.py:78
+#: urls.py:83
 msgid "Logged out"
 msgstr "Αποσυνδέθηκε"
 
-#: urls.py:83
+#: urls.py:88
 msgid "Change password"
 msgstr "Αλλαγή κωδικού"
 
-#: urls.py:87
+#: urls.py:92
 msgid "Password changed"
 msgstr "Ο κωδικός αλλάχτηκε"
 
-#: urls.py:91 urls.py:95 urls.py:99 urls.py:103
+#: urls.py:96 urls.py:100 urls.py:104 urls.py:108
 msgid "Password reset"
 msgstr "Επαναφορά κωδικού"
 
@@ -147,39 +147,39 @@ msgstr ""
 "Κρατήστε πατημένο το «Ctrl», ή το «Command» σε Mac, για να επιλέξετε "
 "περισσότερα από ένα."
 
-#: accounts/i18n.py:19 accounts/i18n.py:26
-msgid "Failed translation"
-msgstr "Αποτυχημένη μετάφραση"
-
-#: accounts/i18n.py:20
+#: accounts/i18n.py:19
 msgid "Translate using Apertium"
 msgstr "Μετάφραση με χρήση του Apertium"
 
-#: accounts/i18n.py:21
+#: accounts/i18n.py:20
 msgid "Translate using Microsoft Translator"
 msgstr "Μετάφραση με χρήση του Microsoft Translator"
 
-#: accounts/i18n.py:22
+#: accounts/i18n.py:21
 msgid "Translate using MyMemory"
 msgstr "Μετάφραση με χρήση του MyMemory"
 
-#: accounts/i18n.py:23
+#: accounts/i18n.py:22
 msgid "Sort this column"
 msgstr "Ταξινόμηση αυτής της στήλης"
 
-#: accounts/i18n.py:24
+#: accounts/i18n.py:23
 msgid "AJAX request to load this content has failed!"
 msgstr "Το αίτημα AJAX για φόρτωση αυτού του περιεχομένου απέτυχε!"
 
-#: accounts/i18n.py:25
+#: accounts/i18n.py:24
 msgid "Loading..."
 msgstr "Φόρτωση..."
 
-#: accounts/i18n.py:27
+#: accounts/i18n.py:25
+msgid "Failed translation"
+msgstr "Αποτυχημένη μετάφραση"
+
+#: accounts/i18n.py:26
 msgid "The request for machine translation has failed."
 msgstr "Το αίτημα για μηχανική μετάφραση απέτυχε."
 
-#: accounts/i18n.py:28
+#: accounts/i18n.py:27
 msgid "Error details:"
 msgstr "Λεπτομέρειες σφάλματος:"
 
@@ -187,7 +187,7 @@ msgstr "Λεπτομέρειες σφάλματος:"
 msgid "Interface Language"
 msgstr "Γλώσσα Περιβάλλοντος εργασίας"
 
-#: accounts/models.py:23 html/index.html:119 trans/views.py:59
+#: accounts/models.py:23 trans/views.py:116
 msgid "Languages"
 msgstr "Γλώσσες"
 
@@ -265,6 +265,39 @@ msgstr "Επικοινωνήστε μαζί μας"
 msgid "Documentation"
 msgstr "Τεκμηρίωση"
 
+#: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
+#: html/checks.html:7
+#, fuzzy
+msgid "checks"
+msgstr "Αποτυχημένοι έλεγχοι"
+
+#: html/check.html:18 html/check_project.html:19 html/check_subproject.html:20
+#, python-format
+msgid ""
+"More information about this check is available in the <a href=\"%(link)s"
+"\">documentation</a>."
+msgstr ""
+
+#: html/check.html:24 html/check_project.html:25 html/index.html:39
+#: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
+msgid "Project"
+msgstr "Έργο"
+
+#: html/check.html:25 html/check_project.html:26 html/check_subproject.html:27
+#: html/checks.html:16
+msgid "Failures"
+msgstr ""
+
+#: html/check_subproject.html:26 html/index.html:13 html/index.html.py:64
+#: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
+#: html/js/other.html:6 html/js/similar.html:6
+msgid "Translation"
+msgstr "Μετάφραση"
+
+#: html/checks.html:15
+msgid "Check"
+msgstr ""
+
 #: html/contact.html:7
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
@@ -280,12 +313,6 @@ msgstr "Αποστολή"
 #: html/index.html:8
 msgid "Your translations"
 msgstr "Οι μεταφράσεις σας"
-
-#: html/index.html:13 html/index.html.py:64 html/translate.html:63
-#: html/translate.html.py:165 html/js/dictionary.html:6 html/js/other.html:6
-#: html/js/similar.html:6
-msgid "Translation"
-msgstr "Μετάφραση"
 
 #: html/index.html:14 html/index.html.py:40 html/index.html.py:84
 #: html/language.html:16 html/languages.html:15 html/project.html:20
@@ -306,10 +333,6 @@ msgstr "Μετάφραση"
 #: html/index.html:34
 msgid "Projects"
 msgstr "Έργα"
-
-#: html/index.html:39 html/translate.html:160 html/js/other.html:6
-msgid "Project"
-msgstr "Έργο"
 
 #: html/index.html:55
 msgid "Summaries"
@@ -339,13 +362,18 @@ msgstr "Πιο ενεργοί υποδηλώντες"
 msgid "Suggested"
 msgstr "Προτάθηκε"
 
-#: html/index.html:123
-#, python-format
-msgid ""
-"There are also <a href=\"%(lang_url)s\">per language statistics</a> "
-"available."
+#: html/index.html:119
+msgid "Others"
 msgstr ""
-"Υπάρχουν επίσης διαθέσιμα <a href=\"%(lang_url)s\">στατιστικά ανά γλώσσα</a>."
+
+#: html/index.html:122
+#, fuzzy
+msgid "Languages summary"
+msgstr "Γλώσσες"
+
+#: html/index.html:123
+msgid "Checks overview"
+msgstr ""
 
 #: html/language.html:6 html/languages.html:6
 msgid "languages"
@@ -645,7 +673,7 @@ msgstr "Εγγραφή χρήστη"
 msgid "No other strings found."
 msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
 
-#: html/js/similar.html:18
+#: html/js/similar.html:19
 msgid "No similar strings found."
 msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
 
@@ -864,57 +892,57 @@ msgstr "Πληθυντικός"
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
 
-#: trans/checks.py:113
+#: trans/checks.py:116
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: trans/checks.py:113
+#: trans/checks.py:116
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
-#: trans/checks.py:131
+#: trans/checks.py:134
 msgid "Starting newline"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/checks.py:131
+#: trans/checks.py:134
 msgid "Source and translated do not both start with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:137
+#: trans/checks.py:140
 msgid "Trailing newline"
 msgstr "Ακολουθεί νέα γραμμή"
 
-#: trans/checks.py:137
+#: trans/checks.py:140
 msgid "Source and translated do not both end with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελείωνουν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:150
+#: trans/checks.py:153
 msgid "Trailing space"
 msgstr "Ακολουθεί κενό"
 
-#: trans/checks.py:150
+#: trans/checks.py:153
 msgid "Source and translated do not both end with a space"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με κενό"
 
-#: trans/checks.py:158
+#: trans/checks.py:161
 msgid "Trailing stop"
 msgstr "Ακολουθεί τελεία"
 
-#: trans/checks.py:158
+#: trans/checks.py:161
 msgid "Source and translated do not both end with a full stop"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με τελεία"
 
-#: trans/checks.py:171
+#: trans/checks.py:174
 msgid "Trailing colon"
 msgstr "Ακολουθεί άνω κάτω τελεία"
 
-#: trans/checks.py:171
+#: trans/checks.py:174
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
@@ -922,11 +950,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με άνω "
 "κάτω τελεία ή δεν είναι χωρισμένη σωστά με κενά"
 
-#: trans/checks.py:184
+#: trans/checks.py:187
 msgid "Trailing question"
 msgstr "Ακολουθεί ερωτηματικό"
 
-#: trans/checks.py:184
+#: trans/checks.py:187
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
@@ -934,11 +962,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "ερωτηματικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:197
+#: trans/checks.py:200
 msgid "Trailing exclamation"
 msgstr "Ακολουθεί θαυμαστικό"
 
-#: trans/checks.py:197
+#: trans/checks.py:200
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -946,35 +974,35 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "θαυμαστικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:229
+#: trans/checks.py:232
 msgid "Python format"
 msgstr "Μορφή Python"
 
-#: trans/checks.py:229 trans/checks.py:239 trans/checks.py:249
+#: trans/checks.py:232 trans/checks.py:242 trans/checks.py:252
 msgid "Format string does not match source"
 msgstr "Η μορφή του κειμένου δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:239
+#: trans/checks.py:242
 msgid "PHP format"
 msgstr "Μορφή PHP"
 
-#: trans/checks.py:249
+#: trans/checks.py:252
 msgid "C format"
 msgstr "Μορφή C"
 
-#: trans/checks.py:263
+#: trans/checks.py:266
 msgid "Missing plurals"
 msgstr "Απόντες πληθυντικοί"
 
-#: trans/checks.py:263
+#: trans/checks.py:266
 msgid "Some plural forms are not translated"
 msgstr "Ορισμένοι πληθυντικοί δεν μεταφράστηκαν"
 
-#: trans/checks.py:282
+#: trans/checks.py:285
 msgid "Inconsistent"
 msgstr "Ασυνεπές"
 
-#: trans/checks.py:282
+#: trans/checks.py:285
 #, fuzzy
 msgid "This message has more than one translation in this project"
 msgstr "Το μήνυμα έχει περισσότερες διαφορετικές μεταφράσεις σε αυτό το έργο"
@@ -1065,81 +1093,92 @@ msgstr "Κλάδος Git για μετάφραση"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "Μάσκα αρχείων για μετάφραση, χρήση * αντί για κωδικό γλώσσας"
 
-#: trans/models.py:427
+#: trans/models.py:473
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:432
+#: trans/models.py:478
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:434
+#: trans/models.py:480
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:436
+#: trans/models.py:482
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/views.py:219
+#: trans/views.py:60
+msgid "Checks"
+msgstr ""
+
+#: trans/views.py:276
 msgid "You need to log in to be able to save translations!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να αποθηκεύσετε μεταφράσεις!"
 
-#: trans/views.py:222 trans/views.py:262
+#: trans/views.py:279 trans/views.py:319
 msgid "You don't have privileges to save translations!"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
-#: trans/views.py:238
+#: trans/views.py:295
 msgid "Some checks have failed on your translation!"
 msgstr "Ορισμένοι έλεγχοι απέτυχαν στη μετάφρασή σας!"
 
-#: trans/views.py:256 trans/views.py:294
+#: trans/views.py:313 trans/views.py:351
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Το μήνυμα που θέλατε να μεταφράσετε δεν είναι πλέον διαθέσιμο!"
 
-#: trans/views.py:277
+#: trans/views.py:334
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:300
+#: trans/views.py:357
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να διαχειριστείτε τις προτάσεις!"
 
-#: trans/views.py:311
+#: trans/views.py:368
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
-#: trans/views.py:321
+#: trans/views.py:378
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
-#: trans/views.py:342
+#: trans/views.py:399
 msgid "Invalid suggestion!"
 msgstr "Μη έγκυρη πρόταση!"
 
-#: trans/views.py:387
+#: trans/views.py:444
 msgid "You have reached end of translating."
 msgstr "Ολοκληρώσατε τη μετάφραση."
 
-#: trans/views.py:534
+#: trans/views.py:591
 msgid "File content successfully merged into translation."
 msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
 
-#: trans/views.py:536
+#: trans/views.py:593
 msgid "There were no new strings in uploaded file."
 msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
 
-#: trans/views.py:538
+#: trans/views.py:595
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"
 
-#: trans/views.py:549
+#: trans/views.py:606
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
+
+#~ msgid ""
+#~ "There are also <a href=\"%(lang_url)s\">per language statistics</a> "
+#~ "available."
+#~ msgstr ""
+#~ "Υπάρχουν επίσης διαθέσιμα <a href=\"%(lang_url)s\">στατιστικά ανά γλώσσα</"
+#~ "a>."
 
 #~ msgid "Users"
 #~ msgstr "Χρήστες"
