@@ -12,6 +12,13 @@ The ./manage.py is extended with following commands:
     You can either define which subproject to check (eg. ``weblate/master``) or
     use ``--all`` to check all existing subprojects.
 
+.. option:: commitgit
+
+    Commits any possible pending changes to  backend git repository.
+
+    You can either define which subproject to check (eg. ``weblate/master``) or
+    use ``--all`` to check all existing subprojects.
+
 .. option:: cleanuptrans
 
     Cleanups orphnaed checks and translation suggestions.
