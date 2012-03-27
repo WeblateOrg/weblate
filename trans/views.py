@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext, loader
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
@@ -61,7 +61,11 @@ def show_checks(request):
     }))
 
 def show_check(request, name):
-    sample = Check.objects.filter(check = name)[0]
+    try:
+        sample = Check.objects.filter(check = name)[0]
+    except IndexError:
+        raise Http404('No check matches the given query.')
+
     return render_to_response('check.html', RequestContext(request, {
         'checks': Check.objects.filter(check = name).values('project__slug').annotate(count = Count('id')),
         'title': sample.get_check_display(),
@@ -70,13 +74,16 @@ def show_check(request, name):
 
 def show_check_project(request, name, project):
     prj = get_object_or_404(Project, slug = project)
+    try:
+        sample = Check.objects.filter(check = name, project = prj)[0]
+    except IndexError:
+        raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = prj).values_list('language', flat = True)
     units = Unit.objects.none()
     for lang in langs:
         checks = Check.objects.filter(check = name, project = prj, language = lang).values_list('checksum', flat = True)
         res = Unit.objects.filter(checksum__in = checks, translation__language = lang).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
         units |= res
-    sample = Check.objects.filter(check = name, project = prj)[0]
     return render_to_response('check_project.html', RequestContext(request, {
         'checks': units,
         'title': '%s/%s' % (prj.__unicode__(), sample.get_check_display()),
@@ -86,13 +93,16 @@ def show_check_project(request, name, project):
 
 def show_check_subproject(request, name, project, subproject):
     subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    try:
+        sample = Check.objects.filter(check = name, project = subprj.project)[0]
+    except IndexError:
+        raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = subprj.project).values_list('language', flat = True)
     units = Unit.objects.none()
     for lang in langs:
         checks = Check.objects.filter(check = name, project = subprj.project, language = lang).values_list('checksum', flat = True)
         res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang).values('translation__language__code').annotate(count = Count('id'))
         units |= res
-    sample = Check.objects.filter(check = name, project = subprj.project)[0]
     return render_to_response('check_subproject.html', RequestContext(request, {
         'checks': units,
         'title': '%s/%s' % (subprj.__unicode__(), sample.get_check_display()),
