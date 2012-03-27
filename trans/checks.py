@@ -46,6 +46,7 @@ SAME_BLACKLIST = frozenset((
     'data',
     'e-mail',
     'eib',
+    'email',
     'esperanto',
     'export',
     'firmware',
@@ -77,7 +78,9 @@ SAME_BLACKLIST = frozenset((
     'tib',
     'vcalendar',
     'vcard',
+    'web',
     'wiki',
+    'www',
     'xml',
     'zip',
     ))
