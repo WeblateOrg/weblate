@@ -317,7 +317,20 @@ class Translation(models.Model):
                 pass
 
         # Delete not used units
-        Unit.objects.filter(translation = self, id__in = oldunits).delete()
+        units_to_delete = Unit.objects.filter(translation = self, id__in = oldunits)
+        deleted_checksums = units_to_delete.values_list('checksum', flat = True)
+        units_to_delete.delete()
+
+        # Cleanup checks for deleted units
+        for checksum in deleted_checksums:
+            units = Unit.objects.filter(translation__language = self.language, translation__subproject__project = self.subproject.project, checksum = checksum)
+            if units.count() == 0:
+                # Last unit referencing to these checks
+                Checks.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+            else:
+                # There are other units as well, but some checks (eg. consistency) needs update now
+                for unit in units:
+                    unit.check()
 
         # Update revision and stats
         self.update_stats(blob_hash)
