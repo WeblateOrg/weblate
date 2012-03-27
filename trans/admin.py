@@ -17,8 +17,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
     def update_from_git(self, request, queryset):
         for s in queryset:
-            s.update_branch()
-            s.create_translations()
+            s.do_update()
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):

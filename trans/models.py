@@ -151,6 +151,14 @@ class SubProject(models.Model):
         gitrepo.git.checkout(self.branch)
         del gitrepo
 
+    def do_update(self):
+        '''
+        Wrapper for doing repository update and pushing them to translations.
+        '''
+        self.check_commit_needed()
+        self.update_branch()
+        self.create_translations()
+
     def check_commit_needed(self):
         '''
         Checks whether there is any translation which needs commit.
