@@ -57,7 +57,7 @@ admin.site.register(Suggestion, SuggestionAdmin)
 class CheckAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'check', 'project', 'language', 'ignore']
     search_fields = ['checksum', 'check']
-    list_filter = ['check', 'project']
+    list_filter = ['check', 'project', 'ignore']
 
 admin.site.register(Check, CheckAdmin)
 
