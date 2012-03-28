@@ -406,14 +406,24 @@ class Translation(models.Model):
             m = settings.COMMIT_MESSAGE
             )
 
+    def git_needs_commit(self, gitrepo = None):
+        '''
+        Checks whether there are some not commited changes.
+        '''
+        if gitrepo is None:
+            gitrepo = self.subproject.get_repo()
+        status = gitrepo.git.status('--porcelain', '--', self.filename)
+        if status == '':
+            # No changes to commit
+            return False
+        return True
+
     def git_commit(self, author, force_commit = False):
         '''
         Wrapper for commiting translation to git.
         '''
         gitrepo = self.subproject.get_repo()
-        status = gitrepo.git.status('--porcelain', '--', self.filename)
-        if status == '':
-            # No changes to commit
+        if not self.git_needs_commit(gitrepo)
             return False
         if not force_commit and settings.LAZY_COMMITS:
             logger.info('Delaying commiting %s as %s', self.filename, author)
