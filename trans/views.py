@@ -141,7 +141,9 @@ def show_subproject(request, project, subproject):
 @permission_required('trans.automatic_translation')
 def auto_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj.commit_pending()
     autoform = AutoForm(obj, request.POST)
+    change = None
     if autoform.is_valid():
         units = obj.unit_set.all()
         if not autoform.cleaned_data['overwrite']:
@@ -161,6 +163,8 @@ def auto_translation(request, project, subproject, lang):
                 update = update[0]
                 unit.fuzzy = update.fuzzy
                 unit.target = update.target
+                if change is None:
+                    change = Change.objects.create(unit = self, user = request.user)
                 unit.save_backend(request, False, False)
         messages.add_message(request, messages.INFO, _('Automatic translation completed.'))
     else:
