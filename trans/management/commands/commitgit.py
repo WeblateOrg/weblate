@@ -16,11 +16,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options['all']:
             for s in SubProject.objects.all():
-                s.check_commit_needed()
+                s.commit_pending()
         for arg in args:
             prj, subprj = arg.split('/')
             s = SubProject.objects.get(slug = subprj, project__slug = prj)
-            s.check_commit_needed()
+            s.commit_pending()
 
 
 

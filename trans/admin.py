@@ -29,7 +29,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
     def force_commit(self, request, queryset):
         for s in queryset:
-            s.check_commit_needed()
+            s.commit_pending()
         self.message_user(request, "Flushed changes in %d git repos." % queryset.count())
 
 admin.site.register(SubProject, SubProjectAdmin)

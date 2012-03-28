@@ -78,12 +78,12 @@ class Project(models.Model):
                 return True
         return False
 
-    def check_commit_needed(self):
+    def commit_pending(self):
         '''
         Commits any pending changes.
         '''
         for s in self.subproject_set.all():
-            s.check_commit_needed()
+            s.commit_pending()
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
@@ -170,16 +170,16 @@ class SubProject(models.Model):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
-        self.check_commit_needed()
+        self.commit_pending()
         self.update_branch()
         self.create_translations()
 
-    def check_commit_needed(self):
+    def commit_pending(self):
         '''
         Checks whether there is any translation which needs commit.
         '''
         for translation in self.translation_set.all():
-            translation.check_commit_needed(None)
+            translation.commit_pending(None)
 
     def update_branch(self):
         '''
@@ -239,7 +239,7 @@ class SubProject(models.Model):
     def save(self, *args, **kwargs):
         self.configure_repo()
         self.configure_branch()
-        self.check_commit_needed()
+        self.commit_pending()
         self.update_branch()
 
         super(SubProject, self).save(*args, **kwargs)
@@ -412,7 +412,7 @@ class Translation(models.Model):
         except IndexError:
             return None
 
-    def check_commit_needed(self, author):
+    def commit_pending(self, author):
         last = self.get_last_author()
         if author == last or last is None:
             return
@@ -491,7 +491,7 @@ class Translation(models.Model):
                 break
         if need_save:
             author = self.get_author_name(request.user)
-            self.check_commit_needed(author)
+            self.commit_pending(author)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -555,7 +555,7 @@ class Translation(models.Model):
                 if not overwrite and unit1.istranslated():
                     continue
                 unit1.merge(unit2, overwrite=True, comments=False)
-        self.check_commit_needed(author)
+        self.commit_pending(author)
         store1.save()
         ret = self.git_commit(author, True)
         self.check_sync()
