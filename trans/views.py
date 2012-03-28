@@ -610,7 +610,7 @@ def upload_translation(request, project, subproject, lang):
         else:
             form = SimpleUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            if request.user.has_perm('trans.author_translation'):
+            if request.user.has_perm('trans.author_translation') and form.cleaned_data['author_name'] != '' and form.cleaned_data['author_email'] != '':
                 author = '%s <%s>' % (form.cleaned_data['author_name'], form.cleaned_data['author_email'])
             else:
                 author = None
