@@ -153,6 +153,30 @@ def show_translation(request, project, subproject, lang):
         'search_form': search_form,
     }))
 
+@login_required
+@permission_required('trans.commit_translation')
+def commit_project(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    obj.commit_pending()
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
+@login_required
+@permission_required('trans.commit_translation')
+def commit_project(request, project, subproject):
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    obj.commit_pending()
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
+@login_required
+@permission_required('trans.commit_translation')
+def commit_project(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj.commit_pending()
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
 def download_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
