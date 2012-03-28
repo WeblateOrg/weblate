@@ -212,7 +212,7 @@ $(function() {
             }
         },
         load: function (e, ui) {
-            $('.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
+            $('a.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
         }
     });
 });
