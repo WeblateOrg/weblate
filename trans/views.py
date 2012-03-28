@@ -67,7 +67,7 @@ def show_check(request, name):
         raise Http404('No check matches the given query.')
 
     return render_to_response('check.html', RequestContext(request, {
-        'checks': Check.objects.filter(check = name).values('project__slug').annotate(count = Count('id')),
+        'checks': Check.objects.filter(check = name, ignore = False).values('project__slug').annotate(count = Count('id')),
         'title': sample.get_check_display(),
         'sample': sample,
     }))
