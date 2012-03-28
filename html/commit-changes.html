@@ -2,7 +2,7 @@
 
 {% if perms.trans.commit_translation %}
 {% if object.git_needs_commit %}
-<h2>{% trans "Git commit" %}</h2>
+<h2>{% trans "Git maintenance" %}</h2>
 <p>{% blocktrans with object.get_commit_url as url %}There are some not commited changes, you might want to <a href="{{ url }}">commit them</a>.{% endblocktrans %}
 {% endif %}
 {% endif %}
