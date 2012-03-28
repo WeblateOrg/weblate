@@ -7,7 +7,7 @@
     </thead>
     <tbody>
 {% for item in other %}
-    <tr class="clickable">
+    <tr>
     <td>{{ item.translation.subproject }}</td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslationdiff:unit }}</a></td>
