@@ -154,7 +154,7 @@ def auto_translation(request, project, subproject, lang):
             subprj = SubProject.objects.get(project = obj.subproject.project, slug = autoform.cleaned_data['subproject'])
             sources = sources.filter(translation__subproject = subprj)
 
-        for unit in units:
+        for unit in units.iterator():
             update = sources.filter(checksum = unit.checksum)
             if update.count() > 0:
                 # Get first entry
