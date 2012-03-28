@@ -145,9 +145,12 @@ def auto_translation(request, project, subproject, lang):
     autoform = AutoForm(obj, request.POST)
     change = None
     if autoform.is_valid():
-        units = obj.unit_set.all()
-        if not autoform.cleaned_data['overwrite']:
-            units = units.filter(translated = False)
+        if autoform.cleaned_data['inconsistent']:
+            units = obj.unit_set.filter_type('inconsistent')
+        elif autoform.cleaned_data['overwrite']:
+            units = obj.unit_set.all()
+        else:
+            units = obj.unit_set.filter(translated = False)
 
         sources = Unit.objects.filter(translation__language = obj.language, translated = True)
         if autoform.cleaned_data['subproject'] == '':

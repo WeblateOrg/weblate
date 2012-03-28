@@ -105,7 +105,8 @@ class MergeForm(forms.Form):
     merge = forms.IntegerField()
 
 class AutoForm(forms.Form):
-    overwrite = forms.BooleanField(label = _('Overwrite entries'), required = False, initial = False)
+    overwrite = forms.BooleanField(label = _('Overwrite strings'), required = False, initial = False)
+    inconsistent = forms.BooleanField(label = _('Replace inconsistent'), required = False, initial = False)
     subproject = forms.ChoiceField(label = _('Subproject to use'), required = False, initial = '')
 
     def __init__(self, obj, *args, **kwargs):
