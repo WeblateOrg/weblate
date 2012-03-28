@@ -237,6 +237,19 @@ class SubProject(models.Model):
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
+    def git_needs_commit(self, gitrepo = None):
+        '''
+        Checks whether there are some not commited changes.
+        '''
+        if gitrepo is None:
+            gitrepo = self.get_repo()
+        status = gitrepo.git.status('--porcelain')
+        if status == '':
+            # No changes to commit
+            return False
+        return True
+
+
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
