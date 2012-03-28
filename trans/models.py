@@ -536,6 +536,19 @@ class Translation(models.Model):
 
         return ret
 
+    def get_failing_checks(self, check = None):
+        '''
+        Returns number of units with failing checks.
+
+        By default for all checks or check type can be specified.
+        '''
+        if check is None:
+            checks = Check.objects.all()
+        else:
+            checks = Check.objects.filter(check = check)
+        checks = checks.filter(project = self.subproject.project, language = self.language, ignore = False).values_list('checksum', flat = True).distinct()
+        return self.unit_set.filter(checksum__in = checks).count()
+
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
