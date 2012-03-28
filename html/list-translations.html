@@ -19,13 +19,13 @@
 <td class="percent">{{ fuzzy }}%</td>
 <td>
 {% if percent < 100 %}
-<a href="{{ trans.get_translate_url }}?type=untranslated">{% trans "Translate" %}</a>
+<a href="{{ trans.get_translate_url }}?type=untranslated" title="{% blocktrans count trans.get_non_translated as count %}There is {{ count }} not translated string.{% plural %}There are {{ count }} not translated strings.{% endblocktrans %}">{% trans "Translate" %}</a>
 {% endif %}
 </td>
 <td>
 {% with trans.get_failing_checks as checks %}
 {% if checks > 0 %}
-<a href="{{ trans.get_absolute_url }}">{% blocktrans count checks as c %}{{ checks }} failing check{% plural %}{{ checks }} failing checks{% endblocktrans %}</a>
+<a href="{{ trans.get_absolute_url }}" title="{% blocktrans count checks as count %}There is {{ checks }} failing check.{% plural %}There are {{ checks }} failing checks.{% endblocktrans %}">{% trans "Review" %}</a>
 {% endif %}
 {% endwith %}
 </td>

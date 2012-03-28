@@ -267,6 +267,9 @@ class Translation(models.Model):
             return 0
         return round(self.translated * 100.0 / self.total, 1)
 
+    def get_non_translated(self):
+        return self.total - self.translated
+
     @models.permalink
     def get_absolute_url(self):
         return ('trans.views.show_translation', (), {
