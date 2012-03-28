@@ -69,6 +69,14 @@ class Project(models.Model):
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
+    def git_needs_commit(self, gitrepo = None):
+        '''
+        Checks whether there are some not commited changes.
+        '''
+        for s in self.subproject_set.all():
+            if s.git_needs_commit():
+                return True
+        return False
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
