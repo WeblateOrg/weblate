@@ -167,7 +167,7 @@ def auto_translation(request, project, subproject, lang):
                 unit.fuzzy = update.fuzzy
                 unit.target = update.target
                 if change is None:
-                    change = Change.objects.create(unit = self, user = request.user)
+                    change = Change.objects.create(unit = unit, user = request.user)
                 unit.save_backend(request, False, False)
         messages.add_message(request, messages.INFO, _('Automatic translation completed.'))
     else:
