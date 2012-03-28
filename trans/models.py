@@ -476,9 +476,9 @@ class Translation(models.Model):
         if not self.git_needs_commit(gitrepo):
             return False
         if not force_commit and settings.LAZY_COMMITS:
-            logger.info('Delaying commiting %s as %s', self.filename, author)
+            logger.info('Delaying commiting %s in %s as %s', self.filename, self, author)
             return False
-        logger.info('Commiting %s as %s', self.filename, author)
+        logger.info('Commiting %s in %s as %s', self.filename, self, author)
         try:
             self.__git_commit(gitrepo, author)
         except git.GitCommandError:

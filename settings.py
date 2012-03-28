@@ -177,7 +177,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'syslog': {
-            'format': 'weblate: %(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': 'weblate[%(process)d]: %(levelname)s %(message)s'
         },
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
