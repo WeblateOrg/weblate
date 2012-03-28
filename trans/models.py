@@ -192,7 +192,7 @@ class SubProject(models.Model):
         Checks whether there is any translation which needs commit.
         '''
         for translation in self.translation_set.all():
-            translation.commit_pending(None)
+            translation.commit_pending()
 
     def update_branch(self):
         '''
@@ -433,7 +433,7 @@ class Translation(models.Model):
         except IndexError:
             return None
 
-    def commit_pending(self, author):
+    def commit_pending(self, author = None):
         last = self.get_last_author()
         if author == last or last is None:
             return
