@@ -423,7 +423,7 @@ class Translation(models.Model):
         Wrapper for commiting translation to git.
         '''
         gitrepo = self.subproject.get_repo()
-        if not self.git_needs_commit(gitrepo)
+        if not self.git_needs_commit(gitrepo):
             return False
         if not force_commit and settings.LAZY_COMMITS:
             logger.info('Delaying commiting %s as %s', self.filename, author)
