@@ -699,7 +699,11 @@ class Unit(models.Model):
         else:
             self.flags = ''
         self.save(backend = True)
+        old_translated = self.translation.translated
         self.translation.update_stats()
+        # Force commiting on completing translation
+        if old_translated > self.translation.translated and self.translation.translated == self.translation.total:
+            self.translation.commit_pending()
         Change.objects.create(unit = self, user = request.user)
         # Propagate to other projects
         if propagate:

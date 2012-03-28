@@ -134,3 +134,4 @@ The changes are in this mode committed once one of following conditions happen:
 * somebody else works on the translation
 * merge from upstream occurs
 * import of translation happens
+* translation for a language is completed
