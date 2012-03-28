@@ -164,11 +164,18 @@ def auto_translation(request, project, subproject, lang):
             if update.count() > 0:
                 # Get first entry
                 update = update[0]
+                # No save if translation is same
+                if unit.fuzzy == update.fuzzy and unit.target == update.target:
+                    continue
+                # Copy translation
                 unit.fuzzy = update.fuzzy
                 unit.target = update.target
+                # Create signle change object for whole merge
                 if change is None:
-                    change = Change.objects.create(unit = self, user = request.user)
+                    change = Change.objects.create(unit = unit, user = request.user)
+                # Save unit to backend
                 unit.save_backend(request, False, False)
+
         messages.add_message(request, messages.INFO, _('Automatic translation completed.'))
     else:
         messages.add_message(request, messages.ERROR, _('Failed to process form!'))
