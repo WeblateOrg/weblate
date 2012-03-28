@@ -163,7 +163,7 @@ def commit_project(request, project):
 
 @login_required
 @permission_required('trans.commit_translation')
-def commit_project(request, project, subproject):
+def commit_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     obj.commit_pending()
 
@@ -171,7 +171,7 @@ def commit_project(request, project, subproject):
 
 @login_required
 @permission_required('trans.commit_translation')
-def commit_project(request, project, subproject, lang):
+def commit_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     obj.commit_pending()
 
