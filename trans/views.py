@@ -152,7 +152,7 @@ def auto_translation(request, project, subproject, lang):
             sources = sources.filter(translation__subproject__project = obj.subproject.project).exclude(translation = obj)
         else:
             subprj = SubProject.objects.get(project = obj.subproject.project, slug = autoform.cleaned_data['subproject'])
-            sources = sources.filter(translation__subproject = subproject)
+            sources = sources.filter(translation__subproject = subprj)
 
         for unit in units:
             update = sources.filter(checksum = unit.checksum)
