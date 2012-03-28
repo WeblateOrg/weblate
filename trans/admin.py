@@ -43,8 +43,8 @@ admin.site.register(Translation, TranslationAdmin)
 
 class UnitAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
-    search_fields = ['source', 'target']
-    list_filter = ['translation__subproject', 'translation__language']
+    search_fields = ['source', 'target', 'checksum']
+    list_filter = ['translation__subproject', 'translation__language', 'fuzzy', 'translated']
 
 admin.site.register(Unit, UnitAdmin)
 
