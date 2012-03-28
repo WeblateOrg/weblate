@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 11:44+0200\n"
+"POT-Creation-Date: 2012-03-28 14:00+0200\n"
 "PO-Revision-Date: 2012-03-28 13:25+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:59 urls.py:65
+#: urls.py:63 urls.py:69
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:70
+#: urls.py:74
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:76 html/base.html:47 html/registration/login.html:30
+#: urls.py:80 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:83
+#: urls.py:87
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:88
+#: urls.py:92
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:92
+#: urls.py:96
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:96 urls.py:100 urls.py:104 urls.py:108
+#: urls.py:100 urls.py:104 urls.py:108 urls.py:112
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -299,6 +299,17 @@ msgstr "Çeviri"
 #: html/checks.html:15
 msgid "Check"
 msgstr "Kontrol"
+
+#: html/commit-changes.html:5
+msgid "Git maintenance"
+msgstr ""
+
+#: html/commit-changes.html:6
+#, python-format
+msgid ""
+"There are some not commited changes, you might want to <a href=\"%(url)s"
+"\">commit them</a>."
+msgstr ""
 
 #: html/contact.html:7
 msgid ""
@@ -1044,19 +1055,19 @@ msgstr "Bağlam satırlarında ara"
 msgid "Bad format string (%s)"
 msgstr "Kötü biçimde satır (%s)"
 
-#: trans/models.py:74
+#: trans/models.py:95
 msgid "Name to display"
 msgstr "Görüntülemek için ad"
 
-#: trans/models.py:75
+#: trans/models.py:96
 msgid "Name used in URLs"
 msgstr "URL'lede kullanılan ad"
 
-#: trans/models.py:77
+#: trans/models.py:98
 msgid "URL of Git repository"
 msgstr "Git havuzu URL'si"
 
-#: trans/models.py:79
+#: trans/models.py:100
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1065,29 +1076,29 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, dal için %(branch)s, dosya adı ve satır yer "
 "tutucuları olarak %(file)s ve %(line)s kullan"
 
-#: trans/models.py:81
+#: trans/models.py:102
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models.py:82
+#: trans/models.py:103
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "Çevirmek için dosyaların maskesi, dil kodu yerine * kullanın"
 
-#: trans/models.py:476
+#: trans/models.py:536
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:481
+#: trans/models.py:541
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Çevrilmemiş satırlar (%d)"
 
-#: trans/models.py:483
+#: trans/models.py:543
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satırlar (%d)"
 
-#: trans/models.py:485
+#: trans/models.py:545
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satırlar (%d)"
@@ -1096,64 +1107,64 @@ msgstr "Önerileri olan satırlar (%d)"
 msgid "Checks"
 msgstr "Kontroller"
 
-#: trans/views.py:265
+#: trans/views.py:289
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views.py:285
+#: trans/views.py:309
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:288 trans/views.py:328
+#: trans/views.py:312 trans/views.py:352
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:304
+#: trans/views.py:328
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:322 trans/views.py:360
+#: trans/views.py:346 trans/views.py:384
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views.py:343
+#: trans/views.py:367
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views.py:366
+#: trans/views.py:390
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:377
+#: trans/views.py:401
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:387
+#: trans/views.py:411
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:408
+#: trans/views.py:432
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:453
+#: trans/views.py:477
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:600
+#: trans/views.py:624
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:602
+#: trans/views.py:626
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:604
+#: trans/views.py:628
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:615
+#: trans/views.py:639
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
