@@ -1,0 +1,6 @@
+{% load i18n %}
+
+{% if object.git_needs_commit and perms.trans.commit_translation %}
+<h2>{% trans "Git commit" %}</h2>
+<p>{% blocktrans %}There are some not commited changes.{% endblocktrans %}
+{% endif %}
