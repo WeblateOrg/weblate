@@ -49,6 +49,12 @@ class Project(models.Model):
             'project': self.slug
         })
 
+    @models.permalink
+    def get_commit_url(self):
+        return ('trans.views.commit_project', (), {
+            'project': self.slug
+        })
+
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
@@ -102,6 +108,13 @@ class SubProject(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('trans.views.show_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
+
+    @models.permalink
+    def get_commit_url(self):
+        return ('trans.views.commit_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -302,6 +315,14 @@ class Translation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('trans.views.show_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    @models.permalink
+    def get_commit_url(self):
+        return ('trans.views.commit_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
