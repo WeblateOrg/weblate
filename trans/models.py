@@ -49,6 +49,12 @@ class Project(models.Model):
             'project': self.slug
         })
 
+    @models.permalink
+    def get_commit_url(self):
+        return ('trans.views.commit_project', (), {
+            'project': self.slug
+        })
+
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
@@ -69,6 +75,21 @@ class Project(models.Model):
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
+    def git_needs_commit(self):
+        '''
+        Checks whether there are some not commited changes.
+        '''
+        for s in self.subproject_set.all():
+            if s.git_needs_commit():
+                return True
+        return False
+
+    def commit_pending(self):
+        '''
+        Commits any pending changes.
+        '''
+        for s in self.subproject_set.all():
+            s.commit_pending()
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
@@ -87,6 +108,13 @@ class SubProject(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('trans.views.show_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
+
+    @models.permalink
+    def get_commit_url(self):
+        return ('trans.views.commit_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -155,16 +183,16 @@ class SubProject(models.Model):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
-        self.check_commit_needed()
+        self.commit_pending()
         self.update_branch()
         self.create_translations()
 
-    def check_commit_needed(self):
+    def commit_pending(self):
         '''
         Checks whether there is any translation which needs commit.
         '''
         for translation in self.translation_set.all():
-            translation.check_commit_needed(None)
+            translation.commit_pending()
 
     def update_branch(self):
         '''
@@ -224,7 +252,7 @@ class SubProject(models.Model):
     def save(self, *args, **kwargs):
         self.configure_repo()
         self.configure_branch()
-        self.check_commit_needed()
+        self.commit_pending()
         self.update_branch()
 
         super(SubProject, self).save(*args, **kwargs)
@@ -236,6 +264,19 @@ class SubProject(models.Model):
         if translations['total__sum'] == 0:
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
+
+    def git_needs_commit(self, gitrepo = None):
+        '''
+        Checks whether there are some not commited changes.
+        '''
+        if gitrepo is None:
+            gitrepo = self.get_repo()
+        status = gitrepo.git.status('--porcelain')
+        if status == '':
+            # No changes to commit
+            return False
+        return True
+
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
@@ -255,6 +296,7 @@ class Translation(models.Model):
             ('upload_translation', "Can upload translation"),
             ('overwrite_translation', "Can overwrite with translation upload"),
             ('author_translation', "Can define author of translation upload"),
+            ('commit_translation', "Can force commiting of translation"),
         )
 
     def get_fuzzy_percent(self):
@@ -273,6 +315,14 @@ class Translation(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('trans.views.show_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    @models.permalink
+    def get_commit_url(self):
+        return ('trans.views.commit_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -383,7 +433,7 @@ class Translation(models.Model):
         except IndexError:
             return None
 
-    def check_commit_needed(self, author):
+    def commit_pending(self, author = None):
         last = self.get_last_author()
         if author == last or last is None:
             return
@@ -405,14 +455,24 @@ class Translation(models.Model):
             m = settings.COMMIT_MESSAGE
             )
 
+    def git_needs_commit(self, gitrepo = None):
+        '''
+        Checks whether there are some not commited changes.
+        '''
+        if gitrepo is None:
+            gitrepo = self.subproject.get_repo()
+        status = gitrepo.git.status('--porcelain', '--', self.filename)
+        if status == '':
+            # No changes to commit
+            return False
+        return True
+
     def git_commit(self, author, force_commit = False):
         '''
         Wrapper for commiting translation to git.
         '''
         gitrepo = self.subproject.get_repo()
-        status = gitrepo.git.status('--porcelain', '--', self.filename)
-        if status == '':
-            # No changes to commit
+        if not self.git_needs_commit(gitrepo):
             return False
         if not force_commit and settings.LAZY_COMMITS:
             logger.info('Delaying commiting %s as %s', self.filename, author)
@@ -452,7 +512,7 @@ class Translation(models.Model):
                 break
         if need_save:
             author = self.get_author_name(request.user)
-            self.check_commit_needed(author)
+            self.commit_pending(author)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -516,7 +576,7 @@ class Translation(models.Model):
                 if not overwrite and unit1.istranslated():
                     continue
                 unit1.merge(unit2, overwrite=True, comments=False)
-        self.check_commit_needed(author)
+        self.commit_pending(author)
         store1.save()
         ret = self.git_commit(author, True)
         self.check_sync()
