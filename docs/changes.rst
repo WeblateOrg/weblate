@@ -17,6 +17,7 @@ Relased on ? 2012.
 * Records log of changes made by users.
 * Ability to postpone commit to Git to generate less commits from single user.
 * Possibility to browse failing checks.
+* Automatic translation using already translated strings.
 
 weblate 0.7
 -----------

@@ -56,6 +56,17 @@
 </form>
 {% endif %}
 
+{% if autoform %}
+<h2>{% trans "Automatic translation" %}</h2>
+<form action="{% url 'trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+{{ autoform.as_table }}
+</table>
+<p><input type="submit" value="{% trans "Process" %}" /></p>
+</form>
+{% endif %}
+
 {% include "commit-changes.html" %}
 
 {% endblock %}

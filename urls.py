@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'trans.views.translate'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.download_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_translation'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$', 'trans.views.auto_translation'),
 
     url(r'^commit/(?P<project>[^/]*)/$', 'trans.views.commit_project'),
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.commit_subproject'),
