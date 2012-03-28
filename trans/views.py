@@ -161,7 +161,7 @@ def auto_translation(request, project, subproject, lang):
                 update = update[0]
                 unit.fuzzy = update.fuzzy
                 unit.target = update.target
-                unit.save_backend(request, False)
+                unit.save_backend(request, False, False)
         messages.add_message(request, messages.INFO, _('Automatic translation completed.'))
     else:
         messages.add_message(request, messages.ERROR, _('Failed to process form!'))

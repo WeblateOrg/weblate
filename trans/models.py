@@ -691,7 +691,7 @@ class Unit(models.Model):
 
         return ret
 
-    def save_backend(self, request, propagate = True):
+    def save_backend(self, request, propagate = True, gen_change = True):
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
         self.translated = pounit.istranslated()
@@ -705,7 +705,8 @@ class Unit(models.Model):
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
             self.translation.commit_pending()
-        Change.objects.create(unit = self, user = request.user)
+        if gen_change:
+            Change.objects.create(unit = self, user = request.user)
         # Propagate to other projects
         if propagate:
             allunits = Unit.objects.same(self).exclude(id = self.id)
