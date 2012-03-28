@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 11:23+0200\n"
+"POT-Creation-Date: 2012-03-28 11:40+0200\n"
 "PO-Revision-Date: 2012-03-27 15:59+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -373,9 +373,29 @@ msgstr "Jazyk"
 msgid "Fuzzy"
 msgstr "Nejasný"
 
-#: html/list-translations.html:19 html/translate.html:15
+#: html/list-translations.html:22
+#, fuzzy, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "Překlad čítá %(count)s řetězců."
+msgstr[1] "Překlad čítá %(count)s řetězců."
+msgstr[2] "Překlad čítá %(count)s řetězců."
+
+#: html/list-translations.html:22 html/translate.html:15
 msgid "Translate"
 msgstr "Přeložit"
+
+#: html/list-translations.html:28
+#, python-format
+msgid "There is %(checks)s failing check."
+msgid_plural "There are %(checks)s failing checks."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: html/list-translations.html:28
+msgid "Review"
+msgstr ""
 
 #: html/profile.html:11
 msgid "Please fix errors in the form."
@@ -1068,21 +1088,21 @@ msgstr "Větev Gitu k překladu"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
 
-#: trans/models.py:473
+#: trans/models.py:476
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:478
+#: trans/models.py:481
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:480
+#: trans/models.py:483
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:482
+#: trans/models.py:485
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
@@ -1181,9 +1201,6 @@ msgstr "Stránka nenalezena"
 #~ "translated."
 #~ msgstr ""
 #~ "Překlad čítá %(count)s řetězců, ze kterých je %(translated)s%% přeloženo."
-
-#~ msgid "There are %(count)s strings."
-#~ msgstr "Překlad čítá %(count)s řetězců."
 
 #~ msgid "(will be used as Git author)"
 #~ msgstr "(bude použit jako autor v Gitu)"

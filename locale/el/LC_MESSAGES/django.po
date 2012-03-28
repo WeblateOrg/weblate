@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 11:23+0200\n"
+"POT-Creation-Date: 2012-03-28 11:40+0200\n"
 "PO-Revision-Date: 2012-03-23 12:51+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -376,9 +376,27 @@ msgstr "Γλώσσα"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: html/list-translations.html:19 html/translate.html:15
+#: html/list-translations.html:22
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] ""
+msgstr[1] ""
+
+#: html/list-translations.html:22 html/translate.html:15
 msgid "Translate"
 msgstr "Μετάφραση"
+
+#: html/list-translations.html:28
+#, python-format
+msgid "There is %(checks)s failing check."
+msgid_plural "There are %(checks)s failing checks."
+msgstr[0] ""
+msgstr[1] ""
+
+#: html/list-translations.html:28
+msgid "Review"
+msgstr ""
 
 #: html/profile.html:11
 msgid "Please fix errors in the form."
@@ -1090,21 +1108,21 @@ msgstr "Κλάδος Git για μετάφραση"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "Μάσκα αρχείων για μετάφραση, χρήση * αντί για κωδικό γλώσσας"
 
-#: trans/models.py:473
+#: trans/models.py:476
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:478
+#: trans/models.py:481
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:480
+#: trans/models.py:483
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:482
+#: trans/models.py:485
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"

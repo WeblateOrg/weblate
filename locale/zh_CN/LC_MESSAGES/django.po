@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 11:23+0200\n"
+"POT-Creation-Date: 2012-03-28 11:40+0200\n"
 "PO-Revision-Date: 2012-03-10 04:57+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -370,9 +370,25 @@ msgstr "语言"
 msgid "Fuzzy"
 msgstr "模糊"
 
-#: html/list-translations.html:19 html/translate.html:15
+#: html/list-translations.html:22
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] ""
+
+#: html/list-translations.html:22 html/translate.html:15
 msgid "Translate"
 msgstr "翻译"
+
+#: html/list-translations.html:28
+#, python-format
+msgid "There is %(checks)s failing check."
+msgid_plural "There are %(checks)s failing checks."
+msgstr[0] ""
+
+#: html/list-translations.html:28
+msgid "Review"
+msgstr ""
 
 #: html/profile.html:11
 msgid "Please fix errors in the form."
@@ -1043,21 +1059,21 @@ msgstr "要翻译的 Git 分支"
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "要翻译的文件，使用 * 代替语言代码"
 
-#: trans/models.py:473
+#: trans/models.py:476
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:478
+#: trans/models.py:481
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:480
+#: trans/models.py:483
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:482
+#: trans/models.py:485
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
