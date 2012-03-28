@@ -103,3 +103,12 @@ class SearchForm(forms.Form):
 class MergeForm(forms.Form):
     checksum = forms.CharField()
     merge = forms.IntegerField()
+
+class AutoForm(forms.Form):
+    overwrite = forms.BooleanField(label = _('Overwrite entries'), required = False, initial = False)
+    subproject = forms.ChoiceField(label = _('Subproject to use'), required = False, initial = '')
+
+    def __init__(self, obj, *args, **kwargs):
+        choices = [(s.slug, s.name) for s in obj.subproject.project.subproject_set.exclude(id = obj.subproject.id)]
+        super(AutoForm, self).__init__(*args, **kwargs)
+        self.fields['subproject'].choices = [('', _('All subprojects'))] + choices

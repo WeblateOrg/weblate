@@ -13,7 +13,7 @@ from django.db.models import Q, Count
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
@@ -137,6 +137,37 @@ def show_subproject(request, project, subproject):
         'object': obj,
     }))
 
+@login_required
+@permission_required('trans.automatic_translation')
+def auto_translation(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    autoform = AutoForm(obj, request.POST)
+    if autoform.is_valid():
+        units = obj.unit_set.all()
+        if not autoform.cleaned_data['overwrite']:
+            units = units.filter(translated = False)
+
+        sources = Unit.objects.filter(translation__language = obj.language, translated = True)
+        if autoform.cleaned_data['subproject'] == '':
+            sources = sources.filter(translation__subproject__project = obj.subproject.project).exclude(translation = obj)
+        else:
+            subprj = SubProject.objects.get(project = obj.subproject.project, slug = autoform.cleaned_data['subproject'])
+            sources = sources.filter(translation__subproject = subproject)
+
+        for unit in units:
+            update = sources.filter(checksum = unit.checksum)
+            if update.count() > 0:
+                # Get first entry
+                update = update[0]
+                unit.fuzzy = update.fuzzy
+                unit.target = update.target
+                unit.save_backend(request, False)
+        messages.add_message(request, messages.INFO, _('Automatic translation completed.'))
+    else:
+        messages.add_message(request, messages.ERROR, _('Failed to process form!'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     if request.user.has_perm('trans.author_translation'):
@@ -145,11 +176,16 @@ def show_translation(request, project, subproject, lang):
         form = UploadForm()
     else:
         form = SimpleUploadForm()
+    if request.user.has_perm('trans.automatic_translation'):
+        autoform = AutoForm(obj)
+    else:
+        autoform = None
     search_form = SearchForm()
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
         'form': form,
+        'autoform': autoform,
         'search_form': search_form,
     }))
 
