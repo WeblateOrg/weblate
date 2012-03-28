@@ -513,7 +513,6 @@ class Translation(models.Model):
                 break
         if need_save:
             author = self.get_author_name(request.user)
-            self.commit_pending(author)
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -525,6 +524,7 @@ class Translation(models.Model):
                     PO_Revision_Date = po_revision_date,
                     x_generator = 'Weblate %s' % trans.VERSION
                     )
+            self.commit_pending(author)
             store.save()
             self.git_commit(author)
 
