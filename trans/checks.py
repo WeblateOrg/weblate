@@ -107,9 +107,14 @@ def plural_check(f):
 
 @plural_check
 def check_same(source, target, flags, language, unit):
+    # One letter things are usually labels or decimal/thousand separators
+    if len(source) == 1 and len(target) == 1:
+        return False
+
     # English variants will have most things not translated
     if language.code.split('_')[0] == 'en':
         return False
+
     # Ignore words which are often same in foreigh language
     if source.lower() in SAME_BLACKLIST or source.lower().rstrip(': ') in SAME_BLACKLIST:
         return False
@@ -146,7 +151,8 @@ CHECKS['end_newline'] = (_('Trailing newline'), check_end_newline, _('Source and
 
 @plural_check
 def check_end_space(source, target, flags, language, unit):
-    if len(source) == 1 and len(target) == 1:
+    # One letter things are usually decimal/thousand separators
+    if len(source) == 1 and len(target) <= 1:
         return False
     if language.code.split('_')[0] in ['fr', 'br']:
         if len(target) == 0:
