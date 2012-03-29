@@ -29,6 +29,7 @@ class Command(BaseCommand):
             Permission.objects.get(codename = 'upload_translation'),
             Permission.objects.get(codename = 'overwrite_translation'),
             Permission.objects.get(codename = 'commit_translation'),
+            Permission.objects.get(codename = 'update_translation'),
             Permission.objects.get(codename = 'automatic_translation'),
             Permission.objects.get(codename = 'save_translation'),
             Permission.objects.get(codename = 'accept_suggestion'),

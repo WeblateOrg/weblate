@@ -34,6 +34,10 @@ urlpatterns = patterns('',
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.commit_subproject'),
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.commit_translation'),
 
+    url(r'^update/(?P<project>[^/]*)/$', 'trans.views.update_project'),
+    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.update_subproject'),
+    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.update_translation'),
+
     url(r'^languages/$', 'trans.views.show_languages'),
     url(r'^languages/(?P<lang>[^/]*)/$', 'trans.views.show_language'),
 
