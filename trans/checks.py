@@ -115,6 +115,10 @@ def check_same(source, target, flags, language, unit):
     if language.code.split('_')[0] == 'en':
         return False
 
+    # Probably shortcut
+    if source.isupper() and target.isupper():
+        return False
+
     # Ignore words which are often same in foreigh language
     if source.lower() in SAME_BLACKLIST or source.lower().rstrip(': ') in SAME_BLACKLIST:
         return False
