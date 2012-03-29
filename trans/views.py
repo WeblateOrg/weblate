@@ -82,7 +82,7 @@ def show_check_project(request, name, project):
     units = Unit.objects.none()
     for lang in langs:
         checks = Check.objects.filter(check = name, project = prj, language = lang, ignore = False).values_list('checksum', flat = True).distinct()
-        res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject__project = prj).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
+        res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject__project = prj, translated = True).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
         units |= res
     return render_to_response('check_project.html', RequestContext(request, {
         'checks': units,
@@ -101,7 +101,7 @@ def show_check_subproject(request, name, project, subproject):
     units = Unit.objects.none()
     for lang in langs:
         checks = Check.objects.filter(check = name, project = subprj.project, language = lang, ignore = False).values_list('checksum', flat = True).distinct()
-        res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang).values('translation__language__code').annotate(count = Count('id'))
+        res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang, translated = True).values('translation__language__code').annotate(count = Count('id'))
         units |= res
     return render_to_response('check_subproject.html', RequestContext(request, {
         'checks': units,
