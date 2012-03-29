@@ -7,6 +7,12 @@
 {% if needs_commit %}
 <p>{% trans "There are some not commited changes!" %}</p>
 {% endif %}
+{% if object.git_needs_pull %}
+<p>{% trans "Remote Git repository needs to be merged!" %}</p>
+{% endif %}
+{% if object.git_needs_push %}
+<p>{% trans "There are some new commits in local Git repository!" %}</p>
+{% endif %}
 <ul>
 {% if needs_commit %}
 <li><a href="{{ object.get_commit_url }}">{% trans "Commit pending changes" %}</a></li>

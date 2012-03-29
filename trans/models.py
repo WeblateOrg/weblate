@@ -90,6 +90,18 @@ class Project(models.Model):
                 return True
         return False
 
+    def git_needs_pull(self, gitrepo = None):
+        for s in self.subproject_set.all():
+            if s.git_needs_pull():
+                return True
+        return False
+
+    def git_needs_push(self, gitrepo = None):
+        for s in self.subproject_set.all():
+            if s.git_needs_push():
+                return True
+        return False
+
     def commit_pending(self):
         '''
         Commits any pending changes.
@@ -297,6 +309,22 @@ class SubProject(models.Model):
             return False
         return True
 
+    def git_check_merge(self, revision, gitrepo = None):
+        if gitrepo is None:
+            gitrepo = self.get_repo()
+        status = gitrepo.git.log(revision)
+        del gitrepo
+        if status == '':
+            # No changes to merge
+            return False
+        return True
+
+    def git_needs_pull(self, gitrepo = None):
+        return self.git_check_merge('..origin/%s' % self.branch, gitrepo)
+
+    def git_needs_push(self, gitrepo = None):
+        return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
+
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
@@ -496,6 +524,12 @@ class Translation(models.Model):
             # No changes to commit
             return False
         return True
+
+    def git_needs_pull(self):
+        return self.subproject.git_needs_pull()
+
+    def git_needs_push(self):
+        return self.subproject.git_needs_push()
 
     def git_commit(self, author, force_commit = False):
         '''
