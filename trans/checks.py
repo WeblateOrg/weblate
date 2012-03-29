@@ -107,10 +107,13 @@ def plural_check(f):
 
 @plural_check
 def check_same(source, target, flags, language, unit):
+    # English variants will have most things not translated
     if language.code.split('_')[0] == 'en':
         return False
+    # Ignore words which are often same in foreigh language
     if source.lower() in SAME_BLACKLIST or source.lower().rstrip(': ') in SAME_BLACKLIST:
         return False
+
     return (source == target)
 
 CHECKS['same'] = (_('Not translated'), check_same, _('Source and translated strings are same'))
