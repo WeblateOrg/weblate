@@ -198,7 +198,9 @@ $(function() {
             }
         },
         cookie: {
-            expires: 31
+            expires: 31,
+            name: 'translate-tab',
+            path: '/'
         },
         cache: true,
         load: function (e, ui) {
