@@ -25,6 +25,8 @@
 {% endif %}
 {% endwith %}
 
+<h2>{% trans "Tools" %}</h2>
+
 <div class="accordion">
 <h2><a href="#">{% trans "Search" %}</a></h2>
 
@@ -35,7 +37,7 @@
 </form>
 </div>
 
-<h2><a href="#">{% trans "Download" %}</a></h2>
+<h3><a href="#">{% trans "Download" %}</a></h3>
 
 <div>
 {% with object.get_download_url as download_url %}
@@ -44,7 +46,7 @@
 </div>
 
 {% if perms.trans.upload_translation %}
-<h2><a href="#">{% trans "Upload" %}</a></h2>
+<h3><a href="#">{% trans "Upload" %}</a></h3>
 
 <div>
 {% if perms.trans.overwrite_translation %}
@@ -64,7 +66,7 @@
 {% endif %}
 
 {% if autoform %}
-<h2><a href="#">{% trans "Automatic translation" %}</a></h2>
+<h3><a href="#">{% trans "Automatic translation" %}</a></h3>
 <div>
 <p>{% trans "Automatic translation takes existing translations in this project and applies it to current subproject. It can be used to push translations to different branch or to fix inconsistent translations." %}</p>
 <form action="{% url 'trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
