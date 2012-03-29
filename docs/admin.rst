@@ -82,8 +82,9 @@ And enable it's use by defining proper attributes in given repository (eg. in
 Interacting with others
 -----------------------
 
-You can trigger update of underlaying git repository for every subproject by
-accessing URL :file:`/hooks/p/project/subproject/update/`. 
+You can trigger update of underlaying git repository for every subproject or
+project by accessing URL :file:`/hooks/update/project/subproject/` or
+:file:`/hooks/update/project/`.
 
 For GitHub, there is a special URL :file:`/hooks/github/`, which parses GitHub
 notifications and updates related projects automatically.
