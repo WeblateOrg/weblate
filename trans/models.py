@@ -297,7 +297,7 @@ class Translation(models.Model):
             ('overwrite_translation', "Can overwrite with translation upload"),
             ('author_translation', "Can define author of translation upload"),
             ('commit_translation', "Can force commiting of translation"),
-            ('automatic_translation', "Can do automatic translation using other project strings"),
+            ('automatic_translation', "Can do automatic translation"),
         )
 
     def get_fuzzy_percent(self):
