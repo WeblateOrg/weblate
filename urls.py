@@ -43,6 +43,7 @@ urlpatterns = patterns('',
     url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_check_subproject'),
 
     url(r'^hooks/p/(?P<project>[^/]*)/(?P<subproject>[^/]*)/update/$', 'trans.api.update_subproject'),
+    url(r'^hooks/update/(?P<project>[^/]*)/$', 'trans.api.update_project'),
     url(r'^hooks/github/$', 'trans.api.github_hook'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),

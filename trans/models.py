@@ -91,6 +91,13 @@ class Project(models.Model):
         for s in self.subproject_set.all():
             s.commit_pending()
 
+    def do_update(self):
+        '''
+        Updates all git repos.
+        '''
+        for s in self.subproject_set.all():
+            s.do_update()
+
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))

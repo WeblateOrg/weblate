@@ -20,6 +20,17 @@ def update_subproject(request, project, subproject):
     obj.do_update()
     return HttpResponse('updated')
 
+@csrf_exempt
+def update_project(request, project):
+    '''
+    API hook for updating git repos.
+    '''
+    if not settings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
+    obj = get_object_or_404(Project, slug = project)
+    obj.do_update()
+    return HttpResponse('updated')
+
 
 @csrf_exempt
 def github_hook(request):
