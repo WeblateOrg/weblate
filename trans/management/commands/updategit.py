@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from trans.models import SubProject
+from trans.models import SubProject, Project
 from optparse import make_option
 
 class Command(BaseCommand):
@@ -25,5 +25,5 @@ class Command(BaseCommand):
                 s.do_update()
 
             else:
-                for s in SubProject.objects.filter(project__slug = parts[0]):
-                    s.do_update()
+                p = Project.objects.get(slug = parts[0])
+                p.do_update()
