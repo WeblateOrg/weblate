@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-28 16:09+0200\n"
+"POT-Creation-Date: 2012-03-29 14:43+0200\n"
 "PO-Revision-Date: 2012-03-10 04:57+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 0.4\n"
 
-#: urls.py:64 urls.py:70
+#: urls.py:69 urls.py:75
 msgid "User registration"
 msgstr "注册新用户"
 
-#: urls.py:75
+#: urls.py:80
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:81 html/base.html:47 html/registration/login.html:30
+#: urls.py:86 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
-#: urls.py:88
+#: urls.py:93
 msgid "Logged out"
 msgstr "已退出"
 
-#: urls.py:93
+#: urls.py:98
 msgid "Change password"
 msgstr "修改密码"
 
-#: urls.py:97
+#: urls.py:102
 msgid "Password changed"
 msgstr "密码已修改"
 
-#: urls.py:101 urls.py:105 urls.py:109 urls.py:113
+#: urls.py:106 urls.py:110 urls.py:114 urls.py:118
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -294,17 +294,6 @@ msgstr "翻译"
 msgid "Check"
 msgstr ""
 
-#: html/commit-changes.html:5
-msgid "Git maintenance"
-msgstr ""
-
-#: html/commit-changes.html:6
-#, python-format
-msgid ""
-"There are some not commited changes, you might want to <a href=\"%(url)s"
-"\">commit them</a>."
-msgstr ""
-
 #: html/contact.html:7
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
@@ -314,6 +303,30 @@ msgstr "请使用英语，否则我们可能无法理解您的要求。"
 #: html/contact.html:13
 msgid "Send"
 msgstr "发送"
+
+#: html/git-tools.html:4
+msgid "Git maintenance"
+msgstr ""
+
+#: html/git-tools.html:8
+msgid "There are some not commited changes!"
+msgstr ""
+
+#: html/git-tools.html:11
+msgid "Remote Git repository needs to be merged!"
+msgstr ""
+
+#: html/git-tools.html:14
+msgid "There are some new commits in local Git repository!"
+msgstr ""
+
+#: html/git-tools.html:18
+msgid "Commit pending changes"
+msgstr ""
+
+#: html/git-tools.html:22
+msgid "Pull changes from remote repository"
+msgstr ""
 
 #: html/index.html:8
 msgid "Your translations"
@@ -438,6 +451,10 @@ msgstr "子项目"
 msgid "Subproject"
 msgstr "子项目"
 
+#: html/project.html:35 html/subproject.html:24 html/translation.html:28
+msgid "Tools"
+msgstr ""
+
 #: html/project_info.html:2
 msgid "Project website:"
 msgstr "项目网站："
@@ -454,7 +471,12 @@ msgstr "翻译说明："
 msgid "Translations"
 msgstr "翻译"
 
-#: html/subproject.html:23
+#: html/subproject.html:27
+#, fuzzy
+msgid "New language"
+msgstr "语言"
+
+#: html/subproject.html:29
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -616,42 +638,49 @@ msgstr ""
 msgid "Strings to check"
 msgstr "要检查的条目"
 
-#: html/translation.html:28 html/translation.html.py:32
+#: html/translation.html:31 html/translation.html.py:36
 msgid "Search"
 msgstr "搜索"
 
-#: html/translation.html:35
+#: html/translation.html:40
 msgid "Download"
 msgstr "下载"
 
-#: html/translation.html:38
+#: html/translation.html:44
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
 "translation."
 msgstr "您可以<a href=\"%(download_url)s\">下载</a>文件以离线翻译。"
 
-#: html/translation.html:42 html/translation.html.py:55
+#: html/translation.html:49 html/translation.html.py:63
 msgid "Upload"
 msgstr "上传"
 
-#: html/translation.html:45
+#: html/translation.html:53
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
 msgstr ""
 "上传的文件将与当前翻译合并。若您想覆盖已翻译的条目，请选中下面的复选框。"
 
-#: html/translation.html:47
+#: html/translation.html:55
 msgid "Uploaded file will be merged with current translation."
 msgstr ""
 
-#: html/translation.html:60
+#: html/translation.html:69
 #, fuzzy
 msgid "Automatic translation"
 msgstr "翻译"
 
-#: html/translation.html:66
+#: html/translation.html:71
+msgid ""
+"Automatic translation takes existing translations in this project and "
+"applies it to current subproject. It can be used to push translations to "
+"different branch or to fix inconsistent translations."
+msgstr ""
+
+#: html/translation.html:77
 msgid "Process"
 msgstr ""
 
@@ -879,118 +908,118 @@ msgstr "复数形式"
 msgid "Plural form %d"
 msgstr ""
 
-#: trans/checks.py:116
+#: trans/checks.py:128
 #, fuzzy
 msgid "Not translated"
 msgstr "翻译"
 
-#: trans/checks.py:116
+#: trans/checks.py:128
 #, fuzzy
 msgid "Source and translated strings are same"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:134
+#: trans/checks.py:146
 msgid "Starting newline"
 msgstr ""
 
-#: trans/checks.py:134
+#: trans/checks.py:146
 #, fuzzy
 msgid "Source and translated do not both start with a newline"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:140
+#: trans/checks.py:152
 msgid "Trailing newline"
 msgstr ""
 
-#: trans/checks.py:140
+#: trans/checks.py:152
 #, fuzzy
 msgid "Source and translated do not both end with a newline"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:155
+#: trans/checks.py:168
 #, fuzzy
 msgid "Trailing space"
 msgstr "要检查的条目"
 
-#: trans/checks.py:155
+#: trans/checks.py:168
 #, fuzzy
 msgid "Source and translated do not both end with a space"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:165
+#: trans/checks.py:178
 msgid "Trailing stop"
 msgstr ""
 
-#: trans/checks.py:165
+#: trans/checks.py:178
 #, fuzzy
 msgid "Source and translated do not both end with a full stop"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:178
+#: trans/checks.py:191
 #, fuzzy
 msgid "Trailing colon"
 msgstr "翻译"
 
-#: trans/checks.py:178
+#: trans/checks.py:191
 #, fuzzy
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:191
+#: trans/checks.py:204
 #, fuzzy
 msgid "Trailing question"
 msgstr "翻译"
 
-#: trans/checks.py:191
+#: trans/checks.py:204
 #, fuzzy
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:204
+#: trans/checks.py:217
 #, fuzzy
 msgid "Trailing exclamation"
 msgstr "翻译"
 
-#: trans/checks.py:204
+#: trans/checks.py:217
 #, fuzzy
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "未翻译条目 (%d)"
 
-#: trans/checks.py:236
+#: trans/checks.py:249
 msgid "Python format"
 msgstr ""
 
-#: trans/checks.py:236 trans/checks.py:246 trans/checks.py:256
+#: trans/checks.py:249 trans/checks.py:259 trans/checks.py:269
 msgid "Format string does not match source"
 msgstr ""
 
-#: trans/checks.py:246
+#: trans/checks.py:259
 msgid "PHP format"
 msgstr ""
 
-#: trans/checks.py:256
+#: trans/checks.py:269
 msgid "C format"
 msgstr ""
 
-#: trans/checks.py:270
+#: trans/checks.py:283
 msgid "Missing plurals"
 msgstr ""
 
-#: trans/checks.py:270
+#: trans/checks.py:283
 msgid "Some plural forms are not translated"
 msgstr ""
 
-#: trans/checks.py:289
+#: trans/checks.py:302
 msgid "Inconsistent"
 msgstr ""
 
-#: trans/checks.py:289
+#: trans/checks.py:302
 msgid "This message has more than one translation in this project"
 msgstr ""
 
@@ -1070,49 +1099,49 @@ msgstr "子项目"
 msgid "Bad format string (%s)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:95
+#: trans/models.py:120
 msgid "Name to display"
 msgstr ""
 
-#: trans/models.py:96
+#: trans/models.py:121
 msgid "Name used in URLs"
 msgstr ""
 
-#: trans/models.py:98
+#: trans/models.py:123
 msgid "URL of Git repository"
 msgstr "Git 库地址"
 
-#: trans/models.py:100
+#: trans/models.py:125
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
 
-#: trans/models.py:102
+#: trans/models.py:127
 msgid "Git branch to translate"
 msgstr "要翻译的 Git 分支"
 
-#: trans/models.py:103
+#: trans/models.py:128
 #, fuzzy
 msgid "Mask of files to translate, use * instead of language code"
 msgstr "要翻译的文件，使用 * 代替语言代码"
 
-#: trans/models.py:537
+#: trans/models.py:600
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:542
+#: trans/models.py:605
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:544
+#: trans/models.py:607
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:546
+#: trans/models.py:609
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
@@ -1129,68 +1158,68 @@ msgstr ""
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views.py:339
+#: trans/views.py:363
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views.py:359
+#: trans/views.py:383
 msgid "You need to log in to be able to save translations!"
 msgstr "您需要登录才能保存翻译！"
 
-#: trans/views.py:362 trans/views.py:402
+#: trans/views.py:386 trans/views.py:426
 #, fuzzy
 msgid "You don't have privileges to save translations!"
 msgstr "您需要登录才能保存翻译！"
 
-#: trans/views.py:378
+#: trans/views.py:402
 #, fuzzy
 msgid "Some checks have failed on your translation!"
 msgstr "本次翻译已结束。"
 
-#: trans/views.py:396 trans/views.py:434
+#: trans/views.py:420 trans/views.py:458
 msgid "Message you wanted to translate is no longer available!"
 msgstr "您要翻译的条目不存在！"
 
-#: trans/views.py:417
+#: trans/views.py:441
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:440
+#: trans/views.py:464
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:451
+#: trans/views.py:475
 #, fuzzy
 msgid "You do not have privilege to accept suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:461
+#: trans/views.py:485
 #, fuzzy
 msgid "You do not have privilege to delete suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:482
+#: trans/views.py:506
 msgid "Invalid suggestion!"
 msgstr "无效建议！"
 
-#: trans/views.py:527
+#: trans/views.py:551
 msgid "You have reached end of translating."
 msgstr "本次翻译已结束。"
 
-#: trans/views.py:674
+#: trans/views.py:698
 msgid "File content successfully merged into translation."
 msgstr "已成功将文件内容合并到当前翻译。"
 
-#: trans/views.py:676
+#: trans/views.py:700
 msgid "There were no new strings in uploaded file."
 msgstr "上传的文件中没有新翻译的条目。"
 
-#: trans/views.py:678
+#: trans/views.py:702
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "文件内容合并失败：%s"
 
-#: trans/views.py:689
+#: trans/views.py:713
 msgid "Page Not Found"
 msgstr "页面未找到"
 
