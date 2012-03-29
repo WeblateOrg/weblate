@@ -25,22 +25,28 @@
 {% endif %}
 {% endwith %}
 
-<h2>{% trans "Search" %}</h2>
+<div class="accordion">
+<h2><a href="#">{% trans "Search" %}</a></h2>
 
+<div>
 <form action="{{ object.get_translate_url }}" method="GET">
 {{ search_form.as_p }}
 <input type="submit" value="{% trans "Search" %}" class="button" />
 </form>
+</div>
 
-<h2>{% trans "Download" %}</h2>
+<h2><a href="#">{% trans "Download" %}</a></h2>
 
+<div>
 {% with object.get_download_url as download_url %}
 <p>{% blocktrans %}You can <a href="{{ download_url }}">download</a> file for offline translation.{% endblocktrans %}</p>
 {% endwith %}
+</div>
 
 {% if perms.trans.upload_translation %}
-<h2>{% trans "Upload" %}</h2>
+<h2><a href="#">{% trans "Upload" %}</a></h2>
 
+<div>
 {% if perms.trans.overwrite_translation %}
 <p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
 {% else %}
@@ -54,10 +60,12 @@
 </table>
 <p><input type="submit" value="{% trans "Upload" %}" /></p>
 </form>
+</div>
 {% endif %}
 
 {% if autoform %}
-<h2>{% trans "Automatic translation" %}</h2>
+<h2><a href="#">{% trans "Automatic translation" %}</a></h2>
+<div>
 <form action="{% url 'trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
@@ -65,9 +73,11 @@
 </table>
 <p><input type="submit" value="{% trans "Process" %}" /></p>
 </form>
+</div>
 {% endif %}
 
 {% include "commit-changes.html" %}
+</div>
 
 {% endblock %}
 
