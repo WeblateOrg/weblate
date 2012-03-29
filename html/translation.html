@@ -66,6 +66,7 @@
 {% if autoform %}
 <h2><a href="#">{% trans "Automatic translation" %}</a></h2>
 <div>
+<p>{% trans "Automatic translation takes existing translations in this project and applies it to current subproject. It can be used to push translations to different branch or to fix inconsistent translations." %}</p>
 <form action="{% url 'trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
