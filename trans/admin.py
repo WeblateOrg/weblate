@@ -5,6 +5,24 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
+    actions = ['update_from_git', 'update_checks', 'force_commit']
+
+    def update_from_git(self, request, queryset):
+        for s in queryset:
+            s.do_update()
+        self.message_user(request, "Updated %d git repos." % queryset.count())
+
+    def update_checks(self, request, queryset):
+        cnt = 0
+        for unit in Unit.objects.filter(translation__subproject__project__in = queryset).iterator():
+            unit.check()
+            cnt += 1
+        self.message_user(request, "Updated checks for %d units." % cnt)
+
+    def force_commit(self, request, queryset):
+        for s in queryset:
+            s.commit_pending()
+        self.message_user(request, "Flushed changes in %d git repos." % queryset.count())
 
 admin.site.register(Project, ProjectAdmin)
 
