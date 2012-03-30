@@ -67,7 +67,8 @@ class UnitAdmin(admin.ModelAdmin):
 admin.site.register(Unit, UnitAdmin)
 
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ['checksum', 'target']
+    list_display = ['checksum', 'target', 'project', 'language', 'user']
+    list_filter = ['project', 'language']
     search_fields = ['checksum', 'target']
 
 admin.site.register(Suggestion, SuggestionAdmin)
