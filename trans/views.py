@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q, Count
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
@@ -123,11 +123,50 @@ def show_language(request, lang):
         'object': obj,
     }))
 
+def show_dictionaries(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
+
+    return render_to_response('dictionaries.html', RequestContext(request, {
+        'title': _('Dictionaries'),
+        'dicts': Language.objects.filter(id__in = dicts),
+        'project': obj,
+    }))
+
+def show_dictionary(request, project, lang):
+    prj = get_object_or_404(Project, slug = project)
+    lang = get_object_or_404(Language, code = lang)
+
+    words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
+
+    limit = request.GET.get('limit', 25)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(words, limit)
+
+    try:
+        words = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        words = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        words = paginator.page(paginator.num_pages)
+
+    return render_to_response('dictionary.html', RequestContext(request, {
+        'title': _('%(language)s dictionary for %(project)s') % {'language': lang, 'project': prj},
+        'project': prj,
+        'language': lang,
+        'words': words,
+    }))
+
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
+    dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
+        'dicts': Language.objects.filter(id__in = dicts),
     }))
 
 def show_subproject(request, project, subproject):

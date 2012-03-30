@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcums %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'trans.views.show_dictionaries' project=project.slug %}">{% trans "dictionaries" %}</a></li>
+{% endblock %}
+
+{% block content %}
+<ul>
+{% for dict in dicts %}
+<li><a href="{% url 'trans.views.show_dictionary' project=project.slug lang=dict.code %}">{{ dict }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
