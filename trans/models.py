@@ -113,8 +113,10 @@ class Project(models.Model):
         '''
         Updates all git repos.
         '''
+        ret = True
         for s in self.subproject_set.all():
-            s.do_update()
+            ret &= s.do_update()
+        return ret
 
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
@@ -216,8 +218,9 @@ class SubProject(models.Model):
         Wrapper for doing repository update and pushing them to translations.
         '''
         self.commit_pending()
-        self.update_branch()
+        ret = self.update_branch()
         self.create_translations()
+        return ret
 
     def commit_pending(self):
         '''
@@ -233,9 +236,11 @@ class SubProject(models.Model):
         gitrepo = self.get_repo()
         logger.info('pulling from remote repo %s', self.__unicode__())
         gitrepo.remotes.origin.update()
+        ret = False
         try:
             gitrepo.git.merge('origin/%s' % self.branch)
             logger.info('merged remote into repo %s', self.__unicode__())
+            ret = True
         except Exception, e:
             status = gitrepo.git.status()
             gitrepo.git.merge('--abort')
@@ -247,6 +252,7 @@ class SubProject(models.Model):
                 msg
             )
         del gitrepo
+        return ret
 
     def get_translation_blobs(self):
         '''

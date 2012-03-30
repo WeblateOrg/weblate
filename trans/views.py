@@ -237,9 +237,11 @@ def commit_translation(request, project, subproject, lang):
 @permission_required('trans.update_translation')
 def update_project(request, project):
     obj = get_object_or_404(Project, slug = project)
-    obj.do_update()
 
-    messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+    if obj.do_update():
+        messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+    else:
+        messages.add_message(request, messages.WARNING, _('Some repositories could not be merged.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -247,9 +249,11 @@ def update_project(request, project):
 @permission_required('trans.update_translation')
 def update_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
-    obj.do_update()
 
-    messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+    if obj.do_update():
+        messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+    else:
+        messages.add_message(request, messages.WARNING, _('Some repositories could not be merged.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -257,9 +261,11 @@ def update_subproject(request, project, subproject):
 @permission_required('trans.update_translation')
 def update_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
-    obj.do_update()
 
-    messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+    if obj.do_update():
+        messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+    else:
+        messages.add_message(request, messages.WARNING, _('Some repositories could not be merged.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
