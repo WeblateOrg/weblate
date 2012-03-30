@@ -937,6 +937,13 @@ class Dictionary(models.Model):
     source = models.CharField(max_length = 200, db_index = True)
     target = models.CharField(max_length = 200)
 
+    class Meta:
+        ordering = ['source']
+        permissions = (
+            ('upload_dictionary', "Can import dictionary"),
+            ('add_dictionary', "Can add words dictionary"),
+        )
+
     def __unicode__(self):
         return '%s/%s: %s -> %s' % (
             self.project,
