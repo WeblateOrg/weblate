@@ -133,6 +133,8 @@ def show_dictionaries(request, project):
         'project': obj,
     }))
 
+@login_required
+@permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
     return HttpResponseRedirect('/')
 
@@ -140,7 +142,7 @@ def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)
     lang = get_object_or_404(Language, code = lang)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.has_perm('trans.add_dictionary'):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(

@@ -51,6 +51,7 @@
 </ul>
 {% endif %}
 
+{% if perms.trans.add_dictionary %}
 <h2>{% trans "Add new word" %}</h2>
 
 <form method="POST">
@@ -60,7 +61,9 @@
 </table>
 <input type="submit" value="{% trans "Add" %}" />
 </form>
+{% endif %}
 
+{% if perms.trans.upload_dictionary %}
 <h2>{% trans "Import dictionary" %}</h2>
 
 <form action="{% url 'trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
@@ -70,7 +73,6 @@
 </table>
 <input type="submit" value="{% trans "Import" %}" />
 </form>
-
-
+{% endif %}
 
 {% endblock %}
