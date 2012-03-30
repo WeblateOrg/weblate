@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from django.core.management.base import BaseCommand, CommandError
 from lang.models import Language
 from translate.lang import data
@@ -22,8 +23,14 @@ class Command(BaseCommand):
             if code == 'ia':
                 lang.name = 'Interlingua'
             # Shorten name
-            if code == 'el':
+            elif code == 'el':
                 lang.name = 'Greek'
+            elif code == 'st':
+                lang.name = 'Sotho'
+            elif code == 'oc':
+                lang.name = 'Occitan'
+            elif code == 'nb':
+                lang.name = 'Norwegian Bokmål'
             # Workaround bug in data
             if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
                 lang.nplurals = 4
