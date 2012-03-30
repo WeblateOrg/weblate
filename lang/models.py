@@ -12,7 +12,7 @@ class Language(models.Model):
         ordering = ['name']
 
     def __unicode__(self):
-        return self.name
+        return _(self.name)
 
     def get_plural_form(self):
         return 'nplurals=%d; plural=%s;' % (self.nplurals, self.pluralequation)

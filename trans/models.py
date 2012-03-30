@@ -65,7 +65,7 @@ class Project(models.Model):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
     def __unicode__(self):
-        return _(self.name)
+        return self.name
 
     def save(self, *args, **kwargs):
         # Create filesystem directory for storing data
