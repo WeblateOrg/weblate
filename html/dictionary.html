@@ -39,7 +39,7 @@
 <li class="disabled"><span>&laquo;</span></li>
 {% endif %}
 {% for page in words.paginator.page_range %}
-<li {% ifequal page words.number %} class="active" {% endifequal %}><a href="?page={{ page }}&{{ urlparams }}">{{ page }}</a></li>
+<li {% ifequal page words.number %} class="active" {% endifequal %}><a href="?page={{ page }}">{{ page }}</a></li>
 {% endfor %}
 {% if words.has_next %}
 <li><a href="?page={{ words.next_page_number }}">&raquo;</a></li>
