@@ -11,6 +11,8 @@
 {% block content %}
 
 
+{% if words.object_list %}
+
 <table>
 <thead>
 <tr>
@@ -29,5 +31,23 @@
 {% endfor %}
 </tbody>
 </table>
+
+<ul class="pages">
+{% if words.has_previous %}
+<li><a href="?page={{ words.previous_page_number }}">&laquo;</a></li>
+{% else %}
+<li class="disabled"><span>&laquo;</span></li>
+{% endif %}
+{% for page in words.paginator.page_range %}
+<li {% ifequal page words.number %} class="active" {% endifequal %}><a href="?page={{ page }}&{{ urlparams }}">{{ page }}</a></li>
+{% endfor %}
+{% if words.has_next %}
+<li><a href="?page={{ words.next_page_number }}">&raquo;</a></li>
+{% else %}
+<li class="disabled"><span>&raquo;</span></li>
+{% endif %}
+</ul>
+{% endif %}
+
 
 {% endblock %}
