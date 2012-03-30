@@ -6,7 +6,7 @@
 {% block breadcums %}
 <li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
 <li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
-<li><a href="{{ unit.translation.get_absolute_url }}">{% trans unit.translation.language.name %}</a></li>
+<li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
 <li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
 {% endblock %}
 
@@ -40,7 +40,7 @@
 {% if secondary %}
 {% for unit in secondary %}
 <tr>
-<th class="source">{% trans unit.translation.language.name %}</th>
+<th class="source">{{ unit.translation.language }}</th>
 <td class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</td>
 </tr>
 {% endfor %}

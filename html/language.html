@@ -4,7 +4,7 @@
 
 {% block breadcums %}
 <li><a href="{% url 'trans.views.show_languages' %}">{% trans "languages" %}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{% trans object.name %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
 {% endblock %}
 
 {% block content %}
