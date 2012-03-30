@@ -130,6 +130,7 @@ def show_dictionaries(request, project):
     return render_to_response('dictionaries.html', RequestContext(request, {
         'title': _('Dictionaries'),
         'dicts': Language.objects.filter(id__in = dicts),
+        'project': obj,
     }))
 
 def show_dictionary(request, project, lang):
