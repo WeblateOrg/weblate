@@ -137,9 +137,13 @@ def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)
     lang = get_object_or_404(Language, code = lang)
 
+    words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
+
     return render_to_response('dictionary.html', RequestContext(request, {
+        'title': _('%(language)s dictionary for %(project)s') % {'language': lang, 'project': prj},
         'project': prj,
         'language': lang,
+        'words': words,
     }))
 
 def show_project(request, project):
