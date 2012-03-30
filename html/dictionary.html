@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcums %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'trans.views.show_dictionaries' project=project.slug %}">{% trans "dictionaries" %}</a></li>
+<li><a href="{% url 'trans.views.show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Source" %}</th>
+<th>{% trans "Translation" %}</th>
+<th>{% trans "Actions" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for word in words %}
+<tr>
+<td class="translatetext">{{ word.source }}</td>
+<td class="translatetext">{{ word.target }}</td>
+<td></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
