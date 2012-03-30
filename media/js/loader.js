@@ -164,7 +164,6 @@ $(function() {
                 thIndex += 1;
             }
             th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort ui-icon ui-icon-carat-2-n-s" />');
-//            .wrapInner('<span class="sort" title="' +  + '"/>')
 
             th.click(function(){
 
