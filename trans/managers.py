@@ -242,6 +242,10 @@ class DictionaryManager(models.Manager):
 
         store = factory.getobject(fileobj)
         for unit in store.units:
+            # We care only about translated things
+            if not unit.istranslatable() or not unit.istranslated():
+                continue
+
             # Ignore too long words
             if len(unit.source) > 200 or len(unit.target) > 200:
                 continue
