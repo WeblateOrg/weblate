@@ -123,11 +123,31 @@ def show_language(request, lang):
         'object': obj,
     }))
 
+def show_dictionaries(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
+
+    return render_to_response('dictionaries.html', RequestContext(request, {
+        'title': _('Dictionaries'),
+        'dicts': Language.objects.filter(id__in = dicts),
+    }))
+
+def show_dictionary(request, project, lang):
+    prj = get_object_or_404(Project, slug = project)
+    lang = get_object_or_404(Language, code = lang)
+
+    return render_to_response('dictionary.html', RequestContext(request, {
+        'project': prj,
+        'language': lang,
+    }))
+
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
+    dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
+        'dicts': Language.objects.filter(id__in = dicts),
     }))
 
 def show_subproject(request, project, subproject):
