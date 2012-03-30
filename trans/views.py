@@ -209,7 +209,7 @@ def commit_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     obj.commit_pending()
 
-    messages.add_message(request, messages.INFO, _('All pending translations were commited.'))
+    messages.add_message(request, messages.INFO, _('All pending translations were committed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -219,7 +219,7 @@ def commit_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     obj.commit_pending()
 
-    messages.add_message(request, messages.INFO, _('All pending translations were commited.'))
+    messages.add_message(request, messages.INFO, _('All pending translations were committed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -229,7 +229,7 @@ def commit_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     obj.commit_pending()
 
-    messages.add_message(request, messages.INFO, _('All pending translations were commited.'))
+    messages.add_message(request, messages.INFO, _('All pending translations were committed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
