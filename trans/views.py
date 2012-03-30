@@ -209,6 +209,8 @@ def commit_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     obj.commit_pending()
 
+    messages.add_message(request, messages.INFO, _('All pending translations were commited.'))
+
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
@@ -216,6 +218,8 @@ def commit_project(request, project):
 def commit_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     obj.commit_pending()
+
+    messages.add_message(request, messages.INFO, _('All pending translations were commited.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -225,6 +229,8 @@ def commit_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     obj.commit_pending()
 
+    messages.add_message(request, messages.INFO, _('All pending translations were commited.'))
+
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
@@ -232,6 +238,8 @@ def commit_translation(request, project, subproject, lang):
 def update_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     obj.do_update()
+
+    messages.add_message(request, messages.INFO, _('All repositories were updated.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -241,6 +249,8 @@ def update_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     obj.do_update()
 
+    messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
@@ -248,6 +258,8 @@ def update_subproject(request, project, subproject):
 def update_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     obj.do_update()
+
+    messages.add_message(request, messages.INFO, _('All repositories were updated.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
