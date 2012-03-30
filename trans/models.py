@@ -941,7 +941,6 @@ class Dictionary(models.Model):
         ordering = ['source']
         permissions = (
             ('upload_dictionary', "Can import dictionary"),
-            ('add_dictionary', "Can add words dictionary"),
         )
 
     def __unicode__(self):
