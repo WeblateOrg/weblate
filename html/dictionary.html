@@ -61,5 +61,16 @@
 <input type="submit" value="{% trans "Add" %}" />
 </form>
 
+<h2>{% trans "Import dictionary" %}</h2>
+
+<form action="{% url 'trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+{{ uploadform.as_table }}
+</table>
+<input type="submit" value="{% trans "Import" %}" />
+</form>
+
+
 
 {% endblock %}

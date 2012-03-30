@@ -133,6 +133,9 @@ def show_dictionaries(request, project):
         'project': obj,
     }))
 
+def upload_dictionary(request, project, lang):
+    return HttpResponseRedirect('/')
+
 def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)
     lang = get_object_or_404(Language, code = lang)
