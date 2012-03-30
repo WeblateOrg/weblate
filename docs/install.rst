@@ -9,7 +9,7 @@ Django
 Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
 GitPython (>= 0.3)
-    http://gitorious.org/projects/git-python/
+    https://github.com/gitpython-developers/GitPython
 Django-registration
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
