@@ -117,3 +117,7 @@ class AutoForm(forms.Form):
 class WordForm(forms.Form):
     source = forms.CharField(label = _('Source'))
     target = forms.CharField(label = _('Translation'))
+
+class DictUploadForm(forms.Form):
+    file  = forms.FileField(label = _('File'))
+    overwrite = forms.BooleanField(label = _('Overwrite existing'), required = False)

@@ -10,10 +10,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
@@ -136,7 +137,18 @@ def show_dictionaries(request, project):
 @login_required
 @permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
-    return HttpResponseRedirect('/')
+    prj = get_object_or_404(Project, slug = project)
+    lang = get_object_or_404(Language, code = lang)
+
+    if request.method == 'POST':
+        form = DictUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            messages.add_message(request, messages.INFO, _('Imported words from file.'))
+        else:
+            messages.add_message(request, messages.ERROR, _('Failed to process form!'))
+    else:
+        messages.add_message(request, messages.ERROR, _('Failed to process form!'))
+    return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
 
 def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)
@@ -154,6 +166,8 @@ def show_dictionary(request, project, lang):
         return HttpResponseRedirect(request.get_full_path())
     else:
         form = WordForm()
+
+    uploadform = DictUploadForm()
 
     words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
 
@@ -177,6 +191,7 @@ def show_dictionary(request, project, lang):
         'language': lang,
         'words': words,
         'form': form,
+        'uploadform': uploadform,
     }))
 
 def show_project(request, project):
