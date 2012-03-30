@@ -231,3 +231,7 @@ class UnitManager(models.Manager):
             translation__subproject__project = unit.translation.subproject.project,
             translation__language = unit.translation.language
         )
+
+class DictionaryManager(models.Manager):
+    def upload(self, project, language, fileobj):
+        return 0

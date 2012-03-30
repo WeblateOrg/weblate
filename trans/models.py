@@ -22,7 +22,7 @@ from datetime import datetime
 
 import trans
 import trans.checks
-from trans.managers import TranslationManager, UnitManager
+from trans.managers import TranslationManager, UnitManager, DictionaryManager
 from util import is_plural, split_plural, join_plural
 
 logger = logging.getLogger('weblate')
@@ -936,6 +936,8 @@ class Dictionary(models.Model):
     language = models.ForeignKey(Language)
     source = models.CharField(max_length = 200, db_index = True)
     target = models.CharField(max_length = 200)
+
+    objects = DictionaryManager()
 
     class Meta:
         ordering = ['source']
