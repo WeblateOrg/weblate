@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-30 11:33+0200\n"
+"POT-Creation-Date: 2012-03-30 14:50+0200\n"
 "PO-Revision-Date: 2012-03-26 17:59+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:69 urls.py:75
+#: urls.py:76 urls.py:82
 msgid "User registration"
 msgstr "Gebruikersregistratie"
 
-#: urls.py:80
+#: urls.py:87
 msgid "Account activation"
 msgstr "Account activering"
 
-#: urls.py:86 html/base.html:47 html/registration/login.html:30
+#: urls.py:93 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Aanmelden"
 
-#: urls.py:93
+#: urls.py:100
 msgid "Logged out"
 msgstr "Uitgelogd"
 
-#: urls.py:98
+#: urls.py:105
 msgid "Change password"
 msgstr "Wachtwoord wijzigen"
 
-#: urls.py:102
+#: urls.py:109
 msgid "Password changed"
 msgstr "Wachtwoord gewijzigd"
 
-#: urls.py:106 urls.py:110 urls.py:114 urls.py:118
+#: urls.py:113 urls.py:117 urls.py:121 urls.py:125
 msgid "Password reset"
 msgstr "Wachtwoord gereset"
 
@@ -190,7 +190,7 @@ msgstr "Details van de fout :"
 msgid "Interface Language"
 msgstr "Taal van de interface"
 
-#: accounts/models.py:23 trans/views.py:116
+#: accounts/models.py:23 trans/views.py:117
 msgid "Languages"
 msgstr "Talen"
 
@@ -270,7 +270,7 @@ msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Aangedreven door <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 trans/views.py:774
+#: html/base.html:75 trans/views.py:886
 msgid "About Weblate"
 msgstr ""
 
@@ -305,9 +305,9 @@ msgstr "Project"
 msgid "Failures"
 msgstr ""
 
-#: html/check_subproject.html:26 html/index.html:46 html/translate.html:63
-#: html/translate.html.py:165 html/js/dictionary.html:6 html/js/other.html:6
-#: html/js/similar.html:6
+#: html/check_subproject.html:26 html/dictionary.html:22 html/index.html:46
+#: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
+#: html/js/other.html:6 html/js/similar.html:6 trans/forms.py:119
 msgid "Translation"
 msgstr "Vertaling"
 
@@ -326,6 +326,67 @@ msgstr ""
 #: html/contact.html:13
 msgid "Send"
 msgstr "Verzenden"
+
+#: html/dictionaries.html:7 html/dictionary.html:7 html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr ""
+
+#: html/dictionary.html:16
+#, fuzzy
+msgid "Dictionary"
+msgstr "Woorden in het woordenboek"
+
+#: html/dictionary.html:21 html/translate.html:49 html/translate.html.py:165
+#: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
+#: trans/forms.py:118
+msgid "Source"
+msgstr "Bron"
+
+#: html/dictionary.html:23
+#, fuzzy
+msgid "Actions"
+msgstr "Alle locaties"
+
+#: html/dictionary.html:36
+msgid "Edit"
+msgstr ""
+
+#: html/dictionary.html:45
+msgid "Delete"
+msgstr ""
+
+#: html/dictionary.html:72
+msgid "Add new word"
+msgstr ""
+
+#: html/dictionary.html:79
+msgid "Add"
+msgstr ""
+
+#: html/dictionary.html:84
+#, fuzzy
+msgid "Import dictionary"
+msgstr "Woorden in het woordenboek"
+
+#: html/dictionary.html:86
+msgid ""
+"You can upload any format which is understood by Translate Toolkit for "
+"example csv or po file."
+msgstr ""
+
+#: html/dictionary.html:93
+#, fuzzy
+msgid "Import"
+msgstr "Rapporten"
+
+#: html/edit_dictionary.html:14
+#, fuzzy
+msgid "Change word"
+msgstr "Wachtwoord wijzigen"
+
+#: html/edit_dictionary.html:21 html/profile.html:40 html/translate.html:138
+msgid "Save"
+msgstr "Opslaan"
 
 #: html/git-tools.html:4
 msgid "Git maintenance"
@@ -360,7 +421,7 @@ msgid "Projects"
 msgstr "Projecten"
 
 #: html/index.html:22 html/index.html.py:66 html/languages.html:15
-#: html/list-translations.html:7 html/project.html:20
+#: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Vertaald"
 
@@ -417,7 +478,7 @@ msgstr "Taal"
 msgid "Fuzzy"
 msgstr "Vaag"
 
-#: html/list-translations.html:9 trans/views.py:60
+#: html/list-translations.html:9 trans/views.py:61
 msgid "Checks"
 msgstr ""
 
@@ -466,24 +527,28 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "U kan uw wachtwoord wijzigen op een <a href=\"%(pw_url)s\">aparte pagina</a>."
 
-#: html/profile.html:40 html/translate.html:138
-msgid "Save"
-msgstr "Opslaan"
-
-#: html/project.html:10 html/subproject.html:11 html/translation.html:13
+#: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"
 msgstr "Projectinformatie"
 
-#: html/project.html:14
+#: html/project.html:15
 msgid "Subprojects"
 msgstr "Subproject"
 
-#: html/project.html:19
+#: html/project.html:20
 msgid "Subproject"
 msgstr "Subproject"
 
-#: html/project.html:35 html/subproject.html:24 html/translation.html:28
+#: html/project.html:36 html/subproject.html:24 html/translation.html:28
 msgid "Tools"
+msgstr ""
+
+#: html/project.html:39 trans/views.py:132
+msgid "Dictionaries"
+msgstr ""
+
+#: html/project.html:45
+msgid "Manage all dictionaries"
 msgstr ""
 
 #: html/project_info.html:2
@@ -554,11 +619,6 @@ msgstr "Laatste"
 #, python-format
 msgid "Searching for \"%(search_query)s\"."
 msgstr "Er wordt gezocht op \"%(search_query)s\"."
-
-#: html/translate.html:49 html/translate.html.py:165 html/js/dictionary.html:6
-#: html/js/other.html:6 html/js/similar.html:6
-msgid "Source"
-msgstr "Bron"
 
 #: html/translate.html:54
 msgid "Context"
@@ -1088,7 +1148,7 @@ msgstr ""
 msgid "Plural equation"
 msgstr "Meervoudsformule"
 
-#: trans/forms.py:79
+#: trans/forms.py:79 trans/forms.py:122
 msgid "File"
 msgstr "Bestand"
 
@@ -1148,6 +1208,11 @@ msgstr "Subproject"
 msgid "All subprojects"
 msgstr "Subproject"
 
+#: trans/forms.py:123
+#, fuzzy
+msgid "Overwrite existing"
+msgstr "Bestaande vertalingen overschrijven"
+
 #: trans/models.py:34
 #, python-format
 msgid "Bad format string (%s)"
@@ -1202,84 +1267,98 @@ msgstr "Vage tekenreeksen (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/views.py:179
-msgid "Automatic translation completed."
+#: trans/views.py:155 trans/views.py:228
+#, python-format
+msgid "%(language)s dictionary for %(project)s"
 msgstr ""
 
-#: trans/views.py:181
+#: trans/views.py:183
+msgid "No words to import found in file."
+msgstr ""
+
+#: trans/views.py:185
+#, python-format
+msgid "Imported %d words from file."
+msgstr ""
+
+#: trans/views.py:187 trans/views.py:189 trans/views.py:293
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views.py:212 trans/views.py:222 trans/views.py:232
+#: trans/views.py:291
+msgid "Automatic translation completed."
+msgstr ""
+
+#: trans/views.py:324 trans/views.py:334 trans/views.py:344
 msgid "All pending translations were committed."
 msgstr ""
 
-#: trans/views.py:242 trans/views.py:254 trans/views.py:266
+#: trans/views.py:354 trans/views.py:366 trans/views.py:378
 msgid "All repositories were updated."
 msgstr ""
 
-#: trans/views.py:244 trans/views.py:256 trans/views.py:268
+#: trans/views.py:356 trans/views.py:368 trans/views.py:380
 msgid "Some repositories could not be merged."
 msgstr ""
 
-#: trans/views.py:381
+#: trans/views.py:493
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views.py:401
+#: trans/views.py:513
 msgid "You need to log in to be able to save translations!"
 msgstr "U moet aanmelden om vertalingen te kunnen opslaan!"
 
-#: trans/views.py:404 trans/views.py:444
+#: trans/views.py:516 trans/views.py:556
 msgid "You don't have privileges to save translations!"
 msgstr "U heeft niet de juiste rechten om vertalingen op te slaan!"
 
-#: trans/views.py:420
+#: trans/views.py:532
 msgid "Some checks have failed on your translation!"
 msgstr "Sommige controles zijn mislukt bij uw vertaling!"
 
-#: trans/views.py:438 trans/views.py:476
+#: trans/views.py:550 trans/views.py:588
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Het bericht dat u wilde vertalen is niet langer beschikbaar!"
 
-#: trans/views.py:459
+#: trans/views.py:571
 msgid "Can not merge different messages!"
 msgstr "De verschillende berichten konden niet samengevoegd worden!"
 
-#: trans/views.py:482
+#: trans/views.py:594
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "U moet aanmelden om suggesties te kunnen beheren!"
 
-#: trans/views.py:493
+#: trans/views.py:605
 msgid "You do not have privilege to accept suggestions!"
 msgstr "U heeft niet de juiste rechten om suggesties te aanvaarden!"
 
-#: trans/views.py:503
+#: trans/views.py:615
 msgid "You do not have privilege to delete suggestions!"
 msgstr "U heeft niet de juiste rechten om suggesties te verwijderen!"
 
-#: trans/views.py:524
+#: trans/views.py:636
 msgid "Invalid suggestion!"
 msgstr "Ongeldige suggestie!"
 
-#: trans/views.py:569
+#: trans/views.py:681
 msgid "You have reached end of translating."
 msgstr "U heeft de vertaling afgewerkt."
 
-#: trans/views.py:716
+#: trans/views.py:828
 msgid "File content successfully merged into translation."
 msgstr "Bestandsinhoud werd succesvol samengevoegd met de vertaling."
 
-#: trans/views.py:718
+#: trans/views.py:830
 msgid "There were no new strings in uploaded file."
 msgstr "Het upgeloade bestand bevat geen nieuwe tekenreeksen."
 
-#: trans/views.py:720
+#: trans/views.py:832
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Samenvoegen van bestandsinhoud is mislukt : %s"
 
-#: trans/views.py:731
+#: trans/views.py:843
 msgid "Page Not Found"
 msgstr "Pagina niet gevonden"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-30 11:33+0200\n"
+"POT-Creation-Date: 2012-03-30 14:50+0200\n"
 "PO-Revision-Date: 2012-03-30 13:59+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:69 urls.py:75
+#: urls.py:76 urls.py:82
 msgid "User registration"
 msgstr "Registro de usuario"
 
-#: urls.py:80
+#: urls.py:87
 msgid "Account activation"
 msgstr "Activación de cuenta"
 
-#: urls.py:86 html/base.html:47 html/registration/login.html:30
+#: urls.py:93 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: urls.py:93
+#: urls.py:100
 msgid "Logged out"
 msgstr "Sesión finalizada"
 
-#: urls.py:98
+#: urls.py:105
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
-#: urls.py:102
+#: urls.py:109
 msgid "Password changed"
 msgstr "Contraseña modificada"
 
-#: urls.py:106 urls.py:110 urls.py:114 urls.py:118
+#: urls.py:113 urls.py:117 urls.py:121 urls.py:125
 msgid "Password reset"
 msgstr "Reinicializar contraseña"
 
@@ -188,7 +188,7 @@ msgstr "Detalles de error:"
 msgid "Interface Language"
 msgstr "Idioma de la interfaz"
 
-#: accounts/models.py:23 trans/views.py:116
+#: accounts/models.py:23 trans/views.py:117
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -272,7 +272,7 @@ msgstr "Inicio"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Funciona con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 trans/views.py:774
+#: html/base.html:75 trans/views.py:886
 msgid "About Weblate"
 msgstr "Sobre Weblate"
 
@@ -308,9 +308,9 @@ msgstr "Proyecto"
 msgid "Failures"
 msgstr "Fallos"
 
-#: html/check_subproject.html:26 html/index.html:46 html/translate.html:63
-#: html/translate.html.py:165 html/js/dictionary.html:6 html/js/other.html:6
-#: html/js/similar.html:6
+#: html/check_subproject.html:26 html/dictionary.html:22 html/index.html:46
+#: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
+#: html/js/other.html:6 html/js/similar.html:6 trans/forms.py:119
 msgid "Translation"
 msgstr "Traducción"
 
@@ -329,6 +329,67 @@ msgstr ""
 #: html/contact.html:13
 msgid "Send"
 msgstr "Enviar"
+
+#: html/dictionaries.html:7 html/dictionary.html:7 html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr ""
+
+#: html/dictionary.html:16
+#, fuzzy
+msgid "Dictionary"
+msgstr "Palabras en el diccionario"
+
+#: html/dictionary.html:21 html/translate.html:49 html/translate.html.py:165
+#: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
+#: trans/forms.py:118
+msgid "Source"
+msgstr "Original"
+
+#: html/dictionary.html:23
+#, fuzzy
+msgid "Actions"
+msgstr "Todas las ubicaciones"
+
+#: html/dictionary.html:36
+msgid "Edit"
+msgstr ""
+
+#: html/dictionary.html:45
+msgid "Delete"
+msgstr ""
+
+#: html/dictionary.html:72
+msgid "Add new word"
+msgstr ""
+
+#: html/dictionary.html:79
+msgid "Add"
+msgstr ""
+
+#: html/dictionary.html:84
+#, fuzzy
+msgid "Import dictionary"
+msgstr "Palabras en el diccionario"
+
+#: html/dictionary.html:86
+msgid ""
+"You can upload any format which is understood by Translate Toolkit for "
+"example csv or po file."
+msgstr ""
+
+#: html/dictionary.html:93
+#, fuzzy
+msgid "Import"
+msgstr "Reportes"
+
+#: html/edit_dictionary.html:14
+#, fuzzy
+msgid "Change word"
+msgstr "Cambiar contraseña"
+
+#: html/edit_dictionary.html:21 html/profile.html:40 html/translate.html:138
+msgid "Save"
+msgstr "Guardar"
 
 #: html/git-tools.html:4
 msgid "Git maintenance"
@@ -363,7 +424,7 @@ msgid "Projects"
 msgstr "Proyectos"
 
 #: html/index.html:22 html/index.html.py:66 html/languages.html:15
-#: html/list-translations.html:7 html/project.html:20
+#: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Traducido"
 
@@ -419,7 +480,7 @@ msgstr "Idioma"
 msgid "Fuzzy"
 msgstr "Parcial"
 
-#: html/list-translations.html:9 trans/views.py:60
+#: html/list-translations.html:9 trans/views.py:61
 msgid "Checks"
 msgstr "Chequeos"
 
@@ -469,25 +530,29 @@ msgstr ""
 "Puede cambiar su contraseña en la <a href=\"%(pw_url)s\">página específica "
 "para ello</a>."
 
-#: html/profile.html:40 html/translate.html:138
-msgid "Save"
-msgstr "Guardar"
-
-#: html/project.html:10 html/subproject.html:11 html/translation.html:13
+#: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"
 msgstr "Información del proyecto"
 
-#: html/project.html:14
+#: html/project.html:15
 msgid "Subprojects"
 msgstr "Subproyectos"
 
-#: html/project.html:19
+#: html/project.html:20
 msgid "Subproject"
 msgstr "Subproyecto"
 
-#: html/project.html:35 html/subproject.html:24 html/translation.html:28
+#: html/project.html:36 html/subproject.html:24 html/translation.html:28
 msgid "Tools"
 msgstr "Herramientas"
+
+#: html/project.html:39 trans/views.py:132
+msgid "Dictionaries"
+msgstr ""
+
+#: html/project.html:45
+msgid "Manage all dictionaries"
+msgstr ""
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -556,11 +621,6 @@ msgstr "Último"
 #, python-format
 msgid "Searching for \"%(search_query)s\"."
 msgstr "Buscando «%(search_query)s»."
-
-#: html/translate.html:49 html/translate.html.py:165 html/js/dictionary.html:6
-#: html/js/other.html:6 html/js/similar.html:6
-msgid "Source"
-msgstr "Original"
 
 #: html/translate.html:54
 msgid "Context"
@@ -1089,7 +1149,7 @@ msgstr ""
 msgid "Plural equation"
 msgstr "Ecuación de plural"
 
-#: trans/forms.py:79
+#: trans/forms.py:79 trans/forms.py:122
 msgid "File"
 msgstr "Archivo"
 
@@ -1145,6 +1205,11 @@ msgstr "Subproyecto a utilizar"
 msgid "All subprojects"
 msgstr "Todos los subproyectos"
 
+#: trans/forms.py:123
+#, fuzzy
+msgid "Overwrite existing"
+msgstr "Sobrescribir cadenas"
+
 #: trans/models.py:34
 #, python-format
 msgid "Bad format string (%s)"
@@ -1199,85 +1264,99 @@ msgstr "Cadenas parciales (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
-#: trans/views.py:179
-msgid "Automatic translation completed."
-msgstr "Traducción automática completada."
+#: trans/views.py:155 trans/views.py:228
+#, python-format
+msgid "%(language)s dictionary for %(project)s"
+msgstr ""
 
-#: trans/views.py:181
+#: trans/views.py:183
+msgid "No words to import found in file."
+msgstr ""
+
+#: trans/views.py:185
+#, python-format
+msgid "Imported %d words from file."
+msgstr ""
+
+#: trans/views.py:187 trans/views.py:189 trans/views.py:293
 msgid "Failed to process form!"
 msgstr "¡No se pudo procesar el formulario!"
 
-#: trans/views.py:212 trans/views.py:222 trans/views.py:232
+#: trans/views.py:291
+msgid "Automatic translation completed."
+msgstr "Traducción automática completada."
+
+#: trans/views.py:324 trans/views.py:334 trans/views.py:344
 msgid "All pending translations were committed."
 msgstr "Todas las traducciones pendientes fueron guardadas."
 
-#: trans/views.py:242 trans/views.py:254 trans/views.py:266
+#: trans/views.py:354 trans/views.py:366 trans/views.py:378
 msgid "All repositories were updated."
 msgstr "Todos los repositorios fueron actualizados."
 
-#: trans/views.py:244 trans/views.py:256 trans/views.py:268
+#: trans/views.py:356 trans/views.py:368 trans/views.py:380
 msgid "Some repositories could not be merged."
 msgstr "Algunos repositorios no pudieron ser fusionados."
 
-#: trans/views.py:381
+#: trans/views.py:493
 msgid "Your suggestion is empty!"
 msgstr "¡La sugerencia está vacía!"
 
-#: trans/views.py:401
+#: trans/views.py:513
 msgid "You need to log in to be able to save translations!"
 msgstr "¡Necesita inciar sesión para poder guardar traducciones!"
 
-#: trans/views.py:404 trans/views.py:444
+#: trans/views.py:516 trans/views.py:556
 msgid "You don't have privileges to save translations!"
 msgstr "¡No posee suficientes permisos para guardar traducciones!"
 
-#: trans/views.py:420
+#: trans/views.py:532
 msgid "Some checks have failed on your translation!"
 msgstr "¡Fallaron algunos chequeos en su traducción!"
 
-#: trans/views.py:438 trans/views.py:476
+#: trans/views.py:550 trans/views.py:588
 msgid "Message you wanted to translate is no longer available!"
 msgstr "¡El mensaje que deseaba traducir ya no está disponible!"
 
-#: trans/views.py:459
+#: trans/views.py:571
 msgid "Can not merge different messages!"
 msgstr "¡No se puede fusionar mensajes diferentes!"
 
-#: trans/views.py:482
+#: trans/views.py:594
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "¡Necesita iniciar sesión para manejar sugerencias!"
 
-#: trans/views.py:493
+#: trans/views.py:605
 msgid "You do not have privilege to accept suggestions!"
 msgstr "¡No tiene suficientes permisos para aceptar sugerencias!"
 
-#: trans/views.py:503
+#: trans/views.py:615
 msgid "You do not have privilege to delete suggestions!"
 msgstr "¡No tiene suficientes permisos para eliminar sugerencias!"
 
-#: trans/views.py:524
+#: trans/views.py:636
 msgid "Invalid suggestion!"
 msgstr "¡Sugerencia inválida!"
 
-#: trans/views.py:569
+#: trans/views.py:681
 msgid "You have reached end of translating."
 msgstr "Ha llegado al final de la traducción."
 
-#: trans/views.py:716
+#: trans/views.py:828
 msgid "File content successfully merged into translation."
 msgstr ""
 "El contenido del archivo fue fusionado con la traducción de forma exitosa."
 
-#: trans/views.py:718
+#: trans/views.py:830
 msgid "There were no new strings in uploaded file."
 msgstr "No hay nuevas cadenas en el archivo subido."
 
-#: trans/views.py:720
+#: trans/views.py:832
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falló la fusión de contenido del archivo: %s"
 
-#: trans/views.py:731
+#: trans/views.py:843
 msgid "Page Not Found"
 msgstr "Página no encontrada"
 
