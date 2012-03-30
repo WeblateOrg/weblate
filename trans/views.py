@@ -746,3 +746,16 @@ def js_config(request):
             'microsoft_langs': microsoft_langs,
         }),
         mimetype = 'application/javascript')
+
+def about(request):
+    import translate.__version__
+    import whoosh
+    import django
+    import git
+    return render_to_response('about.html', RequestContext(request, {
+        'title': _('About Weblate'),
+        'tt_version': translate.__version__.sver,
+        'whoosh_version': whoosh.versionstring(),
+        'django_version': django.get_version(),
+        'git_version': git.__version__,
+    }))

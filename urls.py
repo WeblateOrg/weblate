@@ -120,6 +120,7 @@ urlpatterns = patterns('',
     url(r'^accounts/profile/', 'accounts.views.profile'),
 
     url(r'^contact/', 'accounts.views.contact'),
+    url(r'^about/$', 'trans.views.about'),
 
     # Media files
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',

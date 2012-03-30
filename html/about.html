@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block content %}
+
+<p>{% blocktrans %}Weblate is web based translation tool with tight Git integration. It features simple and clean user interface, propagation of translations across subprojects, consistency checks or automatic linking to source files.{% endblocktrans %}</p>
+
+<p>{% trans "This site is built using following projects:" %}</p>
+
+<table>
+<tr>
+<th>Weblate</th>
+<td>{{ version }}</td>
+</tr>
+<tr>
+<th>Django</th>
+<td>{{ django_version }}</td>
+</tr>
+<tr>
+<th>Translate Toolkit</th>
+<td>{{ tt_version }}</td>
+</tr>
+<tr>
+<th>GitPython</th>
+<td>{{ git_version }}</td>
+</tr>
+<tr>
+<th>Whoosh</th>
+<td>{{ whoosh_version }}</td>
+</tr>
+</table>
+
+{% endblock %}
+
