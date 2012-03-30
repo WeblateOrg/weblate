@@ -10,7 +10,7 @@
 {% block content %}
 <ul>
 {% for dict in dicts %}
-<li><a href="{% url 'trans.views.show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
+<li><a href="{% url 'trans.views.show_dictionary' project=project.slug lang=dict.code %}">{{ dict }}</a></li>
 {% endfor %}
 </ul>
 
