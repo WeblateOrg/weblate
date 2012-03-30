@@ -126,7 +126,7 @@ def show_language(request, lang):
 
 def show_dictionaries(request, project):
     obj = get_object_or_404(Project, slug = project)
-    dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
+    dicts = Translation.objects.filter(subproject__project = obj).values_list('language', flat = True).distinct()
 
     return render_to_response('dictionaries.html', RequestContext(request, {
         'title': _('Dictionaries'),
