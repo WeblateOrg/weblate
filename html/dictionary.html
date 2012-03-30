@@ -13,6 +13,8 @@
 
 {% if words.object_list %}
 
+<h2>{% trans "Dictionary" %}</h2>
+
 <table>
 <thead>
 <tr>
@@ -48,6 +50,16 @@
 {% endif %}
 </ul>
 {% endif %}
+
+<h2>{% trans "Add new word" %}</h2>
+
+<form method="POST">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" value="{% trans "Add" %}" />
+</form>
 
 
 {% endblock %}

@@ -113,3 +113,7 @@ class AutoForm(forms.Form):
         choices = [(s.slug, s.name) for s in obj.subproject.project.subproject_set.exclude(id = obj.subproject.id)]
         super(AutoForm, self).__init__(*args, **kwargs)
         self.fields['subproject'].choices = [('', _('All subprojects'))] + choices
+
+class WordForm(forms.Form):
+    source = forms.CharField(label = _('Source'))
+    target = forms.CharField(label = _('Translation'))

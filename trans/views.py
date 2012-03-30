@@ -13,7 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
@@ -137,6 +137,19 @@ def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)
     lang = get_object_or_404(Language, code = lang)
 
+    if request.method == 'POST':
+        form = WordForm(request.POST)
+        if form.is_valid():
+            Dictionary.objects.create(
+                project = prj,
+                language = lang,
+                source = form.cleaned_data['source'],
+                target = form.cleaned_data['target']
+            )
+        return HttpResponseRedirect(request.get_full_path())
+    else:
+        form = WordForm()
+
     words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
 
     limit = request.GET.get('limit', 25)
@@ -158,6 +171,7 @@ def show_dictionary(request, project, lang):
         'project': prj,
         'language': lang,
         'words': words,
+        'form': form,
     }))
 
 def show_project(request, project):
