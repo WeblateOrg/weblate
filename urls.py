@@ -27,6 +27,8 @@ urlpatterns = patterns('',
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'trans.views.show_dictionaries'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_dictionary'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$', 'trans.views.delete_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'trans.views.edit_dictionary'),
 
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_subproject'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_translation'),

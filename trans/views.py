@@ -135,6 +135,24 @@ def show_dictionaries(request, project):
     }))
 
 @login_required
+@permission_required('trans.change_dictionary')
+def edit_dictionary(request, project, lang):
+    prj = get_object_or_404(Project, slug = project)
+    lang = get_object_or_404(Language, code = lang)
+    word = get_object_or_404(Dictionary, project = prj, language = lang, id = request.GET.get('id'))
+
+@login_required
+@permission_required('trans.delete_dictionary')
+def delete_dictionary(request, project, lang):
+    prj = get_object_or_404(Project, slug = project)
+    lang = get_object_or_404(Language, code = lang)
+    word = get_object_or_404(Dictionary, project = prj, language = lang, id = request.POST.get('id'))
+
+    word.delete()
+
+    return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
+
+@login_required
 @permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)

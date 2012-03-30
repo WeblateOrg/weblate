@@ -28,7 +28,13 @@
 <tr>
 <td class="translatetext">{{ word.source }}</td>
 <td class="translatetext">{{ word.target }}</td>
-<td></td>
+<td>
+<form action="{% url 'trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ word.id }}" />
+<input type="submit" class="button" value="Delete" />
+</form>
+</td>
 </tr>
 {% endfor %}
 </tbody>
