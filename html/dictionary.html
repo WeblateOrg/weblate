@@ -66,6 +66,8 @@
 {% if perms.trans.upload_dictionary %}
 <h2>{% trans "Import dictionary" %}</h2>
 
+<p>{% trans "You can upload any format which is understood by Translate Toolkit for example csv or po file." %}</p>
+
 <form action="{% url 'trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
