@@ -143,7 +143,7 @@ def upload_dictionary(request, project, lang):
     if request.method == 'POST':
         form = DictUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            count = Dictionary.objects.upload(prj, lang, request.FILES['file'])
+            count = Dictionary.objects.upload(prj, lang, request.FILES['file'], form.cleaned_data['overwrite'])
             if count == 0:
                 messages.add_message(request, messages.WARNING, _('No words to import found in file.'))
             else:

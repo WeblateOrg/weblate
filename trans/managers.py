@@ -9,6 +9,7 @@ from whoosh import qparser
 from util import is_plural, split_plural, join_plural, msg_checksum
 
 import trans.search
+from translate.storage import factory
 
 IGNORE_WORDS = set([
     'a',
@@ -233,5 +234,33 @@ class UnitManager(models.Manager):
         )
 
 class DictionaryManager(models.Manager):
-    def upload(self, project, language, fileobj):
-        return 0
+    def upload(self, project, language, fileobj, overwrite):
+        # Needed to behave like something what translate toolkit expects
+        fileobj.mode = "r"
+
+        ret = 0
+
+        store = factory.getobject(fileobj)
+        for unit in store.units:
+            # Ignore too long words
+            if len(unit.source) > 200 or len(unit.target) > 200:
+                continue
+
+            # Get object
+            word, created = self.get_or_create(
+                project = project,
+                language = language,
+                source = unit.source
+            )
+
+            # Should we write translation
+            if not created and not overwrite:
+                continue
+
+            # Store word
+            word.target = unit.target
+            word.save()
+
+            ret += 1
+
+        return ret
