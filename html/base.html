@@ -72,6 +72,7 @@
 </div>
  <ul class="footer">
   <li>{% blocktrans %}Powered by <a href="http://weblate.org">Weblate {{ version }}</a>{% endblocktrans %}</li>
+  <li><a href="{% url 'trans.views.about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
   <li><a href="{% url 'accounts.views.contact' %}">{% trans "Contact us" %}</a></li>
   <li><a href="http://weblate.readthedocs.org/en/weblate-{{ version }}/usage.html">{% trans "Documentation" %}</a></li>
  </ul>
