@@ -21,6 +21,9 @@ class Command(BaseCommand):
             # Use shorter name
             if code == 'ia':
                 lang.name = 'Interlingua'
+            # Shorten name
+            if code == 'el':
+                lang.name = 'Greek'
             # Workaround bug in data
             if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
                 lang.nplurals = 4
