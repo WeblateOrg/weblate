@@ -18,6 +18,7 @@ Relased on ? 2012.
 * Ability to postpone commit to Git to generate less commits from single user.
 * Possibility to browse failing checks.
 * Automatic translation using already translated strings.
+* New about page showing used versions.
 
 weblate 0.7
 -----------
