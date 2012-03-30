@@ -24,6 +24,7 @@ class Command(BaseCommand):
             Permission.objects.get(codename = 'ignore_check'),
             Permission.objects.get(codename = 'upload_dictionary'),
             Permission.objects.get(codename = 'add_dictionary'),
+            Permission.objects.get(codename = 'change_dictionary'),
             Permission.objects.get(codename = 'delete_dictionary'),
         )
         group, created = Group.objects.get_or_create(name = 'Managers')
@@ -40,6 +41,7 @@ class Command(BaseCommand):
             Permission.objects.get(codename = 'ignore_check'),
             Permission.objects.get(codename = 'upload_dictionary'),
             Permission.objects.get(codename = 'add_dictionary'),
+            Permission.objects.get(codename = 'change_dictionary'),
             Permission.objects.get(codename = 'delete_dictionary'),
         )
         if options['move']:
