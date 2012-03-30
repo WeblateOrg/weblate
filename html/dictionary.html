@@ -13,12 +13,14 @@
 
 {% if words.object_list %}
 
+<h2>{% trans "Dictionary" %}</h2>
+
 <table>
 <thead>
 <tr>
 <th>{% trans "Source" %}</th>
 <th>{% trans "Translation" %}</th>
-<th>{% trans "Actions" %}</th>
+<th colspan="2">{% trans "Actions" %}</th>
 </tr>
 </thead>
 <tbody>
@@ -26,7 +28,24 @@
 <tr>
 <td class="translatetext">{{ word.source }}</td>
 <td class="translatetext">{{ word.target }}</td>
-<td></td>
+<td>
+{% if perms.trans.change_dictionary %}
+<form action="{% url 'trans.views.edit_dictionary' project=project.slug lang=language.code %}" method="get">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ word.id }}" />
+<input type="submit" class="button" value="{% trans "Edit" %}" />
+</form>
+{% endif %}
+</td>
+<td>
+{% if perms.trans.delete_dictionary %}
+<form action="{% url 'trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ word.id }}" />
+<input type="submit" class="button" value="{% trans "Delete" %}" />
+</form>
+{% endif %}
+</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -49,5 +68,30 @@
 </ul>
 {% endif %}
 
+{% if perms.trans.add_dictionary %}
+<h2>{% trans "Add new word" %}</h2>
+
+<form method="POST">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" value="{% trans "Add" %}" />
+</form>
+{% endif %}
+
+{% if perms.trans.upload_dictionary %}
+<h2>{% trans "Import dictionary" %}</h2>
+
+<p>{% trans "You can upload any format which is understood by Translate Toolkit for example csv or po file." %}</p>
+
+<form action="{% url 'trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+{{ uploadform.as_table }}
+</table>
+<input type="submit" value="{% trans "Import" %}" />
+</form>
+{% endif %}
 
 {% endblock %}

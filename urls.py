@@ -24,8 +24,11 @@ urlpatterns = patterns('',
     url(r'^projects/$', 'django.views.generic.simple.redirect_to', {'url': '/'}),
     url(r'^projects/(?P<project>[^/]*)/$', 'trans.views.show_project'),
 
-    url(r'^projects/(?P<project>[^/]*)/dictionary/$', 'trans.views.show_dictionaries'),
-    url(r'^projects/(?P<project>[^/]*)/dictionary/(?P<lang>[^/]*)/$', 'trans.views.show_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/$', 'trans.views.show_dictionaries'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$', 'trans.views.delete_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'trans.views.edit_dictionary'),
 
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_subproject'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_translation'),

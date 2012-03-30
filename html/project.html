@@ -42,7 +42,7 @@
 {% for dict in dicts %}
 <li><a href="{% url 'trans.views.show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
 {% endfor %}
-<li><a href="{% url 'trans.views.show_dictionaries' project=object.slug %}">Manage all dictionaries</a></li>
+<li><a href="{% url 'trans.views.show_dictionaries' project=object.slug %}">{% trans "Manage all dictionaries" %}</a></li>
 </ul>
 </div>
 {% include "git-tools.html" %}
