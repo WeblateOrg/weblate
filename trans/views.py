@@ -141,6 +141,23 @@ def edit_dictionary(request, project, lang):
     lang = get_object_or_404(Language, code = lang)
     word = get_object_or_404(Dictionary, project = prj, language = lang, id = request.GET.get('id'))
 
+    if request.method == 'POST':
+        form = WordForm(request.POST)
+        if form.is_valid():
+            word.source = form.cleaned_data['source']
+            word.target = form.cleaned_data['target']
+            word.save()
+            return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
+    else:
+        form = WordForm(initial = {'source': word.source, 'target': word.target })
+
+    return render_to_response('edit_dictionary.html', RequestContext(request, {
+        'title': _('%(language)s dictionary for %(project)s') % {'language': lang, 'project': prj},
+        'project': prj,
+        'language': lang,
+        'form': form,
+    }))
+
 @login_required
 @permission_required('trans.delete_dictionary')
 def delete_dictionary(request, project, lang):

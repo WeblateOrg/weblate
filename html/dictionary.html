@@ -20,7 +20,7 @@
 <tr>
 <th>{% trans "Source" %}</th>
 <th>{% trans "Translation" %}</th>
-<th>{% trans "Actions" %}</th>
+<th colspan="2">{% trans "Actions" %}</th>
 </tr>
 </thead>
 <tbody>
@@ -29,11 +29,22 @@
 <td class="translatetext">{{ word.source }}</td>
 <td class="translatetext">{{ word.target }}</td>
 <td>
+{% if perms.trans.change_dictionary %}
+<form action="{% url 'trans.views.edit_dictionary' project=project.slug lang=language.code %}" method="get">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ word.id }}" />
+<input type="submit" class="button" value="{% trans "Edit" %}" />
+</form>
+{% endif %}
+</td>
+<td>
+{% if perms.trans.delete_dictionary %}
 <form action="{% url 'trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
-<input type="submit" class="button" value="Delete" />
+<input type="submit" class="button" value="{% trans "Delete" %}" />
 </form>
+{% endif %}
 </td>
 </tr>
 {% endfor %}
