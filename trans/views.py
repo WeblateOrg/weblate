@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound, Http404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -888,4 +888,28 @@ def about(request):
         'whoosh_version': whoosh.versionstring(),
         'django_version': django.get_version(),
         'git_version': git.__version__,
+    }))
+
+@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+def git_status_project(request, project):
+    obj = get_object_or_404(Project, slug = project)
+
+    return render_to_response('js/git-status.html', RequestContext(request, {
+        'object': obj,
+    }))
+
+@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+def git_status_subproject(request, project, subproject):
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+
+    return render_to_response('js/git-status.html', RequestContext(request, {
+        'object': obj,
+    }))
+
+@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+def git_status_translation(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    return render_to_response('js/git-status.html', RequestContext(request, {
+        'object': obj,
     }))
