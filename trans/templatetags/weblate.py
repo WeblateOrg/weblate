@@ -9,7 +9,7 @@ import re
 
 from trans.util import split_plural
 from lang.models import Language
-from trans.models import Project, SubProject
+from trans.models import Project, SubProject, Dictionary
 import trans.checks
 
 register = template.Library()
@@ -74,3 +74,7 @@ def subproject_name(prj, subprj):
 @register.simple_tag
 def language_name(code):
     return Language.objects.get(code = code).__unicode__()
+
+@register.simple_tag
+def dictionary_count(lang, project):
+    return Dictionary.objects.filter(project = project, language = lang).count()
