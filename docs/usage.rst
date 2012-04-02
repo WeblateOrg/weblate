@@ -108,6 +108,8 @@ Machine translation service provided by Microsoft.
 
     http://www.microsofttranslator.com/
 
+.. _checks:
+
 Checks
 ------
 
