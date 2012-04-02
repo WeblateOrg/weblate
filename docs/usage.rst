@@ -59,6 +59,13 @@ preferences, translation to these languages will be shown.
 Bellow translation can be also shown suggestions from other users, which you
 can accept or delete.
 
+Dictionary
+----------
+
+Each project can have assigned dictionary for any language. This could be used
+for storing terminology for given project, so that translations are consistent.
+You can display terms from currently translated string in bottom tabs.
+
 Suggestions
 -----------
 
