@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
-"Report-Msgid-Bugs-To: Michal Čihař <michal@cihar.com>\n"
-"POT-Creation-Date: 2012-03-30 15:56+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-02 11:27+0200\n"
 "PO-Revision-Date: 2012-03-31 22:41+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -297,8 +297,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Meer informatie over deze controle is beschikbaar in de <a href=\"%"
-"(link)s\">documentatie</a>."
+"Meer informatie over deze controle is beschikbaar in de <a href=\"%(link)s"
+"\">documentatie</a>."
 
 #: html/check.html:24 html/check_project.html:25 html/index.html:21
 #: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
@@ -332,9 +332,18 @@ msgstr ""
 msgid "Send"
 msgstr "Verzenden"
 
-#: html/dictionaries.html:7 html/dictionary.html:7 html/edit_dictionary.html:7
+#: html/dictionaries.html:8 html/dictionary.html:7 html/edit_dictionary.html:7
 msgid "dictionaries"
 msgstr "woordenboeken"
+
+#: html/dictionaries.html:15 html/languages.html:14
+#: html/list-translations.html:6
+msgid "Language"
+msgstr "Taal"
+
+#: html/dictionaries.html:16
+msgid "Words"
+msgstr ""
 
 #: html/dictionary.html:16
 msgid "Dictionary"
@@ -464,10 +473,6 @@ msgstr "Overzicht van de controles"
 #: html/language.html:6 html/languages.html:6
 msgid "languages"
 msgstr "talen"
-
-#: html/languages.html:14 html/list-translations.html:6
-msgid "Language"
-msgstr "Taal"
 
 #: html/list-translations.html:8 html/translate.html:68 trans/forms.py:76
 msgid "Fuzzy"
@@ -865,6 +870,35 @@ msgstr[1] ""
 "    Als dit niet het geval is, gelieve de beheerder te contacteren. \n"
 "    Ofwel kan u <a href=\"%(reg_url)s\">opnieuw registeren.</a>\n"
 "    "
+
+#: html/registration/activation_email.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"This is an automatic email to help you complete your registration\n"
+"with %(site_title)s.\n"
+"\n"
+"Please open the following link in your web browser. If the link\n"
+"is split over several lines, you may need to copy it in the\n"
+"address bar."
+msgstr ""
+
+#: html/registration/activation_email.txt:12
+#, python-format
+msgid ""
+"\n"
+"If there is a problem with your registration, please reply to\n"
+"this email.\n"
+"\n"
+"Best regards,\n"
+"%(site_title)s\n"
+msgstr ""
+
+#: html/registration/activation_email_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr ""
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -1744,8 +1778,8 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
-"Link naar repository browser, gebruik %(branch)s voor tak, %(file)s en %"
-"(line)s als bestandsnaam en regel parameters"
+"Link naar repository browser, gebruik %(branch)s voor tak, %(file)s en "
+"%(line)s als bestandsnaam en regel parameters"
 
 #: trans/models.py:129
 msgid "Git branch to translate"
