@@ -186,6 +186,12 @@ def check_end_colon(source, target, flags, language, unit):
             if target[-3:] not in [' : ', '&nbsp;: ', u' : ']:
                 return True
         return False
+    if language.code.split('_')[0] in ['ja']:
+        # Japanese sentence might need to end with full stop
+        # in case it's used before list.
+        if source[-1] == ':':
+            return check_chars(source, target, -1, [u':', u'：', u'.', u'。'])
+        return False
     return check_chars(source, target, -1, [u':', u'：'])
 
 CHECKS['end_colon'] = (_('Trailing colon'), check_end_colon, _('Source and translated do not both end with a colon or colon is not correctly spaced'))
