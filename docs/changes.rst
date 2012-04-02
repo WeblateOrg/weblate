@@ -19,6 +19,7 @@ Relased on ? 2012.
 * Possibility to browse failing checks.
 * Automatic translation using already translated strings.
 * New about page showing used versions.
+* Django 1.4 compatibility.
 
 weblate 0.7
 -----------
