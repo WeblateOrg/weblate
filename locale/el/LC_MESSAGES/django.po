@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-02 11:27+0200\n"
+"POT-Creation-Date: 2012-04-02 19:06+0200\n"
 "PO-Revision-Date: 2011-03-20 11:41+0000\n"
 "Last-Translator: pagles <y.pagles@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:76 urls.py:82
+#: urls.py:79 urls.py:85
 msgid "User registration"
 msgstr "Εγγραφή χρήστη"
 
-#: urls.py:87
+#: urls.py:90
 msgid "Account activation"
 msgstr "Ενεργοποιήση λογαριασμού"
 
-#: urls.py:93 html/base.html:47 html/registration/login.html:30
+#: urls.py:96 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: urls.py:100
+#: urls.py:103
 msgid "Logged out"
 msgstr "Αποσυνδέθηκε"
 
-#: urls.py:105
+#: urls.py:108
 msgid "Change password"
 msgstr "Αλλαγή κωδικού"
 
-#: urls.py:109
+#: urls.py:112
 msgid "Password changed"
 msgstr "Ο κωδικός αλλάχτηκε"
 
-#: urls.py:113 urls.py:117 urls.py:121 urls.py:125
+#: urls.py:116 urls.py:120 urls.py:124 urls.py:128
 msgid "Password reset"
 msgstr "Επαναφορά κωδικού"
 
@@ -86,7 +86,7 @@ msgstr "Τουλάχιστον πέντε χαρακτήρες."
 msgid "Activation email will be sent here."
 msgstr "Η ηλεκτρονική επιστολή ενεργοποίησης θα σταλεί εδώ."
 
-#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:33
+#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:23
 msgid "Password"
 msgstr "Κωδικός"
 
@@ -386,33 +386,9 @@ msgstr "Αναφορές"
 msgid "Change word"
 msgstr "Αλλαγή κωδικού"
 
-#: html/edit_dictionary.html:21 html/profile.html:40 html/translate.html:138
+#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:138
 msgid "Save"
 msgstr "Αποθήκευση"
-
-#: html/git-tools.html:4
-msgid "Git maintenance"
-msgstr ""
-
-#: html/git-tools.html:8
-msgid "There are some not commited changes!"
-msgstr ""
-
-#: html/git-tools.html:11
-msgid "Remote Git repository needs to be merged!"
-msgstr ""
-
-#: html/git-tools.html:14
-msgid "There are some new commits in local Git repository!"
-msgstr ""
-
-#: html/git-tools.html:18
-msgid "Commit pending changes"
-msgstr ""
-
-#: html/git-tools.html:22
-msgid "Pull changes from remote repository"
-msgstr ""
 
 #: html/index.html:8
 msgid "Your translations"
@@ -506,21 +482,21 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr "Διορθώστε σφάλματα στη φόρμα."
 
-#: html/profile.html:20
+#: html/profile.html:21
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
-#: html/profile.html:26
+#: html/profile.html:22
 msgid "Account"
 msgstr "Λογαριασμός"
 
-#: html/profile.html:31
+#: html/profile.html:34
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 "Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζεται ως δημιουργός "
 "στους συμμετέχοντες του Git."
 
-#: html/profile.html:36
+#: html/profile.html:38
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
@@ -542,11 +518,15 @@ msgstr "Υπόέργο"
 msgid "Tools"
 msgstr ""
 
-#: html/project.html:39 trans/views.py:132
+#: html/project.html:40 trans/views.py:132
 msgid "Dictionaries"
 msgstr ""
 
-#: html/project.html:45
+#: html/project.html:42 html/subproject.html:30 html/translation.html:41
+msgid "Git maintenance"
+msgstr ""
+
+#: html/project.html:51
 msgid "Manage all dictionaries"
 msgstr ""
 
@@ -566,12 +546,12 @@ msgstr "Οδηγίες για μεταφραστές:"
 msgid "Translations"
 msgstr "Μεταφράσεις"
 
-#: html/subproject.html:27
+#: html/subproject.html:28
 #, fuzzy
 msgid "New language"
 msgstr "γλώσσες"
 
-#: html/subproject.html:29
+#: html/subproject.html:35
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -727,15 +707,24 @@ msgstr ""
 msgid "Strings to check"
 msgstr "Κείμενα για έλεγχο"
 
-#: html/translation.html:31 html/translation.html.py:36
+#: html/translation.html:32 html/translation.html.py:48
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: html/translation.html:40
+#: html/translation.html:33
 msgid "Download"
 msgstr "Λήψη"
 
-#: html/translation.html:44
+#: html/translation.html:35 html/translation.html.py:71
+msgid "Upload"
+msgstr "Αποστολή"
+
+#: html/translation.html:38
+#, fuzzy
+msgid "Automatic translation"
+msgstr "Αποτυχημένη μετάφραση"
+
+#: html/translation.html:54
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
@@ -744,11 +733,7 @@ msgstr ""
 "Μπορείτε να <a href=\"%(download_url)s\">λάβετε</a> αρχείο για μετάφραση "
 "εκτός διαδικτύου."
 
-#: html/translation.html:49 html/translation.html.py:63
-msgid "Upload"
-msgstr "Αποστολή"
-
-#: html/translation.html:53
+#: html/translation.html:61
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -757,23 +742,18 @@ msgstr ""
 "που θέλετε να αντικαταστήσετε μεταφρασμένα κείμενα, μην ξεχάσετε να το "
 "ενεργοποιήσετε."
 
-#: html/translation.html:55
+#: html/translation.html:63
 msgid "Uploaded file will be merged with current translation."
 msgstr "Το απεσταλμένο αρχείο θα ενωθεί με την τρέχουσα μετάφραση."
 
-#: html/translation.html:69
-#, fuzzy
-msgid "Automatic translation"
-msgstr "Αποτυχημένη μετάφραση"
-
-#: html/translation.html:71
+#: html/translation.html:78
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to current subproject. It can be used to push translations to "
 "different branch or to fix inconsistent translations."
 msgstr ""
 
-#: html/translation.html:77
+#: html/translation.html:84
 msgid "Process"
 msgstr ""
 
@@ -802,6 +782,26 @@ msgstr "Κατάσταση"
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
 msgstr "Δεν βρέθηκαν σχετικά κείμενα στο λεξικό."
+
+#: html/js/git-status.html:6
+msgid "There are some not commited changes!"
+msgstr ""
+
+#: html/js/git-status.html:9
+msgid "Remote Git repository needs to be merged!"
+msgstr ""
+
+#: html/js/git-status.html:12
+msgid "There are some new commits in local Git repository!"
+msgstr ""
+
+#: html/js/git-status.html:16
+msgid "Commit pending changes"
+msgstr ""
+
+#: html/js/git-status.html:20
+msgid "Pull changes from remote repository"
+msgstr ""
 
 #: html/js/other.html:16
 msgid "Use this translation for all subprojects"
@@ -877,35 +877,6 @@ msgstr[1] ""
 "    Διαφορετικά, ίσως χρειαστεί να <a href=\"%(reg_url)s\">εγγραφείτε ξανά.</"
 "a>\n"
 "    "
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr ""
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -1588,57 +1559,57 @@ msgstr "Πληθυντικός"
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
 
-#: trans/checks.py:128
+#: trans/checks.py:181
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: trans/checks.py:128
+#: trans/checks.py:182
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
-#: trans/checks.py:146
+#: trans/checks.py:208
 msgid "Starting newline"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/checks.py:146
+#: trans/checks.py:209
 msgid "Source and translated do not both start with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:152
+#: trans/checks.py:219
 msgid "Trailing newline"
 msgstr "Ακολουθεί νέα γραμμή"
 
-#: trans/checks.py:152
+#: trans/checks.py:220
 msgid "Source and translated do not both end with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελείωνουν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:168
+#: trans/checks.py:230
 msgid "Trailing space"
 msgstr "Ακολουθεί κενό"
 
-#: trans/checks.py:168
+#: trans/checks.py:231
 msgid "Source and translated do not both end with a space"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με κενό"
 
-#: trans/checks.py:178
+#: trans/checks.py:249
 msgid "Trailing stop"
 msgstr "Ακολουθεί τελεία"
 
-#: trans/checks.py:178
+#: trans/checks.py:250
 msgid "Source and translated do not both end with a full stop"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με τελεία"
 
-#: trans/checks.py:191
+#: trans/checks.py:263
 msgid "Trailing colon"
 msgstr "Ακολουθεί άνω κάτω τελεία"
 
-#: trans/checks.py:191
+#: trans/checks.py:264
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
@@ -1646,11 +1617,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με άνω "
 "κάτω τελεία ή δεν είναι χωρισμένη σωστά με κενά"
 
-#: trans/checks.py:204
+#: trans/checks.py:288
 msgid "Trailing question"
 msgstr "Ακολουθεί ερωτηματικό"
 
-#: trans/checks.py:204
+#: trans/checks.py:289
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1658,11 +1629,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "ερωτηματικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:217
+#: trans/checks.py:306
 msgid "Trailing exclamation"
 msgstr "Ακολουθεί θαυμαστικό"
 
-#: trans/checks.py:217
+#: trans/checks.py:307
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1670,35 +1641,35 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "θαυμαστικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:249
+#: trans/checks.py:327
 msgid "Python format"
 msgstr "Μορφή Python"
 
-#: trans/checks.py:249 trans/checks.py:259 trans/checks.py:269
+#: trans/checks.py:328 trans/checks.py:341 trans/checks.py:354
 msgid "Format string does not match source"
 msgstr "Η μορφή του κειμένου δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:259
+#: trans/checks.py:340
 msgid "PHP format"
 msgstr "Μορφή PHP"
 
-#: trans/checks.py:269
+#: trans/checks.py:353
 msgid "C format"
 msgstr "Μορφή C"
 
-#: trans/checks.py:283
+#: trans/checks.py:367
 msgid "Missing plurals"
 msgstr "Απόντες πληθυντικοί"
 
-#: trans/checks.py:283
+#: trans/checks.py:368
 msgid "Some plural forms are not translated"
 msgstr "Ορισμένοι πληθυντικοί δεν μεταφράστηκαν"
 
-#: trans/checks.py:302
+#: trans/checks.py:385
 msgid "Inconsistent"
 msgstr "Ασυνεπές"
 
-#: trans/checks.py:302
+#: trans/checks.py:386
 #, fuzzy
 msgid "This message has more than one translation in this project"
 msgstr "Το μήνυμα έχει περισσότερες διαφορετικές μεταφράσεις σε αυτό το έργο"

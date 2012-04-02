@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-02 11:27+0200\n"
+"POT-Creation-Date: 2012-04-02 19:06+0200\n"
 "PO-Revision-Date: 2012-04-02 00:36+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:76 urls.py:82
+#: urls.py:79 urls.py:85
 msgid "User registration"
 msgstr "Enregistrement utilisateur"
 
-#: urls.py:87
+#: urls.py:90
 msgid "Account activation"
 msgstr "Activation du compte"
 
-#: urls.py:93 html/base.html:47 html/registration/login.html:30
+#: urls.py:96 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Connexion"
 
-#: urls.py:100
+#: urls.py:103
 msgid "Logged out"
 msgstr "Déconnecté"
 
-#: urls.py:105
+#: urls.py:108
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: urls.py:109
+#: urls.py:112
 msgid "Password changed"
 msgstr "Mot de passe modifié"
 
-#: urls.py:113 urls.py:117 urls.py:121 urls.py:125
+#: urls.py:116 urls.py:120 urls.py:124 urls.py:128
 msgid "Password reset"
 msgstr "Réinitialiser le mot de passe"
 
@@ -86,7 +86,7 @@ msgstr "Un minimum de cinq caractères."
 msgid "Activation email will be sent here."
 msgstr "Le courriel de confirmation sera envoyé ici."
 
-#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:33
+#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:23
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -387,33 +387,9 @@ msgstr "Importer"
 msgid "Change word"
 msgstr "Changer le mot"
 
-#: html/edit_dictionary.html:21 html/profile.html:40 html/translate.html:138
+#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:138
 msgid "Save"
 msgstr "Sauvegarder"
-
-#: html/git-tools.html:4
-msgid "Git maintenance"
-msgstr "Maintenance de Git"
-
-#: html/git-tools.html:8
-msgid "There are some not commited changes!"
-msgstr "Il y a des changements non enregistrés !"
-
-#: html/git-tools.html:11
-msgid "Remote Git repository needs to be merged!"
-msgstr "Le dépôt Git distant a besoin d'être fusionné !"
-
-#: html/git-tools.html:14
-msgid "There are some new commits in local Git repository!"
-msgstr "De nouveaux commits se trouvent dans le dépôt Git local !"
-
-#: html/git-tools.html:18
-msgid "Commit pending changes"
-msgstr "Sauvegarder les changements en attente"
-
-#: html/git-tools.html:22
-msgid "Pull changes from remote repository"
-msgstr "Récupérer les changements depuis un dépôt distant"
 
 #: html/index.html:8
 msgid "Your translations"
@@ -506,19 +482,19 @@ msgstr "Revue"
 msgid "Please fix errors in the form."
 msgstr "Veuillez corriger les erreurs dans le formulaire."
 
-#: html/profile.html:20
+#: html/profile.html:21
 msgid "Preferences"
 msgstr "Préférences"
 
-#: html/profile.html:26
+#: html/profile.html:22
 msgid "Account"
 msgstr "Compte"
 
-#: html/profile.html:31
+#: html/profile.html:34
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Vos nom et adresse courriel apparaîtront en tant qu'auteur dans Git."
 
-#: html/profile.html:36
+#: html/profile.html:38
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
@@ -541,11 +517,15 @@ msgstr "Sous-projet"
 msgid "Tools"
 msgstr "Outils"
 
-#: html/project.html:39 trans/views.py:132
+#: html/project.html:40 trans/views.py:132
 msgid "Dictionaries"
 msgstr ""
 
-#: html/project.html:45
+#: html/project.html:42 html/subproject.html:30 html/translation.html:41
+msgid "Git maintenance"
+msgstr "Maintenance de Git"
+
+#: html/project.html:51
 msgid "Manage all dictionaries"
 msgstr ""
 
@@ -565,11 +545,11 @@ msgstr "Directives pour les traducteurs : "
 msgid "Translations"
 msgstr "Traductions"
 
-#: html/subproject.html:27
+#: html/subproject.html:28
 msgid "New language"
 msgstr "Nouvelle langue"
 
-#: html/subproject.html:29
+#: html/subproject.html:35
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -724,15 +704,23 @@ msgstr "Aucune activité récente n'a été enregistrée."
 msgid "Strings to check"
 msgstr "Chaînes à vérifier"
 
-#: html/translation.html:31 html/translation.html.py:36
+#: html/translation.html:32 html/translation.html.py:48
 msgid "Search"
 msgstr "Chercher"
 
-#: html/translation.html:40
+#: html/translation.html:33
 msgid "Download"
 msgstr "Télécharger"
 
-#: html/translation.html:44
+#: html/translation.html:35 html/translation.html.py:71
+msgid "Upload"
+msgstr "Téléverser"
+
+#: html/translation.html:38
+msgid "Automatic translation"
+msgstr "Traduction automatique"
+
+#: html/translation.html:54
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
@@ -741,11 +729,7 @@ msgstr ""
 "Vous pouvez <a href=\"%(download_url)s\">télécharger</a> un fichier pour le "
 "traduire hors-ligne."
 
-#: html/translation.html:49 html/translation.html.py:63
-msgid "Upload"
-msgstr "Téléverser"
-
-#: html/translation.html:53
+#: html/translation.html:61
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -754,15 +738,11 @@ msgstr ""
 "voulez écraser les chaînes déjà traduites, n'oubliez pas d'activer cette "
 "option."
 
-#: html/translation.html:55
+#: html/translation.html:63
 msgid "Uploaded file will be merged with current translation."
 msgstr "Le fichier téléversé sera fusionné avec la traduction courante."
 
-#: html/translation.html:69
-msgid "Automatic translation"
-msgstr "Traduction automatique"
-
-#: html/translation.html:71
+#: html/translation.html:78
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to current subproject. It can be used to push translations to "
@@ -773,7 +753,7 @@ msgstr ""
 "traductions sur différentes branches ou pour corriger des traductions "
 "incohérentes."
 
-#: html/translation.html:77
+#: html/translation.html:84
 msgid "Process"
 msgstr "Processus"
 
@@ -802,6 +782,26 @@ msgstr "État"
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
 msgstr "Pas de chaîne similaire trouvée dans le dictionnaire."
+
+#: html/js/git-status.html:6
+msgid "There are some not commited changes!"
+msgstr "Il y a des changements non enregistrés !"
+
+#: html/js/git-status.html:9
+msgid "Remote Git repository needs to be merged!"
+msgstr "Le dépôt Git distant a besoin d'être fusionné !"
+
+#: html/js/git-status.html:12
+msgid "There are some new commits in local Git repository!"
+msgstr "De nouveaux commits se trouvent dans le dépôt Git local !"
+
+#: html/js/git-status.html:16
+msgid "Commit pending changes"
+msgstr "Sauvegarder les changements en attente"
+
+#: html/js/git-status.html:20
+msgid "Pull changes from remote repository"
+msgstr "Récupérer les changements depuis un dépôt distant"
 
 #: html/js/other.html:16
 msgid "Use this translation for all subprojects"
@@ -871,35 +871,6 @@ msgstr[1] ""
 "    %(days)s jours pour l'activer. \n"
 "    Si ce n'est pas le cas, veuillez contacter l'administrateur du site. \n"
 "    Vous pouvez <a href=\"%(reg_url)s\">vous enregistrer à nouveau.</a>"
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr ""
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -1579,54 +1550,54 @@ msgstr "Pluriel"
 msgid "Plural form %d"
 msgstr "Forme plurielle %d"
 
-#: trans/checks.py:128
+#: trans/checks.py:181
 msgid "Not translated"
 msgstr "Non traduit"
 
-#: trans/checks.py:128
+#: trans/checks.py:182
 msgid "Source and translated strings are same"
 msgstr "La chaîne source est identique à la chaîne traduite"
 
-#: trans/checks.py:146
+#: trans/checks.py:208
 msgid "Starting newline"
 msgstr "Nouvelle ligne au début"
 
-#: trans/checks.py:146
+#: trans/checks.py:209
 msgid "Source and translated do not both start with a newline"
 msgstr "Les messages source et traduit ne débutent pas par un saut de ligne"
 
-#: trans/checks.py:152
+#: trans/checks.py:219
 msgid "Trailing newline"
 msgstr "Saut de ligne à la fin"
 
-#: trans/checks.py:152
+#: trans/checks.py:220
 msgid "Source and translated do not both end with a newline"
 msgstr ""
 "Les messages source et traduit ne se terminent pas par un saut de ligne"
 
-#: trans/checks.py:168
+#: trans/checks.py:230
 msgid "Trailing space"
 msgstr "Espace à la fin"
 
-#: trans/checks.py:168
+#: trans/checks.py:231
 msgid "Source and translated do not both end with a space"
 msgstr "Les messages source et traduit ne se terminent pas par une espace"
 
-#: trans/checks.py:178
+#: trans/checks.py:249
 msgid "Trailing stop"
 msgstr "Caractère de fin de phrase"
 
-#: trans/checks.py:178
+#: trans/checks.py:250
 msgid "Source and translated do not both end with a full stop"
 msgstr ""
 "Les messages source et traduit ne se terminent pas par un caractère de fin "
 "de phrase"
 
-#: trans/checks.py:191
+#: trans/checks.py:263
 msgid "Trailing colon"
 msgstr "Deux-points en fin de phrase"
 
-#: trans/checks.py:191
+#: trans/checks.py:264
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
@@ -1634,11 +1605,11 @@ msgstr ""
 "Les messages source et traduit ne se terminent pas par un deux-points, ou "
 "celui-ci n'a pas entouré correctement d'espaces"
 
-#: trans/checks.py:204
+#: trans/checks.py:288
 msgid "Trailing question"
 msgstr "Point d'interrogation final"
 
-#: trans/checks.py:204
+#: trans/checks.py:289
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1646,11 +1617,11 @@ msgstr ""
 "Les messages source et traduit ne se terminent pas par un point "
 "d'interrogation, ou celui-ci n'est pas correctement entouré d'espaces"
 
-#: trans/checks.py:217
+#: trans/checks.py:306
 msgid "Trailing exclamation"
 msgstr "Point d'exclamation final"
 
-#: trans/checks.py:217
+#: trans/checks.py:307
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1658,35 +1629,35 @@ msgstr ""
 "Les messages source et traduit ne se terminent pas par un point "
 "d'exclamation, ou celui-ci n'est pas correctement entouré d'espaces"
 
-#: trans/checks.py:249
+#: trans/checks.py:327
 msgid "Python format"
 msgstr "Format Python"
 
-#: trans/checks.py:249 trans/checks.py:259 trans/checks.py:269
+#: trans/checks.py:328 trans/checks.py:341 trans/checks.py:354
 msgid "Format string does not match source"
 msgstr "Le caractère de format ne correspond pas à celui de la source"
 
-#: trans/checks.py:259
+#: trans/checks.py:340
 msgid "PHP format"
 msgstr "Format PHP"
 
-#: trans/checks.py:269
+#: trans/checks.py:353
 msgid "C format"
 msgstr "Format C"
 
-#: trans/checks.py:283
+#: trans/checks.py:367
 msgid "Missing plurals"
 msgstr "Pluriels manquants"
 
-#: trans/checks.py:283
+#: trans/checks.py:368
 msgid "Some plural forms are not translated"
 msgstr "Certaines des formes plurielles n'ont pas été traduites"
 
-#: trans/checks.py:302
+#: trans/checks.py:385
 msgid "Inconsistent"
 msgstr "Incohérent"
 
-#: trans/checks.py:302
+#: trans/checks.py:386
 msgid "This message has more than one translation in this project"
 msgstr "Ce message a plus d'une traduction dans ce projet"
 

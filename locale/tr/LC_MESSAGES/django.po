@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-02 11:27+0200\n"
+"POT-Creation-Date: 2012-04-02 19:06+0200\n"
 "PO-Revision-Date: 2012-04-02 12:34+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:76 urls.py:82
+#: urls.py:79 urls.py:85
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:87
+#: urls.py:90
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:93 html/base.html:47 html/registration/login.html:30
+#: urls.py:96 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:100
+#: urls.py:103
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:105
+#: urls.py:108
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:109
+#: urls.py:112
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:113 urls.py:117 urls.py:121 urls.py:125
+#: urls.py:116 urls.py:120 urls.py:124 urls.py:128
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -86,7 +86,7 @@ msgstr "En az beş karakter uzunluğunda."
 msgid "Activation email will be sent here."
 msgstr "Etkinleştirme epostası buraya gönderilecektir."
 
-#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:33
+#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:23
 msgid "Password"
 msgstr "Parola"
 
@@ -390,33 +390,9 @@ msgstr "İçe aktar"
 msgid "Change word"
 msgstr "Kelimeyi değiştir"
 
-#: html/edit_dictionary.html:21 html/profile.html:40 html/translate.html:138
+#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:138
 msgid "Save"
 msgstr "Kaydet"
-
-#: html/git-tools.html:4
-msgid "Git maintenance"
-msgstr "Git bakım"
-
-#: html/git-tools.html:8
-msgid "There are some not commited changes!"
-msgstr "Bazı işlenmemiş değişiklikler var!"
-
-#: html/git-tools.html:11
-msgid "Remote Git repository needs to be merged!"
-msgstr "Uzak Git havuzunun birleştirilmesi gerek!"
-
-#: html/git-tools.html:14
-msgid "There are some new commits in local Git repository!"
-msgstr "Yerel Git havuzunda bazı yeni işlemeler var!"
-
-#: html/git-tools.html:18
-msgid "Commit pending changes"
-msgstr "Bekleyen değişiklikleri işle"
-
-#: html/git-tools.html:22
-msgid "Pull changes from remote repository"
-msgstr "Uzak havuzdan değişiklikleri çek"
 
 #: html/index.html:8
 msgid "Your translations"
@@ -507,19 +483,19 @@ msgstr "Gözden geçir"
 msgid "Please fix errors in the form."
 msgstr "Lütfen formdaki hataları düzeltin."
 
-#: html/profile.html:20
+#: html/profile.html:21
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: html/profile.html:26
+#: html/profile.html:22
 msgid "Account"
 msgstr "Hesap"
 
-#: html/profile.html:31
+#: html/profile.html:34
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Adınız ve epostanız Git sunumlarında hazırlayan olarak görünecek."
 
-#: html/profile.html:36
+#: html/profile.html:38
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "<a href=\"%(pw_url)s\">Ayrı sayfada</a> parolayı değiştirebilirsiniz."
@@ -540,11 +516,15 @@ msgstr "Alt proje"
 msgid "Tools"
 msgstr "Araçlar"
 
-#: html/project.html:39 trans/views.py:132
+#: html/project.html:40 trans/views.py:132
 msgid "Dictionaries"
 msgstr "Sözlükler"
 
-#: html/project.html:45
+#: html/project.html:42 html/subproject.html:30 html/translation.html:41
+msgid "Git maintenance"
+msgstr "Git bakım"
+
+#: html/project.html:51
 msgid "Manage all dictionaries"
 msgstr "Tüm sözlükleri yönet"
 
@@ -564,11 +544,11 @@ msgstr "Çevirmenler için talimatlar:"
 msgid "Translations"
 msgstr "Çeviriler"
 
-#: html/subproject.html:27
+#: html/subproject.html:28
 msgid "New language"
 msgstr "Yeni dil"
 
-#: html/subproject.html:29
+#: html/subproject.html:35
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -723,15 +703,23 @@ msgstr "Kaydedilmiş en son etkinlik yok."
 msgid "Strings to check"
 msgstr "Satır kontrolü"
 
-#: html/translation.html:31 html/translation.html.py:36
+#: html/translation.html:32 html/translation.html.py:48
 msgid "Search"
 msgstr "Ara"
 
-#: html/translation.html:40
+#: html/translation.html:33
 msgid "Download"
 msgstr "İndir"
 
-#: html/translation.html:44
+#: html/translation.html:35 html/translation.html.py:71
+msgid "Upload"
+msgstr "Gönder"
+
+#: html/translation.html:38
+msgid "Automatic translation"
+msgstr "Otomatik çeviri"
+
+#: html/translation.html:54
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
@@ -740,11 +728,7 @@ msgstr ""
 "Dosyayı çevrimdışı çeviri için <a href=\"%(download_url)s"
 "\">indirebilirsiniz</a>."
 
-#: html/translation.html:49 html/translation.html.py:63
-msgid "Upload"
-msgstr "Gönder"
-
-#: html/translation.html:53
+#: html/translation.html:61
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -753,15 +737,11 @@ msgstr ""
 "satırların üzerine yazmak istediğiniz takdirde, bunu etkinleştirmeyi "
 "unutmayın."
 
-#: html/translation.html:55
+#: html/translation.html:63
 msgid "Uploaded file will be merged with current translation."
 msgstr "Gönderilen dosya şu anki çeviri ile birleştirilecektir."
 
-#: html/translation.html:69
-msgid "Automatic translation"
-msgstr "Otomatik çeviri"
-
-#: html/translation.html:71
+#: html/translation.html:78
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to current subproject. It can be used to push translations to "
@@ -771,7 +751,7 @@ msgstr ""
 "projeye uygular. Çevirileri farklı dala itmek için ya da tutarsız çevirileri "
 "onarmak için kullanılabilir."
 
-#: html/translation.html:77
+#: html/translation.html:84
 msgid "Process"
 msgstr "İşlem"
 
@@ -799,6 +779,26 @@ msgstr "Durum"
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
 msgstr "Sözlükte bulunan ilgili satırlar yok."
+
+#: html/js/git-status.html:6
+msgid "There are some not commited changes!"
+msgstr "Bazı işlenmemiş değişiklikler var!"
+
+#: html/js/git-status.html:9
+msgid "Remote Git repository needs to be merged!"
+msgstr "Uzak Git havuzunun birleştirilmesi gerek!"
+
+#: html/js/git-status.html:12
+msgid "There are some new commits in local Git repository!"
+msgstr "Yerel Git havuzunda bazı yeni işlemeler var!"
+
+#: html/js/git-status.html:16
+msgid "Commit pending changes"
+msgstr "Bekleyen değişiklikleri işle"
+
+#: html/js/git-status.html:20
+msgid "Pull changes from remote repository"
+msgstr "Uzak havuzdan değişiklikleri çek"
 
 #: html/js/other.html:16
 msgid "Use this translation for all subprojects"
@@ -860,49 +860,6 @@ msgstr[0] ""
 "    Eğer böyle değilse, lütfen web sitesi yöneticisiyle temasa geçin. \n"
 "    Aksi halde, <a href=\"%(reg_url)s\">tekrar kayıt olabilirsiniz.</a>\n"
 "    "
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-"Merhaba,\n"
-"\n"
-"Bu, %(site_title)s ile kaydınızı tamamlamanıza yardım etmek\n"
-"için otomatik bir epostadır.\n"
-"\n"
-"Lütfen aşağıdaki bağlantıyı web tarayıcınızda açın. Eğer bağlantı\n"
-"birden çok satırla bölünmüşse bunu adres çubuğuna\n"
-"kopyalamanız gerekebilir."
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-"\n"
-"Eğer kaydınız ile ilgili bir sorun varsa, lütfen bu\n"
-"epostayı yanıtlayın.\n"
-"\n"
-"Saygılarımızla,\n"
-"%(site_title)s\n"
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "%(site_title)s kaydınız"
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -1575,62 +1532,62 @@ msgstr "Çoğul"
 msgid "Plural form %d"
 msgstr "Çoğul formu %d"
 
-#: trans/checks.py:128
+#: trans/checks.py:181
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: trans/checks.py:128
+#: trans/checks.py:182
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
-#: trans/checks.py:146
+#: trans/checks.py:208
 msgid "Starting newline"
 msgstr "Yeni satıra başlanıyor"
 
-#: trans/checks.py:146
+#: trans/checks.py:209
 msgid "Source and translated do not both start with a newline"
 msgstr "Kaynağın ve çevrilmişin ikiside satır başı ile başlamaz"
 
-#: trans/checks.py:152
+#: trans/checks.py:219
 msgid "Trailing newline"
 msgstr "Satır başını izleme"
 
-#: trans/checks.py:152
+#: trans/checks.py:220
 msgid "Source and translated do not both end with a newline"
 msgstr "Kaynağın ve çevrilmişin ikiside satır başı ile bitmez"
 
-#: trans/checks.py:168
+#: trans/checks.py:230
 msgid "Trailing space"
 msgstr "Boşluğu izleme"
 
-#: trans/checks.py:168
+#: trans/checks.py:231
 msgid "Source and translated do not both end with a space"
 msgstr "Kaynağın ve çevrilmişin ikiside boşluk ile bitmez"
 
-#: trans/checks.py:178
+#: trans/checks.py:249
 msgid "Trailing stop"
 msgstr "Durdurmayı izleme"
 
-#: trans/checks.py:178
+#: trans/checks.py:250
 msgid "Source and translated do not both end with a full stop"
 msgstr "Kaynağın ve çevrilmişin ikiside nokta ile bitmez"
 
-#: trans/checks.py:191
+#: trans/checks.py:263
 msgid "Trailing colon"
 msgstr "İki nokta üst üste izleme"
 
-#: trans/checks.py:191
+#: trans/checks.py:264
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
 msgstr ""
 "Kaynağın ve çevrilmişin ikiside ':' ile bitmez ya da doğru aralıkta değil"
 
-#: trans/checks.py:204
+#: trans/checks.py:288
 msgid "Trailing question"
 msgstr "Soru işaretini izleme"
 
-#: trans/checks.py:204
+#: trans/checks.py:289
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1638,46 +1595,46 @@ msgstr ""
 "Kaynağın ve çevrilmişin ikiside soru işareti ile bitmez ya da doğru aralıkta "
 "değil"
 
-#: trans/checks.py:217
+#: trans/checks.py:306
 msgid "Trailing exclamation"
 msgstr "Ünlem işaretini izleme"
 
-#: trans/checks.py:217
+#: trans/checks.py:307
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
 "Kaynağın ve çevrilmişin ikiside ünlem ile bitmez ya da doğru aralıkta değil"
 
-#: trans/checks.py:249
+#: trans/checks.py:327
 msgid "Python format"
 msgstr "Python biçimi"
 
-#: trans/checks.py:249 trans/checks.py:259 trans/checks.py:269
+#: trans/checks.py:328 trans/checks.py:341 trans/checks.py:354
 msgid "Format string does not match source"
 msgstr "Değişken dizgisi kaynakla eşleşmiyor"
 
-#: trans/checks.py:259
+#: trans/checks.py:340
 msgid "PHP format"
 msgstr "PHP biçimi"
 
-#: trans/checks.py:269
+#: trans/checks.py:353
 msgid "C format"
 msgstr "C biçimi"
 
-#: trans/checks.py:283
+#: trans/checks.py:367
 msgid "Missing plurals"
 msgstr "Eksik çoğullar"
 
-#: trans/checks.py:283
+#: trans/checks.py:368
 msgid "Some plural forms are not translated"
 msgstr "Bazı çoğul formlar çevrilmez"
 
-#: trans/checks.py:302
+#: trans/checks.py:385
 msgid "Inconsistent"
 msgstr "Tutarsız"
 
-#: trans/checks.py:302
+#: trans/checks.py:386
 msgid "This message has more than one translation in this project"
 msgstr "Bu ileti bu projede birden fazla çeviriye sahip"
 
@@ -1900,6 +1857,43 @@ msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 #: trans/views.py:843
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
+
+#~ msgid ""
+#~ "Hi,\n"
+#~ "\n"
+#~ "This is an automatic email to help you complete your registration\n"
+#~ "with %(site_title)s.\n"
+#~ "\n"
+#~ "Please open the following link in your web browser. If the link\n"
+#~ "is split over several lines, you may need to copy it in the\n"
+#~ "address bar."
+#~ msgstr ""
+#~ "Merhaba,\n"
+#~ "\n"
+#~ "Bu, %(site_title)s ile kaydınızı tamamlamanıza yardım etmek\n"
+#~ "için otomatik bir epostadır.\n"
+#~ "\n"
+#~ "Lütfen aşağıdaki bağlantıyı web tarayıcınızda açın. Eğer bağlantı\n"
+#~ "birden çok satırla bölünmüşse bunu adres çubuğuna\n"
+#~ "kopyalamanız gerekebilir."
+
+#~ msgid ""
+#~ "\n"
+#~ "If there is a problem with your registration, please reply to\n"
+#~ "this email.\n"
+#~ "\n"
+#~ "Best regards,\n"
+#~ "%(site_title)s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Eğer kaydınız ile ilgili bir sorun varsa, lütfen bu\n"
+#~ "epostayı yanıtlayın.\n"
+#~ "\n"
+#~ "Saygılarımızla,\n"
+#~ "%(site_title)s\n"
+
+#~ msgid "Your registration on %(site_title)s"
+#~ msgstr "%(site_title)s kaydınız"
 
 #, fuzzy
 #~ msgid "Actions"

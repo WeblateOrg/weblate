@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-02 11:27+0200\n"
+"POT-Creation-Date: 2012-04-02 19:06+0200\n"
 "PO-Revision-Date: 2012-03-31 22:41+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:76 urls.py:82
+#: urls.py:79 urls.py:85
 msgid "User registration"
 msgstr "Gebruikersregistratie"
 
-#: urls.py:87
+#: urls.py:90
 msgid "Account activation"
 msgstr "Account activering"
 
-#: urls.py:93 html/base.html:47 html/registration/login.html:30
+#: urls.py:96 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Aanmelden"
 
-#: urls.py:100
+#: urls.py:103
 msgid "Logged out"
 msgstr "Uitgelogd"
 
-#: urls.py:105
+#: urls.py:108
 msgid "Change password"
 msgstr "Wachtwoord wijzigen"
 
-#: urls.py:109
+#: urls.py:112
 msgid "Password changed"
 msgstr "Wachtwoord gewijzigd"
 
-#: urls.py:113 urls.py:117 urls.py:121 urls.py:125
+#: urls.py:116 urls.py:120 urls.py:124 urls.py:128
 msgid "Password reset"
 msgstr "Wachtwoord gereset"
 
@@ -86,7 +86,7 @@ msgstr "Tenminste 5 tekens lang."
 msgid "Activation email will be sent here."
 msgstr "De activeringsmail wordt hiernaar verzonden."
 
-#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:33
+#: accounts/forms.py:58 accounts/i18n.py:15 html/profile.html:23
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -389,33 +389,9 @@ msgstr "Importeren"
 msgid "Change word"
 msgstr "Woord wijzigen"
 
-#: html/edit_dictionary.html:21 html/profile.html:40 html/translate.html:138
+#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:138
 msgid "Save"
 msgstr "Opslaan"
-
-#: html/git-tools.html:4
-msgid "Git maintenance"
-msgstr "Git onderhoud"
-
-#: html/git-tools.html:8
-msgid "There are some not commited changes!"
-msgstr "Er zijn wijzigingen die nog niet gecommit zijn!"
-
-#: html/git-tools.html:11
-msgid "Remote Git repository needs to be merged!"
-msgstr ""
-
-#: html/git-tools.html:14
-msgid "There are some new commits in local Git repository!"
-msgstr ""
-
-#: html/git-tools.html:18
-msgid "Commit pending changes"
-msgstr ""
-
-#: html/git-tools.html:22
-msgid "Pull changes from remote repository"
-msgstr ""
 
 #: html/index.html:8
 msgid "Your translations"
@@ -508,20 +484,20 @@ msgstr ""
 msgid "Please fix errors in the form."
 msgstr "Gelieve de fouten in het formulier te verbeteren."
 
-#: html/profile.html:20
+#: html/profile.html:21
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: html/profile.html:26
+#: html/profile.html:22
 msgid "Account"
 msgstr "Account"
 
-#: html/profile.html:31
+#: html/profile.html:34
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 "Uw naam en E-mailadres zullen getoond worden als auteur van Git commits."
 
-#: html/profile.html:36
+#: html/profile.html:38
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
@@ -543,11 +519,15 @@ msgstr "Subproject"
 msgid "Tools"
 msgstr ""
 
-#: html/project.html:39 trans/views.py:132
+#: html/project.html:40 trans/views.py:132
 msgid "Dictionaries"
 msgstr ""
 
-#: html/project.html:45
+#: html/project.html:42 html/subproject.html:30 html/translation.html:41
+msgid "Git maintenance"
+msgstr "Git onderhoud"
+
+#: html/project.html:51
 msgid "Manage all dictionaries"
 msgstr ""
 
@@ -567,11 +547,11 @@ msgstr "Rochtlijnen voor vertalers :"
 msgid "Translations"
 msgstr "Vertalingen"
 
-#: html/subproject.html:27
+#: html/subproject.html:28
 msgid "New language"
 msgstr "Nieuwe taal"
 
-#: html/subproject.html:29
+#: html/subproject.html:35
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -726,15 +706,23 @@ msgstr "Geen recente activiteit geregistreerd."
 msgid "Strings to check"
 msgstr "Te controleren tekenreeksen"
 
-#: html/translation.html:31 html/translation.html.py:36
+#: html/translation.html:32 html/translation.html.py:48
 msgid "Search"
 msgstr "Zoeken"
 
-#: html/translation.html:40
+#: html/translation.html:33
 msgid "Download"
 msgstr "Downloaden"
 
-#: html/translation.html:44
+#: html/translation.html:35 html/translation.html.py:71
+msgid "Upload"
+msgstr "Uploaden"
+
+#: html/translation.html:38
+msgid "Automatic translation"
+msgstr "Automatische vertaling"
+
+#: html/translation.html:54
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
@@ -743,11 +731,7 @@ msgstr ""
 "U kan een bestand <a href=\"%(download_url)s\">downloaden</a> voor offline "
 "vertaling."
 
-#: html/translation.html:49 html/translation.html.py:63
-msgid "Upload"
-msgstr "Uploaden"
-
-#: html/translation.html:53
+#: html/translation.html:61
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -756,23 +740,19 @@ msgstr ""
 "het geval u wenst dat reeds vertaalde tekenreeksen overschreven worden, "
 "vergeet dan niet om dit in te schakelen."
 
-#: html/translation.html:55
+#: html/translation.html:63
 msgid "Uploaded file will be merged with current translation."
 msgstr ""
 "Het upgeloade bestand zal samengevoegd worden met de huidige vertaling."
 
-#: html/translation.html:69
-msgid "Automatic translation"
-msgstr "Automatische vertaling"
-
-#: html/translation.html:71
+#: html/translation.html:78
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to current subproject. It can be used to push translations to "
 "different branch or to fix inconsistent translations."
 msgstr ""
 
-#: html/translation.html:77
+#: html/translation.html:84
 msgid "Process"
 msgstr ""
 
@@ -801,6 +781,26 @@ msgstr "Status"
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
 msgstr "Geen gelijkaardige tekenreeksen gevonden in woordenboek."
+
+#: html/js/git-status.html:6
+msgid "There are some not commited changes!"
+msgstr "Er zijn wijzigingen die nog niet gecommit zijn!"
+
+#: html/js/git-status.html:9
+msgid "Remote Git repository needs to be merged!"
+msgstr ""
+
+#: html/js/git-status.html:12
+msgid "There are some new commits in local Git repository!"
+msgstr ""
+
+#: html/js/git-status.html:16
+msgid "Commit pending changes"
+msgstr ""
+
+#: html/js/git-status.html:20
+msgid "Pull changes from remote repository"
+msgstr ""
 
 #: html/js/other.html:16
 msgid "Use this translation for all subprojects"
@@ -870,35 +870,6 @@ msgstr[1] ""
 "    Als dit niet het geval is, gelieve de beheerder te contacteren. \n"
 "    Ofwel kan u <a href=\"%(reg_url)s\">opnieuw registeren.</a>\n"
 "    "
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr ""
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -1575,51 +1546,51 @@ msgstr "Meervoud"
 msgid "Plural form %d"
 msgstr "Meervoud vorm %d"
 
-#: trans/checks.py:128
+#: trans/checks.py:181
 msgid "Not translated"
 msgstr "Niet vertaald"
 
-#: trans/checks.py:128
+#: trans/checks.py:182
 msgid "Source and translated strings are same"
 msgstr "Bron en vertaalde tekenreeks zijn dezelfde"
 
-#: trans/checks.py:146
+#: trans/checks.py:208
 msgid "Starting newline"
 msgstr "Begint met een nieuwe regel"
 
-#: trans/checks.py:146
+#: trans/checks.py:209
 msgid "Source and translated do not both start with a newline"
 msgstr "Bron en vertaalde tekst starten niet allebei met een nieuwe regel"
 
-#: trans/checks.py:152
+#: trans/checks.py:219
 msgid "Trailing newline"
 msgstr "Nieuwe regel op het einde"
 
-#: trans/checks.py:152
+#: trans/checks.py:220
 msgid "Source and translated do not both end with a newline"
 msgstr "Bron en vertaalde tekst eindigen niet allebei met een nieuwe regel"
 
-#: trans/checks.py:168
+#: trans/checks.py:230
 msgid "Trailing space"
 msgstr "Spatie op het einde"
 
-#: trans/checks.py:168
+#: trans/checks.py:231
 msgid "Source and translated do not both end with a space"
 msgstr "Bron en vertaalde tekst eindigen niet allebei met een spatie"
 
-#: trans/checks.py:178
+#: trans/checks.py:249
 msgid "Trailing stop"
 msgstr "Punt op het einde"
 
-#: trans/checks.py:178
+#: trans/checks.py:250
 msgid "Source and translated do not both end with a full stop"
 msgstr "Bron en vertaalde tekst eindigen niet allebei met een punt"
 
-#: trans/checks.py:191
+#: trans/checks.py:263
 msgid "Trailing colon"
 msgstr "Dubbelpunt op het einde"
 
-#: trans/checks.py:191
+#: trans/checks.py:264
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
@@ -1627,11 +1598,11 @@ msgstr ""
 "Bron en vertaalde tekst eindigen niet allebei met een dubbelpunt of het "
 "dubbelpunt is niet correct omgeven door spaties"
 
-#: trans/checks.py:204
+#: trans/checks.py:288
 msgid "Trailing question"
 msgstr "Vraagteken op het einde"
 
-#: trans/checks.py:204
+#: trans/checks.py:289
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1639,11 +1610,11 @@ msgstr ""
 "Bron en vertaalde tekst eindigen niet allebei met een vraagteken of het "
 "vraagteken is niet correct omgeven met spaties"
 
-#: trans/checks.py:217
+#: trans/checks.py:306
 msgid "Trailing exclamation"
 msgstr "Uitroepingsteken op het einde"
 
-#: trans/checks.py:217
+#: trans/checks.py:307
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1651,35 +1622,35 @@ msgstr ""
 "Bron en vertaalde tekst eindigen niet allebei met een uitroepingsteken of "
 "het uitroepingsteken is niet correct omgeven met spaties"
 
-#: trans/checks.py:249
+#: trans/checks.py:327
 msgid "Python format"
 msgstr "Python formaat"
 
-#: trans/checks.py:249 trans/checks.py:259 trans/checks.py:269
+#: trans/checks.py:328 trans/checks.py:341 trans/checks.py:354
 msgid "Format string does not match source"
 msgstr "Het patroon komt niet overeen met de bron"
 
-#: trans/checks.py:259
+#: trans/checks.py:340
 msgid "PHP format"
 msgstr "PHP formaat"
 
-#: trans/checks.py:269
+#: trans/checks.py:353
 msgid "C format"
 msgstr "C formaat"
 
-#: trans/checks.py:283
+#: trans/checks.py:367
 msgid "Missing plurals"
 msgstr "Ontbrekende meervouden"
 
-#: trans/checks.py:283
+#: trans/checks.py:368
 msgid "Some plural forms are not translated"
 msgstr "Sommige meervoudsvormen zijn niet vertaald"
 
-#: trans/checks.py:302
+#: trans/checks.py:385
 msgid "Inconsistent"
 msgstr "Inconsistent"
 
-#: trans/checks.py:302
+#: trans/checks.py:386
 msgid "This message has more than one translation in this project"
 msgstr "Dit bericht heeft meer dan één vertaling in dit project"
 
