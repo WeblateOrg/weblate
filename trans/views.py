@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound, Http404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -82,7 +82,7 @@ def show_check_project(request, name, project):
     langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
     for lang in langs:
-        checks = Check.objects.filter(check = name, project = prj, language = lang, ignore = False).values_list('checksum', flat = True).distinct()
+        checks = Check.objects.filter(check = name, project = prj, language = lang, ignore = False).values_list('checksum', flat = True)
         res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject__project = prj, translated = True).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
         units |= res
     return render_to_response('check_project.html', RequestContext(request, {
@@ -101,7 +101,7 @@ def show_check_subproject(request, name, project, subproject):
     langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
     for lang in langs:
-        checks = Check.objects.filter(check = name, project = subprj.project, language = lang, ignore = False).values_list('checksum', flat = True).distinct()
+        checks = Check.objects.filter(check = name, project = subprj.project, language = lang, ignore = False).values_list('checksum', flat = True)
         res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang, translated = True).values('translation__language__code').annotate(count = Count('id'))
         units |= res
     return render_to_response('check_subproject.html', RequestContext(request, {
@@ -888,4 +888,28 @@ def about(request):
         'whoosh_version': whoosh.versionstring(),
         'django_version': django.get_version(),
         'git_version': git.__version__,
+    }))
+
+@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+def git_status_project(request, project):
+    obj = get_object_or_404(Project, slug = project)
+
+    return render_to_response('js/git-status.html', RequestContext(request, {
+        'object': obj,
+    }))
+
+@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+def git_status_subproject(request, project, subproject):
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+
+    return render_to_response('js/git-status.html', RequestContext(request, {
+        'object': obj,
+    }))
+
+@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+def git_status_translation(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    return render_to_response('js/git-status.html', RequestContext(request, {
+        'object': obj,
     }))

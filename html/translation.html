@@ -27,28 +27,36 @@
 
 <h2>{% trans "Tools" %}</h2>
 
-<div class="accordion">
-<h2><a href="#">{% trans "Search" %}</a></h2>
+<div class="tabs" id="translation-tabs">
+<ul>
+<li><a href="#search">{% trans "Search" %}</a></li>
+<li><a href="#download">{% trans "Download" %}</a></li>
+{% if perms.trans.upload_translation %}
+<li><a href="#upload">{% trans "Upload" %}</a></li>
+{% endif %}
+{% if autoform %}
+<li><a href="#auto">{% trans "Automatic translation" %}</a></li>
+{% endif %}
+{% if perms.trans.commit_translation or perms.trans.update_translation %}
+<li><a href="{% url 'trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
+{% endif %}
+</ul>
 
-<div>
+<div id="search">
 <form action="{{ object.get_translate_url }}" method="GET">
 {{ search_form.as_p }}
 <input type="submit" value="{% trans "Search" %}" class="button" />
 </form>
 </div>
 
-<h3><a href="#">{% trans "Download" %}</a></h3>
-
-<div>
+<div id="download">
 {% with object.get_download_url as download_url %}
 <p>{% blocktrans %}You can <a href="{{ download_url }}">download</a> file for offline translation.{% endblocktrans %}</p>
 {% endwith %}
 </div>
 
 {% if perms.trans.upload_translation %}
-<h3><a href="#">{% trans "Upload" %}</a></h3>
-
-<div>
+<div id="upload">
 {% if perms.trans.overwrite_translation %}
 <p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
 {% else %}
@@ -66,8 +74,7 @@
 {% endif %}
 
 {% if autoform %}
-<h3><a href="#">{% trans "Automatic translation" %}</a></h3>
-<div>
+<div id="auto">
 <p>{% trans "Automatic translation takes existing translations in this project and applies it to current subproject. It can be used to push translations to different branch or to fix inconsistent translations." %}</p>
 <form action="{% url 'trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
@@ -78,8 +85,6 @@
 </form>
 </div>
 {% endif %}
-
-{% include "git-tools.html" %}
 </div>
 
 {% endblock %}

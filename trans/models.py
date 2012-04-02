@@ -679,7 +679,7 @@ class Translation(models.Model):
             checks = Check.objects.all()
         else:
             checks = Check.objects.filter(check = check)
-        checks = checks.filter(project = self.subproject.project, language = self.language, ignore = False).values_list('checksum', flat = True).distinct()
+        checks = checks.filter(project = self.subproject.project, language = self.language, ignore = False).values_list('checksum', flat = True)
         return self.unit_set.filter(checksum__in = checks, translated = True).count()
 
 class Unit(models.Model):
