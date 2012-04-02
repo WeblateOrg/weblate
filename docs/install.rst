@@ -61,7 +61,7 @@ The configuration for Lighttpd web server might look like following::
     )
     alias.url = (
         "/media" => "/var/lib/django/weblate/media/",
-        "/static/admin" => "/usr/share/pyshared/django/contrib/admin/media/",
+        "/static/admin" => "/usr/share/pyshared/django/contrib/admin/static/admin/",
     )
 
     url.rewrite-once = (
