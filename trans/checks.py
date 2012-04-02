@@ -164,6 +164,13 @@ class Check(object):
 
         return False
 
+    def is_language(self, language, vals):
+        '''
+        Detects whether language is in given list, ignores language
+        variants.
+        '''
+        return language.code.split('_')[0] in vals
+
 
 
 class SameCheck(Check):
@@ -180,7 +187,7 @@ class SameCheck(Check):
             return False
 
         # English variants will have most things not translated
-        if language.code.split('_')[0] == 'en':
+        if self.is_language(language, ['en']):
             return False
 
         # Probably shortcut
@@ -227,7 +234,7 @@ class EndSpaceCheck(Check):
         # One letter things are usually decimal/thousand separators
         if len(source) == 1 and len(target) <= 1:
             return False
-        if language.code.split('_')[0] in ['fr', 'br']:
+        if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
                 return False
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
@@ -257,14 +264,14 @@ class EndColonCheck(Check):
     description = _('Source and translated do not both end with a colon or colon is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
-        if language.code.split('_')[0] in ['fr', 'br']:
+        if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
                 return False
             if source[-1] == ':':
                 if target[-3:] not in [' : ', '&nbsp;: ', u' : ']:
                     return True
             return False
-        if language.code.split('_')[0] in ['ja']:
+        if self.is_language(language, ['ja']):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             if source[-1] == ':':
@@ -282,7 +289,7 @@ class EndQuestionCheck(Check):
     description = _('Source and translated do not both end with a question mark or it is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
-        if language.code.split('_')[0] in ['fr', 'br']:
+        if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
                 return False
             if source[-1] == '?':
@@ -300,7 +307,7 @@ class EndExclamationCheck(Check):
     description = _('Source and translated do not both end with an exclamation mark or it is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
-        if language.code.split('_')[0] in ['fr', 'br']:
+        if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
                 return False
             if source[-1] == '!':

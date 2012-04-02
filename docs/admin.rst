@@ -178,3 +178,28 @@ Checking translation text does not contain "foo"
         # Real check code
         def check_single(self, source, target, flags, language, unit):
             return 'foo' in target
+
+Checking Czech translation text plurals differ
+++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+
+    from trans.checks import Check
+    from django.utils.translation import ugettext_lazy as _
+
+    class PluralCzechCheck(Check):
+
+        # Used as identifier for check, should be unique
+        check_id = 'foo'
+
+        # Short name used to display failing check
+        name = _('Foo check')
+
+        # Description for failing check
+        description = _('Your translation is foo')
+
+        # Real check code
+        def check(self, sources, targets, flags, language, unit):
+            if self.is_language(language, ['cs']):
+                return targets[1] == targets[2]
+            return False
