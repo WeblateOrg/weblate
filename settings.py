@@ -263,3 +263,21 @@ LAZY_COMMITS = True
 
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
+
+# List of consistency checks
+CHECK_LIST = (
+    'trans.checks.SameCheck',
+    'trans.checks.BeginNewlineCheck',
+    'trans.checks.EndNewlineCheck',
+    'trans.checks.EndSpaceCheck',
+    'trans.checks.EndStopCheck',
+    'trans.checks.EndColonCheck',
+    'trans.checks.EndQuestionCheck',
+    'trans.checks.EndExclamationCheck',
+    'trans.checks.PythonFormatCheck',
+    'trans.checks.PHPFormatCheck',
+    'trans.checks.CFormatCheck',
+    'trans.checks.PluralsCheck',
+    'trans.checks.ConsistencyCheck',
+)
+

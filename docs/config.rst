@@ -3,6 +3,12 @@ Configuration
 
 All settings are stored in :file:`settings.py` (as usual for Django).
 
+.. envvar:: CHECK_LIST
+
+    List of consistency checks to perform on translation.
+
+    .. seealso:: :ref:`checks`, :ref:`custom-checks`
+
 .. envvar:: COMMIT_MESSAGE
 
     Message used on each commit Weblate does.
