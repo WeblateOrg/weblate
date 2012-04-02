@@ -1,8 +1,6 @@
 {% load i18n %}
 
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<h3><a href="#">{% trans "Git maintenance" %}</a></h3>
-<div>
 {% with object.git_needs_commit as needs_commit %}
 {% if needs_commit %}
 <p>{% trans "There are some not commited changes!" %}</p>
@@ -21,5 +19,4 @@
 {% if perms.trans.update_translation %}
 <li><a href="{{ object.get_update_url }}">{% trans "Pull changes from remote repository" %}</a></li>
 {% endif %}
-</div>
 {% endif %}

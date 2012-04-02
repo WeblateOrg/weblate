@@ -16,22 +16,24 @@
 
 <form method="post" action="{% url 'accounts.views.profile' %}">
 {% csrf_token %}
-<div class="accordion">
-<h2><a href="#">{% trans "Preferences" %}</a></h2>
-<div>
+<div class="tabs" id="tabs-preferences">
+<ul>
+<li><a href="#preferences">{% trans "Preferences" %}</a></li>
+<li><a href="#account">{% trans "Account" %}</a></li>
+<li><a href="#password">{% trans "Password" %}</a></li>
+</ul>
+<div id="preferences">
 <table>
 {{ form.as_table }}
 </table>
 </div>
-<h2><a href="#">{% trans "Account" %}</a></h2>
-<div>
+<div id="account">
 <table>
 {{ userform.as_table }}
 </table>
 <span class="helptext">{% trans "Your name and email will appear as author on Git commits." %}</span>
 </div>
-<h2><a href="#">{% trans "Password" %}</a></h2>
-<div>
+<div id="password">
 {% url 'django.contrib.auth.views.password_change' as pw_url %}
 {% blocktrans %}You can change password on <a href="{{ pw_url }}">separate page</a>.{% endblocktrans %}
 </div>

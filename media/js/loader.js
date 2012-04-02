@@ -120,7 +120,6 @@ $(function() {
     $('ul.menu li a').button();
     $('ul.breadcums').buttonset();
     $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
-    $('.accordion').accordion();
     $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
@@ -190,7 +189,7 @@ $(function() {
         });
 
     });
-    $("div.tabs").tabs({
+    $("div.translate-tabs").tabs({
         ajaxOptions: {
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
@@ -215,5 +214,28 @@ $(function() {
         load: function (e, ui) {
             $('a.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
         }
+    });
+    $("div.tabs").tabs({
+        ajaxOptions: {
+            error: function(xhr, status, index, anchor) {
+                $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
+            }
+        },
+        cookie: {
+            expires: 31,
+            name: $(this).id,
+            path: '/'
+        },
+        cache: true,
+        load: function (e, ui) {
+            $(ui.panel).find(".tab-loading").remove();
+        },
+        show: function (e, ui) {
+            var $panel = $(ui.panel);
+
+            if ($panel.is(":empty")) {
+                $panel.append("<div class='tab-loading'>" + gettext("Loading...") + "</div>");
+            }
+        },
     });
 });

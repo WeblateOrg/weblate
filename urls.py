@@ -64,6 +64,9 @@ urlpatterns = patterns('',
     url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'trans.views.get_similar'),
     url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'trans.views.get_other'),
     url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'trans.views.get_dictionary'),
+    url(r'^js/git/(?P<project>[^/]*)/$', 'trans.views.git_status_project'),
+    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.git_status_subproject'),
+    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.git_status_translation'),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
