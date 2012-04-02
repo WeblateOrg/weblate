@@ -515,7 +515,7 @@ class Translation(models.Model):
         '''
         gitrepo.git.commit(
             self.filename,
-            author = author,
+            author = author.encode('utf-8'),
             m = settings.COMMIT_MESSAGE
             )
 
