@@ -616,7 +616,7 @@ class Translation(models.Model):
         for check in trans.checks.CHECKS:
             cnt = self.unit_set.filter_type(check).count()
             if cnt > 0:
-                desc =  trans.checks.CHECKS[check][2] + (' (%d)' % cnt)
+                desc =  trans.checks.CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
         return result
 
@@ -850,7 +850,7 @@ class Unit(models.Model):
         tgt = self.get_target_plurals()
         failing = []
         for check in trans.checks.CHECKS:
-            if trans.checks.CHECKS[check][1](src, tgt, self.flags, self.translation.language, self):
+            if trans.checks.CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
                 failing.append(check)
 
         for check in self.checks():
@@ -901,7 +901,7 @@ class Suggestion(models.Model):
             unit.fuzzy = False
             unit.save_backend(request, False)
 
-CHECK_CHOICES = [(x, trans.checks.CHECKS[x][0]) for x in trans.checks.CHECKS]
+CHECK_CHOICES = [(x, trans.checks.CHECKS[x].name) for x in trans.checks.CHECKS]
 
 class Check(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
@@ -923,7 +923,7 @@ class Check(models.Model):
         )
 
     def get_description(self):
-        return trans.checks.CHECKS[self.check][2]
+        return trans.checks.CHECKS[self.check].description
 
     def get_doc_url(self):
         return 'http://weblate.readthedocs.org/en/weblate-%s/usage.html#check-%s' % (

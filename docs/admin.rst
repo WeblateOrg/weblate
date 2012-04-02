@@ -142,3 +142,70 @@ The changes are in this mode committed once one of following conditions happen:
 * merge from upstream occurs
 * import of translation happens
 * translation for a language is completed
+
+.. _custom-checks:
+
+Customizing checks
+------------------
+
+Weblate comes with wide range of consistency checks (see :ref:`checks`), though
+they might not 100% cover all you want to check. The list of performed checks
+can be adjusted using :envvar:`CHECK_LIST` and you can also add custom checks.
+All you need to do is to subclass :class:`trans.checks.Check`, set few
+attributes and implement either ``check`` or ``check_single`` methods (first
+one if you want to deal with plurals in your code, the latter one does this for
+you). You will find below some examples.
+
+Checking translation text does not contain "foo"
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+This is pretty simple check which just checks whether translation does not
+contain string "foo".
+
+.. code-block:: python
+
+    from trans.checks import Check
+    from django.utils.translation import ugettext_lazy as _
+
+    class FooCheck(Check):
+
+        # Used as identifier for check, should be unique
+        check_id = 'foo'
+
+        # Short name used to display failing check
+        name = _('Foo check')
+
+        # Description for failing check
+        description = _('Your translation is foo')
+
+        # Real check code
+        def check_single(self, source, target, flags, language, unit):
+            return 'foo' in target
+
+Checking Czech translation text plurals differ
+++++++++++++++++++++++++++++++++++++++++++++++
+
+Check using language information to verify that two plural forms in Czech
+language are not same.
+
+.. code-block:: python
+
+    from trans.checks import Check
+    from django.utils.translation import ugettext_lazy as _
+
+    class PluralCzechCheck(Check):
+
+        # Used as identifier for check, should be unique
+        check_id = 'foo'
+
+        # Short name used to display failing check
+        name = _('Foo check')
+
+        # Description for failing check
+        description = _('Your translation is foo')
+
+        # Real check code
+        def check(self, sources, targets, flags, language, unit):
+            if self.is_language(language, ['cs']):
+                return targets[1] == targets[2]
+            return False
