@@ -57,11 +57,11 @@ def site_title(value):
 
 @register.simple_tag
 def check_name(check):
-    return trans.checks.CHECKS[check][0]
+    return trans.checks.CHECKS[check].name
 
 @register.simple_tag
 def check_description(check):
-    return trans.checks.CHECKS[check][2]
+    return trans.checks.CHECKS[check].description
 
 @register.simple_tag
 def project_name(prj):
