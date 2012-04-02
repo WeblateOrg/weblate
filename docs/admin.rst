@@ -159,6 +159,9 @@ you). You will find below some examples.
 Checking translation text does not contain "foo"
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
+This is pretty simple check which just checks whether translation does not
+contain string "foo".
+
 .. code-block:: python
 
     from trans.checks import Check
@@ -181,6 +184,9 @@ Checking translation text does not contain "foo"
 
 Checking Czech translation text plurals differ
 ++++++++++++++++++++++++++++++++++++++++++++++
+
+Check using language information to verify that two plural forms in Czech
+language are not same.
 
 .. code-block:: python
 
