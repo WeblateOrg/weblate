@@ -36,7 +36,7 @@ logger = logging.getLogger('weblate')
 def home(request):
     projects = Project.objects.all()
 
-    if request.user.get_full_name() == '':
+    if not request.user.is_anonymous() and request.user.get_full_name() == '':
         messages.warning(request, _('Please set your full name in profile.'))
 
     # Load user translations if user is authenticated
