@@ -523,6 +523,12 @@ class Translation(models.Model):
     def get_repo(self):
         return self.subproject.get_repo()
 
+    def do_update(self, request = None):
+        return self.subproject.do_update(request)
+
+    def do_push(self, request = None):
+        return self.subproject.do_push(request)
+
     def get_git_blob_hash(self):
         '''
         Returns current Git blob hash for file.
