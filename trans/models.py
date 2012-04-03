@@ -544,7 +544,7 @@ class Translation(models.Model):
             units = Unit.objects.filter(translation__language = self.language, translation__subproject__project = self.subproject.project, checksum = checksum)
             if units.count() == 0:
                 # Last unit referencing to these checks
-                Checks.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+                Check.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
             else:
                 # There are other units as well, but some checks (eg. consistency) needs update now
                 for unit in units:
