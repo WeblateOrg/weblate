@@ -253,7 +253,7 @@ class SubProject(models.Model):
                 msg
             )
             if request is not None:
-                messages.error(request, _('Failed to merge remote branch on %s') % self.__unicode__())
+                messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
 
         del gitrepo
         return ret
