@@ -41,7 +41,7 @@ def set_lang(sender, **kwargs):
     user = kwargs['user']
     try:
         profile = user.get_profile()
-    except Profile.DoesNotExist, e:
+    except Profile.DoesNotExist:
         profile, newprofile = Profile.objects.get_or_create(user = user)
         if newprofile:
             messages.info(request, gettext('Your profile has been migrated, you might want to adjust preferences.'))
