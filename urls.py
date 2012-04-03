@@ -45,6 +45,10 @@ urlpatterns = patterns('',
     url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.update_subproject'),
     url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.update_translation'),
 
+    url(r'^push/(?P<project>[^/]*)/$', 'trans.views.push_project'),
+    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.push_subproject'),
+    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.push_translation'),
+
     url(r'^languages/$', 'trans.views.show_languages'),
     url(r'^languages/(?P<lang>[^/]*)/$', 'trans.views.show_language'),
 

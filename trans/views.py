@@ -375,6 +375,36 @@ def update_translation(request, project, subproject, lang):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+@login_required
+@permission_required('trans.push_translation')
+def push_project(request, project):
+    obj = get_object_or_404(Project, slug = project)
+
+    if obj.do_push(request):
+        messages.add_message(request, messages.INFO, _('All repositories were pushed.'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
+@login_required
+@permission_required('trans.push_translation')
+def push_subproject(request, project, subproject):
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+
+    if obj.do_push(request):
+        messages.add_message(request, messages.INFO, _('All repositories were pushed.'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
+@login_required
+@permission_required('trans.push_translation')
+def push_translation(request, project, subproject, lang):
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    if obj.do_push(request):
+        messages.add_message(request, messages.INFO, _('All repositories were pushed.'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
 def download_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
