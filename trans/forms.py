@@ -24,7 +24,11 @@ class PluralTextarea(forms.Textarea):
 
         # Handle single item translation
         if len(value) == 1:
-            return super(PluralTextarea, self).render(name, escape_newline(value[0]), attrs)
+            return super(PluralTextarea, self).render(
+                name,
+                escape_newline(value[0]),
+                attrs
+            )
 
         # Okay we have more strings
         ret = []
@@ -37,10 +41,18 @@ class PluralTextarea(forms.Textarea):
                 fieldname = name
 
             # Render textare
-            textarea = super(PluralTextarea, self).render(fieldname, escape_newline(val), attrs)
+            textarea = super(PluralTextarea, self).render(
+                fieldname,
+                escape_newline(val),
+                attrs
+            )
             # Label for plural
             label = lang.get_plural_label(idx)
-            ret.append('<label class="plural" for="%s">%s</label><br />%s' % (attrs['id'], label, textarea))
+            ret.append('<label class="plural" for="%s">%s</label><br />%s' % (
+                attrs['id'],
+                label,
+                textarea
+            ))
 
         # Show plural equation for more strings
         pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
@@ -64,8 +76,17 @@ class PluralTextarea(forms.Textarea):
         return ret
 
 class PluralField(forms.CharField):
+    '''
+    Renderer for plural field. The only difference
+    from CharFied is that it does not force value to be
+    string.
+    '''
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
-        super(PluralField, self).__init__(*args, widget = PluralTextarea, **kwargs)
+        super(PluralField, self).__init__(
+            *args,
+            widget = PluralTextarea,
+            **kwargs
+        )
 
     def to_python(self, value):
         # We can get list from PluralTextarea
@@ -80,7 +101,10 @@ class SimpleUploadForm(forms.Form):
     file  = forms.FileField(label = _('File'))
 
 class UploadForm(SimpleUploadForm):
-    overwrite = forms.BooleanField(label = _('Overwrite existing translations'), required = False)
+    overwrite = forms.BooleanField(
+        label = _('Overwrite existing translations'),
+        required = False
+    )
 
 class ExtraUploadForm(UploadForm):
     author_name = forms.CharField(
@@ -96,23 +120,59 @@ class ExtraUploadForm(UploadForm):
 
 class SearchForm(forms.Form):
     q = forms.CharField(label = _('Query'))
-    exact = forms.BooleanField(label = _('Exact match'), required = False, initial = False)
-    src = forms.BooleanField(label = _('Search in source strings'), required = False, initial = True)
-    tgt = forms.BooleanField(label = _('Search in target strings'), required = False, initial = True)
-    ctx = forms.BooleanField(label = _('Search in context strings'), required = False, initial = False)
+    exact = forms.BooleanField(
+        label = _('Exact match'),
+        required = False,
+        initial = False
+    )
+    src = forms.BooleanField(
+        label = _('Search in source strings'),
+        required = False,
+        initial = True
+    )
+    tgt = forms.BooleanField(
+        label = _('Search in target strings'),
+        required = False,
+        initial = True
+    )
+    ctx = forms.BooleanField(
+        label = _('Search in context strings'),
+        required = False,
+        initial = False
+    )
 
 class MergeForm(forms.Form):
     checksum = forms.CharField()
     merge = forms.IntegerField()
 
 class AutoForm(forms.Form):
-    overwrite = forms.BooleanField(label = _('Overwrite strings'), required = False, initial = False)
-    inconsistent = forms.BooleanField(label = _('Replace inconsistent'), required = False, initial = False)
-    subproject = forms.ChoiceField(label = _('Subproject to use'), required = False, initial = '')
+    overwrite = forms.BooleanField(
+        label = _('Overwrite strings'),
+        required = False,
+        initial = False
+    )
+    inconsistent = forms.BooleanField(
+        label = _('Replace inconsistent'),
+        required = False,
+        initial = False
+    )
+    subproject = forms.ChoiceField(
+        label = _('Subproject to use'),
+        required = False,
+        initial = ''
+    )
 
     def __init__(self, obj, *args, **kwargs):
-        choices = [(s.slug, s.name) for s in obj.subproject.project.subproject_set.exclude(id = obj.subproject.id)]
+        # Dynamically generate choices for other subproject
+        # in same project
+        project = obj.subproject.project
+        other_subprojects = project.subproject_set.exclude(
+            id = obj.subproject.id
+        )
+        choices = [(s.slug, s.name) for s in other_subprojects]
+
         super(AutoForm, self).__init__(*args, **kwargs)
+
         self.fields['subproject'].choices = [('', _('All subprojects'))] + choices
 
 class WordForm(forms.Form):
@@ -121,7 +181,10 @@ class WordForm(forms.Form):
 
 class DictUploadForm(forms.Form):
     file  = forms.FileField(label = _('File'))
-    overwrite = forms.BooleanField(label = _('Overwrite existing'), required = False)
+    overwrite = forms.BooleanField(
+        label = _('Overwrite existing'),
+        required = False
+    )
 
 class ReviewForm(forms.Form):
     date = forms.DateField(label = _('Starting date'))
