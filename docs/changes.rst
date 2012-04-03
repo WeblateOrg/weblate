@@ -4,7 +4,7 @@ Changes
 weblate 0.8
 -----------
 
-Relased on ? 2012.
+Relased on April 3rd 2012.
 
 * Replaced own full text search with Whoosh.
 * Various fixes and improvements to checks.
