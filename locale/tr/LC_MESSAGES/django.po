@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-03 10:51+0200\n"
+"POT-Creation-Date: 2012-04-03 13:21+0200\n"
 "PO-Revision-Date: 2012-04-02 12:34+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,7 +189,7 @@ msgstr "Hata ayrıntıları:"
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:23 trans/views.py:117
+#: accounts/models.py:23 trans/views.py:120
 msgid "Languages"
 msgstr "Diller"
 
@@ -197,7 +197,7 @@ msgstr "Diller"
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: accounts/models.py:50
+#: accounts/models.py:48
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
 
@@ -273,7 +273,7 @@ msgstr ""
 "<a href=\"http://weblate.org\">Weblate %(version)s</a> tarafından "
 "desteklenmektedir"
 
-#: html/base.html:75 trans/views.py:910
+#: html/base.html:75 trans/views.py:913
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -455,7 +455,7 @@ msgstr "diller"
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
-#: html/list-translations.html:9 trans/views.py:61
+#: html/list-translations.html:9 trans/views.py:64
 msgid "Checks"
 msgstr "Kontrol"
 
@@ -516,7 +516,7 @@ msgstr "Alt proje"
 msgid "Tools"
 msgstr "Araçlar"
 
-#: html/project.html:40 trans/views.py:132
+#: html/project.html:40 trans/views.py:135
 msgid "Dictionaries"
 msgstr "Sözlükler"
 
@@ -1849,99 +1849,103 @@ msgstr "Belirsiz satırlar (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satırlar (%d)"
 
-#: trans/views.py:155 trans/views.py:228
+#: trans/views.py:39
+msgid "Please set your full name in profile."
+msgstr ""
+
+#: trans/views.py:158 trans/views.py:231
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s için %(language)s sözlüğü"
 
-#: trans/views.py:183
+#: trans/views.py:186
 msgid "No words to import found in file."
 msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 
-#: trans/views.py:185
+#: trans/views.py:188
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Dosyadan %d kelime içe aktarıldı."
 
-#: trans/views.py:187 trans/views.py:189 trans/views.py:293
+#: trans/views.py:190 trans/views.py:192 trans/views.py:296
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
-#: trans/views.py:291
+#: trans/views.py:294
 msgid "Automatic translation completed."
 msgstr "Otomatik çeviri tamamlandı."
 
-#: trans/views.py:324 trans/views.py:334 trans/views.py:344
+#: trans/views.py:327 trans/views.py:337 trans/views.py:347
 msgid "All pending translations were committed."
 msgstr "Tüm bekleyen çeviriler işlendi."
 
-#: trans/views.py:354 trans/views.py:364 trans/views.py:374
+#: trans/views.py:357 trans/views.py:367 trans/views.py:377
 msgid "All repositories were updated."
 msgstr "Tüm havuzlar güncellendi."
 
-#: trans/views.py:384 trans/views.py:394 trans/views.py:404
+#: trans/views.py:387 trans/views.py:397 trans/views.py:407
 #, fuzzy
 msgid "All repositories were pushed."
 msgstr "Tüm havuzlar güncellendi."
 
-#: trans/views.py:517
+#: trans/views.py:520
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views.py:537
+#: trans/views.py:540
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:540 trans/views.py:580
+#: trans/views.py:543 trans/views.py:583
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:556
+#: trans/views.py:559
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:574 trans/views.py:612
+#: trans/views.py:577 trans/views.py:615
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views.py:595
+#: trans/views.py:598
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views.py:618
+#: trans/views.py:621
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:629
+#: trans/views.py:632
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:639
+#: trans/views.py:642
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:660
+#: trans/views.py:663
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:705
+#: trans/views.py:708
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:852
+#: trans/views.py:855
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:854
+#: trans/views.py:857
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:856
+#: trans/views.py:859
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:867
+#: trans/views.py:870
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
