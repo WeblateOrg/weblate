@@ -119,6 +119,15 @@ class Project(models.Model):
             ret &= s.do_update(request)
         return ret
 
+    def do_push(self, request = None):
+        '''
+        Pushes all git repos.
+        '''
+        ret = True
+        for s in self.subproject_set.all():
+            ret &= s.do_push(request)
+        return ret
+
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
