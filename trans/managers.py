@@ -74,11 +74,11 @@ class TranslationManager(models.Manager):
         Parses translation meta info and creates/updates translation object.
         '''
         lang = Language.objects.get(code = code)
-        trans, created = self.get_or_create(
+        translation, created = self.get_or_create(
             language = lang,
             subproject = subproject,
             filename = path)
-        trans.update_from_blob(blob_hash, force)
+        translation.update_from_blob(blob_hash, force)
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
