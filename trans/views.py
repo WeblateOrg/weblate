@@ -2,9 +2,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
-from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import AnonymousUser
@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
 from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm
-from util import is_plural, split_plural, join_plural
+from util import join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import datetime

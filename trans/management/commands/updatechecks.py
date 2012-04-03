@@ -1,5 +1,4 @@
 from trans.management.commands import UnitCommand
-from optparse import make_option
 
 class Command(UnitCommand):
     help = 'updates checks for units'

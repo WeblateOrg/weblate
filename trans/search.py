@@ -7,7 +7,7 @@ import os
 from whoosh.fields import SchemaClass, TEXT, ID, NUMERIC
 from django.db.models.signals import post_syncdb
 from django.conf import settings
-from whoosh import index
+from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 
 class TargetSchema(SchemaClass):
@@ -22,14 +22,14 @@ class SourceSchema(SchemaClass):
     translation = NUMERIC
 
 def create_source_index():
-    return index.create_in(
+    return create_in(
         settings.WHOOSH_INDEX,
         schema = SourceSchema,
         indexname = 'source'
     )
 
 def create_target_index(lang):
-    return index.create_in(
+    return create_in(
         settings.WHOOSH_INDEX,
         schema = TargetSchema,
         indexname = 'target-%s' % lang
@@ -42,45 +42,71 @@ def create_index(sender=None, **kwargs):
 
 post_syncdb.connect(create_index)
 
-def get_source_index():
-    if not hasattr(get_source_index, 'ix_source'):
-        get_source_index.ix_source = index.open_dir(
-            settings.WHOOSH_INDEX,
-            indexname = 'source'
-        )
-    return get_source_index.ix_source
+class Index(object):
+    '''
+    Class to manage index readers and writers.
+    '''
 
-def get_target_index(lang):
-    if not hasattr(get_target_index, 'ix_target'):
-        get_target_index.ix_target = {}
-    if not lang in get_target_index.ix_target:
-        try:
-            get_target_index.ix_target[lang] = index.open_dir(
+    _source = None
+    _target = {}
+    _source_writer = None
+    _target_writer = {}
+
+    def source(self):
+        '''
+        Returns source index.
+        '''
+        if self._source is None:
+            self._source = open_dir(
                 settings.WHOOSH_INDEX,
-                indexname = 'target-%s' % lang
+                indexname = 'source'
             )
-        except whoosh.index.EmptyIndexError:
-            get_target_index.ix_target[lang] = create_target_index(lang)
-    return get_target_index.ix_target[lang]
+        return self._source
 
-def get_source_writer(buffered = True):
-    if not buffered:
-        return get_source_index().writer()
-    if not hasattr(get_source_writer, 'source_writer'):
-        get_source_writer.source_writer = BufferedWriter(get_source_index())
-    return get_source_writer.source_writer
+    def target(self, lang):
+        '''
+        Returns target index for given language.
+        '''
+        if not lang in self._target:
+            try:
+                self._target[lang] = open_dir(
+                    settings.WHOOSH_INDEX,
+                    indexname = 'target-%s' % lang
+                )
+            except whoosh.index.EmptyIndexError:
+                self._target[lang] = create_target_index(lang)
+        return self._target[lang]
 
-def get_target_writer(lang, buffered = True):
-    if not buffered:
-        return get_target_index(lang).writer()
-    if not hasattr(get_target_writer, 'target_writer'):
-        get_target_writer.target_writer = {}
-    if not lang in get_target_writer.target_writer:
-        get_target_writer.target_writer[lang] = BufferedWriter(get_target_index(lang))
-    return get_target_writer.target_writer[lang]
+    def source_writer(self, buffered = True):
+        '''
+        Returns source index writer (by default buffered).
+        '''
+        if not buffered:
+            return self.source().writer()
+        if self._source_writer is None:
+            self._source_writer = BufferedWriter(self.source())
+        return self._source_writer
 
-def get_source_searcher():
-    return get_source_writer().searcher()
+    def target_writer(self, lang, buffered = True):
+        '''
+        Returns target index writer (by default buffered) for given language.
+        '''
+        if not buffered:
+            return self.target(lang).writer()
+        if not lang in self._target_writer:
+            self._target_writer[lang] = BufferedWriter(self.target(lang))
+        return self._target_writer[lang]
 
-def get_target_searcher(lang):
-    return get_target_writer(lang).searcher()
+    def source_searcher(self):
+        '''
+        Returns source index searcher (on buffered writer).
+        '''
+        return self.source_writer().searcher()
+
+    def target_searcher(self, lang):
+        '''
+        Returns target index searcher (on buffered writer) for given language.
+        '''
+        return self.target_writer(lang).searcher()
+
+index = Index()

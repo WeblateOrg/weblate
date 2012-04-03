@@ -1,4 +1,4 @@
-from django.db import models, connection
+from django.db import models
 from django.conf import settings
 import itertools
 
@@ -6,7 +6,7 @@ from lang.models import Language
 
 from whoosh import qparser
 
-from util import is_plural, split_plural, join_plural, msg_checksum
+from util import join_plural, msg_checksum
 
 import trans.search
 from translate.storage import factory
@@ -74,11 +74,11 @@ class TranslationManager(models.Manager):
         Parses translation meta info and creates/updates translation object.
         '''
         lang = Language.objects.get(code = code)
-        trans, created = self.get_or_create(
+        translation, created = self.get_or_create(
             language = lang,
             subproject = subproject,
             filename = path)
-        trans.update_from_blob(blob_hash, force)
+        translation.update_from_blob(blob_hash, force)
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
@@ -182,9 +182,9 @@ class UnitManager(models.Manager):
         Updates/Adds to all indices given unit.
         '''
         if writer_target is None:
-            writer_target = trans.search.get_target_writer(unit.translation.language.code)
+            writer_target = trans.search.index.target_writer(unit.translation.language.code)
         if writer_source is None:
-            writer_source = trans.search.get_source_writer()
+            writer_source = trans.search.index.source_writer()
 
         self.add_to_source_index(
             unit.checksum,
@@ -215,7 +215,7 @@ class UnitManager(models.Manager):
         '''
         ret = set()
         if source or context:
-            with trans.search.get_source_searcher() as searcher:
+            with trans.search.index.source_searcher() as searcher:
                 if source:
                     ret = ret.union(self.__search(searcher, 'source', trans.search.SourceSchema(), query))
                 if context:
@@ -223,7 +223,7 @@ class UnitManager(models.Manager):
 
         if translation:
             sample = self.all()[0]
-            with trans.search.get_target_searcher(sample.translation.language.code) as searcher:
+            with trans.search.index.target_searcher(sample.translation.language.code) as searcher:
                 ret = ret.union(self.__search(searcher, 'target', trans.search.TargetSchema(), query))
 
         if checksums:
@@ -236,7 +236,7 @@ class UnitManager(models.Manager):
         Finds similar units to current unit.
         '''
         ret = set([unit.checksum])
-        with trans.search.get_source_searcher() as searcher:
+        with trans.search.index.source_searcher() as searcher:
             # Extract up to 10 terms from the source
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)

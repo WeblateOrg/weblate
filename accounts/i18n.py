@@ -2,6 +2,9 @@
 Fake file to translate messages from django-registration and django.contrib.auth.
 '''
 
+def _(s):
+    return s
+
 def fake():
     _(u'This username is already taken. Please choose another.')
     _(u'You must type the same password each time')

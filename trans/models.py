@@ -1,10 +1,9 @@
 from django.db import models
-from django.db.models import Q
 from django.contrib.auth.models import User
 from django.conf import settings
 from lang.models import Language
 from django.db.models import Sum
-from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
@@ -30,7 +29,7 @@ logger = logging.getLogger('weblate')
 
 def validate_repoweb(val):
     try:
-        test = val % {'file': 'file.po', 'line': '9'}
+        val % {'file': 'file.po', 'line': '9'}
     except Exception, e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
@@ -248,11 +247,8 @@ class SubProject(models.Model):
         Ensures local tracking branch exists and is checkouted.
         '''
         gitrepo = self.get_repo()
-        try:
-            head = gitrepo.heads[self.branch]
-        except:
+        if not self.branch in gitrepo.heads:
             gitrepo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
-            head = gitrepo.heads[self.branch]
         gitrepo.git.checkout(self.branch)
         del gitrepo
 
@@ -545,7 +541,7 @@ class Translation(models.Model):
             units = Unit.objects.filter(translation__language = self.language, translation__subproject__project = self.subproject.project, checksum = checksum)
             if units.count() == 0:
                 # Last unit referencing to these checks
-                Checks.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+                Check.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
             else:
                 # There are other units as well, but some checks (eg. consistency) needs update now
                 for unit in units:

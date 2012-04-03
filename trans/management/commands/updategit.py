@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from trans.models import SubProject, Project
 from optparse import make_option
 

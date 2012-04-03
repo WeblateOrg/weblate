@@ -6,6 +6,9 @@ Generated using:
 ./manage.py dumpdata --format=yaml lang | grep fields:| sed 's/.*name: /    _("/; s/, nplu.*/")/'
 '''
 
+def _(s):
+    return s
+
 def fake():
     _("Afrikaans")
     _("Akan")
