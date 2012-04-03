@@ -1,7 +1,12 @@
 {% load i18n %}
-
-{% if perms.trans.commit_translation or perms.trans.update_translation %}
 {% with object.git_needs_commit as needs_commit %}
+{% if perms.trans.commit_translation or perms.trans.update_translation %}
+
+<ul class="buttons">
+<li><a href="{{ object.get_commit_url }}" title="{% trans "Commit pending changes" %}"{% if not needs_commit %} class="disabled"{% endif %}>{% trans "Commit" %}</a></li>
+<li><a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}"{% if not perms.trans.update_translation %} class="disabled"{% endif %}>{% trans "Pull" %}</a></li>
+</ul>
+
 {% if needs_commit %}
 <p>{% trans "There are some not commited changes!" %}</p>
 {% endif %}
@@ -11,12 +16,24 @@
 {% if object.git_needs_push %}
 <p>{% trans "There are some new commits in local Git repository!" %}</p>
 {% endif %}
-<ul>
-{% if needs_commit %}
-<li><a href="{{ object.get_commit_url }}">{% trans "Commit pending changes" %}</a></li>
+
+<div class="details-accordion">
+<h3><a href="#">{% trans "Details" %}</a></h3>
+<div>
+{% if object.subproject_set %}
+{% for sp in object.subproject_set.all %}
+<h4>{{ sp }}</h3>
+<pre>
+{{ sp.get_repo.git.status }}
+</pre>
+{% endfor %}
+{% else %}
+<pre>
+{{ object.get_repo.git.status }}
+</pre>
+{% endif %}
+</div>
+</div>
+
 {% endif %}
 {% endwith %}
-{% if perms.trans.update_translation %}
-<li><a href="{{ object.get_update_url }}">{% trans "Pull changes from remote repository" %}</a></li>
-{% endif %}
-{% endif %}

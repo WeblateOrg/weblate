@@ -229,6 +229,9 @@ $(function() {
         cache: true,
         load: function (e, ui) {
             $(ui.panel).find(".tab-loading").remove();
+            $('.buttons').buttonset();
+            $('.buttons .disabled').button('disable');
+            $('.details-accordion').accordion({collapsible: true, active: -1});
         },
         show: function (e, ui) {
             var $panel = $(ui.panel);
