@@ -220,7 +220,7 @@ class UnitManager(models.Manager):
             # Try to find at least configured number of similar strings, remove up to 4 words
             while len(ret) < settings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
-                   ret = ret.union(self.search(' '.join(search), True, False, False, True))
+                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
                 cnt -= 1
 
         return self.filter(
