@@ -26,7 +26,7 @@ class Command(UnitCommand):
         if base.count() == 0:
             return
 
-        with trans.search.get_source_writer(buffered = False) as writer:
+        with trans.search.index.source_writer(buffered = False) as writer:
             for unit in base.values('checksum', 'source', 'context', 'translation_id').iterator():
                 Unit.objects.add_to_source_index(
                     unit['checksum'],
@@ -36,7 +36,7 @@ class Command(UnitCommand):
                     writer)
 
         for lang in languages:
-            with trans.search.get_target_writer(lang = lang.code, buffered = False) as writer:
+            with trans.search.index.target_writer(lang = lang.code, buffered = False) as writer:
                 for unit in base.filter(translation__language =
                     lang).exclude(target = '').values('checksum', 'target', 'translation_id').iterator():
                     Unit.objects.add_to_target_index(
