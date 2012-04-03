@@ -47,7 +47,7 @@ def set_lang(sender, **kwargs):
         if newprofile:
             profile.save
             messages.add_message(request, messages.INFO,
-                mark_safe(gettext('Your profile has been migrated, you might want to adjust preferences.')))
+                gettext('Your profile has been migrated, you might want to adjust preferences.'))
     lang_code = user.get_profile().language
     request.session['django_language'] = lang_code
 
