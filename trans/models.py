@@ -231,6 +231,37 @@ class SubProject(models.Model):
         self.create_translations()
         return ret
 
+    def do_push(self, request = None):
+        '''
+        Wrapper for pushing changes to remote repo.
+        '''
+        # Do we have push configured
+        if self.push == '':
+            messages.error(request, _('Push is disabled for %s.') % self.__unicode__())
+            return False
+
+        # First check we're up to date
+        if not self.do_update(request):
+            return False
+
+        # Do actual push
+        gitrepo = self.get_repo()
+        try:
+            logger.info('pushing to remote repo %s', self.__unicode__())
+            gitrepo.git.push('origin', '%s:%s' % (self.branch, self.branch))
+        except Exception, e:
+            logger.warning('failed push on repo %s', self.__unicode__())
+            msg = 'Error:\n%s' % str(e)
+            mail_admins(
+                'failed push on repo %s' % self.__unicode__(),
+                msg
+            )
+            if request is not None:
+                messages.error(request, _('Failed to push to remote branch on %s.') % self.__unicode__())
+                return False
+        del gitrepo
+        return True
+
     def commit_pending(self):
         '''
         Checks whether there is any translation which needs commit.
