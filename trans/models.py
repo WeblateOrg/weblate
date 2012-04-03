@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 from glob import glob
 import os
 import time
@@ -109,13 +110,13 @@ class Project(models.Model):
         for s in self.subproject_set.all():
             s.commit_pending()
 
-    def do_update(self):
+    def do_update(self, request = None):
         '''
         Updates all git repos.
         '''
         ret = True
         for s in self.subproject_set.all():
-            ret &= s.do_update()
+            ret &= s.do_update(request)
         return ret
 
 class SubProject(models.Model):
@@ -213,12 +214,12 @@ class SubProject(models.Model):
         gitrepo.git.checkout(self.branch)
         del gitrepo
 
-    def do_update(self):
+    def do_update(self, request = None):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
         self.commit_pending()
-        ret = self.update_branch()
+        ret = self.update_branch(request)
         self.create_translations()
         return ret
 
@@ -229,7 +230,7 @@ class SubProject(models.Model):
         for translation in self.translation_set.all():
             translation.commit_pending()
 
-    def update_branch(self):
+    def update_branch(self, request = None):
         '''
         Updates current branch to match remote (if possible).
         '''
@@ -251,6 +252,9 @@ class SubProject(models.Model):
                 'failed merge on repo %s' % self.__unicode__(),
                 msg
             )
+            if request is not None:
+                messages.error(request, _('Failed to merge remote branch on %s') % self.__unicode__())
+
         del gitrepo
         return ret
 
