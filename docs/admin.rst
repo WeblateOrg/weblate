@@ -77,6 +77,16 @@ And enable it's use by defining proper attributes in given repository (eg. in
 
 .. seealso:: http://www.no-ack.org/2010/12/writing-git-merge-driver-for-po-files.html
 
+Pushing changes
+---------------
+
+Each project can have configured push URL and in such case Weblate offers
+button to push changes to remote repo in web interface.
+
+I case you will use SSH for pushing, you need to have key without passphrase
+(or use ssh-agent for Django) and the remote server needs to be verified by you
+first, otherwise push will fail.
+
 .. _hooks:
 
 Interacting with others
