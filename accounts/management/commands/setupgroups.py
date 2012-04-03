@@ -1,5 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
-from trans.models import SubProject
+from django.core.management.base import BaseCommand
 from optparse import make_option
 from django.contrib.auth.models import Group, Permission, User
 

@@ -1,7 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from trans.models import Suggestion, Check, Unit, Project
 from lang.models import Language
-from optparse import make_option
 
 class Command(BaseCommand):
     help = 'clenups orphaned checks and suggestions'

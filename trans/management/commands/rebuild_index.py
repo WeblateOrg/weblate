@@ -3,7 +3,6 @@ from trans.models import Unit
 from lang.models import Language
 import trans.search
 from optparse import make_option
-from django.db.models import Q
 
 class Command(UnitCommand):
     help = 'updates index for fulltext search'
