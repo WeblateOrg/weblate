@@ -124,6 +124,7 @@ class SubProject(models.Model):
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
     project = models.ForeignKey(Project)
     repo = models.CharField(max_length = 200, help_text = _('URL of Git repository'))
+    push = models.CharField(max_length = 200, help_text = _('URL of push Git repository'), blank = True)
     repoweb = models.URLField(
         help_text = _('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
         validators = [validate_repoweb])
@@ -192,6 +193,13 @@ class SubProject(models.Model):
         # Check remote source
         if origin.url != self.repo:
             gitrepo.git.remote('set-url', 'origin', self.repo)
+        # Check push url
+        try:
+            pushurl = origin.pushurl
+        except AttributeError:
+            pushurl = ''
+        if pushurl != self.push:
+            gitrepo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
         logger.info('updating repo %s', self.__unicode__())
         try:
