@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
+    echo "Usage: ./scripts/create-release [--tag|TREE-ISH]"
+    exit 1
+fi
+
+version=`python -c 'import trans; print trans.VERSION'`
+if [ -z "$1" ] ; then
+    rev=HEAD
+else
+    if [ "x$1" = "x--tag" ] ; then
+        rev=weblate-$version
+        git tag -s $rev -m "Version $VERSION"
+    else
+        rev=$1
+    fi
+fi
+
+git archive --format=tar --prefix=weblate-$version/ $rev | xz > weblate-$version.tar.xz
