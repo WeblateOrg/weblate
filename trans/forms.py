@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
+from django.forms import ValidationError
 
 def escape_newline(value):
     '''
@@ -121,3 +122,12 @@ class WordForm(forms.Form):
 class DictUploadForm(forms.Form):
     file  = forms.FileField(label = _('File'))
     overwrite = forms.BooleanField(label = _('Overwrite existing'), required = False)
+
+class ReviewForm(forms.Form):
+    date = forms.DateField(label = _('Starting date'))
+    type = forms.CharField(widget = forms.HiddenInput, initial = 'review')
+
+    def clean_type(self):
+        if self.cleaned_data['type'] != 'review':
+            raise ValidationError('Invalid value')
+        return self.cleaned_data['type']

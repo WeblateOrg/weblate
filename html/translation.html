@@ -34,6 +34,9 @@
 {% if perms.trans.upload_translation %}
 <li><a href="#upload">{% trans "Upload" %}</a></li>
 {% endif %}
+{% if review_form %}
+<li><a href="#review">{% trans "Review" %}</a></li>
+{% endif %}
 {% if autoform %}
 <li><a href="#auto">{% trans "Automatic translation" %}</a></li>
 {% endif %}
@@ -73,6 +76,18 @@
 </div>
 {% endif %}
 
+{% if review_form %}
+<div id="review">
+<p>{% trans "Review translations touched by other users." %}</p>
+<form action="{{ object.get_translate_url }}" method="GET">
+<table>
+{{ review_form.as_table }}
+</table>
+<p><input type="submit" value="{% trans "Process" %}" /></p>
+</form>
+</div>
+{% endif %}
+
 {% if autoform %}
 <div id="auto">
 <p>{% trans "Automatic translation takes existing translations in this project and applies it to current subproject. It can be used to push translations to different branch or to fix inconsistent translations." %}</p>
@@ -85,6 +100,7 @@
 </form>
 </div>
 {% endif %}
+
 </div>
 
 {% endblock %}

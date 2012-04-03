@@ -144,6 +144,12 @@ class UnitManager(models.Manager):
         else:
             return self.all()
 
+    def review(self, date, user):
+        from trans.models import Change
+        sample = self.all()[0]
+        changes = Change.objects.filter(unit__translation = sample.translation, timestamp__gte = date).exclude(user = user)
+        return self.filter(id__in = changes.values_list('unit__id', flat = True))
+
     def add_to_source_index(self, checksum, source, context, translation, writer):
         writer.update_document(
             checksum = unicode(checksum),

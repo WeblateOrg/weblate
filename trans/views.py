@@ -14,10 +14,11 @@ from django.core.urlresolvers import reverse
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm
+from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm
 from util import is_plural, split_plural, join_plural
 from accounts.models import Profile
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
+import datetime
 import logging
 import os.path
 import json
@@ -316,6 +317,7 @@ def show_translation(request, project, subproject, lang):
         'form': form,
         'autoform': autoform,
         'search_form': search_form,
+        'review_form': ReviewForm(initial = {'date': datetime.date.today() - datetime.timedelta(days = 31)}),
     }))
 
 @login_required
@@ -471,6 +473,9 @@ def parse_search_url(request):
         search_target = True
         search_context = True
         search_url = ''
+
+    if 'date' in request.REQUEST:
+        search_url += '&date=%s' % request.REQUEST['date']
 
     return (
         rqtype,
@@ -673,8 +678,19 @@ def translate(request, project, subproject, lang):
     # If we failed to get unit above or on no POST
     if unit is None:
 
-        # Apply search conditions
-        if search_query != '':
+        reviewform = ReviewForm(request.GET)
+
+        if reviewform.is_valid():
+            units = obj.unit_set.review(reviewform.cleaned_data['date'], request.user)
+            # Review
+            if direction == 'stay':
+                units = units.filter(position = pos)
+            elif direction == 'back':
+                units = units.filter(position__lt = pos).order_by('-position')
+            else:
+                units = units.filter(position__gt = pos)
+        elif search_query != '':
+            # Apply search conditions
             if search_exact:
                 query = Q()
                 if search_source:
