@@ -62,6 +62,12 @@ class Project(models.Model):
             'project': self.slug
         })
 
+    @models.permalink
+    def get_push_url(self):
+        return ('trans.views.push_project', (), {
+            'project': self.slug
+        })
+
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
@@ -128,6 +134,15 @@ class Project(models.Model):
             ret &= s.do_push(request)
         return ret
 
+    def can_push(self):
+        '''
+        Checks whether any suprojects can push.
+        '''
+        ret = False
+        for s in self.subproject_set.all():
+            ret |= s.can_push()
+        return ret
+
 class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
@@ -164,11 +179,21 @@ class SubProject(models.Model):
             'subproject': self.slug
         })
 
+    @models.permalink
+    def get_push_url(self):
+        return ('trans.views.push_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
+
     def __unicode__(self):
         return '%s/%s' % (self.project.__unicode__(), self.name)
 
     def get_path(self):
         return os.path.join(self.project.get_path(), self.slug)
+
+    def can_push(self):
+        return self.push != '' and self.push is not None
 
     def get_repo(self):
         '''
@@ -245,7 +270,7 @@ class SubProject(models.Model):
         Wrapper for pushing changes to remote repo.
         '''
         # Do we have push configured
-        if self.push == '':
+        if not self.can_push():
             messages.error(request, _('Push is disabled for %s.') % self.__unicode__())
             return False
 
@@ -446,6 +471,14 @@ class Translation(models.Model):
         })
 
     @models.permalink
+    def get_push_url(self):
+        return ('trans.views.push_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    @models.permalink
     def get_download_url(self):
         return ('trans.views.download_translation', (), {
             'project': self.subproject.project.slug,
@@ -529,6 +562,9 @@ class Translation(models.Model):
 
     def do_push(self, request = None):
         return self.subproject.do_push(request)
+
+    def can_push(self):
+        return self.subproject.can_push()
 
     def get_git_blob_hash(self):
         '''
