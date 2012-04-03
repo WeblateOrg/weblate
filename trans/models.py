@@ -404,6 +404,7 @@ class Translation(models.Model):
             ('author_translation', "Can define author of translation upload"),
             ('commit_translation', "Can force commiting of translation"),
             ('update_translation', "Can update translation from git"),
+            ('push_translation', "Can push translations to remote git"),
             ('automatic_translation', "Can do automatic translation"),
         )
 

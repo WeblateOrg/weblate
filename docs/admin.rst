@@ -107,6 +107,7 @@ Weblate uses privileges system based on Django. It defines following extra privi
 * Can define author of translation upload  [Managers]
 * Can force commiting of translation [Managers]
 * Can update translation from git [Managers]
+* Can push translations to remote git [Managers]
 * Can do automatic translation using other project strings [Managers]
 * Can save translation [Users, Managers]
 * Can accept suggestion [Users, Managers]
