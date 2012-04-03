@@ -118,6 +118,9 @@ class UnitManager(models.Manager):
         return dbunit
 
     def filter_type(self, rqtype):
+        '''
+        Basic filtering based on unit state or failed checks.
+        '''
         import trans.models
         if rqtype == 'all':
             return self.all()
@@ -145,12 +148,18 @@ class UnitManager(models.Manager):
             return self.all()
 
     def review(self, date, user):
+        '''
+        Returns units touched by other users since given time.
+        '''
         from trans.models import Change
         sample = self.all()[0]
         changes = Change.objects.filter(unit__translation = sample.translation, timestamp__gte = date).exclude(user = user)
         return self.filter(id__in = changes.values_list('unit__id', flat = True))
 
     def add_to_source_index(self, checksum, source, context, translation, writer):
+        '''
+        Updates/Adds to source index given unit.
+        '''
         writer.update_document(
             checksum = unicode(checksum),
             source = unicode(source),
@@ -159,6 +168,9 @@ class UnitManager(models.Manager):
         )
 
     def add_to_target_index(self, checksum, target, translation, writer):
+        '''
+        Updates/Adds to target index given unit.
+        '''
         writer.update_document(
             checksum = unicode(checksum),
             target = unicode(target),
@@ -166,6 +178,9 @@ class UnitManager(models.Manager):
         )
 
     def add_to_index(self, unit, writer_target = None, writer_source = None):
+        '''
+        Updates/Adds to all indices given unit.
+        '''
         if writer_target is None:
             writer_target = trans.search.get_target_writer(unit.translation.language.code)
         if writer_source is None:
@@ -183,28 +198,33 @@ class UnitManager(models.Manager):
             unit.translation_id,
             writer_target)
 
+    def __search(self, searcher, field, schema, query):
+        '''
+        Wrapper for fulltext search.
+        '''
+        qp = qparser.QueryParser(field, schema)
+        q = qp.parse(query)
+        return [searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)]
+
+
     def search(self, query, source = True, context = True, translation = True, checksums = False):
-        ret = []
-        sample = self.all()[0]
+        '''
+        Performs full text search on defined set of fields.
+
+        Returns queryset unless checksums is set.
+        '''
+        ret = set()
         if source or context:
             with trans.search.get_source_searcher() as searcher:
                 if source:
-                    qp = qparser.QueryParser('source', trans.search.SourceSchema())
-                    q = qp.parse(query)
-                    for doc in searcher.docs_for_query(q):
-                        ret.append(searcher.stored_fields(doc)['checksum'])
+                    ret = ret.union(self.__search(searcher, 'source', trans.search.SourceSchema(), query))
                 if context:
-                    qp = qparser.QueryParser('context', trans.search.SourceSchema())
-                    q = qp.parse(query)
-                    for doc in searcher.docs_for_query(q):
-                        ret.append(searcher.stored_fields(doc)['checksum'])
+                    ret = ret.union(self.__search(searcher, 'context', trans.search.SourceSchema(), query))
 
         if translation:
+            sample = self.all()[0]
             with trans.search.get_target_searcher(sample.translation.language.code) as searcher:
-                qp = qparser.QueryParser('target', trans.search.TargetSchema())
-                q = qp.parse(query)
-                for doc in searcher.docs_for_query(q):
-                    ret.append(searcher.stored_fields(doc)['checksum'])
+                ret = ret.union(self.__search(searcher, 'target', trans.search.TargetSchema(), query))
 
         if checksums:
             return ret
@@ -212,6 +232,9 @@ class UnitManager(models.Manager):
         return self.filter(checksum__in = ret)
 
     def similar(self, unit):
+        '''
+        Finds similar units to current unit.
+        '''
         ret = set([unit.checksum])
         with trans.search.get_source_searcher() as searcher:
             # Extract up to 10 terms from the source
@@ -220,7 +243,7 @@ class UnitManager(models.Manager):
             # Try to find at least configured number of similar strings, remove up to 4 words
             while len(ret) < settings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
-                   ret = ret.union(self.search(' '.join(search), True, False, False, True))
+                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
                 cnt -= 1
 
         return self.filter(
