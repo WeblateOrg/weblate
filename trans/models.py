@@ -468,11 +468,14 @@ class Translation(models.Model):
         # Update revision and stats
         self.update_stats(blob_hash)
 
+    def get_repo(self):
+        return self.subproject.get_repo()
+
     def get_git_blob_hash(self):
         '''
         Returns current Git blob hash for file.
         '''
-        gitrepo = self.subproject.get_repo()
+        gitrepo = self.get_repo()
         tree = gitrepo.tree()
         ret = tree[self.filename].hexsha
         del gitrepo
@@ -524,7 +527,7 @@ class Translation(models.Model):
         Checks whether there are some not commited changes.
         '''
         if gitrepo is None:
-            gitrepo = self.subproject.get_repo()
+            gitrepo = self.get_repo()
         status = gitrepo.git.status('--porcelain', '--', self.filename)
         if status == '':
             # No changes to commit
@@ -541,7 +544,7 @@ class Translation(models.Model):
         '''
         Wrapper for commiting translation to git.
         '''
-        gitrepo = self.subproject.get_repo()
+        gitrepo = self.get_repo()
         if not self.git_needs_commit(gitrepo):
             return False
         if not force_commit and settings.LAZY_COMMITS:
