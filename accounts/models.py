@@ -6,7 +6,6 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
-from django.utils.safestring import mark_safe
 from django.contrib.auth.models import Group
 
 from lang.models import Language

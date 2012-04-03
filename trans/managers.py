@@ -1,4 +1,4 @@
-from django.db import models, connection
+from django.db import models
 from django.conf import settings
 import itertools
 
@@ -6,7 +6,7 @@ from lang.models import Language
 
 from whoosh import qparser
 
-from util import is_plural, split_plural, join_plural, msg_checksum
+from util import join_plural, msg_checksum
 
 import trans.search
 from translate.storage import factory
