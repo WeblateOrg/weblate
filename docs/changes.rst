@@ -21,6 +21,7 @@ Relased on ? 2012.
 * New about page showing used versions.
 * Django 1.4 compatibility.
 * Ability to push changes to remote repo from web interface.
+* Added review of translations done by others.
 
 weblate 0.7
 -----------
