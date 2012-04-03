@@ -247,11 +247,8 @@ class SubProject(models.Model):
         Ensures local tracking branch exists and is checkouted.
         '''
         gitrepo = self.get_repo()
-        try:
-            head = gitrepo.heads[self.branch]
-        except:
+        if not self.branch in gitrepo.heads:
             gitrepo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
-            head = gitrepo.heads[self.branch]
         gitrepo.git.checkout(self.branch)
         del gitrepo
 
