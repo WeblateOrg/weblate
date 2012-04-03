@@ -1,6 +1,6 @@
 import trans
 from django.conf import settings
-from datetime import datetime, date
+from datetime import datetime
 
 def version(request):
     return {'version': trans.VERSION}
