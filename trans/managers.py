@@ -183,25 +183,28 @@ class UnitManager(models.Manager):
             unit.translation_id,
             writer_target)
 
+    def __search(self, searcher, field, schema, query):
+        '''
+        Wrapper for fulltext search.
+        '''
+        qp = qparser.QueryParser(field, schema)
+        q = qp.parse(query)
+        return [searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)]
+
+
     def search(self, query, source = True, context = True, translation = True, checksums = False):
         ret = set()
-        sample = self.all()[0]
         if source or context:
             with trans.search.get_source_searcher() as searcher:
                 if source:
-                    qp = qparser.QueryParser('source', trans.search.SourceSchema())
-                    q = qp.parse(query)
-                    ret = ret.union([searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)])
+                    ret = ret.union(self.__search(searcher, 'source', trans.search.SourceSchema(), query))
                 if context:
-                    qp = qparser.QueryParser('context', trans.search.SourceSchema())
-                    q = qp.parse(query)
-                    ret = ret.union([searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)])
+                    ret = ret.union(self.__search(searcher, 'context', trans.search.SourceSchema(), query))
 
         if translation:
+            sample = self.all()[0]
             with trans.search.get_target_searcher(sample.translation.language.code) as searcher:
-                qp = qparser.QueryParser('target', trans.search.TargetSchema())
-                q = qp.parse(query)
-                ret = ret.union([searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)])
+                ret = ret.union(self.__search(searcher, 'target', trans.search.TargetSchema(), query))
 
         if checksums:
             return ret
