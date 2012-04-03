@@ -47,7 +47,7 @@ def contact(request):
                     form.cleaned_data['email'],
                     form.cleaned_data['message']
                 ))
-            messages.add_message(request, messages.INFO, _('Message has been sent to administrator.'))
+            messages.info(request, _('Message has been sent to administrator.'))
             return HttpResponseRedirect('/')
     else:
         initial = {}

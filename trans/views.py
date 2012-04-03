@@ -183,13 +183,13 @@ def upload_dictionary(request, project, lang):
         if form.is_valid():
             count = Dictionary.objects.upload(prj, lang, request.FILES['file'], form.cleaned_data['overwrite'])
             if count == 0:
-                messages.add_message(request, messages.WARNING, _('No words to import found in file.'))
+                messages.warning(request, _('No words to import found in file.'))
             else:
-                messages.add_message(request, messages.INFO, _('Imported %d words from file.') % count)
+                messages.info(request, _('Imported %d words from file.') % count)
         else:
-            messages.add_message(request, messages.ERROR, _('Failed to process form!'))
+            messages.error(request, _('Failed to process form!'))
     else:
-        messages.add_message(request, messages.ERROR, _('Failed to process form!'))
+        messages.error(request, _('Failed to process form!'))
     return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
 
 def show_dictionary(request, project, lang):
@@ -291,9 +291,9 @@ def auto_translation(request, project, subproject, lang):
                 # Save unit to backend
                 unit.save_backend(request, False, False)
 
-        messages.add_message(request, messages.INFO, _('Automatic translation completed.'))
+        messages.info(request, _('Automatic translation completed.'))
     else:
-        messages.add_message(request, messages.ERROR, _('Failed to process form!'))
+        messages.error(request, _('Failed to process form!'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -324,7 +324,7 @@ def commit_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     obj.commit_pending()
 
-    messages.add_message(request, messages.INFO, _('All pending translations were committed.'))
+    messages.info(request, _('All pending translations were committed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -334,7 +334,7 @@ def commit_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     obj.commit_pending()
 
-    messages.add_message(request, messages.INFO, _('All pending translations were committed.'))
+    messages.info(request, _('All pending translations were committed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -344,7 +344,7 @@ def commit_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     obj.commit_pending()
 
-    messages.add_message(request, messages.INFO, _('All pending translations were committed.'))
+    messages.info(request, _('All pending translations were committed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -354,7 +354,7 @@ def update_project(request, project):
     obj = get_object_or_404(Project, slug = project)
 
     if obj.do_update(request):
-        messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+        messages.info(request, _('All repositories were updated.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -364,7 +364,7 @@ def update_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
 
     if obj.do_update(request):
-        messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+        messages.info(request, _('All repositories were updated.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -374,7 +374,7 @@ def update_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     if obj.do_update(request):
-        messages.add_message(request, messages.INFO, _('All repositories were updated.'))
+        messages.info(request, _('All repositories were updated.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -384,7 +384,7 @@ def push_project(request, project):
     obj = get_object_or_404(Project, slug = project)
 
     if obj.do_push(request):
-        messages.add_message(request, messages.INFO, _('All repositories were pushed.'))
+        messages.info(request, _('All repositories were pushed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -394,7 +394,7 @@ def push_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
 
     if obj.do_push(request):
-        messages.add_message(request, messages.INFO, _('All repositories were pushed.'))
+        messages.info(request, _('All repositories were pushed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -404,7 +404,7 @@ def push_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
     if obj.do_push(request):
-        messages.add_message(request, messages.INFO, _('All repositories were pushed.'))
+        messages.info(request, _('All repositories were pushed.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -517,7 +517,7 @@ def translate(request, project, subproject, lang):
                     if isinstance(user, AnonymousUser):
                         user = None
                     if form.cleaned_data['target'] == len(form.cleaned_data['target']) * ['']:
-                        messages.add_message(request, messages.ERROR, _('Your suggestion is empty!'))
+                        messages.error(request, _('Your suggestion is empty!'))
                         # Stay on same entry
                         return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                             obj.get_translate_url(),
@@ -537,10 +537,10 @@ def translate(request, project, subproject, lang):
                         profile.save()
                 elif not request.user.is_authenticated():
                     # We accept translations only from authenticated
-                    messages.add_message(request, messages.ERROR, _('You need to log in to be able to save translations!'))
+                    messages.error(request, _('You need to log in to be able to save translations!'))
                 elif not request.user.has_perm('trans.save_translation'):
                     # Need privilege to save
-                    messages.add_message(request, messages.ERROR, _('You don\'t have privileges to save translations!'))
+                    messages.error(request, _('You don\'t have privileges to save translations!'))
                 else:
                     # Remember old checks
                     oldchecks = set(unit.active_checks().values_list('check', flat = True))
@@ -556,7 +556,7 @@ def translate(request, project, subproject, lang):
                     # Did we introduce any new failures?
                     if newchecks > oldchecks:
                         # Show message to user
-                        messages.add_message(request, messages.ERROR, _('Some checks have failed on your translation!'))
+                        messages.error(request, _('Some checks have failed on your translation!'))
                         # Stay on same entry
                         return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                             obj.get_translate_url(),
@@ -574,13 +574,13 @@ def translate(request, project, subproject, lang):
                 ))
             except Unit.DoesNotExist:
                 logger.error('message %s disappeared!', form.cleaned_data['checksum'])
-                messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
+                messages.error(request, _('Message you wanted to translate is no longer available!'))
 
     # Handle translation merging
     if 'merge' in request.GET:
         if not request.user.has_perm('trans.save_translation'):
             # Need privilege to save
-            messages.add_message(request, messages.ERROR, _('You don\'t have privileges to save translations!'))
+            messages.error(request, _('You don\'t have privileges to save translations!'))
         else:
             try:
                 mergeform = MergeForm(request.GET)
@@ -595,7 +595,7 @@ def translate(request, project, subproject, lang):
                     merged = Unit.objects.get(pk = mergeform.cleaned_data['merge'])
 
                     if unit.checksum != merged.checksum:
-                        messages.add_message(request, messages.ERROR, _('Can not merge different messages!'))
+                        messages.error(request, _('Can not merge different messages!'))
                     else:
                         unit.target = merged.target
                         unit.fuzzy = merged.fuzzy
@@ -612,13 +612,13 @@ def translate(request, project, subproject, lang):
                         ))
             except Unit.DoesNotExist:
                 logger.error('message %s disappeared!', form.cleaned_data['checksum'])
-                messages.add_message(request, messages.ERROR, _('Message you wanted to translate is no longer available!'))
+                messages.error(request, _('Message you wanted to translate is no longer available!'))
 
     # Handle accepting/deleting suggestions
     if 'accept' in request.GET or 'delete' in request.GET:
         # Check for authenticated users
         if not request.user.is_authenticated():
-            messages.add_message(request, messages.ERROR, _('You need to log in to be able to manage suggestions!'))
+            messages.error(request, _('You need to log in to be able to manage suggestions!'))
             return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                 obj.get_translate_url(),
                 rqtype,
@@ -629,7 +629,7 @@ def translate(request, project, subproject, lang):
         # Parse suggestion ID
         if 'accept' in request.GET:
             if not request.user.has_perm('trans.accept_suggestion'):
-                messages.add_message(request, messages.ERROR, _('You do not have privilege to accept suggestions!'))
+                messages.error(request, _('You do not have privilege to accept suggestions!'))
                 return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                     obj.get_translate_url(),
                     rqtype,
@@ -639,7 +639,7 @@ def translate(request, project, subproject, lang):
             sugid = request.GET['accept']
         else:
             if not request.user.has_perm('trans.delete_suggestion'):
-                messages.add_message(request, messages.ERROR, _('You do not have privilege to delete suggestions!'))
+                messages.error(request, _('You do not have privilege to delete suggestions!'))
                 return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                     obj.get_translate_url(),
                     rqtype,
@@ -660,7 +660,7 @@ def translate(request, project, subproject, lang):
             # Delete suggestion in both cases (accepted ones are no longer needed)
             suggestion.delete()
         else:
-            messages.add_message(request, messages.ERROR, _('Invalid suggestion!'))
+            messages.error(request, _('Invalid suggestion!'))
 
         # Redirect to same entry for possible editing
         return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
@@ -705,7 +705,7 @@ def translate(request, project, subproject, lang):
         try:
             unit = units[0]
         except IndexError:
-            messages.add_message(request, messages.INFO, _('You have reached end of translating.'))
+            messages.info(request, _('You have reached end of translating.'))
             return HttpResponseRedirect(obj.get_absolute_url())
 
         # Show secondary languages for logged in users
@@ -852,11 +852,11 @@ def upload_translation(request, project, subproject, lang):
             try:
                 ret = obj.merge_upload(request, request.FILES['file'], overwrite, author)
                 if ret:
-                    messages.add_message(request, messages.INFO, _('File content successfully merged into translation.'))
+                    messages.info(request, _('File content successfully merged into translation.'))
                 else:
-                    messages.add_message(request, messages.INFO, _('There were no new strings in uploaded file.'))
+                    messages.info(request, _('There were no new strings in uploaded file.'))
             except Exception, e:
-                messages.add_message(request, messages.ERROR, _('File content merge failed: %s' % unicode(e)))
+                messages.error(request, _('File content merge failed: %s' % unicode(e)))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
