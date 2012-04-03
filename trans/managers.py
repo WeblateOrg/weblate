@@ -184,27 +184,24 @@ class UnitManager(models.Manager):
             writer_target)
 
     def search(self, query, source = True, context = True, translation = True, checksums = False):
-        ret = []
+        ret = set()
         sample = self.all()[0]
         if source or context:
             with trans.search.get_source_searcher() as searcher:
                 if source:
                     qp = qparser.QueryParser('source', trans.search.SourceSchema())
                     q = qp.parse(query)
-                    for doc in searcher.docs_for_query(q):
-                        ret.append(searcher.stored_fields(doc)['checksum'])
+                    ret = ret.union([searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)])
                 if context:
                     qp = qparser.QueryParser('context', trans.search.SourceSchema())
                     q = qp.parse(query)
-                    for doc in searcher.docs_for_query(q):
-                        ret.append(searcher.stored_fields(doc)['checksum'])
+                    ret = ret.union([searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)])
 
         if translation:
             with trans.search.get_target_searcher(sample.translation.language.code) as searcher:
                 qp = qparser.QueryParser('target', trans.search.TargetSchema())
                 q = qp.parse(query)
-                for doc in searcher.docs_for_query(q):
-                    ret.append(searcher.stored_fields(doc)['checksum'])
+                ret = ret.union([searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)])
 
         if checksums:
             return ret
