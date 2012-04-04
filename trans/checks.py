@@ -200,7 +200,7 @@ class SameCheck(Check):
             return False
 
         # Ignore words which are often same in foreigh language
-        if source.lower() in SAME_BLACKLIST or source.lower().strip('&: ') in SAME_BLACKLIST:
+        if source.lower().strip('&: ') in SAME_BLACKLIST:
             return False
 
         return (source == target)
