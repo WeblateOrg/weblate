@@ -40,7 +40,6 @@ C_PRINTF_MATCH = re.compile('''
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
-    'b',
     'bluetooth',
     'bzip2',
     'csv',
@@ -68,6 +67,7 @@ SAME_BLACKLIST = frozenset((
     'mib',
     'mm',
     'n/a',
+    'name',
     'ok',
     'open document',
     'pdf',
@@ -79,10 +79,12 @@ SAME_BLACKLIST = frozenset((
     'smsc',
     'software',
     'sql',
+    'status',
     'text',
     'tib',
     'vcalendar',
     'vcard',
+    'version',
     'web',
     'wiki',
     'www',
@@ -198,7 +200,7 @@ class SameCheck(Check):
             return False
 
         # Ignore words which are often same in foreigh language
-        if source.lower() in SAME_BLACKLIST or source.lower().rstrip(': ') in SAME_BLACKLIST:
+        if source.lower() in SAME_BLACKLIST or source.lower().strip('&: ') in SAME_BLACKLIST:
             return False
 
         return (source == target)
