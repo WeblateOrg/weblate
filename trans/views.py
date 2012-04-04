@@ -311,13 +311,18 @@ def show_translation(request, project, subproject, lang):
     else:
         autoform = None
     search_form = SearchForm()
+    if request.user.is_anonymous():
+        review_form = None
+    else:
+        review_form = ReviewForm(initial = {'date': datetime.date.today() - datetime.timedelta(days = 31)})
+
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
         'form': form,
         'autoform': autoform,
         'search_form': search_form,
-        'review_form': ReviewForm(initial = {'date': datetime.date.today() - datetime.timedelta(days = 31)}),
+        'review_form': review_form,
     }))
 
 @login_required
