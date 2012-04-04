@@ -76,3 +76,12 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         if len(self.cleaned_data['username']) < 5:
             raise forms.ValidationError(_(u'Username needs to have at least five characters.'))
         return super(RegistrationForm, self).clean_username()
+
+    def save(self, profile_callback=None):
+        new_user = super(RegistrationForm, self).save(profile_callback)
+
+        new_user.first_name = self.cleaned_data['first_name']
+        new_user.last_name = self.cleaned_data['last_name']
+        new_user.save()
+
+        return new_user
