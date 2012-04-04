@@ -75,13 +75,13 @@ class TranslationManager(models.Manager):
         '''
         try:
             lang = Language.objects.get(code = code)
-            translation, created = self.get_or_create(
-                language = lang,
-                subproject = subproject,
-                filename = path)
-            translation.update_from_blob(blob_hash, force)
         except Language.DoesNotExist:
-            pass
+            lang = Language.objects.create(code = code, name = '%s (generated)' % code)
+        translation, created = self.get_or_create(
+            language = lang,
+            subproject = subproject,
+            filename = path)
+        translation.update_from_blob(blob_hash, force)
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
