@@ -151,6 +151,8 @@ class UnitManager(models.Manager):
         '''
         Returns units touched by other users since given time.
         '''
+        if user.is_anonymous():
+            return self.none()
         from trans.models import Change
         sample = self.all()[0]
         changes = Change.objects.filter(unit__translation = sample.translation, timestamp__gte = date).exclude(user = user)
