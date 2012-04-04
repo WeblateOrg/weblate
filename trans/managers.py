@@ -73,12 +73,15 @@ class TranslationManager(models.Manager):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
-        lang = Language.objects.get(code = code)
-        translation, created = self.get_or_create(
-            language = lang,
-            subproject = subproject,
-            filename = path)
-        translation.update_from_blob(blob_hash, force)
+        try:
+            lang = Language.objects.get(code = code)
+            translation, created = self.get_or_create(
+                language = lang,
+                subproject = subproject,
+                filename = path)
+            translation.update_from_blob(blob_hash, force)
+        except Language.DoesNotExist:
+            pass
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
