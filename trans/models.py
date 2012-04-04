@@ -150,7 +150,9 @@ class SubProject(models.Model):
     push = models.CharField(max_length = 200, help_text = _('URL of push Git repository'), blank = True)
     repoweb = models.URLField(
         help_text = _('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
-        validators = [validate_repoweb])
+        validators = [validate_repoweb],
+        blank = True,
+    )
     branch = models.CharField(max_length = 50, help_text = _('Git branch to translate'))
     filemask = models.CharField(max_length = 200, help_text = _('Mask of files to translate, use * instead of language code'))
 
@@ -205,6 +207,8 @@ class SubProject(models.Model):
             return git.Repo.init(p)
 
     def get_repoweb_link(self, filename, line):
+        if self.repoweb == '' or self.repoweb is None:
+            return filename
         return self.repoweb % {
             'file': filename,
             'line': line,
