@@ -208,7 +208,7 @@ class SubProject(models.Model):
 
     def get_repoweb_link(self, filename, line):
         if self.repoweb == '' or self.repoweb is None:
-            return filename
+            return None
         return self.repoweb % {
             'file': filename,
             'line': line,
@@ -915,7 +915,10 @@ class Unit(models.Model):
             location = location.strip()
             filename, line = location.split(':')
             link = self.translation.subproject.get_repoweb_link(filename, line)
-            ret.append('<a href="%s">%s</a>' % (link, location))
+            if link is None:
+                ret.append('%s' % location)
+            else:
+                ret.append('<a href="%s">%s</a>' % (link, location))
         return mark_safe('\n'.join(ret))
 
     def suggestions(self):
