@@ -114,7 +114,7 @@ def fake():
     _("Scots")
     _("Serbian")
     _("Serbian (latin)")
-    _("Serbian (cyrrilic)")
+    _("Serbian (cyrillic)")
     _("Sinhala")
     _("Slovak")
     _("Slovenian")
