@@ -59,6 +59,31 @@ preferences, translation to these languages will be shown.
 Bellow translation can be also shown suggestions from other users, which you
 can accept or delete.
 
+Translation context
++++++++++++++++++++
+
+Translation context part allows you to see related information about current
+string.
+
+Nearby messages
+    Displays messages which are located nearby in translation file. These
+    usually are also used in similar context and you might want to check them
+    to keep translation consistent.
+Similar messages
+    Messages which are similar to currently one, which again can help you to
+    stay consistent within translation.
+All locations
+    In case message appears in multiple places (eg. multiple subprojects),
+    this tab shows all of them and for inconsistent translations (see
+    :ref:`check-inconsistent`) you can choose which one to use.
+Dictionary
+    Displays words from project dictionary which are used in current message.
+Recent edits
+    List of people who have changed this message recently using Weblate.
+Project
+    Project information like instructions for translators or information about
+    Git repository.
+
 Dictionary
 ----------
 
