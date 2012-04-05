@@ -14,6 +14,7 @@ from django.core.urlresolvers import reverse
 
 from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from lang.models import Language
+import trans.checks
 from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm
 from util import join_plural
 from accounts.models import Profile
@@ -34,8 +35,14 @@ class FixedFileWrapper(FileWrapper):
 logger = logging.getLogger('weblate')
 
 def home(request):
+    '''
+    Home page of Weblate showing list of projects, stats
+    and user links if logged in.
+    '''
     projects = Project.objects.all()
 
+    # Warn about not filled in username (usually caused by migration of
+    # users from older system
     if not request.user.is_anonymous() and request.user.get_full_name() == '':
         messages.warning(request, _('Please set your full name in profile.'))
 
@@ -60,27 +67,36 @@ def home(request):
     }))
 
 def show_checks(request):
+    '''
+    List of failing checks.
+    '''
     return render_to_response('checks.html', RequestContext(request, {
         'checks': Check.objects.filter(ignore = False).values('check').annotate(count = Count('id')),
         'title': _('Checks'),
     }))
 
 def show_check(request, name):
+    '''
+    Details about failing check.
+    '''
     try:
-        sample = Check.objects.filter(check = name, ignore = False)[0]
+        check = trans.checks.CHECKS[name]
     except IndexError:
         raise Http404('No check matches the given query.')
 
     return render_to_response('check.html', RequestContext(request, {
         'checks': Check.objects.filter(check = name, ignore = False).values('project__slug').annotate(count = Count('id')),
-        'title': sample.get_check_display(),
-        'sample': sample,
+        'title': check.name,
+        'check': check,
     }))
 
 def show_check_project(request, name, project):
+    '''
+    Show checks failing in a project.
+    '''
     prj = get_object_or_404(Project, slug = project)
     try:
-        sample = Check.objects.filter(check = name, project = prj, ignore = False)[0]
+        check = trans.checks.CHECKS[name]
     except IndexError:
         raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
@@ -91,15 +107,18 @@ def show_check_project(request, name, project):
         units |= res
     return render_to_response('check_project.html', RequestContext(request, {
         'checks': units,
-        'title': '%s/%s' % (prj.__unicode__(), sample.get_check_display()),
-        'sample': sample,
+        'title': '%s/%s' % (prj.__unicode__(), check.name),
+        'check': check,
         'project': prj,
     }))
 
 def show_check_subproject(request, name, project, subproject):
+    '''
+    Show checks failing in a subproject.
+    '''
     subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     try:
-        sample = Check.objects.filter(check = name, project = subprj.project, ignore = False)[0]
+        check = trans.checks.CHECKS[name]
     except IndexError:
         raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
@@ -110,8 +129,8 @@ def show_check_subproject(request, name, project, subproject):
         units |= res
     return render_to_response('check_subproject.html', RequestContext(request, {
         'checks': units,
-        'title': '%s/%s' % (subprj.__unicode__(), sample.get_check_display()),
-        'sample': sample,
+        'title': '%s/%s' % (subprj.__unicode__(), check.name),
+        'check': check,
         'subproject': subprj,
     }))
 

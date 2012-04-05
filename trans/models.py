@@ -1027,10 +1027,7 @@ class Check(models.Model):
         return trans.checks.CHECKS[self.check].description
 
     def get_doc_url(self):
-        return 'http://weblate.readthedocs.org/en/weblate-%s/usage.html#check-%s' % (
-            trans.VERSION,
-            self.check,
-        )
+        return trans.checks.CHECKS[self.check].get_doc_url()
 
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)
