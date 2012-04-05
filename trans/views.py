@@ -34,8 +34,14 @@ class FixedFileWrapper(FileWrapper):
 logger = logging.getLogger('weblate')
 
 def home(request):
+    '''
+    Home page of Weblate showing list of projects, stats
+    and user links if logged in.
+    '''
     projects = Project.objects.all()
 
+    # Warn about not filled in username (usually caused by migration of
+    # users from older system
     if not request.user.is_anonymous() and request.user.get_full_name() == '':
         messages.warning(request, _('Please set your full name in profile.'))
 
@@ -60,12 +66,18 @@ def home(request):
     }))
 
 def show_checks(request):
+    '''
+    List of failing checks.
+    '''
     return render_to_response('checks.html', RequestContext(request, {
         'checks': Check.objects.filter(ignore = False).values('check').annotate(count = Count('id')),
         'title': _('Checks'),
     }))
 
 def show_check(request, name):
+    '''
+    Details about failing check.
+    '''
     try:
         sample = Check.objects.filter(check = name, ignore = False)[0]
     except IndexError:
@@ -78,6 +90,9 @@ def show_check(request, name):
     }))
 
 def show_check_project(request, name, project):
+    '''
+    Show checks failing in a project.
+    '''
     prj = get_object_or_404(Project, slug = project)
     try:
         sample = Check.objects.filter(check = name, project = prj, ignore = False)[0]
@@ -97,6 +112,9 @@ def show_check_project(request, name, project):
     }))
 
 def show_check_subproject(request, name, project, subproject):
+    '''
+    Show checks failing in a subproject.
+    '''
     subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     try:
         sample = Check.objects.filter(check = name, project = subprj.project, ignore = False)[0]
