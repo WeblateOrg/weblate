@@ -920,7 +920,7 @@ class Unit(models.Model):
             for unit in allunits:
                 unit.target = self.target
                 unit.fuzzy = self.fuzzy
-                unit.save_backend(request, False)
+                unit.save_backend(request, False, False)
 
     def save(self, *args, **kwargs):
         '''
