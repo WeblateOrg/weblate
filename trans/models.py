@@ -811,6 +811,10 @@ class Unit(models.Model):
         return '%s?pos=%d&dir=stay' % (self.translation.get_translate_url(), self.position)
 
     def update_from_unit(self, unit, pos, force):
+        '''
+        Updates Unit from ttkit unit.
+        '''
+        # Generate values
         location = ', '.join(unit.getlocations())
         if hasattr(unit, 'typecomments'):
             flags = ', '.join(unit.typecomments)
@@ -823,10 +827,15 @@ class Unit(models.Model):
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
         comment = unit.getnotes()
+
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target and fuzzy == self.fuzzy)
+
+        # Check if we actually need to change anything
         if not force and location == self.location and flags == self.flags and same_content and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
             return
+
+        # Store updated values
         self.position = pos
         self.location = location
         self.flags = flags
@@ -837,43 +846,74 @@ class Unit(models.Model):
         self.save(force_insert = force, backend = True, same_content = same_content)
 
     def is_plural(self):
+        '''
+        Checks whether message is plural.
+        '''
         return is_plural(self.source)
 
     def get_source_plurals(self):
+        '''
+        Retuns source plurals in array.
+        '''
         return split_plural(self.source)
 
     def get_target_plurals(self):
+        '''
+        Returns target plurals in array.
+        '''
+        # Is this plural?
         if not self.is_plural():
             return [self.target]
+
+        # Split plurals
         ret = split_plural(self.target)
+
+        # Check if we have expected number of them
         plurals = self.translation.language.nplurals
         if len(ret) == plurals:
             return ret
 
+        # Pad with empty translations
         while len(ret) < plurals:
             ret.append('')
 
+        # Delete extra plurals
         while len(ret) > plurals:
             del(ret[-1])
 
         return ret
 
     def save_backend(self, request, propagate = True, gen_change = True):
+        '''
+        Stores unit to backend.
+        '''
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
+
+        # Update translated flag
         self.translated = pounit.istranslated()
+
+        # Update comments as they might have been changed (eg, fuzzy flag removed)
         if hasattr(pounit, 'typecomments'):
             self.flags = ', '.join(pounit.typecomments)
         else:
             self.flags = ''
+
+        # Save updated unit to database
         self.save(backend = True)
+
+        # Update translation stats
         old_translated = self.translation.translated
         self.translation.update_stats()
+
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
             self.translation.commit_pending()
+
+        # Generate Change object for this change
         if gen_change:
             Change.objects.create(unit = self, user = request.user)
+
         # Propagate to other projects
         if propagate:
             allunits = Unit.objects.same(self).exclude(id = self.id)
