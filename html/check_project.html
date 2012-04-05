@@ -5,20 +5,21 @@
 
 {% block breadcums %}
 <li><a href="{% url 'trans.views.show_checks' %}">{% trans "checks" %}</a></li>
-<li><a href="{% url 'trans.views.show_check' name=sample.check %}">{{ sample.get_check_display }}</a></li>
-<li><a href="{% url 'trans.views.show_check_project' name=sample.check project=project.slug %}">{{ project }}</a></li>
+<li><a href="{% url 'trans.views.show_check' name=check.check_id %}">{{ check.name }}</a></li>
+<li><a href="{% url 'trans.views.show_check_project' name=check.check_id project=project.slug %}">{{ project }}</a></li>
 {% endblock %}
 
 {% block content %}
 
 <p>
-{{ sample.get_description }}
+{{ check.description }}
 </p>
 
 <p>
-{% blocktrans with sample.get_doc_url as link %}More information about this check is available in the <a href="{{ link }}">documentation</a>.{% endblocktrans %}
+{% blocktrans with check.get_doc_url as link %}More information about this check is available in the <a href="{{ link }}">documentation</a>.{% endblocktrans %}
 </p>
 
+{% if checks %}
 <table class="sort simple">
 <thead>
 <tr>
@@ -29,11 +30,16 @@
 {% for check in checks %}
 <tr>
 <th><a href="{% url 'trans.views.show_subproject' project=check.translation__subproject__project__slug subproject=check.translation__subproject__slug %}">{% subproject_name check.translation__subproject__project__slug check.translation__subproject__slug %}</a></th>
-<td><a href="{% url 'trans.views.show_check_subproject' name=sample.check project=check.translation__subproject__project__slug subproject=check.translation__subproject__slug %}">{{ check.count }}</a></td>
+<td><a href="{% url 'trans.views.show_check_subproject' name=check.check_id project=check.translation__subproject__project__slug subproject=check.translation__subproject__slug %}">{{ check.count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
+{% else %}
+<p>
+{% trans "There are no matching failed checks!" %}
+</p>
+{% endif %}
 
 {% endblock %}
 
