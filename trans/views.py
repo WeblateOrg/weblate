@@ -319,22 +319,29 @@ def auto_translation(request, project, subproject, lang):
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+
+    # How much is user allowed to configure upload?
     if request.user.has_perm('trans.author_translation'):
         form = ExtraUploadForm()
     elif request.user.has_perm('trans.overwrite_translation'):
         form = UploadForm()
     else:
         form = SimpleUploadForm()
+
+    # Is user allowed to do automatic translation?
     if request.user.has_perm('trans.automatic_translation'):
         autoform = AutoForm(obj)
     else:
         autoform = None
+
+    # Search form for everybody
     search_form = SearchForm()
+
+    # Review form for logged in users
     if request.user.is_anonymous():
         review_form = None
     else:
         review_form = ReviewForm(initial = {'date': datetime.date.today() - datetime.timedelta(days = 31)})
-
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
