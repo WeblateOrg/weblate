@@ -138,7 +138,7 @@ msgstr "确认新密码"
 
 #: accounts/i18n.py:15
 msgid "The two password fields didn't match."
-msgstr "两次输入的密码不一致。"
+msgstr "两次输入的密码不匹配。"
 
 #: accounts/i18n.py:19
 msgid ""
@@ -581,7 +581,7 @@ msgstr "最后一条"
 #: html/translate.html:27
 #, python-format
 msgid "Searching for \"%(search_query)s\"."
-msgstr "正在搜索 \"%(search_query)s\"。"
+msgstr "正在搜索 “%(search_query)s”。"
 
 #: html/translate.html:54
 msgid "Context"
@@ -615,7 +615,7 @@ msgstr "建议者为匿名用户"
 
 #: html/translate.html:120
 msgid "Used in"
-msgstr "用于"
+msgstr "用在"
 
 #: html/translate.html:126
 msgid "Comments"
@@ -646,11 +646,11 @@ msgstr "此条目相邻的条目"
 
 #: html/translate.html:155
 msgid "Nearby messages"
-msgstr "相邻条目"
+msgstr "附近的条目"
 
 #: html/translate.html:156
 msgid "Similar messages"
-msgstr "相似条目"
+msgstr "相似的条目"
 
 #: html/translate.html:157
 msgid "Same message used in different subprojects"
@@ -734,7 +734,7 @@ msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to current subproject. It can be used to push translations to "
 "different branch or to fix inconsistent translations."
-msgstr "自动翻译将取代此项目中已存在的译文并将其应用到当前子项目中去。它可以用来将译文推入不同分支中或用来修复不一致的翻译。"
+msgstr "自动翻译将取代此项目中的现有译文并将其应用到当前子项目中去。它可以用来将译文推入不同分支中或用来修复不一致的翻译。"
 
 #: html/translation_info.html:8
 #, python-format
@@ -770,19 +770,19 @@ msgstr "提交"
 
 #: html/js/git-status.html:7
 msgid "Pull changes from remote repository"
-msgstr ""
+msgstr "将修改从远程代码库拖来"
 
 #: html/js/git-status.html:7
 msgid "Pull"
-msgstr ""
+msgstr "拖来"
 
 #: html/js/git-status.html:8
 msgid "Push changes to remote repository"
-msgstr ""
+msgstr "将修改推送至远程代码库"
 
 #: html/js/git-status.html:8
 msgid "Push"
-msgstr ""
+msgstr "推送"
 
 #: html/js/git-status.html:12
 msgid "There are some not commited changes!"
@@ -790,15 +790,15 @@ msgstr "有尚未提交的修改！"
 
 #: html/js/git-status.html:15
 msgid "Remote Git repository needs to be merged!"
-msgstr "远程 Git 库需要被合并！"
+msgstr "需要合并远程 Git 代码库！"
 
 #: html/js/git-status.html:18
 msgid "There are some new commits in local Git repository!"
-msgstr "本地 Git 库中有新的提交！"
+msgstr "本地 Git 代码库中有一些新的提交！"
 
 #: html/js/git-status.html:22
 msgid "Details"
-msgstr ""
+msgstr "详情"
 
 #: html/js/other.html:16
 msgid "Use this translation for all subprojects"
@@ -831,7 +831,7 @@ msgstr ""
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "您可能想要<a href=\"%(profile_url)s\">修改资料</a>。"
+msgstr "您现在也许想要 <a href=\"%(profile_url)s\">调整您的资料</a>。"
 
 #: html/registration/activate.html:20
 #, python-format
@@ -853,11 +853,11 @@ msgid_plural ""
 "    "
 msgstr[0] ""
 "\n"
-"    您的帐号未能激活。\n"
-"    这可能是因为您已经激活了帐号或是因为您在超过了 \n"
-"    %(days)s 天的激活有效期后激活。 \n"
+"    未能激活您的帐号。\n"
+"    这可能是因为帐号已经激活了或是您在超过了 \n"
+"    %(days)s 天的激活有效期后激活的。 \n"
 "    如果不是上述情形，请联系网站管理员。 \n"
-"    或者您也可以<a href=\"%(reg_url)s\">再注册一次</a>。\n"
+"    否则，您应该 <a href=\"%(reg_url)s\">重新注册</a>。\n"
 "    "
 
 #: html/registration/activation_email.txt:1
@@ -876,7 +876,8 @@ msgstr ""
 "\n"
 "这是一封帮助您完成 %(site_title)s 注册的邮件。\n"
 "\n"
-"请在您的浏览器中打开以下链接。如果链接被分割为多行，您可能需要复制到地址栏中。"
+"请在您的浏览器中打开以下链接。如果链接分成为多行，\n"
+"您可能需要将其复制到地址栏中。"
 
 #: html/registration/activation_email.txt:12
 #, python-format
@@ -889,7 +890,7 @@ msgid ""
 "%(site_title)s\n"
 msgstr ""
 "\n"
-"如果您对注册有任何疑问，请直接回复这封邮件。\n"
+"如果您的注册还有问题，请回复此邮件。\n"
 "\n"
 "此致\n"
 "%(site_title)s\n"
@@ -897,7 +898,7 @@ msgstr ""
 #: html/registration/activation_email_subject.txt:1
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr ""
+msgstr "您在 %(site_title)s 上的注册"
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -908,12 +909,12 @@ msgstr "未找到相应的用户名/密码。请重试。"
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
-msgstr "还没有帐号？您可以<a href=\"%(register_url)s\">注册</a>。"
+msgstr "还没有帐号？您可以 <a href=\"%(register_url)s\">注册</a>。"
 
 #: html/registration/login.html:41
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr "忘记密码了？您可以<a href=\"%(reset_url)s\">重设密码</a>。"
+msgstr "忘记您的密码了？您可以 <a href=\"%(reset_url)s\">重设密码</a>。"
 
 #: html/registration/logout.html:7
 msgid "Thanks for using Weblate!"
@@ -936,7 +937,7 @@ msgstr[0] "请修正下列错误。"
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
-msgstr "为了安全，请输入您现在的密码，然后输入两次您的新密码以确保您正确输入了密码。"
+msgstr "为了安全，请输入您现在的密码，然后输入两次让我们校验您是否正确地输入了密码。"
 
 #: html/registration/password_change_form.html:22
 #: html/registration/password_reset_confirm.html:14
@@ -945,7 +946,7 @@ msgstr "修改我的密码"
 
 #: html/registration/password_reset_complete.html:6
 msgid "Your password has been set.  You may go ahead and log in now."
-msgstr "您的密码已设置。  现在您可以继续并登录。"
+msgstr "您的密码已经设置。现在您可以去登录了。"
 
 #: html/registration/password_reset_complete.html:8
 msgid "Log in"
@@ -955,34 +956,34 @@ msgstr "登录"
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
-msgstr "请两次输入您的新密码以确保您正确输入了密码。"
+msgstr "请输入两次让我们校验您是否正确地输入了密码。"
 
 #: html/registration/password_reset_confirm.html:19
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
-msgstr "密码重设链接无效，它可能已经被使用。请重新申请密码重设。"
+msgstr "密码重设链接无效，它可能已经在使用。请重新提请密码重设。"
 
 #: html/registration/password_reset_done.html:7
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
-msgstr "我们已向您的邮箱发送设置密码的说明。您很快就能收到它。"
+msgstr "我们已经向您提交的邮箱发送了设置密码的指导。您很快就能收到它。"
 
 #: html/registration/password_reset_email.html:2
 #, python-format
 msgid ""
 "You're receiving this e-mail because you requested a password reset for your "
 "user account at %(site_name)s."
-msgstr "您收到这封邮件是因为您申请了您在 %(site_name)s 帐号的密码重设。"
+msgstr "您收到此邮件的原因是您提请重设您在 %(site_name)s 上的帐号的密码。"
 
 #: html/registration/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
-msgstr "请通过以下页面设置一个新密码："
+msgstr "请进入以下页面后设置一个新密码："
 
 #: html/registration/password_reset_email.html:8
 msgid "Your username, in case you've forgotten:"
-msgstr "以防您忘记了用户名，我们在此提醒，您的用户名是："
+msgstr "您的用户名，万一您忘记："
 
 #: html/registration/password_reset_email.html:10
 msgid "Thanks for using our site!"
@@ -997,7 +998,7 @@ msgstr "%(site_name)s 团队"
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr "忘记密码了？输入您的电子邮箱地址，我们将给您发送设置新密码的说明。"
+msgstr "忘记了您的密码？输入您的电子邮箱地址，我们将向您发送设置新密码的指导。"
 
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
@@ -1010,15 +1011,15 @@ msgid ""
 "registration."
 msgstr ""
 "感谢您的注册。您将很快收到一封含有确认链接的邮件。 \n"
-"请根据链接的指引完成注册。"
+"请根据链接的指引完成您的注册。"
 
 #: html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
-msgstr "请正确填写注册表单。"
+msgstr "请更正注册表单中的错误。"
 
 #: html/registration/registration_form.html:23
 msgid "By registering you agree to use your name and email in Git commits."
-msgstr "您同意您的名字和邮箱被用于 Git 提交。"
+msgstr "注册意味着您同意将您的姓名和邮箱用于 Git 提交。"
 
 #: lang/i18n.py:13
 msgid "Afrikaans"
@@ -1066,7 +1067,7 @@ msgstr "白俄罗斯语"
 
 #: lang/i18n.py:24
 msgid "Belarusian (latin)"
-msgstr "白俄罗斯语 (拉丁)"
+msgstr "白俄罗斯语(拉丁)"
 
 #: lang/i18n.py:25
 msgid "Bengali"
@@ -1074,7 +1075,7 @@ msgstr "孟加拉语"
 
 #: lang/i18n.py:26
 msgid "Bengali (India)"
-msgstr "孟加拉语 (印度)"
+msgstr "孟加拉语(印度)"
 
 #: lang/i18n.py:27
 msgid "Bosnian"
@@ -1098,15 +1099,15 @@ msgstr "高棉语"
 
 #: lang/i18n.py:33
 msgid "Chinese (China)"
-msgstr "汉语 (中国)"
+msgstr "汉语(简体)"
 
 #: lang/i18n.py:34
 msgid "Chinese (Hong Kong)"
-msgstr "汉语 (香港)"
+msgstr "汉语(繁体)"
 
 #: lang/i18n.py:35
 msgid "Chinese (Taiwan)"
-msgstr "汉语 (台湾)"
+msgstr "汉语(繁体)"
 
 #: lang/i18n.py:36
 msgid "Cornish"
@@ -1138,11 +1139,11 @@ msgstr "英语"
 
 #: lang/i18n.py:43
 msgid "English (South Africa)"
-msgstr "英语 (南非)"
+msgstr "英语(南非)"
 
 #: lang/i18n.py:44
 msgid "English (United Kingdom)"
-msgstr "英语 (英国)"
+msgstr "英语(英国)"
 
 #: lang/i18n.py:45
 #, fuzzy
@@ -1211,96 +1212,95 @@ msgstr "丰语"
 
 #: lang/i18n.py:61
 msgid "Hausa"
-msgstr ""
+msgstr "豪撒语"
 
 #: lang/i18n.py:62
 msgid "Hebrew"
-msgstr ""
+msgstr "希伯来语"
 
 #: lang/i18n.py:63
 msgid "Hindi"
-msgstr ""
+msgstr "印地语"
 
 #: lang/i18n.py:64
 msgid "Hungarian"
-msgstr ""
+msgstr "匈牙利语"
 
 #: lang/i18n.py:65
 msgid "Icelandic"
-msgstr ""
+msgstr "冰岛语"
 
 #: lang/i18n.py:66
 msgid "Indonesian"
-msgstr ""
+msgstr "印尼语"
 
 #: lang/i18n.py:67
-#, fuzzy
 msgid "Interlingua"
-msgstr "界面语言"
+msgstr "国际语"
 
 #: lang/i18n.py:68
 msgid "Irish"
-msgstr ""
+msgstr "爱尔兰语"
 
 #: lang/i18n.py:69
 msgid "Italian"
-msgstr ""
+msgstr "意大利语"
 
 #: lang/i18n.py:70
 msgid "Japanese"
-msgstr ""
+msgstr "日语"
 
 #: lang/i18n.py:71
 msgid "Javanese"
-msgstr ""
+msgstr "爪哇语"
 
 #: lang/i18n.py:72
 msgid "Kannada"
-msgstr ""
+msgstr "堪纳德语"
 
 #: lang/i18n.py:73
 msgid "Kashubian"
-msgstr ""
+msgstr "卡舒比语"
 
 #: lang/i18n.py:74
 msgid "Kazakh"
-msgstr ""
+msgstr "哈萨克语"
 
 #: lang/i18n.py:75
 msgid "Kirghiz"
-msgstr ""
+msgstr "吉尔吉斯语"
 
 #: lang/i18n.py:76
 msgid "Korean"
-msgstr ""
+msgstr "韩语"
 
 #: lang/i18n.py:77
 msgid "Kurdish"
-msgstr ""
+msgstr "库尔德语"
 
 #: lang/i18n.py:78
 msgid "Lao"
-msgstr ""
+msgstr "老挝语"
 
 #: lang/i18n.py:79
 msgid "Latvian"
-msgstr ""
+msgstr "拉脱维亚语"
 
 #: lang/i18n.py:80
 msgid "Lingala"
-msgstr ""
+msgstr "林加拉语"
 
 #: lang/i18n.py:81
 msgid "Lithuanian"
-msgstr ""
+msgstr "立陶宛语"
 
 #: lang/i18n.py:82
 msgid "Luxembourgish"
-msgstr ""
+msgstr "卢森堡语"
 
 #: lang/i18n.py:83
 msgid "Macedonian"
-msgstr ""
+msgstr "马其顿语"
 
 #: lang/i18n.py:84
 msgid "Maithili"
@@ -1308,23 +1308,23 @@ msgstr ""
 
 #: lang/i18n.py:85
 msgid "Malagasy"
-msgstr ""
+msgstr "马尔加什语"
 
 #: lang/i18n.py:86
 msgid "Malay"
-msgstr ""
+msgstr "马来语"
 
 #: lang/i18n.py:87
 msgid "Malayalam"
-msgstr ""
+msgstr "马来亚拉姆语"
 
 #: lang/i18n.py:88
 msgid "Maltese"
-msgstr ""
+msgstr "马尔他语"
 
 #: lang/i18n.py:89
 msgid "Maori"
-msgstr ""
+msgstr "毛利语"
 
 #: lang/i18n.py:90
 msgid "Mapudungun"
@@ -1332,232 +1332,227 @@ msgstr ""
 
 #: lang/i18n.py:91
 msgid "Marathi"
-msgstr ""
+msgstr "马拉地语"
 
 #: lang/i18n.py:92
 msgid "Mongolian"
-msgstr ""
+msgstr "蒙古语"
 
 #: lang/i18n.py:93
 msgid "Morisyen"
 msgstr ""
 
 #: lang/i18n.py:94
-#, fuzzy
 msgid "Nahuatl languages"
-msgstr "语言"
+msgstr "那瓦特语"
 
 #: lang/i18n.py:95
 msgid "Neapolitan"
-msgstr ""
+msgstr "那不勒斯语"
 
 #: lang/i18n.py:96
 msgid "Nepali"
-msgstr ""
+msgstr "尼泊尔语"
 
 #: lang/i18n.py:97
 msgid "Norwegian Bokmål"
-msgstr ""
+msgstr "挪威博客马尔语"
 
 #: lang/i18n.py:98
 msgid "Norwegian Nynorsk"
-msgstr ""
+msgstr "挪威尼诺斯克语"
 
 #: lang/i18n.py:99
 msgid "Occitan"
-msgstr ""
+msgstr "奥克斯坦语"
 
 #: lang/i18n.py:100
 msgid "Oriya"
-msgstr ""
+msgstr "奥里雅语"
 
 #: lang/i18n.py:101
 msgid "Panjabi"
-msgstr ""
+msgstr "旁遮普语"
 
 #: lang/i18n.py:102
 msgid "Papiamento"
-msgstr ""
+msgstr "帕皮阿门托语"
 
 #: lang/i18n.py:103
 msgid "Pedi"
-msgstr ""
+msgstr "佩地语"
 
 #: lang/i18n.py:104
 msgid "Persian"
-msgstr ""
+msgstr "波斯语"
 
 #: lang/i18n.py:105
 msgid "Piemontese"
-msgstr ""
+msgstr "皮埃蒙特语"
 
 #: lang/i18n.py:106
 msgid "Polish"
-msgstr ""
+msgstr "波兰语"
 
 #: lang/i18n.py:107
 msgid "Portuguese"
-msgstr ""
+msgstr "葡萄牙语"
 
 #: lang/i18n.py:108
 msgid "Portuguese (Brazil)"
-msgstr ""
+msgstr "葡萄牙语(巴西)"
 
 #: lang/i18n.py:109
 msgid "Portuguese (Portugal)"
-msgstr ""
+msgstr "葡萄牙语(葡萄牙)"
 
 #: lang/i18n.py:110
 msgid "Pushto"
-msgstr ""
+msgstr "普什图语"
 
 #: lang/i18n.py:111
 msgid "Romanian"
-msgstr ""
+msgstr "罗马尼亚语"
 
 #: lang/i18n.py:112
 msgid "Romansh"
-msgstr ""
+msgstr "罗曼斯语"
 
 #: lang/i18n.py:113
 msgid "Russian"
-msgstr ""
+msgstr "俄语"
 
 #: lang/i18n.py:114
 msgid "Scots"
-msgstr ""
+msgstr "苏格兰语"
 
 #: lang/i18n.py:115
 msgid "Serbian"
-msgstr ""
+msgstr "塞尔维亚语"
 
 #: lang/i18n.py:116
-#, fuzzy
 msgid "Serbian (latin)"
-msgstr "翻译"
+msgstr "塞尔维亚(拉丁)"
 
 #: lang/i18n.py:117
-#, fuzzy
 msgid "Serbian (cyrillic)"
-msgstr "翻译"
+msgstr "塞尔维亚(西里尔)"
 
 #: lang/i18n.py:118
 msgid "Sinhala"
-msgstr ""
+msgstr "僧伽罗语"
 
 #: lang/i18n.py:119
 msgid "Slovak"
-msgstr ""
+msgstr "斯洛伐克语"
 
 #: lang/i18n.py:120
 msgid "Slovenian"
-msgstr ""
+msgstr "斯洛文尼亚语"
 
 #: lang/i18n.py:121
 msgid "Somali"
-msgstr ""
+msgstr "索马里语"
 
 #: lang/i18n.py:122
-#, fuzzy
 msgid "Songhai languages"
-msgstr "第二语言"
+msgstr "桑海语"
 
 #: lang/i18n.py:123
 msgid "Sotho"
-msgstr ""
+msgstr "梭托语"
 
 #: lang/i18n.py:124
 msgid "Spanish"
-msgstr ""
+msgstr "西班牙语"
 
 #: lang/i18n.py:125
 msgid "Sundanese"
-msgstr ""
+msgstr "巽他语"
 
 #: lang/i18n.py:126
 msgid "Swahili"
-msgstr ""
+msgstr "斯瓦希里语"
 
 #: lang/i18n.py:127
 msgid "Swedish"
-msgstr ""
+msgstr "瑞典语"
 
 #: lang/i18n.py:128
 msgid "Tajik"
-msgstr ""
+msgstr "塔吉克语"
 
 #: lang/i18n.py:129
 msgid "Tamil"
-msgstr ""
+msgstr "坦米儿语"
 
 #: lang/i18n.py:130
 msgid "Tatar"
-msgstr ""
+msgstr "鞑靼语"
 
 #: lang/i18n.py:131
 msgid "Telugu"
-msgstr ""
+msgstr "泰卢固语"
 
 #: lang/i18n.py:132
 msgid "Thai"
-msgstr ""
+msgstr "泰国语"
 
 #: lang/i18n.py:133
 msgid "Tibetan"
-msgstr ""
+msgstr "藏语"
 
 #: lang/i18n.py:134
 msgid "Tigrinya"
-msgstr ""
+msgstr "提格里尼亚语"
 
 #: lang/i18n.py:135
 msgid "Turkish"
-msgstr ""
+msgstr "土耳其语"
 
 #: lang/i18n.py:136
 msgid "Turkmen"
-msgstr ""
+msgstr "土库曼语"
 
 #: lang/i18n.py:137
 msgid "Uighur"
-msgstr ""
+msgstr "维吾尔族"
 
 #: lang/i18n.py:138
 msgid "Ukrainian"
-msgstr ""
+msgstr "乌克兰语"
 
 #: lang/i18n.py:139
 msgid "Urdu"
-msgstr ""
+msgstr "乌尔都语"
 
 #: lang/i18n.py:140
 msgid "Uzbek"
-msgstr ""
+msgstr "乌兹别克语"
 
 #: lang/i18n.py:141
 msgid "Uzbek (latin)"
-msgstr ""
+msgstr "乌兹别克语(拉丁)"
 
 #: lang/i18n.py:142
-#, fuzzy
 msgid "Vietnamese"
-msgstr "名字"
+msgstr "越南语"
 
 #: lang/i18n.py:143
 msgid "Walloon"
-msgstr ""
+msgstr "瓦龙语"
 
 #: lang/i18n.py:144
 msgid "Welsh"
-msgstr ""
+msgstr "威尔士语"
 
 #: lang/i18n.py:145
 msgid "Yoruba"
-msgstr ""
+msgstr "约鲁巴语"
 
 #: lang/i18n.py:146
 msgid "Zulu"
-msgstr ""
+msgstr "祖鲁语"
 
 #: lang/models.py:25
 msgid "Singular"
@@ -1570,132 +1565,119 @@ msgstr "复数形式"
 #: lang/models.py:28
 #, python-format
 msgid "Plural form %d"
-msgstr ""
+msgstr "复数形式 %d"
 
 #: trans/checks.py:196
-#, fuzzy
 msgid "Not translated"
-msgstr "翻译"
+msgstr "未翻译的"
 
 #: trans/checks.py:197
-#, fuzzy
 msgid "Source and translated strings are same"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目相同"
 
 #: trans/checks.py:223
 msgid "Starting newline"
-msgstr ""
+msgstr "开始新行"
 
 #: trans/checks.py:224
-#, fuzzy
 msgid "Source and translated do not both start with a newline"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以新行开始"
 
 #: trans/checks.py:234
 msgid "Trailing newline"
-msgstr ""
+msgstr "跟随新行"
 
 #: trans/checks.py:235
-#, fuzzy
 msgid "Source and translated do not both end with a newline"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以新行结束"
 
 #: trans/checks.py:245
-#, fuzzy
 msgid "Trailing space"
 msgstr "要检查的条目"
 
 #: trans/checks.py:246
-#, fuzzy
 msgid "Source and translated do not both end with a space"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以空格结束"
 
 #: trans/checks.py:264
 msgid "Trailing stop"
-msgstr ""
+msgstr "跟随停止"
 
 #: trans/checks.py:265
-#, fuzzy
 msgid "Source and translated do not both end with a full stop"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以句号结束"
 
 #: trans/checks.py:278
-#, fuzzy
 msgid "Trailing colon"
-msgstr "翻译"
+msgstr "跟随冒号"
 
 #: trans/checks.py:279
-#, fuzzy
 msgid ""
 "Source and translated do not both end with a colon or colon is not correctly "
 "spaced"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以冒号结束或冒号没有正确放置"
 
 #: trans/checks.py:303
-#, fuzzy
 msgid "Trailing question"
-msgstr "翻译"
+msgstr "跟随问号"
 
 #: trans/checks.py:304
-#, fuzzy
 msgid ""
 "Source and translated do not both end with a question mark or it is not "
 "correctly spaced"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以问号结束或问号没有正确放置"
 
 #: trans/checks.py:321
-#, fuzzy
 msgid "Trailing exclamation"
-msgstr "翻译"
+msgstr "跟随惊叹号"
 
 #: trans/checks.py:322
-#, fuzzy
 msgid ""
 "Source and translated do not both end with an exclamation mark or it is not "
 "correctly spaced"
-msgstr "未翻译条目 (%d)"
+msgstr "源条目和已经翻译的条目不全都以惊叹号结束或惊叹号没有正确放置"
 
 #: trans/checks.py:342
 msgid "Python format"
-msgstr ""
+msgstr "Python 格式"
 
 #: trans/checks.py:343 trans/checks.py:356 trans/checks.py:369
 msgid "Format string does not match source"
-msgstr ""
+msgstr "格式条目与源条目不匹配"
 
 #: trans/checks.py:355
 msgid "PHP format"
-msgstr ""
+msgstr "PHP 格式"
 
 #: trans/checks.py:368
 msgid "C format"
-msgstr ""
+msgstr "C 格式"
 
 #: trans/checks.py:382
 msgid "Missing plurals"
-msgstr ""
+msgstr "缺少复数形式"
 
 #: trans/checks.py:383
 msgid "Some plural forms are not translated"
-msgstr ""
+msgstr "一些复数形式没有翻译"
 
 #: trans/checks.py:400
 msgid "Inconsistent"
-msgstr ""
+msgstr "不一致"
 
 #: trans/checks.py:401
 msgid "This message has more than one translation in this project"
-msgstr ""
+msgstr "此信息在项目中有不止一个翻译方式"
 
 #: trans/forms.py:59
 msgid ""
 "This equation is used to identify which plural form will be used based on "
 "given count (n)."
-msgstr ""
+msgstr "基于给定的计数(n)，此等式用于识别将要使用的复数形式。"
 
 #: trans/forms.py:60
 msgid "Plural equation"
-msgstr ""
+msgstr "复数等式"
 
 #: trans/forms.py:101 trans/forms.py:183
 msgid "File"
@@ -1703,21 +1685,19 @@ msgstr "文件"
 
 #: trans/forms.py:105
 msgid "Overwrite existing translations"
-msgstr "覆盖现有翻译"
+msgstr "改写现有翻译"
 
 #: trans/forms.py:111
-#, fuzzy
 msgid "Author name"
-msgstr "您的名字"
+msgstr "作者姓名"
 
 #: trans/forms.py:113 trans/forms.py:118
 msgid "Keep empty for using currently logged in user."
-msgstr ""
+msgstr "留空表示使用当前登录的用户。"
 
 #: trans/forms.py:116
-#, fuzzy
 msgid "Author email"
-msgstr "您的邮箱"
+msgstr "作者邮箱"
 
 #: trans/forms.py:122
 msgid "Query"
@@ -1729,96 +1709,90 @@ msgstr "精确匹配"
 
 #: trans/forms.py:129
 msgid "Search in source strings"
-msgstr "在源中搜索"
+msgstr "在源条目中搜索"
 
 #: trans/forms.py:134
 msgid "Search in target strings"
-msgstr "在翻译中搜索"
+msgstr "在目标条目中搜索"
 
 #: trans/forms.py:139
 msgid "Search in context strings"
-msgstr "在上下文中搜索"
+msgstr "在上下文条目中搜索"
 
 #: trans/forms.py:150
-#, fuzzy
 msgid "Overwrite strings"
-msgstr "覆盖现有翻译"
+msgstr "改写条目"
 
 #: trans/forms.py:155
 msgid "Replace inconsistent"
-msgstr ""
+msgstr "替换不一致的"
 
 #: trans/forms.py:160
-#, fuzzy
 msgid "Subproject to use"
-msgstr "子项目"
+msgstr "要使用的子项目"
 
 #: trans/forms.py:176
-#, fuzzy
 msgid "All subprojects"
-msgstr "子项目"
+msgstr "所有子项目"
 
 #: trans/forms.py:185
-#, fuzzy
 msgid "Overwrite existing"
-msgstr "覆盖现有翻译"
+msgstr "改写现有的"
 
 #: trans/forms.py:190
 msgid "Starting date"
-msgstr ""
+msgstr "开始日期"
 
 #: trans/models.py:34
-#, fuzzy, python-format
+#, python-format
 msgid "Bad format string (%s)"
-msgstr "未翻译条目 (%d)"
+msgstr "不良格式条目 (%s)"
 
 #: trans/models.py:146
 msgid "Name to display"
-msgstr ""
+msgstr "要显示的姓名"
 
 #: trans/models.py:147
 msgid "Name used in URLs"
-msgstr ""
+msgstr "用在地址中的姓名"
 
 #: trans/models.py:149
 msgid "URL of Git repository"
-msgstr "Git 库地址"
+msgstr "Git 代码库地址"
 
 #: trans/models.py:150
-#, fuzzy
 msgid "URL of push Git repository"
-msgstr "Git 库地址"
+msgstr "推送 Git 代码库地址"
 
 #: trans/models.py:152
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
-msgstr ""
+msgstr "与代码库浏览器链接，使用 %(branch)s 分支，%(file)s 和 %(line)s 作为文件名和行占位符"
 
 #: trans/models.py:156
 msgid "Git branch to translate"
 msgstr "要翻译的 Git 分支"
 
 #: trans/models.py:157
-#, fuzzy
 msgid "Mask of files to translate, use * instead of language code"
-msgstr "要翻译的文件，使用 * 代替语言代码"
+msgstr "要翻译文件的掩码，使用 * 而不是语言代码"
 
 #: trans/models.py:274
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "%s 已经禁用推送。"
 
 #: trans/models.py:294
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "推送至远程分支 %s 上失败。"
 
 #: trans/models.py:329
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "合并入远程分支 %s 上失败。"
 
 #: trans/models.py:704
 msgid "All strings"
@@ -1827,35 +1801,35 @@ msgstr "所有条目"
 #: trans/models.py:709
 #, python-format
 msgid "Not translated strings (%d)"
-msgstr "未翻译条目 (%d)"
+msgstr "未翻译的条目(%d)"
 
 #: trans/models.py:711
 #, python-format
 msgid "Fuzzy strings (%d)"
-msgstr "模糊条目 (%d)"
+msgstr "模糊条目(%d)"
 
 #: trans/models.py:713
 #, python-format
 msgid "Strings with suggestions (%d)"
-msgstr "有建议的条目 (%d)"
+msgstr "有建议的条目(%d)"
 
 #: trans/views.py:47
 msgid "Please set your full name in profile."
-msgstr ""
+msgstr "请在资料中设置您的全名。"
 
 #: trans/views.py:178 trans/views.py:251
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr ""
+msgstr "%(language)s 词典，%(project)s"
 
 #: trans/views.py:206
 msgid "No words to import found in file."
-msgstr ""
+msgstr "在此文件中未找到要导入的单词。"
 
 #: trans/views.py:208
 #, python-format
 msgid "Imported %d words from file."
-msgstr ""
+msgstr "从文件中已导入 %d 个单词。"
 
 #: trans/views.py:210 trans/views.py:212 trans/views.py:316
 msgid "Failed to process form!"
@@ -1863,45 +1837,43 @@ msgstr ""
 
 #: trans/views.py:314
 msgid "Automatic translation completed."
-msgstr ""
+msgstr "自动翻译结束。"
 
 #: trans/views.py:353 trans/views.py:363 trans/views.py:373
 msgid "All pending translations were committed."
-msgstr ""
+msgstr "已提交所有候选译文"
 
 #: trans/views.py:383 trans/views.py:393 trans/views.py:403
 msgid "All repositories were updated."
-msgstr ""
+msgstr "已更新所有代码库。"
 
 #: trans/views.py:413 trans/views.py:423 trans/views.py:433
 msgid "All repositories were pushed."
-msgstr ""
+msgstr "已推入所有代码库中。"
 
 #: trans/views.py:549
 msgid "Your suggestion is empty!"
-msgstr ""
+msgstr "您没有提建议！"
 
 #: trans/views.py:569
 msgid "You need to log in to be able to save translations!"
-msgstr "您需要登录才能保存翻译！"
+msgstr "您需要登录才能保存译文！"
 
 #: trans/views.py:572 trans/views.py:612
-#, fuzzy
 msgid "You don't have privileges to save translations!"
-msgstr "您需要登录才能保存翻译！"
+msgstr "您没有保存译文所需的权限！"
 
 #: trans/views.py:588
-#, fuzzy
 msgid "Some checks have failed on your translation!"
-msgstr "本次翻译已结束。"
+msgstr "您的译文有些地方未通过检查。"
 
 #: trans/views.py:606 trans/views.py:644
 msgid "Message you wanted to translate is no longer available!"
-msgstr "您要翻译的条目不存在！"
+msgstr "您想要翻译的条目已不存在了！"
 
 #: trans/views.py:627
 msgid "Can not merge different messages!"
-msgstr ""
+msgstr "不能合并不同信息！"
 
 #: trans/views.py:650
 msgid "You need to log in to be able to manage suggestions!"
@@ -1909,11 +1881,11 @@ msgstr "您需要登录才能管理建议！"
 
 #: trans/views.py:661
 msgid "You do not have privilege to accept suggestions!"
-msgstr "您没有接受建议的权限！"
+msgstr "您没有接受建议所需的权限！"
 
 #: trans/views.py:671
 msgid "You do not have privilege to delete suggestions!"
-msgstr "您没有删除建议的权限！"
+msgstr "您没有删除建议所需的权限！"
 
 #: trans/views.py:692
 msgid "Invalid suggestion!"
@@ -1921,11 +1893,11 @@ msgstr "无效建议！"
 
 #: trans/views.py:748
 msgid "You have reached end of translating."
-msgstr "本次翻译已结束。"
+msgstr "您的翻译已经结束了。"
 
 #: trans/views.py:895
 msgid "File content successfully merged into translation."
-msgstr "已成功将文件内容合并到当前翻译。"
+msgstr "已成功将文件内容合并入译文中。"
 
 #: trans/views.py:897
 msgid "There were no new strings in uploaded file."
