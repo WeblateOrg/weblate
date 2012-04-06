@@ -921,6 +921,12 @@ def not_found(request):
 # Cache this page for one month, it should not really change much
 @cache_page(30 * 24 * 3600)
 def js_config(request):
+    '''
+    Generates settings for javascript. Includes things like
+    API keys for translaiton services or list of languages they
+    support.
+    '''
+    # Apertium support
     if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
         try:
             listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % settings.MT_APERTIUM_KEY)
@@ -933,6 +939,7 @@ def js_config(request):
     else:
         apertium_langs = None
 
+    # Microsoft translator support
     if settings.MT_MICROSOFT_KEY is not None and settings.MT_MICROSOFT_KEY != '':
         try:
             listpairs = urllib2.urlopen('http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate?appID=%s' % settings.MT_MICROSOFT_KEY)
