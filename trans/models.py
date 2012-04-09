@@ -29,7 +29,7 @@ logger = logging.getLogger('weblate')
 
 def validate_repoweb(val):
     try:
-        val % {'file': 'file.po', 'line': '9'}
+        val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
     except Exception, e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
