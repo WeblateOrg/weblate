@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-05 17:11+0200\n"
+"POT-Creation-Date: 2012-04-09 19:51+0200\n"
 "PO-Revision-Date: 2012-04-06 06:44+0200\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@l10n.cihar.com>\n"
@@ -233,7 +233,9 @@ msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "subprojects, consistency checks or automatic linking to source files."
-msgstr "Weblate 是与 Git 紧密结合的基于网络的翻译工具。其特色是简洁清爽的用户界面、由子项目传送译文、一致性检测或与源文件自动链接。"
+msgstr ""
+"Weblate 是与 Git 紧密结合的基于网络的翻译工具。其特色是简洁清爽的用户界面、由"
+"子项目传送译文、一致性检测或与源文件自动链接。"
 
 #: html/about.html:9
 msgid "This site is built using following projects:"
@@ -261,7 +263,7 @@ msgstr "主页"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
 
-#: html/base.html:75 trans/views.py:953
+#: html/base.html:75 trans/views.py:967
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
@@ -540,8 +542,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"如果没有您的语言，请 <a href=\"%(contact_url)s?subject=New+language+request+for+%"
-"(object)s\">联系我们</a>。"
+"如果没有您的语言，请 <a href=\"%(contact_url)s?subject=New+language+request"
+"+for+%(object)s\">联系我们</a>。"
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -629,7 +631,8 @@ msgstr "标记"
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
-msgstr "<a href=\"%(login_url)s?next=%(translate_url)s\">登录</a> 以便保存译文。"
+msgstr ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">登录</a> 以便保存译文。"
 
 #: html/translate.html:145
 msgid "Suggest"
@@ -714,7 +717,8 @@ msgstr "您可以 <a href=\"%(download_url)s\">下载</a> 文件用于离线翻�
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
-msgstr "已上传的文件将与当前译文合并。若您想要改写已翻译过的条目，不要忘了启用它。"
+msgstr ""
+"已上传的文件将与当前译文合并。若您想要改写已翻译过的条目，不要忘了启用它。"
 
 #: html/translation.html:66
 msgid "Uploaded file will be merged with current translation."
@@ -724,16 +728,23 @@ msgstr "已上传的文件将与当前译文合并。"
 msgid "Review translations touched by other users."
 msgstr "复查其他用户动过的译文。"
 
-#: html/translation.html:86 html/translation.html.py:99
-msgid "Process"
-msgstr "开始"
+#: html/translation.html:86
+#, fuzzy
+msgid "Start review"
+msgstr "开始新行"
 
 #: html/translation.html:93
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to current subproject. It can be used to push translations to "
 "different branch or to fix inconsistent translations."
-msgstr "自动翻译将取代此项目中的现有译文并将其应用到当前子项目中去。它可以用来将译文推送进不同分支中或用来修复不一致的翻译。"
+msgstr ""
+"自动翻译将取代此项目中的现有译文并将其应用到当前子项目中去。它可以用来将译文"
+"推送进不同分支中或用来修复不一致的翻译。"
+
+#: html/translation.html:99
+msgid "Process"
+msgstr "开始"
 
 #: html/translation_info.html:8
 #, python-format
@@ -936,7 +947,9 @@ msgstr[0] "请修正下列错误。"
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
-msgstr "为了安全起见，请先输入您的原密码；然后输入新密码，输入两次以便我们校验您是否正确地输入了它。"
+msgstr ""
+"为了安全起见，请先输入您的原密码；然后输入新密码，输入两次以便我们校验您是否"
+"正确地输入了它。"
 
 #: html/registration/password_change_form.html:22
 #: html/registration/password_reset_confirm.html:14
@@ -1611,8 +1624,8 @@ msgstr "追踪冒号"
 
 #: trans/checks.py:279
 msgid ""
-"Source and translation do not both end with a colon or colon is not correctly "
-"spaced"
+"Source and translation do not both end with a colon or colon is not "
+"correctly spaced"
 msgstr "源条目和已经翻译的条目不全都以冒号结束或冒号没有正确放置"
 
 #: trans/checks.py:303
@@ -1767,7 +1780,9 @@ msgstr "推送 Git 代码库地址"
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
-msgstr "与代码库浏览器链接，使用 %(branch)s 分支，%(file)s 和 %(line)s 作为文件名和行占位符"
+msgstr ""
+"与代码库浏览器链接，使用 %(branch)s 分支，%(file)s 和 %(line)s 作为文件名和行"
+"占位符"
 
 #: trans/models.py:156
 msgid "Git branch to translate"
@@ -1837,76 +1852,76 @@ msgstr "处理表格失败！"
 msgid "Automatic translation completed."
 msgstr "自动翻译已结束。"
 
-#: trans/views.py:353 trans/views.py:363 trans/views.py:373
+#: trans/views.py:360 trans/views.py:370 trans/views.py:380
 msgid "All pending translations were committed."
 msgstr "已提交所有候选译文。"
 
-#: trans/views.py:383 trans/views.py:393 trans/views.py:403
+#: trans/views.py:390 trans/views.py:400 trans/views.py:410
 msgid "All repositories were updated."
 msgstr "已更新所有代码库。"
 
-#: trans/views.py:413 trans/views.py:423 trans/views.py:433
+#: trans/views.py:420 trans/views.py:430 trans/views.py:440
 msgid "All repositories were pushed."
 msgstr "已推送进所有代码库中。"
 
-#: trans/views.py:549
+#: trans/views.py:556
 msgid "Your suggestion is empty!"
 msgstr "您没有提建议！"
 
-#: trans/views.py:569
+#: trans/views.py:576
 msgid "You need to log in to be able to save translations!"
 msgstr "您需要登录才能保存译文！"
 
-#: trans/views.py:572 trans/views.py:612
+#: trans/views.py:579 trans/views.py:619
 msgid "You don't have privileges to save translations!"
 msgstr "您没有保存译文的权限！"
 
-#: trans/views.py:588
+#: trans/views.py:595
 msgid "Some checks have failed on your translation!"
 msgstr "您的译文有些地方未通过检查！"
 
-#: trans/views.py:606 trans/views.py:644
+#: trans/views.py:613 trans/views.py:651
 msgid "Message you wanted to translate is no longer available!"
 msgstr "您想要翻译的信息已不存在了！"
 
-#: trans/views.py:627
+#: trans/views.py:634
 msgid "Can not merge different messages!"
 msgstr "不能合并不同信息！"
 
-#: trans/views.py:650
+#: trans/views.py:657
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views.py:661
+#: trans/views.py:668
 msgid "You do not have privilege to accept suggestions!"
 msgstr "您没有接受建议的权限！"
 
-#: trans/views.py:671
+#: trans/views.py:678
 msgid "You do not have privilege to delete suggestions!"
 msgstr "您没有删除建议的权限！"
 
-#: trans/views.py:692
+#: trans/views.py:699
 msgid "Invalid suggestion!"
 msgstr "无效建议！"
 
-#: trans/views.py:748
+#: trans/views.py:755
 msgid "You have reached end of translating."
 msgstr "您的翻译已经结束了。"
 
-#: trans/views.py:895
+#: trans/views.py:902
 msgid "File content successfully merged into translation."
 msgstr "文件内容已成功地合并入译文中。"
 
-#: trans/views.py:897
+#: trans/views.py:904
 msgid "There were no new strings in uploaded file."
 msgstr "上传的文件中没有新翻译的条目。"
 
-#: trans/views.py:899
+#: trans/views.py:906
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "文件内容合并失败：%s"
 
-#: trans/views.py:910
+#: trans/views.py:917
 msgid "Page Not Found"
 msgstr "页面未找到"
 

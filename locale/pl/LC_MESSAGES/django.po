@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-05 17:11+0200\n"
+"POT-Creation-Date: 2012-04-09 19:51+0200\n"
 "PO-Revision-Date: 2012-04-09 10:43+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -270,7 +270,7 @@ msgstr "Start"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Napędzane przez <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 trans/views.py:953
+#: html/base.html:75 trans/views.py:967
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -293,8 +293,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Więcej informacji o tym teście znajdziesz w <a href=\"%"
-"(link)s\">dokumentacji</a>."
+"Więcej informacji o tym teście znajdziesz w <a href=\"%(link)s"
+"\">dokumentacji</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:21
 #: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
@@ -749,9 +749,10 @@ msgstr "Przesłany plik będzie scalony z obecnym tłumaczeniem."
 msgid "Review translations touched by other users."
 msgstr "Przegląd tłumaczeń tworzonych przez innych użytkowników."
 
-#: html/translation.html:86 html/translation.html.py:99
-msgid "Process"
-msgstr "Przeglądaj"
+#: html/translation.html:86
+#, fuzzy
+msgid "Start review"
+msgstr "Zaczyna się od nowej linii"
 
 #: html/translation.html:93
 msgid ""
@@ -762,6 +763,10 @@ msgstr ""
 "Automatyczne tłumaczenie bierze istniejące tłumaczenia z tego projektu i "
 "scala je z podprojektami. Może zostać wykorzystane do scalenia tłumaczeń "
 "pomiędzy różnymi gałęziami lub w celu pozbycia się niespójności."
+
+#: html/translation.html:99
+msgid "Process"
+msgstr "Przeglądaj"
 
 #: html/translation_info.html:8
 #, python-format
@@ -921,8 +926,8 @@ msgid ""
 msgstr ""
 "Witaj,\\n\n"
 "\\n\n"
-"To automatyczna wiadomość wysłana w celu zakończenia rejestracji w %"
-"(site_title)s.\\n\n"
+"To automatyczna wiadomość wysłana w celu zakończenia rejestracji w "
+"%(site_title)s.\\n\n"
 "\\n\n"
 "Proszę otworzyć poniższy odsyłacz w przeglądarce. Jeśli odsyłacz połamał się "
 "między\\n\n"
@@ -1681,8 +1686,8 @@ msgstr "Końcowy dwukropek"
 
 #: trans/checks.py:279
 msgid ""
-"Source and translation do not both end with a colon or colon is not correctly "
-"spaced"
+"Source and translation do not both end with a colon or colon is not "
+"correctly spaced"
 msgstr ""
 "Źródło i tłumaczenie nie są zakończone dwukropkiem lub są nadmiarowe spacje"
 
@@ -1706,8 +1711,7 @@ msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
-"Źródło i tłumaczenie nie są zakończone wykrzyknikiem lub są nadmiarowe "
-"spacje"
+"Źródło i tłumaczenie nie są zakończone wykrzyknikiem lub są nadmiarowe spacje"
 
 #: trans/checks.py:342
 msgid "Python format"
@@ -1915,76 +1919,76 @@ msgstr "Przetworzenie formularza nie powiodło się!"
 msgid "Automatic translation completed."
 msgstr "Automatyczne tłumaczenie zakończone."
 
-#: trans/views.py:353 trans/views.py:363 trans/views.py:373
+#: trans/views.py:360 trans/views.py:370 trans/views.py:380
 msgid "All pending translations were committed."
 msgstr "Wszystkie oczekujące tłumaczenia zostały przesłane."
 
-#: trans/views.py:383 trans/views.py:393 trans/views.py:403
+#: trans/views.py:390 trans/views.py:400 trans/views.py:410
 msgid "All repositories were updated."
 msgstr "Wszystkie repozytoria zostały zaktualizowane."
 
-#: trans/views.py:413 trans/views.py:423 trans/views.py:433
+#: trans/views.py:420 trans/views.py:430 trans/views.py:440
 msgid "All repositories were pushed."
 msgstr "Wszystkie repozytoria zostały przesłane."
 
-#: trans/views.py:549
+#: trans/views.py:556
 msgid "Your suggestion is empty!"
 msgstr "Twoja sugestia jest pusta!"
 
-#: trans/views.py:569
+#: trans/views.py:576
 msgid "You need to log in to be able to save translations!"
 msgstr "Musisz się zalogować, by zapisać tłumaczenia!"
 
-#: trans/views.py:572 trans/views.py:612
+#: trans/views.py:579 trans/views.py:619
 msgid "You don't have privileges to save translations!"
 msgstr "Nie masz uprawnień do zapisu tłumaczeń!"
 
-#: trans/views.py:588
+#: trans/views.py:595
 msgid "Some checks have failed on your translation!"
 msgstr "Niektóre testy tłumaczenia nie powiodły się!"
 
-#: trans/views.py:606 trans/views.py:644
+#: trans/views.py:613 trans/views.py:651
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Wiadomość którą chciałbyś przetłumaczyć nie jest już dostępna!"
 
-#: trans/views.py:627
+#: trans/views.py:634
 msgid "Can not merge different messages!"
 msgstr "Nie mogę scalić różnych napisów!"
 
-#: trans/views.py:650
+#: trans/views.py:657
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Musisz się zalogować, by zarządzać sugestiami!"
 
-#: trans/views.py:661
+#: trans/views.py:668
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nie masz uprawnień do akceptacji sugestii!"
 
-#: trans/views.py:671
+#: trans/views.py:678
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nie masz uprawnień do usuwania sugestii!"
 
-#: trans/views.py:692
+#: trans/views.py:699
 msgid "Invalid suggestion!"
 msgstr "Nieprawidłowa sugestia!"
 
-#: trans/views.py:748
+#: trans/views.py:755
 msgid "You have reached end of translating."
 msgstr "Został osiągnięty koniec tłumaczenia."
 
-#: trans/views.py:895
+#: trans/views.py:902
 msgid "File content successfully merged into translation."
 msgstr "Zawartość pliku pomyślnie połączona w tłumaczeniu."
 
-#: trans/views.py:897
+#: trans/views.py:904
 msgid "There were no new strings in uploaded file."
 msgstr "Nie było nowych napisów w przesłanym pliku."
 
-#: trans/views.py:899
+#: trans/views.py:906
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Scalanie zawartości pliku nie powiodło się: %s"
 
-#: trans/views.py:910
+#: trans/views.py:917
 msgid "Page Not Found"
 msgstr "Nie znaleziono strony"
 

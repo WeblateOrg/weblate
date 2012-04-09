@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-05 17:11+0200\n"
+"POT-Creation-Date: 2012-04-09 19:51+0200\n"
 "PO-Revision-Date: 2012-04-04 15:27+0200\n"
 "Last-Translator: Claudio F Filho <filhocf@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
@@ -273,7 +273,7 @@ msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Desenvolvido com <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 trans/views.py:953
+#: html/base.html:75 trans/views.py:967
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
@@ -753,9 +753,10 @@ msgstr "O arquivo erguido será mesclado com a tradução atual."
 msgid "Review translations touched by other users."
 msgstr "Revisar as traduções modificadas por outros usuários."
 
-#: html/translation.html:86 html/translation.html.py:99
-msgid "Process"
-msgstr "Processar"
+#: html/translation.html:86
+#, fuzzy
+msgid "Start review"
+msgstr "Iniciando nova linha"
 
 #: html/translation.html:93
 msgid ""
@@ -766,6 +767,10 @@ msgstr ""
 "A tradução automática utiliza as traduções existentes neste projeto e as "
 "aplica para o subprojeto atual. Ele pode ser usado para enviar as traduções "
 "para diferentes ramos ou para consertar traduções inconsistentes."
+
+#: html/translation.html:99
+msgid "Process"
+msgstr "Processar"
 
 #: html/translation_info.html:8
 #, python-format
@@ -1680,8 +1685,8 @@ msgstr "Atrás do vírgula"
 
 #: trans/checks.py:279
 msgid ""
-"Source and translation do not both end with a colon or colon is not correctly "
-"spaced"
+"Source and translation do not both end with a colon or colon is not "
+"correctly spaced"
 msgstr ""
 "Fonte e tradução não estão terminando com uma vírgula ou a vírgula não está "
 "espaçada corretamente"
@@ -1917,76 +1922,76 @@ msgstr "Falha ao processar o formulário!"
 msgid "Automatic translation completed."
 msgstr "Tradução automática completada."
 
-#: trans/views.py:353 trans/views.py:363 trans/views.py:373
+#: trans/views.py:360 trans/views.py:370 trans/views.py:380
 msgid "All pending translations were committed."
 msgstr "Todas as traduções pendentes foram publicadas."
 
-#: trans/views.py:383 trans/views.py:393 trans/views.py:403
+#: trans/views.py:390 trans/views.py:400 trans/views.py:410
 msgid "All repositories were updated."
 msgstr "Todos os repositórios foram atualizados."
 
-#: trans/views.py:413 trans/views.py:423 trans/views.py:433
+#: trans/views.py:420 trans/views.py:430 trans/views.py:440
 msgid "All repositories were pushed."
 msgstr "Todos os repositórios foram enviados."
 
-#: trans/views.py:549
+#: trans/views.py:556
 msgid "Your suggestion is empty!"
 msgstr "Sua sugestão está vazia!"
 
-#: trans/views.py:569
+#: trans/views.py:576
 msgid "You need to log in to be able to save translations!"
 msgstr "Você precisa se conectar para poder salvar as traduções!"
 
-#: trans/views.py:572 trans/views.py:612
+#: trans/views.py:579 trans/views.py:619
 msgid "You don't have privileges to save translations!"
 msgstr "Você não tem permissão para salvar as traduções!"
 
-#: trans/views.py:588
+#: trans/views.py:595
 msgid "Some checks have failed on your translation!"
 msgstr "Algumas verificações falharam na sua tradução!"
 
-#: trans/views.py:606 trans/views.py:644
+#: trans/views.py:613 trans/views.py:651
 msgid "Message you wanted to translate is no longer available!"
 msgstr "A mensagem que deseja traduzir não está mais disponível!"
 
-#: trans/views.py:627
+#: trans/views.py:634
 msgid "Can not merge different messages!"
 msgstr "Não pode fundir mensagens diferentes!"
 
-#: trans/views.py:650
+#: trans/views.py:657
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Você precisa conectar para gerenciar sugestões!"
 
-#: trans/views.py:661
+#: trans/views.py:668
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Você não tem permissões para aceitar sugestões!"
 
-#: trans/views.py:671
+#: trans/views.py:678
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Você não tem permissões para excluir sugestões!"
 
-#: trans/views.py:692
+#: trans/views.py:699
 msgid "Invalid suggestion!"
 msgstr "Sugestão inválida!"
 
-#: trans/views.py:748
+#: trans/views.py:755
 msgid "You have reached end of translating."
 msgstr "Você chegou no final da tradução."
 
-#: trans/views.py:895
+#: trans/views.py:902
 msgid "File content successfully merged into translation."
 msgstr "O conteúdo do arquivo foi fundido na tradução com sucesso."
 
-#: trans/views.py:897
+#: trans/views.py:904
 msgid "There were no new strings in uploaded file."
 msgstr "Não há novas cadeias no arquivo enviado."
 
-#: trans/views.py:899
+#: trans/views.py:906
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao fundir o conteúdo do arquivo: %s"
 
-#: trans/views.py:910
+#: trans/views.py:917
 msgid "Page Not Found"
 msgstr "Página não encontrada"
 
