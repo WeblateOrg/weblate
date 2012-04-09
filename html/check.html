@@ -27,10 +27,10 @@
 <th>{% trans "Failures" %}</th>
 </tr>
 <tbody>
-{% for check in checks %}
+{% for obj in checks %}
 <tr>
-<th><a href="{% url 'trans.views.show_project' project=check.project__slug %}">{% project_name check.project__slug %}</a></th>
-<td><a href="{% url 'trans.views.show_check_project' name=check.check_id project=check.project__slug %}">{{ check.count }}</a></td>
+<th><a href="{% url 'trans.views.show_project' project=obj.project__slug %}">{% project_name obj.project__slug %}</a></th>
+<td><a href="{% url 'trans.views.show_check_project' name=obj.check_id project=obj.project__slug %}">{{ obj.count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>
