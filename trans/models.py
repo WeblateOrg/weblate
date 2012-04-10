@@ -375,7 +375,10 @@ class SubProject(models.Model):
         Parses language code from path.
         '''
         parts = self.filemask.split('*', 1)
-        return path[len(parts[0]):-len(parts[1])]
+        # Get part matching to first wildcard
+        code = path[len(parts[0]):-len(parts[1])]
+        # Remove possible encoding part
+        return code.split('.')[0]
 
     def save(self, *args, **kwargs):
         self.configure_repo()
