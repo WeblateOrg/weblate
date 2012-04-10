@@ -146,15 +146,28 @@ class SubProject(models.Model):
     name = models.CharField(max_length = 100, help_text = _('Name to display'))
     slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
     project = models.ForeignKey(Project)
-    repo = models.CharField(max_length = 200, help_text = _('URL of Git repository'))
-    push = models.CharField(max_length = 200, help_text = _('URL of push Git repository'), blank = True)
+    repo = models.CharField(
+        max_length = 200,
+        help_text = _('URL of Git repository')
+    )
+    push = models.CharField(
+        max_length = 200,
+        help_text = _('URL of push Git repository'),
+        blank = True
+    )
     repoweb = models.URLField(
         help_text = _('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
         validators = [validate_repoweb],
         blank = True,
     )
-    branch = models.CharField(max_length = 50, help_text = _('Git branch to translate'))
-    filemask = models.CharField(max_length = 200, help_text = _('Mask of files to translate, use * instead of language code'))
+    branch = models.CharField(
+        max_length = 50,
+        help_text = _('Git branch to translate')
+    )
+    filemask = models.CharField(
+        max_length = 200,
+        help_text = _('Mask of files to translate, use * instead of language code')
+    )
 
     class Meta:
         ordering = ['name']
