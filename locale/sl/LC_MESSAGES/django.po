@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 19:51+0200\n"
+"POT-Creation-Date: 2012-04-10 16:09+0200\n"
 "PO-Revision-Date: 2012-04-07 07:57+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1856,15 +1856,15 @@ msgstr "Prikazno ime"
 msgid "Name used in URLs"
 msgstr "Ime, uporabljeno v URL-jih"
 
-#: trans/models.py:149
+#: trans/models.py:151
 msgid "URL of Git repository"
 msgstr "URL shrambe Git"
 
-#: trans/models.py:150
+#: trans/models.py:155
 msgid "URL of push Git repository"
 msgstr "URL shrambe Git za potiskanje"
 
-#: trans/models.py:152
+#: trans/models.py:159
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1873,44 +1873,47 @@ msgstr ""
 "Povezava do brskalnika po shrambi; uporabite %(branch)s za podvejo, %(file)s "
 "in %(line)s za ime datoteke in označbe mesta vrstice"
 
-#: trans/models.py:156
+#: trans/models.py:165
 msgid "Git branch to translate"
 msgstr "Podveja Git za prevajanje"
 
-#: trans/models.py:157
-msgid "Mask of files to translate, use * instead of language code"
+#: trans/models.py:169
+#, fuzzy
+msgid ""
+"Path of files to translate, use * instead of language code, for example: po/"
+"*.po or locale/*/LC_MESSAGES/django.po"
 msgstr "Maska datotek za prevajanje; uporabite * namesto kode jezika"
 
-#: trans/models.py:274
+#: trans/models.py:287
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: trans/models.py:294
+#: trans/models.py:307
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 
-#: trans/models.py:329
+#: trans/models.py:342
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nisem uspel združiti oddaljene podveje z %s."
 
-#: trans/models.py:704
+#: trans/models.py:717
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:709
+#: trans/models.py:722
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:711
+#: trans/models.py:724
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:713
+#: trans/models.py:726
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"

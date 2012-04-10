@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 19:51+0200\n"
+"POT-Creation-Date: 2012-04-10 16:09+0200\n"
 "PO-Revision-Date: 2012-04-06 06:44+0200\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@l10n.cihar.com>\n"
@@ -1767,15 +1767,15 @@ msgstr "要显示的姓名"
 msgid "Name used in URLs"
 msgstr "用在地址中的姓名"
 
-#: trans/models.py:149
+#: trans/models.py:151
 msgid "URL of Git repository"
 msgstr "Git 代码库地址"
 
-#: trans/models.py:150
+#: trans/models.py:155
 msgid "URL of push Git repository"
 msgstr "推送 Git 代码库地址"
 
-#: trans/models.py:152
+#: trans/models.py:159
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1784,44 +1784,47 @@ msgstr ""
 "与代码库浏览器链接，使用 %(branch)s 分支，%(file)s 和 %(line)s 作为文件名和行"
 "占位符"
 
-#: trans/models.py:156
+#: trans/models.py:165
 msgid "Git branch to translate"
 msgstr "要翻译的 Git 分支"
 
-#: trans/models.py:157
-msgid "Mask of files to translate, use * instead of language code"
+#: trans/models.py:169
+#, fuzzy
+msgid ""
+"Path of files to translate, use * instead of language code, for example: po/"
+"*.po or locale/*/LC_MESSAGES/django.po"
 msgstr "要翻译文件的掩码，使用 * 而不是语言代码"
 
-#: trans/models.py:274
+#: trans/models.py:287
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s 已经禁用推送。"
 
-#: trans/models.py:294
+#: trans/models.py:307
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "推送至远程分支 %s 上失败。"
 
-#: trans/models.py:329
+#: trans/models.py:342
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "合并入远程分支 %s 上失败。"
 
-#: trans/models.py:704
+#: trans/models.py:717
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:709
+#: trans/models.py:722
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译的条目(%d)"
 
-#: trans/models.py:711
+#: trans/models.py:724
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目(%d)"
 
-#: trans/models.py:713
+#: trans/models.py:726
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目(%d)"

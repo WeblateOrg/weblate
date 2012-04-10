@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 19:51+0200\n"
+"POT-Creation-Date: 2012-04-10 16:09+0200\n"
 "PO-Revision-Date: 2012-04-09 21:12+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1831,15 +1831,15 @@ msgstr "Nombre a mostrar"
 msgid "Name used in URLs"
 msgstr "Nombre a utilizar en URLs"
 
-#: trans/models.py:149
+#: trans/models.py:151
 msgid "URL of Git repository"
 msgstr "URL de repositorio GIT"
 
-#: trans/models.py:150
+#: trans/models.py:155
 msgid "URL of push Git repository"
 msgstr "URL de repositorio GIT remoto"
 
-#: trans/models.py:152
+#: trans/models.py:159
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1848,45 +1848,48 @@ msgstr ""
 "Enlace al navegador del repositorio, utilice %(branch)s, %(file)s y %(line)s "
 "como reemplazos para nombres de rama, nombres de archivo y números de línea"
 
-#: trans/models.py:156
+#: trans/models.py:165
 msgid "Git branch to translate"
 msgstr "Rama Git a traducir"
 
-#: trans/models.py:157
-msgid "Mask of files to translate, use * instead of language code"
+#: trans/models.py:169
+#, fuzzy
+msgid ""
+"Path of files to translate, use * instead of language code, for example: po/"
+"*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
 "Máscara para archivos a traducir, utilice * en lugar del código de idioma"
 
-#: trans/models.py:274
+#: trans/models.py:287
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "«Push» desactivado para %s."
 
-#: trans/models.py:294
+#: trans/models.py:307
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 
-#: trans/models.py:329
+#: trans/models.py:342
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: trans/models.py:704
+#: trans/models.py:717
 msgid "All strings"
 msgstr "Todas las cadenas"
 
-#: trans/models.py:709
+#: trans/models.py:722
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Cadenas sin traducir (%d)"
 
-#: trans/models.py:711
+#: trans/models.py:724
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadenas parciales (%d)"
 
-#: trans/models.py:713
+#: trans/models.py:726
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"

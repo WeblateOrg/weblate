@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 19:51+0200\n"
+"POT-Creation-Date: 2012-04-10 16:09+0200\n"
 "PO-Revision-Date: 2012-04-09 19:54+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1827,15 +1827,15 @@ msgstr "Zobrazené jméno"
 msgid "Name used in URLs"
 msgstr "Jméno použité v URL"
 
-#: trans/models.py:149
+#: trans/models.py:151
 msgid "URL of Git repository"
 msgstr "URL Git repozitáře"
 
-#: trans/models.py:150
+#: trans/models.py:155
 msgid "URL of push Git repository"
 msgstr "URL pro odesílání do Git repozitáře"
 
-#: trans/models.py:152
+#: trans/models.py:159
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1844,44 +1844,47 @@ msgstr ""
 "Odkaz na prohlížení Gitu, použijte %(branch)s místo větve, %(file)s a "
 "%(line)s místo jména souboru a řádky"
 
-#: trans/models.py:156
+#: trans/models.py:165
 msgid "Git branch to translate"
 msgstr "Větev Gitu k překladu"
 
-#: trans/models.py:157
-msgid "Mask of files to translate, use * instead of language code"
+#: trans/models.py:169
+#, fuzzy
+msgid ""
+"Path of files to translate, use * instead of language code, for example: po/"
+"*.po or locale/*/LC_MESSAGES/django.po"
 msgstr "Maska souborů k překladu, použijte * místo kódu jazyka"
 
-#: trans/models.py:274
+#: trans/models.py:287
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: trans/models.py:294
+#: trans/models.py:307
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nepodařilo se odeslat do vzdálené větve %s."
 
-#: trans/models.py:329
+#: trans/models.py:342
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: trans/models.py:704
+#: trans/models.py:717
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:709
+#: trans/models.py:722
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:711
+#: trans/models.py:724
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:713
+#: trans/models.py:726
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"

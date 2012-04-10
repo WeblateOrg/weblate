@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 19:51+0200\n"
+"POT-Creation-Date: 2012-04-10 16:09+0200\n"
 "PO-Revision-Date: 2012-04-10 00:44+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1814,15 +1814,15 @@ msgstr "Görüntülemek için ad"
 msgid "Name used in URLs"
 msgstr "URL'lede kullanılan ad"
 
-#: trans/models.py:149
+#: trans/models.py:151
 msgid "URL of Git repository"
 msgstr "Git havuzu URL'si"
 
-#: trans/models.py:150
+#: trans/models.py:155
 msgid "URL of push Git repository"
 msgstr "Git havuzuna yollama URL'si"
 
-#: trans/models.py:152
+#: trans/models.py:159
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1831,44 +1831,47 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, dal için %(branch)s, dosya adı ve satır yer "
 "tutucuları olarak %(file)s ve %(line)s kullan"
 
-#: trans/models.py:156
+#: trans/models.py:165
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models.py:157
-msgid "Mask of files to translate, use * instead of language code"
+#: trans/models.py:169
+#, fuzzy
+msgid ""
+"Path of files to translate, use * instead of language code, for example: po/"
+"*.po or locale/*/LC_MESSAGES/django.po"
 msgstr "Çevirmek için dosyaların maskesi, dil kodu yerine * kullanın"
 
-#: trans/models.py:274
+#: trans/models.py:287
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models.py:294
+#: trans/models.py:307
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:329
+#: trans/models.py:342
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models.py:704
+#: trans/models.py:717
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:709
+#: trans/models.py:722
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:711
+#: trans/models.py:724
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:713
+#: trans/models.py:726
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
