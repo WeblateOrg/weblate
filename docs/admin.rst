@@ -33,6 +33,9 @@ subprojects in same project share suggestions and dictionary, also the
 translations are automatically propagated through the all subproject in single
 project.
 
+The project has only few attributes giving translators information about
+project.
+
 Subproject
 ----------
 
@@ -44,6 +47,26 @@ Should the language definition for translation be missing, empty definition is
 created and named as "cs_CZ (generated)". You should adjust the definition and
 report this back to Weblate authors so that missing language can be included in
 next release.
+
+The subproject contains all important parameters for working with Git and
+getting translations out of it:
+
+Repo
+    Git repository used to pull changes.
+Push
+    Git URL used for pushing, this is completely optional and push support will
+    be disabled when this is empty.
+Repoweb
+    URL of repository browser to display source files (location where messages
+    are used). When empty no such links will be generated.
+Branch
+    Which brach to checkout from the Git and where to look for translations.
+Filemask
+    Mask of files to translate including path. It should include one *
+    replacing language code. In case your Git repository contains more than one
+    translation files (eg. more Gettext domains), you need to create separate
+    subproject for each. For example ``po/*.po`` or
+    ``locale/*/LC_MESSAGES/django.po``.
 
 .. note::
    
