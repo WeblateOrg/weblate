@@ -221,7 +221,7 @@ class BeginNewlineCheck(Check):
     '''
     check_id = 'begin_newline'
     name = _('Starting newline')
-    description = _('Source and translated do not both start with a newline')
+    description = _('Source and translation do not both start with a newline')
 
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, 0, ['\n'])
@@ -232,7 +232,7 @@ class EndNewlineCheck(Check):
     '''
     check_id = 'end_newline'
     name = _('Trailing newline')
-    description = _('Source and translated do not both end with a newline')
+    description = _('Source and translation do not both end with a newline')
 
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, -1, ['\n'])
@@ -243,7 +243,7 @@ class EndSpaceCheck(Check):
     '''
     check_id = 'end_space'
     name = _('Trailing space')
-    description = _('Source and translated do not both end with a space')
+    description = _('Source and translation do not both end with a space')
 
     def check_single(self, source, target, flags, language, unit):
         # One letter things are usually decimal/thousand separators
@@ -262,7 +262,7 @@ class EndStopCheck(Check):
     '''
     check_id = 'end_stop'
     name = _('Trailing stop')
-    description = _('Source and translated do not both end with a full stop')
+    description = _('Source and translation do not both end with a full stop')
 
     def check_single(self, source, target, flags, language, unit):
         if len(source) == 1 and len(target) == 1:
@@ -276,7 +276,7 @@ class EndColonCheck(Check):
     '''
     check_id = 'end_colon'
     name = _('Trailing colon')
-    description = _('Source and translated do not both end with a colon or colon is not correctly spaced')
+    description = _('Source and translation do not both end with a colon or colon is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
         if self.is_language(language, ['fr', 'br']):
@@ -301,7 +301,7 @@ class EndQuestionCheck(Check):
     '''
     check_id = 'end_question'
     name = _('Trailing question')
-    description = _('Source and translated do not both end with a question mark or it is not correctly spaced')
+    description = _('Source and translation do not both end with a question mark or it is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
         if self.is_language(language, ['fr', 'br']):
@@ -319,7 +319,7 @@ class EndExclamationCheck(Check):
     '''
     check_id = 'end_exclamation'
     name = _('Trailing exclamation')
-    description = _('Source and translated do not both end with an exclamation mark or it is not correctly spaced')
+    description = _('Source and translation do not both end with an exclamation mark or it is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
         if self.is_language(language, ['fr', 'br']):

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-05 17:11+0200\n"
-"PO-Revision-Date: 2012-04-05 17:14+0200\n"
+"POT-Creation-Date: 2012-04-09 19:51+0200\n"
+"PO-Revision-Date: 2012-04-09 19:54+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -268,7 +268,7 @@ msgstr "Domů"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 trans/views.py:953
+#: html/base.html:75 trans/views.py:967
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -748,9 +748,9 @@ msgstr "Nahraný soubor bude sloučen se stávajícími překlady."
 msgid "Review translations touched by other users."
 msgstr "Zkontrolovat překlady od ostatních uživatelů."
 
-#: html/translation.html:86 html/translation.html.py:99
-msgid "Process"
-msgstr "Zpracovat"
+#: html/translation.html:86
+msgid "Start review"
+msgstr "Začít kontrolu"
 
 #: html/translation.html:93
 msgid ""
@@ -761,6 +761,10 @@ msgstr ""
 "Automatický překlad použije stávající překlady v projektu na tento "
 "podprojekt. Může být užitečný pro sloučení překladů z jiné větve nebo opravu "
 "nekonzistentních překladů."
+
+#: html/translation.html:99
+msgid "Process"
+msgstr "Zpracovat"
 
 #: html/translation_info.html:8
 #, python-format
@@ -1645,7 +1649,7 @@ msgid "Starting newline"
 msgstr "Počáteční nový řádek"
 
 #: trans/checks.py:224
-msgid "Source and translated do not both start with a newline"
+msgid "Source and translation do not both start with a newline"
 msgstr "Překlad a zdroj oba nezačínají novým řádkem"
 
 #: trans/checks.py:234
@@ -1653,7 +1657,7 @@ msgid "Trailing newline"
 msgstr "Koncový nový řádek"
 
 #: trans/checks.py:235
-msgid "Source and translated do not both end with a newline"
+msgid "Source and translation do not both end with a newline"
 msgstr "Překlad a zdroj oba nekončí novým řádkem"
 
 #: trans/checks.py:245
@@ -1661,7 +1665,7 @@ msgid "Trailing space"
 msgstr "Koncová mezera"
 
 #: trans/checks.py:246
-msgid "Source and translated do not both end with a space"
+msgid "Source and translation do not both end with a space"
 msgstr "Překlad a zdroj oba nekončí mezerou"
 
 #: trans/checks.py:264
@@ -1669,7 +1673,7 @@ msgid "Trailing stop"
 msgstr "Koncová tečka"
 
 #: trans/checks.py:265
-msgid "Source and translated do not both end with a full stop"
+msgid "Source and translation do not both end with a full stop"
 msgstr "Překlad a zdroj oba nekončí tečkou"
 
 #: trans/checks.py:278
@@ -1678,8 +1682,8 @@ msgstr "Koncová dvojtečka"
 
 #: trans/checks.py:279
 msgid ""
-"Source and translated do not both end with a colon or colon is not correctly "
-"spaced"
+"Source and translation do not both end with a colon or colon is not "
+"correctly spaced"
 msgstr "Překlad a zdroj oba nekončí dvojtečkou nebo kolem ní chybí mezery"
 
 #: trans/checks.py:303
@@ -1688,7 +1692,7 @@ msgstr "Koncový otazník"
 
 #: trans/checks.py:304
 msgid ""
-"Source and translated do not both end with a question mark or it is not "
+"Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí otazníkem nebo kolem něj chybí mezery"
 
@@ -1698,7 +1702,7 @@ msgstr "Koncový vykřičník"
 
 #: trans/checks.py:322
 msgid ""
-"Source and translated do not both end with an exclamation mark or it is not "
+"Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem nebo kolem něj chybí mezery"
 
@@ -1908,76 +1912,76 @@ msgstr "Nepodařilo se zpracovat formulář!"
 msgid "Automatic translation completed."
 msgstr "Automatický překlad byl dokončen."
 
-#: trans/views.py:353 trans/views.py:363 trans/views.py:373
+#: trans/views.py:360 trans/views.py:370 trans/views.py:380
 msgid "All pending translations were committed."
 msgstr "Všechny čekající změny byly commitnuty."
 
-#: trans/views.py:383 trans/views.py:393 trans/views.py:403
+#: trans/views.py:390 trans/views.py:400 trans/views.py:410
 msgid "All repositories were updated."
 msgstr "Všechny repozitáře byly aktualizovány."
 
-#: trans/views.py:413 trans/views.py:423 trans/views.py:433
+#: trans/views.py:420 trans/views.py:430 trans/views.py:440
 msgid "All repositories were pushed."
 msgstr "Všechny repozitáře byly odeslány."
 
-#: trans/views.py:549
+#: trans/views.py:556
 msgid "Your suggestion is empty!"
 msgstr "Váš návrh je prázdný!"
 
-#: trans/views.py:569
+#: trans/views.py:576
 msgid "You need to log in to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:572 trans/views.py:612
+#: trans/views.py:579 trans/views.py:619
 msgid "You don't have privileges to save translations!"
 msgstr "Pro ukládání překladů nemáte oprávnění!"
 
-#: trans/views.py:588
+#: trans/views.py:595
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem překladu selhaly některé kontroly!"
 
-#: trans/views.py:606 trans/views.py:644
+#: trans/views.py:613 trans/views.py:651
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:627
+#: trans/views.py:634
 msgid "Can not merge different messages!"
 msgstr "Nelze sloučit rozdílné řetězce!"
 
-#: trans/views.py:650
+#: trans/views.py:657
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:661
+#: trans/views.py:668
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Pro přijmutí návrhu nemáte oprávnění!"
 
-#: trans/views.py:671
+#: trans/views.py:678
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Pro odstranění návrhu nemáte oprávnění!"
 
-#: trans/views.py:692
+#: trans/views.py:699
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:748
+#: trans/views.py:755
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:895
+#: trans/views.py:902
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:897
+#: trans/views.py:904
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:899
+#: trans/views.py:906
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
 
-#: trans/views.py:910
+#: trans/views.py:917
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
@@ -2008,10 +2012,10 @@ msgstr "Stránka nenalezena"
 #~ msgid "Project "
 #~ msgstr "Projekt"
 
-#~ msgid "Source and translated do not both end with question mark"
+#~ msgid "Source and translation do not both end with question mark"
 #~ msgstr "Překlad a zdroj oba nekončí otazníkem"
 
-#~ msgid "Source and translated do not both end with exclamation mark"
+#~ msgid "Source and translation do not both end with exclamation mark"
 #~ msgstr "Překlad a zdroj oba nekončí vykřičníkem"
 
 #~ msgid "Email address"

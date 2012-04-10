@@ -29,7 +29,7 @@ logger = logging.getLogger('weblate')
 
 def validate_repoweb(val):
     try:
-        val % {'file': 'file.po', 'line': '9'}
+        val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
     except Exception, e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
@@ -933,7 +933,7 @@ class Unit(models.Model):
             for unit in allunits:
                 unit.target = self.target
                 unit.fuzzy = self.fuzzy
-                unit.save_backend(request, False, False)
+                unit.save_backend(request, False)
 
     def save(self, *args, **kwargs):
         '''
