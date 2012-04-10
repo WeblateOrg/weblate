@@ -132,14 +132,20 @@ class UnitManager(models.Manager):
         elif rqtype == 'untranslated':
             return self.filter(translated = False)
         elif rqtype == 'suggestions':
-            sample = self.all()[0]
+            try:
+                sample = self.all()[0]
+            except IndexError:
+                return self.none()
             sugs = trans.models.Suggestion.objects.filter(
                 language = sample.translation.language,
                 project = sample.translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
         elif rqtype in [x[0] for x in trans.models.CHECK_CHOICES]:
-            sample = self.all()[0]
+            try:
+                sample = self.all()[0]
+            except IndexError:
+                return self.none()
             sugs = trans.models.Check.objects.filter(
                 language = sample.translation.language,
                 project = sample.translation.subproject.project,
