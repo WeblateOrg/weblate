@@ -166,7 +166,7 @@ class SubProject(models.Model):
     )
     filemask = models.CharField(
         max_length = 200,
-        help_text = _('Mask of files to translate, use * instead of language code')
+        help_text = _('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po')
     )
 
     class Meta:
