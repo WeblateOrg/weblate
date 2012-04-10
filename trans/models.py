@@ -374,7 +374,7 @@ class SubProject(models.Model):
         '''
         Parses language code from path.
         '''
-        parts = self.filemask.split('*')
+        parts = self.filemask.split('*', 1)
         return path[len(parts[0]):-len(parts[1])]
 
     def save(self, *args, **kwargs):
