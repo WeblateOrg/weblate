@@ -76,7 +76,12 @@ class TranslationManager(models.Manager):
         try:
             lang = Language.objects.get(code = code)
         except Language.DoesNotExist:
-            lang = Language.objects.create(code = code, name = '%s (generated)' % code)
+            lang = Language.objects.create(
+                code = code,
+                name = '%s (generated)' % code,
+                nplurals = 2,
+                pluralequation = '(n != 1)',
+            )
         translation, created = self.get_or_create(
             language = lang,
             subproject = subproject,
