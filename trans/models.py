@@ -622,7 +622,7 @@ class Translation(models.Model):
         last = self.get_last_author()
         if author == last or last is None:
             return
-        self.git_commit(last, True)
+        self.git_commit(last, True, True)
 
     def get_author_name(self, user):
         full_name = user.get_full_name()
@@ -630,7 +630,7 @@ class Translation(models.Model):
             full_name = user.username
         return '%s <%s>' % (full_name, user.email)
 
-    def __git_commit(self, gitrepo, author):
+    def __git_commit(self, gitrepo, author, sync = False):
         '''
         Commits translation to git.
         '''
@@ -639,7 +639,8 @@ class Translation(models.Model):
             author = author.encode('utf-8'),
             m = settings.COMMIT_MESSAGE
             )
-        self.store_hash()
+        if sync:
+            self.store_hash()
 
     def git_needs_commit(self, gitrepo = None):
         '''
@@ -659,7 +660,7 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, author, force_commit = False):
+    def git_commit(self, author, force_commit = False, sync = False):
         '''
         Wrapper for commiting translation to git.
         '''
@@ -671,12 +672,12 @@ class Translation(models.Model):
             return False
         logger.info('Commiting %s in %s as %s', self.filename, self, author)
         try:
-            self.__git_commit(gitrepo, author)
+            self.__git_commit(gitrepo, author, sync)
         except git.GitCommandError:
             # There might be another attempt on commit in same time
             # so we will sleep a bit an retry
             time.sleep(random.random() * 2)
-            self.__git_commit(gitrepo, author)
+            self.__git_commit(gitrepo, author, sync)
         del gitrepo
         return True
 
@@ -717,7 +718,7 @@ class Translation(models.Model):
                     )
             self.commit_pending(author)
             store.save()
-            self.git_commit(author)
+            self.git_commit(author, sync = True)
 
         return need_save, pounit
 
