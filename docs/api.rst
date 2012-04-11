@@ -11,3 +11,7 @@ Exports
 -------
 
 Weblate provides various exports to allow you further process the data.
+
+.. http:get:: /exports/stats/(string:project)/(string:subproject)/
+
+    Retrieves statistics for given subproject in JSON format.
