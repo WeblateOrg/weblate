@@ -17,6 +17,7 @@ Contents:
     config
     admin
     management
+    api
     faq
     changes
     license
