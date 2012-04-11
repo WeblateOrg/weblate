@@ -596,11 +596,18 @@ class Translation(models.Model):
         '''
         Updates translation statistics.
         '''
-        if blob_hash is None:
-            blob_hash = self.get_git_blob_hash()
         self.total = self.unit_set.count()
         self.fuzzy = self.unit_set.filter(fuzzy = True).count()
         self.translated = self.unit_set.filter(translated = True).count()
+        self.save()
+        self.store_hash()
+
+    def store_hash(self, blob_hash = None):
+        '''
+        Stores current hash in database.
+        '''
+        if blob_hash is None:
+            blob_hash = self.get_git_blob_hash()
         self.revision = blob_hash
         self.save()
 
@@ -632,6 +639,7 @@ class Translation(models.Model):
             author = author.encode('utf-8'),
             m = settings.COMMIT_MESSAGE
             )
+        self.store_hash()
 
     def git_needs_commit(self, gitrepo = None):
         '''
