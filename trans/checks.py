@@ -218,7 +218,7 @@ class SameCheck(Check):
             return False
 
         # Ignore words which are often same in foreigh language
-        if source.lower().strip('&: ') in SAME_BLACKLIST:
+        if source.lower().strip('_&: ') in SAME_BLACKLIST:
             return False
 
         return (source == target)
