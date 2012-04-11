@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 16:09+0200\n"
+"POT-Creation-Date: 2012-04-11 09:51+0200\n"
 "PO-Revision-Date: 2012-04-08 22:33+0200\n"
 "Last-Translator: Jo Michael <me@mynetx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -709,7 +709,22 @@ msgstr "Aktuelle Änderungen"
 msgid "Information about project"
 msgstr "Informationen zum Projekt"
 
-#: html/translate.html:188
+#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#, fuzzy
+msgid "State"
+msgstr "Status"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is fuzzy"
+msgstr "Nachricht"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is translated"
+msgstr "Diese Übersetzung verwenden"
+
+#: html/translate.html:190
 msgid "No recent activity has been recorded."
 msgstr "Keine kürzlichen Aktivitäten wurden aufgezeichnet."
 
@@ -846,19 +861,19 @@ msgstr "Es gibt einige neue Commits im lokalen Git-Repository!"
 msgid "Details"
 msgstr "Details"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation for all subprojects"
 msgstr "Diese Übersetzung für alle Unterprojekte verwenden"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation"
 msgstr "Diese Übersetzung verwenden"
 
-#: html/js/other.html:24
+#: html/js/other.html:25
 msgid "No other strings found."
 msgstr "Keine anderen Zeichenketten gefunden."
 
-#: html/js/similar.html:19
+#: html/js/similar.html:20
 msgid "No similar strings found."
 msgstr "Keine ähnlichen Zeichenketten gefunden."
 
@@ -1651,55 +1666,55 @@ msgstr "Mehrzahl"
 msgid "Plural form %d"
 msgstr "Plural-Form %d"
 
-#: trans/checks.py:196
+#: trans/checks.py:204
 msgid "Not translated"
 msgstr "Nicht übersetzt"
 
-#: trans/checks.py:197
+#: trans/checks.py:205
 msgid "Source and translated strings are same"
 msgstr "Ursprungs- und übersetzte Zeichenkette sind identisch"
 
-#: trans/checks.py:223
+#: trans/checks.py:231
 msgid "Starting newline"
 msgstr "Zeilenumbruch am Anfang"
 
-#: trans/checks.py:224
+#: trans/checks.py:232
 msgid "Source and translation do not both start with a newline"
 msgstr ""
 "Ursprungs- und übersetzte Zeichenkette haben nicht beide einen Zeilenumbruch "
 "am Anfang"
 
-#: trans/checks.py:234
+#: trans/checks.py:242
 msgid "Trailing newline"
 msgstr "Zeilenumbruch am Ende"
 
-#: trans/checks.py:235
+#: trans/checks.py:243
 msgid "Source and translation do not both end with a newline"
 msgstr ""
 "Ursprungs- und übersetzte Zeichenkette haben nicht beide einen Zeilenumbruch "
 "am Ende"
 
-#: trans/checks.py:245
+#: trans/checks.py:253
 msgid "Trailing space"
 msgstr "Leerzeichen am Ende"
 
-#: trans/checks.py:246
+#: trans/checks.py:254
 msgid "Source and translation do not both end with a space"
 msgstr "Quelle und Übersetzung haben nicht beide ein Leerzeichen am Ende"
 
-#: trans/checks.py:264
+#: trans/checks.py:272
 msgid "Trailing stop"
 msgstr "Punkt am Ende"
 
-#: trans/checks.py:265
+#: trans/checks.py:273
 msgid "Source and translation do not both end with a full stop"
 msgstr "Quelle und Übersetzung haben nicht beide einen Punkt am Ende"
 
-#: trans/checks.py:278
+#: trans/checks.py:286
 msgid "Trailing colon"
 msgstr "Doppelpunkt am Ende"
 
-#: trans/checks.py:279
+#: trans/checks.py:287
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -1707,11 +1722,11 @@ msgstr ""
 "Quelle und Übersetzung haben nicht beide einen Doppelpunkt am Ende, oder der "
 "Doppelpunkt hat falsche Leerzeichen"
 
-#: trans/checks.py:303
+#: trans/checks.py:311
 msgid "Trailing question"
 msgstr "Fragezeichen am Ende"
 
-#: trans/checks.py:304
+#: trans/checks.py:312
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1719,11 +1734,11 @@ msgstr ""
 "Quelle und Übersetzung haben nicht beide ein Fragezeichen am Ende, oder es "
 "hat falsche Leerzeichen"
 
-#: trans/checks.py:321
+#: trans/checks.py:329
 msgid "Trailing exclamation"
 msgstr "Ausrufezeichen am Ende"
 
-#: trans/checks.py:322
+#: trans/checks.py:330
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1731,35 +1746,35 @@ msgstr ""
 "Quelle und Übersetzung haben nicht beide ein Ausrufezeichen am Ende, oder es "
 "hat falsche Leerzeichen"
 
-#: trans/checks.py:342
+#: trans/checks.py:350
 msgid "Python format"
 msgstr "Python-Format"
 
-#: trans/checks.py:343 trans/checks.py:356 trans/checks.py:369
+#: trans/checks.py:351 trans/checks.py:364 trans/checks.py:377
 msgid "Format string does not match source"
 msgstr "Format-Zeichenkette passt nicht zur Quelle"
 
-#: trans/checks.py:355
+#: trans/checks.py:363
 msgid "PHP format"
 msgstr "PHP-Format"
 
-#: trans/checks.py:368
+#: trans/checks.py:376
 msgid "C format"
 msgstr "C-Format"
 
-#: trans/checks.py:382
+#: trans/checks.py:390
 msgid "Missing plurals"
 msgstr "Fehlende Mehrzahlen"
 
-#: trans/checks.py:383
+#: trans/checks.py:391
 msgid "Some plural forms are not translated"
 msgstr "Einige Pluralformen sind nicht übersetzt"
 
-#: trans/checks.py:400
+#: trans/checks.py:408
 msgid "Inconsistent"
 msgstr "Inkonsistent"
 
-#: trans/checks.py:401
+#: trans/checks.py:409
 msgid "This message has more than one translation in this project"
 msgstr "Diese Nachricht hat mehr als eine Übersetzung in diesem Projekt"
 
@@ -1896,21 +1911,21 @@ msgstr "Fehler beim Pushen des Remote-Branches auf %s."
 msgid "Failed to merge remote branch into %s."
 msgstr "Fehler beim Zusammenführen des Remote-Branches nach %s."
 
-#: trans/models.py:717
+#: trans/models.py:720
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
-#: trans/models.py:722
+#: trans/models.py:725
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nicht übersetzte Zeichenketten (%d)"
 
-#: trans/models.py:724
+#: trans/models.py:727
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ungenaue Zeichenketten (%d)"
 
-#: trans/models.py:726
+#: trans/models.py:729
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"

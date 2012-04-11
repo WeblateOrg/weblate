@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 16:09+0200\n"
+"POT-Creation-Date: 2012-04-11 09:51+0200\n"
 "PO-Revision-Date: 2012-04-07 07:57+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -701,7 +701,22 @@ msgstr "Nedavna urejanja"
 msgid "Information about project"
 msgstr "Informacije o projektu"
 
-#: html/translate.html:188
+#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#, fuzzy
+msgid "State"
+msgstr "Stanje"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is fuzzy"
+msgstr "Sporočilo"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is translated"
+msgstr "Uporabi prevod"
+
+#: html/translate.html:190
 msgid "No recent activity has been recorded."
 msgstr "Zabeležil nisem nobene nedavne dejavnosti."
 
@@ -835,19 +850,19 @@ msgstr "V lokalni shrambi Git je nekaj novih potrditev!"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation for all subprojects"
 msgstr "Uporabi prevod za vse podprojekte"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation"
 msgstr "Uporabi prevod"
 
-#: html/js/other.html:24
+#: html/js/other.html:25
 msgid "No other strings found."
 msgstr "Nisem našel drugih nizov."
 
-#: html/js/similar.html:19
+#: html/js/similar.html:20
 msgid "No similar strings found."
 msgstr "Nisem našel podobnih nizov."
 
@@ -1660,51 +1675,51 @@ msgstr "Množina"
 msgid "Plural form %d"
 msgstr "Množinska oblika %d"
 
-#: trans/checks.py:196
+#: trans/checks.py:204
 msgid "Not translated"
 msgstr "Ni prevedeno"
 
-#: trans/checks.py:197
+#: trans/checks.py:205
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
-#: trans/checks.py:223
+#: trans/checks.py:231
 msgid "Starting newline"
 msgstr "Začetna nova vrstica"
 
-#: trans/checks.py:224
+#: trans/checks.py:232
 msgid "Source and translation do not both start with a newline"
 msgstr "Izvirnik in prevod se ne začneta z novo vrstico"
 
-#: trans/checks.py:234
+#: trans/checks.py:242
 msgid "Trailing newline"
 msgstr "Končna nova vrstica"
 
-#: trans/checks.py:235
+#: trans/checks.py:243
 msgid "Source and translation do not both end with a newline"
 msgstr "Izvirnik in prevod se ne končata z novo vrstico"
 
-#: trans/checks.py:245
+#: trans/checks.py:253
 msgid "Trailing space"
 msgstr "Končni presledek"
 
-#: trans/checks.py:246
+#: trans/checks.py:254
 msgid "Source and translation do not both end with a space"
 msgstr "Izvirnik in prevod se ne končata s presledkom"
 
-#: trans/checks.py:264
+#: trans/checks.py:272
 msgid "Trailing stop"
 msgstr "Končna pika"
 
-#: trans/checks.py:265
+#: trans/checks.py:273
 msgid "Source and translation do not both end with a full stop"
 msgstr "Izvirnik in prevod se ne končata s piko"
 
-#: trans/checks.py:278
+#: trans/checks.py:286
 msgid "Trailing colon"
 msgstr "Končno dvopičje"
 
-#: trans/checks.py:279
+#: trans/checks.py:287
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -1712,11 +1727,11 @@ msgstr ""
 "Izvirnik in prevod se ne končata z dvopičjem ali pa dvopičje ni pravilno "
 "obdano s presledki"
 
-#: trans/checks.py:303
+#: trans/checks.py:311
 msgid "Trailing question"
 msgstr "Končni vprašaj"
 
-#: trans/checks.py:304
+#: trans/checks.py:312
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1724,11 +1739,11 @@ msgstr ""
 "Izvirnik in prevod se ne končata z vprašajem ali pa ni pravilno obdan s "
 "presledki"
 
-#: trans/checks.py:321
+#: trans/checks.py:329
 msgid "Trailing exclamation"
 msgstr "Končni klicaj"
 
-#: trans/checks.py:322
+#: trans/checks.py:330
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1736,35 +1751,35 @@ msgstr ""
 "Izvirnik in prevod se ne končata s klicajem ali pa ni pravilno obdan s "
 "presledki"
 
-#: trans/checks.py:342
+#: trans/checks.py:350
 msgid "Python format"
 msgstr "Oblika Python"
 
-#: trans/checks.py:343 trans/checks.py:356 trans/checks.py:369
+#: trans/checks.py:351 trans/checks.py:364 trans/checks.py:377
 msgid "Format string does not match source"
 msgstr "Oblika niza se ne ujema z izvirnikom"
 
-#: trans/checks.py:355
+#: trans/checks.py:363
 msgid "PHP format"
 msgstr "Oblika PHP"
 
-#: trans/checks.py:368
+#: trans/checks.py:376
 msgid "C format"
 msgstr "Oblika C"
 
-#: trans/checks.py:382
+#: trans/checks.py:390
 msgid "Missing plurals"
 msgstr "Manjkajoča množina"
 
-#: trans/checks.py:383
+#: trans/checks.py:391
 msgid "Some plural forms are not translated"
 msgstr "Nekatere množinske oblike niso prevedene"
 
-#: trans/checks.py:400
+#: trans/checks.py:408
 msgid "Inconsistent"
 msgstr "Neskladno"
 
-#: trans/checks.py:401
+#: trans/checks.py:409
 msgid "This message has more than one translation in this project"
 msgstr "Sporočilo ima v tem projektu več kot en prevod"
 
@@ -1899,21 +1914,21 @@ msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 msgid "Failed to merge remote branch into %s."
 msgstr "Nisem uspel združiti oddaljene podveje z %s."
 
-#: trans/models.py:717
+#: trans/models.py:720
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:722
+#: trans/models.py:725
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:724
+#: trans/models.py:727
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:726
+#: trans/models.py:729
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"

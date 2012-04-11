@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 16:09+0200\n"
+"POT-Creation-Date: 2012-04-11 09:51+0200\n"
 "PO-Revision-Date: 2012-04-10 21:29+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -703,7 +703,22 @@ msgstr "Ediciones recientes"
 msgid "Information about project"
 msgstr "Información del proyecto"
 
-#: html/translate.html:188
+#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#, fuzzy
+msgid "State"
+msgstr "Estado"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is fuzzy"
+msgstr "Mensaje"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is translated"
+msgstr "Utilizar esta traducción"
+
+#: html/translate.html:190
 msgid "No recent activity has been recorded."
 msgstr "No se registró actividad reciente."
 
@@ -837,19 +852,19 @@ msgstr "¡Hay nuevos cambios en el repositorio Git local!"
 msgid "Details"
 msgstr "Detalles"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation for all subprojects"
 msgstr "Utilizar esta traducción para todos los subproyectos"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation"
 msgstr "Utilizar esta traducción"
 
-#: html/js/other.html:24
+#: html/js/other.html:25
 msgid "No other strings found."
 msgstr "No se encontraron otras cadenas."
 
-#: html/js/similar.html:19
+#: html/js/similar.html:20
 msgid "No similar strings found."
 msgstr "No se encontraron cadenas similares."
 
@@ -1634,51 +1649,51 @@ msgstr "Plural"
 msgid "Plural form %d"
 msgstr "Forma plural %d"
 
-#: trans/checks.py:196
+#: trans/checks.py:204
 msgid "Not translated"
 msgstr "Sin traducir"
 
-#: trans/checks.py:197
+#: trans/checks.py:205
 msgid "Source and translated strings are same"
 msgstr "La cadena original y la traducida son iguales"
 
-#: trans/checks.py:223
+#: trans/checks.py:231
 msgid "Starting newline"
 msgstr "Salto de línea al incio"
 
-#: trans/checks.py:224
+#: trans/checks.py:232
 msgid "Source and translation do not both start with a newline"
 msgstr "Sólo uno de original y traducción comienza con un salto de línea"
 
-#: trans/checks.py:234
+#: trans/checks.py:242
 msgid "Trailing newline"
 msgstr "Salto de línea al final"
 
-#: trans/checks.py:235
+#: trans/checks.py:243
 msgid "Source and translation do not both end with a newline"
 msgstr "Sólo uno de original y traducción finaliza con un salto de línea"
 
-#: trans/checks.py:245
+#: trans/checks.py:253
 msgid "Trailing space"
 msgstr "Espacio al final"
 
-#: trans/checks.py:246
+#: trans/checks.py:254
 msgid "Source and translation do not both end with a space"
 msgstr "Sólo uno de original y traducción termina con un espacio"
 
-#: trans/checks.py:264
+#: trans/checks.py:272
 msgid "Trailing stop"
 msgstr "Punto final"
 
-#: trans/checks.py:265
+#: trans/checks.py:273
 msgid "Source and translation do not both end with a full stop"
 msgstr "Sólo uno de original y traducción termina con un punto"
 
-#: trans/checks.py:278
+#: trans/checks.py:286
 msgid "Trailing colon"
 msgstr "Dos puntos al final"
 
-#: trans/checks.py:279
+#: trans/checks.py:287
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -1686,11 +1701,11 @@ msgstr ""
 "Sólo uno de original y traducción termina con dos puntos o éste se encuentra "
 "incorrectamente espaciado"
 
-#: trans/checks.py:303
+#: trans/checks.py:311
 msgid "Trailing question"
 msgstr "Signo de interrogación al final"
 
-#: trans/checks.py:304
+#: trans/checks.py:312
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1698,11 +1713,11 @@ msgstr ""
 "Sólo uno de original y traducción termina con signo de interrogación o éste "
 "no está correctamente espaciado"
 
-#: trans/checks.py:321
+#: trans/checks.py:329
 msgid "Trailing exclamation"
 msgstr "Signo de exclamación al final"
 
-#: trans/checks.py:322
+#: trans/checks.py:330
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1710,35 +1725,35 @@ msgstr ""
 "Sólo uno de original y traducción termina con un signo de exclamación o éste "
 "no está correctamente espaciado"
 
-#: trans/checks.py:342
+#: trans/checks.py:350
 msgid "Python format"
 msgstr "Formato Python"
 
-#: trans/checks.py:343 trans/checks.py:356 trans/checks.py:369
+#: trans/checks.py:351 trans/checks.py:364 trans/checks.py:377
 msgid "Format string does not match source"
 msgstr "El formato de cadena no coincide con cadena original"
 
-#: trans/checks.py:355
+#: trans/checks.py:363
 msgid "PHP format"
 msgstr "Formato PHP"
 
-#: trans/checks.py:368
+#: trans/checks.py:376
 msgid "C format"
 msgstr "Formato C"
 
-#: trans/checks.py:382
+#: trans/checks.py:390
 msgid "Missing plurals"
 msgstr "Faltan plurales"
 
-#: trans/checks.py:383
+#: trans/checks.py:391
 msgid "Some plural forms are not translated"
 msgstr "Algunos plurales no están traducidos"
 
-#: trans/checks.py:400
+#: trans/checks.py:408
 msgid "Inconsistent"
 msgstr "Inconsistente"
 
-#: trans/checks.py:401
+#: trans/checks.py:409
 msgid "This message has more than one translation in this project"
 msgstr "Este mensaje tiene más de una traducción en este proyecto"
 
@@ -1875,21 +1890,21 @@ msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 msgid "Failed to merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: trans/models.py:717
+#: trans/models.py:720
 msgid "All strings"
 msgstr "Todas las cadenas"
 
-#: trans/models.py:722
+#: trans/models.py:725
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Cadenas sin traducir (%d)"
 
-#: trans/models.py:724
+#: trans/models.py:727
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadenas parciales (%d)"
 
-#: trans/models.py:726
+#: trans/models.py:729
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 16:09+0200\n"
+"POT-Creation-Date: 2012-04-11 09:51+0200\n"
 "PO-Revision-Date: 2012-04-10 12:30+0200\n"
 "Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -702,7 +702,22 @@ msgstr "Changements récents"
 msgid "Information about project"
 msgstr "Information sur le projet"
 
-#: html/translate.html:188
+#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#, fuzzy
+msgid "State"
+msgstr "État"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is fuzzy"
+msgstr "Message"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is translated"
+msgstr "Utiliser cette traduction"
+
+#: html/translate.html:190
 msgid "No recent activity has been recorded."
 msgstr "Aucune activité récente n'a été enregistrée."
 
@@ -837,19 +852,19 @@ msgstr "De nouveaux commits se trouvent dans le dépôt Git local !"
 msgid "Details"
 msgstr "Détails"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation for all subprojects"
 msgstr "Utiliser cette traduction pour tous les sous-projets"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation"
 msgstr "Utiliser cette traduction"
 
-#: html/js/other.html:24
+#: html/js/other.html:25
 msgid "No other strings found."
 msgstr "Pas d'autres messages trouvés."
 
-#: html/js/similar.html:19
+#: html/js/similar.html:20
 msgid "No similar strings found."
 msgstr "Pas de chaîne similaire trouvée."
 
@@ -1641,54 +1656,54 @@ msgstr "Pluriel"
 msgid "Plural form %d"
 msgstr "Forme plurielle %d"
 
-#: trans/checks.py:196
+#: trans/checks.py:204
 msgid "Not translated"
 msgstr "Non traduit"
 
-#: trans/checks.py:197
+#: trans/checks.py:205
 msgid "Source and translated strings are same"
 msgstr "La chaîne source est identique à la chaîne traduite"
 
-#: trans/checks.py:223
+#: trans/checks.py:231
 msgid "Starting newline"
 msgstr "Nouvelle ligne au début"
 
-#: trans/checks.py:224
+#: trans/checks.py:232
 msgid "Source and translation do not both start with a newline"
 msgstr "Les messages source et traduit ne débutent pas par un saut de ligne"
 
-#: trans/checks.py:234
+#: trans/checks.py:242
 msgid "Trailing newline"
 msgstr "Saut de ligne à la fin"
 
-#: trans/checks.py:235
+#: trans/checks.py:243
 msgid "Source and translation do not both end with a newline"
 msgstr ""
 "Les messages source et traduit ne se terminent pas par un saut de ligne"
 
-#: trans/checks.py:245
+#: trans/checks.py:253
 msgid "Trailing space"
 msgstr "Espace à la fin"
 
-#: trans/checks.py:246
+#: trans/checks.py:254
 msgid "Source and translation do not both end with a space"
 msgstr "Les messages source et traduit ne se terminent pas par une espace"
 
-#: trans/checks.py:264
+#: trans/checks.py:272
 msgid "Trailing stop"
 msgstr "Caractère de fin de phrase"
 
-#: trans/checks.py:265
+#: trans/checks.py:273
 msgid "Source and translation do not both end with a full stop"
 msgstr ""
 "Les messages source et traduit ne se terminent pas par un caractère de fin "
 "de phrase"
 
-#: trans/checks.py:278
+#: trans/checks.py:286
 msgid "Trailing colon"
 msgstr "Deux-points en fin de phrase"
 
-#: trans/checks.py:279
+#: trans/checks.py:287
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -1696,11 +1711,11 @@ msgstr ""
 "Les messages source et traduit ne se terminent pas par un deux-points, ou "
 "celui-ci n'a pas entouré correctement d'espaces"
 
-#: trans/checks.py:303
+#: trans/checks.py:311
 msgid "Trailing question"
 msgstr "Point d'interrogation final"
 
-#: trans/checks.py:304
+#: trans/checks.py:312
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1708,11 +1723,11 @@ msgstr ""
 "Les messages source et traduit ne se terminent pas par un point "
 "d'interrogation, ou celui-ci n'est pas correctement entouré d'espaces"
 
-#: trans/checks.py:321
+#: trans/checks.py:329
 msgid "Trailing exclamation"
 msgstr "Point d'exclamation final"
 
-#: trans/checks.py:322
+#: trans/checks.py:330
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1720,35 +1735,35 @@ msgstr ""
 "Les messages source et traduit ne se terminent pas par un point "
 "d'exclamation, ou celui-ci n'est pas correctement entouré d'espaces"
 
-#: trans/checks.py:342
+#: trans/checks.py:350
 msgid "Python format"
 msgstr "Format Python"
 
-#: trans/checks.py:343 trans/checks.py:356 trans/checks.py:369
+#: trans/checks.py:351 trans/checks.py:364 trans/checks.py:377
 msgid "Format string does not match source"
 msgstr "Le caractère de format ne correspond pas à celui de la source"
 
-#: trans/checks.py:355
+#: trans/checks.py:363
 msgid "PHP format"
 msgstr "Format PHP"
 
-#: trans/checks.py:368
+#: trans/checks.py:376
 msgid "C format"
 msgstr "Format C"
 
-#: trans/checks.py:382
+#: trans/checks.py:390
 msgid "Missing plurals"
 msgstr "Pluriels manquants"
 
-#: trans/checks.py:383
+#: trans/checks.py:391
 msgid "Some plural forms are not translated"
 msgstr "Certaines des formes plurielles n'ont pas été traduites"
 
-#: trans/checks.py:400
+#: trans/checks.py:408
 msgid "Inconsistent"
 msgstr "Incohérent"
 
-#: trans/checks.py:401
+#: trans/checks.py:409
 msgid "This message has more than one translation in this project"
 msgstr "Ce message a plus d'une traduction dans ce projet"
 
@@ -1885,21 +1900,21 @@ msgstr "L'envoi à la branche distante de %s a échoué."
 msgid "Failed to merge remote branch into %s."
 msgstr "Échec de la fusion de la branche distante dans %s."
 
-#: trans/models.py:717
+#: trans/models.py:720
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models.py:722
+#: trans/models.py:725
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models.py:724
+#: trans/models.py:727
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models.py:726
+#: trans/models.py:729
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"

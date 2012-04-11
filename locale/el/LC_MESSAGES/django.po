@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 16:09+0200\n"
+"POT-Creation-Date: 2012-04-11 09:51+0200\n"
 "PO-Revision-Date: 2012-04-11 09:07+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,8 +292,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Περισσότερες πληροφορίες για αυτό τον έλεγχο είναι διαθέσιμες στο <a href=\"%"
-"(link)s\">τεκμηρίωση</a>."
+"Περισσότερες πληροφορίες για αυτό τον έλεγχο είναι διαθέσιμες στο <a href="
+"\"%(link)s\">τεκμηρίωση</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:21
 #: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
@@ -700,7 +700,22 @@ msgstr ""
 msgid "Information about project"
 msgstr ""
 
-#: html/translate.html:188
+#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#, fuzzy
+msgid "State"
+msgstr "Κατάσταση"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is fuzzy"
+msgstr "Μήνυμα"
+
+#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#, fuzzy
+msgid "Message is translated"
+msgstr "Εγγραφή χρήστη"
+
+#: html/translate.html:190
 msgid "No recent activity has been recorded."
 msgstr ""
 
@@ -833,20 +848,20 @@ msgstr ""
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 msgid "Use this translation for all subprojects"
 msgstr ""
 
-#: html/js/other.html:16
+#: html/js/other.html:17
 #, fuzzy
 msgid "Use this translation"
 msgstr "Εγγραφή χρήστη"
 
-#: html/js/other.html:24
+#: html/js/other.html:25
 msgid "No other strings found."
 msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
 
-#: html/js/similar.html:19
+#: html/js/similar.html:20
 msgid "No similar strings found."
 msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
 
@@ -1629,57 +1644,57 @@ msgstr "Πληθυντικός"
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
 
-#: trans/checks.py:196
+#: trans/checks.py:204
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: trans/checks.py:197
+#: trans/checks.py:205
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
-#: trans/checks.py:223
+#: trans/checks.py:231
 msgid "Starting newline"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/checks.py:224
+#: trans/checks.py:232
 msgid "Source and translation do not both start with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:234
+#: trans/checks.py:242
 msgid "Trailing newline"
 msgstr "Ακολουθεί νέα γραμμή"
 
-#: trans/checks.py:235
+#: trans/checks.py:243
 msgid "Source and translation do not both end with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελείωνουν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:245
+#: trans/checks.py:253
 msgid "Trailing space"
 msgstr "Ακολουθεί κενό"
 
-#: trans/checks.py:246
+#: trans/checks.py:254
 msgid "Source and translation do not both end with a space"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με κενό"
 
-#: trans/checks.py:264
+#: trans/checks.py:272
 msgid "Trailing stop"
 msgstr "Ακολουθεί τελεία"
 
-#: trans/checks.py:265
+#: trans/checks.py:273
 msgid "Source and translation do not both end with a full stop"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με τελεία"
 
-#: trans/checks.py:278
+#: trans/checks.py:286
 msgid "Trailing colon"
 msgstr "Ακολουθεί άνω κάτω τελεία"
 
-#: trans/checks.py:279
+#: trans/checks.py:287
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -1687,11 +1702,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με άνω "
 "κάτω τελεία ή δεν είναι χωρισμένη σωστά με κενά"
 
-#: trans/checks.py:303
+#: trans/checks.py:311
 msgid "Trailing question"
 msgstr "Ακολουθεί ερωτηματικό"
 
-#: trans/checks.py:304
+#: trans/checks.py:312
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -1699,11 +1714,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "ερωτηματικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:321
+#: trans/checks.py:329
 msgid "Trailing exclamation"
 msgstr "Ακολουθεί θαυμαστικό"
 
-#: trans/checks.py:322
+#: trans/checks.py:330
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -1711,35 +1726,35 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "θαυμαστικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:342
+#: trans/checks.py:350
 msgid "Python format"
 msgstr "Μορφή Python"
 
-#: trans/checks.py:343 trans/checks.py:356 trans/checks.py:369
+#: trans/checks.py:351 trans/checks.py:364 trans/checks.py:377
 msgid "Format string does not match source"
 msgstr "Η μορφή του κειμένου δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:355
+#: trans/checks.py:363
 msgid "PHP format"
 msgstr "Μορφή PHP"
 
-#: trans/checks.py:368
+#: trans/checks.py:376
 msgid "C format"
 msgstr "Μορφή C"
 
-#: trans/checks.py:382
+#: trans/checks.py:390
 msgid "Missing plurals"
 msgstr "Απόντες πληθυντικοί"
 
-#: trans/checks.py:383
+#: trans/checks.py:391
 msgid "Some plural forms are not translated"
 msgstr "Ορισμένοι πληθυντικοί δεν μεταφράστηκαν"
 
-#: trans/checks.py:400
+#: trans/checks.py:408
 msgid "Inconsistent"
 msgstr "Ασυνεπές"
 
-#: trans/checks.py:401
+#: trans/checks.py:409
 #, fuzzy
 msgid "This message has more than one translation in this project"
 msgstr "Το μήνυμα έχει περισσότερες διαφορετικές μεταφράσεις σε αυτό το έργο"
@@ -1883,21 +1898,21 @@ msgstr ""
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:717
+#: trans/models.py:720
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:722
+#: trans/models.py:725
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:724
+#: trans/models.py:727
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:726
+#: trans/models.py:729
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
