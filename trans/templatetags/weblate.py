@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from django.template.defaultfilters import stringfilter
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -40,7 +41,7 @@ def fmttranslation(value, language = None, diff = None):
             value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
         else:
             value = ''
-        value += '<span class="hlspace">\\n</span><br />'.join(paras)
+        value += '<span class="hlspace">↵</span><br />'.join(paras)
         parts.append(value)
     value = '<hr />'.join(parts)
     return mark_safe(value)
