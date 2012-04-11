@@ -41,7 +41,7 @@ def fmttranslation(value, language = None, diff = None):
             value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
         else:
             value = ''
-        value += '<span class="hlspace">↵</span><br />'.join(paras)
+        value += u'<span class="hlspace">↵</span><br />'.join(paras)
         parts.append(value)
     value = '<hr />'.join(parts)
     return mark_safe(value)
