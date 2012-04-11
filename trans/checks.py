@@ -41,9 +41,11 @@ C_PRINTF_MATCH = re.compile('''
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
+    'audio',
     'auto',
     'bluetooth',
     'bzip2',
+    'cm',
     'csv',
     'cvs',
     'data',
@@ -62,6 +64,7 @@ SAME_BLACKLIST = frozenset((
     'headset',
     'hardware',
     'id',
+    'in',
     'irc',
     'irda',
     'imei',
@@ -81,6 +84,9 @@ SAME_BLACKLIST = frozenset((
     'pdf',
     'pib',
     'port',
+    'program',
+    'proxy',
+    'pt',
     'rss',
     'server',
     'sim',
@@ -94,6 +100,7 @@ SAME_BLACKLIST = frozenset((
     'vcalendar',
     'vcard',
     'version',
+    'video',
     'web',
     'wiki',
     'www',
