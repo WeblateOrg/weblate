@@ -90,6 +90,6 @@ admin.site.register(Dictionary, DictionaryAdmin)
 class ChangeAdmin(admin.ModelAdmin):
     list_display = ['unit', 'user', 'timestamp']
     date_hierarchy = 'timestamp'
-    list_filter = ['unit__translation__subproject__project', 'unit__translation__language']
+    list_filter = ['unit__translation__subproject', 'unit__translation__subproject__project', 'unit__translation__language']
 
 admin.site.register(Change, ChangeAdmin)
