@@ -6,6 +6,13 @@ weblate 0.9
 
 Relased on ? 2012.
 
+* Fixed import of uknonw languages.
+* Improved listing of nearby messages.
+* Improved several checks.
+* Documentation updates.
+* Added definition for several more languages.
+* Various code cleanups.
+
 weblate 0.8
 -----------
 
