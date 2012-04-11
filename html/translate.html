@@ -162,7 +162,7 @@
     <div id="tab-nearby">
     <table>
     <thead>
-    <tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th></tr>
+    <tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
     </thead>
     <tbody>
     {% for item in unit.nearby %}
@@ -170,6 +170,7 @@
     <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
+    <td>{% if item.fuzzy %}<span title="{% trans "Message is fuzzy" %}" class="ui-icon ui-icon-help"></span>{% else %}{% if item.translated %}<span title="{% trans "Message is translated" %}" class="ui-icon ui-icon-check"></span>{% endif %}{% endif %}</td>
     </tr>
     {% endfor %}
     </tbody>

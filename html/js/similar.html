@@ -3,7 +3,7 @@
 {% if similar %}
 <table>
     <thead>
-    <tr><th>{% trans "Project" %}</th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th></tr>
+    <tr><th>{% trans "Project" %}</th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
     </thead>
     <tbody>
 {% for item in similar %}
@@ -11,6 +11,7 @@
     <td>{{ item.translation.subproject }}</td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:item.translation.language }}</a></td>
+    <td>{% if item.fuzzy %}<span title="{% trans "Message is fuzzy" %}" class="ui-icon ui-icon-help"></span>{% else %}{% if item.translated %}<span title="{% trans "Message is translated" %}" class="ui-icon ui-icon-check"></span>{% endif %}{% endif %}</td>
     </tr>
 {% endfor %}
     </tbody>
