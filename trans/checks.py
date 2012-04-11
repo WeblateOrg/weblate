@@ -54,6 +54,7 @@ SAME_BLACKLIST = frozenset((
     'eib',
     'email',
     'esperanto',
+    'expert',
     'export',
     'firmware',
     'flash',
