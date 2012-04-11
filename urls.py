@@ -61,6 +61,8 @@ urlpatterns = patterns('',
     url(r'^hooks/update/(?P<project>[^/]*)/$', 'trans.api.update_project'),
     url(r'^hooks/github/$', 'trans.api.github_hook'),
 
+    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.api.export_stats'),
+
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.ignore_check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
