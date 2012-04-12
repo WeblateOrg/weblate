@@ -81,7 +81,7 @@ def show_check(request, name):
     '''
     try:
         check = trans.checks.CHECKS[name]
-    except IndexError:
+    except KeyError:
         raise Http404('No check matches the given query.')
 
     return render_to_response('check.html', RequestContext(request, {
@@ -97,7 +97,7 @@ def show_check_project(request, name, project):
     prj = get_object_or_404(Project, slug = project)
     try:
         check = trans.checks.CHECKS[name]
-    except IndexError:
+    except KeyError:
         raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
@@ -119,7 +119,7 @@ def show_check_subproject(request, name, project, subproject):
     subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     try:
         check = trans.checks.CHECKS[name]
-    except IndexError:
+    except KeyError:
         raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
