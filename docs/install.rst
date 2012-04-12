@@ -113,6 +113,8 @@ weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
 admin    admin    Weblate Weblate/Django admin user
 ======== ======== ======= ==================================================
 
+The appliance is built using SUSE Studio and is based on openSUSE 12.1.
+
 Upgrading
 ---------
 
