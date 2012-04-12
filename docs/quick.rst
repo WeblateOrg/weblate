@@ -30,6 +30,16 @@ Installing from sources
 #. Configure webserver to serve Weblate, see :ref:`server`.
 
 
+Using prebuilt appliance
+------------------------
+
+#. Download the appliance and start it. You need to choose format depending on
+   your target environment.
+
+#. Everything should be set up immediatelly after boot, though you will want
+   to adjust some settings to improve security, see :ref:`appliance`.
+
+
 Adding translation
 ------------------
 

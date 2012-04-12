@@ -95,6 +95,24 @@ mod_wsgi:
 
 .. literalinclude:: ../scripts/apache.conf
 
+.. _appliance:
+
+Prebuilt appliance
+------------------
+
+Prebuilt appliance provides preconfigured Weblate running with MySQL database
+as backend and Apache as webserver. However it comes with standard set of
+passwords you will want to change:
+
+======== ======== ======= ==================================================
+Username Password Scope   Description
+======== ======== ======= ==================================================
+root     linux    System  Administrator account, use for local or SSH login
+root              MySQL   MySQL administrator
+weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
+admin    admin    Weblate Weblate/Django admin user
+======== ======== ======= ==================================================
+
 Upgrading
 ---------
 
