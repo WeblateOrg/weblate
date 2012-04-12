@@ -30,7 +30,6 @@ Installing from sources
 #. Configure webserver to serve Weblate, see :ref:`server`.
 
 
-
 Adding translation
 ------------------
 
