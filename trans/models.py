@@ -611,13 +611,13 @@ class Translation(models.Model):
         self.revision = blob_hash
         self.save()
 
-    def get_last_author(self):
+    def get_last_author(self, email = True):
         '''
         Returns last autor of change done in Weblate.
         '''
         try:
             change = Change.objects.filter(unit__translation = self).order_by('-timestamp')[0]
-            return self.get_author_name(change.user)
+            return self.get_author_name(change.user, email)
         except IndexError:
             return None
 
@@ -637,10 +637,12 @@ class Translation(models.Model):
             return
         self.git_commit(last, True, True)
 
-    def get_author_name(self, user):
+    def get_author_name(self, user, email = True):
         full_name = user.get_full_name()
         if full_name == '':
             full_name = user.username
+        if not email:
+            return full_name
         return '%s <%s>' % (full_name, user.email)
 
     def __git_commit(self, gitrepo, author, sync = False):
