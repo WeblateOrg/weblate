@@ -115,23 +115,12 @@ I case you will use SSH for pushing, you need to have key without passphrase
 (or use ssh-agent for Django) and the remote server needs to be verified by you
 first, otherwise push will fail.
 
-.. _hooks:
-
 Interacting with others
 -----------------------
 
-You can trigger update of underlaying git repository for every subproject or
-project by accessing URL :file:`/hooks/update/project/subproject/` or
-:file:`/hooks/update/project/`.
+Weblate makes it easy to interact with others using it's API.
 
-For GitHub, there is a special URL :file:`/hooks/github/`, which parses GitHub
-notifications and updates related projects automatically.
-
-.. note::
-
-    The GitHub notification relies on Git repository urls you use to be in form
-    git://github.com/owner/repo.git, otherwise automatic detection of used
-    repository will fail.
+.. seealso:: :ref:`api`
 
 .. _privileges:
 
