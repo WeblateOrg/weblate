@@ -3,7 +3,7 @@ Quick installation guide
 
 .. note::
 
-    This is just a quick guide for installing Weblate please
+    This is just a quick guide for installing Weblate, please
     check :ref:`install` for more detailed instructions.
 
 From sources/git
