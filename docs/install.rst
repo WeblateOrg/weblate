@@ -87,6 +87,10 @@ The configuration for Lighttpd web server might look like following::
         "/favicon.ico" => "access 1 months",
     )
 
+Sample configuration for Apache
++++++++++++++++++++++++++++++++
+
+.. literalinclude:: ../scripts/apache.conf
 
 Upgrading
 ---------
