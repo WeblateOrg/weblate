@@ -74,7 +74,7 @@ def export_stats(request, project, subproject):
             'translated': trans.translated,
             'translated_percent': trans.get_translated_percent(),
             'fuzzy_percent': trans.get_fuzzy_percent(),
-            'url': 'http://%s/%s' % (site.domain, trans.get_absolute_url()),
+            'url': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
         })
     return HttpResponse(
         json.dumps(response),
