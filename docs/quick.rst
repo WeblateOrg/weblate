@@ -25,6 +25,6 @@ From sources/git
         ./manage.py syncdb
         ./manage.py setuplang
         ./manage.py setupgroups
-        ./manage.py compliemessages # If you are using Git checkout
+        ./manage.py compilemessages # If you are using Git checkout
 
 #. Configure webserver to serve Weblate, see :ref:`server`.
