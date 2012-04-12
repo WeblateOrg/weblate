@@ -1,5 +1,9 @@
+.. _install:
+
 Installation instructions
 =========================
+
+.. _requirements:
 
 Requirements
 ------------
@@ -28,6 +32,8 @@ You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
 .. seealso:: :ref:`privileges`
+
+.. _server:
 
 Running server
 --------------
