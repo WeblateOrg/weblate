@@ -58,6 +58,12 @@ def github_hook(request):
 
     return HttpResponse('updated')
 
+def dt_handler(obj):
+    if hasattr(obj, 'isoformat'):
+        return obj.isoformat()
+    else:
+        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
@@ -71,12 +77,14 @@ def export_stats(request, project, subproject):
             'name': trans.language.name,
             'total': trans.total,
             'fuzzy': trans.fuzzy,
+            'last_change': trans.get_last_change(),
+            'last_author': trans.get_last_author(),
             'translated': trans.translated,
             'translated_percent': trans.get_translated_percent(),
             'fuzzy_percent': trans.get_fuzzy_percent(),
             'url': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
         })
     return HttpResponse(
-        json.dumps(response),
+        json.dumps(response, default = dt_handler),
         mimetype = 'application/json'
     )
