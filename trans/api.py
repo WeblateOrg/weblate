@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from trans.models import Project, SubProject
 from django.shortcuts import get_object_or_404
+from django.contrib.sites.models import Site
 
 import json
 import logging
@@ -56,3 +57,26 @@ def github_hook(request):
         s.do_update()
 
     return HttpResponse('updated')
+
+def export_stats(request, project, subproject):
+    '''
+    Exports stats in JSON format.
+    '''
+    subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    response = []
+    site = Site.objects.get_current()
+    for trans in subprj.translation_set.all():
+        response.append({
+            'code': trans.language.code,
+            'name': trans.language.name,
+            'total': trans.total,
+            'fuzzy': trans.fuzzy,
+            'translated': trans.translated,
+            'translated_percent': trans.get_translated_percent(),
+            'fuzzy_percent': trans.get_fuzzy_percent(),
+            'url': 'http://%s/%s' % (site.domain, trans.get_absolute_url()),
+        })
+    return HttpResponse(
+        json.dumps(response),
+        mimetype = 'application/json'
+    )
