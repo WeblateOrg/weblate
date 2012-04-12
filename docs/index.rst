@@ -13,6 +13,7 @@ Contents:
 
     about
     usage
+    quick
     install
     config
     admin

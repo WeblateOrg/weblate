@@ -1,5 +1,9 @@
+.. _install:
+
 Installation instructions
 =========================
+
+.. _requirements:
 
 Requirements
 ------------
@@ -28,6 +32,8 @@ You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
 .. seealso:: :ref:`privileges`
+
+.. _server:
 
 Running server
 --------------
@@ -81,6 +87,33 @@ The configuration for Lighttpd web server might look like following::
         "/favicon.ico" => "access 1 months",
     )
 
+Sample configuration for Apache
++++++++++++++++++++++++++++++++
+
+Following configuration runs Weblate as WSGI, you need to have enable
+mod_wsgi:
+
+.. literalinclude:: ../scripts/apache.conf
+
+.. _appliance:
+
+Prebuilt appliance
+------------------
+
+Prebuilt appliance provides preconfigured Weblate running with MySQL database
+as backend and Apache as webserver. However it comes with standard set of
+passwords you will want to change:
+
+======== ======== ======= ==================================================
+Username Password Scope   Description
+======== ======== ======= ==================================================
+root     linux    System  Administrator account, use for local or SSH login
+root              MySQL   MySQL administrator
+weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
+admin    admin    Weblate Weblate/Django admin user
+======== ======== ======= ==================================================
+
+The appliance is built using SUSE Studio and is based on openSUSE 12.1.
 
 Upgrading
 ---------

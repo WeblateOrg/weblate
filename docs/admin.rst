@@ -24,6 +24,8 @@ toolkit, for example:
 
 .. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
 
+.. _project:
+
 Project
 -------
 
@@ -35,6 +37,8 @@ project.
 
 The project has only few attributes giving translators information about
 project.
+
+.. _subproject:
 
 Subproject
 ----------
