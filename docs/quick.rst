@@ -1,13 +1,13 @@
-Quick installation guide
-========================
+Quick starting guide
+====================
 
 .. note::
 
-    This is just a quick guide for installing Weblate, please
-    check :ref:`install` for more detailed instructions.
+    This is just a quick guide for installing and starting to use Weblate,
+    please check :ref:`install` for more detailed instructions.
 
-From sources/git
-----------------
+Installing from sources
+-----------------------
 
 #. Install all required dependencies, see :ref:`requirements`.
 
@@ -28,3 +28,19 @@ From sources/git
         ./manage.py compilemessages # If you are using Git checkout
 
 #. Configure webserver to serve Weblate, see :ref:`server`.
+
+
+
+Adding translation
+------------------
+
+#. Open admin interface (http://example.org/admin/) and create project you
+   want to translate. See :ref:`project` for more details.
+
+#. Create subproject which is the real resource for translating - it points to
+   Git repository and selects which files to translate. See :ref:`subproject`
+   for more details.
+
+#. Once above is completed (it can be lengthy process depending on size of
+   your Git repository and number of messages to translate), you can start
+   translating.
