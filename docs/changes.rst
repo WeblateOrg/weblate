@@ -12,6 +12,7 @@ Relased on ? 2012.
 * Documentation updates.
 * Added definition for several more languages.
 * Various code cleanups.
+* Documentation improvements.
 
 weblate 0.8
 -----------
