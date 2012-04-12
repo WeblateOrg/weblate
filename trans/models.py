@@ -612,9 +612,22 @@ class Translation(models.Model):
         self.save()
 
     def get_last_author(self):
+        '''
+        Returns last autor of change done in Weblate.
+        '''
         try:
             change = Change.objects.filter(unit__translation = self).order_by('-timestamp')[0]
             return self.get_author_name(change.user)
+        except IndexError:
+            return None
+
+    def get_last_change(self):
+        '''
+        Returns date of last change done in Weblate.
+        '''
+        try:
+            change = Change.objects.filter(unit__translation = self).order_by('-timestamp')[0]
+            return change.timestamp
         except IndexError:
             return None
 
