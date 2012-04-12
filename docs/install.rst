@@ -90,6 +90,9 @@ The configuration for Lighttpd web server might look like following::
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 
+Following configuration runs Weblate as WSGI, you need to have enable
+mod_wsgi:
+
 .. literalinclude:: ../scripts/apache.conf
 
 Upgrading
