@@ -67,6 +67,7 @@ cp -a . %{buildroot}/%{WLDIR}
 rm -rf %{buildroot}/%{WLDIR}/docs
 rm -f %{buildroot}/%{WLDIR}/README.rst \
     %{buildroot}/%{WLDIR}/ChangeLog \
+    %{buildroot}/%{WLDIR}/COPYING \
     %{buildroot}/%{WLDIR}/INSTALL
 
 # Byte compile python files
