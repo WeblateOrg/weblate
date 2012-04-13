@@ -4,6 +4,12 @@
 
 {% block content %}
 
+{% if not user.is_authenticated %}
+<p>
+{% blocktrans %}This site runs <a href="http://weblate.org/">Weblate</a> for traslating software projects listed below. You need to be logged in for translating, otherwise you can only make suggestions.{% endblocktrans %}
+</p>
+{% endif %}
+
 {% if usertranslations %}
 <h2>{% trans "Your translations" %}</h2>
 
