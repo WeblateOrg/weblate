@@ -101,10 +101,10 @@
 {% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
 <div class="suggestionactions">
 {% if perms.trans.accept_suggestion %}
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">Accept</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">{% trans "Accept" %}</a>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">Delete</a>
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">{% trans "Delete" %}</a>
 {% endif %}
 </div>
 {% endif %}
