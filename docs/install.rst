@@ -93,7 +93,7 @@ Sample configuration for Apache
 Following configuration runs Weblate as WSGI, you need to have enable
 mod_wsgi:
 
-.. literalinclude:: ../scripts/apache.conf
+.. literalinclude:: ../examples/apache.conf
 
 .. _appliance:
 

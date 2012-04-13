@@ -53,8 +53,8 @@ List of features includes:
 make -C docs html
 sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}"@g' settings.py 
 sed -i 's@^WHOOSH_INDEX = .*@WHOOSH_INDEX = "%{WLDATADIR}"@g' settings.py
-sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' scripts/apache.conf
-sed -i 's@weblate-path@%{WLDIR}@g' scripts/django.wsgi
+sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' examples/apache.conf
+sed -i 's@weblate-path@%{WLDIR}@g' examples/django.wsgi
 
 %install
 install -d %{buildroot}/%{WLDIR}
@@ -79,7 +79,7 @@ ln -s %{WLETCDIR}/settings.py %{buildroot}/%{WLDIR}/settings.py
 
 # Apache config
 install -d %{buildroot}/%{_sysconfdir}/apache2/vhosts.d/
-install -m 644 scripts/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d/weblate.conf
+install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d/weblate.conf
 
 # Whoosh index dir
 install -d %{buildroot}/%{WLDATADIR}
