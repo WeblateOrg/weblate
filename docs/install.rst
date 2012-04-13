@@ -58,40 +58,16 @@ as :file:`favicon.ico`.
 Sample configuration for Lighttpd
 +++++++++++++++++++++++++++++++++
 
-The configuration for Lighttpd web server might look like following::
+The configuration for Lighttpd web server might look like following (available
+as :file:`examples/lighttpd.conf`):
 
-    fastcgi.server = (
-        "/weblate.fcgi" => (
-            "main" => (
-                "socket" => "/var/run/django/weblate.socket",
-                "check-local" => "disable",
-            )
-        ),
-    )
-    alias.url = (
-        "/media" => "/var/lib/django/weblate/media/",
-        "/static/admin" => "/usr/share/pyshared/django/contrib/admin/static/admin/",
-    )
-
-    url.rewrite-once = (
-        "^(/*media.*)$" => "$1",
-        "^(/*static.*)$" => "$1",
-        "^/*favicon\.ico$" => "/media/favicon.ico",
-        "^/*robots\.txt$" => "/media/robots.txt",
-        "^(/.*)$" => "/weblate.fcgi$1",
-    )
-
-    expire.url                  = (
-        "/media/" => "access 1 months",
-        "/static/" => "access 1 months",
-        "/favicon.ico" => "access 1 months",
-    )
+.. literalinclude:: ../examples/lighttpd.conf
 
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 
-Following configuration runs Weblate as WSGI, you need to have enable
-mod_wsgi:
+Following configuration runs Weblate as WSGI, you need to have enabled
+mod_wsgi (available as :file:`examples/apache.conf`):
 
 .. literalinclude:: ../examples/apache.conf
 
