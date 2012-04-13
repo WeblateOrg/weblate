@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-13 14:36+0200\n"
-"PO-Revision-Date: 2012-03-31 22:41+0200\n"
+"PO-Revision-Date: 2012-04-13 19:22+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 0.8\n"
+"X-Generator: Weblate 0.9\n"
 
 #: urls.py:85 urls.py:91
 msgid "User registration"
@@ -311,9 +311,8 @@ msgid "Failures"
 msgstr "Fouten"
 
 #: html/check.html:40 html/check_project.html:40 html/check_subproject.html:41
-#, fuzzy
 msgid "There are no matching failed checks!"
-msgstr "Er zijn wijzigingen die nog niet gecommit zijn!"
+msgstr "Er zijn geen overeenkomstige gefaalde controles!"
 
 #: html/check_subproject.html:27 html/dictionary.html:22 html/index.html:52
 #: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
@@ -348,7 +347,7 @@ msgstr "Taal"
 
 #: html/dictionaries.html:16
 msgid "Words"
-msgstr ""
+msgstr "Woorden"
 
 #: html/dictionary.html:16
 msgid "Dictionary"
@@ -385,6 +384,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit for "
 "example csv or po file."
 msgstr ""
+"U kan elk formaat uploaden waar Translate Toolkit mee om kan gaan, zoals "
+"bijvoorbeeld csv of po bestanden."
 
 #: html/dictionary.html:94
 msgid "Import"
@@ -404,6 +405,10 @@ msgid ""
 "software projects listed below. You need to be logged in for translating, "
 "otherwise you can only make suggestions."
 msgstr ""
+"Deze website wordt aangedreven door <a "
+"href=\"http://weblate.org/\">Weblate</a> om de volgende projecten te vertalen. "
+"U moet aangemeld zijn om te kunnen vertalen, anders kan u enkel suggesties "
+"doen."
 
 #: html/index.html:14
 msgid "Your translations"
@@ -485,12 +490,12 @@ msgstr "Vertaal"
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is %(count)s falende controle."
+msgstr[1] "Er zijn %(count)s falende controles."
 
 #: html/list-translations.html:29 html/translation.html:38
 msgid "Review"
-msgstr ""
+msgstr "Nakijken"
 
 #: html/profile.html:11
 msgid "Please fix errors in the form."
@@ -529,11 +534,11 @@ msgstr "Subproject"
 
 #: html/project.html:36 html/subproject.html:24 html/translation.html:28
 msgid "Tools"
-msgstr ""
+msgstr "Gereedschap"
 
 #: html/project.html:40 trans/views.py:155
 msgid "Dictionaries"
-msgstr ""
+msgstr "Woordenboeken"
 
 #: html/project.html:42 html/subproject.html:30 html/translation.html:44
 msgid "Git maintenance"
@@ -541,7 +546,7 @@ msgstr "Git onderhoud"
 
 #: html/project.html:51
 msgid "Manage all dictionaries"
-msgstr ""
+msgstr "Alle woordenboeken beheren"
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -643,7 +648,7 @@ msgstr "Voorgesteld door een anonieme gebruiker"
 
 #: html/translate.html:104
 msgid "Accept"
-msgstr ""
+msgstr "Aanvaarden"
 
 #: html/translate.html:120
 msgid "Used in"
@@ -715,19 +720,16 @@ msgid "Information about project"
 msgstr "Projectinformatie"
 
 #: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
-#, fuzzy
 msgid "State"
 msgstr "Status"
 
 #: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
-#, fuzzy
 msgid "Message is fuzzy"
-msgstr "Bericht"
+msgstr "Het bericht is vaag"
 
 #: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
-#, fuzzy
 msgid "Message is translated"
-msgstr "Gebruik deze vertaling"
+msgstr "Het bericht werd vertaald"
 
 #: html/translate.html:190
 msgid "No recent activity has been recorded."
@@ -778,12 +780,11 @@ msgstr ""
 
 #: html/translation.html:81
 msgid "Review translations touched by other users."
-msgstr ""
+msgstr "Kijk vertalingen na die door andere gebruikers gedaan zijn."
 
 #: html/translation.html:86
-#, fuzzy
 msgid "Start review"
-msgstr "Begint met een nieuwe regel"
+msgstr "Begin met nakijken"
 
 #: html/translation.html:93
 msgid ""
@@ -791,10 +792,14 @@ msgid ""
 "applies it to current subproject. It can be used to push translations to "
 "different branch or to fix inconsistent translations."
 msgstr ""
+"Automatische vertaling neemt bestaande vertalingen uit dit project en past "
+"deze toe op het huidige subproject. Dit kan gebruikt worden om een vertaling "
+"te kopiëren naar een andere tak, of om inconsistente vertalingen te "
+"verbeteren."
 
 #: html/translation.html:99
 msgid "Process"
-msgstr ""
+msgstr "Proces"
 
 #: html/translation_info.html:8
 #, python-format
@@ -824,28 +829,27 @@ msgstr "Geen gelijkaardige tekenreeksen gevonden in woordenboek."
 
 #: html/js/git-status.html:6
 msgid "Commit pending changes"
-msgstr ""
+msgstr "hangende wijzigingen committen"
 
 #: html/js/git-status.html:6
-#, fuzzy
 msgid "Commit"
-msgstr "Opmerkingen"
+msgstr "Committen"
 
 #: html/js/git-status.html:7
 msgid "Pull changes from remote repository"
-msgstr ""
+msgstr "Wijzigingen van extern repository ophalen"
 
 #: html/js/git-status.html:7
 msgid "Pull"
-msgstr ""
+msgstr "Ophalen"
 
 #: html/js/git-status.html:8
 msgid "Push changes to remote repository"
-msgstr ""
+msgstr "Wijzigingen naar extern repository doorsturen"
 
 #: html/js/git-status.html:8
 msgid "Push"
-msgstr ""
+msgstr "Doorsturen"
 
 #: html/js/git-status.html:12
 msgid "There are some not commited changes!"
@@ -853,15 +857,15 @@ msgstr "Er zijn wijzigingen die nog niet gecommit zijn!"
 
 #: html/js/git-status.html:15
 msgid "Remote Git repository needs to be merged!"
-msgstr ""
+msgstr "Het extern Git repository moet samengevoegd worden!"
 
 #: html/js/git-status.html:18
 msgid "There are some new commits in local Git repository!"
-msgstr ""
+msgstr "Er zijn nieuwe commits in het lokaal Git repository!"
 
 #: html/js/git-status.html:22
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: html/js/other.html:17
 msgid "Use this translation for all subprojects"
@@ -944,6 +948,15 @@ msgid ""
 "is split over several lines, you may need to copy it in the\n"
 "address bar."
 msgstr ""
+"Hallo,\n"
+"\n"
+"Dit is een automatische E-mail om uw registratie\n"
+"op %(site_title)s af te ronden.\n"
+"\n"
+"Gelieve de volgende link te openen in uw webbrowser.\n"
+"Als de link onderbroken is in verschillende regels,\n"
+"moet u deze eventueel manueel kopiëren naar het\n"
+"adresveld."
 
 #: html/registration/activation_email.txt:12
 #, python-format
@@ -955,11 +968,17 @@ msgid ""
 "Best regards,\n"
 "%(site_title)s\n"
 msgstr ""
+"\n"
+"Als er een probleem is met uw registratie,\n"
+"gelieve dan op deze mail te reageren.\n"
+"\n"
+"Met vriendelijke groeten,\n"
+"%(site_title)s\n"
 
 #: html/registration/activation_email_subject.txt:1
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr ""
+msgstr "Uw registratie op %(site_title)s"
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -1105,11 +1124,11 @@ msgstr ""
 
 #: lang/i18n.py:13
 msgid "Afrikaans"
-msgstr ""
+msgstr "Afrikaans"
 
 #: lang/i18n.py:14
 msgid "Akan"
-msgstr ""
+msgstr "Akan"
 
 #: lang/i18n.py:15
 msgid "Albanian"
@@ -1117,7 +1136,7 @@ msgstr "Albanisch"
 
 #: lang/i18n.py:16
 msgid "Amharic"
-msgstr ""
+msgstr "Amhaars"
 
 #: lang/i18n.py:17
 msgid "Arabic"
@@ -1125,15 +1144,15 @@ msgstr "Arabisch"
 
 #: lang/i18n.py:18
 msgid "Aragonese"
-msgstr ""
+msgstr "Aragonesisch"
 
 #: lang/i18n.py:19
 msgid "Armenian"
-msgstr ""
+msgstr "Armeens"
 
 #: lang/i18n.py:20
 msgid "Asturian"
-msgstr ""
+msgstr "Asturisch"
 
 #: lang/i18n.py:21
 msgid "Azerbaijani"
@@ -1145,11 +1164,11 @@ msgstr "Baskisch"
 
 #: lang/i18n.py:23
 msgid "Belarusian"
-msgstr ""
+msgstr "Witrussisch"
 
 #: lang/i18n.py:24
 msgid "Belarusian (latin)"
-msgstr ""
+msgstr "Witrussisch (latijns)"
 
 #: lang/i18n.py:25
 msgid "Bengali"
@@ -1157,7 +1176,7 @@ msgstr "Bengaals"
 
 #: lang/i18n.py:26
 msgid "Bengali (India)"
-msgstr ""
+msgstr "Bengaals (Indië)"
 
 #: lang/i18n.py:27
 msgid "Bosnian"
@@ -1165,7 +1184,7 @@ msgstr "Bosnisch"
 
 #: lang/i18n.py:28
 msgid "Breton"
-msgstr ""
+msgstr "Bretoens"
 
 #: lang/i18n.py:29
 msgid "Bulgarian"
@@ -1177,23 +1196,23 @@ msgstr "Catalaans"
 
 #: lang/i18n.py:32
 msgid "Central Khmer"
-msgstr ""
+msgstr "Centraal Khmer"
 
 #: lang/i18n.py:33
 msgid "Chinese (China)"
-msgstr ""
+msgstr "Chinees (China)"
 
 #: lang/i18n.py:34
 msgid "Chinese (Hong Kong)"
-msgstr ""
+msgstr "Chinees (Hong Kong)"
 
 #: lang/i18n.py:35
 msgid "Chinese (Taiwan)"
-msgstr ""
+msgstr "Chinees (Taiwan)"
 
 #: lang/i18n.py:36
 msgid "Cornish"
-msgstr ""
+msgstr "Cornisch"
 
 #: lang/i18n.py:37
 msgid "Croatian"
@@ -1213,7 +1232,7 @@ msgstr "Nederlands"
 
 #: lang/i18n.py:41
 msgid "Dzongkha"
-msgstr ""
+msgstr "Dzongkha"
 
 #: lang/i18n.py:42
 msgid "English"
@@ -1221,19 +1240,19 @@ msgstr "Engels"
 
 #: lang/i18n.py:43
 msgid "English (South Africa)"
-msgstr ""
+msgstr "Engels (Zuid-Afrika)"
 
 #: lang/i18n.py:44
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Engels (Verenigd Koninkrijk)"
 
 #: lang/i18n.py:45
 msgid "English (United States)"
-msgstr ""
+msgstr "Engels (Verenigde Staten)"
 
 #: lang/i18n.py:46
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: lang/i18n.py:47
 msgid "Estonian"
@@ -1241,11 +1260,11 @@ msgstr "Ests"
 
 #: lang/i18n.py:48
 msgid "Faroese"
-msgstr ""
+msgstr "Faroesisch"
 
 #: lang/i18n.py:49
 msgid "Filipino"
-msgstr ""
+msgstr "Filipijns"
 
 #: lang/i18n.py:50
 msgid "Finnish"
@@ -1261,11 +1280,11 @@ msgstr "Fries"
 
 #: lang/i18n.py:53
 msgid "Friulian"
-msgstr ""
+msgstr "Friuliaans"
 
 #: lang/i18n.py:54
 msgid "Gaelic"
-msgstr ""
+msgstr "Keltisch"
 
 #: lang/i18n.py:55
 msgid "Galician"
@@ -1285,15 +1304,15 @@ msgstr "Grieks"
 
 #: lang/i18n.py:59
 msgid "Gujarati"
-msgstr ""
+msgstr "Gujaratisch"
 
 #: lang/i18n.py:60
 msgid "Gun"
-msgstr ""
+msgstr "Gun"
 
 #: lang/i18n.py:61
 msgid "Hausa"
-msgstr ""
+msgstr "Hausa"
 
 #: lang/i18n.py:62
 msgid "Hebrew"
@@ -1333,7 +1352,7 @@ msgstr "Japans"
 
 #: lang/i18n.py:71
 msgid "Javanese"
-msgstr ""
+msgstr "Javaans"
 
 #: lang/i18n.py:72
 msgid "Kannada"
@@ -1341,15 +1360,15 @@ msgstr "Kannada"
 
 #: lang/i18n.py:73
 msgid "Kashubian"
-msgstr ""
+msgstr "Kasjoebisch"
 
 #: lang/i18n.py:74
 msgid "Kazakh"
-msgstr ""
+msgstr "Kazachs"
 
 #: lang/i18n.py:75
 msgid "Kirghiz"
-msgstr ""
+msgstr "Kirghizisch"
 
 #: lang/i18n.py:76
 msgid "Korean"
@@ -1357,11 +1376,11 @@ msgstr "Koreaans"
 
 #: lang/i18n.py:77
 msgid "Kurdish"
-msgstr ""
+msgstr "Koerdisch"
 
 #: lang/i18n.py:78
 msgid "Lao"
-msgstr ""
+msgstr "Lao"
 
 #: lang/i18n.py:79
 msgid "Latvian"
@@ -1369,7 +1388,7 @@ msgstr "Lets"
 
 #: lang/i18n.py:80
 msgid "Lingala"
-msgstr ""
+msgstr "Lingala"
 
 #: lang/i18n.py:81
 msgid "Lithuanian"
@@ -1377,7 +1396,7 @@ msgstr "Litouws"
 
 #: lang/i18n.py:82
 msgid "Luxembourgish"
-msgstr ""
+msgstr "Luxemburgs"
 
 #: lang/i18n.py:83
 msgid "Macedonian"
@@ -1385,15 +1404,15 @@ msgstr "Macedonisch"
 
 #: lang/i18n.py:84
 msgid "Maithili"
-msgstr ""
+msgstr "Maithili"
 
 #: lang/i18n.py:85
 msgid "Malagasy"
-msgstr ""
+msgstr "Malagasi"
 
 #: lang/i18n.py:86
 msgid "Malay"
-msgstr ""
+msgstr "Malay"
 
 #: lang/i18n.py:87
 msgid "Malayalam"
@@ -1401,27 +1420,27 @@ msgstr "Malayalam"
 
 #: lang/i18n.py:88
 msgid "Maltese"
-msgstr ""
+msgstr "Maltees"
 
 #: lang/i18n.py:89
 msgid "Maori"
-msgstr ""
+msgstr "Maori"
 
 #: lang/i18n.py:90
 msgid "Mapudungun"
-msgstr ""
+msgstr "Mapudungun"
 
 #: lang/i18n.py:91
 msgid "Marathi"
-msgstr ""
+msgstr "Marathi"
 
 #: lang/i18n.py:92
 msgid "Mongolian"
-msgstr "Mongolisch"
+msgstr "Mongolees"
 
 #: lang/i18n.py:93
 msgid "Morisyen"
-msgstr ""
+msgstr "Maurisisch"
 
 #: lang/i18n.py:94
 msgid "Nahuatl languages"
@@ -1429,39 +1448,39 @@ msgstr "Nahuatl talen"
 
 #: lang/i18n.py:95
 msgid "Neapolitan"
-msgstr ""
+msgstr "Napolitaans"
 
 #: lang/i18n.py:96
 msgid "Nepali"
-msgstr ""
+msgstr "Nepalees"
 
 #: lang/i18n.py:97
 msgid "Norwegian Bokmål"
-msgstr ""
+msgstr "Noors (Bokmål)"
 
 #: lang/i18n.py:98
 msgid "Norwegian Nynorsk"
-msgstr "Noorse Nynorsk"
+msgstr "Noors (Nynorsk)"
 
 #: lang/i18n.py:99
 msgid "Occitan"
-msgstr ""
+msgstr "Occitaans"
 
 #: lang/i18n.py:100
 msgid "Oriya"
-msgstr ""
+msgstr "Oriya"
 
 #: lang/i18n.py:101
 msgid "Panjabi"
-msgstr ""
+msgstr "Punjabi"
 
 #: lang/i18n.py:102
 msgid "Papiamento"
-msgstr ""
+msgstr "Papiaments"
 
 #: lang/i18n.py:103
 msgid "Pedi"
-msgstr ""
+msgstr "Pedi"
 
 #: lang/i18n.py:104
 msgid "Persian"
@@ -1469,7 +1488,7 @@ msgstr "Perzisch"
 
 #: lang/i18n.py:105
 msgid "Piemontese"
-msgstr ""
+msgstr "Piemontees"
 
 #: lang/i18n.py:106
 msgid "Polish"
@@ -1481,16 +1500,15 @@ msgstr "Portugees"
 
 #: lang/i18n.py:108
 msgid "Portuguese (Brazil)"
-msgstr ""
+msgstr "Portugees (Brazilië)"
 
 #: lang/i18n.py:109
-#, fuzzy
 msgid "Portuguese (Portugal)"
-msgstr "Portugees"
+msgstr "Portugees (Portugal)"
 
 #: lang/i18n.py:110
 msgid "Pushto"
-msgstr ""
+msgstr "Pasjtoe"
 
 #: lang/i18n.py:111
 msgid "Romanian"
@@ -1498,7 +1516,7 @@ msgstr "Roemeens"
 
 #: lang/i18n.py:112
 msgid "Romansh"
-msgstr ""
+msgstr "Reto-Romaans"
 
 #: lang/i18n.py:113
 msgid "Russian"
@@ -1506,7 +1524,7 @@ msgstr "Russisch"
 
 #: lang/i18n.py:114
 msgid "Scots"
-msgstr ""
+msgstr "Schots"
 
 #: lang/i18n.py:115
 msgid "Serbian"
@@ -1514,16 +1532,15 @@ msgstr "Servisch"
 
 #: lang/i18n.py:116
 msgid "Serbian (latin)"
-msgstr "Servisch (latijn)"
+msgstr "Servisch (Latijns)"
 
 #: lang/i18n.py:117
-#, fuzzy
 msgid "Serbian (cyrillic)"
-msgstr "Servisch (latijn)"
+msgstr "Servisch (Cyrillisch)"
 
 #: lang/i18n.py:118
 msgid "Sinhala"
-msgstr ""
+msgstr "Sinhala"
 
 #: lang/i18n.py:119
 msgid "Slovak"
@@ -1535,7 +1552,7 @@ msgstr "Sloveens"
 
 #: lang/i18n.py:121
 msgid "Somali"
-msgstr ""
+msgstr "Somali"
 
 #: lang/i18n.py:122
 msgid "Songhai languages"
@@ -1543,7 +1560,7 @@ msgstr "Songhai talen"
 
 #: lang/i18n.py:123
 msgid "Sotho"
-msgstr ""
+msgstr "Sotho"
 
 #: lang/i18n.py:124
 msgid "Spanish"
@@ -1551,11 +1568,11 @@ msgstr "Spaans"
 
 #: lang/i18n.py:125
 msgid "Sundanese"
-msgstr ""
+msgstr "Sundanees"
 
 #: lang/i18n.py:126
 msgid "Swahili"
-msgstr ""
+msgstr "Swahili"
 
 #: lang/i18n.py:127
 msgid "Swedish"
@@ -1563,7 +1580,7 @@ msgstr "Zweeds"
 
 #: lang/i18n.py:128
 msgid "Tajik"
-msgstr ""
+msgstr "Tadzjieks"
 
 #: lang/i18n.py:129
 msgid "Tamil"
@@ -1571,7 +1588,7 @@ msgstr "Tamil"
 
 #: lang/i18n.py:130
 msgid "Tatar"
-msgstr ""
+msgstr "Tataars"
 
 #: lang/i18n.py:131
 msgid "Telugu"
@@ -1583,11 +1600,11 @@ msgstr "Thais"
 
 #: lang/i18n.py:133
 msgid "Tibetan"
-msgstr ""
+msgstr "Tibetaans"
 
 #: lang/i18n.py:134
 msgid "Tigrinya"
-msgstr ""
+msgstr "Tigrinya"
 
 #: lang/i18n.py:135
 msgid "Turkish"
@@ -1595,11 +1612,11 @@ msgstr "Turks"
 
 #: lang/i18n.py:136
 msgid "Turkmen"
-msgstr ""
+msgstr "Turkmeens"
 
 #: lang/i18n.py:137
 msgid "Uighur"
-msgstr ""
+msgstr "Oeigoers"
 
 #: lang/i18n.py:138
 msgid "Ukrainian"
@@ -1611,11 +1628,11 @@ msgstr "Urdu"
 
 #: lang/i18n.py:140
 msgid "Uzbek"
-msgstr ""
+msgstr "Oezbeeks"
 
 #: lang/i18n.py:141
 msgid "Uzbek (latin)"
-msgstr ""
+msgstr "Oezbeeks (latijns)"
 
 #: lang/i18n.py:142
 msgid "Vietnamese"
@@ -1623,7 +1640,7 @@ msgstr "Vietnamees"
 
 #: lang/i18n.py:143
 msgid "Walloon"
-msgstr ""
+msgstr "Waals"
 
 #: lang/i18n.py:144
 msgid "Welsh"
@@ -1631,11 +1648,11 @@ msgstr "Welsh"
 
 #: lang/i18n.py:145
 msgid "Yoruba"
-msgstr ""
+msgstr "Yoruba"
 
 #: lang/i18n.py:146
 msgid "Zulu"
-msgstr ""
+msgstr "Zulu"
 
 #: lang/models.py:25
 msgid "Singular"
@@ -1831,9 +1848,8 @@ msgid "Overwrite existing"
 msgstr "Bestaande overschrijven"
 
 #: trans/forms.py:190
-#, fuzzy
 msgid "Starting date"
-msgstr "Begint met een nieuwe regel"
+msgstr "Startdatum"
 
 #: trans/models.py:34
 #, python-format
@@ -1853,9 +1869,8 @@ msgid "URL of Git repository"
 msgstr "URL van Git repository"
 
 #: trans/models.py:155
-#, fuzzy
 msgid "URL of push Git repository"
-msgstr "URL van Git repository"
+msgstr "URL van push Git repository"
 
 #: trans/models.py:159
 #, python-format
@@ -1871,27 +1886,27 @@ msgid "Git branch to translate"
 msgstr "Git tak om te vertalen"
 
 #: trans/models.py:169
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
-"Filter van bestanden om te vertalen, gebruik * in plaats van de taalcode"
+"Pad van te vertalen bestanden, gebruik * in plaats van de taalcode, "
+"bijvoorbeeld : po/*.po of locale/*/LC_MESSAGES/django.po"
 
 #: trans/models.py:287
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "Push is uitgeschakeld voor %s."
 
 #: trans/models.py:307
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "Push naar externe tak op %s is mislukt."
 
 #: trans/models.py:342
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "Samenvoegen van externe tak met %s is mislukt."
 
 #: trans/models.py:744
 msgid "All strings"
@@ -1914,45 +1929,45 @@ msgstr "Tekenreeksen met suggesties (%d)"
 
 #: trans/views.py:47
 msgid "Please set your full name in profile."
-msgstr ""
+msgstr "Gelieve uw volledige naam in te vullen in uw profiel."
 
 #: trans/views.py:178 trans/views.py:251
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr ""
+msgstr "%(language)s woordenboek voor %(project)s"
 
 #: trans/views.py:206
 msgid "No words to import found in file."
-msgstr ""
+msgstr "Er werden geen te importeren woorden gevonden in het bestand."
 
 #: trans/views.py:208
 #, python-format
 msgid "Imported %d words from file."
-msgstr ""
+msgstr "%d woorden werden geïmporteerd uit het bestand."
 
 #: trans/views.py:210 trans/views.py:212 trans/views.py:316
 msgid "Failed to process form!"
-msgstr ""
+msgstr "Het formulier kon niet verwerkt worden!"
 
 #: trans/views.py:314
 msgid "Automatic translation completed."
-msgstr ""
+msgstr "Automatische vertaling is klaar."
 
 #: trans/views.py:360 trans/views.py:370 trans/views.py:380
 msgid "All pending translations were committed."
-msgstr ""
+msgstr "Alle hangende vertalingen werden gecommit."
 
 #: trans/views.py:390 trans/views.py:400 trans/views.py:410
 msgid "All repositories were updated."
-msgstr ""
+msgstr "Alle repositories werden bijgewerkt."
 
 #: trans/views.py:420 trans/views.py:430 trans/views.py:440
 msgid "All repositories were pushed."
-msgstr ""
+msgstr "Alle repositories werden gepushed."
 
 #: trans/views.py:556
 msgid "Your suggestion is empty!"
-msgstr ""
+msgstr "Uw suggestie is leeg!"
 
 #: trans/views.py:576
 msgid "You need to log in to be able to save translations!"
