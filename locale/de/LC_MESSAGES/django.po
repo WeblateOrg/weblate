@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-11 14:41+0200\n"
+"POT-Creation-Date: 2012-04-13 10:35+0200\n"
 "PO-Revision-Date: 2012-04-08 22:33+0200\n"
 "Last-Translator: Jo Michael <me@mynetx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 0.8\n"
 
-#: urls.py:83 urls.py:89
+#: urls.py:85 urls.py:91
 msgid "User registration"
 msgstr "Benutzer-Registrierung"
 
-#: urls.py:94
+#: urls.py:96
 msgid "Account activation"
 msgstr "Konto-Aktivierung"
 
-#: urls.py:100 html/base.html:47 html/registration/login.html:30
+#: urls.py:102 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Anmelden"
 
-#: urls.py:107
+#: urls.py:109
 msgid "Logged out"
 msgstr "Abgemeldet"
 
-#: urls.py:112
+#: urls.py:114
 msgid "Change password"
 msgstr "Kennwort ändern"
 
-#: urls.py:116
+#: urls.py:118
 msgid "Password changed"
 msgstr "Kennwort geändert"
 
-#: urls.py:120 urls.py:124 urls.py:128 urls.py:132
+#: urls.py:122 urls.py:126 urls.py:130 urls.py:134
 msgid "Password reset"
 msgstr "Kennwort zurücksetzen"
 
@@ -305,7 +305,7 @@ msgstr ""
 "Weitere Informationen über diese Prüfung sind in der <a href=\"%(link)s"
 "\">Dokumentation</a> verfügbar."
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:21
+#: html/check.html:26 html/check_project.html:26 html/index.html:27
 #: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Projekt"
@@ -319,7 +319,7 @@ msgstr "Fehler"
 msgid "There are no matching failed checks!"
 msgstr "Es gibt keine passenden fehlgeschlagenen Prüfungen!"
 
-#: html/check_subproject.html:27 html/dictionary.html:22 html/index.html:46
+#: html/check_subproject.html:27 html/dictionary.html:22 html/index.html:52
 #: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
 #: html/js/other.html:6 html/js/similar.html:6 trans/forms.py:180
 msgid "Translation"
@@ -404,56 +404,63 @@ msgstr "Wort ändern"
 msgid "Save"
 msgstr "Speichern"
 
-#: html/index.html:8
+#: html/index.html:9
+msgid ""
+"This site runs <a href=\"http://weblate.org/\">Weblate</a> for traslating "
+"software projects listed below. You need to be logged in for translating, "
+"otherwise you can only make suggestions."
+msgstr ""
+
+#: html/index.html:14
 msgid "Your translations"
 msgstr "Ihre Übersetzungen"
 
-#: html/index.html:16
+#: html/index.html:22
 msgid "Projects"
 msgstr "Projekte"
 
-#: html/index.html:22 html/index.html.py:66 html/languages.html:15
+#: html/index.html:28 html/index.html.py:72 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Übersetzt"
 
-#: html/index.html:37
+#: html/index.html:43
 msgid "Summaries"
 msgstr "Zusammenfassungen"
 
-#: html/index.html:39
+#: html/index.html:45
 msgid "Recent changes"
 msgstr "Letzte Änderungen"
 
-#: html/index.html:44
+#: html/index.html:50
 msgid "Date"
 msgstr "Datum"
 
-#: html/index.html:45 html/index.html.py:65 html/index.html.py:85
+#: html/index.html:51 html/index.html.py:71 html/index.html.py:91
 msgid "User"
 msgstr "Benutzer"
 
-#: html/index.html:60
+#: html/index.html:66
 msgid "Most active translators"
 msgstr "Aktivste Übersetzer"
 
-#: html/index.html:80
+#: html/index.html:86
 msgid "Most active suggesters"
 msgstr "Aktivste Vorschlagende"
 
-#: html/index.html:86
+#: html/index.html:92
 msgid "Suggested"
 msgstr "Vorgeschlagen"
 
-#: html/index.html:101
+#: html/index.html:107
 msgid "Others"
 msgstr "Andere"
 
-#: html/index.html:104
+#: html/index.html:110
 msgid "Languages summary"
 msgstr "Sprachen-Zusammenfassung"
 
-#: html/index.html:105
+#: html/index.html:111
 msgid "Checks overview"
 msgstr "Prüfungs-Übersicht"
 
@@ -1911,21 +1918,21 @@ msgstr "Fehler beim Pushen des Remote-Branches auf %s."
 msgid "Failed to merge remote branch into %s."
 msgstr "Fehler beim Zusammenführen des Remote-Branches nach %s."
 
-#: trans/models.py:729
+#: trans/models.py:744
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
-#: trans/models.py:734
+#: trans/models.py:749
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nicht übersetzte Zeichenketten (%d)"
 
-#: trans/models.py:736
+#: trans/models.py:751
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ungenaue Zeichenketten (%d)"
 
-#: trans/models.py:738
+#: trans/models.py:753
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
