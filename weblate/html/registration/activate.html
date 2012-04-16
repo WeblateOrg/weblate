@@ -11,7 +11,7 @@
     <b>{{ username }}</b>.{% endblocktrans %}
 </p>
 <p>
-    {% url 'accounts.views.profile' as profile_url %}
+    {% url 'weblate.accounts.views.profile' as profile_url %}
     {% blocktrans %}You might want to <a href="{{ profile_url }}">adjust your profile</a> now.{% endblocktrans %}
 </p>
 {% else %}

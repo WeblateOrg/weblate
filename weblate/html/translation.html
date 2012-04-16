@@ -41,7 +41,7 @@
 <li><a href="#auto">{% trans "Automatic translation" %}</a></li>
 {% endif %}
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<li><a href="{% url 'trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 </ul>
 
@@ -66,7 +66,7 @@
 <p>{% trans "Uploaded file will be merged with current translation." %}</p>
 {% endif %}
 
-<form action="{% url 'trans.views.upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'weblate.trans.views.upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
 {{ form.as_table }}
@@ -91,7 +91,7 @@
 {% if autoform %}
 <div id="auto">
 <p>{% trans "Automatic translation takes existing translations in this project and applies it to the current subproject. It can be used to push translations to a different branch or to fix inconsistent translations." %}</p>
-<form action="{% url 'trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'weblate.trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
 {{ autoform.as_table }}

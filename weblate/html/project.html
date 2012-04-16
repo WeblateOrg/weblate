@@ -39,16 +39,16 @@
 <ul>
 <li><a href="#dicts">{% trans "Dictionaries" %}</a></li>
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<li><a href="{% url 'trans.views.git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 </ul>
 
 <div id="dicts">
 <ul>
 {% for dict in dicts %}
-<li><a href="{% url 'trans.views.show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
 {% endfor %}
-<li><a href="{% url 'trans.views.show_dictionaries' project=object.slug %}">{% trans "Manage all dictionaries" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=object.slug %}">{% trans "Manage all dictionaries" %}</a></li>
 </ul>
 </div>
 </div>

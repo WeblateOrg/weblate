@@ -4,8 +4,8 @@
 
 {% block breadcums %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-<li><a href="{% url 'trans.views.show_dictionaries' project=project.slug %}">{% trans "dictionaries" %}</a></li>
-<li><a href="{% url 'trans.views.show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=project.slug %}">{% trans "dictionaries" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -31,7 +31,7 @@
 <td class="translatetext">{{ word.target }}</td>
 <td>
 {% if perms.trans.change_dictionary %}
-<form action="{% url 'trans.views.edit_dictionary' project=project.slug lang=language.code %}" method="get">
+<form action="{% url 'weblate.trans.views.edit_dictionary' project=project.slug lang=language.code %}" method="get">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
 <input type="submit" class="button" value="{% trans "Edit" %}" />
@@ -40,7 +40,7 @@
 </td>
 <td>
 {% if perms.trans.delete_dictionary %}
-<form action="{% url 'trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
+<form action="{% url 'weblate.trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
 <input type="submit" class="button" value="{% trans "Delete" %}" />
@@ -86,7 +86,7 @@
 
 <p>{% trans "You can upload any format which is understood by Translate Toolkit for example csv or po file." %}</p>
 
-<form action="{% url 'trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'weblate.trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
 {{ uploadform.as_table }}
