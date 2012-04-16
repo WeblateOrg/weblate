@@ -103,3 +103,9 @@ fulltext search.
 On upgrade to version 0.8 you should run :program:`./manage.py syncdb` to setup
 new tables, :program:`./manage.py setupgroups` to update privileges setup and
 :program:`./manage.py rebuild_index` to rebuild index for fulltext search.
+
+On upgrade to version 0.9 file structure has changed. You need to move
+:file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
+:program:`./manage.py syncdb`, :program:`./manage.py setupgroups` and
+:program:`./manage.py setuplang` is recommended to get latest updates of 
+privileges and language definitions.
