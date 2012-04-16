@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-16 12:26+0200\n"
+"POT-Creation-Date: 2012-04-16 13:36+0200\n"
 "PO-Revision-Date: 2012-04-16 13:38+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -273,7 +273,7 @@ msgstr ""
 "<a href=\"http://weblate.org\">Weblate %(version)s</a> tarafından "
 "desteklenmektedir"
 
-#: html/base.html:75 trans/views.py:967
+#: html/base.html:75 trans/views.py:991
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -607,8 +607,10 @@ msgstr "Son"
 
 #: html/translate.html:27
 #, python-format
-msgid "Searching for \"%(search_query)s\"."
-msgstr "\"%(search_query)s\" için aranıyor."
+msgid ""
+"Current filter: %(filter_name)s (showing %(filter_pos)s out of "
+"%(filter_count)s)."
+msgstr ""
 
 #: html/translate.html:54
 msgid "Context"
@@ -1945,64 +1947,84 @@ msgstr "Tüm havuzlar güncellendi."
 msgid "All repositories were pushed."
 msgstr "Tüm havuzlar yollandı."
 
-#: trans/views.py:556
+#: trans/views.py:528
+#, fuzzy, python-format
+msgid "Search for \"%s\""
+msgstr "\"%(search_query)s\" için aranıyor."
+
+#: trans/views.py:532
+#, fuzzy
+msgid "Fuzzy strings"
+msgstr "Belirsiz satır (%d)"
+
+#: trans/views.py:534
+#, fuzzy
+msgid "Not translated strings"
+msgstr "Çevrilmemiş satır (%d)"
+
+#: trans/views.py:536
+#, fuzzy
+msgid "Strings with suggestions"
+msgstr "Önerileri olan satır (%d)"
+
+#: trans/views.py:575
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views.py:576
+#: trans/views.py:595
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:579 trans/views.py:619
+#: trans/views.py:598 trans/views.py:638
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:595
+#: trans/views.py:614
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:613 trans/views.py:651
+#: trans/views.py:632 trans/views.py:670
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views.py:634
+#: trans/views.py:653
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views.py:657
+#: trans/views.py:676
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:668
+#: trans/views.py:687
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:678
+#: trans/views.py:697
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:699
+#: trans/views.py:718
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:755
+#: trans/views.py:775
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:902
+#: trans/views.py:926
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:904
+#: trans/views.py:928
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:906
+#: trans/views.py:930
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:917
+#: trans/views.py:941
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 

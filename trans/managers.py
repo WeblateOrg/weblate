@@ -125,6 +125,7 @@ class UnitManager(models.Manager):
         Basic filtering based on unit state or failed checks.
         '''
         import trans.models
+        import trans.checks
         if rqtype == 'all':
             return self.all()
         elif rqtype == 'fuzzy':
@@ -141,7 +142,7 @@ class UnitManager(models.Manager):
                 project = sample.translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
-        elif rqtype in [x[0] for x in trans.models.CHECK_CHOICES]:
+        elif rqtype in trans.checks.CHECKS:
             try:
                 sample = self.all()[0]
             except IndexError:

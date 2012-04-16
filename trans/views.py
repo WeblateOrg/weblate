@@ -520,6 +520,25 @@ def parse_search_url(request):
         search_url
         )
 
+def get_filter_name(rqtype, search_query):
+    '''
+    Returns name of current filter.
+    '''
+    if search_query != '':
+        return _('Search for "%s"') % search_query
+    if rqtype == 'all':
+        return None
+    elif rqtype == 'fuzzy':
+        return _('Fuzzy strings')
+    elif rqtype == 'untranslated':
+        return _('Not translated strings')
+    elif rqtype == 'suggestions':
+        return _('Strings with suggestions')
+    elif rqtype in trans.checks.CHECKS:
+        return trans.checks.CHECKS[rqtype].name
+    else:
+        return None
+
 
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
@@ -706,48 +725,49 @@ def translate(request, project, subproject, lang):
             search_url
         ))
 
+    reviewform = ReviewForm(request.GET)
+
+    if reviewform.is_valid():
+        units = obj.unit_set.review(reviewform.cleaned_data['date'], request.user)
+        # Review
+        if direction == 'stay':
+            units = units.filter(position = pos)
+        elif direction == 'back':
+            units = units.filter(position__lt = pos).order_by('-position')
+        else:
+            units = units.filter(position__gt = pos)
+    elif search_query != '':
+        # Apply search conditions
+        if search_exact:
+            query = Q()
+            if search_source:
+                query |= Q(source = search_query)
+            if search_target:
+                query |= Q(target = search_query)
+            if search_context:
+                query |= Q(context = search_query)
+            allunits = obj.unit_set.filter(query)
+        else:
+            allunits = obj.unit_set.search(search_query, search_source, search_context, search_target)
+        if direction == 'stay':
+            units = obj.unit_set.filter(position = pos)
+        elif direction == 'back':
+            units = allunits.filter(position__lt = pos).order_by('-position')
+        else:
+            units = allunits.filter(position__gt = pos)
+    else:
+        allunits = obj.unit_set.filter_type(rqtype)
+        # What unit set is about to show
+        if direction == 'stay':
+            units = obj.unit_set.filter(position = pos)
+        elif direction == 'back':
+            units = allunits.filter(position__lt = pos).order_by('-position')
+        else:
+            units = allunits.filter(position__gt = pos)
+
+
     # If we failed to get unit above or on no POST
     if unit is None:
-
-        reviewform = ReviewForm(request.GET)
-
-        if reviewform.is_valid():
-            units = obj.unit_set.review(reviewform.cleaned_data['date'], request.user)
-            # Review
-            if direction == 'stay':
-                units = units.filter(position = pos)
-            elif direction == 'back':
-                units = units.filter(position__lt = pos).order_by('-position')
-            else:
-                units = units.filter(position__gt = pos)
-        elif search_query != '':
-            # Apply search conditions
-            if search_exact:
-                query = Q()
-                if search_source:
-                    query |= Q(source = search_query)
-                if search_target:
-                    query |= Q(target = search_query)
-                if search_context:
-                    query |= Q(context = search_query)
-                units = obj.unit_set.filter(query)
-            else:
-                units = obj.unit_set.search(search_query, search_source, search_context, search_target)
-            if direction == 'stay':
-                units = units.filter(position = pos)
-            elif direction == 'back':
-                units = units.filter(position__lt = pos).order_by('-position')
-            else:
-                units = units.filter(position__gt = pos)
-        else:
-            # What unit set is about to show
-            if direction == 'stay':
-                units = obj.unit_set.filter(position = pos)
-            elif direction == 'back':
-                units = obj.unit_set.filter_type(rqtype).filter(position__lt = pos).order_by('-position')
-            else:
-                units = obj.unit_set.filter_type(rqtype).filter(position__gt = pos)
-
         # Grab actual unit
         try:
             unit = units[0]
@@ -782,6 +802,7 @@ def translate(request, project, subproject, lang):
         })
 
     total = obj.unit_set.all().count()
+    filter_count = allunits.count()
 
     return render_to_response('translate.html', RequestContext(request, {
         'object': obj,
@@ -789,6 +810,9 @@ def translate(request, project, subproject, lang):
         'changes': unit.change_set.all()[:10],
         'total': total,
         'type': rqtype,
+        'filter_name': get_filter_name(rqtype, search_query),
+        'filter_count': filter_count,
+        'filter_pos': filter_count + 1 - units.count(),
         'form': form,
         'target_language': obj.language.code,
         'secondary': secondary,
