@@ -51,7 +51,7 @@ Weblate provides various exports to allow you further process the data.
                 "fuzzy": 0, 
                 "fuzzy_percent": 0.0, 
                 "last_author": "Michal \u010ciha\u0159",
-                "last_change": "2012-03-28T15:07:38",
+                "last_change": "2012-03-28T15:07:38+00:00",
                 "name": "Czech", 
                 "total": 436, 
                 "translated": 436, 
