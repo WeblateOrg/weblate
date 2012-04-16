@@ -807,6 +807,7 @@ def translate(request, project, subproject, lang):
         'total': total,
         'type': rqtype,
         'filter_name': get_filter_name(rqtype),
+        'filter_count': units.count(),
         'form': form,
         'target_language': obj.language.code,
         'secondary': secondary,

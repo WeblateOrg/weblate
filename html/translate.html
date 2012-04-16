@@ -24,7 +24,7 @@
 </p>
 
 {% if filter_name %}
-<p>{% blocktrans %}Current filter: {{ filter_name }}{% endblocktrans %}</p>
+<p>{% blocktrans count filter_count as count %}Current filter ({{ filter_name }}) has {{ count }} match.{% plural %}Current filter ({{ filter_name }}) has {{ count }} matches.{% endblocktrans %}</p>
 {% else %}
 {% if search_query %}
 <p>{% blocktrans %}Searching for "{{ search_query }}".{% endblocktrans %}</p>
