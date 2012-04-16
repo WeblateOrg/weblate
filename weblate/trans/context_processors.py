@@ -1,9 +1,9 @@
-import trans
+import weblate
 from django.conf import settings
 from datetime import datetime
 
 def version(request):
-    return {'version': trans.VERSION}
+    return {'version': weblate.VERSION}
 
 def title(request):
     return {'site_title': settings.SITE_TITLE}

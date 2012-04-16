@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from lang.models import Language
 from django.db.models import Sum
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
@@ -20,9 +19,10 @@ from translate.storage import factory
 from translate.storage import poheader
 from datetime import datetime
 
-import trans
-import trans.checks
-from trans.managers import TranslationManager, UnitManager, DictionaryManager
+import weblate
+from weblate.lang.models import Language
+from weblate.trans.checks import CHECKS
+from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from util import is_plural, split_plural, join_plural
 
 logger = logging.getLogger('weblate')
@@ -746,7 +746,7 @@ class Translation(models.Model):
                     plural_forms = self.language.get_plural_form(),
                     language = self.language.code,
                     PO_Revision_Date = po_revision_date,
-                    x_generator = 'Weblate %s' % trans.VERSION
+                    x_generator = 'Weblate %s' % weblate.VERSION
                     )
             self.commit_pending(author)
             store.save()
@@ -768,10 +768,10 @@ class Translation(models.Model):
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
         if suggestions > 0:
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
-        for check in trans.checks.CHECKS:
+        for check in CHECKS:
             cnt = self.unit_set.filter_type(check).count()
             if cnt > 0:
-                desc =  trans.checks.CHECKS[check].description + (' (%d)' % cnt)
+                desc =  CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
         return result
 
@@ -1047,8 +1047,8 @@ class Unit(models.Model):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         failing = []
-        for check in trans.checks.CHECKS:
-            if trans.checks.CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
+        for check in CHECKS:
+            if CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
                 failing.append(check)
 
         for check in self.checks():
@@ -1099,7 +1099,7 @@ class Suggestion(models.Model):
             unit.fuzzy = False
             unit.save_backend(request, False)
 
-CHECK_CHOICES = [(x, trans.checks.CHECKS[x].name) for x in trans.checks.CHECKS]
+CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 class Check(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
@@ -1121,10 +1121,10 @@ class Check(models.Model):
         )
 
     def get_description(self):
-        return trans.checks.CHECKS[self.check].description
+        return CHECKS[self.check].description
 
     def get_doc_url(self):
-        return trans.checks.CHECKS[self.check].get_doc_url()
+        return CHECKS[self.check].get_doc_url()
 
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)

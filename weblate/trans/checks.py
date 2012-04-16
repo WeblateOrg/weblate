@@ -2,7 +2,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-import trans
+import weblate
 import re
 
 PYTHON_PRINTF_MATCH = re.compile('''
@@ -198,7 +198,7 @@ class Check(object):
         Returns link to documentation.
         '''
         return 'http://weblate.readthedocs.org/en/weblate-%s/usage.html#check-%s' % (
-            trans.VERSION,
+            weblate.VERSION,
             self.check_id,
         )
 
