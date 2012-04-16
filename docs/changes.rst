@@ -13,6 +13,12 @@ Relased on ? 2012.
 * Added definition for several more languages.
 * Various code cleanups.
 * Documentation improvements.
+* Changed file layout.
+* Update helper scripts to Django 1.4.
+* Improved navigation while translating.
+* Better handling of po file renames.
+* Better validation while creating subproject.
+* Integrated full setup into syncdb.
 
 weblate 0.8
 -----------
