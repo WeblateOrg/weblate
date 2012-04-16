@@ -10,12 +10,12 @@ from django.conf import settings
 from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 
-target_schema = Schema(
+TARGET_SCHEMA = Schema(
     checksum = ID(stored = True, unique = True),
     target = TEXT
 )
 
-source_schema = Schema(
+SOURCE_SCHEMA = Schema(
     checksum = ID(stored = True, unique = True),
     source = TEXT,
     context = TEXT
@@ -24,14 +24,14 @@ source_schema = Schema(
 def create_source_index():
     return create_in(
         settings.WHOOSH_INDEX,
-        schema = source_schema,
+        schema = SOURCE_SCHEMA,
         indexname = 'source'
     )
 
 def create_target_index(lang):
     return create_in(
         settings.WHOOSH_INDEX,
-        schema = target_schema,
+        schema = TARGET_SCHEMA,
         indexname = 'target-%s' % lang
     )
 

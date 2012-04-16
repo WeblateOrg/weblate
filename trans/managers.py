@@ -225,14 +225,14 @@ class UnitManager(models.Manager):
         if source or context:
             with trans.search.index.source_searcher() as searcher:
                 if source:
-                    ret = ret.union(self.__search(searcher, 'source', trans.search.source_schema, query))
+                    ret = ret.union(self.__search(searcher, 'source', trans.search.SOURCE_SCHEMA, query))
                 if context:
-                    ret = ret.union(self.__search(searcher, 'context', trans.search.source_schema, query))
+                    ret = ret.union(self.__search(searcher, 'context', trans.search.SOURCE_SCHEMA, query))
 
         if translation:
             sample = self.all()[0]
             with trans.search.index.target_searcher(sample.translation.language.code) as searcher:
-                ret = ret.union(self.__search(searcher, 'target', trans.search.target_schema, query))
+                ret = ret.union(self.__search(searcher, 'target', trans.search.TARGET_SCHEMA, query))
 
         if checksums:
             return ret
