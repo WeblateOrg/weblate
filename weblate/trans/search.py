@@ -57,10 +57,13 @@ class Index(object):
         Returns source index.
         '''
         if self._source is None:
-            self._source = open_dir(
-                settings.WHOOSH_INDEX,
-                indexname = 'source'
-            )
+            try:
+                self._source = open_dir(
+                    settings.WHOOSH_INDEX,
+                    indexname = 'source'
+                )
+            except whoosh.index.EmptyIndexError:
+                self._source = create_source_index()
         return self._source
 
     def target(self, lang):
