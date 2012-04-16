@@ -1,6 +1,22 @@
+# -*- coding: UTF-8 -*-
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
+from translate.lang import data
+
+EXTRALANGS = [
+    ('ur', 'Urdu', 2, '(n != 1)'),
+    ('uz@latin', 'Uzbek (latin)', 1, '0'),
+    ('uz', 'Uzbek', 1, '0'),
+    ('sr@latin', 'Serbian (latin)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
+    ('sr_RS@latin', 'Serbian (latin)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
+    ('sr@cyrillic', 'Serbian (cyrillic)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
+    ('sr_RS@cyrillic', 'Serbian (cyrillic)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
+    ('be@latin', 'Belarusian (latin)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
+    ('en_US', 'English (United States)', 2, '(n != 1)'),
+    ('nb_NO', 'Norwegian Bokmål', 2, '(n != 1)'),
+    ('pt_PT', 'Portuguese (Portugal)', 2, '(n > 1)'),
+]
 
 class LanguageManager(models.Manager):
     def auto_create(self, code):
@@ -29,6 +45,48 @@ class LanguageManager(models.Manager):
             except Language.DoesNotExist:
                 pass
         return lang
+
+    def setup(self, update):
+        for code, props in data.languages.items():
+            lang, created = Language.objects.get_or_create(
+                code = code)
+            if not update and not created:
+                continue
+            lang.name = props[0].split(';')[0]
+            # Use shorter name
+            if code == 'ia':
+                lang.name = 'Interlingua'
+            # Shorten name
+            elif code == 'el':
+                lang.name = 'Greek'
+            elif code == 'st':
+                lang.name = 'Sotho'
+            elif code == 'oc':
+                lang.name = 'Occitan'
+            elif code == 'nb':
+                lang.name = 'Norwegian Bokmål'
+            if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
+                # Workaround bug in data
+                lang.nplurals = 4
+                lang.pluralequation = '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'
+            elif code == 'kk':
+                # Kazakh should have plurals, ttkit says it does not have
+                lang.nplurals = 2
+                lang.pluralequation = '(n != 1)'
+            else:
+                lang.nplurals = props[1]
+                lang.pluralequation = props[2]
+            lang.save()
+        for props in EXTRALANGS:
+            lang, created = Language.objects.get_or_create(
+                code = props[0])
+            if not update and not created:
+                continue
+            lang.name = props[1]
+            lang.nplurals = props[2]
+            lang.pluralequation = props[3]
+            lang.save()
+
 
 class Language(models.Model):
     code = models.SlugField(unique = True)
