@@ -4,34 +4,36 @@ Whoosh based full text search.
 
 import whoosh
 import os
-from whoosh.fields import SchemaClass, TEXT, ID, NUMERIC
+from whoosh.fields import Schema, TEXT, ID, NUMERIC
 from django.db.models.signals import post_syncdb
 from django.conf import settings
 from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 
-class TargetSchema(SchemaClass):
-    checksum = ID(stored = True, unique = True)
-    target = TEXT
+target_schema = Schema(
+    checksum = ID(stored = True, unique = True),
+    target = TEXT,
     translation = NUMERIC
+)
 
-class SourceSchema(SchemaClass):
-    checksum = ID(stored = True, unique = True)
-    source = TEXT
-    context = TEXT
+source_schema = Schema(
+    checksum = ID(stored = True, unique = True),
+    source = TEXT,
+    context = TEXT,
     translation = NUMERIC
+)
 
 def create_source_index():
     return create_in(
         settings.WHOOSH_INDEX,
-        schema = SourceSchema,
+        schema = source_schema,
         indexname = 'source'
     )
 
 def create_target_index(lang):
     return create_in(
         settings.WHOOSH_INDEX,
-        schema = TargetSchema,
+        schema = target_schema,
         indexname = 'target-%s' % lang
     )
 
