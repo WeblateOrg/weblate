@@ -11,7 +11,7 @@ class Command(BaseCommand):
             action='store_false',
             dest='update',
             default=True,
-            help='Updates existing language definitions'),
+            help='Prevents updates to existing language definitions'),
         )
 
     def handle(self, *args, **options):

@@ -23,7 +23,6 @@ Installing from sources
    .. code-block:: sh
 
         ./manage.py syncdb
-        ./manage.py setuplang
         ./manage.py setupgroups
         ./manage.py compilemessages # If you are using Git checkout
 

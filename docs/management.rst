@@ -47,6 +47,9 @@ The ./manage.py is extended with following commands:
     Setups list of languages (it has own list and all defined in
     translate-toolkit).
 
+    The option ``--no-update`` disables update of existing languages (only add 
+    new ones).
+
 .. option:: updatechecks
 
     Updates all check for all units. This could be useful only on upgrades
