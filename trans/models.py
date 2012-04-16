@@ -344,6 +344,12 @@ class SubProject(models.Model):
         del gitrepo
         return ret
 
+    def get_mask_matches(self):
+        '''
+        Returns files matching current mask.
+        '''
+        return glob(os.path.join(self.get_path(), self.filemask))
+
     def get_translation_blobs(self):
         '''
         Iterator over translations in filesystem.
@@ -353,7 +359,7 @@ class SubProject(models.Model):
 
         # Glob files
         prefix = os.path.join(self.get_path(), '')
-        for f in glob(os.path.join(self.get_path(), self.filemask)):
+        for f in self.get_mask_matches():
             filename = f.replace(prefix, '')
             yield (
                 self.get_lang_code(filename),
@@ -391,6 +397,7 @@ class SubProject(models.Model):
 
     def clean(self):
         self.sync_git_repo()
+
 
     def save(self, *args, **kwargs):
         self.sync_git_repo()
