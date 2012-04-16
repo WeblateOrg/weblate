@@ -59,6 +59,7 @@ sed -i 's@weblate-path@%{WLDIR}@g' examples/django.wsgi
 %install
 install -d %{buildroot}/%{WLDIR}
 install -d %{buildroot}/%{WLETCDIR}
+ln -s ../ %{buildroot}/%{WLDIR}
 
 # Copy all files
 cp -a . %{buildroot}/%{WLDIR}
