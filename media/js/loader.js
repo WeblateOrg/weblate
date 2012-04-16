@@ -126,6 +126,7 @@ $(function() {
     $('.navi').buttonset();
     $('.button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
     $('.button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
+    $('.button-pos').button({text: true});
     $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
     $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('textarea.translation').change(text_change).keypress(text_change).autogrow().focus();
