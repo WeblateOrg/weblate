@@ -48,16 +48,23 @@ class LanguageManager(models.Manager):
         return lang
 
     def setup(self, update):
+        '''
+        Creates basic set of languages based on languages defined in ttkit
+        and on our list of extra languages.
+        '''
+
+        # Languages from ttkit
         for code, props in data.languages.items():
             lang, created = Language.objects.get_or_create(
                 code = code)
+
+            # Should we update existing?
             if not update and not created:
                 continue
-            lang.name = props[0].split(';')[0]
-            # Use shorter name
+
+            # Fixups (mostly shortening) of langauge names
             if code == 'ia':
                 lang.name = 'Interlingua'
-            # Shorten name
             elif code == 'el':
                 lang.name = 'Greek'
             elif code == 'st':
@@ -66,6 +73,11 @@ class LanguageManager(models.Manager):
                 lang.name = 'Occitan'
             elif code == 'nb':
                 lang.name = 'Norwegian Bokmål'
+            else:
+                # Standard ttkit language name
+                lang.name = props[0].split(';')[0]
+
+            # Fixes for broken plurals
             if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
                 # Workaround bug in data
                 lang.nplurals = 4
@@ -75,14 +87,22 @@ class LanguageManager(models.Manager):
                 lang.nplurals = 2
                 lang.pluralequation = '(n != 1)'
             else:
+                # Standard plurals
                 lang.nplurals = props[1]
                 lang.pluralequation = props[2]
+
+            # Save language
             lang.save()
+
+        # Create Weblate extra languages
         for props in EXTRALANGS:
             lang, created = Language.objects.get_or_create(
                 code = props[0])
+
+            # Should we update existing?
             if not update and not created:
                 continue
+
             lang.name = props[1]
             lang.nplurals = props[2]
             lang.pluralequation = props[3]
@@ -90,6 +110,9 @@ class LanguageManager(models.Manager):
 
 
 def setup_lang(sender=None, **kwargs):
+    '''
+    Hook for creating basic set of languages on syncdb.
+    '''
     if sender.__name__ == 'lang.models':
         Language.objects.setup(False)
 
