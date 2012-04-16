@@ -145,10 +145,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'registration',
-    'trans',
-    'lang',
-    'accounts',
-    'weblate',
+    'weblate.trans',
+    'weblate.lang',
+    'weblate.accounts',
 )
 
 
