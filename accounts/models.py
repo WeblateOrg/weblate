@@ -6,7 +6,8 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission, User
+from django.db.models.signals import post_syncdb
 
 from lang.models import Language
 
@@ -67,3 +68,48 @@ def create_profile_callback(sender, **kwargs):
             pass
 
 post_save.connect(create_profile_callback, sender = User)
+
+
+def create_groups(update, move):
+    group, created = Group.objects.get_or_create(name = 'Users')
+    if created or update:
+        group.permissions.add(
+            Permission.objects.get(codename = 'upload_translation'),
+            Permission.objects.get(codename = 'overwrite_translation'),
+            Permission.objects.get(codename = 'save_translation'),
+            Permission.objects.get(codename = 'accept_suggestion'),
+            Permission.objects.get(codename = 'delete_suggestion'),
+            Permission.objects.get(codename = 'ignore_check'),
+            Permission.objects.get(codename = 'upload_dictionary'),
+            Permission.objects.get(codename = 'add_dictionary'),
+            Permission.objects.get(codename = 'change_dictionary'),
+            Permission.objects.get(codename = 'delete_dictionary'),
+        )
+    group, created = Group.objects.get_or_create(name = 'Managers')
+    if created or update:
+        group.permissions.add(
+            Permission.objects.get(codename = 'author_translation'),
+            Permission.objects.get(codename = 'upload_translation'),
+            Permission.objects.get(codename = 'overwrite_translation'),
+            Permission.objects.get(codename = 'commit_translation'),
+            Permission.objects.get(codename = 'update_translation'),
+            Permission.objects.get(codename = 'push_translation'),
+            Permission.objects.get(codename = 'automatic_translation'),
+            Permission.objects.get(codename = 'save_translation'),
+            Permission.objects.get(codename = 'accept_suggestion'),
+            Permission.objects.get(codename = 'delete_suggestion'),
+            Permission.objects.get(codename = 'ignore_check'),
+            Permission.objects.get(codename = 'upload_dictionary'),
+            Permission.objects.get(codename = 'add_dictionary'),
+            Permission.objects.get(codename = 'change_dictionary'),
+            Permission.objects.get(codename = 'delete_dictionary'),
+        )
+    if move:
+        for u in User.objects.all():
+            u.groups.add(group)
+
+def sync_create_groups(sender, **kwargs):
+    if sender.__name__ == 'accounts.models':
+        create_groups(False, False)
+
+post_syncdb.connect(sync_create_groups)
