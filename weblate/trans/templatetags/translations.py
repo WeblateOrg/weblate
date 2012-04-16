@@ -8,6 +8,9 @@ from django.conf import settings
 
 import re
 
+import weblate
+import weblate.trans
+
 from weblate.trans.simplediff import htmlDiff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
