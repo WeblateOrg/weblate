@@ -2,11 +2,41 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
 
+class LanguageManager(models.Manager):
+    def auto_create(self, code):
+        '''
+        Autmatically creates new language based on code and best guess
+        of parameters.
+        '''
+        # Create standard language
+        lang = Language.objects.create(
+            code = code,
+            name = '%s (generated)' % code,
+            nplurals = 2,
+            pluralequation = '(n != 1)',
+        )
+        # In case this is just a different variant of known language, get params from that
+        if '_' in code:
+            try:
+                baselang = Language.objects.get(code = code.split('_')[0])
+                lang.name = '%s (generated - %s)' % (
+                    baselang.name,
+                    code,
+                )
+                lang.nplurals = baselang.nplurals
+                lang.pluralequation = baselang.pluralequation
+                lang.save()
+            except Language.DoesNotExist:
+                pass
+        return lang
+
 class Language(models.Model):
     code = models.SlugField(unique = True)
     name = models.CharField(max_length = 100)
     nplurals = models.SmallIntegerField(default = 0)
     pluralequation = models.CharField(max_length = 255, blank = True)
+
+    objects = LanguageManager()
 
     class Meta:
         ordering = ['name']
