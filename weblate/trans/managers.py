@@ -8,7 +8,7 @@ from whoosh import qparser
 
 from util import join_plural, msg_checksum
 
-from weblate.trans.search import FULLTEXT_INDEX
+from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 from translate.storage import factory
 
 IGNORE_WORDS = set([
@@ -225,14 +225,14 @@ class UnitManager(models.Manager):
         if source or context:
             with FULLTEXT_INDEX.source_searcher() as searcher:
                 if source:
-                    ret = ret.union(self.__search(searcher, 'source', trans.search.SOURCE_SCHEMA, query))
+                    ret = ret.union(self.__search(searcher, 'source', SOURCE_SCHEMA, query))
                 if context:
-                    ret = ret.union(self.__search(searcher, 'context', trans.search.SOURCE_SCHEMA, query))
+                    ret = ret.union(self.__search(searcher, 'context', SOURCE_SCHEMA, query))
 
         if translation:
             sample = self.all()[0]
             with FULLTEXT_INDEX.target_searcher(sample.translation.language.code) as searcher:
-                ret = ret.union(self.__search(searcher, 'target', trans.search.TARGET_SCHEMA, query))
+                ret = ret.union(self.__search(searcher, 'target', TARGET_SCHEMA, query))
 
         if checksums:
             return ret
