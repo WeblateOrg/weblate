@@ -40,12 +40,18 @@ The ./manage.py is extended with following commands:
     Configures default groups and (if called with ``--move``) assigns all users
     to default group.
 
+    The option ``--no-update`` disables update of existing groups (only adds 
+    new ones).
+
     .. seealso:: :ref:`privileges`
 
 .. option:: setuplang
 
     Setups list of languages (it has own list and all defined in
     translate-toolkit).
+
+    The option ``--no-update`` disables update of existing languages (only add 
+    new ones).
 
 .. option:: updatechecks
 
