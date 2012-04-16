@@ -120,6 +120,24 @@ class UnitManager(models.Manager):
         dbunit.update_from_unit(unit, pos, force)
         return dbunit
 
+    def filter_name(self, rqtype):
+        '''
+        Returns name of current filter.
+        '''
+        import trans.checks
+        if rqtype == 'all':
+            return None
+        elif rqtype == 'fuzzy':
+            return _('Fuzzy strings')
+        elif rqtype == 'untranslated':
+            return _('Not translated strings')
+        elif rqtype == 'suggestions':
+            return _('Strings with suggestions')
+        elif rqtype in trans.checks.CHECKS:
+            return trans.checks.CHECKS[rqtype].name
+        else:
+            return None
+
     def filter_type(self, rqtype):
         '''
         Basic filtering based on unit state or failed checks.
