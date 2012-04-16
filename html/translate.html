@@ -23,8 +23,12 @@
 </span>
 </p>
 
+{% if filter_name %}
+<p>{% blocktrans %}Current filter: {{ filter_name }}{% endblocktrans %}</p>
+{% else %}
 {% if search_query %}
 <p>{% blocktrans %}Searching for "{{ search_query }}".{% endblocktrans %}</p>
+{% endif %}
 {% endif %}
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">

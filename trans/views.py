@@ -520,6 +520,23 @@ def parse_search_url(request):
         search_url
         )
 
+def get_filter_name(rqtype):
+    '''
+    Returns name of current filter.
+    '''
+    if rqtype == 'all':
+        return None
+    elif rqtype == 'fuzzy':
+        return _('Fuzzy strings')
+    elif rqtype == 'untranslated':
+        return _('Not translated strings')
+    elif rqtype == 'suggestions':
+        return _('Strings with suggestions')
+    elif rqtype in trans.checks.CHECKS:
+        return trans.checks.CHECKS[rqtype].name
+    else:
+        return None
+
 
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
@@ -789,6 +806,7 @@ def translate(request, project, subproject, lang):
         'changes': unit.change_set.all()[:10],
         'total': total,
         'type': rqtype,
+        'filter_name': get_filter_name(rqtype),
         'form': form,
         'target_language': obj.language.code,
         'secondary': secondary,
