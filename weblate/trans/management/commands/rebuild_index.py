@@ -1,7 +1,7 @@
 from weblate.trans.management.commands import UnitCommand
 from weblate.trans.models import Unit
 from weblate.lang.models import Language
-from weblate.trans.search import FULLTEXT_INDEX
+from weblate.trans.search import FULLTEXT_INDEX, create_source_index, create_target_index
 from optparse import make_option
 
 class Command(UnitCommand):
@@ -17,9 +17,9 @@ class Command(UnitCommand):
     def handle(self, *args, **options):
         languages = Language.objects.all()
         if options['clean']:
-            trans.search.create_source_index()
+            create_source_index()
             for lang in languages:
-                trans.search.create_target_index(lang = lang.code)
+                create_target_index(lang = lang.code)
 
         base = self.get_units(*args, **options)
 
