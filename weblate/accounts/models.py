@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.models import Group, Permission, User
 from django.db.models.signals import post_syncdb
 
-from lang.models import Language
+from weblate.lang.models import Language
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique = True, editable = False)

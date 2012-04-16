@@ -109,4 +109,4 @@ class Index(object):
         '''
         return self.target_writer(lang).searcher()
 
-index = Index()
+FULLTEXT_INDEX = Index()

@@ -417,7 +417,7 @@ class ConsistencyCheck(Check):
     description = _('This message has more than one translation in this project')
 
     def check(self, sources, targets, flags, language, unit):
-        from trans.models import Unit
+        from weblate.trans.models import Unit
         related = Unit.objects.filter(
             translation__language = language,
             translation__subproject__project = unit.translation.subproject.project,

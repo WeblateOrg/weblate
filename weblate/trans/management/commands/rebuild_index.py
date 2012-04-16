@@ -1,7 +1,7 @@
-from trans.management.commands import UnitCommand
-from trans.models import Unit
-from lang.models import Language
-import trans.search
+from weblate.trans.management.commands import UnitCommand
+from weblate.trans.models import Unit
+from weblate.lang.models import Language
+from weblate.trans.search import FULLTEXT_INDEX
 from optparse import make_option
 
 class Command(UnitCommand):
@@ -26,7 +26,7 @@ class Command(UnitCommand):
         if base.count() == 0:
             return
 
-        with trans.search.index.source_writer(buffered = False) as writer:
+        with FULLTEXT_INDEX.source_writer(buffered = False) as writer:
             for unit in base.values('checksum', 'source', 'context').iterator():
                 Unit.objects.add_to_source_index(
                     unit['checksum'],
@@ -35,7 +35,7 @@ class Command(UnitCommand):
                     writer)
 
         for lang in languages:
-            with trans.search.index.target_writer(lang = lang.code, buffered = False) as writer:
+            with FULLTEXT_INDEX.target_writer(lang = lang.code, buffered = False) as writer:
                 for unit in base.filter(translation__language =
                     lang).exclude(target = '').values('checksum', 'target').iterator():
                     Unit.objects.add_to_target_index(

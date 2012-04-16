@@ -7,11 +7,11 @@ from django.views.generic.simple import direct_to_template
 from registration.views import activate
 from registration.views import register
 
-from accounts.forms import RegistrationForm
+from weblate.accounts.forms import RegistrationForm
 
 admin.autodiscover()
 
-handler404 = 'trans.views.not_found'
+handler404 = 'weblate.trans.views.not_found'
 
 js_info_dict = {
     'packages': ('weblate',),
@@ -20,63 +20,63 @@ js_info_dict = {
 admin.site.index_template = 'admin/custom-index.html'
 
 urlpatterns = patterns('',
-    url(r'^$', 'trans.views.home'),
+    url(r'^$', 'weblate.trans.views.home'),
     url(r'^projects/$', 'django.views.generic.simple.redirect_to', {'url': '/'}),
-    url(r'^projects/(?P<project>[^/]*)/$', 'trans.views.show_project'),
+    url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
 
-    url(r'^dictionaries/(?P<project>[^/]*)/$', 'trans.views.show_dictionaries'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$', 'trans.views.delete_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'trans.views.edit_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.show_dictionaries'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'weblate.trans.views.upload_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$', 'weblate.trans.views.delete_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'weblate.trans.views.edit_dictionary'),
 
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_subproject'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.show_translation'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'trans.views.translate'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.download_translation'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.upload_translation'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$', 'trans.views.auto_translation'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.show_subproject'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_translation'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'weblate.trans.views.translate'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.download_translation'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'weblate.trans.views.upload_translation'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$', 'weblate.trans.views.auto_translation'),
 
-    url(r'^commit/(?P<project>[^/]*)/$', 'trans.views.commit_project'),
-    url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.commit_subproject'),
-    url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.commit_translation'),
+    url(r'^commit/(?P<project>[^/]*)/$', 'weblate.trans.views.commit_project'),
+    url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.commit_subproject'),
+    url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.commit_translation'),
 
-    url(r'^update/(?P<project>[^/]*)/$', 'trans.views.update_project'),
-    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.update_subproject'),
-    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.update_translation'),
+    url(r'^update/(?P<project>[^/]*)/$', 'weblate.trans.views.update_project'),
+    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.update_subproject'),
+    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.update_translation'),
 
-    url(r'^push/(?P<project>[^/]*)/$', 'trans.views.push_project'),
-    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.push_subproject'),
-    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.push_translation'),
+    url(r'^push/(?P<project>[^/]*)/$', 'weblate.trans.views.push_project'),
+    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.push_subproject'),
+    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.push_translation'),
 
-    url(r'^languages/$', 'trans.views.show_languages'),
-    url(r'^languages/(?P<lang>[^/]*)/$', 'trans.views.show_language'),
+    url(r'^languages/$', 'weblate.trans.views.show_languages'),
+    url(r'^languages/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_language'),
 
-    url(r'^checks/$', 'trans.views.show_checks'),
-    url(r'^checks/(?P<name>[^/]*)/$', 'trans.views.show_check'),
-    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$', 'trans.views.show_check_project'),
-    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.show_check_subproject'),
+    url(r'^checks/$', 'weblate.trans.views.show_checks'),
+    url(r'^checks/(?P<name>[^/]*)/$', 'weblate.trans.views.show_check'),
+    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$', 'weblate.trans.views.show_check_project'),
+    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.show_check_subproject'),
 
-    url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.api.update_subproject'),
-    url(r'^hooks/update/(?P<project>[^/]*)/$', 'trans.api.update_project'),
-    url(r'^hooks/github/$', 'trans.api.github_hook'),
+    url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.update_subproject'),
+    url(r'^hooks/update/(?P<project>[^/]*)/$', 'weblate.trans.api.update_project'),
+    url(r'^hooks/github/$', 'weblate.trans.api.github_hook'),
 
-    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.api.export_stats'),
+    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
 
-    url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.get_string'),
-    url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.ignore_check'),
+    url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string'),
+    url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    url(r'^js/config/$', 'trans.views.js_config'),
-    url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'trans.views.get_similar'),
-    url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'trans.views.get_other'),
-    url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'trans.views.get_dictionary'),
-    url(r'^js/git/(?P<project>[^/]*)/$', 'trans.views.git_status_project'),
-    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.git_status_subproject'),
-    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.git_status_translation'),
+    url(r'^js/config/$', 'weblate.trans.views.js_config'),
+    url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_similar'),
+    url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_other'),
+    url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_dictionary'),
+    url(r'^js/git/(?P<project>[^/]*)/$', 'weblate.trans.views.git_status_project'),
+    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.git_status_subproject'),
+    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.git_status_translation'),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/report/$', 'trans.admin_views.report'),
+    url(r'^admin/report/$', 'weblate.trans.admin_views.report'),
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
@@ -133,10 +133,10 @@ urlpatterns = patterns('',
         auth_views.password_reset_done,
         {'extra_context': {'title': _('Password reset')}},
         name='auth_password_reset_done'),
-    url(r'^accounts/profile/', 'accounts.views.profile'),
+    url(r'^accounts/profile/', 'weblate.accounts.views.profile'),
 
-    url(r'^contact/', 'accounts.views.contact'),
-    url(r'^about/$', 'trans.views.about'),
+    url(r'^contact/', 'weblate.accounts.views.contact'),
+    url(r'^about/$', 'weblate.trans.views.about'),
 
     # Media files
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',

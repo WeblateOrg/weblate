@@ -12,12 +12,13 @@ from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
-from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
-from lang.models import Language
-import trans.checks
-from trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm
-from util import join_plural
-from accounts.models import Profile
+from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
+from weblate.lang.models import Language
+from weblate.trans.checks import CHECKS
+from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm
+from weblate.trans.util import join_plural
+from weblate.accounts.models import Profile
+
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import datetime
 import logging
@@ -80,7 +81,7 @@ def show_check(request, name):
     Details about failing check.
     '''
     try:
-        check = trans.checks.CHECKS[name]
+        check = CHECKS[name]
     except KeyError:
         raise Http404('No check matches the given query.')
 
@@ -96,7 +97,7 @@ def show_check_project(request, name, project):
     '''
     prj = get_object_or_404(Project, slug = project)
     try:
-        check = trans.checks.CHECKS[name]
+        check = CHECKS[name]
     except KeyError:
         raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
@@ -118,7 +119,7 @@ def show_check_subproject(request, name, project, subproject):
     '''
     subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     try:
-        check = trans.checks.CHECKS[name]
+        check = CHECKS[name]
     except KeyError:
         raise Http404('No check matches the given query.')
     langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
@@ -534,8 +535,8 @@ def get_filter_name(rqtype, search_query):
         return _('Not translated strings')
     elif rqtype == 'suggestions':
         return _('Strings with suggestions')
-    elif rqtype in trans.checks.CHECKS:
-        return trans.checks.CHECKS[rqtype].name
+    elif rqtype in CHECKS:
+        return CHECKS[rqtype].name
     else:
         return None
 

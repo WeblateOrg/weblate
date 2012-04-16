@@ -1,4 +1,4 @@
-from trans.management.commands import UnitCommand
+from weblate.trans.management.commands import UnitCommand
 
 class Command(UnitCommand):
     help = 'updates checks for units'

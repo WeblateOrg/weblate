@@ -5,13 +5,14 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django import template
 from django.conf import settings
-from trans.simplediff import htmlDiff
+
 import re
 
-from trans.util import split_plural
-from lang.models import Language
-from trans.models import Project, SubProject, Dictionary
-import trans.checks
+from weblate.trans.simplediff import htmlDiff
+from weblate.trans.util import split_plural
+from weblate.lang.models import Language
+from weblate.trans.models import Project, SubProject, Dictionary
+from weblate.trans.checks import CHECKS
 
 register = template.Library()
 
@@ -58,11 +59,11 @@ def site_title(value):
 
 @register.simple_tag
 def check_name(check):
-    return trans.checks.CHECKS[check].name
+    return CHECKS[check].name
 
 @register.simple_tag
 def check_description(check):
-    return trans.checks.CHECKS[check].description
+    return CHECKS[check].description
 
 @register.simple_tag
 def project_name(prj):

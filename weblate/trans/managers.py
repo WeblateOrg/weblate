@@ -2,13 +2,13 @@ from django.db import models
 from django.conf import settings
 import itertools
 
-from lang.models import Language
+from weblate.lang.models import Language
 
 from whoosh import qparser
 
 from util import join_plural, msg_checksum
 
-import trans.search
+from weblate.trans.search import FULLTEXT_INDEX
 from translate.storage import factory
 
 IGNORE_WORDS = set([
@@ -94,7 +94,7 @@ class UnitManager(models.Manager):
             src = unit.source
         ctx = unit.getcontext()
         checksum = msg_checksum(src, ctx)
-        from trans.models import Unit
+        from weblate.trans.models import Unit
         dbunit = None
         try:
             dbunit = self.get(
@@ -124,8 +124,8 @@ class UnitManager(models.Manager):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        import trans.models
-        import trans.checks
+        from weblate.trans.models import Suggesiont, Check
+        from weblate.trans.checks import CHECKS
         if rqtype == 'all':
             return self.all()
         elif rqtype == 'fuzzy':
@@ -137,17 +137,17 @@ class UnitManager(models.Manager):
                 sample = self.all()[0]
             except IndexError:
                 return self.none()
-            sugs = trans.models.Suggestion.objects.filter(
+            sugs = Suggestion.objects.filter(
                 language = sample.translation.language,
                 project = sample.translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
-        elif rqtype in trans.checks.CHECKS:
+        elif rqtype in CHECKS:
             try:
                 sample = self.all()[0]
             except IndexError:
                 return self.none()
-            sugs = trans.models.Check.objects.filter(
+            sugs = Check.objects.filter(
                 language = sample.translation.language,
                 project = sample.translation.subproject.project,
                 check = rqtype,
@@ -163,7 +163,7 @@ class UnitManager(models.Manager):
         '''
         if user.is_anonymous():
             return self.none()
-        from trans.models import Change
+        from weblate.trans.models import Change
         sample = self.all()[0]
         changes = Change.objects.filter(unit__translation = sample.translation, timestamp__gte = date).exclude(user = user)
         return self.filter(id__in = changes.values_list('unit__id', flat = True))
@@ -192,9 +192,9 @@ class UnitManager(models.Manager):
         Updates/Adds to all indices given unit.
         '''
         if writer_target is None:
-            writer_target = trans.search.index.target_writer(unit.translation.language.code)
+            writer_target = FULLTEXT_INDEX.target_writer(unit.translation.language.code)
         if writer_source is None:
-            writer_source = trans.search.index.source_writer()
+            writer_source = FULLTEXT_INDEX.source_writer()
 
         self.add_to_source_index(
             unit.checksum,
@@ -223,7 +223,7 @@ class UnitManager(models.Manager):
         '''
         ret = set()
         if source or context:
-            with trans.search.index.source_searcher() as searcher:
+            with FULLTEXT_INDEX.source_searcher() as searcher:
                 if source:
                     ret = ret.union(self.__search(searcher, 'source', trans.search.SOURCE_SCHEMA, query))
                 if context:
@@ -231,7 +231,7 @@ class UnitManager(models.Manager):
 
         if translation:
             sample = self.all()[0]
-            with trans.search.index.target_searcher(sample.translation.language.code) as searcher:
+            with FULLTEXT_INDEX.target_searcher(sample.translation.language.code) as searcher:
                 ret = ret.union(self.__search(searcher, 'target', trans.search.TARGET_SCHEMA, query))
 
         if checksums:
@@ -244,7 +244,7 @@ class UnitManager(models.Manager):
         Finds similar units to current unit.
         '''
         ret = set([unit.checksum])
-        with trans.search.index.source_searcher() as searcher:
+        with FULLTEXT_INDEX.source_searcher() as searcher:
             # Extract up to 10 terms from the source
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)

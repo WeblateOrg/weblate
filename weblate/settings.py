@@ -159,11 +159,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
-    'trans.context_processors.version',
-    'trans.context_processors.title',
-    'trans.context_processors.date',
-    'trans.context_processors.url',
-    'trans.context_processors.mt',
+    'weblate.trans.context_processors.version',
+    'weblate.trans.context_processors.title',
+    'weblate.trans.context_processors.date',
+    'weblate.trans.context_processors.url',
+    'weblate.trans.context_processors.mt',
     )
 
 if DEBUG:

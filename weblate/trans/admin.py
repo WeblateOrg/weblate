@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
+from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from accounts.models import create_groups
+from weblate.accounts.models import create_groups
 
 class Command(BaseCommand):
     help = 'setups default groups'

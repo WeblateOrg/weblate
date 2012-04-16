@@ -1,4 +1,4 @@
-from trans.models import SubProject
+from weblate.trans.models import SubProject
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.admin.views.decorators import staff_member_required

@@ -196,7 +196,7 @@ contain string "foo".
 
 .. code-block:: python
 
-    from trans.checks import Check
+    from weblate.trans.checks import Check
     from django.utils.translation import ugettext_lazy as _
 
     class FooCheck(Check):
@@ -222,7 +222,7 @@ language are not same.
 
 .. code-block:: python
 
-    from trans.checks import Check
+    from weblate.trans.checks import Check
     from django.utils.translation import ugettext_lazy as _
 
     class PluralCzechCheck(Check):

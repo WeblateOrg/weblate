@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from trans.models import SubProject
+from weblate.trans.models import SubProject
 from optparse import make_option
 
 class Command(BaseCommand):

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from trans.models import Unit
+from weblate.trans.models import Unit
 
 class UnitCommand(BaseCommand):
     args = '<project/subproject>'

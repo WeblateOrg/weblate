@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from accounts.models import Profile
+from weblate.accounts.models import Profile
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
 
