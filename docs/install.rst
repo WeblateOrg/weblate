@@ -24,8 +24,7 @@ Installation
 
 Install all required components (see above), adjust :file:`settings.py` and
 then run :program:`./manage.py syncdb` to create database structure. Now you
-should be able to create translation projects using admin interface. You
-probably also want to run :program:`./manage.py setupgroups` to initialize default groups.
+should be able to create translation projects using admin interface.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
