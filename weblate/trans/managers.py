@@ -124,7 +124,7 @@ class UnitManager(models.Manager):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        from weblate.trans.models import Suggesiont, Check
+        from weblate.trans.models import Suggestion, Check
         from weblate.trans.checks import CHECKS
         if rqtype == 'all':
             return self.all()
