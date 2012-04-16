@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.simple import direct_to_template
+from django.conf import settings
 
 from registration.views import activate
 from registration.views import register
@@ -140,5 +141,5 @@ urlpatterns = patterns('',
 
     # Media files
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': './media'}),
+        {'document_root': settings.MEDIA_ROOT}),
 )
