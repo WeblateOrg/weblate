@@ -24,7 +24,7 @@
 </p>
 
 {% if filter_name %}
-<p>{% blocktrans count filter_count as count %}Current filter ({{ filter_name }}) has {{ count }} match.{% plural %}Current filter ({{ filter_name }}) has {{ count }} matches.{% endblocktrans %}</p>
+<p>{% blocktrans %}Current filter: {{ filter_name }} (showing {{ filter_pos }} out of {{ filter_count }}).{% endblocktrans %}</p>
 {% endif %}
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">
