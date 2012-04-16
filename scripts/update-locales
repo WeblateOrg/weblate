@@ -1,4 +1,6 @@
 #!/bin/sh
 
-./manage.py makemessages -a -i 'repos/*' -i 'docs/*'
-./manage.py makemessages -a -i 'repos/*' -i 'docs/*' -d djangojs
+cd weblate
+
+../manage.py makemessages -a -i 'repos/*' -i 'docs/*'
+../manage.py makemessages -a -i 'repos/*' -i 'docs/*' -d djangojs
