@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-16 14:04+0200\n"
-"PO-Revision-Date: 2012-04-14 03:43+0200\n"
+"PO-Revision-Date: 2012-04-16 15:48+0200\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@l10n.cihar.com>\n"
 "Language: zh_CN\n"
@@ -576,9 +576,9 @@ msgid "Previous"
 msgstr "上一条"
 
 #: html/translate.html:21
-#, fuzzy, python-format
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr "第 %(position)s 条，共 %(total)s 条。"
+msgstr "%(position)s/%(total)s"
 
 #: html/translate.html:22
 msgid "Next"
@@ -591,7 +591,7 @@ msgstr "最后一条"
 #: html/translate.html:27
 #, python-format
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr ""
+msgstr "当前过滤结果：%(filter_name)s (%(filter_pos)s/%(filter_count)s)"
 
 #: html/translate.html:55
 msgid "Context"
@@ -1898,24 +1898,21 @@ msgid "All repositories were pushed."
 msgstr "已上传至所有代码库中。"
 
 #: trans/views.py:528
-#, fuzzy, python-format
+#, python-format
 msgid "Search for \"%s\""
-msgstr "正在搜索 “%(search_query)s”。"
+msgstr "搜索 “%s”"
 
 #: trans/views.py:532
-#, fuzzy
 msgid "Fuzzy strings"
-msgstr "模糊条目(%d)"
+msgstr "模糊条目"
 
 #: trans/views.py:534
-#, fuzzy
 msgid "Not translated strings"
-msgstr "未翻译的条目(%d)"
+msgstr "没有未翻译的条目"
 
 #: trans/views.py:536
-#, fuzzy
 msgid "Strings with suggestions"
-msgstr "有建议的条目(%d)"
+msgstr "有建议的条目"
 
 #: trans/views.py:575
 msgid "Your suggestion is empty!"
