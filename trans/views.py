@@ -520,10 +520,12 @@ def parse_search_url(request):
         search_url
         )
 
-def get_filter_name(rqtype):
+def get_filter_name(rqtype, search_query):
     '''
     Returns name of current filter.
     '''
+    if search_query != '':
+        return _('Search for "%s"') % search_query
     if rqtype == 'all':
         return None
     elif rqtype == 'fuzzy':
@@ -806,7 +808,7 @@ def translate(request, project, subproject, lang):
         'changes': unit.change_set.all()[:10],
         'total': total,
         'type': rqtype,
-        'filter_name': get_filter_name(rqtype),
+        'filter_name': get_filter_name(rqtype, search_query),
         'filter_count': units.count(),
         'form': form,
         'target_language': obj.language.code,
