@@ -380,11 +380,20 @@ class SubProject(models.Model):
         # Remove possible encoding part
         return code.split('.')[0]
 
-    def save(self, *args, **kwargs):
+    def sync_git_repo(self):
+        '''
+        Brings git repo in sync with current model.
+        '''
         self.configure_repo()
         self.configure_branch()
         self.commit_pending()
         self.update_branch()
+
+    def clean(self):
+        self.sync_git_repo()
+
+    def save(self, *args, **kwargs):
+        self.sync_git_repo()
 
         super(SubProject, self).save(*args, **kwargs)
 
