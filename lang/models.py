@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
 from translate.lang import data
+from django.db.models.signals import post_syncdb
 
 EXTRALANGS = [
     ('ur', 'Urdu', 2, '(n != 1)'),
@@ -87,6 +88,12 @@ class LanguageManager(models.Manager):
             lang.pluralequation = props[3]
             lang.save()
 
+
+def setup_lang(sender=None, **kwargs):
+    if sender.__name__ == 'lang.models':
+        Language.objects.setup(False)
+
+post_syncdb.connect(setup_lang)
 
 class Language(models.Model):
     code = models.SlugField(unique = True)
