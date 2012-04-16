@@ -276,18 +276,18 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of consistency checks
 CHECK_LIST = (
-    'trans.checks.SameCheck',
-    'trans.checks.BeginNewlineCheck',
-    'trans.checks.EndNewlineCheck',
-    'trans.checks.EndSpaceCheck',
-    'trans.checks.EndStopCheck',
-    'trans.checks.EndColonCheck',
-    'trans.checks.EndQuestionCheck',
-    'trans.checks.EndExclamationCheck',
-    'trans.checks.PythonFormatCheck',
-    'trans.checks.PHPFormatCheck',
-    'trans.checks.CFormatCheck',
-    'trans.checks.PluralsCheck',
-    'trans.checks.ConsistencyCheck',
+    'weblate.trans.checks.SameCheck',
+    'weblate.trans.checks.BeginNewlineCheck',
+    'weblate.trans.checks.EndNewlineCheck',
+    'weblate.trans.checks.EndSpaceCheck',
+    'weblate.trans.checks.EndStopCheck',
+    'weblate.trans.checks.EndColonCheck',
+    'weblate.trans.checks.EndQuestionCheck',
+    'weblate.trans.checks.EndExclamationCheck',
+    'weblate.trans.checks.PythonFormatCheck',
+    'weblate.trans.checks.PHPFormatCheck',
+    'weblate.trans.checks.CFormatCheck',
+    'weblate.trans.checks.PluralsCheck',
+    'weblate.trans.checks.ConsistencyCheck',
 )
 
