@@ -397,7 +397,8 @@ class SubProject(models.Model):
 
     def clean(self):
         self.sync_git_repo()
-
+        if len(self.get_mask_matches()) == 0:
+            raise ValidationError(_('The mask did not match any files!'))
 
     def save(self, *args, **kwargs):
         self.sync_git_repo()
