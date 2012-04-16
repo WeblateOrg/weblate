@@ -4,7 +4,7 @@ Whoosh based full text search.
 
 import whoosh
 import os
-from whoosh.fields import Schema, TEXT, ID, NUMERIC
+from whoosh.fields import Schema, TEXT, ID
 from django.db.models.signals import post_syncdb
 from django.conf import settings
 from whoosh.index import create_in, open_dir
@@ -12,15 +12,13 @@ from whoosh.writing import BufferedWriter
 
 target_schema = Schema(
     checksum = ID(stored = True, unique = True),
-    target = TEXT,
-    translation = NUMERIC
+    target = TEXT
 )
 
 source_schema = Schema(
     checksum = ID(stored = True, unique = True),
     source = TEXT,
-    context = TEXT,
-    translation = NUMERIC
+    context = TEXT
 )
 
 def create_source_index():

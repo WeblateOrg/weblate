@@ -168,7 +168,7 @@ class UnitManager(models.Manager):
         changes = Change.objects.filter(unit__translation = sample.translation, timestamp__gte = date).exclude(user = user)
         return self.filter(id__in = changes.values_list('unit__id', flat = True))
 
-    def add_to_source_index(self, checksum, source, context, translation, writer):
+    def add_to_source_index(self, checksum, source, context, writer):
         '''
         Updates/Adds to source index given unit.
         '''
@@ -176,17 +176,15 @@ class UnitManager(models.Manager):
             checksum = unicode(checksum),
             source = unicode(source),
             context = unicode(context),
-            translation = translation,
         )
 
-    def add_to_target_index(self, checksum, target, translation, writer):
+    def add_to_target_index(self, checksum, target, writer):
         '''
         Updates/Adds to target index given unit.
         '''
         writer.update_document(
             checksum = unicode(checksum),
             target = unicode(target),
-            translation = translation,
         )
 
     def add_to_index(self, unit, writer_target = None, writer_source = None):
@@ -202,12 +200,10 @@ class UnitManager(models.Manager):
             unit.checksum,
             unit.source,
             unit.context,
-            unit.translation_id,
             writer_source)
         self.add_to_target_index(
             unit.checksum,
             unit.target,
-            unit.translation_id,
             writer_target)
 
     def __search(self, searcher, field, schema, query):
