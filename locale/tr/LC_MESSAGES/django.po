@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-16 13:36+0200\n"
+"POT-Creation-Date: 2012-04-16 14:04+0200\n"
 "PO-Revision-Date: 2012-04-16 13:38+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -300,7 +300,7 @@ msgstr ""
 "mevcut."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:27
-#: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:161 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proje"
 
@@ -314,7 +314,7 @@ msgid "There are no matching failed checks!"
 msgstr "Eşleşen başarısız olmuş kontroller yok!"
 
 #: html/check_subproject.html:27 html/dictionary.html:22 html/index.html:52
-#: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
+#: html/translate.html:64 html/translate.html.py:166 html/js/dictionary.html:6
 #: html/js/other.html:6 html/js/similar.html:6 trans/forms.py:180
 msgid "Translation"
 msgstr "Çeviri"
@@ -352,7 +352,7 @@ msgstr "Kelime"
 msgid "Dictionary"
 msgstr "Sözlük"
 
-#: html/dictionary.html:21 html/translate.html:49 html/translate.html.py:165
+#: html/dictionary.html:21 html/translate.html:50 html/translate.html.py:166
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:179
 msgid "Source"
@@ -362,7 +362,7 @@ msgstr "Kaynak"
 msgid "Edit"
 msgstr "Düzenle"
 
-#: html/dictionary.html:46 html/translate.html:107
+#: html/dictionary.html:46 html/translate.html:108
 msgid "Delete"
 msgstr "Sil"
 
@@ -394,7 +394,7 @@ msgstr "İçe aktar"
 msgid "Change word"
 msgstr "Kelimeyi değiştir"
 
-#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:138
+#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:139
 msgid "Save"
 msgstr "Kaydet"
 
@@ -465,7 +465,7 @@ msgstr "Kontrollere genel bakış"
 msgid "languages"
 msgstr "diller"
 
-#: html/list-translations.html:8 html/translate.html:68 trans/forms.py:98
+#: html/list-translations.html:8 html/translate.html:69 trans/forms.py:98
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
@@ -554,7 +554,7 @@ msgstr "Çevirmenler için postalama listesi:"
 msgid "Instructions for translators:"
 msgstr "Çevirmenler için talimatlar:"
 
-#: html/subproject.html:15 html/translate.html:63
+#: html/subproject.html:15 html/translate.html:64
 msgid "Translations"
 msgstr "Çeviriler"
 
@@ -584,11 +584,6 @@ msgstr "%(branch)s dalı"
 msgid "translate"
 msgstr "çevir"
 
-#: html/translate.html:17
-#, python-format
-msgid "Showing string %(position)s out of %(total)s."
-msgstr "Satır %(position)s / %(total)s gösteriliyor."
-
 #: html/translate.html:19
 msgid "First"
 msgstr "İlk"
@@ -598,67 +593,70 @@ msgid "Previous"
 msgstr "Önceki"
 
 #: html/translate.html:21
+#, fuzzy, python-format
+msgid "%(position)s / %(total)s"
+msgstr "Satır %(position)s / %(total)s gösteriliyor."
+
+#: html/translate.html:22
 msgid "Next"
 msgstr "Sonraki"
 
-#: html/translate.html:22
+#: html/translate.html:23
 msgid "Last"
 msgstr "Son"
 
 #: html/translate.html:27
 #, python-format
-msgid ""
-"Current filter: %(filter_name)s (showing %(filter_pos)s out of "
-"%(filter_count)s)."
+msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr ""
 
-#: html/translate.html:54
+#: html/translate.html:55
 msgid "Context"
 msgstr "Bağlam"
 
-#: html/translate.html:60
+#: html/translate.html:61
 msgid "Copy"
 msgstr "Kopyala"
 
-#: html/translate.html:73
+#: html/translate.html:74
 msgid "Failing checks"
 msgstr "Başarısız olan kontroller"
 
-#: html/translate.html:78
+#: html/translate.html:79
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Yoksay: %(check)s"
 
-#: html/translate.html:90
+#: html/translate.html:91
 msgid "Suggestions"
 msgstr "Öneriler"
 
-#: html/translate.html:97
+#: html/translate.html:98
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "%(user)s tarafından önerildi"
 
-#: html/translate.html:99
+#: html/translate.html:100
 msgid "Suggested by anonymous user"
 msgstr "İsimsiz kullanıcı tarafından önerildi"
 
-#: html/translate.html:104
+#: html/translate.html:105
 msgid "Accept"
 msgstr "Kabul"
 
-#: html/translate.html:120
+#: html/translate.html:121
 msgid "Used in"
 msgstr "Kullanıldığı yer"
 
-#: html/translate.html:126
+#: html/translate.html:127
 msgid "Comments"
 msgstr "Yorumlar"
 
-#: html/translate.html:132
+#: html/translate.html:133
 msgid "Flags"
 msgstr "İşaretler"
 
-#: html/translate.html:142
+#: html/translate.html:143
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -667,67 +665,67 @@ msgstr ""
 "Çevirileri kaydetmek için <a href=\"%(login_url)s?next=%(translate_url)s"
 "\">oturum açın</a>."
 
-#: html/translate.html:145
+#: html/translate.html:146
 msgid "Suggest"
 msgstr "Öner"
 
-#: html/translate.html:151
+#: html/translate.html:152
 msgid "Translation context"
 msgstr "Çeviri bağlamı"
 
-#: html/translate.html:155
+#: html/translate.html:156
 msgid "Messages placed around this one"
 msgstr "Bu iletinin yakınında olan iletiler"
 
-#: html/translate.html:155
+#: html/translate.html:156
 msgid "Nearby messages"
 msgstr "Yakındaki iletiler"
 
-#: html/translate.html:156
+#: html/translate.html:157
 msgid "Similar messages"
 msgstr "Benzer iletiler"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Same message used in different subprojects"
 msgstr "Farklı alt projelerde kullanılmış aynı iletiler"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "All locations"
 msgstr "Tüm yerler"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Words extracted from dictionary"
 msgstr "Sözlükten çıkartılmış kelimeler"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Words in dictionary"
 msgstr "Sözlükteki kelimeler"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate'te yapılmış en son değişikliklerin listesi"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Recent edits"
 msgstr "En son düzenlemeler"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Information about project"
 msgstr "Proje hakkında bilgi"
 
-#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:166 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Durum"
 
-#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
 msgid "Message is fuzzy"
 msgstr "İleti belirsiz"
 
-#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
 msgid "Message is translated"
 msgstr "İleti çevrildi"
 
-#: html/translate.html:190
+#: html/translate.html:191
 msgid "No recent activity has been recorded."
 msgstr "Kaydedilmiş en son etkinlik yok."
 

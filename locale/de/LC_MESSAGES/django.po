@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-16 13:36+0200\n"
+"POT-Creation-Date: 2012-04-16 14:04+0200\n"
 "PO-Revision-Date: 2012-04-08 22:33+0200\n"
 "Last-Translator: Jo Michael <me@mynetx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -306,7 +306,7 @@ msgstr ""
 "\">Dokumentation</a> verfügbar."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:27
-#: html/translate.html:160 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:161 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Projekt"
 
@@ -320,7 +320,7 @@ msgid "There are no matching failed checks!"
 msgstr "Es gibt keine passenden fehlgeschlagenen Prüfungen!"
 
 #: html/check_subproject.html:27 html/dictionary.html:22 html/index.html:52
-#: html/translate.html:63 html/translate.html.py:165 html/js/dictionary.html:6
+#: html/translate.html:64 html/translate.html.py:166 html/js/dictionary.html:6
 #: html/js/other.html:6 html/js/similar.html:6 trans/forms.py:180
 msgid "Translation"
 msgstr "Übersetzung"
@@ -358,7 +358,7 @@ msgstr "Wörter"
 msgid "Dictionary"
 msgstr "Wörterbuch"
 
-#: html/dictionary.html:21 html/translate.html:49 html/translate.html.py:165
+#: html/dictionary.html:21 html/translate.html:50 html/translate.html.py:166
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:179
 msgid "Source"
@@ -368,7 +368,7 @@ msgstr "Quelle"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: html/dictionary.html:46 html/translate.html:107
+#: html/dictionary.html:46 html/translate.html:108
 msgid "Delete"
 msgstr "Löschen"
 
@@ -400,7 +400,7 @@ msgstr "Importieren"
 msgid "Change word"
 msgstr "Wort ändern"
 
-#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:138
+#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:139
 msgid "Save"
 msgstr "Speichern"
 
@@ -468,7 +468,7 @@ msgstr "Prüfungs-Übersicht"
 msgid "languages"
 msgstr "Sprachen"
 
-#: html/list-translations.html:8 html/translate.html:68 trans/forms.py:98
+#: html/list-translations.html:8 html/translate.html:69 trans/forms.py:98
 msgid "Fuzzy"
 msgstr "Unscharf"
 
@@ -561,7 +561,7 @@ msgstr "Mailingliste für Übersetzer:"
 msgid "Instructions for translators:"
 msgstr "Anweisungen für Übersetzer:"
 
-#: html/subproject.html:15 html/translate.html:63
+#: html/subproject.html:15 html/translate.html:64
 msgid "Translations"
 msgstr "Übersetzungen"
 
@@ -591,11 +591,6 @@ msgstr "Zweig %(branch)s"
 msgid "translate"
 msgstr "übersetzen"
 
-#: html/translate.html:17
-#, python-format
-msgid "Showing string %(position)s out of %(total)s."
-msgstr "Zeichenkette %(position)s von %(total)s wird angezeigt."
-
 #: html/translate.html:19
 msgid "First"
 msgstr "Erste"
@@ -605,67 +600,70 @@ msgid "Previous"
 msgstr "Zurück"
 
 #: html/translate.html:21
+#, fuzzy, python-format
+msgid "%(position)s / %(total)s"
+msgstr "Zeichenkette %(position)s von %(total)s wird angezeigt."
+
+#: html/translate.html:22
 msgid "Next"
 msgstr "Weiter"
 
-#: html/translate.html:22
+#: html/translate.html:23
 msgid "Last"
 msgstr "Letzte"
 
 #: html/translate.html:27
 #, python-format
-msgid ""
-"Current filter: %(filter_name)s (showing %(filter_pos)s out of "
-"%(filter_count)s)."
+msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr ""
 
-#: html/translate.html:54
+#: html/translate.html:55
 msgid "Context"
 msgstr "Kontext"
 
-#: html/translate.html:60
+#: html/translate.html:61
 msgid "Copy"
 msgstr "Kopieren"
 
-#: html/translate.html:73
+#: html/translate.html:74
 msgid "Failing checks"
 msgstr "Fehler-Prüfungen"
 
-#: html/translate.html:78
+#: html/translate.html:79
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Ignorieren: %(check)s"
 
-#: html/translate.html:90
+#: html/translate.html:91
 msgid "Suggestions"
 msgstr "Vorschläge"
 
-#: html/translate.html:97
+#: html/translate.html:98
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Vorgeschlagen von %(user)s"
 
-#: html/translate.html:99
+#: html/translate.html:100
 msgid "Suggested by anonymous user"
 msgstr "Vorgeschlagen von anonymem Benutzer"
 
-#: html/translate.html:104
+#: html/translate.html:105
 msgid "Accept"
 msgstr ""
 
-#: html/translate.html:120
+#: html/translate.html:121
 msgid "Used in"
 msgstr "Verwendet in"
 
-#: html/translate.html:126
+#: html/translate.html:127
 msgid "Comments"
 msgstr "Kommentare"
 
-#: html/translate.html:132
+#: html/translate.html:133
 msgid "Flags"
 msgstr "Markierungen"
 
-#: html/translate.html:142
+#: html/translate.html:143
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -674,70 +672,70 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Anmelden</a> zum Speichern "
 "von Übersetzungen."
 
-#: html/translate.html:145
+#: html/translate.html:146
 msgid "Suggest"
 msgstr "Vorschlagen"
 
-#: html/translate.html:151
+#: html/translate.html:152
 msgid "Translation context"
 msgstr "Übersetzungskontext"
 
-#: html/translate.html:155
+#: html/translate.html:156
 msgid "Messages placed around this one"
 msgstr "Nachrichten rund um diese Nachricht"
 
-#: html/translate.html:155
+#: html/translate.html:156
 msgid "Nearby messages"
 msgstr "Nachrichten in der Nähe"
 
-#: html/translate.html:156
+#: html/translate.html:157
 msgid "Similar messages"
 msgstr "Ähnliche Nachrichten"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Same message used in different subprojects"
 msgstr "Dieselbe Nachricht wird in verschiedenen Teilprojekten verwendet"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "All locations"
 msgstr "Alle Orte"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Words extracted from dictionary"
 msgstr "Aus dem Wörterbuch extrahierte Wörter"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Words in dictionary"
 msgstr "Wörter im Wörterbuch"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "List of recent changes done in Weblate"
 msgstr "Liste der letzten Änderungen in Weblate"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Recent edits"
 msgstr "Aktuelle Änderungen"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Information about project"
 msgstr "Informationen zum Projekt"
 
-#: html/translate.html:165 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:166 html/js/other.html:6 html/js/similar.html:6
 #, fuzzy
 msgid "State"
 msgstr "Status"
 
-#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
 #, fuzzy
 msgid "Message is fuzzy"
 msgstr "Nachricht"
 
-#: html/translate.html:173 html/js/other.html:14 html/js/similar.html:14
+#: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
 #, fuzzy
 msgid "Message is translated"
 msgstr "Diese Übersetzung verwenden"
 
-#: html/translate.html:190
+#: html/translate.html:191
 msgid "No recent activity has been recorded."
 msgstr "Keine kürzlichen Aktivitäten wurden aufgezeichnet."
 
