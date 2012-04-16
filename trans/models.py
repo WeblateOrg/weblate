@@ -344,6 +344,12 @@ class SubProject(models.Model):
         del gitrepo
         return ret
 
+    def get_mask_matches(self):
+        '''
+        Returns files matching current mask.
+        '''
+        return glob(os.path.join(self.get_path(), self.filemask))
+
     def get_translation_blobs(self):
         '''
         Iterator over translations in filesystem.
@@ -353,7 +359,7 @@ class SubProject(models.Model):
 
         # Glob files
         prefix = os.path.join(self.get_path(), '')
-        for f in glob(os.path.join(self.get_path(), self.filemask)):
+        for f in self.get_mask_matches():
             filename = f.replace(prefix, '')
             yield (
                 self.get_lang_code(filename),
@@ -380,11 +386,22 @@ class SubProject(models.Model):
         # Remove possible encoding part
         return code.split('.')[0]
 
-    def save(self, *args, **kwargs):
+    def sync_git_repo(self):
+        '''
+        Brings git repo in sync with current model.
+        '''
         self.configure_repo()
         self.configure_branch()
         self.commit_pending()
         self.update_branch()
+
+    def clean(self):
+        self.sync_git_repo()
+        if len(self.get_mask_matches()) == 0:
+            raise ValidationError(_('The mask did not match any files!'))
+
+    def save(self, *args, **kwargs):
+        self.sync_git_repo()
 
         super(SubProject, self).save(*args, **kwargs)
 
