@@ -25,10 +25,6 @@
 
 {% if filter_name %}
 <p>{% blocktrans count filter_count as count %}Current filter ({{ filter_name }}) has {{ count }} match.{% plural %}Current filter ({{ filter_name }}) has {{ count }} matches.{% endblocktrans %}</p>
-{% else %}
-{% if search_query %}
-<p>{% blocktrans %}Searching for "{{ search_query }}".{% endblocktrans %}</p>
-{% endif %}
 {% endif %}
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">
