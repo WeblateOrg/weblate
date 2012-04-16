@@ -79,8 +79,11 @@ class TranslationManager(models.Manager):
             lang = Language.objects.auto_create(code)
         translation, created = self.get_or_create(
             language = lang,
-            subproject = subproject,
-            filename = path)
+            subproject = subproject
+        )
+        if translation.filename != path:
+            force = True
+            translation.filename = path
         translation.update_from_blob(blob_hash, force)
 
 class UnitManager(models.Manager):
