@@ -27,21 +27,19 @@ class Command(UnitCommand):
             return
 
         with trans.search.index.source_writer(buffered = False) as writer:
-            for unit in base.values('checksum', 'source', 'context', 'translation_id').iterator():
+            for unit in base.values('checksum', 'source', 'context').iterator():
                 Unit.objects.add_to_source_index(
                     unit['checksum'],
                     unit['source'],
                     unit['context'],
-                    unit['translation_id'],
                     writer)
 
         for lang in languages:
             with trans.search.index.target_writer(lang = lang.code, buffered = False) as writer:
                 for unit in base.filter(translation__language =
-                    lang).exclude(target = '').values('checksum', 'target', 'translation_id').iterator():
+                    lang).exclude(target = '').values('checksum', 'target').iterator():
                     Unit.objects.add_to_target_index(
                         unit['checksum'],
                         unit['target'],
-                        unit['translation_id'],
                         writer)
 
