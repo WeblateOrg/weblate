@@ -29,6 +29,17 @@ rebuild it from scratch time to time:
 
     ./manage.py rebuild_index --clean
 
+Rebuilding index has failed with "No space left on device"
+----------------------------------------------------------
+
+Whoosh uses temporary directory to build indices. In case you have small /tmp
+(eg. using ramdisk), this might fail. Change used temporary directory by passing 
+as ``TEMP`` variable:
+
+.. code-block:: sh
+
+    TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
+
 Does Weblate support other VCS than Git?
 ----------------------------------------
 
