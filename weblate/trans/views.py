@@ -171,7 +171,7 @@ def edit_dictionary(request, project, lang):
             word.source = form.cleaned_data['source']
             word.target = form.cleaned_data['target']
             word.save()
-            return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
+            return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
     else:
         form = WordForm(initial = {'source': word.source, 'target': word.target })
 
@@ -191,7 +191,7 @@ def delete_dictionary(request, project, lang):
 
     word.delete()
 
-    return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
+    return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
 
 @login_required
 @permission_required('trans.upload_dictionary')
@@ -211,7 +211,7 @@ def upload_dictionary(request, project, lang):
             messages.error(request, _('Failed to process form!'))
     else:
         messages.error(request, _('Failed to process form!'))
-    return HttpResponseRedirect(reverse('trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
+    return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
 
 def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)

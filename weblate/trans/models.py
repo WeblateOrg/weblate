@@ -45,25 +45,25 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('trans.views.show_project', (), {
+        return ('weblate.trans.views.show_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_commit_url(self):
-        return ('trans.views.commit_project', (), {
+        return ('weblate.trans.views.commit_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_update_url(self):
-        return ('trans.views.update_project', (), {
+        return ('weblate.trans.views.update_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_push_url(self):
-        return ('trans.views.push_project', (), {
+        return ('weblate.trans.views.push_project', (), {
             'project': self.slug
         })
 
@@ -174,28 +174,28 @@ class SubProject(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('trans.views.show_subproject', (), {
+        return ('weblate.trans.views.show_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_commit_url(self):
-        return ('trans.views.commit_subproject', (), {
+        return ('weblate.trans.views.commit_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_update_url(self):
-        return ('trans.views.update_subproject', (), {
+        return ('weblate.trans.views.update_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_push_url(self):
-        return ('trans.views.push_subproject', (), {
+        return ('weblate.trans.views.push_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -481,7 +481,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('trans.views.show_translation', (), {
+        return ('weblate.trans.views.show_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -489,7 +489,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_commit_url(self):
-        return ('trans.views.commit_translation', (), {
+        return ('weblate.trans.views.commit_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -497,7 +497,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_update_url(self):
-        return ('trans.views.update_translation', (), {
+        return ('weblate.trans.views.update_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -505,7 +505,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_push_url(self):
-        return ('trans.views.push_translation', (), {
+        return ('weblate.trans.views.push_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -513,7 +513,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_download_url(self):
-        return ('trans.views.download_translation', (), {
+        return ('weblate.trans.views.download_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -521,7 +521,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_translate_url(self):
-        return ('trans.views.translate', (), {
+        return ('weblate.trans.views.translate', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
