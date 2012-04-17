@@ -729,14 +729,14 @@ def translate(request, project, subproject, lang):
     reviewform = ReviewForm(request.GET)
 
     if reviewform.is_valid():
-        units = obj.unit_set.review(reviewform.cleaned_data['date'], request.user)
+        allunits = obj.unit_set.review(reviewform.cleaned_data['date'], request.user)
         # Review
         if direction == 'stay':
-            units = units.filter(position = pos)
+            units = allunits.filter(position = pos)
         elif direction == 'back':
-            units = units.filter(position__lt = pos).order_by('-position')
+            units = allunits.filter(position__lt = pos).order_by('-position')
         else:
-            units = units.filter(position__gt = pos)
+            units = allunits.filter(position__gt = pos)
     elif search_query != '':
         # Apply search conditions
         if search_exact:
