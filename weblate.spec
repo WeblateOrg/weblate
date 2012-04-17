@@ -51,7 +51,7 @@ List of features includes:
 
 %build
 make -C docs html
-sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}"@g' weblate/settings.py
+sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}/weblate"@g' weblate/settings.py
 sed -i 's@^WHOOSH_INDEX = .*@WHOOSH_INDEX = "%{WLDATADIR}"@g' weblate/settings.py
 sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' examples/apache.conf
 
