@@ -26,6 +26,7 @@
 <div class="tabs" id="subproject-tabs">
 <ul>
 <li><a href="#new-lang">{% trans "New language" %}</a></li>
+<li><a href="#changes">{% trans "Recent changes" %}</a></li>
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'weblate.trans.views.git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
@@ -33,6 +34,10 @@
 
 <div id="new-lang">
 <p>{% blocktrans %}Should your language be missing, please <a href="{{ contact_url }}?subject=New+language+request+for+{{ object }}">contact us</a>.{% endblocktrans %}</li>
+</div>
+
+<div id="changes">
+{% include "last-changes.html" %}
 </div>
 
 </div>

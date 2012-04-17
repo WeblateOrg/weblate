@@ -34,6 +34,7 @@
 {% if perms.trans.upload_translation %}
 <li><a href="#upload">{% trans "Upload" %}</a></li>
 {% endif %}
+<li><a href="#changes">{% trans "Recent changes" %}</a></li>
 {% if review_form %}
 <li><a href="#review">{% trans "Review" %}</a></li>
 {% endif %}
@@ -75,6 +76,10 @@
 </form>
 </div>
 {% endif %}
+
+<div id="changes">
+{% include "last-changes.html" %}
+</div>
 
 {% if review_form %}
 <div id="review">

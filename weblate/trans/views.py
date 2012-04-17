@@ -260,17 +260,21 @@ def show_dictionary(request, project, lang):
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
+    last_changes = Change.objects.filter(unit__translation__subproject__project = obj).order_by('-timestamp')[:10]
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
         'dicts': Language.objects.filter(id__in = dicts),
+        'last_changes': last_changes,
     }))
 
 def show_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    last_changes = Change.objects.filter(unit__translation__subproject = obj).order_by('-timestamp')[:10]
 
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
+        'last_changes': last_changes,
     }))
 
 @login_required
@@ -320,6 +324,7 @@ def auto_translation(request, project, subproject, lang):
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]
 
     # How much is user allowed to configure upload?
     if request.user.has_perm('trans.author_translation'):
@@ -350,6 +355,7 @@ def show_translation(request, project, subproject, lang):
         'autoform': autoform,
         'search_form': search_form,
         'review_form': review_form,
+        'last_changes': last_changes,
     }))
 
 @login_required
