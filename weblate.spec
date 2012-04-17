@@ -58,7 +58,6 @@ sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' examples/apache.c
 %install
 install -d %{buildroot}/%{WLDIR}
 install -d %{buildroot}/%{WLETCDIR}
-ln -s ../ %{buildroot}/%{WLDIR}
 
 # Copy all files
 cp -a . %{buildroot}/%{WLDIR}
