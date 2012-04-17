@@ -30,7 +30,7 @@ Vendor:         Michal Čihař <mcihar@suse.com>
 %description
 Weblate is web based translation tool with tight Git integration. It features
 simple and clean user interface, propagation of translations across subprojects
-or automatic linking to source files. 
+or automatic linking to source files.
 
 List of features includes:
 
@@ -51,14 +51,13 @@ List of features includes:
 
 %build
 make -C docs html
-sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}"@g' weblate/settings.py 
+sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}"@g' weblate/settings.py
 sed -i 's@^WHOOSH_INDEX = .*@WHOOSH_INDEX = "%{WLDATADIR}"@g' weblate/settings.py
 sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' examples/apache.conf
 
 %install
 install -d %{buildroot}/%{WLDIR}
 install -d %{buildroot}/%{WLETCDIR}
-ln -s ../ %{buildroot}/%{WLDIR}
 
 # Copy all files
 cp -a . %{buildroot}/%{WLDIR}
