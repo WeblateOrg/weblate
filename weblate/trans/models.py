@@ -228,7 +228,7 @@ class SubProject(models.Model):
             'branch': self.branch
         }
 
-    def configure_repo(self):
+    def configure_repo(self, validate = False):
         '''
         Ensures repository is correctly configured and points to current remote.
         '''
@@ -256,6 +256,8 @@ class SubProject(models.Model):
             gitrepo.git.remote('update', 'origin')
         except Exception, e:
             logger.error('Failed to update Git repo: %s', str(e))
+            if validate:
+                raise ValidationError(_('Failed to fetch git repository: %s') % str(e))
         del gitrepo
 
 
@@ -386,17 +388,17 @@ class SubProject(models.Model):
         # Remove possible encoding part
         return code.split('.')[0]
 
-    def sync_git_repo(self):
+    def sync_git_repo(self, validate = False):
         '''
         Brings git repo in sync with current model.
         '''
-        self.configure_repo()
+        self.configure_repo(validate)
         self.configure_branch()
         self.commit_pending()
         self.update_branch()
 
     def clean(self):
-        self.sync_git_repo()
+        self.sync_git_repo(True)
         matches = self.get_mask_matches()
         if len(matches) == 0:
             raise ValidationError(_('The mask did not match any files!'))
