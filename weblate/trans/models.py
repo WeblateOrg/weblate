@@ -397,8 +397,15 @@ class SubProject(models.Model):
 
     def clean(self):
         self.sync_git_repo()
-        if len(self.get_mask_matches()) == 0:
+        matches = self.get_mask_matches()
+        if len(matches) == 0:
             raise ValidationError(_('The mask did not match any files!'))
+        langs = {}
+        for match in matches:
+            code = self.get_lang_code(match)
+            if code in langs:
+                raise ValidationError(_('There are more files for single language, please adjust the mask and use subprojects for translating different resources.'))
+            langs[code] = match
 
     def save(self, *args, **kwargs):
         self.sync_git_repo()
