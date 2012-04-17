@@ -19,6 +19,7 @@ Relased on ? 2012.
 * Better handling of po file renames.
 * Better validation while creating subproject.
 * Integrated full setup into syncdb.
+* Added list of recent changes to all translation pages.
 
 weblate 0.8
 -----------
