@@ -33,7 +33,9 @@ git archive --format=tar $rev | tar xf - -C $build_dir
 cd $build_dir
 
 # Compile po files
-./manage.py compilemessages
+cd weblate
+../manage.py compilemessages
+cd ..
 
 # Cleanup possible byte compiled files (from above step)
 find . -name '*.py[co]' -delete
