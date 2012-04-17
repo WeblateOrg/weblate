@@ -83,6 +83,8 @@ install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d
 
 # Whoosh index dir
 install -d %{buildroot}/%{WLDATADIR}
+install -d %{buildroot}/%{WLDATADIR}/whoosh-index
+install -d %{buildroot}/%{WLDATADIR}/repos
 
 %clean
 rm -rf %{buildroot}
@@ -95,5 +97,7 @@ rm -rf %{buildroot}
 %config(noreplace) /%{_sysconfdir}/apache2
 %{WLDIR}
 %attr(0755,wwwrun,www) %{WLDATADIR}
+%attr(0755,wwwrun,www) %{WLDATADIR}/whoosh-index
+%attr(0755,wwwrun,www) %{WLDATADIR}/repos
 
 %changelog
