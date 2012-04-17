@@ -301,6 +301,12 @@ class EndStopCheck(Check):
     def check_single(self, source, target, flags, language, unit):
         if len(source) == 1 and len(target) == 1:
             return False
+        if self.is_language(language, ['ja']):
+            # Japanese sentence might need to end with full stop
+            # in case it's used before list.
+            if source[-1] == ':':
+                return self.check_chars(source, target, -1, [u':', u'：', u'.', u'。'])
+            return False
         return self.check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
 
 
