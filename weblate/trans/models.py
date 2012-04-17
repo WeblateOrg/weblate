@@ -348,7 +348,9 @@ class SubProject(models.Model):
         '''
         Returns files matching current mask.
         '''
-        return glob(os.path.join(self.get_path(), self.filemask))
+        prefix = os.path.join(self.get_path(), '')
+        matches = glob(os.path.join(self.get_path(), self.filemask))
+        return [f.replace(prefix, '') for f in matches]
 
     def get_translation_blobs(self):
         '''
@@ -358,9 +360,7 @@ class SubProject(models.Model):
         tree = gitrepo.tree()
 
         # Glob files
-        prefix = os.path.join(self.get_path(), '')
         for f in self.get_mask_matches():
-            filename = f.replace(prefix, '')
             yield (
                 self.get_lang_code(filename),
                 filename,
