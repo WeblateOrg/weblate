@@ -348,7 +348,9 @@ class SubProject(models.Model):
         '''
         Returns files matching current mask.
         '''
-        return glob(os.path.join(self.get_path(), self.filemask))
+        prefix = os.path.join(self.get_path(), '')
+        matches = glob(os.path.join(self.get_path(), self.filemask))
+        return [f.replace(prefix, '') for f in matches]
 
     def get_translation_blobs(self):
         '''
@@ -358,9 +360,7 @@ class SubProject(models.Model):
         tree = gitrepo.tree()
 
         # Glob files
-        prefix = os.path.join(self.get_path(), '')
         for f in self.get_mask_matches():
-            filename = f.replace(prefix, '')
             yield (
                 self.get_lang_code(filename),
                 filename,
@@ -382,7 +382,7 @@ class SubProject(models.Model):
         '''
         parts = self.filemask.split('*', 1)
         # Get part matching to first wildcard
-        code = path[len(parts[0]):-len(parts[1])]
+        code = path[len(parts[0]):-len(parts[1])].split('/')[0]
         # Remove possible encoding part
         return code.split('.')[0]
 
@@ -397,8 +397,15 @@ class SubProject(models.Model):
 
     def clean(self):
         self.sync_git_repo()
-        if len(self.get_mask_matches()) == 0:
+        matches = self.get_mask_matches()
+        if len(matches) == 0:
             raise ValidationError(_('The mask did not match any files!'))
+        langs = {}
+        for match in matches:
+            code = self.get_lang_code(match)
+            if code in langs:
+                raise ValidationError(_('There are more files for single language, please adjust the mask and use subprojects for translating different resources.'))
+            langs[code] = match
 
     def save(self, *args, **kwargs):
         self.sync_git_repo()
