@@ -20,6 +20,7 @@ Relased on ? 2012.
 * Better validation while creating subproject.
 * Integrated full setup into syncdb.
 * Added list of recent changes to all translation pages.
+* Check for not translated strings ignores format string only messages.
 
 weblate 0.8
 -----------
