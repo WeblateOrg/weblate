@@ -382,7 +382,7 @@ class SubProject(models.Model):
         '''
         parts = self.filemask.split('*', 1)
         # Get part matching to first wildcard
-        code = path[len(parts[0]):-len(parts[1])]
+        code = path[len(parts[0]):-len(parts[1])].split('/')[0]
         # Remove possible encoding part
         return code.split('.')[0]
 
