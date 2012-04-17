@@ -360,7 +360,7 @@ class SubProject(models.Model):
         tree = gitrepo.tree()
 
         # Glob files
-        for f in self.get_mask_matches():
+        for filename in self.get_mask_matches():
             yield (
                 self.get_lang_code(filename),
                 filename,
