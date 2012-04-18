@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-17 17:42+0200\n"
+"POT-Creation-Date: 2012-04-18 13:47+0200\n"
 "PO-Revision-Date: 2012-04-16 20:17+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1894,46 +1894,51 @@ msgstr ""
 "Pad van te vertalen bestanden, gebruik * in plaats van de taalcode, "
 "bijvoorbeeld : po/*.po of locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:287
+#: trans/models.py:253
+#, fuzzy, python-format
+msgid "Failed to fetch git repository: %s"
+msgstr "URL van Git repository"
+
+#: trans/models.py:307
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: trans/models.py:307
+#: trans/models.py:328
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models.py:342
+#: trans/models.py:365
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe tak met %s is mislukt."
 
-#: trans/models.py:402
+#: trans/models.py:429
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models.py:407
+#: trans/models.py:434
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:768
+#: trans/models.py:806
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: trans/models.py:773
+#: trans/models.py:811
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Niet vertaalde tekenreeksen (%d)"
 
-#: trans/models.py:775
+#: trans/models.py:813
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Vage tekenreeksen (%d)"
 
-#: trans/models.py:777
+#: trans/models.py:815
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
