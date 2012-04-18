@@ -4,7 +4,7 @@ Changes
 weblate 0.9
 -----------
 
-Relased on ? 2012.
+Relased on April 18th 2012.
 
 * Fixed import of uknonw languages.
 * Improved listing of nearby messages.
