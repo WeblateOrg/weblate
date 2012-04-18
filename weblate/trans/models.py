@@ -333,11 +333,10 @@ class SubProject(models.Model):
         '''
         gitrepo = self.get_repo()
         self.pull_repo(False, gitrepo)
-        ret = False
         try:
             gitrepo.git.merge('origin/%s' % self.branch)
             logger.info('merged remote into repo %s', self.__unicode__())
-            ret = True
+            return True
         except Exception, e:
             status = gitrepo.git.status()
             gitrepo.git.merge('--abort')
@@ -350,9 +349,9 @@ class SubProject(models.Model):
             )
             if request is not None:
                 messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
-
-        del gitrepo
-        return ret
+            return False
+        finally:
+            del gitrepo
 
     def get_mask_matches(self):
         '''
