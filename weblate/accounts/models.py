@@ -109,7 +109,7 @@ def create_groups(update, move):
             u.groups.add(group)
 
 def sync_create_groups(sender, **kwargs):
-    if sender.__name__ == 'accounts.models':
+    if sender.__name__ == 'weblate.accounts.models':
         create_groups(False, False)
 
 post_syncdb.connect(sync_create_groups)
