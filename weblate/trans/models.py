@@ -228,6 +228,21 @@ class SubProject(models.Model):
             'branch': self.branch
         }
 
+    def pull_repo(self, validate = False, gitrepo = None):
+        '''
+        Pulls from remote repository.
+        '''
+        if girepo is None:
+            gitrepo = self.get_repo()
+        # Update
+        logger.info('updating repo %s', self.__unicode__())
+        try:
+            gitrepo.git.remote('update', 'origin')
+        except Exception, e:
+            logger.error('Failed to update Git repo: %s', str(e))
+            if validate:
+                raise ValidationError(_('Failed to fetch git repository: %s') % str(e))
+
     def configure_repo(self, validate = False):
         '''
         Ensures repository is correctly configured and points to current remote.
@@ -251,13 +266,7 @@ class SubProject(models.Model):
         if pushurl != self.push:
             gitrepo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
-        logger.info('updating repo %s', self.__unicode__())
-        try:
-            gitrepo.git.remote('update', 'origin')
-        except Exception, e:
-            logger.error('Failed to update Git repo: %s', str(e))
-            if validate:
-                raise ValidationError(_('Failed to fetch git repository: %s') % str(e))
+        self.pull_repo(validate, gitrepo)
         del gitrepo
 
 
@@ -323,8 +332,7 @@ class SubProject(models.Model):
         Updates current branch to match remote (if possible).
         '''
         gitrepo = self.get_repo()
-        logger.info('pulling from remote repo %s', self.__unicode__())
-        gitrepo.remotes.origin.update()
+        self.pull_repo(False, gitrepo)
         ret = False
         try:
             gitrepo.git.merge('origin/%s' % self.branch)
