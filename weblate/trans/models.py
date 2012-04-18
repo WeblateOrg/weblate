@@ -232,7 +232,7 @@ class SubProject(models.Model):
         '''
         Pulls from remote repository.
         '''
-        if girepo is None:
+        if gitrepo is None:
             gitrepo = self.get_repo()
         # Update
         logger.info('updating repo %s', self.__unicode__())
