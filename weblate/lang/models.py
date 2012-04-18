@@ -113,7 +113,7 @@ def setup_lang(sender=None, **kwargs):
     '''
     Hook for creating basic set of languages on syncdb.
     '''
-    if sender.__name__ == 'lang.models':
+    if sender.__name__ == 'weblate.lang.models':
         Language.objects.setup(False)
 
 post_syncdb.connect(setup_lang)
