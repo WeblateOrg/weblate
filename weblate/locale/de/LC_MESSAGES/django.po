@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-18 13:47+0200\n"
-"PO-Revision-Date: 2012-04-08 22:33+0200\n"
-"Last-Translator: Jo Michael <me@mynetx.net>\n"
+"PO-Revision-Date: 2012-04-18 18:22+0200\n"
+"Last-Translator: Jan Dittberner <jandd@debian.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 0.8\n"
+"X-Generator: Weblate 0.9\n"
 
 #: urls.py:86 urls.py:92
 msgid "User registration"
@@ -411,6 +411,9 @@ msgid ""
 "the software projects listed below. You need to be logged in for "
 "translating, otherwise you can only make suggestions."
 msgstr ""
+"Hier läuft <a href=\"http://weblate.org\">Weblate</a> für die Übersetzung der "
+"unten aufgeführten Softwareprojekte. Sie müssen angemeldet sein, um zu "
+"übersetzen. Unangemeldet können Sie nur Übersetzungsorschläge unterbreiten."
 
 #: html/index.html:14
 msgid "Your translations"
@@ -606,9 +609,9 @@ msgid "Previous"
 msgstr "Zurück"
 
 #: html/translate.html:21
-#, fuzzy, python-format
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr "Zeichenkette %(position)s von %(total)s wird angezeigt."
+msgstr "%(position)s / %(total)s"
 
 #: html/translate.html:22
 msgid "Next"
@@ -621,7 +624,7 @@ msgstr "Letzte"
 #: html/translate.html:27
 #, python-format
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr ""
+msgstr "Aktueller Filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
 #: html/translate.html:55
 msgid "Context"
@@ -655,7 +658,7 @@ msgstr "Vorgeschlagen von anonymem Benutzer"
 
 #: html/translate.html:105
 msgid "Accept"
-msgstr ""
+msgstr "Akzeptieren"
 
 #: html/translate.html:121
 msgid "Used in"
@@ -727,19 +730,16 @@ msgid "Information about project"
 msgstr "Informationen zum Projekt"
 
 #: html/translate.html:166 html/js/other.html:6 html/js/similar.html:6
-#, fuzzy
 msgid "State"
 msgstr "Status"
 
 #: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
-#, fuzzy
 msgid "Message is fuzzy"
-msgstr "Nachricht"
+msgstr "Nachricht ist unscharf"
 
 #: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
-#, fuzzy
 msgid "Message is translated"
-msgstr "Diese Übersetzung verwenden"
+msgstr "Nachricht ist übersetzt"
 
 #: html/translation.html:19
 msgid "Strings to check"
@@ -789,12 +789,10 @@ msgid "Review translations touched by other users."
 msgstr "Übersetzungen bewerten, die von anderen Benutzern bearbeitet wurden."
 
 #: html/translation.html:91
-#, fuzzy
 msgid "Start review"
-msgstr "Zeilenumbruch am Anfang"
+msgstr "Überprüfung beginnen"
 
 #: html/translation.html:98
-#, fuzzy
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to the current subproject. It can be used to push translations to "
@@ -802,7 +800,7 @@ msgid ""
 msgstr ""
 "Automatische Übersetzung verwendet vorhandene Übersetzungen in diesem "
 "Projekt und wendet sie auf das aktuelle Unterprojekt an. Sie kann verwendet "
-"werden, um Übersetzungen zu anderen Zweig zu pushen oder inkonsistente "
+"werden, um Übersetzungen in einen anderen Zweig zu pushen oder inkonsistente "
 "Übersetzungen zu beheben."
 
 #: html/translation.html:104
@@ -1903,17 +1901,17 @@ msgid "Git branch to translate"
 msgstr "Zu übersetzender Git-Zweig"
 
 #: trans/models.py:169
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
-"Maske zu übersetzender Dateien, verwenden Sie * anstelle von Sprach-Codes"
+"Pfade zu übersetzendener Dateien, verwenden Sie * anstelle von Sprach-Codes, "
+"z.B.: po/*.po oder locale/*/LC_MESSAGE/django.po"
 
 #: trans/models.py:253
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to fetch git repository: %s"
-msgstr "URL des Git-Repositories"
+msgstr "Abrufen des Git-Repositories fehlgeschlagen: %s"
 
 #: trans/models.py:307
 #, python-format
@@ -1931,15 +1929,17 @@ msgid "Failed to merge remote branch into %s."
 msgstr "Fehler beim Zusammenführen des Remote-Branches nach %s."
 
 #: trans/models.py:429
-#, fuzzy
 msgid "The mask did not match any files!"
-msgstr "Es gibt keine passenden fehlgeschlagenen Prüfungen!"
+msgstr "Es wurden keine auf das Suchmuster passenden Dateien gefunden!"
 
 #: trans/models.py:434
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
+"Es wurden mehrere Dateien für eine einzelne Sprache gefunden, bitte passen "
+"Sie das Suchmuster an und benutzen Sie Unterprojekte, um unterschiedliche "
+"Ressourcen zu übersetzen."
 
 #: trans/models.py:806
 msgid "All strings"
@@ -1961,9 +1961,8 @@ msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
 
 #: trans/views.py:48
-#, fuzzy
 msgid "Please set your full name in your profile."
-msgstr "Bitte stellen Sie Ihren vollen Namen im Profil ein."
+msgstr "Bitte stellen Sie im Profil Ihren vollen Namen ein."
 
 #: trans/views.py:179 trans/views.py:252
 #, python-format
@@ -2000,24 +1999,21 @@ msgid "All repositories were pushed."
 msgstr "Alle Repositories wurden gepusht."
 
 #: trans/views.py:535
-#, fuzzy, python-format
+#, python-format
 msgid "Search for \"%s\""
-msgstr "Suchen nach \"%(search_query)s\"."
+msgstr "Suchen nach \"%s\""
 
 #: trans/views.py:539
-#, fuzzy
 msgid "Fuzzy strings"
-msgstr "Ungenaue Zeichenketten (%d)"
+msgstr "Ungenaue Zeichenketten"
 
 #: trans/views.py:541
-#, fuzzy
 msgid "Not translated strings"
-msgstr "Nicht übersetzte Zeichenketten (%d)"
+msgstr "Nicht übersetzte Zeichenketten"
 
 #: trans/views.py:543
-#, fuzzy
 msgid "Strings with suggestions"
-msgstr "Zeichenketten mit Vorschlägen (%d)"
+msgstr "Zeichenketten mit Vorschlägen"
 
 #: trans/views.py:582
 msgid "Your suggestion is empty!"
