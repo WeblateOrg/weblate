@@ -17,7 +17,7 @@ Features
 * Links to source files for context
 * Message consistency checks
 * Tunable access control
-* Wide range of supported translation formats (Getext, Qt, Java, Windows, Symbian and more)
+* Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more)
 
 Documentation
 -------------
