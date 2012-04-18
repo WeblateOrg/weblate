@@ -246,7 +246,13 @@ class SubProject(models.Model):
         # Update
         logger.info('updating repo %s', self.__unicode__())
         try:
-            gitrepo.git.remote('update', 'origin')
+            try:
+                gitrepo.git.remote('update', 'origin')
+            except git.GitCommandError:
+                # There might be another attempt on pull in same time
+                # so we will sleep a bit an retry
+                time.sleep(random.random() * 2)
+                gitrepo.git.remote('update', 'origin')
         except Exception, e:
             logger.error('Failed to update Git repo: %s', str(e))
             if validate:
