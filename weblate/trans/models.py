@@ -307,6 +307,7 @@ class SubProject(models.Model):
         try:
             logger.info('pushing to remote repo %s', self.__unicode__())
             gitrepo.git.push('origin', '%s:%s' % (self.branch, self.branch))
+            return True
         except Exception, e:
             logger.warning('failed push on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
@@ -316,9 +317,9 @@ class SubProject(models.Model):
             )
             if request is not None:
                 messages.error(request, _('Failed to push to remote branch on %s.') % self.__unicode__())
-                return False
-        del gitrepo
-        return True
+            return False
+        finally:
+            del gitrepo
 
     def commit_pending(self):
         '''
