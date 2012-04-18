@@ -204,9 +204,15 @@ class SubProject(models.Model):
         return '%s/%s' % (self.project.__unicode__(), self.name)
 
     def get_path(self):
+        '''
+        Returns full path to subproject git repository.
+        '''
         return os.path.join(self.project.get_path(), self.slug)
 
     def can_push(self):
+        '''
+        Returns true if push is possible for this subproject.
+        '''
         return self.push != '' and self.push is not None
 
     def get_repo(self):
@@ -220,6 +226,9 @@ class SubProject(models.Model):
             return git.Repo.init(p)
 
     def get_repoweb_link(self, filename, line):
+        '''
+        Generates link to source code browser for given file and line.
+        '''
         if self.repoweb == '' or self.repoweb is None:
             return None
         return self.repoweb % {
@@ -333,12 +342,16 @@ class SubProject(models.Model):
         Updates current branch to match remote (if possible).
         '''
         gitrepo = self.get_repo()
+        # Update remote repo
         self.pull_repo(False, gitrepo)
+
         try:
+            # Try to merge it
             gitrepo.git.merge('origin/%s' % self.branch)
             logger.info('merged remote into repo %s', self.__unicode__())
             return True
         except Exception, e:
+            # In case merge has failer recover and tell admins
             status = gitrepo.git.status()
             gitrepo.git.merge('--abort')
             logger.warning('failed merge on repo %s', self.__unicode__())
@@ -406,6 +419,10 @@ class SubProject(models.Model):
         self.update_branch()
 
     def clean(self):
+        '''
+        Validator fetches repository and tries to find translation files.
+        Then it checks them for validity.
+        '''
         self.sync_git_repo(True)
         matches = self.get_mask_matches()
         if len(matches) == 0:
@@ -418,6 +435,10 @@ class SubProject(models.Model):
             langs[code] = match
 
     def save(self, *args, **kwargs):
+        '''
+        Save wrapper which updates backend Git repository and regenerates
+        translation data.
+        '''
         self.sync_git_repo()
 
         super(SubProject, self).save(*args, **kwargs)
@@ -425,6 +446,9 @@ class SubProject(models.Model):
         self.create_translations()
 
     def get_translated_percent(self):
+        '''
+        Returns percent of translated strings.
+        '''
         translations = self.translation_set.aggregate(Sum('translated'), Sum('total'))
         if translations['total__sum'] == 0:
             return 0
@@ -443,6 +467,10 @@ class SubProject(models.Model):
         return True
 
     def git_check_merge(self, revision, gitrepo = None):
+        '''
+        Checks whether there are any unmerged commits compared to given
+        revision.
+        '''
         if gitrepo is None:
             gitrepo = self.get_repo()
         status = gitrepo.git.log(revision)
