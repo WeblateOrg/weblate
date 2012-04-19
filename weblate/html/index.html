@@ -42,13 +42,20 @@
 
 <h2>{% trans "Summaries" %}</h2>
 
-<h3>{% trans "Recent changes" %}</h3>
+<div class="tabs">
 
+<ul>
+<li><a href="#changes">{% trans "Recent changes" %}</a></li>
+<li><a href="#translators">{% trans "Most active translators" %}</a></li>
+<li><a href="#suggesters">{% trans "Most active suggesters" %}</a></li>
+<li><a href="#others">{% trans "Others" %}</a></li>
+</ul>
+
+<div id="changes">
 {% include "last-changes.html" %}
+</div>
 
-<div class="floatbox">
-<h3>{% trans "Most active translators" %}</h3>
-
+<div id="translators">
 <table>
 <thead>
 <tr>
@@ -66,8 +73,7 @@
 </table>
 </div>
 
-<div class="floatbox">
-<h3>{% trans "Most active suggesters" %}</h3>
+<div id="suggesters">
 
 <table>
 <thead>
@@ -86,14 +92,12 @@
 </table>
 </div>
 
-<div class="clearer"></div>
-
-<h3>{% trans "Others" %}</h3>
-
+<div id="others">
 <ul>
 <li><a href="{% url 'weblate.trans.views.show_languages' %}">{% trans "Languages summary" %}</a></li>
 <li><a href="{% url 'weblate.trans.views.show_checks' %}">{% trans "Checks overview" %}</a></li>
 </ul>
+</div>
 
 
 {% endblock %}
