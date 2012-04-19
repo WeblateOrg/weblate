@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-18 13:47+0200\n"
+"POT-Creation-Date: 2012-04-19 09:34+0200\n"
 "PO-Revision-Date: 2012-04-18 21:54+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Weblate 0.9\n"
 
 #: urls.py:86 urls.py:92
@@ -400,9 +400,9 @@ msgid ""
 "the software projects listed below. You need to be logged in for "
 "translating, otherwise you can only make suggestions."
 msgstr ""
-"Stran poganja <a href=\"http://weblate.org/\">Weblate</a> za prevajanje spodaj "
-"navedenih projektov programske opreme. Za prevajanje se morate prijaviti; v "
-"nasprotnem primeru lahko samo dodajate predloge."
+"Stran poganja <a href=\"http://weblate.org/\">Weblate</a> za prevajanje "
+"spodaj navedenih projektov programske opreme. Za prevajanje se morate "
+"prijaviti; v nasprotnem primeru lahko samo dodajate predloge."
 
 #: html/index.html:14
 msgid "Your translations"
@@ -412,7 +412,7 @@ msgstr "Vaši prevodi"
 msgid "Projects"
 msgstr "Projekti"
 
-#: html/index.html:28 html/index.html.py:56 html/languages.html:15
+#: html/index.html:28 html/index.html.py:63 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Prevedeno"
@@ -421,36 +421,36 @@ msgstr "Prevedeno"
 msgid "Summaries"
 msgstr "Povzetki"
 
-#: html/index.html:45 html/project.html:41 html/subproject.html:29
+#: html/index.html:48 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "Nedavne spremembe"
 
-#: html/index.html:50
+#: html/index.html:49
 msgid "Most active translators"
 msgstr "Najdejavnejši prevajalci"
 
-#: html/index.html:55 html/index.html.py:75 html/last-changes.html:8
-msgid "User"
-msgstr "Uporabnik"
-
-#: html/index.html:70
+#: html/index.html:50
 msgid "Most active suggesters"
 msgstr "Najdejavnejši predlagalci"
 
-#: html/index.html:76
-msgid "Suggested"
-msgstr "Predlagano"
-
-#: html/index.html:91
+#: html/index.html:51
 msgid "Others"
 msgstr "Drugi"
 
-#: html/index.html:94
+#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+msgid "User"
+msgstr "Uporabnik"
+
+#: html/index.html:82
+msgid "Suggested"
+msgstr "Predlagano"
+
+#: html/index.html:97
 msgid "Languages summary"
 msgstr "Povzetek jezikov"
 
-#: html/index.html:95
+#: html/index.html:98
 msgid "Checks overview"
 msgstr "Pregled preverjanj"
 
@@ -1909,34 +1909,34 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
-"Pot datotek za prevajanje; uporabite * namesto kode jezika, na primer: "
-"po/*.po ali locale/*/LC_MESSAGES/django.po"
+"Pot datotek za prevajanje; uporabite * namesto kode jezika, na primer: po/*."
+"po ali locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:253
+#: trans/models.py:259
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Zajemanje shrambe git je spodletelo: %s"
 
-#: trans/models.py:307
+#: trans/models.py:313
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: trans/models.py:328
+#: trans/models.py:334
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 
-#: trans/models.py:365
+#: trans/models.py:371
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nisem uspel združiti oddaljene podveje z %s."
 
-#: trans/models.py:429
+#: trans/models.py:435
 msgid "The mask did not match any files!"
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: trans/models.py:434
+#: trans/models.py:440
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1944,21 +1944,21 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek; prosimo, prilagodite masko in "
 "uporabite podprojekte za prevajanje različnih virov."
 
-#: trans/models.py:806
+#: trans/models.py:812
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:811
+#: trans/models.py:817
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:813
+#: trans/models.py:819
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:815
+#: trans/models.py:821
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"

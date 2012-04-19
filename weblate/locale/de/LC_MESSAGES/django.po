@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-18 13:47+0200\n"
+"POT-Creation-Date: 2012-04-19 09:34+0200\n"
 "PO-Revision-Date: 2012-04-18 18:22+0200\n"
 "Last-Translator: Jan Dittberner <jandd@debian.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -411,8 +411,8 @@ msgid ""
 "the software projects listed below. You need to be logged in for "
 "translating, otherwise you can only make suggestions."
 msgstr ""
-"Hier läuft <a href=\"http://weblate.org\">Weblate</a> für die Übersetzung der "
-"unten aufgeführten Softwareprojekte. Sie müssen angemeldet sein, um zu "
+"Hier läuft <a href=\"http://weblate.org\">Weblate</a> für die Übersetzung "
+"der unten aufgeführten Softwareprojekte. Sie müssen angemeldet sein, um zu "
 "übersetzen. Unangemeldet können Sie nur Übersetzungsorschläge unterbreiten."
 
 #: html/index.html:14
@@ -423,7 +423,7 @@ msgstr "Ihre Übersetzungen"
 msgid "Projects"
 msgstr "Projekte"
 
-#: html/index.html:28 html/index.html.py:56 html/languages.html:15
+#: html/index.html:28 html/index.html.py:63 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Übersetzt"
@@ -432,36 +432,36 @@ msgstr "Übersetzt"
 msgid "Summaries"
 msgstr "Zusammenfassungen"
 
-#: html/index.html:45 html/project.html:41 html/subproject.html:29
+#: html/index.html:48 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "Letzte Änderungen"
 
-#: html/index.html:50
+#: html/index.html:49
 msgid "Most active translators"
 msgstr "Aktivste Übersetzer"
 
-#: html/index.html:55 html/index.html.py:75 html/last-changes.html:8
-msgid "User"
-msgstr "Benutzer"
-
-#: html/index.html:70
+#: html/index.html:50
 msgid "Most active suggesters"
 msgstr "Aktivste Vorschlagende"
 
-#: html/index.html:76
-msgid "Suggested"
-msgstr "Vorgeschlagen"
-
-#: html/index.html:91
+#: html/index.html:51
 msgid "Others"
 msgstr "Andere"
 
-#: html/index.html:94
+#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+msgid "User"
+msgstr "Benutzer"
+
+#: html/index.html:82
+msgid "Suggested"
+msgstr "Vorgeschlagen"
+
+#: html/index.html:97
 msgid "Languages summary"
 msgstr "Sprachen-Zusammenfassung"
 
-#: html/index.html:95
+#: html/index.html:98
 msgid "Checks overview"
 msgstr "Prüfungs-Übersicht"
 
@@ -1908,31 +1908,31 @@ msgstr ""
 "Pfade zu übersetzendener Dateien, verwenden Sie * anstelle von Sprach-Codes, "
 "z.B.: po/*.po oder locale/*/LC_MESSAGE/django.po"
 
-#: trans/models.py:253
+#: trans/models.py:259
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Abrufen des Git-Repositories fehlgeschlagen: %s"
 
-#: trans/models.py:307
+#: trans/models.py:313
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push ist für %s deaktiviert."
 
-#: trans/models.py:328
+#: trans/models.py:334
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Fehler beim Pushen des Remote-Branches auf %s."
 
-#: trans/models.py:365
+#: trans/models.py:371
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Fehler beim Zusammenführen des Remote-Branches nach %s."
 
-#: trans/models.py:429
+#: trans/models.py:435
 msgid "The mask did not match any files!"
 msgstr "Es wurden keine auf das Suchmuster passenden Dateien gefunden!"
 
-#: trans/models.py:434
+#: trans/models.py:440
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1941,21 +1941,21 @@ msgstr ""
 "Sie das Suchmuster an und benutzen Sie Unterprojekte, um unterschiedliche "
 "Ressourcen zu übersetzen."
 
-#: trans/models.py:806
+#: trans/models.py:812
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
-#: trans/models.py:811
+#: trans/models.py:817
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nicht übersetzte Zeichenketten (%d)"
 
-#: trans/models.py:813
+#: trans/models.py:819
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ungenaue Zeichenketten (%d)"
 
-#: trans/models.py:815
+#: trans/models.py:821
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
