@@ -440,6 +440,16 @@ class SubProject(models.Model):
                 raise ValidationError(_('There are more files for single language, please adjust the mask and use subprojects for translating different resources.'))
             langs[code] = match
 
+        # Try parsing files
+        failures = []
+        for match in matches:
+            try:
+                factory.getobject(os.path.join(self.get_path(), match))
+            except ValueError:
+                failures.append(match)
+        if len(failures) > 0:
+            raise ValidationError(_('Format of %d matched files could not be recognized.') % len(failures))
+
     def save(self, *args, **kwargs):
         '''
         Save wrapper which updates backend Git repository and regenerates
