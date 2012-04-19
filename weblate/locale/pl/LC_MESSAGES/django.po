@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-18 13:47+0200\n"
-"PO-Revision-Date: 2012-04-12 16:24+0200\n"
+"PO-Revision-Date: 2012-04-19 08:35+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -402,6 +402,9 @@ msgid ""
 "the software projects listed below. You need to be logged in for "
 "translating, otherwise you can only make suggestions."
 msgstr ""
+"Ta strona używa <a href=\"http://weblate.org/\">Weblate</a> do tłumaczenia "
+"poniższych projektów. Musisz się zalogować by móc tłumaczyć, w przeciwnym "
+"razie możesz jedynie sugerować."
 
 #: html/index.html:14
 msgid "Your translations"
@@ -597,9 +600,9 @@ msgid "Previous"
 msgstr "Poprzedni"
 
 #: html/translate.html:21
-#, fuzzy, python-format
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr "Pokazuje napis %(position)s z %(total)s."
+msgstr "%(position)s / %(total)s"
 
 #: html/translate.html:22
 msgid "Next"
@@ -612,7 +615,7 @@ msgstr "Ostatni"
 #: html/translate.html:27
 #, python-format
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr ""
+msgstr "Aktualny filtr: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
 #: html/translate.html:55
 msgid "Context"
@@ -646,7 +649,7 @@ msgstr "Zasugerowane przez anonimowego gościa"
 
 #: html/translate.html:105
 msgid "Accept"
-msgstr ""
+msgstr "Akceptuj"
 
 #: html/translate.html:121
 msgid "Used in"
@@ -779,15 +782,14 @@ msgid "Start review"
 msgstr "Rozpocznij przeglądanie"
 
 #: html/translation.html:98
-#, fuzzy
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to the current subproject. It can be used to push translations to "
 "a different branch or to fix inconsistent translations."
 msgstr ""
 "Automatyczne tłumaczenie bierze istniejące tłumaczenia z tego projektu i "
-"scala je z podprojektami. Może zostać wykorzystane do scalenia tłumaczeń "
-"pomiędzy różnymi gałęziami lub w celu pozbycia się niespójności."
+"scala je z aktualnym podprojektem. Może zostać wykorzystane do scalenia "
+"tłumaczeń pomiędzy różnymi gałęziami lub w celu pozbycia się niespójności."
 
 #: html/translation.html:104
 msgid "Process"
@@ -1889,9 +1891,9 @@ msgstr ""
 "locale/*/LC_MESSAGES/django.po"
 
 #: trans/models.py:253
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to fetch git repository: %s"
-msgstr "Url repozytorium Git"
+msgstr "Pobranie repozytorium git nie powiodło się: %s"
 
 #: trans/models.py:307
 #, python-format
@@ -1909,15 +1911,16 @@ msgid "Failed to merge remote branch into %s."
 msgstr "Scalenie zdalnej gałęzi z %s nie powiodło się."
 
 #: trans/models.py:429
-#, fuzzy
 msgid "The mask did not match any files!"
-msgstr "Nie znaleziono pasujących błędów!"
+msgstr "Maska nie pasuje do żadnych plików!"
 
 #: trans/models.py:434
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
+"Istnieje więcej plików dla jednego języka, proszę poprawić maskę i używać "
+"podprojektów do tłumaczenia różnych zasobów."
 
 #: trans/models.py:806
 msgid "All strings"
@@ -1939,7 +1942,6 @@ msgid "Strings with suggestions (%d)"
 msgstr "Napisy z sugestiami (%d)"
 
 #: trans/views.py:48
-#, fuzzy
 msgid "Please set your full name in your profile."
 msgstr "Proszę wprowadzić pełne imię i nazwisko w profilu."
 
@@ -1978,24 +1980,21 @@ msgid "All repositories were pushed."
 msgstr "Wszystkie repozytoria zostały przesłane."
 
 #: trans/views.py:535
-#, fuzzy, python-format
+#, python-format
 msgid "Search for \"%s\""
-msgstr "Szukaj \"%(search_query)s\"."
+msgstr "Szukaj \"%s\""
 
 #: trans/views.py:539
-#, fuzzy
 msgid "Fuzzy strings"
-msgstr "Niepewne napisy (%d)"
+msgstr "Niepewne napisy"
 
 #: trans/views.py:541
-#, fuzzy
 msgid "Not translated strings"
-msgstr "Nieprzetłumaczone napisy (%d)"
+msgstr "Nieprzetłumaczone napisy"
 
 #: trans/views.py:543
-#, fuzzy
 msgid "Strings with suggestions"
-msgstr "Napisy z sugestiami (%d)"
+msgstr "Napisy z sugestiami"
 
 #: trans/views.py:582
 msgid "Your suggestion is empty!"
