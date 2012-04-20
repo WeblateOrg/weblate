@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-19 09:34+0200\n"
+"POT-Creation-Date: 2012-04-20 10:32+0200\n"
 "PO-Revision-Date: 2012-04-18 13:51+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1664,105 +1664,105 @@ msgstr "Množné číslo"
 msgid "Plural form %d"
 msgstr "Množný tvar %d"
 
-#: trans/checks.py:212
+#: trans/checks.py:214
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: trans/checks.py:213
+#: trans/checks.py:215
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
-#: trans/checks.py:257
+#: trans/checks.py:259
 msgid "Starting newline"
 msgstr "Počáteční nový řádek"
 
-#: trans/checks.py:258
+#: trans/checks.py:260
 msgid "Source and translation do not both start with a newline"
 msgstr "Překlad a zdroj oba nezačínají novým řádkem"
 
-#: trans/checks.py:268
+#: trans/checks.py:270
 msgid "Trailing newline"
 msgstr "Koncový nový řádek"
 
-#: trans/checks.py:269
+#: trans/checks.py:271
 msgid "Source and translation do not both end with a newline"
 msgstr "Překlad a zdroj oba nekončí novým řádkem"
 
-#: trans/checks.py:279
+#: trans/checks.py:281
 msgid "Trailing space"
 msgstr "Koncová mezera"
 
-#: trans/checks.py:280
+#: trans/checks.py:282
 msgid "Source and translation do not both end with a space"
 msgstr "Překlad a zdroj oba nekončí mezerou"
 
-#: trans/checks.py:298
+#: trans/checks.py:300
 msgid "Trailing stop"
 msgstr "Koncová tečka"
 
-#: trans/checks.py:299
+#: trans/checks.py:301
 msgid "Source and translation do not both end with a full stop"
 msgstr "Překlad a zdroj oba nekončí tečkou"
 
-#: trans/checks.py:316
+#: trans/checks.py:318
 msgid "Trailing colon"
 msgstr "Koncová dvojtečka"
 
-#: trans/checks.py:317
+#: trans/checks.py:319
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí dvojtečkou nebo kolem ní chybí mezery"
 
-#: trans/checks.py:341
+#: trans/checks.py:343
 msgid "Trailing question"
 msgstr "Koncový otazník"
 
-#: trans/checks.py:342
+#: trans/checks.py:344
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí otazníkem nebo kolem něj chybí mezery"
 
-#: trans/checks.py:359
+#: trans/checks.py:361
 msgid "Trailing exclamation"
 msgstr "Koncový vykřičník"
 
-#: trans/checks.py:360
+#: trans/checks.py:362
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem nebo kolem něj chybí mezery"
 
-#: trans/checks.py:380
+#: trans/checks.py:382
 msgid "Python format"
 msgstr "Formát Pythonu"
 
-#: trans/checks.py:381 trans/checks.py:394 trans/checks.py:407
+#: trans/checks.py:383 trans/checks.py:396 trans/checks.py:409
 msgid "Format string does not match source"
 msgstr "Formátovací řetězec v překladu neodpovídá zdroji"
 
-#: trans/checks.py:393
+#: trans/checks.py:395
 msgid "PHP format"
 msgstr "Formát PHP"
 
-#: trans/checks.py:406
+#: trans/checks.py:408
 msgid "C format"
 msgstr "Formát C"
 
-#: trans/checks.py:420
+#: trans/checks.py:422
 msgid "Missing plurals"
 msgstr "Chybí plurál"
 
-#: trans/checks.py:421
+#: trans/checks.py:423
 msgid "Some plural forms are not translated"
 msgstr "Některé množné tvary nejsou přeložené"
 
-#: trans/checks.py:438
+#: trans/checks.py:440
 msgid "Inconsistent"
 msgstr "Nekonzistentní"
 
-#: trans/checks.py:439
+#: trans/checks.py:441
 msgid "This message has more than one translation in this project"
 msgstr "Řetězec má v tomto projektu více rozdílných překladů"
 
@@ -1884,31 +1884,37 @@ msgstr ""
 "Cesta souborů k překladu, použijte * místo kódu jazyka, například: po/*.po "
 "nebo locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:259
+#: trans/models.py:174
+msgid ""
+"Filename of translations template, this is recommended to use for "
+"translations which store only translated string like Android resource strings"
+msgstr ""
+
+#: trans/models.py:264
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Nepodařilo se stáhnout Git repozitář: %s"
 
-#: trans/models.py:313
+#: trans/models.py:318
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: trans/models.py:334
+#: trans/models.py:339
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nepodařilo se odeslat do vzdálené větve %s."
 
-#: trans/models.py:371
+#: trans/models.py:376
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: trans/models.py:435
+#: trans/models.py:440
 msgid "The mask did not match any files!"
 msgstr "Masce neodpovídají žádné soubory!"
 
-#: trans/models.py:440
+#: trans/models.py:445
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1916,21 +1922,40 @@ msgstr ""
 "Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
 "podprojekty pro překládání různých souborů."
 
-#: trans/models.py:812
+#: trans/models.py:459
+#, fuzzy, python-format
+msgid "Format of %d matched files could not be recognized."
+msgstr "Nepodařilo se sloučit změny z některého vzdálený Git repozitáře."
+
+#: trans/models.py:461
+#, fuzzy, python-format
+msgid "Failed to parse %d matched files!"
+msgstr "Nepodařilo se zpracovat formulář!"
+
+#: trans/models.py:469
+msgid "Format of translation template could not be recognized."
+msgstr ""
+
+#: trans/models.py:471
+#, fuzzy
+msgid "Failed to parse translation template."
+msgstr "Překlad selhal"
+
+#: trans/models.py:846
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:817
+#: trans/models.py:851
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:819
+#: trans/models.py:853
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:821
+#: trans/models.py:855
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
@@ -2050,9 +2075,6 @@ msgstr "Selhalo sloučení obsahu souborů: %s"
 #: trans/views.py:948
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
-
-#~ msgid "Some repositories could not be merged."
-#~ msgstr "Nepodařilo se sloučit změny z některého vzdálený Git repozitáře."
 
 #~ msgid "Actions"
 #~ msgstr "Akce"
