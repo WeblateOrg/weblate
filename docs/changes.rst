@@ -6,6 +6,9 @@ weblate 0.10
 
 Relased on ? 2012.
 
+* Improved validation while adding/saving subproject.
+* Experimental support for Android resource files (needs patched ttkit).
+
 weblate 0.9
 -----------
 
