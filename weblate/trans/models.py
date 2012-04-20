@@ -460,6 +460,16 @@ class SubProject(models.Model):
         if len(errors) > 0:
             raise ValidationError(_('Failed to parse %d matched files!') % len(errors))
 
+        # Validate template
+        if self.template != '':
+            template = os.path.join(self.get_path(), self.template)
+            try:
+                factory.getobject(os.path.join(self.get_path(), match))
+            except ValueError:
+                raise ValidationError(_('Format of translation template could not be recognized.'))
+            except Exception, e:
+                raise ValidationError(_('Failed to parse translation template.'))
+
     def save(self, *args, **kwargs):
         '''
         Save wrapper which updates backend Git repository and regenerates
