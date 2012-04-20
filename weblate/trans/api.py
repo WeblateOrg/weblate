@@ -8,6 +8,7 @@ from weblate.trans.models import Project, SubProject
 
 import json
 import logging
+import threading
 
 logger = logging.getLogger('weblate')
 
@@ -19,8 +20,9 @@ def update_subproject(request, project, subproject):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
-    obj.do_update()
-    return HttpResponse('updated')
+    t = threading.Thread(target = obj.do_update)
+    t.start()
+    return HttpResponse('update triggered')
 
 @csrf_exempt
 def update_project(request, project):
@@ -30,8 +32,9 @@ def update_project(request, project):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(Project, slug = project)
-    obj.do_update()
-    return HttpResponse('updated')
+    t = threading.Thread(target = obj.do_update)
+    t.start()
+    return HttpResponse('update triggered')
 
 
 @csrf_exempt
@@ -53,11 +56,12 @@ def github_hook(request):
         )
     branch = data['ref'].split('/')[-1]
     logger.info('received GitHub notification on repository %s, branch %s', repo, branch)
-    for s in SubProject.objects.filter(repo = repo, branch = branch):
-        logger.info('GitHub notification will update %s', s)
-        s.do_update()
+    for obj in SubProject.objects.filter(repo = repo, branch = branch):
+        logger.info('GitHub notification will update %s', obj)
+        t = threading.Thread(target = obj.do_update)
+        t.start()
 
-    return HttpResponse('updated')
+    return HttpResponse('update triggered')
 
 def dt_handler(obj):
     if hasattr(obj, 'isoformat'):
