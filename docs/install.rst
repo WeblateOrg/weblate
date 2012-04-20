@@ -109,3 +109,10 @@ On upgrade to version 0.9 file structure has changed. You need to move
 :program:`./manage.py syncdb`, :program:`./manage.py setupgroups` and
 :program:`./manage.py setuplang` is recommended to get latest updates of 
 privileges and language definitions.
+
+On upgrade to version 1.0 one field has been added to database, you need to
+invoke following SQL command to adjust it:
+
+.. code-block:: sql
+
+    ALTER TABLE `trans_subproject` ADD `template` VARCHAR(200);
