@@ -446,14 +446,19 @@ class SubProject(models.Model):
             langs[code] = match
 
         # Try parsing files
-        failures = []
+        notrecognized = []
+        errors = []
         for match in matches:
             try:
                 factory.getobject(os.path.join(self.get_path(), match))
             except ValueError:
-                failures.append(match)
-        if len(failures) > 0:
-            raise ValidationError(_('Format of %d matched files could not be recognized.') % len(failures))
+                notrecognized.append(match)
+            except Exception, e:
+                errors.append(str(e))
+        if len(notrecognized) > 0:
+            raise ValidationError(_('Format of %d matched files could not be recognized.') % len(notrecognized))
+        if len(errors) > 0:
+            raise ValidationError(_('Failed to parse %d matched files!') % len(errors))
 
     def save(self, *args, **kwargs):
         '''
