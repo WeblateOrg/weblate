@@ -168,6 +168,11 @@ class SubProject(models.Model):
         max_length = 200,
         help_text = _('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po')
     )
+    template = models.CharField(
+        max_length = 200,
+        blank = True,
+        help_text = _('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings')
+    )
 
     class Meta:
         ordering = ['name']
@@ -595,7 +600,11 @@ class Translation(models.Model):
         return os.path.join(self.subproject.get_path(), self.filename)
 
     def get_store(self):
-        return factory.getobject(self.get_filename())
+        store = factory.getobject(self.get_filename())
+        if hasattr(store, 'set_base_resource') and self.subproject.template != '':
+            template = os.path.join(self.subproject.get_path(), self.subproject.template)
+            store.set_base_resource(template)
+        return store
 
     def check_sync(self):
         '''
