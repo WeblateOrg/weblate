@@ -15,6 +15,7 @@ import os.path
 import logging
 import git
 import traceback
+import __builtin__
 from translate.storage import factory
 from translate.storage import poheader
 from datetime import datetime
