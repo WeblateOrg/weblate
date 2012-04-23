@@ -158,4 +158,6 @@ class Language(models.Model):
     def get_translated_percent(self):
         from weblate.trans.models import Translation
         translations = Translation.objects.filter(language = self).aggregate(Sum('translated'), Sum('total'))
+        if translations['total__sum'] == 0:
+            return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
