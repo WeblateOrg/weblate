@@ -22,9 +22,27 @@ Whoosh
 Installation
 ------------
 
-Install all required components (see above), adjust :file:`settings.py` and
-then run :program:`./manage.py syncdb` to create database structure. Now you
-should be able to create translation projects using admin interface.
+Install all required components (see above) and adjust :file:`settings.py`. You
+will probably want to adjust following options:
+
+``DATABASE``
+
+    Connectivity to database server, please check Django's documentation for more
+    details.
+
+    .. note::
+
+        When using MySQL, don't forget to create database with UTF-8 encoding:
+
+        .. code-block:: sql
+
+            CREATE DATABASE <dbname> CHARACTER SET utf8;
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#databases
+
+After your configuration is ready, you can run :program:`./manage.py syncdb` to
+create database structure. Now you should be able to create translation
+projects using admin interface.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
