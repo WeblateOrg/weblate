@@ -60,4 +60,4 @@ All settings are stored in :file:`settings.py` (as usual for Django).
     Directory where Whoosh fulltext indices will be stored. Defaults to :file:`whoosh-index` subdirectory.
 
 
-.. seealso:: https://docs.djangoproject.com/en/1.3/ref/settings/
+.. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/
