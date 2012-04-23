@@ -9,6 +9,7 @@ Relased on ? 2012.
 * Improved validation while adding/saving subproject.
 * Experimental support for Android resource files (needs patched ttkit).
 * Updates from hooks are run in background.
+* Improved installation instructions.
 
 weblate 0.9
 -----------
