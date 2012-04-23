@@ -9,7 +9,6 @@ from whoosh import qparser
 from util import join_plural, msg_checksum
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
-from translate.storage import factory
 
 IGNORE_WORDS = set([
     'a',
@@ -275,12 +274,11 @@ class UnitManager(models.Manager):
 
 class DictionaryManager(models.Manager):
     def upload(self, project, language, fileobj, overwrite):
-        # Needed to behave like something what translate toolkit expects
-        fileobj.mode = "r"
+        from weblate.trans.models import ttkit
 
         ret = 0
 
-        store = factory.getobject(fileobj)
+        store = ttkit(fileobj)
         for unit in store.units:
             # We care only about translated things
             if not unit.istranslatable() or not unit.istranslated():
