@@ -40,6 +40,19 @@ will probably want to adjust following options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#databases
 
+``DEFAULT_FROM_EMAIL``
+
+    Email sender address for outgoing email, for example registration emails.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
+
+``SERVER_EMAIL``
+
+    Email used as sender address for sending emails to administrator, for
+    example notifications on failed merge.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
+
 After your configuration is ready, you can run :program:`./manage.py syncdb` to
 create database structure. Now you should be able to create translation
 projects using admin interface.
