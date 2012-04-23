@@ -25,6 +25,13 @@ Installation
 Install all required components (see above) and adjust :file:`settings.py`. You
 will probably want to adjust following options:
 
+``ADMINS``
+
+    List of site administrators to receive notifications when something goes
+    wrong, for example notifications on failed merge or Django errors.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#admins
+
 ``DATABASE``
 
     Connectivity to database server, please check Django's documentation for more
