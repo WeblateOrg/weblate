@@ -314,18 +314,30 @@ class SubProject(models.Model):
         Ensures local tracking branch exists and is checkouted.
         '''
         gitrepo = self.get_repo()
+
+        # create branch if it does not exist
         if not self.branch in gitrepo.heads:
             gitrepo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
+
+        # switch to correct branch
         gitrepo.git.checkout(self.branch)
+
+        # force cleanup
         del gitrepo
 
     def do_update(self, request = None):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
+        # commit possible pending changes
         self.commit_pending()
+
+        # update remote branc
         ret = self.update_branch(request)
+
+        # create translation objects for all files
         self.create_translations()
+
         return ret
 
     def do_push(self, request = None):
@@ -799,6 +811,11 @@ class Translation(models.Model):
     def git_commit(self, author, force_commit = False, sync = False):
         '''
         Wrapper for commiting translation to git.
+
+        force_commit forces commit with lazy commits enabled
+
+        sync updates git hash stored within the translation (otherwise
+        translation rescan will be needed)
         '''
         gitrepo = self.get_repo()
         if not self.git_needs_commit(gitrepo):
@@ -824,23 +841,33 @@ class Translation(models.Model):
         store = self.get_store()
         src = unit.get_source_plurals()[0]
         need_save = False
+        # Find all units with same source
         for pounit in store.findunits(src):
+            # Does context match?
             if pounit.getcontext() == unit.context:
+                # Is it plural?
                 if hasattr(pounit.target, 'strings'):
                     potarget = join_plural(pounit.target.strings)
                 else:
                     potarget = pounit.target
+                # Is there any change
                 if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
+                    # Update fuzzy flag
                     pounit.markfuzzy(unit.fuzzy)
+                    # Store translations
                     if unit.is_plural():
                         pounit.settarget(unit.get_target_plurals())
                     else:
                         pounit.settarget(unit.target)
+                    # We need to update backend
                     need_save = True
                 # We should have only one match
                 break
+
+        # Save backend if there was a change
         if need_save:
-            author = self.get_author_name(request.user)
+            author = self.get_author_name(request.usr)
+            # Update po file header
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
@@ -852,8 +879,11 @@ class Translation(models.Model):
                     PO_Revision_Date = po_revision_date,
                     x_generator = 'Weblate %s' % weblate.VERSION
                     )
+            # commit possible previous changes (by other author)
             self.commit_pending(author)
+            # save translation changes
             store.save()
+            # commit Git repo if needed
             self.git_commit(author, sync = True)
 
         return need_save, pounit
