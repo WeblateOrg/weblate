@@ -27,6 +27,20 @@ from util import is_plural, split_plural, join_plural
 
 logger = logging.getLogger('weblate')
 
+
+def ttkit(path):
+    '''
+    Returns translate-toolkit storage for a path.
+    '''
+
+    # Workaround for _ created by interactive interpreter and
+    # later used instead of gettext by ttkit
+    if not callable(__builtin__.__dict__['_']):
+        del __builtin__.__dict__['_']
+
+    return factory.getobject(path)
+
+
 def validate_repoweb(val):
     try:
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
@@ -450,7 +464,7 @@ class SubProject(models.Model):
         errors = []
         for match in matches:
             try:
-                factory.getobject(os.path.join(self.get_path(), match))
+                ttkit(os.path.join(self.get_path(), match))
             except ValueError:
                 notrecognized.append(match)
             except Exception, e:
@@ -464,7 +478,7 @@ class SubProject(models.Model):
         if self.template != '':
             template = os.path.join(self.get_path(), self.template)
             try:
-                factory.getobject(os.path.join(self.get_path(), match))
+                ttkit(os.path.join(self.get_path(), match))
             except ValueError:
                 raise ValidationError(_('Format of translation template could not be recognized.'))
             except Exception, e:
@@ -615,7 +629,7 @@ class Translation(models.Model):
         return os.path.join(self.subproject.get_path(), self.filename)
 
     def get_store(self):
-        store = factory.getobject(self.get_filename())
+        store = ttkit(self.get_filename())
         if hasattr(store, 'set_base_resource') and self.subproject.template != '':
             template = os.path.join(self.subproject.get_path(), self.subproject.template)
             store.set_base_resource(template)
@@ -898,7 +912,7 @@ class Translation(models.Model):
         '''
         # Needed to behave like something what translate toolkit expects
         fileobj.mode = "r"
-        store2 = factory.getobject(fileobj)
+        store2 = ttkit(fileobj)
         if author is None:
             author = self.get_author_name(request.user)
 
