@@ -278,7 +278,10 @@ class DictionaryManager(models.Manager):
 
         ret = 0
 
+        # Load file using ttkit
         store = ttkit(fileobj)
+
+        # process all units
         for unit in store.units:
             # We care only about translated things
             if not unit.istranslatable() or not unit.istranslated():
