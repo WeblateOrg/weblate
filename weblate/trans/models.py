@@ -29,7 +29,7 @@ from util import is_plural, split_plural, join_plural
 logger = logging.getLogger('weblate')
 
 
-def ttkit(path):
+def ttkit(storefile):
     '''
     Returns translate-toolkit storage for a path.
     '''
@@ -39,7 +39,11 @@ def ttkit(path):
     if not callable(__builtin__.__dict__['_']):
         del __builtin__.__dict__['_']
 
-    return factory.getobject(path)
+    # Add missing mode attribute to Django file wrapper
+    if not isinstance(storefile, basestring):
+        storefile.mode = 'r'
+
+    return factory.getobject(storefile)
 
 
 def validate_repoweb(val):
@@ -911,8 +915,6 @@ class Translation(models.Model):
         '''
         Top level handler for file uploads.
         '''
-        # Needed to behave like something what translate toolkit expects
-        fileobj.mode = "r"
         store2 = ttkit(fileobj)
         if author is None:
             author = self.get_author_name(request.user)
