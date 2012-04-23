@@ -47,6 +47,12 @@ will probably want to adjust following options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#databases
 
+``DEBUG``
+
+    Disable this for production server.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#debug
+
 ``DEFAULT_FROM_EMAIL``
 
     Email sender address for outgoing email, for example registration emails.
