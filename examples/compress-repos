@@ -4,7 +4,7 @@
 
 cd weblate/repos
 for d in */* ; do
-    pushd $d
+    cd $d
     git gc
-    popd
+    cd ../..
 done
