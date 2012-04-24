@@ -20,7 +20,7 @@ rc_reset
 case "$1" in
     start)
         if [ ! -f /var/lib/weblate/setup ] ; then
-            echo 'Creating databse for Weblate'
+            echo 'Creating database for Weblate'
             su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py syncdb --noinput'
             rc_status -v -r
             echo 'Adding admin user for Weblate'
