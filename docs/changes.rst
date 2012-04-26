@@ -10,6 +10,7 @@ Relased on ? 2012.
 * Experimental support for Android resource files (needs patched ttkit).
 * Updates from hooks are run in background.
 * Improved installation instructions.
+* Improved navigation in dictionary.
 
 weblate 0.9
 -----------
