@@ -261,6 +261,7 @@ def show_dictionary(request, project, lang):
         'form': form,
         'uploadform': uploadform,
         'letterform': letterform,
+        'letter': letterform.cleaned_data['letter'],
     }))
 
 def show_project(request, project):
