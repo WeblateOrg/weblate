@@ -15,6 +15,16 @@
 
 <h2>{% trans "Dictionary" %}</h2>
 
+<span id="navi-toolbar" class="ui-widget-header ui-corner-all">
+<span class="navi">
+<a class="button-first{% if words.number == 1 %} button-disabled{% endif %}" href="?page=1">{% trans "First" %}</a>
+<a class="button-prev{% if not words.has_previous %} button-disabled{% endif %}" href="?page={{ words.previous_page_number }}">{% trans "Previous" %}</a>
+<a class="button-pos">{% blocktrans with words.number as position and words.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a class="button-next{% if not words.has_next %} button-disabled{% endif %}" href="?page={{ words.next_page_number }}">{% trans "Next" %}</a>
+<a class="button-end{% if words.paginator.num_pages == words.number %} button-disabled{% endif %}" href="?page={{ words.paginator.num_pages }}">{% trans "Last" %}</a>
+</span>
+</span>
+
 <table>
 <thead>
 <tr>
@@ -52,21 +62,6 @@
 </tbody>
 </table>
 
-<ul class="pages">
-{% if words.has_previous %}
-<li><a href="?page={{ words.previous_page_number }}">&laquo;</a></li>
-{% else %}
-<li class="disabled"><span>&laquo;</span></li>
-{% endif %}
-{% for page in words.paginator.page_range %}
-<li {% if page = words.number %} class="active" {% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-{% endfor %}
-{% if words.has_next %}
-<li><a href="?page={{ words.next_page_number }}">&raquo;</a></li>
-{% else %}
-<li class="disabled"><span>&raquo;</span></li>
-{% endif %}
-</ul>
 {% endif %}
 
 <h2>{% trans "Tools" %}</h2>
