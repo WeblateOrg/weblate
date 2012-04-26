@@ -244,4 +244,7 @@ $(function() {
         },
     });
     $("#id_date").datepicker();
+    $("form.autosubmit select").change(function() {
+        $("form.autosubmit").submit();
+    });
 });

@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
-from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm
+from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile
 
@@ -237,6 +237,11 @@ def show_dictionary(request, project, lang):
     limit = request.GET.get('limit', 25)
     page = request.GET.get('page', 1)
 
+    letterform = LetterForm(request.GET)
+
+    if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
+        words = words.filter(source__istartswith = letterform.cleaned_data['letter'])
+
     paginator = Paginator(words, limit)
 
     try:
@@ -255,6 +260,7 @@ def show_dictionary(request, project, lang):
         'words': words,
         'form': form,
         'uploadform': uploadform,
+        'letterform': letterform,
     }))
 
 def show_project(request, project):

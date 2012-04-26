@@ -11,7 +11,6 @@
 {% block content %}
 
 
-{% if words.object_list %}
 
 <h2>{% trans "Dictionary" %}</h2>
 
@@ -23,8 +22,10 @@
 <a class="button-next{% if not words.has_next %} button-disabled{% endif %}" href="?page={{ words.next_page_number }}">{% trans "Next" %}</a>
 <a class="button-end{% if words.paginator.num_pages == words.number %} button-disabled{% endif %}" href="?page={{ words.paginator.num_pages }}">{% trans "Last" %}</a>
 </span>
+<form class="letter autosubmit">{{ letterform.as_p }}</form>
 </span>
 
+{% if words.object_list %}
 <table>
 <thead>
 <tr>
@@ -61,7 +62,8 @@
 {% endfor %}
 </tbody>
 </table>
-
+{% else %}
+<p>{% trans "No words found!" %}</p>
 {% endif %}
 
 <h2>{% trans "Tools" %}</h2>

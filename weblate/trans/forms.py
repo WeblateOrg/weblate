@@ -194,3 +194,10 @@ class ReviewForm(forms.Form):
         if self.cleaned_data['type'] != 'review':
             raise ValidationError('Invalid value')
         return self.cleaned_data['type']
+
+class LetterForm(forms.Form):
+    letter = forms.ChoiceField(
+        label = _('Starting letter'),
+        choices = [('', _('Any'))] + [(chr(97 + x), chr(65 + x)) for x in range(26)],
+        required = False
+    )
