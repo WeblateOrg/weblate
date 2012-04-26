@@ -866,7 +866,7 @@ class Translation(models.Model):
 
         # Save backend if there was a change
         if need_save:
-            author = self.get_author_name(request.usr)
+            author = self.get_author_name(request.user)
             # Update po file header
             if hasattr(store, 'updateheader'):
                 po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
