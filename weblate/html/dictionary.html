@@ -69,8 +69,20 @@
 </ul>
 {% endif %}
 
+<h2>{% trans "Tools" %}</h2>
+
+<div class="tabs" id="dictionary-tabs">
+<ul>
 {% if perms.trans.add_dictionary %}
-<h2>{% trans "Add new word" %}</h2>
+<li><a href="#add">{% trans "Add new word" %}</a></li>
+{% endif %}
+{% if perms.trans.upload_dictionary %}
+<li><a href="#import">{% trans "Import dictionary" %}</a></li>
+{% endif %}
+</ul>
+
+{% if perms.trans.add_dictionary %}
+<div id="add">
 
 <form method="POST">
 {% csrf_token %}
@@ -79,10 +91,12 @@
 </table>
 <input type="submit" value="{% trans "Add" %}" />
 </form>
+
+</div>
 {% endif %}
 
 {% if perms.trans.upload_dictionary %}
-<h2>{% trans "Import dictionary" %}</h2>
+<div id="import">
 
 <p>{% trans "You can upload any format which is understood by Translate Toolkit for example csv or po file." %}</p>
 
@@ -93,6 +107,8 @@
 </table>
 <input type="submit" value="{% trans "Import" %}" />
 </form>
+
+</div>
 {% endif %}
 
 {% endblock %}
