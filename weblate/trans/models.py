@@ -24,6 +24,7 @@ import weblate
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
+from weblate.trans.filelock import FileLock
 from util import is_plural, split_plural, join_plural
 
 logger = logging.getLogger('weblate')
@@ -233,6 +234,20 @@ class SubProject(models.Model):
         '''
         return os.path.join(self.project.get_path(), self.slug)
 
+    def get_lock_path(self):
+        '''
+        Returns full path to subproject git repository.
+        '''
+        return os.path.join(self.project.get_path(), self.slug + '.lock')
+
+    def get_lock(self):
+        '''
+        Returns lock object for current translation instance.
+        '''
+        if not hasattr(self, '__lock__'):
+            self.__lock__ = FileLock(self.get_lock_path())
+        return self.__lock__
+
     def can_push(self):
         '''
         Returns true if push is possible for this subproject.
@@ -387,27 +402,29 @@ class SubProject(models.Model):
         # Update remote repo
         self.pull_repo(False, gitrepo)
 
-        try:
-            # Try to merge it
-            gitrepo.git.merge('origin/%s' % self.branch)
-            logger.info('merged remote into repo %s', self.__unicode__())
-            return True
-        except Exception, e:
-            # In case merge has failer recover and tell admins
-            status = gitrepo.git.status()
-            gitrepo.git.merge('--abort')
-            logger.warning('failed merge on repo %s', self.__unicode__())
-            msg = 'Error:\n%s' % str(e)
-            msg += '\n\nStatus:\n' + status
-            mail_admins(
-                'failed merge on repo %s' % self.__unicode__(),
-                msg
-            )
-            if request is not None:
-                messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
-            return False
-        finally:
-            del gitrepo
+        # Mege with lock acquired
+        with self.get_lock():
+            try:
+                # Try to merge it
+                gitrepo.git.merge('origin/%s' % self.branch)
+                logger.info('merged remote into repo %s', self.__unicode__())
+                return True
+            except Exception, e:
+                # In case merge has failer recover and tell admins
+                status = gitrepo.git.status()
+                gitrepo.git.merge('--abort')
+                logger.warning('failed merge on repo %s', self.__unicode__())
+                msg = 'Error:\n%s' % str(e)
+                msg += '\n\nStatus:\n' + status
+                mail_admins(
+                    'failed merge on repo %s' % self.__unicode__(),
+                    msg
+                )
+                if request is not None:
+                    messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
+                return False
+            finally:
+                del gitrepo
 
     def get_mask_matches(self):
         '''
