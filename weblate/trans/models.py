@@ -402,7 +402,7 @@ class SubProject(models.Model):
         # Update remote repo
         self.pull_repo(False, gitrepo)
 
-        # Mege with lock acquired
+        # Merge with lock acquired
         with self.get_lock():
             try:
                 # Try to merge it
