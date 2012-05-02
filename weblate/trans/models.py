@@ -785,7 +785,9 @@ class Translation(models.Model):
         last = self.get_last_author()
         if author == last or last is None:
             return
-        self.git_commit(last, True, True)
+        # Commit with lock acquired
+        with self.subproject.get_lock():
+            self.git_commit(last, True, True)
 
     def get_author_name(self, user, email = True):
         full_name = user.get_full_name()
