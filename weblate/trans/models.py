@@ -841,10 +841,12 @@ class Translation(models.Model):
         store = self.get_store()
         src = unit.get_source_plurals()[0]
         need_save = False
+        found = False
         # Find all units with same source
         for pounit in store.findunits(src):
             # Does context match?
             if pounit.getcontext() == unit.context:
+                found = True
                 # Is it plural?
                 if hasattr(pounit.target, 'strings'):
                     potarget = join_plural(pounit.target.strings)
@@ -863,6 +865,9 @@ class Translation(models.Model):
                     need_save = True
                 # We should have only one match
                 break
+
+        if not found:
+            return False, None
 
         # Save backend if there was a change
         if need_save:
@@ -1078,6 +1083,11 @@ class Unit(models.Model):
         '''
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
+
+        # Handle situation when backend did not find the message
+        if pounit is None:
+            logger.error('message %s disappeared!', self)
+            messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
 
         # Update translated flag
         self.translated = pounit.istranslated()
