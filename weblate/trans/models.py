@@ -856,7 +856,7 @@ class Translation(models.Model):
         Updates backend file and unit.
         '''
         # Save with lock acquired
-        with self.get_lock():
+        with self.subproject.get_lock():
 
             store = self.get_store()
             src = unit.get_source_plurals()[0]
@@ -939,7 +939,7 @@ class Translation(models.Model):
         Merges ttkit store into current translation.
         '''
         # Merge with lock acquired
-        with self.get_lock():
+        with self.subproject.get_lock():
 
             store1 = self.get_store()
             store1.require_index()
