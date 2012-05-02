@@ -855,58 +855,61 @@ class Translation(models.Model):
         '''
         Updates backend file and unit.
         '''
-        store = self.get_store()
-        src = unit.get_source_plurals()[0]
-        need_save = False
-        found = False
-        # Find all units with same source
-        for pounit in store.findunits(src):
-            # Does context match?
-            if pounit.getcontext() == unit.context:
-                found = True
-                # Is it plural?
-                if hasattr(pounit.target, 'strings'):
-                    potarget = join_plural(pounit.target.strings)
-                else:
-                    potarget = pounit.target
-                # Is there any change
-                if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
-                    # Update fuzzy flag
-                    pounit.markfuzzy(unit.fuzzy)
-                    # Store translations
-                    if unit.is_plural():
-                        pounit.settarget(unit.get_target_plurals())
+        # Save with lock acquired
+        with self.get_lock():
+
+            store = self.get_store()
+            src = unit.get_source_plurals()[0]
+            need_save = False
+            found = False
+            # Find all units with same source
+            for pounit in store.findunits(src):
+                # Does context match?
+                if pounit.getcontext() == unit.context:
+                    found = True
+                    # Is it plural?
+                    if hasattr(pounit.target, 'strings'):
+                        potarget = join_plural(pounit.target.strings)
                     else:
-                        pounit.settarget(unit.target)
-                    # We need to update backend
-                    need_save = True
-                # We should have only one match
-                break
+                        potarget = pounit.target
+                    # Is there any change
+                    if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
+                        # Update fuzzy flag
+                        pounit.markfuzzy(unit.fuzzy)
+                        # Store translations
+                        if unit.is_plural():
+                            pounit.settarget(unit.get_target_plurals())
+                        else:
+                            pounit.settarget(unit.target)
+                        # We need to update backend
+                        need_save = True
+                    # We should have only one match
+                    break
 
-        if not found:
-            return False, None
+            if not found:
+                return False, None
 
-        # Save backend if there was a change
-        if need_save:
-            author = self.get_author_name(request.user)
-            # Update po file header
-            if hasattr(store, 'updateheader'):
-                po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
+            # Save backend if there was a change
+            if need_save:
+                author = self.get_author_name(request.user)
+                # Update po file header
+                if hasattr(store, 'updateheader'):
+                    po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
-                store.updateheader(
-                    add = True,
-                    last_translator = author,
-                    plural_forms = self.language.get_plural_form(),
-                    language = self.language.code,
-                    PO_Revision_Date = po_revision_date,
-                    x_generator = 'Weblate %s' % weblate.VERSION
-                    )
-            # commit possible previous changes (by other author)
-            self.commit_pending(author)
-            # save translation changes
-            store.save()
-            # commit Git repo if needed
-            self.git_commit(author, sync = True)
+                    store.updateheader(
+                        add = True,
+                        last_translator = author,
+                        plural_forms = self.language.get_plural_form(),
+                        language = self.language.code,
+                        PO_Revision_Date = po_revision_date,
+                        x_generator = 'Weblate %s' % weblate.VERSION
+                        )
+                # commit possible previous changes (by other author)
+                self.commit_pending(author)
+                # save translation changes
+                store.save()
+                # commit Git repo if needed
+                self.git_commit(author, sync = True)
 
         return need_save, pounit
 
@@ -935,32 +938,35 @@ class Translation(models.Model):
         '''
         Merges ttkit store into current translation.
         '''
-        store1 = self.get_store()
-        store1.require_index()
+        # Merge with lock acquired
+        with self.get_lock():
 
-        for unit2 in store2.units:
-            if unit2.isheader():
-                if isinstance(store1, poheader.poheader):
-                    store1.mergeheaders(store2)
-                continue
-            unit1 = store1.findid(unit2.getid())
-            if unit1 is None:
-                unit1 = store1.findunit(unit2.source)
-            if unit1 is None:
-                continue
-            else:
-                if len(unit2.target.strip()) == 0:
+            store1 = self.get_store()
+            store1.require_index()
+
+            for unit2 in store2.units:
+                if unit2.isheader():
+                    if isinstance(store1, poheader.poheader):
+                        store1.mergeheaders(store2)
                     continue
-                if not mergefuzzy:
-                    if unit2.isfuzzy():
+                unit1 = store1.findid(unit2.getid())
+                if unit1 is None:
+                    unit1 = store1.findunit(unit2.source)
+                if unit1 is None:
+                    continue
+                else:
+                    if len(unit2.target.strip()) == 0:
                         continue
-                if not overwrite and unit1.istranslated():
-                    continue
-                unit1.merge(unit2, overwrite=True, comments=False)
-        self.commit_pending(author)
-        store1.save()
-        ret = self.git_commit(author, True)
-        self.check_sync()
+                    if not mergefuzzy:
+                        if unit2.isfuzzy():
+                            continue
+                    if not overwrite and unit1.istranslated():
+                        continue
+                    unit1.merge(unit2, overwrite=True, comments=False)
+            self.commit_pending(author)
+            store1.save()
+            ret = self.git_commit(author, True)
+            self.check_sync()
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False):
