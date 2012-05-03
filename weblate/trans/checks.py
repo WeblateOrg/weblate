@@ -364,7 +364,7 @@ class EndExclamationCheck(Check):
     def check_single(self, source, target, flags, language, unit):
         if self.is_language(language, ['eu']):
             if source[-1] == '!':
-                return '¡' in target and '!' in target
+                return u'¡' in target and u'!' in target
         if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
                 return False
