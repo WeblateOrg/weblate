@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-27 16:38+0200\n"
+"POT-Creation-Date: 2012-05-03 15:17+0200\n"
 "PO-Revision-Date: 2012-04-29 13:08+0200\n"
 "Last-Translator: Mika Suomalainen <mika.henrik.mainio@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,7 +101,8 @@ msgstr "Salasana (uudelleen)"
 
 #: accounts/forms.py:61
 msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr "Toista salasana, jotta voimme varmistaa, että se on kirjoitettu oikein."
+msgstr ""
+"Toista salasana, jotta voimme varmistaa, että se on kirjoitettu oikein."
 
 #: accounts/forms.py:72
 msgid "Password needs to have at least six characters."
@@ -147,8 +148,8 @@ msgstr "Kaksi salasana kenttää eivät täsmää."
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
-"Paina \"Control\" tai \"Command\" näppäintä Macilla, valitaksesi useamman, kuin "
-"yhden."
+"Paina \"Control\" tai \"Command\" näppäintä Macilla, valitaksesi useamman, "
+"kuin yhden."
 
 #: accounts/i18n.py:22
 msgid "Translate using Apertium"
@@ -298,8 +299,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Lisätietoja tästä tarkistusta on saataville <a href=\"%"
-"(link)s\">dokumentaatiossa</a>."
+"Lisätietoja tästä tarkistusta on saataville <a href=\"%(link)s"
+"\">dokumentaatiossa</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:27
 #: html/translate.html:161 html/js/other.html:6 html/js/similar.html:6
@@ -554,7 +555,8 @@ msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
 #: html/profile.html:38
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
-msgstr "Salasanaa voidaan vaihtaa <a href=\"%(pw_url)s\">erillisellä sivulla</a>."
+msgstr ""
+"Salasanaa voidaan vaihtaa <a href=\"%(pw_url)s\">erillisellä sivulla</a>."
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"
@@ -606,9 +608,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">ota meihin "
-"yhteyttä</a>."
+"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -733,14 +734,6 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
-msgid "Message is fuzzy"
-msgstr ""
-
-#: html/translate.html:174 html/js/other.html:14 html/js/similar.html:14
-msgid "Message is translated"
-msgstr ""
-
 #: html/translation.html:19
 msgid "Strings to check"
 msgstr ""
@@ -802,6 +795,19 @@ msgstr ""
 msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
+msgstr ""
+
+#: html/unit-state.html:3
+msgid "Message is fuzzy"
+msgstr ""
+
+#: html/unit-state.html:4
+#, fuzzy
+msgid "Message has failing checks"
+msgstr "Epäonnistuvat tarkistukset"
+
+#: html/unit-state.html:5
+msgid "Message is translated"
 msgstr ""
 
 #: html/admin/custom-index.html:10
@@ -1676,35 +1682,35 @@ msgid ""
 "correctly spaced"
 msgstr ""
 
-#: trans/checks.py:382
+#: trans/checks.py:386
 msgid "Python format"
 msgstr ""
 
-#: trans/checks.py:383 trans/checks.py:396 trans/checks.py:409
+#: trans/checks.py:387 trans/checks.py:400 trans/checks.py:413
 msgid "Format string does not match source"
 msgstr ""
 
-#: trans/checks.py:395
+#: trans/checks.py:399
 msgid "PHP format"
 msgstr ""
 
-#: trans/checks.py:408
+#: trans/checks.py:412
 msgid "C format"
 msgstr ""
 
-#: trans/checks.py:422
+#: trans/checks.py:426
 msgid "Missing plurals"
 msgstr ""
 
-#: trans/checks.py:423
+#: trans/checks.py:427
 msgid "Some plural forms are not translated"
 msgstr ""
 
-#: trans/checks.py:440
+#: trans/checks.py:444
 msgid "Inconsistent"
 msgstr ""
 
-#: trans/checks.py:441
+#: trans/checks.py:445
 msgid "This message has more than one translation in this project"
 msgstr ""
 
@@ -1790,115 +1796,119 @@ msgstr ""
 msgid "Any"
 msgstr ""
 
-#: trans/models.py:53
+#: trans/models.py:54
 #, python-format
 msgid "Bad format string (%s)"
 msgstr ""
 
-#: trans/models.py:165
+#: trans/models.py:166
 msgid "Name to display"
 msgstr ""
 
-#: trans/models.py:166
+#: trans/models.py:167
 msgid "Name used in URLs"
 msgstr ""
 
-#: trans/models.py:170
+#: trans/models.py:171
 msgid "URL of Git repository"
 msgstr ""
 
-#: trans/models.py:174
+#: trans/models.py:175
 msgid "URL of push Git repository"
 msgstr ""
 
-#: trans/models.py:178
+#: trans/models.py:179
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
 
-#: trans/models.py:184
+#: trans/models.py:185
 msgid "Git branch to translate"
 msgstr ""
 
-#: trans/models.py:188
+#: trans/models.py:189
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
 
-#: trans/models.py:193
+#: trans/models.py:194
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:283
+#: trans/models.py:298
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models.py:349
+#: trans/models.py:364
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:370
+#: trans/models.py:385
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:407
+#: trans/models.py:424
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:471
+#: trans/models.py:488
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:476
+#: trans/models.py:493
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:490
+#: trans/models.py:507
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:492
+#: trans/models.py:509
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:500
+#: trans/models.py:517
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:502
+#: trans/models.py:519
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:895
+#: trans/models.py:922
 msgid "All strings"
 msgstr ""
 
-#: trans/models.py:900
+#: trans/models.py:927
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr ""
 
-#: trans/models.py:902
+#: trans/models.py:929
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models.py:904
+#: trans/models.py:931
 #, python-format
 msgid "Strings with suggestions (%d)"
+msgstr ""
+
+#: trans/models.py:1115
+msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
 #: trans/views.py:48
