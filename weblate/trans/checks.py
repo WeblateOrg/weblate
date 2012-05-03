@@ -362,6 +362,9 @@ class EndExclamationCheck(Check):
     description = _('Source and translation do not both end with an exclamation mark or it is not correctly spaced')
 
     def check_single(self, source, target, flags, language, unit):
+        if self.is_language(language, ['eu']):
+            if source[-1] == '!':
+                return '¡' in target and '!' in target
         if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
                 return False
