@@ -51,6 +51,10 @@ On translate page, you are shown source string and edit area for translating.
 Should the translation be plural, multiple source strings and edit areas are
 shown, each described with label for plural form.
 
+Any special whitespace chars are underlined in red and indicated with grey
+symbols. Also more than one space is underlined in red to allow translator to
+keep formatting.
+
 There are various extra information which can be shown on this page. Most of
 them are coming from the project source code (like context, comments or where
 the message is being used). When you configure secondary languages in your
