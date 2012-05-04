@@ -160,3 +160,11 @@ invoke following SQL command to adjust it:
 .. code-block:: sql
 
     ALTER TABLE `trans_subproject` ADD `template` VARCHAR(200);
+
+Migrating from Pootle
+---------------------
+
+As Weblate was originally written as replacement from Pootle, it is supported
+to migrate user accounts from Pootle. All you need to do is to copy
+``auth_user`` table from Pootle, user profiles will be automatically created
+for users as they log in and they will be asked to update their settings.
