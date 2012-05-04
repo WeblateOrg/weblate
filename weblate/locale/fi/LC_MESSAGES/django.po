@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-03 15:25+0200\n"
-"PO-Revision-Date: 2012-04-29 13:08+0200\n"
+"PO-Revision-Date: 2012-05-04 11:53+0200\n"
 "Last-Translator: Mika Suomalainen <mika.henrik.mainio@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -657,23 +657,23 @@ msgstr "Ehdottanut %(user)s"
 
 #: html/translate.html:100
 msgid "Suggested by anonymous user"
-msgstr ""
+msgstr "Ehdottanut tuntematon käyttäjä"
 
 #: html/translate.html:105
 msgid "Accept"
-msgstr ""
+msgstr "Hyväksy"
 
 #: html/translate.html:121
 msgid "Used in"
-msgstr ""
+msgstr "Käytetty"
 
 #: html/translate.html:127
 msgid "Comments"
-msgstr ""
+msgstr "Kommentit"
 
 #: html/translate.html:133
 msgid "Flags"
-msgstr ""
+msgstr "Liput"
 
 #: html/translate.html:143
 #, python-format
@@ -681,78 +681,80 @@ msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
 msgstr ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Kirjaudu sisään</a> "
+"käännösten tallentamista varten."
 
 #: html/translate.html:146
 msgid "Suggest"
-msgstr ""
+msgstr "Ehdota"
 
 #: html/translate.html:152
 msgid "Translation context"
-msgstr ""
+msgstr "Käännöksen sisältö"
 
 #: html/translate.html:156
 msgid "Messages placed around this one"
-msgstr ""
+msgstr "Viestit, jotka ovat tämän ympärillä"
 
 #: html/translate.html:156
 msgid "Nearby messages"
-msgstr ""
+msgstr "Läheiset viestit"
 
 #: html/translate.html:157
 msgid "Similar messages"
-msgstr ""
+msgstr "Samankaltaiset viestit"
 
 #: html/translate.html:158
 msgid "Same message used in different subprojects"
-msgstr ""
+msgstr "Samaa viestiä on käytetty eri aliprojekteissa"
 
 #: html/translate.html:158
 msgid "All locations"
-msgstr ""
+msgstr "Kaikki sijainnit"
 
 #: html/translate.html:159
 msgid "Words extracted from dictionary"
-msgstr ""
+msgstr "Sanakirjasta puretut sanat"
 
 #: html/translate.html:159
 msgid "Words in dictionary"
-msgstr ""
+msgstr "Sanat sanakirjassa"
 
 #: html/translate.html:160
 msgid "List of recent changes done in Weblate"
-msgstr ""
+msgstr "Luettelo viimeaikaisista muutoksista Weblatessa"
 
 #: html/translate.html:160
 msgid "Recent edits"
-msgstr ""
+msgstr "Viimeaikaiset muokkaukset"
 
 #: html/translate.html:161
 msgid "Information about project"
-msgstr ""
+msgstr "Tietoa projektista"
 
 #: html/translate.html:166 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
-msgstr ""
+msgstr "Tila"
 
 #: html/translation.html:19
 msgid "Strings to check"
-msgstr ""
+msgstr "Merkkiketjut tarkistettaviksi"
 
 #: html/translation.html:32 html/translation.html.py:52
 msgid "Search"
-msgstr ""
+msgstr "Etsi"
 
 #: html/translation.html:33
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: html/translation.html:35 html/translation.html.py:75
 msgid "Upload"
-msgstr ""
+msgstr "Lähetä"
 
 #: html/translation.html:42
 msgid "Automatic translation"
-msgstr ""
+msgstr "Automaattinen käännös"
 
 #: html/translation.html:58
 #, python-format
@@ -760,24 +762,29 @@ msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
 "translation."
 msgstr ""
+"Voit <a href=\"%(download_url)s\">ladata</a> tiedoston offline kääntämistä "
+"varten."
 
 #: html/translation.html:65
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
 msgstr ""
+"Lähetetty tiedosto yhdistetään nykyisen käännöksen kanssa. Mikäli tahdot "
+"ylikirjoittaa valmiiksi käännetyt merkkiketjut, älä unohda ottaa sitä "
+"käyttöön."
 
 #: html/translation.html:67
 msgid "Uploaded file will be merged with current translation."
-msgstr ""
+msgstr "Ladattu tiedosto yhdistetään nykyisen käännöksen kanssa."
 
 #: html/translation.html:86
 msgid "Review translations touched by other users."
-msgstr ""
+msgstr "Tarkista käännöksiä, joihin muut käyttäjät ovat koskeneet."
 
 #: html/translation.html:91
 msgid "Start review"
-msgstr ""
+msgstr "Aloita tarkistus"
 
 #: html/translation.html:98
 msgid ""
@@ -785,10 +792,14 @@ msgid ""
 "applies it to the current subproject. It can be used to push translations to "
 "a different branch or to fix inconsistent translations."
 msgstr ""
+"Automaattinen kääntäminen ottaa olemassa olevan käännöksen tästä projektista "
+"ja toteuttaa sen nykyisen aliprojektin kanssa. Sitä voidaan käyttää "
+"käännösten työntämiseen eri haaraan tai virheellisten käännösten "
+"korjaamiseen."
 
 #: html/translation.html:104
 msgid "Process"
-msgstr ""
+msgstr "Edistyminen"
 
 #: html/translation_info.html:8
 #, python-format
@@ -796,92 +807,93 @@ msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
 msgstr ""
+"%(count)s merkkiketjua, joista %(translated)s&#37; ovat käännettyjä ja %"
+"(fuzzy)s&#37; on epäselvää."
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
-msgstr ""
+msgstr "Viesti on epäselvä"
 
 #: html/unit-state.html:4
-#, fuzzy
 msgid "Message has failing checks"
-msgstr "Epäonnistuvat tarkistukset"
+msgstr "Viestillä on epäonnistuvia tarkistuksia"
 
 #: html/unit-state.html:5
 msgid "Message is translated"
-msgstr ""
+msgstr "Viesti on käännetty"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
-msgstr ""
+msgstr "Raportit"
 
 #: html/admin/custom-index.html:14 html/admin/report.html:4
 #: html/admin/report.html.py:13
 msgid "Status of repositories"
-msgstr ""
+msgstr "Ohjelmistolähteiden tilanne"
 
 #: html/admin/report.html:8
 msgid "Status"
-msgstr ""
+msgstr "Tilanne"
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
-msgstr ""
+msgstr "Asiaan liittyviä merkkiketjuja ei löydetty sanakirjasta."
 
 #: html/js/git-status.html:6
 msgid "Commit pending changes"
-msgstr ""
+msgstr "Commitilla on odottavia muutoksia"
 
 #: html/js/git-status.html:6
 msgid "Commit"
-msgstr ""
+msgstr "Commit"
 
 #: html/js/git-status.html:7
 msgid "Pull changes from remote repository"
-msgstr ""
+msgstr "Vedä muutokset etäohjelmistolähteestä"
 
 #: html/js/git-status.html:7
 msgid "Pull"
-msgstr ""
+msgstr "Vedä"
 
 #: html/js/git-status.html:8
 msgid "Push changes to remote repository"
-msgstr ""
+msgstr "Työnnä muutokset etäohjelmistolähteeseen."
 
 #: html/js/git-status.html:8
 msgid "Push"
-msgstr ""
+msgstr "Työnnä"
 
 #: html/js/git-status.html:12
 msgid "There are some not commited changes!"
-msgstr ""
+msgstr "Joitakin committamattomia muutoksia!"
 
 #: html/js/git-status.html:15
 msgid "Remote Git repository needs to be merged!"
-msgstr ""
+msgstr "Etä git ohjelmistolähde täytyy yhdistää!"
 
 #: html/js/git-status.html:18
 msgid "There are some new commits in local Git repository!"
-msgstr ""
+msgstr "Joitakin uusia committeja on paikallisessa Git ohjelmistolähteessä!"
 
 #: html/js/git-status.html:22
 msgid "Details"
-msgstr ""
+msgstr "Lisätiedot"
 
 #: html/js/other.html:17
 msgid "Use this translation for all subprojects"
-msgstr ""
+msgstr "Käytä tätä käännöstä kaikkien aliprojektien kanssa"
 
 #: html/js/other.html:17
 msgid "Use this translation"
-msgstr ""
+msgstr "Käytä tätä käännöstä"
 
 #: html/js/other.html:25
 msgid "No other strings found."
-msgstr ""
+msgstr "Muita merkkiketjuja ei löytynyt."
 
 #: html/js/similar.html:20
 msgid "No similar strings found."
-msgstr ""
+msgstr "Samankaltaisia merkkiketjuja ei löytynyt."
 
 #: html/registration/activate.html:9
 #, python-format
@@ -890,12 +902,15 @@ msgid ""
 "    account is now activated. Your username is \n"
 "    <b>%(username)s</b>."
 msgstr ""
+"Kiitos. Tunnuksesi\n"
+"    on nyt aktivoitu. Käyttäjänimesi on \n"
+"    <b>%(username)s</b>."
 
 #: html/registration/activate.html:15
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr ""
+msgstr "Haluat ehkä <a href=\"%(profile_url)s\">muokata profiilisi</a> nyt."
 
 #: html/registration/activate.html:20
 #, python-format
@@ -916,7 +931,19 @@ msgid_plural ""
 "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
 "    "
 msgstr[0] ""
+"\n"
+"    Tunnustasi ei voitu aktivoita.\n"
+"    Tämä tarkoittaa, että se on ehkä valmiiksi aktivoitu tai odotit yli \n"
+"    %(days)s päivän ennen aktivoimista.\n"
+"    Jos tämä ei ole tilanne, ole hyvä ja ota yhteyttä ylläpitäjään.\n"
+"    Muutoin voit <a href=\"%(reg_url)s\">rekisteröityä uudelleen.</a>\n"
 msgstr[1] ""
+"\n"
+"    Tunnustasi ei voitu aktivoita.\n"
+"    Tämä tarkoittaa, että se on ehkä valmiiksi aktivoitu tai odotit yli \n"
+"    %(days)s päivää ennen aktivoimista.\n"
+"    Jos tämä ei ole tilanne, ole hyvä ja ota yhteyttä ylläpitäjään.\n"
+"    Muutoin voit <a href=\"%(reg_url)s\">rekisteröityä uudelleen.</a>\n"
 
 #: html/registration/activation_email.txt:1
 #, python-format
@@ -930,6 +957,15 @@ msgid ""
 "is split over several lines, you may need to copy it in the\n"
 "address bar."
 msgstr ""
+"Hei,\n"
+"\n"
+"Tämä on automaattinen sähköposti, joka auttaa sinua suorittamaan "
+"rekisteröintisi \n"
+"sivulla %(site_title)s.\n"
+"\n"
+"Ole hyvä ja avaa seuraava linkki verkkoselaimessasi. Mikäli linkki on \n"
+"jakaantunut usealle riville, sinun täytyy mahdollisesti kopioida se \n"
+"osoiteriville."
 
 #: html/registration/activation_email.txt:12
 #, python-format
@@ -941,15 +977,23 @@ msgid ""
 "Best regards,\n"
 "%(site_title)s\n"
 msgstr ""
+"\n"
+"Mikäli rekisteröintisi kanssa on ongelma, ole hyvä ja \n"
+"vastaa tähän sähköpostiin.\n"
+"\n"
+"Ystävällisin terveisin\n"
+"%(site_title)s\n"
 
 #: html/registration/activation_email_subject.txt:1
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr ""
+msgstr "Rekisteröitymisesi palvelussa %(site_title)s"
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
 msgstr ""
+"Tätä käyttäjätunnus/salasana yhdistelmää ei löydetty. Ole hyvä ja yritä "
+"uudelleen."
 
 #: html/registration/login.html:36
 #, python-format
@@ -957,66 +1001,76 @@ msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr ""
+"Eikö sinulla ole vielä tunnusta? Voit <a href=\"%"
+"(register_url)s\">rekisteröityä</a>."
 
 #: html/registration/login.html:41
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
+msgstr "Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
 
 #: html/registration/logout.html:7
 msgid "Thanks for using Weblate!"
-msgstr ""
+msgstr "Kiitos Weblaten käyttämisestä!"
 
 #: html/registration/logout.html:9
 msgid "Log in again"
-msgstr ""
+msgstr "Kirjaudu sisään uudestaan"
 
 #: html/registration/password_change_done.html:6
 msgid "Your password was changed."
-msgstr ""
+msgstr "Salasanasi vaihdettiin."
 
 #: html/registration/password_change_form.html:11
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ole hyvä ja korjaa virhe, joka on alapuolella."
+msgstr[1] "Ole hyvä ja korjaa virheet, jotka ovat alapuolella."
 
 #: html/registration/password_change_form.html:17
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
+"Ole hyvä ja anna vanha salasanasi turvallisuuden vuoksi ja sen jälkeen anna "
+"uusi salasanasi kahdesti, jotta voimme varmistaa, että kirjoitit sen oikein."
 
 #: html/registration/password_change_form.html:22
 #: html/registration/password_reset_confirm.html:14
 msgid "Change my password"
-msgstr ""
+msgstr "Vaihda salasanaani"
 
 #: html/registration/password_reset_complete.html:6
 msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
+msgstr "Salasanasi on asetettu Voit jatkaa ja kirjautua sisään nyt."
 
 #: html/registration/password_reset_complete.html:8
 msgid "Log in"
-msgstr ""
+msgstr "Kirjaudu sisään"
 
 #: html/registration/password_reset_confirm.html:8
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
+"Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa, että kirjoitit sen "
+"oikein."
 
 #: html/registration/password_reset_confirm.html:19
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr ""
+"Salasananpalautuslinkki oli virheellinen, koska se on luultavasti jo "
+"käytetty. Ole hyvä ja pyydä uusi salasananpalautus."
 
 #: html/registration/password_reset_done.html:7
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
 msgstr ""
+"Lähetimme sähköpostilla ohjeet, kuinka voit palauttaa salasanasi, antamaasi "
+"sähköpostiosoitteeseen. Sinun pitäisi vastaanottaa se pian."
 
 #: html/registration/password_reset_email.html:2
 #, python-format
@@ -1024,6 +1078,8 @@ msgid ""
 "You're receiving this e-mail because you requested a password reset for your "
 "user account at %(site_name)s."
 msgstr ""
+"Vastaanotat tämän sähköpostin, koska olet pyytänyt salasananpalautusta "
+"käyttäjätunnuksellesi palvelussa  %(site_name)s."
 
 #: html/registration/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
