@@ -5,6 +5,7 @@ from django.db.models import Sum
 from translate.lang import data
 from django.db.models.signals import post_syncdb
 
+# Extra languages not included in ttkit
 EXTRALANGS = [
     ('ur', 'Urdu', 2, '(n != 1)'),
     ('uz@latin', 'Uzbek (latin)', 1, '0'),
@@ -22,7 +23,7 @@ EXTRALANGS = [
 class LanguageManager(models.Manager):
     def auto_create(self, code):
         '''
-        Autmatically creates new language based on code and best guess
+        Automatically creates new language based on code and best guess
         of parameters.
         '''
         # Create standard language
@@ -152,12 +153,19 @@ class Language(models.Model):
         })
 
     def has_translations(self):
+        '''
+        Checks whether there is a translation existing for this language.
+        '''
         from weblate.trans.models import Translation
         return Translation.objects.filter(language = self).count() > 0
 
     def get_translated_percent(self):
+        '''
+        Returns status of translations in this language.
+        '''
         from weblate.trans.models import Translation
         translations = Translation.objects.filter(language = self).aggregate(Sum('translated'), Sum('total'))
+        # Prevent division by zero on no translations
         if translations['total__sum'] == 0:
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
