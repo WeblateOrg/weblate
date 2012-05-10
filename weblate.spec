@@ -14,7 +14,7 @@ Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       python-django >= 1.3
 Requires:       python-django-registration
-Requires:       python-translate-toolkit
+Requires:       translate-toolkit
 Requires:       python-GitPython >= 0.3
 Requires:       python-whoosh
 %py_requires
