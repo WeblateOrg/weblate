@@ -38,8 +38,14 @@ class Profile(models.Model):
 
 @receiver(user_logged_in)
 def set_lang(sender, **kwargs):
+    '''
+    Signal handler for setting user language and
+    migrating profile if needed.
+    '''
     request = kwargs['request']
     user = kwargs['user']
+
+    # Get or create profile
     try:
         profile = user.get_profile()
     except Profile.DoesNotExist:
@@ -47,6 +53,7 @@ def set_lang(sender, **kwargs):
         if newprofile:
             messages.info(request, gettext('Your profile has been migrated, you might want to adjust preferences.'))
 
+    # Set language for session based on preferences
     lang_code = user.get_profile().language
     request.session['django_language'] = lang_code
 
@@ -71,6 +78,9 @@ post_save.connect(create_profile_callback, sender = User)
 
 
 def create_groups(update, move):
+    '''
+    Creates standard groups and gives them permissions.
+    '''
     group, created = Group.objects.get_or_create(name = 'Users')
     if created or update:
         group.permissions.add(
@@ -109,6 +119,9 @@ def create_groups(update, move):
             u.groups.add(group)
 
 def sync_create_groups(sender, **kwargs):
+    '''
+    Create groups on syncdb.
+    '''
     if sender.__name__ == 'weblate.accounts.models':
         create_groups(False, False)
 

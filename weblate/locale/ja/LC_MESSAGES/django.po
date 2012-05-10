@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-03 15:25+0200\n"
-"PO-Revision-Date: 2012-04-29 11:47+0200\n"
+"PO-Revision-Date: 2012-05-05 11:33+0200\n"
 "Last-Translator: Yuichiro Takahashi <yuichiro@pop07.odn.ne.jp>\n"
 "Language-Team: japanese <jp@li.org>\n"
 "Language: ja\n"
@@ -386,9 +386,8 @@ msgid "Delete"
 msgstr "削除"
 
 #: html/dictionary.html:66
-#, fuzzy
 msgid "No words found!"
-msgstr "他の翻訳が見つかりません。"
+msgstr "単語が見つかりません！"
 
 #: html/dictionary.html:69 html/project.html:36 html/subproject.html:24
 #: html/translation.html:28
@@ -889,13 +888,13 @@ msgid ""
 "Thank you. Your \n"
 "    account is now activated. Your username is \n"
 "    <b>%(username)s</b>."
-msgstr ""
+msgstr "ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は <b>%(username)s</b> です。"
 
 #: html/registration/activate.html:15
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr ""
+msgstr "<a href=\"%(profile_url)s\">個人情報の設定</a>は、すぐにでも行うことができます。"
 
 #: html/registration/activate.html:20
 #, python-format
@@ -916,7 +915,11 @@ msgid_plural ""
 "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
 "    "
 msgstr[0] ""
-msgstr[1] ""
+"\n"
+"あなたのアカウントは認証できませんでした。考えられる理由としては、すでに認証されているか、もしくは認証してから %(days)s "
+"日経過していないのだと思われます。このような状況に当てはまらないのであれば、ウェブサイトの管理者に連絡をするようにしてください。もしくは、再度<a "
+"href=\"%(reg_url)s\">ユーザ登録</a>を行ってみてください。\n"
+"    "
 
 #: html/registration/activation_email.txt:1
 #, python-format
