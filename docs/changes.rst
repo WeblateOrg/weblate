@@ -4,12 +4,7 @@ Changes
 weblate 1.0
 -----------
 
-Relased on ? 2012.
-
-weblate 0.10
------------
-
-Relased on ? 2012.
+Relased on May 10th 2012.
 
 * Improved validation while adding/saving subproject.
 * Experimental support for Android resource files (needs patched ttkit).
