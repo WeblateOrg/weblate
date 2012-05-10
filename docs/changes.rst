@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 1.0
+-----------
+
+Relased on ? 2012.
+
 weblate 0.10
 -----------
 
