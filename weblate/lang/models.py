@@ -18,6 +18,7 @@ EXTRALANGS = [
     ('en_US', 'English (United States)', 2, '(n != 1)'),
     ('nb_NO', 'Norwegian Bokmål', 2, '(n != 1)'),
     ('pt_PT', 'Portuguese (Portugal)', 2, '(n > 1)'),
+    ('ckb', 'Kurdish Sorani', 2, '(n != 1)'),
 ]
 
 class LanguageManager(models.Manager):
