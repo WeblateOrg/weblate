@@ -23,6 +23,10 @@ The ./manage.py is extended with following commands:
 
     Cleanups orphnaed checks and translation suggestions.
 
+.. option:: createadmin
+
+    Creates admin account with pasword admin.
+
 .. option:: loadpo
 
     Reloads translations from disk (eg. in case you did some updates in Git

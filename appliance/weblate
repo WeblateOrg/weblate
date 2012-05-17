@@ -24,7 +24,7 @@ case "$1" in
             su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py syncdb --noinput'
             rc_status -v -r
             echo 'Adding admin user for Weblate'
-            su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py loaddata /usr/share/weblate/initial_data.json'
+            su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py createadmin'
             rc_status -v -r
             
             touch /var/lib/weblate/setup
