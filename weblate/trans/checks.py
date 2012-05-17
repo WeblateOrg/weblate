@@ -125,6 +125,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.CFormatCheck',
     'weblate.trans.checks.PluralsCheck',
     'weblate.trans.checks.ConsistencyCheck',
+    'weblate.trans.checks.DirectionCheck',
 )
 
 class Check(object):
@@ -458,6 +459,22 @@ class ConsistencyCheck(Check):
                 return True
 
         return False
+
+class DirectionCheck(Check):
+    '''
+    Check for text direction values
+    '''
+    check_id = 'direction'
+    name = _('Invalid text direction')
+    description = _('Text direction can be either LTR or RTL')
+
+    def check(self, sources, targets, flags, language, unit):
+        # Is this plural?
+        if len(sources) > 1:
+            return False
+        if not sources[0].lower() in ['ltr', 'rtl']:
+            return False
+        return not targets[0].lower() in ['ltr', 'rtl']
 
 
 # Initialize checks list

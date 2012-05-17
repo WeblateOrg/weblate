@@ -291,5 +291,6 @@ CHECK_LIST = (
     'weblate.trans.checks.CFormatCheck',
     'weblate.trans.checks.PluralsCheck',
     'weblate.trans.checks.ConsistencyCheck',
+    'weblate.trans.checks.DirectionCheck',
 )
 
