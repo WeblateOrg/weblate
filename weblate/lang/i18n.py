@@ -75,6 +75,7 @@ def fake():
     _("Kirghiz")
     _("Korean")
     _("Kurdish")
+    _("Kurdish Sorani")
     _("Lao")
     _("Latvian")
     _("Lingala")
