@@ -5,8 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
 
-from registration.views import activate
-from registration.views import register
+from registration.views import activate, register
 
 from weblate.accounts.forms import RegistrationForm
 
