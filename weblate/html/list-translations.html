@@ -3,7 +3,7 @@
 <table class="sort">
 <thead>
 <tr>
-<th>{% trans "Language" %}</th>
+<th>{% if show_language %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
 <th>{% trans "Fuzzy" %}</th>
 <th>{% trans "Checks" %}</th>
