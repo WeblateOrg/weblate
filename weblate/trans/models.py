@@ -468,6 +468,9 @@ class SubProject(models.Model):
         Parses language code from path.
         '''
         parts = self.filemask.split('*', 1)
+        # No * in mask?
+        if len(parts) == 1:
+            return 'INVALID'
         # Get part matching to first wildcard
         code = path[len(parts[0]):-len(parts[1])].split('/')[0]
         # Remove possible encoding part
