@@ -55,7 +55,7 @@ def validate_repoweb(val):
 
 def validate_filemask(val):
     if not '*' in val:
-        raise ValidationError(_('File mask does not contain *'))
+        raise ValidationError(_('File mask does not contain * as a language placeholder!'))
 
 class Project(models.Model):
     name = models.CharField(max_length = 100)
