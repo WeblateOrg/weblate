@@ -801,10 +801,15 @@ class Translation(models.Model):
         '''
         Commits translation to git.
         '''
+        msg = settings.COMMIT_MESSAGE % {
+            'language': self.language.code,
+            'subproject': self.subproject.name,
+            'project': self.subproject.project.name,
+        }
         gitrepo.git.commit(
             self.filename,
             author = author.encode('utf-8'),
-            m = settings.COMMIT_MESSAGE
+            m = msg
             )
         if sync:
             self.store_hash()
