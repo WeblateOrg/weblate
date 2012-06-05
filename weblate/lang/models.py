@@ -35,9 +35,12 @@ class LanguageManager(models.Manager):
             pluralequation = '(n != 1)',
         )
         # In case this is just a different variant of known language, get params from that
-        if '_' in code:
+        if '_' in code or '-' in code:
+            parts = code.split('_')
+            if len(parts) == 1:
+                parts = code.split('-')
             try:
-                baselang = Language.objects.get(code = code.split('_')[0])
+                baselang = Language.objects.get(code = parts[0])
                 lang.name = '%s (generated - %s)' % (
                     baselang.name,
                     code,
