@@ -53,6 +53,10 @@ def validate_repoweb(val):
     except Exception, e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
+def validate_filemask(val):
+    if not '*' in val:
+        raise ValidationError(_('File mask does not contain *'))
+
 class Project(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
@@ -186,6 +190,7 @@ class SubProject(models.Model):
     )
     filemask = models.CharField(
         max_length = 200,
+        validators = [validate_filemask],
         help_text = _('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po')
     )
     template = models.CharField(
