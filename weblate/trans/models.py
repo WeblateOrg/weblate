@@ -259,6 +259,8 @@ class SubProject(models.Model):
         '''
         Returns full path to subproject git repository.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().get_path()
         return os.path.join(self.project.get_path(), self.slug)
 
     def get_lock_path(self):
