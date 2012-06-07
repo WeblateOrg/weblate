@@ -69,7 +69,7 @@ def get_linked_repo(val):
     '''
     if not is_repo_link(val):
         return None
-    project, subproject = self.repo[10:].split('/', 1)
+    project, subproject = val[10:].split('/', 1)
     return SubProject.objects.get(slug = subproject, project__slug = project)
 
 def validate_repo(val):
