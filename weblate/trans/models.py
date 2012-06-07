@@ -539,6 +539,8 @@ class SubProject(models.Model):
         '''
         Brings git repo in sync with current model.
         '''
+        if self.is_repo_link():
+            return
         self.configure_repo(validate)
         self.configure_branch()
         self.commit_pending()
