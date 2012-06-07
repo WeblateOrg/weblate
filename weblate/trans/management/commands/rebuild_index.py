@@ -5,7 +5,7 @@ from weblate.trans.search import FULLTEXT_INDEX, create_source_index, create_tar
 from optparse import make_option
 
 class Command(UnitCommand):
-    help = 'updates index for fulltext search'
+    help = 'rebuilds index for fulltext search'
     option_list = UnitCommand.option_list + (
         make_option('--clean',
             action='store_true',
