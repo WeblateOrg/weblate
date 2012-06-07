@@ -417,6 +417,10 @@ class SubProject(models.Model):
             messages.error(request, _('Push is disabled for %s.') % self.__unicode__())
             return False
 
+        # Do we have anything to push?
+        if not self.git_needs_push():
+            return False
+
         # First check we're up to date
         if not self.do_update(request):
             return False
