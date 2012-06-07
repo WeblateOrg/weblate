@@ -450,6 +450,11 @@ class SubProject(models.Model):
         for translation in self.translation_set.all():
             translation.commit_pending()
 
+        # Process linked projects
+        for sp in SubProject.objects.filter(repo = 'weblate://%s/%s' % (self.project.slug, self.slug)):
+            for translation in sp.translation_set.all():
+                translation.commit_pending()
+
     def update_branch(self, request = None):
         '''
         Updates current branch to match remote (if possible).
