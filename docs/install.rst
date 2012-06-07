@@ -14,7 +14,7 @@ Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
 GitPython (>= 0.3)
     https://github.com/gitpython-developers/GitPython
-Django-registration
+Django-registration (<= 0.7, 0.8 won't work)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
     http://bitbucket.org/mchaput/whoosh/
