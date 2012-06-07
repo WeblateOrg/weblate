@@ -1,6 +1,6 @@
 
 from django.core.management.base import BaseCommand
-from weblate.trans.models import IndexUpdate
+from weblate.trans.models import IndexUpdate, Unit
 from weblate.lang.models import Language
 from weblate.trans.search import FULLTEXT_INDEX, create_source_index, create_target_index
 from optparse import make_option
