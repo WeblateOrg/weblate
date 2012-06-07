@@ -552,40 +552,44 @@ class SubProject(models.Model):
         Then it checks them for validity.
         '''
         self.sync_git_repo(True)
-        matches = self.get_mask_matches()
-        if len(matches) == 0:
-            raise ValidationError(_('The mask did not match any files!'))
-        langs = {}
-        for match in matches:
-            code = self.get_lang_code(match)
-            if code in langs:
-                raise ValidationError(_('There are more files for single language, please adjust the mask and use subprojects for translating different resources.'))
-            langs[code] = match
+        try:
+            matches = self.get_mask_matches()
+            if len(matches) == 0:
+                raise ValidationError(_('The mask did not match any files!'))
+            langs = {}
+            for match in matches:
+                code = self.get_lang_code(match)
+                if code in langs:
+                    raise ValidationError(_('There are more files for single language, please adjust the mask and use subprojects for translating different resources.'))
+                langs[code] = match
 
-        # Try parsing files
-        notrecognized = []
-        errors = []
-        for match in matches:
-            try:
-                ttkit(os.path.join(self.get_path(), match))
-            except ValueError:
-                notrecognized.append(match)
-            except Exception, e:
-                errors.append(str(e))
-        if len(notrecognized) > 0:
-            raise ValidationError(_('Format of %d matched files could not be recognized.') % len(notrecognized))
-        if len(errors) > 0:
-            raise ValidationError(_('Failed to parse %d matched files!') % len(errors))
+            # Try parsing files
+            notrecognized = []
+            errors = []
+            for match in matches:
+                try:
+                    ttkit(os.path.join(self.get_path(), match))
+                except ValueError:
+                    notrecognized.append(match)
+                except Exception, e:
+                    errors.append(str(e))
+            if len(notrecognized) > 0:
+                raise ValidationError(_('Format of %d matched files could not be recognized.') % len(notrecognized))
+            if len(errors) > 0:
+                raise ValidationError(_('Failed to parse %d matched files!') % len(errors))
 
-        # Validate template
-        if self.template != '':
-            template = os.path.join(self.get_path(), self.template)
-            try:
-                ttkit(os.path.join(self.get_path(), match))
-            except ValueError:
-                raise ValidationError(_('Format of translation template could not be recognized.'))
-            except Exception, e:
-                raise ValidationError(_('Failed to parse translation template.'))
+            # Validate template
+            if self.template != '':
+                template = os.path.join(self.get_path(), self.template)
+                try:
+                    ttkit(os.path.join(self.get_path(), match))
+                except ValueError:
+                    raise ValidationError(_('Format of translation template could not be recognized.'))
+                except Exception, e:
+                    raise ValidationError(_('Failed to parse translation template.'))
+        except SubProject.DoesNotExist:
+            # Happens with invalid link
+            pass
 
     def save(self, *args, **kwargs):
         '''
