@@ -323,6 +323,8 @@ class SubProject(models.Model):
         '''
         Pulls from remote repository.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().pull_repo(validate, gitrepo)
         if gitrepo is None:
             gitrepo = self.get_repo()
         # Update
@@ -344,6 +346,8 @@ class SubProject(models.Model):
         '''
         Ensures repository is correctly configured and points to current remote.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().configure_repo(validate)
         # Create/Open repo
         gitrepo = self.get_repo()
         # Get/Create origin remote
@@ -371,6 +375,8 @@ class SubProject(models.Model):
         '''
         Ensures local tracking branch exists and is checkouted.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().configure_branch()
         gitrepo = self.get_repo()
 
         # create branch if it does not exist
@@ -387,6 +393,8 @@ class SubProject(models.Model):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().do_update(request)
         # commit possible pending changes
         self.commit_pending()
 
@@ -402,6 +410,8 @@ class SubProject(models.Model):
         '''
         Wrapper for pushing changes to remote repo.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().do_push(request)
         # Do we have push configured
         if not self.can_push():
             messages.error(request, _('Push is disabled for %s.') % self.__unicode__())
@@ -434,6 +444,9 @@ class SubProject(models.Model):
         '''
         Checks whether there is any translation which needs commit.
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().commit_pending()
+
         for translation in self.translation_set.all():
             translation.commit_pending()
 
@@ -441,6 +454,9 @@ class SubProject(models.Model):
         '''
         Updates current branch to match remote (if possible).
         '''
+        if self.is_repo_link():
+            return self.get_linked_repo().update_branch(request)
+
         gitrepo = self.get_repo()
         # Update remote repo
         self.pull_repo(False, gitrepo)
