@@ -6,6 +6,10 @@ weblate 1.1
 
 Relased on ? 2012.
 
+* Improved several translations.
+* Better validation while creating subproject.
+* Added support for shared git repositories across subprojects.
+
 weblate 1.0
 -----------
 
