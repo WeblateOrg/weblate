@@ -395,6 +395,10 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.get_linked_repo().do_update(request)
+
+        # pull remote
+        self.pull_repo()
+
         # commit possible pending changes
         self.commit_pending()
 
@@ -467,8 +471,6 @@ class SubProject(models.Model):
             return self.get_linked_repo().update_branch(request)
 
         gitrepo = self.get_repo()
-        # Update remote repo
-        self.pull_repo(False, gitrepo)
 
         # Merge with lock acquired
         with self.get_lock():
@@ -548,6 +550,7 @@ class SubProject(models.Model):
         self.configure_repo(validate)
         self.configure_branch()
         self.commit_pending()
+        self.pull_repo()
         self.update_branch()
 
     def clean(self):
