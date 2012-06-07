@@ -10,6 +10,7 @@ Relased on ? 2012.
 * Better validation while creating subproject.
 * Added support for shared git repositories across subprojects.
 * Do not necessary commit on every attempt to pull remote repo.
+* Added support for offloading indexing.
 
 weblate 1.0
 -----------
