@@ -57,6 +57,27 @@ def validate_filemask(val):
     if not '*' in val:
         raise ValidationError(_('File mask does not contain * as a language placeholder!'))
 
+def is_repo_link(val):
+    '''
+    Checks whethere repository is just a link for other one.
+    '''
+    return val.startswith('weblate://')
+
+def get_linked_repo(val):
+    '''
+    Returns subproject for linked repo.
+    '''
+    if not is_repo_link(val):
+        return None
+    project, subproject = self.repo[10:].split('/', 1)
+    return SubProject.objects.get(slug = subproject, project__slug = project)
+
+def validate_repo(val):
+    try:
+        get_linked_repo(val)
+    except:
+        raise ValidationError(_('Invalid link to repository!'))
+
 class Project(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
@@ -172,7 +193,8 @@ class SubProject(models.Model):
     project = models.ForeignKey(Project)
     repo = models.CharField(
         max_length = 200,
-        help_text = _('URL of Git repository')
+        help_text = _('URL of Git repository'),
+        validators = [validate_repo],
     )
     push = models.CharField(
         max_length = 200,
@@ -258,6 +280,18 @@ class SubProject(models.Model):
         Returns true if push is possible for this subproject.
         '''
         return self.push != '' and self.push is not None
+
+    def is_repo_link(self):
+        '''
+        Checks whethere repository is just a link for other one.
+        '''
+        return is_repo_link(self.repo)
+
+    def get_linked_repo(self):
+        '''
+        Returns subproject for linked repo.
+        '''
+        return get_linked_repo(self.repo)
 
     def get_repo(self):
         '''
