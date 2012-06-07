@@ -261,6 +261,7 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.get_linked_repo().get_path()
+
         return os.path.join(self.project.get_path(), self.slug)
 
     def get_lock_path(self):
@@ -311,8 +312,10 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.get_linked_repo().get_repoweb_link(filename, line)
+
         if self.repoweb == '' or self.repoweb is None:
             return None
+
         return self.repoweb % {
             'file': filename,
             'line': line,
@@ -325,8 +328,10 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.get_linked_repo().pull_repo(validate, gitrepo)
+
         if gitrepo is None:
             gitrepo = self.get_repo()
+
         # Update
         logger.info('updating repo %s', self.__unicode__())
         try:
@@ -377,6 +382,7 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.get_linked_repo().configure_branch()
+
         gitrepo = self.get_repo()
 
         # create branch if it does not exist
@@ -420,6 +426,7 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.get_linked_repo().do_push(request)
+
         # Do we have push configured
         if not self.can_push():
             messages.error(request, _('Push is disabled for %s.') % self.__unicode__())
