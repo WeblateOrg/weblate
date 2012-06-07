@@ -39,6 +39,13 @@ The ./manage.py is extended with following commands:
 
     You can use ``--clean`` to remove all words from database prior updating.
 
+.. option:: update_index
+
+    Updates index for fulltext search when :envvar:`OFFLOAD_INDEXING` is enabled.
+
+    It is recommended to run this frequently (eg. every 5 minutes) to have index
+    uptodate.
+
 .. option:: setupgroups
 
     Configures default groups and (if called with ``--move``) assigns all users
