@@ -275,6 +275,9 @@ SIMILAR_MESSAGES = 5
 # Enable lazy commits
 LAZY_COMMITS = True
 
+# Offload indexing
+OFFLOAD_INDEXING = False
+
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 

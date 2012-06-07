@@ -55,6 +55,17 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     How many messages around current one to show during translating.
 
+.. envvar:: OFFLOAD_INDEXING
+    
+    Offload updating of fulltext index to separate process. This heavily
+    improves responsiveness of online operation on expense of slightly
+    outdated index, which might still point to older content.
+
+    While enabling this, don't forget scheduling runs of 
+    :program:`./manage.py update_index` in cron or similar tool.
+
+    This is recommended setup for production use.
+
 .. envvar:: SIMILAR_MESSAGES
 
     Number of similar messages to lookup. This is not a hard limit, just a

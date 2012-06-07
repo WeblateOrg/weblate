@@ -1425,3 +1425,6 @@ class Change(models.Model):
             self.timestamp,
             self.user,
         )
+
+class IndexUpdate(models.Model):
+    unit = models.ForeignKey(Unit)

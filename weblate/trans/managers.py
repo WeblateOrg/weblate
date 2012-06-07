@@ -193,6 +193,11 @@ class UnitManager(models.Manager):
         '''
         Updates/Adds to all indices given unit.
         '''
+        if settings.OFFLOAD_INDEXING:
+            from weblate.trans.models import IndexUpdate
+            IndexUpdate.objects.get_or_create(unit = unit)
+            return
+
         writer_target = FULLTEXT_INDEX.target_writer(unit.translation.language.code)
         writer_source = FULLTEXT_INDEX.source_writer()
 
