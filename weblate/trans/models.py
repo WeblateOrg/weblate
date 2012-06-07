@@ -399,6 +399,10 @@ class SubProject(models.Model):
         # pull remote
         self.pull_repo()
 
+        # do we have something to merge?
+        if not self.git_needs_pull():
+            return True
+
         # commit possible pending changes
         self.commit_pending()
 
