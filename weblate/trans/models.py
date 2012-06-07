@@ -193,7 +193,7 @@ class SubProject(models.Model):
     project = models.ForeignKey(Project)
     repo = models.CharField(
         max_length = 200,
-        help_text = _('URL of Git repository'),
+        help_text = _('URL of Git repository, use weblate://project/subproject for sharing with other subproject'),
         validators = [validate_repo],
     )
     push = models.CharField(

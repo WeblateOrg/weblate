@@ -57,6 +57,9 @@ getting translations out of it:
 
 Repo
     Git repository used to pull changes.
+
+    This can be either real Git URL or ``weblate://project/subproject``
+    indicating that Git repository should be shared with another subproject.
 Push
     Git URL used for pushing, this is completely optional and push support will
     be disabled when this is empty.
