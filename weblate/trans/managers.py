@@ -189,14 +189,12 @@ class UnitManager(models.Manager):
             target = unicode(target),
         )
 
-    def add_to_index(self, unit, writer_target = None, writer_source = None):
+    def add_to_index(self, unit):
         '''
         Updates/Adds to all indices given unit.
         '''
-        if writer_target is None:
-            writer_target = FULLTEXT_INDEX.target_writer(unit.translation.language.code)
-        if writer_source is None:
-            writer_source = FULLTEXT_INDEX.source_writer()
+        writer_target = FULLTEXT_INDEX.target_writer(unit.translation.language.code)
+        writer_source = FULLTEXT_INDEX.source_writer()
 
         self.add_to_source_index(
             unit.checksum,
