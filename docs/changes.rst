@@ -9,6 +9,7 @@ Relased on ? 2012.
 * Improved several translations.
 * Better validation while creating subproject.
 * Added support for shared git repositories across subprojects.
+* Do not necessary commit on every attempt to pull remote repo.
 
 weblate 1.0
 -----------
