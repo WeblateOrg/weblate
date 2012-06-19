@@ -21,7 +21,7 @@ admin.site.index_template = 'admin/custom-index.html'
 
 urlpatterns = patterns('',
     url(r'^$', 'weblate.trans.views.home'),
-    url(r'^projects/$', 'django.views.generic.simple.redirect_to', {'url': '/'}),
+    url(r'^projects/$', 'django.views.generic.base.RedirectView', {'url': '/'}),
     url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
 
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.show_dictionaries'),
