@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
+from django.views.generic import RedirectView
 
 from registration.views import activate, register
 
@@ -21,7 +22,7 @@ admin.site.index_template = 'admin/custom-index.html'
 
 urlpatterns = patterns('',
     url(r'^$', 'weblate.trans.views.home'),
-    url(r'^projects/$', 'django.views.generic.base.RedirectView', {'url': '/'}),
+    url(r'^projects/$', RedirectView.as_view(url = '/')),
     url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
 
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.show_dictionaries'),
