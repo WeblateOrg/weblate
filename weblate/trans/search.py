@@ -100,16 +100,20 @@ class Index(object):
             self._target_writer[lang] = BufferedWriter(self.target(lang))
         return self._target_writer[lang]
 
-    def source_searcher(self):
+    def source_searcher(self, buffered = True):
         '''
         Returns source index searcher (on buffered writer).
         '''
-        return self.source_writer().searcher()
+        if not buffered:
+            return self.source().searcher()
+        return self.source_writer(buffered).searcher()
 
-    def target_searcher(self, lang):
+    def target_searcher(self, lang, buffered = True):
         '''
         Returns target index searcher (on buffered writer) for given language.
         '''
-        return self.target_writer(lang).searcher()
+        if not buffered:
+            return self.target(lang).searcher()
+        return self.target_writer(lang, buffered).searcher()
 
 FULLTEXT_INDEX = Index()
