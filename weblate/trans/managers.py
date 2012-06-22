@@ -228,7 +228,7 @@ class UnitManager(models.Manager):
         '''
         ret = set()
         if source or context:
-            with FULLTEXT_INDEX.source_searcher() as searcher:
+            with FULLTEXT_INDEX.source_searcher(not settings.OFFLOAD_INDEXING) as searcher:
                 if source:
                     ret = ret.union(self.__search(searcher, 'source', SOURCE_SCHEMA, query))
                 if context:
@@ -236,7 +236,7 @@ class UnitManager(models.Manager):
 
         if translation:
             sample = self.all()[0]
-            with FULLTEXT_INDEX.target_searcher(sample.translation.language.code) as searcher:
+            with FULLTEXT_INDEX.target_searcher(sample.translation.language.code, not settings.OFFLOAD_INDEXING) as searcher:
                 ret = ret.union(self.__search(searcher, 'target', TARGET_SCHEMA, query))
 
         if checksums:
