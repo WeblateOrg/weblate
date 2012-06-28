@@ -53,10 +53,7 @@ class LanguageManager(models.Manager):
                 parts = code.split('-')
             try:
                 baselang = Language.objects.get(code = parts[0])
-                lang.name = '%s (generated - %s)' % (
-                    baselang.name,
-                    code,
-                )
+                lang.name = baselang.name
                 lang.nplurals = baselang.nplurals
                 lang.pluralequation = baselang.pluralequation
                 lang.save()
@@ -148,6 +145,8 @@ class Language(models.Model):
         ordering = ['name']
 
     def __unicode__(self):
+        if '_' in self.code or '-' in self.code:
+            return '%s (%s)' % (_(self.name), self.code)
         return _(self.name)
 
     def get_plural_form(self):
