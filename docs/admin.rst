@@ -82,6 +82,19 @@ Filemask
     :envvar:`GIT_ROOT` in :file:`settings.py` in :file:`<project>/<subproject>`
     directories.
 
+.. _autocreate:
+
+Automatic creation of subprojects
+---------------------------------
+
+In case you have project with dozen of po files, you might want to import all
+at once. This can be achieved using :command:`manage.py import_project`.
+
+First you need to create project which will contain all subprojects and then
+it's just a matter of running :command:`manage.py import_project`.
+
+.. seealso:: :ref:`manage`
+
 Updating repositories
 ---------------------
 

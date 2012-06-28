@@ -1,3 +1,5 @@
+.. _manage:
+
 Management commands
 -------------------
 
@@ -26,6 +28,26 @@ The ./manage.py is extended with following commands:
 .. option:: createadmin
 
     Creates admin account with pasword admin.
+
+.. option:: import_project <project> <gitrepo> <branch> <filemask>
+
+    Imports subprojects into project based on filemask.
+
+    The `<project>` defines into which project subprojects should be imported
+    (needs to exists).
+
+    The `<gitrepo>` defines URL of Git repository to use, `<branch>` which
+    branch to use.
+
+    List of subprojects to create are automatically obtained from `<filemask>`
+    - it has to contains one double wildcard (`**`), which is replacement for
+    subproject.
+
+    For example:
+
+    .. code-block:: sh
+
+        ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
 
 .. option:: loadpo
 
