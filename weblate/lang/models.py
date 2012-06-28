@@ -38,7 +38,7 @@ class LanguageManager(models.Manager):
         if '-' in code:
             try:
                 baselang = Language.objects.get(code = code.replace('-', '_'))
-                lang.name = '%s (generated - %s)' % (
+                lang.name = '%s' % (
                     baselang.name,
                     code,
                 )
