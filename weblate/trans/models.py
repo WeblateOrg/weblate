@@ -373,7 +373,6 @@ class SubProject(models.Model):
             gitrepo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
         self.pull_repo(validate, gitrepo)
-        del gitrepo
 
 
     def configure_branch(self):
@@ -391,9 +390,6 @@ class SubProject(models.Model):
 
         # switch to correct branch
         gitrepo.git.checkout(self.branch)
-
-        # force cleanup
-        del gitrepo
 
     def do_update(self, request = None):
         '''
@@ -456,8 +452,6 @@ class SubProject(models.Model):
             if request is not None:
                 messages.error(request, _('Failed to push to remote branch on %s.') % self.__unicode__())
             return False
-        finally:
-            del gitrepo
 
     def commit_pending(self):
         '''
@@ -504,8 +498,6 @@ class SubProject(models.Model):
                 if request is not None:
                     messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
                 return False
-            finally:
-                del gitrepo
 
     def get_mask_matches(self):
         '''
@@ -529,7 +521,6 @@ class SubProject(models.Model):
                 filename,
                 tree[filename].hexsha
                 )
-        del gitrepo
 
     def create_translations(self, force = False):
         '''
@@ -649,7 +640,6 @@ class SubProject(models.Model):
         if gitrepo is None:
             gitrepo = self.get_repo()
         status = gitrepo.git.log(revision)
-        del gitrepo
         if status == '':
             # No changes to merge
             return False
@@ -834,7 +824,6 @@ class Translation(models.Model):
         gitrepo = self.get_repo()
         tree = gitrepo.tree()
         ret = tree[self.filename].hexsha
-        del gitrepo
         return ret
 
     def update_stats(self, blob_hash = None):
@@ -950,7 +939,6 @@ class Translation(models.Model):
             # so we will sleep a bit an retry
             time.sleep(random.random() * 2)
             self.__git_commit(gitrepo, author, sync)
-        del gitrepo
         return True
 
     def update_unit(self, unit, request):
