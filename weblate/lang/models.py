@@ -148,6 +148,8 @@ class Language(models.Model):
         ordering = ['name']
 
     def __unicode__(self):
+        if '_' in self.code or '-' in self.code:
+            return '%s (%s)' % (_(self.name), self.code)
         return _(self.name)
 
     def get_plural_form(self):
