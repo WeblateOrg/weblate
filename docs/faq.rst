@@ -45,3 +45,17 @@ Does Weblate support other VCS than Git?
 
 Not currently. Weblate requires distributed VCS and could be probably adjusted
 to work with anything else than Git, but somebody has to implement this support.
+
+Why does Weblate force to have show all po files in single tree?
+----------------------------------------------------------------
+
+Weblate was designed in a way that every po file is represented as single
+subproject. This is beneficial for translators, that they know what they are
+actually translating. If you feel your project should be translated as one,
+consider merging these po files. It will make life easier even for translators
+not using Weblate.
+
+.. note::
+
+    In case there will be big demand for this feature, it might be implemented
+    in future versions, but it's definitely not a priority for now.
