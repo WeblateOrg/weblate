@@ -777,7 +777,11 @@ class Translation(models.Model):
         if self.revision == blob_hash and not force:
             return
 
-        logger.info('processing %s, revision has changed', self.filename)
+        logger.info(
+            'processing %s in %s, revision has changed',
+            self.filename,
+            self.subproject.__unicode__()
+        )
 
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
 
