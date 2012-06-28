@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-04 15:46+0200\n"
+"POT-Creation-Date: 2012-06-28 09:25+0200\n"
 "PO-Revision-Date: 2012-05-17 14:16+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.0\n"
 
-#: urls.py:85 urls.py:91
+#: urls.py:86 urls.py:92
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: urls.py:96
+#: urls.py:97
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:102 html/base.html:47 html/registration/login.html:30
+#: urls.py:103 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: urls.py:109
+#: urls.py:110
 msgid "Logged out"
 msgstr "Odhlášen"
 
-#: urls.py:114
+#: urls.py:115
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: urls.py:118
+#: urls.py:119
 msgid "Password changed"
 msgstr "Heslo bylo změněno"
 
-#: urls.py:122 urls.py:126 urls.py:130 urls.py:134
+#: urls.py:123 urls.py:127 urls.py:131 urls.py:135
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -1665,15 +1665,15 @@ msgstr "jorubština"
 msgid "Zulu"
 msgstr "zulština"
 
-#: lang/models.py:145
+#: lang/models.py:148
 msgid "Singular"
 msgstr "Jednotné číslo"
 
-#: lang/models.py:147
+#: lang/models.py:150
 msgid "Plural"
 msgstr "Množné číslo"
 
-#: lang/models.py:148
+#: lang/models.py:151
 #, python-format
 msgid "Plural form %d"
 msgstr "Množný tvar %d"
@@ -1882,23 +1882,34 @@ msgstr "Jakékoliv"
 msgid "Bad format string (%s)"
 msgstr "Chybný formátovací řetězec (%s)"
 
-#: trans/models.py:166
+#: trans/models.py:58
+msgid "File mask does not contain * as a language placeholder!"
+msgstr ""
+
+#: trans/models.py:79
+#, fuzzy
+msgid "Invalid link to repository!"
+msgstr "Git repozitář:"
+
+#: trans/models.py:191
 msgid "Name to display"
 msgstr "Zobrazené jméno"
 
-#: trans/models.py:167
+#: trans/models.py:192
 msgid "Name used in URLs"
 msgstr "Jméno použité v URL"
 
-#: trans/models.py:171
-msgid "URL of Git repository"
-msgstr "URL Git repozitáře"
+#: trans/models.py:196
+msgid ""
+"URL of Git repository, use weblate://project/subproject for sharing with "
+"other subproject"
+msgstr ""
 
-#: trans/models.py:175
+#: trans/models.py:201
 msgid "URL of push Git repository"
 msgstr "URL pro odesílání do Git repozitáře"
 
-#: trans/models.py:179
+#: trans/models.py:205
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1907,11 +1918,11 @@ msgstr ""
 "Odkaz na prohlížení Gitu, použijte %(branch)s místo větve, %(file)s a "
 "%(line)s místo jména souboru a řádky"
 
-#: trans/models.py:185
+#: trans/models.py:211
 msgid "Git branch to translate"
 msgstr "Větev Gitu k překladu"
 
-#: trans/models.py:189
+#: trans/models.py:216
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -1919,7 +1930,7 @@ msgstr ""
 "Cesta souborů k překladu, použijte * místo kódu jazyka, například: po/*.po "
 "nebo locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:194
+#: trans/models.py:221
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -1927,31 +1938,31 @@ msgstr ""
 "Jméno souboru s šablonou překladu, toto je potřeba jen pro překlady, které "
 "ukládají jen přeložené řetězce jako například překlady pro Android"
 
-#: trans/models.py:298
+#: trans/models.py:348
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Nepodařilo se stáhnout Git repozitář: %s"
 
-#: trans/models.py:364
+#: trans/models.py:428
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: trans/models.py:385
+#: trans/models.py:453
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nepodařilo se odeslat do vzdálené větve %s."
 
-#: trans/models.py:424
+#: trans/models.py:499
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: trans/models.py:488
+#: trans/models.py:567
 msgid "The mask did not match any files!"
 msgstr "Masce neodpovídají žádné soubory!"
 
-#: trans/models.py:493
+#: trans/models.py:572
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1959,44 +1970,44 @@ msgstr ""
 "Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
 "podprojekty pro překládání různých souborů."
 
-#: trans/models.py:507
+#: trans/models.py:586
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát %d souborů."
 
-#: trans/models.py:509
+#: trans/models.py:588
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nepodařilo ze zpracovat %d souborů!"
 
-#: trans/models.py:517
+#: trans/models.py:596
 msgid "Format of translation template could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát šablony překladů."
 
-#: trans/models.py:519
+#: trans/models.py:598
 msgid "Failed to parse translation template."
 msgstr "Nepodařilo se zpracovat šablonu překladů."
 
-#: trans/models.py:922
+#: trans/models.py:1010
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:927
+#: trans/models.py:1015
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:929
+#: trans/models.py:1017
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:931
+#: trans/models.py:1019
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models.py:1115
+#: trans/models.py:1203
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
@@ -2117,6 +2128,9 @@ msgstr "Selhalo sloučení obsahu souborů: %s"
 #: trans/views.py:955
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
+
+#~ msgid "URL of Git repository"
+#~ msgstr "URL Git repozitáře"
 
 #~ msgid "Actions"
 #~ msgstr "Akce"

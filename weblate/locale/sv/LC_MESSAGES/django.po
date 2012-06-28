@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: iso_639 0.37\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-04 15:46+0200\n"
+"POT-Creation-Date: 2012-06-28 09:25+0200\n"
 "PO-Revision-Date: 2012-04-26 16:53+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 0.10\n"
 
-#: urls.py:85 urls.py:91
+#: urls.py:86 urls.py:92
 msgid "User registration"
 msgstr "Användarregistrering"
 
-#: urls.py:96
+#: urls.py:97
 msgid "Account activation"
 msgstr "Kontoaktivering"
 
-#: urls.py:102 html/base.html:47 html/registration/login.html:30
+#: urls.py:103 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Logga in"
 
-#: urls.py:109
+#: urls.py:110
 msgid "Logged out"
 msgstr "Utloggad"
 
-#: urls.py:114
+#: urls.py:115
 msgid "Change password"
 msgstr "Byt lösenord"
 
-#: urls.py:118
+#: urls.py:119
 msgid "Password changed"
 msgstr "Lösenordet ändrades"
 
-#: urls.py:122 urls.py:126 urls.py:130 urls.py:134
+#: urls.py:123 urls.py:127 urls.py:131 urls.py:135
 msgid "Password reset"
 msgstr "Nollställ lösenord"
 
@@ -1590,15 +1590,15 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: lang/models.py:145
+#: lang/models.py:148
 msgid "Singular"
 msgstr "Singular"
 
-#: lang/models.py:147
+#: lang/models.py:150
 msgid "Plural"
 msgstr "Plural"
 
-#: lang/models.py:148
+#: lang/models.py:151
 #, python-format
 msgid "Plural form %d"
 msgstr "Pluralform %d"
@@ -1807,113 +1807,124 @@ msgstr ""
 msgid "Bad format string (%s)"
 msgstr ""
 
-#: trans/models.py:166
+#: trans/models.py:58
+msgid "File mask does not contain * as a language placeholder!"
+msgstr ""
+
+#: trans/models.py:79
+#, fuzzy
+msgid "Invalid link to repository!"
+msgstr "Git-förråd:"
+
+#: trans/models.py:191
 msgid "Name to display"
 msgstr ""
 
-#: trans/models.py:167
+#: trans/models.py:192
 msgid "Name used in URLs"
 msgstr ""
 
-#: trans/models.py:171
-msgid "URL of Git repository"
+#: trans/models.py:196
+msgid ""
+"URL of Git repository, use weblate://project/subproject for sharing with "
+"other subproject"
 msgstr ""
 
-#: trans/models.py:175
+#: trans/models.py:201
 msgid "URL of push Git repository"
 msgstr ""
 
-#: trans/models.py:179
+#: trans/models.py:205
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
 
-#: trans/models.py:185
+#: trans/models.py:211
 msgid "Git branch to translate"
 msgstr ""
 
-#: trans/models.py:189
+#: trans/models.py:216
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
 
-#: trans/models.py:194
+#: trans/models.py:221
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:298
+#: trans/models.py:348
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models.py:364
+#: trans/models.py:428
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:385
+#: trans/models.py:453
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:424
+#: trans/models.py:499
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:488
+#: trans/models.py:567
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:493
+#: trans/models.py:572
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:507
+#: trans/models.py:586
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:509
+#: trans/models.py:588
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:517
+#: trans/models.py:596
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:519
+#: trans/models.py:598
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:922
+#: trans/models.py:1010
 msgid "All strings"
 msgstr ""
 
-#: trans/models.py:927
+#: trans/models.py:1015
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr ""
 
-#: trans/models.py:929
+#: trans/models.py:1017
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models.py:931
+#: trans/models.py:1019
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/models.py:1115
+#: trans/models.py:1203
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 

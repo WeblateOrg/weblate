@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-04 15:46+0200\n"
+"POT-Creation-Date: 2012-06-28 09:25+0200\n"
 "PO-Revision-Date: 2012-04-18 19:01+0200\n"
 "Last-Translator: Claudio F Filho <filhocf@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Weblate 0.9\n"
 
-#: urls.py:85 urls.py:91
+#: urls.py:86 urls.py:92
 msgid "User registration"
 msgstr "Registro de usuario"
 
-#: urls.py:96
+#: urls.py:97
 msgid "Account activation"
 msgstr "Ativação de conta"
 
-#: urls.py:102 html/base.html:47 html/registration/login.html:30
+#: urls.py:103 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Autenticação"
 
-#: urls.py:109
+#: urls.py:110
 msgid "Logged out"
 msgstr "Sessão terminada"
 
-#: urls.py:114
+#: urls.py:115
 msgid "Change password"
 msgstr "Trocar senha"
 
-#: urls.py:118
+#: urls.py:119
 msgid "Password changed"
 msgstr "Senha alterada"
 
-#: urls.py:122 urls.py:126 urls.py:130 urls.py:134
+#: urls.py:123 urls.py:127 urls.py:131 urls.py:135
 msgid "Password reset"
 msgstr "Reiniciar a senha"
 
@@ -1668,15 +1668,15 @@ msgstr "Iorubá"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: lang/models.py:145
+#: lang/models.py:148
 msgid "Singular"
 msgstr "Singular"
 
-#: lang/models.py:147
+#: lang/models.py:150
 msgid "Plural"
 msgstr "Plural"
 
-#: lang/models.py:148
+#: lang/models.py:151
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -1894,23 +1894,34 @@ msgstr ""
 msgid "Bad format string (%s)"
 msgstr "Cadeia de formato inválido (%s)"
 
-#: trans/models.py:166
+#: trans/models.py:58
+msgid "File mask does not contain * as a language placeholder!"
+msgstr ""
+
+#: trans/models.py:79
+#, fuzzy
+msgid "Invalid link to repository!"
+msgstr "Repositório Git:"
+
+#: trans/models.py:191
 msgid "Name to display"
 msgstr "Nome de exibição"
 
-#: trans/models.py:167
+#: trans/models.py:192
 msgid "Name used in URLs"
 msgstr "Nome usado nas URLs"
 
-#: trans/models.py:171
-msgid "URL of Git repository"
-msgstr "URL do repositório Git"
+#: trans/models.py:196
+msgid ""
+"URL of Git repository, use weblate://project/subproject for sharing with "
+"other subproject"
+msgstr ""
 
-#: trans/models.py:175
+#: trans/models.py:201
 msgid "URL of push Git repository"
 msgstr "URL do repositório Git para publicação"
 
-#: trans/models.py:179
+#: trans/models.py:205
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -1919,11 +1930,11 @@ msgstr ""
 "Link para o navegador do repositório, utilize %(branch)s, %(file)s e "
 "%(line)s como moe do ramo, arquivo e linha."
 
-#: trans/models.py:185
+#: trans/models.py:211
 msgid "Git branch to translate"
 msgstr "Ramo Git para traduzir"
 
-#: trans/models.py:189
+#: trans/models.py:216
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -1931,81 +1942,81 @@ msgstr ""
 "Caminho dos arquivos para traduzir, use * invés do código do idioma, como "
 "por exemplo: po/*.po ou locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:194
+#: trans/models.py:221
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:298
+#: trans/models.py:348
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Falha ao importar do repositório Git: %s"
 
-#: trans/models.py:364
+#: trans/models.py:428
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Envio está desativado para %s."
 
-#: trans/models.py:385
+#: trans/models.py:453
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Falha ao enviar para o ramo remoto em %s."
 
-#: trans/models.py:424
+#: trans/models.py:499
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Falha ao fundir no ramo remoto com %s."
 
-#: trans/models.py:488
+#: trans/models.py:567
 msgid "The mask did not match any files!"
 msgstr "Não foram encontrados arquivos com a máscara dada!"
 
-#: trans/models.py:493
+#: trans/models.py:572
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:507
+#: trans/models.py:586
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:509
+#: trans/models.py:588
 #, fuzzy, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Falha ao processar o formulário!"
 
-#: trans/models.py:517
+#: trans/models.py:596
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:519
+#: trans/models.py:598
 #, fuzzy
 msgid "Failed to parse translation template."
 msgstr "A tradução falhou"
 
-#: trans/models.py:922
+#: trans/models.py:1010
 msgid "All strings"
 msgstr "Todas as cadeias"
 
-#: trans/models.py:927
+#: trans/models.py:1015
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Cadeias não traduzidas (%d)"
 
-#: trans/models.py:929
+#: trans/models.py:1017
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadeias vagas (%d)"
 
-#: trans/models.py:931
+#: trans/models.py:1019
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadeias com sugestões (%d)"
 
-#: trans/models.py:1115
+#: trans/models.py:1203
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
@@ -2128,6 +2139,9 @@ msgstr "Falha ao fundir o conteúdo do arquivo: %s"
 #: trans/views.py:955
 msgid "Page Not Found"
 msgstr "Página não encontrada"
+
+#~ msgid "URL of Git repository"
+#~ msgstr "URL do repositório Git"
 
 #, fuzzy
 #~ msgid "Actions"
