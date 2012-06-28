@@ -38,10 +38,7 @@ class LanguageManager(models.Manager):
         if '-' in code:
             try:
                 baselang = Language.objects.get(code = code.replace('-', '_'))
-                lang.name = '%s' % (
-                    baselang.name,
-                    code,
-                )
+                lang.name = baselang.name
                 lang.nplurals = baselang.nplurals
                 lang.pluralequation = baselang.pluralequation
                 lang.save()
