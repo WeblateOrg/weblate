@@ -175,7 +175,7 @@ class Project(models.Model):
         '''
         ret = True
         for s in self.subproject_set.all():
-            ret &= s.do_push(request)
+            ret |= s.do_push(request)
         return ret
 
     def can_push(self):
