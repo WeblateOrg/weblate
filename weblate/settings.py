@@ -41,6 +41,7 @@ LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
     ('cs', u'Česky'),
+    ('da', 'Dansk'),
     ('de', 'Deutsch'),
     ('en', 'English'),
     ('el', 'Ελληνικά'),
