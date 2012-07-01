@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-28 13:39+0200\n"
-"PO-Revision-Date: 2012-05-19 12:33+0200\n"
+"PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 1.0\n"
+"X-Generator: Weblate 1.1\n"
 
 #: urls.py:86 urls.py:92
 msgid "User registration"
@@ -807,8 +807,8 @@ msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
 msgstr ""
-"%(count)s merkkiketjua, joista %(translated)s&#37; ovat käännettyjä ja "
-"%(fuzzy)s&#37; on epäselvää."
+"%(count)s merkkiketjua, joista on %(translated)s&#37; käännettyjä ja %"
+"(fuzzy)s&#37; on epäselvää."
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -838,7 +838,7 @@ msgstr "Tilanne"
 #: html/admin/report.html:17
 #, python-format
 msgid "Not showing status of linked repository. Check %(repo)s instead."
-msgstr ""
+msgstr "Linkitetyn tietolähteen tilaa ei näytetä. Tarkasta sen sijaan %(repo)s."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1804,6 +1804,8 @@ msgid ""
 "This equation is used to identify which plural form will be used based on "
 "given count (n)."
 msgstr ""
+"Tätä yhtälöä käytetään määrittelemään mitä monikkomuotoa voidaan käyttää "
+"annetulle määrälle (n)."
 
 #: trans/forms.py:60
 msgid "Plural equation"
@@ -1893,12 +1895,11 @@ msgstr "Väärän muotoinen merkkijono (%s)"
 
 #: trans/models.py:58
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Tiedostomaski ei sisällä * kielen mallina!"
 
 #: trans/models.py:79
-#, fuzzy
 msgid "Invalid link to repository!"
-msgstr "Git ohjelmistolähde:"
+msgstr "Kelvoton linkki tietolähteeseen!"
 
 #: trans/models.py:191
 msgid "Name to display"
@@ -1913,6 +1914,8 @@ msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
+"Git tietolähteen osoite, käytä weblate://project/subproject jakaaksesi "
+"aliprojekteiksi"
 
 #: trans/models.py:201
 msgid "URL of push Git repository"
@@ -1924,6 +1927,8 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
+"Linkki tietolähdeselaimeen, käytä %(branch)s haaralle, %(file)s ja %(line)s "
+"tiedostonimenä ja linjan malleina"
 
 #: trans/models.py:211
 msgid "Git branch to translate"
@@ -2003,7 +2008,7 @@ msgstr "Kääntämättömät merkkijonot (%d)"
 #: trans/models.py:1020
 #, python-format
 msgid "Fuzzy strings (%d)"
-msgstr "Sekavat merkkijonot (%d)"
+msgstr "Epäselvät merkkijonot (%d)"
 
 #: trans/models.py:1022
 #, python-format
@@ -2063,7 +2068,7 @@ msgstr "Epäselvät merkkijonot"
 
 #: trans/views.py:548
 msgid "Not translated strings"
-msgstr "Käätämättömät merkkijonot"
+msgstr "Kääntämättömät merkkijonot"
 
 #: trans/views.py:550
 msgid "Strings with suggestions"
