@@ -33,8 +33,7 @@ git archive --format=tar $rev | tar xf - -C $build_dir
 cd $build_dir
 
 # Compile po files
-cd weblate
-../manage.py compilemessages
+./scripts/generate-locales
 cd ..
 
 # Cleanup possible byte compiled files (from above step)
