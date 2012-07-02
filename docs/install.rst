@@ -8,7 +8,7 @@ Installation instructions
 Requirements
 ------------
 
-Django
+Django (>= 1.4)
     https://www.djangoproject.com/
 Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
