@@ -73,7 +73,7 @@ def show_checks(request):
     '''
     return render_to_response('checks.html', RequestContext(request, {
         'checks': Check.objects.filter(ignore = False).values('check').annotate(count = Count('id')),
-        'title': _('Checks'),
+        'title': _('Failing checks'),
     }))
 
 def show_check(request, name):
