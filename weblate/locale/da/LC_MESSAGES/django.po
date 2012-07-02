@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-28 13:39+0200\n"
+"POT-Creation-Date: 2012-07-02 21:54+0200\n"
 "PO-Revision-Date: 2012-07-01 05:01+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -500,11 +500,15 @@ msgstr "Dato"
 msgid "No recent activity has been recorded."
 msgstr "Der er ikke registreret aktivitet for nylig."
 
-#: html/list-translations.html:8 html/translate.html:69
+#: html/list-translations.html:8
+#, fuzzy
+msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Uklar"
 
-#: html/list-translations.html:9 trans/views.py:76
+#: html/list-translations.html:9
+#, fuzzy
+msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Tjek"
 
@@ -630,7 +634,13 @@ msgstr "Kontekst"
 msgid "Copy"
 msgstr "Kopiér"
 
-#: html/translate.html:74
+#: html/translate.html:69
+#, fuzzy
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Uklar"
+
+#: html/translate.html:74 trans/views.py:76
 msgid "Failing checks"
 msgstr "Mislykkede tjek"
 
@@ -907,7 +917,8 @@ msgstr ""
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "Du ønsker evt. at <a href=\"%(profile_url)s\">tilpasse din profil</a> nu."
+msgstr ""
+"Du ønsker evt. at <a href=\"%(profile_url)s\">tilpasse din profil</a> nu."
 
 #: html/registration/activate.html:20
 #, python-format
@@ -1666,15 +1677,15 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: lang/models.py:148
+#: lang/models.py:160
 msgid "Singular"
 msgstr "Ental"
 
-#: lang/models.py:150
+#: lang/models.py:162
 msgid "Plural"
 msgstr "Flertal"
 
-#: lang/models.py:151
+#: lang/models.py:163
 #, python-format
 msgid "Plural form %d"
 msgstr "Flertalsform %d"
@@ -1924,8 +1935,8 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
-"Henvisning til arkiv-browser, brug %(branch)s for forgrening, %(file)s og %"
-"(line)s som filnavn og pladsholdere for linjer"
+"Henvisning til arkiv-browser, brug %(branch)s for forgrening, %(file)s og "
+"%(line)s som filnavn og pladsholdere for linjer"
 
 #: trans/models.py:211
 msgid "Git branch to translate"
@@ -2020,8 +2031,7 @@ msgstr "Strenge med forslag (%d)"
 #: trans/models.py:1206
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
-"Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis "
-"beskadiget."
+"Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis beskadiget."
 
 #: trans/views.py:48
 msgid "Please set your full name in your profile."
@@ -2138,3 +2148,6 @@ msgstr "Fletning af filindhold mislykkedes: %s"
 #: trans/views.py:955
 msgid "Page Not Found"
 msgstr "Siden blev ikke fundet"
+
+#~ msgid "Checks"
+#~ msgstr "Tjek"

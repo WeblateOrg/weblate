@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-28 13:39+0200\n"
+"POT-Creation-Date: 2012-07-02 21:54+0200\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -506,11 +506,15 @@ msgstr "Päivämäärä"
 msgid "No recent activity has been recorded."
 msgstr "Viimeaikaista aktiivisuutta ei ole tallennettu."
 
-#: html/list-translations.html:8 html/translate.html:69
+#: html/list-translations.html:8
+#, fuzzy
+msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Epäselvä"
 
-#: html/list-translations.html:9 trans/views.py:76
+#: html/list-translations.html:9
+#, fuzzy
+msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Tarkistukset"
 
@@ -637,7 +641,13 @@ msgstr "Asiayhteys"
 msgid "Copy"
 msgstr "Kopioi"
 
-#: html/translate.html:74
+#: html/translate.html:69
+#, fuzzy
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Epäselvä"
+
+#: html/translate.html:74 trans/views.py:76
 msgid "Failing checks"
 msgstr "Epäonnistuvat tarkistukset"
 
@@ -807,8 +817,8 @@ msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
 msgstr ""
-"%(count)s merkkiketjua, joista on %(translated)s&#37; käännettyjä ja %"
-"(fuzzy)s&#37; on epäselvää."
+"%(count)s merkkiketjua, joista on %(translated)s&#37; käännettyjä ja "
+"%(fuzzy)s&#37; on epäselvää."
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -838,7 +848,8 @@ msgstr "Tilanne"
 #: html/admin/report.html:17
 #, python-format
 msgid "Not showing status of linked repository. Check %(repo)s instead."
-msgstr "Linkitetyn tietolähteen tilaa ei näytetä. Tarkasta sen sijaan %(repo)s."
+msgstr ""
+"Linkitetyn tietolähteen tilaa ei näytetä. Tarkasta sen sijaan %(repo)s."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1673,15 +1684,15 @@ msgstr "Joruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: lang/models.py:148
+#: lang/models.py:160
 msgid "Singular"
 msgstr "Yksikkö"
 
-#: lang/models.py:150
+#: lang/models.py:162
 msgid "Plural"
 msgstr "Monikko"
 
-#: lang/models.py:151
+#: lang/models.py:163
 #, python-format
 msgid "Plural form %d"
 msgstr "Monikkomuoto %d"
@@ -2134,6 +2145,9 @@ msgstr "Tiedoston sisällön liittäminen epäonnistui: %s"
 #: trans/views.py:955
 msgid "Page Not Found"
 msgstr "Sivua ei löydy"
+
+#~ msgid "Checks"
+#~ msgstr "Tarkistukset"
 
 #~ msgid "URL of Git repository"
 #~ msgstr "Git ohjelmistolähteen osoite (URL)"

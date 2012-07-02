@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-28 13:39+0200\n"
+"POT-Creation-Date: 2012-07-02 21:54+0200\n"
 "PO-Revision-Date: 2012-04-11 09:07+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -495,13 +495,17 @@ msgstr "Ημερομηνία"
 msgid "No recent activity has been recorded."
 msgstr ""
 
-#: html/list-translations.html:8 html/translate.html:69
+#: html/list-translations.html:8
+#, fuzzy
+msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: html/list-translations.html:9 trans/views.py:76
+#: html/list-translations.html:9
+#, fuzzy
+msgctxt "Number of failing checks"
 msgid "Checks"
-msgstr ""
+msgstr "Έλεγχος"
 
 #: html/list-translations.html:24
 #, python-format
@@ -628,7 +632,13 @@ msgstr "Συνοδευτικά"
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: html/translate.html:74
+#: html/translate.html:69
+#, fuzzy
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Ασαφές"
+
+#: html/translate.html:74 trans/views.py:76
 msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
@@ -1666,15 +1676,15 @@ msgstr ""
 msgid "Zulu"
 msgstr ""
 
-#: lang/models.py:148
+#: lang/models.py:160
 msgid "Singular"
 msgstr "Ενικός"
 
-#: lang/models.py:150
+#: lang/models.py:162
 msgid "Plural"
 msgstr "Πληθυντικός"
 
-#: lang/models.py:151
+#: lang/models.py:163
 #, python-format
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-28 13:39+0200\n"
+"POT-Creation-Date: 2012-07-02 21:54+0200\n"
 "PO-Revision-Date: 2012-05-24 14:22+0200\n"
 "Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -501,11 +501,15 @@ msgstr "Date"
 msgid "No recent activity has been recorded."
 msgstr "Aucune activité récente n'a été enregistrée."
 
-#: html/list-translations.html:8 html/translate.html:69
+#: html/list-translations.html:8
+#, fuzzy
+msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Flou"
 
-#: html/list-translations.html:9 trans/views.py:76
+#: html/list-translations.html:9
+#, fuzzy
+msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Vérifications"
 
@@ -633,7 +637,13 @@ msgstr "Contexte"
 msgid "Copy"
 msgstr "Copier"
 
-#: html/translate.html:74
+#: html/translate.html:69
+#, fuzzy
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Flou"
+
+#: html/translate.html:74 trans/views.py:76
 msgid "Failing checks"
 msgstr "Vérifications en échec"
 
@@ -1675,15 +1685,15 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zoulou"
 
-#: lang/models.py:148
+#: lang/models.py:160
 msgid "Singular"
 msgstr "Singulier"
 
-#: lang/models.py:150
+#: lang/models.py:162
 msgid "Plural"
 msgstr "Pluriel"
 
-#: lang/models.py:151
+#: lang/models.py:163
 #, python-format
 msgid "Plural form %d"
 msgstr "Forme plurielle %d"
@@ -2151,6 +2161,9 @@ msgstr "Échec de fusion du fichier : %s"
 #: trans/views.py:955
 msgid "Page Not Found"
 msgstr "Page introuvable"
+
+#~ msgid "Checks"
+#~ msgstr "Vérifications"
 
 #~ msgid "URL of Git repository"
 #~ msgstr "URL du dépôt Git"
