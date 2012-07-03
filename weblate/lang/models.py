@@ -97,8 +97,8 @@ class LanguageManager(models.Manager):
                 # Workaround bug in data
                 lang.nplurals = 4
                 lang.pluralequation = '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'
-            elif code == 'kk':
-                # Kazakh should have plurals, ttkit says it does not have
+            elif code in ['kk', 'fa']:
+                # Kazakh and Persian should have plurals, ttkit says it does not have
                 lang.nplurals = 2
                 lang.pluralequation = '(n != 1)'
             else:
