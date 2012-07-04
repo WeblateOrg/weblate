@@ -4,7 +4,7 @@ Changes
 weblate 1.1
 -----------
 
-Relased on ? 2012.
+Relased on July 4th 2012.
 
 * Improved several translations.
 * Better validation while creating subproject.
