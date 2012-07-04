@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-02 21:54+0200\n"
-"PO-Revision-Date: 2012-05-24 14:22+0200\n"
+"PO-Revision-Date: 2012-07-04 10:57+0200\n"
 "Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Weblate 1.0\n"
+"X-Generator: Weblate 1.1\n"
 
 #: urls.py:86 urls.py:92
 msgid "User registration"
@@ -502,13 +502,11 @@ msgid "No recent activity has been recorded."
 msgstr "Aucune activité récente n'a été enregistrée."
 
 #: html/list-translations.html:8
-#, fuzzy
 msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Flou"
 
 #: html/list-translations.html:9
-#, fuzzy
 msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Vérifications"
@@ -638,7 +636,6 @@ msgid "Copy"
 msgstr "Copier"
 
 #: html/translate.html:69
-#, fuzzy
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Flou"
@@ -844,7 +841,7 @@ msgstr "État"
 #: html/admin/report.html:17
 #, python-format
 msgid "Not showing status of linked repository. Check %(repo)s instead."
-msgstr ""
+msgstr "N'affiche pas le status des dépôts liés. Vérifier %(repo)s à la place."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1916,11 +1913,12 @@ msgstr "Format de chaîne incorrect (%s)"
 #: trans/models.py:58
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
+"Le masque de fichier ne contient pas le symbole * pour tenir la place de la "
+"langue !"
 
 #: trans/models.py:79
-#, fuzzy
 msgid "Invalid link to repository!"
-msgstr "Dépôt Git : "
+msgstr "Lien vers le dépôt invalide ! "
 
 #: trans/models.py:191
 msgid "Name to display"
@@ -1935,6 +1933,8 @@ msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
+"URL du dépôt Git, utilisez weblate://projet/sousprojet pour le partager avec "
+"d'autre sous-projet"
 
 #: trans/models.py:201
 msgid "URL of push Git repository"
