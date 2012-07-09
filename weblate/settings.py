@@ -48,6 +48,7 @@ LANGUAGES = (
     ('es', u'Español'),
     ('fi', 'Suomi'),
     ('fr', u'Français'),
+    ('gl', 'Galego'),
     ('ja', u'日本語'),
     ('nl', 'Nederlands'),
     ('pl', 'Polski'),
