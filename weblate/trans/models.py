@@ -75,7 +75,7 @@ def get_linked_repo(val):
 def validate_repo(val):
     try:
         get_linked_repo(val)
-    except:
+    except SubProject.DoesNotExist:
         raise ValidationError(_('Invalid link to repository!'))
 
 class Project(models.Model):
