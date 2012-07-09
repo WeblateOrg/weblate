@@ -464,20 +464,19 @@ class SubProject(models.Model):
         '''
         return SubProject.objects.filter(repo = 'weblate://%s/%s' % (self.project.slug, self.slug))
 
-    def commit_pending(self):
+    def commit_pending(self, from_link = False):
         '''
         Checks whether there is any translation which needs commit.
         '''
-        if self.is_repo_link():
-            return self.get_linked_repo().commit_pending()
+        if not from_link and self.is_repo_link():
+            return self.get_linked_repo().commit_pending(True)
 
         for translation in self.translation_set.all():
             translation.commit_pending()
 
         # Process linked projects
         for sp in self.get_linked_childs():
-            for translation in sp.translation_set.all():
-                translation.commit_pending()
+            sp.commit_pending(True)
 
     def update_branch(self, request = None):
         '''
