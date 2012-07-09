@@ -33,11 +33,12 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
+        orig_id = attrs['id']
         for idx, val in enumerate(value):
             # Generate ID
             if idx > 0:
                 fieldname = '%s_%d' % (name, idx)
-                attrs['id'] += '_%d' % idx
+                attrs['id'] = '%s_%d' % (orig_id, idx)
                 attrs['tabindex'] = 100 + idx
             else:
                 fieldname = name
