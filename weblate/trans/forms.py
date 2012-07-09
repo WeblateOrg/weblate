@@ -21,6 +21,7 @@ class PluralTextarea(forms.Textarea):
 
         # Need to add extra class
         attrs['class'] = 'translation'
+        attrs['tabindex'] = '100'
 
         # Handle single item translation
         if len(value) == 1:
@@ -37,6 +38,7 @@ class PluralTextarea(forms.Textarea):
             if idx > 0:
                 fieldname = '%s_%d' % (name, idx)
                 attrs['id'] += '_%d' % idx
+                attrs['tabindex'] = 100 + idx
             else:
                 fieldname = name
 
