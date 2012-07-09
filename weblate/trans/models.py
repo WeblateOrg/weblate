@@ -458,6 +458,12 @@ class SubProject(models.Model):
                 messages.error(request, _('Failed to push to remote branch on %s.') % self.__unicode__())
             return False
 
+    def get_linked_childs(self):
+        '''
+        Returns list of subprojects which link repository to us.
+        '''
+        return SubProject.objects.filter(repo = 'weblate://%s/%s' % (self.project.slug, self.slug))
+
     def commit_pending(self):
         '''
         Checks whether there is any translation which needs commit.
@@ -469,7 +475,7 @@ class SubProject(models.Model):
             translation.commit_pending()
 
         # Process linked projects
-        for sp in SubProject.objects.filter(repo = 'weblate://%s/%s' % (self.project.slug, self.slug)):
+        for sp in self.get_linked_childs():
             for translation in sp.translation_set.all():
                 translation.commit_pending()
 
