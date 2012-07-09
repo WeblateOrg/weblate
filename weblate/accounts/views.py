@@ -4,11 +4,24 @@ from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
-from django.core.mail import mail_admins
 from django.contrib.auth.decorators import login_required
+from django.core.mail.message import EmailMultiAlternatives
 
 from weblate.accounts.models import set_lang
 from weblate.accounts.forms import ProfileForm, UserForm, ContactForm
+
+def mail_admins_sender(subject, message, sender, fail_silently=False, connection=None,
+                html_message=None):
+    """Sends a message to the admins, as defined by the ADMINS setting."""
+    if not settings.ADMINS:
+        return
+    mail = EmailMultiAlternatives(u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject),
+                message, sender, [a[1] for a in settings.ADMINS],
+                connection=connection)
+    if html_message:
+        mail.attach_alternative(html_message, 'text/html')
+    mail.send(fail_silently=fail_silently)
+
 
 @login_required
 def profile(request):
@@ -40,13 +53,15 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            mail_admins(
+            mail_admins_sender(
                 form.cleaned_data['subject'],
                 'Message from %s <%s>:\n\n%s' % (
                     form.cleaned_data['name'],
                     form.cleaned_data['email'],
                     form.cleaned_data['message']
-                ))
+                ),
+                form.cleaned_data['email'],
+            )
             messages.info(request, _('Message has been sent to administrator.'))
             return HttpResponseRedirect('/')
     else:
