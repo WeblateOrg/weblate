@@ -541,6 +541,10 @@ class SubProject(models.Model):
             logger.info('checking %s', path)
             Translation.objects.update_from_blob(self, code, path, blob_hash, force)
 
+        # Process linked repos
+        for sp in self.get_linked_childs():
+            sp.create_translations(force)
+
     def get_lang_code(self, path):
         '''
         Parses language code from path.
