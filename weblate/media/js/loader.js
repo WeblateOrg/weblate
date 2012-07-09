@@ -130,7 +130,8 @@ $(function() {
     $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
     $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('.navi .button-disabled').button('disable');
-    $('textarea.translation').change(text_change).keypress(text_change).autogrow().focus();
+    $('textarea.translation').change(text_change).keypress(text_change).autogrow();
+    $('textarea#id_target').focus();
     $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
         get_source_string(function(data) {
             mt_set(data);
