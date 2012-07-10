@@ -723,7 +723,10 @@ class Translation(models.Model):
         except ValueError:
             raise ValidationError(_('Format of %s could not be recognized.') % self.filename)
         except Exception, e:
-            raise ValidationError(_('Failed to parse file %s: %s') % (self.filename, str(e)))
+            raise ValidationError(_('Failed to parse file %(file)s: %(error)s') % {
+                'file': self.filename,
+                'error': str(e)
+            })
 
     def get_fuzzy_percent(self):
         if self.total == 0:
