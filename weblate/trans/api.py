@@ -10,6 +10,7 @@ import json
 import logging
 import threading
 import cairo
+import os.path
 
 logger = logging.getLogger('weblate')
 
@@ -102,7 +103,9 @@ def widget_287(request, project):
     response = HttpResponse(mimetype='image/png')
 
     # Background 287 x 66, logo 64 px
-    surface = cairo.ImageSurface.create_from_png('/home/nijel/work/weblate/graphics/weblate-widget.png')
+    surface = cairo.ImageSurface.create_from_png(
+        os.path.join(settings.WEB_ROOT, 'media', 'weblate-widget.png')
+    )
     ctx = cairo.Context(surface)
 
     # Setup
