@@ -56,7 +56,7 @@ Weblate provides various exports to allow you further process the data.
                 "total": 436, 
                 "translated": 436, 
                 "translated_percent": 100.0, 
-                "url": "http:/l10n.cihar.com/projects/weblate/master/cs/"
+                "url": "http://l10n.cihar.com/projects/weblate/master/cs/"
             }, 
             {
                 "code": "nl", 
@@ -68,7 +68,7 @@ Weblate provides various exports to allow you further process the data.
                 "total": 436, 
                 "translated": 319, 
                 "translated_percent": 73.2, 
-                "url": "http:/l10n.cihar.com/projects/weblate/master/nl/"
+                "url": "http://l10n.cihar.com/projects/weblate/master/nl/"
             }, 
             {
                 "code": "el", 
@@ -80,6 +80,6 @@ Weblate provides various exports to allow you further process the data.
                 "total": 436, 
                 "translated": 312, 
                 "translated_percent": 71.6, 
-                "url": "http:/l10n.cihar.com/projects/weblate/master/el/"
+                "url": "http://l10n.cihar.com/projects/weblate/master/el/"
             }, 
         ]
