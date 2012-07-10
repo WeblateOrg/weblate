@@ -45,15 +45,11 @@
 </p>
 {% if not user.is_authenticated %}
 <p>
-{% blocktrans with object.name as name and object.get_total as total and object.get_absolute_url as url %}
-If you would like to contribute to translation of {{ name }}, just proceed to <a href="{{ url }}">translation section</a>.
-{% endblocktrans %}
+{% blocktrans with object.name as name and object.get_total as total and object.get_absolute_url as url %}If you would like to contribute to translation of {{ name }}, just proceed to <a href="{{ url }}">translation section</a>.{% endblocktrans %}
 </p>
 {% else %}
 <p>
-{% blocktrans with object.name as name and object.get_total as total and object.get_absolute_url as url %}
-If you would like to contribute to translation of {{ name }}, you need to <a href="/accounts/register/">register on this server</a>. After registration, you can directly start contributing to the translation.
-{% endblocktrans %}
+{% blocktrans with object.name as name and object.get_total as total and object.get_absolute_url as url %}If you would like to contribute to translation of {{ name }}, you need to <a href="/accounts/register/">register on this server</a>. After registration, you can directly start contributing to the translation.{% endblocktrans %}
 </p>
 {% endif %}
 
