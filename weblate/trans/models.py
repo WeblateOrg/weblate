@@ -659,7 +659,7 @@ class SubProject(models.Model):
         '''
         if gitrepo is None:
             gitrepo = self.get_repo()
-        status = gitrepo.git.log(revision)
+        status = gitrepo.git.log(revision, '--')
         if status == '':
             # No changes to merge
             return False
