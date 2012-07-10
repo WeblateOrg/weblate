@@ -1283,6 +1283,8 @@ class Unit(models.Model):
         ret = []
         if len(self.location) == 0:
             return ''
+        if self.location.isdigit():
+            return _('unit ID %s') % self.location
         for location in self.location.split(','):
             location = location.strip()
             filename, line = location.split(':')
