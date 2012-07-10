@@ -595,11 +595,17 @@ class SubProject(models.Model):
                 except ValueError:
                     notrecognized.append(match)
                 except Exception, e:
-                    errors.append(str(e))
+                    errors.append('%s: %s' % (match, str(e)))
             if len(notrecognized) > 0:
-                raise ValidationError(_('Format of %d matched files could not be recognized.') % len(notrecognized))
+                raise ValidationError( '%s\n%s' % (
+                    (_('Format of %d matched files could not be recognized.') % len(notrecognized)),
+                    '\n'.join(notrecognized)
+                ))
             if len(errors) > 0:
-                raise ValidationError(_('Failed to parse %d matched files!') % len(errors))
+                raise ValidationError('%s\n%s' % (
+                    (_('Failed to parse %d matched files!') % len(errors)),
+                    '\n'.join(errors)
+                ))
 
             # Validate template
             if self.template != '':
