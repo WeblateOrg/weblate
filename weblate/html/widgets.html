@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcums %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'weblate.trans.api.widgets' project=object.slug %}">{% trans "widgets" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<h2>{% trans "Widgets" %}</h2>
+
+<p>
+{% trans "You can use following widgets to promote translation of your project. They can increase visibility of your translation projects and bring new contributors." %}
+</p>
+
+<p>
+{% blocktrans %}You can also point new comers co introducing page at <a href="{{ engage_url }}">{{ engage_url }}</a>.{% endblocktrans %}
+</p>
+
+<h3>{% trans "Image widgets" %}</h3>
+
+{% for widget in widget_list %}
+<h4>{% blocktrans %}Image {{ widget }}{% endblocktrans %}</h4>
+
+<p>{% trans "Example:" %}</p>
+
+<p><a href="{{ engage_url }}"><img src="{{ widget_base_url }}{{ widget }}/" /></a></p>
+
+<p>{% trans "Code:" %}</p>
+
+<pre>
+&lt;a href="{{ engage_url }}"&gt;&lt;img src="{{ widget_base_url }}{{ widget }}/" /&gt;&lt;/a&gt;
+</pre>
+
+{% endfor %}
+
+{% endblock %}
+

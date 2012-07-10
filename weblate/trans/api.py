@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
+from django.template import RequestContext
+from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.sites.models import Site
+from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Project, SubProject
 
@@ -95,6 +97,29 @@ def export_stats(request, project, subproject):
         json.dumps(response, default = dt_handler),
         mimetype = 'application/json'
     )
+
+def widgets(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    site = Site.objects.get_current()
+    engage_url = 'http://%s%s' % (
+        site.domain,
+        reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
+    )
+    widget_base_url = 'http://%s%s' % (
+        site.domain,
+        reverse('weblate.trans.api.widgets', kwargs = {'project': obj.slug}),
+    )
+
+    widget_list = [
+        '287x66',
+    ]
+
+    return render_to_response('widgets.html', RequestContext(request, {
+        'engage_url': engage_url,
+        'widget_list': widget_list,
+        'widget_base_url': widget_base_url,
+        'object': obj,
+    }))
 
 def widget_287(request, project):
     obj = get_object_or_404(Project, slug = project)

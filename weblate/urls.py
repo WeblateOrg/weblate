@@ -66,6 +66,7 @@ urlpatterns = patterns('',
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
 
     url(r'^widgets/(?P<project>[^/]*)/287x66/$', 'weblate.trans.api.widget_287'),
+    url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.api.widgets'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check'),
