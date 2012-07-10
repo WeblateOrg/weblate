@@ -29,6 +29,13 @@ rebuild it from scratch time to time:
 
     ./manage.py rebuild_index --clean
 
+I get "Lock Error" quite often while translating
+------------------------------------------------
+
+This is usually caused by concurent updates to fulltext index. In case you are
+running multithreaded server (eg. mod_wsgi), this happens quite often. For such
+setup it is recommended to enable :envvar:`OFFLOAD_INDEXING`.
+
 Rebuilding index has failed with "No space left on device"
 ----------------------------------------------------------
 
