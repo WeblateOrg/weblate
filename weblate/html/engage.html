@@ -8,8 +8,8 @@
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
 
-  <title>{% include "title.html" %}</title>
-  <meta name="description" content="{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}" />
+  <title>{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}</title>
+  <meta name="description" content="{% blocktrans with object.name as project and object.get_language_count as languages %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
   
   <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
   <link rel="stylesheet" type="text/css" href="/media/css/custom-theme/jquery-ui-1.8.18.custom.css" />
