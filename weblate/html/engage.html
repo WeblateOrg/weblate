@@ -30,9 +30,11 @@
 
  <body>
 
-    <h1 class="ui-state-default">{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}</h1>
+<img class="engage-icon" src="/media/weblate-128.png" width="128" height="128" />
 
 <div class="engage content ui-widget-content ui-corner-all">
+
+<h1>{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}</h1>
 
 <p>
 {% blocktrans with object.name as name %}Hi, and thank you for your interest!{% endblocktrans %}
