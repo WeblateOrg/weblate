@@ -1287,7 +1287,14 @@ class Unit(models.Model):
             return _('unit ID %s') % self.location
         for location in self.location.split(','):
             location = location.strip()
-            filename, line = location.split(':')
+            if location == '':
+                continue
+            location_parts = location.split(':')
+            if len(location_parts) == 2:
+                filename, line = location_parts
+            else:
+                filename = location_parts[0]
+                line = 0
             link = self.translation.subproject.get_repoweb_link(filename, line)
             if link is None:
                 ret.append('%s' % location)
