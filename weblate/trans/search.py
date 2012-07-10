@@ -64,6 +64,9 @@ class Index(object):
                 )
             except whoosh.index.EmptyIndexError:
                 self._source = create_source_index()
+            except IOError:
+                # eg. path does not exist
+                self._source = create_source_index()
         return self._source
 
     def target(self, lang):
