@@ -696,6 +696,16 @@ class Translation(models.Model):
             ('automatic_translation', "Can do automatic translation"),
         )
 
+    def clean(self):
+        if not os.path.exists(self.get_filename()):
+            raise ValidationError(_('Filename %s not found in repository! To add new translation, add language file into repository.') % self.filename)
+        try:
+            self.get_store()
+        except ValueError:
+            raise ValidationError(_('Format of %s could not be recognized.') % self.filename)
+        except Exception, e:
+            raise ValidationError(_('Failed to parse file %s: %s') % (self.filename, str(e)))
+
     def get_fuzzy_percent(self):
         if self.total == 0:
             return 0
