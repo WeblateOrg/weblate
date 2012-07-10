@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
+from django.views.decorators.cache import cache_page
 
 from weblate.trans.models import Project, SubProject
 
@@ -121,6 +122,7 @@ def widgets(request, project):
         'object': obj,
     }))
 
+@cache_page(3600)
 def widget_287(request, project):
     obj = get_object_or_404(Project, slug = project)
     percent = obj.get_translated_percent()
