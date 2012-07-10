@@ -264,6 +264,13 @@ def show_dictionary(request, project, lang):
         'letter': letterform.cleaned_data['letter'],
     }))
 
+def show_engage(request, project):
+    obj = get_object_or_404(Project, slug = project)
+
+    return render_to_response('engage.html', RequestContext(request, {
+        'object': obj,
+    }))
+
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()

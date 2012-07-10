@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^$', 'weblate.trans.views.home'),
     url(r'^projects/$', RedirectView.as_view(url = '/')),
     url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
+    url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.show_engage'),
 
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.show_dictionaries'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_dictionary'),
