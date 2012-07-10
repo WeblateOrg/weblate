@@ -798,6 +798,9 @@ class Translation(models.Model):
         # Load po file
         store = self.get_store()
         for pos, unit in enumerate(store.units):
+            # We care only about translatable strings
+            # For some reason, blank string does not mean non translatable
+            # unit in some formats (XLIFF), so let's skip those as well
             if not unit.istranslatable() or unit.isblank():
                 continue
             newunit = Unit.objects.update_from_unit(self, unit, pos)
