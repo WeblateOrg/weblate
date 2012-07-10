@@ -66,6 +66,8 @@ Push
 Repoweb
     URL of repository browser to display source files (location where messages
     are used). When empty no such links will be generated.
+
+    For example on GitHub, you would use something like ``https://github.com/nijel/weblate-hello/blob/%(branch)s/%(file)s#L%(line)s``. 
 Branch
     Which brach to checkout from the Git and where to look for translations.
 Filemask
