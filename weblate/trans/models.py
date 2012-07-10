@@ -134,6 +134,25 @@ class Project(models.Model):
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
+    def get_total(self):
+        '''
+        Calculates total number of strings to translate. This is done based on assumption that
+        all languages have same number of strings.
+        '''
+        total = 0
+        for p in self.subproject_set.all():
+            try:
+                total += p.translation_set.all()[0].total
+            except Translation.DoesNotExist:
+                pass
+        return total
+
+    def get_language_count(self):
+        '''
+        Returns number of languages used in this project.
+        '''
+        return Language.objects.filter( translation__subproject__project = self).distinct().count()
+
     def git_needs_commit(self):
         '''
         Checks whether there are some not commited changes.
