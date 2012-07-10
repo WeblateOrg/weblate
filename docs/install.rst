@@ -18,6 +18,8 @@ Django-registration (<= 0.7, 0.8 won't work)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
     http://bitbucket.org/mchaput/whoosh/
+PyCairo
+    http://cairographics.org/pycairo/
 
 Installation
 ------------
