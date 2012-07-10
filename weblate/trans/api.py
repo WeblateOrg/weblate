@@ -9,6 +9,7 @@ from weblate.trans.models import Project, SubProject
 import json
 import logging
 import threading
+import cairo
 
 logger = logging.getLogger('weblate')
 
@@ -93,3 +94,59 @@ def export_stats(request, project, subproject):
         json.dumps(response, default = dt_handler),
         mimetype = 'application/json'
     )
+
+def widget_287(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    percent = obj.get_translated_percent()
+
+    response = HttpResponse(mimetype='image/png')
+
+    # Background 287 x 66, logo 64 px
+    surface = cairo.ImageSurface.create_from_png('/home/nijel/work/weblate/graphics/weblate-widget.png')
+    ctx = cairo.Context(surface)
+
+    # Setup
+    ctx.set_line_width(0.2)
+    ctx.select_font_face("Sans")
+    ctx.set_font_size(14)
+
+    # Progressbar params
+    p_x = 72
+    p_y = 52
+    p_height = 6
+    p_width = 180
+
+    # Progress bar
+    ctx.new_path()
+    ctx.set_source_rgb (0, 67.0/255, 118.0/255)
+    ctx.rectangle(p_x, p_y, p_width / 100.0 * percent, p_height)
+    ctx.fill()
+
+    # Progress border
+    ctx.new_path()
+    ctx.set_source_rgb (0, 0, 0)
+    ctx.rectangle(p_x, p_y, p_width, p_height)
+    ctx.stroke()
+
+    # Text
+    ctx.set_source_rgb (0, 0, 0)
+    ctx.new_path()
+    ctx.move_to(p_x, 19)
+    ctx.text_path(obj.name)
+    ctx.set_font_size(10)
+    ctx.move_to(p_x, 32)
+    ctx.text_path("translating %(count)d strings into %(languages)d languages" % {
+        'count': obj.get_total(),
+        'languages': obj.get_language_count(),
+        'percent': percent,
+    })
+    ctx.move_to(p_x, 44)
+    ctx.text_path('%(percent)d%% complete, help us improve!' % {
+        'count': obj.get_total(),
+        'languages': obj.get_language_count(),
+        'percent': percent,
+    })
+    ctx.fill()
+
+    surface.write_to_png(response)
+    return response
