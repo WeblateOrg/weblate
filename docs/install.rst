@@ -20,6 +20,8 @@ Whoosh
     http://bitbucket.org/mchaput/whoosh/
 PyCairo
     http://cairographics.org/pycairo/
+Django-south
+    http://south.aeracode.org/
 
 Installation
 ------------
