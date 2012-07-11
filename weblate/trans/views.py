@@ -286,6 +286,9 @@ def show_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     last_changes = Change.objects.filter(unit__translation__subproject = obj).order_by('-timestamp')[:10]
 
+    if obj.locked:
+        messages.error(request, _('This translation is currently locked for updates!'))
+
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
@@ -298,7 +301,7 @@ def auto_translation(request, project, subproject, lang):
     obj.commit_pending()
     autoform = AutoForm(obj, request.POST)
     change = None
-    if autoform.is_valid():
+    if not obj.subproject.locked and autoform.is_valid():
         if autoform.cleaned_data['inconsistent']:
             units = obj.unit_set.filter_type('inconsistent')
         elif autoform.cleaned_data['overwrite']:
@@ -339,6 +342,9 @@ def auto_translation(request, project, subproject, lang):
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
     last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]
+
+    if obj.subproject.locked:
+        messages.error(request, _('This translation is currently locked for updates!'))
 
     # How much is user allowed to configure upload?
     if request.user.has_perm('trans.author_translation'):
@@ -619,6 +625,9 @@ def get_filter_name(rqtype, search_query):
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
+    if obj.subproject.locked:
+        messages.error(request, _('This translation is currently locked for updates!'))
+
     if request.user.is_authenticated():
         profile = request.user.get_profile()
     else:
@@ -632,7 +641,7 @@ def translate(request, project, subproject, lang):
     # Any form submitted?
     if request.method == 'POST':
         form = TranslationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and not obj.subproject.locked:
             # Check whether translation is not outdated
             obj.check_sync()
             try:
@@ -746,7 +755,7 @@ def translate(request, project, subproject, lang):
                 messages.error(request, _('Message you wanted to translate is no longer available!'))
 
     # Handle accepting/deleting suggestions
-    if 'accept' in request.GET or 'delete' in request.GET:
+    if not obj.subproject.locked and ('accept' in request.GET or 'delete' in request.GET):
         # Check for authenticated users
         if not request.user.is_authenticated():
             messages.error(request, _('You need to log in to be able to manage suggestions!'))
@@ -980,7 +989,7 @@ def upload_translation(request, project, subproject, lang):
     '''
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
 
-    if request.method == 'POST':
+    if not obj.subproject.locked and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):
             form = ExtraUploadForm(request.POST, request.FILES)
         elif request.user.has_perm('trans.overwrite_translation'):
