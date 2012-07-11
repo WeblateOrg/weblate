@@ -256,6 +256,10 @@ class SubProject(models.Model):
         blank = True,
         help_text = _('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings')
     )
+    locked = models.BooleanField(
+        default = False,
+        help_text = _('Whether subproject is locked for translation updates')
+    )
 
     class Meta:
         ordering = ['name']
