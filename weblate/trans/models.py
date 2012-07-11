@@ -244,6 +244,9 @@ class SubProject(models.Model):
 
     class Meta:
         ordering = ['name']
+        permissions = (
+            ('lock_translation', "Can lock whole translation project"),
+        )
 
     @models.permalink
     def get_absolute_url(self):
@@ -712,6 +715,7 @@ class Translation(models.Model):
             ('commit_translation', "Can force commiting of translation"),
             ('update_translation', "Can update translation from git"),
             ('push_translation', "Can push translations to remote git"),
+            ('reset_translation', "Can reset translations to match remote git"),
             ('automatic_translation', "Can do automatic translation"),
         )
 
