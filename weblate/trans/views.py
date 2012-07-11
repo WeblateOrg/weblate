@@ -497,6 +497,9 @@ def reset_translation(request, project, subproject, lang):
 def lock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
 
+    obj.locked = True
+    obj.save()
+
     messages.info(request, _('Subproject is now locked for translation updates!'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
@@ -505,6 +508,9 @@ def lock_subproject(request, project, subproject):
 @permission_required('trans.lock_translation')
 def unlock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+
+    obj.locked = False
+    obj.save()
 
     messages.info(request, _('Subproject is now open for translation updates.'))
 
