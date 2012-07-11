@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-11 08:23+0200\n"
-"PO-Revision-Date: 2012-07-02 21:55+0200\n"
+"PO-Revision-Date: 2012-07-11 08:38+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
@@ -429,7 +429,7 @@ msgstr "Uložit"
 #: html/engage.html:11 html/engage.html.py:37
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "Zapojte se do projektu %(project)s!"
 
 #: html/engage.html:12
 #, python-format
@@ -437,10 +437,12 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
+"Zapojte se do projektu %(project)s, který je překládán do %(languages)s "
+"jazyků za použití Weblate."
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
-msgstr ""
+msgstr "Ahoj a děkujeme za váš zájem!"
 
 #: html/engage.html:43
 #, python-format
@@ -449,6 +451,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"Projekt %(name)s je překládán pomocí <a href=\"http://weblate.org/\"> "
+"Weblate</a>, webového nástroje, který usnadní překládání jak pro vývojáře "
+"tak i pro překladatele."
 
 #: html/engage.html:46
 #, python-format
@@ -457,6 +462,9 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
+"Překlad projektu %(name)s v současné době obsahuje %(total)s řetězců k "
+"překladu a je <a href=\"%(url)s\">překládán do %(languages)s jazyků</a>. "
+"Celkově je tento překlad hotový z %(percent)s%%."
 
 #: html/engage.html:49
 #, python-format
@@ -464,6 +472,8 @@ msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
 msgstr ""
+"Pokud chcete přispět do překladu projektu %(name)s, musíte se na tomto "
+"serveru <a href=\"/accounts/register/\">zaregistrovat</a>."
 
 #: html/engage.html:52
 #, python-format
@@ -471,6 +481,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
+"Jakmile budete mít aktivovaný účet můžete pokračovat <a href=\"%(url)s\">k "
+"překladům</a>."
 
 #: html/index.html:9
 msgid ""
@@ -869,11 +881,11 @@ msgstr "Řetězec je přeložený"
 
 #: html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "widgety"
 
 #: html/widgets.html:12
 msgid "Widgets"
-msgstr ""
+msgstr "Widgety"
 
 #: html/widgets.html:15
 msgid ""
@@ -881,6 +893,8 @@ msgid ""
 "can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
+"Pro propagaci překladu tohoto projektu můžete použít následující widgety. "
+"Mohou zvýšit povědomí o překladu a přilákat nové přispěvatele."
 
 #: html/widgets.html:19
 #, python-format
@@ -888,23 +902,25 @@ msgid ""
 "You can also point new comers co introducing page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
+"Nově příchozí můžete také odkazovat na informativní stránku na <a href=\"%"
+"(engage_url)s\">%(engage_url)s</a>."
 
 #: html/widgets.html:22
 msgid "Image widgets"
-msgstr ""
+msgstr "Obrázkové widgety"
 
 #: html/widgets.html:25
 #, python-format
 msgid "Image %(widget)s"
-msgstr ""
+msgstr "Obrázek %(widget)s"
 
 #: html/widgets.html:27
 msgid "Example:"
-msgstr ""
+msgstr "Příklad:"
 
 #: html/widgets.html:31
 msgid "Code:"
-msgstr ""
+msgstr "Kód:"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -1985,9 +2001,8 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Maska souborů neobsahuje * na místě jazyka!"
 
 #: trans/models.py:79
-#, fuzzy
 msgid "Can not link to linked repository!"
-msgstr "Chybný odkaz na git repozitář!"
+msgstr "Nelze odkázat na git repozitář, který již je odkazem!"
 
 #: trans/models.py:81
 msgid "Invalid link to repository!"
@@ -2098,16 +2113,18 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Soubor %s nebyl nalezen v repozitáři! Chcete-li přidat nový překlad, "
+"přidejte soubor s překladem do repozitáře."
 
 #: trans/models.py:724
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "Nepodařilo ze rozpoznat formát %d souborů."
+msgstr "Nepodařilo ze rozpoznat formát souboru %s."
 
 #: trans/models.py:726
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Nepodařilo ze zpracovat %d souborů!"
+msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
 
 #: trans/models.py:1065
 msgid "All strings"
@@ -2137,7 +2154,7 @@ msgstr ""
 #: trans/models.py:1322
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "ID jednotky %s"
 
 #: trans/views.py:48
 msgid "Please set your full name in your profile."
