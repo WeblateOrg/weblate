@@ -17,6 +17,7 @@ Requires:       python-django-registration
 Requires:       translate-toolkit
 Requires:       python-GitPython >= 0.3
 Requires:       python-whoosh
+Requires:       python-cairo
 %py_requires
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
