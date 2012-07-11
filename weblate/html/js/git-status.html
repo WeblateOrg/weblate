@@ -7,7 +7,7 @@
 <li><a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}"{% if not perms.trans.update_translation %} class="disabled"{% endif %}>{% trans "Pull" %}</a></li>
 <li><a href="{{ object.get_push_url }}" title="{% trans "Push changes to remote repository" %}"{% if not perms.trans.push_translation or not object.can_push %} class="disabled"{% endif %}>{% trans "Push" %}</a></li>
 {% if perms.trans.reset_translation %}
-<li><a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}">{% trans "Reset" %}</a></li>
+<li><a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="confirm-reset">{% trans "Reset" %}</a></li>
 {% endif %}
 </ul>
 
