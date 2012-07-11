@@ -137,8 +137,6 @@ def widget_287(request, project):
 
     # Setup
     ctx.set_line_width(0.2)
-    ctx.select_font_face("Sans")
-    ctx.set_font_size(14)
 
     # Progressbar params
     p_x = 72
@@ -162,7 +160,10 @@ def widget_287(request, project):
     ctx.set_source_rgb (0, 0, 0)
     ctx.new_path()
     ctx.move_to(p_x, 19)
+    ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
+    ctx.set_font_size(14)
     ctx.text_path(obj.name)
+    ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
     ctx.set_font_size(10)
     ctx.move_to(p_x, 32)
     ctx.text_path("translating %(count)d strings into %(languages)d languages" % {
