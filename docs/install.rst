@@ -165,6 +165,23 @@ invoke following SQL command to adjust it:
 
     ALTER TABLE `trans_subproject` ADD `template` VARCHAR(200);
 
+On upgrade to version 1.2, the migration procedure has changed. It now uses
+South for migrating database. To switch to this new migration schema, you need
+to run following commands:
+
+.. code-block:: sh
+
+    ./manage.py syncdb
+    ./manage.py migrate weblate.trans 0001 --fake
+    ./manage.py migrate weblate.accounts 0001 --fake
+    ./manage.py migrate weblate.lang 0001 --fake
+
+The rest of upgrade to 1.2 (and all future versions), is just matter of:
+
+.. code-block:: sh
+
+    ./manage.py migrate
+
 Migrating from Pootle
 ---------------------
 
