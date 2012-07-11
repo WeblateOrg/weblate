@@ -114,6 +114,12 @@ class Project(models.Model):
             'project': self.slug
         })
 
+    @models.permalink
+    def get_reset_url(self):
+        return ('weblate.trans.views.reset_project', (), {
+            'project': self.slug
+        })
+
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
@@ -199,6 +205,15 @@ class Project(models.Model):
             ret |= s.do_push(request)
         return ret
 
+    def do_reset(self, request = None):
+        '''
+        Pushes all git repos.
+        '''
+        ret = True
+        for s in self.subproject_set.all():
+            ret |= s.do_reset(request)
+        return ret
+
     def can_push(self):
         '''
         Checks whether any suprojects can push.
@@ -272,6 +287,13 @@ class SubProject(models.Model):
     @models.permalink
     def get_push_url(self):
         return ('weblate.trans.views.push_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
+
+    @models.permalink
+    def get_reset_url(self):
+        return ('weblate.trans.views.reset_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -478,6 +500,33 @@ class SubProject(models.Model):
             )
             if request is not None:
                 messages.error(request, _('Failed to push to remote branch on %s.') % self.__unicode__())
+            return False
+
+    def do_reset(self, request = None):
+        '''
+        Wrapper for reseting repo to same sources as remote.
+        '''
+        if self.is_repo_link():
+            return self.get_linked_repo().do_reset(request)
+
+        # First check we're up to date
+        self.do_update(request)
+
+        # Do actual reset
+        gitrepo = self.get_repo()
+        try:
+            logger.info('reseting to remote repo %s', self.__unicode__())
+            gitrepo.git.reset('--hard', 'origin/%s' % self.branch)
+            return True
+        except Exception, e:
+            logger.warning('failed reset on repo %s', self.__unicode__())
+            msg = 'Error:\n%s' % str(e)
+            mail_admins(
+                'failed reset on repo %s' % self.__unicode__(),
+                msg
+            )
+            if request is not None:
+                messages.error(request, _('Failed to reset to remote branch on %s.') % self.__unicode__())
             return False
 
     def get_linked_childs(self):
@@ -778,6 +827,14 @@ class Translation(models.Model):
         })
 
     @models.permalink
+    def get_reset_url(self):
+        return ('weblate.trans.views.reset_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    @models.permalink
     def get_download_url(self):
         return ('weblate.trans.views.download_translation', (), {
             'project': self.subproject.project.slug,
@@ -872,6 +929,9 @@ class Translation(models.Model):
 
     def do_push(self, request = None):
         return self.subproject.do_push(request)
+
+    def do_reset(self, request = None):
+        return self.subproject.do_reset(request)
 
     def can_push(self):
         return self.subproject.can_push()

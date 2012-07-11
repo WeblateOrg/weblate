@@ -11,6 +11,7 @@ Relased on ? 2012.
 * Documentation enhancements.
 * New introduction page for engaging people with translating using Weblate.
 * Added widgets which can be used for promoting translation projects.
+* Added option to reset repository to origin (for privileged users).
 
 weblate 1.1
 -----------
