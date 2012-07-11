@@ -6,6 +6,12 @@ weblate 1.2
 
 Relased on ? 2012.
 
+* Weblate now uses South for database migration, please check upgrade instructions if you are upgrading.
+* Fixed minor issues with linked git repos.
+* Documentation enhancements.
+* New introduction page for engaging people with translating using Weblate.
+* Added widgets which can be used for promoting translation projects.
+
 weblate 1.1
 -----------
 
