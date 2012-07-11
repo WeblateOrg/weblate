@@ -28,4 +28,8 @@ def fake():
     _("Failed translation")
     _("The request for machine translation has failed.")
     _("Error details:")
+    _('Confirm reseting repository')
+    _('Reseting the repository will throw away all local changes!')
+    _('Ok')
+    _('Cancel')
 
