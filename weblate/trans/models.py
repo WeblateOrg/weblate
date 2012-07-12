@@ -799,6 +799,8 @@ class Translation(models.Model):
     fuzzy = models.IntegerField(default = 0, db_index = True)
     total = models.IntegerField(default = 0, db_index = True)
 
+    enabled = models.BooleanField(default = True, db_index = True)
+
     objects = TranslationManager()
 
     class Meta:

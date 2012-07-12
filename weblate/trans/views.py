@@ -297,7 +297,7 @@ def show_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.automatic_translation')
 def auto_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
     obj.commit_pending()
     autoform = AutoForm(obj, request.POST)
     change = None
@@ -340,7 +340,7 @@ def auto_translation(request, project, subproject, lang):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 def show_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
     last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]
 
     if obj.subproject.locked:
@@ -401,7 +401,7 @@ def commit_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.commit_translation')
 def commit_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
     obj.commit_pending()
 
     messages.info(request, _('All pending translations were committed.'))
@@ -431,7 +431,7 @@ def update_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.update_translation')
 def update_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
@@ -461,7 +461,7 @@ def push_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.push_translation')
 def push_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
@@ -491,7 +491,7 @@ def reset_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.reset_translation')
 def reset_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     if obj.do_reset(request):
         messages.info(request, _('All repositories has been reset.'))
@@ -554,7 +554,7 @@ def unlock_project(request, project):
 
 
 def download_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     # Retrieve ttkit store to get extension and mime type
     store = obj.get_store()
@@ -653,7 +653,7 @@ def get_filter_name(rqtype, search_query):
 
 
 def translate(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     if obj.subproject.locked:
         messages.error(request, _('This translation is currently locked for updates!'))
@@ -1017,7 +1017,7 @@ def upload_translation(request, project, subproject, lang):
     '''
     Handling of translation uploads.
     '''
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     if not obj.subproject.locked and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):
@@ -1128,7 +1128,7 @@ def git_status_subproject(request, project, subproject):
 
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
 def git_status_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
+    obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,

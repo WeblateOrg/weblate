@@ -85,6 +85,9 @@ class TranslationManager(models.Manager):
             translation.filename = path
         translation.update_from_blob(blob_hash, force)
 
+    def enabled(self):
+        return self.filter(enabled = True)
+
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
         '''

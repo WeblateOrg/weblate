@@ -9,7 +9,7 @@
 
 {% block content %}
 
-{% with object.translation_set.all as translations %}
+{% with object.translation_set.enabled as translations %}
 {% include "list-translations.html" %}
 {% endwith %}
 

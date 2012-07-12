@@ -53,9 +53,18 @@ class SubProjectAdmin(admin.ModelAdmin):
 admin.site.register(SubProject, SubProjectAdmin)
 
 class TranslationAdmin(admin.ModelAdmin):
-    list_display = ['subproject', 'language', 'translated', 'fuzzy', 'revision', 'filename']
+    list_display = ['subproject', 'language', 'translated', 'fuzzy', 'revision', 'filename', 'enabled']
     search_fields = ['subproject__slug', 'language__code', 'translated', 'fuzzy', 'revision', 'filename']
-    list_filter = ['subproject__project', 'subproject', 'language']
+    list_filter = ['enabled', 'subproject__project', 'subproject', 'language']
+    actions = ['enable_translation', 'disable_translation']
+
+    def enable_translation(self, request, queryset):
+        queryset.update(enabled = True)
+        self.message_user(request, "Enabled %d translations." % queryset.count())
+
+    def disable_translation(self, request, queryset):
+        queryset.update(enabled = False)
+        self.message_user(request, "Disabled %d translations." % queryset.count())
 
 admin.site.register(Translation, TranslationAdmin)
 
