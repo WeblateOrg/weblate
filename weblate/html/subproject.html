@@ -33,7 +33,11 @@
 </ul>
 
 <div id="new-lang">
+{% if object.project.new_lang == 'url' %}
+<p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</li>
+{% else %}
 <p>{% blocktrans %}Should your language be missing, please <a href="{{ contact_url }}?subject=New+language+request+for+{{ object }}">contact us</a>.{% endblocktrans %}</li>
+{% endif %}
 </div>
 
 <div id="changes">

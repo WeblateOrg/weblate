@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models import Sum
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
@@ -80,15 +80,29 @@ def validate_repo(val):
     except SubProject.DoesNotExist:
         raise ValidationError(_('Invalid link to repository!'))
 
+NEW_LANG_CHOICES = (
+    ('contact', ugettext_lazy('Use contact form')),
+    ('url', ugettext_lazy('Point to translation instructions URL')),
+)
+
 class Project(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
     web = models.URLField()
     mail = models.EmailField(blank = True)
     instructions = models.URLField(blank = True)
+    new_lang = models.CharField(
+        max_length = 10,
+        choices = NEW_LANG_CHOICES,
+        default = 'contact'
+    )
 
     class Meta:
         ordering = ['name']
+
+    def clean(self):
+        if self.new_lang == 'url' and self.instructions == '':
+            raise ValidationError(_('Please either fill in instructions URL or use different option for adding new language.'))
 
     @models.permalink
     def get_absolute_url(self):

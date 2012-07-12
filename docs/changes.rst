@@ -14,6 +14,7 @@ Relased on ? 2012.
 * Added option to reset repository to origin (for privileged users).
 * Project or subproject can now be locked for translations.
 * Possibility to disable some translations.
+* Configurable options for adding new translations.
 
 weblate 1.1
 -----------
