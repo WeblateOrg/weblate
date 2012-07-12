@@ -102,7 +102,7 @@ def export_stats(request, project, subproject):
 def widgets(request, project):
     obj = get_object_or_404(Project, slug = project)
     site = Site.objects.get_current()
-    engage_url = 'http://%s%s' % (
+    engage_url = 'http://%s%s?utm_source=widget' % (
         site.domain,
         reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
     )
