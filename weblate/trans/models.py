@@ -521,7 +521,6 @@ class SubProject(models.Model):
         try:
             logger.info('reseting to remote repo %s', self.__unicode__())
             gitrepo.git.reset('--hard', 'origin/%s' % self.branch)
-            return True
         except Exception, e:
             logger.warning('failed reset on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
@@ -532,6 +531,11 @@ class SubProject(models.Model):
             if request is not None:
                 messages.error(request, _('Failed to reset to remote branch on %s.') % self.__unicode__())
             return False
+
+        # create translation objects for all files
+        self.create_translations()
+
+        return True
 
     def get_linked_childs(self):
         '''
