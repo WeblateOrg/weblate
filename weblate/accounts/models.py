@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.contrib.auth.models import Group, Permission, User
 from django.db.models.signals import post_syncdb
 
+from south.signals import post_migrate
+
 from weblate.lang.models import Language
 
 class Profile(models.Model):
@@ -113,6 +115,8 @@ def create_groups(update, move):
             Permission.objects.get(codename = 'add_dictionary'),
             Permission.objects.get(codename = 'change_dictionary'),
             Permission.objects.get(codename = 'delete_dictionary'),
+            Permission.objects.get(codename = 'lock_translation'),
+            Permission.objects.get(codename = 'reset_translation'),
         )
     if move:
         for u in User.objects.all():
@@ -122,7 +126,8 @@ def sync_create_groups(sender, **kwargs):
     '''
     Create groups on syncdb.
     '''
-    if sender.__name__ == 'weblate.accounts.models':
+    if ('app' in kwargs and kwargs['app'] == 'accounts') or (sender is not None and sender.__name__ == 'weblate.accounts.models'):
         create_groups(False, False)
 
 post_syncdb.connect(sync_create_groups)
+post_migrate.connect(sync_create_groups)
