@@ -503,6 +503,8 @@ def reset_translation(request, project, subproject, lang):
 def lock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
 
+    obj.commit_pending()
+
     obj.locked = True
     obj.save()
 
@@ -526,6 +528,8 @@ def unlock_subproject(request, project, subproject):
 @permission_required('trans.lock_translation')
 def lock_project(request, project):
     obj = get_object_or_404(Project, slug = project)
+
+    obj.commit_pending()
 
     for sp in obj.subproject_set.all():
         sp.locked = True
