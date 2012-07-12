@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-12 12:55+0200\n"
-"PO-Revision-Date: 2012-07-03 15:43+0200\n"
+"PO-Revision-Date: 2012-07-13 00:24+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: urls.py:99 urls.py:105
 msgid "User registration"
-msgstr "Registro de usuario"
+msgstr "Registro de usuarios"
 
 #: urls.py:110
 msgid "Account activation"
@@ -185,21 +185,20 @@ msgid "Error details:"
 msgstr "Detalles de error:"
 
 #: accounts/i18n.py:31
-#, fuzzy
 msgid "Confirm reseting repository"
-msgstr "URL de repositorio GIT"
+msgstr "Confirmar reinicialización del repositorio"
 
 #: accounts/i18n.py:32
 msgid "Reseting the repository will throw away all local changes!"
-msgstr ""
+msgstr "¡Reinicializar el repositorio descartará todos los cambios locales!"
 
 #: accounts/i18n.py:33
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: accounts/i18n.py:34
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: accounts/models.py:19
 msgid "Interface Language"
@@ -449,7 +448,7 @@ msgstr "Guardar"
 #: html/engage.html:11 html/engage.html.py:37
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "¡Involúcrate en %(project)s!"
 
 #: html/engage.html:12
 #, python-format
@@ -457,10 +456,12 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
+"Involúcrate en %(project)s, que está siendo traducido a %(languages)s "
+"idiomas utilizando Weblate."
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
-msgstr ""
+msgstr "¡Hola y gracias por tu interés!"
 
 #: html/engage.html:43
 #, python-format
@@ -469,6 +470,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"%(name)s es traducido utilizando <a href=\"http://weblate.org/\">Weblate</a>, "
+"una herramienta diseñada para facilitar la traducción tanto a "
+"desarrolladores como a traductores."
 
 #: html/engage.html:46
 #, python-format
@@ -477,6 +481,9 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
+"El proyecto de traducción para %(name)s actualmente contiene %(total)s "
+"cadenas para traducción y <a href=\"%(url)s\">es traducido a %(languages)s "
+"idiomas</a>. En general, estas traducciones están %(percent)s%% completas."
 
 #: html/engage.html:49
 #, python-format
@@ -484,6 +491,8 @@ msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
 msgstr ""
+"Si desea contribuir a la traducción de %(name)s, necesita <a "
+"href=\"/accounts/register/\">registrarse en este servidor</a>."
 
 #: html/engage.html:52
 #, python-format
@@ -491,6 +500,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
+"Una vez que activó su cuenta, continúe a la <a href=\"%(url)s\">sección de "
+"traducción</a>."
 
 #: html/index.html:9
 msgid ""
@@ -642,19 +653,20 @@ msgstr "Mantenimiento Git"
 
 #: html/project.html:45
 msgid "Promote"
-msgstr ""
+msgstr "Promocionar"
 
 #: html/project.html:53
 msgid "Manage all dictionaries"
 msgstr "Administrar diccionarios"
 
 #: html/project.html:63
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
 msgstr ""
-"¿Olvidó su contraseña? Puede <a href=\"%(reset_url)s\">reinicializarla</a>."
+"Promocione su proyecto de traducción utilizando <a href=\"%"
+"(widgets_url)s\">widgets</a>."
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -677,13 +689,13 @@ msgid "New language"
 msgstr "Nuevo idioma"
 
 #: html/subproject.html:37
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"En caso que no encuentre su idioma, <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">contáctenos</a>."
+"En caso que no encuentre su idioma, siga las <a href=\"%(url)s\">instrucciones "
+"correspondientes</a>."
 
 #: html/subproject.html:39
 #, python-format
@@ -911,11 +923,11 @@ msgstr "Mensaje traducido"
 
 #: html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "widgets"
 
 #: html/widgets.html:12
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: html/widgets.html:15
 msgid ""
@@ -923,6 +935,9 @@ msgid ""
 "can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
+"Puede utilizar los widgets a continuación para promocionar la traducción de "
+"su proyecto. Pueden aumentar la visibilidad de los proyectos de traducción y "
+"atraer nuevos colaboradores."
 
 #: html/widgets.html:19
 #, python-format
@@ -930,23 +945,25 @@ msgid ""
 "You can also point new comers co introducing page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
+"También puede dirigir a los recién llegados a la página de introducción en "
+"<a href=\"%(engage_url)s\">%(engage_url)s</a>."
 
 #: html/widgets.html:22
 msgid "Image widgets"
-msgstr ""
+msgstr "Widgets gráficos"
 
 #: html/widgets.html:25
 #, python-format
 msgid "Image %(widget)s"
-msgstr ""
+msgstr "Imágen %(widget)s"
 
 #: html/widgets.html:27
 msgid "Example:"
-msgstr ""
+msgstr "Ejemplo:"
 
 #: html/widgets.html:31
 msgid "Code:"
-msgstr ""
+msgstr "Código:"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -995,31 +1012,28 @@ msgid "Push"
 msgstr "«Push»"
 
 #: html/js/git-status.html:12
-#, fuzzy
 msgid "Reset all changes in local repository"
-msgstr "Obtener cambios del repositorio remoto"
+msgstr "Deshacer todos los cambios del repositorio local"
 
 #: html/js/git-status.html:12
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: html/js/git-status.html:16
-#, fuzzy
 msgid "Allow changes in the repository"
-msgstr "Obtener cambios del repositorio remoto"
+msgstr "Permitir cambios en el repositorio"
 
 #: html/js/git-status.html:16
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: html/js/git-status.html:18
-#, fuzzy
 msgid "Prevent any changes in the repository"
-msgstr "Enviar cambios al repositorio remoto"
+msgstr "Evitar cambios en el repositorio"
 
 #: html/js/git-status.html:18
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
@@ -2055,9 +2069,8 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "¡La máscara de archivo no contiene «*» en lugar del idioma!"
 
 #: trans/models.py:79
-#, fuzzy
 msgid "Can not link to linked repository!"
-msgstr "¡Enlace al repositorio inválido!"
+msgstr "¡No se puede enlazar al repositorio asociado!"
 
 #: trans/models.py:81
 msgid "Invalid link to repository!"
@@ -2065,18 +2078,19 @@ msgstr "¡Enlace al repositorio inválido!"
 
 #: trans/models.py:84
 msgid "Use contact form"
-msgstr ""
+msgstr "Utilizar formulario de contacto"
 
 #: trans/models.py:85
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "Cadenas sin traducir"
+msgstr "Apuntar a la URL con instrucciones de traducción"
 
 #: trans/models.py:105
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Complete la URL de instrucciones o utilice una opción diferente para agregar "
+"un idioma."
 
 #: trans/models.py:259
 msgid "Name to display"
@@ -2130,7 +2144,7 @@ msgstr ""
 
 #: trans/models.py:293
 msgid "Whether subproject is locked for translation updates"
-msgstr ""
+msgstr "Si el subproyecto está bloqueado para actualizaciones de traducción"
 
 #: trans/models.py:450
 #, python-format
@@ -2148,9 +2162,9 @@ msgid "Failed to push to remote branch on %s."
 msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 
 #: trans/models.py:584
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "No se pudieron guardar los cambios a la rama remota en %s."
+msgstr "No se pudieron deshacer los cambios a la rama remota en %s."
 
 #: trans/models.py:640
 #, python-format
@@ -2193,16 +2207,18 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"¡No se encontró el archivo %s en el repositorio! Para agregar una nueva "
+"traducción, agregue el archivo de idioma en el repositorio."
 
 #: trans/models.py:839
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "No se reconoció el formato de %d archivos encontrados."
+msgstr "No se reconoció el formato de %s."
 
 #: trans/models.py:841
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "¡No se pudieron procesar %d archivos encontrados!"
+msgstr "No se pudo procesar el archivo %(file)s: %(error)s"
 
 #: trans/models.py:1210
 msgid "All strings"
@@ -2232,7 +2248,7 @@ msgstr ""
 #: trans/models.py:1467
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "ID de unidad %s"
 
 #: trans/views.py:48
 msgid "Please set your full name in your profile."
@@ -2258,7 +2274,7 @@ msgstr "¡No se pudo procesar el formulario!"
 
 #: trans/views.py:290 trans/views.py:347 trans/views.py:659
 msgid "This translation is currently locked for updates!"
-msgstr ""
+msgstr "¡Esta traducción tiene las actualizaciones bloqueadas!"
 
 #: trans/views.py:336
 msgid "Automatic translation completed."
@@ -2277,25 +2293,24 @@ msgid "All repositories were pushed."
 msgstr "Los cambios fueron enviados a todos los repositorios."
 
 #: trans/views.py:477 trans/views.py:487 trans/views.py:497
-#, fuzzy
 msgid "All repositories has been reset."
-msgstr "Los cambios fueron enviados a todos los repositorios."
+msgstr "Todos los repositorios fueron reinicializados."
 
 #: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "¡El subproyecto tiene ahora las actualizaciones bloqueadas!"
 
 #: trans/views.py:523
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "El subproyecto ahora acepta actualizaciones a las traducciones."
 
 #: trans/views.py:538
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "¡Todos los subproyectos tienen ahora las actualizaciones bloqueadas!"
 
 #: trans/views.py:551
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "El proyecto ahora acepta actualizaciones a las traducciones."
 
 #: trans/views.py:640
 #, python-format
