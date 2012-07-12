@@ -120,6 +120,24 @@ class Project(models.Model):
             'project': self.slug
         })
 
+    def is_lockable(self):
+        return True
+
+    def is_locked(self):
+        return max([sp.locked for sp in self.subproject_set.all()])
+
+    @models.permalink
+    def get_lock_url(self):
+        return ('weblate.trans.views.lock_project', (), {
+            'project': self.slug
+        })
+
+    @models.permalink
+    def get_unlock_url(self):
+        return ('weblate.trans.views.unlock_project', (), {
+            'project': self.slug
+        })
+
     def get_path(self):
         return os.path.join(settings.GIT_ROOT, self.slug)
 
@@ -298,6 +316,26 @@ class SubProject(models.Model):
     @models.permalink
     def get_reset_url(self):
         return ('weblate.trans.views.reset_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
+
+    def is_lockable(self):
+        return True
+
+    def is_locked(self):
+        return self.locked
+
+    @models.permalink
+    def get_lock_url(self):
+        return ('weblate.trans.views.lock_subproject', (), {
+            'project': self.project.slug,
+            'subproject': self.slug
+        })
+
+    @models.permalink
+    def get_unlock_url(self):
+        return ('weblate.trans.views.unlock_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -837,6 +875,25 @@ class Translation(models.Model):
     @models.permalink
     def get_reset_url(self):
         return ('weblate.trans.views.reset_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    def is_lockable(self):
+        return False
+
+    @models.permalink
+    def get_lock_url(self):
+        return ('weblate.trans.views.lock_translation', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': self.language.code
+        })
+
+    @models.permalink
+    def get_unlock_url(self):
+        return ('weblate.trans.views.unlock_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code

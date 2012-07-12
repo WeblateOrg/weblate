@@ -12,7 +12,7 @@ Relased on ? 2012.
 * New introduction page for engaging people with translating using Weblate.
 * Added widgets which can be used for promoting translation projects.
 * Added option to reset repository to origin (for privileged users).
-* Subproject can now be locked for translations.
+* Project or subproject can now be locked for translations.
 
 weblate 1.1
 -----------

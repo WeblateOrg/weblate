@@ -55,6 +55,8 @@ urlpatterns = patterns('',
     url(r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.reset_subproject'),
     url(r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.reset_translation'),
 
+    url(r'^lock/(?P<project>[^/]*)/$', 'weblate.trans.views.lock_project'),
+    url(r'^unlock/(?P<project>[^/]*)/$', 'weblate.trans.views.unlock_project'),
     url(r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.lock_subproject'),
     url(r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.unlock_subproject'),
 

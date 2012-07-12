@@ -522,6 +522,32 @@ def unlock_subproject(request, project, subproject):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+@login_required
+@permission_required('trans.lock_translation')
+def lock_project(request, project):
+    obj = get_object_or_404(Project, slug = project)
+
+    for sp in obj.subproject_set.all():
+        sp.locked = True
+        sp.save()
+
+    messages.info(request, _('All subprojects are now locked for translation updates!'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
+@login_required
+@permission_required('trans.lock_translation')
+def unlock_project(request, project):
+    obj = get_object_or_404(Project, slug = project)
+
+    for sp in obj.subproject_set.all():
+        sp.locked = False
+        sp.save()
+
+    messages.info(request, _('Project is now open for translation updates.'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
 
 def download_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project)
