@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-11 15:43+0200\n"
+"POT-Creation-Date: 2012-07-12 09:30+0200\n"
 "PO-Revision-Date: 2012-04-28 06:01+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,31 +19,31 @@ msgstr ""
 "%100==4 ? 2 : 3);\n"
 "X-Generator: Weblate 0.10\n"
 
-#: urls.py:90 urls.py:96
+#: urls.py:97 urls.py:103
 msgid "User registration"
 msgstr "Registracija uporabnika"
 
-#: urls.py:101
+#: urls.py:108
 msgid "Account activation"
 msgstr "Aktivacija računa"
 
-#: urls.py:107 html/base.html:47 html/registration/login.html:30
+#: urls.py:114 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Prijava"
 
-#: urls.py:114
+#: urls.py:121
 msgid "Logged out"
 msgstr "Odjavljen"
 
-#: urls.py:119
+#: urls.py:126
 msgid "Change password"
 msgstr "Spremeni geslo"
 
-#: urls.py:123
+#: urls.py:130
 msgid "Password changed"
 msgstr "Geslo sem spremenil"
 
-#: urls.py:127 urls.py:131 urls.py:135 urls.py:139
+#: urls.py:134 urls.py:138 urls.py:142 urls.py:146
 msgid "Password reset"
 msgstr "Ponastavitev gesla"
 
@@ -183,6 +183,23 @@ msgstr "Zahteva po strojnem prevodu je spodletela."
 msgid "Error details:"
 msgstr "Podrobnosti napake:"
 
+#: accounts/i18n.py:31
+#, fuzzy
+msgid "Confirm reseting repository"
+msgstr "URL shrambe Git"
+
+#: accounts/i18n.py:32
+msgid "Reseting the repository will throw away all local changes!"
+msgstr ""
+
+#: accounts/i18n.py:33
+msgid "Ok"
+msgstr ""
+
+#: accounts/i18n.py:34
+msgid "Cancel"
+msgstr ""
+
 #: accounts/models.py:17
 msgid "Interface Language"
 msgstr "Jezik vmesnika"
@@ -268,7 +285,7 @@ msgstr "Domov"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Poganja <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1012
+#: html/base.html:75 html/engage.html:58 trans/views.py:1076
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -945,43 +962,70 @@ msgstr ""
 msgid "No related strings found in dictionary."
 msgstr "V slovarju nisem našel sorodnih nizov."
 
-#: html/js/git-status.html:6
+#: html/js/git-status.html:8
 msgid "Commit pending changes"
 msgstr "Potrdi spremembe v teku"
 
-#: html/js/git-status.html:6
+#: html/js/git-status.html:8
 msgid "Commit"
 msgstr "Potrdi"
 
-#: html/js/git-status.html:7
+#: html/js/git-status.html:9
 msgid "Pull changes from remote repository"
 msgstr "Povleci spremembe iz oddaljenih shramb"
 
-#: html/js/git-status.html:7
+#: html/js/git-status.html:9
 msgid "Pull"
 msgstr "Povleci"
 
-#: html/js/git-status.html:8
+#: html/js/git-status.html:10
 msgid "Push changes to remote repository"
 msgstr "Potisne spremembe v oddaljeno shrambo"
 
-#: html/js/git-status.html:8
+#: html/js/git-status.html:10
 msgid "Push"
 msgstr "Potisni"
 
 #: html/js/git-status.html:12
+#, fuzzy
+msgid "Reset all changes in local repository"
+msgstr "Povleci spremembe iz oddaljenih shramb"
+
+#: html/js/git-status.html:12
+msgid "Reset"
+msgstr ""
+
+#: html/js/git-status.html:16
+#, fuzzy
+msgid "Allow changes in the repository"
+msgstr "Povleci spremembe iz oddaljenih shramb"
+
+#: html/js/git-status.html:16
+msgid "Unlock"
+msgstr ""
+
+#: html/js/git-status.html:18
+#, fuzzy
+msgid "Prevent any changes in the repository"
+msgstr "Potisne spremembe v oddaljeno shrambo"
+
+#: html/js/git-status.html:18
+msgid "Lock"
+msgstr ""
+
+#: html/js/git-status.html:24
 msgid "There are some not commited changes!"
 msgstr "Obstaja nekaj nepotrjenih sprememb!"
 
-#: html/js/git-status.html:15
+#: html/js/git-status.html:27
 msgid "Remote Git repository needs to be merged!"
 msgstr "Oddaljeno shrambo Git je potrebno združiti!"
 
-#: html/js/git-status.html:18
+#: html/js/git-status.html:30
 msgid "There are some new commits in local Git repository!"
 msgstr "V lokalni shrambi Git je nekaj novih potrditev!"
 
-#: html/js/git-status.html:22
+#: html/js/git-status.html:34
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -2040,25 +2084,25 @@ msgstr "Shramba Git:"
 msgid "Invalid link to repository!"
 msgstr "Shramba Git:"
 
-#: trans/models.py:212
+#: trans/models.py:227
 msgid "Name to display"
 msgstr "Prikazno ime"
 
-#: trans/models.py:213
+#: trans/models.py:228
 msgid "Name used in URLs"
 msgstr "Ime, uporabljeno v URL-jih"
 
-#: trans/models.py:217
+#: trans/models.py:232
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
 
-#: trans/models.py:222
+#: trans/models.py:237
 msgid "URL of push Git repository"
 msgstr "URL shrambe Git za potiskanje"
 
-#: trans/models.py:226
+#: trans/models.py:241
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2067,11 +2111,11 @@ msgstr ""
 "Povezava do brskalnika po shrambi; uporabite %(branch)s za podvejo, %(file)s "
 "in %(line)s za ime datoteke in označbe mesta vrstice"
 
-#: trans/models.py:232
+#: trans/models.py:247
 msgid "Git branch to translate"
 msgstr "Podveja Git za prevajanje"
 
-#: trans/models.py:237
+#: trans/models.py:252
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2079,7 +2123,7 @@ msgstr ""
 "Pot datotek za prevajanje; uporabite * namesto kode jezika, na primer: po/*."
 "po ali locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:242
+#: trans/models.py:257
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2087,31 +2131,40 @@ msgstr ""
 "Ime datoteke predloge prevodov; priporočljivo za prevode, ki shranjujejo "
 "samo preveden niz, kot so nizi virov Android"
 
-#: trans/models.py:369
+#: trans/models.py:261
+msgid "Whether subproject is locked for translation updates"
+msgstr ""
+
+#: trans/models.py:398
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Zajemanje shrambe git je spodletelo: %s"
 
-#: trans/models.py:449
+#: trans/models.py:478
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: trans/models.py:477
+#: trans/models.py:506
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 
-#: trans/models.py:528
+#: trans/models.py:533
+#, fuzzy, python-format
+msgid "Failed to reset to remote branch on %s."
+msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
+
+#: trans/models.py:584
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nisem uspel združiti oddaljene podveje z %s."
 
-#: trans/models.py:600
+#: trans/models.py:656
 msgid "The mask did not match any files!"
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: trans/models.py:605
+#: trans/models.py:661
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2119,65 +2172,65 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek; prosimo, prilagodite masko in "
 "uporabite podprojekte za prevajanje različnih virov."
 
-#: trans/models.py:620
+#: trans/models.py:676
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 
-#: trans/models.py:625
+#: trans/models.py:681
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:635
+#: trans/models.py:691
 msgid "Format of translation template could not be recognized."
 msgstr "Oblike predloge prevoda ni mogoče prepoznati."
 
-#: trans/models.py:637
+#: trans/models.py:693
 msgid "Failed to parse translation template."
 msgstr "Razčlenjevanje predloge prevoda ni uspelo."
 
-#: trans/models.py:720
+#: trans/models.py:777
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:724
+#: trans/models.py:781
 #, fuzzy, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 
-#: trans/models.py:726
+#: trans/models.py:783
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:1065
+#: trans/models.py:1133
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:1070
+#: trans/models.py:1138
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:1072
+#: trans/models.py:1140
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:1074
+#: trans/models.py:1142
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:1258
+#: trans/models.py:1326
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1322
+#: trans/models.py:1390
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2200,106 +2253,120 @@ msgstr "V datoteki nisem našel nobene besede za uvoz."
 msgid "Imported %d words from file."
 msgstr "Iz datoteke sem uvozil %d besed."
 
-#: trans/views.py:211 trans/views.py:213 trans/views.py:335
+#: trans/views.py:211 trans/views.py:213 trans/views.py:338
 msgid "Failed to process form!"
 msgstr "Nisem uspel obdelati obrazca!"
 
-#: trans/views.py:333
+#: trans/views.py:290 trans/views.py:347 trans/views.py:629
+msgid "This translation is currently locked for updates!"
+msgstr ""
+
+#: trans/views.py:336
 msgid "Automatic translation completed."
 msgstr "Samodejno prevajanje je končano."
 
-#: trans/views.py:381 trans/views.py:391 trans/views.py:401
+#: trans/views.py:387 trans/views.py:397 trans/views.py:407
 msgid "All pending translations were committed."
 msgstr "Vsi prevodi v teku so potrjeni."
 
-#: trans/views.py:411 trans/views.py:421 trans/views.py:431
+#: trans/views.py:417 trans/views.py:427 trans/views.py:437
 msgid "All repositories were updated."
 msgstr "Posodobil sem vse shrambe."
 
-#: trans/views.py:441 trans/views.py:451 trans/views.py:461
+#: trans/views.py:447 trans/views.py:457 trans/views.py:467
 msgid "All repositories were pushed."
 msgstr "Potisnil sem vse shrambe."
 
-#: trans/views.py:549
+#: trans/views.py:477 trans/views.py:487 trans/views.py:497
+#, fuzzy
+msgid "All repositories has been reset."
+msgstr "Potisnil sem vse shrambe."
+
+#: trans/views.py:509
+msgid "Subproject is now locked for translation updates!"
+msgstr ""
+
+#: trans/views.py:521
+msgid "Subproject is now open for translation updates."
+msgstr ""
+
+#: trans/views.py:610
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Iskanje »%s«"
 
-#: trans/views.py:553
+#: trans/views.py:614
 msgid "Fuzzy strings"
 msgstr "Neurejeni nizi"
 
-#: trans/views.py:555
+#: trans/views.py:616
 msgid "Not translated strings"
 msgstr "Neprevedeni nizi"
 
-#: trans/views.py:557
+#: trans/views.py:618
 msgid "Strings with suggestions"
 msgstr "Nizi s predlogi"
 
-#: trans/views.py:596
+#: trans/views.py:660
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views.py:616
+#: trans/views.py:680
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views.py:619 trans/views.py:659
+#: trans/views.py:683 trans/views.py:723
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views.py:635
+#: trans/views.py:699
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views.py:653 trans/views.py:691
+#: trans/views.py:717 trans/views.py:755
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
 
-#: trans/views.py:674
+#: trans/views.py:738
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različna sporočila!"
 
-#: trans/views.py:697
+#: trans/views.py:761
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views.py:708
+#: trans/views.py:772
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views.py:718
+#: trans/views.py:782
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views.py:739
+#: trans/views.py:803
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views.py:796
+#: trans/views.py:860
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views.py:947
+#: trans/views.py:1011
 msgid "File content successfully merged into translation."
 msgstr "Vsebino datoteke sem uspešno združil s prevodom."
 
-#: trans/views.py:949
+#: trans/views.py:1013
 msgid "There were no new strings in uploaded file."
 msgstr "V naloženi datoteki ni bilo novih nizov."
 
-#: trans/views.py:951
+#: trans/views.py:1015
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Združitev vsebine datoteke je spodletelo: %s"
 
-#: trans/views.py:962
+#: trans/views.py:1026
 msgid "Page Not Found"
 msgstr "Strani ni mogoče najti"
 
 #~ msgid "Checks"
 #~ msgstr "Preverjanja"
-
-#~ msgid "URL of Git repository"
-#~ msgstr "URL shrambe Git"
