@@ -140,6 +140,39 @@ The appliance is built using SUSE Studio and is based on openSUSE 12.1.
 Upgrading
 ---------
 
+.. _generic-upgrade-instructions:
+
+Generic upgrade instructions
+++++++++++++++++++++++++++++
+
+.. versionchanged:: 1.2
+    Since version 1.2 the migration is done using South module, to upgrade to 1.2, 
+    please see :ref:`version-specific-instructions`.
+
+To upgrade database structure, you should run following commands:
+
+.. code-block:: sh
+
+    ./manage.py syncdb
+    ./manage.py migrate
+
+To upgrade default set of privileges definitions (optional), run:
+
+.. code-block:: sh
+
+    ./manage.py setupgroups
+
+To upgrade default set of language definitions (optional), run:
+
+.. code-block:: sh
+
+    ./manage.py setuplang
+
+.. _version-specific-instructions:
+
+Version specific instructions
++++++++++++++++++++++++++++++
+
 On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
 :program:`./manage.py setupgroups --move` to setup access control as described
 in installation section.
@@ -176,11 +209,7 @@ to run following commands:
     ./manage.py migrate weblate.accounts 0001 --fake
     ./manage.py migrate weblate.lang 0001 --fake
 
-The rest of upgrade to 1.2 (and all future versions), is just matter of:
-
-.. code-block:: sh
-
-    ./manage.py migrate
+Once you have done this, you can use :ref:`generic-upgrade-instructions`.
 
 Migrating from Pootle
 ---------------------
