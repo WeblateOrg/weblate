@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-12 09:30+0200\n"
+"POT-Creation-Date: 2012-07-12 12:55+0200\n"
 "PO-Revision-Date: 2012-07-03 17:24+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:97 urls.py:103
+#: urls.py:99 urls.py:105
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:108
+#: urls.py:110
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:114 html/base.html:47 html/registration/login.html:30
+#: urls.py:116 html/base.html:47 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:121
+#: urls.py:123
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:126
+#: urls.py:128
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:130
+#: urls.py:132
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:134 urls.py:138 urls.py:142 urls.py:146
+#: urls.py:136 urls.py:140 urls.py:144 urls.py:148
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -202,19 +202,19 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/models.py:17
+#: accounts/models.py:19
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:23 trans/views.py:141
+#: accounts/models.py:25 trans/views.py:141
 msgid "Languages"
 msgstr "Diller"
 
-#: accounts/models.py:28
+#: accounts/models.py:30
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: accounts/models.py:54
+#: accounts/models.py:56
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
 
@@ -290,7 +290,7 @@ msgstr ""
 "<a href=\"http://weblate.org\">Weblate %(version)s</a> tarafından "
 "desteklenmektedir"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1076
+#: html/base.html:75 html/engage.html:58 trans/views.py:1106
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -672,7 +672,16 @@ msgstr "Çeviriler"
 msgid "New language"
 msgstr "Yeni dil"
 
-#: html/subproject.html:36
+#: html/subproject.html:37
+#, fuzzy, python-format
+msgid ""
+"Should your language be missing, please follow <a href=\"%(url)s"
+"\">translator instructions</a>."
+msgstr ""
+"Diliniz eksik ise, lütfen <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">bize ulaşın</a>."
+
+#: html/subproject.html:39
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -2036,15 +2045,30 @@ msgstr "Havuz için geçersiz bağlantı!"
 msgid "Invalid link to repository!"
 msgstr "Havuz için geçersiz bağlantı!"
 
-#: trans/models.py:227
+#: trans/models.py:84
+msgid "Use contact form"
+msgstr ""
+
+#: trans/models.py:85
+#, fuzzy
+msgid "Point to translation instructions URL"
+msgstr "Çevrilmemiş satır"
+
+#: trans/models.py:105
+msgid ""
+"Please either fill in instructions URL or use different option for adding "
+"new language."
+msgstr ""
+
+#: trans/models.py:259
 msgid "Name to display"
 msgstr "Görüntülemek için ad"
 
-#: trans/models.py:228
+#: trans/models.py:260
 msgid "Name used in URLs"
 msgstr "URL'lede kullanılan ad"
 
-#: trans/models.py:232
+#: trans/models.py:264
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2052,11 +2076,11 @@ msgstr ""
 "Git havuzunun URL'si, diğer alt proje ile paylaşmak için weblate://project/"
 "subproject kullanın"
 
-#: trans/models.py:237
+#: trans/models.py:269
 msgid "URL of push Git repository"
 msgstr "Git havuzuna yollama URL'si"
 
-#: trans/models.py:241
+#: trans/models.py:273
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2065,11 +2089,11 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, dal için %(branch)s, dosya adı ve satır yer "
 "tutucuları olarak %(file)s ve %(line)s kullan"
 
-#: trans/models.py:247
+#: trans/models.py:279
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models.py:252
+#: trans/models.py:284
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2077,7 +2101,7 @@ msgstr ""
 "Çevirmek için dosyaların yolu, dil kodu yerine * kullanın, örneğin: po/*.po "
 "veya locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:257
+#: trans/models.py:289
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2085,40 +2109,40 @@ msgstr ""
 "Çeviri şablonunun dosya adı, bu Android kaynak dizgileri gibi sadece "
 "çevrilmiş dizgilerin saklandığı çeviriler için kullanılmasında önerilir"
 
-#: trans/models.py:261
+#: trans/models.py:293
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:398
+#: trans/models.py:450
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models.py:478
+#: trans/models.py:530
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models.py:506
+#: trans/models.py:558
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:533
+#: trans/models.py:584
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:584
+#: trans/models.py:640
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models.py:656
+#: trans/models.py:712
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models.py:661
+#: trans/models.py:717
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2126,65 +2150,65 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models.py:676
+#: trans/models.py:732
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:681
+#: trans/models.py:737
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:691
+#: trans/models.py:747
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models.py:693
+#: trans/models.py:749
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:777
+#: trans/models.py:835
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:781
+#: trans/models.py:839
 #, fuzzy, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:783
+#: trans/models.py:841
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:1133
+#: trans/models.py:1210
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:1138
+#: trans/models.py:1215
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:1140
+#: trans/models.py:1217
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:1142
+#: trans/models.py:1219
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:1326
+#: trans/models.py:1403
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:1390
+#: trans/models.py:1467
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2211,7 +2235,7 @@ msgstr "Dosyadan %d kelime içe aktarıldı."
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
-#: trans/views.py:290 trans/views.py:347 trans/views.py:629
+#: trans/views.py:290 trans/views.py:347 trans/views.py:659
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
@@ -2236,89 +2260,97 @@ msgstr "Tüm havuzlar yollandı."
 msgid "All repositories has been reset."
 msgstr "Tüm havuzlar yollandı."
 
-#: trans/views.py:509
+#: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:521
+#: trans/views.py:523
 msgid "Subproject is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:610
+#: trans/views.py:538
+msgid "All subprojects are now locked for translation updates!"
+msgstr ""
+
+#: trans/views.py:551
+msgid "Project is now open for translation updates."
+msgstr ""
+
+#: trans/views.py:640
 #, python-format
 msgid "Search for \"%s\""
 msgstr "\"%s\" için aranıyor"
 
-#: trans/views.py:614
+#: trans/views.py:644
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
 
-#: trans/views.py:616
+#: trans/views.py:646
 msgid "Not translated strings"
 msgstr "Çevrilmemiş satır"
 
-#: trans/views.py:618
+#: trans/views.py:648
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
 
-#: trans/views.py:660
+#: trans/views.py:690
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views.py:680
+#: trans/views.py:710
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:683 trans/views.py:723
+#: trans/views.py:713 trans/views.py:753
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:699
+#: trans/views.py:729
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:717 trans/views.py:755
+#: trans/views.py:747 trans/views.py:785
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views.py:738
+#: trans/views.py:768
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views.py:761
+#: trans/views.py:791
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:772
+#: trans/views.py:802
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:782
+#: trans/views.py:812
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:803
+#: trans/views.py:833
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:860
+#: trans/views.py:890
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:1011
+#: trans/views.py:1041
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:1013
+#: trans/views.py:1043
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:1015
+#: trans/views.py:1045
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:1026
+#: trans/views.py:1056
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
