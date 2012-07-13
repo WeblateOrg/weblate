@@ -53,6 +53,12 @@ def validate_repoweb(val):
     except Exception, e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
+def validate_commit_message(val):
+    try:
+        val % {'language': 'cs', 'project': 'Weblate', 'subproject': 'master'}
+    except Exception, e:
+        raise ValidationError(_('Bad format string (%s)') % str(e))
+
 def validate_filemask(val):
     if not '*' in val:
         raise ValidationError(_('File mask does not contain * as a language placeholder!'))
@@ -95,6 +101,21 @@ class Project(models.Model):
         max_length = 10,
         choices = NEW_LANG_CHOICES,
         default = 'contact'
+    )
+
+    # VCS config
+    commit_message = models.CharField(
+        max_length = 200,
+        help_text = ugettext_lazy('You can use %(language)s, %(subproject)s or %(project)s for language shortcut, subproject or project names.'),
+        validators = [validate_commit_message],
+        default = 'Translated using Weblate.'
+    )
+    committer_name = models.CharField(
+        max_length = 200,
+        default = 'Weblate'
+    )
+    committer_email = models.EmailField(
+        default = 'noreply@weblate.org'
     )
 
     class Meta:
@@ -1081,15 +1102,18 @@ class Translation(models.Model):
             return full_name
         return '%s <%s>' % (full_name, user.email)
 
-    def __git_commit(self, gitrepo, author, sync = False):
-        '''
-        Commits translation to git.
-        '''
-        msg = settings.COMMIT_MESSAGE % {
+    def get_commit_message(self):
+        return self.subproject.project.commit_message % {
             'language': self.language.code,
             'subproject': self.subproject.name,
             'project': self.subproject.project.name,
         }
+
+    def __git_commit(self, gitrepo, author, sync = False):
+        '''
+        Commits translation to git.
+        '''
+        msg = self.get_commit_message()
         gitrepo.git.commit(
             self.filename,
             author = author.encode('utf-8'),

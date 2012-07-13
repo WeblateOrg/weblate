@@ -38,6 +38,16 @@ project.
 The project has only few attributes giving translators information about
 project.
 
+The commit message on each commit Weblate does, it can use following format
+strings in the message:
+
+``%(language)s``
+    Language code
+``%(subproject)s``
+    Subproject name
+``%(project)s``
+    Project name
+
 .. _subproject:
 
 Subproject

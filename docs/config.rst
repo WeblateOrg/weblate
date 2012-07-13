@@ -11,19 +11,6 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
     .. seealso:: :ref:`checks`, :ref:`custom-checks`
 
-.. envvar:: COMMIT_MESSAGE
-
-    Message used on each commit Weblate does.
-
-    You can use following format strings in the message:
-
-    ``%(language)s``
-        Language code
-    ``%(subproject)s``
-        Subproject name
-    ``%(project)s``
-        Project name
-
 .. envvar:: ENABLE_HOOKS
 
     Whether to enable anonymous remote hooks.

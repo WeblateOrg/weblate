@@ -245,9 +245,6 @@ MT_MICROSOFT_KEY = None
 # Path where git repositories are stored, it needs to be writable
 GIT_ROOT = '%s/repos/' % WEB_ROOT
 
-# Commit message for changes
-COMMIT_MESSAGE = 'Translated using Weblate.'
-
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
