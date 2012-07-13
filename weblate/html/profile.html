@@ -19,12 +19,19 @@
 <div class="tabs" id="tabs-preferences">
 <ul>
 <li><a href="#preferences">{% trans "Preferences" %}</a></li>
+<li><a href="#subscriptions">{% trans "Subscriptions" %}</a></li>
 <li><a href="#account">{% trans "Account" %}</a></li>
 <li><a href="#password">{% trans "Password" %}</a></li>
 </ul>
 <div id="preferences">
 <table>
 {{ form.as_table }}
+</table>
+</div>
+<div id="subscriptions">
+<p>{% trans "You will receive chosen notifications using email for all your languages." %}</p>
+<table>
+{{ subscriptionform.as_table }}
 </table>
 </div>
 <div id="account">

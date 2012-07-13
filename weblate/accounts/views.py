@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 
 from weblate.accounts.models import set_lang
-from weblate.accounts.forms import ProfileForm, UserForm, ContactForm
+from weblate.accounts.forms import ProfileForm, SubscriptionForm, UserForm, ContactForm
 
 def mail_admins_sender(subject, message, sender, fail_silently=False, connection=None,
                 html_message=None):
@@ -28,9 +28,11 @@ def profile(request):
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance = request.user.get_profile())
+        subscriptionform = SubscriptionForm(request.POST, instance = request.user.get_profile())
         userform = UserForm(request.POST, instance = request.user)
-        if form.is_valid() and userform.is_valid():
+        if form.is_valid() and userform.is_valid() and subscriptionform.is_valid():
             form.save()
+            subscriptionform.save()
             userform.save()
             set_lang(request.user, request = request, user = request.user)
             # Need to redirect to allow language change
@@ -39,11 +41,13 @@ def profile(request):
             return response
     else:
         form = ProfileForm(instance = request.user.get_profile())
+        subscriptionform = SubscriptionForm(instance = request.user.get_profile())
         userform = UserForm(instance = request.user)
 
     response = render_to_response('profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
+        'subscriptionform': subscriptionform,
         'title': _('User profile'),
         }))
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, request.user.get_profile().language)

@@ -35,7 +35,10 @@ class Profile(models.Model):
     suggested = models.IntegerField(default = 0, db_index = True)
     translated = models.IntegerField(default = 0, db_index = True)
 
-    subscriptions = models.ManyToManyField(Project)
+    subscriptions = models.ManyToManyField(
+        Project,
+        verbose_name = _('Subscribed projects')
+    )
 
     subscribe_any_translation = models.BooleanField(
         verbose_name = _('Notification on any translation'),

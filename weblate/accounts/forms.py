@@ -8,10 +8,31 @@ from registration.forms import RegistrationFormUniqueEmail
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = [
-            'suggested',
-            'translated',
-            ]
+        fields = (
+            'language',
+            'languages',
+            'secondary_languages',
+        )
+
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = (
+            'subscriptions',
+            'subscribe_any_translation',
+            'subscribe_new_string',
+            'subscribe_new_suggestion',
+            'subscribe_new_contributor',
+        )
+        widgets = {
+            'subscriptions': forms.CheckboxSelectMultiple
+        }
+
+    def __init__(self, *args, **kwargs):
+
+        super(SubscriptionForm, self).__init__(*args, **kwargs)
+        self.fields['subscriptions'].help_text = None
+
 
 class UserForm(forms.ModelForm):
     class Meta:
