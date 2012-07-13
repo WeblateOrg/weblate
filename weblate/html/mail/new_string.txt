@@ -1,0 +1,6 @@
+{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% blocktrans with site|site_title as site_title %}Hi,
+
+there are new strings to translate on {{ translation }} at {{ site_title }}.
+{% endblocktrans %}
+
+{% endautoescape %}{% endfilter%}
