@@ -1109,10 +1109,40 @@ class Translation(models.Model):
             'project': self.subproject.project.name,
         }
 
+    def __configure_conf(self, gitrepo, section, key, expected):
+        '''
+        Adjysts git config to ensure that section.key is set to expected.
+        '''
+        cnf = gitrepo.config_writer()
+        try:
+            # Get value and if it matches we're done
+            value = cnf.get(section, key)
+            if value == expected:
+                return
+        except:
+            pass
+
+        # Try to add section (might fail if it exists)
+        try:
+            cnf.add_section(section)
+        except:
+            pass
+        # Update config
+        cnf.set(section, key, expected)
+
+    def __configure_committer(self, gitrepo):
+        '''
+        Wrapper for setting proper committer. As this can not be done by
+        passing parameter, we need to check config on every commit.
+        '''
+        self.__configure_conf(gitrepo, 'user', 'name', self.subproject.project.committer_name)
+        self.__configure_conf(gitrepo, 'user', 'email', self.subproject.project.committer_email)
+
     def __git_commit(self, gitrepo, author, sync = False):
         '''
         Commits translation to git.
         '''
+        self.__configure_committer(gitrepo)
         msg = self.get_commit_message()
         gitrepo.git.commit(
             self.filename,
