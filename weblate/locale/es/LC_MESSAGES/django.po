@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-13 17:29+0200\n"
-"PO-Revision-Date: 2012-07-13 00:24+0200\n"
+"PO-Revision-Date: 2012-07-13 17:54+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -213,45 +213,40 @@ msgid "Secondary languages"
 msgstr "Idiomas secundarios"
 
 #: accounts/models.py:45
-#, fuzzy
 msgid "Subscribed projects"
-msgstr "Subproyectos"
+msgstr "Proyectos suscriptos"
 
 #: accounts/models.py:49
-#, fuzzy
 msgid "Notification on any translation"
-msgstr "Traducción automática"
+msgstr "Notificar en cualquier traducción"
 
 #: accounts/models.py:53
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "Notificar en nuevas cadenas a traducir"
 
 #: accounts/models.py:57
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "Notificar en nuevas sugerencias"
 
 #: accounts/models.py:61
 msgid "Notification on new contributor"
-msgstr ""
+msgstr "Notificar en nuevos colaboradores"
 
 #: accounts/models.py:111
-#, fuzzy
 msgid "New translation in {{ translation }}"
-msgstr "Traducción automática"
+msgstr "Nueva traducción en {{ translation }}"
 
 #: accounts/models.py:124
 msgid "New string to translate in {{ translation }}"
-msgstr ""
+msgstr "Nueva cadena a traducir en {{ translation }}"
 
 #: accounts/models.py:136
-#, fuzzy
 msgid "New suggestion in {{ translation }}"
-msgstr "Traducción automática"
+msgstr "Nueva sugerencia en {{ translation }}"
 
 #: accounts/models.py:149
-#, fuzzy
 msgid "New contributor in {{ translation }}"
-msgstr "Traducción automática"
+msgstr "Nuevo colaborador en {{ translation }}"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -657,9 +652,8 @@ msgid "Preferences"
 msgstr "Preferencias"
 
 #: html/profile.html:22
-#, fuzzy
 msgid "Subscriptions"
-msgstr "Sugerencias"
+msgstr "Suscripciones"
 
 #: html/profile.html:23
 msgid "Account"
@@ -668,6 +662,8 @@ msgstr "Cuenta"
 #: html/profile.html:32
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
+"Recibirá las notificaciones seleccionadas por correo electrónico para todos "
+"sus idiomas."
 
 #: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
@@ -1124,16 +1120,17 @@ msgid ""
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hola,\n"
+"\n"
+"Hay una nueva traducción en %(translation)s en %(site_title)s.\n"
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
-#, fuzzy
 msgid "Source string:"
-msgstr "Buscar en cadenas originales"
+msgstr "Cadena original:"
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "Traducción"
+msgstr "Traducción:"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1143,6 +1140,10 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
 msgstr ""
+"Hola,\n"
+"\n"
+"%(username)s colaboró por primera vez sobre %(translation)s en %"
+"(site_title)s.\n"
 
 #: html/mail/new_string.txt:1
 #, python-format
@@ -1151,6 +1152,9 @@ msgid ""
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hola,\n"
+"\n"
+"Hay nuevas cadenas para traducir sobre %(translation)s en %(site_title)s.\n"
 
 #: html/mail/new_suggestion.txt:1
 #, python-format
@@ -1159,6 +1163,9 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hola,\n"
+"\n"
+"Hay una nueva sugerencia a revisar sobre %(translation)s en %(site_title)s.\n"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -2183,6 +2190,8 @@ msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
+"Puede utilizar %(language)s, %(subproject)s o %(project)s para atajos de "
+"idioma, nombres de subproyecto o nombres de proyecto."
 
 #: trans/models.py:126
 msgid ""
