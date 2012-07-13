@@ -12,6 +12,7 @@ from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
 
 from weblate.lang.models import Language
+from weblate.trans.models import Project
 
 class Profile(models.Model):
     user = models.ForeignKey(User, unique = True, editable = False)
@@ -34,9 +35,27 @@ class Profile(models.Model):
     suggested = models.IntegerField(default = 0, db_index = True)
     translated = models.IntegerField(default = 0, db_index = True)
 
+    subscriptions = models.ManyToManyField(Project)
+
+    subscribe_any_translation = models.BooleanField(
+        verbose_name = _('Notification on any translation'),
+        default = False
+    )
+    subscribe_new_string = models.BooleanField(
+        verbose_name = _('Notification on new string to translate'),
+        default = False
+    )
+    subscribe_new_suggestion = models.BooleanField(
+        verbose_name = _('Notification on new suggestion'),
+        default = False
+    )
+    subscribe_new_contributor = models.BooleanField(
+        verbose_name = _('Notification on new contributor'),
+        default = False
+    )
+
     def __unicode__(self):
         return self.user.username
-
 
 @receiver(user_logged_in)
 def set_lang(sender, **kwargs):
