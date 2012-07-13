@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-13 16:40+0200\n"
+"POT-Creation-Date: 2012-07-13 17:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,39 +197,55 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/models.py:20
+#: accounts/models.py:25
 msgid "Interface Language"
 msgstr ""
 
-#: accounts/models.py:26 trans/views.py:141
+#: accounts/models.py:31 trans/views.py:141
 msgid "Languages"
 msgstr ""
 
-#: accounts/models.py:31
+#: accounts/models.py:36
 msgid "Secondary languages"
 msgstr ""
 
-#: accounts/models.py:40
+#: accounts/models.py:45
 msgid "Subscribed projects"
 msgstr ""
 
-#: accounts/models.py:44
+#: accounts/models.py:49
 msgid "Notification on any translation"
 msgstr ""
 
-#: accounts/models.py:48
+#: accounts/models.py:53
 msgid "Notification on new string to translate"
 msgstr ""
 
-#: accounts/models.py:52
+#: accounts/models.py:57
 msgid "Notification on new suggestion"
 msgstr ""
 
-#: accounts/models.py:56
+#: accounts/models.py:61
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:78
+#: accounts/models.py:111
+msgid "New translation in {{ translation }}"
+msgstr ""
+
+#: accounts/models.py:124
+msgid "New string to translate in {{ translation }}"
+msgstr ""
+
+#: accounts/models.py:136
+msgid "New suggestion in {{ translation }}"
+msgstr ""
+
+#: accounts/models.py:149
+msgid "New contributor in {{ translation }}"
+msgstr ""
+
+#: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 
@@ -1035,6 +1051,47 @@ msgstr ""
 
 #: html/js/similar.html:20
 msgid "No similar strings found."
+msgstr ""
+
+#: html/mail/any_translation.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"there has been new translation on %(translation)s at %(site_title)s.\n"
+msgstr ""
+
+#: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
+msgid "Source string:"
+msgstr ""
+
+#: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
+msgid "Translation:"
+msgstr ""
+
+#: html/mail/new_contributor.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"%(username)s has just made his first contribution on %(translation)s at "
+"%(site_title)s.\n"
+msgstr ""
+
+#: html/mail/new_string.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"there are new strings to translate on %(translation)s at %(site_title)s.\n"
+msgstr ""
+
+#: html/mail/new_suggestion.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
 #: html/registration/activate.html:9
