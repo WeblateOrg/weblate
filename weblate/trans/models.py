@@ -1618,6 +1618,13 @@ class Suggestion(models.Model):
             unit.fuzzy = False
             unit.save_backend(request, False)
 
+    def get_source(self):
+        Unit.objects.filter(
+            checksum = self.checksum,
+            translation__subproject__project = self.project,
+            translation__language = self.language,
+        )[0].source
+
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 class Check(models.Model):
