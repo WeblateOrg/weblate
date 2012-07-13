@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-12 12:55+0200\n"
+"POT-Creation-Date: 2012-07-13 16:40+0200\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,68 +46,68 @@ msgstr "Salasana vaihdettu"
 msgid "Password reset"
 msgstr "Salasanan palautus"
 
-#: accounts/forms.py:32 accounts/forms.py:47
+#: accounts/forms.py:53 accounts/forms.py:68
 msgid "First name"
 msgstr "Etunimi"
 
-#: accounts/forms.py:33 accounts/forms.py:48
+#: accounts/forms.py:54 accounts/forms.py:69
 msgid "Last name"
 msgstr "Sukunimi"
 
-#: accounts/forms.py:34 accounts/forms.py:56 accounts/i18n.py:16
+#: accounts/forms.py:55 accounts/forms.py:77 accounts/i18n.py:16
 msgid "E-mail"
 msgstr "Sähköposti"
 
-#: accounts/forms.py:37
+#: accounts/forms.py:58
 msgid "Subject"
 msgstr "Aihe"
 
-#: accounts/forms.py:38
+#: accounts/forms.py:59
 msgid "Your name"
 msgstr "Nimesi"
 
-#: accounts/forms.py:39
+#: accounts/forms.py:60
 msgid "Your email"
 msgstr "Sähköpostiosoitteesi"
 
-#: accounts/forms.py:41
+#: accounts/forms.py:62
 msgid "Message"
 msgstr "Viesti"
 
-#: accounts/forms.py:54 accounts/i18n.py:17
+#: accounts/forms.py:75 accounts/i18n.py:17
 msgid "Username"
 msgstr "Käyttäjänimi"
 
-#: accounts/forms.py:55
+#: accounts/forms.py:76
 msgid "At least five characters long."
 msgstr "Vähintään viisi merkkiä pitkä."
 
-#: accounts/forms.py:57
+#: accounts/forms.py:78
 msgid "Activation email will be sent here."
 msgstr "Aktivointisähköposti lähetetään tähän osoitteeseen."
 
-#: accounts/forms.py:58 accounts/i18n.py:18 html/profile.html:23
+#: accounts/forms.py:79 accounts/i18n.py:18 html/profile.html:24
 msgid "Password"
 msgstr "Salasana"
 
-#: accounts/forms.py:59
+#: accounts/forms.py:80
 msgid "At least six characters long."
 msgstr "Vähintään kuusi merkkiä pitkä."
 
-#: accounts/forms.py:60
+#: accounts/forms.py:81
 msgid "Password (again)"
 msgstr "Salasana (uudelleen)"
 
-#: accounts/forms.py:61
+#: accounts/forms.py:82
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Toista salasana, jotta voimme varmistaa, että se on kirjoitettu oikein."
 
-#: accounts/forms.py:72
+#: accounts/forms.py:93
 msgid "Password needs to have at least six characters."
 msgstr "Salasanassa täytyy olla vähintään kuusi merkkiä."
 
-#: accounts/forms.py:77
+#: accounts/forms.py:98
 msgid "Username needs to have at least five characters."
 msgstr "Käyttäjänimessä on oltava vähintään viisi merkkiä."
 
@@ -203,31 +203,53 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/models.py:19
+#: accounts/models.py:20
 msgid "Interface Language"
 msgstr "Käyttöliittymän kieli"
 
-#: accounts/models.py:25 trans/views.py:141
+#: accounts/models.py:26 trans/views.py:141
 msgid "Languages"
 msgstr "Kielet"
 
-#: accounts/models.py:30
+#: accounts/models.py:31
 msgid "Secondary languages"
 msgstr "Toissijaiset kielet"
 
+#: accounts/models.py:40
+#, fuzzy
+msgid "Subscribed projects"
+msgstr "Aliprojektit"
+
+#: accounts/models.py:44
+#, fuzzy
+msgid "Notification on any translation"
+msgstr "Automaattinen käännös"
+
+#: accounts/models.py:48
+msgid "Notification on new string to translate"
+msgstr ""
+
+#: accounts/models.py:52
+msgid "Notification on new suggestion"
+msgstr ""
+
 #: accounts/models.py:56
+msgid "Notification on new contributor"
+msgstr ""
+
+#: accounts/models.py:78
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiilisi on yhdistetty, saatat tahtoa säätää asetuksiasi."
 
-#: accounts/views.py:47
+#: accounts/views.py:51
 msgid "User profile"
 msgstr "Käyttäjäprofiili"
 
-#: accounts/views.py:65
+#: accounts/views.py:69
 msgid "Message has been sent to administrator."
 msgstr "Viesti ylläpitäjälle on lähetetty."
 
-#: accounts/views.py:78
+#: accounts/views.py:82
 msgid "Contact"
 msgstr "Ota yhteyttä"
 
@@ -445,7 +467,7 @@ msgstr "Tuo"
 msgid "Change word"
 msgstr "Vaihda sanaa"
 
-#: html/edit_dictionary.html:21 html/profile.html:42 html/translate.html:139
+#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:139
 msgid "Save"
 msgstr "Tallenna"
 
@@ -612,14 +634,23 @@ msgid "Preferences"
 msgstr "Asetukset"
 
 #: html/profile.html:22
+#, fuzzy
+msgid "Subscriptions"
+msgstr "Ehdotukset"
+
+#: html/profile.html:23
 msgid "Account"
 msgstr "Käyttäjätili"
 
-#: html/profile.html:34
+#: html/profile.html:32
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr ""
+
+#: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
 
-#: html/profile.html:38
+#: html/profile.html:45
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
@@ -2049,48 +2080,55 @@ msgstr "Aloituskirjain"
 msgid "Any"
 msgstr "Mikä tahansa"
 
-#: trans/models.py:54
+#: trans/models.py:54 trans/models.py:60
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Väärän muotoinen merkkijono (%s)"
 
-#: trans/models.py:58
+#: trans/models.py:64
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Tiedostomaski ei sisällä * kielen mallina!"
 
-#: trans/models.py:79
+#: trans/models.py:85
 #, fuzzy
 msgid "Can not link to linked repository!"
 msgstr "Kelvoton linkki tietolähteeseen!"
 
-#: trans/models.py:81
+#: trans/models.py:87
 msgid "Invalid link to repository!"
 msgstr "Kelvoton linkki tietolähteeseen!"
 
-#: trans/models.py:84
+#: trans/models.py:90
 msgid "Use contact form"
 msgstr ""
 
-#: trans/models.py:85
+#: trans/models.py:91
 #, fuzzy
 msgid "Point to translation instructions URL"
 msgstr "Kääntämättömät merkkijonot"
 
-#: trans/models.py:105
+#: trans/models.py:109
+#, python-format
+msgid ""
+"You can use %(language)s, %(subproject)s or %(project)s for language "
+"shortcut, subproject or project names."
+msgstr ""
+
+#: trans/models.py:126
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:259
+#: trans/models.py:280
 msgid "Name to display"
 msgstr "Näytettävä nimi"
 
-#: trans/models.py:260
+#: trans/models.py:281
 msgid "Name used in URLs"
 msgstr "Osoitteissa (URL) käytettävä nimi"
 
-#: trans/models.py:264
+#: trans/models.py:285
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2098,11 +2136,11 @@ msgstr ""
 "Git tietolähteen osoite, käytä weblate://project/subproject jakaaksesi "
 "aliprojekteiksi"
 
-#: trans/models.py:269
+#: trans/models.py:290
 msgid "URL of push Git repository"
 msgstr "Git ohjelmoistolähteen lähetysosoite (URL)"
 
-#: trans/models.py:273
+#: trans/models.py:294
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2111,11 +2149,11 @@ msgstr ""
 "Linkki tietolähdeselaimeen, käytä %(branch)s haaralle, %(file)s ja %(line)s "
 "tiedostonimenä ja linjan malleina"
 
-#: trans/models.py:279
+#: trans/models.py:300
 msgid "Git branch to translate"
 msgstr "Git haara käännettäväksi"
 
-#: trans/models.py:284
+#: trans/models.py:305
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2123,110 +2161,110 @@ msgstr ""
 "Käännettävien tiedostojen polku, käytä * kielikoodina, esimerkiksi po/*.po "
 "tai locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:289
+#: trans/models.py:310
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:293
+#: trans/models.py:314
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:450
+#: trans/models.py:471
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Haku Git ohjelmistokähteestä epäonnistui: %s"
 
-#: trans/models.py:530
+#: trans/models.py:551
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Lähetys ei ole mahdollista tekstille %s."
 
-#: trans/models.py:558
+#: trans/models.py:579
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:584
+#: trans/models.py:605
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Erähaaran liitääminen %s:n epäonnistui."
 
-#: trans/models.py:640
+#: trans/models.py:661
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Erähaaran liitääminen %s:n epäonnistui."
 
-#: trans/models.py:712
+#: trans/models.py:733
 msgid "The mask did not match any files!"
 msgstr "Maski ei sovi yhteenkään tiedostoon!"
 
-#: trans/models.py:717
+#: trans/models.py:738
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:732
+#: trans/models.py:753
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
 
-#: trans/models.py:737
+#: trans/models.py:758
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
 
-#: trans/models.py:747
+#: trans/models.py:768
 msgid "Format of translation template could not be recognized."
 msgstr "Käännöspohjan muotoa ei voida tunnistaa."
 
-#: trans/models.py:749
+#: trans/models.py:770
 msgid "Failed to parse translation template."
 msgstr "Käännöspohjan jäsennys epäonnistui."
 
-#: trans/models.py:835
+#: trans/models.py:856
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:839
+#: trans/models.py:860
 #, fuzzy, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
 
-#: trans/models.py:841
+#: trans/models.py:862
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
 
-#: trans/models.py:1210
+#: trans/models.py:1265
 msgid "All strings"
 msgstr "Kaikki merkkijonot"
 
-#: trans/models.py:1215
+#: trans/models.py:1270
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Kääntämättömät merkkijonot (%d)"
 
-#: trans/models.py:1217
+#: trans/models.py:1272
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Epäselvät merkkijonot (%d)"
 
-#: trans/models.py:1219
+#: trans/models.py:1274
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Merkkijonojen ehdotukset (%d)"
 
-#: trans/models.py:1403
+#: trans/models.py:1458
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 
-#: trans/models.py:1467
+#: trans/models.py:1522
 #, python-format
 msgid "unit ID %s"
 msgstr ""
