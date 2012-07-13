@@ -1117,6 +1117,7 @@ class Translation(models.Model):
         gitrepo.git.commit(
             self.filename,
             author = author.encode('utf-8'),
+            date = self.get_last_change().isoformat(),
             m = msg
             )
         if sync:
