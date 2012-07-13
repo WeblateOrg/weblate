@@ -1119,7 +1119,7 @@ class Translation(models.Model):
             author = author.encode('utf-8'),
             date = self.get_last_change().isoformat(),
             m = msg
-            )
+        )
         if sync:
             self.store_hash()
 
