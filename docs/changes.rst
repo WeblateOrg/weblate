@@ -15,6 +15,7 @@ Relased on ? 2012.
 * Project or subproject can now be locked for translations.
 * Possibility to disable some translations.
 * Configurable options for adding new translations.
+* Configuration of git commits per project.
 
 weblate 1.1
 -----------
