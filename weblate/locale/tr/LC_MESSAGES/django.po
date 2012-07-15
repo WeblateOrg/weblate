@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-13 17:29+0200\n"
-"PO-Revision-Date: 2012-07-12 19:35+0200\n"
+"PO-Revision-Date: 2012-07-15 15:27+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: tr\n"
@@ -214,45 +214,40 @@ msgid "Secondary languages"
 msgstr "İkincil diller"
 
 #: accounts/models.py:45
-#, fuzzy
 msgid "Subscribed projects"
-msgstr "Alt projeler"
+msgstr "Abone olunmuş projeler"
 
 #: accounts/models.py:49
-#, fuzzy
 msgid "Notification on any translation"
-msgstr "Otomatik çeviri"
+msgstr "Herhangi bir çeviride bildirim"
 
 #: accounts/models.py:53
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "Yeni satır çevirmek için bildirim"
 
 #: accounts/models.py:57
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "Yeni öneride bildirim"
 
 #: accounts/models.py:61
 msgid "Notification on new contributor"
-msgstr ""
+msgstr "Yeni katkıda bulunmada bildirim"
 
 #: accounts/models.py:111
-#, fuzzy
 msgid "New translation in {{ translation }}"
-msgstr "Otomatik çeviri"
+msgstr "{{ translation }} içinde yeni çeviri"
 
 #: accounts/models.py:124
 msgid "New string to translate in {{ translation }}"
-msgstr ""
+msgstr "Çevirmek için {{ translation }} içinde yeni satır"
 
 #: accounts/models.py:136
-#, fuzzy
 msgid "New suggestion in {{ translation }}"
-msgstr "Otomatik çeviri"
+msgstr "{{ translation }} içinde yeni öneri"
 
 #: accounts/models.py:149
-#, fuzzy
 msgid "New contributor in {{ translation }}"
-msgstr "Otomatik çeviri"
+msgstr "{{ translation }} içinde yeni katkıda bulunma"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -490,7 +485,7 @@ msgstr "Kaydet"
 #: html/engage.html:11 html/engage.html.py:37
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr "%(project)s içinde yer al!"
+msgstr "%(project)s içinde yer alın!"
 
 #: html/engage.html:12
 #, python-format
@@ -498,8 +493,8 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
-"Weblate kullanarak %(languages)s dilleri içerisinde şu an çevrilen "
-"%(project)s içinde yer al."
+"Weblate kullanarak şu anda %(languages)s dile çevrilen %(project)s içinde "
+"yer alın."
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
@@ -523,6 +518,9 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
+"%(name)s çeviri projesi çeviri için şu anda %(total)s satır içeriyor ve <a "
+"href=\"%(url)s\"> %(languages)s dile çevrildi</a>. Toplamda, bu çevirilerin %%"
+"%(percent)s tamamlandı."
 
 #: html/engage.html:49
 #, python-format
@@ -530,6 +528,8 @@ msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
 msgstr ""
+"%(name)s çevirisine katkıda bulunmak isterseniz, <a "
+"href=\"/accounts/register/\">Bu sunucuya kayıt olmanız</a> gerekir."
 
 #: html/engage.html:52
 #, python-format
@@ -537,6 +537,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
+"Hesabınızı etkinleştirdiğiniz anda hemen <a href=\"%(url)s\">çeviri "
+"bölümüne</a> ilerleyin."
 
 #: html/index.html:9
 msgid ""
@@ -649,9 +651,8 @@ msgid "Preferences"
 msgstr "Tercihler"
 
 #: html/profile.html:22
-#, fuzzy
 msgid "Subscriptions"
-msgstr "Öneriler"
+msgstr "Abonelikler"
 
 #: html/profile.html:23
 msgid "Account"
@@ -659,7 +660,7 @@ msgstr "Hesap"
 
 #: html/profile.html:32
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
+msgstr "Tüm dilleriniz için seçilen bildirimleri eposta yoluyla alacaksınız."
 
 #: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
@@ -692,19 +693,20 @@ msgstr "Git bakım"
 
 #: html/project.html:45
 msgid "Promote"
-msgstr ""
+msgstr "Tanıtım"
 
 #: html/project.html:53
 msgid "Manage all dictionaries"
 msgstr "Tüm sözlükleri yönet"
 
 #: html/project.html:63
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
 msgstr ""
-"Parolanızı mı unuttunuz? <a href=\"%(reset_url)s\">Sıfırlayabilirsiniz</a>."
+"<a href=\"%(widgets_url)s\">Parçacıkları</a> kullanarak çeviri projenizi "
+"tanıtın."
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -727,13 +729,13 @@ msgid "New language"
 msgstr "Yeni dil"
 
 #: html/subproject.html:37
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Diliniz eksik ise, lütfen <a href=\"%(contact_url)s?subject=New+language"
-"+request+for+%(object)s\">bize ulaşın</a>."
+"Diliniz eksik mi, lütfen <a href=\"%(url)s\">çevirmen talimatlarını</a> takip "
+"edin."
 
 #: html/subproject.html:39
 #, python-format
@@ -960,11 +962,11 @@ msgstr "İleti çevrildi"
 
 #: html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "parçacıklar"
 
 #: html/widgets.html:12
 msgid "Widgets"
-msgstr ""
+msgstr "Parçacıklar"
 
 #: html/widgets.html:15
 msgid ""
@@ -972,6 +974,9 @@ msgid ""
 "can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
+"Projenizin çevirisini tanıtmak için aşağıdaki parçacıkları "
+"kullanabilirsiniz. Çeviri projelerinizin görünürlüğünü arttırabilir ve yeni "
+"katkıda bulunacakları getirir."
 
 #: html/widgets.html:19
 #, python-format
@@ -979,23 +984,25 @@ msgid ""
 "You can also point new comers co introducing page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
+"Ayrıca, <a href=\"%(engage_url)s\">%(engage_url)s</a> adresinde yeni gelenleri "
+"yardımcı tanıtım sayfasına yönlendirebilirsiniz."
 
 #: html/widgets.html:22
 msgid "Image widgets"
-msgstr ""
+msgstr "Resim parçacıkları"
 
 #: html/widgets.html:25
 #, python-format
 msgid "Image %(widget)s"
-msgstr ""
+msgstr "Resim %(widget)s"
 
 #: html/widgets.html:27
 msgid "Example:"
-msgstr ""
+msgstr "Örnek:"
 
 #: html/widgets.html:31
 msgid "Code:"
-msgstr ""
+msgstr "Kod:"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -1045,31 +1052,28 @@ msgid "Push"
 msgstr "Yolla"
 
 #: html/js/git-status.html:12
-#, fuzzy
 msgid "Reset all changes in local repository"
-msgstr "Uzak havuzdan değişiklikleri çek"
+msgstr "Yerel havuzdan tüm değişiklikleri sıfırla"
 
 #: html/js/git-status.html:12
 msgid "Reset"
-msgstr ""
+msgstr "Sıfırla"
 
 #: html/js/git-status.html:16
-#, fuzzy
 msgid "Allow changes in the repository"
-msgstr "Uzak havuzdan değişiklikleri çek"
+msgstr "Havuzdaki değişikliklere izin ver"
 
 #: html/js/git-status.html:16
 msgid "Unlock"
-msgstr ""
+msgstr "Kilidi aç"
 
 #: html/js/git-status.html:18
-#, fuzzy
 msgid "Prevent any changes in the repository"
-msgstr "Uzak havuza değişiklikleri yolla"
+msgstr "Havuzdaki herhangi bir değişikliği önle"
 
 #: html/js/git-status.html:18
 msgid "Lock"
-msgstr ""
+msgstr "Kilitle"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
@@ -1110,16 +1114,17 @@ msgid ""
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Merhaba,\n"
+"\n"
+"%(site_title)s sitesinde %(translation)s dilinde yeni çeviri var.\n"
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
-#, fuzzy
 msgid "Source string:"
-msgstr "Kaynak satırlarında ara"
+msgstr "Kaynak satır:"
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "Çeviri"
+msgstr "Çeviri:"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1129,6 +1134,10 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
 msgstr ""
+"Merhaba,\n"
+"\n"
+"%(username)s, %(site_title)s sitesinde %(translation)s dilinde ilk katkısını "
+"yaptı.\n"
 
 #: html/mail/new_string.txt:1
 #, python-format
@@ -1137,6 +1146,10 @@ msgid ""
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Merhaba,\n"
+"\n"
+"%(site_title)s sitesinde %(translation)s dilinde çevirme yapmak için yeni "
+"satırlar var.\n"
 
 #: html/mail/new_suggestion.txt:1
 #, python-format
@@ -1145,6 +1158,10 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Merhaba,\n"
+"\n"
+"%(site_title)s sitesinde %(translation)s dilinde değerlendirme için yeni "
+"öneri var.\n"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -2134,9 +2151,8 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Dosya maskesi dil yer tutucusu olarak * içeremez!"
 
 #: trans/models.py:85
-#, fuzzy
 msgid "Can not link to linked repository!"
-msgstr "Havuz için geçersiz bağlantı!"
+msgstr "Bağlantılı havuza bağlantı verilemiyor!"
 
 #: trans/models.py:87
 msgid "Invalid link to repository!"
@@ -2144,12 +2160,11 @@ msgstr "Havuz için geçersiz bağlantı!"
 
 #: trans/models.py:90
 msgid "Use contact form"
-msgstr ""
+msgstr "İletişim formunu kullanın"
 
 #: trans/models.py:91
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "Çevrilmemiş satır"
+msgstr "Çeviri talimatları URL'sine gelin"
 
 #: trans/models.py:109
 #, python-format
@@ -2157,12 +2172,16 @@ msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
+"Dil kısayolları, alt projeler veya proje adları için %(language)s, %"
+"(subproject)s ya da %(project)s kullanabilirsiniz."
 
 #: trans/models.py:126
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Yeni dil eklemek için lütfen ya talimatlar URL'sindekini doldurun ya da "
+"farklı seçenek kullanın."
 
 #: trans/models.py:280
 msgid "Name to display"
@@ -2215,7 +2234,7 @@ msgstr ""
 
 #: trans/models.py:314
 msgid "Whether subproject is locked for translation updates"
-msgstr ""
+msgstr "Çeviri güncellemeleri için alt projenin kilitli olup olmadığı"
 
 #: trans/models.py:471
 #, python-format
@@ -2233,9 +2252,9 @@ msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
 #: trans/models.py:605
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "%s projesindeki uzak dala yollama başarısız."
+msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
 #: trans/models.py:661
 #, python-format
@@ -2278,16 +2297,18 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
+"içerisine dil dosyasını ekleyin."
 
 #: trans/models.py:860
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "%d eşleşen dosya biçimi tanınamadı."
+msgstr "%s dosya biçimi tanınamadı."
 
 #: trans/models.py:862
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "%d eşleşen dosya ayrıştırması başarısız!"
+msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
 #: trans/models.py:1265
 msgid "All strings"
@@ -2315,7 +2336,7 @@ msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 #: trans/models.py:1522
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "birim ID %s"
 
 #: trans/views.py:48
 msgid "Please set your full name in your profile."
@@ -2341,7 +2362,7 @@ msgstr "İşlem formu başarısız!"
 
 #: trans/views.py:290 trans/views.py:347 trans/views.py:659
 msgid "This translation is currently locked for updates!"
-msgstr ""
+msgstr "Bu çeviri şu anda güncellemeler için kilitli!"
 
 #: trans/views.py:336
 msgid "Automatic translation completed."
@@ -2360,25 +2381,24 @@ msgid "All repositories were pushed."
 msgstr "Tüm havuzlar yollandı."
 
 #: trans/views.py:477 trans/views.py:487 trans/views.py:497
-#, fuzzy
 msgid "All repositories has been reset."
-msgstr "Tüm havuzlar yollandı."
+msgstr "Tüm havuzlar sıfırlandı."
 
 #: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "Alt proje artık çeviri güncellemeleri için kilitli!"
 
 #: trans/views.py:523
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "Alt proje artık çeviri güncellemeleri için açık."
 
 #: trans/views.py:538
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "Tüm alt projeler artık çeviri güncellemeleri için kilitli!"
 
 #: trans/views.py:551
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "Proje artık çeviri güncellemeleri için açık."
 
 #: trans/views.py:640
 #, python-format
