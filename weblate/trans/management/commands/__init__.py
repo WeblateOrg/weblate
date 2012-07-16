@@ -3,6 +3,9 @@ from optparse import make_option
 from weblate.trans.models import Unit
 
 class UnitCommand(BaseCommand):
+    '''
+    Command which accepts project/subproject/--all params to process units.
+    '''
     args = '<project/subproject>'
     option_list = BaseCommand.option_list + (
         make_option('--all',
@@ -13,6 +16,9 @@ class UnitCommand(BaseCommand):
         )
 
     def get_units(self, *args, **options):
+        '''
+        Returns list of units matching parameters.
+        '''
         if options['all']:
             base = Unit.objects.all()
         else:
