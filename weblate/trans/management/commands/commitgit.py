@@ -14,6 +14,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        '''
+        Commits pending translations in given projects.
+        '''
         if options['all']:
             for s in SubProject.objects.all():
                 s.commit_pending()

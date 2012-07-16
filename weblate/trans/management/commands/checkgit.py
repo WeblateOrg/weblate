@@ -14,6 +14,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        '''
+        Shows status of git repository in given projects.
+        '''
         if options['all']:
             for s in SubProject.objects.all():
                 r = s.get_repo()
