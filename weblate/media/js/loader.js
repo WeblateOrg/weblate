@@ -3,7 +3,7 @@ function text_change(e) {
 }
 
 function mt_set(txt) {
-    $('#id_target').text(txt);
+    $('#id_target').val(txt);
     $('#id_fuzzy').attr('checked', true);
 }
 
