@@ -237,7 +237,7 @@ $(function() {
             $('.details-accordion').accordion({collapsible: true, active: -1});
             $('.confirm-reset').click(function() {
 
-                $('<div title="' + gettext('Confirm reseting repository') + '"><p>' + gettext('Reseting the repository will throw away all local changes!') + '</p></div>').dialog({
+                $('<div title="' + gettext('Confirm resetting repository') + '"><p>' + gettext('Resetting the repository will throw away all local changes!') + '</p></div>').dialog({
                     modal: true,
                     autoOpen: true,
                     buttons: [
