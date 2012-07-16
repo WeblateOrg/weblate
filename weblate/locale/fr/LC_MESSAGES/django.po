@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-13 17:29+0200\n"
-"PO-Revision-Date: 2012-07-04 10:57+0200\n"
-"Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
+"PO-Revision-Date: 2012-07-16 14:16+0200\n"
+"Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -174,7 +174,7 @@ msgstr "Chargement..."
 
 #: accounts/i18n.py:28
 msgid "Failed translation"
-msgstr "Traduction en échec"
+msgstr "Échec de traduction"
 
 #: accounts/i18n.py:29
 msgid "The request for machine translation has failed."
@@ -182,7 +182,7 @@ msgstr "La requête de traduction machine a échoué."
 
 #: accounts/i18n.py:30
 msgid "Error details:"
-msgstr "Détails des erreurs : "
+msgstr "Détails de l'erreur : "
 
 #: accounts/i18n.py:31
 #, fuzzy
@@ -214,14 +214,12 @@ msgid "Secondary languages"
 msgstr "Langues secondaires"
 
 #: accounts/models.py:45
-#, fuzzy
 msgid "Subscribed projects"
-msgstr "Sous-projets"
+msgstr "Projets abonnés"
 
 #: accounts/models.py:49
-#, fuzzy
 msgid "Notification on any translation"
-msgstr "Traduction automatique"
+msgstr "Aviser pour toute traduction"
 
 #: accounts/models.py:53
 msgid "Notification on new string to translate"
@@ -236,23 +234,20 @@ msgid "Notification on new contributor"
 msgstr ""
 
 #: accounts/models.py:111
-#, fuzzy
 msgid "New translation in {{ translation }}"
-msgstr "Traduction automatique"
+msgstr "Nouvelle traduction pour {{ translation }}"
 
 #: accounts/models.py:124
 msgid "New string to translate in {{ translation }}"
 msgstr ""
 
 #: accounts/models.py:136
-#, fuzzy
 msgid "New suggestion in {{ translation }}"
-msgstr "Traduction automatique"
+msgstr "Nouvelle suggestion pour {{ translation }}"
 
 #: accounts/models.py:149
-#, fuzzy
 msgid "New contributor in {{ translation }}"
-msgstr "Traduction automatique"
+msgstr "Nouveau contributeur pour {{ translation }}"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -646,9 +641,8 @@ msgid "Preferences"
 msgstr "Préférences"
 
 #: html/profile.html:22
-#, fuzzy
 msgid "Subscriptions"
-msgstr "Suggestions"
+msgstr "Abonnements"
 
 #: html/profile.html:23
 msgid "Account"
@@ -698,13 +692,13 @@ msgid "Manage all dictionaries"
 msgstr "Gérer tous les dictionnaires"
 
 #: html/project.html:63
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
 msgstr ""
-"Mot de passe oublié? Vous pouvez le <a href=\"%(reset_url)s\">réinitialiser</"
-"a>."
+"Faites la promotion de votre projet de traduction grâce aux <a href=\"%"
+"(widgets_url)s\">widgets</a>."
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -727,13 +721,13 @@ msgid "New language"
 msgstr "Nouvelle langue"
 
 #: html/subproject.html:37
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Si votre langue n'apparaît pas, veuillez nous <a href=\"%(contact_url)s?"
-"subject=New+language+request+for+%(object)s\">contacter</a>."
+"Si votre langue n'apparaît pas, veuillez vous référer aux <a href=\"%"
+"(url)s\">directives pour le traducteur</a>."
 
 #: html/subproject.html:39
 #, python-format
@@ -1046,27 +1040,24 @@ msgid "Push"
 msgstr "Envoyer"
 
 #: html/js/git-status.html:12
-#, fuzzy
 msgid "Reset all changes in local repository"
-msgstr "Récupérer les changements depuis un dépôt distant"
+msgstr "Effacer tous les changements dans le dépôt local"
 
 #: html/js/git-status.html:12
 msgid "Reset"
 msgstr ""
 
 #: html/js/git-status.html:16
-#, fuzzy
 msgid "Allow changes in the repository"
-msgstr "Récupérer les changements depuis un dépôt distant"
+msgstr "Permettre les changements dans le dépôt"
 
 #: html/js/git-status.html:16
 msgid "Unlock"
 msgstr ""
 
 #: html/js/git-status.html:18
-#, fuzzy
 msgid "Prevent any changes in the repository"
-msgstr "Envoyer les changements vers le dépôt distant"
+msgstr "Empêcher tout changement dans le dépôt"
 
 #: html/js/git-status.html:18
 msgid "Lock"
@@ -1113,14 +1104,12 @@ msgid ""
 msgstr ""
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
-#, fuzzy
 msgid "Source string:"
-msgstr "Chercher dans les chaînes source"
+msgstr "Chaîne source : "
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "Traduction"
+msgstr "Traduction : "
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -2161,9 +2150,8 @@ msgstr ""
 "langue !"
 
 #: trans/models.py:85
-#, fuzzy
 msgid "Can not link to linked repository!"
-msgstr "Lien vers le dépôt invalide !"
+msgstr "Le lien vers le dépôt est invalide !"
 
 #: trans/models.py:87
 msgid "Invalid link to repository!"
