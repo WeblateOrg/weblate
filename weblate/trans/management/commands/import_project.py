@@ -12,7 +12,7 @@ import fnmatch
 logger = logging.getLogger('weblate')
 
 class Command(BaseCommand):
-    help = 'forces commiting changes to git repo'
+    help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
 
     def get_name(self, path):
@@ -20,20 +20,27 @@ class Command(BaseCommand):
         return m.group(1)
 
     def handle(self, *args, **options):
+        '''
+        Automatic import of project.
+        '''
         if len(args) != 4:
             raise CommandError('Not enough parameters!')
 
+        # Read params
         prjname, repo, branch, filemask = args
 
+        # Prepare regexp for file matching
         match = fnmatch.translate(filemask)
         match = match.replace('.*.*', '(.*.*)')
         self.maskre = re.compile(match)
 
+        # Try to get project
         try:
             project = Project.objects.get(slug = prjname)
         except Project.DoesNotExist:
-            raise CommandError('Project %s does not exist!' % prjname)
+            raise CommandError('Project %s does not exist, you need to create it first!' % prjname)
 
+        # Do we have correct mask?
         if not '**' in filemask:
             raise CommandError('You need to specify double wildcard for subproject part of the match!')
 
@@ -65,6 +72,7 @@ class Command(BaseCommand):
         # Create first subproject (this one will get full git repo)
         name = names.pop()
         logger.info('Creating subproject %s as main subproject', name)
+
         # Rename gitrepository to new name
         os.rename(workdir, os.path.join(project.get_path(), name))
 
