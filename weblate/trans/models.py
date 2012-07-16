@@ -852,6 +852,9 @@ class Translation(models.Model):
         )
 
     def clean(self):
+        '''
+        Validates that filename exists and can be opened using ttkit.
+        '''
         if not os.path.exists(self.get_filename()):
             raise ValidationError(_('Filename %s not found in repository! To add new translation, add language file into repository.') % self.filename)
         try:
@@ -956,9 +959,15 @@ class Translation(models.Model):
         return '%s - %s' % (self.subproject.__unicode__(), _(self.language.name))
 
     def get_filename(self):
+        '''
+        Returns absolute filename.
+        '''
         return os.path.join(self.subproject.get_path(), self.filename)
 
     def get_store(self):
+        '''
+        Returns ttkit storage object for a translation.
+        '''
         store = ttkit(self.get_filename())
         if hasattr(store, 'set_base_resource') and self.subproject.template != '':
             template = os.path.join(self.subproject.get_path(), self.subproject.template)
