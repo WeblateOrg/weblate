@@ -65,7 +65,7 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    def notify_user(self, template, context = {}, headers = {}):
+    def notify_user(self, notification, context = {}, headers = {}):
         '''
         Wrapper for sending notifications to user.
         '''
@@ -75,8 +75,8 @@ class Profile(models.Model):
             translation.activate(self.language)
 
             # Template names
-            subject_template = 'mail/%s_subject.txt' % template
-            body_template = 'mail/%s.txt' % template
+            subject_template = 'mail/%s_subject.txt' % notification
+            body_template = 'mail/%s.txt' % notification
 
             # Adjust context
             context['current_site'] = Site.objects.get_current()
