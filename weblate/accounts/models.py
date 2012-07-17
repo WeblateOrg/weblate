@@ -65,7 +65,7 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    def notify_user(self, notification, context = {}, headers = {}):
+    def notify_user(self, notification, translation, context = {}, headers = {}):
         '''
         Wrapper for sending notifications to user.
         '''
@@ -79,6 +79,7 @@ class Profile(models.Model):
             body_template = 'mail/%s.txt' % notification
 
             # Adjust context
+            context['translation'] = translation
             context['current_site'] = Site.objects.get_current()
 
             # Render subject
@@ -113,8 +114,8 @@ class Profile(models.Model):
         '''
         self.notify_user(
             'any_translation',
+            translation,
             {
-                'translation': translation,
                 'unit': unit,
             }
         )
@@ -125,9 +126,7 @@ class Profile(models.Model):
         '''
         self.notify_user(
             'new_string',
-            {
-                'translation': translation,
-            }
+            translation,
         )
 
     def notify_new_suggestion(self, translation, suggestion):
@@ -136,8 +135,8 @@ class Profile(models.Model):
         '''
         self.notify_user(
             'new_suggestion',
+            translation,
             {
-                'translation': translation,
                 'suggestion': suggestion,
             }
         )
@@ -148,8 +147,8 @@ class Profile(models.Model):
         '''
         self.notify_user(
             'new_contributor',
+            translation,
             {
-                'translation': translation,
                 'user': user,
             }
         )
