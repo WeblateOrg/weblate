@@ -65,7 +65,7 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    def notify_user(self, subject, template, context = {}, headers = {}):
+    def notify_user(self, template, context = {}, headers = {}):
         '''
         Wrapper for sending notifications to user.
         '''
@@ -73,15 +73,19 @@ class Profile(models.Model):
         try:
             # Load user languagesubject_fmt,
             translation.activate(self.language)
-            # Translate subject
-            subject = translation.ugettext(subject)
-            subject = get_template_from_string(subject).render(Context(context))
+
+            # Template names
+            subject_template = 'mail/%s_subject.txt' % template
+            body_template = 'mail/%s.txt' % template
 
             # Adjust context
             context['current_site'] = Site.objects.get_current()
 
+            # Render subject
+            subject = render_to_string(subject_template, context)
+
             # Render body
-            body = render_to_string(template, context)
+            body = render_to_string(body_template, context)
 
             # Define headers
             headers['Auto-Submitted'] = 'auto-generated'
@@ -108,8 +112,7 @@ class Profile(models.Model):
         Sends notification on translation.
         '''
         self.notify_user(
-            ugettext_noop('New translation in {{ translation }}'),
-            'mail/any_translation.txt',
+            'any_translation',
             {
                 'translation': translation,
                 'unit': unit,
@@ -121,8 +124,7 @@ class Profile(models.Model):
         Sends notification on new strings to translate.
         '''
         self.notify_user(
-            ugettext_noop('New string to translate in {{ translation }}'),
-            'mail/new_string.txt',
+            'new_string',
             {
                 'translation': translation,
             }
@@ -133,8 +135,7 @@ class Profile(models.Model):
         Sends notification on new suggestion.
         '''
         self.notify_user(
-            ugettext_noop('New suggestion in {{ translation }}'),
-            'mail/new_suggestion.txt',
+            'new_suggestion',
             {
                 'translation': translation,
                 'suggestion': suggestion,
@@ -146,8 +147,7 @@ class Profile(models.Model):
         Sends notification on new contributor.
         '''
         self.notify_user(
-            ugettext_noop('New contributor in {{ translation }}'),
-            'mail/new_contributor.txt',
+            'new_contributor',
             {
                 'translation': translation,
                 'user': user,
