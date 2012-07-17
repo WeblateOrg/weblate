@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: 2012-07-17 08:41+0200\n"
 "Last-Translator: Jan Kowalski <pst3qga@tormail.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,22 +231,6 @@ msgstr "Powiadomienie o nowej sugestii"
 #: accounts/models.py:61
 msgid "Notification on new contributor"
 msgstr "Powiadomienie o nowym współpracowniku"
-
-#: accounts/models.py:111
-msgid "New translation in {{ translation }}"
-msgstr "Nowe tłumaczenie w {{ tłumaczenie }}"
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr "Nowy napis do przetłumaczenia w {{ tłumaczenie }}"
-
-#: accounts/models.py:136
-msgid "New suggestion in {{ translation }}"
-msgstr "Nowa sugestia w {{ tłumaczenie }}"
-
-#: accounts/models.py:149
-msgid "New contributor in {{ translation }}"
-msgstr "Nowy współpracownik w {{ tłumaczenie }}"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -507,9 +491,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(name)s jest tłumaczone przy użyciu <a "
-"href=\"http://weblate.org/\">Weblate</a>, narzędzia WWW zaprojektowanego do "
-"łatwego tłumaczenia. Mogą go używać zarówno programiści, jak i tłumacze."
+"%(name)s jest tłumaczone przy użyciu <a href=\"http://weblate.org/"
+"\">Weblate</a>, narzędzia WWW zaprojektowanego do łatwego tłumaczenia. Mogą "
+"go używać zarówno programiści, jak i tłumacze."
 
 #: html/engage.html:46
 #, python-format
@@ -671,8 +655,7 @@ msgstr ""
 #: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
-"Twoje imię i nazwisko oraz adres e-mail pojawią się jako autor w logach "
-"Gita."
+"Twoje imię i nazwisko oraz adres e-mail pojawią się jako autor w logach Gita."
 
 #: html/profile.html:45
 #, python-format
@@ -713,8 +696,8 @@ msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
 msgstr ""
-"Promuj swój projekt tłumaczenia używając <a href=\"%"
-"(widgets_url)s\">widżetów</a>."
+"Promuj swój projekt tłumaczenia używając <a href=\"%(widgets_url)s"
+"\">widżetów</a>."
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -742,8 +725,8 @@ msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Jeśli brakuje twojego języka, przejdź proszę do <a href=\"%(url)s\">instrukcji "
-"dla tłumacza</a>."
+"Jeśli brakuje twojego języka, przejdź proszę do <a href=\"%(url)s"
+"\">instrukcji dla tłumacza</a>."
 
 #: html/subproject.html:39
 #, python-format
@@ -751,9 +734,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Jeśli brakuje Twojego języka, <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">skontaktuj się "
-"proszę z nami</a>."
+"Jeśli brakuje Twojego języka, <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">skontaktuj się proszę z nami</a>."
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -1130,6 +1112,11 @@ msgstr "Źródłowy ciąg znaków:"
 msgid "Translation:"
 msgstr "Tłumaczenie:"
 
+#: html/mail/any_translation_subject.txt:1
+#, fuzzy, python-format
+msgid "New translation in %(translation)s"
+msgstr "Nowe tłumaczenie w {{ tłumaczenie }}"
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1139,6 +1126,11 @@ msgid ""
 "%(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_contributor_subject.txt:1
+#, fuzzy, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Nowy współpracownik w {{ tłumaczenie }}"
+
 #: html/mail/new_string.txt:1
 #, python-format
 msgid ""
@@ -1147,6 +1139,11 @@ msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_string_subject.txt:1
+#, fuzzy, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "Nowy napis do przetłumaczenia w {{ tłumaczenie }}"
+
 #: html/mail/new_suggestion.txt:1
 #, python-format
 msgid ""
@@ -1154,6 +1151,11 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+
+#: html/mail/new_suggestion_subject.txt:1
+#, fuzzy, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Nowa sugestia w {{ tłumaczenie }}"
 
 #: html/registration/activate.html:9
 #, python-format

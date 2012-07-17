@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: 2012-07-13 17:54+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,22 +231,6 @@ msgstr "Notificar en nuevas sugerencias"
 #: accounts/models.py:61
 msgid "Notification on new contributor"
 msgstr "Notificar en nuevos colaboradores"
-
-#: accounts/models.py:111
-msgid "New translation in {{ translation }}"
-msgstr "Nueva traducción en {{ translation }}"
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr "Nueva cadena a traducir en {{ translation }}"
-
-#: accounts/models.py:136
-msgid "New suggestion in {{ translation }}"
-msgstr "Nueva sugerencia en {{ translation }}"
-
-#: accounts/models.py:149
-msgid "New contributor in {{ translation }}"
-msgstr "Nuevo colaborador en {{ translation }}"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1132,6 +1116,11 @@ msgstr "Cadena original:"
 msgid "Translation:"
 msgstr "Traducción:"
 
+#: html/mail/any_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Nueva traducción en %(translation)s"
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1145,6 +1134,11 @@ msgstr ""
 "%(username)s colaboró por primera vez sobre %(translation)s en "
 "%(site_title)s.\n"
 
+#: html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Nuevo colaborador en %(translation)s"
+
 #: html/mail/new_string.txt:1
 #, python-format
 msgid ""
@@ -1156,6 +1150,11 @@ msgstr ""
 "\n"
 "Hay nuevas cadenas para traducir sobre %(translation)s en %(site_title)s.\n"
 
+#: html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "Nueva cadena a traducir en %(translation)s"
+
 #: html/mail/new_suggestion.txt:1
 #, python-format
 msgid ""
@@ -1166,6 +1165,11 @@ msgstr ""
 "Hola,\n"
 "\n"
 "Hay una nueva sugerencia a revisar sobre %(translation)s en %(site_title)s.\n"
+
+#: html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Nueva sugerencia en %(translation)s"
 
 #: html/registration/activate.html:9
 #, python-format

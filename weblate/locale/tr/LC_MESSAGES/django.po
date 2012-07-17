@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: 2012-07-15 15:33+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -232,22 +232,6 @@ msgstr "Yeni öneride bildirim"
 #: accounts/models.py:61
 msgid "Notification on new contributor"
 msgstr "Yeni katkıda bulunmada bildirim"
-
-#: accounts/models.py:111
-msgid "New translation in {{ translation }}"
-msgstr "{{ translation }} içinde yeni çeviri"
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr "Çevirmek için {{ translation }} içinde yeni satır"
-
-#: accounts/models.py:136
-msgid "New suggestion in {{ translation }}"
-msgstr "{{ translation }} içinde yeni öneri"
-
-#: accounts/models.py:149
-msgid "New contributor in {{ translation }}"
-msgstr "{{ translation }} içinde yeni katkıda bulunma"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1126,6 +1110,11 @@ msgstr "Kaynak satır:"
 msgid "Translation:"
 msgstr "Çeviri:"
 
+#: html/mail/any_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "%(translation)s içinde yeni çeviri"
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1139,6 +1128,11 @@ msgstr ""
 "%(username)s, %(site_title)s sitesinde %(translation)s dilinde ilk katkısını "
 "yaptı.\n"
 
+#: html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
+msgstr "%(translation)s içinde yeni katkıda bulunma"
+
 #: html/mail/new_string.txt:1
 #, python-format
 msgid ""
@@ -1151,6 +1145,11 @@ msgstr ""
 "%(site_title)s sitesinde %(translation)s dilinde çevirme yapmak için yeni "
 "satırlar var.\n"
 
+#: html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "Çevirmek için %(translation)s içinde yeni satır"
+
 #: html/mail/new_suggestion.txt:1
 #, python-format
 msgid ""
@@ -1162,6 +1161,11 @@ msgstr ""
 "\n"
 "%(site_title)s sitesinde %(translation)s dilinde değerlendirme için yeni "
 "öneri var.\n"
+
+#: html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "%(translation)s içinde yeni öneri"
 
 #: html/registration/activate.html:9
 #, python-format

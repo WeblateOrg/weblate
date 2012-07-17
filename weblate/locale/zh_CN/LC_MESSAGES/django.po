@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: 2012-06-12 17:34+0200\n"
 "Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@l10n.cihar.com>\n"
@@ -231,25 +231,6 @@ msgstr ""
 #: accounts/models.py:61
 msgid "Notification on new contributor"
 msgstr ""
-
-#: accounts/models.py:111
-#, fuzzy
-msgid "New translation in {{ translation }}"
-msgstr "自动翻译"
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr ""
-
-#: accounts/models.py:136
-#, fuzzy
-msgid "New suggestion in {{ translation }}"
-msgstr "自动翻译"
-
-#: accounts/models.py:149
-#, fuzzy
-msgid "New contributor in {{ translation }}"
-msgstr "自动翻译"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1095,6 +1076,11 @@ msgstr "在源条目中搜索"
 msgid "Translation:"
 msgstr "翻译"
 
+#: html/mail/any_translation_subject.txt:1
+#, fuzzy, python-format
+msgid "New translation in %(translation)s"
+msgstr "自动翻译"
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1104,12 +1090,22 @@ msgid ""
 "%(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_contributor_subject.txt:1
+#, fuzzy, python-format
+msgid "New contributor in %(translation)s"
+msgstr "自动翻译"
+
 #: html/mail/new_string.txt:1
 #, python-format
 msgid ""
 "Hi,\n"
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
+msgstr ""
+
+#: html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
 msgstr ""
 
 #: html/mail/new_suggestion.txt:1
@@ -1119,6 +1115,11 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+
+#: html/mail/new_suggestion_subject.txt:1
+#, fuzzy, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "自动翻译"
 
 #: html/registration/activate.html:9
 #, python-format

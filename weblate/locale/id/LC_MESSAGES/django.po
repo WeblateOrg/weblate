@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: 2012-07-17 08:14+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -235,22 +235,6 @@ msgstr "Pemberitahuan jika ada saran baru"
 msgid "Notification on new contributor"
 msgstr "Pemberitahuan jika ada kontributor baru"
 
-#: accounts/models.py:111
-msgid "New translation in {{ translation }}"
-msgstr "Terjemahan baru dalam {{ translation }}"
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr "String baru untuk menerjemahkan dalam {{ translation }}"
-
-#: accounts/models.py:136
-msgid "New suggestion in {{ translation }}"
-msgstr "Saran baru dalam {{ translation }}"
-
-#: accounts/models.py:149
-msgid "New contributor in {{ translation }}"
-msgstr "Kontributor baru dalam {{ translation }}"
-
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
@@ -350,8 +334,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Informasi lebih lanjut tentang ini, jika tersedia pemeriksa dalam <a href=\"%"
-"(link)s\">dokumentasi</a>."
+"Informasi lebih lanjut tentang ini, jika tersedia pemeriksa dalam <a href="
+"\"%(link)s\">dokumentasi</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:27
 #: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
@@ -469,8 +453,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit for "
 "example csv or po file."
 msgstr ""
-"Anda dapat mengunggah format apa saja yang dipahami oleh aplikasi \"Translate "
-"Toolkit\" misalnya berkas csv atau po."
+"Anda dapat mengunggah format apa saja yang dipahami oleh aplikasi "
+"\"Translate Toolkit\" misalnya berkas csv atau po."
 
 #: html/dictionary.html:105
 msgid "Import"
@@ -521,8 +505,8 @@ msgid ""
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
 "Proyek terjemahan untuk  %(name)s saat ini berisi %(total)s string untuk "
-"diterjemahankan dan <a href=\"%(url)s\">sedang diterjemahkan ke dalam bahasa %"
-"(languages)s</a>. Secara keseluruhan, terjemahan ini adalah  %(percent)s%% "
+"diterjemahankan dan <a href=\"%(url)s\">sedang diterjemahkan ke dalam bahasa "
+"%(languages)s</a>. Secara keseluruhan, terjemahan ini adalah  %(percent)s%% "
 "lengkap."
 
 #: html/engage.html:49
@@ -540,8 +524,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Setelah Anda telah mengaktifkan akun anda, Silakan berlanjut ke <a href=\"%"
-"(url)s\">bagian terjemahan</a>."
+"Setelah Anda telah mengaktifkan akun anda, Silakan berlanjut ke <a href="
+"\"%(url)s\">bagian terjemahan</a>."
 
 #: html/index.html:9
 msgid ""
@@ -1106,6 +1090,11 @@ msgstr ""
 msgid "Translation:"
 msgstr ""
 
+#: html/mail/any_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Terjemahan baru dalam %(translation)s"
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1115,6 +1104,11 @@ msgid ""
 "%(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Kontributor baru dalam %(translation)s"
+
 #: html/mail/new_string.txt:1
 #, python-format
 msgid ""
@@ -1123,6 +1117,11 @@ msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "String baru untuk menerjemahkan dalam %(translation)s"
+
 #: html/mail/new_suggestion.txt:1
 #, python-format
 msgid ""
@@ -1130,6 +1129,11 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+
+#: html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Saran baru dalam %(translation)s"
 
 #: html/registration/activate.html:9
 #, python-format

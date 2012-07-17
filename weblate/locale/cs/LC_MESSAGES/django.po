@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: 2012-07-17 14:24+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,22 +231,6 @@ msgstr "Upozornění na nové návrhy"
 #: accounts/models.py:61
 msgid "Notification on new contributor"
 msgstr "Upozornění na nového přispěvatele"
-
-#: accounts/models.py:111
-msgid "New translation in {{ translation }}"
-msgstr "Nový překlad v {{ translation }}"
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr "Nový řetězec k překladu v {{ translation }}"
-
-#: accounts/models.py:136
-msgid "New suggestion in {{ translation }}"
-msgstr "Nový návrh překladu v {{ translation }}"
-
-#: accounts/models.py:149
-msgid "New contributor in {{ translation }}"
-msgstr "Nový přispěvatel v {{ translation }}"
 
 #: accounts/models.py:172
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1124,6 +1108,11 @@ msgstr "Vyhledávat ve zdrojových řetězcích"
 msgid "Translation:"
 msgstr "Překlad"
 
+#: html/mail/any_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Nový překlad v %(translation)s"
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1133,6 +1122,11 @@ msgid ""
 "%(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Nový přispěvatel v %(translation)s"
+
 #: html/mail/new_string.txt:1
 #, python-format
 msgid ""
@@ -1141,6 +1135,11 @@ msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "Nový řetězec k překladu v %(translation)s"
+
 #: html/mail/new_suggestion.txt:1
 #, python-format
 msgid ""
@@ -1148,6 +1147,11 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+
+#: html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Nový návrh překladu v %(translation)s"
 
 #: html/registration/activate.html:9
 #, python-format

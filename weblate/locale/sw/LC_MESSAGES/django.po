@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 15:16+0200\n"
+"POT-Creation-Date: 2012-07-17 14:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,22 +227,6 @@ msgstr ""
 
 #: accounts/models.py:61
 msgid "Notification on new contributor"
-msgstr ""
-
-#: accounts/models.py:111
-msgid "New translation in {{ translation }}"
-msgstr ""
-
-#: accounts/models.py:124
-msgid "New string to translate in {{ translation }}"
-msgstr ""
-
-#: accounts/models.py:136
-msgid "New suggestion in {{ translation }}"
-msgstr ""
-
-#: accounts/models.py:149
-msgid "New contributor in {{ translation }}"
 msgstr ""
 
 #: accounts/models.py:172
@@ -1069,6 +1053,11 @@ msgstr ""
 msgid "Translation:"
 msgstr ""
 
+#: html/mail/any_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr ""
+
 #: html/mail/new_contributor.txt:1
 #, python-format
 msgid ""
@@ -1076,6 +1065,11 @@ msgid ""
 "\n"
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
+msgstr ""
+
+#: html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
 msgstr ""
 
 #: html/mail/new_string.txt:1
@@ -1086,12 +1080,22 @@ msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
+#: html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr ""
+
 #: html/mail/new_suggestion.txt:1
 #, python-format
 msgid ""
 "Hi,\n"
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
+msgstr ""
+
+#: html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
 msgstr ""
 
 #: html/registration/activate.html:9
