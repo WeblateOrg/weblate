@@ -12,7 +12,7 @@
 <div id="content-main">
   <h1>{% trans "Status of repositories" %}</h1>
   {% for sp in subprojects %}
-    <h3>{{ sp }}</h3>
+    <h3><a href="{{ sp.get_absolute_url }}">{{ sp }}</a></h3>
 {% if sp.is_repo_link %}
 <p>{% blocktrans with sp.repo as repo %}Not showing status of linked repository. Check {{ repo }} instead.{% endblocktrans %}</p>
 {% else %}
