@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-18 10:52+0200\n"
-"PO-Revision-Date: 2012-07-05 23:33+0200\n"
+"PO-Revision-Date: 2012-07-19 01:32+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: da\n"
@@ -186,21 +186,20 @@ msgid "Error details:"
 msgstr "Fejldetaljer:"
 
 #: accounts/i18n.py:31
-#, fuzzy
 msgid "Confirm resetting repository"
-msgstr "Git-depot:"
+msgstr "Bekræft nulstilling af arkiv"
 
 #: accounts/i18n.py:32
 msgid "Resetting the repository will throw away all local changes!"
-msgstr ""
+msgstr "Nulstilling af arkivet vil forkaste alle lokale ændringer!"
 
 #: accounts/i18n.py:33
 msgid "Ok"
-msgstr ""
+msgstr "O.k."
 
 #: accounts/i18n.py:34
 msgid "Cancel"
-msgstr ""
+msgstr "Annullér"
 
 #: accounts/models.py:25
 msgid "Interface Language"
@@ -215,26 +214,24 @@ msgid "Secondary languages"
 msgstr "Sekundære sprog"
 
 #: accounts/models.py:45
-#, fuzzy
 msgid "Subscribed projects"
-msgstr "Delprojekter"
+msgstr "Abonnerede projekter"
 
 #: accounts/models.py:49
-#, fuzzy
 msgid "Notification on any translation"
-msgstr "Automatisk oversættelse"
+msgstr "Notifikation ved enhver oversættelse"
 
 #: accounts/models.py:53
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "Notifikation ved ny streng som kan oversættes"
 
 #: accounts/models.py:57
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "Notifikation ved nye forslag"
 
 #: accounts/models.py:61
 msgid "Notification on new contributor"
-msgstr ""
+msgstr "Notifikation ved ny bidragyder"
 
 #: accounts/models.py:171
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -470,7 +467,7 @@ msgstr "Gem"
 #: html/engage.html:11 html/engage.html.py:37
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "Deltag i %(project)s!"
 
 #: html/engage.html:12
 #, python-format
@@ -478,10 +475,12 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
+"Deltag i %(project)s, der i øjeblikket oversættes på %(languages)s med brug "
+"af Weblate."
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
-msgstr ""
+msgstr "Hej, og tak for din interesse!"
 
 #: html/engage.html:43
 #, python-format
@@ -490,6 +489,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"%(name)s oversættes med brug af <a href=\"http://weblate.org/\">Weblate</a>, "
+"et web-værktøj som er designet til at nemme oversættelsen, både for "
+"udviklere og oversættere."
 
 #: html/engage.html:46
 #, python-format
@@ -498,6 +500,10 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
+"Oversættelsesprojektet for %(name)s indeholder i øjeblikket %(total)s "
+"strenge til oversættelser, og <a href=\"%(url)s\">bliver oversat til %"
+"(languages)s sprog</a>. I gennemsnit er %(percent)s%% af oversættelserne "
+"komplette."
 
 #: html/engage.html:49
 #, python-format
@@ -505,6 +511,8 @@ msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
 msgstr ""
+"Hvis du vil bidrage til oversættelsen af %(name)s, så skal du <a "
+"href=\"/accounts/register/\">tilmelde dig på denne server</a>."
 
 #: html/engage.html:52
 #, python-format
@@ -512,6 +520,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
+"Når du har aktiveret din konto, så fortsæt blot til <a href=\"%(url)s\">overs"
+"ættelses-sektionen</a>."
 
 #: html/index.html:9
 msgid ""
@@ -626,9 +636,8 @@ msgid "Preferences"
 msgstr "Præferencer"
 
 #: html/profile.html:22
-#, fuzzy
 msgid "Subscriptions"
-msgstr "Forslag"
+msgstr "Abonnementer"
 
 #: html/profile.html:23
 msgid "Account"
@@ -636,7 +645,7 @@ msgstr "Konto"
 
 #: html/profile.html:32
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
+msgstr "Du vil modtage valgte notifikatione via e-mail for alle dine sprog."
 
 #: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
@@ -669,19 +678,20 @@ msgstr "Vedligehold af Git"
 
 #: html/project.html:45
 msgid "Promote"
-msgstr ""
+msgstr "Promovér"
 
 #: html/project.html:53
 msgid "Manage all dictionaries"
 msgstr "Administration af alle ordbøger"
 
 #: html/project.html:63
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
 msgstr ""
-"Glemt din adgangskode? Du kan <a href=\"%(reset_url)s\">nulstille den</a>."
+"Promovér dit oversættelsesprojekt med brug af <a href=\"%"
+"(widgets_url)s\">skærmbrikker</a>."
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -704,13 +714,13 @@ msgid "New language"
 msgstr "Nyt sprog"
 
 #: html/subproject.html:37
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Skulle dit sprog mangle, så tag venligst <a href=\"%(contact_url)s?"
-"subject=New+language+request+for+%(object)s\">kontakt  til os</a>."
+"Mangler dit sprog, så følg venligst <a href=\"%(url)s\">oversættelses-"
+"instrukserne</a>."
 
 #: html/subproject.html:39
 #, python-format
@@ -938,11 +948,11 @@ msgstr "Besked er oversat"
 
 #: html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "skærmbrikker"
 
 #: html/widgets.html:12
 msgid "Widgets"
-msgstr ""
+msgstr "Skærmbrikker"
 
 #: html/widgets.html:15
 msgid ""
@@ -950,6 +960,9 @@ msgid ""
 "can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
+"Du kan benytte følgende skærmbrik til at promovere oversættelsen af dit "
+"projekt. De kan forøge synligheden af din oversættelsesprojekter og skaffe "
+"nye bidragydere."
 
 #: html/widgets.html:19
 #, python-format
@@ -957,23 +970,25 @@ msgid ""
 "You can also point new comers co introducing page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
+"Du kan også henvise nyankomne til introduktionssiden på <a href=\"%"
+"(engage_url)s\">%(engage_url)s</a>."
 
 #: html/widgets.html:22
 msgid "Image widgets"
-msgstr ""
+msgstr "Billed-skærmbrikker"
 
 #: html/widgets.html:25
 #, python-format
 msgid "Image %(widget)s"
-msgstr ""
+msgstr "Billed-%(widget)s"
 
 #: html/widgets.html:27
 msgid "Example:"
-msgstr ""
+msgstr "Eksempel:"
 
 #: html/widgets.html:31
 msgid "Code:"
-msgstr ""
+msgstr "Kode:"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -989,11 +1004,13 @@ msgid "Status"
 msgstr "Status"
 
 #: html/admin/report.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
-msgstr "Viser ikke status fra sammenkædet arkiv. Tjek i stedet %(repo)s."
+msgstr ""
+"Viser ikke status fra sammenkædet arkiv. Tjek i stedet <a href=\"#%(slug)s\">%"
+"(repo)s</a>."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1024,31 +1041,28 @@ msgid "Push"
 msgstr "Skub"
 
 #: html/js/git-status.html:12
-#, fuzzy
 msgid "Reset all changes in local repository"
-msgstr "Træk ændringer fra fjern-arkiv"
+msgstr "Nulstil alle ændringer i lokalt arkiv"
 
 #: html/js/git-status.html:12
 msgid "Reset"
-msgstr ""
+msgstr "Nulstil"
 
 #: html/js/git-status.html:16
-#, fuzzy
 msgid "Allow changes in the repository"
-msgstr "Træk ændringer fra fjern-arkiv"
+msgstr "Tillad ændringer fra arkivet"
 
 #: html/js/git-status.html:16
 msgid "Unlock"
-msgstr ""
+msgstr "Lås op"
 
 #: html/js/git-status.html:18
-#, fuzzy
 msgid "Prevent any changes in the repository"
-msgstr "Skub ændringer til fjern-arkiv"
+msgstr "Forhindring mod enhver ændring i arkivet"
 
 #: html/js/git-status.html:18
 msgid "Lock"
-msgstr ""
+msgstr "Lås"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
@@ -1089,21 +1103,22 @@ msgid ""
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hej,\n"
+"\n"
+"der er foretaget en ny oversættelse af %(translation)s på %(site_title)s.\n"
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
-#, fuzzy
 msgid "Source string:"
-msgstr "Søg i kildestrenge"
+msgstr "Kildestreng:"
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "Oversættelse"
+msgstr "Oversættelse:"
 
 #: html/mail/any_translation_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New translation in %(translation)s"
-msgstr "Automatisk oversættelse"
+msgstr "Ny oversættelse i %(translation)s"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1113,11 +1128,15 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
 msgstr ""
+"Hej,\n"
+"\n"
+"%(username)s har netop foretaget det første bidrag til %(translation)s på %"
+"(site_title)s.\n"
 
 #: html/mail/new_contributor_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Automatisk oversættelse"
+msgstr "Ny bidragyder til %(translation)s"
 
 #: html/mail/new_string.txt:1
 #, python-format
@@ -1126,11 +1145,14 @@ msgid ""
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hej,\n"
+"\n"
+"der er nye strenge til oversættelsen af %(translation)s på %(site_title)s.\n"
 
 #: html/mail/new_string_subject.txt:1
 #, python-format
 msgid "New string to translate in %(translation)s"
-msgstr ""
+msgstr "Ny strenge til oversættelse i %(translation)s"
 
 #: html/mail/new_suggestion.txt:1
 #, python-format
@@ -1139,11 +1161,14 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hej,\n"
+"\n"
+"der er nye forslag til gennemgang på %(translation)s på %(site_title)s.\n"
 
 #: html/mail/new_suggestion_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New suggestion in %(translation)s"
-msgstr "Automatisk oversættelse"
+msgstr "Nyt forslag i %(translation)s"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -2149,9 +2174,8 @@ msgid "File mask does not contain * as a language placeholder!"
 msgstr "Filmaske indeholder ikke * som en pladsholder for sprog!"
 
 #: trans/models.py:85
-#, fuzzy
 msgid "Can not link to linked repository!"
-msgstr "Ugyldig henvisning til arkiv!"
+msgstr "Kan ikke henvise til sammenkædet arkiv!"
 
 #: trans/models.py:87
 msgid "Invalid link to repository!"
@@ -2159,12 +2183,11 @@ msgstr "Ugyldig henvisning til arkiv!"
 
 #: trans/models.py:90
 msgid "Use contact form"
-msgstr ""
+msgstr "Brug kontaktformular"
 
 #: trans/models.py:91
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "Ikke-oversatte strenge"
+msgstr "Henvis til URL for oversættelses-instruktser"
 
 #: trans/models.py:109
 #, python-format
@@ -2172,12 +2195,16 @@ msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
+"Du kan anvende %(language)s, %(subproject)s eller %(project)s til sprog-"
+"genvej, delprojekt eller projektnavne."
 
 #: trans/models.py:126
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Udfyld venligst enten instruktions-URL eller benyt en anden metode til "
+"tilføjelse af nyt sprog."
 
 #: trans/models.py:280
 msgid "Name to display"
@@ -2231,7 +2258,7 @@ msgstr ""
 
 #: trans/models.py:314
 msgid "Whether subproject is locked for translation updates"
-msgstr ""
+msgstr "Om hvorvidt delprojektet er låst for oversættelsesopdateringer"
 
 #: trans/models.py:474
 #, python-format
@@ -2249,9 +2276,9 @@ msgid "Failed to push to remote branch on %s."
 msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
 
 #: trans/models.py:608
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
+msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
 
 #: trans/models.py:664
 #, python-format
@@ -2294,16 +2321,18 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Filnavnet %s blev ikke fundet i arkivet. For at tilføje en ny oversættelse, "
+"så tilføj sprogfil i arkivet."
 
 #: trans/models.py:866
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "Format på %d matchede filer, kunne ikke genkendes."
+msgstr "Format fra %s kunne ikke genkendes."
 
 #: trans/models.py:868
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Mislykkedes med at fortolke %d matchede filer!"
+msgstr "Mislykkedes med at fortolke filen %(file)s: %(error)s"
 
 #: trans/models.py:1277
 msgid "All strings"
@@ -2332,7 +2361,7 @@ msgstr ""
 #: trans/models.py:1534
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "enheds-ID %s"
 
 #: trans/views.py:48
 msgid "Please set your full name in your profile."
@@ -2358,7 +2387,7 @@ msgstr "Mislykkedes med at behandle formular!"
 
 #: trans/views.py:290 trans/views.py:347 trans/views.py:659
 msgid "This translation is currently locked for updates!"
-msgstr ""
+msgstr "Denne oversættelse er i øjeblikket låst for opdateringer!"
 
 #: trans/views.py:336
 msgid "Automatic translation completed."
@@ -2377,25 +2406,24 @@ msgid "All repositories were pushed."
 msgstr "Alle arkiver blev skubbet (pushed)."
 
 #: trans/views.py:477 trans/views.py:487 trans/views.py:497
-#, fuzzy
 msgid "All repositories have been reset."
-msgstr "Alle arkiver blev skubbet (pushed)."
+msgstr "Alle arkiver blev nulstillet."
 
 #: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "Delprojekt er nu låst for oversættelsesopdateringer!"
 
 #: trans/views.py:523
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "Delprojekt er nu åbnet for oversættelsesopdateringer."
 
 #: trans/views.py:538
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "Alle delprojekter er nu låst for oversættelsesopdateringer!"
 
 #: trans/views.py:551
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "Projektet er nu åbent for oversættelsesopdateringer."
 
 #: trans/views.py:640
 #, python-format
