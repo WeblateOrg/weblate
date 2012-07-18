@@ -378,6 +378,9 @@ class SubProject(models.Model):
     def __unicode__(self):
         return '%s/%s' % (self.project.__unicode__(), self.name)
 
+    def get_full_slug(self):
+        return '%s__%s' % (self.project.slug, self.slug)
+
     def get_path(self):
         '''
         Returns full path to subproject git repository.
