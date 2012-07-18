@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-17 14:31+0200\n"
+"POT-Creation-Date: 2012-07-18 10:52+0200\n"
 "PO-Revision-Date: 2012-07-17 21:30+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -235,7 +235,7 @@ msgstr "Pemberitahuan jika ada saran baru"
 msgid "Notification on new contributor"
 msgstr "Pemberitahuan jika ada kontributor baru"
 
-#: accounts/models.py:172
+#: accounts/models.py:171
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Profil Anda telah dipindah, Anda mungkin ingin menyesuaikan preferensinya."
@@ -660,8 +660,8 @@ msgstr "Nama dan surel Anda akan muncul sebagai penulis dalam commit Git."
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
-"Anda dapat mengubah sandilewat pada <a href=\"%(pw_url)s\">halaman "
-"terpisah</a>."
+"Anda dapat mengubah sandilewat pada <a href=\"%(pw_url)s\">halaman terpisah</"
+"a>."
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"
@@ -697,8 +697,8 @@ msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
 msgstr ""
-"Mempromosikan proyek terjemahan Anda menggunakan <a href=\"%"
-"(widgets_url)s\">widget</a>."
+"Mempromosikan proyek terjemahan Anda menggunakan <a href=\"%(widgets_url)s"
+"\">widget</a>."
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -735,9 +735,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Bahasa Anda tidak ada, silakan <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">hubungi "
-"kami</a>."
+"Bahasa Anda tidak ada, silakan <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">hubungi kami</a>."
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -815,8 +814,8 @@ msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
 msgstr ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">log masuk</a> untuk menyimpan "
-"terjemahan."
+"<a href=\"%(login_url)s?next=%(translate_url)s\">log masuk</a> untuk "
+"menyimpan terjemahan."
 
 #: html/translate.html:146
 msgid "Suggest"
@@ -1014,8 +1013,10 @@ msgid "Status"
 msgstr "Status"
 
 #: html/admin/report.html:17
-#, python-format
-msgid "Not showing status of linked repository. Check %(repo)s instead."
+#, fuzzy, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
 msgstr ""
 "Tidak menampilkan status dari repositori terkait. Periksa %(repo)s sebagai "
 "gantinya."
@@ -2181,100 +2182,100 @@ msgstr ""
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:471
+#: trans/models.py:474
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models.py:551
+#: trans/models.py:554
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:579
+#: trans/models.py:582
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:605
+#: trans/models.py:608
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:661
+#: trans/models.py:664
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:733
+#: trans/models.py:736
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:738
+#: trans/models.py:741
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:753
+#: trans/models.py:756
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:758
+#: trans/models.py:761
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:768
+#: trans/models.py:771
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:770
+#: trans/models.py:773
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:859
+#: trans/models.py:862
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:863
+#: trans/models.py:866
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:865
+#: trans/models.py:868
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1274
+#: trans/models.py:1277
 msgid "All strings"
 msgstr ""
 
-#: trans/models.py:1279
+#: trans/models.py:1282
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr ""
 
-#: trans/models.py:1281
+#: trans/models.py:1284
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models.py:1283
+#: trans/models.py:1286
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/models.py:1467
+#: trans/models.py:1470
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1531
+#: trans/models.py:1534
 #, python-format
 msgid "unit ID %s"
 msgstr ""

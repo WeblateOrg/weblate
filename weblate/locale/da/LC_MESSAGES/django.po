@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-17 14:32+0200\n"
+"POT-Creation-Date: 2012-07-18 10:52+0200\n"
 "PO-Revision-Date: 2012-07-05 23:33+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -236,7 +236,7 @@ msgstr ""
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:172
+#: accounts/models.py:171
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Din profil er blevet overført, du kan evt. tilpasse præferencer."
 
@@ -989,8 +989,10 @@ msgid "Status"
 msgstr "Status"
 
 #: html/admin/report.html:17
-#, python-format
-msgid "Not showing status of linked repository. Check %(repo)s instead."
+#, fuzzy, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
 msgstr "Viser ikke status fra sammenkædet arkiv. Tjek i stedet %(repo)s."
 
 #: html/js/dictionary.html:18
@@ -2231,36 +2233,36 @@ msgstr ""
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:471
+#: trans/models.py:474
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Mislykkedes med at hente git-arkiv: %s"
 
-#: trans/models.py:551
+#: trans/models.py:554
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Skub/push er deaktiveret for %s."
 
-#: trans/models.py:579
+#: trans/models.py:582
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
 
-#: trans/models.py:605
+#: trans/models.py:608
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
 
-#: trans/models.py:661
+#: trans/models.py:664
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Mislykkedes med at flette fjern forgrening i ind %s."
 
-#: trans/models.py:733
+#: trans/models.py:736
 msgid "The mask did not match any files!"
 msgstr "Denne maske matchede ingen filer!"
 
-#: trans/models.py:738
+#: trans/models.py:741
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2268,66 +2270,66 @@ msgstr ""
 "Der er flere filer for enkelt sprog. Tilpas venligst masken og brug "
 "delprojekter til oversættelse af forskellige ressourcer."
 
-#: trans/models.py:753
+#: trans/models.py:756
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format på %d matchede filer, kunne ikke genkendes."
 
-#: trans/models.py:758
+#: trans/models.py:761
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Mislykkedes med at fortolke %d matchede filer!"
 
-#: trans/models.py:768
+#: trans/models.py:771
 msgid "Format of translation template could not be recognized."
 msgstr "Format på oversættelsesskabelon kunne ikke genkendes."
 
-#: trans/models.py:770
+#: trans/models.py:773
 msgid "Failed to parse translation template."
 msgstr "Mislykkedes med at fortolke oversættelsesskabelon."
 
-#: trans/models.py:859
+#: trans/models.py:862
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:863
+#: trans/models.py:866
 #, fuzzy, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format på %d matchede filer, kunne ikke genkendes."
 
-#: trans/models.py:865
+#: trans/models.py:868
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Mislykkedes med at fortolke %d matchede filer!"
 
-#: trans/models.py:1274
+#: trans/models.py:1277
 msgid "All strings"
 msgstr "Alle strenge"
 
-#: trans/models.py:1279
+#: trans/models.py:1282
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Ikke-oversatte strenge (%d)"
 
-#: trans/models.py:1281
+#: trans/models.py:1284
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Uklare strenge (%d)"
 
-#: trans/models.py:1283
+#: trans/models.py:1286
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Strenge med forslag (%d)"
 
-#: trans/models.py:1467
+#: trans/models.py:1470
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis beskadiget."
 
-#: trans/models.py:1531
+#: trans/models.py:1534
 #, python-format
 msgid "unit ID %s"
 msgstr ""
