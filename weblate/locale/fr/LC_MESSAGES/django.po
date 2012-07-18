@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 10:52+0200\n"
-"PO-Revision-Date: 2012-07-16 18:09+0200\n"
+"POT-Creation-Date: 2012-07-17 14:32+0200\n"
+"PO-Revision-Date: 2012-07-18 12:47+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
@@ -190,15 +190,15 @@ msgstr "Confirmer la mise à zéro du dépôt"
 
 #: accounts/i18n.py:32
 msgid "Resetting the repository will throw away all local changes!"
-msgstr ""
+msgstr "La réinitialisation du dépôt effacera tous les changements locaux !"
 
 #: accounts/i18n.py:33
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: accounts/i18n.py:34
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: accounts/models.py:25
 msgid "Interface Language"
@@ -222,15 +222,15 @@ msgstr "Aviser pour toute traduction"
 
 #: accounts/models.py:53
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "Avis de nouvelle chaîne à traduire"
 
 #: accounts/models.py:57
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "Avis de nouvelle suggestion"
 
 #: accounts/models.py:61
 msgid "Notification on new contributor"
-msgstr ""
+msgstr "Avis d'un nouveau contributeur"
 
 #: accounts/models.py:171
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -468,7 +468,7 @@ msgstr "Sauvegarder"
 #: html/engage.html:11 html/engage.html.py:37
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "Impliquez-vous dans %(project)s !"
 
 #: html/engage.html:12
 #, python-format
@@ -476,10 +476,12 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
+"Impliquez-vous dans %(project)s, qui est en cours de traduction en %"
+"(languages)s langues au moyen de Weblate."
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
-msgstr ""
+msgstr "Bonjour, et merci de votre intérêt !"
 
 #: html/engage.html:43
 #, python-format
@@ -488,6 +490,10 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"%(name)s est en cours de traduction au moyen de <a "
+"href=\"http://weblate.org/\">Weblate</a>, une application web dont le but est "
+"de faciliter la traduction, autant pour les développeurs que pour les "
+"traducteurs."
 
 #: html/engage.html:46
 #, python-format
@@ -496,6 +502,9 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
+"Le projet de traduction pour %(name)s contient actuellement %(total)s "
+"chaînes et est <a href=\"%(url)s\">en cours de traduction en %(languages)s "
+"langues</a>. Au total, ces traductions sont complétées à %(percent)s%%."
 
 #: html/engage.html:49
 #, python-format
@@ -503,6 +512,8 @@ msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
 msgstr ""
+"Si vous voulez contribuer à la traduction de %(name)s, vous devez vous <a "
+"href=\"/accounts/register/\">enregistrer sur ce serveur</a>."
 
 #: html/engage.html:52
 #, python-format
@@ -2167,9 +2178,8 @@ msgid "Use contact form"
 msgstr ""
 
 #: trans/models.py:91
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "Chaînes non traduites"
+msgstr "Pointer vers un URL contenant les directives de traduction"
 
 #: trans/models.py:109
 #, python-format
@@ -2255,9 +2265,9 @@ msgid "Failed to push to remote branch on %s."
 msgstr "L'envoi à la branche distante de %s a échoué."
 
 #: trans/models.py:608
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "L'envoi à la branche distante de %s a échoué."
+msgstr "Échec de réinitialisation vers la branche distance sur %s."
 
 #: trans/models.py:664
 #, python-format
@@ -2302,14 +2312,14 @@ msgid ""
 msgstr ""
 
 #: trans/models.py:866
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "Le format de %d fichiers qui correspondent n'a pu être reconnu."
+msgstr "Le format de %s n'est pas reconnu."
 
 #: trans/models.py:868
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Échec d'analyse de %d fichiers correspondants !"
+msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 
 #: trans/models.py:1277
 msgid "All strings"
@@ -2383,9 +2393,8 @@ msgid "All repositories were pushed."
 msgstr "Tous les dépôts ont été propagés."
 
 #: trans/views.py:477 trans/views.py:487 trans/views.py:497
-#, fuzzy
 msgid "All repositories have been reset."
-msgstr "Tous les dépôts ont été propagés."
+msgstr "Tous les dépôts ont été réinitialisés."
 
 #: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
