@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-17 14:31+0200\n"
-"PO-Revision-Date: 2012-07-17 08:41+0200\n"
+"PO-Revision-Date: 2012-07-17 19:01+0200\n"
 "Last-Translator: Jan Kowalski <pst3qga@tormail.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -28,9 +28,8 @@ msgid "Account activation"
 msgstr "Aktywacja konta"
 
 #: urls.py:116 html/base.html:47 html/registration/login.html:30
-#, fuzzy
 msgid "Login"
-msgstr "Login"
+msgstr "Logowanie"
 
 #: urls.py:123
 msgid "Logged out"
@@ -46,7 +45,7 @@ msgstr "Hasło zmienione"
 
 #: urls.py:136 urls.py:140 urls.py:144 urls.py:148
 msgid "Password reset"
-msgstr "Ponowne ustawienie hasła"
+msgstr "Resetowanie hasła"
 
 #: accounts/forms.py:53 accounts/forms.py:68
 msgid "First name"
@@ -66,7 +65,7 @@ msgstr "Temat"
 
 #: accounts/forms.py:59
 msgid "Your name"
-msgstr "Twoje imię"
+msgstr "Twoje imię (nazwa)"
 
 #: accounts/forms.py:60
 msgid "Your email"
@@ -166,7 +165,7 @@ msgstr "Posortuj tę kolumnę"
 
 #: accounts/i18n.py:26
 msgid "AJAX request to load this content has failed!"
-msgstr "Wczytanie tej zawartości, za pomocą zapytania AJAX, nie powiodło się!"
+msgstr "Wczytanie tej zawartości, za pomocą żądania AJAX, nie powiodło się!"
 
 #: accounts/i18n.py:27
 msgid "Loading..."
@@ -186,11 +185,11 @@ msgstr "Szczegóły błędu:"
 
 #: accounts/i18n.py:31
 msgid "Confirm resetting repository"
-msgstr "Potwierdź ponowne ustawienie repozytorium"
+msgstr "Potwierdź zresetowanie repozytorium"
 
 #: accounts/i18n.py:32
 msgid "Resetting the repository will throw away all local changes!"
-msgstr "Ponowne ustawienie repozytorium odrzuci wszystkie lokalne zmiany!"
+msgstr "Zresetowanie repozytorium odrzuci wszystkie lokalne zmiany!"
 
 #: accounts/i18n.py:33
 msgid "Ok"
@@ -367,7 +366,7 @@ msgid ""
 "your request."
 msgstr ""
 "Prosimy o kontakt po angielsku, w przeciwnym wypadku możemy mieć kłopot ze "
-"zrozumieniem Twojego pytania."
+"zrozumieniem Twojego zapytania."
 
 #: html/contact.html:13
 msgid "Send"
@@ -655,7 +654,8 @@ msgstr ""
 #: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
-"Twoje imię i nazwisko oraz adres e-mail pojawią się jako autor w logach Gita."
+"Twoje dane (imię, nazwisko) oraz adres e-mail pojawią się jako autor w "
+"logach Gita."
 
 #: html/profile.html:45
 #, python-format
@@ -1046,7 +1046,7 @@ msgstr "Zresetuj wszystkie zmiany w repozytorium lokalnym"
 
 #: html/js/git-status.html:12
 msgid "Reset"
-msgstr ""
+msgstr "Zresetuj"
 
 #: html/js/git-status.html:16
 msgid "Allow changes in the repository"
@@ -1054,19 +1054,19 @@ msgstr "Pozwól na zmiany w repozytorium"
 
 #: html/js/git-status.html:16
 msgid "Unlock"
-msgstr ""
+msgstr "Odblokuj"
 
 #: html/js/git-status.html:18
 msgid "Prevent any changes in the repository"
-msgstr "Zabroń zmian w repozytorium"
+msgstr "Nie zezwalaj na zmiany w repozytorium"
 
 #: html/js/git-status.html:18
 msgid "Lock"
-msgstr ""
+msgstr "Zablokuj"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
-msgstr "Istnieją nieprzesłane zmiany!"
+msgstr "Istnieją jakieś nieprzesłane zmiany!"
 
 #: html/js/git-status.html:27
 msgid "Remote Git repository needs to be merged!"
@@ -1074,7 +1074,7 @@ msgstr "Zdalne repozytorium Git musi zostać scalone!"
 
 #: html/js/git-status.html:30
 msgid "There are some new commits in local Git repository!"
-msgstr "W lokalnym repozytorium Git znajdują się jakieś zmiany!"
+msgstr "W lokalnym repozytorium Git znajdują się jakieś nowe zmiany!"
 
 #: html/js/git-status.html:34
 msgid "Details"
@@ -1103,6 +1103,8 @@ msgid ""
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Cześć,/n\n"
+"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
 msgid "Source string:"
@@ -1113,9 +1115,9 @@ msgid "Translation:"
 msgstr "Tłumaczenie:"
 
 #: html/mail/any_translation_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New translation in %(translation)s"
-msgstr "Nowe tłumaczenie w {{ tłumaczenie }}"
+msgstr "Nowe tłumaczenie w %(translation)s"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1125,11 +1127,14 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
 msgstr ""
+"Cześć,/n\n"
+"%(username)s właśnie po raz pierwszy przyczynił się do %(translation)s w %"
+"(site_title)s./n\n"
 
 #: html/mail/new_contributor_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Nowy współpracownik w {{ tłumaczenie }}"
+msgstr "Nowy współpracownik w %(translation)s"
 
 #: html/mail/new_string.txt:1
 #, python-format
@@ -1138,11 +1143,13 @@ msgid ""
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Cześć,/n\n"
+"są nowe napisy do przetłumaczenia do %(translation)s w %(site_title)s./n\n"
 
 #: html/mail/new_string_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New string to translate in %(translation)s"
-msgstr "Nowy napis do przetłumaczenia w {{ tłumaczenie }}"
+msgstr "Nowy napis do przetłumaczenia w %(translation)s"
 
 #: html/mail/new_suggestion.txt:1
 #, python-format
@@ -1151,11 +1158,14 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Cześć,/n\n"
+"jest nowa sugestia do oceny do %(translation)s w %(site_title)s./n\n"
+"\n"
 
 #: html/mail/new_suggestion_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New suggestion in %(translation)s"
-msgstr "Nowa sugestia w {{ tłumaczenie }}"
+msgstr "Nowa sugestia w %(translation)s"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -1164,8 +1174,10 @@ msgid ""
 "    account is now activated. Your username is \n"
 "    <b>%(username)s</b>."
 msgstr ""
-"Dziękujemy. Twoje konto jest już aktywne. \n"
-"Twoja nazwa użytkownika to <b>%(username)s</b>."
+"Dziękujemy. Twoje \n"
+"   konto jest już aktywne. \n"
+"   Twoja nazwa użytkownika to\n"
+"<b>%(username)s</b>."
 
 #: html/registration/activate.html:15
 #, python-format
@@ -1194,29 +1206,29 @@ msgid_plural ""
 msgstr[0] ""
 "\n"
 "Twoje konto nie może zostać aktywowane.\n"
-"Może to być spowodowane, ponieważ jest już aktywne lub dlatego, \n"
-"że czekałeś %(days)s dni, aby go uaktywnić.\n"
+"Może to być spowodowane tym, że jest już aktywne lub dlatego, \n"
+"że czekałeś/-aś %(days)s dni, aby go uaktywnić.\n"
 "Jeśli to nie jest przypadek, skontaktuj się z administratorem strony.\n"
-"W przeciwnym razie możesz <a href=\"%(reg_url)s\">zarejestrować się ponownie."
-"</a>\n"
+"W przeciwnym razie możesz <a href=\"%(reg_url)s\">zarejestrować się "
+"ponownie.</a>\n"
 " "
 msgstr[1] ""
 "\n"
 "Twoje konto nie może zostać aktywowane.\n"
-"Może to być spowodowane, ponieważ jest już aktywne lub dlatego, \n"
-"że czekałeś %(days)s dni, aby go uaktywnić.\n"
+"Może to być spowodowane tym, że jest już aktywne lub dlatego, \n"
+"że czekałeś/-aś %(days)s dni, aby go uaktywnić.\n"
 "Jeśli to nie jest przypadek, skontaktuj się z administratorem strony.\n"
-"W przeciwnym razie możesz <a href=\"%(reg_url)s\">zarejestrować się ponownie."
-"</a>\n"
+"W przeciwnym razie możesz <a href=\"%(reg_url)s\">zarejestrować się "
+"ponownie.</a>\n"
 " "
 msgstr[2] ""
 "\n"
 "Twoje konto nie może zostać aktywowane.\n"
-"Może to być spowodowane, ponieważ jest już aktywne lub dlatego, \n"
-"że czekałeś %(days)s dni, aby go uaktywnić.\n"
+"Może to być spowodowane tym, że jest już aktywne lub dlatego, \n"
+"że czekałeś/-aś %(days)s dni, aby go uaktywnić.\n"
 "Jeśli to nie jest przypadek, skontaktuj się z administratorem strony.\n"
-"W przeciwnym razie możesz <a href=\"%(reg_url)s\">zarejestrować się ponownie."
-"</a>\n"
+"W przeciwnym razie możesz <a href=\"%(reg_url)s\">zarejestrować się "
+"ponownie.</a>\n"
 " "
 
 #: html/registration/activation_email.txt:1
@@ -1259,11 +1271,13 @@ msgstr ""
 #: html/registration/activation_email_subject.txt:1
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr "Twoja rejestracja na %(site_title)s"
+msgstr "Twoja rejestracja w %(site_title)s"
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
-msgstr "Nazwa użytkownika lub hasło jest niepoprawne. Spróbuj ponownie."
+msgstr ""
+"Kombinacja pól tekstowych: użytkownik/hasło nie została odnaleziona. Spróbuj "
+"ponownie."
 
 #: html/registration/login.html:36
 #, python-format
@@ -1315,18 +1329,18 @@ msgstr "Zmień hasło"
 
 #: html/registration/password_reset_complete.html:6
 msgid "Your password has been set.  You may go ahead and log in now."
-msgstr "Twoje hasło zostało ustawione. Możesz przejść do logowania."
+msgstr "Twoje hasło zostało ustawione. Możesz teraz przejść do logowania."
 
 #: html/registration/password_reset_complete.html:8
 msgid "Log in"
-msgstr "Zaloguj"
+msgstr "Zaloguj się"
 
 #: html/registration/password_reset_confirm.html:8
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
-"Proszę wpisać dwukrotnie nowe hasło, dzięki czemu możemy zweryfikować czy "
+"Proszę wpisać dwukrotnie nowe hasło, aby można było zweryfikować, czy "
 "wpisano je poprawnie."
 
 #: html/registration/password_reset_confirm.html:19
@@ -1334,16 +1348,16 @@ msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr ""
-"Link resetowania hasła był nieprawidłowy, prawdopodobnie dlatego, że został "
-"już wykorzystany. Proszę poprosić o nowe resetowanie hasła."
+"Link do resetowania hasła był nieprawidłowy. Prawdopodobną przyczyna: link "
+"został już wykorzystany. Proszę ponownie wysłać żądanie resetowania hasła."
 
 #: html/registration/password_reset_done.html:7
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
 msgstr ""
-"Wysłaliśmy instrukcje dotyczące ustawienia hasła na podany e-mail. Powinien "
-"dotrzeć do Ciebie w najbliższym czasie."
+"Na podany adres e-mail wysłaliśmy list z instrukcjami dotyczącymi ustawienia "
+"hasła. List powinien do Ciebie dotrzeć w najbliższym czasie."
 
 #: html/registration/password_reset_email.html:2
 #, python-format
@@ -1360,7 +1374,7 @@ msgstr "Proszę przejść do następującej strony i wybrać nowe hasło:"
 
 #: html/registration/password_reset_email.html:8
 msgid "Your username, in case you've forgotten:"
-msgstr "Twoja nazwa użytkownika w przypadku zapomnienia:"
+msgstr "Twoja nazwa użytkownika, (na wszelki wypadek, gdybyś zapomniał/-a):"
 
 #: html/registration/password_reset_email.html:10
 msgid "Thanks for using our site!"
@@ -1377,7 +1391,7 @@ msgid ""
 "instructions for setting a new one."
 msgstr ""
 "Nie pamiętasz hasła? Wpisz poniżej swój adres e-mail, a my wyślemy wiadomość "
-"z instrukcjami dotyczącymi nowego."
+"z instrukcjami dotyczącymi ustawienia hasła nowego."
 
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
@@ -1389,8 +1403,9 @@ msgid ""
 "a confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"Dziękujemy za rejestrację. Bardzo szybko otrzymasz e-mail z prośbą\n"
-"o potwierdzenie. Proszę kliknij na ten link, aby zakończyć rejestrację."
+"Dziękujemy za rejestrację. Bardzo szybko otrzymasz e-mail/n\n"
+"z prośbą o potwierdzenie. Proszę kliknij na ten link, aby zakończyć "
+"rejestrację."
 
 #: html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
@@ -1399,8 +1414,8 @@ msgstr "Proszę poprawić błędy w formularzu rejestracyjnym."
 #: html/registration/registration_form.html:23
 msgid "By registering you agree to use your name and email in Git commits."
 msgstr ""
-"Poprzez rejestrację użytkownika zgadzasz się stosować swoją nazwę i e-mail w "
-"logach Gita."
+"Poprzez rejestrację użytkownika zgadzasz się używać swoje dane (imię, "
+"nazwisko) i e-mail w logach Gita."
 
 #: lang/i18n.py:13
 msgid "Afrikaans"
@@ -1528,7 +1543,7 @@ msgstr "angielski (Wielka Brytania)"
 
 #: lang/i18n.py:45
 msgid "English (United States)"
-msgstr "angielski (USA)"
+msgstr "angielski (US)"
 
 #: lang/i18n.py:46
 msgid "Esperanto"
@@ -1540,7 +1555,7 @@ msgstr "estoński"
 
 #: lang/i18n.py:48
 msgid "Faroese"
-msgstr "farerski"
+msgstr "faroeski"
 
 #: lang/i18n.py:49
 msgid "Filipino"
@@ -1564,7 +1579,7 @@ msgstr "friulski"
 
 #: lang/i18n.py:54
 msgid "Gaelic"
-msgstr "iryjski"
+msgstr "gaelicki"
 
 #: lang/i18n.py:55
 msgid "Galician"
@@ -1588,7 +1603,7 @@ msgstr "gudżaracki"
 
 #: lang/i18n.py:60
 msgid "Gun"
-msgstr "fon"
+msgstr "gun"
 
 #: lang/i18n.py:61
 msgid "Hausa"
@@ -1728,7 +1743,7 @@ msgstr "maurytyjski"
 
 #: lang/i18n.py:95
 msgid "Nahuatl languages"
-msgstr "nahuatl"
+msgstr "nahuatl (języki nahuatl)"
 
 #: lang/i18n.py:96
 msgid "Neapolitan"
@@ -1840,7 +1855,7 @@ msgstr "somalijski"
 
 #: lang/i18n.py:123
 msgid "Songhai languages"
-msgstr "języki songhaj"
+msgstr "songhaj (języki songhaj)"
 
 #: lang/i18n.py:124
 msgid "Sotho"
@@ -2091,7 +2106,7 @@ msgstr "Zastąp istniejące tłumaczenia"
 
 #: trans/forms.py:114
 msgid "Author name"
-msgstr "Autor"
+msgstr "Dane autora (imię, nazwisko)"
 
 #: trans/forms.py:116 trans/forms.py:121
 msgid "Keep empty for using currently logged in user."
@@ -2099,7 +2114,7 @@ msgstr "Zostaw puste, by użyć aktualnie zalogowanego użytkownika."
 
 #: trans/forms.py:119
 msgid "Author email"
-msgstr "E-mail autora"
+msgstr "Adres e-mail autora"
 
 #: trans/forms.py:125
 msgid "Query"
