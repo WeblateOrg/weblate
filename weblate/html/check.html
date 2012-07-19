@@ -3,7 +3,7 @@
 {% load translations %}
 {% load url from future %}
 
-{% block breadcums %}
+{% block breadcrumbs %}
 <li><a href="{% url 'weblate.trans.views.show_checks' %}">{% trans "checks" %}</a></li>
 <li><a href="{% url 'weblate.trans.views.show_check' name=check.check_id %}">{{ check.name }}</a></li>
 {% endblock %}

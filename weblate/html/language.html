@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load url from future %}
 
-{% block breadcums %}
+{% block breadcrumbs %}
 <li><a href="{% url 'weblate.trans.views.show_languages' %}">{% trans "languages" %}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
 {% endblock %}

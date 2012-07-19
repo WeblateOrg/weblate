@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load url from future %}
 
-{% block breadcums %}
+{% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
 {% endblock %}

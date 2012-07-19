@@ -118,7 +118,7 @@ function cell_cmp(a, b) {
 $(function() {
     $('.button').button();
     $('ul.menu li a').button();
-    $('ul.breadcums').buttonset();
+    $('ul.breadcrumbs').buttonset();
     $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
     $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
