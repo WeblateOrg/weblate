@@ -20,8 +20,12 @@ class Command(BaseCommand):
                 units = Unit.objects.filter(translation__language = lang, translation__subproject__project = prj).values('checksum').distinct()
                 Suggestion.objects.filter(language = lang, project = prj).exclude(checksum__in = units).delete()
 
-                # Remove suggestions with same text as real translation
                 for sug in Suggestion.objects.filter(language = lang, project = prj).iterator():
+                    # Remove suggestions with same text as real translation
                     units = Unit.objects.filter(checksum = sug.checksum, translation__language = lang, translation__subproject__project = prj, target = sug.target)
-                    if units.count() > 0:
+                    if units.exists():
                         sug.delete()
+                    # Remove duplicate suggestions
+                    sugs = Suggestion.objects.filter(checksum = sug.checksum, language = lang, project = prj, target = sug.target).exclude(id = sug.id)
+                    if sugs.exists():
+                        sugs.delete()
