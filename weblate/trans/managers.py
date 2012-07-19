@@ -252,7 +252,7 @@ class UnitManager(models.Manager):
         Finds similar units to current unit.
         '''
         ret = set([unit.checksum])
-        with FULLTEXT_INDEX.source_searcher() as searcher:
+        with FULLTEXT_INDEX.source_searcher(not settings.OFFLOAD_INDEXING) as searcher:
             # Extract up to 10 terms from the source
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
