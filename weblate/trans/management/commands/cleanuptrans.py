@@ -23,9 +23,9 @@ class Command(BaseCommand):
                 for sug in Suggestion.objects.filter(language = lang, project = prj).iterator():
                     # Remove suggestions with same text as real translation
                     units = Unit.objects.filter(checksum = sug.checksum, translation__language = lang, translation__subproject__project = prj, target = sug.target)
-                    if units.count() > 0:
+                    if units.exists():
                         sug.delete()
                     # Remove duplicate suggestions
                     sugs = Suggestion.objects.filter(checksum = sug.checksum, language = lang, project = prj, target = sug.target).exclude(id = sug.id)
-                    if sugs.count() > 0:
+                    if sugs.exists():
                         sugs.delete()

@@ -318,7 +318,7 @@ def auto_translation(request, project, subproject, lang):
 
         for unit in units.iterator():
             update = sources.filter(checksum = unit.checksum)
-            if update.count() > 0:
+            if update.exists():
                 # Get first entry
                 update = update[0]
                 # No save if translation is same
