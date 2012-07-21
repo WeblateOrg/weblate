@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-18 10:52+0200\n"
-"PO-Revision-Date: 2012-06-12 17:34+0200\n"
-"Last-Translator: Chipong Luo <chipong.luo@yahoo.com>\n"
+"PO-Revision-Date: 2012-07-20 20:13+0200\n"
+"Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@l10n.cihar.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 1.0\n"
+"X-Generator: Weblate 1.1\n"
 
 #: urls.py:99 urls.py:105
 msgid "User registration"
@@ -182,21 +182,20 @@ msgid "Error details:"
 msgstr "错误详情："
 
 #: accounts/i18n.py:31
-#, fuzzy
 msgid "Confirm resetting repository"
-msgstr "Git 代码库地址"
+msgstr "确认代码库重设"
 
 #: accounts/i18n.py:32
 msgid "Resetting the repository will throw away all local changes!"
-msgstr ""
+msgstr "重设代码库将丢失所有本地修改！"
 
 #: accounts/i18n.py:33
 msgid "Ok"
-msgstr ""
+msgstr "确定"
 
 #: accounts/i18n.py:34
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: accounts/models.py:25
 msgid "Interface Language"
@@ -211,26 +210,24 @@ msgid "Secondary languages"
 msgstr "第二语言"
 
 #: accounts/models.py:45
-#, fuzzy
 msgid "Subscribed projects"
-msgstr "子项目"
+msgstr "已订阅的项目"
 
 #: accounts/models.py:49
-#, fuzzy
 msgid "Notification on any translation"
-msgstr "自动翻译"
+msgstr "在有任何翻译时通知"
 
 #: accounts/models.py:53
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "在有新条目需要翻译时通知"
 
 #: accounts/models.py:57
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "在有新建议时通知"
 
 #: accounts/models.py:61
 msgid "Notification on new contributor"
-msgstr ""
+msgstr "在有新贡献者时通知"
 
 #: accounts/models.py:171
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -272,9 +269,7 @@ msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "subprojects, consistency checks or automatic linking to source files."
-msgstr ""
-"Weblate 是与 Git 紧密结合的、基于网络的翻译工具。其特色是简洁清爽的用户界面、"
-"由子项目传送译文、一致性检测并能与源文件自动链接。"
+msgstr "Weblate 是一个高度 Git 集成的在线翻译工具。它提供简洁清爽的用户界面，子项目间翻译同步，一致性检查以及自动链接到源文件等功能。"
 
 #: html/about.html:9
 msgid "This site is built using following projects:"
@@ -456,18 +451,18 @@ msgstr "保存"
 #: html/engage.html:11 html/engage.html.py:37
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "参与翻译 %(project)s！"
 
 #: html/engage.html:12
 #, python-format
 msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
-msgstr ""
+msgstr "参与翻译 %(project)s，它现在已经通过 Weblate 被翻译为 %(languages)s 种语言。"
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
-msgstr ""
+msgstr "您好，感谢您的关注！"
 
 #: html/engage.html:43
 #, python-format
@@ -476,6 +471,8 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"%(name)s 通过 <a href=\"http://weblate.org/\">Weblate</a> "
+"进行翻译，一个为了程序员和翻译能够轻松翻译而设计的在线翻译工具。"
 
 #: html/engage.html:46
 #, python-format
@@ -484,20 +481,22 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
+"%(name)s 项目含有 %(total)s 个条目并且<a href=\"%(url)s\">已翻译为 %(languages)s "
+"种语言</a>。这些翻译总计完成了 %(percent)s%%。"
 
 #: html/engage.html:49
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
-msgstr ""
+msgstr "如果要翻译 %(name)s，您需要<a href=\"/accounts/register/\">在此注册</a>。"
 
 #: html/engage.html:52
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
-msgstr ""
+msgstr "当您激活您的账户后即可<a href=\"%(url)s\">开始翻译</a>。"
 
 #: html/index.html:9
 msgid ""
@@ -571,13 +570,11 @@ msgid "No recent activity has been recorded."
 msgstr "没有最近活动的记录。"
 
 #: html/list-translations.html:8
-#, fuzzy
 msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "模糊"
 
 #: html/list-translations.html:9
-#, fuzzy
 msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "检查"
@@ -611,9 +608,8 @@ msgid "Preferences"
 msgstr "首选项"
 
 #: html/profile.html:22
-#, fuzzy
 msgid "Subscriptions"
-msgstr "建议"
+msgstr "订阅"
 
 #: html/profile.html:23
 msgid "Account"
@@ -621,7 +617,7 @@ msgstr "帐号"
 
 #: html/profile.html:32
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
+msgstr "您将收到所有您的语言下您所选择的通知邮件。"
 
 #: html/profile.html:41
 msgid "Your name and email will appear as author on Git commits."
@@ -654,18 +650,18 @@ msgstr "Git 维护"
 
 #: html/project.html:45
 msgid "Promote"
-msgstr ""
+msgstr "宣传"
 
 #: html/project.html:53
 msgid "Manage all dictionaries"
 msgstr "管理所有词典"
 
 #: html/project.html:63
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
 "a>."
-msgstr "忘记您的密码了？您可以 <a href=\"%(reset_url)s\">重设密码</a>。"
+msgstr "使用<a href=\"%(widgets_url)s\">小部件</a>宣传您翻译的项目。"
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -688,13 +684,11 @@ msgid "New language"
 msgstr "新增语言"
 
 #: html/subproject.html:37
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
-msgstr ""
-"如果没有您的语言，请 <a href=\"%(contact_url)s?subject=New+language+request"
-"+for+%(object)s\">联系我们</a>。"
+msgstr "如果没有您的语言，请查阅<a href=\"%(url)s\">翻译说明</a>。"
 
 #: html/subproject.html:39
 #, python-format
@@ -732,7 +726,6 @@ msgid "Copy"
 msgstr "复制"
 
 #: html/translate.html:69
-#, fuzzy
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "模糊"
@@ -916,42 +909,42 @@ msgstr "已翻译的信息"
 
 #: html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "小部件"
 
 #: html/widgets.html:12
 msgid "Widgets"
-msgstr ""
+msgstr "小部件"
 
 #: html/widgets.html:15
 msgid ""
 "You can use following widgets to promote translation of your project. They "
 "can increase visibility of your translation projects and bring new "
 "contributors."
-msgstr ""
+msgstr "您可以使用下列小部件来宣传您所翻译的项目。这可以使更多的人知道您翻译的项目并吸引新的翻译。"
 
 #: html/widgets.html:19
 #, python-format
 msgid ""
 "You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
-msgstr ""
+msgstr "您也可以给新人看介绍页面 <a href=\"%(engage_url)s\">%(engage_url)s</a>。"
 
 #: html/widgets.html:22
 msgid "Image widgets"
-msgstr ""
+msgstr "图片小部件"
 
 #: html/widgets.html:25
 #, python-format
 msgid "Image %(widget)s"
-msgstr ""
+msgstr "图片 %(widget)s"
 
 #: html/widgets.html:27
 msgid "Example:"
-msgstr ""
+msgstr "示例:"
 
 #: html/widgets.html:31
 msgid "Code:"
-msgstr ""
+msgstr "代码:"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -971,7 +964,7 @@ msgstr "状态"
 msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
-msgstr ""
+msgstr "未显示引用代码库的状态。请用 <a href=\"#%(slug)s\">%(repo)s</a> 检查。"
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1002,31 +995,28 @@ msgid "Push"
 msgstr "上传"
 
 #: html/js/git-status.html:12
-#, fuzzy
 msgid "Reset all changes in local repository"
-msgstr "从远程代码库下载修改"
+msgstr "重设本地代码库的所有修改"
 
 #: html/js/git-status.html:12
 msgid "Reset"
-msgstr ""
+msgstr "重设"
 
 #: html/js/git-status.html:16
-#, fuzzy
 msgid "Allow changes in the repository"
-msgstr "从远程代码库下载修改"
+msgstr "允许代码库的修改"
 
 #: html/js/git-status.html:16
 msgid "Unlock"
-msgstr ""
+msgstr "解锁"
 
 #: html/js/git-status.html:18
-#, fuzzy
 msgid "Prevent any changes in the repository"
-msgstr "将修改上传至远程代码库"
+msgstr "阻止代码库的任何修改"
 
 #: html/js/git-status.html:18
 msgid "Lock"
-msgstr ""
+msgstr "锁定"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
@@ -1067,21 +1057,22 @@ msgid ""
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"您好：\n"
+"\n"
+"%(site_title)s 上的 %(translation)s 有新条目需要翻译。\n"
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
-#, fuzzy
 msgid "Source string:"
-msgstr "在源条目中搜索"
+msgstr "源条目："
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "翻译"
+msgstr "翻译："
 
 #: html/mail/any_translation_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New translation in %(translation)s"
-msgstr "自动翻译"
+msgstr "%(translation)s 的新翻译"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1091,11 +1082,14 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
 msgstr ""
+"您好：\n"
+"\n"
+"%(username)s 刚刚在 %(site_title)s 的 %(translation)s 上完成了他的首次翻译。\n"
 
 #: html/mail/new_contributor_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New contributor in %(translation)s"
-msgstr "自动翻译"
+msgstr "%(translation)s 的新翻译"
 
 #: html/mail/new_string.txt:1
 #, python-format
@@ -1104,11 +1098,14 @@ msgid ""
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"您好：\n"
+"\n"
+"%(site_title)s 的 %(translation)s 项目有新条目需要翻译。\n"
 
 #: html/mail/new_string_subject.txt:1
 #, python-format
 msgid "New string to translate in %(translation)s"
-msgstr ""
+msgstr "%(translation)s 中有新条目需要翻译"
 
 #: html/mail/new_suggestion.txt:1
 #, python-format
@@ -1117,11 +1114,14 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"您好：\n"
+"\n"
+"%(site_title)s 的 %(translation)s 项目有新的建议。\n"
 
 #: html/mail/new_suggestion_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New suggestion in %(translation)s"
-msgstr "自动翻译"
+msgstr "%(translation)s 中有新的建议"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -2083,26 +2083,23 @@ msgstr "不良格式的条目(%s)"
 
 #: trans/models.py:64
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "必须使用 * 来表示语言！"
 
 #: trans/models.py:85
-#, fuzzy
 msgid "Can not link to linked repository!"
-msgstr "Git 代码库："
+msgstr "无法连接到引用的代码库！"
 
 #: trans/models.py:87
-#, fuzzy
 msgid "Invalid link to repository!"
-msgstr "Git 代码库："
+msgstr "无效的代码库引用！"
 
 #: trans/models.py:90
 msgid "Use contact form"
-msgstr ""
+msgstr "使用联系表单"
 
 #: trans/models.py:91
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "没有未翻译的条目"
+msgstr "翻译介绍地址"
 
 #: trans/models.py:109
 #, python-format
@@ -2115,7 +2112,7 @@ msgstr ""
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
-msgstr ""
+msgstr "请填写说明地址或使用其它添加新语言的选项。"
 
 #: trans/models.py:280
 msgid "Name to display"
@@ -2129,7 +2126,7 @@ msgstr "用在地址中的姓名"
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
-msgstr ""
+msgstr "Git 代码库地址，使用 weblate://项目/子项目 与其它子项目共享"
 
 #: trans/models.py:290
 msgid "URL of push Git repository"
@@ -2165,7 +2162,7 @@ msgstr ""
 
 #: trans/models.py:314
 msgid "Whether subproject is locked for translation updates"
-msgstr ""
+msgstr "子项目是否锁定翻译更新"
 
 #: trans/models.py:474
 #, python-format
@@ -2183,9 +2180,9 @@ msgid "Failed to push to remote branch on %s."
 msgstr "上传至远程分支 %s 失败。"
 
 #: trans/models.py:608
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "上传至远程分支 %s 失败。"
+msgstr "重设至远程分支 %s 失败。"
 
 #: trans/models.py:664
 #, python-format
@@ -2225,17 +2222,17 @@ msgstr "解析译文模板失败。"
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
-msgstr ""
+msgstr "代码库中找不到 %s 文件！要添加新翻译，请在代码库中添加语言文件。"
 
 #: trans/models.py:866
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "无法识别匹配 %d 格式的文件。"
+msgstr "无法识别 %s 格式。"
 
 #: trans/models.py:868
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "解析 %d 匹配文件失败！"
+msgstr "解析文件 %(file)s 失败: %(error)s"
 
 #: trans/models.py:1277
 msgid "All strings"
@@ -2289,7 +2286,7 @@ msgstr "处理表格失败！"
 
 #: trans/views.py:290 trans/views.py:347 trans/views.py:659
 msgid "This translation is currently locked for updates!"
-msgstr ""
+msgstr "此翻译已被锁定，不能更新！"
 
 #: trans/views.py:336
 msgid "Automatic translation completed."
@@ -2308,25 +2305,24 @@ msgid "All repositories were pushed."
 msgstr "已上传至所有代码库中。"
 
 #: trans/views.py:477 trans/views.py:487 trans/views.py:497
-#, fuzzy
 msgid "All repositories have been reset."
-msgstr "已上传至所有代码库中。"
+msgstr "已重设所有代码库。"
 
 #: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "已锁定子项目的翻译更新！"
 
 #: trans/views.py:523
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "已开放子项目的翻译更新。"
 
 #: trans/views.py:538
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "已锁定所有子项目的翻译更新！"
 
 #: trans/views.py:551
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "已开放项目的翻译更新。"
 
 #: trans/views.py:640
 #, python-format
