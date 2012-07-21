@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-18 10:52+0200\n"
-"PO-Revision-Date: 2012-07-17 19:01+0200\n"
+"PO-Revision-Date: 2012-07-21 10:36+0200\n"
 "Last-Translator: Jan Kowalski <pst3qga@tormail.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
@@ -976,6 +976,9 @@ msgid ""
 "You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
+"Możesz także wskazać osobom nowoprzybyłym stronę wprowadzenia: <a href=\"%"
+"(engage_url)s\">%(engage_url)s</a>.\n"
+"\t"
 
 #: html/widgets.html:22
 msgid "Image widgets"
@@ -1013,6 +1016,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
+"Stan przyłączonego repozytorium jest nieznany. Zamiast tego, sprawdź <a "
+"href=\"#%(slug)s\">%(repo)s</a>"
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1966,7 +1971,7 @@ msgstr "Liczba mnoga"
 #: lang/models.py:163
 #, python-format
 msgid "Plural form %d"
-msgstr "Liczba mnoga dla %d"
+msgstr "Forma liczby mnogiej dla %d"
 
 #: trans/checks.py:215
 msgid "Not translated"
@@ -1974,11 +1979,11 @@ msgstr "Nie przetłumaczony"
 
 #: trans/checks.py:216
 msgid "Source and translated strings are same"
-msgstr "Napisy źródłowy i tłumaczenie są takie same"
+msgstr "Napisy: źródłowy i tłumaczenie są takie same"
 
 #: trans/checks.py:260
 msgid "Starting newline"
-msgstr "Zaczyna się od nowej linii"
+msgstr "Początek od nowej linii"
 
 #: trans/checks.py:261
 msgid "Source and translation do not both start with a newline"
@@ -2017,29 +2022,32 @@ msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
-"Źródło i tłumaczenie nie są zakończone dwukropkiem lub są nadmiarowe spacje"
+"Źródło i tłumaczenie nie są zakończone dwukropkiem lub są nadmiarowe spacje "
+"w okolicy dwukropka"
 
 #: trans/checks.py:344
 msgid "Trailing question"
-msgstr "Końcowy pytajnik"
+msgstr "Końcowy znak zapytania"
 
 #: trans/checks.py:345
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
-"Źródło i tłumaczenie nie są zakończone pytajnikiem lub są nadmiarowe spacje"
+"Źródło i tłumaczenie nie są zakończone znakiem zapytania lub są nadmiarowe "
+"spacje w okolicy znaku zapytania"
 
 #: trans/checks.py:362
 msgid "Trailing exclamation"
-msgstr "Końcowy wykrzyknik"
+msgstr "Końcowy znak wykrzyknika"
 
 #: trans/checks.py:363
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
-"Źródło i tłumaczenie nie są zakończone wykrzyknikiem lub są nadmiarowe spacje"
+"Źródło i tłumaczenie nie są zakończone znakiem wykrzyknika lub są nadmiarowe "
+"spacje w okolicy znaku wykrzyknika"
 
 #: trans/checks.py:387
 msgid "Python format"
@@ -2047,7 +2055,7 @@ msgstr "Format Python"
 
 #: trans/checks.py:388 trans/checks.py:401 trans/checks.py:414
 msgid "Format string does not match source"
-msgstr "Format napisu nie zgadza się ze źródłem"
+msgstr "Format napisu nie pasuje do źródła"
 
 #: trans/checks.py:400
 msgid "PHP format"
@@ -2063,7 +2071,7 @@ msgstr "Brakująca liczba mnoga"
 
 #: trans/checks.py:428
 msgid "Some plural forms are not translated"
-msgstr "Niektóre napisy w liczbie mnogiej nie są przetłumaczone"
+msgstr "Niektóre napisy w formie liczby mnogiej nie są przetłumaczone"
 
 #: trans/checks.py:445
 msgid "Inconsistent"
@@ -2071,7 +2079,7 @@ msgstr "Niespójność"
 
 #: trans/checks.py:446
 msgid "This message has more than one translation in this project"
-msgstr "Ten napis ma więcej niż jedno tłumaczenie w projekcie"
+msgstr "Ten komunikat ma więcej niż jedno tłumaczenie w projekcie"
 
 #: trans/checks.py:468
 msgid "Invalid text direction"
@@ -2079,7 +2087,7 @@ msgstr "Nieprawidłowy kierunek tekstu"
 
 #: trans/checks.py:469
 msgid "Text direction can be either LTR or RTL"
-msgstr "Kierunek tekstu może być albo LTR albo RTL"
+msgstr "Kierunek tekstu może być LTR albo RTL"
 
 #: trans/forms.py:62
 msgid ""
@@ -2096,7 +2104,7 @@ msgstr "Równanie liczby mnogiej"
 #: trans/forms.py:101
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
-msgstr "Przycisk do zaznaczania napisu jako niepewnego"
+msgstr "Pole wyboru do zaznaczania napisu jako tłumaczenie watpliwe"
 
 #: trans/forms.py:104 trans/forms.py:186
 msgid "File"
@@ -2104,7 +2112,7 @@ msgstr "Plik"
 
 #: trans/forms.py:108
 msgid "Overwrite existing translations"
-msgstr "Zastąp istniejące tłumaczenia"
+msgstr "Nadpisz istniejące tłumaczenia"
 
 #: trans/forms.py:114
 msgid "Author name"
@@ -2112,7 +2120,7 @@ msgstr "Dane autora (imię, nazwisko)"
 
 #: trans/forms.py:116 trans/forms.py:121
 msgid "Keep empty for using currently logged in user."
-msgstr "Zostaw puste, by użyć aktualnie zalogowanego użytkownika."
+msgstr "Zostaw puste, aby użyć aktualnie zalogowanego użytkownika."
 
 #: trans/forms.py:119
 msgid "Author email"
@@ -2132,7 +2140,7 @@ msgstr "Szukaj w napisach źródłowych"
 
 #: trans/forms.py:137
 msgid "Search in target strings"
-msgstr "Szukaj w tłumaczeniach"
+msgstr "Szukaj w napisach docelowych"
 
 #: trans/forms.py:142
 msgid "Search in context strings"
@@ -2148,7 +2156,7 @@ msgstr "Podmień niespójność"
 
 #: trans/forms.py:163
 msgid "Subproject to use"
-msgstr "Podprojekty do wykorzystania"
+msgstr "Podprojekt do wykorzystania"
 
 #: trans/forms.py:179
 msgid "All subprojects"
@@ -2156,7 +2164,7 @@ msgstr "Wszystkie podprojekty"
 
 #: trans/forms.py:188
 msgid "Overwrite existing"
-msgstr "Zastąp istniejące"
+msgstr "Nadpisz istniejące"
 
 #: trans/forms.py:193
 msgid "Starting date"
@@ -2173,15 +2181,15 @@ msgstr "Jakikolwiek"
 #: trans/models.py:54 trans/models.py:60
 #, python-format
 msgid "Bad format string (%s)"
-msgstr "Błędny format napisu (%s)"
+msgstr "Nieprawidłowy format napisu (%s)"
 
 #: trans/models.py:64
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Maska pliku nie zawiera * jako symbolu zastępczego dla języka!"
 
 #: trans/models.py:85
 msgid "Can not link to linked repository!"
-msgstr "Nie można połączyć z repozytorium odsyłającym!"
+msgstr "Nie można połączyć się z repozytorium odsyłającym!"
 
 #: trans/models.py:87
 msgid "Invalid link to repository!"
@@ -2189,7 +2197,7 @@ msgstr "Odsyłacz do repozytorium jest nieaktualny!"
 
 #: trans/models.py:90
 msgid "Use contact form"
-msgstr ""
+msgstr "Użyj formularza kontaktowego"
 
 #: trans/models.py:91
 msgid "Point to translation instructions URL"
@@ -2201,12 +2209,16 @@ msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
+"Nie można użyć %(language)s, %(subproject)s lub %(project)s do skrótu nazwy "
+"języka, nazwy projektu lub podprojektu."
 
 #: trans/models.py:126
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Proszę wypełnić w instrukcjach URL, albo użyć innej opcji dla dodania nowego "
+"języka."
 
 #: trans/models.py:280
 msgid "Name to display"
@@ -2221,10 +2233,12 @@ msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
+"URL do repozytorium Git, użyj: weblate://project/subproject (do "
+"współdzielenia z innym podprojektem)"
 
 #: trans/models.py:290
 msgid "URL of push Git repository"
-msgstr "Url repozytorium Git push"
+msgstr "URL repozytorium Git push"
 
 #: trans/models.py:294
 #, python-format
@@ -2233,31 +2247,32 @@ msgid ""
 "as filename and line placeholders"
 msgstr ""
 "Link do przeglądarki repozytorium, użyj %(branch)s dla gałęzi, oraz %(file)s "
-"i %(line)s jako nazwy pliku i symboli zastępczych linii"
+"i %(line)s jako nazwy pliku i symboli zastępczych dla linii"
 
 #: trans/models.py:300
 msgid "Git branch to translate"
-msgstr "Gałąź Gita do tłumaczenia"
+msgstr "Gałąź Git do tłumaczenia"
 
 #: trans/models.py:305
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
-"Ścieżka do plików do tłumaczenia, użyj * zamiast kodu języka, np: po/*.po or "
-"locale/*/LC_MESSAGES/django.po"
+"Ścieżka do plików do tłumaczenia, użyj * zamiast kodu języka, np: po/*.po "
+"lub locale/*/LC_MESSAGES/django.po"
 
 #: trans/models.py:310
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
-"Nazwa szablonu tłumaczeń, to zaleca się go używać do tłumaczeń, które "
-"przechowuje jedynie przetłumaczony ciąg jak ciąg zasobów Androida"
+"Nazwa pliku szablonu tłumaczeń. Jest to zalecane do tłumaczeń, które "
+"przechowują jedynie przetłumaczony napis, jak na przykład napis źródłowy "
+"Androida"
 
 #: trans/models.py:314
 msgid "Whether subproject is locked for translation updates"
-msgstr ""
+msgstr "Czy podprojekt jest zablokowany do aktualizacji tłumaczenia"
 
 #: trans/models.py:474
 #, python-format
@@ -2299,20 +2314,20 @@ msgstr ""
 #: trans/models.py:756
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr "Format %d plików zgodnych nie może być rozpoznany."
+msgstr "Nie można było rozpoznać formatu %d pasujących plików. "
 
 #: trans/models.py:761
 #, python-format
 msgid "Failed to parse %d matched files!"
-msgstr "Nie można przeanalizować %d dopasowanych plików!"
+msgstr "Analiza %d dopasowanych plików nie powiodła się!"
 
 #: trans/models.py:771
 msgid "Format of translation template could not be recognized."
-msgstr "Format szablonu tłumaczenia nie może być rozpoznany."
+msgstr "Nie można było rozpoznać format szablonu tłumaczenia."
 
 #: trans/models.py:773
 msgid "Failed to parse translation template."
-msgstr "Nie można przeanalizować szablonu tłumaczenia."
+msgstr "Analiza szablonu tłumaczenia nie powiodła się."
 
 #: trans/models.py:862
 #, python-format
@@ -2320,6 +2335,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Nie znaleziono nazwy pliku %s w repozytorium! Aby dodać nowe tłumaczenie, "
+"dodaj plik języka do repozytorium."
 
 #: trans/models.py:866
 #, python-format
@@ -2329,7 +2346,7 @@ msgstr "Format %s nie mógł być rozpoznany."
 #: trans/models.py:868
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Nie powiodło się parsowanie pliku %(file)s: %(error)s"
+msgstr "Nie powiodła się analiza pliku %(file)s: %(error)s"
 
 #: trans/models.py:1277
 msgid "All strings"
@@ -2343,7 +2360,7 @@ msgstr "Nieprzetłumaczone napisy (%d)"
 #: trans/models.py:1284
 #, python-format
 msgid "Fuzzy strings (%d)"
-msgstr "Niepewne napisy (%d)"
+msgstr "Napisy wątpliwe (%d)"
 
 #: trans/models.py:1286
 #, python-format
@@ -2352,12 +2369,14 @@ msgstr "Napisy z sugestiami (%d)"
 
 #: trans/models.py:1470
 msgid "Message not found in backend storage, it is probably corrupted."
-msgstr "Napis nie został odnaleziony, jest prawdopodobnie uszkodzony."
+msgstr ""
+"Nie odnaleziono komunikatu w przechowalni, gdyż jest on prawdopodobnie "
+"uszkodzony."
 
 #: trans/models.py:1534
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "ID jednostki %s"
 
 #: trans/views.py:48
 msgid "Please set your full name in your profile."
@@ -2366,7 +2385,7 @@ msgstr "Proszę wprowadzić pełne imię i nazwisko w profilu."
 #: trans/views.py:179 trans/views.py:257
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr "%(language)s słownik dla %(project)s"
+msgstr "słownik %(language)s do %(project)s"
 
 #: trans/views.py:207
 msgid "No words to import found in file."
@@ -2383,11 +2402,11 @@ msgstr "Przetworzenie formularza nie powiodło się!"
 
 #: trans/views.py:290 trans/views.py:347 trans/views.py:659
 msgid "This translation is currently locked for updates!"
-msgstr ""
+msgstr "To tłumaczenie jest aktualnie zablokowane do aktualizacji!"
 
 #: trans/views.py:336
 msgid "Automatic translation completed."
-msgstr "Automatyczne tłumaczenie zakończone."
+msgstr "Tłumaczenie automatyczne zakończone."
 
 #: trans/views.py:387 trans/views.py:397 trans/views.py:407
 msgid "All pending translations were committed."
@@ -2407,32 +2426,32 @@ msgstr "Wszystkie repozytoria zostały zresetowane."
 
 #: trans/views.py:511
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "Podprojekt jest teraz zablokowany do aktualizacji tłumaczenia!"
 
 #: trans/views.py:523
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "Podprojekt jest teraz otwarty do aktualizacji tłumaczenia."
 
 #: trans/views.py:538
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "Wszystkie podprojekty są teraz zablokowane do aktualizacji tłumaczenia!"
 
 #: trans/views.py:551
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "Projekt jest teraz otwarty do aktualizacji tłumaczenia."
 
 #: trans/views.py:640
 #, python-format
 msgid "Search for \"%s\""
-msgstr "Szukaj \"%s\""
+msgstr "Szukaj dla \"%s\""
 
 #: trans/views.py:644
 msgid "Fuzzy strings"
-msgstr "Niepewne napisy"
+msgstr "Napisy wątpliwe"
 
 #: trans/views.py:646
 msgid "Not translated strings"
-msgstr "Nieprzetłumaczone napisy"
+msgstr "Napisy nieprzetłumaczone"
 
 #: trans/views.py:648
 msgid "Strings with suggestions"
@@ -2444,7 +2463,7 @@ msgstr "Twoja sugestia jest pusta!"
 
 #: trans/views.py:710
 msgid "You need to log in to be able to save translations!"
-msgstr "Musisz się zalogować, by zapisać tłumaczenia!"
+msgstr "Musisz się zalogować, aby zapisać tłumaczenia!"
 
 #: trans/views.py:713 trans/views.py:753
 msgid "You don't have privileges to save translations!"
@@ -2453,21 +2472,21 @@ msgstr "Nie masz uprawnień do zapisu tłumaczeń!"
 #: trans/views.py:729
 msgid "Some checks have failed on your translation!"
 msgstr ""
-"Testy, dla tego fragmentu tłumaczenia, wykazały drobne błedy formalne "
+"Testy, dla tego fragmentu tłumaczenia, wykazały drobne błędy formalne "
 "(patrz: sugestie korekty, poniżej)."
 
 #: trans/views.py:747 trans/views.py:785
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
-"Napis, który chciałbyś/chciałabyś przetłumaczyć, nie jest już dostępny!"
+"Komunikat, który chciałbyś/chciałabyś przetłumaczyć, nie jest już dostępny!"
 
 #: trans/views.py:768
 msgid "Can not merge different messages!"
-msgstr "Nie mogę scalić różnych napisów!"
+msgstr "Nie można scalić różnych komunikatów!"
 
 #: trans/views.py:791
 msgid "You need to log in to be able to manage suggestions!"
-msgstr "Musisz się zalogować, by zarządzać sugestiami!"
+msgstr "Musisz się zalogować, aby zarządzać sugestiami!"
 
 #: trans/views.py:802
 msgid "You do not have privilege to accept suggestions!"
