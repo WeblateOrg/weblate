@@ -27,14 +27,14 @@
 <p>{% trans "Color variants:" %}</p>
 
 {% for color in widget.colors %}
-<p><a href="{{ engage_url }}"><img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /></a></p>
+<p><a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /></a></p>
 {% endfor %}
 
 <p>{% trans "Code:" %}</p>
 
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
-&lt;a href="{{ engage_url }}"&gt;
+&lt;a href="{{ engage_url_track }}"&gt;
 &lt;img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /&gt;
 &lt;/a&gt;
 </pre>

@@ -66,7 +66,11 @@ WIDGETS = {
 def widgets(request, project):
     obj = get_object_or_404(Project, slug = project)
     site = Site.objects.get_current()
-    engage_url = 'http://%s%s?utm_source=widget' % (
+    engage_url = 'http://%s%s' % (
+        site.domain,
+        reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
+    )
+    engage_url_track = 'http://%s%s?utm_source=widget' % (
         site.domain,
         reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
     )
@@ -79,6 +83,7 @@ def widgets(request, project):
 
     return render_to_response('widgets.html', RequestContext(request, {
         'engage_url': engage_url,
+        'engage_url_track': engage_url_track,
         'widget_list': widget_list,
         'widget_base_url': widget_base_url,
         'object': obj,
