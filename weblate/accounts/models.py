@@ -19,6 +19,22 @@ from weblate.lang.models import Language
 from weblate.trans.models import Project
 import weblate
 
+class ProfileManager(models.Manager):
+    '''
+    Manager providing shortcuts for subscription queries.
+    '''
+    def subscribed_any_translation(self, project):
+        return self.filter(subscribe_any_translation = True, subscriptions = project)
+
+    def subscribed_new_string(self, project):
+        return self.filter(subscribe_new_string = True, subscriptions = project)
+
+    def subscribed_new_suggestion(self, project):
+        return self.filter(subscribe_new_suggestion = True, subscriptions = project)
+
+    def subscribed_new_contributor(self, project):
+        return self.filter(subscribe_new_contributor = True, subscriptions = project)
+
 class Profile(models.Model):
     user = models.ForeignKey(User, unique = True, editable = False)
     language = models.CharField(
@@ -61,6 +77,8 @@ class Profile(models.Model):
         verbose_name = _('Notification on new contributor'),
         default = False
     )
+
+    objects = ProfileManager()
 
     def __unicode__(self):
         return self.user.username
