@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 10:52+0200\n"
+"POT-Creation-Date: 2012-07-23 10:30+0200\n"
 "PO-Revision-Date: 2012-07-21 02:22+0800\n"
 "Last-Translator: Shanyan Baishui <Siramizu@gmail.com>\n"
 "Language-Team: none\n"
@@ -26,7 +26,7 @@ msgstr "注册用户"
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:116 html/base.html:47 html/registration/login.html:30
+#: urls.py:116 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
@@ -201,7 +201,7 @@ msgstr "取消"
 msgid "Interface Language"
 msgstr "界面语言"
 
-#: accounts/models.py:31 trans/views.py:141
+#: accounts/models.py:31 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "语言"
 
@@ -269,43 +269,45 @@ msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "subprojects, consistency checks or automatic linking to source files."
-msgstr "Weblate 是一个高度 Git 集成的在线翻译工具。它提供简洁清爽的用户界面，子项目间翻译同步，一致性检查以及链接到源文件等功能。"
+msgstr ""
+"Weblate 是一个高度 Git 集成的在线翻译工具。它提供简洁清爽的用户界面，子项目间"
+"翻译同步，一致性检查以及链接到源文件等功能。"
 
 #: html/about.html:9
 msgid "This site is built using following projects:"
 msgstr "此站点使用以下项目编译："
 
-#: html/base.html:43
+#: html/base.html:44
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "作为 %(name)s 登录"
 
-#: html/base.html:44
+#: html/base.html:45
 msgid "Logout"
 msgstr "退出"
 
-#: html/base.html:46 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "注册"
 
-#: html/base.html:52 html/admin/report.html:8
+#: html/base.html:53 html/admin/report.html:8
 msgid "Home"
 msgstr "主页"
 
-#: html/base.html:74 html/engage.html:57
+#: html/base.html:79 html/engage.html:57
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1106
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
-#: html/base.html:76 html/engage.html:59
+#: html/base.html:81 html/engage.html:59
 msgid "Contact us"
 msgstr "联系我们"
 
-#: html/base.html:77 html/engage.html:60
+#: html/base.html:82 html/engage.html:60
 msgid "Documentation"
 msgstr "文档"
 
@@ -321,7 +323,7 @@ msgid ""
 "\">documentation</a>."
 msgstr "更多此检查相关的信息在 <a href=\"%(link)s\">文档</a>。"
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:27
+#: html/check.html:26 html/check_project.html:26 html/index.html:37
 #: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
@@ -458,7 +460,8 @@ msgstr "参与翻译 %(project)s！"
 msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
-msgstr "参与翻译 %(project)s，它现在已经通过 Weblate 被翻译为 %(languages)s 种语言。"
+msgstr ""
+"参与翻译 %(project)s，它现在已经通过 Weblate 被翻译为 %(languages)s 种语言。"
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
@@ -471,8 +474,8 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(name)s 通过 <a href=\"http://weblate.org/\">Weblate</a> "
-"进行翻译，一个为了程序员和翻译能够轻松翻译而设计的在线翻译工具。"
+"%(name)s 通过 <a href=\"http://weblate.org/\">Weblate</a> 进行翻译，一个为了"
+"程序员和翻译能够轻松翻译而设计的在线翻译工具。"
 
 #: html/engage.html:46
 #, python-format
@@ -481,15 +484,16 @@ msgid ""
 "translation and is <a href=\"%(url)s\">being translated into %(languages)s "
 "languages</a>. Overall, these translations are %(percent)s%% complete."
 msgstr ""
-"%(name)s 项目含有 %(total)s 个条目并且<a href=\"%(url)s\">已翻译为 %(languages)s "
-"种语言</a>。这些翻译总计完成了 %(percent)s%%。"
+"%(name)s 项目含有 %(total)s 个条目并且<a href=\"%(url)s\">已翻译为 "
+"%(languages)s 种语言</a>。这些翻译总计完成了 %(percent)s%%。"
 
 #: html/engage.html:49
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"/accounts/register/\">register on this server</a>."
-msgstr "如果要翻译 %(name)s，您需要<a href=\"/accounts/register/\">在此注册</a>。"
+msgstr ""
+"如果要翻译 %(name)s，您需要<a href=\"/accounts/register/\">在此注册</a>。"
 
 #: html/engage.html:52
 #, python-format
@@ -507,53 +511,61 @@ msgstr ""
 "此站点使用 <a href=\"http://weblate.org/\">Weblate</a> 翻译以下列出的软件项"
 "目。您需要登录后才能翻译，否则只能提建议。"
 
-#: html/index.html:14
+#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+msgid "Translations"
+msgstr "翻译"
+
+#: html/index.html:18
 msgid "Your translations"
 msgstr "我的翻译项目"
 
-#: html/index.html:22
+#: html/index.html:20
 msgid "Projects"
 msgstr "项目"
 
-#: html/index.html:28 html/index.html.py:63 html/languages.html:15
+#: html/index.html:22
+msgid "Checks"
+msgstr "检查"
+
+#: html/index.html:38 html/index.html.py:74 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "已翻译"
 
-#: html/index.html:43
+#: html/index.html:54
 msgid "Summaries"
 msgstr "概览"
 
-#: html/index.html:48 html/project.html:41 html/subproject.html:29
+#: html/index.html:59 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "最近的修改"
 
-#: html/index.html:49
+#: html/index.html:60
 msgid "Most active translators"
 msgstr "最活跃的翻译者"
 
-#: html/index.html:50
+#: html/index.html:61
 msgid "Most active suggesters"
 msgstr "最活跃的建议者"
 
-#: html/index.html:51
+#: html/index.html:62
 msgid "Others"
 msgstr "其它"
 
-#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+#: html/index.html:73 html/index.html.py:92 html/last-changes.html:8
 msgid "User"
 msgstr "用户"
 
-#: html/index.html:82
+#: html/index.html:93
 msgid "Suggested"
 msgstr "已建议"
 
-#: html/index.html:97
+#: html/index.html:108
 msgid "Languages summary"
 msgstr "语言概览"
 
-#: html/index.html:98
+#: html/index.html:109
 msgid "Checks overview"
 msgstr "检查小结"
 
@@ -674,10 +686,6 @@ msgstr "翻译者邮件列表："
 #: html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "翻译说明："
-
-#: html/subproject.html:15 html/translate.html:64
-msgid "Translations"
-msgstr "翻译"
 
 #: html/subproject.html:28
 msgid "New language"
@@ -920,14 +928,17 @@ msgid ""
 "You can use following widgets to promote translation of your project. They "
 "can increase visibility of your translation projects and bring new "
 "contributors."
-msgstr "您可以使用下列小部件来宣传您所翻译的项目。这可以使更多的人知道您翻译的项目并吸引新的翻译。"
+msgstr ""
+"您可以使用下列小部件来宣传您所翻译的项目。这可以使更多的人知道您翻译的项目并"
+"吸引新的翻译。"
 
 #: html/widgets.html:19
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
-msgstr "您也可以给新人看介绍页面 <a href=\"%(engage_url)s\">%(engage_url)s</a>。"
+"You can also point newcomers to the introduction page at <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
+msgstr ""
+"您也可以给新人看介绍页面 <a href=\"%(engage_url)s\">%(engage_url)s</a>。"
 
 #: html/widgets.html:22
 msgid "Image widgets"
@@ -1084,7 +1095,8 @@ msgid ""
 msgstr ""
 "您好：\n"
 "\n"
-"%(username)s 刚刚在 %(site_title)s 的 %(translation)s 上完成了他的首次翻译。\n"
+"%(username)s 刚刚在 %(site_title)s 的 %(translation)s 上完成了他的首次翻"
+"译。\n"
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -2401,9 +2413,6 @@ msgstr "文件内容合并失败：%s"
 #: trans/views.py:1056
 msgid "Page Not Found"
 msgstr "页面未找到"
-
-#~ msgid "Checks"
-#~ msgstr "检查"
 
 #~ msgid "Actions"
 #~ msgstr "动作"

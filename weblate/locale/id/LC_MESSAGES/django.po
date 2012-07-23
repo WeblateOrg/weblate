@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 10:52+0200\n"
+"POT-Creation-Date: 2012-07-23 10:30+0200\n"
 "PO-Revision-Date: 2012-07-17 21:30+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Registrasi pengguna"
 msgid "Account activation"
 msgstr "Aktivasi akun"
 
-#: urls.py:116 html/base.html:47 html/registration/login.html:30
+#: urls.py:116 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Log masuk"
 
@@ -207,7 +207,7 @@ msgstr "Batal"
 msgid "Interface Language"
 msgstr "Antarmuka Bahasa"
 
-#: accounts/models.py:31 trans/views.py:141
+#: accounts/models.py:31 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Bahasa"
 
@@ -289,37 +289,37 @@ msgstr ""
 msgid "This site is built using following projects:"
 msgstr "Situs ini dibangun menggunakan proyek berikut:"
 
-#: html/base.html:43
+#: html/base.html:44
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Log masuk sebagai %(name)s"
 
-#: html/base.html:44
+#: html/base.html:45
 msgid "Logout"
 msgstr "Log keluar"
 
-#: html/base.html:46 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Daftar"
 
-#: html/base.html:52 html/admin/report.html:8
+#: html/base.html:53 html/admin/report.html:8
 msgid "Home"
 msgstr "Beranda"
 
-#: html/base.html:74 html/engage.html:57
+#: html/base.html:79 html/engage.html:57
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Dikuatkan oleh <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1106
 msgid "About Weblate"
 msgstr "Tentang Weblate"
 
-#: html/base.html:76 html/engage.html:59
+#: html/base.html:81 html/engage.html:59
 msgid "Contact us"
 msgstr "Hubungi kami"
 
-#: html/base.html:77 html/engage.html:60
+#: html/base.html:82 html/engage.html:60
 msgid "Documentation"
 msgstr "Dokumentasi"
 
@@ -337,7 +337,7 @@ msgstr ""
 "Informasi lebih lanjut tentang ini, jika tersedia pemeriksa dalam <a href="
 "\"%(link)s\">dokumentasi</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:27
+#: html/check.html:26 html/check_project.html:26 html/index.html:37
 #: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
@@ -538,53 +538,62 @@ msgstr ""
 "log masuk dahulu untuk menerjemahkan, atau Anda hanya dapat membuat saran-"
 "saran saja."
 
-#: html/index.html:14
+#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+msgid "Translations"
+msgstr "Penterjemahan"
+
+#: html/index.html:18
 msgid "Your translations"
 msgstr "Terjemahan Anda"
 
-#: html/index.html:22
+#: html/index.html:20
 msgid "Projects"
 msgstr "Proyek"
 
-#: html/index.html:28 html/index.html.py:63 html/languages.html:15
+#: html/index.html:22
+#, fuzzy
+msgid "Checks"
+msgstr "Pemeriksaan"
+
+#: html/index.html:38 html/index.html.py:74 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Diterjemahkan"
 
-#: html/index.html:43
+#: html/index.html:54
 msgid "Summaries"
 msgstr "Ringkasan"
 
-#: html/index.html:48 html/project.html:41 html/subproject.html:29
+#: html/index.html:59 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "Perubahan terbaru"
 
-#: html/index.html:49
+#: html/index.html:60
 msgid "Most active translators"
 msgstr "Penterjemah paling aktif"
 
-#: html/index.html:50
+#: html/index.html:61
 msgid "Most active suggesters"
 msgstr "Pembuat saran paling aktif"
 
-#: html/index.html:51
+#: html/index.html:62
 msgid "Others"
 msgstr "Lainnya"
 
-#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+#: html/index.html:73 html/index.html.py:92 html/last-changes.html:8
 msgid "User"
 msgstr "Pengguna"
 
-#: html/index.html:82
+#: html/index.html:93
 msgid "Suggested"
 msgstr "Disarankan"
 
-#: html/index.html:97
+#: html/index.html:108
 msgid "Languages summary"
 msgstr "Ringkasan bahasa"
 
-#: html/index.html:98
+#: html/index.html:109
 msgid "Checks overview"
 msgstr "Ikhtisar Pemeriksaan"
 
@@ -711,10 +720,6 @@ msgstr "Daftar menyurat untuk penerjemah:"
 #: html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Petunjuk untuk penerjemah:"
-
-#: html/subproject.html:15 html/translate.html:64
-msgid "Translations"
-msgstr "Penterjemahan"
 
 #: html/subproject.html:28
 msgid "New language"
@@ -974,10 +979,10 @@ msgstr ""
 "penerjemahan Anda dan akan membawa kontributor baru."
 
 #: html/widgets.html:19
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
+"You can also point newcomers to the introduction page at <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 msgstr ""
 "Anda juga dapat menunjukkan pendatang baru melalui Halaman perkenalan di <a "
 "href=\"%(engage_url)s\">%(engage_url)s</a>."

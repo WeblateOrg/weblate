@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 10:52+0200\n"
+"POT-Creation-Date: 2012-07-23 10:31+0200\n"
 "PO-Revision-Date: 2012-07-09 13:33+0200\n"
 "Last-Translator: Claudio F Filho <filhocf@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
@@ -26,7 +26,7 @@ msgstr "Registro de usuario"
 msgid "Account activation"
 msgstr "Ativação de conta"
 
-#: urls.py:116 html/base.html:47 html/registration/login.html:30
+#: urls.py:116 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Autenticação"
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: accounts/models.py:31 trans/views.py:141
+#: accounts/models.py:31 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -289,38 +289,38 @@ msgstr ""
 msgid "This site is built using following projects:"
 msgstr "Este portal é construído utilizando os seguintes projetos:"
 
-#: html/base.html:43
+#: html/base.html:44
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Sessão iniciada como %(name)s"
 
-#: html/base.html:44
+#: html/base.html:45
 msgid "Logout"
 msgstr "Finalizar sessão"
 
-#: html/base.html:46 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Registro"
 
-#: html/base.html:52 html/admin/report.html:8
+#: html/base.html:53 html/admin/report.html:8
 msgid "Home"
 msgstr "Início"
 
-#: html/base.html:74 html/engage.html:57
+#: html/base.html:79 html/engage.html:57
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Desenvolvido com <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1106
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
-#: html/base.html:76 html/engage.html:59
+#: html/base.html:81 html/engage.html:59
 msgid "Contact us"
 msgstr "Nos contate"
 
-#: html/base.html:77 html/engage.html:60
+#: html/base.html:82 html/engage.html:60
 msgid "Documentation"
 msgstr "Documentação"
 
@@ -338,7 +338,7 @@ msgstr ""
 "Mais informações sobre esta verificação está disponível na <a href=\"%(link)s"
 "\">documentação</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:27
+#: html/check.html:26 html/check_project.html:26 html/index.html:37
 #: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
@@ -525,53 +525,61 @@ msgstr ""
 "software a seguir. Voce precisa se autenticar para utiliza-lo, caso "
 "contrario somente podera fazer sugestões."
 
-#: html/index.html:14
+#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+msgid "Translations"
+msgstr "Traduções"
+
+#: html/index.html:18
 msgid "Your translations"
 msgstr "Suas traduções"
 
-#: html/index.html:22
+#: html/index.html:20
 msgid "Projects"
 msgstr "Projetos"
 
-#: html/index.html:28 html/index.html.py:63 html/languages.html:15
+#: html/index.html:22
+msgid "Checks"
+msgstr "Verificações"
+
+#: html/index.html:38 html/index.html.py:74 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Traduzido"
 
-#: html/index.html:43
+#: html/index.html:54
 msgid "Summaries"
 msgstr "Resumos"
 
-#: html/index.html:48 html/project.html:41 html/subproject.html:29
+#: html/index.html:59 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "Modificações recentes"
 
-#: html/index.html:49
+#: html/index.html:60
 msgid "Most active translators"
 msgstr "Tradutores mais ativos"
 
-#: html/index.html:50
+#: html/index.html:61
 msgid "Most active suggesters"
 msgstr "Usuários com mais sugestões"
 
-#: html/index.html:51
+#: html/index.html:62
 msgid "Others"
 msgstr "Outros"
 
-#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+#: html/index.html:73 html/index.html.py:92 html/last-changes.html:8
 msgid "User"
 msgstr "Usuário"
 
-#: html/index.html:82
+#: html/index.html:93
 msgid "Suggested"
 msgstr "Sugerido"
 
-#: html/index.html:97
+#: html/index.html:108
 msgid "Languages summary"
 msgstr "Resumo dos idiomas"
 
-#: html/index.html:98
+#: html/index.html:109
 msgid "Checks overview"
 msgstr "Visão geral das verificações"
 
@@ -697,10 +705,6 @@ msgstr "Lista de discussão para tradutores:"
 #: html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Instruções para tradutores:"
-
-#: html/subproject.html:15 html/translate.html:64
-msgid "Translations"
-msgstr "Traduções"
 
 #: html/subproject.html:28
 msgid "New language"
@@ -956,8 +960,8 @@ msgstr ""
 #: html/widgets.html:19
 #, python-format
 msgid ""
-"You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
+"You can also point newcomers to the introduction page at <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 msgstr ""
 
 #: html/widgets.html:22
@@ -2478,9 +2482,6 @@ msgstr "Falha ao fundir o conteúdo do arquivo: %s"
 #: trans/views.py:1056
 msgid "Page Not Found"
 msgstr "Página não encontrada"
-
-#~ msgid "Checks"
-#~ msgstr "Verificações"
 
 #, fuzzy
 #~ msgid "Actions"

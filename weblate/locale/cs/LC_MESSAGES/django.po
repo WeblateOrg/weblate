@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 10:52+0200\n"
+"POT-Creation-Date: 2012-07-23 10:30+0200\n"
 "PO-Revision-Date: 2012-07-18 13:12+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Registrace uživatele"
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:116 html/base.html:47 html/registration/login.html:30
+#: urls.py:116 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
@@ -204,7 +204,7 @@ msgstr "Zrušit"
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
 
-#: accounts/models.py:31 trans/views.py:141
+#: accounts/models.py:31 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -283,37 +283,37 @@ msgstr ""
 msgid "This site is built using following projects:"
 msgstr "Tyto stránky jsou postaveny na následujících projektech:"
 
-#: html/base.html:43
+#: html/base.html:44
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Přihlášen jako %(name)s"
 
-#: html/base.html:44
+#: html/base.html:45
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: html/base.html:46 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Registrace"
 
-#: html/base.html:52 html/admin/report.html:8
+#: html/base.html:53 html/admin/report.html:8
 msgid "Home"
 msgstr "Domů"
 
-#: html/base.html:74 html/engage.html:57
+#: html/base.html:79 html/engage.html:57
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1106
 msgid "About Weblate"
 msgstr "O Weblate"
 
-#: html/base.html:76 html/engage.html:59
+#: html/base.html:81 html/engage.html:59
 msgid "Contact us"
 msgstr "Napište nám"
 
-#: html/base.html:77 html/engage.html:60
+#: html/base.html:82 html/engage.html:60
 msgid "Documentation"
 msgstr "Dokumentace"
 
@@ -331,7 +331,7 @@ msgstr ""
 "Více informací o této kontrole je k dispozici v <a href=\"%(link)s"
 "\">dokumentaci</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:27
+#: html/check.html:26 html/check_project.html:26 html/index.html:37
 #: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
@@ -530,53 +530,61 @@ msgstr ""
 "překladu níže uvedených projektů. Pro překlad musíte být přihlášeni, jinak "
 "můžete jen podávat návrhy."
 
-#: html/index.html:14
+#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+msgid "Translations"
+msgstr "Překlady"
+
+#: html/index.html:18
 msgid "Your translations"
 msgstr "Vaše překlady"
 
-#: html/index.html:22
+#: html/index.html:20
 msgid "Projects"
 msgstr "Projekty"
 
-#: html/index.html:28 html/index.html.py:63 html/languages.html:15
+#: html/index.html:22
+msgid "Checks"
+msgstr "Kontroly"
+
+#: html/index.html:38 html/index.html.py:74 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Přeloženo"
 
-#: html/index.html:43
+#: html/index.html:54
 msgid "Summaries"
 msgstr "Souhrny"
 
-#: html/index.html:48 html/project.html:41 html/subproject.html:29
+#: html/index.html:59 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "Nedávné změny"
 
-#: html/index.html:49
+#: html/index.html:60
 msgid "Most active translators"
 msgstr "Nejaktivnější překladatelé"
 
-#: html/index.html:50
+#: html/index.html:61
 msgid "Most active suggesters"
 msgstr "Nejaktivnější navrhovatelé"
 
-#: html/index.html:51
+#: html/index.html:62
 msgid "Others"
 msgstr "Další"
 
-#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+#: html/index.html:73 html/index.html.py:92 html/last-changes.html:8
 msgid "User"
 msgstr "Uživatel"
 
-#: html/index.html:82
+#: html/index.html:93
 msgid "Suggested"
 msgstr "Navrhnuto"
 
-#: html/index.html:97
+#: html/index.html:108
 msgid "Languages summary"
 msgstr "Přehled jazyků"
 
-#: html/index.html:98
+#: html/index.html:109
 msgid "Checks overview"
 msgstr "Souhrn kontrol"
 
@@ -704,10 +712,6 @@ msgstr "Emailová konference pro překladatele:"
 #: html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
-
-#: html/subproject.html:15 html/translate.html:64
-msgid "Translations"
-msgstr "Překlady"
 
 #: html/subproject.html:28
 msgid "New language"
@@ -963,10 +967,10 @@ msgstr ""
 "Mohou zvýšit povědomí o překladu a přilákat nové přispěvatele."
 
 #: html/widgets.html:19
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
+"You can also point newcomers to the introduction page at <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 msgstr ""
 "Nově příchozí můžete také odkazovat na informativní stránku na <a href="
 "\"%(engage_url)s\">%(engage_url)s</a>."
@@ -1007,8 +1011,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Nezobrazuji stav odkazovaného repozitáře. Podívejte se na <a href=\"#%"
-"(slug)s\">%(repo)s</a>."
+"Nezobrazuji stav odkazovaného repozitáře. Podívejte se na <a href=\"#%(slug)s"
+"\">%(repo)s</a>."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -2497,9 +2501,6 @@ msgstr "Selhalo sloučení obsahu souborů: %s"
 #: trans/views.py:1056
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
-
-#~ msgid "Checks"
-#~ msgstr "Kontroly"
 
 #~ msgid "Actions"
 #~ msgstr "Akce"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-17 14:32+0200\n"
+"POT-Creation-Date: 2012-07-23 10:31+0200\n"
 "PO-Revision-Date: 2012-07-22 14:28+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Enregistrement utilisateur"
 msgid "Account activation"
 msgstr "Activation du compte"
 
-#: urls.py:116 html/base.html:47 html/registration/login.html:30
+#: urls.py:116 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Connexion"
 
@@ -204,7 +204,7 @@ msgstr "Annuler"
 msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-#: accounts/models.py:31 trans/views.py:141
+#: accounts/models.py:31 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Langues"
 
@@ -286,37 +286,37 @@ msgstr ""
 msgid "This site is built using following projects:"
 msgstr "Ce site est construit en utilisant les projets suivants : "
 
-#: html/base.html:43
+#: html/base.html:44
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Connecté en tant que %(name)s"
 
-#: html/base.html:44
+#: html/base.html:45
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: html/base.html:46 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Enregistrement"
 
-#: html/base.html:52 html/admin/report.html:8
+#: html/base.html:53 html/admin/report.html:8
 msgid "Home"
 msgstr "Accueil"
 
-#: html/base.html:74 html/engage.html:57
+#: html/base.html:79 html/engage.html:57
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Propulsé par <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:75 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1106
 msgid "About Weblate"
 msgstr "À propos de Weblate"
 
-#: html/base.html:76 html/engage.html:59
+#: html/base.html:81 html/engage.html:59
 msgid "Contact us"
 msgstr "Nous contacter"
 
-#: html/base.html:77 html/engage.html:60
+#: html/base.html:82 html/engage.html:60
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -334,7 +334,7 @@ msgstr ""
 "Plus d'informations sur cette vérification sont disponibles dans la <a href="
 "\"%(link)s\">documentation</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:27
+#: html/check.html:26 html/check_project.html:26 html/index.html:37
 #: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
@@ -476,8 +476,8 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
-"Impliquez-vous dans %(project)s, qui est en cours de traduction en %"
-"(languages)s langues au moyen de Weblate."
+"Impliquez-vous dans %(project)s, qui est en cours de traduction en "
+"%(languages)s langues au moyen de Weblate."
 
 #: html/engage.html:40
 msgid "Hi, and thank you for your interest!"
@@ -490,10 +490,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(name)s est en cours de traduction au moyen de <a "
-"href=\"http://weblate.org/\">Weblate</a>, une application web dont le but est "
-"de faciliter la traduction, autant pour les développeurs que pour les "
-"traducteurs."
+"%(name)s est en cours de traduction au moyen de <a href=\"http://weblate.org/"
+"\">Weblate</a>, une application web dont le but est de faciliter la "
+"traduction, autant pour les développeurs que pour les traducteurs."
 
 #: html/engage.html:46
 #, python-format
@@ -521,8 +520,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Une fois votre compte activé, visitez la zone de <a href=\"%"
-"(url)s\">traduction</a>."
+"Une fois votre compte activé, visitez la zone de <a href=\"%(url)s"
+"\">traduction</a>."
 
 #: html/index.html:9
 msgid ""
@@ -534,53 +533,61 @@ msgstr ""
 "traduction des projets ci-dessous. Vous devez être connecté pour effectuer "
 "la traduction, sinon vous ne pourrez que faire des suggestions."
 
-#: html/index.html:14
+#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+msgid "Translations"
+msgstr "Traductions"
+
+#: html/index.html:18
 msgid "Your translations"
 msgstr "Vos traductions"
 
-#: html/index.html:22
+#: html/index.html:20
 msgid "Projects"
 msgstr "Projets"
 
-#: html/index.html:28 html/index.html.py:63 html/languages.html:15
+#: html/index.html:22
+msgid "Checks"
+msgstr "Vérifications"
+
+#: html/index.html:38 html/index.html.py:74 html/languages.html:15
 #: html/list-translations.html:7 html/project.html:21
 msgid "Translated"
 msgstr "Traduit"
 
-#: html/index.html:43
+#: html/index.html:54
 msgid "Summaries"
 msgstr "Sommaires"
 
-#: html/index.html:48 html/project.html:41 html/subproject.html:29
+#: html/index.html:59 html/project.html:41 html/subproject.html:29
 #: html/translation.html:37
 msgid "Recent changes"
 msgstr "Changements récents"
 
-#: html/index.html:49
+#: html/index.html:60
 msgid "Most active translators"
 msgstr "Traducteurs les plus actifs"
 
-#: html/index.html:50
+#: html/index.html:61
 msgid "Most active suggesters"
 msgstr "Proposeurs les plus actifs"
 
-#: html/index.html:51
+#: html/index.html:62
 msgid "Others"
 msgstr "Autres"
 
-#: html/index.html:62 html/index.html.py:81 html/last-changes.html:8
+#: html/index.html:73 html/index.html.py:92 html/last-changes.html:8
 msgid "User"
 msgstr "Utilisateur"
 
-#: html/index.html:82
+#: html/index.html:93
 msgid "Suggested"
 msgstr "Suggéré"
 
-#: html/index.html:97
+#: html/index.html:108
 msgid "Languages summary"
 msgstr "Sommaire des langues"
 
-#: html/index.html:98
+#: html/index.html:109
 msgid "Checks overview"
 msgstr "Aperçu des vérifications"
 
@@ -709,10 +716,6 @@ msgstr "Liste de discussion pour les traducteurs : "
 #: html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Directives pour les traducteurs : "
-
-#: html/subproject.html:15 html/translate.html:64
-msgid "Translations"
-msgstr "Traductions"
 
 #: html/subproject.html:28
 msgid "New language"
@@ -971,10 +974,10 @@ msgstr ""
 "traduction et procureront de nouveaux contributeurs."
 
 #: html/widgets.html:19
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"You can also point newcomers to an introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
+"You can also point newcomers to the introduction page at <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 msgstr ""
 "Vous pouvez aussi référer les nouveaux arrivants à la page d'introduction <a "
 "href=\"%(engage_url)s\">%(engage_url)s</a>."
@@ -1015,8 +1018,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"N'affiche pas l'état des dépôts liés. Vérifier <a href=\"#%(slug)s\">%"
-"(repo)s</a> à la place."
+"N'affiche pas l'état des dépôts liés. Vérifier <a href=\"#%(slug)s\">"
+"%(repo)s</a> à la place."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1111,8 +1114,8 @@ msgid ""
 msgstr ""
 "Bonjour,\n"
 "\n"
-"Une nouvelle traduction de %(translation)s est disponible sur %"
-"(site_title)s.\n"
+"Une nouvelle traduction de %(translation)s est disponible sur "
+"%(site_title)s.\n"
 
 #: html/mail/any_translation.txt:6 html/mail/new_suggestion.txt:6
 msgid "Source string:"
@@ -1137,8 +1140,8 @@ msgid ""
 msgstr ""
 "Bonjour,\n"
 "\n"
-"%(username)s vient de faire sa première contribution à %(translation)s sur %"
-"(site_title)s.\n"
+"%(username)s vient de faire sa première contribution à %(translation)s sur "
+"%(site_title)s.\n"
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -1154,8 +1157,8 @@ msgid ""
 msgstr ""
 "Bonjour,\n"
 "\n"
-"il y a de nouveaux messages à traduire pour %(translation)s sur %"
-"(site_title)s.\n"
+"il y a de nouveaux messages à traduire pour %(translation)s sur "
+"%(site_title)s.\n"
 
 #: html/mail/new_string_subject.txt:1
 #, python-format
@@ -2513,9 +2516,6 @@ msgstr "Échec de fusion du fichier : %s"
 #: trans/views.py:1056
 msgid "Page Not Found"
 msgstr "Page introuvable"
-
-#~ msgid "Checks"
-#~ msgstr "Vérifications"
 
 #, fuzzy
 #~ msgid "Actions"
