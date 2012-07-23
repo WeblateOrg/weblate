@@ -128,7 +128,6 @@ class Profile(models.Model):
             email.send(fail_silently = False)
         finally:
             translation.activate(cur_language)
-        return text
 
     def notify_any_translation(self, translation, unit):
         '''
