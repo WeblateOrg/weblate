@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.sites.models import Site
@@ -12,7 +12,7 @@ import cairo
 import os.path
 
 WIDGETS = {
-    '287': {
+    '287x66': {
         'default': 'grey',
         'colors': {
             'grey': {
@@ -87,11 +87,14 @@ def widgets(request, project):
     }))
 
 #@cache_page(3600)
-def widget_287(request, project, widget = '287'):
+def render(request, project, widget = '287x66'):
     obj = get_object_or_404(Project, slug = project)
     percent = obj.get_translated_percent()
 
-    widget_data = WIDGETS[widget]
+    try:
+        widget_data = WIDGETS[widget]
+    except KeyError:
+        raise Http404()
 
     # Get widget color
     color = request.GET.get('color', widget_data['default'])
