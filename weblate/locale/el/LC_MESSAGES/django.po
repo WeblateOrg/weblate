@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 10:31+0200\n"
+"POT-Creation-Date: 2012-07-23 12:15+0200\n"
 "PO-Revision-Date: 2012-04-11 09:07+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,41 +200,41 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/models.py:25
+#: accounts/models.py:49
 msgid "Interface Language"
 msgstr "Γλώσσα Περιβάλλοντος εργασίας"
 
-#: accounts/models.py:31 html/index.html:21 trans/views.py:141
+#: accounts/models.py:55 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Γλώσσες"
 
-#: accounts/models.py:36
+#: accounts/models.py:60
 msgid "Secondary languages"
 msgstr "Δευτερεύουσες γλώσσες"
 
-#: accounts/models.py:45
+#: accounts/models.py:69
 #, fuzzy
 msgid "Subscribed projects"
 msgstr "Υπόέργα"
 
-#: accounts/models.py:49
+#: accounts/models.py:73
 #, fuzzy
 msgid "Notification on any translation"
 msgstr "Αυτόματη μετάφραση"
 
-#: accounts/models.py:53
+#: accounts/models.py:77
 msgid "Notification on new string to translate"
 msgstr ""
 
-#: accounts/models.py:57
+#: accounts/models.py:81
 msgid "Notification on new suggestion"
 msgstr ""
 
-#: accounts/models.py:61
+#: accounts/models.py:85
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:171
+#: accounts/models.py:198
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Το προφίλ σας έχει μεταφερθεί, ίσως θέλετε να προσαρμόσετε τις ρυθμίσεις σας."
@@ -308,7 +308,7 @@ msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Υποστηρίζετα από το <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:80 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1122
 msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
@@ -335,7 +335,7 @@ msgstr ""
 "\"%(link)s\">τεκμηρίωση</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Έργο"
@@ -350,9 +350,9 @@ msgid "There are no matching failed checks!"
 msgstr ""
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:64 html/translate.html.py:166
+#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:183
+#: trans/forms.py:196
 msgid "Translation"
 msgstr "Μετάφραση"
 
@@ -410,9 +410,9 @@ msgstr "Επόμενο"
 msgid "Last"
 msgstr "Τελευταίο"
 
-#: html/dictionary.html:32 html/translate.html:50 html/translate.html.py:166
+#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:182
+#: trans/forms.py:195
 msgid "Source"
 msgstr "Προέλευση"
 
@@ -420,7 +420,7 @@ msgstr "Προέλευση"
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: html/dictionary.html:57 html/translate.html:108
+#: html/dictionary.html:57 html/translate.html:109
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -460,7 +460,7 @@ msgstr "Εισαγωγή"
 msgid "Change word"
 msgstr "Αλλαγή λέξης"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:139
+#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -517,7 +517,7 @@ msgid ""
 "translating, otherwise you can only make suggestions."
 msgstr ""
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+#: html/index.html:13 html/subproject.html:15 html/translate.html:65
 msgid "Translations"
 msgstr "Μεταφράσεις"
 
@@ -585,7 +585,7 @@ msgstr "γλώσσες"
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: html/last-changes.html:22 html/translate.html:191
+#: html/last-changes.html:22 html/translate.html:192
 msgid "No recent activity has been recorded."
 msgstr ""
 
@@ -745,59 +745,59 @@ msgstr "μετάφραση"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr ""
 
-#: html/translate.html:55
+#: html/translate.html:56
 msgid "Context"
 msgstr "Συνοδευτικά"
 
-#: html/translate.html:61
+#: html/translate.html:62
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: html/translate.html:69
+#: html/translate.html:70
 #, fuzzy
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: html/translate.html:74 trans/views.py:76
+#: html/translate.html:75 trans/views.py:76
 msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
-#: html/translate.html:79
+#: html/translate.html:80
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Αγνόηση: %(check)s"
 
-#: html/translate.html:91
+#: html/translate.html:92
 msgid "Suggestions"
 msgstr "Προτάσεις"
 
-#: html/translate.html:98
+#: html/translate.html:99
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Προτάθηκε από τον %(user)s"
 
-#: html/translate.html:100
+#: html/translate.html:101
 msgid "Suggested by anonymous user"
 msgstr "Προτάθηκε από ανώνυμο χρήστη"
 
-#: html/translate.html:105
+#: html/translate.html:106
 msgid "Accept"
 msgstr ""
 
-#: html/translate.html:121
+#: html/translate.html:122
 msgid "Used in"
 msgstr "Χρήση σε"
 
-#: html/translate.html:127
+#: html/translate.html:128
 msgid "Comments"
 msgstr "Σχόλια"
 
-#: html/translate.html:133
+#: html/translate.html:134
 msgid "Flags"
 msgstr "Σημαίες"
 
-#: html/translate.html:143
+#: html/translate.html:144
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -806,56 +806,56 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Συνδεθείτε</a> για να "
 "αποθηκευτούν οι μεταφράσεις."
 
-#: html/translate.html:146
+#: html/translate.html:147
 msgid "Suggest"
 msgstr "Πρόταση"
 
-#: html/translate.html:152
+#: html/translate.html:153
 msgid "Translation context"
 msgstr "Συνοδευτικά μετάφρασης"
 
-#: html/translate.html:156
+#: html/translate.html:157
 msgid "Messages placed around this one"
 msgstr ""
 
-#: html/translate.html:156
+#: html/translate.html:157
 msgid "Nearby messages"
 msgstr "Κοντινά μηνύματα"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Similar messages"
 msgstr "Παρόμοια μηνύματα"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Same message used in different subprojects"
 msgstr ""
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "All locations"
 msgstr "Όλες οι τοποθεσίες"
 
-#: html/translate.html:159
+#: html/translate.html:160
 #, fuzzy
 msgid "Words extracted from dictionary"
 msgstr "Λέξεις στο λεξικό"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Words in dictionary"
 msgstr "Λέξεις στο λεξικό"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "List of recent changes done in Weblate"
 msgstr ""
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Recent edits"
 msgstr ""
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Information about project"
 msgstr ""
 
-#: html/translate.html:166 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
 #, fuzzy
 msgid "State"
 msgstr "Κατάσταση"
@@ -1113,6 +1113,30 @@ msgstr "Μετάφραση"
 #, fuzzy, python-format
 msgid "New translation in %(translation)s"
 msgstr "Αυτόματη μετάφραση"
+
+#: html/mail/footer.txt:1
+#, fuzzy
+msgid "Translation summary:"
+msgstr "Μεταφράσεις"
+
+#: html/mail/footer.txt:3
+#, fuzzy
+msgid "Total strings:"
+msgstr "Όλα τα κείμενα"
+
+#: html/mail/footer.txt:4
+#, fuzzy
+msgid "Translated strings:"
+msgstr "Αμετάφραστα κείμενα (%d)"
+
+#: html/mail/footer.txt:5
+#, fuzzy
+msgid "Fuzzy strings:"
+msgstr "Ασαφή κείμενα (%d)"
+
+#: html/mail/footer.txt:8
+msgid "Sent by Weblate translation system"
+msgstr ""
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -2080,82 +2104,82 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: trans/forms.py:104 trans/forms.py:186
+#: trans/forms.py:117 trans/forms.py:199
 msgid "File"
 msgstr "Αρχείο"
 
-#: trans/forms.py:108
+#: trans/forms.py:121
 msgid "Overwrite existing translations"
 msgstr "Αντικατάσταση υπαρχόντων μεταφράσεων"
 
-#: trans/forms.py:114
+#: trans/forms.py:127
 msgid "Author name"
 msgstr "Όνομα δημιουργού"
 
-#: trans/forms.py:116 trans/forms.py:121
+#: trans/forms.py:129 trans/forms.py:134
 msgid "Keep empty for using currently logged in user."
 msgstr "Αφήστε το κενό για χρήση του ήδη συνδεδεμένου χρήστη."
 
-#: trans/forms.py:119
+#: trans/forms.py:132
 msgid "Author email"
 msgstr "Ηλεκτρονική διευθυνση δημιουργού"
 
-#: trans/forms.py:125
+#: trans/forms.py:138
 msgid "Query"
 msgstr "Ερώτημα"
 
-#: trans/forms.py:127
+#: trans/forms.py:140
 msgid "Exact match"
 msgstr "Απόλυτο ταίριασμα"
 
-#: trans/forms.py:132
+#: trans/forms.py:145
 msgid "Search in source strings"
 msgstr "Αναζήτηση στα κείμενα προέλευσης"
 
-#: trans/forms.py:137
+#: trans/forms.py:150
 msgid "Search in target strings"
 msgstr "Αναζήτηση στα κείμενα προορισμού"
 
-#: trans/forms.py:142
+#: trans/forms.py:155
 msgid "Search in context strings"
 msgstr "Αναζήτηση στα συνοδευτικά κείμενα"
 
-#: trans/forms.py:153
+#: trans/forms.py:166
 #, fuzzy
 msgid "Overwrite strings"
 msgstr "Αντικατάσταση υπαρχόντων μεταφράσεων"
 
-#: trans/forms.py:158
+#: trans/forms.py:171
 #, fuzzy
 msgid "Replace inconsistent"
 msgstr "Ασυνεπές"
 
-#: trans/forms.py:163
+#: trans/forms.py:176
 #, fuzzy
 msgid "Subproject to use"
 msgstr "Υπόέργα"
 
-#: trans/forms.py:179
+#: trans/forms.py:192
 #, fuzzy
 msgid "All subprojects"
 msgstr "Υπόέργα"
 
-#: trans/forms.py:188
+#: trans/forms.py:201
 #, fuzzy
 msgid "Overwrite existing"
 msgstr "Αντικατάσταση υπαρχόντων μεταφράσεων"
 
-#: trans/forms.py:193
+#: trans/forms.py:206
 #, fuzzy
 msgid "Starting date"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/forms.py:203
+#: trans/forms.py:216
 #, fuzzy
 msgid "Starting letter"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/forms.py:204
+#: trans/forms.py:217
 msgid "Any"
 msgstr ""
 
@@ -2320,30 +2344,30 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1277
+#: trans/models.py:1286
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:1282
+#: trans/models.py:1291
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:1284
+#: trans/models.py:1293
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:1286
+#: trans/models.py:1295
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:1470
+#: trans/models.py:1479
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1534
+#: trans/models.py:1543
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2430,64 +2454,64 @@ msgstr "Αμετάφραστα κείμενα (%d)"
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/views.py:690
+#: trans/views.py:705
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views.py:710
+#: trans/views.py:725
 msgid "You need to log in to be able to save translations!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να αποθηκεύσετε μεταφράσεις!"
 
-#: trans/views.py:713 trans/views.py:753
+#: trans/views.py:728 trans/views.py:768
 msgid "You don't have privileges to save translations!"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
-#: trans/views.py:729
+#: trans/views.py:744
 msgid "Some checks have failed on your translation!"
 msgstr "Ορισμένοι έλεγχοι απέτυχαν στη μετάφρασή σας!"
 
-#: trans/views.py:747 trans/views.py:785
+#: trans/views.py:762 trans/views.py:800
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Το μήνυμα που θέλατε να μεταφράσετε δεν είναι πλέον διαθέσιμο!"
 
-#: trans/views.py:768
+#: trans/views.py:783
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:791
+#: trans/views.py:806
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να διαχειριστείτε τις προτάσεις!"
 
-#: trans/views.py:802
+#: trans/views.py:817
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
-#: trans/views.py:812
+#: trans/views.py:827
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
-#: trans/views.py:833
+#: trans/views.py:848
 msgid "Invalid suggestion!"
 msgstr "Μη έγκυρη πρόταση!"
 
-#: trans/views.py:890
+#: trans/views.py:905
 msgid "You have reached end of translating."
 msgstr "Ολοκληρώσατε τη μετάφραση."
 
-#: trans/views.py:1041
+#: trans/views.py:1057
 msgid "File content successfully merged into translation."
 msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
 
-#: trans/views.py:1043
+#: trans/views.py:1059
 msgid "There were no new strings in uploaded file."
 msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
 
-#: trans/views.py:1045
+#: trans/views.py:1061
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"
 
-#: trans/views.py:1056
+#: trans/views.py:1072
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
 

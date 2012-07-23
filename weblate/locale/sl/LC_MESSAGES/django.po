@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 10:31+0200\n"
+"POT-Creation-Date: 2012-07-23 12:15+0200\n"
 "PO-Revision-Date: 2012-04-28 06:01+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,41 +200,41 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/models.py:25
+#: accounts/models.py:49
 msgid "Interface Language"
 msgstr "Jezik vmesnika"
 
-#: accounts/models.py:31 html/index.html:21 trans/views.py:141
+#: accounts/models.py:55 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Jeziki"
 
-#: accounts/models.py:36
+#: accounts/models.py:60
 msgid "Secondary languages"
 msgstr "Dodatni jeziki"
 
-#: accounts/models.py:45
+#: accounts/models.py:69
 #, fuzzy
 msgid "Subscribed projects"
 msgstr "Podprojekti"
 
-#: accounts/models.py:49
+#: accounts/models.py:73
 #, fuzzy
 msgid "Notification on any translation"
 msgstr "Samodejni prevod"
 
-#: accounts/models.py:53
+#: accounts/models.py:77
 msgid "Notification on new string to translate"
 msgstr ""
 
-#: accounts/models.py:57
+#: accounts/models.py:81
 msgid "Notification on new suggestion"
 msgstr ""
 
-#: accounts/models.py:61
+#: accounts/models.py:85
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:171
+#: accounts/models.py:198
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Vaš profil smo preselili; morda boste želeli urediti nastavitve."
 
@@ -307,7 +307,7 @@ msgstr "Domov"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Poganja <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:80 html/engage.html:58 trans/views.py:1106
+#: html/base.html:80 html/engage.html:58 trans/views.py:1122
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -334,7 +334,7 @@ msgstr ""
 "\">dokumentaciji</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:161 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Projekt"
@@ -349,9 +349,9 @@ msgid "There are no matching failed checks!"
 msgstr "Ni nobenih ujemajočih spodletelih preverjanj!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:64 html/translate.html.py:166
+#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:183
+#: trans/forms.py:196
 msgid "Translation"
 msgstr "Prevod"
 
@@ -409,9 +409,9 @@ msgstr "Naslednji"
 msgid "Last"
 msgstr "Zadnji"
 
-#: html/dictionary.html:32 html/translate.html:50 html/translate.html.py:166
+#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:182
+#: trans/forms.py:195
 msgid "Source"
 msgstr "Vir"
 
@@ -419,7 +419,7 @@ msgstr "Vir"
 msgid "Edit"
 msgstr "Uredi"
 
-#: html/dictionary.html:57 html/translate.html:108
+#: html/dictionary.html:57 html/translate.html:109
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -460,7 +460,7 @@ msgstr "Uvozi"
 msgid "Change word"
 msgstr "Spremeni besedo"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:139
+#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
 msgid "Save"
 msgstr "Shrani"
 
@@ -520,7 +520,7 @@ msgstr ""
 "spodaj navedenih projektov programske opreme. Za prevajanje se morate "
 "prijaviti; v nasprotnem primeru lahko samo dodajate predloge."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:64
+#: html/index.html:13 html/subproject.html:15 html/translate.html:65
 msgid "Translations"
 msgstr "Prevodi"
 
@@ -586,7 +586,7 @@ msgstr "jeziki"
 msgid "Date"
 msgstr "Datum"
 
-#: html/last-changes.html:22 html/translate.html:191
+#: html/last-changes.html:22 html/translate.html:192
 msgid "No recent activity has been recorded."
 msgstr "Zabeležil nisem nobene nedavne dejavnosti."
 
@@ -747,59 +747,59 @@ msgstr "prevedi"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Trenutni filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: html/translate.html:55
+#: html/translate.html:56
 msgid "Context"
 msgstr "Sobesedilo"
 
-#: html/translate.html:61
+#: html/translate.html:62
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: html/translate.html:69
+#: html/translate.html:70
 #, fuzzy
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Neurejeno"
 
-#: html/translate.html:74 trans/views.py:76
+#: html/translate.html:75 trans/views.py:76
 msgid "Failing checks"
 msgstr "Spodletela preverjanja"
 
-#: html/translate.html:79
+#: html/translate.html:80
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Prezri: %(check)s"
 
-#: html/translate.html:91
+#: html/translate.html:92
 msgid "Suggestions"
 msgstr "Predlogi"
 
-#: html/translate.html:98
+#: html/translate.html:99
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Predlagal %(user)s"
 
-#: html/translate.html:100
+#: html/translate.html:101
 msgid "Suggested by anonymous user"
 msgstr "Predlagal brezimni uporabnik"
 
-#: html/translate.html:105
+#: html/translate.html:106
 msgid "Accept"
 msgstr "Sprejmi"
 
-#: html/translate.html:121
+#: html/translate.html:122
 msgid "Used in"
 msgstr "Uporabljeno v"
 
-#: html/translate.html:127
+#: html/translate.html:128
 msgid "Comments"
 msgstr "Pripombe"
 
-#: html/translate.html:133
+#: html/translate.html:134
 msgid "Flags"
 msgstr "Zastavice"
 
-#: html/translate.html:143
+#: html/translate.html:144
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -808,55 +808,55 @@ msgstr ""
 "Za shranjevanje prevodov se <a href=\"%(login_url)s?next=%(translate_url)s"
 "\">prijavite</a>."
 
-#: html/translate.html:146
+#: html/translate.html:147
 msgid "Suggest"
 msgstr "Predlagaj"
 
-#: html/translate.html:152
+#: html/translate.html:153
 msgid "Translation context"
 msgstr "Sobesedilo prevoda"
 
-#: html/translate.html:156
+#: html/translate.html:157
 msgid "Messages placed around this one"
 msgstr "Sporočila, ki se nahajajo ob tem"
 
-#: html/translate.html:156
+#: html/translate.html:157
 msgid "Nearby messages"
 msgstr "Bližnja sporočila"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Similar messages"
 msgstr "Podobna sporočila"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Same message used in different subprojects"
 msgstr "Enako sporočilo uporabljeno v različnih podprojektih"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "All locations"
 msgstr "Vsa nahajališča"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Words extracted from dictionary"
 msgstr "Besede, izvlečene iz slovarja"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Words in dictionary"
 msgstr "Besede v slovarju"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "List of recent changes done in Weblate"
 msgstr "Seznam nedavnih sprememb, storjenih v Weblate"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Recent edits"
 msgstr "Nedavna urejanja"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Information about project"
 msgstr "Informacije o projektu"
 
-#: html/translate.html:166 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Stanje"
 
@@ -1113,6 +1113,30 @@ msgstr "Prevod"
 #, fuzzy, python-format
 msgid "New translation in %(translation)s"
 msgstr "Samodejni prevod"
+
+#: html/mail/footer.txt:1
+#, fuzzy
+msgid "Translation summary:"
+msgstr "Prevodi"
+
+#: html/mail/footer.txt:3
+#, fuzzy
+msgid "Total strings:"
+msgstr "Vsi nizi"
+
+#: html/mail/footer.txt:4
+#, fuzzy
+msgid "Translated strings:"
+msgstr "Neprevedeni nizi"
+
+#: html/mail/footer.txt:5
+#, fuzzy
+msgid "Fuzzy strings:"
+msgstr "Neurejeni nizi"
+
+#: html/mail/footer.txt:8
+msgid "Sent by Weblate translation system"
+msgstr ""
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -2102,75 +2126,75 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Neurejeno"
 
-#: trans/forms.py:104 trans/forms.py:186
+#: trans/forms.py:117 trans/forms.py:199
 msgid "File"
 msgstr "Datoteka"
 
-#: trans/forms.py:108
+#: trans/forms.py:121
 msgid "Overwrite existing translations"
 msgstr "Prepiši obstoječe prevode"
 
-#: trans/forms.py:114
+#: trans/forms.py:127
 msgid "Author name"
 msgstr "Ime avtorja"
 
-#: trans/forms.py:116 trans/forms.py:121
+#: trans/forms.py:129 trans/forms.py:134
 msgid "Keep empty for using currently logged in user."
 msgstr "Pustite prazno, da uporabite trenutno prijavljenega uporabnika."
 
-#: trans/forms.py:119
+#: trans/forms.py:132
 msgid "Author email"
 msgstr "E-poštni naslov avtorja"
 
-#: trans/forms.py:125
+#: trans/forms.py:138
 msgid "Query"
 msgstr "Poizvedba"
 
-#: trans/forms.py:127
+#: trans/forms.py:140
 msgid "Exact match"
 msgstr "Točno ujemanje"
 
-#: trans/forms.py:132
+#: trans/forms.py:145
 msgid "Search in source strings"
 msgstr "Išči v izvirnih nizih"
 
-#: trans/forms.py:137
+#: trans/forms.py:150
 msgid "Search in target strings"
 msgstr "Išči v ciljnih nizih"
 
-#: trans/forms.py:142
+#: trans/forms.py:155
 msgid "Search in context strings"
 msgstr "Išči v sobesedilnih nizih"
 
-#: trans/forms.py:153
+#: trans/forms.py:166
 msgid "Overwrite strings"
 msgstr "Prepiši nize"
 
-#: trans/forms.py:158
+#: trans/forms.py:171
 msgid "Replace inconsistent"
 msgstr "Zamenjaj neskladne"
 
-#: trans/forms.py:163
+#: trans/forms.py:176
 msgid "Subproject to use"
 msgstr "Uporabi podprojekt"
 
-#: trans/forms.py:179
+#: trans/forms.py:192
 msgid "All subprojects"
 msgstr "Vsi podprojekti"
 
-#: trans/forms.py:188
+#: trans/forms.py:201
 msgid "Overwrite existing"
 msgstr "Prepiši obstoječe"
 
-#: trans/forms.py:193
+#: trans/forms.py:206
 msgid "Starting date"
 msgstr "Začetni datum"
 
-#: trans/forms.py:203
+#: trans/forms.py:216
 msgid "Starting letter"
 msgstr "Začetna črka"
 
-#: trans/forms.py:204
+#: trans/forms.py:217
 msgid "Any"
 msgstr "Katera koli"
 
@@ -2338,30 +2362,30 @@ msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:1277
+#: trans/models.py:1286
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:1282
+#: trans/models.py:1291
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:1284
+#: trans/models.py:1293
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:1286
+#: trans/models.py:1295
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:1470
+#: trans/models.py:1479
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1534
+#: trans/models.py:1543
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2446,63 +2470,63 @@ msgstr "Neprevedeni nizi"
 msgid "Strings with suggestions"
 msgstr "Nizi s predlogi"
 
-#: trans/views.py:690
+#: trans/views.py:705
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views.py:710
+#: trans/views.py:725
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views.py:713 trans/views.py:753
+#: trans/views.py:728 trans/views.py:768
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views.py:729
+#: trans/views.py:744
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views.py:747 trans/views.py:785
+#: trans/views.py:762 trans/views.py:800
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
 
-#: trans/views.py:768
+#: trans/views.py:783
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različna sporočila!"
 
-#: trans/views.py:791
+#: trans/views.py:806
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views.py:802
+#: trans/views.py:817
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views.py:812
+#: trans/views.py:827
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views.py:833
+#: trans/views.py:848
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views.py:890
+#: trans/views.py:905
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views.py:1041
+#: trans/views.py:1057
 msgid "File content successfully merged into translation."
 msgstr "Vsebino datoteke sem uspešno združil s prevodom."
 
-#: trans/views.py:1043
+#: trans/views.py:1059
 msgid "There were no new strings in uploaded file."
 msgstr "V naloženi datoteki ni bilo novih nizov."
 
-#: trans/views.py:1045
+#: trans/views.py:1061
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Združitev vsebine datoteke je spodletelo: %s"
 
-#: trans/views.py:1056
+#: trans/views.py:1072
 msgid "Page Not Found"
 msgstr "Strani ni mogoče najti"
