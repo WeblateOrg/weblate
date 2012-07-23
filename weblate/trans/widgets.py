@@ -40,6 +40,7 @@ WIDGETS = {
             'y': 52,
             'height': 6,
             'width': 180,
+            'horizontal': True,
         },
         'text': [
             {
@@ -88,23 +89,30 @@ WIDGETS = {
         },
         'name': 'weblate-widget-%(widget)s-%(color)s.png',
         'progress': {
-            'x': 23,
-            'y': 20,
-            'height': 6,
-            'width': 30,
+            'x': 82,
+            'y': 0,
+            'height': 31,
+            'width': 6,
+            'horizontal': False,
         },
         'text': [
             {
                 'text': "%(name)s",
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD),
                 'font_size': 10,
-                'pos': (23, 12),
+                'pos': (23, 10),
             },
             {
-                'text': '%(percent)d%%',
+                'text': 'translation',
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
-                'pos': (62, 26),
+                'pos': (23, 19),
+            },
+            {
+                'text': '%(percent)d%% done',
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
+                'font_size': 10,
+                'pos': (23, 28),
             },
 
 
@@ -170,7 +178,11 @@ def render(request, project, widget = '287x66'):
     # Progress bar
     ctx.new_path()
     ctx.set_source_rgb (*widget_data['colors'][color]['bar'])
-    ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'] / 100.0 * percent, widget_data['progress']['height'])
+    if widget_data['progress']['horizontal']:
+        ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'] / 100.0 * percent, widget_data['progress']['height'])
+    else:
+        diff = widget_data['progress']['height'] / 100.0 * (100 - percent)
+        ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'] + diff, widget_data['progress']['width'], widget_data['progress']['height'] - diff)
     ctx.fill()
 
     # Progress border
