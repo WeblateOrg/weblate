@@ -63,6 +63,52 @@ WIDGETS = {
 
 
         ],
+    },
+    '88x31': {
+        'default': 'grey',
+        'colors': {
+            'grey': {
+                'bar': (0, 67.0/255, 118.0/255),
+                'border': (0, 0, 0),
+                'text':  (0, 0, 0),
+                'line': 0.2,
+            },
+            'white': {
+                'bar': (0, 67.0/255, 118.0/255),
+                'border': (0, 0, 0),
+                'text':  (0, 0, 0),
+                'line': 0.2,
+            },
+            'black': {
+                'bar': (0, 67.0/255, 118.0/255),
+                'border': (255, 255, 255),
+                'text':  (255, 255, 255),
+                'line': 0.8,
+            },
+        },
+        'name': 'weblate-widget-%(widget)s-%(color)s.png',
+        'progress': {
+            'x': 23,
+            'y': 20,
+            'height': 6,
+            'width': 30,
+        },
+        'text': [
+            {
+                'text': "%(name)s",
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD),
+                'font_size': 10,
+                'pos': (23, 12),
+            },
+            {
+                'text': '%(percent)d%%',
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
+                'font_size': 10,
+                'pos': (62, 26),
+            },
+
+
+        ],
     }
 }
 
@@ -111,7 +157,10 @@ def render(request, project, widget = '287x66'):
 
     # Background 287 x 66, logo 64 px
     surface = cairo.ImageSurface.create_from_png(
-        os.path.join(settings.WEB_ROOT, 'media', widget_data['name'] % {'color': color})
+        os.path.join(settings.WEB_ROOT, 'media', widget_data['name'] % {
+            'color': color,
+            'widget': widget,
+        })
     )
     ctx = cairo.Context(surface)
 
