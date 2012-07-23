@@ -1640,6 +1640,10 @@ class Suggestion(models.Model):
             unit.save_backend(request, False)
 
     def get_matching_unit(self):
+        '''
+        Retrieves one (possibly out of several) unit matching
+        this suggestion.
+        '''
         return Unit.objects.filter(
             checksum = self.checksum,
             translation__subproject__project = self.project,
@@ -1647,9 +1651,15 @@ class Suggestion(models.Model):
         )[0]
 
     def get_source(self):
+        '''
+        Returns source strings matching this suggestion.
+        '''
         return self.get_matching_unit().source
 
     def get_review_url(self):
+        '''
+        Returns URL which can be used for review.
+        '''
         return self.get_matching_unit().get_absolute_url()
         
 
