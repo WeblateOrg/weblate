@@ -146,8 +146,8 @@ def widgets(request, project):
         'object': obj,
     }))
 
-#@cache_page(3600)
-def render(request, project, widget = '287x66'):
+@cache_page(3600)
+def render(request, project, widget = '287x66', color = None):
     obj = get_object_or_404(Project, slug = project)
     percent = obj.get_translated_percent()
 
@@ -158,7 +158,6 @@ def render(request, project, widget = '287x66'):
         raise Http404()
 
     # Get widget color
-    color = request.GET.get('color', widget_data['default'])
     if color not in widget_data['colors']:
         color = widget_data['default']
 
