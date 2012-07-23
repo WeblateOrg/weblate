@@ -24,17 +24,17 @@ class ProfileManager(models.Manager):
     '''
     Manager providing shortcuts for subscription queries.
     '''
-    def subscribed_any_translation(self, project):
-        return self.filter(subscribe_any_translation = True, subscriptions = project)
+    def subscribed_any_translation(self, project, language):
+        return self.filter(subscribe_any_translation = True, subscriptions = project, languages = language)
 
-    def subscribed_new_string(self, project):
-        return self.filter(subscribe_new_string = True, subscriptions = project)
+    def subscribed_new_string(self, project, language):
+        return self.filter(subscribe_new_string = True, subscriptions = project, languages = language)
 
-    def subscribed_new_suggestion(self, project):
-        return self.filter(subscribe_new_suggestion = True, subscriptions = project)
+    def subscribed_new_suggestion(self, project, language):
+        return self.filter(subscribe_new_suggestion = True, subscriptions = project, languages = language)
 
-    def subscribed_new_contributor(self, project):
-        return self.filter(subscribe_new_contributor = True, subscriptions = project)
+    def subscribed_new_contributor(self, project, language):
+        return self.filter(subscribe_new_contributor = True, subscriptions = project, languages = language)
 
 class Profile(models.Model):
     '''
