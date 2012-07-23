@@ -123,7 +123,7 @@ class UnitManager(models.Manager):
             force = True
 
         dbunit.update_from_unit(unit, pos, force)
-        return dbunit
+        return dbunit, force
 
     def filter_type(self, rqtype):
         '''

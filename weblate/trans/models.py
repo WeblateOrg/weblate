@@ -1004,13 +1004,15 @@ class Translation(models.Model):
 
         # Load po file
         store = self.get_store()
+        was_new = False
         for pos, unit in enumerate(store.units):
             # We care only about translatable strings
             # For some reason, blank string does not mean non translatable
             # unit in some formats (XLIFF), so let's skip those as well
             if not unit.istranslatable() or unit.isblank():
                 continue
-            newunit = Unit.objects.update_from_unit(self, unit, pos)
+            newunit, is_new = Unit.objects.update_from_unit(self, unit, pos)
+            was_new = was_new or is_new
             try:
                 oldunits.remove(newunit.id)
             except:
@@ -1020,6 +1022,13 @@ class Translation(models.Model):
         units_to_delete = Unit.objects.filter(translation = self, id__in = oldunits)
         deleted_checksums = units_to_delete.values_list('checksum', flat = True)
         units_to_delete.delete()
+
+        # Notify subscribed users
+        if was_new:
+            from weblate.accounts.models import Profile
+            subscriptions = Profile.objects.subscribed_new_string(self.subproject.project, self.language)
+            for subscription in subscriptions:
+                subscription.notify_new_string(self)
 
         # Cleanup checks for deleted units
         for checksum in deleted_checksums:
