@@ -20,6 +20,10 @@ from weblate.lang.models import Language
 from weblate.trans.models import Project
 import weblate
 
+import logging
+
+logger = logging.getLogger('weblate')
+
 class ProfileManager(models.Manager):
     '''
     Manager providing shortcuts for subscription queries.
@@ -93,6 +97,8 @@ class Profile(models.Model):
         '''
         cur_language = translation.get_language()
         try:
+            logger.info('sending notification %s on %s to %s', notification, translation_obj.__unicode__(), self.user.email)
+
             # Load user languagesubject_fmt,
             translation.activate(self.language)
 
