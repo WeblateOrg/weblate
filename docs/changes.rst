@@ -18,6 +18,8 @@ Relased on ? 2012.
 * Configuration of git commits per project.
 * Simple antispam protection.
 * Better layout of main page.
+* Support for automatically pushing changes on every commit.
+* Support for email notifications of translators.
 
 weblate 1.1
 -----------
