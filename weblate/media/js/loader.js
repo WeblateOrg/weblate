@@ -129,6 +129,9 @@ function load_table_sorting() {
             if (th.text() == '') {
                 return;
             }
+            if (th.find('span.ui-icon').length > 0) {
+                return;
+            }
             // Second column contains percent with colspan
             if (thIndex >= 1 && !table.hasClass('simple')) {
                 thIndex += 1;
