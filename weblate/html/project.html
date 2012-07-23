@@ -59,7 +59,7 @@
 </div>
 
 <div id="promote">
-{% url 'weblate.trans.api.widgets' project=object.slug as widgets_url %}
+{% url 'weblate.trans.widgets.widgets' project=object.slug as widgets_url %}
 {% blocktrans %}Promote your translation project using <a href="{{ widgets_url }}">widgets</a>.{% endblocktrans %}
 </div>
 

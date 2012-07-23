@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'weblate.trans.api.widgets' project=object.slug %}">{% trans "widgets" %}</a></li>
+<li><a href="{% url 'weblate.trans.widgets.widgets' project=object.slug %}">{% trans "widgets" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -22,19 +22,26 @@
 <h3>{% trans "Image widgets" %}</h3>
 
 {% for widget in widget_list %}
-<h4>{% blocktrans %}Image {{ widget }}{% endblocktrans %}</h4>
+<h4>{% blocktrans with widget.name as widget %}Image {{ widget }}{% endblocktrans %}</h4>
 
-<p>{% trans "Example:" %}</p>
+<p>{% trans "Color variants:" %}</p>
 
-<p><a href="{{ engage_url }}"><img src="{{ widget_base_url }}{{ widget }}/" /></a></p>
+<p>
+{% for color in widget.colors %}
+<a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /></a>
+{% endfor %}
+</p>
 
 <p>{% trans "Code:" %}</p>
 
+{% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
-&lt;a href="{{ engage_url }}"&gt;
-&lt;img src="{{ widget_base_url }}{{ widget }}/" /&gt;
+&lt;a href="{{ engage_url_track }}"&gt;
+&lt;img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /&gt;
 &lt;/a&gt;
 </pre>
+{% endfor %}
+
 
 {% endfor %}
 

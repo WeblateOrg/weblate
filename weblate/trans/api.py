@@ -1,19 +1,14 @@
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
-from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
-from django.views.decorators.cache import cache_page
 
 from weblate.trans.models import Project, SubProject
 
 import json
 import logging
 import threading
-import cairo
-import os.path
 
 logger = logging.getLogger('weblate')
 
@@ -98,86 +93,3 @@ def export_stats(request, project, subproject):
         json.dumps(response, default = dt_handler),
         mimetype = 'application/json'
     )
-
-def widgets(request, project):
-    obj = get_object_or_404(Project, slug = project)
-    site = Site.objects.get_current()
-    engage_url = 'http://%s%s?utm_source=widget' % (
-        site.domain,
-        reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
-    )
-    widget_base_url = 'http://%s%s' % (
-        site.domain,
-        reverse('weblate.trans.api.widgets', kwargs = {'project': obj.slug}),
-    )
-
-    widget_list = [
-        '287x66',
-    ]
-
-    return render_to_response('widgets.html', RequestContext(request, {
-        'engage_url': engage_url,
-        'widget_list': widget_list,
-        'widget_base_url': widget_base_url,
-        'object': obj,
-    }))
-
-@cache_page(3600)
-def widget_287(request, project):
-    obj = get_object_or_404(Project, slug = project)
-    percent = obj.get_translated_percent()
-
-    response = HttpResponse(mimetype='image/png')
-
-    # Background 287 x 66, logo 64 px
-    surface = cairo.ImageSurface.create_from_png(
-        os.path.join(settings.WEB_ROOT, 'media', 'weblate-widget.png')
-    )
-    ctx = cairo.Context(surface)
-
-    # Setup
-    ctx.set_line_width(0.2)
-
-    # Progressbar params
-    p_x = 72
-    p_y = 52
-    p_height = 6
-    p_width = 180
-
-    # Progress bar
-    ctx.new_path()
-    ctx.set_source_rgb (0, 67.0/255, 118.0/255)
-    ctx.rectangle(p_x, p_y, p_width / 100.0 * percent, p_height)
-    ctx.fill()
-
-    # Progress border
-    ctx.new_path()
-    ctx.set_source_rgb (0, 0, 0)
-    ctx.rectangle(p_x, p_y, p_width, p_height)
-    ctx.stroke()
-
-    # Text
-    ctx.set_source_rgb (0, 0, 0)
-    ctx.new_path()
-    ctx.move_to(p_x, 19)
-    ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
-    ctx.set_font_size(14)
-    ctx.text_path(obj.name)
-    ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-    ctx.set_font_size(10)
-    ctx.move_to(p_x, 32)
-    ctx.text_path("translating %(count)d strings into %(languages)d languages" % {
-        'count': obj.get_total(),
-        'languages': obj.get_language_count(),
-        'percent': percent,
-    })
-    ctx.move_to(p_x, 44)
-    ctx.text_path('%(percent)d%% complete, help us improve!' % {
-        'count': obj.get_total(),
-        'languages': obj.get_language_count(),
-        'percent': percent,
-    })
-    ctx.fill()
-
-    surface.write_to_png(response)
-    return response
