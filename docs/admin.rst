@@ -147,6 +147,11 @@ I case you will use SSH for pushing, you need to have key without passphrase
 (or use ssh-agent for Django) and the remote server needs to be verified by you
 first, otherwise push will fail.
 
+.. note::
+
+   You can also enable automatic pushing changes on commit, this can be done in
+   project configuration.
+
 Interacting with others
 -----------------------
 
