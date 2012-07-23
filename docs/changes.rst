@@ -16,6 +16,8 @@ Relased on ? 2012.
 * Possibility to disable some translations.
 * Configurable options for adding new translations.
 * Configuration of git commits per project.
+* Simple antispam protection.
+* Better layout of main page.
 
 weblate 1.1
 -----------
