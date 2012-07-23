@@ -137,13 +137,13 @@ class Profile(models.Model):
         finally:
             translation.activate(cur_language)
 
-    def notify_any_translation(self, translation, unit):
+    def notify_any_translation(self, unit):
         '''
         Sends notification on translation.
         '''
         self.notify_user(
             'any_translation',
-            translation,
+            unit.translation,
             {
                 'unit': unit,
             }
