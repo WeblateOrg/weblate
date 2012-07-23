@@ -107,8 +107,10 @@ class Profile(models.Model):
             body_template = 'mail/%s.txt' % notification
 
             # Adjust context
+            domain = Site.objects.get_current().domain
             context['translation'] = translation_obj
-            context['current_site'] = Site.objects.get_current()
+            context['current_site'] = domain
+            context['translation_url'] = 'http://%s%s' % (domain, translation_obj.get_absolute_url())
 
             # Render subject
             subject = render_to_string(subject_template, context)
