@@ -36,6 +36,9 @@ class ProfileManager(models.Manager):
         return self.filter(subscribe_new_contributor = True, subscriptions = project)
 
 class Profile(models.Model):
+    '''
+    User profiles storage.
+    '''
     user = models.ForeignKey(User, unique = True, editable = False)
     language = models.CharField(
         verbose_name = _(u"Interface Language"),
