@@ -44,6 +44,7 @@
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'weblate.trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
+<li><a href="#promote">{% trans "Promote" %}</a></li>
 </ul>
 
 <div id="search">
@@ -105,6 +106,11 @@
 </form>
 </div>
 {% endif %}
+
+<div id="promote">
+{% url 'weblate.trans.api.widgets' project=object.subproject.project.slug as widgets_url %}
+{% blocktrans %}Promote your translation project using <a href="{{ widgets_url }}">widgets</a>.{% endblocktrans %}
+</div>
 
 </div>
 
