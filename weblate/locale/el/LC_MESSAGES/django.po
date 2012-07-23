@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 13:08+0200\n"
+"POT-Creation-Date: 2012-07-23 13:33+0200\n"
 "PO-Revision-Date: 2012-04-11 09:07+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2227,32 +2227,36 @@ msgid ""
 "shortcut, subproject or project names."
 msgstr ""
 
-#: trans/models.py:126
+#: trans/models.py:123
+msgid "Whether the repository should be pushed upstream on every commit."
+msgstr ""
+
+#: trans/models.py:131
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:280
+#: trans/models.py:285
 msgid "Name to display"
 msgstr "Όνομα για εμφάνιση"
 
-#: trans/models.py:281
+#: trans/models.py:286
 msgid "Name used in URLs"
 msgstr "Όνομα για χρήση σε URLs"
 
-#: trans/models.py:285
+#: trans/models.py:290
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
 
-#: trans/models.py:290
+#: trans/models.py:295
 #, fuzzy
 msgid "URL of push Git repository"
 msgstr "URL του αποθετηρίου Git"
 
-#: trans/models.py:294
+#: trans/models.py:299
 #, fuzzy, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2261,122 +2265,122 @@ msgstr ""
 "Σύνδεσμος για φυλλομετρητή αποθετηρίου, χρησιμοποιήστε τα %(file)s και "
 "%(line)s ως όνομα αρχείου και γραμμή"
 
-#: trans/models.py:300
+#: trans/models.py:305
 msgid "Git branch to translate"
 msgstr "Κλάδος Git για μετάφραση"
 
-#: trans/models.py:305
+#: trans/models.py:310
 #, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr "Μάσκα αρχείων για μετάφραση, χρήση * αντί για κωδικό γλώσσας"
 
-#: trans/models.py:310
+#: trans/models.py:315
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:314
+#: trans/models.py:319
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:474
+#: trans/models.py:479
 #, fuzzy, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "URL του αποθετηρίου Git"
 
-#: trans/models.py:554
+#: trans/models.py:559
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:582
+#: trans/models.py:588
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:608
+#: trans/models.py:614
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "URL του αποθετηρίου Git"
 
-#: trans/models.py:664
+#: trans/models.py:670
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:736
+#: trans/models.py:742
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:741
+#: trans/models.py:747
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:756
+#: trans/models.py:762
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:761
+#: trans/models.py:767
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:771
+#: trans/models.py:777
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:773
+#: trans/models.py:779
 #, fuzzy
 msgid "Failed to parse translation template."
 msgstr "Αποτυχημένη μετάφραση"
 
-#: trans/models.py:862
+#: trans/models.py:868
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:866
+#: trans/models.py:872
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:868
+#: trans/models.py:874
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1286
+#: trans/models.py:1303
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:1291
+#: trans/models.py:1308
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:1293
+#: trans/models.py:1310
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:1295
+#: trans/models.py:1312
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:1491
+#: trans/models.py:1508
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1575
+#: trans/models.py:1592
 #, python-format
 msgid "unit ID %s"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 13:08+0200\n"
+"POT-Creation-Date: 2012-07-23 13:32+0200\n"
 "PO-Revision-Date: 2012-07-18 16:20+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2238,7 +2238,11 @@ msgstr ""
 "Puede utilizar %(language)s, %(subproject)s o %(project)s para atajos de "
 "idioma, nombres de subproyecto o nombres de proyecto."
 
-#: trans/models.py:126
+#: trans/models.py:123
+msgid "Whether the repository should be pushed upstream on every commit."
+msgstr ""
+
+#: trans/models.py:131
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -2246,15 +2250,15 @@ msgstr ""
 "Complete la URL de instrucciones o utilice una opción diferente para agregar "
 "un idioma."
 
-#: trans/models.py:280
+#: trans/models.py:285
 msgid "Name to display"
 msgstr "Nombre a mostrar"
 
-#: trans/models.py:281
+#: trans/models.py:286
 msgid "Name used in URLs"
 msgstr "Nombre a utilizar en URLs"
 
-#: trans/models.py:285
+#: trans/models.py:290
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2262,11 +2266,11 @@ msgstr ""
 "URL del repositorio Git, utilice weblate://proyecto/subproyecto para "
 "compartirlo con otro subproyecto"
 
-#: trans/models.py:290
+#: trans/models.py:295
 msgid "URL of push Git repository"
 msgstr "URL de repositorio GIT remoto"
 
-#: trans/models.py:294
+#: trans/models.py:299
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2275,11 +2279,11 @@ msgstr ""
 "Enlace al navegador del repositorio, utilice %(branch)s, %(file)s y %(line)s "
 "como reemplazos para nombres de rama, nombres de archivo y números de línea"
 
-#: trans/models.py:300
+#: trans/models.py:305
 msgid "Git branch to translate"
 msgstr "Rama Git a traducir"
 
-#: trans/models.py:305
+#: trans/models.py:310
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2287,7 +2291,7 @@ msgstr ""
 "Ruta de los archivos a traducir, utilice * en lugar del código de idioma; "
 "por ejemplo: «po/*.po» o «locale/*/LC_MESSAGES/django.po»"
 
-#: trans/models.py:310
+#: trans/models.py:315
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2296,40 +2300,40 @@ msgstr ""
 "utilizarlos para traducciones que sólo guardan las cadenas traducidas como "
 "las cadenas de recursos Android"
 
-#: trans/models.py:314
+#: trans/models.py:319
 msgid "Whether subproject is locked for translation updates"
 msgstr "Si el subproyecto está bloqueado para actualizaciones de traducción"
 
-#: trans/models.py:474
+#: trans/models.py:479
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "No se pudieron importar los cambios del repositorio git: %s"
 
-#: trans/models.py:554
+#: trans/models.py:559
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "«Push» desactivado para %s."
 
-#: trans/models.py:582
+#: trans/models.py:588
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 
-#: trans/models.py:608
+#: trans/models.py:614
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "No se pudieron deshacer los cambios a la rama remota en %s."
 
-#: trans/models.py:664
+#: trans/models.py:670
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: trans/models.py:736
+#: trans/models.py:742
 msgid "The mask did not match any files!"
 msgstr "¡No se encontraron archivos en la ruta provista!"
 
-#: trans/models.py:741
+#: trans/models.py:747
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2337,25 +2341,25 @@ msgstr ""
 "Existen más archivos por idioma individual, ajuste la ruta y utilice "
 "subproyectos para traducir diferentes recursos."
 
-#: trans/models.py:756
+#: trans/models.py:762
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "No se reconoció el formato de %d archivos encontrados."
 
-#: trans/models.py:761
+#: trans/models.py:767
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "¡No se pudieron procesar %d archivos encontrados!"
 
-#: trans/models.py:771
+#: trans/models.py:777
 msgid "Format of translation template could not be recognized."
 msgstr "No se reconoció el formato de la plantilla de traducción."
 
-#: trans/models.py:773
+#: trans/models.py:779
 msgid "Failed to parse translation template."
 msgstr "No se pudo procesar la plantilla de traducción."
 
-#: trans/models.py:862
+#: trans/models.py:868
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2364,42 +2368,42 @@ msgstr ""
 "¡No se encontró el archivo %s en el repositorio! Para agregar una nueva "
 "traducción, agregue el archivo de idioma en el repositorio."
 
-#: trans/models.py:866
+#: trans/models.py:872
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "No se reconoció el formato de %s."
 
-#: trans/models.py:868
+#: trans/models.py:874
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "No se pudo procesar el archivo %(file)s: %(error)s"
 
-#: trans/models.py:1286
+#: trans/models.py:1303
 msgid "All strings"
 msgstr "Todas las cadenas"
 
-#: trans/models.py:1291
+#: trans/models.py:1308
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Cadenas sin traducir (%d)"
 
-#: trans/models.py:1293
+#: trans/models.py:1310
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadenas parciales (%d)"
 
-#: trans/models.py:1295
+#: trans/models.py:1312
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
-#: trans/models.py:1491
+#: trans/models.py:1508
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "No se encontró el mensaje almacenado en la base de datos, probablemente esté "
 "corrupto."
 
-#: trans/models.py:1575
+#: trans/models.py:1592
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidad %s"
