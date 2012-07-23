@@ -1478,6 +1478,9 @@ class Unit(models.Model):
             logger.error('message %s disappeared!', self)
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
 
+        if not saved:
+            return
+
         # Update translated flag
         self.translated = pounit.istranslated()
 
@@ -1493,6 +1496,15 @@ class Unit(models.Model):
         # Update translation stats
         old_translated = self.translation.translated
         self.translation.update_stats()
+
+        # Notify subscribed users about new translation
+        from weblate.accounts.models import Profile
+        subscriptions = Profile.objects.subscribed_any_translation(
+            self.translation.subproject.project, 
+            self.translation.language
+        )
+        for subscription in subscriptions:
+            subscription.notify_any_translation(self)
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
@@ -1638,14 +1650,6 @@ class Suggestion(models.Model):
             unit.target = self.target
             unit.fuzzy = False
             unit.save_backend(request, False)
-            # Notify subscribed users
-            from weblate.accounts.models import Profile
-            subscriptions = Profile.objects.subscribed_any_translation(
-                unit.translation.subproject.project, 
-                unit.translation.language
-            )
-            for subscription in subscriptions:
-                subscription.notify_any_translation(unit)
 
     def get_matching_unit(self):
         '''

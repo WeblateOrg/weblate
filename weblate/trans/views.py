@@ -739,11 +739,6 @@ def translate(request, project, subproject, lang):
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
                     unit.save_backend(request)
-                    # Notify subscribed users
-                    from weblate.accounts.models import Profile
-                    subscriptions = Profile.objects.subscribed_any_translation(obj.subproject.project, obj.language)
-                    for subscription in subscriptions:
-                        subscription.notify_any_translation(unit)
 
                     # Update stats
                     profile.translated += 1
