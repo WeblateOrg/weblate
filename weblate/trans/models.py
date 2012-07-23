@@ -1639,12 +1639,19 @@ class Suggestion(models.Model):
             unit.fuzzy = False
             unit.save_backend(request, False)
 
-    def get_source(self):
-        Unit.objects.filter(
+    def get_matching_unit(self):
+        return Unit.objects.filter(
             checksum = self.checksum,
             translation__subproject__project = self.project,
             translation__language = self.language,
-        )[0].source
+        )[0]
+
+    def get_source(self):
+        return self.get_matching_unit().source
+
+    def get_review_url(self):
+        return self.get_matching_unit().get_absolute_url()
+        
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 

@@ -710,12 +710,18 @@ def translate(request, project, subproject, lang):
                             pos,
                             search_url
                         ))
-                    Suggestion.objects.create(
+                    # Create the suggestion
+                    sug = Suggestion.objects.create(
                         target = join_plural(form.cleaned_data['target']),
                         checksum = unit.checksum,
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
                         user = user)
+                    # Notify subscribed users
+                    from weblate.accounts.models import Profile
+                    subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language)
+                    for subscription in subscriptions:
+                        subscription.notify_new_suggestion(obj, sug)
                     # Update suggestion stats
                     if profile is not None:
                         profile.suggested += 1

@@ -5,10 +5,14 @@ there is new suggestion evaluate on {{ translation }} at {{ site_title }}.
 
 {% trans "Source string:" %}
 
-{{ suggestion.source }}
+{{ suggestion.get_source }}
 
 {% trans "Translation:" %}
 
-{{ suggestion.get_target }}
+{{ suggestion.target }}
+
+{% trans "You can review it at:" %}
+
+http://{{ current_site }}{{ suggestion.get_review_url }}
 
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}
