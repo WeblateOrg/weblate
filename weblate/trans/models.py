@@ -1470,6 +1470,8 @@ class Unit(models.Model):
         '''
         Stores unit to backend.
         '''
+        from weblate.accounts.models import Profile
+
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
 
@@ -1498,7 +1500,6 @@ class Unit(models.Model):
         self.translation.update_stats()
 
         # Notify subscribed users about new translation
-        from weblate.accounts.models import Profile
         subscriptions = Profile.objects.subscribed_any_translation(
             self.translation.subproject.project, 
             self.translation.language
@@ -1512,6 +1513,18 @@ class Unit(models.Model):
 
         # Generate Change object for this change
         if gen_change:
+            # Get list of subscribers for new contributor
+            subscriptions = Profile.objects.subscribed_new_contributor(
+                self.translation.subproject.project, 
+                self.translation.language
+            )
+            if subscriptions.exists():
+                # Is this new contributor?
+                if not Change.objects.filter(unit__translation = self.translation, user = request.user).exists():
+                    # Notify subscribers
+                    for subscription in subscriptions:
+                        subscription.notify_new_contributor(self.translation, request.user)
+            # Create change object
             Change.objects.create(unit = self, user = request.user)
 
         # Propagate to other projects
