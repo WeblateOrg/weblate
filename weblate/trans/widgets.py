@@ -19,16 +19,19 @@ WIDGETS = {
                 'bar': (0, 67.0/255, 118.0/255),
                 'border': (0, 0, 0),
                 'text':  (0, 0, 0),
+                'line': 0.2,
             },
             'white': {
                 'bar': (0, 67.0/255, 118.0/255),
                 'border': (0, 0, 0),
                 'text':  (0, 0, 0),
+                'line': 0.2,
             },
             'black': {
                 'bar': (0, 67.0/255, 118.0/255),
                 'border': (255, 255, 255),
                 'text':  (255, 255, 255),
+                'line': 0.8,
             },
         },
         'name': 'weblate-widget-%(color)s.png',
@@ -113,7 +116,7 @@ def render(request, project, widget = '287x66'):
     ctx = cairo.Context(surface)
 
     # Setup
-    ctx.set_line_width(0.2)
+    ctx.set_line_width(widget_data['colors'][color]['line'])
 
     # Progress bar
     ctx.new_path()
