@@ -1466,6 +1466,16 @@ class Unit(models.Model):
 
         return ret
 
+    def propagate(self):
+        '''
+        Propagates current translation to all others.
+        '''
+        allunits = Unit.objects.same(self).exclude(id = self.id)
+        for unit in allunits:
+            unit.target = self.target
+            unit.fuzzy = self.fuzzy
+            unit.save_backend(request, False)
+
     def save_backend(self, request, propagate = True, gen_change = True):
         '''
         Stores unit to backend.
@@ -1529,11 +1539,7 @@ class Unit(models.Model):
 
         # Propagate to other projects
         if propagate:
-            allunits = Unit.objects.same(self).exclude(id = self.id)
-            for unit in allunits:
-                unit.target = self.target
-                unit.fuzzy = self.fuzzy
-                unit.save_backend(request, False)
+            self.propagate()
 
     def save(self, *args, **kwargs):
         '''
