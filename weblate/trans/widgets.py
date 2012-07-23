@@ -151,6 +151,7 @@ def render(request, project, widget = '287x66'):
     obj = get_object_or_404(Project, slug = project)
     percent = obj.get_translated_percent()
 
+    # Get widget data
     try:
         widget_data = WIDGETS[widget]
     except KeyError:
@@ -161,6 +162,7 @@ def render(request, project, widget = '287x66'):
     if color not in widget_data['colors']:
         color = widget_data['default']
 
+    # Prepare response object
     response = HttpResponse(mimetype='image/png')
 
     # Background 287 x 66, logo 64 px
@@ -207,5 +209,7 @@ def render(request, project, widget = '287x66'):
         })
     ctx.fill()
 
+    # Render PNG
     surface.write_to_png(response)
+
     return response
