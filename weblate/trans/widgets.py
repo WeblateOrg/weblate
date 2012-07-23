@@ -75,9 +75,7 @@ def widgets(request, project):
         reverse('weblate.trans.widgets.widgets', kwargs = {'project': obj.slug}),
     )
 
-    widget_list = [
-        '287x66',
-    ]
+    widget_list = [{'name': w, 'colors': list(WIDGETS[w]['colors'])} for w in WIDGETS]
 
     return render_to_response('widgets.html', RequestContext(request, {
         'engage_url': engage_url,
