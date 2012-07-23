@@ -10,17 +10,27 @@
 </p>
 {% endif %}
 
-{% if usertranslations %}
-<h2>{% trans "Your translations" %}</h2>
+<h2>{% trans "Translations" %}</h2>
 
+<div class="tabs" id="index-tabs">
+<ul>
+{% if usertranslations %}
+<li><a href="#your">{% trans "Your translations" %}</a></li>
+{% endif %}
+<li><a href="#projects">{% trans "Projects" %}</a></li>
+<li><a href="/languages/">{% trans "Languages" %}</a></li>
+<li><a href="/checks/">{% trans "Checks" %}</a></li>
+</ul>
+
+{% if usertranslations %}
+<div id="your">
 {% with usertranslations as translations %}
 {% include "list-translations.html" %}
 {% endwith %}
-
+</div>
 {% endif %}
 
-<h2>{% trans "Projects" %}</h2>
-
+<div id="projects">
 <table class="sort">
 <thead>
 <tr>
@@ -39,6 +49,7 @@
 {% endfor %}
 </tbody>
 </table>
+</div>
 
 <h2>{% trans "Summaries" %}</h2>
 

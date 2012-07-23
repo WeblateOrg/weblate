@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load url from future %}
+{% if not request.is_ajax %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
@@ -67,8 +68,12 @@
 {% endfor %}
 {% endif %}
 
+{% endif %}
+
 {% block content %}
 {% endblock %}
+
+{% if not request.is_ajax %}
 </div>
  <ul class="footer">
   <li>{% blocktrans %}Powered by <a href="http://weblate.org">Weblate {{ version }}</a>{% endblocktrans %}</li>
@@ -78,5 +83,4 @@
  </ul>
  </body>
 </html>
-
-
+{% endif %}
