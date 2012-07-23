@@ -100,6 +100,19 @@ class TranslationForm(forms.Form):
     target = PluralField(required = False)
     fuzzy = forms.BooleanField(label = pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'), required = False)
 
+class AntispamForm(forms.Form):
+    '''
+    Honeypot based spam protection form.
+    '''
+    content = forms.CharField()
+
+    def clean(self):
+        '''
+        Check if content is empty.
+        '''
+        if self.cleaned_data['content'] != '':
+            raise ValidationError('Invalid value')
+
 class SimpleUploadForm(forms.Form):
     file  = forms.FileField(label = _('File'))
 

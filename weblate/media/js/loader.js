@@ -283,4 +283,5 @@ $(function() {
     $("form.autosubmit select").change(function() {
         $("form.autosubmit").submit();
     });
+    $('div#s_content').hide();
 });

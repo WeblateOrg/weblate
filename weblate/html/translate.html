@@ -30,6 +30,7 @@
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">
 {% csrf_token %}
+{% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
 <input type="hidden" name="type" value="{{ type }}" />
 <input type="hidden" name="pos" value="{{ unit.position }}" />
 <input type="hidden" name="q" value="{{ search_query }}" />

@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
-from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm
+from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile
 
@@ -660,8 +660,10 @@ def translate(request, project, subproject, lang):
 
     if request.user.is_authenticated():
         profile = request.user.get_profile()
+        antispam = None
     else:
         profile = None
+        antispam = AntispamForm()
 
     secondary = None
     unit = None
@@ -670,6 +672,19 @@ def translate(request, project, subproject, lang):
 
     # Any form submitted?
     if request.method == 'POST':
+
+        # Antispam protection
+        if not request.user.is_authenticated():
+            antispam = AntispamForm(request.POST)
+            if not antispam.is_valid():
+                # Silently redirect to next entry
+                return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
+                    obj.get_translate_url(),
+                    rqtype,
+                    pos,
+                    search_url
+                ))
+
         form = TranslationForm(request.POST)
         if form.is_valid() and not obj.subproject.locked:
             # Check whether translation is not outdated
@@ -929,6 +944,7 @@ def translate(request, project, subproject, lang):
         'filter_count': filter_count,
         'filter_pos': filter_count + 1 - units.count(),
         'form': form,
+        'antispam': antispam,
         'target_language': obj.language.code,
         'secondary': secondary,
         'search_query': search_query,
