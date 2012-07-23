@@ -122,61 +122,107 @@ def widgets(request, project):
         'object': obj,
     }))
 
-@cache_page(3600)
-def widget_287(request, project):
+WIDGETS = {
+    '287': {
+        'default': 'grey',
+        'colors': {
+            'grey': {
+                'bar': (0, 67.0/255, 118.0/255),
+                'border': (0, 0, 0),
+                'text':  (0, 0, 0),
+            },
+            'white': {
+                'bar': (0, 67.0/255, 118.0/255),
+                'border': (0, 0, 0),
+                'text':  (0, 0, 0),
+            },
+            'black': {
+                'bar': (0, 67.0/255, 118.0/255),
+                'border': (255, 255, 255),
+                'text':  (255, 255, 255),
+            },
+        },
+        'name': 'weblate-widget-%(color)s.png',
+        'progress': {
+            'x': 72,
+            'y': 52,
+            'height': 6,
+            'width': 180,
+        },
+        'text': [
+            {
+                'text': "%(name)s",
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
+                'font_size': 14,
+                'pos': (72, 19),
+            },
+            {
+                'text': "translating %(count)d strings into %(languages)d languages",
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
+                'font_size': 10,
+                'pos': (72, 32),
+            },
+            {
+                'text': '%(percent)d%% complete, help us improve!',
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
+                'font_size': 10,
+                'pos': (72, 44),
+            },
+
+
+        ],
+    }
+}
+
+#@cache_page(3600)
+def widget_287(request, project, widget = '287'):
     obj = get_object_or_404(Project, slug = project)
     percent = obj.get_translated_percent()
+
+    widget_data = WIDGETS[widget]
+
+    # Get widget color
+    color = request.GET.get('color', widget_data['default'])
+    if color not in widget_data['colors']:
+        color = widget_data['default']
 
     response = HttpResponse(mimetype='image/png')
 
     # Background 287 x 66, logo 64 px
     surface = cairo.ImageSurface.create_from_png(
-        os.path.join(settings.WEB_ROOT, 'media', 'weblate-widget.png')
+        os.path.join(settings.WEB_ROOT, 'media', widget_data['name'] % {'color': color})
     )
     ctx = cairo.Context(surface)
 
     # Setup
     ctx.set_line_width(0.2)
 
-    # Progressbar params
-    p_x = 72
-    p_y = 52
-    p_height = 6
-    p_width = 180
-
     # Progress bar
     ctx.new_path()
-    ctx.set_source_rgb (0, 67.0/255, 118.0/255)
-    ctx.rectangle(p_x, p_y, p_width / 100.0 * percent, p_height)
+    ctx.set_source_rgb (*widget_data['colors'][color]['bar'])
+    ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'] / 100.0 * percent, widget_data['progress']['height'])
     ctx.fill()
 
     # Progress border
     ctx.new_path()
-    ctx.set_source_rgb (0, 0, 0)
-    ctx.rectangle(p_x, p_y, p_width, p_height)
+    ctx.set_source_rgb (*widget_data['colors'][color]['border'])
+    ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'], widget_data['progress']['height'])
     ctx.stroke()
 
     # Text
-    ctx.set_source_rgb (0, 0, 0)
+    ctx.set_source_rgb (*widget_data['colors'][color]['text'])
     ctx.new_path()
-    ctx.move_to(p_x, 19)
-    ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
-    ctx.set_font_size(14)
-    ctx.text_path(obj.name)
-    ctx.select_font_face("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-    ctx.set_font_size(10)
-    ctx.move_to(p_x, 32)
-    ctx.text_path("translating %(count)d strings into %(languages)d languages" % {
-        'count': obj.get_total(),
-        'languages': obj.get_language_count(),
-        'percent': percent,
-    })
-    ctx.move_to(p_x, 44)
-    ctx.text_path('%(percent)d%% complete, help us improve!' % {
-        'count': obj.get_total(),
-        'languages': obj.get_language_count(),
-        'percent': percent,
-    })
+
+    for line in widget_data['text']:
+        ctx.move_to(*line['pos'])
+        ctx.select_font_face(*line['font'])
+        ctx.set_font_size(line['font_size'])
+        ctx.text_path(line['text'] % {
+            'name': obj.name,
+            'count': obj.get_total(),
+            'languages': obj.get_language_count(),
+            'percent': percent,
+        })
     ctx.fill()
 
     surface.write_to_png(response)
