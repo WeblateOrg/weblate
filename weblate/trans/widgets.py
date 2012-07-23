@@ -41,7 +41,7 @@ WIDGETS = {
         'text': [
             {
                 'text': "%(name)s",
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
+                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD),
                 'font_size': 14,
                 'pos': (72, 19),
             },
