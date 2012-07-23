@@ -1,19 +1,14 @@
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
-from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
-from django.views.decorators.cache import cache_page
 
 from weblate.trans.models import Project, SubProject
 
 import json
 import logging
 import threading
-import cairo
-import os.path
 
 logger = logging.getLogger('weblate')
 
