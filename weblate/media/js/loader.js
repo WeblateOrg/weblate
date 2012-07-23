@@ -115,39 +115,7 @@ function cell_cmp(a, b) {
     return -1;
 }
 
-$(function() {
-    $('.button').button();
-    $('ul.menu li a').button();
-    $('ul.breadcrumbs').buttonset();
-    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
-    $('.errorlist').addClass('ui-state-error ui-corner-all');
-    $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
-    $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
-    $('.navi').buttonset();
-    $('.button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
-    $('.button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
-    $('.button-pos').button({text: true});
-    $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
-    $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
-    $('.navi .button-disabled').button('disable');
-    $('textarea.translation').change(text_change).keypress(text_change).autogrow();
-    $('textarea#id_target').focus();
-    $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
-        get_source_string(function(data) {
-            mt_set(data);
-        });
-        return false;
-    });
-    if (typeof(target_language) != 'undefined') {
-        load_translate_apis();
-    }
-    $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
-        var parent_id = $(this).parent()[0].id;
-        var check_id = parent_id.substring(6);
-        $.get('/js/ignore-check/' + check_id + '/', function() {
-            $('#' + parent_id).remove();
-        });
-    });
+function load_table_sorting() {
     $('table.sort').each(function() {
         var table = $(this);
         $(this).find('thead th')
@@ -192,6 +160,42 @@ $(function() {
         });
 
     });
+}
+
+$(function() {
+    $('.button').button();
+    $('ul.menu li a').button();
+    $('ul.breadcrumbs').buttonset();
+    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
+    $('.errorlist').addClass('ui-state-error ui-corner-all');
+    $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
+    $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
+    $('.navi').buttonset();
+    $('.button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
+    $('.button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
+    $('.button-pos').button({text: true});
+    $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
+    $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
+    $('.navi .button-disabled').button('disable');
+    $('textarea.translation').change(text_change).keypress(text_change).autogrow();
+    $('textarea#id_target').focus();
+    $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
+        get_source_string(function(data) {
+            mt_set(data);
+        });
+        return false;
+    });
+    if (typeof(target_language) != 'undefined') {
+        load_translate_apis();
+    }
+    $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
+        var parent_id = $(this).parent()[0].id;
+        var check_id = parent_id.substring(6);
+        $.get('/js/ignore-check/' + check_id + '/', function() {
+            $('#' + parent_id).remove();
+        });
+    });
+    load_table_sorting();
     $("div.translate-tabs").tabs({
         ajaxOptions: {
             error: function(xhr, status, index, anchor) {
@@ -232,6 +236,7 @@ $(function() {
         cache: true,
         load: function (e, ui) {
             $(ui.panel).find(".tab-loading").remove();
+            load_table_sorting();
             $('.buttons').buttonset();
             $('.buttons .disabled').button('disable');
             $('.details-accordion').accordion({collapsible: true, active: -1});
