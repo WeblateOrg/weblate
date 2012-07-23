@@ -11,29 +11,6 @@ from weblate.trans.models import Project
 import cairo
 import os.path
 
-def widgets(request, project):
-    obj = get_object_or_404(Project, slug = project)
-    site = Site.objects.get_current()
-    engage_url = 'http://%s%s?utm_source=widget' % (
-        site.domain,
-        reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
-    )
-    widget_base_url = 'http://%s%s' % (
-        site.domain,
-        reverse('weblate.trans.widgets.widgets', kwargs = {'project': obj.slug}),
-    )
-
-    widget_list = [
-        '287x66',
-    ]
-
-    return render_to_response('widgets.html', RequestContext(request, {
-        'engage_url': engage_url,
-        'widget_list': widget_list,
-        'widget_base_url': widget_base_url,
-        'object': obj,
-    }))
-
 WIDGETS = {
     '287': {
         'default': 'grey',
@@ -85,6 +62,29 @@ WIDGETS = {
         ],
     }
 }
+
+def widgets(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    site = Site.objects.get_current()
+    engage_url = 'http://%s%s?utm_source=widget' % (
+        site.domain,
+        reverse('weblate.trans.views.show_engage', kwargs = {'project': obj.slug}),
+    )
+    widget_base_url = 'http://%s%s' % (
+        site.domain,
+        reverse('weblate.trans.widgets.widgets', kwargs = {'project': obj.slug}),
+    )
+
+    widget_list = [
+        '287x66',
+    ]
+
+    return render_to_response('widgets.html', RequestContext(request, {
+        'engage_url': engage_url,
+        'widget_list': widget_list,
+        'widget_base_url': widget_base_url,
+        'object': obj,
+    }))
 
 #@cache_page(3600)
 def widget_287(request, project, widget = '287'):
