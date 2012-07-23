@@ -118,6 +118,8 @@ class Project(models.Model):
         default = 'noreply@weblate.org'
     )
 
+    push_on_commit = models.BooleanField(default = False)
+
     class Meta:
         ordering = ['name']
 
@@ -542,7 +544,7 @@ class SubProject(models.Model):
 
         return ret
 
-    def do_push(self, request = None):
+    def do_push(self, request = None, force_commit = True):
         '''
         Wrapper for pushing changes to remote repo.
         '''
@@ -555,7 +557,8 @@ class SubProject(models.Model):
             return False
 
         # Commit any pending changes
-        self.commit_pending()
+        if force_commit:
+            self.commit_pending()
 
         # Do we have anything to push?
         if not self.git_needs_push():
@@ -1202,11 +1205,17 @@ class Translation(models.Model):
         translation rescan will be needed)
         '''
         gitrepo = self.get_repo()
+
+        # Is there something for commit?
         if not self.git_needs_commit(gitrepo):
             return False
+
+        # Can we delay commit?
         if not force_commit and settings.LAZY_COMMITS:
             logger.info('Delaying commiting %s in %s as %s', self.filename, self, author)
             return False
+
+        # Do actual commit
         logger.info('Commiting %s in %s as %s', self.filename, self, author)
         try:
             self.__git_commit(gitrepo, author, sync)
@@ -1215,6 +1224,11 @@ class Translation(models.Model):
             # so we will sleep a bit an retry
             time.sleep(random.random() * 2)
             self.__git_commit(gitrepo, author, sync)
+
+        # Push if we should
+        if self.subproject.project.push_on_commit:
+            self.subproject.do_push(force_commit = False)
+
         return True
 
     def update_unit(self, unit, request):
