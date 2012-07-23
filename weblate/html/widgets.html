@@ -28,7 +28,7 @@
 
 <p>
 {% for color in widget.colors %}
-<a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /></a>
+<a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/{{ color }}/" /></a>
 {% endfor %}
 </p>
 
@@ -37,7 +37,7 @@
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 &lt;a href="{{ engage_url_track }}"&gt;
-&lt;img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /&gt;
+&lt;img src="{{ widget_base_url }}{{ widget.name }}/{{ color }}/" /&gt;
 &lt;/a&gt;
 </pre>
 {% endfor %}

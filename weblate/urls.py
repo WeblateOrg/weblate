@@ -74,6 +74,7 @@ urlpatterns = patterns('',
 
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
 
+    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets'),
 
