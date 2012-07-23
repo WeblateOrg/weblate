@@ -118,7 +118,10 @@ class Project(models.Model):
         default = 'noreply@weblate.org'
     )
 
-    push_on_commit = models.BooleanField(default = False)
+    push_on_commit = models.BooleanField(
+        default = False,
+        help_text = ugettext_lazy('Whether the repository should be pushed upstream on every commit.'),
+    )
 
     class Meta:
         ordering = ['name']
