@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 12:25+0200\n"
+"POT-Creation-Date: 2012-07-23 13:08+0200\n"
 "PO-Revision-Date: 2012-07-23 12:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,7 +305,7 @@ msgstr "Domů"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:80 html/engage.html:58 trans/views.py:1122
+#: html/base.html:80 html/engage.html:58 trans/views.py:1129
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -1191,6 +1191,10 @@ msgstr ""
 "Ahoj,\n"
 "\n"
 "v překladu %(translation)s na %(site_title)s přibyl nový návrh.\n"
+
+#: html/mail/new_suggestion.txt:14
+msgid "You can review it at:"
+msgstr ""
 
 #: html/mail/new_suggestion_subject.txt:1
 #, python-format
@@ -2376,13 +2380,13 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models.py:1479
+#: trans/models.py:1491
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
 "poškození."
 
-#: trans/models.py:1543
+#: trans/models.py:1575
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
@@ -2470,60 +2474,60 @@ msgstr "Řetězce s návrhy"
 msgid "Your suggestion is empty!"
 msgstr "Váš návrh je prázdný!"
 
-#: trans/views.py:725
+#: trans/views.py:731
 msgid "You need to log in to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views.py:728 trans/views.py:768
+#: trans/views.py:734 trans/views.py:775
 msgid "You don't have privileges to save translations!"
 msgstr "Pro ukládání překladů nemáte oprávnění!"
 
-#: trans/views.py:744
+#: trans/views.py:751
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem překladu selhaly některé kontroly!"
 
-#: trans/views.py:762 trans/views.py:800
+#: trans/views.py:769 trans/views.py:807
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/views.py:783
+#: trans/views.py:790
 msgid "Can not merge different messages!"
 msgstr "Nelze sloučit rozdílné řetězce!"
 
-#: trans/views.py:806
+#: trans/views.py:813
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views.py:817
+#: trans/views.py:824
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Pro přijmutí návrhu nemáte oprávnění!"
 
-#: trans/views.py:827
+#: trans/views.py:834
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Pro odstranění návrhu nemáte oprávnění!"
 
-#: trans/views.py:848
+#: trans/views.py:855
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views.py:905
+#: trans/views.py:912
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views.py:1057
+#: trans/views.py:1064
 msgid "File content successfully merged into translation."
 msgstr "Obsah souboru byl úspěšně přidán do překladu."
 
-#: trans/views.py:1059
+#: trans/views.py:1066
 msgid "There were no new strings in uploaded file."
 msgstr "V nahraném souboru nebyly žádné nové řetězce."
 
-#: trans/views.py:1061
+#: trans/views.py:1068
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souborů: %s"
 
-#: trans/views.py:1072
+#: trans/views.py:1079
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
