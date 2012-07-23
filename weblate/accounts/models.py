@@ -124,9 +124,9 @@ class Profile(models.Model):
 
             # Create message
             email = EmailMessage(
-                settings.EMAIL_SUBJECT_PREFIX + subject,
+                settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
                 body,
-                to = self.user.email,
+                to = [self.user.email],
                 headers = headers
             )
 
