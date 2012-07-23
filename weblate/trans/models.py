@@ -282,41 +282,47 @@ class Project(models.Model):
         return ret
 
 class SubProject(models.Model):
-    name = models.CharField(max_length = 100, help_text = _('Name to display'))
-    slug = models.SlugField(db_index = True, help_text = _('Name used in URLs'))
+    name = models.CharField(
+        max_length = 100,
+        help_text = ugettext_lazy('Name to display')
+    )
+    slug = models.SlugField(
+        db_index = True,
+        help_text = ugettext_lazy('Name used in URLs')
+        )
     project = models.ForeignKey(Project)
     repo = models.CharField(
         max_length = 200,
-        help_text = _('URL of Git repository, use weblate://project/subproject for sharing with other subproject'),
+        help_text = ugettext_lazy('URL of Git repository, use weblate://project/subproject for sharing with other subproject'),
         validators = [validate_repo],
     )
     push = models.CharField(
         max_length = 200,
-        help_text = _('URL of push Git repository'),
+        help_text = ugettext_lazy('URL of push Git repository'),
         blank = True
     )
     repoweb = models.URLField(
-        help_text = _('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
+        help_text = ugettext_lazy('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
         validators = [validate_repoweb],
         blank = True,
     )
     branch = models.CharField(
         max_length = 50,
-        help_text = _('Git branch to translate')
+        help_text = ugettext_lazy('Git branch to translate')
     )
     filemask = models.CharField(
         max_length = 200,
         validators = [validate_filemask],
-        help_text = _('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po')
+        help_text = ugettext_lazy('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po')
     )
     template = models.CharField(
         max_length = 200,
         blank = True,
-        help_text = _('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings')
+        help_text = ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings')
     )
     locked = models.BooleanField(
         default = False,
-        help_text = _('Whether subproject is locked for translation updates')
+        help_text = ugettext_lazy('Whether subproject is locked for translation updates')
     )
 
     class Meta:
@@ -1529,7 +1535,7 @@ class Unit(models.Model):
 
         # Notify subscribed users about new translation
         subscriptions = Profile.objects.subscribed_any_translation(
-            self.translation.subproject.project, 
+            self.translation.subproject.project,
             self.translation.language
         )
         for subscription in subscriptions:
@@ -1543,7 +1549,7 @@ class Unit(models.Model):
         if gen_change:
             # Get list of subscribers for new contributor
             subscriptions = Profile.objects.subscribed_new_contributor(
-                self.translation.subproject.project, 
+                self.translation.subproject.project,
                 self.translation.language
             )
             if subscriptions.exists():
@@ -1722,7 +1728,7 @@ class Suggestion(models.Model):
         Returns URL which can be used for review.
         '''
         return self.get_matching_unit().get_absolute_url()
-        
+
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
