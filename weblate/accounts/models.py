@@ -12,6 +12,7 @@ from django.contrib.sites.models import Site
 from django.utils import translation
 from django.template.loader import render_to_string, get_template_from_string
 from django.template.context import Context
+from django.core.mail import EmailMessage
 
 from south.signals import post_migrate
 
