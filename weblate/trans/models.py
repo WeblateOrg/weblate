@@ -1490,6 +1490,7 @@ class Unit(models.Model):
             logger.error('message %s disappeared!', self)
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
 
+        # Return if there was no change
         if not saved:
             return
 
@@ -1590,6 +1591,9 @@ class Unit(models.Model):
         return mark_safe('\n'.join(ret))
 
     def suggestions(self):
+        '''
+        Returns all suggestions for this unit.
+        '''
         return Suggestion.objects.filter(
             checksum = self.checksum,
             project = self.translation.subproject.project,
@@ -1597,6 +1601,9 @@ class Unit(models.Model):
         )
 
     def checks(self):
+        '''
+        Returns all checks for this unit (even ignored).
+        '''
         return Check.objects.filter(
             checksum = self.checksum,
             project = self.translation.subproject.project,
@@ -1604,6 +1611,9 @@ class Unit(models.Model):
         )
 
     def active_checks(self):
+        '''
+        Returns all active (not ignored) checks for this unit.
+        '''
         return Check.objects.filter(
             checksum = self.checksum,
             project = self.translation.subproject.project,
@@ -1612,6 +1622,9 @@ class Unit(models.Model):
         )
 
     def check(self):
+        '''
+        Updates checks for this unit.
+        '''
         if self.fuzzy:
             self.checks().delete()
             return
