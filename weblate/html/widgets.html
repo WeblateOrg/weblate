@@ -26,9 +26,11 @@
 
 <p>{% trans "Color variants:" %}</p>
 
+<p>
 {% for color in widget.colors %}
-<p><a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /></a></p>
+<a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/?color={{ color }}" /></a>
 {% endfor %}
+</p>
 
 <p>{% trans "Code:" %}</p>
 
