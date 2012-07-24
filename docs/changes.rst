@@ -22,6 +22,7 @@ Relased on ? 2012.
 * Support for email notifications of translators.
 * List only used languages in preferences.
 * Documentation improvements.
+* Support for locking translation by translator.
 
 weblate 1.1
 -----------
