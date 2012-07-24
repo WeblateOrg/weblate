@@ -1139,7 +1139,7 @@ class Translation(models.Model):
 
     def get_commit_message(self):
         return self.subproject.project.commit_message % {
-            'language': self.language.code,
+            'language': self.language_code,
             'subproject': self.subproject.name,
             'project': self.subproject.project.name,
         }
@@ -1291,7 +1291,7 @@ class Translation(models.Model):
                         add = True,
                         last_translator = author,
                         plural_forms = self.language.get_plural_form(),
-                        language = self.language.code,
+                        language = self.language_code,
                         PO_Revision_Date = po_revision_date,
                         x_generator = 'Weblate %s' % weblate.VERSION
                         )
