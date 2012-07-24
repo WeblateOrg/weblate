@@ -70,7 +70,7 @@ will probably want to adjust following options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
-After your configuration is ready, you can run :program:`./manage.py syncdb` to
+After your configuration is ready, you can run :djadmin:`syncdb` to
 create database structure. Now you should be able to create translation
 projects using admin interface.
 
@@ -173,22 +173,22 @@ To upgrade default set of language definitions (optional), run:
 Version specific instructions
 +++++++++++++++++++++++++++++
 
-On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
-:program:`./manage.py setupgroups --move` to setup access control as described
+On upgrade to version 0.6 you should run :djadmin:`syncdb` and
+:djadmin:`setupgroups --move` to setup access control as described
 in installation section.
 
-On upgrade to version 0.7 you should run :program:`./manage.py syncdb` to
-setup new tables and :program:`./manage.py rebuild_index` to build index for
+On upgrade to version 0.7 you should run :djadmin:`syncdb` to
+setup new tables and :djadmin:`rebuild_index` to build index for
 fulltext search.
 
-On upgrade to version 0.8 you should run :program:`./manage.py syncdb` to setup
-new tables, :program:`./manage.py setupgroups` to update privileges setup and
-:program:`./manage.py rebuild_index` to rebuild index for fulltext search.
+On upgrade to version 0.8 you should run :djadmin:`syncdb` to setup
+new tables, :djadmin:`setupgroups` to update privileges setup and
+:djadmin:`rebuild_index` to rebuild index for fulltext search.
 
 On upgrade to version 0.9 file structure has changed. You need to move
 :file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
-:program:`./manage.py syncdb`, :program:`./manage.py setupgroups` and
-:program:`./manage.py setuplang` is recommended to get latest updates of 
+:djadmin:`syncdb`, :djadmin:`setupgroups` and
+:djadmin:`setuplang` is recommended to get latest updates of 
 privileges and language definitions.
 
 On upgrade to version 1.0 one field has been added to database, you need to

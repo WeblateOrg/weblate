@@ -100,10 +100,10 @@ Automatic creation of subprojects
 ---------------------------------
 
 In case you have project with dozen of po files, you might want to import all
-at once. This can be achieved using :command:`manage.py import_project`.
+at once. This can be achieved using :djadmin:`import_project`.
 
 First you need to create project which will contain all subprojects and then
-it's just a matter of running :command:`manage.py import_project`.
+it's just a matter of running :djadmin:`import_project`.
 
 .. seealso:: :ref:`manage`
 
@@ -112,7 +112,7 @@ Updating repositories
 
 You should set up some way how backend repositories are updated from their
 source. You can either use hooks (see :ref:`hooks`) or just regularly run
-:command:`./manage.py updategit --all`.
+:djadmin:`updategit --all`.
 
 With Gettext po files, you might be often bitten by conflict in PO file
 headers. To avoid it, you can use shipped merge driver
@@ -183,7 +183,7 @@ Weblate uses privileges system based on Django. It defines following extra privi
 * Can change dictionary [Users, Managers]
 * Can delete dictionary [Users, Managers]
 
-The default setup (after you run :program:`./manage.py setupgroups`) consists
+The default setup (after you run :djadmin:`setupgroups`) consists
 of two groups `Users` and `Managers` which have privileges as descibed above.
 All new users are automatically added to `Users` group.
 

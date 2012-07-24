@@ -29,6 +29,8 @@ rebuild it from scratch time to time:
 
     ./manage.py rebuild_index --clean
 
+.. seealso:: :djadmin:`rebuild_index`
+
 I get "Lock Error" quite often while translating
 ------------------------------------------------
 
@@ -46,6 +48,8 @@ as ``TEMP`` variable:
 .. code-block:: sh
 
     TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
+
+.. seealso:: :djadmin:`rebuild_index`
 
 Does Weblate support other VCS than Git?
 ----------------------------------------

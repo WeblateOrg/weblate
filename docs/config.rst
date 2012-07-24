@@ -73,7 +73,7 @@ improves responsiveness of online operation on expense of slightly
 outdated index, which might still point to older content.
 
 While enabling this, don't forget scheduling runs of 
-:program:`./manage.py update_index` in cron or similar tool.
+:djadmin:`update_index` in cron or similar tool.
 
 This is recommended setup for production use.
 
