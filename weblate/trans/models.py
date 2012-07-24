@@ -329,7 +329,7 @@ class SubProject(models.Model):
     class Meta:
         ordering = ['project__name', 'name']
         permissions = (
-            ('lock_translation', "Can lock whole translation project"),
+            ('lock_subproject', "Can lock whole translation project"),
         )
 
     @models.permalink

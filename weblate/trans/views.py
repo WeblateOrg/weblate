@@ -499,7 +499,7 @@ def reset_translation(request, project, subproject, lang):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
-@permission_required('trans.lock_translation')
+@permission_required('trans.lock_subproject')
 def lock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
 
@@ -513,7 +513,7 @@ def lock_subproject(request, project, subproject):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
-@permission_required('trans.lock_translation')
+@permission_required('trans.lock_subproject')
 def unlock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
 
@@ -525,7 +525,7 @@ def unlock_subproject(request, project, subproject):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
-@permission_required('trans.lock_translation')
+@permission_required('trans.lock_subproject')
 def lock_project(request, project):
     obj = get_object_or_404(Project, slug = project)
 
@@ -540,7 +540,7 @@ def lock_project(request, project):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
-@permission_required('trans.lock_translation')
+@permission_required('trans.lock_subproject')
 def unlock_project(request, project):
     obj = get_object_or_404(Project, slug = project)
 
