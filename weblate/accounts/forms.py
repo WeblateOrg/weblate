@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.models import Profile
+from weblate.lang.models import Language
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -13,6 +14,13 @@ class ProfileForm(forms.ModelForm):
             'languages',
             'secondary_languages',
         )
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        # Limit languages to ones which have translation
+        qs = Language.objects.filter(translation__total__gt = 0).distinct()
+        self.fields['languages'].queryset = qs
+        self.fields['secondary_languages'].queryset = qs
 
 class SubscriptionForm(forms.ModelForm):
     class Meta:

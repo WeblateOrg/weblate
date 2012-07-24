@@ -20,6 +20,7 @@ Relased on ? 2012.
 * Better layout of main page.
 * Support for automatically pushing changes on every commit.
 * Support for email notifications of translators.
+* List only used languages in preferences.
 
 weblate 1.1
 -----------
