@@ -21,6 +21,7 @@ Relased on ? 2012.
 * Support for automatically pushing changes on every commit.
 * Support for email notifications of translators.
 * List only used languages in preferences.
+* Improved handling of not known languages when importing project.
 * Documentation improvements.
 * Support for locking translation by translator.
 
