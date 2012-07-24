@@ -32,9 +32,6 @@
 <li><a href="#search">{% trans "Search" %}</a></li>
 <li><a href="#files">{% trans "Files" %}</a></li>
 <li><a href="#changes">{% trans "Recent changes" %}</a></li>
-{% if review_form %}
-<li><a href="#review">{% trans "Review" %}</a></li>
-{% endif %}
 {% if autoform %}
 <li><a href="#auto">{% trans "Automatic translation" %}</a></li>
 {% endif %}
@@ -77,11 +74,13 @@
 </div>
 
 <div id="changes">
+
+<h3>{% trans "Recent changes" %}</h3>
 {% include "last-changes.html" %}
-</div>
 
 {% if review_form %}
-<div id="review">
+<h3>{% trans "Review" %}</h3>
+
 <p>{% trans "Review translations touched by other users." %}</p>
 <form action="{{ object.get_translate_url }}" method="GET">
 <table>
@@ -89,8 +88,8 @@
 </table>
 <p><input type="submit" value="{% trans "Start review" %}" /></p>
 </form>
-</div>
 {% endif %}
+</div>
 
 {% if autoform %}
 <div id="auto">
