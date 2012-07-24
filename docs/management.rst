@@ -61,7 +61,7 @@ The ./manage.py is extended with following commands:
 
 .. django-admin:: update_index
 
-    Updates index for fulltext search when :envvar:`OFFLOAD_INDEXING` is enabled.
+    Updates index for fulltext search when :setting:`OFFLOAD_INDEXING` is enabled.
 
     It is recommended to run this frequently (eg. every 5 minutes) to have index
     uptodate.

@@ -34,7 +34,7 @@ I get "Lock Error" quite often while translating
 
 This is usually caused by concurent updates to fulltext index. In case you are
 running multithreaded server (eg. mod_wsgi), this happens quite often. For such
-setup it is recommended to enable :envvar:`OFFLOAD_INDEXING`.
+setup it is recommended to enable :setting:`OFFLOAD_INDEXING`.
 
 Rebuilding index has failed with "No space left on device"
 ----------------------------------------------------------
