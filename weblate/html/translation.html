@@ -30,10 +30,7 @@
 <div class="tabs" id="translation-tabs">
 <ul>
 <li><a href="#search">{% trans "Search" %}</a></li>
-<li><a href="#download">{% trans "Download" %}</a></li>
-{% if perms.trans.upload_translation %}
-<li><a href="#upload">{% trans "Upload" %}</a></li>
-{% endif %}
+<li><a href="#files">{% trans "Files" %}</a></li>
 <li><a href="#changes">{% trans "Recent changes" %}</a></li>
 {% if review_form %}
 <li><a href="#review">{% trans "Review" %}</a></li>
@@ -54,14 +51,15 @@
 </form>
 </div>
 
-<div id="download">
+<div id="files">
+
+<h3>{% trans "Download" %}</h3>
 {% with object.get_download_url as download_url %}
 <p>{% blocktrans %}You can <a href="{{ download_url }}">download</a> file for offline translation.{% endblocktrans %}</p>
 {% endwith %}
-</div>
 
 {% if perms.trans.upload_translation %}
-<div id="upload">
+<h3>{% trans "Upload" %}</h3>
 {% if perms.trans.overwrite_translation %}
 <p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
 {% else %}
@@ -75,8 +73,8 @@
 </table>
 <p><input type="submit" value="{% trans "Upload" %}" /></p>
 </form>
-</div>
 {% endif %}
+</div>
 
 <div id="changes">
 {% include "last-changes.html" %}
