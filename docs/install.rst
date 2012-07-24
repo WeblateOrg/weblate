@@ -70,7 +70,7 @@ will probably want to adjust following options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
-After your configuration is ready, you can run :djadmin:`syncdb` to
+After your configuration is ready, you can run :program:`./manage.py syncdb` to
 create database structure. Now you should be able to create translation
 projects using admin interface.
 
@@ -176,31 +176,31 @@ Version specific instructions
 Upgrade from 0.5 to 0.6
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.6 you should run :djadmin:`syncdb` and
-:djadmin:`setupgroups --move` to setup access control as described
+On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
+:program:`./manage.py setupgroups --move` to setup access control as described
 in installation section.
 
 Upgrade from 0.6 to 0.7
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.7 you should run :djadmin:`syncdb` to
-setup new tables and :djadmin:`rebuild_index` to build index for
+On upgrade to version 0.7 you should run :program:`./manage.py syncdb` to
+setup new tables and :program:`./manage.py rebuild_index` to build index for
 fulltext search.
 
 Upgrade from 0.7 to 0.8
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-On upgrade to version 0.8 you should run :djadmin:`syncdb` to setup
-new tables, :djadmin:`setupgroups` to update privileges setup and
-:djadmin:`rebuild_index` to rebuild index for fulltext search.
+On upgrade to version 0.8 you should run :program:`./manage.py syncdb` to setup
+new tables, :program:`./manage.py setupgroups` to update privileges setup and
+:program:`./manage.py rebuild_index` to rebuild index for fulltext search.
 
 Upgrade from 0.8 to 0.9
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 On upgrade to version 0.9 file structure has changed. You need to move
 :file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
-:djadmin:`syncdb`, :djadmin:`setupgroups` and
-:djadmin:`setuplang` is recommended to get latest updates of 
+:program:`./manage.py syncdb`, :program:`./manage.py setupgroups` and
+:program:`./manage.py setuplang` is recommended to get latest updates of 
 privileges and language definitions.
 
 Upgrade from 0.9 to 1.0
