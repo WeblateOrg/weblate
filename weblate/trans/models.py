@@ -851,6 +851,8 @@ class Translation(models.Model):
 
     enabled = models.BooleanField(default = True, db_index = True)
 
+    language_code = models.CharField(max_length = 20, default = '')
+
     objects = TranslationManager()
 
     class Meta:
