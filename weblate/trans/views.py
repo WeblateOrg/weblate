@@ -343,8 +343,8 @@ def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
     last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]
 
-    if obj.subproject.locked:
-        messages.error(request, _('This translation is currently locked for updates!'))
+    # Check locks
+    obj.is_locked(request)
 
     # How much is user allowed to configure upload?
     if request.user.has_perm('trans.author_translation'):
@@ -655,8 +655,8 @@ def get_filter_name(rqtype, search_query):
 def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
-    if obj.subproject.locked:
-        messages.error(request, _('This translation is currently locked for updates!'))
+    # Check locks
+    locked = obj.is_locked(request)
 
     if request.user.is_authenticated():
         profile = request.user.get_profile()
@@ -686,7 +686,7 @@ def translate(request, project, subproject, lang):
                 ))
 
         form = TranslationForm(request.POST)
-        if form.is_valid() and not obj.subproject.locked:
+        if form.is_valid() and not locked:
             # Check whether translation is not outdated
             obj.check_sync()
             try:
@@ -807,7 +807,7 @@ def translate(request, project, subproject, lang):
                 messages.error(request, _('Message you wanted to translate is no longer available!'))
 
     # Handle accepting/deleting suggestions
-    if not obj.subproject.locked and ('accept' in request.GET or 'delete' in request.GET):
+    if not locked and ('accept' in request.GET or 'delete' in request.GET):
         # Check for authenticated users
         if not request.user.is_authenticated():
             messages.error(request, _('You need to log in to be able to manage suggestions!'))
