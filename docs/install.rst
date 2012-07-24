@@ -173,17 +173,29 @@ To upgrade default set of language definitions (optional), run:
 Version specific instructions
 +++++++++++++++++++++++++++++
 
+Upgrade from 0.5 to 0.6
+~~~~~~~~~~~~~~~~~~~~~~~
+
 On upgrade to version 0.6 you should run :djadmin:`syncdb` and
 :djadmin:`setupgroups --move` to setup access control as described
 in installation section.
+
+Upgrade from 0.6 to 0.7
+~~~~~~~~~~~~~~~~~~~~~~~
 
 On upgrade to version 0.7 you should run :djadmin:`syncdb` to
 setup new tables and :djadmin:`rebuild_index` to build index for
 fulltext search.
 
+Upgrade from 0.7 to 0.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
 On upgrade to version 0.8 you should run :djadmin:`syncdb` to setup
 new tables, :djadmin:`setupgroups` to update privileges setup and
 :djadmin:`rebuild_index` to rebuild index for fulltext search.
+
+Upgrade from 0.8 to 0.9
+~~~~~~~~~~~~~~~~~~~~~~~
 
 On upgrade to version 0.9 file structure has changed. You need to move
 :file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
@@ -191,12 +203,18 @@ On upgrade to version 0.9 file structure has changed. You need to move
 :djadmin:`setuplang` is recommended to get latest updates of 
 privileges and language definitions.
 
+Upgrade from 0.9 to 1.0
+~~~~~~~~~~~~~~~~~~~~~~~
+
 On upgrade to version 1.0 one field has been added to database, you need to
 invoke following SQL command to adjust it:
 
 .. code-block:: sql
 
     ALTER TABLE `trans_subproject` ADD `template` VARCHAR(200);
+
+Upgrade from 1.0 (1.1) to 1.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 On upgrade to version 1.2, the migration procedure has changed. It now uses
 South for migrating database. To switch to this new migration schema, you need
