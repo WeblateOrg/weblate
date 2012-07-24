@@ -213,6 +213,21 @@ fulfilled:
 * translation for a language is completed
 * explicit commit is requested
 
+.. _locking:
+
+Translation locking
+-------------------
+
+To improve collaboration, it is good to prevent duplicate effort on
+translation. To achieve this, translation can be locked for single translator.
+This can be either done manually on translation page or is done automatically
+when somebody starts to work on translation. The automatic locking needs to be
+enabled using :setting:`AUTO_LOCK`.
+
+The lock is valid for :setting:`LOCK_TIME` seconds and is automatically
+extended on every translation made.
+
+
 .. _custom-checks:
 
 Customizing checks

@@ -278,6 +278,10 @@ LAZY_COMMITS = True
 # Offload indexing
 OFFLOAD_INDEXING = False
 
+# Translation locking
+AUTO_LOCK = True
+LOCK_TIME = 15 * 60
+
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 

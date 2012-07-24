@@ -5,6 +5,25 @@ Configuration
 
 All settings are stored in :file:`settings.py` (as usual for Django).
 
+.. setting:: AUTO_LOCK
+
+AUTO_LOCK
+---------
+
+Enables automatic locking of translation when somebody is working on it.
+
+.. seealso:: :ref:`locking`
+
+.. setting:: LOCK_TIME
+
+LOCK_TIME
+---------
+
+Time in seconds for how long the translation will be locked for single
+translator.
+
+.. seealso:: :ref:`locking`
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
