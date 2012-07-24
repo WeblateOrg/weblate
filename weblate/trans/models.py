@@ -911,7 +911,7 @@ class Translation(models.Model):
             return True
 
         # Check for translation lock
-        if self.is_user_locked():
+        if self.is_user_locked(request):
             if request is not None:
                 messages.error(
                     request,
@@ -924,7 +924,7 @@ class Translation(models.Model):
 
         return False
 
-    def is_user_locked(self):
+    def is_user_locked(self, request = None):
         '''
         Checks whether there is valid user lock on this translation.
         '''
@@ -938,6 +938,10 @@ class Translation(models.Model):
             self.lock_user = None
             self.save()
 
+            return False
+
+        # Is current user the one who has locked?
+        if request is not None and self.lock_user == request.user:
             return False
 
         return True
