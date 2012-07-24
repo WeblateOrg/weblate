@@ -853,6 +853,9 @@ class Translation(models.Model):
 
     language_code = models.CharField(max_length = 20, default = '')
 
+    lock_user = models.ForeignKey(User, null = True, blank = True, default = None)
+    lock_time = models.DateTimeField(default = datetime.now)
+
     objects = TranslationManager()
 
     class Meta:
