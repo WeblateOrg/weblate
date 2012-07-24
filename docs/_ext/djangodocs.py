@@ -41,13 +41,13 @@ def setup(app):
     app.add_description_unit(
         directivename = "django-admin",
         rolename      = "djadmin",
-        indextemplate = "pair: %s; django-admin command",
+        indextemplate = "pair: %s; manage.py command",
         parse_node    = parse_django_admin_node,
     )
     app.add_description_unit(
         directivename = "django-admin-option",
         rolename      = "djadminopt",
-        indextemplate = "pair: %s; django-admin command-line option",
+        indextemplate = "pair: %s; manage.py command-line option",
         parse_node    = parse_django_adminopt_node,
     )
     app.add_config_value('django_next_version', '0.0', True)
@@ -159,7 +159,7 @@ class DjangoHTMLTranslator(SmartyPantsHTMLTranslator):
 def parse_django_admin_node(env, sig, signode):
     command = sig.split(' ')[0]
     env._django_curr_admin_command = command
-    title = "django-admin.py %s" % sig
+    title = "manage.py %s" % sig
     signode += addnodes.desc_name(title, title)
     return sig
 
