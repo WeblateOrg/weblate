@@ -18,7 +18,7 @@ import traceback
 import __builtin__
 from translate.storage import factory
 from translate.storage import poheader
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import weblate
 from weblate.lang.models import Language
@@ -917,7 +917,7 @@ class Translation(models.Model):
                     request,
                     _('This translation is locked by %s for translation till %s!') % (
                         self.lock_user.get_full_name(),
-                        self.lock_timestamp,
+                        self.lock_time,
                     )
                 )
             return True
@@ -933,7 +933,7 @@ class Translation(models.Model):
             return False
 
         # Is lock still valid?
-        if self.lock_timestamp < datetime.now():
+        if self.lock_time < datetime.now():
             # Clear the lock
             self.lock_user = None
             self.save()
@@ -945,6 +945,28 @@ class Translation(models.Model):
             return False
 
         return True
+
+    def update_lock_time(self):
+        '''
+        Sets lock timestamp.
+        '''
+        self.lock_time = datetime.now() + timedelta(seconds = settings.LOCK_TIME)
+        self.save()
+
+    def update_lock(self, request):
+        '''
+        Updates lock timestamp.
+        '''
+        # Update timestamp
+        if self.is_user_locked():
+            self.update_lock_time()
+            return
+
+        # Auto lock if we should
+        if settings.AUTO_LOCK:
+            self.lock_user = request.user
+            self.update_lock_time()
+            return
 
     def get_non_translated(self):
         return self.total - self.translated
@@ -1558,6 +1580,9 @@ class Unit(models.Model):
         Stores unit to backend.
         '''
         from weblate.accounts.models import Profile
+
+        # Update lock timestamp
+        self.translation.update_lock(request)
 
         # Store to backend
         (saved, pounit) = self.translation.update_unit(self, request)
