@@ -7,6 +7,7 @@ from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.utils.formats import date_format
 from glob import glob
 import os
 import time
@@ -915,10 +916,10 @@ class Translation(models.Model):
             if request is not None:
                 messages.error(
                     request,
-                    _('This translation is locked by %s for translation till %s!') % (
-                        self.lock_user.get_full_name(),
-                        self.lock_time,
-                    )
+                    _('This translation is locked by %(user)s for translation till %(time)s!') % {
+                        'user': self.lock_user.get_full_name(),
+                        'time': date_format(self.lock_time, 'DATETIME_FORMAT')
+                    }
                 )
             return True
 
