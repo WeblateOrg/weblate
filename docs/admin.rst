@@ -182,6 +182,7 @@ Weblate uses privileges system based on Django. It defines following extra privi
 * Can add dictionary [Users, Managers]
 * Can change dictionary [Users, Managers]
 * Can delete dictionary [Users, Managers]
+* Can lock translation for translating [Users, Managers]
 
 The default setup (after you run :djadmin:`setupgroups`) consists
 of two groups `Users` and `Managers` which have privileges as descibed above.
