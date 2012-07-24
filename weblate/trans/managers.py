@@ -72,10 +72,7 @@ class TranslationManager(models.Manager):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
-        try:
-            lang = Language.objects.get(code = code)
-        except Language.DoesNotExist:
-            lang = Language.objects.auto_create(code)
+        lang = Language.objects.get_or_create(code = code)
         translation, created = self.get_or_create(
             language = lang,
             language_code = code,

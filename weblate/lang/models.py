@@ -21,7 +21,154 @@ EXTRALANGS = [
     ('ckb', 'Kurdish Sorani', 2, '(n != 1)'),
 ]
 
+# List of defaul languages - the ones, where using
+# only language code should be same as this one
+# Extracted from locale.alias
+DEFAULT_LANGS = (
+    'af_ZA',
+    'am_ET',
+    'ar_AA',
+    'as_IN',
+    'az_AZ',
+    'be_BY',
+    'bg_BG',
+    'br_FR',
+    'bs_BA',
+    'ca_ES',
+    'cs_CZ',
+    'cy_GB',
+    'da_DK',
+    'de_DE',
+    'ee_EE',
+    'el_GR',
+    'en_US',
+    'eo_XX',
+    'es_ES',
+    'et_EE',
+    'eu_ES',
+    'fa_IR',
+    'fi_FI',
+    'fo_FO',
+    'fr_FR',
+    'ga_IE',
+    'gd_GB',
+    'gl_ES',
+    'gv_GB',
+    'he_IL',
+    'hi_IN',
+    'hr_HR',
+    'hu_HU',
+    'id_ID',
+    'is_IS',
+    'it_IT',
+    'iu_CA',
+    'ja_JP',
+    'ka_GE',
+    'kl_GL',
+    'km_KH',
+    'kn_IN',
+    'ko_KR',
+    'ks_IN',
+    'kw_GB',
+    'ky_KG',
+    'lo_LA',
+    'lt_LT',
+    'lv_LV',
+    'mi_NZ',
+    'mk_MK',
+    'ml_IN',
+    'mr_IN',
+    'ms_MY',
+    'mt_MT',
+    'nb_NO',
+    'nl_NL',
+    'nn_NO',
+    'no_NO',
+    'nr_ZA',
+    'ny_NO',
+    'oc_FR',
+    'or_IN',
+    'pa_IN',
+    'pd_US',
+    'ph_PH',
+    'pl_PL',
+    'pp_AN',
+    'pt_PT',
+    'ro_RO',
+    'ru_RU',
+    'rw_RW',
+    'sd_IN',
+    'si_LK',
+    'sk_SK',
+    'sl_SI',
+    'sq_AL',
+    'sr_RS',
+    'ss_ZA',
+    'st_ZA',
+    'sv_SE',
+    'ta_IN',
+    'te_IN',
+    'tg_TJ',
+    'th_TH',
+    'tl_PH',
+    'tn_ZA',
+    'tr_TR',
+    'ts_ZA',
+    'tt_RU',
+    'uk_UA',
+    'ur_IN',
+    'uz_UZ',
+    've_ZA',
+    'vi_VN',
+    'wa_BE',
+    'xh_ZA',
+    'yi_US',
+    'zu_ZA',
+)
+
 class LanguageManager(models.Manager):
+    def get_or_create(self, code):
+        '''
+        Gets matching language for code (the code does not have to be exactly
+        same, cs_CZ is same as cs-CZ) or creates new one.
+        '''
+
+        # First try getting langauge as is
+        try:
+            return self.get(code = code)
+        except Language.DoesNotExist:
+            pass
+
+        # Parse the string
+        if '-' in code:
+            lang, country = code.split('-')
+        elif '_' in code:
+            lang, country = code.split('_')
+        else:
+            lang = code
+            country = None
+
+        # Try "corrected" code
+        if country is not None:
+            newcode = '%s_%s' % (lang.lower(), country.upper())
+        else:
+            newcode = lang.lower()
+        try:
+            return self.get(code = newcode)
+        except Language.DoesNotExist:
+            pass
+
+        # Try canonical variant
+        if newcode in DEFAULT_LANGS:
+            try:
+                return self.get(code = lang.lower())
+            except Language.DoesNotExist:
+                pass
+
+        # Create new one
+        return self.auto_create(code)
+
+
     def auto_create(self, code):
         '''
         Automatically creates new language based on code and best guess
