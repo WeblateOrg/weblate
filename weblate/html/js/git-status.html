@@ -11,8 +11,8 @@
 {% if perms.trans.reset_translation %}
 <li><a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="confirm-reset">{% trans "Reset" %}</a></li>
 {% endif %}
-{% if perms.trans.lock_translation and object.is_lockable %}
-{% if object.is_locked %}
+{% if perms.trans.lock_translation and object.is_git_lockable %}
+{% if object.is_git_locked %}
 <li><a href="{{ object.get_unlock_url }}" title="{% trans "Allow changes in the repository" %}">{% trans "Unlock" %}</a></li>
 {% else %}
 <li><a href="{{ object.get_lock_url }}" title="{% trans "Prevent any changes in the repository" %}">{% trans "Lock" %}</a></li>

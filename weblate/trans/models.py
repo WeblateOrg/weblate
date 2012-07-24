@@ -160,10 +160,10 @@ class Project(models.Model):
             'project': self.slug
         })
 
-    def is_lockable(self):
+    def is_git_lockable(self):
         return True
 
-    def is_locked(self):
+    def is_git_locked(self):
         return max([sp.locked for sp in self.subproject_set.all()])
 
     @models.permalink
@@ -366,10 +366,10 @@ class SubProject(models.Model):
             'subproject': self.slug
         })
 
-    def is_lockable(self):
+    def is_git_lockable(self):
         return True
 
-    def is_locked(self):
+    def is_git_locked(self):
         return self.locked
 
     @models.permalink
@@ -937,7 +937,7 @@ class Translation(models.Model):
             'lang': self.language.code
         })
 
-    def is_lockable(self):
+    def is_git_lockable(self):
         return False
 
     @models.permalink
