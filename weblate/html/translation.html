@@ -38,6 +38,7 @@
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'weblate.trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
+<li><a href="#locking">{% trans "Locking" %}</a></li>
 <li><a href="#promote">{% trans "Promote" %}</a></li>
 </ul>
 
@@ -103,6 +104,23 @@
 </form>
 </div>
 {% endif %}
+
+<div id="locking">
+<p>{% trans "Locking the translation will prevent others to work on translation." %}</p>
+{% if object.is_user_locked %}
+<p>{% trans "Locked by:" %} {{ object.lock_user.get_full_name }}</p>
+<p>{% trans "Lock valid till:" %} {{ object.lock_time|date:"DATETIME_FORMAT" }}</p>
+{% else %}
+<p>{% trans "Project is currently not locked." %}</p>
+{% endif %}
+{% if perms.trans.lock_translation %}
+{% if object.lock_user == request.user %}
+<a class="button" href="{% url 'weblate.trans.views.unlock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Unlock" %}</a>
+{% elif not object.is_user_locked %}
+<a class="button" href="{% url 'weblate.trans.views.lock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Lock" %}</a>
+{% endif %}
+{% endif %}
+</div>
 
 <div id="promote">
 {% url 'weblate.trans.widgets.widgets' project=object.subproject.project.slug as widgets_url %}

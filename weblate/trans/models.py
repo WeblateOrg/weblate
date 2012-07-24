@@ -870,6 +870,7 @@ class Translation(models.Model):
             ('push_translation', "Can push translations to remote git"),
             ('reset_translation', "Can reset translations to match remote git"),
             ('automatic_translation', "Can do automatic translation"),
+            ('lock_translation', "Can lock whole translation project"),
         )
 
     def clean(self):
@@ -947,6 +948,13 @@ class Translation(models.Model):
 
         return True
 
+    def create_lock(self, user):
+        '''
+        Creates lock on translation.
+        '''
+        self.lock_user = user
+        self.update_lock_time()
+
     def update_lock_time(self):
         '''
         Sets lock timestamp.
@@ -965,8 +973,7 @@ class Translation(models.Model):
 
         # Auto lock if we should
         if settings.AUTO_LOCK:
-            self.lock_user = request.user
-            self.update_lock_time()
+            self.create_lock(request.user)
             return
 
     def get_non_translated(self):
