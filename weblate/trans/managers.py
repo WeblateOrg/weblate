@@ -78,6 +78,7 @@ class TranslationManager(models.Manager):
             lang = Language.objects.auto_create(code)
         translation, created = self.get_or_create(
             language = lang,
+            language_code = code,
             subproject = subproject
         )
         if translation.filename != path:
