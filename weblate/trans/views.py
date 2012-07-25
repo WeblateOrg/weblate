@@ -1149,12 +1149,16 @@ def about(request):
     import whoosh
     import django
     import git
+    import cairo
+    import south
     return render_to_response('about.html', RequestContext(request, {
         'title': _('About Weblate'),
         'tt_version': translate.__version__.sver,
         'whoosh_version': whoosh.versionstring(),
         'django_version': django.get_version(),
         'git_version': git.__version__,
+        'cairo_version': cairo.version,
+        'south_version': south.__version__,
     }))
 
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
