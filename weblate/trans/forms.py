@@ -106,12 +106,13 @@ class AntispamForm(forms.Form):
     '''
     content = forms.CharField()
 
-    def clean(self):
+    def clean_content(self):
         '''
         Check if content is empty.
         '''
         if self.cleaned_data['content'] != '':
             raise ValidationError('Invalid value')
+        return ''
 
 class SimpleUploadForm(forms.Form):
     file = forms.FileField(label = _('File'))
