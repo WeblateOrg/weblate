@@ -1519,16 +1519,23 @@ class Unit(models.Model):
         '''
         Updates Unit from ttkit unit.
         '''
-        # Generate values
+        # Merge locations
         location = ', '.join(unit.getlocations())
+        # Merge flags
         if hasattr(unit, 'typecomments'):
             flags = ', '.join(unit.typecomments)
         else:
             flags = ''
+        # Merge target
         if hasattr(unit.target, 'strings'):
             target = join_plural(unit.target.strings)
         else:
             target = unit.target
+        # Check for null target (happens with XLIFF)
+        if target is None:
+            target = ''
+
+        # Get data from unit
         fuzzy = unit.isfuzzy()
         translated = unit.istranslated()
         comment = unit.getnotes()
