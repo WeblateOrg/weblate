@@ -88,13 +88,7 @@ WIDGETS = {
             },
         },
         'name': 'weblate-widget-%(widget)s-%(color)s.png',
-        'progress': {
-            'x': 82,
-            'y': 0,
-            'height': 31,
-            'width': 6,
-            'horizontal': False,
-        },
+        'progress': None,
         'text': [
             {
                 'text': "%(name)s",
@@ -177,20 +171,22 @@ def render(request, project, widget = '287x66', color = None):
     ctx.set_line_width(widget_data['colors'][color]['line'])
 
     # Progress bar
-    ctx.new_path()
-    ctx.set_source_rgb (*widget_data['colors'][color]['bar'])
-    if widget_data['progress']['horizontal']:
-        ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'] / 100.0 * percent, widget_data['progress']['height'])
-    else:
-        diff = widget_data['progress']['height'] / 100.0 * (100 - percent)
-        ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'] + diff, widget_data['progress']['width'], widget_data['progress']['height'] - diff)
-    ctx.fill()
+    if widget_data['progress'] is not None:
+        # Filled bar
+        ctx.new_path()
+        ctx.set_source_rgb (*widget_data['colors'][color]['bar'])
+        if widget_data['progress']['horizontal']:
+            ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'] / 100.0 * percent, widget_data['progress']['height'])
+        else:
+            diff = widget_data['progress']['height'] / 100.0 * (100 - percent)
+            ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'] + diff, widget_data['progress']['width'], widget_data['progress']['height'] - diff)
+        ctx.fill()
 
-    # Progress border
-    ctx.new_path()
-    ctx.set_source_rgb (*widget_data['colors'][color]['border'])
-    ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'], widget_data['progress']['height'])
-    ctx.stroke()
+        # Progress border
+        ctx.new_path()
+        ctx.set_source_rgb (*widget_data['colors'][color]['border'])
+        ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'], widget_data['progress']['height'])
+        ctx.stroke()
 
     # Text
     ctx.set_source_rgb (*widget_data['colors'][color]['text'])
