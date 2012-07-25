@@ -1125,13 +1125,6 @@ class Translation(models.Model):
         deleted_checksums = units_to_delete.values_list('checksum', flat = True)
         units_to_delete.delete()
 
-        # Notify subscribed users
-        if was_new:
-            from weblate.accounts.models import Profile
-            subscriptions = Profile.objects.subscribed_new_string(self.subproject.project, self.language)
-            for subscription in subscriptions:
-                subscription.notify_new_string(self)
-
         # Cleanup checks for deleted units
         for checksum in deleted_checksums:
             units = Unit.objects.filter(translation__language = self.language, translation__subproject__project = self.subproject.project, checksum = checksum)
@@ -1145,6 +1138,13 @@ class Translation(models.Model):
 
         # Update revision and stats
         self.update_stats(blob_hash)
+
+        # Notify subscribed users
+        if was_new:
+            from weblate.accounts.models import Profile
+            subscriptions = Profile.objects.subscribed_new_string(self.subproject.project, self.language)
+            for subscription in subscriptions:
+                subscription.notify_new_string(self)
 
     def get_repo(self):
         return self.subproject.get_repo()
