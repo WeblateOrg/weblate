@@ -1,6 +1,17 @@
 #!/bin/sh
 
+# Exit on failure
+set -e
+
 cd weblate
 
+# Update po files itself
 ../manage.py makemessages -a -i 'repos/*' -i 'docs/*'
 ../manage.py makemessages -a -i 'repos/*' -i 'docs/*' -d djangojs
+
+# Fix Report-Msgid-Bugs-To as it gets removed
+sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: https:\/\/github.com\/nijel\/weblate\/issues\\n"/' locale/*/*/*.po
+
+# Commit changes
+git add locale/*/*/*.po
+git commit -m 'Update po files'
