@@ -3,7 +3,7 @@
 <table class="sort">
 <thead>
 <tr>
-<th>{% if show_language %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
+<th>{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
 <th>{% trans "Fuzzy" context "Number of fuzzy strings" %}</th>
 <th>{% trans "Checks" context "Number of failing checks" %}</th>
@@ -14,7 +14,7 @@
 {% for trans in translations %}
 {% with trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.get_failing_checks as checks and trans.get_non_translated as count %}
 <tr>
-<th><a href="{{ trans.get_absolute_url }}">{% if show_language %}{{ trans.language }}{% else %}{{ trans.subproject }}{% endif %}</a></th>
+<th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{{ trans.subproject }}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a></th>
 <td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ percent }}%</td>
 <td class="percent">{{ fuzzy }}%</td>
