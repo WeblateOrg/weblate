@@ -1624,6 +1624,7 @@ class Unit(models.Model):
 
         # Return if there was no change
         if not saved:
+            self.propagate(request)
             return
 
         # Update translated flag
