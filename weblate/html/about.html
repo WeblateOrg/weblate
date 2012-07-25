@@ -6,6 +6,8 @@
 
 <p>{% blocktrans %}Weblate is web based translation tool with tight Git integration. It features simple and clean user interface, propagation of translations across subprojects, consistency checks or automatic linking to source files.{% endblocktrans %}</p>
 
+<h2>{% trans "Versions" %}</h2>
+
 <p>{% trans "This site is built using following projects:" %}</p>
 
 <table>
@@ -36,6 +38,31 @@
 <tr>
 <th><a href="http://south.aeracode.org/">south</a></th>
 <td>{{ south_version }}</td>
+</tr>
+</table>
+
+<h2>{% trans "Statistics" %}</h2>
+
+<table>
+<tr>
+<th>{% trans "Strings to translate" %}</th>
+<td>{{ total_strings }}</td>
+</tr>
+<tr>
+<th>{% trans "Used languages" %}</th>
+<td>{{ total_languages }}</td>
+</tr>
+<tr>
+<th>{% trans "Registered users" %}</th>
+<td>{{ total_users }}</td>
+</tr>
+<tr>
+<th>{% trans "Suggestions made" %}</th>
+<td>{{ total_suggestions }}</td>
+</tr>
+<tr>
+<th>{% trans "Translations made" %}</th>
+<td>{{ total_translations }}</td>
 </tr>
 </table>
 
