@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-24 17:08+0200\n"
+"Project-Id-Version: Weblate 1.2\n"
+"Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
+"POT-Creation-Date: 2012-07-25 11:18+0200\n"
 "PO-Revision-Date: 2012-05-14 13:55+0200\n"
 "Last-Translator: Vítor Martins <vjmartins@sapo.pt>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -341,7 +341,7 @@ msgstr ""
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:196
+#: trans/forms.py:202
 msgid "Translation"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgstr ""
 
 #: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:195
+#: trans/forms.py:201
 msgid "Source"
 msgstr ""
 
@@ -2018,268 +2018,281 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr ""
 
-#: trans/forms.py:117 trans/forms.py:199
+#: trans/forms.py:117 trans/forms.py:205
 msgid "File"
 msgstr ""
 
-#: trans/forms.py:121
-msgid "Overwrite existing translations"
+#: trans/forms.py:119
+msgid "Merge file header"
+msgstr ""
+
+#: trans/forms.py:120
+msgid "Merges content of file header into the translation."
 msgstr ""
 
 #: trans/forms.py:127
+msgid "Overwrite existing translations"
+msgstr ""
+
+#: trans/forms.py:133
 msgid "Author name"
 msgstr ""
 
-#: trans/forms.py:129 trans/forms.py:134
+#: trans/forms.py:135 trans/forms.py:140
 msgid "Keep empty for using currently logged in user."
 msgstr ""
 
-#: trans/forms.py:132
+#: trans/forms.py:138
 msgid "Author email"
 msgstr ""
 
-#: trans/forms.py:138
+#: trans/forms.py:144
 msgid "Query"
 msgstr ""
 
-#: trans/forms.py:140
+#: trans/forms.py:146
 msgid "Exact match"
 msgstr ""
 
-#: trans/forms.py:145
+#: trans/forms.py:151
 msgid "Search in source strings"
 msgstr ""
 
-#: trans/forms.py:150
+#: trans/forms.py:156
 msgid "Search in target strings"
 msgstr ""
 
-#: trans/forms.py:155
+#: trans/forms.py:161
 msgid "Search in context strings"
 msgstr ""
 
-#: trans/forms.py:166
+#: trans/forms.py:172
 msgid "Overwrite strings"
 msgstr ""
 
-#: trans/forms.py:171
+#: trans/forms.py:177
 msgid "Replace inconsistent"
 msgstr ""
 
-#: trans/forms.py:176
+#: trans/forms.py:182
 msgid "Subproject to use"
 msgstr ""
 
-#: trans/forms.py:192
+#: trans/forms.py:198
 msgid "All subprojects"
 msgstr ""
 
-#: trans/forms.py:201
+#: trans/forms.py:207
 msgid "Overwrite existing"
 msgstr ""
 
-#: trans/forms.py:206
+#: trans/forms.py:212
 msgid "Starting date"
 msgstr ""
 
-#: trans/forms.py:216
+#: trans/forms.py:222
 msgid "Starting letter"
 msgstr ""
 
-#: trans/forms.py:217
+#: trans/forms.py:223
 msgid "Any"
 msgstr ""
 
-#: trans/models.py:55 trans/models.py:61
+#: trans/models.py:56 trans/models.py:62
 #, python-format
 msgid "Bad format string (%s)"
 msgstr ""
 
-#: trans/models.py:65
+#: trans/models.py:66
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
 
-#: trans/models.py:86
+#: trans/models.py:87
 msgid "Can not link to linked repository!"
 msgstr ""
 
-#: trans/models.py:88
+#: trans/models.py:89
 msgid "Invalid link to repository!"
 msgstr ""
 
-#: trans/models.py:91
+#: trans/models.py:92
 msgid "Use contact form"
 msgstr ""
 
-#: trans/models.py:92
+#: trans/models.py:93
 msgid "Point to translation instructions URL"
 msgstr ""
 
-#: trans/models.py:110
+#: trans/models.py:111
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
 
-#: trans/models.py:124
+#: trans/models.py:125
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models.py:132
+#: trans/models.py:130
+msgid ""
+"Whether the Translation-Team in file headers should be updated by Weblate."
+msgstr ""
+
+#: trans/models.py:138
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:288
+#: trans/models.py:294
 msgid "Name to display"
 msgstr ""
 
-#: trans/models.py:292
+#: trans/models.py:298
 msgid "Name used in URLs"
 msgstr ""
 
-#: trans/models.py:297
+#: trans/models.py:303
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
 
-#: trans/models.py:302
+#: trans/models.py:308
 msgid "URL of push Git repository"
 msgstr ""
 
-#: trans/models.py:306
+#: trans/models.py:312
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
 
-#: trans/models.py:312
+#: trans/models.py:318
 msgid "Git branch to translate"
 msgstr ""
 
-#: trans/models.py:317
+#: trans/models.py:323
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
 
-#: trans/models.py:322
+#: trans/models.py:328
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:326
+#: trans/models.py:332
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:486
+#: trans/models.py:492
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models.py:566
+#: trans/models.py:572
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:595
+#: trans/models.py:601
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:621
+#: trans/models.py:627
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:677
+#: trans/models.py:683
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:749
+#: trans/models.py:755
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:754
+#: trans/models.py:760
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:769
+#: trans/models.py:775
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:774
+#: trans/models.py:780
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:784
+#: trans/models.py:790
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:786
+#: trans/models.py:792
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:881
+#: trans/models.py:887
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:885
+#: trans/models.py:891
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:887
+#: trans/models.py:893
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:912 trans/views.py:290
+#: trans/models.py:918 trans/views.py:290
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
-#: trans/models.py:920
+#: trans/models.py:926
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1393
+#: trans/models.py:1408
 msgid "All strings"
 msgstr ""
 
-#: trans/models.py:1398
+#: trans/models.py:1413
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr ""
 
-#: trans/models.py:1400
+#: trans/models.py:1415
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models.py:1402
+#: trans/models.py:1417
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/models.py:1601
+#: trans/models.py:1616
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1685
+#: trans/models.py:1700
 #, python-format
 msgid "unit ID %s"
 msgstr ""
