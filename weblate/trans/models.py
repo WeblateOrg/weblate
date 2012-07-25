@@ -1407,7 +1407,7 @@ class Translation(models.Model):
                 result.append((check, desc))
         return result
 
-    def merge_store(self, author, store2, overwrite, mergefuzzy = False):
+    def merge_store(self, author, store2, overwrite, mergefuzzy = False, merge_header = True):
         '''
         Merges ttkit store into current translation.
         '''
@@ -1419,7 +1419,7 @@ class Translation(models.Model):
 
             for unit2 in store2.units:
                 if unit2.isheader():
-                    if isinstance(store1, poheader.poheader):
+                    if merge_header and isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
                 unit1 = store1.findid(unit2.getid())
@@ -1442,7 +1442,7 @@ class Translation(models.Model):
             self.check_sync()
         return ret
 
-    def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False):
+    def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False, merge_header = True):
         '''
         Top level handler for file uploads.
         '''
@@ -1453,7 +1453,7 @@ class Translation(models.Model):
         ret = False
 
         for s in Translation.objects.filter(language = self.language, subproject__project = self.subproject.project):
-            ret |= s.merge_store(author, store2, overwrite, mergefuzzy)
+            ret |= s.merge_store(author, store2, overwrite, mergefuzzy, merge_header)
 
         return ret
 
