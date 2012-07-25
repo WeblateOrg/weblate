@@ -24,7 +24,7 @@
 
 {% if usertranslations %}
 <div id="your">
-{% with usertranslations as translations %}
+{% with usertranslations as translations and 2 as show_language %}
 {% include "list-translations.html" %}
 {% endwith %}
 </div>
