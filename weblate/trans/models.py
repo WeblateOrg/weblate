@@ -8,6 +8,7 @@ from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.utils.formats import date_format
+from django.contrib.sites.models import Site
 from glob import glob
 import os
 import time
@@ -122,6 +123,11 @@ class Project(models.Model):
     push_on_commit = models.BooleanField(
         default = False,
         help_text = ugettext_lazy('Whether the repository should be pushed upstream on every commit.'),
+    )
+
+    set_translation_team = models.BooleanField(
+        default = True,
+        help_text = ugettext_lazy('Whether the Translation-Team in file headers should be updated by Weblate.'),
     )
 
     class Meta:
@@ -1376,6 +1382,15 @@ class Translation(models.Model):
                         language = self.language_code,
                         PO_Revision_Date = po_revision_date,
                         x_generator = 'Weblate %s' % weblate.VERSION
+                        )
+                    if self.subproject.project.set_translation_team:
+                        site = Site.objects.get_current()
+                        store.updateheader(
+                            language_team = '%s <http://%s%s>' % (
+                                self.language.name,
+                                site.domain,
+                                self.get_absolute_url(),
+                            )
                         )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)

@@ -24,6 +24,7 @@ Relased on ? 2012.
 * Improved handling of not known languages when importing project.
 * Documentation improvements.
 * Support for locking translation by translator.
+* Optionally maintain Language-Team header in po file.
 
 weblate 1.1
 -----------
