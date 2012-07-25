@@ -25,6 +25,7 @@ Relased on ? 2012.
 * Documentation improvements.
 * Support for locking translation by translator.
 * Optionally maintain Language-Team header in po file.
+* Include some statistics in about page.
 
 weblate 1.1
 -----------
