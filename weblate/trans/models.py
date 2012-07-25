@@ -1595,7 +1595,7 @@ class Unit(models.Model):
 
         return ret
 
-    def propagate(self):
+    def propagate(self, request):
         '''
         Propagates current translation to all others.
         '''
@@ -1672,7 +1672,7 @@ class Unit(models.Model):
 
         # Propagate to other projects
         if propagate:
-            self.propagate()
+            self.propagate(request)
 
     def save(self, *args, **kwargs):
         '''
