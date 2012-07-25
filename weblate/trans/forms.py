@@ -114,7 +114,13 @@ class AntispamForm(forms.Form):
             raise ValidationError('Invalid value')
 
 class SimpleUploadForm(forms.Form):
-    file  = forms.FileField(label = _('File'))
+    file = forms.FileField(label = _('File'))
+    merge_header = forms.BooleanField(
+        label = _('Merge file header'),
+        help_text = _('Merges content of file header into the translation.'),
+        required = False,
+        initial = True,
+    )
 
 class UploadForm(SimpleUploadForm):
     overwrite = forms.BooleanField(

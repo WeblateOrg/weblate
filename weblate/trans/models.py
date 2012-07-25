@@ -8,6 +8,7 @@ from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.utils.formats import date_format
+from django.contrib.sites.models import Site
 from glob import glob
 import os
 import time
@@ -122,6 +123,11 @@ class Project(models.Model):
     push_on_commit = models.BooleanField(
         default = False,
         help_text = ugettext_lazy('Whether the repository should be pushed upstream on every commit.'),
+    )
+
+    set_translation_team = models.BooleanField(
+        default = True,
+        help_text = ugettext_lazy('Whether the Translation-Team in file headers should be updated by Weblate.'),
     )
 
     class Meta:
@@ -1377,6 +1383,15 @@ class Translation(models.Model):
                         PO_Revision_Date = po_revision_date,
                         x_generator = 'Weblate %s' % weblate.VERSION
                         )
+                    if self.subproject.project.set_translation_team:
+                        site = Site.objects.get_current()
+                        store.updateheader(
+                            language_team = '%s <http://%s%s>' % (
+                                self.language.name,
+                                site.domain,
+                                self.get_absolute_url(),
+                            )
+                        )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)
                 # save translation changes
@@ -1407,7 +1422,7 @@ class Translation(models.Model):
                 result.append((check, desc))
         return result
 
-    def merge_store(self, author, store2, overwrite, mergefuzzy = False):
+    def merge_store(self, author, store2, overwrite, mergefuzzy = False, merge_header = True):
         '''
         Merges ttkit store into current translation.
         '''
@@ -1419,7 +1434,7 @@ class Translation(models.Model):
 
             for unit2 in store2.units:
                 if unit2.isheader():
-                    if isinstance(store1, poheader.poheader):
+                    if merge_header and isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
                 unit1 = store1.findid(unit2.getid())
@@ -1442,7 +1457,7 @@ class Translation(models.Model):
             self.check_sync()
         return ret
 
-    def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False):
+    def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False, merge_header = True):
         '''
         Top level handler for file uploads.
         '''
@@ -1453,7 +1468,7 @@ class Translation(models.Model):
         ret = False
 
         for s in Translation.objects.filter(language = self.language, subproject__project = self.subproject.project):
-            ret |= s.merge_store(author, store2, overwrite, mergefuzzy)
+            ret |= s.merge_store(author, store2, overwrite, mergefuzzy, merge_header)
 
         return ret
 

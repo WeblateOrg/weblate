@@ -1083,7 +1083,7 @@ def upload_translation(request, project, subproject, lang):
             else:
                 overwrite = False
             try:
-                ret = obj.merge_upload(request, request.FILES['file'], overwrite, author)
+                ret = obj.merge_upload(request, request.FILES['file'], overwrite, author, merge_header = form.cleaned_data['merge_header'])
                 if ret:
                     messages.info(request, _('File content successfully merged into translation.'))
                 else:
