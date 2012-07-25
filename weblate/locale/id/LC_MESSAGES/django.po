@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-24 17:08+0200\n"
-"PO-Revision-Date: 2012-07-17 21:30+0200\n"
+"PO-Revision-Date: 2012-07-25 10:45+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: id\n"
@@ -750,7 +750,7 @@ msgstr "Repositori Git:"
 #: html/subproject_info.html:9 html/subproject_info.html.py:11
 #, python-format
 msgid "%(branch)s branch"
-msgstr ""
+msgstr "cabang %(branch)s"
 
 #: html/translate.html:10
 msgid "translate"
@@ -884,16 +884,15 @@ msgstr "Cari"
 
 #: html/translation.html:33
 msgid "Files"
-msgstr ""
+msgstr "Berkas"
 
 #: html/translation.html:36
 msgid "Automatic translation"
 msgstr "Penerjemahan otomatis"
 
 #: html/translation.html:41
-#, fuzzy
 msgid "Locking"
-msgstr "Kunci"
+msgstr "Mengunci"
 
 #: html/translation.html:54
 msgid "Download"
@@ -951,18 +950,20 @@ msgstr "Proses"
 #: html/translation.html:109
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
+"Penguncian terjemahan akan mencegah orang lain untuk bekerja pada "
+"terjemahan."
 
 #: html/translation.html:111
 msgid "Locked by:"
-msgstr ""
+msgstr "Dikunci oleh:"
 
 #: html/translation.html:112
 msgid "Lock valid till:"
-msgstr ""
+msgstr "Kuncian valid sampai:"
 
 #: html/translation.html:114
 msgid "Translation is currently not locked."
-msgstr ""
+msgstr "Terjemahan tidak dikunci."
 
 #: html/translation.html:118 html/js/git-status.html:16
 msgid "Unlock"
@@ -995,11 +996,11 @@ msgstr "Pesan telah diterjemahkan"
 
 #: html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "widget"
 
 #: html/widgets.html:12
 msgid "Widgets"
-msgstr ""
+msgstr "Widget"
 
 #: html/widgets.html:15
 msgid ""
@@ -1012,13 +1013,13 @@ msgstr ""
 "penerjemahan Anda dan akan membawa kontributor baru."
 
 #: html/widgets.html:19
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can also point newcomers to the introduction page at <a href="
 "\"%(engage_url)s\">%(engage_url)s</a>."
 msgstr ""
-"Anda juga dapat menunjukkan pendatang baru melalui Halaman perkenalan di <a "
-"href=\"%(engage_url)s\">%(engage_url)s</a>."
+"Anda juga dapat menunjukkan penterjemah baru mengunjungi Halaman Perkenalan "
+"di <a href=\"%(engage_url)s\">%(engage_url)s</a>."
 
 #: html/widgets.html:22
 msgid "Image widgets"
@@ -1031,7 +1032,7 @@ msgstr "Gambar %(widget)s"
 
 #: html/widgets.html:27
 msgid "Color variants:"
-msgstr ""
+msgstr "Variasi warna:"
 
 #: html/widgets.html:35
 msgid "Code:"
@@ -1051,13 +1052,13 @@ msgid "Status"
 msgstr "Status"
 
 #: html/admin/report.html:17
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Tidak menampilkan status dari repositori terkait. Periksa %(repo)s sebagai "
-"gantinya."
+"Tidak menampilkan status dari repositori terkait. Periksa <a href=\"#%"
+"(slug)s\">%(repo)s</a> sebagai gantinya."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1105,7 +1106,7 @@ msgstr "Cegah semua perubahan dalam repositori"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
-msgstr ""
+msgstr "Ada beberapa perubahan tidak komit!"
 
 #: html/js/git-status.html:27
 msgid "Remote Git repository needs to be merged!"
@@ -1160,33 +1161,29 @@ msgid "New translation in %(translation)s"
 msgstr "Terjemahan baru dalam %(translation)s"
 
 #: html/mail/footer.txt:1
-#, fuzzy
 msgid "Translation summary:"
-msgstr "Penterjemahan"
+msgstr "Ringkasan terjemahan:"
 
 #: html/mail/footer.txt:3
-#, fuzzy
 msgid "Total strings:"
-msgstr "String sumber:"
+msgstr "Total string:"
 
 #: html/mail/footer.txt:4
-#, fuzzy
 msgid "Translated strings:"
-msgstr "Penterjemahan"
+msgstr "String diterjemahkan:"
 
 #: html/mail/footer.txt:5
-#, fuzzy
 msgid "Fuzzy strings:"
-msgstr "String sumber:"
+msgstr "String samar:"
 
 #: html/mail/footer.txt:7
-#, fuzzy, python-format
+#, python-format
 msgid "You can translate at %(translation_url)s"
-msgstr "String baru untuk menerjemahkan dalam %(translation)s"
+msgstr "Anda dapat menerjemahkan di %(translation_url)s"
 
 #: html/mail/footer.txt:10
 msgid "Sent by Weblate translation system"
-msgstr ""
+msgstr "Dikirim oleh sistem terjemahan Weblate"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1196,6 +1193,10 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
 msgstr ""
+"Hai,\n"
+"\n"
+"%(username)s telah dibuat oleh kontribusi pertamanya pada %(translation)s di "
+"%(site_title)s.\n"
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -1209,6 +1210,9 @@ msgid ""
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hai,\n"
+"\n"
+"ada string baru untuk menerjemahkan pada %(translation)s di %(site_title)s.\n"
 
 #: html/mail/new_string_subject.txt:1
 #, python-format
@@ -1222,10 +1226,13 @@ msgid ""
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
+"Hai,\n"
+"\n"
+"ada saran baru untuk dievaluasi pada %(translation)s di %(site_title)s.\n"
 
 #: html/mail/new_suggestion.txt:14
 msgid "You can review it at:"
-msgstr ""
+msgstr "Anda dapat memeriksanya di:"
 
 #: html/mail/new_suggestion_subject.txt:1
 #, python-format
@@ -1239,6 +1246,9 @@ msgid ""
 "    account is now activated. Your username is \n"
 "    <b>%(username)s</b>."
 msgstr ""
+"Terima kasih.\n"
+"    Akun Anda sekarang sudah diaktifkan. Nama pengguna anda adalah\n"
+"    <b>%(username)s</b>."
 
 #: html/registration/activate.html:15
 #, python-format
