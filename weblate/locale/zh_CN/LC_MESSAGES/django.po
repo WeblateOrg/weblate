@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-07-25 14:50+0200\n"
-"PO-Revision-Date: 2012-07-25 15:23+0200\n"
+"PO-Revision-Date: 2012-07-25 16:07+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: none\n"
 "Language: zh_CN\n"
@@ -879,7 +879,6 @@ msgid "Search"
 msgstr "搜索"
 
 #: html/translation.html:33
-#, fuzzy
 msgid "Files"
 msgstr "文件"
 
@@ -888,9 +887,8 @@ msgid "Automatic translation"
 msgstr "自动翻译"
 
 #: html/translation.html:41
-#, fuzzy
 msgid "Locking"
-msgstr "锁定"
+msgstr "正在锁定"
 
 #: html/translation.html:54
 msgid "Download"
@@ -946,16 +944,15 @@ msgstr ""
 
 #: html/translation.html:111
 msgid "Locked by:"
-msgstr ""
+msgstr "锁定者:"
 
 #: html/translation.html:112
 msgid "Lock valid till:"
-msgstr ""
+msgstr "锁定期限:"
 
 #: html/translation.html:114
-#, fuzzy
 msgid "Translation is currently not locked."
-msgstr "此翻译已被锁定，不能更新！"
+msgstr "翻译未被锁定。"
 
 #: html/translation.html:118 html/js/git-status.html:16
 msgid "Unlock"
@@ -2112,7 +2109,7 @@ msgstr "文件"
 
 #: trans/forms.py:119
 msgid "Merge file header"
-msgstr ""
+msgstr "合并文件头"
 
 #: trans/forms.py:120
 #, fuzzy
@@ -2359,9 +2356,9 @@ msgid "This translation is currently locked for updates!"
 msgstr "此翻译已被锁定，不能更新！"
 
 #: trans/models.py:926
-#, fuzzy, python-format
+#, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
-msgstr "此翻译已被锁定，不能更新！"
+msgstr "此翻译已被 %(user)s 锁定到 %(time)s！"
 
 #: trans/models.py:1408
 msgid "All strings"
@@ -2434,14 +2431,12 @@ msgid "All repositories have been reset."
 msgstr "已重设所有代码库。"
 
 #: trans/views.py:509
-#, fuzzy
 msgid "Translation is now locked for you."
-msgstr "此翻译已被锁定，不能更新！"
+msgstr "翻译已被您锁定。"
 
 #: trans/views.py:521
-#, fuzzy
 msgid "Translation is now open for translation updates."
-msgstr "已开放项目的翻译更新。"
+msgstr "已开放翻译的更新。"
 
 #: trans/views.py:535
 msgid "Subproject is now locked for translation updates!"
