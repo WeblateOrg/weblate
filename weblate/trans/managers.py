@@ -145,18 +145,19 @@ class UnitManager(models.Manager):
                 project = sample.translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
-        elif rqtype in CHECKS:
+        elif rqtype in CHECKS or rqtype == 'allchecks':
             try:
                 sample = self.all()[0]
             except IndexError:
                 return self.none()
-            sugs = Check.objects.filter(
+            checks = Check.objects.filter(
                 language = sample.translation.language,
                 project = sample.translation.subproject.project,
-                check = rqtype,
                 ignore = False)
-            sugs = sugs.values_list('checksum', flat = True)
-            return self.filter(checksum__in = sugs, fuzzy = False, translated = True)
+            if rqtype != 'allchecks':
+                checks = checks.filter(check = rqtype)
+            checks = checks.values_list('checksum', flat = True)
+            return self.filter(checksum__in = checks, fuzzy = False, translated = True)
         else:
             return self.all()
 
