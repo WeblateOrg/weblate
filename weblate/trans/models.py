@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.utils.formats import date_format
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from glob import glob
 import os
 import time
@@ -1406,19 +1407,22 @@ class Translation(models.Model):
         Returns list of failing checks on current translation.
         '''
         result = [('all', _('All strings'))]
-        nottranslated = self.unit_set.filter_type('untranslated').count()
-        fuzzy = self.unit_set.filter_type('fuzzy').count()
-        suggestions = self.unit_set.filter_type('suggestions').count()
+        nottranslated = self.unit_set.count_type('untranslated', self)
+        fuzzy = self.unit_set.count_type('fuzzy', self)
+        suggestions = self.unit_set.count_type('suggestions', self)
+        allchecks = self.unit_set.count_type('allchecks', self)
         if nottranslated > 0:
             result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
         if fuzzy > 0:
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
         if suggestions > 0:
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
+        if allchecks > 0:
+            result.append(('allchecks', _('Strings with any failing checks (%d)') % allchecks))
         for check in CHECKS:
-            cnt = self.unit_set.filter_type(check).count()
+            cnt = self.unit_set.count_type(check, self)
             if cnt > 0:
-                desc =  CHECKS[check].description + (' (%d)' % cnt)
+                desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
         return result
 
@@ -1433,28 +1437,45 @@ class Translation(models.Model):
             store1.require_index()
 
             for unit2 in store2.units:
+                # No translated -> skip
+                if len(unit2.target.strip()) == 0:
+                    continue
+
+                # Should we cope with fuzzy ones?
+                if not mergefuzzy:
+                    if unit2.isfuzzy():
+                        continue
+
+                # Optionally merge header
                 if unit2.isheader():
                     if merge_header and isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
+
+                # Find unit by ID
                 unit1 = store1.findid(unit2.getid())
+
+                # Fallback to finding by source
                 if unit1 is None:
                     unit1 = store1.findunit(unit2.source)
+
+                # Unit not found, nothing to do
                 if unit1 is None:
                     continue
-                else:
-                    if len(unit2.target.strip()) == 0:
-                        continue
-                    if not mergefuzzy:
-                        if unit2.isfuzzy():
-                            continue
-                    if not overwrite and unit1.istranslated():
-                        continue
-                    unit1.merge(unit2, overwrite=True, comments=False)
+
+                # Should we overwrite
+                if not overwrite and unit1.istranslated():
+                    continue
+
+                # Actually update translation
+                unit1.merge(unit2, overwrite=True, comments=False)
+
+            # Write to backend and commit
             self.commit_pending(author)
             store1.save()
             ret = self.git_commit(author, True)
             self.check_sync()
+
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False, merge_header = True):
@@ -1472,18 +1493,13 @@ class Translation(models.Model):
 
         return ret
 
-    def get_failing_checks(self, check = None):
+    def get_failing_checks(self, check = 'allchecks'):
         '''
         Returns number of units with failing checks.
 
         By default for all checks or check type can be specified.
         '''
-        if check is None:
-            checks = Check.objects.all()
-        else:
-            checks = Check.objects.filter(check = check)
-        checks = checks.filter(project = self.subproject.project, language = self.language, ignore = False).values_list('checksum', flat = True)
-        return self.unit_set.filter(checksum__in = checks, translated = True).count()
+        return self.unit_set.count_type(check, self)
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
@@ -1702,10 +1718,16 @@ class Unit(models.Model):
         Generates links to source files where translation was used.
         '''
         ret = []
+
+        # Do we have any locations?
         if len(self.location) == 0:
             return ''
+
+        # Is it just an ID?
         if self.location.isdigit():
             return _('unit ID %s') % self.location
+
+        # Go through all locations separated by comma
         for location in self.location.split(','):
             location = location.strip()
             if location == '':
@@ -1764,16 +1786,23 @@ class Unit(models.Model):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         failing = []
+
+        change = False
+
+        # Run all checks
         for check in CHECKS:
             if CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
                 failing.append(check)
 
+        # Compare to existing checks, delete non failing ones
         for check in self.checks():
             if check.check in failing:
                 failing.remove(check.check)
                 continue
             check.delete()
+            change = True
 
+        # Store new checks in database
         for check in failing:
             Check.objects.create(
                 checksum = self.checksum,
@@ -1782,6 +1811,16 @@ class Unit(models.Model):
                 ignore = False,
                 check = check
             )
+            change = True
+
+        # Invalidate checks cache
+        if change:
+            slug = self.translation.subproject.get_full_slug()
+            code = self.translation.language.code
+
+            for rqtype in ['allchecks'] + list(CHECKS):
+                cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
+                cache.delete(cache_key)
 
     def nearby(self):
         '''

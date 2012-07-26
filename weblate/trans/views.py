@@ -303,7 +303,7 @@ def auto_translation(request, project, subproject, lang):
     change = None
     if not obj.subproject.locked and autoform.is_valid():
         if autoform.cleaned_data['inconsistent']:
-            units = obj.unit_set.filter_type('inconsistent')
+            units = obj.unit_set.filter_type('inconsistent', obj)
         elif autoform.cleaned_data['overwrite']:
             units = obj.unit_set.all()
         else:
@@ -917,7 +917,7 @@ def translate(request, project, subproject, lang):
         else:
             units = allunits.filter(position__gt = pos)
     else:
-        allunits = obj.unit_set.filter_type(rqtype)
+        allunits = obj.unit_set.filter_type(rqtype, obj)
         # What unit set is about to show
         if direction == 'stay':
             units = obj.unit_set.filter(position = pos)

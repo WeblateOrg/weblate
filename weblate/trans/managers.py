@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.cache import cache
 import itertools
 
 from weblate.lang.models import Language
@@ -123,7 +124,7 @@ class UnitManager(models.Manager):
         dbunit.update_from_unit(unit, pos, force)
         return dbunit, force
 
-    def filter_type(self, rqtype):
+    def filter_type(self, rqtype, translation):
         '''
         Basic filtering based on unit state or failed checks.
         '''
@@ -136,29 +137,51 @@ class UnitManager(models.Manager):
         elif rqtype == 'untranslated':
             return self.filter(translated = False)
         elif rqtype == 'suggestions':
-            try:
-                sample = self.all()[0]
-            except IndexError:
-                return self.none()
             sugs = Suggestion.objects.filter(
-                language = sample.translation.language,
-                project = sample.translation.subproject.project)
+                language = translation.language,
+                project = translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
-        elif rqtype in CHECKS:
-            try:
-                sample = self.all()[0]
-            except IndexError:
-                return self.none()
-            sugs = Check.objects.filter(
-                language = sample.translation.language,
-                project = sample.translation.subproject.project,
-                check = rqtype,
+        elif rqtype in CHECKS or rqtype == 'allchecks':
+            checks = Check.objects.filter(
+                language = translation.language,
+                project = translation.subproject.project,
                 ignore = False)
-            sugs = sugs.values_list('checksum', flat = True)
-            return self.filter(checksum__in = sugs, fuzzy = False, translated = True)
+            if rqtype != 'allchecks':
+                checks = checks.filter(check = rqtype)
+            checks = checks.values_list('checksum', flat = True)
+            return self.filter(checksum__in = checks, fuzzy = False, translated = True)
         else:
             return self.all()
+
+    def count_type(self, rqtype, translation):
+        '''
+        Cached counting of failing checks (and other stats).
+        '''
+        # Use precalculated data if we can
+        if rqtype == 'all':
+            return translation.total
+        elif rqtype == 'fuzzy':
+            return translation.fuzzy
+        elif rqtype == 'untranslated':
+            return translation.total - translation.translated
+
+        # Try to get value from cache
+        cache_key = 'counts-%s-%s-%s' % (
+            translation.subproject.get_full_slug(),
+            translation.language.code,
+            rqtype
+        )
+        ret = cache.get(cache_key)
+        if ret is not None:
+            return ret
+
+        # Actually count units
+        ret = self.filter_type(rqtype, translation).count()
+
+        # Update cache
+        cache.set(cache_key, ret)
+        return ret
 
     def review(self, date, user):
         '''
