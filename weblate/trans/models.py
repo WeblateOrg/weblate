@@ -1493,25 +1493,13 @@ class Translation(models.Model):
 
         return ret
 
-    def get_failing_checks(self, check = None):
+    def get_failing_checks(self, check = 'allchecks'):
         '''
         Returns number of units with failing checks.
 
         By default for all checks or check type can be specified.
         '''
-        cache_key = 'checks-%s-%s' % (self.subproject.get_full_slug(), self.language.code)
-        if check is None:
-            checks = Check.objects.all()
-        else:
-            cache_key += '-%s' % check
-            checks = Check.objects.filter(check = check)
-        ret = cache.get(cache_key)
-        if ret is not None:
-            return ret
-        checks = checks.filter(project = self.subproject.project, language = self.language, ignore = False).values_list('checksum', flat = True)
-        ret = self.unit_set.filter(checksum__in = checks, translated = True).count()
-        cache.set(cache_key, ret)
-        return ret
+        return self.unit_set.count_type(check, self)
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
