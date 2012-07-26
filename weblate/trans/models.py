@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.utils.formats import date_format
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from glob import glob
 import os
 import time
@@ -1495,12 +1496,19 @@ class Translation(models.Model):
 
         By default for all checks or check type can be specified.
         '''
+        cache_key = 'checks-%s-%s' % (self.subproject.get_full_slug(), self.language.code)
         if check is None:
             checks = Check.objects.all()
         else:
+            cache_key += '-%s' % check
             checks = Check.objects.filter(check = check)
+        ret = cache.get(cache_key)
+        if ret is not None:
+            return ret
         checks = checks.filter(project = self.subproject.project, language = self.language, ignore = False).values_list('checksum', flat = True)
-        return self.unit_set.filter(checksum__in = checks, translated = True).count()
+        ret = self.unit_set.filter(checksum__in = checks, translated = True).count()
+        cache.set(cache_key, ret)
+        return ret
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
