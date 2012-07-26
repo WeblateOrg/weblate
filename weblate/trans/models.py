@@ -610,7 +610,7 @@ class SubProject(models.Model):
             return self.get_linked_repo().do_reset(request)
 
         # First check we're up to date
-        self.do_update(request)
+        self.pull_repo()
 
         # Do actual reset
         gitrepo = self.get_repo()
