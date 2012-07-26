@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-25 14:50+0200\n"
+"POT-Creation-Date: 2012-07-26 11:26+0200\n"
 "PO-Revision-Date: 2012-07-25 16:07+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: none\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:102 urls.py:108
+#: urls.py:103 urls.py:110 urls.py:117 urls.py:124
 msgid "User registration"
 msgstr "注册用户"
 
-#: urls.py:113
+#: urls.py:132
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:119 html/base.html:48 html/registration/login.html:30
+#: urls.py:141 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
-#: urls.py:126
+#: urls.py:148
 msgid "Logged out"
 msgstr "已退出"
 
-#: urls.py:131
+#: urls.py:153
 msgid "Change password"
 msgstr "修改密码"
 
-#: urls.py:135
+#: urls.py:157
 msgid "Password changed"
 msgstr "密码已修改"
 
-#: urls.py:139 urls.py:143 urls.py:147 urls.py:151
+#: urls.py:161 urls.py:165 urls.py:169 urls.py:173
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -375,7 +375,7 @@ msgstr "没有与已检查条目匹配的！"
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:202
+#: trans/forms.py:203
 msgid "Translation"
 msgstr "翻译"
 
@@ -433,7 +433,7 @@ msgstr "最后一条"
 
 #: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:201
+#: trans/forms.py:202
 msgid "Source"
 msgstr "源条目"
 
@@ -1222,49 +1222,42 @@ msgstr "您可以到这里复查:"
 msgid "New suggestion in %(translation)s"
 msgstr "%(translation)s 中有新的建议"
 
+#: html/registration/activate.html:7
+#, fuzzy
+msgid "Your account could not be activated"
+msgstr "无法识别 %s 格式。"
+
 #: html/registration/activate.html:9
 #, python-format
 msgid ""
-"Thank you. Your \n"
-"    account is now activated. Your username is \n"
-"    <b>%(username)s</b>."
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+" This may be because it is already active or because you waited over "
+"%(days)s days to activate it."
+msgstr[0] ""
+
+#: html/registration/activate.html:11
+#, python-format
+msgid ""
+"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+
+#: html/registration/activation_complete.html:8
+#, fuzzy
+msgid "Thank you. Your account is now activated."
 msgstr ""
 "谢谢。您的 \n"
 "    账号已激活。您的用户名为 \n"
 "    <b>%(username)s</b>。"
 
-#: html/registration/activate.html:15
+#: html/registration/activation_complete.html:12
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
 msgstr "您现在也许要<a href=\"%(profile_url)s\">修改您的资料</a>。"
-
-#: html/registration/activate.html:20
-#, python-format
-msgid ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s day to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgid_plural ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s days to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgstr[0] ""
-"\n"
-"    未能激活您的账号。\n"
-"    这可能是因为账号已经激活了或是您在超过了 \n"
-"    %(days)s 天的激活有效期后激活的。 \n"
-"    如果不是上述情形，请联系网站管理员。 \n"
-"    您也可以<a href=\"%(reg_url)s\">重新注册</a>。\n"
-"    "
 
 #: html/registration/activation_email.txt:1
 #, python-format
@@ -1411,6 +1404,12 @@ msgstr "忘记了您的密码？输入您的电子邮箱地址，我们将向您
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
 msgstr "重设我的密码"
+
+#: html/registration/registration_closed.html:6
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href=\"/"
+"contact/\">contact us</a> for more details."
+msgstr ""
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2103,84 +2102,84 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "模糊"
 
-#: trans/forms.py:117 trans/forms.py:205
+#: trans/forms.py:118 trans/forms.py:206
 msgid "File"
 msgstr "文件"
 
-#: trans/forms.py:119
+#: trans/forms.py:120
 msgid "Merge file header"
 msgstr "合并文件头"
 
-#: trans/forms.py:120
+#: trans/forms.py:121
 #, fuzzy
 msgid "Merges content of file header into the translation."
 msgstr "文件内容已成功地与原译文合并了。"
 
-#: trans/forms.py:127
+#: trans/forms.py:128
 msgid "Overwrite existing translations"
 msgstr "改写现有译文"
 
-#: trans/forms.py:133
+#: trans/forms.py:134
 msgid "Author name"
 msgstr "作者姓名"
 
-#: trans/forms.py:135 trans/forms.py:140
+#: trans/forms.py:136 trans/forms.py:141
 msgid "Keep empty for using currently logged in user."
 msgstr "留空表示使用当前登录的用户。"
 
-#: trans/forms.py:138
+#: trans/forms.py:139
 msgid "Author email"
 msgstr "作者邮箱"
 
-#: trans/forms.py:144
+#: trans/forms.py:145
 msgid "Query"
 msgstr "查询"
 
-#: trans/forms.py:146
+#: trans/forms.py:147
 msgid "Exact match"
 msgstr "精确匹配"
 
-#: trans/forms.py:151
+#: trans/forms.py:152
 msgid "Search in source strings"
 msgstr "在源条目中搜索"
 
-#: trans/forms.py:156
+#: trans/forms.py:157
 msgid "Search in target strings"
 msgstr "在目标条目中搜索"
 
-#: trans/forms.py:161
+#: trans/forms.py:162
 msgid "Search in context strings"
 msgstr "在上下文条目中搜索"
 
-#: trans/forms.py:172
+#: trans/forms.py:173
 msgid "Overwrite strings"
 msgstr "改写条目"
 
-#: trans/forms.py:177
+#: trans/forms.py:178
 msgid "Replace inconsistent"
 msgstr "替换不一致的"
 
-#: trans/forms.py:182
+#: trans/forms.py:183
 msgid "Subproject to use"
 msgstr "要使用的子项目"
 
-#: trans/forms.py:198
+#: trans/forms.py:199
 msgid "All subprojects"
 msgstr "所有子项目"
 
-#: trans/forms.py:207
+#: trans/forms.py:208
 msgid "Overwrite existing"
 msgstr "改写现有的"
 
-#: trans/forms.py:212
+#: trans/forms.py:213
 msgid "Starting date"
 msgstr "开始日期"
 
-#: trans/forms.py:222
+#: trans/forms.py:223
 msgid "Starting letter"
 msgstr "开始字母"
 
-#: trans/forms.py:223
+#: trans/forms.py:224
 msgid "Any"
 msgstr "任何"
 
@@ -2379,11 +2378,11 @@ msgstr "模糊条目(%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目(%d)"
 
-#: trans/models.py:1616
+#: trans/models.py:1623
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:1700
+#: trans/models.py:1708
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2531,6 +2530,31 @@ msgstr "文件内容合并失败：%s"
 #: trans/views.py:1103
 msgid "Page Not Found"
 msgstr "页面未找到"
+
+#~ msgid ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s day to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgid_plural ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s days to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgstr[0] ""
+#~ "\n"
+#~ "    未能激活您的账号。\n"
+#~ "    这可能是因为账号已经激活了或是您在超过了 \n"
+#~ "    %(days)s 天的激活有效期后激活的。 \n"
+#~ "    如果不是上述情形，请联系网站管理员。 \n"
+#~ "    您也可以<a href=\"%(reg_url)s\">重新注册</a>。\n"
+#~ "    "
 
 #~ msgid "Example:"
 #~ msgstr "示例:"

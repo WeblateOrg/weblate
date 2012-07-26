@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-25 14:50+0200\n"
+"POT-Creation-Date: 2012-07-26 11:26+0200\n"
 "PO-Revision-Date: 2012-07-25 14:54+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://127.0.0.1:1234/projects/weblate/master/cs/>\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:102 urls.py:108
+#: urls.py:103 urls.py:110 urls.py:117 urls.py:124
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: urls.py:113
+#: urls.py:132
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:119 html/base.html:48 html/registration/login.html:30
+#: urls.py:141 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: urls.py:126
+#: urls.py:148
 msgid "Logged out"
 msgstr "Odhlášen"
 
-#: urls.py:131
+#: urls.py:153
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: urls.py:135
+#: urls.py:157
 msgid "Password changed"
 msgstr "Heslo bylo změněno"
 
-#: urls.py:139 urls.py:143 urls.py:147 urls.py:151
+#: urls.py:161 urls.py:165 urls.py:169 urls.py:173
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -377,7 +377,7 @@ msgstr "Neodpovídají žádné selhavší kontroly!"
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:202
+#: trans/forms.py:203
 msgid "Translation"
 msgstr "Překlad"
 
@@ -437,7 +437,7 @@ msgstr "Poslední"
 
 #: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:201
+#: trans/forms.py:202
 msgid "Source"
 msgstr "Zdroj"
 
@@ -1253,69 +1253,45 @@ msgstr "Můžete ho posoudit na:"
 msgid "New suggestion in %(translation)s"
 msgstr "Nový návrh překladu v %(translation)s"
 
+#: html/registration/activate.html:7
+#, fuzzy
+msgid "Your account could not be activated"
+msgstr "Nepodařilo ze rozpoznat formát souboru %s."
+
 #: html/registration/activate.html:9
 #, python-format
 msgid ""
-"Thank you. Your \n"
-"    account is now activated. Your username is \n"
-"    <b>%(username)s</b>."
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+" This may be because it is already active or because you waited over "
+"%(days)s days to activate it."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: html/registration/activate.html:11
+#, python-format
+msgid ""
+"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+
+#: html/registration/activation_complete.html:8
+#, fuzzy
+msgid "Thank you. Your account is now activated."
 msgstr ""
 "Děkujeme. Váš \n"
 "    účet byl aktivován. Vaše uživatelské jméno je \n"
 "    <b>%(username)s</b>."
 
-#: html/registration/activate.html:15
+#: html/registration/activation_complete.html:12
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
 msgstr ""
 "Nyní je ten správný čas <a href=\"%(profile_url)s\">upravit váš profil</a>."
-
-#: html/registration/activate.html:20
-#, python-format
-msgid ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s day to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgid_plural ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s days to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgstr[0] ""
-"\n"
-"    Váš účet nemohl být aktivován.\n"
-"    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
-"    %(days)s den. \n"
-"    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
-"</a>\n"
-"    "
-msgstr[1] ""
-"\n"
-"    Váš účet nemohl být aktivován.\n"
-"    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
-"    %(days)s dny. \n"
-"    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
-"</a>\n"
-"    "
-msgstr[2] ""
-"\n"
-"    Váš účet nemohl být aktivován.\n"
-"    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
-"    %(days)s dnů. \n"
-"    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
-"    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat znovu."
-"</a>\n"
-"    "
 
 #: html/registration/activation_email.txt:1
 #, python-format
@@ -1477,6 +1453,12 @@ msgstr ""
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
 msgstr "Obnovit heslo"
+
+#: html/registration/registration_closed.html:6
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href=\"/"
+"contact/\">contact us</a> for more details."
+msgstr ""
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2172,83 +2154,83 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Nejasný"
 
-#: trans/forms.py:117 trans/forms.py:205
+#: trans/forms.py:118 trans/forms.py:206
 msgid "File"
 msgstr "Soubor"
 
-#: trans/forms.py:119
+#: trans/forms.py:120
 msgid "Merge file header"
 msgstr "Sloučit hlavičku souboru"
 
-#: trans/forms.py:120
+#: trans/forms.py:121
 msgid "Merges content of file header into the translation."
 msgstr "Sloučit obsah hlavičky souboru do překladu."
 
-#: trans/forms.py:127
+#: trans/forms.py:128
 msgid "Overwrite existing translations"
 msgstr "Přepsat stávající překlady"
 
-#: trans/forms.py:133
+#: trans/forms.py:134
 msgid "Author name"
 msgstr "Jméno autora"
 
-#: trans/forms.py:135 trans/forms.py:140
+#: trans/forms.py:136 trans/forms.py:141
 msgid "Keep empty for using currently logged in user."
 msgstr "Ponechte prázdné pro použití přihlášeného uživatele."
 
-#: trans/forms.py:138
+#: trans/forms.py:139
 msgid "Author email"
 msgstr "Email autora"
 
-#: trans/forms.py:144
+#: trans/forms.py:145
 msgid "Query"
 msgstr "Dotaz"
 
-#: trans/forms.py:146
+#: trans/forms.py:147
 msgid "Exact match"
 msgstr "Přesná shoda"
 
-#: trans/forms.py:151
+#: trans/forms.py:152
 msgid "Search in source strings"
 msgstr "Vyhledávat ve zdrojových řetězcích"
 
-#: trans/forms.py:156
+#: trans/forms.py:157
 msgid "Search in target strings"
 msgstr "Vyhledávat ve přeložených řetězcích"
 
-#: trans/forms.py:161
+#: trans/forms.py:162
 msgid "Search in context strings"
 msgstr "Vyhledávat ve řetězcích kontextu"
 
-#: trans/forms.py:172
+#: trans/forms.py:173
 msgid "Overwrite strings"
 msgstr "Přepsat překlady"
 
-#: trans/forms.py:177
+#: trans/forms.py:178
 msgid "Replace inconsistent"
 msgstr "Nahradit nekonzistentní"
 
-#: trans/forms.py:182
+#: trans/forms.py:183
 msgid "Subproject to use"
 msgstr "Použité podprojekty"
 
-#: trans/forms.py:198
+#: trans/forms.py:199
 msgid "All subprojects"
 msgstr "Všechny podprojekty"
 
-#: trans/forms.py:207
+#: trans/forms.py:208
 msgid "Overwrite existing"
 msgstr "Přepsat stávající"
 
-#: trans/forms.py:212
+#: trans/forms.py:213
 msgid "Starting date"
 msgstr "Počáteční datum"
 
-#: trans/forms.py:222
+#: trans/forms.py:223
 msgid "Starting letter"
 msgstr "Počáteční písmeno"
 
-#: trans/forms.py:223
+#: trans/forms.py:224
 msgid "Any"
 msgstr "Jakékoliv"
 
@@ -2458,13 +2440,13 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models.py:1616
+#: trans/models.py:1623
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
 "poškození."
 
-#: trans/models.py:1700
+#: trans/models.py:1708
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
@@ -2612,6 +2594,50 @@ msgstr "Selhalo sloučení obsahu souborů: %s"
 #: trans/views.py:1103
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
+
+#~ msgid ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s day to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgid_plural ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s days to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgstr[0] ""
+#~ "\n"
+#~ "    Váš účet nemohl být aktivován.\n"
+#~ "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
+#~ "    %(days)s den. \n"
+#~ "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
+#~ "    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
+#~ "znovu.</a>\n"
+#~ "    "
+#~ msgstr[1] ""
+#~ "\n"
+#~ "    Váš účet nemohl být aktivován.\n"
+#~ "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
+#~ "    %(days)s dny. \n"
+#~ "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
+#~ "    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
+#~ "znovu.</a>\n"
+#~ "    "
+#~ msgstr[2] ""
+#~ "\n"
+#~ "    Váš účet nemohl být aktivován.\n"
+#~ "    Buď je již aktivován nebo jste s aktivací čekali déle než\n"
+#~ "    %(days)s dnů. \n"
+#~ "    Pokud tomu tak není, prosíme kontaktujte správce serveru.\n"
+#~ "    V opačném případě se můžete <a href=\"%(reg_url)s\">zaregistrovat "
+#~ "znovu.</a>\n"
+#~ "    "
 
 #~ msgid "Example:"
 #~ msgstr "Příklad:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-25 14:50+0200\n"
+"POT-Creation-Date: 2012-07-26 11:26+0200\n"
 "PO-Revision-Date: 2012-07-24 19:01+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:102 urls.py:108
+#: urls.py:103 urls.py:110 urls.py:117 urls.py:124
 msgid "User registration"
 msgstr "Enregistrement utilisateur"
 
-#: urls.py:113
+#: urls.py:132
 msgid "Account activation"
 msgstr "Activation du compte"
 
-#: urls.py:119 html/base.html:48 html/registration/login.html:30
+#: urls.py:141 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Connexion"
 
-#: urls.py:126
+#: urls.py:148
 msgid "Logged out"
 msgstr "Déconnecté"
 
-#: urls.py:131
+#: urls.py:153
 msgid "Change password"
 msgstr "Changer le mot de passe"
 
-#: urls.py:135
+#: urls.py:157
 msgid "Password changed"
 msgstr "Mot de passe modifié"
 
-#: urls.py:139 urls.py:143 urls.py:147 urls.py:151
+#: urls.py:161 urls.py:165 urls.py:169 urls.py:173
 msgid "Password reset"
 msgstr "Réinitialiser le mot de passe"
 
@@ -387,7 +387,7 @@ msgstr "Il n'y a pas de vérification échouée correspondante !"
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:202
+#: trans/forms.py:203
 msgid "Translation"
 msgstr "Traduction"
 
@@ -447,7 +447,7 @@ msgstr "Dernier"
 
 #: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:201
+#: trans/forms.py:202
 msgid "Source"
 msgstr "Source"
 
@@ -1270,58 +1270,44 @@ msgstr "Vous pouvez la relire à : "
 msgid "New suggestion in %(translation)s"
 msgstr "Nouvelle suggestion pour %(translation)s"
 
+#: html/registration/activate.html:7
+#, fuzzy
+msgid "Your account could not be activated"
+msgstr "Le format de %s n'est pas reconnu."
+
 #: html/registration/activate.html:9
 #, python-format
 msgid ""
-"Thank you. Your \n"
-"    account is now activated. Your username is \n"
-"    <b>%(username)s</b>."
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+" This may be because it is already active or because you waited over "
+"%(days)s days to activate it."
+msgstr[0] ""
+msgstr[1] ""
+
+#: html/registration/activate.html:11
+#, python-format
+msgid ""
+"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+
+#: html/registration/activation_complete.html:8
+#, fuzzy
+msgid "Thank you. Your account is now activated."
 msgstr ""
 "Merci. Votre \n"
 "    compte est maintenant activé. Votre identifiant est \n"
 "    <b>%(username)s</b>."
 
-#: html/registration/activate.html:15
+#: html/registration/activation_complete.html:12
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
 msgstr ""
 "Vous pourriez vouloir <a href=\"%(profile_url)s\">ajuster votre profil</a>."
-
-#: html/registration/activate.html:20
-#, python-format
-msgid ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s day to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgid_plural ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s days to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgstr[0] ""
-"\n"
-"    Votre compte n'a pu être activé.\n"
-"    C'est peut-être parce qu'il est déjà actif ou parce que vous avez "
-"attendu plus de \n"
-"    %(days)s jours pour l'activer. \n"
-"    Si ce n'est pas le cas, veuillez contacter l'administrateur du site. \n"
-"    Vous pouvez <a href=\"%(reg_url)s\">vous enregistrer à nouveau.</a>"
-msgstr[1] ""
-"\n"
-"    Votre compte n'a pu être activé.\n"
-"    C'est peut-être parce qu'il est déjà actif ou parce que vous avez "
-"attendu plus de \n"
-"    %(days)s jours pour l'activer. \n"
-"    Si ce n'est pas le cas, veuillez contacter l'administrateur du site. \n"
-"    Vous pouvez <a href=\"%(reg_url)s\">vous enregistrer à nouveau.</a>"
 
 #: html/registration/activation_email.txt:1
 #, python-format
@@ -1492,6 +1478,12 @@ msgstr ""
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
 msgstr "Réinitialiser mon mot de passe"
+
+#: html/registration/registration_closed.html:6
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href=\"/"
+"contact/\">contact us</a> for more details."
+msgstr ""
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2200,84 +2192,84 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Flou"
 
-#: trans/forms.py:117 trans/forms.py:205
+#: trans/forms.py:118 trans/forms.py:206
 msgid "File"
 msgstr "Fichier"
 
-#: trans/forms.py:119
+#: trans/forms.py:120
 msgid "Merge file header"
 msgstr ""
 
-#: trans/forms.py:120
+#: trans/forms.py:121
 #, fuzzy
 msgid "Merges content of file header into the translation."
 msgstr "Le contenu du fichier a été fusionné avec succès à la traduction."
 
-#: trans/forms.py:127
+#: trans/forms.py:128
 msgid "Overwrite existing translations"
 msgstr "Écraser les traductions existantes"
 
-#: trans/forms.py:133
+#: trans/forms.py:134
 msgid "Author name"
 msgstr "Nom de l'auteur"
 
-#: trans/forms.py:135 trans/forms.py:140
+#: trans/forms.py:136 trans/forms.py:141
 msgid "Keep empty for using currently logged in user."
 msgstr "Laisser vide pour se servir de l'utilisateur actuellement connecté."
 
-#: trans/forms.py:138
+#: trans/forms.py:139
 msgid "Author email"
 msgstr "Adresse courriel de l'auteur"
 
-#: trans/forms.py:144
+#: trans/forms.py:145
 msgid "Query"
 msgstr "Requête"
 
-#: trans/forms.py:146
+#: trans/forms.py:147
 msgid "Exact match"
 msgstr "Correspondance exacte"
 
-#: trans/forms.py:151
+#: trans/forms.py:152
 msgid "Search in source strings"
 msgstr "Chercher dans les chaînes source"
 
-#: trans/forms.py:156
+#: trans/forms.py:157
 msgid "Search in target strings"
 msgstr "Chercher dans les chaînes cible"
 
-#: trans/forms.py:161
+#: trans/forms.py:162
 msgid "Search in context strings"
 msgstr "Chercher dans les chaînes de contexte"
 
-#: trans/forms.py:172
+#: trans/forms.py:173
 msgid "Overwrite strings"
 msgstr "Écraser les traductions existantes"
 
-#: trans/forms.py:177
+#: trans/forms.py:178
 msgid "Replace inconsistent"
 msgstr "Remplacer ce qui est incohérent"
 
-#: trans/forms.py:182
+#: trans/forms.py:183
 msgid "Subproject to use"
 msgstr "Sous-projet à utiliser"
 
-#: trans/forms.py:198
+#: trans/forms.py:199
 msgid "All subprojects"
 msgstr "Tous les sous-projets"
 
-#: trans/forms.py:207
+#: trans/forms.py:208
 msgid "Overwrite existing"
 msgstr "Écraser les traductions existantes"
 
-#: trans/forms.py:212
+#: trans/forms.py:213
 msgid "Starting date"
 msgstr "Date de début"
 
-#: trans/forms.py:222
+#: trans/forms.py:223
 msgid "Starting letter"
 msgstr "Lettre de départ"
 
-#: trans/forms.py:223
+#: trans/forms.py:224
 msgid "Any"
 msgstr "N'importe laquelle"
 
@@ -2491,12 +2483,12 @@ msgstr "Chaînes floues (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
 
-#: trans/models.py:1616
+#: trans/models.py:1623
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Le message n'a pas été trouvé dans le stock, il est probablement corrompu."
 
-#: trans/models.py:1700
+#: trans/models.py:1708
 #, python-format
 msgid "unit ID %s"
 msgstr "identification d'unité %s"
@@ -2648,6 +2640,41 @@ msgstr "Échec de fusion du fichier : %s"
 #: trans/views.py:1103
 msgid "Page Not Found"
 msgstr "Page introuvable"
+
+#~ msgid ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s day to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgid_plural ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s days to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgstr[0] ""
+#~ "\n"
+#~ "    Votre compte n'a pu être activé.\n"
+#~ "    C'est peut-être parce qu'il est déjà actif ou parce que vous avez "
+#~ "attendu plus de \n"
+#~ "    %(days)s jours pour l'activer. \n"
+#~ "    Si ce n'est pas le cas, veuillez contacter l'administrateur du "
+#~ "site. \n"
+#~ "    Vous pouvez <a href=\"%(reg_url)s\">vous enregistrer à nouveau.</a>"
+#~ msgstr[1] ""
+#~ "\n"
+#~ "    Votre compte n'a pu être activé.\n"
+#~ "    C'est peut-être parce qu'il est déjà actif ou parce que vous avez "
+#~ "attendu plus de \n"
+#~ "    %(days)s jours pour l'activer. \n"
+#~ "    Si ce n'est pas le cas, veuillez contacter l'administrateur du "
+#~ "site. \n"
+#~ "    Vous pouvez <a href=\"%(reg_url)s\">vous enregistrer à nouveau.</a>"
 
 #~ msgid "Example:"
 #~ msgstr "Exemple : "

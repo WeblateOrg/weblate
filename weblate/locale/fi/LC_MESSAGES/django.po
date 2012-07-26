@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-25 14:50+0200\n"
+"POT-Creation-Date: 2012-07-26 11:26+0200\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:102 urls.py:108
+#: urls.py:103 urls.py:110 urls.py:117 urls.py:124
 msgid "User registration"
 msgstr "Käyttäjän rekisteröinti"
 
-#: urls.py:113
+#: urls.py:132
 msgid "Account activation"
 msgstr "Tunnuksen aktivointi"
 
-#: urls.py:119 html/base.html:48 html/registration/login.html:30
+#: urls.py:141 html/base.html:48 html/registration/login.html:30
 msgid "Login"
 msgstr "Sisäänkirjautuminen"
 
-#: urls.py:126
+#: urls.py:148
 msgid "Logged out"
 msgstr "Uloskirjautuneena"
 
-#: urls.py:131
+#: urls.py:153
 msgid "Change password"
 msgstr "Vaihda salasanaa"
 
-#: urls.py:135
+#: urls.py:157
 msgid "Password changed"
 msgstr "Salasana vaihdettu"
 
-#: urls.py:139 urls.py:143 urls.py:147 urls.py:151
+#: urls.py:161 urls.py:165 urls.py:169 urls.py:173
 msgid "Password reset"
 msgstr "Salasanan palautus"
 
@@ -393,7 +393,7 @@ msgstr "Täsmääviä epäonnistuneita tarkistuksia ei ole!"
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:202
+#: trans/forms.py:203
 msgid "Translation"
 msgstr "Käännös"
 
@@ -453,7 +453,7 @@ msgstr "Viimeinen"
 
 #: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:201
+#: trans/forms.py:202
 msgid "Source"
 msgstr "Lähde"
 
@@ -1254,57 +1254,43 @@ msgstr ""
 msgid "New suggestion in %(translation)s"
 msgstr "Automaattinen käännös"
 
+#: html/registration/activate.html:7
+#, fuzzy
+msgid "Your account could not be activated"
+msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
+
 #: html/registration/activate.html:9
 #, python-format
 msgid ""
-"Thank you. Your \n"
-"    account is now activated. Your username is \n"
-"    <b>%(username)s</b>."
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+" This may be because it is already active or because you waited over "
+"%(days)s days to activate it."
+msgstr[0] ""
+msgstr[1] ""
+
+#: html/registration/activate.html:11
+#, python-format
+msgid ""
+"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+
+#: html/registration/activation_complete.html:8
+#, fuzzy
+msgid "Thank you. Your account is now activated."
 msgstr ""
 "Kiitos. Tunnuksesi\n"
 "    on nyt aktivoitu. Käyttäjänimesi on \n"
 "    <b>%(username)s</b>."
 
-#: html/registration/activate.html:15
+#: html/registration/activation_complete.html:12
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
 msgstr "Haluat ehkä <a href=\"%(profile_url)s\">muokata profiilisi</a> nyt."
-
-#: html/registration/activate.html:20
-#, python-format
-msgid ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s day to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgid_plural ""
-"\n"
-"    Your account could not be activated.\n"
-"    This may be because it is already active or because you waited over \n"
-"    %(days)s days to activate it. \n"
-"    If this is not the case, please contact the website administrator. \n"
-"    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
-"    "
-msgstr[0] ""
-"\n"
-"    Tunnustasi ei voitu aktivoita.\n"
-"    Tämä tarkoittaa, että se on ehkä valmiiksi aktivoitu tai odotit yli \n"
-"    %(days)s päivän ennen aktivoimista.\n"
-"    Jos tämä ei ole tilanne, ole hyvä ja ota yhteyttä ylläpitäjään.\n"
-"    Muutoin voit <a href=\"%(reg_url)s\">rekisteröityä uudelleen.</a>\n"
-"    "
-msgstr[1] ""
-"\n"
-"    Tunnustasi ei voitu aktivoita.\n"
-"    Tämä tarkoittaa, että se on ehkä valmiiksi aktivoitu tai odotit yli \n"
-"    %(days)s päivää ennen aktivoimista.\n"
-"    Jos tämä ei ole tilanne, ole hyvä ja ota yhteyttä ylläpitäjään.\n"
-"    Muutoin voit <a href=\"%(reg_url)s\">rekisteröityä uudelleen.</a>\n"
-"    "
 
 #: html/registration/activation_email.txt:1
 #, python-format
@@ -1471,6 +1457,12 @@ msgstr ""
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
 msgstr "Nollaa salasanani"
+
+#: html/registration/registration_closed.html:6
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href=\"/"
+"contact/\">contact us</a> for more details."
+msgstr ""
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2170,84 +2162,84 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Epäselvä"
 
-#: trans/forms.py:117 trans/forms.py:205
+#: trans/forms.py:118 trans/forms.py:206
 msgid "File"
 msgstr "Tiedosto"
 
-#: trans/forms.py:119
+#: trans/forms.py:120
 msgid "Merge file header"
 msgstr ""
 
-#: trans/forms.py:120
+#: trans/forms.py:121
 #, fuzzy
 msgid "Merges content of file header into the translation."
 msgstr "Tiedoston sisältö on liitetty onnistuneesti käännökseen."
 
-#: trans/forms.py:127
+#: trans/forms.py:128
 msgid "Overwrite existing translations"
 msgstr "Korvaa olemassa oleva käännös"
 
-#: trans/forms.py:133
+#: trans/forms.py:134
 msgid "Author name"
 msgstr "Tekijän nimi"
 
-#: trans/forms.py:135 trans/forms.py:140
+#: trans/forms.py:136 trans/forms.py:141
 msgid "Keep empty for using currently logged in user."
 msgstr "Pidä tyhjänä kirjautuneille käyttäjille."
 
-#: trans/forms.py:138
+#: trans/forms.py:139
 msgid "Author email"
 msgstr "Tekijän sähköposti"
 
-#: trans/forms.py:144
+#: trans/forms.py:145
 msgid "Query"
 msgstr "Kysely"
 
-#: trans/forms.py:146
+#: trans/forms.py:147
 msgid "Exact match"
 msgstr "Täydellinen sopivuus"
 
-#: trans/forms.py:151
+#: trans/forms.py:152
 msgid "Search in source strings"
 msgstr "Etsi lähdemerkkijonoista"
 
-#: trans/forms.py:156
+#: trans/forms.py:157
 msgid "Search in target strings"
 msgstr "Etsi kohdemerkkijonoista"
 
-#: trans/forms.py:161
+#: trans/forms.py:162
 msgid "Search in context strings"
 msgstr "Etsi sisältömerkkijonoista"
 
-#: trans/forms.py:172
+#: trans/forms.py:173
 msgid "Overwrite strings"
 msgstr "Korvaa merkkojonot"
 
-#: trans/forms.py:177
+#: trans/forms.py:178
 msgid "Replace inconsistent"
 msgstr "Korjaa epämääraisyydet"
 
-#: trans/forms.py:182
+#: trans/forms.py:183
 msgid "Subproject to use"
 msgstr "Käytettävä aliprojekti"
 
-#: trans/forms.py:198
+#: trans/forms.py:199
 msgid "All subprojects"
 msgstr "Kaikki aliprojektit"
 
-#: trans/forms.py:207
+#: trans/forms.py:208
 msgid "Overwrite existing"
 msgstr "Korvaa olemassa oleva"
 
-#: trans/forms.py:212
+#: trans/forms.py:213
 msgid "Starting date"
 msgstr "Aloituspäivä"
 
-#: trans/forms.py:222
+#: trans/forms.py:223
 msgid "Starting letter"
 msgstr "Aloituskirjain"
 
-#: trans/forms.py:223
+#: trans/forms.py:224
 msgid "Any"
 msgstr "Mikä tahansa"
 
@@ -2449,11 +2441,11 @@ msgstr "Epäselvät merkkijonot (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Merkkijonojen ehdotukset (%d)"
 
-#: trans/models.py:1616
+#: trans/models.py:1623
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 
-#: trans/models.py:1700
+#: trans/models.py:1708
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2603,3 +2595,36 @@ msgstr "Tiedoston sisällön liittäminen epäonnistui: %s"
 #: trans/views.py:1103
 msgid "Page Not Found"
 msgstr "Sivua ei löydy"
+
+#~ msgid ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s day to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgid_plural ""
+#~ "\n"
+#~ "    Your account could not be activated.\n"
+#~ "    This may be because it is already active or because you waited over \n"
+#~ "    %(days)s days to activate it. \n"
+#~ "    If this is not the case, please contact the website administrator. \n"
+#~ "    Otherwise, you may <a href=\"%(reg_url)s\">register again.</a>\n"
+#~ "    "
+#~ msgstr[0] ""
+#~ "\n"
+#~ "    Tunnustasi ei voitu aktivoita.\n"
+#~ "    Tämä tarkoittaa, että se on ehkä valmiiksi aktivoitu tai odotit yli \n"
+#~ "    %(days)s päivän ennen aktivoimista.\n"
+#~ "    Jos tämä ei ole tilanne, ole hyvä ja ota yhteyttä ylläpitäjään.\n"
+#~ "    Muutoin voit <a href=\"%(reg_url)s\">rekisteröityä uudelleen.</a>\n"
+#~ "    "
+#~ msgstr[1] ""
+#~ "\n"
+#~ "    Tunnustasi ei voitu aktivoita.\n"
+#~ "    Tämä tarkoittaa, että se on ehkä valmiiksi aktivoitu tai odotit yli \n"
+#~ "    %(days)s päivää ennen aktivoimista.\n"
+#~ "    Jos tämä ei ole tilanne, ole hyvä ja ota yhteyttä ylläpitäjään.\n"
+#~ "    Muutoin voit <a href=\"%(reg_url)s\">rekisteröityä uudelleen.</a>\n"
+#~ "    "
