@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-07-26 15:38+0200\n"
-"PO-Revision-Date: 2012-07-25 17:29+0200\n"
+"PO-Revision-Date: 2012-07-26 17:12+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -1261,9 +1261,8 @@ msgid "New suggestion in %(translation)s"
 msgstr "Nueva sugerencia en %(translation)s"
 
 #: html/registration/activate.html:7
-#, fuzzy
 msgid "Your account could not be activated"
-msgstr "No se reconoció el formato de %s."
+msgstr "No se pudo activar su cuenta"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -1274,7 +1273,11 @@ msgid_plural ""
 "This may be because it is already active or because you waited over %(days)s "
 "days to activate it."
 msgstr[0] ""
+"Esto puede ser porque ya está activa o porque esperó más de %(days)s día "
+"para activarla."
 msgstr[1] ""
+"Esto puede ser porque ya está activa o porque esperó más de %(days)s días "
+"para activarla."
 
 #: html/registration/activate.html:11
 #, python-format
@@ -1283,13 +1286,12 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
+"Si no es el caso, <a href=\"/contact/\">contacte</a> al administrador. Si no, "
+"puede intentar <a href=\"%(reg_url)s\">registrarse nuevamente</a>."
 
 #: html/registration/activation_complete.html:8
-#, fuzzy
 msgid "Thank you. Your account is now activated."
-msgstr ""
-"Gracias, su cuenta está activa a partirde este momento. Su nombre de usuario "
-"es <b>%(username)s</b>."
+msgstr "Gracias. Su cuenta ahora está activa."
 
 #: html/registration/activation_complete.html:12
 #, python-format
@@ -1468,6 +1470,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href=\"/"
 "contact/\">contact us</a> for more details."
 msgstr ""
+"Lo sentimos, pero las registraciones están desactivadas en este sitio. Puede "
+"<a href=\"/contact/\">contactarnos</a> para más detalles."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2463,9 +2467,9 @@ msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
 #: trans/models.py:1421
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with any failing checks (%d)"
-msgstr "Cadenas con sugerencias (%d)"
+msgstr "Cadenas con chequeos fallidos (%d)"
 
 #: trans/models.py:1639
 msgid "Message not found in backend storage, it is probably corrupted."
