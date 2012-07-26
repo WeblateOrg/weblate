@@ -1433,28 +1433,45 @@ class Translation(models.Model):
             store1.require_index()
 
             for unit2 in store2.units:
+                # No translated -> skip
+                if len(unit2.target.strip()) == 0:
+                    continue
+
+                # Should we cope with fuzzy ones?
+                if not mergefuzzy:
+                    if unit2.isfuzzy():
+                        continue
+
+                # Optionally merge header
                 if unit2.isheader():
                     if merge_header and isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
+
+                # Find unit by ID
                 unit1 = store1.findid(unit2.getid())
+
+                # Fallback to finding by source
                 if unit1 is None:
                     unit1 = store1.findunit(unit2.source)
+
+                # Unit not found, nothing to do
                 if unit1 is None:
                     continue
-                else:
-                    if len(unit2.target.strip()) == 0:
-                        continue
-                    if not mergefuzzy:
-                        if unit2.isfuzzy():
-                            continue
-                    if not overwrite and unit1.istranslated():
-                        continue
-                    unit1.merge(unit2, overwrite=True, comments=False)
+
+                # Should we overwrite
+                if not overwrite and unit1.istranslated():
+                    continue
+
+                # Actually update translation
+                unit1.merge(unit2, overwrite=True, comments=False)
+
+            # Write to backend and commit
             self.commit_pending(author)
             store1.save()
             ret = self.git_commit(author, True)
             self.check_sync()
+
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False, merge_header = True):
