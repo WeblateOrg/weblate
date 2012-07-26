@@ -1786,6 +1786,9 @@ class Unit(models.Model):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         failing = []
+
+        change = False
+
         # Run all checks
         for check in CHECKS:
             if CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
@@ -1797,6 +1800,7 @@ class Unit(models.Model):
                 failing.remove(check.check)
                 continue
             check.delete()
+            change = True
 
         # Store new checks in database
         for check in failing:
@@ -1807,6 +1811,16 @@ class Unit(models.Model):
                 ignore = False,
                 check = check
             )
+            change = True
+
+        # Invalidate checks cache
+        if change:
+            slug = self.translation.subproject.get_full_slug()
+            code = self.translation.language.code
+
+            for rqtype in ['allchecks'] + list(CHECKS):
+                cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
+                cache.delete(cache_key)
 
     def nearby(self):
         '''
