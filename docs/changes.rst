@@ -27,6 +27,7 @@ Relased on ? 2012.
 * Optionally maintain Language-Team header in po file.
 * Include some statistics in about page.
 * Supports (and requires) django-registration 0.8.
+* Caching of counted units with failing checks.
 
 weblate 1.1
 -----------
