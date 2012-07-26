@@ -26,6 +26,7 @@ Relased on ? 2012.
 * Support for locking translation by translator.
 * Optionally maintain Language-Team header in po file.
 * Include some statistics in about page.
+* Supports (and requires) django-registration 0.8.
 
 weblate 1.1
 -----------
