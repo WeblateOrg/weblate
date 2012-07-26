@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.cache import cache
 import itertools
 
 from weblate.lang.models import Language
@@ -152,6 +153,24 @@ class UnitManager(models.Manager):
             return self.filter(checksum__in = checks, fuzzy = False, translated = True)
         else:
             return self.all()
+
+    def count_type(self, rqtype, translation):
+        '''
+        Cached counting of failing checks (and other stats).
+        '''
+        cache_key = 'counts-%s-%s-%s' % (
+            translation.subproject.get_full_slug(),
+            translation.language.code,
+            rqtype
+        )
+        ret = cache.get(cache_key)
+        if ret is not None:
+            return ret
+
+        ret = self.filter_type(rqtype, translation).count()
+
+        cache.set(cache_key, ret)
+        return ret
 
     def review(self, date, user):
         '''
