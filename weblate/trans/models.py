@@ -1410,12 +1410,15 @@ class Translation(models.Model):
         nottranslated = self.unit_set.filter_type('untranslated').count()
         fuzzy = self.unit_set.filter_type('fuzzy').count()
         suggestions = self.unit_set.filter_type('suggestions').count()
+        allchecks = self.unit_set.filter_type('allchecks').count()
         if nottranslated > 0:
             result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
         if fuzzy > 0:
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
         if suggestions > 0:
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
+        if allchecks > 0:
+            result.append(('allchecks', _('Strings with any failing checks (%d)') % allchecks))
         for check in CHECKS:
             cnt = self.unit_set.filter_type(check).count()
             if cnt > 0:
