@@ -123,7 +123,7 @@ class UnitManager(models.Manager):
         dbunit.update_from_unit(unit, pos, force)
         return dbunit, force
 
-    def filter_type(self, rqtype):
+    def filter_type(self, rqtype, translation):
         '''
         Basic filtering based on unit state or failed checks.
         '''
@@ -136,23 +136,15 @@ class UnitManager(models.Manager):
         elif rqtype == 'untranslated':
             return self.filter(translated = False)
         elif rqtype == 'suggestions':
-            try:
-                sample = self.all()[0]
-            except IndexError:
-                return self.none()
             sugs = Suggestion.objects.filter(
-                language = sample.translation.language,
-                project = sample.translation.subproject.project)
+                language = translation.language,
+                project = translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
         elif rqtype in CHECKS or rqtype == 'allchecks':
-            try:
-                sample = self.all()[0]
-            except IndexError:
-                return self.none()
             checks = Check.objects.filter(
-                language = sample.translation.language,
-                project = sample.translation.subproject.project,
+                language = translation.language,
+                project = translation.subproject.project,
                 ignore = False)
             if rqtype != 'allchecks':
                 checks = checks.filter(check = rqtype)

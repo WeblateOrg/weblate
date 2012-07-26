@@ -1407,10 +1407,10 @@ class Translation(models.Model):
         Returns list of failing checks on current translation.
         '''
         result = [('all', _('All strings'))]
-        nottranslated = self.unit_set.filter_type('untranslated').count()
-        fuzzy = self.unit_set.filter_type('fuzzy').count()
-        suggestions = self.unit_set.filter_type('suggestions').count()
-        allchecks = self.unit_set.filter_type('allchecks').count()
+        nottranslated = self.unit_set.filter_type('untranslated', self).count()
+        fuzzy = self.unit_set.filter_type('fuzzy', self).count()
+        suggestions = self.unit_set.filter_type('suggestions', self).count()
+        allchecks = self.unit_set.filter_type('allchecks', self).count()
         if nottranslated > 0:
             result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
         if fuzzy > 0:
@@ -1420,7 +1420,7 @@ class Translation(models.Model):
         if allchecks > 0:
             result.append(('allchecks', _('Strings with any failing checks (%d)') % allchecks))
         for check in CHECKS:
-            cnt = self.unit_set.filter_type(check).count()
+            cnt = self.unit_set.filter_type(check, self).count()
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
