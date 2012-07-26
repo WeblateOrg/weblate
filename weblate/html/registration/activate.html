@@ -6,7 +6,7 @@
 
 <h2>{% trans "Your account could not be activated" %}</h2>
 <p>
-    {% blocktrans count expiration_days as days %}This may be because it is already active or because you waited over {{ days }} day to activate it.{% plural %} This may be because it is already active or because you waited over {{ days }} days to activate it.{% endblocktrans %}
+    {% blocktrans count expiration_days as days %}This may be because it is already active or because you waited over {{ days }} day to activate it.{% plural %}This may be because it is already active or because you waited over {{ days }} days to activate it.{% endblocktrans %}
     {% url 'registration.views.register' as reg_url %}
     {% blocktrans %}If this is not the case, please <a href="/contact/">contact</a> the website administrator. Otherwise, you may <a href="{{ reg_url }}">register again</a>.{% endblocktrans %}
 </p>
