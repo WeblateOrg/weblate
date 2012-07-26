@@ -1419,7 +1419,7 @@ class Translation(models.Model):
         for check in CHECKS:
             cnt = self.unit_set.filter_type(check).count()
             if cnt > 0:
-                desc =  CHECKS[check].description + (' (%d)' % cnt)
+                desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
         return result
 
