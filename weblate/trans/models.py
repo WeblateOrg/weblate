@@ -1719,10 +1719,16 @@ class Unit(models.Model):
         Generates links to source files where translation was used.
         '''
         ret = []
+
+        # Do we have any locations?
         if len(self.location) == 0:
             return ''
+
+        # Is it just an ID?
         if self.location.isdigit():
             return _('unit ID %s') % self.location
+
+        # Go through all locations separated by comma
         for location in self.location.split(','):
             location = location.strip()
             if location == '':
@@ -1781,16 +1787,19 @@ class Unit(models.Model):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         failing = []
+        # Run all checks
         for check in CHECKS:
             if CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
                 failing.append(check)
 
+        # Compare to existing checks, delete non failing ones
         for check in self.checks():
             if check.check in failing:
                 failing.remove(check.check)
                 continue
             check.delete()
 
+        # Store new checks in database
         for check in failing:
             Check.objects.create(
                 checksum = self.checksum,
