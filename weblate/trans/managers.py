@@ -11,6 +11,7 @@ from util import join_plural, msg_checksum
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 
+# Set of ignored words
 IGNORE_WORDS = set([
     'a',
     'an',
@@ -49,7 +50,7 @@ IGNORE_WORDS = set([
     'with',
 ])
 
-# List of
+# Set of words to ignore in similar lookup
 IGNORE_SIMILAR = set([
     'also',
     'class',
@@ -307,6 +308,9 @@ class UnitManager(models.Manager):
 
 class DictionaryManager(models.Manager):
     def upload(self, project, language, fileobj, overwrite):
+        '''
+        Handles dictionary update.
+        '''
         from weblate.trans.models import ttkit
 
         ret = 0

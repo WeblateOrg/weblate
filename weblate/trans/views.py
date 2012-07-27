@@ -998,6 +998,9 @@ def get_string(request, checksum):
     return HttpResponse(units[0].get_source_plurals()[0])
 
 def get_similar(request, unit_id):
+    '''
+    AJAX handler for getting similar strings.
+    '''
     unit = get_object_or_404(Unit, pk = int(unit_id))
 
     similar = Unit.objects.similar(unit)
@@ -1018,6 +1021,9 @@ def get_similar(request, unit_id):
     }))
 
 def get_other(request, unit_id):
+    '''
+    AJAX handler for same strings in other subprojects.
+    '''
     unit = get_object_or_404(Unit, pk = int(unit_id))
 
     other = Unit.objects.same(unit)
@@ -1032,6 +1038,9 @@ def get_other(request, unit_id):
     }))
 
 def get_dictionary(request, unit_id):
+    '''
+    Lists words from dictionary for current translation.
+    '''
     unit = get_object_or_404(Unit, pk = int(unit_id))
     # split to words
     ana = StandardAnalyzer()
