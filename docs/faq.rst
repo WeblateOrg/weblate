@@ -1,6 +1,48 @@
 Frequently Asked Questions
 ==========================
 
+Configuration
++++++++++++++
+
+How to create automatic worflow?
+--------------------------------
+
+Weblate can handle all the translation things semi-automatically for you. If
+you will give it push access to your repository, the translations can live
+without interaction unless some merge conflict occurs.
+
+1. Set up you git repository to tell Weblate whenever there is any change, see
+   :ref:`hooks` for information how to do it.
+2. Set push URL at your :ref:`subproject` in Weblate, this will allow Weblate
+   to push changes to your repository.
+3. Enable push on commit on your :ref:`project` in Weblate, this will make
+   Weblate push changes to your repo whenever they are commited at Weblate.
+
+How to fix merge conflicts in translations?
+-------------------------------------------
+
+The easiest way is to solve all conflicts locally at your workstation - simply
+add Weblate as remote repository, merge it into upstream and fix conflicts.
+Once you push changes back, Weblate will be able to use merged version without
+any other special actions.
+
+.. seealso:: :ref:`git-export`
+
+.. _git-export:
+
+How to export Git repository weblate uses?
+------------------------------------------
+
+There is nothing special about the repository, it lives under
+:setting:`GIT_ROOT` directory and is named as `project/subproject/`. If you
+have SSH access to this machine, you can use the repository directly.
+
+For anonymous acces you might want to run git server and let it serve the
+repository to outside world.
+
+Troubleshooting
++++++++++++++++
+
 Requests sometimes fail with too many open files error
 ------------------------------------------------------
 
@@ -50,6 +92,9 @@ as ``TEMP`` variable:
     TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
 
 .. seealso:: :djadmin:`rebuild_index`
+
+Features
+++++++++
 
 Does Weblate support other VCS than Git?
 ----------------------------------------
