@@ -49,6 +49,7 @@ LANGUAGES = (
     ('fi', 'Suomi'),
     ('fr', u'Français'),
     ('gl', 'Galego'),
+    ('id', 'Indonesia'),
     ('ja', u'日本語'),
     ('nl', 'Nederlands'),
     ('pl', 'Polski'),
