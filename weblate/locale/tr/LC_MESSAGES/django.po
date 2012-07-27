@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-26 15:38+0200\n"
+"POT-Creation-Date: 2012-07-27 10:19+0200\n"
 "PO-Revision-Date: 2012-07-26 16:31+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -237,15 +237,20 @@ msgstr "Yeni katkıda bulunmada bildirim"
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
 
-#: accounts/views.py:51
+#: accounts/views.py:52
+#, fuzzy
+msgid "Your profile has been updated."
+msgstr "Tüm havuzlar güncellendi."
+
+#: accounts/views.py:64
 msgid "User profile"
 msgstr "Kullanıcı profili"
 
-#: accounts/views.py:69
+#: accounts/views.py:82
 msgid "Message has been sent to administrator."
 msgstr "Mesaj yöneticiye gönderildi."
 
-#: accounts/views.py:82
+#: accounts/views.py:95
 msgid "Contact"
 msgstr "İletişim"
 
@@ -337,7 +342,7 @@ msgstr ""
 "<a href=\"http://weblate.org\">Weblate %(version)s</a> tarafından "
 "desteklenmektedir"
 
-#: html/base.html:80 html/engage.html:58 trans/views.py:1162
+#: html/base.html:80 html/engage.html:58 trans/views.py:1171
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -759,8 +764,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Diliniz eksik mi, lütfen <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">bize ulaşın</a>."
+"Diliniz eksik mi, lütfen <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">bize ulaşın</a>."
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -1279,9 +1284,9 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Eğer sebebi bu değilse, lütfen web sitesi yöneticisiyle <a "
-"href=\"/contact/\">temasa geçin</a>. Aksi halde, <a href=\"%(reg_url)s\">tekrar "
-"kayıt</a> olabilirsiniz."
+"Eğer sebebi bu değilse, lütfen web sitesi yöneticisiyle <a href=\"/contact/"
+"\">temasa geçin</a>. Aksi halde, <a href=\"%(reg_url)s\">tekrar kayıt</a> "
+"olabilirsiniz."
 
 #: html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -1461,8 +1466,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href=\"/"
 "contact/\">contact us</a> for more details."
 msgstr ""
-"Üzgünüm, bu sitedeki kayıtlar kapalı. Daha fazla ayrıntı için <a "
-"href=\"/contact/\">bizimle temasa</a> geçebilirsiniz."
+"Üzgünüm, bu sitedeki kayıtlar kapalı. Daha fazla ayrıntı için <a href=\"/"
+"contact/\">bizimle temasa</a> geçebilirsiniz."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2593,20 +2598,20 @@ msgstr "Geçersiz öneri!"
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:1088
+#: trans/views.py:1097
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:1090
+#: trans/views.py:1099
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:1092
+#: trans/views.py:1101
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:1103
+#: trans/views.py:1112
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
