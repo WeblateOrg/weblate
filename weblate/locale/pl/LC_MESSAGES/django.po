@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-27 10:19+0200\n"
+"POT-Creation-Date: 2012-07-27 10:32+0200\n"
 "PO-Revision-Date: 2012-07-25 19:30+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,15 +242,15 @@ msgstr ""
 msgid "Your profile has been updated."
 msgstr "Wszystkie repozytoria zostały zaktualizowane."
 
-#: accounts/views.py:64
+#: accounts/views.py:66
 msgid "User profile"
 msgstr "Profil użytkownika"
 
-#: accounts/views.py:82
+#: accounts/views.py:84
 msgid "Message has been sent to administrator."
 msgstr "Wiadomość została wysłana do administratora."
 
-#: accounts/views.py:95
+#: accounts/views.py:97
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -311,11 +311,11 @@ msgstr "Wykorzystane języki"
 msgid "Registered users"
 msgstr "Zarejestrowani użytkownicy"
 
-#: html/about.html:60
+#: html/about.html:60 html/profile.html:51
 msgid "Suggestions made"
 msgstr "Sugestie"
 
-#: html/about.html:64
+#: html/about.html:64 html/profile.html:55
 msgid "Translations made"
 msgstr "Tłumaczenia"
 
@@ -494,7 +494,7 @@ msgstr "Import"
 msgid "Change word"
 msgstr "Zmień słowo"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
 msgid "Save"
 msgstr "Zapisz"
 
@@ -686,22 +686,37 @@ msgstr "Subskrypcje"
 msgid "Account"
 msgstr "Konto"
 
-#: html/profile.html:32
+#: html/profile.html:25
+#, fuzzy
+msgid "Information"
+msgstr "Informacje o projekcie"
+
+#: html/profile.html:33
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 "Otrzymasz wybrane zawiadomienia poprzez e-mail, do wszystkich języków, które "
 "wybrałeś."
 
-#: html/profile.html:41
+#: html/profile.html:42
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 "Twoje dane (imię, nazwisko) oraz adres e-mail pojawią się jako autor w "
 "logach Gita."
 
-#: html/profile.html:45
+#: html/profile.html:46
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "Możesz zmienić hasło na <a href=\"%(pw_url)s\">osobnej stronie</a>."
+
+#: html/profile.html:59
+#, fuzzy
+msgid "Last login"
+msgstr "Logowanie"
+
+#: html/profile.html:63
+#, fuzzy
+msgid "Registration date"
+msgstr "Data początkowa"
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"

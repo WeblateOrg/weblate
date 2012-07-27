@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-27 10:19+0200\n"
+"POT-Creation-Date: 2012-07-27 10:32+0200\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -246,15 +246,15 @@ msgstr "Profiilisi on yhdistetty, saatat tahtoa säätää asetuksiasi."
 msgid "Your profile has been updated."
 msgstr "Kaikki tietolähteet on päivitetty."
 
-#: accounts/views.py:64
+#: accounts/views.py:66
 msgid "User profile"
 msgstr "Käyttäjäprofiili"
 
-#: accounts/views.py:82
+#: accounts/views.py:84
 msgid "Message has been sent to administrator."
 msgstr "Viesti ylläpitäjälle on lähetetty."
 
-#: accounts/views.py:95
+#: accounts/views.py:97
 msgid "Contact"
 msgstr "Ota yhteyttä"
 
@@ -322,12 +322,12 @@ msgstr "kielet"
 msgid "Registered users"
 msgstr "Rekisteröidy"
 
-#: html/about.html:60
+#: html/about.html:60 html/profile.html:51
 #, fuzzy
 msgid "Suggestions made"
 msgstr "Ehdotukset"
 
-#: html/about.html:64
+#: html/about.html:64 html/profile.html:55
 #, fuzzy
 msgid "Translations made"
 msgstr "Käännökset"
@@ -507,7 +507,7 @@ msgstr "Tuo"
 msgid "Change word"
 msgstr "Vaihda sanaa"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
 msgid "Save"
 msgstr "Tallenna"
 
@@ -690,19 +690,34 @@ msgstr "Ehdotukset"
 msgid "Account"
 msgstr "Käyttäjätili"
 
-#: html/profile.html:32
+#: html/profile.html:25
+#, fuzzy
+msgid "Information"
+msgstr "Projektitiedot"
+
+#: html/profile.html:33
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 
-#: html/profile.html:41
+#: html/profile.html:42
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
 
-#: html/profile.html:45
+#: html/profile.html:46
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Salasanaa voidaan vaihtaa <a href=\"%(pw_url)s\">erillisellä sivulla</a>."
+
+#: html/profile.html:59
+#, fuzzy
+msgid "Last login"
+msgstr "Sisäänkirjautuminen"
+
+#: html/profile.html:63
+#, fuzzy
+msgid "Registration date"
+msgstr "Aloituspäivä"
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"

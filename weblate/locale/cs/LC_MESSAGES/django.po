@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-27 10:19+0200\n"
+"POT-Creation-Date: 2012-07-27 10:32+0200\n"
 "PO-Revision-Date: 2012-07-27 10:25+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://127.0.0.1:1234/projects/weblate/master/cs/>\n"
@@ -240,15 +240,15 @@ msgstr "Váš profil byl aktualizován, můžete chtít změnit některá nastav
 msgid "Your profile has been updated."
 msgstr "Váš profil byl aktualizován."
 
-#: accounts/views.py:64
+#: accounts/views.py:66
 msgid "User profile"
 msgstr "Uživatelský profil"
 
-#: accounts/views.py:82
+#: accounts/views.py:84
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:95
+#: accounts/views.py:97
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -307,11 +307,11 @@ msgstr "Používaných jazyků"
 msgid "Registered users"
 msgstr "Registrovaných uživatelů"
 
-#: html/about.html:60
+#: html/about.html:60 html/profile.html:51
 msgid "Suggestions made"
 msgstr "Návrhů"
 
-#: html/about.html:64
+#: html/about.html:64 html/profile.html:55
 msgid "Translations made"
 msgstr "Překladů"
 
@@ -490,7 +490,7 @@ msgstr "Nahrát"
 msgid "Change word"
 msgstr "Změna slova"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
 msgid "Save"
 msgstr "Uložit"
 
@@ -682,19 +682,34 @@ msgstr "Upozornění"
 msgid "Account"
 msgstr "Účet"
 
-#: html/profile.html:32
+#: html/profile.html:25
+#, fuzzy
+msgid "Information"
+msgstr "Informace o projektu"
+
+#: html/profile.html:33
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr "Vybraná upozornění vám budou chodit pro všechny vaše jazyky."
 
-#: html/profile.html:41
+#: html/profile.html:42
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
 
-#: html/profile.html:45
+#: html/profile.html:46
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
+
+#: html/profile.html:59
+#, fuzzy
+msgid "Last login"
+msgstr "Přihlásit"
+
+#: html/profile.html:63
+#, fuzzy
+msgid "Registration date"
+msgstr "Počáteční datum"
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-27 10:19+0200\n"
+"POT-Creation-Date: 2012-07-27 10:32+0200\n"
 "PO-Revision-Date: 2012-04-28 06:01+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -243,15 +243,15 @@ msgstr "Vaš profil smo preselili; morda boste želeli urediti nastavitve."
 msgid "Your profile has been updated."
 msgstr "Posodobil sem vse shrambe."
 
-#: accounts/views.py:64
+#: accounts/views.py:66
 msgid "User profile"
 msgstr "Profil uporabnika"
 
-#: accounts/views.py:82
+#: accounts/views.py:84
 msgid "Message has been sent to administrator."
 msgstr "Sporočilo smo poslali administratorju."
 
-#: accounts/views.py:95
+#: accounts/views.py:97
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -315,12 +315,12 @@ msgstr "jeziki"
 msgid "Registered users"
 msgstr "Registracija"
 
-#: html/about.html:60
+#: html/about.html:60 html/profile.html:51
 #, fuzzy
 msgid "Suggestions made"
 msgstr "Predlogi"
 
-#: html/about.html:64
+#: html/about.html:64 html/profile.html:55
 #, fuzzy
 msgid "Translations made"
 msgstr "Prevodi"
@@ -500,7 +500,7 @@ msgstr "Uvozi"
 msgid "Change word"
 msgstr "Spremeni besedo"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
 msgid "Save"
 msgstr "Shrani"
 
@@ -685,19 +685,34 @@ msgstr "Predlogi"
 msgid "Account"
 msgstr "Račun"
 
-#: html/profile.html:32
+#: html/profile.html:25
+#, fuzzy
+msgid "Information"
+msgstr "Informacije o projektu"
+
+#: html/profile.html:33
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 
-#: html/profile.html:41
+#: html/profile.html:42
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 "Vaše ime in e-poštni naslov bosta prikazana kot avtor na potrditvah Git."
 
-#: html/profile.html:45
+#: html/profile.html:46
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "Geslo lahko spremenite na <a href=\"%(pw_url)s\">ločeni strani</a>."
+
+#: html/profile.html:59
+#, fuzzy
+msgid "Last login"
+msgstr "Prijava"
+
+#: html/profile.html:63
+#, fuzzy
+msgid "Registration date"
+msgstr "Začetni datum"
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"

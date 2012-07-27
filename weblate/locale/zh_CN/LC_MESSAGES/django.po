@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-27 10:19+0200\n"
+"POT-Creation-Date: 2012-07-27 10:32+0200\n"
 "PO-Revision-Date: 2012-07-25 16:07+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: none\n"
@@ -238,15 +238,15 @@ msgstr "您的资料已经迁移，您也许想要调整首选项。"
 msgid "Your profile has been updated."
 msgstr "已更新所有代码库。"
 
-#: accounts/views.py:64
+#: accounts/views.py:66
 msgid "User profile"
 msgstr "用户资料"
 
-#: accounts/views.py:82
+#: accounts/views.py:84
 msgid "Message has been sent to administrator."
 msgstr "信息已经发送给了管理员。"
 
-#: accounts/views.py:95
+#: accounts/views.py:97
 msgid "Contact"
 msgstr "联系"
 
@@ -306,12 +306,12 @@ msgstr "语言"
 msgid "Registered users"
 msgstr "注册"
 
-#: html/about.html:60
+#: html/about.html:60 html/profile.html:51
 #, fuzzy
 msgid "Suggestions made"
 msgstr "建议"
 
-#: html/about.html:64
+#: html/about.html:64 html/profile.html:55
 #, fuzzy
 msgid "Translations made"
 msgstr "翻译"
@@ -485,7 +485,7 @@ msgstr "导入"
 msgid "Change word"
 msgstr "修改单词"
 
-#: html/edit_dictionary.html:21 html/profile.html:49 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
 msgid "Save"
 msgstr "保存"
 
@@ -666,18 +666,33 @@ msgstr "订阅"
 msgid "Account"
 msgstr "帐号"
 
-#: html/profile.html:32
+#: html/profile.html:25
+#, fuzzy
+msgid "Information"
+msgstr "项目信息"
+
+#: html/profile.html:33
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr "您将收到所有您的语言下您所选择的通知邮件。"
 
-#: html/profile.html:41
+#: html/profile.html:42
 msgid "Your name and email will appear as author on Git commits."
 msgstr "您的姓名和邮箱将作为作者出现在 Git 提交信息中。"
 
-#: html/profile.html:45
+#: html/profile.html:46
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "您需要在 <a href=\"%(pw_url)s\">单独的页面</a> 中修改密码。"
+
+#: html/profile.html:59
+#, fuzzy
+msgid "Last login"
+msgstr "登录"
+
+#: html/profile.html:63
+#, fuzzy
+msgid "Registration date"
+msgstr "开始日期"
 
 #: html/project.html:11 html/subproject.html:11 html/translation.html:13
 msgid "Project Information"
