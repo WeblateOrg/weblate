@@ -6,6 +6,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
+from django.utils import translation
 
 from weblate.accounts.models import set_lang
 from weblate.accounts.forms import ProfileForm, SubscriptionForm, UserForm, ContactForm
@@ -27,17 +28,29 @@ def mail_admins_sender(subject, message, sender, fail_silently=False, connection
 def profile(request):
 
     if request.method == 'POST':
+        # Read params
         form = ProfileForm(request.POST, instance = request.user.get_profile())
         subscriptionform = SubscriptionForm(request.POST, instance = request.user.get_profile())
         userform = UserForm(request.POST, instance = request.user)
         if form.is_valid() and userform.is_valid() and subscriptionform.is_valid():
+            # Save changes
             form.save()
             subscriptionform.save()
             userform.save()
+
+            # Change language
             set_lang(request.user, request = request, user = request.user)
-            # Need to redirect to allow language change
+
+            # Redirect after saving (and possibly changing language)
             response = HttpResponseRedirect('/accounts/profile/')
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, request.user.get_profile().language)
+
+            # Set language cookie and activate new language (for message bellow)
+            lang_code = request.user.get_profile().language
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
+            translation.activate(lang_code)
+
+            messages.info(request, _('Your profile has been updated.'))
+
             return response
     else:
         form = ProfileForm(instance = request.user.get_profile())
