@@ -223,9 +223,9 @@ to run following commands:
 .. code-block:: sh
 
     ./manage.py syncdb
-    ./manage.py migrate weblate.trans 0001 --fake
-    ./manage.py migrate weblate.accounts 0001 --fake
-    ./manage.py migrate weblate.lang 0001 --fake
+    ./manage.py migrate weblate.trans 0001
+    ./manage.py migrate weblate.accounts 0001
+    ./manage.py migrate weblate.lang 0001
 
 Once you have done this, you can use :ref:`generic-upgrade-instructions`.
 
