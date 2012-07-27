@@ -127,7 +127,7 @@ DEFAULT_LANGS = (
 )
 
 class LanguageManager(models.Manager):
-    def get_or_create(self, code):
+    def auto_get_or_create(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
         same, cs_CZ is same as cs-CZ) or creates new one.
