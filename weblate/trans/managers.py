@@ -156,7 +156,7 @@ class UnitManager(models.Manager):
             if rqtype != 'allchecks':
                 checks = checks.filter(check = rqtype)
             checks = checks.values_list('checksum', flat = True)
-            return self.filter(checksum__in = checks, fuzzy = False, translated = True)
+            return self.filter(checksum__in = checks, translated = True)
         else:
             return self.all()
 
