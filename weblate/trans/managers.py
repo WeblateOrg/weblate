@@ -98,6 +98,8 @@ class UnitManager(models.Manager):
             src = unit.source
         ctx = unit.getcontext()
         checksum = msg_checksum(src, ctx)
+
+        # Try getting existing unit
         from weblate.trans.models import Unit
         dbunit = None
         try:
@@ -113,6 +115,7 @@ class UnitManager(models.Manager):
         except Unit.DoesNotExist:
             pass
 
+        # Create unit if it does not exist
         if dbunit is None:
             dbunit = Unit(
                 translation = translation,
@@ -121,7 +124,10 @@ class UnitManager(models.Manager):
                 context = ctx)
             force = True
 
+        # Update all details
         dbunit.update_from_unit(unit, pos, force)
+
+        # Return result
         return dbunit, force
 
     def filter_type(self, rqtype, translation):
