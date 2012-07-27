@@ -11,6 +11,7 @@ from util import join_plural, msg_checksum
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 
+# Set of ignored words
 IGNORE_WORDS = set([
     'a',
     'an',
@@ -49,7 +50,7 @@ IGNORE_WORDS = set([
     'with',
 ])
 
-# List of
+# Set of words to ignore in similar lookup
 IGNORE_SIMILAR = set([
     'also',
     'class',
@@ -98,6 +99,8 @@ class UnitManager(models.Manager):
             src = unit.source
         ctx = unit.getcontext()
         checksum = msg_checksum(src, ctx)
+
+        # Try getting existing unit
         from weblate.trans.models import Unit
         dbunit = None
         try:
@@ -113,6 +116,7 @@ class UnitManager(models.Manager):
         except Unit.DoesNotExist:
             pass
 
+        # Create unit if it does not exist
         if dbunit is None:
             dbunit = Unit(
                 translation = translation,
@@ -121,7 +125,10 @@ class UnitManager(models.Manager):
                 context = ctx)
             force = True
 
+        # Update all details
         dbunit.update_from_unit(unit, pos, force)
+
+        # Return result
         return dbunit, force
 
     def filter_type(self, rqtype, translation):
@@ -150,7 +157,7 @@ class UnitManager(models.Manager):
             if rqtype != 'allchecks':
                 checks = checks.filter(check = rqtype)
             checks = checks.values_list('checksum', flat = True)
-            return self.filter(checksum__in = checks, fuzzy = False, translated = True)
+            return self.filter(checksum__in = checks, translated = True)
         else:
             return self.all()
 
@@ -301,6 +308,9 @@ class UnitManager(models.Manager):
 
 class DictionaryManager(models.Manager):
     def upload(self, project, language, fileobj, overwrite):
+        '''
+        Handles dictionary update.
+        '''
         from weblate.trans.models import ttkit
 
         ret = 0
