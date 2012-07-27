@@ -1160,6 +1160,7 @@ def about(request):
     import git
     import cairo
     import south
+    import registration
     totals =  Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
     for p in SubProject.objects.iterator():
@@ -1172,6 +1173,7 @@ def about(request):
         'tt_version': translate.__version__.sver,
         'whoosh_version': whoosh.versionstring(),
         'django_version': django.get_version(),
+        'registration_version': registration.get_version(),
         'git_version': git.__version__,
         'cairo_version': cairo.version,
         'south_version': south.__version__,
