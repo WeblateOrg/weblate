@@ -48,6 +48,10 @@ strings in the message:
 ``%(project)s``
     Project name
 
+There are also additional features which you can control, like automatic
+pushing of changes (see also :ref:`push-changes`), git committer name or
+maintaining of Translation-Team header.
+
 .. _subproject:
 
 Subproject
@@ -136,6 +140,8 @@ And enable it's use by defining proper attributes in given repository (eg. in
     we're trying to merge.
 
 .. seealso:: http://www.no-ack.org/2010/12/writing-git-merge-driver-for-po-files.html
+
+.. _push-changes:
 
 Pushing changes
 ---------------
