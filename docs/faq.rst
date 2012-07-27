@@ -1,6 +1,20 @@
 Frequently Asked Questions
 ==========================
 
+How to create automatic worflow?
+--------------------------------
+
+Weblate can handle all the translation things semi-automatically for you. If
+you will give it push access to your repository, the translations can live
+without interaction unless some merge conflict occurs.
+
+1. Set up you git repository to tell Weblate whenever there is any change, see
+   :ref:`hooks` for information how to do it.
+2. Set push URL at your :ref:`subproject` in Weblate, this will allow Weblate
+   to push changes to your repository.
+3. Enable push on commit on your :ref:`project` in Weblate, this will make
+   Weblate push changes to your repo whenever they are commited at Weblate.
+
 Requests sometimes fail with too many open files error
 ------------------------------------------------------
 
