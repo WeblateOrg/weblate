@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-07-26 15:38+0200\n"
-"PO-Revision-Date: 2012-07-25 10:55+0200\n"
+"PO-Revision-Date: 2012-07-27 09:28+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: id\n"
@@ -286,43 +286,36 @@ msgstr ""
 "link otomatis ke file sumber."
 
 #: html/about.html:9
-#, fuzzy
 msgid "Versions"
-msgstr "Saran"
+msgstr "Versi"
 
 #: html/about.html:11
 msgid "This site is built using following projects:"
 msgstr "Situs ini dibangun menggunakan proyek berikut:"
 
 #: html/about.html:44
-#, fuzzy
 msgid "Statistics"
-msgstr "Status"
+msgstr "Statistik"
 
 #: html/about.html:48
-#, fuzzy
 msgid "Strings to translate"
-msgstr "String untuk diperiksa"
+msgstr "String untuk diterjemahkan"
 
 #: html/about.html:52
-#, fuzzy
 msgid "Used languages"
-msgstr "bahasa"
+msgstr "Bahasa yang digunakan"
 
 #: html/about.html:56
-#, fuzzy
 msgid "Registered users"
-msgstr "Daftar"
+msgstr "Pengguna terdaftar"
 
 #: html/about.html:60
-#, fuzzy
 msgid "Suggestions made"
-msgstr "Saran"
+msgstr "Saran yang dibuat"
 
 #: html/about.html:64
-#, fuzzy
 msgid "Translations made"
-msgstr "Penterjemahan"
+msgstr "Terjemahan yang dibuat"
 
 #: html/base.html:44
 #, python-format
@@ -586,7 +579,6 @@ msgid "Projects"
 msgstr "Proyek"
 
 #: html/index.html:22
-#, fuzzy
 msgid "Checks"
 msgstr "Pemeriksaan"
 
@@ -672,7 +664,7 @@ msgstr[0] "Terdapat %(count)s pemeriksaan yang gagal."
 
 #: html/list-translations.html:29 html/translation.html:83
 msgid "Review"
-msgstr "Review"
+msgstr "Peninjauan"
 
 #: html/profile.html:11
 msgid "Please fix errors in the form."
@@ -1103,6 +1095,7 @@ msgid "Commit pending changes"
 msgstr "Commit perubahan tertunda"
 
 #: html/js/git-status.html:8
+#, fuzzy
 msgid "Commit"
 msgstr "Commit"
 
@@ -1275,7 +1268,7 @@ msgstr "Saran baru dalam %(translation)s"
 
 #: html/registration/activate.html:7
 msgid "Your account could not be activated"
-msgstr ""
+msgstr "Akun anda tidak dapat diaktifkan"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -1286,6 +1279,8 @@ msgid_plural ""
 "This may be because it is already active or because you waited over %(days)s "
 "days to activate it."
 msgstr[0] ""
+"Ini mungkin karena sudah aktif atau karena Anda menunggu lebih dari %(days)s "
+"hari untuk mengaktifkannya."
 
 #: html/registration/activate.html:11
 #, python-format
@@ -1294,14 +1289,13 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
+"Jika hal ini tidak disebabkan kasus tersebut, silakan <a "
+"href=\"/contact/\">menghubungi</a> administrator situs web ini. Atau anda "
+"dapat <a href=\"%(reg_url)s\">mendaftar lagi</a>."
 
 #: html/registration/activation_complete.html:8
-#, fuzzy
 msgid "Thank you. Your account is now activated."
-msgstr ""
-"Terima kasih.\n"
-"    Akun Anda sekarang sudah diaktifkan. Nama pengguna anda adalah\n"
-"    <b>%(username)s</b>."
+msgstr "Terima kasih. Account Anda sekarang sudah diaktifkan."
 
 #: html/registration/activation_complete.html:12
 #, python-format
@@ -1323,6 +1317,13 @@ msgid ""
 "is split over several lines, you may need to copy it in the\n"
 "address bar."
 msgstr ""
+"Hai,\n"
+"\n"
+"ini adalah surel otomatis untuk membantu anda dalam menyelesaikan\n"
+"pendaftaran anda di %(site_title)s.\n"
+"Silakan membuka tautan berikut di peramban web anda. Jika tautan ini\n"
+"dibagi atas beberapa baris, anda mungkin perlu untuk menyalinnya\n"
+"didalam batang alamat."
 
 #: html/registration/activation_email.txt:12
 #, python-format
@@ -1334,15 +1335,22 @@ msgid ""
 "Best regards,\n"
 "%(site_title)s\n"
 msgstr ""
+"\n"
+"Terdapat masalah dengan pendaftaran Anda, silakan balas\n"
+"surel ini.\n"
+"\n"
+"Salam hangat,\n"
+"%(site_title)s\n"
 
 #: html/registration/activation_email_subject.txt:1
 #, python-format
 msgid "Your registration on %(site_title)s"
-msgstr ""
+msgstr "Anda mendaftar pada %(site_title)s"
 
 #: html/registration/login.html:11
 msgid "This username/password combination was not found. Please try again."
 msgstr ""
+"Kombinasi nama pengguna/sandilewat ini tidak ditemukan. Silakan coba lagi."
 
 #: html/registration/login.html:36
 #, python-format
@@ -1350,66 +1358,81 @@ msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr ""
+"Anda belum memiliki akun? Anda dapat <a href=\"%"
+"(register_url)s\">mendaftar</a>."
 
 #: html/registration/login.html:41
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
+"Lupa sandilewat anda? Anda dapat <a href=\"%(reset_url)s\">mengatur "
+"ulangnya</a>."
 
 #: html/registration/logout.html:7
 msgid "Thanks for using Weblate!"
-msgstr ""
+msgstr "Terima kasih untuk menggunakan Weblate!"
 
 #: html/registration/logout.html:9
 msgid "Log in again"
-msgstr ""
+msgstr "Log masuk lagi"
 
 #: html/registration/password_change_done.html:6
 msgid "Your password was changed."
-msgstr ""
+msgstr "Sandilewat anda sudah berubah."
 
 #: html/registration/password_change_form.html:11
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Harap perbaiki kesalahan di bawah ini."
 
 #: html/registration/password_change_form.html:17
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
+"Masukkan sandilewat lama anda, untuk demi keamanan, dan kemudian masukkan "
+"sandi baru dua kali sehingga kami dapat memverifikasi Anda mengetik dalam "
+"dengan benar."
 
 #: html/registration/password_change_form.html:22
 #: html/registration/password_reset_confirm.html:14
 msgid "Change my password"
-msgstr ""
+msgstr "Mengubah sandilewat saya"
 
 #: html/registration/password_reset_complete.html:6
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr ""
+"Sandilewat anda telah ditetapkan.  Anda dapat melakukan lebih lanjut dan log "
+"masuk sekarang."
 
 #: html/registration/password_reset_complete.html:8
 msgid "Log in"
-msgstr ""
+msgstr "Log masuk"
 
 #: html/registration/password_reset_confirm.html:8
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
+"Silakan masukkan sandilewat baru dua kali sehingga kami dapat memverifikasi "
+"sandilewat yang anda ketik dalam benar."
 
 #: html/registration/password_reset_confirm.html:19
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
 msgstr ""
+"Tautan setel ulang sandilewat tidak valid, mungkin karena ini telah "
+"digunakan.  Silakan meminta sandilewat baru."
 
 #: html/registration/password_reset_done.html:7
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
 msgstr ""
+"Kami telah mengirimkan anda surel petunjuk untuk menetapkan sandilewat anda "
+"ke alamat surel yang Anda daftarkan. Anda seharusnya sudah menerimanya "
+"sebentar lagi."
 
 #: html/registration/password_reset_email.html:2
 #, python-format
@@ -1417,39 +1440,45 @@ msgid ""
 "You're receiving this e-mail because you requested a password reset for your "
 "user account at %(site_name)s."
 msgstr ""
+"Anda menerima surel ini karena anda meminta tata ulang sandilewat untuk akun "
+"pengguna anda di %(site_name)s."
 
 #: html/registration/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
-msgstr ""
+msgstr "Silakan menuju ke halaman berikut dan pilih sandilewat baru:"
 
 #: html/registration/password_reset_email.html:8
 msgid "Your username, in case you've forgotten:"
-msgstr ""
+msgstr "Nama pengguna Anda, dalam kasus Anda lupa:"
 
 #: html/registration/password_reset_email.html:10
 msgid "Thanks for using our site!"
-msgstr ""
+msgstr "Terima kasih untuk menggunakan situs kami!"
 
 #: html/registration/password_reset_email.html:12
 #, python-format
 msgid "The %(site_name)s team"
-msgstr ""
+msgstr "Tim  %(site_name)s"
 
 #: html/registration/password_reset_form.html:6
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
 msgstr ""
+"Lupa sandilewat anda? Masukkan alamat surel anda di bawah ini, kami akan "
+"kirim surel petunjuk untuk membuatnya yang baru."
 
 #: html/registration/password_reset_form.html:10
 msgid "Reset my password"
-msgstr ""
+msgstr "Tata ulang sandilewat saya"
 
 #: html/registration/registration_closed.html:6
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href=\"/"
 "contact/\">contact us</a> for more details."
 msgstr ""
+"Maaf, registrasi di situs ini dinonaktifkan. Anda dapat <a "
+"href=\"/contact/\">hubungi kami</a> untuk lebih jelasnya."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -1457,579 +1486,583 @@ msgid ""
 "a confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
+"Terima kasih telah mendaftar. Anda akan segera menerima surel\n"
+"berisi tautan untuk konfirmasi. Ikuti tautan ini untuk menyelesaikannya."
 
 #: html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
-msgstr ""
+msgstr "Harap perbaiki galat dalam formulir registrasi."
 
 #: html/registration/registration_form.html:23
 msgid "By registering you agree to use your name and email in Git commits."
 msgstr ""
+"Dengan pendaftaran ini anda setuju untuk menggunakan nama dan surel anda "
+"untuk commit Git."
 
 #: lang/i18n.py:13
 msgid "Afrikaans"
-msgstr ""
+msgstr "Afrika"
 
 #: lang/i18n.py:14
 msgid "Akan"
-msgstr ""
+msgstr "Akan"
 
 #: lang/i18n.py:15
 msgid "Albanian"
-msgstr ""
+msgstr "Albania"
 
 #: lang/i18n.py:16
 msgid "Amharic"
-msgstr ""
+msgstr "Amharic"
 
 #: lang/i18n.py:17
 msgid "Arabic"
-msgstr ""
+msgstr "Arab"
 
 #: lang/i18n.py:18
 msgid "Aragonese"
-msgstr ""
+msgstr "Aragon"
 
 #: lang/i18n.py:19
 msgid "Armenian"
-msgstr ""
+msgstr "Armenia"
 
 #: lang/i18n.py:20
 msgid "Asturian"
-msgstr ""
+msgstr "Asturian"
 
 #: lang/i18n.py:21
 msgid "Azerbaijani"
-msgstr ""
+msgstr "Azerbaijan"
 
 #: lang/i18n.py:22
 msgid "Basque"
-msgstr ""
+msgstr "Basque"
 
 #: lang/i18n.py:23
 msgid "Belarusian"
-msgstr ""
+msgstr "Belarusia"
 
 #: lang/i18n.py:24
 msgid "Belarusian (latin)"
-msgstr ""
+msgstr "Belarusia (latin)"
 
 #: lang/i18n.py:25
 msgid "Bengali"
-msgstr ""
+msgstr "Bengali"
 
 #: lang/i18n.py:26
 msgid "Bengali (India)"
-msgstr ""
+msgstr "Bengali (India)"
 
 #: lang/i18n.py:27
 msgid "Bosnian"
-msgstr ""
+msgstr "Bosnia"
 
 #: lang/i18n.py:28
 msgid "Breton"
-msgstr ""
+msgstr "Breton"
 
 #: lang/i18n.py:29
 msgid "Bulgarian"
-msgstr ""
+msgstr "Bulgaria"
 
 #: lang/i18n.py:30 lang/i18n.py:31
 msgid "Catalan"
-msgstr ""
+msgstr "Catalan"
 
 #: lang/i18n.py:32
 msgid "Central Khmer"
-msgstr ""
+msgstr "Khmer Pusat"
 
 #: lang/i18n.py:33
 msgid "Chinese (China)"
-msgstr ""
+msgstr "Cina (China)"
 
 #: lang/i18n.py:34
 msgid "Chinese (Hong Kong)"
-msgstr ""
+msgstr "Cina (Hong Kong)"
 
 #: lang/i18n.py:35
 msgid "Chinese (Taiwan)"
-msgstr ""
+msgstr "Cina (Taiwan)"
 
 #: lang/i18n.py:36
 msgid "Cornish"
-msgstr ""
+msgstr "Cornish"
 
 #: lang/i18n.py:37
 msgid "Croatian"
-msgstr ""
+msgstr "Kroasia"
 
 #: lang/i18n.py:38
 msgid "Czech"
-msgstr ""
+msgstr "Czech"
 
 #: lang/i18n.py:39
 msgid "Danish"
-msgstr ""
+msgstr "Denmark"
 
 #: lang/i18n.py:40
 msgid "Dutch"
-msgstr ""
+msgstr "Belanda"
 
 #: lang/i18n.py:41
 msgid "Dzongkha"
-msgstr ""
+msgstr "Dzongkha"
 
 #: lang/i18n.py:42
 msgid "English"
-msgstr ""
+msgstr "Inggris"
 
 #: lang/i18n.py:43
 msgid "English (South Africa)"
-msgstr ""
+msgstr "Inggris (Afrika Selatan)"
 
 #: lang/i18n.py:44
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Inggris (Britania Raya)"
 
 #: lang/i18n.py:45
 msgid "English (United States)"
-msgstr ""
+msgstr "Inggris (Amerika Serikat)"
 
 #: lang/i18n.py:46
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: lang/i18n.py:47
 msgid "Estonian"
-msgstr ""
+msgstr "Estonia"
 
 #: lang/i18n.py:48
 msgid "Faroese"
-msgstr ""
+msgstr "Faroese"
 
 #: lang/i18n.py:49
 msgid "Filipino"
-msgstr ""
+msgstr "Filipina"
 
 #: lang/i18n.py:50
 msgid "Finnish"
-msgstr ""
+msgstr "Finlandia"
 
 #: lang/i18n.py:51
 msgid "French"
-msgstr ""
+msgstr "Prancis"
 
 #: lang/i18n.py:52
 msgid "Frisian"
-msgstr ""
+msgstr "Frisian"
 
 #: lang/i18n.py:53
 msgid "Friulian"
-msgstr ""
+msgstr "Friulian"
 
 #: lang/i18n.py:54
 msgid "Gaelic"
-msgstr ""
+msgstr "Gaelic"
 
 #: lang/i18n.py:55
 msgid "Galician"
-msgstr ""
+msgstr "Galician"
 
 #: lang/i18n.py:56
 msgid "Georgian"
-msgstr ""
+msgstr "Georgia"
 
 #: lang/i18n.py:57
 msgid "German"
-msgstr ""
+msgstr "Jerman"
 
 #: lang/i18n.py:58
 msgid "Greek"
-msgstr ""
+msgstr "Yunani"
 
 #: lang/i18n.py:59
 msgid "Gujarati"
-msgstr ""
+msgstr "Gujarat"
 
 #: lang/i18n.py:60
 msgid "Gun"
-msgstr ""
+msgstr "Gun"
 
 #: lang/i18n.py:61
 msgid "Hausa"
-msgstr ""
+msgstr "Hausa"
 
 #: lang/i18n.py:62
 msgid "Hebrew"
-msgstr ""
+msgstr "Ibrani"
 
 #: lang/i18n.py:63
 msgid "Hindi"
-msgstr ""
+msgstr "Hindi"
 
 #: lang/i18n.py:64
 msgid "Hungarian"
-msgstr ""
+msgstr "Hongaria"
 
 #: lang/i18n.py:65
 msgid "Icelandic"
-msgstr ""
+msgstr "Islandia"
 
 #: lang/i18n.py:66
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesia"
 
 #: lang/i18n.py:67
 msgid "Interlingua"
-msgstr ""
+msgstr "Interlingua"
 
 #: lang/i18n.py:68
 msgid "Irish"
-msgstr ""
+msgstr "Irlandia"
 
 #: lang/i18n.py:69
 msgid "Italian"
-msgstr ""
+msgstr "Italia"
 
 #: lang/i18n.py:70
 msgid "Japanese"
-msgstr ""
+msgstr "Jepang"
 
 #: lang/i18n.py:71
 msgid "Javanese"
-msgstr ""
+msgstr "Jawa"
 
 #: lang/i18n.py:72
 msgid "Kannada"
-msgstr ""
+msgstr "Kannada"
 
 #: lang/i18n.py:73
 msgid "Kashubian"
-msgstr ""
+msgstr "Kasubia"
 
 #: lang/i18n.py:74
 msgid "Kazakh"
-msgstr ""
+msgstr "Kazakh"
 
 #: lang/i18n.py:75
 msgid "Kirghiz"
-msgstr ""
+msgstr "Kirghiz"
 
 #: lang/i18n.py:76
 msgid "Korean"
-msgstr ""
+msgstr "Korea"
 
 #: lang/i18n.py:77
 msgid "Kurdish"
-msgstr ""
+msgstr "Kurdi"
 
 #: lang/i18n.py:78
 msgid "Kurdish Sorani"
-msgstr ""
+msgstr "Kurdi Sorani"
 
 #: lang/i18n.py:79
 msgid "Lao"
-msgstr ""
+msgstr "Lao"
 
 #: lang/i18n.py:80
 msgid "Latvian"
-msgstr ""
+msgstr "Latvia"
 
 #: lang/i18n.py:81
 msgid "Lingala"
-msgstr ""
+msgstr "Lingala"
 
 #: lang/i18n.py:82
 msgid "Lithuanian"
-msgstr ""
+msgstr "Lithuania"
 
 #: lang/i18n.py:83
 msgid "Luxembourgish"
-msgstr ""
+msgstr "Luxembourgish"
 
 #: lang/i18n.py:84
 msgid "Macedonian"
-msgstr ""
+msgstr "Makedonia"
 
 #: lang/i18n.py:85
 msgid "Maithili"
-msgstr ""
+msgstr "Maithili"
 
 #: lang/i18n.py:86
 msgid "Malagasy"
-msgstr ""
+msgstr "Malagasi"
 
 #: lang/i18n.py:87
 msgid "Malay"
-msgstr ""
+msgstr "Melayu"
 
 #: lang/i18n.py:88
 msgid "Malayalam"
-msgstr ""
+msgstr "Malayalam"
 
 #: lang/i18n.py:89
 msgid "Maltese"
-msgstr ""
+msgstr "Maltese"
 
 #: lang/i18n.py:90
 msgid "Maori"
-msgstr ""
+msgstr "Maori"
 
 #: lang/i18n.py:91
 msgid "Mapudungun"
-msgstr ""
+msgstr "Mapudungun"
 
 #: lang/i18n.py:92
 msgid "Marathi"
-msgstr ""
+msgstr "Marathi"
 
 #: lang/i18n.py:93
 msgid "Mongolian"
-msgstr ""
+msgstr "Mongolia"
 
 #: lang/i18n.py:94
 msgid "Morisyen"
-msgstr ""
+msgstr "Morisyen"
 
 #: lang/i18n.py:95
 msgid "Nahuatl languages"
-msgstr ""
+msgstr "Bahasa Nahuatl"
 
 #: lang/i18n.py:96
 msgid "Neapolitan"
-msgstr ""
+msgstr "Neapolitan"
 
 #: lang/i18n.py:97
 msgid "Nepali"
-msgstr ""
+msgstr "Nepal"
 
 #: lang/i18n.py:98
 msgid "Norwegian Bokmål"
-msgstr ""
+msgstr "Norwegia Bokmål"
 
 #: lang/i18n.py:99
 msgid "Norwegian Nynorsk"
-msgstr ""
+msgstr "Norwegia Nynorsk"
 
 #: lang/i18n.py:100
 msgid "Occitan"
-msgstr ""
+msgstr "Occitan"
 
 #: lang/i18n.py:101
 msgid "Oriya"
-msgstr ""
+msgstr "Oriya"
 
 #: lang/i18n.py:102
 msgid "Panjabi"
-msgstr ""
+msgstr "Panjabi"
 
 #: lang/i18n.py:103
 msgid "Papiamento"
-msgstr ""
+msgstr "Papiamento"
 
 #: lang/i18n.py:104
 msgid "Pedi"
-msgstr ""
+msgstr "Pedi"
 
 #: lang/i18n.py:105
 msgid "Persian"
-msgstr ""
+msgstr "Persia"
 
 #: lang/i18n.py:106
 msgid "Piemontese"
-msgstr ""
+msgstr "Piemontese"
 
 #: lang/i18n.py:107
 msgid "Polish"
-msgstr ""
+msgstr "Polandia"
 
 #: lang/i18n.py:108
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugis"
 
 #: lang/i18n.py:109
 msgid "Portuguese (Brazil)"
-msgstr ""
+msgstr "Portugis (Brasil)"
 
 #: lang/i18n.py:110
 msgid "Portuguese (Portugal)"
-msgstr ""
+msgstr "Portugis (Portugal)"
 
 #: lang/i18n.py:111
 msgid "Pushto"
-msgstr ""
+msgstr "Pushto"
 
 #: lang/i18n.py:112
 msgid "Romanian"
-msgstr ""
+msgstr "Rumania"
 
 #: lang/i18n.py:113
 msgid "Romansh"
-msgstr ""
+msgstr "Romansh"
 
 #: lang/i18n.py:114
 msgid "Russian"
-msgstr ""
+msgstr "Rusia"
 
 #: lang/i18n.py:115
 msgid "Scots"
-msgstr ""
+msgstr "Skotlandia"
 
 #: lang/i18n.py:116
 msgid "Serbian"
-msgstr ""
+msgstr "Serbia"
 
 #: lang/i18n.py:117
 msgid "Serbian (latin)"
-msgstr ""
+msgstr "Serbia (latin)"
 
 #: lang/i18n.py:118
 msgid "Serbian (cyrillic)"
-msgstr ""
+msgstr "Serbia (Cyrillic)"
 
 #: lang/i18n.py:119
 msgid "Sinhala"
-msgstr ""
+msgstr "Sinhala"
 
 #: lang/i18n.py:120
 msgid "Slovak"
-msgstr ""
+msgstr "Slowakia"
 
 #: lang/i18n.py:121
 msgid "Slovenian"
-msgstr ""
+msgstr "Slovenia"
 
 #: lang/i18n.py:122
 msgid "Somali"
-msgstr ""
+msgstr "Somali"
 
 #: lang/i18n.py:123
 msgid "Songhai languages"
-msgstr ""
+msgstr "Bahasa Songhai"
 
 #: lang/i18n.py:124
 msgid "Sotho"
-msgstr ""
+msgstr "Sotho"
 
 #: lang/i18n.py:125
 msgid "Spanish"
-msgstr ""
+msgstr "Spanyol"
 
 #: lang/i18n.py:126
 msgid "Sundanese"
-msgstr ""
+msgstr "Sunda"
 
 #: lang/i18n.py:127
 msgid "Swahili"
-msgstr ""
+msgstr "Swahili"
 
 #: lang/i18n.py:128
 msgid "Swedish"
-msgstr ""
+msgstr "Swedia"
 
 #: lang/i18n.py:129
 msgid "Tajik"
-msgstr ""
+msgstr "Tajik"
 
 #: lang/i18n.py:130
 msgid "Tamil"
-msgstr ""
+msgstr "Tamil"
 
 #: lang/i18n.py:131
 msgid "Tatar"
-msgstr ""
+msgstr "Tatar"
 
 #: lang/i18n.py:132
 msgid "Telugu"
-msgstr ""
+msgstr "Telugu"
 
 #: lang/i18n.py:133
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: lang/i18n.py:134
 msgid "Tibetan"
-msgstr ""
+msgstr "Tibet"
 
 #: lang/i18n.py:135
 msgid "Tigrinya"
-msgstr ""
+msgstr "Tigrinya"
 
 #: lang/i18n.py:136
 msgid "Turkish"
-msgstr ""
+msgstr "Turki"
 
 #: lang/i18n.py:137
 msgid "Turkmen"
-msgstr ""
+msgstr "Turkmen"
 
 #: lang/i18n.py:138
 msgid "Uighur"
-msgstr ""
+msgstr "Uighur"
 
 #: lang/i18n.py:139
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukraina"
 
 #: lang/i18n.py:140
 msgid "Urdu"
-msgstr ""
+msgstr "Urdu"
 
 #: lang/i18n.py:141
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbek"
 
 #: lang/i18n.py:142
 msgid "Uzbek (latin)"
-msgstr ""
+msgstr "Uzbekistan (latin)"
 
 #: lang/i18n.py:143
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnam"
 
 #: lang/i18n.py:144
 msgid "Walloon"
-msgstr ""
+msgstr "Walloon"
 
 #: lang/i18n.py:145
 msgid "Welsh"
-msgstr ""
+msgstr "Welsh"
 
 #: lang/i18n.py:146
 msgid "Yoruba"
-msgstr ""
+msgstr "Yoruba"
 
 #: lang/i18n.py:147
 msgid "Zulu"
-msgstr ""
+msgstr "Zulu"
 
 #: lang/models.py:307
 msgid "Singular"
-msgstr ""
+msgstr "Tunggal"
 
 #: lang/models.py:309
 msgid "Plural"
-msgstr ""
+msgstr "Jamak"
 
 #: lang/models.py:310
 #, python-format
 msgid "Plural form %d"
-msgstr ""
+msgstr "Bentuk jamak %d"
 
 #: trans/checks.py:215
 msgid "Not translated"
-msgstr ""
+msgstr "Tidak diterjemahkan"
 
 #: trans/checks.py:216
 msgid "Source and translated strings are same"
-msgstr ""
+msgstr "Sumber dan string yang diterjemahkan sama persis"
 
 #: trans/checks.py:260
 msgid "Starting newline"
-msgstr ""
+msgstr "Mulai baris baru"
 
 #: trans/checks.py:261
 msgid "Source and translation do not both start with a newline"
-msgstr ""
+msgstr "Sumber dan terjemahan keduanya tidak mulai dengan baris baru"
 
 #: trans/checks.py:271
 msgid "Trailing newline"
@@ -2037,7 +2070,7 @@ msgstr ""
 
 #: trans/checks.py:272
 msgid "Source and translation do not both end with a newline"
-msgstr ""
+msgstr "Sumber dan terjemahan keduanya tidak berakhir dengan baris baru"
 
 #: trans/checks.py:282
 msgid "Trailing space"
@@ -2045,7 +2078,7 @@ msgstr ""
 
 #: trans/checks.py:283
 msgid "Source and translation do not both end with a space"
-msgstr ""
+msgstr "Sumber dan terjemahan keduanya berakhir dengan spasi"
 
 #: trans/checks.py:301
 msgid "Trailing stop"
@@ -2053,7 +2086,7 @@ msgstr ""
 
 #: trans/checks.py:302
 msgid "Source and translation do not both end with a full stop"
-msgstr ""
+msgstr "Sumber dan terjemahan keduanya berakhir dengan perhentian penuh"
 
 #: trans/checks.py:319
 msgid "Trailing colon"
@@ -2064,6 +2097,8 @@ msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
+"Sumber dan terjemahan keduanya tidak berakhir dengan tanda kutip atau tanda "
+"kutip diberikan spasi yang benar"
 
 #: trans/checks.py:344
 msgid "Trailing question"
@@ -2074,6 +2109,8 @@ msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
+"Sumber dan terjemahan keduanya tidak berakhir dengan tanda tanya atau tidak "
+"dengan spasi yang benar"
 
 #: trans/checks.py:362
 msgid "Trailing exclamation"
@@ -2084,89 +2121,93 @@ msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
+"Sumber dan terjemahan keduanya tidak berakhir dengan tanda seru atau tidak "
+"dengan spasi yang benar"
 
 #: trans/checks.py:387
 msgid "Python format"
-msgstr ""
+msgstr "Format python"
 
 #: trans/checks.py:388 trans/checks.py:401 trans/checks.py:414
 msgid "Format string does not match source"
-msgstr ""
+msgstr "Format string tidak cocok dengan sumber"
 
 #: trans/checks.py:400
 msgid "PHP format"
-msgstr ""
+msgstr "Format PHP"
 
 #: trans/checks.py:413
 msgid "C format"
-msgstr ""
+msgstr "Format C"
 
 #: trans/checks.py:427
 msgid "Missing plurals"
-msgstr ""
+msgstr "Kata jamak hilang"
 
 #: trans/checks.py:428
 msgid "Some plural forms are not translated"
-msgstr ""
+msgstr "Beberapa bentuk jamak tidak diterjemahkan"
 
 #: trans/checks.py:445
 msgid "Inconsistent"
-msgstr ""
+msgstr "Tidak konsisten"
 
 #: trans/checks.py:446
 msgid "This message has more than one translation in this project"
-msgstr ""
+msgstr "Pesan ini memiliki lebih dari satu terjemahan dalam proyek ini"
 
 #: trans/checks.py:468
 msgid "Invalid text direction"
-msgstr ""
+msgstr "Arah teks tidak valid"
 
 #: trans/checks.py:469
 msgid "Text direction can be either LTR or RTL"
-msgstr ""
+msgstr "Arah Teks dapat berupa LTR atau RTL"
 
 #: trans/forms.py:62
 msgid ""
 "This equation is used to identify which plural form will be used based on "
 "given count (n)."
 msgstr ""
+"Persamaan ini digunakan untuk mengidentifikasi bentuk jamak yang mana yang "
+"akan digunakan sebagai dasar pada count(n)."
 
 #: trans/forms.py:63
 msgid "Plural equation"
-msgstr ""
+msgstr "Persamaan jamak"
 
 #: trans/forms.py:101
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
-msgstr ""
+msgstr "samar"
 
 #: trans/forms.py:118 trans/forms.py:206
 msgid "File"
-msgstr ""
+msgstr "Berkas"
 
 #: trans/forms.py:120
 msgid "Merge file header"
-msgstr ""
+msgstr "Menggabungkan file header"
 
 #: trans/forms.py:121
 msgid "Merges content of file header into the translation."
-msgstr ""
+msgstr "Menggabungkan konten dari file header ke dalam terjemahan."
 
 #: trans/forms.py:128
 msgid "Overwrite existing translations"
-msgstr ""
+msgstr "Menimpa terjemahan yang ada"
 
 #: trans/forms.py:134
 msgid "Author name"
-msgstr ""
+msgstr "Nama penulis"
 
 #: trans/forms.py:136 trans/forms.py:141
 msgid "Keep empty for using currently logged in user."
-msgstr ""
+msgstr "Biarkan kosong untuk menggunakan log masuk pengguna saat ini."
 
 #: trans/forms.py:139
 msgid "Author email"
-msgstr ""
+msgstr "Surel penulis"
 
 #: trans/forms.py:145
 msgid "Query"
@@ -2178,72 +2219,72 @@ msgstr ""
 
 #: trans/forms.py:152
 msgid "Search in source strings"
-msgstr ""
+msgstr "Cari dalam string sumber"
 
 #: trans/forms.py:157
 msgid "Search in target strings"
-msgstr ""
+msgstr "Cari dalam target string"
 
 #: trans/forms.py:162
 msgid "Search in context strings"
-msgstr ""
+msgstr "Cari dalam konteks string"
 
 #: trans/forms.py:173
 msgid "Overwrite strings"
-msgstr ""
+msgstr "Menimpa string"
 
 #: trans/forms.py:178
 msgid "Replace inconsistent"
-msgstr ""
+msgstr "Gantikan yang tidak konsisten"
 
 #: trans/forms.py:183
 msgid "Subproject to use"
-msgstr ""
+msgstr "Sub-proyek yang digunakan"
 
 #: trans/forms.py:199
 msgid "All subprojects"
-msgstr ""
+msgstr "Semua sub-proyek"
 
 #: trans/forms.py:208
 msgid "Overwrite existing"
-msgstr ""
+msgstr "Menimpa yang ada"
 
 #: trans/forms.py:213
 msgid "Starting date"
-msgstr ""
+msgstr "Tanggal mulai"
 
 #: trans/forms.py:223
 msgid "Starting letter"
-msgstr ""
+msgstr "Awal huruf"
 
 #: trans/forms.py:224
 msgid "Any"
-msgstr ""
+msgstr "Apasaja"
 
 #: trans/models.py:57 trans/models.py:63
 #, python-format
 msgid "Bad format string (%s)"
-msgstr ""
+msgstr "String berformat jelek (%s)"
 
 #: trans/models.py:67
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Berkas mask tidak mengandung * sebagai pengganti bahasa!"
 
 #: trans/models.py:88
 msgid "Can not link to linked repository!"
-msgstr ""
+msgstr "Tidak dapat menautkan ke repositori tertaut!"
 
 #: trans/models.py:90
 msgid "Invalid link to repository!"
-msgstr ""
+msgstr "tautan ke repositori tidak valid!"
 
 #: trans/models.py:93
 msgid "Use contact form"
-msgstr ""
+msgstr "Gunakan formulir kontak"
 
 #: trans/models.py:94
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "URL menunjuki ke petunjuk peterjemahan"
 
 #: trans/models.py:112
 #, python-format
@@ -2251,39 +2292,46 @@ msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
+"Anda dapat menggunakan %(language)s, %(subproject)s atau %(project)s untuk "
+"jalan pintas bahasa, nama sub-proyek atau proyek."
 
 #: trans/models.py:126
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Apakah repositori harus mendorong dari Hulu pada setiap komit."
 
 #: trans/models.py:131
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
+"Apakah tim penerjemahan didalam file header harus diperbarui oleh Weblate."
 
 #: trans/models.py:139
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Silakan mengisi pada URL petunjuk atau menggunakan berbagai pilihan untuk "
+"menambahkan bahasa baru."
 
 #: trans/models.py:295
 msgid "Name to display"
-msgstr ""
+msgstr "Nama untuk menampilkan"
 
 #: trans/models.py:299
 msgid "Name used in URLs"
-msgstr ""
+msgstr "Nama yang digunakan dalam URL"
 
 #: trans/models.py:304
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
+"URL atau Git repositori, gunakan weblate://project/subproject untuk berbagi "
+"dengan subproyek lainnya"
 
 #: trans/models.py:309
 msgid "URL of push Git repository"
-msgstr ""
+msgstr "URL dari push Git repositori"
 
 #: trans/models.py:313
 #, python-format
@@ -2291,36 +2339,43 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
+"Tautan ke peramban repositori, gunakan %(branch)s untuk cabang, %(file)s dan "
+"%(line)s sebagai nama berkas dan barisnya."
 
 #: trans/models.py:319
 msgid "Git branch to translate"
-msgstr ""
+msgstr "Cabang Git untuk menerjemahkan"
 
 #: trans/models.py:324
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
+"Path berkas untuk menerjemahkan, gunakan*bukan kode bahasa, misalnya: "
+"po/*.po atau locale/*/LC_MESSAGES/django.po"
 
 #: trans/models.py:329
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
+"Nama berkas dari tema penerjemahan, ini dianjurkan untuk menggunakan "
+"penerjemahan toko yang mana hanya diterjemahkan string seperti sumber daya "
+"Android string"
 
 #: trans/models.py:333
 msgid "Whether subproject is locked for translation updates"
-msgstr ""
+msgstr "Apakah sub-proyek terkunci untuk memutahirkan penerjemahan"
 
 #: trans/models.py:493
 #, python-format
 msgid "Failed to fetch git repository: %s"
-msgstr ""
+msgstr "Gagal untuk mengambil repositori git: %s"
 
 #: trans/models.py:573
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "Push dinonaktifkan untuk %s."
 
 #: trans/models.py:602
 #, python-format
@@ -2411,9 +2466,9 @@ msgid "Strings with suggestions (%d)"
 msgstr ""
 
 #: trans/models.py:1421
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with any failing checks (%d)"
-msgstr "Pesan telah gagal diperiksa"
+msgstr "String dengan setiap pemeriksaan yang gagal (%d)"
 
 #: trans/models.py:1639
 msgid "Message not found in backend storage, it is probably corrupted."
@@ -2471,9 +2526,8 @@ msgid "Translation is now locked for you."
 msgstr ""
 
 #: trans/views.py:521
-#, fuzzy
 msgid "Translation is now open for translation updates."
-msgstr "Terjemahan baru dalam %(translation)s"
+msgstr "Penerjemahan sekarang terbuka untuk pemutakhiran terjemahan."
 
 #: trans/views.py:535
 msgid "Subproject is now locked for translation updates!"
