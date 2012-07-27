@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-07-27 10:32+0200\n"
-"PO-Revision-Date: 2012-07-27 15:10+0200\n"
+"PO-Revision-Date: 2012-07-27 15:32+0200\n"
 "Last-Translator: Jan Kowalski <pst3qga@tormail.org>\n"
 "Language-Team: none\n"
 "Language: pl\n"
@@ -238,7 +238,6 @@ msgstr ""
 "preferencje."
 
 #: accounts/views.py:52
-#, fuzzy
 msgid "Your profile has been updated."
 msgstr "Twój profil został zaktualizowany."
 
@@ -687,7 +686,6 @@ msgid "Account"
 msgstr "Konto"
 
 #: html/profile.html:25
-#, fuzzy
 msgid "Information"
 msgstr "Informacje"
 
@@ -709,7 +707,6 @@ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "Możesz zmienić hasło na <a href=\"%(pw_url)s\">osobnej stronie</a>."
 
 #: html/profile.html:59
-#, fuzzy
 msgid "Last login"
 msgstr "Ostatnie logowanie"
 
@@ -1272,7 +1269,7 @@ msgstr ""
 
 #: html/mail/new_suggestion.txt:14
 msgid "You can review it at:"
-msgstr ""
+msgstr "Możesz to przeglądać na:"
 
 #: html/mail/new_suggestion_subject.txt:1
 #, python-format
@@ -1282,7 +1279,7 @@ msgstr "Nowa sugestia w %(translation)s"
 #: html/registration/activate.html:7
 #, fuzzy
 msgid "Your account could not be activated"
-msgstr "Format %s nie mógł być rozpoznany."
+msgstr "Twoje konto nie mogło być aktywowane"
 
 #: html/registration/activate.html:9
 #, python-format
@@ -1293,8 +1290,14 @@ msgid_plural ""
 "This may be because it is already active or because you waited over %(days)s "
 "days to activate it."
 msgstr[0] ""
+"Mogło tak się zdarzyć, ponieważ konto jest już aktywne, albo ponieważ "
+"czekałeś/czekałaś z aktywacją ponad %(days)s."
 msgstr[1] ""
+"Mogło tak się zdarzyć, ponieważ konta są już aktywne, albo ponieważ "
+"czekałeś/czekałaś z aktywacją ponad %(days)s."
 msgstr[2] ""
+"Mogło tak się zdarzyć, ponieważ konta są już aktywne, albo ponieważ "
+"czekałeś/czekałaś z aktywacją ponad %(days)s."
 
 #: html/registration/activate.html:11
 #, python-format
@@ -1303,15 +1306,14 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
+"Jeśli uważasz, że powyższa uwaga nie dotyczy Ciebie, <a "
+"href=\"/contact/\">skontaktuj się</a> proszę z administratorem tej strony. "
+"Możesz także <a href=\"%(reg_url)s\">zarejestrować się ponownie</a>."
 
 #: html/registration/activation_complete.html:8
 #, fuzzy
 msgid "Thank you. Your account is now activated."
-msgstr ""
-"Dziękujemy. Twoje \n"
-"   konto jest już aktywne. \n"
-"   Twoja nazwa użytkownika to\n"
-"<b>%(username)s</b>."
+msgstr "Dziękujemy. Twoje konto jest już aktywne.   "
 
 #: html/registration/activation_complete.html:12
 #, python-format
@@ -1490,6 +1492,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href=\"/"
 "contact/\">contact us</a> for more details."
 msgstr ""
+"Przepraszamy, ale rejestracje na tej stronie są wyłączone. Możesz się z nami "
+"<a href=\"/contact/\">skontaktować</a>, aby uzyskać więcej informacji."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -2199,12 +2203,12 @@ msgstr "Plik"
 
 #: trans/forms.py:120
 msgid "Merge file header"
-msgstr ""
+msgstr "Scal nagłówek pliku"
 
 #: trans/forms.py:121
 #, fuzzy
 msgid "Merges content of file header into the translation."
-msgstr "Zawartość pliku pomyślnie połączona z tłumaczeniem."
+msgstr "Scal zawartość nagłówka pliku z tłumaczeniem."
 
 #: trans/forms.py:128
 msgid "Overwrite existing translations"
@@ -2316,6 +2320,8 @@ msgstr ""
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
+"Czy Zespół Tłumaczy w nagłówkach pliku powinien być aktualizowany przez "
+"Weblate."
 
 #: trans/models.py:139
 msgid ""
@@ -2460,7 +2466,7 @@ msgstr "To tłumaczenie jest aktualnie zablokowane do aktualizacji!"
 #: trans/models.py:927
 #, fuzzy, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
-msgstr "To tłumaczenie jest aktualnie zablokowane do aktualizacji!"
+msgstr "To tłumaczenie jest zablokowane przez %(user)s do %(time)s!"
 
 #: trans/models.py:1409
 msgid "All strings"
@@ -2484,7 +2490,7 @@ msgstr "Napisy z sugestiami (%d)"
 #: trans/models.py:1421
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
-msgstr "Napisy z sugestiami (%d)"
+msgstr "Napisy z nieudanymi testami (%d)"
 
 #: trans/models.py:1639
 msgid "Message not found in backend storage, it is probably corrupted."
@@ -2542,12 +2548,12 @@ msgstr "Wszystkie repozytoria zostały zresetowane."
 #: trans/views.py:509
 #, fuzzy
 msgid "Translation is now locked for you."
-msgstr "To tłumaczenie jest aktualnie zablokowane do aktualizacji!"
+msgstr "Tłumaczenie jest teraz zablokowane dla Ciebie."
 
 #: trans/views.py:521
 #, fuzzy
 msgid "Translation is now open for translation updates."
-msgstr "Projekt jest teraz otwarty do aktualizacji tłumaczenia."
+msgstr "Tłumaczenie teraz otwarte dla aktualizacji tłumaczenia."
 
 #: trans/views.py:535
 msgid "Subproject is now locked for translation updates!"
