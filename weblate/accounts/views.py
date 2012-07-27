@@ -57,13 +57,15 @@ def profile(request):
         subscriptionform = SubscriptionForm(instance = request.user.get_profile())
         userform = UserForm(instance = request.user)
 
+    profile = request.user.get_profile()
     response = render_to_response('profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
         'subscriptionform': subscriptionform,
+        'profile': profile,
         'title': _('User profile'),
         }))
-    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, request.user.get_profile().language)
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
     return response
 
 def contact(request):
