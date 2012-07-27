@@ -4,6 +4,8 @@ Frequently Asked Questions
 Configuration
 +++++++++++++
 
+.. _auto-workflow:
+
 How to create automatic worflow?
 --------------------------------
 
@@ -39,6 +41,22 @@ have SSH access to this machine, you can use the repository directly.
 
 For anonymous acces you might want to run git server and let it serve the
 repository to outside world.
+
+What are options of pushing changes back upstream?
+--------------------------------------------------
+
+This heavily depends on your setup, Weblate is quite flexible in this area.
+Here are examples of workflows used with Weblate:
+
+- Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)
+- You tell manually Weblate to push (it needs push access to upstream repository)
+- Somebody manually merges changes from Weblate git repository into upstream 
+  repository
+- Somebody rewrites history produced by Weblate (eg. by eliminating merge
+  commits), merges changes and tells Weblate to reset contet on upstream
+  repository.
+
+Of course your are free to mix all of these as you wish.
 
 Troubleshooting
 +++++++++++++++
