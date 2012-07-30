@@ -23,6 +23,9 @@ case "$1" in
             echo 'Creating database for Weblate'
             su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py syncdb --noinput'
             rc_status -v -r
+            echo 'Updating database for Weblate'
+            su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py migrate'
+            rc_status -v -r
             echo 'Adding admin user for Weblate'
             su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py createadmin'
             rc_status -v -r
