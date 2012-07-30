@@ -7,6 +7,11 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('weblate.lang', '0001_initial'),
+        ('weblate.trans', '0001_initial'),
+    )
+
     def forwards(self, orm):
         # Adding model 'Profile'
         db.create_table('accounts_profile', (

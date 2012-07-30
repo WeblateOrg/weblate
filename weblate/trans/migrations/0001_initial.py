@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('weblate.lang', '0001_initial'),
+    )
+
     def forwards(self, orm):
         # Adding model 'Project'
         db.create_table('trans_project', (
