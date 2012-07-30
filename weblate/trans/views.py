@@ -12,7 +12,7 @@ from django.db.models import Q, Count, Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
-from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
+from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, get_versions
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm
@@ -1154,13 +1154,7 @@ def js_config(request):
         mimetype = 'application/javascript')
 
 def about(request):
-    import translate.__version__
-    import whoosh
-    import django
-    import git
-    import cairo
-    import south
-    import registration
+    context = get_versions()
     totals =  Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
     for p in SubProject.objects.iterator():
@@ -1168,21 +1162,14 @@ def about(request):
             total_strings += p.translation_set.all()[0].total
         except Translation.DoesNotExist:
             pass
-    return render_to_response('about.html', RequestContext(request, {
-        'title': _('About Weblate'),
-        'tt_version': translate.__version__.sver,
-        'whoosh_version': whoosh.versionstring(),
-        'django_version': django.get_version(),
-        'registration_version': registration.get_version(),
-        'git_version': git.__version__,
-        'cairo_version': cairo.version,
-        'south_version': south.__version__,
-        'total_translations': totals['translated__sum'],
-        'total_suggestions': totals['suggested__sum'],
-        'total_users': Profile.objects.count(),
-        'total_strings': total_strings,
-        'total_languages': Language.objects.filter(translation__total__gt = 0).distinct().count(),
-    }))
+    context['title'] = _('About Weblate')
+    context['total_translations'] = totals['translated__sum']
+    context['total_suggestions'] = totals['suggested__sum']
+    context['total_users'] = Profile.objects.count()
+    context['total_strings'] = total_strings
+    context['total_languages'] = Language.objects.filter(translation__total__gt = 0).distinct().count()
+
+    return render_to_response('about.html', RequestContext(request, context))
 
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
 def git_status_project(request, project):

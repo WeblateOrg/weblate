@@ -1957,3 +1957,24 @@ class Change(models.Model):
 
 class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
+
+def get_versions():
+    '''
+    Returns list of used versions.
+    '''
+    import translate.__version__
+    import whoosh
+    import django
+    import git
+    import cairo
+    import south
+    import registration
+    return {
+        'ttkit_version': translate.__version__.sver,
+        'whoosh_version': whoosh.versionstring(),
+        'django_version': django.get_version(),
+        'registration_version': registration.get_version(),
+        'git_version': git.__version__,
+        'cairo_version': cairo.version,
+        'south_version': south.__version__,
+    }
