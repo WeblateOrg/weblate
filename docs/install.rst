@@ -70,9 +70,9 @@ will probably want to adjust following options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
-After your configuration is ready, you can run :program:`./manage.py syncdb` to
-create database structure. Now you should be able to create translation
-projects using admin interface.
+After your configuration is ready, you can run :program:`./manage.py syncdb` and 
+:program:`./manage.py migrate` to create database structure. Now you should be
+able to create translation projects using admin interface.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
