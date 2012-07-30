@@ -800,11 +800,23 @@ class SubProject(models.Model):
         Save wrapper which updates backend Git repository and regenerates
         translation data.
         '''
-        self.sync_git_repo()
+        # Detect if git config has changed (so that we have to pull the repo)
+        changed_git = True
+        if (self.id):
+            old = SubProject.objects.get(pk = self.id)
+            changed_git = (old.repo != self.repo) or (old.branch != self.branch) or (old.filemask != self.filemask)
 
+        # Configure git repo if there were changes
+        if changed_git:
+            self.sync_git_repo()
+
+        # Save/Create object
         super(SubProject, self).save(*args, **kwargs)
 
-        self.create_translations()
+        # Rescan for possibly new translations if there were changes, needs to
+        # be done after actual creating the object above
+        if changed_git:
+            self.create_translations()
 
     def get_translated_percent(self):
         '''
