@@ -754,7 +754,13 @@ class SubProject(models.Model):
         Validator fetches repository and tries to find translation files.
         Then it checks them for validity.
         '''
+        # Skip validation if we don't have valid project
+        if self.project_id is None:
+            return
+
+        # Validate git repo
         self.sync_git_repo(True)
+
         try:
             matches = self.get_mask_matches()
             if len(matches) == 0:
