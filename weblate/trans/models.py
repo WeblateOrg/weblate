@@ -30,6 +30,11 @@ from weblate.trans.managers import TranslationManager, UnitManager, DictionaryMa
 from weblate.trans.filelock import FileLock
 from util import is_plural, split_plural, join_plural
 
+from django.db.models.signals import post_syncdb
+from south.signals import post_migrate
+
+from distutils.version import LooseVersion
+
 logger = logging.getLogger('weblate')
 
 
@@ -1978,3 +1983,62 @@ def get_versions():
         'cairo_version': cairo.version,
         'south_version': south.__version__,
     }
+
+def check_version(versions, key, expected, description):
+    '''
+    Check for single module version.
+    '''
+    if LooseVersion(versions[key]) < expected:
+        print '*** %s is too old! ***' % description
+        print 'Installed version %s, required %s' % (versions[key], expected)
+        return True
+    return False
+
+def check_versions(sender, **kwargs):
+    '''
+    Check required versions.
+    '''
+    if ('app' in kwargs and kwargs['app'] == 'trans') or (sender is not None and sender.__name__ == 'weblate.trans.models'):
+        versions = get_versions()
+        failure = False
+
+        failure |= check_version(
+            versions,
+            'ttkit_version',
+            '1.9.0',
+            'Translate-toolkit <http://translate.sourceforge.net/wiki/toolkit/index>'
+        )
+
+        failure |= check_version(
+            versions,
+            'git_version',
+            '0.3',
+            'GitPython <https://github.com/gitpython-developers/GitPython>'
+        )
+
+        failure |= check_version(
+            versions,
+            'registration_version',
+            '0.8',
+            'Django-registration <https://bitbucket.org/ubernostrum/django-registration/>'
+        )
+
+        failure |= check_version(
+            versions,
+            'whoosh_version',
+            '2.3',
+            'Whoosh <http://bitbucket.org/mchaput/whoosh/>'
+        )
+
+        failure |= check_version(
+            versions,
+            'cairo_version',
+            '1.8',
+            'PyCairo <http://cairographics.org/pycairo/>'
+        )
+
+        if failure:
+            raise Exception('Some of required modules are missing or too old (check output above)!')
+
+post_syncdb.connect(check_versions)
+post_migrate.connect(check_versions)
