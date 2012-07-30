@@ -149,6 +149,9 @@ Generic upgrade instructions
     Since version 1.2 the migration is done using South module, to upgrade to 1.2, 
     please see :ref:`version-specific-instructions`.
 
+Before upgrading, please check current :ref:`requirements` as they might have
+changed.
+
 To upgrade database structure, you should run following commands:
 
 .. code-block:: sh
@@ -226,6 +229,10 @@ to run following commands:
     ./manage.py migrate weblate.trans 0001 --fake
     ./manage.py migrate weblate.accounts 0001 --fake
     ./manage.py migrate weblate.lang 0001 --fake
+
+Also please note that there are several new requirements and version 0.8 of
+django-registration is now being required, see :ref:`requirements` for more
+details.
 
 Once you have done this, you can use :ref:`generic-upgrade-instructions`.
 
