@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
+from django.db.utils import DatabaseError
 from django.utils.translation import ugettext_lazy as _, gettext, ugettext_noop
 from django.contrib import messages
 from django.contrib.auth.models import Group, Permission, User
@@ -209,9 +210,13 @@ def create_profile_callback(sender, **kwargs):
     '''
     if kwargs['created']:
         # Create profile
-        profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
-        if newprofile:
-            profile.save
+        try:
+            profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
+            if newprofile:
+                profile.save
+        except DatabaseError:
+            # Database not set up (we're being run from initial syncdb)
+            pass
 
         # Add user to Users group if it exists
         try:
