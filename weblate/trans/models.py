@@ -1662,7 +1662,7 @@ class Unit(models.Model):
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
 
         # Return if there was no change
-        if not saved:
+        if not saved and propagate:
             self.propagate(request)
             return
 
