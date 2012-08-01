@@ -85,10 +85,13 @@ Production setup
 For production setup you should do following adjustments:
 
 * disable Django's debug mode by setting ``DEBUG = False``
-* enable :setting:`OFFLOAD_INDEXING` (see :ref:`fulltext`)
+* enable :setting:`OFFLOAD_INDEXING`, see :ref:`fulltext` for more details
 * use powerful database engine (not SQLite)
-* if possible, use memcache from Django by ``CACHE_BACKEND = 'memcached://127.0.0.1:11211/'``
+* if possible, use memcache from Django by 
+  ``CACHE_BACKEND = 'memcached://127.0.0.1:11211/'``, see 
+  `Django’s cache framework`_ for more detauls
 
+.. _`Django’s cache framework`: https://docs.djangoproject.com/en/1.4/topics/cache/
 .. _server:
 
 Running server
