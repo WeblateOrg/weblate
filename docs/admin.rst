@@ -194,6 +194,11 @@ The default setup (after you run :djadmin:`setupgroups`) consists
 of two groups `Users` and `Managers` which have privileges as descibed above.
 All new users are automatically added to `Users` group.
 
+Basically `Users` are meant as regular translators and `Managers` for people
+who need more control over the translation - they can force commiting changes
+to git, push changes upstream (if Weblate is configured to do so) or disable
+translation (eg. when there are some major changes happening upstream).
+
 To customize this setup, it is recommended to remove privileges from `Users`
 group and create additional groups with finer privileges (eg. `Translators`
 group, which will be allowed to save translations and manage suggestions) and
