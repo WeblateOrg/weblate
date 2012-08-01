@@ -137,7 +137,7 @@ def show_check_subproject(request, name, project, subproject):
 
 def show_languages(request):
     return render_to_response('languages.html', RequestContext(request, {
-        'languages': Language.objects.all(),
+        'languages': Language.objects.have_translation(),
         'title': _('Languages'),
     }))
 
