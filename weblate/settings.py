@@ -304,3 +304,9 @@ CHECK_LIST = (
     'weblate.trans.checks.DirectionCheck',
 )
 
+# E-mail address that error messages come from.
+SERVER_EMAIL = 'root@localhost'
+
+# Default email address to use for various automated correspondence from
+# the site managers. Used for registration emails.
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
