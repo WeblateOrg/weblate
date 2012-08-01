@@ -1660,6 +1660,7 @@ class Unit(models.Model):
         if pounit is None:
             logger.error('message %s disappeared!', self)
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
+            return
 
         # Return if there was no change
         if not saved and propagate:
