@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _, gettext, ugettext_noop
 from django.contrib import messages
 from django.contrib.auth.models import Group, Permission, User
 from django.db.models.signals import post_syncdb
+from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation
 from django.template.loader import render_to_string, get_template_from_string
@@ -282,3 +283,14 @@ def sync_create_groups(sender, **kwargs):
 
 post_syncdb.connect(sync_create_groups)
 post_migrate.connect(sync_create_groups)
+
+def store_user_details(sender, user, request, **kwargs):
+    '''
+    Stores user details on registration, here we rely on
+    validation done by RegistrationForm.
+    '''
+    user.first_name = request.POST['first_name']
+    user.last_name = request.POST['last_name']
+    user.save()
+
+user_registered.connect(store_user_details)
