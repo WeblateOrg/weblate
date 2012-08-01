@@ -303,6 +303,9 @@ class Language(models.Model):
         return _(self.name)
 
     def get_plural_form(self):
+        '''
+        Returns plural form like gettext understands it.
+        '''
         return 'nplurals=%d; plural=%s;' % (self.nplurals, self.pluralequation)
 
     def get_plural_label(self, idx):
