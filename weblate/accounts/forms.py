@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
 
 class ProfileForm(forms.ModelForm):
+    '''
+    User profile editing.
+    '''
     class Meta:
         model = Profile
         fields = (
@@ -18,11 +21,14 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         # Limit languages to ones which have translation
-        qs = Language.objects.filter(translation__total__gt = 0).distinct()
+        qs = Language.objects.have_translation()
         self.fields['languages'].queryset = qs
         self.fields['secondary_languages'].queryset = qs
 
 class SubscriptionForm(forms.ModelForm):
+    '''
+    User subscription management.
+    '''
     class Meta:
         model = Profile
         fields = (
@@ -43,6 +49,9 @@ class SubscriptionForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
+    '''
+    User information form.
+    '''
     class Meta:
         model = User
         fields = [
@@ -63,6 +72,9 @@ class UserForm(forms.ModelForm):
         self.fields['email'].label = _('E-mail')
 
 class ContactForm(forms.Form):
+    '''
+    Form for contacting site owners.
+    '''
     subject = forms.CharField(label = _('Subject'), required = True)
     name = forms.CharField(label = _('Your name'), required = True)
     email = forms.EmailField(label = _('Your email'), required = True)
@@ -73,6 +85,10 @@ class ContactForm(forms.Form):
     )
 
 class RegistrationForm(RegistrationFormUniqueEmail):
+    '''
+    Registration form, please note it does not save first/last name
+    this is done by signal handler in weblate.accounts.models.
+    '''
     first_name = forms.CharField(label = _('First name'))
     last_name = forms.CharField(label = _('Last name'))
 
@@ -80,6 +96,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
 
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
+        # Change labels to match Weblate language
         self.fields['username'].label = _('Username')
         self.fields['username'].help_text = _('At least five characters long.')
         self.fields['email'].label = _('E-mail')
@@ -90,11 +107,17 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         self.fields['password2'].help_text = _('Repeat the password so we can verify you typed it in correctly.')
 
     def clean_password1(self):
+        '''
+        Password validation, requires length of six chars.
+        '''
         if len(self.cleaned_data['password1']) < 6:
             raise forms.ValidationError(_(u'Password needs to have at least six characters.'))
         return self.cleaned_data['password1']
 
     def clean_username(self):
+        '''
+        Username validation, requires length of five chars.
+        '''
         if len(self.cleaned_data['username']) < 5:
             raise forms.ValidationError(_(u'Username needs to have at least five characters.'))
         return super(RegistrationForm, self).clean_username()

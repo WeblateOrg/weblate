@@ -270,6 +270,12 @@ class LanguageManager(models.Manager):
             lang.pluralequation = props[3]
             lang.save()
 
+    def have_translation(self):
+        '''
+        Returns list of languages which have at least one translation.
+        '''
+        return self.filter(translation__total__gt = 0).distinct()
+
 
 def setup_lang(sender=None, **kwargs):
     '''
@@ -297,6 +303,9 @@ class Language(models.Model):
         return _(self.name)
 
     def get_plural_form(self):
+        '''
+        Returns plural form like gettext understands it.
+        '''
         return 'nplurals=%d; plural=%s;' % (self.nplurals, self.pluralequation)
 
     def get_plural_label(self, idx):
@@ -314,13 +323,6 @@ class Language(models.Model):
         return ('weblate.trans.views.show_language', (), {
             'lang': self.code
         })
-
-    def has_translations(self):
-        '''
-        Checks whether there is a translation existing for this language.
-        '''
-        from weblate.trans.models import Translation
-        return Translation.objects.filter(language = self).exists()
 
     def get_translated_percent(self):
         '''

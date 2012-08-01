@@ -1234,22 +1234,41 @@ class Translation(models.Model):
             return None
 
     def commit_pending(self, author = None):
+        '''
+        Commits any pending changes.
+        '''
+        # Get author of last changes
         last = self.get_last_author()
+
+        # If it is same as current one, we don't have to commit
         if author == last or last is None:
             return
+
         # Commit with lock acquired
         with self.subproject.get_lock():
             self.git_commit(last, True, True)
 
     def get_author_name(self, user, email = True):
+        '''
+        Returns formatted author name with email.
+        '''
+
+        # Get full name from database
         full_name = user.get_full_name()
+
+        # Use username if full name is empty
         if full_name == '':
             full_name = user.username
+
+        # Add email if we are asked for it
         if not email:
             return full_name
         return '%s <%s>' % (full_name, user.email)
 
     def get_commit_message(self):
+        '''
+        Formats commit message based on project configuration.
+        '''
         return self.subproject.project.commit_message % {
             'language': self.language_code,
             'subproject': self.subproject.name,
@@ -1289,14 +1308,21 @@ class Translation(models.Model):
         '''
         Commits translation to git.
         '''
+        # Check git config
         self.__configure_committer(gitrepo)
+
+        # Format commit message
         msg = self.get_commit_message()
+
+        # Do actual commit
         gitrepo.git.commit(
             self.filename,
             author = author.encode('utf-8'),
             date = self.get_last_change().isoformat(),
             m = msg
         )
+
+        # Optioanlly store updated hash
         if sync:
             self.store_hash()
 
