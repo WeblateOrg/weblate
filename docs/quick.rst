@@ -3,8 +3,9 @@ Quick starting guide
 
 .. note::
 
-    This is just a quick guide for installing and starting to use Weblate,
-    please check :ref:`install` for more detailed instructions.
+    This is just a quick guide for installing and starting to use Weblate for
+    testing purposes. Please check :ref:`install` for more real world setup
+    instructions.
 
 Installing from sources
 -----------------------
