@@ -8,7 +8,6 @@ Relased on ? 2012.
 
 * Weblate now uses South for database migration, please check upgrade instructions if you are upgrading.
 * Fixed minor issues with linked git repos.
-* Documentation enhancements.
 * New introduction page for engaging people with translating using Weblate.
 * Added widgets which can be used for promoting translation projects.
 * Added option to reset repository to origin (for privileged users).
@@ -22,12 +21,12 @@ Relased on ? 2012.
 * Support for email notifications of translators.
 * List only used languages in preferences.
 * Improved handling of not known languages when importing project.
-* Documentation improvements.
 * Support for locking translation by translator.
 * Optionally maintain Language-Team header in po file.
 * Include some statistics in about page.
 * Supports (and requires) django-registration 0.8.
 * Caching of counted units with failing checks.
+* Documentation improvements.
 
 weblate 1.1
 -----------
