@@ -77,7 +77,7 @@ able to create translation projects using admin interface.
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
-.. seealso:: :ref:`privileges`
+.. seealso:: :ref:`config`, :ref:`privileges`
 
 Production setup
 ----------------
