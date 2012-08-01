@@ -11,6 +11,13 @@ All settings are stored in :file:`settings.py` (as usual for Django).
     it is run as mod_wsgi, you need to restart Apache to reload the
     configuration.
 
+.. seealso:: 
+   
+    Please check also `Django's documentation`_ for parameters which configure
+    Django itself.
+
+.. _`Django's documentation`: https://docs.djangoproject.com/en/1.4/ref/settings/
+
 .. setting:: AUTO_LOCK
 
 AUTO_LOCK
@@ -124,5 +131,3 @@ WHOOSH_INDEX
 
 Directory where Whoosh fulltext indices will be stored. Defaults to :file:`whoosh-index` subdirectory.
 
-
-.. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/
