@@ -5,6 +5,12 @@ Configuration
 
 All settings are stored in :file:`settings.py` (as usual for Django).
 
+.. note::
+
+    After changing any of these settings, you need to restart Weblate. In case
+    it is run as mod_wsgi, you need to restart Apache to reload the
+    configuration.
+
 .. setting:: AUTO_LOCK
 
 AUTO_LOCK
