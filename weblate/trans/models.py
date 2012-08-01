@@ -1322,7 +1322,7 @@ class Translation(models.Model):
             m = msg
         )
 
-        # Optioanlly store updated hash
+        # Optionally store updated hash
         if sync:
             self.store_hash()
 
