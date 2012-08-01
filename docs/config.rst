@@ -81,12 +81,16 @@ MT_APERTIUM_KEY
 
 API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
 
+.. seealso:: :ref:`machine-translation`
+
 .. setting:: MT_MICROSOFT_KEY
 
 MT_MICROSOFT_KEY
 ----------------
 
 API key for Microsoft Translator service, you can register at http://www.bing.com/developers/createapp.aspx
+
+.. seealso:: :ref:`machine-translation`
 
 .. setting:: NEARBY_MESSAGES
 
@@ -108,6 +112,8 @@ While enabling this, don't forget scheduling runs of
 :djadmin:`update_index` in cron or similar tool.
 
 This is recommended setup for production use.
+
+.. seealso:: :ref:`fulltext`
 
 .. setting:: SIMILAR_MESSAGES
 
