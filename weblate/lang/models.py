@@ -270,6 +270,12 @@ class LanguageManager(models.Manager):
             lang.pluralequation = props[3]
             lang.save()
 
+    def have_translation(self):
+        '''
+        Returns list of languages which have at least one translation.
+        '''
+        return self.filter(translation__total__gt = 0).distinct()
+
 
 def setup_lang(sender=None, **kwargs):
     '''

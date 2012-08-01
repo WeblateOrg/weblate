@@ -18,7 +18,7 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         # Limit languages to ones which have translation
-        qs = Language.objects.filter(translation__total__gt = 0).distinct()
+        qs = Language.objects.have_translation()
         self.fields['languages'].queryset = qs
         self.fields['secondary_languages'].queryset = qs
 
