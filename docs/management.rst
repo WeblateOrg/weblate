@@ -80,6 +80,8 @@ have huge set of translation units.
 
 You can use ``--clean`` to remove all words from database prior updating.
 
+.. seealso:: :ref:`fulltext`
+
 update_index
 ------------
 
@@ -89,6 +91,8 @@ Updates index for fulltext search when :setting:`OFFLOAD_INDEXING` is enabled.
 
 It is recommended to run this frequently (eg. every 5 minutes) to have index
 uptodate.
+
+.. seealso:: :ref:`fulltext`
 
 setupgroups
 -----------
