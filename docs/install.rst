@@ -79,6 +79,16 @@ default site name to match your domain.
 
 .. seealso:: :ref:`privileges`
 
+Production setup
+----------------
+
+For production setup you should do following adjustments:
+
+* disable Django's debug mode by setting ``DEBUG = False``
+* enable :setting:`OFFLOAD_INDEXING`
+* use powerful database engine (not SQLite)
+* if possible, use memcache from Django by ``CACHE_BACKEND = 'memcached://127.0.0.1:11211/'``
+
 .. _server:
 
 Running server
