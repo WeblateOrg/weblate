@@ -310,3 +310,11 @@ SERVER_EMAIL = 'root@localhost'
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
 DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+
+# Example configuration to use memcached for caching
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#        'LOCATION': '127.0.0.1:11211',
+#    }
+#}
