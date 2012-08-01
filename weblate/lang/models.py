@@ -321,13 +321,6 @@ class Language(models.Model):
             'lang': self.code
         })
 
-    def has_translations(self):
-        '''
-        Checks whether there is a translation existing for this language.
-        '''
-        from weblate.trans.models import Translation
-        return Translation.objects.filter(language = self).exists()
-
     def get_translated_percent(self):
         '''
         Returns status of translations in this language.
