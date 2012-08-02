@@ -587,7 +587,7 @@ class SubProject(models.Model):
             return False
 
         # Update the repo
-        self.do_update(request):
+        self.do_update(request)
 
         # Were all changes merged?
         if self.git_needs_pull():
