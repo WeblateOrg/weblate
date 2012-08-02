@@ -414,18 +414,18 @@ class SubProject(models.Model):
 
         return os.path.join(self.project.get_path(), self.slug)
 
-    def get_lock_path(self):
+    def get_git_lock_path(self):
         '''
         Returns full path to subproject git repository.
         '''
         return os.path.join(self.project.get_path(), self.slug + '.lock')
 
-    def get_lock(self):
+    def get_git_lock(self):
         '''
         Returns lock object for current translation instance.
         '''
         if not hasattr(self, '__lock__'):
-            self.__lock__ = FileLock(self.get_lock_path())
+            self.__lock__ = FileLock(self.get_git_lock_path())
         return self.__lock__
 
     def can_push(self):
@@ -671,7 +671,7 @@ class SubProject(models.Model):
         gitrepo = self.get_repo()
 
         # Merge with lock acquired
-        with self.get_lock():
+        with self.get_git_lock():
             try:
                 # Try to merge it
                 gitrepo.git.merge('origin/%s' % self.branch)
@@ -1248,7 +1248,7 @@ class Translation(models.Model):
             return
 
         # Commit with lock acquired
-        with self.subproject.get_lock():
+        with self.subproject.get_git_lock():
             self.git_commit(last, True, True)
 
     def get_author_name(self, user, email = True):
@@ -1388,7 +1388,7 @@ class Translation(models.Model):
         Updates backend file and unit.
         '''
         # Save with lock acquired
-        with self.subproject.get_lock():
+        with self.subproject.get_git_lock():
 
             store = self.get_store()
             src = unit.get_source_plurals()[0]
@@ -1483,7 +1483,7 @@ class Translation(models.Model):
         Merges ttkit store into current translation.
         '''
         # Merge with lock acquired
-        with self.subproject.get_lock():
+        with self.subproject.get_git_lock():
 
             store1 = self.get_store()
             store1.require_index()
