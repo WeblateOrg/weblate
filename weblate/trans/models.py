@@ -586,8 +586,11 @@ class SubProject(models.Model):
         if not self.git_needs_push():
             return False
 
-        # First check we're up to date
-        if not self.do_update(request):
+        # Update the repo
+        self.do_update(request):
+
+        # Were all changes merged?
+        if self.git_needs_pull():
             return False
 
         # Do actual push
