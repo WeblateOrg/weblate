@@ -1705,6 +1705,9 @@ class Unit(models.Model):
         else:
             self.flags = ''
 
+        # Get old unit from database (for notifications)
+        oldunit = Unit.objects.get(id = self.id)
+
         # Save updated unit to database
         self.save(backend = True)
 
@@ -1718,7 +1721,7 @@ class Unit(models.Model):
             self.translation.language
         )
         for subscription in subscriptions:
-            subscription.notify_any_translation(self)
+            subscription.notify_any_translation(self, oldunit)
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:

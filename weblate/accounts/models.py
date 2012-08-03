@@ -139,7 +139,7 @@ class Profile(models.Model):
         finally:
             translation.activate(cur_language)
 
-    def notify_any_translation(self, unit):
+    def notify_any_translation(self, unit, oldunit):
         '''
         Sends notification on translation.
         '''
@@ -148,6 +148,7 @@ class Profile(models.Model):
             unit.translation,
             {
                 'unit': unit,
+                'oldunit': oldunit,
             }
         )
 
