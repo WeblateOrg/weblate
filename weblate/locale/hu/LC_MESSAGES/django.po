@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-01 13:24+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
+"POT-Creation-Date: 2012-08-03 09:50+0200\n"
 "PO-Revision-Date: 2012-08-03 01:36+0200\n"
 "Last-Translator: Péter Báthory <bathory@index.hu>\n"
-"Language-Team: Hungarian <http://l10n.cihar.com/projects/weblate/master/hu/>\n"
+"Language-Team: Hungarian <http://l10n.cihar.com/projects/weblate/master/hu/"
+">\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,67 +47,67 @@ msgstr "A jelszó megváltozott"
 msgid "Password reset"
 msgstr "Jelszó visszaállítása"
 
-#: accounts/forms.py:61 accounts/forms.py:76
+#: accounts/forms.py:70 accounts/forms.py:92
 msgid "First name"
 msgstr "Keresztnév"
 
-#: accounts/forms.py:62 accounts/forms.py:77
+#: accounts/forms.py:71 accounts/forms.py:93
 msgid "Last name"
 msgstr "Vezetéknév"
 
-#: accounts/forms.py:63 accounts/forms.py:85 accounts/i18n.py:16
+#: accounts/forms.py:72 accounts/forms.py:102 accounts/i18n.py:16
 msgid "E-mail"
 msgstr "Email cím"
 
-#: accounts/forms.py:66
+#: accounts/forms.py:78
 msgid "Subject"
 msgstr "Tárgy"
 
-#: accounts/forms.py:67
+#: accounts/forms.py:79
 msgid "Your name"
 msgstr "Neved"
 
-#: accounts/forms.py:68
+#: accounts/forms.py:80
 msgid "Your email"
 msgstr "Email címed"
 
-#: accounts/forms.py:70
+#: accounts/forms.py:82
 msgid "Message"
 msgstr "Üzenet"
 
-#: accounts/forms.py:83 accounts/i18n.py:17
+#: accounts/forms.py:100 accounts/i18n.py:17
 msgid "Username"
 msgstr "Felhasználónév"
 
-#: accounts/forms.py:84
+#: accounts/forms.py:101
 msgid "At least five characters long."
 msgstr "Legalább öt karakter hosszú."
 
-#: accounts/forms.py:86
+#: accounts/forms.py:103
 msgid "Activation email will be sent here."
 msgstr "Az aktivációs email ide lesz elküldve."
 
-#: accounts/forms.py:87 accounts/i18n.py:18 html/profile.html:24
+#: accounts/forms.py:104 accounts/i18n.py:18 html/profile.html:24
 msgid "Password"
 msgstr "Jelszó"
 
-#: accounts/forms.py:88
+#: accounts/forms.py:105
 msgid "At least six characters long."
 msgstr "Legalább hat karakter hosszú."
 
-#: accounts/forms.py:89
+#: accounts/forms.py:106
 msgid "Password (again)"
 msgstr "Jelszó (újra)"
 
-#: accounts/forms.py:90
+#: accounts/forms.py:107
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 
-#: accounts/forms.py:94
+#: accounts/forms.py:114
 msgid "Password needs to have at least six characters."
 msgstr ""
 
-#: accounts/forms.py:99
+#: accounts/forms.py:122
 msgid "Username needs to have at least five characters."
 msgstr ""
 
@@ -229,7 +230,7 @@ msgstr ""
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:202
+#: accounts/models.py:203
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 
@@ -1131,6 +1132,11 @@ msgstr ""
 msgid "Translation:"
 msgstr ""
 
+#: html/mail/any_translation.txt:14
+#, fuzzy
+msgid "Previous translation:"
+msgstr "Fordításaid"
+
 #: html/mail/any_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
@@ -1931,15 +1937,15 @@ msgstr ""
 msgid "Zulu"
 msgstr ""
 
-#: lang/models.py:307
+#: lang/models.py:316
 msgid "Singular"
 msgstr ""
 
-#: lang/models.py:309
+#: lang/models.py:318
 msgid "Plural"
 msgstr ""
 
-#: lang/models.py:310
+#: lang/models.py:319
 #, python-format
 msgid "Plural form %d"
 msgstr ""
@@ -2251,104 +2257,104 @@ msgstr ""
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:607
+#: trans/models.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:633
+#: trans/models.py:636
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:689
+#: trans/models.py:692
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:767
+#: trans/models.py:770
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:772
+#: trans/models.py:775
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:787
+#: trans/models.py:790
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:792
+#: trans/models.py:795
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:802
+#: trans/models.py:805
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:804
+#: trans/models.py:807
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:911
+#: trans/models.py:914
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:915
+#: trans/models.py:918
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:917
+#: trans/models.py:920
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:942 trans/views.py:290
+#: trans/models.py:945 trans/views.py:290
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
-#: trans/models.py:950
+#: trans/models.py:953
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1432
+#: trans/models.py:1461
 msgid "All strings"
 msgstr "Minden szöveg"
 
-#: trans/models.py:1438
+#: trans/models.py:1467
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Lefordítatlan szövegek (%d)"
 
-#: trans/models.py:1440
+#: trans/models.py:1469
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Zavaros szövegek (%d)"
 
-#: trans/models.py:1442
+#: trans/models.py:1471
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Javaslattal rendelkező szövegek (%d)"
 
-#: trans/models.py:1444
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Ellenőrzési hibás szövegek (%d)"
 
-#: trans/models.py:1662
+#: trans/models.py:1691
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1751
+#: trans/models.py:1784
 #, python-format
 msgid "unit ID %s"
 msgstr ""
