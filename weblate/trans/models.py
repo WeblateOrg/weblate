@@ -1158,6 +1158,8 @@ class Translation(models.Model):
             if units.count() == 0:
                 # Last unit referencing to these checks
                 Check.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+                # Delete suggestons referencing this unit
+                Suggestion.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
             else:
                 # There are other units as well, but some checks (eg. consistency) needs update now
                 for unit in units:
