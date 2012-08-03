@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-31 08:59+0200\n"
+"POT-Creation-Date: 2012-08-03 09:51+0200\n"
 "PO-Revision-Date: 2012-07-27 15:35+0200\n"
 "Last-Translator: Jan Kowalski <pst3qga@tormail.org>\n"
 "Language-Team: none\n"
@@ -47,67 +47,67 @@ msgstr "Hasło zmienione"
 msgid "Password reset"
 msgstr "Resetowanie hasła"
 
-#: accounts/forms.py:61 accounts/forms.py:76
+#: accounts/forms.py:70 accounts/forms.py:92
 msgid "First name"
 msgstr "Imię"
 
-#: accounts/forms.py:62 accounts/forms.py:77
+#: accounts/forms.py:71 accounts/forms.py:93
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: accounts/forms.py:63 accounts/forms.py:85 accounts/i18n.py:16
+#: accounts/forms.py:72 accounts/forms.py:102 accounts/i18n.py:16
 msgid "E-mail"
 msgstr "E-mail"
 
-#: accounts/forms.py:66
+#: accounts/forms.py:78
 msgid "Subject"
 msgstr "Temat"
 
-#: accounts/forms.py:67
+#: accounts/forms.py:79
 msgid "Your name"
 msgstr "Twoje imię (nazwa)"
 
-#: accounts/forms.py:68
+#: accounts/forms.py:80
 msgid "Your email"
 msgstr "Twój e-mail"
 
-#: accounts/forms.py:70
+#: accounts/forms.py:82
 msgid "Message"
 msgstr "Wiadomość"
 
-#: accounts/forms.py:83 accounts/i18n.py:17
+#: accounts/forms.py:100 accounts/i18n.py:17
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
-#: accounts/forms.py:84
+#: accounts/forms.py:101
 msgid "At least five characters long."
 msgstr "﻿Co najmniej pięć znaków."
 
-#: accounts/forms.py:86
+#: accounts/forms.py:103
 msgid "Activation email will be sent here."
 msgstr "E-mail aktywacyjny zostanie wysłany tutaj."
 
-#: accounts/forms.py:87 accounts/i18n.py:18 html/profile.html:24
+#: accounts/forms.py:104 accounts/i18n.py:18 html/profile.html:24
 msgid "Password"
 msgstr "Hasło"
 
-#: accounts/forms.py:88
+#: accounts/forms.py:105
 msgid "At least six characters long."
 msgstr "Co najmniej sześć znaków."
 
-#: accounts/forms.py:89
+#: accounts/forms.py:106
 msgid "Password (again)"
 msgstr "Hasło (ponownie)"
 
-#: accounts/forms.py:90
+#: accounts/forms.py:107
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Powtórz hasło aby zweryfikować, czy wpisałeś/-aś je poprawnie."
 
-#: accounts/forms.py:101
+#: accounts/forms.py:114
 msgid "Password needs to have at least six characters."
 msgstr "Hasło musi mieć co najmniej sześć znaków."
 
-#: accounts/forms.py:106
+#: accounts/forms.py:122
 msgid "Username needs to have at least five characters."
 msgstr "Nazwa użytkownika musi mieć co najmniej pięć znaków."
 
@@ -199,39 +199,39 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: accounts/models.py:50
+#: accounts/models.py:51
 msgid "Interface Language"
 msgstr "Język interfejsu"
 
-#: accounts/models.py:56 html/index.html:21 trans/views.py:141
+#: accounts/models.py:57 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Języki"
 
-#: accounts/models.py:61
+#: accounts/models.py:62
 msgid "Secondary languages"
 msgstr "Języki drugorzędne"
 
-#: accounts/models.py:70
+#: accounts/models.py:71
 msgid "Subscribed projects"
 msgstr "Projekty subskrybowane"
 
-#: accounts/models.py:74
+#: accounts/models.py:75
 msgid "Notification on any translation"
 msgstr "Powiadomienie o tłumaczeniach"
 
-#: accounts/models.py:78
+#: accounts/models.py:79
 msgid "Notification on new string to translate"
 msgstr "Powiadomienie o nowym napisie do przetłumaczenia"
 
-#: accounts/models.py:82
+#: accounts/models.py:83
 msgid "Notification on new suggestion"
 msgstr "Powiadomienie o nowej sugestii"
 
-#: accounts/models.py:86
+#: accounts/models.py:87
 msgid "Notification on new contributor"
 msgstr "Powiadomienie o nowym współpracowniku"
 
-#: accounts/models.py:201
+#: accounts/models.py:203
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Twój profil został przeniesiony. Możesz, jeśli chcesz, dostosować "
@@ -1193,6 +1193,11 @@ msgstr "Źródłowy ciąg znaków:"
 msgid "Translation:"
 msgstr "Tłumaczenie:"
 
+#: html/mail/any_translation.txt:14
+#, fuzzy
+msgid "Previous translation:"
+msgstr "Twoje tłumaczenia"
+
 #: html/mail/any_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
@@ -2051,15 +2056,15 @@ msgstr "joruba"
 msgid "Zulu"
 msgstr "zulu"
 
-#: lang/models.py:307
+#: lang/models.py:316
 msgid "Singular"
 msgstr "Liczba pojedyncza"
 
-#: lang/models.py:309
+#: lang/models.py:318
 msgid "Plural"
 msgstr "Liczba mnoga"
 
-#: lang/models.py:310
+#: lang/models.py:319
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma liczby mnogiej dla %d"
@@ -2394,26 +2399,26 @@ msgstr "Pobranie repozytorium git nie powiodło się: %s"
 msgid "Push is disabled for %s."
 msgstr "Przesyłanie dla %s jest wyłączone."
 
-#: trans/models.py:607
+#: trans/models.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Przesłanie do zdalnej gałęzi dla %s nie powiodło się."
 
-#: trans/models.py:633
+#: trans/models.py:636
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Resetowanie zdalnej gałęzi na %s nie powiodło się."
 
-#: trans/models.py:689
+#: trans/models.py:692
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Scalenie zdalnej gałęzi z %s nie powiodło się."
 
-#: trans/models.py:767
+#: trans/models.py:770
 msgid "The mask did not match any files!"
 msgstr "Maska nie pasuje do żadnych plików!"
 
-#: trans/models.py:772
+#: trans/models.py:775
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2421,25 +2426,25 @@ msgstr ""
 "Istnieje więcej plików dla jednego języka, proszę poprawić maskę i używać "
 "podprojektów do tłumaczenia różnych zasobów."
 
-#: trans/models.py:787
+#: trans/models.py:790
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nie można było rozpoznać formatu %d pasujących plików. "
 
-#: trans/models.py:792
+#: trans/models.py:795
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Analiza %d dopasowanych plików nie powiodła się!"
 
-#: trans/models.py:802
+#: trans/models.py:805
 msgid "Format of translation template could not be recognized."
 msgstr "Nie można było rozpoznać format szablonu tłumaczenia."
 
-#: trans/models.py:804
+#: trans/models.py:807
 msgid "Failed to parse translation template."
 msgstr "Analiza szablonu tłumaczenia nie powiodła się."
 
-#: trans/models.py:911
+#: trans/models.py:914
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2448,56 +2453,56 @@ msgstr ""
 "Nie znaleziono nazwy pliku %s w repozytorium! Aby dodać nowe tłumaczenie, "
 "dodaj plik języka do repozytorium."
 
-#: trans/models.py:915
+#: trans/models.py:918
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format %s nie mógł być rozpoznany."
 
-#: trans/models.py:917
+#: trans/models.py:920
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nie powiodła się analiza pliku %(file)s: %(error)s"
 
-#: trans/models.py:942 trans/views.py:290
+#: trans/models.py:945 trans/views.py:290
 msgid "This translation is currently locked for updates!"
 msgstr "To tłumaczenie jest aktualnie zablokowane do aktualizacji!"
 
-#: trans/models.py:950
+#: trans/models.py:953
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "To tłumaczenie jest zablokowane przez %(user)s do %(time)s!"
 
-#: trans/models.py:1432
+#: trans/models.py:1461
 msgid "All strings"
 msgstr "Wszystkie napisy"
 
-#: trans/models.py:1438
+#: trans/models.py:1467
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nieprzetłumaczone napisy (%d)"
 
-#: trans/models.py:1440
+#: trans/models.py:1469
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Napisy niepewne (%d)"
 
-#: trans/models.py:1442
+#: trans/models.py:1471
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Napisy z sugestiami (%d)"
 
-#: trans/models.py:1444
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Napisy z nieudanymi testami (%d)"
 
-#: trans/models.py:1662
+#: trans/models.py:1691
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Nie odnaleziono komunikatu w przechowalni, gdyż jest on prawdopodobnie "
 "uszkodzony."
 
-#: trans/models.py:1751
+#: trans/models.py:1784
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednostki %s"

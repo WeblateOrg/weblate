@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-31 08:59+0200\n"
+"POT-Creation-Date: 2012-08-03 09:51+0200\n"
 "PO-Revision-Date: 2012-04-28 06:01+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,67 +47,67 @@ msgstr "Geslo sem spremenil"
 msgid "Password reset"
 msgstr "Ponastavitev gesla"
 
-#: accounts/forms.py:61 accounts/forms.py:76
+#: accounts/forms.py:70 accounts/forms.py:92
 msgid "First name"
 msgstr "Lastno ime"
 
-#: accounts/forms.py:62 accounts/forms.py:77
+#: accounts/forms.py:71 accounts/forms.py:93
 msgid "Last name"
 msgstr "Priimek"
 
-#: accounts/forms.py:63 accounts/forms.py:85 accounts/i18n.py:16
+#: accounts/forms.py:72 accounts/forms.py:102 accounts/i18n.py:16
 msgid "E-mail"
 msgstr "E-pošta"
 
-#: accounts/forms.py:66
+#: accounts/forms.py:78
 msgid "Subject"
 msgstr "Zadeva"
 
-#: accounts/forms.py:67
+#: accounts/forms.py:79
 msgid "Your name"
 msgstr "Vaše ime"
 
-#: accounts/forms.py:68
+#: accounts/forms.py:80
 msgid "Your email"
 msgstr "Vaš e-poštni naslov"
 
-#: accounts/forms.py:70
+#: accounts/forms.py:82
 msgid "Message"
 msgstr "Sporočilo"
 
-#: accounts/forms.py:83 accounts/i18n.py:17
+#: accounts/forms.py:100 accounts/i18n.py:17
 msgid "Username"
 msgstr "Uporabniško ime"
 
-#: accounts/forms.py:84
+#: accounts/forms.py:101
 msgid "At least five characters long."
 msgstr "Dolgo vsaj pet znakov."
 
-#: accounts/forms.py:86
+#: accounts/forms.py:103
 msgid "Activation email will be sent here."
 msgstr "Aktivacijsko e-pošto bom poslal sem."
 
-#: accounts/forms.py:87 accounts/i18n.py:18 html/profile.html:24
+#: accounts/forms.py:104 accounts/i18n.py:18 html/profile.html:24
 msgid "Password"
 msgstr "Geslo"
 
-#: accounts/forms.py:88
+#: accounts/forms.py:105
 msgid "At least six characters long."
 msgstr "Dolgo vsaj šest znakov."
 
-#: accounts/forms.py:89
+#: accounts/forms.py:106
 msgid "Password (again)"
 msgstr "Geslo (ponovno)"
 
-#: accounts/forms.py:90
+#: accounts/forms.py:107
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Ponovno vnesite geslo, da lahko preverimo, ali ste ga vnesli pravilno."
 
-#: accounts/forms.py:101
+#: accounts/forms.py:114
 msgid "Password needs to have at least six characters."
 msgstr "Geslo mora imeti vsaj šest znakov."
 
-#: accounts/forms.py:106
+#: accounts/forms.py:122
 msgid "Username needs to have at least five characters."
 msgstr "Uporabniško ime mora imeti vsaj pet znakov."
 
@@ -200,41 +200,41 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/models.py:50
+#: accounts/models.py:51
 msgid "Interface Language"
 msgstr "Jezik vmesnika"
 
-#: accounts/models.py:56 html/index.html:21 trans/views.py:141
+#: accounts/models.py:57 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "Jeziki"
 
-#: accounts/models.py:61
+#: accounts/models.py:62
 msgid "Secondary languages"
 msgstr "Dodatni jeziki"
 
-#: accounts/models.py:70
+#: accounts/models.py:71
 #, fuzzy
 msgid "Subscribed projects"
 msgstr "Podprojekti"
 
-#: accounts/models.py:74
+#: accounts/models.py:75
 #, fuzzy
 msgid "Notification on any translation"
 msgstr "Samodejni prevod"
 
-#: accounts/models.py:78
+#: accounts/models.py:79
 msgid "Notification on new string to translate"
 msgstr ""
 
-#: accounts/models.py:82
+#: accounts/models.py:83
 msgid "Notification on new suggestion"
 msgstr ""
 
-#: accounts/models.py:86
+#: accounts/models.py:87
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:201
+#: accounts/models.py:203
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Vaš profil smo preselili; morda boste želeli urediti nastavitve."
 
@@ -1189,6 +1189,11 @@ msgstr "Išči v izvirnih nizih"
 msgid "Translation:"
 msgstr "Prevod"
 
+#: html/mail/any_translation.txt:14
+#, fuzzy
+msgid "Previous translation:"
+msgstr "Vaši prevodi"
+
 #: html/mail/any_translation_subject.txt:1
 #, fuzzy, python-format
 msgid "New translation in %(translation)s"
@@ -2041,15 +2046,15 @@ msgstr "jorubščina"
 msgid "Zulu"
 msgstr "zulujščina"
 
-#: lang/models.py:307
+#: lang/models.py:316
 msgid "Singular"
 msgstr "Ednina"
 
-#: lang/models.py:309
+#: lang/models.py:318
 msgid "Plural"
 msgstr "Množina"
 
-#: lang/models.py:310
+#: lang/models.py:319
 #, python-format
 msgid "Plural form %d"
 msgstr "Množinska oblika %d"
@@ -2380,26 +2385,26 @@ msgstr "Zajemanje shrambe git je spodletelo: %s"
 msgid "Push is disabled for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: trans/models.py:607
+#: trans/models.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 
-#: trans/models.py:633
+#: trans/models.py:636
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 
-#: trans/models.py:689
+#: trans/models.py:692
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nisem uspel združiti oddaljene podveje z %s."
 
-#: trans/models.py:767
+#: trans/models.py:770
 msgid "The mask did not match any files!"
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: trans/models.py:772
+#: trans/models.py:775
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2407,79 +2412,79 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek; prosimo, prilagodite masko in "
 "uporabite podprojekte za prevajanje različnih virov."
 
-#: trans/models.py:787
+#: trans/models.py:790
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 
-#: trans/models.py:792
+#: trans/models.py:795
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:802
+#: trans/models.py:805
 msgid "Format of translation template could not be recognized."
 msgstr "Oblike predloge prevoda ni mogoče prepoznati."
 
-#: trans/models.py:804
+#: trans/models.py:807
 msgid "Failed to parse translation template."
 msgstr "Razčlenjevanje predloge prevoda ni uspelo."
 
-#: trans/models.py:911
+#: trans/models.py:914
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:915
+#: trans/models.py:918
 #, fuzzy, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 
-#: trans/models.py:917
+#: trans/models.py:920
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:942 trans/views.py:290
+#: trans/models.py:945 trans/views.py:290
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
-#: trans/models.py:950
+#: trans/models.py:953
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1432
+#: trans/models.py:1461
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:1438
+#: trans/models.py:1467
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:1440
+#: trans/models.py:1469
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:1442
+#: trans/models.py:1471
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:1444
+#: trans/models.py:1473
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:1662
+#: trans/models.py:1691
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1751
+#: trans/models.py:1784
 #, python-format
 msgid "unit ID %s"
 msgstr ""

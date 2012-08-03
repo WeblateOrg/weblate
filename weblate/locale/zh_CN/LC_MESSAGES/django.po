@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-07-31 08:59+0200\n"
+"POT-Creation-Date: 2012-08-03 09:51+0200\n"
 "PO-Revision-Date: 2012-08-03 08:18+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
-"Language-Team: Chinese (China) "
-"<http://l10n.cihar.com/projects/weblate/master/zh_CN/>\n"
+"Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
+"master/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,67 +47,67 @@ msgstr "密码已修改"
 msgid "Password reset"
 msgstr "重设密码"
 
-#: accounts/forms.py:61 accounts/forms.py:76
+#: accounts/forms.py:70 accounts/forms.py:92
 msgid "First name"
 msgstr "名字"
 
-#: accounts/forms.py:62 accounts/forms.py:77
+#: accounts/forms.py:71 accounts/forms.py:93
 msgid "Last name"
 msgstr "姓氏"
 
-#: accounts/forms.py:63 accounts/forms.py:85 accounts/i18n.py:16
+#: accounts/forms.py:72 accounts/forms.py:102 accounts/i18n.py:16
 msgid "E-mail"
 msgstr "电子邮箱"
 
-#: accounts/forms.py:66
+#: accounts/forms.py:78
 msgid "Subject"
 msgstr "主题"
 
-#: accounts/forms.py:67
+#: accounts/forms.py:79
 msgid "Your name"
 msgstr "您的姓名"
 
-#: accounts/forms.py:68
+#: accounts/forms.py:80
 msgid "Your email"
 msgstr "您的邮箱"
 
-#: accounts/forms.py:70
+#: accounts/forms.py:82
 msgid "Message"
 msgstr "信息"
 
-#: accounts/forms.py:83 accounts/i18n.py:17
+#: accounts/forms.py:100 accounts/i18n.py:17
 msgid "Username"
 msgstr "用户名"
 
-#: accounts/forms.py:84
+#: accounts/forms.py:101
 msgid "At least five characters long."
 msgstr "至少 5 个字符。"
 
-#: accounts/forms.py:86
+#: accounts/forms.py:103
 msgid "Activation email will be sent here."
 msgstr "激活邮件将发送到这里。"
 
-#: accounts/forms.py:87 accounts/i18n.py:18 html/profile.html:24
+#: accounts/forms.py:104 accounts/i18n.py:18 html/profile.html:24
 msgid "Password"
 msgstr "密码"
 
-#: accounts/forms.py:88
+#: accounts/forms.py:105
 msgid "At least six characters long."
 msgstr "至少 6 个字符。"
 
-#: accounts/forms.py:89
+#: accounts/forms.py:106
 msgid "Password (again)"
 msgstr "密码 (再输入一次)"
 
-#: accounts/forms.py:90
+#: accounts/forms.py:107
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "再次输入密码能让我们确定您是否正确输入了您想要设置的密码。"
 
-#: accounts/forms.py:101
+#: accounts/forms.py:114
 msgid "Password needs to have at least six characters."
 msgstr "密码至少要 6 个字符。"
 
-#: accounts/forms.py:106
+#: accounts/forms.py:122
 msgid "Username needs to have at least five characters."
 msgstr "用户名至少要 5 个字符。"
 
@@ -198,39 +198,39 @@ msgstr "确定"
 msgid "Cancel"
 msgstr "取消"
 
-#: accounts/models.py:50
+#: accounts/models.py:51
 msgid "Interface Language"
 msgstr "界面语言"
 
-#: accounts/models.py:56 html/index.html:21 trans/views.py:141
+#: accounts/models.py:57 html/index.html:21 trans/views.py:141
 msgid "Languages"
 msgstr "语言"
 
-#: accounts/models.py:61
+#: accounts/models.py:62
 msgid "Secondary languages"
 msgstr "第二语言"
 
-#: accounts/models.py:70
+#: accounts/models.py:71
 msgid "Subscribed projects"
 msgstr "已订阅的项目"
 
-#: accounts/models.py:74
+#: accounts/models.py:75
 msgid "Notification on any translation"
 msgstr "在有任何翻译时通知"
 
-#: accounts/models.py:78
+#: accounts/models.py:79
 msgid "Notification on new string to translate"
 msgstr "在有新条目需要翻译时通知"
 
-#: accounts/models.py:82
+#: accounts/models.py:83
 msgid "Notification on new suggestion"
 msgstr "在有新建议时通知"
 
-#: accounts/models.py:86
+#: accounts/models.py:87
 msgid "Notification on new contributor"
 msgstr "在有新贡献者时通知"
 
-#: accounts/models.py:201
+#: accounts/models.py:203
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "您的资料已经迁移，您也许想要调整首选项。"
 
@@ -1015,7 +1015,8 @@ msgstr ""
 msgid ""
 "You can also point newcomers to the introduction page at <a href="
 "\"%(engage_url)s\">%(engage_url)s</a>."
-msgstr "您也可以给新人看介绍页面 <a href=\"%(engage_url)s\">%(engage_url)s</a> 。"
+msgstr ""
+"您也可以给新人看介绍页面 <a href=\"%(engage_url)s\">%(engage_url)s</a> 。"
 
 #: html/widgets.html:22
 msgid "Image widgets"
@@ -1149,6 +1150,11 @@ msgstr "源条目："
 msgid "Translation:"
 msgstr "翻译："
 
+#: html/mail/any_translation.txt:14
+#, fuzzy
+msgid "Previous translation:"
+msgstr "我的翻译项目"
+
 #: html/mail/any_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
@@ -1254,8 +1260,8 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"如果都不是上面所提到的情况，请<a href=\"/contact/\">联系</a>网站管理员。您也可以<a href=\"%"
-"(reg_url)s\">重新注册</a>。"
+"如果都不是上面所提到的情况，请<a href=\"/contact/\">联系</a>网站管理员。您也"
+"可以<a href=\"%(reg_url)s\">重新注册</a>。"
 
 #: html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -1417,7 +1423,9 @@ msgstr "重设我的密码"
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href=\"/"
 "contact/\">contact us</a> for more details."
-msgstr "抱歉，本站已关闭注册。您可以<a href=\"/contact/\">联系我们</a>以了解详细情况。"
+msgstr ""
+"抱歉，本站已关闭注册。您可以<a href=\"/contact/\">联系我们</a>以了解详细情"
+"况。"
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -1436,7 +1444,9 @@ msgstr "请更正注册表单中的错误。"
 msgid ""
 "By registering you agree to use your name and email in Git commits and your "
 "contribution to be licensed under same license as translated content."
-msgstr "注册意味着您同意将您的姓名和邮箱用于 Git 提交并且您的翻译成果将通过与您所翻译内容相同的许可协议来授权。"
+msgstr ""
+"注册意味着您同意将您的姓名和邮箱用于 Git 提交并且您的翻译成果将通过与您所翻译"
+"内容相同的许可协议来授权。"
 
 #: lang/i18n.py:13
 msgid "Afrikaans"
@@ -1974,15 +1984,15 @@ msgstr "约鲁巴语"
 msgid "Zulu"
 msgstr "祖鲁语"
 
-#: lang/models.py:307
+#: lang/models.py:316
 msgid "Singular"
 msgstr "单数形式"
 
-#: lang/models.py:309
+#: lang/models.py:318
 msgid "Plural"
 msgstr "复数形式"
 
-#: lang/models.py:310
+#: lang/models.py:319
 #, python-format
 msgid "Plural form %d"
 msgstr "复数形式 %d"
@@ -2299,104 +2309,104 @@ msgstr "获取 Git 代码库失败：%s"
 msgid "Push is disabled for %s."
 msgstr "%s 已经禁用上传。"
 
-#: trans/models.py:607
+#: trans/models.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "上传至远程分支 %s 失败。"
 
-#: trans/models.py:633
+#: trans/models.py:636
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "重设至远程分支 %s 失败。"
 
-#: trans/models.py:689
+#: trans/models.py:692
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "合并入远程分支 %s 上失败。"
 
-#: trans/models.py:767
+#: trans/models.py:770
 msgid "The mask did not match any files!"
 msgstr "此掩码不和任何文件匹配！"
 
-#: trans/models.py:772
+#: trans/models.py:775
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr "每种语言都有其它文件，请调整掩码并使用子项目翻译不同的源条目。"
 
-#: trans/models.py:787
+#: trans/models.py:790
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "无法识别匹配 %d 格式的文件。"
 
-#: trans/models.py:792
+#: trans/models.py:795
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "解析 %d 匹配文件失败！"
 
-#: trans/models.py:802
+#: trans/models.py:805
 msgid "Format of translation template could not be recognized."
 msgstr "无法识别译文模板的格式。"
 
-#: trans/models.py:804
+#: trans/models.py:807
 msgid "Failed to parse translation template."
 msgstr "解析译文模板失败。"
 
-#: trans/models.py:911
+#: trans/models.py:914
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr "代码库中找不到 %s 文件！要添加新翻译，请在代码库中添加语言文件。"
 
-#: trans/models.py:915
+#: trans/models.py:918
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "无法识别 %s 格式。"
 
-#: trans/models.py:917
+#: trans/models.py:920
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "解析文件 %(file)s 失败: %(error)s"
 
-#: trans/models.py:942 trans/views.py:290
+#: trans/models.py:945 trans/views.py:290
 msgid "This translation is currently locked for updates!"
 msgstr "此翻译已被锁定，不能更新！"
 
-#: trans/models.py:950
+#: trans/models.py:953
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "此翻译已被 %(user)s 锁定到 %(time)s！"
 
-#: trans/models.py:1432
+#: trans/models.py:1461
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:1438
+#: trans/models.py:1467
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:1440
+#: trans/models.py:1469
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:1442
+#: trans/models.py:1471
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models.py:1444
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "未通过检查的条目 (%d)"
 
-#: trans/models.py:1662
+#: trans/models.py:1691
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:1751
+#: trans/models.py:1784
 #, python-format
 msgid "unit ID %s"
 msgstr ""
