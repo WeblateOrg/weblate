@@ -1247,9 +1247,8 @@ class Translation(models.Model):
         if author == last or last is None:
             return
 
-        # Commit with lock acquired
-        with self.subproject.get_git_lock():
-            self.git_commit(last, True, True)
+        # Commit changes
+        self.git_commit(last, True, True)
 
     def get_author_name(self, user, email = True):
         '''
@@ -1367,15 +1366,16 @@ class Translation(models.Model):
             logger.info('Delaying commiting %s in %s as %s', self.filename, self, author)
             return False
 
-        # Do actual commit
+        # Do actual commit with git lock
         logger.info('Commiting %s in %s as %s', self.filename, self, author)
-        try:
-            self.__git_commit(gitrepo, author, sync)
-        except git.GitCommandError:
-            # There might be another attempt on commit in same time
-            # so we will sleep a bit an retry
-            time.sleep(random.random() * 2)
-            self.__git_commit(gitrepo, author, sync)
+        with self.subproject.get_git_lock():
+            try:
+                self.__git_commit(gitrepo, author, sync)
+            except git.GitCommandError:
+                # There might be another attempt on commit in same time
+                # so we will sleep a bit an retry
+                time.sleep(random.random() * 2)
+                self.__git_commit(gitrepo, author, sync)
 
         # Push if we should
         if self.subproject.project.push_on_commit:
