@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-03 10:18+0200\n"
+"POT-Creation-Date: 2012-08-03 13:34+0200\n"
 "PO-Revision-Date: 2012-07-30 05:02+0200\n"
 "Last-Translator: Claudio F Filho <filhocf@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-doc@kde.org>\n"
@@ -275,7 +275,11 @@ msgstr ""
 "O servidor teve sérios problemas com suas requisições. Nós já enviamos "
 "nossos macaquinhos amestrados concertar este problema."
 
-#: html/about.html:7
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1165
+msgid "About Weblate"
+msgstr "Sobre o Weblate"
+
+#: html/about.html:9
 msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -286,35 +290,57 @@ msgstr ""
 "de traduções em subprojetos, verificação de consistência e associação "
 "automática aos arquivos fontes."
 
-#: html/about.html:9
+#: html/about.html:11
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"it's website at <a href=\"http://weblate.org/\">weblate.org</a>."
+msgstr ""
+
+#: html/about.html:13
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: html/about.html:16
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "Sobre o Weblate"
+
+#: html/about.html:17
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "Sobre o Weblate"
+
+#: html/about.html:20
 msgid "Versions"
 msgstr "Versões"
 
-#: html/about.html:11
+#: html/about.html:22
 msgid "This site is built using following projects:"
 msgstr "Este portal é construído utilizando os seguintes projetos:"
 
-#: html/about.html:48
+#: html/about.html:59
 msgid "Statistics"
 msgstr "Estatísticas"
 
-#: html/about.html:52
+#: html/about.html:63
 msgid "Strings to translate"
 msgstr "Cadeias para traduzir"
 
-#: html/about.html:56
+#: html/about.html:67
 msgid "Used languages"
 msgstr "Idiomas utilizados"
 
-#: html/about.html:60
+#: html/about.html:71
 msgid "Registered users"
 msgstr "Usuários registrados"
 
-#: html/about.html:64 html/profile.html:51
+#: html/about.html:75 html/profile.html:51
 msgid "Suggestions made"
 msgstr "Sugestões feitas"
 
-#: html/about.html:68 html/profile.html:55
+#: html/about.html:79 html/profile.html:55
 msgid "Translations made"
 msgstr "Traduções feitas"
 
@@ -340,10 +366,6 @@ msgstr "Início"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Desenvolvido com <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-
-#: html/base.html:80 html/engage.html:58 trans/views.py:1165
-msgid "About Weblate"
-msgstr "Sobre o Weblate"
 
 #: html/base.html:81 html/engage.html:59
 msgid "Contact us"
@@ -2487,37 +2509,37 @@ msgstr "Esta tradução está atualmente bloqueada para atualização!"
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "Esta tradução está bloqueada por %(user)s para tradução até %(time)s!"
 
-#: trans/models.py:1461
+#: trans/models.py:1463
 msgid "All strings"
 msgstr "Todas as cadeias"
 
-#: trans/models.py:1467
+#: trans/models.py:1469
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Cadeias não traduzidas (%d)"
 
-#: trans/models.py:1469
+#: trans/models.py:1471
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadeias vagas (%d)"
 
-#: trans/models.py:1471
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadeias com sugestões (%d)"
 
-#: trans/models.py:1473
+#: trans/models.py:1475
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadeias com alguma falha de verificação (%d)"
 
-#: trans/models.py:1691
+#: trans/models.py:1693
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Mensagem não encontrada no armazenamento de backend, ele provavelmente está "
 "corrompido."
 
-#: trans/models.py:1784
+#: trans/models.py:1786
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidade %s"

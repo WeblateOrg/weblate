@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-03 10:18+0200\n"
+"POT-Creation-Date: 2012-08-03 13:34+0200\n"
 "PO-Revision-Date: 2012-08-03 08:18+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -270,7 +270,11 @@ msgid ""
 msgstr ""
 "服务器在处理您的请求时发生严重问题。我们刚刚已经让程序猿去修复这个问题了。"
 
-#: html/about.html:7
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1165
+msgid "About Weblate"
+msgstr "关于 Weblate"
+
+#: html/about.html:9
 msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -279,35 +283,57 @@ msgstr ""
 "Weblate 是一个高度 Git 集成的在线翻译工具。它提供简洁清爽的用户界面，子项目间"
 "翻译同步，一致性检查以及自动链接到源文件等功能。"
 
-#: html/about.html:9
+#: html/about.html:11
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"it's website at <a href=\"http://weblate.org/\">weblate.org</a>."
+msgstr ""
+
+#: html/about.html:13
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: html/about.html:16
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "关于 Weblate"
+
+#: html/about.html:17
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "关于 Weblate"
+
+#: html/about.html:20
 msgid "Versions"
 msgstr "版本"
 
-#: html/about.html:11
+#: html/about.html:22
 msgid "This site is built using following projects:"
 msgstr "此站点使用以下项目编译："
 
-#: html/about.html:48
+#: html/about.html:59
 msgid "Statistics"
 msgstr "统计"
 
-#: html/about.html:52
+#: html/about.html:63
 msgid "Strings to translate"
 msgstr "原文总数"
 
-#: html/about.html:56
+#: html/about.html:67
 msgid "Used languages"
 msgstr "涉及语言"
 
-#: html/about.html:60
+#: html/about.html:71
 msgid "Registered users"
 msgstr "注册用户"
 
-#: html/about.html:64 html/profile.html:51
+#: html/about.html:75 html/profile.html:51
 msgid "Suggestions made"
 msgstr "作出建议"
 
-#: html/about.html:68 html/profile.html:55
+#: html/about.html:79 html/profile.html:55
 msgid "Translations made"
 msgstr "完成翻译"
 
@@ -332,10 +358,6 @@ msgstr "主页"
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
-
-#: html/base.html:80 html/engage.html:58 trans/views.py:1165
-msgid "About Weblate"
-msgstr "关于 Weblate"
 
 #: html/base.html:81 html/engage.html:59
 msgid "Contact us"
@@ -2397,35 +2419,35 @@ msgstr "此翻译已被锁定，不能更新！"
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "此翻译已被 %(user)s 锁定到 %(time)s！"
 
-#: trans/models.py:1461
+#: trans/models.py:1463
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:1467
+#: trans/models.py:1469
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:1469
+#: trans/models.py:1471
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:1471
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models.py:1473
+#: trans/models.py:1475
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "未通过检查的条目 (%d)"
 
-#: trans/models.py:1691
+#: trans/models.py:1693
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:1784
+#: trans/models.py:1786
 #, python-format
 msgid "unit ID %s"
 msgstr ""

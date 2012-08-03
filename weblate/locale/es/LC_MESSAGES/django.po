@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-03 10:18+0200\n"
+"POT-Creation-Date: 2012-08-03 13:34+0200\n"
 "PO-Revision-Date: 2012-07-31 16:33+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,7 +275,11 @@ msgstr ""
 "El servidor tuvo serios problemas con su petición. Ya enviamos a nuestros "
 "monos amaestrados a solucionarlos."
 
-#: html/about.html:7
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1165
+msgid "About Weblate"
+msgstr "Sobre Weblate"
+
+#: html/about.html:9
 msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -286,35 +290,57 @@ msgstr ""
 "traducciones en subproyectos, chequeos de consistencia y asociación "
 "automática a archivos de código fuente."
 
-#: html/about.html:9
+#: html/about.html:11
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"it's website at <a href=\"http://weblate.org/\">weblate.org</a>."
+msgstr ""
+
+#: html/about.html:13
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: html/about.html:16
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "Sobre Weblate"
+
+#: html/about.html:17
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "Sobre Weblate"
+
+#: html/about.html:20
 msgid "Versions"
 msgstr "Versiones"
 
-#: html/about.html:11
+#: html/about.html:22
 msgid "This site is built using following projects:"
 msgstr "Este sitio está construido utilizando los siguientes proyectos:"
 
-#: html/about.html:48
+#: html/about.html:59
 msgid "Statistics"
 msgstr "Estadísticas"
 
-#: html/about.html:52
+#: html/about.html:63
 msgid "Strings to translate"
 msgstr "Cadenas a traducir"
 
-#: html/about.html:56
+#: html/about.html:67
 msgid "Used languages"
 msgstr "Idiomas utilizados"
 
-#: html/about.html:60
+#: html/about.html:71
 msgid "Registered users"
 msgstr "Usuarios registrados"
 
-#: html/about.html:64 html/profile.html:51
+#: html/about.html:75 html/profile.html:51
 msgid "Suggestions made"
 msgstr "Sugerencias realizadas"
 
-#: html/about.html:68 html/profile.html:55
+#: html/about.html:79 html/profile.html:55
 msgid "Translations made"
 msgstr "Traducciones realizadas"
 
@@ -339,10 +365,6 @@ msgstr "Inicio"
 #, python-format
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr "Funciona con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-
-#: html/base.html:80 html/engage.html:58 trans/views.py:1165
-msgid "About Weblate"
-msgstr "Sobre Weblate"
 
 #: html/base.html:81 html/engage.html:59
 msgid "Contact us"
@@ -2488,37 +2510,37 @@ msgstr "¡Esta traducción tiene las actualizaciones bloqueadas!"
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "¡Esta traducción está bloqueada por %(user)s hasta %(time)s!"
 
-#: trans/models.py:1461
+#: trans/models.py:1463
 msgid "All strings"
 msgstr "Todas las cadenas"
 
-#: trans/models.py:1467
+#: trans/models.py:1469
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Cadenas sin traducir (%d)"
 
-#: trans/models.py:1469
+#: trans/models.py:1471
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadenas parciales (%d)"
 
-#: trans/models.py:1471
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
-#: trans/models.py:1473
+#: trans/models.py:1475
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadenas con chequeos fallidos (%d)"
 
-#: trans/models.py:1691
+#: trans/models.py:1693
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "No se encontró el mensaje almacenado en la base de datos, probablemente esté "
 "corrupto."
 
-#: trans/models.py:1784
+#: trans/models.py:1786
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidad %s"

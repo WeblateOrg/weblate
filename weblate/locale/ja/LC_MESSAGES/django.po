@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-03 10:18+0200\n"
+"POT-Creation-Date: 2012-08-03 13:34+0200\n"
 "PO-Revision-Date: 2012-05-18 11:10+0200\n"
 "Last-Translator: Yuichiro Takahashi <yuichiro@pop07.odn.ne.jp>\n"
 "Language-Team: japanese <jp@li.org>\n"
@@ -277,7 +277,11 @@ msgstr ""
 "リクエストを処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解"
 "決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
-#: html/about.html:7
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1165
+msgid "About Weblate"
+msgstr "Weblate について"
+
+#: html/about.html:9
 msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -287,41 +291,63 @@ msgstr ""
 "ルは、シンプルで明瞭なユーザインターフェース、サブプロジェクト間の翻訳連携、"
 "一貫したチェック、ソースファイルへの自動リンク、といった機能を備えています。"
 
-#: html/about.html:9
+#: html/about.html:11
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"it's website at <a href=\"http://weblate.org/\">weblate.org</a>."
+msgstr ""
+
+#: html/about.html:13
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: html/about.html:16
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "Weblate について"
+
+#: html/about.html:17
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "Weblate について"
+
+#: html/about.html:20
 #, fuzzy
 msgid "Versions"
 msgstr "ペルシア語"
 
-#: html/about.html:11
+#: html/about.html:22
 msgid "This site is built using following projects:"
 msgstr "このサイトは、以下のプロジェクトを使用して構築されています。"
 
-#: html/about.html:48
+#: html/about.html:59
 #, fuzzy
 msgid "Statistics"
 msgstr "状態"
 
-#: html/about.html:52
+#: html/about.html:63
 #, fuzzy
 msgid "Strings to translate"
 msgstr "翻訳する Git ブランチ"
 
-#: html/about.html:56
+#: html/about.html:67
 #, fuzzy
 msgid "Used languages"
 msgstr "言語"
 
-#: html/about.html:60
+#: html/about.html:71
 #, fuzzy
 msgid "Registered users"
 msgstr "登録"
 
-#: html/about.html:64 html/profile.html:51
+#: html/about.html:75 html/profile.html:51
 #, fuzzy
 msgid "Suggestions made"
 msgstr "提案"
 
-#: html/about.html:68 html/profile.html:55
+#: html/about.html:79 html/profile.html:55
 #, fuzzy
 msgid "Translations made"
 msgstr "翻訳"
@@ -349,10 +375,6 @@ msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "このサイトは <a href=\"http://weblate.org\">Weblate %(version)s</a> を使用し"
 "ています"
-
-#: html/base.html:80 html/engage.html:58 trans/views.py:1165
-msgid "About Weblate"
-msgstr "Weblate について"
 
 #: html/base.html:81 html/engage.html:59
 msgid "Contact us"
@@ -2448,35 +2470,35 @@ msgstr ""
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1461
+#: trans/models.py:1463
 msgid "All strings"
 msgstr "すべて"
 
-#: trans/models.py:1467
+#: trans/models.py:1469
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "未翻訳 (%d)"
 
-#: trans/models.py:1469
+#: trans/models.py:1471
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "あいまい (%d)"
 
-#: trans/models.py:1471
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "提案があるもの (%d)"
 
-#: trans/models.py:1473
+#: trans/models.py:1475
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "提案があるもの (%d)"
 
-#: trans/models.py:1691
+#: trans/models.py:1693
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1784
+#: trans/models.py:1786
 #, python-format
 msgid "unit ID %s"
 msgstr ""

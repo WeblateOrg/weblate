@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-03 10:18+0200\n"
+"POT-Creation-Date: 2012-08-03 13:34+0200\n"
 "PO-Revision-Date: 2012-04-11 09:07+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -277,49 +277,75 @@ msgstr ""
 "Ο διακομιστής είχε σοβαρά προβλήματα να εξυπηρετήσει το αίτημά σας. Στείλαμε "
 "τους τεχνικούς μας να διορθώσουν το θέμα."
 
-#: html/about.html:7
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1165
+msgid "About Weblate"
+msgstr "Σχετικά με το Weblate"
+
+#: html/about.html:9
 msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "subprojects, consistency checks or automatic linking to source files."
 msgstr ""
 
-#: html/about.html:9
+#: html/about.html:11
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"it's website at <a href=\"http://weblate.org/\">weblate.org</a>."
+msgstr ""
+
+#: html/about.html:13
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: html/about.html:16
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "Σχετικά με το Weblate"
+
+#: html/about.html:17
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "Σχετικά με το Weblate"
+
+#: html/about.html:20
 #, fuzzy
 msgid "Versions"
 msgstr "Περσικά"
 
-#: html/about.html:11
+#: html/about.html:22
 msgid "This site is built using following projects:"
 msgstr ""
 "Αυτός ο ιστότοπος δημιουργήθηκε χρησιμοποιώντας τα ακόλουθα προγράμματα:"
 
-#: html/about.html:48
+#: html/about.html:59
 #, fuzzy
 msgid "Statistics"
 msgstr "Κατάσταση"
 
-#: html/about.html:52
+#: html/about.html:63
 #, fuzzy
 msgid "Strings to translate"
 msgstr "Κλάδος Git για μετάφραση"
 
-#: html/about.html:56
+#: html/about.html:67
 #, fuzzy
 msgid "Used languages"
 msgstr "γλώσσες"
 
-#: html/about.html:60
+#: html/about.html:71
 #, fuzzy
 msgid "Registered users"
 msgstr "Εγγραφή"
 
-#: html/about.html:64 html/profile.html:51
+#: html/about.html:75 html/profile.html:51
 #, fuzzy
 msgid "Suggestions made"
 msgstr "Προτάσεις"
 
-#: html/about.html:68 html/profile.html:55
+#: html/about.html:79 html/profile.html:55
 #, fuzzy
 msgid "Translations made"
 msgstr "Μεταφράσεις"
@@ -346,10 +372,6 @@ msgstr "Αρχική"
 msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Υποστηρίζετα από το <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-
-#: html/base.html:80 html/engage.html:58 trans/views.py:1165
-msgid "About Weblate"
-msgstr "Σχετικά με το Weblate"
 
 #: html/base.html:81 html/engage.html:59
 msgid "Contact us"
@@ -2473,35 +2495,35 @@ msgstr ""
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1461
+#: trans/models.py:1463
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:1467
+#: trans/models.py:1469
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:1469
+#: trans/models.py:1471
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:1471
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:1473
+#: trans/models.py:1475
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:1691
+#: trans/models.py:1693
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1784
+#: trans/models.py:1786
 #, python-format
 msgid "unit ID %s"
 msgstr ""

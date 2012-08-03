@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-03 10:18+0200\n"
+"POT-Creation-Date: 2012-08-03 13:34+0200\n"
 "PO-Revision-Date: 2012-04-22 16:16+0200\n"
 "Last-Translator: Jo Michael <me@mynetx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -284,7 +284,11 @@ msgstr ""
 "Der Server hatte ernste Probleme beim Bedienen Ihrer Anfrage. Soeben haben "
 "wir unsere trainierten Affen ausgesendet, um das Problem zu beheben."
 
-#: html/about.html:7
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1165
+msgid "About Weblate"
+msgstr "Über Weblate"
+
+#: html/about.html:9
 msgid ""
 "Weblate is web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -295,41 +299,63 @@ msgstr ""
 "Verbreitung von Übersetzungen über Teilprojekte, Konsistenzprüfungen oder "
 "automatische Verlinkung auf Quelldateien."
 
-#: html/about.html:9
+#: html/about.html:11
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"it's website at <a href=\"http://weblate.org/\">weblate.org</a>."
+msgstr ""
+
+#: html/about.html:13
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: html/about.html:16
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "Über Weblate"
+
+#: html/about.html:17
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "Über Weblate"
+
+#: html/about.html:20
 #, fuzzy
 msgid "Versions"
 msgstr "Persisch"
 
-#: html/about.html:11
+#: html/about.html:22
 msgid "This site is built using following projects:"
 msgstr "Diese Website ist mit folgenden Projekten erstellt:"
 
-#: html/about.html:48
+#: html/about.html:59
 #, fuzzy
 msgid "Statistics"
 msgstr "Status"
 
-#: html/about.html:52
+#: html/about.html:63
 #, fuzzy
 msgid "Strings to translate"
 msgstr "Zu übersetzender Git-Zweig"
 
-#: html/about.html:56
+#: html/about.html:67
 #, fuzzy
 msgid "Used languages"
 msgstr "Sprachen"
 
-#: html/about.html:60
+#: html/about.html:71
 #, fuzzy
 msgid "Registered users"
 msgstr "Registrieren"
 
-#: html/about.html:64 html/profile.html:51
+#: html/about.html:75 html/profile.html:51
 #, fuzzy
 msgid "Suggestions made"
 msgstr "Vorschläge"
 
-#: html/about.html:68 html/profile.html:55
+#: html/about.html:79 html/profile.html:55
 #, fuzzy
 msgid "Translations made"
 msgstr "Übersetzungen"
@@ -357,10 +383,6 @@ msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 msgstr ""
 "Mit freundlicher Unterstützung von <a href=\"http://weblate.org\">Weblate "
 "%(version)s</a>"
-
-#: html/base.html:80 html/engage.html:58 trans/views.py:1165
-msgid "About Weblate"
-msgstr "Über Weblate"
 
 #: html/base.html:81 html/engage.html:59
 msgid "Contact us"
@@ -2495,35 +2517,35 @@ msgstr ""
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1461
+#: trans/models.py:1463
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
-#: trans/models.py:1467
+#: trans/models.py:1469
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Nicht übersetzte Zeichenketten (%d)"
 
-#: trans/models.py:1469
+#: trans/models.py:1471
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ungenaue Zeichenketten (%d)"
 
-#: trans/models.py:1471
+#: trans/models.py:1473
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
 
-#: trans/models.py:1473
+#: trans/models.py:1475
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
 
-#: trans/models.py:1691
+#: trans/models.py:1693
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:1784
+#: trans/models.py:1786
 #, python-format
 msgid "unit ID %s"
 msgstr ""
