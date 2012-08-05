@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.utils.formats import date_format
 from django.contrib.sites.models import Site
 from django.core.cache import cache
+from django.utils import timezone
 from glob import glob
 import os
 import time
@@ -1250,7 +1251,7 @@ class Translation(models.Model):
             return
 
         # Commit changes
-        self.git_commit(last, True, True)
+        self.git_commit(last, self.get_last_change(), True, True)
 
     def get_author_name(self, user, email = True):
         '''
@@ -1308,7 +1309,7 @@ class Translation(models.Model):
         self.__configure_conf(gitrepo, 'user', 'name', self.subproject.project.committer_name)
         self.__configure_conf(gitrepo, 'user', 'email', self.subproject.project.committer_email)
 
-    def __git_commit(self, gitrepo, author, sync = False):
+    def __git_commit(self, gitrepo, author, timestmap, sync = False):
         '''
         Commits translation to git.
         '''
@@ -1322,7 +1323,7 @@ class Translation(models.Model):
         gitrepo.git.commit(
             self.filename,
             author = author.encode('utf-8'),
-            date = self.get_last_change().isoformat(),
+            date = timestamp.isoformat(),
             m = msg
         )
 
@@ -1348,7 +1349,7 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, author, force_commit = False, sync = False):
+    def git_commit(self, author, timestamp, force_commit = False, sync = False):
         '''
         Wrapper for commiting translation to git.
 
@@ -1372,12 +1373,12 @@ class Translation(models.Model):
         logger.info('Commiting %s in %s as %s', self.filename, self, author)
         with self.subproject.get_git_lock():
             try:
-                self.__git_commit(gitrepo, author, sync)
+                self.__git_commit(gitrepo, author, timestamp, sync)
             except git.GitCommandError:
                 # There might be another attempt on commit in same time
                 # so we will sleep a bit an retry
                 time.sleep(random.random() * 2)
-                self.__git_commit(gitrepo, author, sync)
+                self.__git_commit(gitrepo, author, timestamp, sync)
 
         # Push if we should
         if self.subproject.project.push_on_commit:
@@ -1452,7 +1453,7 @@ class Translation(models.Model):
                 # save translation changes
                 store.save()
                 # commit Git repo if needed
-                self.git_commit(author, sync = True)
+                self.git_commit(author, timezone.now(), sync = True)
 
         return need_save, pounit
 
@@ -1527,7 +1528,7 @@ class Translation(models.Model):
             # Write to backend and commit
             self.commit_pending(author)
             store1.save()
-            ret = self.git_commit(author, True)
+            ret = self.git_commit(author, timezone.now(), True)
             self.check_sync()
 
         return ret
