@@ -1556,6 +1556,17 @@ class Translation(models.Model):
         '''
         return self.unit_set.count_type(check, self)
 
+    def invalidate_cache(self):
+        '''
+        Invalidates any cached stats.
+        '''
+        slug = self.subproject.get_full_slug()
+        code = self.language.code
+
+        for rqtype in ['allchecks'] + list(CHECKS):
+            cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
+            cache.delete(cache_key)
+
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
@@ -1874,12 +1885,7 @@ class Unit(models.Model):
 
         # Invalidate checks cache
         if change:
-            slug = self.translation.subproject.get_full_slug()
-            code = self.translation.language.code
-
-            for rqtype in ['allchecks'] + list(CHECKS):
-                cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
-                cache.delete(cache_key)
+            self.translation.invalidate_cache()
 
     def nearby(self):
         '''
