@@ -1309,7 +1309,7 @@ class Translation(models.Model):
         self.__configure_conf(gitrepo, 'user', 'name', self.subproject.project.committer_name)
         self.__configure_conf(gitrepo, 'user', 'email', self.subproject.project.committer_email)
 
-    def __git_commit(self, gitrepo, author, timestmap, sync = False):
+    def __git_commit(self, gitrepo, author, timestamp, sync = False):
         '''
         Commits translation to git.
         '''
