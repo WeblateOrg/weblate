@@ -1,3 +1,7 @@
+# Written by Evan Fosmark
+# http://www.evanfosmark.com/2009/01/cross-platform-file-locking-support-in-python/
+# Released under BSD license
+
 import os
 import time
 import errno
