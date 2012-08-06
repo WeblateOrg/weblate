@@ -1309,7 +1309,7 @@ class Translation(models.Model):
         self.__configure_conf(gitrepo, 'user', 'name', self.subproject.project.committer_name)
         self.__configure_conf(gitrepo, 'user', 'email', self.subproject.project.committer_email)
 
-    def __git_commit(self, gitrepo, author, timestmap, sync = False):
+    def __git_commit(self, gitrepo, author, timestamp, sync = False):
         '''
         Commits translation to git.
         '''
@@ -1555,6 +1555,25 @@ class Translation(models.Model):
         By default for all checks or check type can be specified.
         '''
         return self.unit_set.count_type(check, self)
+
+    def invalidate_cache(self, cache_type = None):
+        '''
+        Invalidates any cached stats.
+        '''
+        # Get parts of key cache
+        slug = self.subproject.get_full_slug()
+        code = self.language.code
+
+        # Are we asked for specific cache key?
+        if cache_type is None:
+            keys = ['allchecks'] + list(CHECKS)
+        else:
+            keys = [cache_type]
+
+        # Actually delete the cache
+        for rqtype in keys:
+            cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
+            cache.delete(cache_key)
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
@@ -1874,12 +1893,7 @@ class Unit(models.Model):
 
         # Invalidate checks cache
         if change:
-            slug = self.translation.subproject.get_full_slug()
-            code = self.translation.language.code
-
-            for rqtype in ['allchecks'] + list(CHECKS):
-                cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
-                cache.delete(cache_key)
+            self.translation.invalidate_cache()
 
     def nearby(self):
         '''
