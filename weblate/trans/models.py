@@ -1565,8 +1565,8 @@ class Translation(models.Model):
         code = self.language.code
 
         # Are we asked for specific cache key?
-        if cache_type is None
-            keys = ['allchecks'] + list(CHECKS):
+        if cache_type is None:
+            keys = ['allchecks'] + list(CHECKS)
         else:
             keys = [cache_type]
 
