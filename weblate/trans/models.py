@@ -1556,14 +1556,22 @@ class Translation(models.Model):
         '''
         return self.unit_set.count_type(check, self)
 
-    def invalidate_cache(self):
+    def invalidate_cache(self, cache_type = None):
         '''
         Invalidates any cached stats.
         '''
+        # Get parts of key cache
         slug = self.subproject.get_full_slug()
         code = self.language.code
 
-        for rqtype in ['allchecks'] + list(CHECKS):
+        # Are we asked for specific cache key?
+        if cache_type is None
+            keys = ['allchecks'] + list(CHECKS):
+        else:
+            keys = [cache_type]
+
+        # Actually delete the cache
+        for rqtype in keys:
             cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
             cache.delete(cache_key)
 
