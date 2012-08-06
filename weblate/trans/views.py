@@ -1063,8 +1063,13 @@ def get_dictionary(request, unit_id):
 @permission_required('trans.ignore_check')
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk = int(check_id))
+    # Mark check for ignoring
     obj.ignore = True
     obj.save()
+    # Invalidate caches
+    for unit in Unit.objects.filter(checksum = obj.checksum):
+        unit.translation.invalidate_cache()
+    # response for AJAX
     return HttpResponse('ok')
 
 @login_required
