@@ -24,6 +24,8 @@ PyCairo
     http://cairographics.org/pycairo/
 south
     http://south.aeracode.org/
+Database backend
+    Any database supported in Django will work, check their documentation for more details.
 
 Installation
 ------------
