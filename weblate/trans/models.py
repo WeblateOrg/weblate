@@ -2055,7 +2055,8 @@ def get_versions():
         'whoosh_version': whoosh.versionstring(),
         'django_version': django.get_version(),
         'registration_version': registration.get_version(),
-        'git_version': git.__version__,
+        'git_python_version': git.__version__,
+        'git_version': git.Git().version().replace('git version ', ''),
         'cairo_version': cairo.version,
         'south_version': south.__version__,
     }
@@ -2087,7 +2088,7 @@ def check_versions(sender, **kwargs):
 
         failure |= check_version(
             versions,
-            'git_version',
+            'git_python_version',
             '0.3',
             'GitPython <https://github.com/gitpython-developers/GitPython>'
         )
