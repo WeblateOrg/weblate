@@ -2039,35 +2039,114 @@ class Change(models.Model):
 class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
 
+def get_version_module(module, name, url):
+    try:
+        mod = __import__(module)
+    except ImportError, e:
+        raise Exception('Failed to import %s, please install %s from %s' % (
+            module,
+            name,
+            url,
+        ))
+    return mod
+
 def get_versions():
     '''
     Returns list of used versions.
     '''
-    import translate.__version__
-    import whoosh
-    import django
-    import git
-    import cairo
-    import south
-    import registration
-    return {
-        'ttkit_version': translate.__version__.sver,
-        'whoosh_version': whoosh.versionstring(),
-        'django_version': django.get_version(),
-        'registration_version': registration.get_version(),
-        'git_python_version': git.__version__,
-        'git_version': git.Git().version().replace('git version ', ''),
-        'cairo_version': cairo.version,
-        'south_version': south.__version__,
-    }
+    result = []
 
-def check_version(versions, key, expected, description):
+    name = 'Django'
+    url = 'https://www.djangoproject.com/'
+    mod = get_version_module('django', name, url)
+    result.append((
+        name,
+        url,
+        mod.get_version(),
+        '1.4',
+    ))
+
+    name = 'Django-registration'
+    url = 'https://bitbucket.org/ubernostrum/django-registration/'
+    mod = get_version_module('registration', name, url)
+    result.append((
+        name,
+        url,
+        mod.get_version(),
+        '0.8',
+    ))
+
+    name = 'Translate Toolkit'
+    url = 'http://translate.sourceforge.net/wiki/toolkit/index'
+    mod = get_version_module('translate', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__.sver,
+        '1.9.0',
+    ))
+
+    name = 'Whoosh'
+    url = 'http://bitbucket.org/mchaput/whoosh/'
+    mod = get_version_module('whoosh', name, url)
+    result.append((
+        name,
+        url,
+        mod.versionstring(),
+        '2.3',
+    ))
+
+    name = 'GitPython'
+    url = 'https://github.com/gitpython-developers/GitPython'
+    mod = get_version_module('git', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '0.3',
+    ))
+
+    name = 'Git'
+    url = 'http://git-scm.com/'
+    mod = get_version_module('git', name, url)
+    result.append((
+        name,
+        url,
+        mod.Git().version().replace('git version ', ''),
+        '1.0',
+    ))
+
+    name = 'PyCairo'
+    url = 'http://cairographics.org/pycairo/'
+    mod = get_version_module('cairo', name, url)
+    result.append((
+        name,
+        url,
+        mod.version,
+        '1.8',
+    ))
+
+    name = 'South'
+    url = 'http://south.aeracode.org/'
+    mod = get_version_module('south', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '0.7',
+    ))
+
+    return result
+
+def check_version(name, url, version, expected):
     '''
     Check for single module version.
     '''
-    if LooseVersion(versions[key]) < expected:
-        print '*** %s is too old! ***' % description
-        print 'Installed version %s, required %s' % (versions[key], expected)
+    if expected is None:
+        return
+    if LooseVersion(version) < expected:
+        print '*** %s <%s> is too old! ***' % (name, url)
+        print 'Installed version %s, required %s' % (version, expected)
         return True
     return False
 
@@ -2079,43 +2158,11 @@ def check_versions(sender, **kwargs):
         versions = get_versions()
         failure = False
 
-        failure |= check_version(
-            versions,
-            'ttkit_version',
-            '1.9.0',
-            'Translate-toolkit <http://translate.sourceforge.net/wiki/toolkit/index>'
-        )
-
-        failure |= check_version(
-            versions,
-            'git_python_version',
-            '0.3',
-            'GitPython <https://github.com/gitpython-developers/GitPython>'
-        )
-
-        failure |= check_version(
-            versions,
-            'registration_version',
-            '0.8',
-            'Django-registration <https://bitbucket.org/ubernostrum/django-registration/>'
-        )
-
-        failure |= check_version(
-            versions,
-            'whoosh_version',
-            '2.3',
-            'Whoosh <http://bitbucket.org/mchaput/whoosh/>'
-        )
-
-        failure |= check_version(
-            versions,
-            'cairo_version',
-            '1.8',
-            'PyCairo <http://cairographics.org/pycairo/>'
-        )
+        for version in versions:
+            failure |= check_version(*version)
 
         if failure:
-            raise Exception('Some of required modules are missing or too old (check output above)!')
+            raise Exception('Some of required modules are missing or too old! Check above output for details.')
 
 post_syncdb.connect(check_versions)
 post_migrate.connect(check_versions)

@@ -1182,7 +1182,8 @@ def js_config(request):
         mimetype = 'application/javascript')
 
 def about(request):
-    context = get_versions()
+    context = {}
+    versions = get_versions()
     totals =  Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
     for p in SubProject.objects.iterator():
@@ -1196,6 +1197,7 @@ def about(request):
     context['total_users'] = Profile.objects.count()
     context['total_strings'] = total_strings
     context['total_languages'] = Language.objects.filter(translation__total__gt = 0).distinct().count()
+    context['versions'] = versions
 
     return render_to_response('about.html', RequestContext(request, context))
 
