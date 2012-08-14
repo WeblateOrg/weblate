@@ -4,7 +4,7 @@ Changes
 weblate 1.2
 -----------
 
-Relased on ? 2012.
+Relased on August 14th 2012.
 
 * Weblate now uses South for database migration, please check upgrade instructions if you are upgrading.
 * Fixed minor issues with linked git repos.
