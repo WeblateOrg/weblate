@@ -14,6 +14,8 @@ Translate-toolkit
     http://translate.sourceforge.net/wiki/toolkit/index
 GitPython (>= 0.3)
     https://github.com/gitpython-developers/GitPython
+Git (>= 1.0)
+    http://git-scm.com/
 Django-registration (>= 0.8)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
