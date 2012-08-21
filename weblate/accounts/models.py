@@ -238,7 +238,7 @@ def create_profile_callback(sender, **kwargs):
                 profile.save
         except DatabaseError:
             # Database not set up (we're being run from initial syncdb)
-            pass
+            return
 
         # Add user to Users group if it exists
         try:
