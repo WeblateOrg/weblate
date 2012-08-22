@@ -246,6 +246,9 @@ def create_profile_callback(sender, **kwargs):
             kwargs['instance'].groups.add(group)
         except Group.DoesNotExist:
             pass
+        except DatabaseError:
+            # Database not set up (we're being run from initial syncdb)
+            return
 
 post_save.connect(create_profile_callback, sender = User)
 
