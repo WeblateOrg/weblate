@@ -35,6 +35,7 @@ from django.utils import translation
 from django.template.loader import render_to_string, get_template_from_string
 from django.template.context import Context
 from django.core.mail import EmailMessage
+from django.db import transaction
 
 from south.signals import post_migrate
 
@@ -226,31 +227,32 @@ def set_lang(sender, **kwargs):
     lang_code = user.get_profile().language
     request.session['django_language'] = lang_code
 
+@receiver(post_save, sender = User)
 def create_profile_callback(sender, **kwargs):
     '''
     Automatically create profile when creating new user.
     '''
     if kwargs['created']:
-        # Create profile
+        # Need to handle this in separate transaction as it might fail
+        # in case we're run from syncdb. Transaction handling is needed
+        # for PostgreSQL as otherwise whole transaction will be in bad
+        # state ("current transaction is aborted, queries ignored until
+        # end of transaction block")
+        transaction.commit()
         try:
-            profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
-            if newprofile:
-                profile.save
-        except DatabaseError:
-            # Database not set up (we're being run from initial syncdb)
-            return
+            with transaction.commit_on_success():
+                # Create profile
+                profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
 
-        # Add user to Users group if it exists
-        try:
-            group = Group.objects.get(name = 'Users')
-            kwargs['instance'].groups.add(group)
-        except Group.DoesNotExist:
+            with transaction.commit_on_success():
+                # Add user to Users group if it exists
+                try:
+                    group = Group.objects.get(name = 'Users')
+                    kwargs['instance'].groups.add(group)
+                except Group.DoesNotExist:
+                    pass
+        except DatabaseError:
             pass
-        except DatabaseError:
-            # Database not set up (we're being run from initial syncdb)
-            return
-
-post_save.connect(create_profile_callback, sender = User)
 
 
 def create_groups(update, move):
