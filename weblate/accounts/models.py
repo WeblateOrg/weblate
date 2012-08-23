@@ -300,6 +300,8 @@ def create_groups(update, move):
         for u in User.objects.all():
             u.groups.add(group)
 
+@receiver(post_syncdb)
+@receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
     '''
     Create groups on syncdb.
@@ -307,9 +309,7 @@ def sync_create_groups(sender, **kwargs):
     if ('app' in kwargs and kwargs['app'] == 'accounts') or (sender is not None and sender.__name__ == 'weblate.accounts.models'):
         create_groups(False, False)
 
-post_syncdb.connect(sync_create_groups)
-post_migrate.connect(sync_create_groups)
-
+@receiver(user_registered)
 def store_user_details(sender, user, request, **kwargs):
     '''
     Stores user details on registration, here we rely on
@@ -318,5 +318,3 @@ def store_user_details(sender, user, request, **kwargs):
     user.first_name = request.POST['first_name']
     user.last_name = request.POST['last_name']
     user.save()
-
-user_registered.connect(store_user_details)
