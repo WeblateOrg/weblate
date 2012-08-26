@@ -2109,12 +2109,16 @@ def get_versions():
     name = 'Git'
     url = 'http://git-scm.com/'
     mod = get_version_module('git', name, url)
-    result.append((
-        name,
-        url,
-        mod.Git().version().replace('git version ', ''),
-        '1.0',
-    ))
+    try:
+        result.append((
+            name,
+            url,
+            mod.Git().version().replace('git version ', ''),
+            '1.0',
+        ))
+    except TypeError:
+        # Happens with too old GitPython
+        pass
 
     name = 'PyCairo'
     url = 'http://cairographics.org/pycairo/'
