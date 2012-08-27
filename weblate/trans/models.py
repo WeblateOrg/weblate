@@ -1879,8 +1879,16 @@ class Unit(models.Model):
         Updates checks for this unit.
         '''
         if self.fuzzy:
-            # Keep consistency checks even for fuzzy strings
-            self.checks().exclude(check = 'inconsistent').delete()
+            # Keep consistency checks when there are more units like this
+            same_source = Unit.objects.filter(
+                translation__language = self.translation.language,
+                translation__subproject__project = self.translation.subproject.project,
+                checksum = self.checksum
+            ).exclude(
+                id = unit.id
+            )
+            if not same_source.exists():
+                self.checks().delete()
             return
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
