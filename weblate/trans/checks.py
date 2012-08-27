@@ -470,10 +470,12 @@ class ConsistencyCheck(Check):
         related = Unit.objects.filter(
             translation__language = language,
             translation__subproject__project = unit.translation.subproject.project,
-            checksum = unit.checksum
-            ).exclude(
+            checksum = unit.checksum,
+        ).exclude(
             id = unit.id
-            )
+        )
+        if unit.fuzzy:
+            related = related.exclude(fuzzy = True)
         for unit2 in related.iterator():
             if unit2.target != unit.target:
                 return True
