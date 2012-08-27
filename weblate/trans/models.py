@@ -601,7 +601,7 @@ class SubProject(models.Model):
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending()
+            self.commit_pending(skip_push = True)
 
         # Do we have anything to push?
         if not self.git_needs_push():
@@ -668,19 +668,19 @@ class SubProject(models.Model):
         '''
         return SubProject.objects.filter(repo = 'weblate://%s/%s' % (self.project.slug, self.slug))
 
-    def commit_pending(self, from_link = False):
+    def commit_pending(self, from_link = False, skip_push = False):
         '''
         Checks whether there is any translation which needs commit.
         '''
         if not from_link and self.is_repo_link():
-            return self.get_linked_repo().commit_pending(True)
+            return self.get_linked_repo().commit_pending(True, skip_push = skip_push)
 
         for translation in self.translation_set.all():
-            translation.commit_pending()
+            translation.commit_pending(skip_push = skip_push)
 
         # Process linked projects
         for sp in self.get_linked_childs():
-            sp.commit_pending(True)
+            sp.commit_pending(True, skip_push = skip_push)
 
     def update_branch(self, request = None):
         '''
@@ -1259,7 +1259,7 @@ class Translation(models.Model):
         except IndexError:
             return None
 
-    def commit_pending(self, author = None):
+    def commit_pending(self, author = None, skip_push = False):
         '''
         Commits any pending changes.
         '''
@@ -1271,7 +1271,7 @@ class Translation(models.Model):
             return
 
         # Commit changes
-        self.git_commit(last, self.get_last_change(), True, True)
+        self.git_commit(last, self.get_last_change(), True, True, skip_push)
 
     def get_author_name(self, user, email = True):
         '''
@@ -1369,7 +1369,7 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, author, timestamp, force_commit = False, sync = False):
+    def git_commit(self, author, timestamp, force_commit = False, sync = False, skip_push = False):
         '''
         Wrapper for commiting translation to git.
 
@@ -1401,7 +1401,7 @@ class Translation(models.Model):
                 self.__git_commit(gitrepo, author, timestamp, sync)
 
         # Push if we should
-        if self.subproject.project.push_on_commit:
+        if self.subproject.project.push_on_commit and not skip_push:
             self.subproject.do_push(force_commit = False)
 
         return True
