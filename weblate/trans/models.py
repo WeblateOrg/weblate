@@ -1878,18 +1878,33 @@ class Unit(models.Model):
         '''
         Updates checks for this unit.
         '''
+        checks_to_run = CHECKS
+        cleanup_checks = True
+
         if self.fuzzy:
-            # Keep consistency checks when there are more units like this
+            # Check whether there is any message with same source
             same_source = Unit.objects.filter(
                 translation__language = self.translation.language,
                 translation__subproject__project = self.translation.subproject.project,
-                checksum = self.checksum
+                checksum = self.checksum,
+                fuzzy = False,
             ).exclude(
                 id = self.id
             )
+
+            # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
                 self.checks().delete()
-            return
+                return
+
+            # If there is no consistency checking, we can return
+            if not 'inconsistent' in CHECKS:
+                return
+
+            # Limit checks to consistency check for fuzzy messages
+            checks_to_run = {'inconsistent': CHECKS['inconsistent']}
+            cleanup_checks = False
+
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         failing = []
@@ -1906,8 +1921,9 @@ class Unit(models.Model):
             if check.check in failing:
                 failing.remove(check.check)
                 continue
-            check.delete()
-            change = True
+            if cleanup_checks:
+                check.delete()
+                change = True
 
         # Store new checks in database
         for check in failing:
