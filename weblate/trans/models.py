@@ -1885,7 +1885,7 @@ class Unit(models.Model):
                 translation__subproject__project = self.translation.subproject.project,
                 checksum = self.checksum
             ).exclude(
-                id = unit.id
+                id = self.id
             )
             if not same_source.exists():
                 self.checks().delete()
