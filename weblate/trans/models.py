@@ -1881,7 +1881,7 @@ class Unit(models.Model):
         checks_to_run = CHECKS
         cleanup_checks = True
 
-        if self.fuzzy:
+        if self.fuzzy or not self.translated:
             # Check whether there is any message with same source
             same_source = Unit.objects.filter(
                 translation__language = self.translation.language,
