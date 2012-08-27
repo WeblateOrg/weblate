@@ -323,6 +323,7 @@ CHECK_LIST = (
     'weblate.trans.checks.PluralsCheck',
     'weblate.trans.checks.ConsistencyCheck',
     'weblate.trans.checks.DirectionCheck',
+    'weblate.trans.checks.NewlineCountingCheck',
 )
 
 # E-mail address that error messages come from.

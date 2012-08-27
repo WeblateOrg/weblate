@@ -145,6 +145,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.PluralsCheck',
     'weblate.trans.checks.ConsistencyCheck',
     'weblate.trans.checks.DirectionCheck',
+    'weblate.trans.checks.NewlineCountingCheck',
 )
 
 class Check(object):
@@ -494,6 +495,26 @@ class DirectionCheck(Check):
         if not sources[0].lower() in ['ltr', 'rtl']:
             return False
         return not targets[0].lower() in ['ltr', 'rtl']
+
+class CountingCheck(Check):
+    '''
+    Check whether there is same count of given string.
+    '''
+    string = None
+
+    def check_single(self, source, target, flags, language, unit):
+        if len(target) == 0:
+            return False
+        return source.count(self.string) != target.count(self.string)
+
+class NewlineCountingCheck(Check):
+    '''
+    Check whether there is same amount of \n strings
+    '''
+    string = '\\n'
+    check_id = 'escaped_newline'
+    name = _('Mismatched \\n')
+    description = _('Number of \\n in translation does not match source')
 
 
 # Initialize checks list
