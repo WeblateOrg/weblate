@@ -254,6 +254,8 @@ class LanguageManager(models.Manager):
                 lang.name = 'Occitan'
             elif code == 'nb':
                 lang.name = 'Norwegian Bokmål'
+            elif code == 'pa':
+                lang.name = 'Punjabi'
             else:
                 # Standard ttkit language name
                 lang.name = props[0].split(';')[0]
