@@ -24,7 +24,7 @@ class Command(UnitCommand):
     help = 'updates checks for units'
 
     def handle(self, *args, **options):
-        base = self.get_units(*args, **options)
+        base = self.get_units(*args, **options).filter(translated = True)
 
         if base.count() == 0:
             return
