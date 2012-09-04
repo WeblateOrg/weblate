@@ -690,6 +690,8 @@ def get_filter_name(rqtype, search_query):
         return _('Not translated strings')
     elif rqtype == 'suggestions':
         return _('Strings with suggestions')
+    elif rqtype == 'allchecks':
+        return _('Strings with any failing checks')
     elif rqtype in CHECKS:
         return CHECKS[rqtype].name
     else:
