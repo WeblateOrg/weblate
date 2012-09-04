@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-08-27 10:16+0200\n"
+"POT-Creation-Date: 2012-09-04 09:08+0200\n"
 "PO-Revision-Date: 2012-08-28 14:46+0200\n"
 "Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -275,7 +275,7 @@ msgstr ""
 "Le serveur a eu de sérieux problèmes lors du traitement de votre requête. "
 "Nos singes savants sont en train de travailler sur le problème."
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1194
+#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
 msgid "About Weblate"
 msgstr "À propos de Weblate"
 
@@ -2239,21 +2239,21 @@ msgstr "Incohérent"
 msgid "This message has more than one translation in this project"
 msgstr "Ce message a plus d'une traduction dans ce projet"
 
-#: trans/checks.py:488
+#: trans/checks.py:490
 msgid "Invalid text direction"
 msgstr "Direction du texte invalide"
 
-#: trans/checks.py:489
+#: trans/checks.py:491
 msgid "Text direction can be either LTR or RTL"
 msgstr ""
 "La direction du texte peut être soit LTR (gauche à droite), soit RTL (doite "
 "à gauche)"
 
-#: trans/checks.py:516
+#: trans/checks.py:518
 msgid "Mismatched \\n"
 msgstr "Pas de correspondance \\n"
 
-#: trans/checks.py:517
+#: trans/checks.py:519
 msgid "Number of \\n in translation does not match source"
 msgstr "Le nombre de \\n dans la traduction ne correspond pas à la source"
 
@@ -2667,65 +2667,70 @@ msgstr "Chaînes non traduites"
 msgid "Strings with suggestions"
 msgstr "Chaînes avec suggestions"
 
-#: trans/views.py:749
+#: trans/views.py:694
+#, fuzzy
+msgid "Strings with any failing checks"
+msgstr "Chaînes ayant au moins une vérification en échec (%d)"
+
+#: trans/views.py:751
 msgid "Your suggestion is empty!"
 msgstr "Votre suggestion est vide !"
 
-#: trans/views.py:775
+#: trans/views.py:777
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 "Vous devez vous connecter afin de pouvoir sauvegarder les traductions !"
 
-#: trans/views.py:778 trans/views.py:819
+#: trans/views.py:780 trans/views.py:821
 msgid "You don't have privileges to save translations!"
 msgstr "Vous n'avez pas le droit de sauvegarder les traductions !"
 
-#: trans/views.py:795
+#: trans/views.py:797
 msgid "Some checks have failed on your translation!"
 msgstr "Certaines vérifications de votre traduction ont échoué !"
 
-#: trans/views.py:813 trans/views.py:851
+#: trans/views.py:815 trans/views.py:853
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Le message que vous vouliez traduire n'est plus disponible !"
 
-#: trans/views.py:834
+#: trans/views.py:836
 msgid "Can not merge different messages!"
 msgstr "Impossible de fusionner des messages différents !"
 
-#: trans/views.py:857
+#: trans/views.py:859
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions !"
 
-#: trans/views.py:868
+#: trans/views.py:870
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Vous n'avez pas le droit d'accepter les suggestions !"
 
-#: trans/views.py:878
+#: trans/views.py:880
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Vous n'avez pas le droit de supprimer les suggestions !"
 
-#: trans/views.py:902
+#: trans/views.py:904
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
-#: trans/views.py:959
+#: trans/views.py:961
 msgid "You have reached end of translating."
 msgstr "Vous avez terminé la traduction."
 
-#: trans/views.py:1125
+#: trans/views.py:1127
 msgid "File content successfully merged into translation."
 msgstr "Le contenu du fichier a été fusionné avec succès à la traduction."
 
-#: trans/views.py:1127
+#: trans/views.py:1129
 msgid "There were no new strings in uploaded file."
 msgstr "Le fichier téléversé ne comportait pas de nouvelles chaînes."
 
-#: trans/views.py:1129
+#: trans/views.py:1131
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Échec de fusion du fichier : %s"
 
-#: trans/views.py:1140
+#: trans/views.py:1142
 msgid "Page Not Found"
 msgstr "Page introuvable"
 
