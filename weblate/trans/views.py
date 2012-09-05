@@ -815,7 +815,7 @@ def translate(request, project, subproject, lang):
                 messages.error(request, _('Message you wanted to translate is no longer available!'))
 
     # Handle translation merging
-    if 'merge' in request.GET:
+    if 'merge' in request.GET and not obj.is_user_locked(request):
         if not request.user.has_perm('trans.save_translation'):
             # Need privilege to save
             messages.error(request, _('You don\'t have privileges to save translations!'))
@@ -1105,7 +1105,7 @@ def upload_translation(request, project, subproject, lang):
     '''
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
-    if not obj.subproject.locked and request.method == 'POST':
+    if not obj.is_user_locked(request) and not obj.subproject.locked and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):
             form = ExtraUploadForm(request.POST, request.FILES)
         elif request.user.has_perm('trans.overwrite_translation'):
