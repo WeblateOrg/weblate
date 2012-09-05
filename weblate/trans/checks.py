@@ -58,7 +58,7 @@ C_PRINTF_MATCH = re.compile('''
             (?P<type>[\w%]))        # type (%s, %d, etc.)
         )''', re.VERBOSE)
 
-BBCODE_MATCH =  re.compile(r'\[(?P<tag>[^]]*)(@[^]]*)?\](.*?)\[\/(?P=tag)\]')
+BBCODE_MATCH = re.compile(r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])', re.MULTILINE)
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
