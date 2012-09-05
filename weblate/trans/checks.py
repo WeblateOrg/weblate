@@ -58,6 +58,8 @@ C_PRINTF_MATCH = re.compile('''
             (?P<type>[\w%]))        # type (%s, %d, etc.)
         )''', re.VERBOSE)
 
+BBCODE_MATCH =  re.compile(r'\[(?P<tag>[^]]*)(@[^]]*)?\](.*?)\[\/(?P=tag)\]')
+
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
     'audio',
@@ -146,6 +148,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.ConsistencyCheck',
     'weblate.trans.checks.DirectionCheck',
     'weblate.trans.checks.NewlineCountingCheck',
+    'weblate.trans.checks.BBCodeCheck',
 )
 
 class Check(object):
@@ -517,6 +520,25 @@ class NewlineCountingCheck(Check):
     check_id = 'escaped_newline'
     name = _('Mismatched \\n')
     description = _('Number of \\n in translation does not match source')
+
+class BBCodeCheck(Check):
+    '''
+    Check for matching bbcode tags.
+    '''
+    check_id = 'bbcode'
+    name = _('Mismatched BBcode')
+    description = _('BBcode in translation does not match source')
+
+    def check_single(self, source, target, flags, language, unit):
+        src_match = BBCODE_MATCH.findall(source)
+        if len(src_match) == 0:
+            return False
+        tgt_match = BBCODE_MATCH.findall(target)
+        if len(src_match) != len(tgt_match):
+            return True
+        src_tags = set([x[0] for x in src_match])
+        tgt_tags = set([x[0] for x in tgt_match])
+        return (src_tags != tgt_tags)
 
 
 # Initialize checks list
