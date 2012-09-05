@@ -815,7 +815,7 @@ def translate(request, project, subproject, lang):
                 messages.error(request, _('Message you wanted to translate is no longer available!'))
 
     # Handle translation merging
-    if 'merge' in request.GET and not obj.is_user_locked(request):
+    if 'merge' in request.GET and not locked:
         if not request.user.has_perm('trans.save_translation'):
             # Need privilege to save
             messages.error(request, _('You don\'t have privileges to save translations!'))
