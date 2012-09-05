@@ -254,9 +254,25 @@ More different translations of one string in a project. This can also lead to
 inconsistencies in displayed checks. You can find other translations of this
 string on :guilabel:`All locations` tab.
 
-.. _check-ltr:
+.. _check-direction:
 
 Invalid text direction
 ++++++++++++++++++++++
 
 Text direction can be either ``LTR`` or ``RTL``.
+
+.. _check-escaped_newline:
+
+Mismatched \\n
+++++++++++++++
+
+Number of \\n in translation does not match source. Usually escaped newlines
+are important for formatting program output, so this should match to source.
+    
+.. _check-bbcode:
+
+Mismatched BBcode
++++++++++++++++++
+
+BBcode in translation does not match source. The method for detecting BBcode is
+currently quite simple.
