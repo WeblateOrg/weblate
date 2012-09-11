@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-05 10:28+0200\n"
+"POT-Creation-Date: 2012-09-11 15:08+0200\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -804,7 +804,7 @@ msgstr "Kiitos Weblaten käyttämisestä!"
 msgid "Tweet this translation!"
 msgstr "Käytä tätä käännöstä"
 
-#: html/subproject.html:28
+#: html/subproject.html:28 trans/models.py:142
 msgid "New language"
 msgstr "Uusi kieli"
 
@@ -2366,37 +2366,74 @@ msgstr ""
 msgid "Point to translation instructions URL"
 msgstr "Kääntämättömät merkkijonot"
 
-#: trans/models.py:138
+#: trans/models.py:123
+msgid "Merge"
+msgstr ""
+
+#: trans/models.py:124
+msgid "Rebase"
+msgstr ""
+
+#: trans/models.py:131
+#, fuzzy
+msgid "Project website"
+msgstr "Projektin verkkosivu:"
+
+#: trans/models.py:135
+#, fuzzy
+msgid "Email conference for translators"
+msgstr "Sähköpostituslista kääntäjille:"
+
+#: trans/models.py:139
+#, fuzzy
+msgid "URL with instructions for translators"
+msgstr "Ohjeet kääntäjille:"
+
+#: trans/models.py:146
+msgid "How to handle requests for creating new languages"
+msgstr ""
+
+#: trans/models.py:149
+msgid "Merge style"
+msgstr ""
+
+#: trans/models.py:153
+msgid ""
+"Define whether Weblate should merge upstream repository or rebase changes "
+"onto it"
+msgstr ""
+
+#: trans/models.py:159
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
 
-#: trans/models.py:152
+#: trans/models.py:173
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models.py:157
+#: trans/models.py:178
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 
-#: trans/models.py:165
+#: trans/models.py:186
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:321
+#: trans/models.py:342
 msgid "Name to display"
 msgstr "Näytettävä nimi"
 
-#: trans/models.py:325
+#: trans/models.py:346
 msgid "Name used in URLs"
 msgstr "Osoitteissa (URL) käytettävä nimi"
 
-#: trans/models.py:330
+#: trans/models.py:351
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2404,11 +2441,11 @@ msgstr ""
 "Git tietolähteen osoite, käytä weblate://project/subproject jakaaksesi "
 "aliprojekteiksi"
 
-#: trans/models.py:335
+#: trans/models.py:356
 msgid "URL of push Git repository"
 msgstr "Git ohjelmoistolähteen lähetysosoite (URL)"
 
-#: trans/models.py:339
+#: trans/models.py:360
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2417,11 +2454,11 @@ msgstr ""
 "Linkki tietolähdeselaimeen, käytä %(branch)s haaralle, %(file)s ja %(line)s "
 "tiedostonimenä ja linjan malleina"
 
-#: trans/models.py:345
+#: trans/models.py:366
 msgid "Git branch to translate"
 msgstr "Git haara käännettäväksi"
 
-#: trans/models.py:350
+#: trans/models.py:371
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2429,124 +2466,129 @@ msgstr ""
 "Käännettävien tiedostojen polku, käytä * kielikoodina, esimerkiksi po/*.po "
 "tai locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:355
+#: trans/models.py:376
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:359
+#: trans/models.py:380
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:519
+#: trans/models.py:540
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Haku Git ohjelmistokähteestä epäonnistui: %s"
 
-#: trans/models.py:599
+#: trans/models.py:620
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Lähetys ei ole mahdollista tekstille %s."
 
-#: trans/models.py:631
+#: trans/models.py:652
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:657
+#: trans/models.py:678
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Erähaaran liitääminen %s:n epäonnistui."
 
-#: trans/models.py:713
+#: trans/models.py:730
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Erähaaran liitääminen %s:n epäonnistui."
 
-#: trans/models.py:791
+#: trans/models.py:757
+#, fuzzy, python-format
+msgid "Failed to rebase our branch onto remote branch %s."
+msgstr "Erähaaran liitääminen %s:n epäonnistui."
+
+#: trans/models.py:859
 msgid "The mask did not match any files!"
 msgstr "Maski ei sovi yhteenkään tiedostoon!"
 
-#: trans/models.py:796
+#: trans/models.py:864
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:811
+#: trans/models.py:879
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
 
-#: trans/models.py:816
+#: trans/models.py:884
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
 
-#: trans/models.py:826
+#: trans/models.py:894
 msgid "Format of translation template could not be recognized."
 msgstr "Käännöspohjan muotoa ei voida tunnistaa."
 
-#: trans/models.py:828
+#: trans/models.py:896
 msgid "Failed to parse translation template."
 msgstr "Käännöspohjan jäsennys epäonnistui."
 
-#: trans/models.py:935
+#: trans/models.py:1003
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:939
+#: trans/models.py:1007
 #, fuzzy, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
 
-#: trans/models.py:941
+#: trans/models.py:1009
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
 
-#: trans/models.py:966 trans/views.py:310
+#: trans/models.py:1034 trans/views.py:310
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
-#: trans/models.py:974
+#: trans/models.py:1042
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1484
+#: trans/models.py:1552
 msgid "All strings"
 msgstr "Kaikki merkkijonot"
 
-#: trans/models.py:1490
+#: trans/models.py:1558
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Kääntämättömät merkkijonot (%d)"
 
-#: trans/models.py:1492
+#: trans/models.py:1560
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Epäselvät merkkijonot (%d)"
 
-#: trans/models.py:1494
+#: trans/models.py:1562
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Merkkijonojen ehdotukset (%d)"
 
-#: trans/models.py:1496
+#: trans/models.py:1564
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Merkkijonojen ehdotukset (%d)"
 
-#: trans/models.py:1733
+#: trans/models.py:1801
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 
-#: trans/models.py:1826
+#: trans/models.py:1894
 #, python-format
 msgid "unit ID %s"
 msgstr ""
