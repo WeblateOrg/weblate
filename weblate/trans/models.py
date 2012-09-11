@@ -127,15 +127,26 @@ MERGE_CHOICES = (
 class Project(models.Model):
     name = models.CharField(max_length = 100)
     slug = models.SlugField(db_index = True)
-    web = models.URLField()
-    mail = models.EmailField(blank = True)
-    instructions = models.URLField(blank = True)
+    web = models.URLField(
+        help_text = ugettext_lazy('Project website'),
+    )
+    mail = models.EmailField(
+        blank = True,
+        help_text = ugettext_lazy('Email conference for translators'),
+    )
+    instructions = models.URLField(
+        blank = True,
+        help_text = ugettext_lazy('URL with instructions for translators'),
+    )
     new_lang = models.CharField(
+        ugettext_lazy('New language'),
         max_length = 10,
         choices = NEW_LANG_CHOICES,
-        default = 'contact'
+        default = 'contact',
+        help_text = ugettext_lazy('How to handle requests for creating new languages'),
     )
     merge_style = models.CharField(
+        ugettext_lazy('Merge style'),
         max_length = 10,
         choices = MERGE_CHOICES,
         default = 'merge',
