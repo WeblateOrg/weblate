@@ -105,6 +105,8 @@ class TranslationManager(models.Manager):
             translation.filename = path
         translation.update_from_blob(blob_hash, force)
 
+        return translation
+
     def enabled(self):
         return self.filter(enabled = True)
 
