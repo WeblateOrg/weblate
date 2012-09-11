@@ -119,6 +119,10 @@ NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
     ('url', ugettext_lazy('Point to translation instructions URL')),
 )
+MERGE_CHOICES = (
+    ('merge', ugettext_lazy('Merge')),
+    ('rebase', ugettext_lazy('Rebase')),
+)
 
 class Project(models.Model):
     name = models.CharField(max_length = 100)
@@ -130,6 +134,12 @@ class Project(models.Model):
         max_length = 10,
         choices = NEW_LANG_CHOICES,
         default = 'contact'
+    )
+    merge_style = models.CharField(
+        max_length = 10,
+        choices = MERGE_CHOICES,
+        default = 'merge',
+        help_text = ugettext_lazy('Define whether Weblate should merge upstream repository or rebase changes onto it'),
     )
 
     # VCS config
@@ -672,6 +682,8 @@ class SubProject(models.Model):
         '''
         Checks whether there is any translation which needs commit.
         '''
+        gitrepo = self.get_repo()
+
         if not from_link and self.is_repo_link():
             return self.get_linked_repo().commit_pending(True, skip_push = skip_push)
 
@@ -682,16 +694,10 @@ class SubProject(models.Model):
         for sp in self.get_linked_childs():
             sp.commit_pending(True, skip_push = skip_push)
 
-    def update_branch(self, request = None):
+    def update_merge(self, request = None):
         '''
-        Updates current branch to match remote (if possible).
+        Updates current branch to remote using merge.
         '''
-        if self.is_repo_link():
-            return self.get_linked_repo().update_branch(request)
-
-        gitrepo = self.get_repo()
-
-        # Merge with lock acquired
         with self.get_git_lock():
             try:
                 # Try to merge it
@@ -712,6 +718,46 @@ class SubProject(models.Model):
                 if request is not None:
                     messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
                 return False
+
+    def update_rebase(self, request = None):
+        '''
+        Updates current branch to remote using rebase.
+        '''
+        gitrepo = self.get_repo()
+
+        with self.get_git_lock():
+            try:
+                # Try to merge it
+                gitrepo.git.rebase('origin/%s' % self.branch)
+                logger.info('rebased remote into repo %s', self.__unicode__())
+                return True
+            except Exception, e:
+                # In case merge has failer recover and tell admins
+                status = gitrepo.git.status()
+                gitrepo.git.rebase('--abort')
+                logger.warning('failed rebase on repo %s', self.__unicode__())
+                msg = 'Error:\n%s' % str(e)
+                msg += '\n\nStatus:\n' + status
+                mail_admins(
+                    'failed rebase on repo %s' % self.__unicode__(),
+                    msg
+                )
+                if request is not None:
+                    messages.error(request, _('Failed to rebase our branch onto remote branch %s.') % self.__unicode__())
+                return False
+
+    def update_branch(self, request = None):
+        '''
+        Updates current branch to match remote (if possible).
+        '''
+        if self.is_repo_link():
+            return self.get_linked_repo().update_branch(request)
+
+        # Merge/rebase
+        if self.project.merge_style == 'rebase':
+            return self.update_rebase(request)
+        else:
+            return self.update_merge(request)
 
     def get_mask_matches(self):
         '''
