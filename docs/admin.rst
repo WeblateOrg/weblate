@@ -49,7 +49,8 @@ strings in the message:
     Project name
 
 There are also additional features which you can control, like automatic
-pushing of changes (see also :ref:`push-changes`), git committer name or
+pushing of changes (see also :ref:`push-changes`), merge or rebase 
+(see :ref:`merge-rebase`), git committer name or
 maintaining of Translation-Team header.
 
 .. _subproject:
@@ -157,6 +158,21 @@ first, otherwise push will fail.
 
    You can also enable automatic pushing changes on commit, this can be done in
    project configuration.
+
+.. _merge-rebase:
+
+Merge or rebase
+---------------
+
+By default Weblate merges upstream repository into it's own. This is safest way
+in case you also access underlaying repository by other means. In case you don't
+need this, you can enable rebasing of changes on upstream, what will produce
+history with less merge commits.
+
+.. note::
+
+    Rebasing can cause you troubles in case of complicated merges, so carefully 
+    consider whether you want to enable them or not.
 
 Interacting with others
 -----------------------
