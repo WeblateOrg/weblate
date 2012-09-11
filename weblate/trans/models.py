@@ -740,9 +740,20 @@ class SubProject(models.Model):
         '''
         Loads translations from git.
         '''
+        translations = []
         for code, path, blob_hash in self.get_translation_blobs():
             logger.info('checking %s', path)
-            Translation.objects.update_from_blob(self, code, path, blob_hash, force)
+            translation = Translation.objects.update_from_blob(self, code, path, blob_hash, force)
+            translations.append(translation.id)
+
+        # Delete possibly no longer existing translations
+        todelete = self.translation_set.exclude(id__in = translations)
+        if todelete.exists():
+            logger.info(
+                'removing stale translations: %s',
+                ','.join([trans.language.code for trans in todelete])
+            )
+            todelete.delete()
 
         # Process linked repos
         for sp in self.get_linked_childs():
