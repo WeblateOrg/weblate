@@ -25,7 +25,7 @@ function dec_loading() {
 
 function get_source_string(callback) {
     inc_loading();
-    $.get("/js/get/" + $('#id_checksum').attr('value') + '/', function(data) {
+    $.get($('#js-get').attr('href'), function(data) {
         callback(data);
         dec_loading();
     });
@@ -197,9 +197,10 @@ $(function() {
     $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
         var parent_id = $(this).parent()[0].id;
         var check_id = parent_id.substring(6);
-        $.get('/js/ignore-check/' + check_id + '/', function() {
+        $.get($(this).attr('href'), function() {
             $('#' + parent_id).remove();
         });
+        return false;
     });
     load_table_sorting();
     $("div.translate-tabs").tabs({
