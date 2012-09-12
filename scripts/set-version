@@ -26,4 +26,4 @@ EOT
 sed '1D;2D;3D' >> docs/changes.rst < $tmp
 rm $tmp
 
-git commit -a -m "Setting version to $1"
+git commit -m "Setting version to $1" weblate/__init__.py docs/conf.py weblate.spec docs/changes.rst
