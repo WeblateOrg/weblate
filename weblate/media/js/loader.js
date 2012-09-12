@@ -235,11 +235,6 @@ $(function() {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
-        cookie: {
-            expires: 31,
-            name: $(this).id,
-            path: '/'
-        },
         cache: true,
         load: function (e, ui) {
             $(ui.panel).find(".tab-loading").remove();
