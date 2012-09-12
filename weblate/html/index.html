@@ -18,8 +18,8 @@
 <li><a href="#your">{% trans "Your translations" %}</a></li>
 {% endif %}
 <li><a href="#projects">{% trans "Projects" %}</a></li>
-<li><a href="/languages/">{% trans "Languages" %}</a></li>
-<li><a href="/checks/">{% trans "Checks" %}</a></li>
+<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
 </ul>
 
 {% if usertranslations %}
@@ -105,8 +105,8 @@
 
 <div id="others">
 <ul>
-<li><a href="{% url 'weblate.trans.views.show_languages' %}">{% trans "Languages summary" %}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_checks' %}">{% trans "Checks overview" %}</a></li>
+<li><a href="{% url 'languages' %}">{% trans "Languages summary" %}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
 </ul>
 </div>
 

@@ -155,9 +155,9 @@
 <div class="translate-tabs">
     <ul>
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
-        <li><a href="/js/similar/{{ unit.id }}/" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
-        <li><a href="/js/other/{{ unit.id }}/?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
-        <li><a href="/js/dictionary/{{ unit.id }}/" title="{% trans "Words extracted from dictionary" %}">{% trans "Words in dictionary" %}</a></li>
+        <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
+        <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
+        <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from dictionary" %}">{% trans "Words in dictionary" %}</a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
         <li><a href="#tab-project" title="{% trans "Information about project" %}">{% trans "Project" %}</a></li>
     </ul>

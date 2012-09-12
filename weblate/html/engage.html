@@ -37,7 +37,7 @@
 <h1>{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}</h1>
 
 <p>
-{% blocktrans with object.name as name %}Hi, and thank you for your interest!{% endblocktrans %}
+{% blocktrans %}Hi, and thank you for your interest!{% endblocktrans %}
 </p>
 <p>
 {% blocktrans with object.name as name %}{{ name }} is being translated using <a href="http://weblate.org/">Weblate</a>, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
@@ -46,10 +46,11 @@
 {% blocktrans with object.name as name and object.get_total as total and object.get_language_count as languages and object.get_absolute_url as url and object.get_translated_percent as percent%}Translation project for {{ name }} currently contains {{ total }} strings for translation and is <a href="{{ url }}">being translated into {{ languages }} languages</a>. Overall, these translations are {{ percent }}% complete.{% endblocktrans %}
 </p>
 <p>
-{% blocktrans with object.name as name and object.get_total as total and object.get_absolute_url as url %}If you would like to contribute to translation of {{ name }}, you need to <a href="/accounts/register/">register on this server</a>.{% endblocktrans %}
+{% url 'weblate_register' as reg_url %}
+{% blocktrans with object.name as name %}If you would like to contribute to translation of {{ name }}, you need to <a href="{{ reg_url }}">register on this server</a>.{% endblocktrans %}
 </p>
 <p>
-{% blocktrans with object.name as name and object.get_total as total and object.get_absolute_url as url %}Once you have activated your account just proceed to the <a href="{{ url }}">translation section</a>.{% endblocktrans %}
+{% blocktrans with object.get_absolute_url as url %}Once you have activated your account just proceed to the <a href="{{ url }}">translation section</a>.{% endblocktrans %}
 </p>
 
 </div>
