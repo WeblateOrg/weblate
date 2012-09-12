@@ -6,6 +6,13 @@ weblate 1.3
 
 Relased on ? 2012.
 
+* Compatibility with PostgreSQL database backend.
+* Removes languages removed in upstream git repository.
+* Improved consistency checks processing.
+* Added new checks (BB code and newlines).
+* Support for optional rebasing instead of merge.
+* Possibility to relocate Weblate (eg. to run it under /weblate path).
+
 weblate 1.2
 -----------
 
