@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-11 15:08+0200\n"
+"POT-Creation-Date: 2012-09-12 11:48+0200\n"
 "PO-Revision-Date: 2012-09-11 19:03+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -275,7 +275,7 @@ msgstr ""
 "El servidor tuvo serios problemas con su petición. Ya enviamos a nuestros "
 "monos amaestrados a solucionarlos."
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
+#: html/about.html:7 html/base.html:80 html/engage.html:59 trans/views.py:1196
 msgid "About Weblate"
 msgstr "Sobre Weblate"
 
@@ -363,16 +363,16 @@ msgstr "Registrado"
 msgid "Home"
 msgstr "Inicio"
 
-#: html/base.html:79 html/engage.html:57
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#: html/base.html:79
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr "Funciona con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:81 html/engage.html:59
+#: html/base.html:81 html/engage.html:60
 msgid "Contact us"
 msgstr "Contáctenos"
 
-#: html/base.html:82 html/engage.html:60
+#: html/base.html:82 html/engage.html:61
 msgid "Documentation"
 msgstr "Documentación"
 
@@ -391,7 +391,7 @@ msgstr ""
 "\">documentación</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:163 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Proyecto"
@@ -406,7 +406,7 @@ msgid "There are no matching failed checks!"
 msgstr "¡No se encontraron chequeos fallidos!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
+#: html/last-changes.html:9 html/translate.html:66 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
@@ -466,7 +466,7 @@ msgstr "Siguiente"
 msgid "Last"
 msgstr "Último"
 
-#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
+#: html/dictionary.html:32 html/translate.html:52 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:222
 msgid "Source"
@@ -476,7 +476,7 @@ msgstr "Original"
 msgid "Edit"
 msgstr "Editar"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:110
 msgid "Delete"
 msgstr "Borrar"
 
@@ -517,7 +517,7 @@ msgstr "Importar"
 msgid "Change word"
 msgstr "Cambiar palabra"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:141
 msgid "Save"
 msgstr "Guardar"
 
@@ -561,16 +561,16 @@ msgstr ""
 "cadenas para traducción y <a href=\"%(url)s\">es traducido a %(languages)s "
 "idiomas</a>. En general, estas traducciones están %(percent)s%% completas."
 
-#: html/engage.html:49
-#, python-format
+#: html/engage.html:50
+#, fuzzy, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
-"href=\"/accounts/register/\">register on this server</a>."
+"href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Si desea contribuir a la traducción de %(name)s, necesita <a href=\"/"
 "accounts/register/\">registrarse en este servidor</a>."
 
-#: html/engage.html:52
+#: html/engage.html:53
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -578,6 +578,11 @@ msgid ""
 msgstr ""
 "Una vez que activó su cuenta, continúe a la <a href=\"%(url)s\">sección de "
 "traducción</a>."
+
+#: html/engage.html:58
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Funciona con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
 #: html/index.html:9
 msgid ""
@@ -589,7 +594,7 @@ msgstr ""
 "los proyectos listados a continuación. Necesita iniciar sesión para "
 "traducir, de lo contrario sólo podrá hacer sugerencias."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:65
+#: html/index.html:13 html/subproject.html:15 html/translate.html:66
 msgid "Translations"
 msgstr "Traducciones"
 
@@ -655,7 +660,7 @@ msgstr "idiomas"
 msgid "Date"
 msgstr "Fecha"
 
-#: html/last-changes.html:22 html/translate.html:192
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "No se registró actividad reciente."
 
@@ -839,58 +844,58 @@ msgstr "traducir"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Filtro actual: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: html/translate.html:56
+#: html/translate.html:57
 msgid "Context"
 msgstr "Contexto"
 
-#: html/translate.html:62
+#: html/translate.html:63
 msgid "Copy"
 msgstr "Copiar"
 
-#: html/translate.html:70
+#: html/translate.html:71
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Parcial"
 
-#: html/translate.html:75 trans/views.py:96
+#: html/translate.html:76 trans/views.py:96
 msgid "Failing checks"
 msgstr "Chequeos fallidos"
 
-#: html/translate.html:80
+#: html/translate.html:81
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Ignorar: %(check)s"
 
-#: html/translate.html:92
+#: html/translate.html:93
 msgid "Suggestions"
 msgstr "Sugerencias"
 
-#: html/translate.html:99
+#: html/translate.html:100
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Sugerido por %(user)s"
 
-#: html/translate.html:101
+#: html/translate.html:102
 msgid "Suggested by anonymous user"
 msgstr "Sugerido por un usuario anónimo"
 
-#: html/translate.html:106
+#: html/translate.html:107
 msgid "Accept"
 msgstr "Aceptar"
 
-#: html/translate.html:122
+#: html/translate.html:123
 msgid "Used in"
 msgstr "Utilizado en"
 
-#: html/translate.html:128
+#: html/translate.html:129
 msgid "Comments"
 msgstr "Comentarios"
 
-#: html/translate.html:134
+#: html/translate.html:135
 msgid "Flags"
 msgstr "Indicadores"
 
-#: html/translate.html:144
+#: html/translate.html:145
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -899,55 +904,55 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Inicia sesión</a> para "
 "guardar las traducciones."
 
-#: html/translate.html:147
+#: html/translate.html:148
 msgid "Suggest"
 msgstr "Sugerir"
 
-#: html/translate.html:153
+#: html/translate.html:154
 msgid "Translation context"
 msgstr "Contexto de traducción"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Messages placed around this one"
 msgstr "Mensajes alrededor de este"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Nearby messages"
 msgstr "Mensajes cercanos"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Similar messages"
 msgstr "Mensajes similares"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Same message used in different subprojects"
 msgstr "El mismo mensaje es utilizado en diferentes subproyectos"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "All locations"
 msgstr "Todas las ubicaciones"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words extracted from dictionary"
 msgstr "Palabras extraídas del diccionario"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words in dictionary"
 msgstr "Palabras en el diccionario"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "List of recent changes done in Weblate"
 msgstr "Lista de cambios recientes realizados en Weblate"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Recent edits"
 msgstr "Ediciones recientes"
 
-#: html/translate.html:162
+#: html/translate.html:163
 msgid "Information about project"
 msgstr "Información del proyecto"
 
-#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:168 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Estado"
 
@@ -1340,10 +1345,10 @@ msgstr[1] ""
 "Esto puede ser porque ya está activa o porque esperó más de %(days)s días "
 "para activarla."
 
-#: html/registration/activate.html:11
-#, python-format
+#: html/registration/activate.html:12
+#, fuzzy, python-format
 msgid ""
-"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
@@ -1526,10 +1531,11 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Reinicializar mi contraseña"
 
-#: html/registration/registration_closed.html:6
+#: html/registration/registration_closed.html:9
+#, fuzzy, python-format
 msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href=\"/"
-"contact/\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 "Lo sentimos, pero las registraciones están desactivadas en este sitio. Puede "
 "<a href=\"/contact/\">contactarnos</a> para más detalles."
@@ -1543,11 +1549,12 @@ msgstr ""
 "Gracias por registrarse. Pronto recibirá un correo electrónico con un enlace "
 "de confirmación. Visite dicho enlace para completar su registración."
 
-#: html/registration/registration_complete.html:10
+#: html/registration/registration_complete.html:12
+#, fuzzy, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
 msgstr ""
 "Si no lo recibe a la brevedad revise su carpeta de correo no deseado. Si "
 "tampoco está allí, <a href=\"/contact/?subject=Lost activation code"

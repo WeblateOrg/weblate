@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-11 15:08+0200\n"
+"POT-Creation-Date: 2012-09-12 11:47+0200\n"
 "PO-Revision-Date: 2012-08-27 21:51+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -276,7 +276,7 @@ msgstr ""
 "Er is een ernstige fout opgetreden bij het verwerken van uw vraag. Onze "
 "getrainde aapjes zijn onderweg om het probleem op te lossen."
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
+#: html/about.html:7 html/base.html:80 html/engage.html:59 trans/views.py:1196
 msgid "About Weblate"
 msgstr "Over Weblate"
 
@@ -363,17 +363,17 @@ msgstr "Registreren"
 msgid "Home"
 msgstr "Startpagina"
 
-#: html/base.html:79 html/engage.html:57
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#: html/base.html:79
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr ""
 "Aangedreven door <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:81 html/engage.html:59
+#: html/base.html:81 html/engage.html:60
 msgid "Contact us"
 msgstr "Contacteer ons"
 
-#: html/base.html:82 html/engage.html:60
+#: html/base.html:82 html/engage.html:61
 msgid "Documentation"
 msgstr "Documentatie"
 
@@ -392,7 +392,7 @@ msgstr ""
 "\">documentatie</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:163 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Project"
@@ -407,7 +407,7 @@ msgid "There are no matching failed checks!"
 msgstr "Er zijn geen overeenkomstige gefaalde controles!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
+#: html/last-changes.html:9 html/translate.html:66 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
@@ -467,7 +467,7 @@ msgstr "Volgende"
 msgid "Last"
 msgstr "Laatste"
 
-#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
+#: html/dictionary.html:32 html/translate.html:52 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:222
 msgid "Source"
@@ -477,7 +477,7 @@ msgstr "Bron"
 msgid "Edit"
 msgstr "Bewerken"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:110
 msgid "Delete"
 msgstr "Verwijderen"
 
@@ -518,7 +518,7 @@ msgstr "Importeren"
 msgid "Change word"
 msgstr "Woord wijzigen"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:141
 msgid "Save"
 msgstr "Opslaan"
 
@@ -562,16 +562,16 @@ msgstr ""
 "tekenreeksen en <a href=\"%(url)s\">wordt vertaald in %(languages)s talen</"
 "a>. Alles samen zijn de vertalingen %(percent)s%% volledig."
 
-#: html/engage.html:49
-#, python-format
+#: html/engage.html:50
+#, fuzzy, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
-"href=\"/accounts/register/\">register on this server</a>."
+"href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Om te helpen bij vertaling van %(name)s, dient u zich te <a href=\"/accounts/"
 "register/\">registreren op deze server</a>."
 
-#: html/engage.html:52
+#: html/engage.html:53
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -579,6 +579,12 @@ msgid ""
 msgstr ""
 "Eens uw account geactiveerd is, kan u naar het <a href=\"%(url)s"
 "\">vertaalonderdeel</a> gaan."
+
+#: html/engage.html:58
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr ""
+"Aangedreven door <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
 #: html/index.html:9
 msgid ""
@@ -590,7 +596,7 @@ msgstr ""
 "a> om de hieronder vermeldde projecten te vertalen. U moet aangemeld zijn om "
 "te kunnen vertalen, anders kan u enkel suggesties doen."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:65
+#: html/index.html:13 html/subproject.html:15 html/translate.html:66
 msgid "Translations"
 msgstr "Vertalingen"
 
@@ -656,7 +662,7 @@ msgstr "talen"
 msgid "Date"
 msgstr "Datum"
 
-#: html/last-changes.html:22 html/translate.html:192
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Geen recente activiteit geregistreerd."
 
@@ -836,58 +842,58 @@ msgstr "vertaal"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Huidige filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: html/translate.html:56
+#: html/translate.html:57
 msgid "Context"
 msgstr "Context"
 
-#: html/translate.html:62
+#: html/translate.html:63
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: html/translate.html:70
+#: html/translate.html:71
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "De boodschap is vaag"
 
-#: html/translate.html:75 trans/views.py:96
+#: html/translate.html:76 trans/views.py:96
 msgid "Failing checks"
 msgstr "Gefaalde controles"
 
-#: html/translate.html:80
+#: html/translate.html:81
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Negeer: %(check)s"
 
-#: html/translate.html:92
+#: html/translate.html:93
 msgid "Suggestions"
 msgstr "Voorstellen"
 
-#: html/translate.html:99
+#: html/translate.html:100
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Voorgesteld door %(user)s"
 
-#: html/translate.html:101
+#: html/translate.html:102
 msgid "Suggested by anonymous user"
 msgstr "Voorgesteld door een anonieme gebruiker"
 
-#: html/translate.html:106
+#: html/translate.html:107
 msgid "Accept"
 msgstr "Aanvaarden"
 
-#: html/translate.html:122
+#: html/translate.html:123
 msgid "Used in"
 msgstr "Gebruikt in"
 
-#: html/translate.html:128
+#: html/translate.html:129
 msgid "Comments"
 msgstr "Opmerkingen"
 
-#: html/translate.html:134
+#: html/translate.html:135
 msgid "Flags"
 msgstr "Vlaggen"
 
-#: html/translate.html:144
+#: html/translate.html:145
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -896,55 +902,55 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Aanmelden</a> om "
 "vertalingen op te slaan."
 
-#: html/translate.html:147
+#: html/translate.html:148
 msgid "Suggest"
 msgstr "Doe een suggestie"
 
-#: html/translate.html:153
+#: html/translate.html:154
 msgid "Translation context"
 msgstr "Vertaalcontext"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Messages placed around this one"
 msgstr "Berichten die zich rond dit bericht bevinden"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Nearby messages"
 msgstr "Berichten in de buurt"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Similar messages"
 msgstr "Gelijkaardige berichten"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Same message used in different subprojects"
 msgstr "Hetzelfde bericht gebruikt in verschillende subprojecten"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "All locations"
 msgstr "Alle locaties"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words extracted from dictionary"
 msgstr "Woorden uit het woordenboek"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words in dictionary"
 msgstr "Woorden in het woordenboek"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "List of recent changes done in Weblate"
 msgstr "Lijst met recente wijzigingen in Weblate"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Recent edits"
 msgstr "Recente bewerkingen"
 
-#: html/translate.html:162
+#: html/translate.html:163
 msgid "Information about project"
 msgstr "Projectinformatie"
 
-#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:168 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Status"
 
@@ -1327,10 +1333,10 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: html/registration/activate.html:11
+#: html/registration/activate.html:12
 #, python-format
 msgid ""
-"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
@@ -1516,10 +1522,11 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Reset mijn wachtwoord"
 
-#: html/registration/registration_closed.html:6
+#: html/registration/registration_closed.html:9
+#, python-format
 msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href=\"/"
-"contact/\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 
 #: html/registration/registration_complete.html:7
@@ -1532,11 +1539,12 @@ msgstr ""
 "een bevestigingslink. Gelieve op deze link te klikken om uw registratie te "
 "vervolledigen."
 
-#: html/registration/registration_complete.html:10
+#: html/registration/registration_complete.html:12
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
 msgstr ""
 
 #: html/registration/registration_form.html:11

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-11 15:08+0200\n"
+"POT-Creation-Date: 2012-09-12 11:48+0200\n"
 "PO-Revision-Date: 2012-08-04 04:01+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -270,7 +270,7 @@ msgid ""
 msgstr ""
 "服务器在处理您的请求时发生严重问题。我们刚刚已经让程序猿去修复这个问题了。"
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
+#: html/about.html:7 html/base.html:80 html/engage.html:59 trans/views.py:1196
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
@@ -356,16 +356,16 @@ msgstr "注册"
 msgid "Home"
 msgstr "主页"
 
-#: html/base.html:79 html/engage.html:57
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#: html/base.html:79
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
 
-#: html/base.html:81 html/engage.html:59
+#: html/base.html:81 html/engage.html:60
 msgid "Contact us"
 msgstr "联系我们"
 
-#: html/base.html:82 html/engage.html:60
+#: html/base.html:82 html/engage.html:61
 msgid "Documentation"
 msgstr "文档"
 
@@ -382,7 +382,7 @@ msgid ""
 msgstr "更多此检查相关的信息在 <a href=\"%(link)s\">文档</a>。"
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:163 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "项目"
@@ -397,7 +397,7 @@ msgid "There are no matching failed checks!"
 msgstr "没有与已检查条目匹配的！"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
+#: html/last-changes.html:9 html/translate.html:66 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
@@ -455,7 +455,7 @@ msgstr "下一条"
 msgid "Last"
 msgstr "最后一条"
 
-#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
+#: html/dictionary.html:32 html/translate.html:52 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:222
 msgid "Source"
@@ -465,7 +465,7 @@ msgstr "源条目"
 msgid "Edit"
 msgstr "编辑"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:110
 msgid "Delete"
 msgstr "删除"
 
@@ -504,7 +504,7 @@ msgstr "导入"
 msgid "Change word"
 msgstr "修改单词"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:141
 msgid "Save"
 msgstr "保存"
 
@@ -545,20 +545,25 @@ msgstr ""
 "%(name)s 项目含有 %(total)s 个条目并且<a href=\"%(url)s\">已翻译为 "
 "%(languages)s 种语言</a>。这些翻译总计完成了 %(percent)s%%。"
 
-#: html/engage.html:49
-#, python-format
+#: html/engage.html:50
+#, fuzzy, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
-"href=\"/accounts/register/\">register on this server</a>."
+"href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "如果要翻译 %(name)s，您需要<a href=\"/accounts/register/\">在此注册</a>。"
 
-#: html/engage.html:52
+#: html/engage.html:53
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr "当您激活您的账户后即可<a href=\"%(url)s\">开始翻译</a>。"
+
+#: html/engage.html:58
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
 
 #: html/index.html:9
 msgid ""
@@ -569,7 +574,7 @@ msgstr ""
 "此站点使用 <a href=\"http://weblate.org/\">Weblate</a> 翻译以下列出的软件项"
 "目。您需要登录后才能翻译，否则只能提建议。"
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:65
+#: html/index.html:13 html/subproject.html:15 html/translate.html:66
 msgid "Translations"
 msgstr "翻译"
 
@@ -635,7 +640,7 @@ msgstr "语言"
 msgid "Date"
 msgstr "日期"
 
-#: html/last-changes.html:22 html/translate.html:192
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "没有最近活动的记录。"
 
@@ -808,58 +813,58 @@ msgstr "翻译"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "当前过滤结果：%(filter_name)s (%(filter_pos)s/%(filter_count)s)"
 
-#: html/translate.html:56
+#: html/translate.html:57
 msgid "Context"
 msgstr "上下文"
 
-#: html/translate.html:62
+#: html/translate.html:63
 msgid "Copy"
 msgstr "复制"
 
-#: html/translate.html:70
+#: html/translate.html:71
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "模糊"
 
-#: html/translate.html:75 trans/views.py:96
+#: html/translate.html:76 trans/views.py:96
 msgid "Failing checks"
 msgstr "未通过检查"
 
-#: html/translate.html:80
+#: html/translate.html:81
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "忽略：%(check)s"
 
-#: html/translate.html:92
+#: html/translate.html:93
 msgid "Suggestions"
 msgstr "建议"
 
-#: html/translate.html:99
+#: html/translate.html:100
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "建议者 %(user)s"
 
-#: html/translate.html:101
+#: html/translate.html:102
 msgid "Suggested by anonymous user"
 msgstr "建议者为匿名用户"
 
-#: html/translate.html:106
+#: html/translate.html:107
 msgid "Accept"
 msgstr "接受"
 
-#: html/translate.html:122
+#: html/translate.html:123
 msgid "Used in"
 msgstr "用于"
 
-#: html/translate.html:128
+#: html/translate.html:129
 msgid "Comments"
 msgstr "注释"
 
-#: html/translate.html:134
+#: html/translate.html:135
 msgid "Flags"
 msgstr "标记"
 
-#: html/translate.html:144
+#: html/translate.html:145
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -867,55 +872,55 @@ msgid ""
 msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">登录</a> 以便保存译文。"
 
-#: html/translate.html:147
+#: html/translate.html:148
 msgid "Suggest"
 msgstr "建议"
 
-#: html/translate.html:153
+#: html/translate.html:154
 msgid "Translation context"
 msgstr "翻译上下文"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Messages placed around this one"
 msgstr "此条目附近的条目"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Nearby messages"
 msgstr "附近的条目"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Similar messages"
 msgstr "相似的条目"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Same message used in different subprojects"
 msgstr "在不同子项目中所使用的相同条目"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "All locations"
 msgstr "所有位置"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words extracted from dictionary"
 msgstr "词典中提取的单词"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words in dictionary"
 msgstr "词典中的单词"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Recent edits"
 msgstr "最近的编辑"
 
-#: html/translate.html:162
+#: html/translate.html:163
 msgid "Information about project"
 msgstr "项目信息"
 
-#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:168 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "状态"
 
@@ -1293,10 +1298,10 @@ msgid_plural ""
 "days to activate it."
 msgstr[0] "您可能已经激活了账户或超过了 %(days)s 天才来激活。"
 
-#: html/registration/activate.html:11
-#, python-format
+#: html/registration/activate.html:12
+#, fuzzy, python-format
 msgid ""
-"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
@@ -1459,10 +1464,11 @@ msgstr "忘记了您的密码？输入您的电子邮箱地址，我们将向您
 msgid "Reset my password"
 msgstr "重设我的密码"
 
-#: html/registration/registration_closed.html:6
+#: html/registration/registration_closed.html:9
+#, fuzzy, python-format
 msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href=\"/"
-"contact/\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 "抱歉，本站已关闭注册。您可以<a href=\"/contact/\">联系我们</a>以了解详细情"
 "况。"
@@ -1476,11 +1482,12 @@ msgstr ""
 "感谢您的注册。您将很快收到一封含有确认链接的邮件。\n"
 "请按照链接的指引完成您的注册。"
 
-#: html/registration/registration_complete.html:10
+#: html/registration/registration_complete.html:12
+#, fuzzy, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
 msgstr ""
 "如果您没有收到，请检查垃圾箱。若仍未收到，请<a href=\"/contact/?subject=Lost "
 "activation code\">联系我们</a>。"

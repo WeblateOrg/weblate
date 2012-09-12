@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-11 15:08+0200\n"
+"POT-Creation-Date: 2012-09-12 11:48+0200\n"
 "PO-Revision-Date: 2012-09-06 13:23+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -273,7 +273,7 @@ msgstr ""
 "Strežnik je med obdelavo vaše zahteve naletel na resne težave. Pravkar smo "
 "odposlali naše izurjene opice, da odpravijo napako."
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
+#: html/about.html:7 html/base.html:80 html/engage.html:59 trans/views.py:1196
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -360,16 +360,16 @@ msgstr "Registracija"
 msgid "Home"
 msgstr "Domov"
 
-#: html/base.html:79 html/engage.html:57
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#: html/base.html:79
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr "Poganja <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:81 html/engage.html:59
+#: html/base.html:81 html/engage.html:60
 msgid "Contact us"
 msgstr "Stopite v stik z nami"
 
-#: html/base.html:82 html/engage.html:60
+#: html/base.html:82 html/engage.html:61
 msgid "Documentation"
 msgstr "Dokumentacija"
 
@@ -388,7 +388,7 @@ msgstr ""
 "\">dokumentaciji</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:163 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Projekt"
@@ -403,7 +403,7 @@ msgid "There are no matching failed checks!"
 msgstr "Ni nobenih ujemajočih spodletelih preverjanj!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
+#: html/last-changes.html:9 html/translate.html:66 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
@@ -463,7 +463,7 @@ msgstr "Naslednji"
 msgid "Last"
 msgstr "Zadnji"
 
-#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
+#: html/dictionary.html:32 html/translate.html:52 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:222
 msgid "Source"
@@ -473,7 +473,7 @@ msgstr "Vir"
 msgid "Edit"
 msgstr "Uredi"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:110
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -514,7 +514,7 @@ msgstr "Uvozi"
 msgid "Change word"
 msgstr "Spremeni besedo"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:141
 msgid "Save"
 msgstr "Shrani"
 
@@ -557,16 +557,16 @@ msgstr ""
 "in se <a href=\"%(url)s\">prevaja v %(languages)s jezikov</a>. Skupno so "
 "prevodi dokončani %(percent)s %%."
 
-#: html/engage.html:49
-#, python-format
+#: html/engage.html:50
+#, fuzzy, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
-"href=\"/accounts/register/\">register on this server</a>."
+"href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Če želite prispevati prevode %(name)s, se morate <a href=\"/accounts/"
 "register/\">registrirati na strežniku</a>."
 
-#: html/engage.html:52
+#: html/engage.html:53
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -574,6 +574,11 @@ msgid ""
 msgstr ""
 "Ko boste aktivirali svoj račun, pojdite na <a href=\"%(url)s\">razdelek za "
 "prevajanje</a>."
+
+#: html/engage.html:58
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Poganja <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
 #: html/index.html:9
 msgid ""
@@ -585,7 +590,7 @@ msgstr ""
 "spodaj navedenih projektov programske opreme. Za prevajanje se morate "
 "prijaviti; v nasprotnem primeru lahko samo dodajate predloge."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:65
+#: html/index.html:13 html/subproject.html:15 html/translate.html:66
 msgid "Translations"
 msgstr "Prevodi"
 
@@ -651,7 +656,7 @@ msgstr "jeziki"
 msgid "Date"
 msgstr "Datum"
 
-#: html/last-changes.html:22 html/translate.html:192
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Zabeležil nisem nobene nedavne dejavnosti."
 
@@ -834,58 +839,58 @@ msgstr "prevedi"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Trenutni filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: html/translate.html:56
+#: html/translate.html:57
 msgid "Context"
 msgstr "Sobesedilo"
 
-#: html/translate.html:62
+#: html/translate.html:63
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: html/translate.html:70
+#: html/translate.html:71
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Neurejeno"
 
-#: html/translate.html:75 trans/views.py:96
+#: html/translate.html:76 trans/views.py:96
 msgid "Failing checks"
 msgstr "Spodletela preverjanja"
 
-#: html/translate.html:80
+#: html/translate.html:81
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Prezri: %(check)s"
 
-#: html/translate.html:92
+#: html/translate.html:93
 msgid "Suggestions"
 msgstr "Predlogi"
 
-#: html/translate.html:99
+#: html/translate.html:100
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Predlagal %(user)s"
 
-#: html/translate.html:101
+#: html/translate.html:102
 msgid "Suggested by anonymous user"
 msgstr "Predlagal brezimni uporabnik"
 
-#: html/translate.html:106
+#: html/translate.html:107
 msgid "Accept"
 msgstr "Sprejmi"
 
-#: html/translate.html:122
+#: html/translate.html:123
 msgid "Used in"
 msgstr "Uporabljeno v"
 
-#: html/translate.html:128
+#: html/translate.html:129
 msgid "Comments"
 msgstr "Pripombe"
 
-#: html/translate.html:134
+#: html/translate.html:135
 msgid "Flags"
 msgstr "Zastavice"
 
-#: html/translate.html:144
+#: html/translate.html:145
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -894,55 +899,55 @@ msgstr ""
 "Za shranjevanje prevodov se <a href=\"%(login_url)s?next=%(translate_url)s"
 "\">prijavite</a>."
 
-#: html/translate.html:147
+#: html/translate.html:148
 msgid "Suggest"
 msgstr "Predlagaj"
 
-#: html/translate.html:153
+#: html/translate.html:154
 msgid "Translation context"
 msgstr "Sobesedilo prevoda"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Messages placed around this one"
 msgstr "Sporočila, ki se nahajajo ob tem"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Nearby messages"
 msgstr "Bližnja sporočila"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Similar messages"
 msgstr "Podobna sporočila"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Same message used in different subprojects"
 msgstr "Enako sporočilo uporabljeno v različnih podprojektih"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "All locations"
 msgstr "Vsa nahajališča"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words extracted from dictionary"
 msgstr "Besede, izvlečene iz slovarja"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words in dictionary"
 msgstr "Besede v slovarju"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "List of recent changes done in Weblate"
 msgstr "Seznam nedavnih sprememb, storjenih v Weblate"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Recent edits"
 msgstr "Nedavna urejanja"
 
-#: html/translate.html:162
+#: html/translate.html:163
 msgid "Information about project"
 msgstr "Informacije o projektu"
 
-#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:168 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Stanje"
 
@@ -1322,10 +1327,10 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: html/registration/activate.html:11
-#, python-format
+#: html/registration/activate.html:12
+#, fuzzy, python-format
 msgid ""
-"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
@@ -1511,10 +1516,11 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Ponastavi moje geslo"
 
-#: html/registration/registration_closed.html:6
+#: html/registration/registration_closed.html:9
+#, fuzzy, python-format
 msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href=\"/"
-"contact/\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 "Oprostite, vendar so registracije na strani onemogočene. Za več informacij "
 "lahko <a href=\"/contact/\">stopite v stik z nami</a>."
@@ -1529,11 +1535,12 @@ msgstr ""
 "potrditveno povezavo. Prosimo, sledite tej povezavi, da dokončate svojo "
 "registracijo."
 
-#: html/registration/registration_complete.html:10
+#: html/registration/registration_complete.html:12
+#, fuzzy, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
 msgstr ""
 "Če je ne prejmete v kratkem, preverite vašo mapo z neželeno pošto (spam). Če "
 "je tudi tam ni, <a href=\"/contact/?subject=Lost activation code\">stopite v "

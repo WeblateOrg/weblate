@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-11 15:08+0200\n"
+"POT-Creation-Date: 2012-09-12 11:48+0200\n"
 "PO-Revision-Date: 2012-09-06 02:08+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -279,7 +279,7 @@ msgstr ""
 "Server memiliki masalah serius saat melayani permintaan Anda. Kami baru saja "
 "mengirimkan monyet-monyet terlatih kami untuk memperbaiki masalah tsb."
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
+#: html/about.html:7 html/base.html:80 html/engage.html:59 trans/views.py:1196
 msgid "About Weblate"
 msgstr "Tentang Weblate"
 
@@ -367,16 +367,16 @@ msgstr "Daftar"
 msgid "Home"
 msgstr "Beranda"
 
-#: html/base.html:79 html/engage.html:57
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#: html/base.html:79
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr "Dikuatkan oleh <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:81 html/engage.html:59
+#: html/base.html:81 html/engage.html:60
 msgid "Contact us"
 msgstr "Hubungi kami"
 
-#: html/base.html:82 html/engage.html:60
+#: html/base.html:82 html/engage.html:61
 msgid "Documentation"
 msgstr "Dokumentasi"
 
@@ -395,7 +395,7 @@ msgstr ""
 "\"%(link)s\">dokumentasi</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:163 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Proyek"
@@ -410,7 +410,7 @@ msgid "There are no matching failed checks!"
 msgstr "Tidak ada kegagalan pemeriksaan yang cocok!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
+#: html/last-changes.html:9 html/translate.html:66 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
@@ -470,7 +470,7 @@ msgstr "Berikutnya"
 msgid "Last"
 msgstr "Terakhir"
 
-#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
+#: html/dictionary.html:32 html/translate.html:52 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:222
 msgid "Source"
@@ -480,7 +480,7 @@ msgstr "Sumber"
 msgid "Edit"
 msgstr "Sunting"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:110
 msgid "Delete"
 msgstr "Hapus"
 
@@ -521,7 +521,7 @@ msgstr "Impor"
 msgid "Change word"
 msgstr "Ganti kata"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:141
 msgid "Save"
 msgstr "Simpan"
 
@@ -566,16 +566,16 @@ msgstr ""
 "%(languages)s</a>. Secara keseluruhan, terjemahan ini adalah  %(percent)s%% "
 "lengkap."
 
-#: html/engage.html:49
-#, python-format
+#: html/engage.html:50
+#, fuzzy, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
-"href=\"/accounts/register/\">register on this server</a>."
+"href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Jika Anda ingin berkontribusi untuk terjemahan dari %(name)s, Anda harus <a "
 "href=\"/accounts/register/\">mendaftar di server ini</a>."
 
-#: html/engage.html:52
+#: html/engage.html:53
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -583,6 +583,11 @@ msgid ""
 msgstr ""
 "Setelah Anda telah mengaktifkan akun anda, Silakan berlanjut ke <a href="
 "\"%(url)s\">bagian terjemahan</a>."
+
+#: html/engage.html:58
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Dikuatkan oleh <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
 #: html/index.html:9
 msgid ""
@@ -595,7 +600,7 @@ msgstr ""
 "log masuk dahulu untuk menerjemahkan, atau Anda hanya dapat membuat saran-"
 "saran saja."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:65
+#: html/index.html:13 html/subproject.html:15 html/translate.html:66
 msgid "Translations"
 msgstr "Penterjemahan"
 
@@ -661,7 +666,7 @@ msgstr "bahasa"
 msgid "Date"
 msgstr "Tanggal"
 
-#: html/last-changes.html:22 html/translate.html:192
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Tidak ada kegiatan baru-baru ini telah direkam."
 
@@ -843,58 +848,58 @@ msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr ""
 "Penyaringan saat ini: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: html/translate.html:56
+#: html/translate.html:57
 msgid "Context"
 msgstr "Konteks"
 
-#: html/translate.html:62
+#: html/translate.html:63
 msgid "Copy"
 msgstr "Salin"
 
-#: html/translate.html:70
+#: html/translate.html:71
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Samar"
 
-#: html/translate.html:75 trans/views.py:96
+#: html/translate.html:76 trans/views.py:96
 msgid "Failing checks"
 msgstr "Periksa kegagalan"
 
-#: html/translate.html:80
+#: html/translate.html:81
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Diabaikan: %(check)s"
 
-#: html/translate.html:92
+#: html/translate.html:93
 msgid "Suggestions"
 msgstr "Saran"
 
-#: html/translate.html:99
+#: html/translate.html:100
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Disarankan oleh %(user)s"
 
-#: html/translate.html:101
+#: html/translate.html:102
 msgid "Suggested by anonymous user"
 msgstr "Disarankan oleh pengguna anonim"
 
-#: html/translate.html:106
+#: html/translate.html:107
 msgid "Accept"
 msgstr "Menerima"
 
-#: html/translate.html:122
+#: html/translate.html:123
 msgid "Used in"
 msgstr "Digunakan dalam"
 
-#: html/translate.html:128
+#: html/translate.html:129
 msgid "Comments"
 msgstr "Komentar"
 
-#: html/translate.html:134
+#: html/translate.html:135
 msgid "Flags"
 msgstr "Bendera"
 
-#: html/translate.html:144
+#: html/translate.html:145
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -903,55 +908,55 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">log masuk</a> untuk "
 "menyimpan terjemahan."
 
-#: html/translate.html:147
+#: html/translate.html:148
 msgid "Suggest"
 msgstr "Menyarankan"
 
-#: html/translate.html:153
+#: html/translate.html:154
 msgid "Translation context"
 msgstr "Konteks terjemahan"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Messages placed around this one"
 msgstr "Pesan ditempatkan disekitar ini"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Nearby messages"
 msgstr "Pesan terdekat"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Similar messages"
 msgstr "Pesan serupa"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Same message used in different subprojects"
 msgstr "Pesan yang sama digunakan dalam berbagai subproyek"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "All locations"
 msgstr "Semua lokasi"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words extracted from dictionary"
 msgstr "Kata-kata diambil dari kamus"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words in dictionary"
 msgstr "Kata-kata dalam kamus"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "List of recent changes done in Weblate"
 msgstr "Daftar perubahan terbaru didalam Weblate"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Recent edits"
 msgstr "Suntingan terakhir"
 
-#: html/translate.html:162
+#: html/translate.html:163
 msgid "Information about project"
 msgstr "Informasi tentang proyek"
 
-#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:168 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Status"
 
@@ -1343,10 +1348,10 @@ msgstr[0] ""
 "Ini mungkin karena sudah aktif atau karena Anda menunggu lebih dari %(days)s "
 "hari untuk mengaktifkannya."
 
-#: html/registration/activate.html:11
-#, python-format
+#: html/registration/activate.html:12
+#, fuzzy, python-format
 msgid ""
-"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
@@ -1533,10 +1538,11 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Tata ulang sandilewat saya"
 
-#: html/registration/registration_closed.html:6
+#: html/registration/registration_closed.html:9
+#, fuzzy, python-format
 msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href=\"/"
-"contact/\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 "Maaf, registrasi di situs ini dinonaktifkan. Anda dapat <a href=\"/contact/"
 "\">hubungi kami</a> untuk lebih jelasnya."
@@ -1550,11 +1556,12 @@ msgstr ""
 "Terima kasih telah mendaftar. Anda akan segera menerima surel\n"
 "berisi tautan untuk konfirmasi. Ikuti tautan ini untuk menyelesaikannya."
 
-#: html/registration/registration_complete.html:10
+#: html/registration/registration_complete.html:12
+#, fuzzy, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
 msgstr ""
 "Jika anda tidak menerima ini dalam waktu dekat, silahkan periksa pelipat "
 "surel spam. Jika tidak ada, silahkan <a href=\"/contact/?subject=Lost "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-11 15:08+0200\n"
+"POT-Creation-Date: 2012-09-12 11:48+0200\n"
 "PO-Revision-Date: 2012-09-11 19:59+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -274,7 +274,7 @@ msgstr ""
 "Ο διακομιστής είχε σοβαρά προβλήματα να εξυπηρετήσει το αίτημά σας. Στείλαμε "
 "τους τεχνικούς μας να διορθώσουν το θέμα."
 
-#: html/about.html:7 html/base.html:80 html/engage.html:58 trans/views.py:1196
+#: html/about.html:7 html/base.html:80 html/engage.html:59 trans/views.py:1196
 msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
@@ -364,17 +364,17 @@ msgstr "Εγγραφή"
 msgid "Home"
 msgstr "Αρχική"
 
-#: html/base.html:79 html/engage.html:57
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+#: html/base.html:79
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr ""
 "Υποστηρίζετα από το <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
-#: html/base.html:81 html/engage.html:59
+#: html/base.html:81 html/engage.html:60
 msgid "Contact us"
 msgstr "Επικοινωνήστε μαζί μας"
 
-#: html/base.html:82 html/engage.html:60
+#: html/base.html:82 html/engage.html:61
 msgid "Documentation"
 msgstr "Τεκμηρίωση"
 
@@ -393,7 +393,7 @@ msgstr ""
 "\"%(link)s\">τεκμηρίωση</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:162 html/js/other.html:6
+#: html/list-translations.html:6 html/translate.html:163 html/js/other.html:6
 #: html/js/similar.html:6
 msgid "Project"
 msgstr "Έργο"
@@ -408,7 +408,7 @@ msgid "There are no matching failed checks!"
 msgstr "Δεν υπάρχουν αντιστοιχίες αποτυχίας ελέγχων!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:65 html/translate.html.py:167
+#: html/last-changes.html:9 html/translate.html:66 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
@@ -468,7 +468,7 @@ msgstr "Επόμενο"
 msgid "Last"
 msgstr "Τελευταίο"
 
-#: html/dictionary.html:32 html/translate.html:51 html/translate.html.py:167
+#: html/dictionary.html:32 html/translate.html:52 html/translate.html.py:168
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:222
 msgid "Source"
@@ -478,7 +478,7 @@ msgstr "Προέλευση"
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:110
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -519,7 +519,7 @@ msgstr "Εισαγωγή"
 msgid "Change word"
 msgstr "Αλλαγή λέξης"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:140
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:141
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -563,16 +563,16 @@ msgstr ""
 "κείμενα για μετάφραση και <a href=\"%(url)s\">μεταφράζεται σε %(languages)s "
 "γλώσσες</a>. Συνολικά, αυτές οι μεταφράσεις %(percent)s%% ολοκληρωμένες."
 
-#: html/engage.html:49
-#, python-format
+#: html/engage.html:50
+#, fuzzy, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
-"href=\"/accounts/register/\">register on this server</a>."
+"href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Αν θα θέλατε να συμβάλετε στη μετάφραση του %(name)s, πρέπει να <a href=\"/"
 "accounts/register/\">εγγραφείτε σε αυτόν το διακομιστή</a>."
 
-#: html/engage.html:52
+#: html/engage.html:53
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -580,6 +580,12 @@ msgid ""
 msgstr ""
 "Από τη στιγμή που έχετε ενεργοποιήσει το λογαριασμό σας απλώς προχωρήσετε "
 "στην <a href=\"%(url)s\">ενότητα μετάφρασης</a>."
+
+#: html/engage.html:58
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr ""
+"Υποστηρίζετα από το <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
 #: html/index.html:9
 msgid ""
@@ -591,7 +597,7 @@ msgstr ""
 "μετάφραση των έργων λογισμικού που αναφέρονται παρακάτω. Πρέπει να "
 "συνδεθείτε για να μεταφράσετε, διαφορετικά μπορείτε να κάνετε μόνο προτάσεις."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:65
+#: html/index.html:13 html/subproject.html:15 html/translate.html:66
 msgid "Translations"
 msgstr "Μεταφράσεις"
 
@@ -657,7 +663,7 @@ msgstr "γλώσσες"
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: html/last-changes.html:22 html/translate.html:192
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Καμία πρόσφατη δραστηριότητα δεν καταγράφηκε."
 
@@ -841,58 +847,58 @@ msgstr "μετάφραση"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Τρέχον φίλτρο: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: html/translate.html:56
+#: html/translate.html:57
 msgid "Context"
 msgstr "Συνοδευτικά"
 
-#: html/translate.html:62
+#: html/translate.html:63
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: html/translate.html:70
+#: html/translate.html:71
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: html/translate.html:75 trans/views.py:96
+#: html/translate.html:76 trans/views.py:96
 msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
-#: html/translate.html:80
+#: html/translate.html:81
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Αγνόηση: %(check)s"
 
-#: html/translate.html:92
+#: html/translate.html:93
 msgid "Suggestions"
 msgstr "Προτάσεις"
 
-#: html/translate.html:99
+#: html/translate.html:100
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Προτάθηκε από τον %(user)s"
 
-#: html/translate.html:101
+#: html/translate.html:102
 msgid "Suggested by anonymous user"
 msgstr "Προτάθηκε από ανώνυμο χρήστη"
 
-#: html/translate.html:106
+#: html/translate.html:107
 msgid "Accept"
 msgstr "Αποδοχή"
 
-#: html/translate.html:122
+#: html/translate.html:123
 msgid "Used in"
 msgstr "Χρήση σε"
 
-#: html/translate.html:128
+#: html/translate.html:129
 msgid "Comments"
 msgstr "Σχόλια"
 
-#: html/translate.html:134
+#: html/translate.html:135
 msgid "Flags"
 msgstr "Σημαίες"
 
-#: html/translate.html:144
+#: html/translate.html:145
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -901,55 +907,55 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Συνδεθείτε</a> για να "
 "αποθηκευτούν οι μεταφράσεις."
 
-#: html/translate.html:147
+#: html/translate.html:148
 msgid "Suggest"
 msgstr "Πρόταση"
 
-#: html/translate.html:153
+#: html/translate.html:154
 msgid "Translation context"
 msgstr "Συνοδευτικά μετάφρασης"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Messages placed around this one"
 msgstr "Τα μηνύματα γύρω από αυτό"
 
-#: html/translate.html:157
+#: html/translate.html:158
 msgid "Nearby messages"
 msgstr "Κοντινά μηνύματα"
 
-#: html/translate.html:158
+#: html/translate.html:159
 msgid "Similar messages"
 msgstr "Παρόμοια μηνύματα"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "Same message used in different subprojects"
 msgstr "Το ίδιο μήνυμα που χρησιμοποιείται σε διαφορετικά υπόέργα"
 
-#: html/translate.html:159
+#: html/translate.html:160
 msgid "All locations"
 msgstr "Όλες οι τοποθεσίες"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words extracted from dictionary"
 msgstr "Λέξεις από το λεξικό"
 
-#: html/translate.html:160
+#: html/translate.html:161
 msgid "Words in dictionary"
 msgstr "Λέξεις στο λεξικό"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "List of recent changes done in Weblate"
 msgstr "Λίστα πρόσφατων αλλαγών που έγιναν στο Weblate"
 
-#: html/translate.html:161
+#: html/translate.html:162
 msgid "Recent edits"
 msgstr "Πρόσφατες επεξεργασίες"
 
-#: html/translate.html:162
+#: html/translate.html:163
 msgid "Information about project"
 msgstr "Πληροφορίες για το έργο"
 
-#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:168 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Κατάσταση"
 
@@ -1342,10 +1348,10 @@ msgstr[1] ""
 "Αυτό μπορεί να συμβαίνει γιατί είναι ήδη ενεργός ή γιατί περισσότερο από "
 "%(days)s ημέρες για να τον ενεργοποιήσετε."
 
-#: html/registration/activate.html:11
-#, python-format
+#: html/registration/activate.html:12
+#, fuzzy, python-format
 msgid ""
-"If this is not the case, please <a href=\"/contact/\">contact</a> the "
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
@@ -1532,10 +1538,11 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Επαναφορά του κωδικού μου"
 
-#: html/registration/registration_closed.html:6
+#: html/registration/registration_closed.html:9
+#, fuzzy, python-format
 msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href=\"/"
-"contact/\">contact us</a> for more details."
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 "Συγνώμη, αλλά οι εγγραφές σε αυτή την ιστοσελίδα είναι απενεργοποιημένες. "
 "Μπορείτε να <a href=\"/contact/\">επικοινωνήσετε μαζί μας</a> για "
@@ -1552,11 +1559,12 @@ msgstr ""
 "ένα σύνδεσμο επιβεβαίωσης. Μεταβείτε σε αυτό το σύνδεσμο για να ολοκληρωθεί "
 "η εγγραφή."
 
-#: html/registration/registration_complete.html:10
+#: html/registration/registration_complete.html:12
+#, fuzzy, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
 msgstr ""
 "Αν δεν το λάβετε σύντομα, ελέγξτε το φάκελο «Ανεπιθύμητη αλληλογραφία». Εάν "
 "δεν υπάρχουν, <a href=\"/contact/?subject=Lost activation code\"> "
