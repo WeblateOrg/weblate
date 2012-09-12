@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-09-12 11:59+0200\n"
-"PO-Revision-Date: 2012-09-11 15:18+0200\n"
+"PO-Revision-Date: 2012-09-12 14:01+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -361,9 +361,9 @@ msgid "Home"
 msgstr "Domů"
 
 #: html/base.html:79 html/engage.html:58
-#, fuzzy, python-format
+#, python-format
 msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr "Provozováno na <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Provozováno na <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 
 #: html/base.html:81 html/engage.html:60
 msgid "Contact us"
@@ -559,13 +559,13 @@ msgstr ""
 "Celkově je tento překlad hotový z %(percent)s%%."
 
 #: html/engage.html:50
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Pokud chcete přispět do překladu projektu %(name)s, musíte se na tomto "
-"serveru <a href=\"/accounts/register/\">zaregistrovat</a>."
+"serveru <a href=\"%(reg_url)s\">zaregistrovat</a>."
 
 #: html/engage.html:53
 #, python-format
@@ -1334,15 +1334,15 @@ msgstr[2] ""
 "Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s dní."
 
 #: html/registration/activate.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Pokud tomu tak není, prosíme <a href=\"/contact/\">kontaktujte</a> správce "
-"serveru. V opačném případě se můžete <a href=\\\"%(reg_url)s\\"
-"\">zaregistrovat znovu."
+"Pokud tomu tak není, prosíme <a href=\"%(contact_url)s\">kontaktujte</a> "
+"správce serveru. V opačném případě se můžete <a href=\"%"
+"(reg_url)s\">zaregistrovat znovu."
 
 #: html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -1517,13 +1517,13 @@ msgid "Reset my password"
 msgstr "Obnovit heslo"
 
 #: html/registration/registration_closed.html:9
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 "Omlouváme se, ale registrace na tomto webu jsou zakázány. Pro další "
-"informace nás můžete <a href=\"/contact/\">kontaktovat</a>."
+"informace nás můžete <a href=\"%(contact_url)s\">kontaktovat</a>."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -1535,15 +1535,15 @@ msgstr ""
 "registrace. Prosím následujte jej pro dokončení registrace."
 
 #: html/registration/registration_complete.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
 "there, please <a href=\"%(contact_url)s?subject=Lost activation code"
 "\">contact us</a>."
 msgstr ""
 "Pokud vám email během chvíle nedorazí, podívejte se do složky s nevyžádanou "
-"poštou. Pokud ho nenajdete ani tam, prosím <a href=\"/contact/?subject=Lost "
-"activation code\">kontaktujte nás</a>."
+"poštou. Pokud ho nenajdete ani tam, prosím <a href=\"%"
+"(contact_url)s?subject=Lost activation code\">kontaktujte nás</a>."
 
 #: html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
