@@ -133,6 +133,22 @@ mod_wsgi (available as :file:`examples/apache.conf`):
 
 .. literalinclude:: ../examples/apache.conf
 
+Running Weblate under path
+++++++++++++++++++++++++++
+
+Minimalistic configuration to serve Weblate under /weblate (you will need to
+include portions of above full configuration to allow access to the files). Again
+using mod_wsgi (also available as :file:`examples/apache-path.conf`):
+
+.. literalinclude:: ../examples/apache-path.conf
+
+Additionally you will have to adjust :file:`settings.py`::
+
+    MEDIA_URL = '/weblate/media/'
+    STATIC_URL = '/weblate/static/'
+
+.. note:: This is supported since Weblate 1.3.
+
 .. _appliance:
 
 Prebuilt appliance
