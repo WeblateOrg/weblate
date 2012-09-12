@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-09-12 12:00+0200\n"
-"PO-Revision-Date: 2012-09-06 00:19+0200\n"
+"PO-Revision-Date: 2012-09-12 23:24+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
@@ -363,9 +363,9 @@ msgid "Home"
 msgstr "Hjem"
 
 #: html/base.html:79 html/engage.html:58
-#, fuzzy, python-format
+#, python-format
 msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr "Drevet af <a href=http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Drevet af <a href=http://weblate.org/\">Weblate %(version)s</a>"
 
 #: html/base.html:81 html/engage.html:60
 msgid "Contact us"
@@ -562,13 +562,13 @@ msgstr ""
 "komplette."
 
 #: html/engage.html:50
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Hvis du vil bidrage til oversættelsen af %(name)s, så skal du <a href=\"/"
-"accounts/register/\">tilmelde dig på denne server</a>."
+"Hvis du vil bidrage til oversættelsen af %(name)s, så skal du <a href=\"%"
+"(reg_url)s\">tilmelde dig på denne server</a>."
 
 #: html/engage.html:53
 #, python-format
@@ -1337,15 +1337,15 @@ msgstr[1] ""
 "%(days)s dage med at aktivere den."
 
 #: html/registration/activate.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Hvis dette ikke er tilfældet, så tag venligst <a href=\"/contact/\">kontakt</"
-"a> til webstedets administrator. Alternativt skal du eventuelt <a href="
-"\"%(reg_url)s\">tilmelde dig igen</a>."
+"Hvis dette ikke er tilfældet, så tag venligst <a href=\"%"
+"(contact_url)s\">kontakt</a> til webstedets administrator. Alternativt skal "
+"du eventuelt <a href=\"%(reg_url)s\">tilmelde dig igen</a>."
 
 #: html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -1526,13 +1526,13 @@ msgid "Reset my password"
 msgstr "Nulstil min adgangskode"
 
 #: html/registration/registration_closed.html:9
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Beklager, men tilmelding til dette sted er deaktiveret. Du kan <a href=\"/"
-"contact/\">kontakte os</a> for at få flere detaljer."
+"Beklager, men tilmelding til dette sted er deaktiveret. Du kan <a href=\"%"
+"(contact_url)s\">kontakte os</a> for at få flere detaljer."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -1544,14 +1544,14 @@ msgstr ""
 "en bekræftelseslink. Følg dette link for at fuldføre din tilmelding."
 
 #: html/registration/registration_complete.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
 "there, please <a href=\"%(contact_url)s?subject=Lost activation code"
 "\">contact us</a>."
 msgstr ""
 "Hvis du ikke modtager den efter kort tid, så tjek venligst dit spamfilter. "
-"Hvis den ikke er der, så tag venligst <a href=\"/contact/?subject=Lost "
+"Hvis den ikke er der, så tag venligst <a href=\"%(contact_url)s?subject=Lost "
 "activation code\">kontakt til os</a>."
 
 #: html/registration/registration_form.html:11
@@ -2373,40 +2373,39 @@ msgstr "Henvis til URL for oversættelses-instruktser"
 
 #: trans/models.py:123
 msgid "Merge"
-msgstr ""
+msgstr "Flet"
 
 #: trans/models.py:124
 msgid "Rebase"
-msgstr ""
+msgstr "Flyt forgreningspunkt (rebase)"
 
 #: trans/models.py:131
-#, fuzzy
 msgid "Project website"
-msgstr "Projektets websted:"
+msgstr "Projektets websted"
 
 #: trans/models.py:135
-#, fuzzy
 msgid "Email conference for translators"
-msgstr "Postliste for oversættere:"
+msgstr "E-post-konference for oversættere"
 
 #: trans/models.py:139
-#, fuzzy
 msgid "URL with instructions for translators"
-msgstr "Vejledning for oversættere:"
+msgstr "URL med vejledning for oversættere"
 
 #: trans/models.py:146
 msgid "How to handle requests for creating new languages"
-msgstr ""
+msgstr "Hvorledes forespørgsler om oprettelse af nye sprog håndteres"
 
 #: trans/models.py:149
 msgid "Merge style"
-msgstr ""
+msgstr "Flette-stil"
 
 #: trans/models.py:153
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
+"Bestem om Weblate skal flette opstrømsarkiv eller flytte forgreningspunkt "
+"for ændringer ovenpå det"
 
 #: trans/models.py:159
 #, python-format
@@ -2514,9 +2513,11 @@ msgid "Failed to merge remote branch into %s."
 msgstr "Mislykkedes med at flette fjern forgrening i ind %s."
 
 #: trans/models.py:757
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
+msgstr ""
+"Mislykkedes med at flytte forgreningspunkt ovenpå fjernt beliggende "
+"forgrening %s."
 
 #: trans/models.py:859
 msgid "The mask did not match any files!"
