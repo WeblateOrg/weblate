@@ -111,15 +111,17 @@ class TranslationManager(models.Manager):
         return self.filter(enabled = True)
 
 class UnitManager(models.Manager):
-    def update_from_unit(self, translation, unit, pos):
+    def update_from_unit(self, translation, unit, pos, template = None):
         '''
         Process translation toolkit unit and stores/updates database entry.
         '''
-        if hasattr(unit.source, 'strings'):
-            src = join_plural(unit.source.strings)
+        if template is None:
+            template = unit
+        if hasattr(template.source, 'strings'):
+            src = join_plural(template.source.strings)
         else:
-            src = unit.source
-        ctx = unit.getcontext()
+            src = template.source
+        ctx = template.getcontext()
         checksum = msg_checksum(src, ctx)
 
         # Try getting existing unit
@@ -148,7 +150,7 @@ class UnitManager(models.Manager):
             force = True
 
         # Update all details
-        dbunit.update_from_unit(unit, pos, force)
+        dbunit.update_from_unit(unit, pos, force, template)
 
         # Return result
         return dbunit, force

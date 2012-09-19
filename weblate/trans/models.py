@@ -63,18 +63,22 @@ FILE_FORMATS = {
     'auto': {
         'name': ugettext_lazy('Automatic detection'),
         'loader': factory.getobject,
+        'monolingual': None, # Depends on actual format
     },
     'po': {
         'name': ugettext_lazy('Gettext PO file'),
         'loader': ('po', 'pofile'),
+        'monolingual': False,
     },
     'ts': {
         'name': ugettext_lazy('XLIFF Translation File'),
         'loader': ('ts2', 'tsfile'),
+        'monolingual': None, # Can be both
     },
     'xliff': {
         'name': ugettext_lazy('Qt Linguist Translation File'),
         'loader': ('xliff', 'xlifffile'),
+        'monolingual': None, # Can be both
     },
     'strings': {
         'name': ugettext_lazy('OS X Strings'),
@@ -957,7 +961,7 @@ class SubProject(models.Model):
 
             # Validate template
             if self.template != '':
-                template = os.path.join(self.get_path(), self.template)
+                template = self.get_template_filename()
                 try:
                     ttkit(os.path.join(self.get_path(), match), self.file_format)
                 except ValueError:
@@ -967,6 +971,9 @@ class SubProject(models.Model):
         except SubProject.DoesNotExist:
             # Happens with invalid link
             pass
+
+    def get_template_filename(self):
+        return os.path.join(self.get_path(), self.template)
 
     def save(self, *args, **kwargs):
         '''
@@ -1030,6 +1037,19 @@ class SubProject(models.Model):
 
     def git_needs_push(self, gitrepo = None):
         return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
+
+    def get_template_store(self):
+        '''
+        Gets ttkit store for template.
+        '''
+        # Do we need template?
+        if FILE_FORMATS[self.file_format]['monolingual'] == False or self.template == '':
+            return None
+
+        if not hasattr(self, 'store_cache'):
+            self.store_cache = ttkit(self.get_template_filename(), self.file_format)
+
+        return self.store_cache
 
 
 class Translation(models.Model):
@@ -1288,21 +1308,39 @@ class Translation(models.Model):
 
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
 
-        # Load po file
-        store = self.get_store()
+        # Was there change?
         was_new = False
-        for pos, unit in enumerate(store.units):
-            # We care only about translatable strings
-            # For some reason, blank string does not mean non translatable
-            # unit in some formats (XLIFF), so let's skip those as well
-            if not unit.istranslatable() or unit.isblank():
-                continue
-            newunit, is_new = Unit.objects.update_from_unit(self, unit, pos)
-            was_new = was_new or is_new
-            try:
-                oldunits.remove(newunit.id)
-            except:
-                pass
+        # Load translation file
+        store = self.get_store()
+        # Load translation template
+        template_store = self.get_template_store()
+        if template_store is None:
+            for pos, unit in enumerate(store.units):
+                # We care only about translatable strings
+                # For some reason, blank string does not mean non translatable
+                # unit in some formats (XLIFF), so let's skip those as well
+                if not unit.istranslatable() or unit.isblank():
+                    continue
+                newunit, is_new = Unit.objects.update_from_unit(self, unit, pos)
+                was_new = was_new or is_new
+                try:
+                    oldunits.remove(newunit.id)
+                except:
+                    pass
+        else:
+            for pos, template_unit in enumerate(template_store.units):
+                # We care only about translatable strings
+                # For some reason, blank string does not mean non translatable
+                # unit in some formats (XLIFF), so let's skip those as well
+                if not template_unit.istranslatable() or template_unit.isblank():
+                    continue
+                unit = store.findid(template_unit.getid())
+                newunit, is_new = Unit.objects.update_from_unit(self, unit, pos, template = template_unit)
+                was_new = was_new or is_new
+                try:
+                    oldunits.remove(newunit.id)
+                except:
+                    pass
 
         # Delete not used units
         units_to_delete = Unit.objects.filter(translation = self, id__in = oldunits)
@@ -1761,19 +1799,26 @@ class Unit(models.Model):
     def get_absolute_url(self):
         return '%s?pos=%d&dir=stay' % (self.translation.get_translate_url(), self.position)
 
-    def update_from_unit(self, unit, pos, force):
+    def update_from_unit(self, unit, pos, force, template = None):
         '''
         Updates Unit from ttkit unit.
         '''
+        # Template is optional
+        if template is None:
+            template = unit
         # Merge locations
-        location = ', '.join(unit.getlocations())
+        location = ', '.join(template.getlocations())
         # Merge flags
-        if hasattr(unit, 'typecomments'):
+        if unit is not None and hasattr(unit, 'typecomments'):
             flags = ', '.join(unit.typecomments)
+        elif template is not None and hasattr(template, 'typecomments'):
+            flags = ', '.join(template.typecomments)
         else:
             flags = ''
         # Merge target
-        if hasattr(unit.target, 'strings'):
+        if unit is None:
+            target = ''
+        elif hasattr(unit.target, 'strings'):
             target = join_plural(unit.target.strings)
         else:
             target = unit.target
@@ -1782,9 +1827,17 @@ class Unit(models.Model):
             target = ''
 
         # Get data from unit
-        fuzzy = unit.isfuzzy()
-        translated = unit.istranslated()
-        comment = unit.getnotes()
+        if unit is None:
+            fuzzy = False
+            translated = True
+            if template is None:
+                comment = ''
+            else:
+                comment = template.getnotes()
+        else:
+            fuzzy = unit.isfuzzy()
+            translated = unit.istranslated()
+            comment = unit.getnotes()
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target and fuzzy == self.fuzzy)
