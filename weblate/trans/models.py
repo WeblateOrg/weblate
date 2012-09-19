@@ -1313,7 +1313,7 @@ class Translation(models.Model):
         # Load translation file
         store = self.get_store()
         # Load translation template
-        template_store = self.get_template_store()
+        template_store = self.subproject.get_template_store()
         if template_store is None:
             for pos, unit in enumerate(store.units):
                 # We care only about translatable strings
@@ -1616,7 +1616,7 @@ class Translation(models.Model):
                     break
 
             if not found:
-                template_store = self.get_template_store()
+                template_store = self.subproject.get_template_store()
                 if template_store is not None:
                     for pounit in template_store.findunits(src):
                         # Does context match?
