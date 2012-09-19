@@ -307,7 +307,7 @@ class EndSpaceCheck(Check):
 
     def check_single(self, source, target, flags, language, unit):
         # One letter things are usually decimal/thousand separators
-        if len(source) == 1 and len(target) <= 1:
+        if len(source) <= 1 and len(target) <= 1:
             return False
         if self.is_language(language, ['fr', 'br']):
             if len(target) == 0:
