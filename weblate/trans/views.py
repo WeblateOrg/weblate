@@ -31,6 +31,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q, Count, Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.contrib.sites.models import Site
 
 from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, get_versions
 from weblate.lang.models import Language
@@ -1225,4 +1226,12 @@ def git_status_translation(request, project, subproject, lang):
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
+    }))
+
+def data(request, project):
+    obj = get_object_or_404(Project, slug = project)
+    site = Site.objects.get_current()
+    return render_to_response('data.html', RequestContext(request, {
+        'object': obj,
+        'site_domain': site.domain,
     }))

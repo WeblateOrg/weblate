@@ -1,8 +1,14 @@
 {% load i18n %}
-<p>{% blocktrans %}You can promote this translation project using various <a href="{{ widgets_url }}">widgets</a>.{% endblocktrans %}</p>
 
 <p>
 <a href="http://www.facebook.com/sharer.php?u=http://{{ request.get_host }}{{ object.get_absolute_url }}" class="button">{% trans "Share on Facebook!" %}</a>
 <a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate!{% endblocktrans %}" class="button">{% trans "Tweet this translation!" %}</a>
 </p>
 
+<p>
+{% blocktrans %}You can also promote this translation project using various <a href="{{ widgets_url }}">widgets</a>.{% endblocktrans %}
+</p>
+
+<p>
+{% blocktrans %}Various <a href="{{ data_url }}">data exports</a> are available in machine readable formats.{% endblocktrans %}
+</p>

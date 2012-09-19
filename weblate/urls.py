@@ -99,6 +99,7 @@ urlpatterns = patterns('',
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets'),
+    url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string', name = 'js-get'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check', name = 'js-ignore-check'),

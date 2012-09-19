@@ -34,6 +34,8 @@ repository has been updated.
 
     .. seealso:: http://help.github.com/post-receive-hooks/
 
+.. _exports:
+
 Exports
 -------
 

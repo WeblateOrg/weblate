@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'weblate.trans.views.data' project=object.slug %}">{% trans "data" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<h2>{% trans "Data export" %}</h2>
+
+<p>
+{% trans "You can get retrieve various data from Weblate in machine readable format." %}
+</p>
+
+<h3>{% trans "Statistics" %}</h3>
+
+<p>
+{% trans "Translation statistics for every subproject in JSON format allow you to use these data in other websites or tools." %}
+</p>
+
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Link" %}</th>
+</thead>
+<tbody>
+{% for subproject in object.subproject_set.all %}
+<tr>
+<th>{{ subproject }}</th>
+<td>http://{{ site_domain }}{% url 'weblate.trans.api.export_stats' project=object.slug subproject=subproject.slug %}</td>
+<td><a href="http://{{ site_domain }}{% url 'weblate.trans.api.export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

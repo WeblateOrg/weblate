@@ -60,6 +60,7 @@
 
 <div id="share">
 {% url 'weblate.trans.widgets.widgets' project=object.slug as widgets_url %}
+{% url 'weblate.trans.views.data' project=object.slug as data_url %}
 {% include 'share.html' %}
 </div>
 
