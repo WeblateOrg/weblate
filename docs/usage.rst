@@ -16,15 +16,26 @@ You can register following two simple steps:
 2. Activate registration by following in email you receive
 3. Possibly adjust your profile to choose which languages you know
 
-Profile information
--------------------
+User profile
+------------
 
 User profile contains your preferences, name and email. Name and email
 are being used in Git commits, so keep this information accurate.
 
-In preferences, you can choose user interface language, languages which you
-prefer to translate (list of these will be offered to you on main page) and
-secondary languages, whose translations will be shown to you while translating.
+Languages
++++++++++
+
+Choose here which languages you prefer to translate. These will be offered to
+you on main page to have easier access to translations.
+
+Secondary languages
++++++++++++++++++++
+
+You can define secondary languages, which will be shown you while translating
+together with source language. Example can be seen on following image, where
+Czech language is shown as secondary:
+
+.. image:: _static/secondary-language.png
 
 Projects structure
 ------------------
