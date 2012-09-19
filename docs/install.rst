@@ -143,7 +143,7 @@ using mod_wsgi (also available as :file:`examples/apache-path.conf`):
 
 .. literalinclude:: ../examples/apache-path.conf
 
-Additionally you will have to adjust :file:`settings.py`::
+Additionally you will have to adjust :file:`weblate/settings.py`::
 
     MEDIA_URL = '/weblate/media/'
     STATIC_URL = '/weblate/static/'
