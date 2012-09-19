@@ -1398,6 +1398,9 @@ class Translation(models.Model):
         gitrepo = self.get_repo()
         tree = gitrepo.tree()
         ret = tree[self.filename].hexsha
+        if self.subproject.has_template():
+            ret += ','
+            ret += tree[self.subproject.template].hexsha
         return ret
 
     def update_stats(self, blob_hash = None):
