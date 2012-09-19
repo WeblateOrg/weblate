@@ -1616,6 +1616,25 @@ class Translation(models.Model):
                     break
 
             if not found:
+                template_store = self.get_template_store()
+                if template_store is not None:
+                    for pounit in template_store.findunits(src):
+                        # Does context match?
+                        if pounit.getcontext() == unit.context:
+                            # Update fuzzy flag
+                            pounit.markfuzzy(unit.fuzzy)
+                            # Store translations
+                            if unit.is_plural():
+                                pounit.settarget(unit.get_target_plurals())
+                            else:
+                                pounit.settarget(unit.target)
+                            # Add unit to translation file
+                            store.addunit(pounit)
+                            # We need to update backend
+                            need_save = True
+
+
+            if not found:
                 return False, None
 
             # Save backend if there was a change
