@@ -12,6 +12,7 @@ Relased on ? 2012.
 * Added new checks (BB code and newlines).
 * Support for optional rebasing instead of merge.
 * Possibility to relocate Weblate (eg. to run it under /weblate path).
+* Support for manually choosing file type in case autodetection fails.
 
 weblate 1.2
 -----------
