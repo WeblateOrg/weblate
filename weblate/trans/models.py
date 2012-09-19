@@ -1259,11 +1259,9 @@ class Translation(models.Model):
         '''
         Returns ttkit storage object for a translation.
         '''
-        store = ttkit(self.get_filename(), self.subproject.file_format)
-        if hasattr(store, 'set_base_resource') and self.subproject.template != '':
-            template = os.path.join(self.subproject.get_path(), self.subproject.template)
-            store.set_base_resource(template)
-        return store
+        if not hasattr(self, 'store_cache'):
+            self.store_cache = ttkit(self.get_filename(), self.subproject.file_format)
+        return self.store_cache
 
     def check_sync(self):
         '''
