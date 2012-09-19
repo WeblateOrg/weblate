@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-09-19 17:32+0200\n"
+"POT-Creation-Date: 2012-09-19 19:47+0200\n"
 "PO-Revision-Date: 2012-09-06 02:08+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.2\n"
 
-#: urls.py:123 urls.py:130 urls.py:137 urls.py:144
+#: urls.py:124 urls.py:131 urls.py:138 urls.py:145
 msgid "User registration"
 msgstr "Pendaftaran pengguna"
 
-#: urls.py:152
+#: urls.py:153
 msgid "Account activation"
 msgstr "Aktivasi akun"
 
-#: urls.py:161 html/base.html:49 html/registration/login.html:30
+#: urls.py:162 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Log masuk"
 
-#: urls.py:168
+#: urls.py:169
 msgid "Logged out"
 msgstr "Log keluar"
 
-#: urls.py:173
+#: urls.py:174
 msgid "Change password"
 msgstr "Ubah sandilewat"
 
-#: urls.py:177
+#: urls.py:178
 msgid "Password changed"
 msgstr "Sandilewat diubah"
 
-#: urls.py:181 urls.py:185 urls.py:189 urls.py:193
+#: urls.py:182 urls.py:186 urls.py:190 urls.py:194
 msgid "Password reset"
 msgstr "Tata ulang sandilewat"
 
@@ -208,7 +208,7 @@ msgstr "Batal"
 msgid "Interface Language"
 msgstr "Antarmuka Bahasa"
 
-#: accounts/models.py:78 html/index.html:21 trans/views.py:161
+#: accounts/models.py:78 html/index.html:21 trans/views.py:163
 msgid "Languages"
 msgstr "Bahasa"
 
@@ -279,7 +279,7 @@ msgstr ""
 "Server memiliki masalah serius saat melayani permintaan Anda. Kami baru saja "
 "mengirimkan monyet-monyet terlatih kami untuk memperbaiki masalah tsb."
 
-#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1196
+#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1198
 msgid "About Weblate"
 msgstr "Tentang Weblate"
 
@@ -326,7 +326,7 @@ msgstr "Versi"
 msgid "This site is built using following projects:"
 msgstr "Situs ini dibangun menggunakan proyek berikut:"
 
-#: html/about.html:36
+#: html/about.html:36 html/data.html:18
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -394,9 +394,9 @@ msgstr ""
 "Informasi lebih lanjut tentang ini, jika tersedia pemeriksa dalam <a href="
 "\"%(link)s\">dokumentasi</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/index.html:37
-#: html/list-translations.html:6 html/translate.html:164 html/js/other.html:6
-#: html/js/similar.html:6
+#: html/check.html:26 html/check_project.html:26 html/data.html:28
+#: html/index.html:37 html/list-translations.html:6 html/translate.html:164
+#: html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proyek"
 
@@ -431,6 +431,39 @@ msgstr ""
 #: html/contact.html:13
 msgid "Send"
 msgstr "Kirim"
+
+#: html/data.html:7
+msgid "data"
+msgstr ""
+
+#: html/data.html:12
+msgid "Data export"
+msgstr ""
+
+#: html/data.html:15
+msgid ""
+"You can get retrieve various data from Weblate in machine readable format."
+msgstr ""
+
+#: html/data.html:21
+#, python-format
+msgid ""
+"Translation statistics for every subproject in JSON format allow you to use "
+"these data in other websites or tools. Format of the data is described in <a "
+"href=\"%(api_docs)s\">the documentation</a>."
+msgstr ""
+
+#: html/data.html:29
+msgid "URL"
+msgstr ""
+
+#: html/data.html:30
+msgid "Link"
+msgstr ""
+
+#: html/data.html:37 html/translation.html:54
+msgid "Download"
+msgstr "Unduh"
 
 #: html/dictionaries.html:8 html/dictionary.html:7 html/edit_dictionary.html:7
 msgid "dictionaries"
@@ -752,7 +785,7 @@ msgstr "Subproyek"
 msgid "Subproject"
 msgstr "Subproyek"
 
-#: html/project.html:40 trans/views.py:176
+#: html/project.html:40 trans/views.py:178
 msgid "Dictionaries"
 msgstr "Kamus"
 
@@ -761,8 +794,8 @@ msgid "Git maintenance"
 msgstr "Pemeliharaan Git"
 
 #: html/project.html:45 html/subproject.html:33 html/translation.html:42
-msgid "Promote"
-msgstr "Mempromosikan"
+msgid "Share"
+msgstr ""
 
 #: html/project.html:53
 msgid "Manage all dictionaries"
@@ -780,29 +813,36 @@ msgstr "Daftar menyurat untuk penerjemah:"
 msgid "Instructions for translators:"
 msgstr "Petunjuk untuk penerjemah:"
 
-#: html/promote.html:2
-#, python-format
-msgid ""
-"Promote your translation project using <a href=\"%(widgets_url)s\">widgets</"
-"a>."
-msgstr ""
-"Mempromosikan proyek terjemahan Anda menggunakan <a href=\"%(widgets_url)s"
-"\">widget</a>."
-
-#: html/promote.html:4
+#: html/share.html:4
 msgid "Share on Facebook!"
 msgstr "Berbagi di Facebook!"
 
-#: html/promote.html:5
+#: html/share.html:5
 #, python-format
 msgid "Translate %(object)s using %%23Weblate!"
 msgstr "Menerjemahkan %(object)s menggunakan %%23Weblate!"
 
-#: html/promote.html:5
+#: html/share.html:5
 msgid "Tweet this translation!"
 msgstr "Twit penerjemahan ini!"
 
-#: html/subproject.html:28 trans/models.py:208
+#: html/share.html:9
+#, fuzzy, python-format
+msgid ""
+"You can also promote this translation project using various <a href="
+"\"%(widgets_url)s\">widgets</a>."
+msgstr ""
+"Mempromosikan proyek terjemahan Anda menggunakan <a href=\"%(widgets_url)s"
+"\">widget</a>."
+
+#: html/share.html:13
+#, python-format
+msgid ""
+"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
+"readable formats."
+msgstr ""
+
+#: html/subproject.html:28 trans/models.py:215
 msgid "New language"
 msgstr "Bahasa baru"
 
@@ -856,7 +896,7 @@ msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Samar"
 
-#: html/translate.html:77 trans/views.py:96
+#: html/translate.html:77 trans/views.py:98
 msgid "Failing checks"
 msgstr "Periksa kegagalan"
 
@@ -974,10 +1014,6 @@ msgstr "Penerjemahan otomatis"
 #: html/translation.html:41
 msgid "Locking"
 msgstr "Mengunci"
-
-#: html/translation.html:54
-msgid "Download"
-msgstr "Unduh"
 
 #: html/translation.html:56
 #, python-format
@@ -2385,73 +2421,73 @@ msgstr ""
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/models.py:105
+#: trans/models.py:105 trans/models.py:111
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/models.py:149 trans/models.py:155
+#: trans/models.py:156 trans/models.py:162
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "String berformat jelek (%s)"
 
-#: trans/models.py:159
+#: trans/models.py:166
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Berkas mask tidak mengandung * sebagai pengganti bahasa!"
 
-#: trans/models.py:180
+#: trans/models.py:187
 msgid "Can not link to linked repository!"
 msgstr "Tidak dapat menautkan ke repositori tertaut!"
 
-#: trans/models.py:182
+#: trans/models.py:189
 msgid "Invalid link to repository!"
 msgstr "tautan ke repositori tidak valid!"
 
-#: trans/models.py:185
+#: trans/models.py:192
 msgid "Use contact form"
 msgstr "Gunakan formulir kontak"
 
-#: trans/models.py:186
+#: trans/models.py:193
 msgid "Point to translation instructions URL"
 msgstr "URL menunjuki ke petunjuk peterjemahan"
 
-#: trans/models.py:189
+#: trans/models.py:196
 msgid "Merge"
 msgstr ""
 
-#: trans/models.py:190
+#: trans/models.py:197
 msgid "Rebase"
 msgstr ""
 
-#: trans/models.py:197
+#: trans/models.py:204
 #, fuzzy
 msgid "Project website"
 msgstr "Situs web proyek:"
 
-#: trans/models.py:201
+#: trans/models.py:208
 #, fuzzy
 msgid "Email conference for translators"
 msgstr "Daftar menyurat untuk penerjemah:"
 
-#: trans/models.py:205
+#: trans/models.py:212
 #, fuzzy
 msgid "URL with instructions for translators"
 msgstr "Petunjuk untuk penerjemah:"
 
-#: trans/models.py:212
+#: trans/models.py:219
 msgid "How to handle requests for creating new languages"
 msgstr ""
 
-#: trans/models.py:215
+#: trans/models.py:222
 msgid "Merge style"
 msgstr ""
 
-#: trans/models.py:219
+#: trans/models.py:226
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
 
-#: trans/models.py:225
+#: trans/models.py:232
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
@@ -2460,17 +2496,17 @@ msgstr ""
 "Anda dapat menggunakan %(language)s, %(subproject)s atau %(project)s untuk "
 "jalan pintas bahasa, nama sub-proyek atau proyek."
 
-#: trans/models.py:239
+#: trans/models.py:246
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Apakah repositori harus mendorong dari Hulu pada setiap komit."
 
-#: trans/models.py:244
+#: trans/models.py:251
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Apakah tim penerjemahan didalam file header harus diperbarui oleh Weblate."
 
-#: trans/models.py:252
+#: trans/models.py:259
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -2478,15 +2514,15 @@ msgstr ""
 "Silakan mengisi pada URL petunjuk atau menggunakan berbagai pilihan untuk "
 "menambahkan bahasa baru."
 
-#: trans/models.py:408
+#: trans/models.py:415
 msgid "Name to display"
 msgstr "Nama untuk menampilkan"
 
-#: trans/models.py:412
+#: trans/models.py:419
 msgid "Name used in URLs"
 msgstr "Nama yang digunakan dalam URL"
 
-#: trans/models.py:417
+#: trans/models.py:424
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2494,11 +2530,11 @@ msgstr ""
 "URL atau Git repositori, gunakan weblate://project/subproject untuk berbagi "
 "dengan subproyek lainnya"
 
-#: trans/models.py:422
+#: trans/models.py:429
 msgid "URL of push Git repository"
 msgstr "URL dari push Git repositori"
 
-#: trans/models.py:426
+#: trans/models.py:433
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2507,11 +2543,11 @@ msgstr ""
 "Tautan ke peramban repositori, gunakan %(branch)s untuk cabang, %(file)s dan "
 "%(line)s sebagai nama berkas dan barisnya."
 
-#: trans/models.py:432
+#: trans/models.py:439
 msgid "Git branch to translate"
 msgstr "Cabang Git untuk menerjemahkan"
 
-#: trans/models.py:437
+#: trans/models.py:444
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2519,7 +2555,7 @@ msgstr ""
 "Path berkas untuk menerjemahkan, gunakan*bukan kode bahasa, misalnya: po/*."
 "po atau locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:442
+#: trans/models.py:449
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2528,49 +2564,49 @@ msgstr ""
 "untuk penerjemahan yang hanya menyetorkan string yang diterjemahkannya saja "
 "seperti sumber string Android"
 
-#: trans/models.py:448
+#: trans/models.py:455
 msgid "Automatic detection might fail for some formats and is slightly slower"
 msgstr ""
 
-#: trans/models.py:452
+#: trans/models.py:459
 msgid "Whether subproject is locked for translation updates"
 msgstr "Apakah subproyek dikunci untuk memutakhirkan penerjemahan"
 
-#: trans/models.py:612
+#: trans/models.py:619
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Gagal untuk mengambil repositori git: %s"
 
-#: trans/models.py:692
+#: trans/models.py:699
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Dorong dinonaktifkan untuk %s."
 
-#: trans/models.py:724
+#: trans/models.py:731
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Gagal untuk mendorong ke cabang remot jauh di %s."
 
-#: trans/models.py:750
+#: trans/models.py:757
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Gagal untuk mentata ulang ke cabang remot jauh di %s."
 
-#: trans/models.py:804
+#: trans/models.py:811
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Gagal untuk menggabungkan cabang remot jauh didalam %s."
 
-#: trans/models.py:831
+#: trans/models.py:838
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Gagal untuk mentata ulang ke cabang remot jauh di %s."
 
-#: trans/models.py:933
+#: trans/models.py:940
 msgid "The mask did not match any files!"
 msgstr "Topeng (mask) tidak cocok dengan berkas mana saja!"
 
-#: trans/models.py:938
+#: trans/models.py:945
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2578,25 +2614,25 @@ msgstr ""
 "Terdapat banyak berkas untuk satu bahasa, silahkan menyesuaikan topeng "
 "(mask) dan gunakan subproyek untuk menerjemahkan sumber yang berbeda."
 
-#: trans/models.py:953
+#: trans/models.py:960
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format dari berkas %d ini tidak bisa dikenali."
 
-#: trans/models.py:958
+#: trans/models.py:965
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Gagal untuk mem-parsing berkas %d ini!"
 
-#: trans/models.py:968
+#: trans/models.py:975
 msgid "Format of translation template could not be recognized."
 msgstr "Format dari templat penerjemahan tidak bisa dikenali."
 
-#: trans/models.py:970
+#: trans/models.py:977
 msgid "Failed to parse translation template."
 msgstr "Gagal untuk men-parsing templat penerjemahan."
 
-#: trans/models.py:1099
+#: trans/models.py:1106
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2605,206 +2641,209 @@ msgstr ""
 "Nama berkas %s tidak ditemukan dalam repositori! Untuk menambahkan "
 "penerjemahan baru, tambahkan berkas bahasa ke dalam repositori."
 
-#: trans/models.py:1103
+#: trans/models.py:1110
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format dari %s tidak bisa dikenali."
 
-#: trans/models.py:1105
+#: trans/models.py:1112
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Gagal untuk men-parsing berkas %(file)s: %(error)s"
 
-#: trans/models.py:1130 trans/views.py:310
+#: trans/models.py:1137 trans/views.py:312
 msgid "This translation is currently locked for updates!"
 msgstr "Penerjemahan ini saat ini dikunci untuk pemutakhiran!"
 
-#: trans/models.py:1138
+#: trans/models.py:1145
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 "Penerjemahan ini dikunci oleh %(user)s untuk penerjemahan sampai %(time)s!"
 
-#: trans/models.py:1682
+#: trans/models.py:1689
 msgid "All strings"
 msgstr "Semua string"
 
-#: trans/models.py:1688
+#: trans/models.py:1695
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "String tidak diterjemahkan (%d)"
 
-#: trans/models.py:1690
+#: trans/models.py:1697
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "String samar (%d)"
 
-#: trans/models.py:1692
+#: trans/models.py:1699
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "String dengan saran (%d)"
 
-#: trans/models.py:1694
+#: trans/models.py:1701
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "String dengan pemeriksaan gagal (%d)"
 
-#: trans/models.py:1946
+#: trans/models.py:1953
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Pesan tidak ditemukan di penyimpanan backend, kemungkinan rusak."
 
-#: trans/models.py:2039
+#: trans/models.py:2046
 #, python-format
 msgid "unit ID %s"
 msgstr "ID unit %s"
 
-#: trans/views.py:68
+#: trans/views.py:70
 msgid "Please set your full name in your profile."
 msgstr "Silakan atur nama lengkap anda di profil anda."
 
-#: trans/views.py:199 trans/views.py:277
+#: trans/views.py:201 trans/views.py:279
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Kamus %(language)s untuk %(project)s"
 
-#: trans/views.py:227
+#: trans/views.py:229
 msgid "No words to import found in file."
 msgstr "Tidak ada kata-kata untuk diimpor ditemukan dalam berkas."
 
-#: trans/views.py:229
+#: trans/views.py:231
 #, python-format
 msgid "Imported %d words from file."
 msgstr "%d kata-kata diimpor dari berkas."
 
-#: trans/views.py:231 trans/views.py:233 trans/views.py:358
+#: trans/views.py:233 trans/views.py:235 trans/views.py:360
 msgid "Failed to process form!"
 msgstr "Gagal untuk memproses formulir!"
 
-#: trans/views.py:356
+#: trans/views.py:358
 msgid "Automatic translation completed."
 msgstr "Penerjemahan otomatis selesai."
 
-#: trans/views.py:407 trans/views.py:417 trans/views.py:427
+#: trans/views.py:409 trans/views.py:419 trans/views.py:429
 msgid "All pending translations were committed."
 msgstr "Semua penterjemahan yang tertunda telah disetujui (committed)."
 
-#: trans/views.py:437 trans/views.py:447 trans/views.py:457
+#: trans/views.py:439 trans/views.py:449 trans/views.py:459
 msgid "All repositories were updated."
 msgstr "Semua repositori telah dimutakhirkan."
 
-#: trans/views.py:467 trans/views.py:477 trans/views.py:487
+#: trans/views.py:469 trans/views.py:479 trans/views.py:489
 msgid "All repositories were pushed."
 msgstr "Semua repositori telah didorong (pushed)."
 
-#: trans/views.py:497 trans/views.py:507 trans/views.py:517
+#: trans/views.py:499 trans/views.py:509 trans/views.py:519
 msgid "All repositories have been reset."
 msgstr "Semua repositori telah ditata ulang."
 
-#: trans/views.py:529
+#: trans/views.py:531
 msgid "Translation is now locked for you."
 msgstr "Penerjemahan sekarang terkunci untuk Anda."
 
-#: trans/views.py:541
+#: trans/views.py:543
 msgid "Translation is now open for translation updates."
 msgstr "Penerjemahan sekarang terbuka untuk memutakhirkan penerjemahan."
 
-#: trans/views.py:555
+#: trans/views.py:557
 msgid "Subproject is now locked for translation updates!"
 msgstr "Subproyek sekarang dikunci untuk pemutakhiran pemerjemahan!"
 
-#: trans/views.py:567
+#: trans/views.py:569
 msgid "Subproject is now open for translation updates."
 msgstr "Subproyek ini sekarang terbuka untuk pemutakhiran penerjemahan."
 
-#: trans/views.py:582
+#: trans/views.py:584
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Semua subproyek sekarang terkunci untuk pemutakhiran penerjemahan!"
 
-#: trans/views.py:595
+#: trans/views.py:597
 msgid "Project is now open for translation updates."
 msgstr "Proyek sekarang terbuka untuk pemutakhiran penerjemahan."
 
-#: trans/views.py:684
+#: trans/views.py:686
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Pencarian untuk \"%s\""
 
-#: trans/views.py:688
+#: trans/views.py:690
 msgid "Fuzzy strings"
 msgstr "String samar"
 
-#: trans/views.py:690
+#: trans/views.py:692
 msgid "Not translated strings"
 msgstr "String tidak diterjemahkan"
 
-#: trans/views.py:692
+#: trans/views.py:694
 msgid "Strings with suggestions"
 msgstr "String dengan saran"
 
-#: trans/views.py:694
+#: trans/views.py:696
 msgid "Strings with any failing checks"
 msgstr "String dengan pemeriksaan yang gagal"
 
-#: trans/views.py:751
+#: trans/views.py:753
 msgid "Your suggestion is empty!"
 msgstr "Saran anda kosong!"
 
-#: trans/views.py:777
+#: trans/views.py:779
 msgid "You need to log in to be able to save translations!"
 msgstr "Anda harus log masuk untuk dapat menyimpan penerjemahan!"
 
-#: trans/views.py:780 trans/views.py:821
+#: trans/views.py:782 trans/views.py:823
 msgid "You don't have privileges to save translations!"
 msgstr "Anda tidak memiliki kewenangan untuk menyimpan penerjemahan!"
 
-#: trans/views.py:797
+#: trans/views.py:799
 msgid "Some checks have failed on your translation!"
 msgstr "Beberapa pemeriksaan telah gagal pada penerjemahan anda!"
 
-#: trans/views.py:815 trans/views.py:853
+#: trans/views.py:817 trans/views.py:855
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Pesan yang anda ingin menerjemahkan ini tidak lagi tersedia!"
 
-#: trans/views.py:836
+#: trans/views.py:838
 msgid "Can not merge different messages!"
 msgstr "Tidak dapat menggabungkan pesan yang berbeda!"
 
-#: trans/views.py:859
+#: trans/views.py:861
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Anda harus log masuk untuk dapat mengelola saran!"
 
-#: trans/views.py:870
+#: trans/views.py:872
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Anda tidak memiliki kewenangan untuk menerima saran!"
 
-#: trans/views.py:880
+#: trans/views.py:882
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Anda tidak memiliki kewenangan untuk menghapus saran!"
 
-#: trans/views.py:904
+#: trans/views.py:906
 msgid "Invalid suggestion!"
 msgstr "Saran tidak valid!"
 
-#: trans/views.py:961
+#: trans/views.py:963
 msgid "You have reached end of translating."
 msgstr "Anda telah mencapai akhir dari menerjemahkan."
 
-#: trans/views.py:1127
+#: trans/views.py:1129
 msgid "File content successfully merged into translation."
 msgstr "Isi berkas berhasil digabungkan kedalam penerjemahan."
 
-#: trans/views.py:1129
+#: trans/views.py:1131
 msgid "There were no new strings in uploaded file."
 msgstr "Tidak ada string baru dalam berkas yang diunggah."
 
-#: trans/views.py:1131
+#: trans/views.py:1133
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Penggabungan isi berkas yang gagal: %s"
 
-#: trans/views.py:1142
+#: trans/views.py:1144
 msgid "Page Not Found"
 msgstr "Halaman tidak ditemukan"
+
+#~ msgid "Promote"
+#~ msgstr "Mempromosikan"
 
 #~ msgid "Powered by <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 #~ msgstr ""
