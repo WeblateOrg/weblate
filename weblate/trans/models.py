@@ -1622,24 +1622,22 @@ class Translation(models.Model):
                     # We should have only one match
                     break
 
-            if not found:
+            if not found and self.subproject.has_template():
                 template_store = self.subproject.get_template_store()
-                if template_store is not None:
-                    for pounit in template_store.findunits(src):
-                        # Does context match?
-                        if pounit.getcontext() == unit.context:
-                            # Update fuzzy flag
-                            pounit.markfuzzy(unit.fuzzy)
-                            # Store translations
-                            if unit.is_plural():
-                                pounit.settarget(unit.get_target_plurals())
-                            else:
-                                pounit.settarget(unit.target)
-                            # Add unit to translation file
-                            store.addunit(pounit)
-                            # We need to update backend
-                            need_save = True
-
+                pounit = template_store.findid(unit.context)
+                if pounit is not None:
+                    found = True
+                    # Update fuzzy flag
+                    pounit.markfuzzy(unit.fuzzy)
+                    # Store translations
+                    if unit.is_plural():
+                        pounit.settarget(unit.get_target_plurals())
+                    else:
+                        pounit.settarget(unit.target)
+                    # Add unit to translation file
+                    store.addunit(pounit)
+                    # We need to update backend
+                    need_save = True
 
             if not found:
                 return False, None
