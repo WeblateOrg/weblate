@@ -63,7 +63,19 @@ FILE_FORMATS = {
     'auto': {
         'name': ugettext_lazy('Automatic detection'),
         'loader': factory.getobject,
-    }
+    },
+    'po': {
+        'name': ugettext_lazy('Gettext PO file'),
+        'loader': ("po", "pofile"),
+    },
+    'ts': {
+        'name': ugettext_lazy('XLIFF Translation File'),
+        'loader': ("ts2", "tsfile"),
+    },
+    'xliff': {
+        'name': ugettext_lazy('Qt Linguist Translation File'),
+        'loader': ("xliff", "xlifffile"),
+    },
 }
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt]['name']) for fmt in FILE_FORMATS]
