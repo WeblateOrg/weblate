@@ -18,6 +18,7 @@ toolkit, for example:
 * Java properties
 * Windows RC files
 * Qt Linguist .ts
+* Android string resources
 * Symbian localization files
 * CSV
 * INI
