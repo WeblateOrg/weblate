@@ -90,7 +90,7 @@ IGNORE_SIMILAR = set([
 ]) | IGNORE_WORDS
 
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, blob_hash, force = False):
+    def update_from_blob(self, subproject, code, path, force = False):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -103,7 +103,7 @@ class TranslationManager(models.Manager):
         if translation.filename != path:
             force = True
             translation.filename = path
-        translation.update_from_blob(blob_hash, force)
+        translation.update_from_blob(force)
 
         return translation
 

@@ -874,7 +874,7 @@ class SubProject(models.Model):
         translations = []
         for code, path, blob_hash in self.get_translation_blobs():
             logger.info('checking %s', path)
-            translation = Translation.objects.update_from_blob(self, code, path, blob_hash, force)
+            translation = Translation.objects.update_from_blob(self, code, path, force)
             translations.append(translation.id)
 
         # Delete possibly no longer existing translations
@@ -1295,12 +1295,11 @@ class Translation(models.Model):
         '''
         self.update_from_blob()
 
-    def update_from_blob(self, blob_hash = None, force = False):
+    def update_from_blob(self, force = False):
         '''
         Updates translation data from blob.
         '''
-        if blob_hash is None:
-            blob_hash = self.get_git_blob_hash()
+        blob_hash = self.get_git_blob_hash()
 
         # Check if we're not already up to date
         if self.revision == blob_hash and not force:
@@ -1367,7 +1366,7 @@ class Translation(models.Model):
                     unit.check()
 
         # Update revision and stats
-        self.update_stats(blob_hash)
+        self.update_stats()
 
         # Notify subscribed users
         if was_new:
@@ -1403,7 +1402,7 @@ class Translation(models.Model):
             ret += tree[self.subproject.template].hexsha
         return ret
 
-    def update_stats(self, blob_hash = None):
+    def update_stats(self):
         '''
         Updates translation statistics.
         '''
@@ -1413,12 +1412,11 @@ class Translation(models.Model):
         self.save()
         self.store_hash()
 
-    def store_hash(self, blob_hash = None):
+    def store_hash(self):
         '''
         Stores current hash in database.
         '''
-        if blob_hash is None:
-            blob_hash = self.get_git_blob_hash()
+        blob_hash = self.get_git_blob_hash()
         self.revision = blob_hash
         self.save()
 
