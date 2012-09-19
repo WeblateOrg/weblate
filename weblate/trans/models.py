@@ -83,7 +83,7 @@ FILE_FORMATS = {
     'strings': {
         'name': ugettext_lazy('OS X Strings'),
         'loader': ('properties', 'stringsfile'),
-        'monolingual': True,
+        'monolingual': False,
     },
     'properties': {
         'name': ugettext_lazy('Java Properties'),
