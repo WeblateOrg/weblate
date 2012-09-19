@@ -39,7 +39,7 @@
 <li><a href="{% url 'weblate.trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
-<li><a href="#promote">{% trans "Promote" %}</a></li>
+<li><a href="#share">{% trans "Share" %}</a></li>
 </ul>
 
 <div id="search">
@@ -122,9 +122,9 @@
 {% endif %}
 </div>
 
-<div id="promote">
+<div id="share">
 {% url 'weblate.trans.widgets.widgets' project=object.subproject.project.slug as widgets_url %}
-{% include 'promote.html' %}
+{% include 'share.html' %}
 </div>
 
 </div>
