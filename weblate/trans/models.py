@@ -39,6 +39,7 @@ import os.path
 import logging
 import git
 import traceback
+import importlib
 import __builtin__
 from translate.storage import factory
 from translate.storage import poheader
@@ -61,6 +62,7 @@ logger = logging.getLogger('weblate')
 FILE_FORMATS = {
     'auto': {
         'name': ugettext_lazy('Automatic detection'),
+        'loader': factory.getobject,
     }
 }
 
@@ -80,9 +82,21 @@ def ttkit(storefile, file_format = 'auto'):
     if not isinstance(storefile, basestring):
         storefile.mode = 'r'
 
-    if file_format == 'auto':
-        return factory.getobject(storefile)
-    raise Exception('Not supported file format: %s' % file_format)
+    if not file_format in FILE_FORMATS:
+        raise Exception('Not supported file format: %s' % file_format)
+
+    # Get loader
+    loader = FILE_FORMATS[file_format]['loader']
+
+    # If loader is callable call it directly
+    if callable(loader):
+        return loader(storefile)
+
+    # Tuple style loader, import from translate toolkit
+    module_name, class_name = loader
+    module = importlib.import_module('translate.storage.%s' % module_name)
+    storeclass = getattr(module, class_name)
+    return storeclass.parsefile(storefile)
 
 
 def validate_repoweb(val):
