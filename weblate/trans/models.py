@@ -58,8 +58,15 @@ from distutils.version import LooseVersion
 
 logger = logging.getLogger('weblate')
 
+FILE_FORMATS = {
+    'auto': {
+        'name': ugettext_lazy('Automatic detection'),
+    }
+}
 
-def ttkit(storefile):
+FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt]['name']) for fmt in FILE_FORMATS]
+
+def ttkit(storefile, file_format = 'auto'):
     '''
     Returns translate-toolkit storage for a path.
     '''
@@ -73,7 +80,9 @@ def ttkit(storefile):
     if not isinstance(storefile, basestring):
         storefile.mode = 'r'
 
-    return factory.getobject(storefile)
+    if file_format == 'auto':
+        return factory.getobject(storefile)
+    raise Exception('Not supported file format: %s' % file_format)
 
 
 def validate_repoweb(val):
@@ -374,6 +383,12 @@ class SubProject(models.Model):
         max_length = 200,
         blank = True,
         help_text = ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings')
+    )
+    file_format = models.CharField(
+        max_length = 50,
+        default = 'auto',
+        choices = FILE_FORMAT_CHOICES,
+        help_text = ugettext_lazy('Automatic detection might fail for some formats and is slightly slower'),
     )
     locked = models.BooleanField(
         default = False,
@@ -869,7 +884,7 @@ class SubProject(models.Model):
             errors = []
             for match in matches:
                 try:
-                    ttkit(os.path.join(self.get_path(), match))
+                    ttkit(os.path.join(self.get_path(), match), self.file_format)
                 except ValueError:
                     notrecognized.append(match)
                 except Exception, e:
@@ -889,7 +904,7 @@ class SubProject(models.Model):
             if self.template != '':
                 template = os.path.join(self.get_path(), self.template)
                 try:
-                    ttkit(os.path.join(self.get_path(), match))
+                    ttkit(os.path.join(self.get_path(), match), self.file_format)
                 except ValueError:
                     raise ValidationError(_('Format of translation template could not be recognized.'))
                 except Exception, e:
@@ -1189,7 +1204,7 @@ class Translation(models.Model):
         '''
         Returns ttkit storage object for a translation.
         '''
-        store = ttkit(self.get_filename())
+        store = ttkit(self.get_filename(), self.subproject.file_format)
         if hasattr(store, 'set_base_resource') and self.subproject.template != '':
             template = os.path.join(self.subproject.get_path(), self.subproject.template)
             store.set_base_resource(template)
