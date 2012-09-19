@@ -186,7 +186,7 @@ class Check(object):
         '''
         Generic checker for chars presence.
         '''
-        if len(target) == 0:
+        if len(target) == 0 or len(source) == 0:
             return False
         s = source[pos]
         t = target[pos]
@@ -196,7 +196,7 @@ class Check(object):
         '''
         Generic checker for format strings.
         '''
-        if len(target) == 0:
+        if len(target) == 0 or len(source) == 0:
             return False
         src_matches = set([x[0] for x in regex.findall(source)])
         tgt_matches = set([x[0] for x in regex.findall(target)])
@@ -344,7 +344,7 @@ class EndColonCheck(Check):
 
     def check_single(self, source, target, flags, language, unit):
         if self.is_language(language, ['fr', 'br']):
-            if len(target) == 0:
+            if len(target) == 0 or len(source) == 0:
                 return False
             if source[-1] == ':':
                 if target[-3:] not in [' : ', '&nbsp;: ', u' : ']:
@@ -369,7 +369,7 @@ class EndQuestionCheck(Check):
 
     def check_single(self, source, target, flags, language, unit):
         if self.is_language(language, ['fr', 'br']):
-            if len(target) == 0:
+            if len(target) == 0 or len(source) == 0:
                 return False
             if source[-1] == '?':
                 if target[-2:] not in [' ?', '&nbsp;?', u' ?']:
@@ -391,7 +391,7 @@ class EndExclamationCheck(Check):
                 if u'¡' in target and u'!' in target:
                     return False
         if self.is_language(language, ['fr', 'br']):
-            if len(target) == 0:
+            if len(target) == 0 or len(source) == 0:
                 return False
             if source[-1] == '!':
                 if target[-2:] not in [' !', '&nbsp;!', u' !']:
@@ -508,7 +508,7 @@ class CountingCheck(Check):
     string = None
 
     def check_single(self, source, target, flags, language, unit):
-        if len(target) == 0:
+        if len(target) == 0 or len(source) == 0:
             return False
         return source.count(self.string) != target.count(self.string)
 
