@@ -25,6 +25,13 @@ toolkit, for example:
 
 .. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
 
+Monolingual resources
++++++++++++++++++++++
+
+Weblate does support both multilingual and monolingual formats. For easier
+translating of monolingual formats, you should provide template file, which
+contains mapping of message IDs to source language (usually English).
+
 .. _project:
 
 Project
