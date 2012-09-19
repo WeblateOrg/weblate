@@ -39,6 +39,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile
+import weblate
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import datetime
@@ -1234,4 +1235,5 @@ def data(request, project):
     return render_to_response('data.html', RequestContext(request, {
         'object': obj,
         'site_domain': site.domain,
+        'api_docs': 'http://weblate.readthedocs.org/en/weblate-%s/api.html#export' % weblate.VERSION,
     }))
