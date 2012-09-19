@@ -1055,7 +1055,7 @@ class SubProject(models.Model):
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
-    revision = models.CharField(max_length = 40, default = '', blank = True)
+    revision = models.CharField(max_length = 100, default = '', blank = True)
     filename = models.CharField(max_length = 200)
 
     translated = models.IntegerField(default = 0, db_index = True)
