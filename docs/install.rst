@@ -30,8 +30,9 @@ Database backend
 Installation
 ------------
 
-Install all required components (see above) and adjust :file:`settings.py`. You
-will probably want to adjust following options:
+Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
+adjust it to match your setup. You will probably want to adjust following
+options:
 
 ``ADMINS``
 

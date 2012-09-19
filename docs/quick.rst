@@ -15,9 +15,10 @@ Installing from sources
 #. Grab Weblate sources (either using Git or download a tarball) and unpack 
    them.
 
-#. Edit :file:`settings.py` to match your setup. You will at least need to
-   configure database connection (possibly adding user and creating the 
-   database). Check :ref:`config` for Weblate specific configuration options.
+#. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and 
+   adjust it to match your setup. You will at least need to configure database
+   connection (possibly adding user and creating the database). Check
+   :ref:`config` for Weblate specific configuration options.
 
 #. Build Django tables and initial data:
 
