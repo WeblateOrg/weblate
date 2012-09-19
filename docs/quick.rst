@@ -1,5 +1,5 @@
-Quick starting guide
-====================
+Quick setup guide
+=================
 
 .. note::
 
