@@ -1038,12 +1038,18 @@ class SubProject(models.Model):
     def git_needs_push(self, gitrepo = None):
         return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
 
+    def has_template(self):
+        '''
+        Returns true if subproject is using template for translation
+        '''
+        return FILE_FORMATS[self.file_format]['monolingual'] != False and self.template != ''
+
     def get_template_store(self):
         '''
         Gets ttkit store for template.
         '''
         # Do we need template?
-        if FILE_FORMATS[self.file_format]['monolingual'] == False or self.template == '':
+        if not self.has_template():
             return None
 
         if not hasattr(self, 'store_cache'):
