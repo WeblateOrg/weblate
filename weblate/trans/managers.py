@@ -116,12 +116,17 @@ class UnitManager(models.Manager):
         Process translation toolkit unit and stores/updates database entry.
         '''
         if template is None:
-            template = unit
-        if hasattr(template.source, 'strings'):
-            src = join_plural(template.source.strings)
+            if hasattr(unit.source, 'strings'):
+                src = join_plural(unit.source.strings)
+            else:
+                src = unit.source
+            ctx = unit.getcontext()
         else:
-            src = template.source
-        ctx = template.getcontext()
+            if hasattr(template.target, 'strings'):
+                src = join_plural(template.target.strings)
+            else:
+                src = template.target
+            ctx = template.getcontext()
         checksum = msg_checksum(src, ctx)
 
         # Try getting existing unit
