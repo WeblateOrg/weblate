@@ -107,7 +107,11 @@ try:
         'monolingual': True,
     }
 except ImportError:
-    pass
+    FILE_FORMATS['aresource'] = {
+        'name': ugettext_lazy('Android String Resource'),
+        'loader': ('ttkit.aresource', 'AndroidResourceFile'),
+        'monolingual': True,
+    }
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt]['name']) for fmt in FILE_FORMATS]
 
@@ -137,7 +141,10 @@ def ttkit(storefile, file_format = 'auto'):
 
     # Tuple style loader, import from translate toolkit
     module_name, class_name = loader
-    module = importlib.import_module('translate.storage.%s' % module_name)
+    if '.' in module_name:
+        module = importlib.import_module(module_name)
+    else:
+        module = importlib.import_module('translate.storage.%s' % module_name)
     storeclass = getattr(module, class_name)
     return storeclass.parsefile(storefile)
 
