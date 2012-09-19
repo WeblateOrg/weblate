@@ -93,6 +93,18 @@ FILE_FORMATS = {
     },
 }
 
+# Check if there is support for Android resources
+# Available as patch at https://github.com/translate/translate/pull/2
+try:
+    from translate.storage import aresource
+    FILE_FORMATS['aresource'] = {
+        'name': ugettext_lazy('Android String Resource'),
+        'loader': ('aresource', 'AndroidResourceFile'),
+        'monolingual': True,
+    }
+except ImportError:
+    pass
+
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt]['name']) for fmt in FILE_FORMATS]
 
 def ttkit(storefile, file_format = 'auto'):
