@@ -66,15 +66,27 @@ FILE_FORMATS = {
     },
     'po': {
         'name': ugettext_lazy('Gettext PO file'),
-        'loader': ("po", "pofile"),
+        'loader': ('po', 'pofile'),
     },
     'ts': {
         'name': ugettext_lazy('XLIFF Translation File'),
-        'loader': ("ts2", "tsfile"),
+        'loader': ('ts2', 'tsfile'),
     },
     'xliff': {
         'name': ugettext_lazy('Qt Linguist Translation File'),
-        'loader': ("xliff", "xlifffile"),
+        'loader': ('xliff', 'xlifffile'),
+    },
+    'strings': {
+        'name': ugettext_lazy('OS X Strings'),
+        'loader': ('properties', 'stringsfile'),
+    },
+    'properties': {
+        'name': ugettext_lazy('Java Properties'),
+        'loader': ('properties', 'javafile'),
+    },
+    'properties-utf8': {
+        'name': ugettext_lazy('Java Properties (UTF-8)'),
+        'loader': ('properties', 'javautf8file'),
     },
 }
 
