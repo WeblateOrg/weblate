@@ -724,6 +724,8 @@ class SubProject(models.Model):
         '''
         Updates current branch to remote using merge.
         '''
+        gitrepo = self.get_repo()
+
         with self.get_git_lock():
             try:
                 # Try to merge it
