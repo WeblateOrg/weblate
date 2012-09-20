@@ -42,6 +42,7 @@ import traceback
 import importlib
 import __builtin__
 from translate.storage import factory
+from translate.storage.lisa import LISAfile
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -1639,7 +1640,12 @@ class Translation(models.Model):
                     else:
                         pounit.settarget(unit.target)
                     # Add unit to translation file
-                    store.addunit(pounit, new = add)
+                    if new:
+                        if isinstance(store, LISAfile):
+                            # LISA based stores need to know this
+                            store.addunit(pounit, new = True)
+                        else:
+                            store.addunit(pounit)
                     # We need to update backend
                     need_save = True
 
