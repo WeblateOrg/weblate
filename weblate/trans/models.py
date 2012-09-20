@@ -1314,14 +1314,21 @@ class Translation(models.Model):
         blob_hash = self.get_git_blob_hash()
 
         # Check if we're not already up to date
-        if self.revision == blob_hash and not force:
+        if self.revision == blob_hash:
+            logger.info(
+                'processing %s in %s, revision has changed',
+                self.filename,
+                self.subproject.__unicode__()
+            )
+        elif force:
+            logger.info(
+                'processing %s in %s, check forced',
+                self.filename,
+                self.subproject.__unicode__()
+            )
+        else:
             return
 
-        logger.info(
-            'processing %s in %s, revision has changed',
-            self.filename,
-            self.subproject.__unicode__()
-        )
 
         oldunits = set(self.unit_set.all().values_list('id', flat = True))
 
