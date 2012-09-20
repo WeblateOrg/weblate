@@ -141,6 +141,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.EndColonCheck',
     'weblate.trans.checks.EndQuestionCheck',
     'weblate.trans.checks.EndExclamationCheck',
+    'weblate.trans.checks.EndElipsisCheck',
     'weblate.trans.checks.PythonFormatCheck',
     'weblate.trans.checks.PHPFormatCheck',
     'weblate.trans.checks.CFormatCheck',
@@ -400,6 +401,17 @@ class EndExclamationCheck(Check):
                     return True
             return False
         return self.check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
+
+class EndElipsisCheck(Check):
+    '''
+    Check for elipsis at the end of string.
+    '''
+    check_id = 'end_elipsis'
+    name = _('Trailing elipsis')
+    description = _('Source and translation do not both end with an elipsis')
+
+    def check_single(self, source, target, flags, language, unit):
+        return self.check_chars(source, target, -1, [u'…'])
 
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific

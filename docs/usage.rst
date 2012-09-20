@@ -227,6 +227,14 @@ correctly spaced. This includes spacing rules for French or Breton.
 Exclamation mark is also check in various langauge variants (Chinese,
 Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
+.. _check-end_elipsis:
+
+Trailing elipsis
+++++++++++++++++
+
+Source and translation do not both end with an elipsis. This only checks for
+real elipsis (`\u2026`) not for three commas (`...`).
+
 .. _check-python_format:
 
 Python format
