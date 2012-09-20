@@ -1334,12 +1334,14 @@ class Translation(models.Model):
 
         # Was there change?
         was_new = False
+        # Position of current unit
+        pos = 1
         # Load translation file
         store = self.get_store()
         # Load translation template
         template_store = self.subproject.get_template_store()
         if template_store is None:
-            for pos, unit in enumerate(store.units):
+            for unit in store.units:
                 # We care only about translatable strings
                 # For some reason, blank string does not mean non translatable
                 # unit in some formats (XLIFF), so let's skip those as well
@@ -1347,12 +1349,13 @@ class Translation(models.Model):
                     continue
                 newunit, is_new = Unit.objects.update_from_unit(self, unit, pos)
                 was_new = was_new or is_new
+                pos += 1
                 try:
                     oldunits.remove(newunit.id)
                 except:
                     pass
         else:
-            for pos, template_unit in enumerate(template_store.units):
+            for template_unit in template_store.units:
                 # We care only about translatable strings
                 # For some reason, blank string does not mean non translatable
                 # unit in some formats (XLIFF), so let's skip those as well
@@ -1360,6 +1363,7 @@ class Translation(models.Model):
                     continue
                 unit = store.findid(template_unit.getid())
                 newunit, is_new = Unit.objects.update_from_unit(self, unit, pos, template = template_unit)
+                pos += 1
                 was_new = was_new or is_new
                 try:
                     oldunits.remove(newunit.id)
