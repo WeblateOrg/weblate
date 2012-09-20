@@ -22,10 +22,13 @@
 
 from lxml import etree
 
+from StringIO import StringIO
+
 import re
 
 from translate.storage import lisa
 from translate.storage import base
+from translate.lang import data
 
 EOF = None
 WHITESPACE = ' \n\t' # Whitespace that we collapse
@@ -44,7 +47,6 @@ class AndroidResourceUnit(base.TranslationUnit):
         super(AndroidResourceUnit, self).__init__(source)
 
     def _parse(self):
-        self.target = self.gettarget()
         self.source = self.getid()
 
     def getid(self):
@@ -168,7 +170,6 @@ class AndroidResourceUnit(base.TranslationUnit):
                         codepoint_str = "".join(text[i+1 : max_slice])
                         if len(codepoint_str) < 4:
                             codepoint_str = u"0" * (4-len(codepoint_str)) + codepoint_str
-                        print repr(codepoint_str)
                         try:
                             # We can't trust int() to raise a ValueError,
                             # it will ignore leading/trailing whitespace.
@@ -198,7 +199,7 @@ class AndroidResourceUnit(base.TranslationUnit):
         if text is None:
             return
         if len(text) == 0:
-            return
+            return ''
         text = text.replace('\\', '\\\\')
         text = text.replace('\n', '\\n')
         # This will add non intrusive real newlines to
@@ -216,12 +217,24 @@ class AndroidResourceUnit(base.TranslationUnit):
         return text
 
     def settarget(self, target):
-        self.xmlelement.text = self.escape(target)
+        if '<' in target:
+            # Handle text with markup
+            newtarget = etree.parse(StringIO('<string>' + self.escape(target) + '</string>')).getroot()
+            for attr in self.xmlelement.attrib:
+                newtarget.set(attr, self.xmlelement.attrib[attr])
+            self.xmlelement.getparent().replace(self.xmlelement, newtarget)
+            self.xmlelement = newtarget
+        else:
+            # Handle text only
+            self.xmlelement.text = self.escape(target)
         super(AndroidResourceUnit, self).settarget(target)
 
     def gettarget(self, lang=None):
-        target = self.xmlelement.text
-        return self.unescape(target)
+        # Grab inner text
+        target = (self.xmlelement.text or '')
+        # Include markup as well
+        target += ''.join([etree.tostring(child, encoding = 'utf-8') for child in self.xmlelement.iterchildren()])
+        return self.unescape(data.forceunicode(target))
 
     target = property(gettarget, settarget)
 
