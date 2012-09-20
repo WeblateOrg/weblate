@@ -22,6 +22,7 @@ from weblate.trans.models import SubProject
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 import weblate
 
 import os
@@ -35,6 +36,23 @@ def report(request):
 @staff_member_required
 def ssh(request):
     key_path = os.path.expanduser('~/.ssh/id_rsa.pub')
+
+    try:
+        ret = os.system('which ssh-keygen > /dev/null 2>&1')
+        can_generate = ret == 0
+    except:
+        can_generate = False
+
+    # Generate key if it does not exist yet
+    if can_generate and request.method == 'POST' and  not os.path.exists(key_path):
+        try:
+            ret = os.system('ssh-keygen -q -N \'\' -C Weblate -t rsa -f %s' % key_path[:-4])
+            if ret != 0:
+                messages.error(request, _('Failed to generate key!'))
+            else:
+                messages.info(request, _('Created new SSH key.'))
+        except:
+            messages.error(request, _('Failed to generate key!'))
 
     if os.path.exists(key_path):
         key_data = file(key_path).read()
@@ -50,5 +68,6 @@ def ssh(request):
 
     return render_to_response("admin/ssh.html", RequestContext(request, {
         'public_key': key,
+        'can_generate': can_generate,
         'ssh_docs': 'http://weblate.readthedocs.org/en/weblate-%s/admin.html#private' % weblate.VERSION,
     }))

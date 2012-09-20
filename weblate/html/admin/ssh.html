@@ -13,8 +13,23 @@
     {% if public_key %}
     <h1>{% trans "Public SSH key" %}</h1>
     <p>{% trans "Weblate currently uses following SSH key:" %}</p>
+    <form>
     <textarea style="width:100%">{{ public_key.key }}</textarea>
+    </form>
+
+
+    {% elif can_generate %}
+    <h1>{% trans "Generate SSH key" %}</h1>
+    <p>{% trans "You don't seem to have existing SSH key, by pressing button above Weblate will generate it for you." %}</p>
+    <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="{% trans "Generate" %}" />
+    </form>
+
     {% endif %}
+    <br />
+
+    <h1>{% trans "More information" %}</h1>
 
     <p>{% blocktrans %}You can find more information about setting up SSH keys in <a href="{{ ssh_docs }}">the Weblate manual</a>.{% endblocktrans %}</p>
     
