@@ -118,6 +118,8 @@ at once. This can be achieved using :djadmin:`import_project`.
 First you need to create project which will contain all subprojects and then
 it's just a matter of running :djadmin:`import_project`.
 
+.. seealso:: :ref:`manage`
+
 .. _private:
 
 Accessing private repositories
@@ -135,8 +137,6 @@ interface (follow :guilabel:`SSH keys` link on main admin page).
 
     The keys need to be without password to make it work, so be sure they are
     well protected against malicious usage.
-
-.. seealso:: :ref:`manage`
 
 Updating repositories
 ---------------------
