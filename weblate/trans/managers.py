@@ -27,7 +27,7 @@ from weblate.lang.models import Language
 
 from whoosh import qparser
 
-from util import msg_checksum, get_source
+from util import msg_checksum, get_source, get_target
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 
@@ -119,7 +119,7 @@ class UnitManager(models.Manager):
             src = get_source(unit)
             ctx = unit.getcontext()
         else:
-            src = get_source(template)
+            src = get_target(template)
             ctx = template.getcontext()
         checksum = msg_checksum(src, ctx)
 
