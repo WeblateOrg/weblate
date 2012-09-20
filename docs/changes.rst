@@ -16,7 +16,7 @@ Relased on ? 2012.
 * Better support for Android resources.
 * Support for generating SSH key from web interface.
 * More visible data exports.
-* Buttons to enter some special characters.
+* New buttons to enter some special characters.
 
 weblate 1.2
 -----------
