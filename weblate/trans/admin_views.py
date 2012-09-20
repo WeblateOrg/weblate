@@ -22,9 +22,33 @@ from weblate.trans.models import SubProject
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.admin.views.decorators import staff_member_required
+import weblate
+
+import os
 
 @staff_member_required
 def report(request):
     return render_to_response("admin/report.html", RequestContext(request, {
         'subprojects': SubProject.objects.all()
+    }))
+
+@staff_member_required
+def ssh(request):
+    key_path = os.path.expanduser('~/.ssh/id_rsa.pub')
+
+    if os.path.exists(key_path):
+        key_data = file(key_path).read()
+        key_type, key_fingerprint, key_id = key_data.strip().split()
+        key = {
+            'key': key_data,
+            'type': key_type,
+            'fingerprint': key_fingerprint,
+            'id': key_id,
+        }
+    else:
+        key = None
+
+    return render_to_response("admin/ssh.html", RequestContext(request, {
+        'public_key': key,
+        'ssh_docs': 'http://weblate.readthedocs.org/en/weblate-%s/admin.html#private' % weblate.VERSION,
     }))
