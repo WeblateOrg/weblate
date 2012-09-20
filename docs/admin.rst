@@ -118,6 +118,24 @@ at once. This can be achieved using :djadmin:`import_project`.
 First you need to create project which will contain all subprojects and then
 it's just a matter of running :djadmin:`import_project`.
 
+.. _private:
+
+Accessing private repositories
+------------------------------
+
+In case you want Weblate to access private repository it needs to get to it
+somehow. Most frequently used method here is based on SSH. To have access to
+such repository, you generate SSH key for Weblate and authorize it to access
+the repository.
+
+You can generate or display key currently used by Weblate in the admin
+interface (follow :guilabel:`SSH keys` link on main admin page).
+
+.. note::
+
+    The keys need to be without password to make it work, so be sure they are
+    well protected against malicious usage.
+
 .. seealso:: :ref:`manage`
 
 Updating repositories
@@ -166,6 +184,8 @@ first, otherwise push will fail.
 
    You can also enable automatic pushing changes on commit, this can be done in
    project configuration.
+
+.. seealso:: :ref:`private` for setting up SSH keys
 
 .. _merge-rebase:
 
