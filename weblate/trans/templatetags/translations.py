@@ -40,6 +40,7 @@ from weblate.trans.checks import CHECKS
 register = template.Library()
 
 WHITESPACE_RE = re.compile(r'(  +| $|^ )')
+NEWLINES_RE = re.compile(r'\r\n|\r|\n')
 
 def fmt_whitespace(value):
     '''
@@ -71,7 +72,8 @@ def fmttranslation(value, language = None, diff = None):
         if diff is not None:
             diffvalue = escape(force_unicode(diff[idx]))
             value = htmlDiff(diffvalue, value)
-        value = re.sub(r'\r\n|\r|\n', '\n', value) # normalize newlines
+         # normalize newlines
+        value = NEWLINES_RE.sub('\n', value)
         paras = re.split('\n', value)
         paras = [fmt_whitespace(p) for p in paras]
         if len(plurals) > 1:
