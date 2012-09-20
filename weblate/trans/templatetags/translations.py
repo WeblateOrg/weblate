@@ -39,9 +39,18 @@ from weblate.trans.checks import CHECKS
 
 register = template.Library()
 
+WHITESPACE_RE = re.compile(r'(  +| $|^ )')
 
 def fmt_whitespace(value):
-    value = re.sub(r'(  +| $|^ )', '<span class="hlspace">\\1</span>', value)
+    '''
+    Formats whitespace so that it is more visible.
+    '''
+    # Highlight exta whitespace
+    value = WHITESPACE_RE.sub(
+        '<span class="hlspace">\\1</span>',
+        value
+    )
+    # Highlight tabs
     value = value.replace(
         '\t',
         u'<span class="hlspace space-tab" title="%s">⇢</span>' % _('Tab character')
