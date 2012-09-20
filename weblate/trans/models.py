@@ -1623,10 +1623,12 @@ class Translation(models.Model):
             found = False
 
             if self.subproject.has_template():
+                add = False
                 pounit = store.findid(unit.context)
                 if pounit is None:
                     template_store = self.subproject.get_template_store()
                     pounit = template_store.findid(unit.context)
+                    add = True
                 if pounit is not None:
                     found = True
                     # Update fuzzy flag
@@ -1637,7 +1639,7 @@ class Translation(models.Model):
                     else:
                         pounit.settarget(unit.target)
                     # Add unit to translation file
-                    store.addunit(pounit)
+                    store.addunit(pounit, new = add)
                     # We need to update backend
                     need_save = True
 
