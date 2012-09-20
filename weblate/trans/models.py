@@ -1867,7 +1867,7 @@ class Unit(models.Model):
         # Get data from unit
         if unit is None:
             fuzzy = False
-            translated = True
+            translated = False
             if template is None:
                 comment = ''
             else:
