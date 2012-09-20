@@ -64,7 +64,7 @@ def profile(request):
             # Redirect after saving (and possibly changing language)
             response = HttpResponseRedirect('/accounts/profile/')
 
-            # Set language cookie and activate new language (for message bellow)
+            # Set language cookie and activate new language (for message below)
             lang_code = request.user.get_profile().language
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
             translation.activate(lang_code)

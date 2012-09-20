@@ -20,7 +20,7 @@
 
     {% elif can_generate %}
     <h1>{% trans "Generate SSH key" %}</h1>
-    <p>{% trans "You don't seem to have existing SSH key, by pressing button bellow Weblate will generate it for you." %}</p>
+    <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate it for you." %}</p>
     <form method="post">
     {% csrf_token %}
     <input type="submit" value="{% trans "Generate" %}" />
