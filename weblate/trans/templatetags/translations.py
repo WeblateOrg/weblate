@@ -22,6 +22,7 @@ from django.template.defaultfilters import stringfilter
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
+from django.utils.translation import ugettext as _
 from django import template
 from django.conf import settings
 
@@ -41,7 +42,10 @@ register = template.Library()
 
 def fmt_whitespace(value):
     value = re.sub(r'(  +| $|^ )', '<span class="hlspace">\\1</span>', value)
-    value = value.replace('\t', u'<span class="hlspace space-tab">⇢</span>')
+    value = value.replace(
+        '\t',
+        u'<span class="hlspace space-tab" title="%s">⇢</span>' % _('Tab character')
+    )
     return value
 
 @register.filter
@@ -65,7 +69,8 @@ def fmttranslation(value, language = None, diff = None):
             value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
         else:
             value = ''
-        value += u'<span class="hlspace">↵</span><br />'.join(paras)
+        newline = u'<span class="hlspace" title="%s">↵</span><br />' % _('New line')
+        value += newline.join(paras)
         parts.append(value)
     value = '<hr />'.join(parts)
     return mark_safe(value)
