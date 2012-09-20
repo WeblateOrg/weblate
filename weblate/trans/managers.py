@@ -119,7 +119,7 @@ class UnitManager(models.Manager):
             src = get_source(unit)
             ctx = unit.getcontext()
         else:
-            src = get_template(unit)
+            src = get_source(template)
             ctx = template.getcontext()
         checksum = msg_checksum(src, ctx)
 
