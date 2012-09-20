@@ -90,6 +90,9 @@ FILE_FORMATS = {
         'name': ugettext_lazy('Java Properties'),
         'loader': ('properties', 'javafile'),
         'monolingual': True,
+        # Java properties need to be iso-8859-1, but
+        # ttkit converts them to utf-8
+        'fixups': {'encoding': 'iso-8859-1'},
     },
     'properties-utf8': {
         'name': ugettext_lazy('Java Properties (UTF-8)'),
@@ -146,8 +149,19 @@ def ttkit(storefile, file_format = 'auto'):
         module = importlib.import_module(module_name)
     else:
         module = importlib.import_module('translate.storage.%s' % module_name)
+
+    # Get the class
     storeclass = getattr(module, class_name)
-    return storeclass.parsefile(storefile)
+
+    # Parse file
+    store = storeclass.parsefile(storefile)
+
+    # Apply possible fixups
+    if 'fixups' in FILE_FORMATS[file_format]:
+        for fix in FILE_FORMATS[file_format]['fixups']:
+            setattr(store, fix, FILE_FORMATS[file_format]['fixups'][fix])
+
+    return store
 
 
 def validate_repoweb(val):
