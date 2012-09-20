@@ -1617,33 +1617,12 @@ class Translation(models.Model):
             src = unit.get_source_plurals()[0]
             need_save = False
             found = False
-            # Find all units with same source
-            for pounit in store.findunits(src):
-                # Does context match?
-                if pounit.getcontext() == unit.context:
-                    found = True
-                    # Is it plural?
-                    if hasattr(pounit.target, 'strings'):
-                        potarget = join_plural(pounit.target.strings)
-                    else:
-                        potarget = pounit.target
-                    # Is there any change
-                    if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
-                        # Update fuzzy flag
-                        pounit.markfuzzy(unit.fuzzy)
-                        # Store translations
-                        if unit.is_plural():
-                            pounit.settarget(unit.get_target_plurals())
-                        else:
-                            pounit.settarget(unit.target)
-                        # We need to update backend
-                        need_save = True
-                    # We should have only one match
-                    break
 
-            if not found and self.subproject.has_template():
-                template_store = self.subproject.get_template_store()
-                pounit = template_store.findid(unit.context)
+            if self.subproject.has_template():
+                pounit = store.findid(unit.context)
+                if pounit is None:
+                    template_store = self.subproject.get_template_store()
+                    pounit = template_store.findid(unit.context)
                 if pounit is not None:
                     found = True
                     # Update fuzzy flag
@@ -1657,6 +1636,31 @@ class Translation(models.Model):
                     store.addunit(pounit)
                     # We need to update backend
                     need_save = True
+
+            else:
+                # Find all units with same source
+                for pounit in store.findunits(src):
+                    # Does context match?
+                    if pounit.getcontext() == unit.context:
+                        found = True
+                        # Is it plural?
+                        if hasattr(pounit.target, 'strings'):
+                            potarget = join_plural(pounit.target.strings)
+                        else:
+                            potarget = pounit.target
+                        # Is there any change
+                        if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
+                            # Update fuzzy flag
+                            pounit.markfuzzy(unit.fuzzy)
+                            # Store translations
+                            if unit.is_plural():
+                                pounit.settarget(unit.get_target_plurals())
+                            else:
+                                pounit.settarget(unit.target)
+                            # We need to update backend
+                            need_save = True
+                        # We should have only one match
+                        break
 
             if not found:
                 return False, None
