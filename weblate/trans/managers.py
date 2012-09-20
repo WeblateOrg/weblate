@@ -27,7 +27,7 @@ from weblate.lang.models import Language
 
 from whoosh import qparser
 
-from util import join_plural, msg_checksum
+from util import msg_checksum, get_source
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 
@@ -116,16 +116,10 @@ class UnitManager(models.Manager):
         Process translation toolkit unit and stores/updates database entry.
         '''
         if template is None:
-            if hasattr(unit.source, 'strings'):
-                src = join_plural(unit.source.strings)
-            else:
-                src = unit.source
+            src = get_source(unit)
             ctx = unit.getcontext()
         else:
-            if hasattr(template.target, 'strings'):
-                src = join_plural(template.target.strings)
-            else:
-                src = template.target
+            src = get_template(unit)
             ctx = template.getcontext()
         checksum = msg_checksum(src, ctx)
 
