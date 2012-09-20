@@ -96,6 +96,17 @@ def get_target(unit):
         else:
             return unit.target
 
+def get_context(unit):
+    '''
+    Returns context of message. In some cases we have to use
+    ID here to make all backends consistent.
+    '''
+    if unit is None:
+        return ''
+    context = unit.getcontext()
+    if is_unit_key_value(unit) and context == '':
+        return unit.getid()
+    return context
 
 def is_translated(unit):
     '''
