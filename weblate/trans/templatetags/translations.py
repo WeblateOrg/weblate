@@ -41,6 +41,7 @@ register = template.Library()
 
 def fmt_whitespace(value):
     value = re.sub(r'(  +| $|^ )', '<span class="hlspace">\\1</span>', value)
+    value = value.replace('\t', u'<span class="hlspace space-tab">⇢</span>')
     return value
 
 @register.filter
