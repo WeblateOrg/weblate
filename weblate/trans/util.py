@@ -67,9 +67,9 @@ def get_source(unit):
         return unit.name
     else:
         if hasattr(unit.source, 'strings'):
-            src = join_plural(unit.source.strings)
+            return join_plural(unit.source.strings)
         else:
-            src = unit.source
+            return unit.source
 
 def get_target(unit):
     '''
@@ -81,8 +81,8 @@ def get_target(unit):
         return unit.value
     else:
         if hasattr(unit.target, 'strings'):
-            src = join_plural(unit.target.strings)
+            return join_plural(unit.target.strings)
         else:
-            src = unit.target
+            return nunit.target
 
 
