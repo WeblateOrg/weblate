@@ -70,6 +70,9 @@ loadpo
 Reloads translations from disk (eg. in case you did some updates in Git
 repository).
 
+You can use ``--force`` to force update even if the files should be up
+to date. Additionally you can limit languages to process with ``--lang``.
+
 rebuild_index
 -------------
 

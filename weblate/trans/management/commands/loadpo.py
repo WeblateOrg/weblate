@@ -30,11 +30,22 @@ class Command(BaseCommand):
             action='store_true',
             dest='force',
             default=False,
-            help='Force rereading files even when they should be up to date'),
+            help='Force rereading files even when they should be up to date'
+        ),
+        make_option('--lang',
+            action='store',
+            type='string',
+            dest='lang',
+            default=None,
+            help='Limit only to given languages (comma separated list)'
+        ),
         )
 
     def handle(self, *args, **options):
+        langs = None
+        if options['lang'] is not None:
+            langs = options['lang'].split(',')
         for arg in args:
             prj, subprj = arg.split('/')
             s = SubProject.objects.get(slug = subprj, project__slug = prj)
-            s.create_translations(options['force'])
+            s.create_translations(options['force'], langs)

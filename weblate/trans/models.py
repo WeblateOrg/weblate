@@ -874,28 +874,33 @@ class SubProject(models.Model):
                 tree[filename].hexsha
                 )
 
-    def create_translations(self, force = False):
+    def create_translations(self, force = False, langs = None):
         '''
         Loads translations from git.
         '''
         translations = []
         for code, path, blob_hash in self.get_translation_blobs():
+            if langs is not None and code not in langs:
+                logger.info('skipping %s', path)
+                continue
+
             logger.info('checking %s', path)
             translation = Translation.objects.update_from_blob(self, code, path, force)
             translations.append(translation.id)
 
         # Delete possibly no longer existing translations
-        todelete = self.translation_set.exclude(id__in = translations)
-        if todelete.exists():
-            logger.info(
-                'removing stale translations: %s',
-                ','.join([trans.language.code for trans in todelete])
-            )
-            todelete.delete()
+        if langs is None:
+            todelete = self.translation_set.exclude(id__in = translations)
+            if todelete.exists():
+                logger.info(
+                    'removing stale translations: %s',
+                    ','.join([trans.language.code for trans in todelete])
+                )
+                todelete.delete()
 
         # Process linked repos
         for sp in self.get_linked_childs():
-            sp.create_translations(force)
+            sp.create_translations(force, langs)
 
     def get_lang_code(self, path):
         '''
