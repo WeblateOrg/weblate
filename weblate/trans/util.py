@@ -83,6 +83,6 @@ def get_target(unit):
         if hasattr(unit.target, 'strings'):
             return join_plural(unit.target.strings)
         else:
-            return nunit.target
+            return unit.target
 
 
