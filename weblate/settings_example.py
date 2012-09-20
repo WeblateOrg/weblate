@@ -317,6 +317,7 @@ CHECK_LIST = (
     'weblate.trans.checks.EndColonCheck',
     'weblate.trans.checks.EndQuestionCheck',
     'weblate.trans.checks.EndExclamationCheck',
+    'weblate.trans.checks.EndElipsisCheck',
     'weblate.trans.checks.PythonFormatCheck',
     'weblate.trans.checks.PHPFormatCheck',
     'weblate.trans.checks.CFormatCheck',
