@@ -50,7 +50,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock
-from util import is_plural, split_plural, join_plural
+from util import is_plural, split_plural, join_plural, get_target
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -1846,13 +1846,8 @@ class Unit(models.Model):
             flags = ', '.join(template.typecomments)
         else:
             flags = ''
-        # Merge target
-        if unit is None:
-            target = ''
-        elif hasattr(unit.target, 'strings'):
-            target = join_plural(unit.target.strings)
-        else:
-            target = unit.target
+        # Get target
+        target = get_target(unit)
         # Check for null target (happens with XLIFF)
         if target is None:
             target = ''

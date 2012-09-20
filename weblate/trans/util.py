@@ -45,3 +45,44 @@ def msg_checksum(source, context):
     m.update(context.encode('utf-8'))
     return m.hexdigest()
 
+def is_unit_key_value(unit):
+    '''
+    Checks whether unit is key = value based rather than
+    translation.
+
+    These are some files like PHP or properties, which for some
+    reason do not correctly set source/target attributes.
+    '''
+    return (
+        hasattr(unit, 'name')
+        and hasattr(unit, 'value')
+        and hasattr(unit, 'translation')
+    )
+
+def get_source(unit):
+    '''
+    Returns source string from a ttkit unit.
+    '''
+    if is_unit_key_value(unit):
+        return unit.name
+    else:
+        if hasattr(unit.source, 'strings'):
+            src = join_plural(unit.source.strings)
+        else:
+            src = unit.source
+
+def get_target(unit):
+    '''
+    Returns target string from a ttkit unit.
+    '''
+    if unit is None:
+        return ''
+    if is_unit_key_value(unit):
+        return unit.value
+    else:
+        if hasattr(unit.target, 'strings'):
+            src = join_plural(unit.target.strings)
+        else:
+            src = unit.target
+
+
