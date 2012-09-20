@@ -1314,7 +1314,7 @@ class Translation(models.Model):
         blob_hash = self.get_git_blob_hash()
 
         # Check if we're not already up to date
-        if self.revision == blob_hash:
+        if self.revision != blob_hash:
             logger.info(
                 'processing %s in %s, revision has changed',
                 self.filename,
