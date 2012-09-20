@@ -1654,7 +1654,7 @@ class Translation(models.Model):
                     else:
                         pounit.settarget(unit.target)
                     # Add unit to translation file
-                    if new:
+                    if add:
                         if isinstance(store, LISAfile):
                             # LISA based stores need to know this
                             store.addunit(pounit, new = True)
