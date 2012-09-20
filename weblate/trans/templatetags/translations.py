@@ -61,29 +61,56 @@ def fmt_whitespace(value):
 @register.filter
 @stringfilter
 def fmttranslation(value, language = None, diff = None):
+    '''
+    Formats translation to show whitespace, plural forms or diff.
+    '''
+    # Get language
     if language is None:
         language = Language.objects.get(code = 'en')
+
+    # Split plurals to separate strings
     plurals = split_plural(value)
+
+    # Split diff plurals
     if diff is not None:
         diff = split_plural(diff)
+
+    # We will collect part for each plural
     parts = []
+
     for idx, value in enumerate(plurals):
+
+        # HTML escape
         value = escape(force_unicode(value))
+
+        # Format diff if there is any
         if diff is not None:
             diffvalue = escape(force_unicode(diff[idx]))
             value = htmlDiff(diffvalue, value)
-         # normalize newlines
+
+        # Normalize newlines
         value = NEWLINES_RE.sub('\n', value)
-        paras = re.split('\n', value)
+
+        # Split string
+        paras = value.split('\n')
+
+        # Format whitespace in each paragraph
         paras = [fmt_whitespace(p) for p in paras]
+
+        # Show label for plural (if there are any)
         if len(plurals) > 1:
             value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
         else:
             value = ''
+
+        # Join paragraphs
         newline = u'<span class="hlspace" title="%s">↵</span><br />' % _('New line')
         value += newline.join(paras)
+
         parts.append(value)
+
     value = '<hr />'.join(parts)
+
     return mark_safe(value)
 
 @register.filter
