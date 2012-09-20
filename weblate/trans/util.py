@@ -19,6 +19,9 @@
 #
 
 import hashlib
+import re
+from translate.misc import quote
+from translate.storage.properties import propunit
 
 PLURAL_SEPARATOR = '\x00\x00'
 
@@ -78,6 +81,14 @@ def get_target(unit):
     if unit is None:
         return ''
     if is_unit_key_value(unit):
+        # Need to decode property encoded string
+        if isinstance(unit, propunit):
+            # This is basically stolen from
+            # translate.storage.properties.propunit.gettarget
+            # which for some reason does not return translation
+            value = quote.propertiesdecode(unit.value)
+            value = re.sub(u"\\\\ ", u" ", value)
+            return value
         return unit.value
     else:
         if hasattr(unit.target, 'strings'):
