@@ -13,6 +13,9 @@ Relased on ? 2012.
 * Support for optional rebasing instead of merge.
 * Possibility to relocate Weblate (eg. to run it under /weblate path).
 * Support for manually choosing file type in case autodetection fails.
+* Better support for Android resources.
+* Support for generating SSH key from web interface.
+* More visible data exports.
 
 weblate 1.2
 -----------
