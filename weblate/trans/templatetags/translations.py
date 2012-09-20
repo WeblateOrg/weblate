@@ -54,7 +54,7 @@ def fmt_whitespace(value):
     # Highlight tabs
     value = value.replace(
         '\t',
-        u'<span class="hlspace space-tab" title="%s">⇢</span>' % _('Tab character')
+        u'<span class="hlspace space-tab" title="%s">→</span>' % _('Tab character')
     )
     return value
 
