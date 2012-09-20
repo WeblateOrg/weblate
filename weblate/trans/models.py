@@ -50,7 +50,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock
-from util import is_plural, split_plural, join_plural, get_target
+from util import is_plural, split_plural, join_plural, get_target, is_translated
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -1884,7 +1884,7 @@ class Unit(models.Model):
                 comment = template.getnotes()
         else:
             fuzzy = unit.isfuzzy()
-            translated = unit.istranslated()
+            translated = is_translated(unit)
             comment = unit.getnotes()
 
         # Update checks on fuzzy update or on content change

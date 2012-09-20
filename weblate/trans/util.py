@@ -86,3 +86,13 @@ def get_target(unit):
             return unit.target
 
 
+def is_translated(unit):
+    '''
+    Checks whether unit is translated.
+    '''
+    if unit is None:
+        return False
+    if is_unit_key_value(unit):
+        return not unit.isfuzzy() and unit.value != ''
+    else:
+        return unit.istranslated()
