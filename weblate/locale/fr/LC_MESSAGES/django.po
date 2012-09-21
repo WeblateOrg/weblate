@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-09-20 16:48+0200\n"
-"PO-Revision-Date: 2012-09-09 20:53+0200\n"
-"Last-Translator: Marc Delisle <marc@infomarc.info>\n"
+"PO-Revision-Date: 2012-09-21 13:59+0200\n"
+"Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -365,7 +365,7 @@ msgid "Home"
 msgstr "Accueil"
 
 #: html/base.html:80 html/engage.html:59
-#, fuzzy, python-format
+#, python-format
 msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr "Propulsé par <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
@@ -431,16 +431,18 @@ msgstr "Envoyer"
 
 #: html/data.html:7
 msgid "data"
-msgstr ""
+msgstr "Données"
 
 #: html/data.html:12
 msgid "Data export"
-msgstr ""
+msgstr "Export des données"
 
 #: html/data.html:15
 msgid ""
 "You can get retrieve various data from Weblate in machine readable format."
 msgstr ""
+"Vous pouvez récupérer différentes données de Weblate dans un format lisible "
+"par une machine."
 
 #: html/data.html:21
 #, python-format
@@ -449,14 +451,18 @@ msgid ""
 "these data in other websites or tools. Format of the data is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
+"Les statistiques de traduction pour chaque sous projet au format JSON vous "
+"permet d'utiliser ces données sur d'autres site web ou d'autres outils. Le "
+"format des données est décrit dans <a href=\"%(api_docs)s\">la "
+"documentation</a>."
 
 #: html/data.html:29
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: html/data.html:30
 msgid "Link"
-msgstr ""
+msgstr "Lien"
 
 #: html/data.html:37 html/translation.html:54
 msgid "Download"
@@ -596,13 +602,13 @@ msgstr ""
 "langues</a>. Au total, ces traductions sont complétées à %(percent)s%%."
 
 #: html/engage.html:51
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
 "Si vous voulez contribuer à la traduction de %(name)s, vous devez vous <a "
-"href=\"/accounts/register/\">enregistrer sur ce serveur</a>."
+"href=\"%(reg_url)s\">enregistrer sur ce serveur</a>."
 
 #: html/engage.html:54
 #, python-format
@@ -792,7 +798,7 @@ msgstr "Maintenance de Git"
 
 #: html/project.html:45 html/subproject.html:33 html/translation.html:42
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 #: html/project.html:53
 msgid "Manage all dictionaries"
@@ -824,13 +830,13 @@ msgid "Tweet this translation!"
 msgstr "Envoyez cette traduction via Twitter !"
 
 #: html/share.html:9
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">widgets</a>."
 msgstr ""
-"Faites la promotion de votre projet de traduction grâce aux <a href="
-"\"%(widgets_url)s\">widgets</a>."
+"Vous pouvez également faire la promotion de ce projet de traduction grâce "
+"aux différents <a href=\"%(widgets_url)s\">widgets</a>."
 
 #: html/share.html:13
 #, python-format
@@ -838,6 +844,8 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
+"Différentes <a href=\"%(data_url)s\">exportations de données</a> sont "
+"disponible dans des formats lisibles par des machines."
 
 #: html/subproject.html:28 trans/models.py:230
 msgid "New language"
@@ -894,20 +902,19 @@ msgstr "Flou"
 
 #: html/translate.html:73
 msgid "Special characters:"
-msgstr ""
+msgstr "Caractères spéciaux : "
 
 #: html/translate.html:74
 msgid "Insert tab character"
-msgstr ""
+msgstr "Insérer une tabulation"
 
 #: html/translate.html:75
-#, fuzzy
 msgid "Insert new line"
-msgstr "Nouvelle ligne au début"
+msgstr "Insérer une nouvelle ligne"
 
 #: html/translate.html:76
 msgid "Insert horizontal elipsis"
-msgstr ""
+msgstr "Insérer une ellipse horizontale"
 
 #: html/translate.html:82 trans/views.py:98
 msgid "Failing checks"
@@ -1085,7 +1092,7 @@ msgstr ""
 
 #: html/translation.html:111
 msgid "Locked by:"
-msgstr "Verrouillé par : "
+msgstr "Verrouillée par : "
 
 #: html/translation.html:112
 msgid "Lock valid till:"
@@ -1180,7 +1187,7 @@ msgstr "État des dépôts"
 #: html/admin/custom-index.html:23 html/admin/ssh.html:4
 #: html/admin/ssh.html.py:8
 msgid "SSH keys"
-msgstr ""
+msgstr "Clés SSH"
 
 #: html/admin/report.html:8
 msgid "Status"
@@ -1197,30 +1204,31 @@ msgstr ""
 
 #: html/admin/ssh.html:14
 msgid "Public SSH key"
-msgstr ""
+msgstr "Clé SSH publique"
 
 #: html/admin/ssh.html:15
 msgid "Weblate currently uses following SSH key:"
-msgstr ""
+msgstr "Weblate utilise actuellement la clé SSH suivante : "
 
 #: html/admin/ssh.html:22
 msgid "Generate SSH key"
-msgstr ""
+msgstr "Générer une clé SSH"
 
 #: html/admin/ssh.html:23
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
 msgstr ""
+"Vous n'avez pas de clé SSH existante, en utilisant le bouton ci-dessous "
+"Weblate en génèrera une pour vous."
 
 #: html/admin/ssh.html:26
 msgid "Generate"
-msgstr ""
+msgstr "Générer"
 
 #: html/admin/ssh.html:32
-#, fuzzy
 msgid "More information"
-msgstr "Informations sur le projet"
+msgstr "Plus d'informations"
 
 #: html/admin/ssh.html:34
 #, python-format
@@ -1228,6 +1236,8 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
+"Vous pouvez trouver plus d'information sur la mise en service des clés SSH "
+"dans <a href=\"%(ssh_docs)s\">le manuel de Weblate</a>."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1439,15 +1449,15 @@ msgstr[1] ""
 "plus de %(days)s jours pour l'activer."
 
 #: html/registration/activate.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Si ce n'est pas le cas, veuillez <a href=\"/contact/\">contacter</a> "
-"l'administrateur du site web. Vous pouvez également <a href=\"%(reg_url)s"
-"\">vous enregistrer à nouveau</a>."
+"Si ce n'est pas le cas, veuillez <a href=\"%(contact_url)s\">contacter</a> "
+"l'administrateur du site web. Vous pouvez également <a href=\"%"
+"(reg_url)s\">vous enregistrer à nouveau</a>."
 
 #: html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -1631,13 +1641,13 @@ msgid "Reset my password"
 msgstr "Réinitialiser mon mot de passe"
 
 #: html/registration/registration_closed.html:9
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Désolé mais l'enregistrement sur ce site est désactivé. Vous pouvez <a href="
-"\"/contact/\">nous contacter</a> pour plus d'information."
+"Désolé mais l'enregistrement sur ce site est désactivé. Vous pouvez <a "
+"href=\"%(contact_url)s\">nous contacter</a> pour plus d'informations."
 
 #: html/registration/registration_complete.html:7
 msgid ""
@@ -1650,14 +1660,14 @@ msgstr ""
 "enregistrement."
 
 #: html/registration/registration_complete.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
 "there, please <a href=\"%(contact_url)s?subject=Lost activation code"
 "\">contact us</a>."
 msgstr ""
 "Si vous ne le recevez pas rapidement, veuillez vérifier votre répertoire à "
-"pourriel. Si il n'est pas là, veuillez <a href=\"/contact/?subject=Lost "
+"pourriel. Si il n'est pas là, veuillez <a href=\"%(contact_url)s?subject=Lost "
 "activation code\">nous contacter</a>."
 
 #: html/registration/registration_form.html:11
@@ -2223,13 +2233,12 @@ msgid "Plural form %d"
 msgstr "Forme plurielle %d"
 
 #: trans/admin_views.py:51 trans/admin_views.py:55
-#, fuzzy
 msgid "Failed to generate key!"
-msgstr "Échec du traitement du formulaire !"
+msgstr "Échec de la génération de clé !"
 
 #: trans/admin_views.py:53
 msgid "Created new SSH key."
-msgstr ""
+msgstr "Nouvelle clé SSH créée."
 
 #: trans/checks.py:239
 msgid "Not translated"
@@ -2311,15 +2320,12 @@ msgstr ""
 "d'exclamation, ou celui-ci n'est pas correctement entouré d'espaces"
 
 #: trans/checks.py:410
-#, fuzzy
 msgid "Trailing elipsis"
-msgstr "Saut de ligne à la fin"
+msgstr "Ellipse en fin de ligne"
 
 #: trans/checks.py:411
-#, fuzzy
 msgid "Source and translation do not both end with an elipsis"
-msgstr ""
-"Les messages source et traduit ne se terminent pas par un saut de ligne"
+msgstr "Les messages source et traduit ne se terminent pas par une ellipse"
 
 #: trans/checks.py:424
 msgid "Python format"
@@ -2477,40 +2483,36 @@ msgid "Any"
 msgstr "N'importe laquelle"
 
 #: trans/models.py:65
-#, fuzzy
 msgid "Automatic detection"
-msgstr "Traduction automatique"
+msgstr "Détection automatique"
 
 #: trans/models.py:70
 msgid "Gettext PO file"
-msgstr ""
+msgstr "Fichier PO Gettext"
 
 #: trans/models.py:75
-#, fuzzy
 msgid "XLIFF Translation File"
-msgstr "Traductions réalisées"
+msgstr "Fichier de traduction XLIFF"
 
 #: trans/models.py:80
-#, fuzzy
 msgid "Qt Linguist Translation File"
-msgstr "Chaînes à traduire"
+msgstr "Fichier de traduction Qt Linguist"
 
 #: trans/models.py:85
-#, fuzzy
 msgid "OS X Strings"
-msgstr "Toutes les chaînes"
+msgstr "Chaînes de caractères OS X"
 
 #: trans/models.py:90
 msgid "Java Properties"
-msgstr ""
+msgstr "Propriétés Java"
 
 #: trans/models.py:98
 msgid "Java Properties (UTF-8)"
-msgstr ""
+msgstr "Propriétés Java (UTF-8)"
 
 #: trans/models.py:109 trans/models.py:115
 msgid "Android String Resource"
-msgstr ""
+msgstr "Ressource chaîne de caractères Android"
 
 #: trans/models.py:171 trans/models.py:177
 #, python-format
@@ -2541,40 +2543,39 @@ msgstr "Pointer vers un URL contenant les directives de traduction"
 
 #: trans/models.py:211
 msgid "Merge"
-msgstr ""
+msgstr "Fusionner"
 
 #: trans/models.py:212
 msgid "Rebase"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: trans/models.py:219
-#, fuzzy
 msgid "Project website"
-msgstr "Site web du projet : "
+msgstr "Site web du projet"
 
 #: trans/models.py:223
-#, fuzzy
 msgid "Email conference for translators"
-msgstr "Liste de discussion pour les traducteurs : "
+msgstr "Liste de discussion pour les traducteurs"
 
 #: trans/models.py:227
-#, fuzzy
 msgid "URL with instructions for translators"
-msgstr "Directives pour les traducteurs : "
+msgstr "Directives pour les traducteurs"
 
 #: trans/models.py:234
 msgid "How to handle requests for creating new languages"
-msgstr ""
+msgstr "Comment traiter les requêtes de création de nouvelles langues"
 
 #: trans/models.py:237
 msgid "Merge style"
-msgstr ""
+msgstr "Fusionner le style"
 
 #: trans/models.py:241
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
+"Définir si Weblate doit fusionner le dépôt amont ou réinitialiser les "
+"changements sur le dépôt amont"
 
 #: trans/models.py:247
 #, python-format
@@ -2658,6 +2659,8 @@ msgstr ""
 #: trans/models.py:470
 msgid "Automatic detection might fail for some formats and is slightly slower"
 msgstr ""
+"La détection automatique peut échouer pour certain formats et est légèrement "
+"plus lente"
 
 #: trans/models.py:474
 msgid "Whether subproject is locked for translation updates"
@@ -2689,9 +2692,9 @@ msgid "Failed to merge remote branch into %s."
 msgstr "Échec de la fusion de la branche distante dans %s."
 
 #: trans/models.py:853
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Échec de réinitialisation vers la branche distance sur %s."
+msgstr "Échec de réinitialisation de notre branche sur la branche distance %s."
 
 #: trans/models.py:960
 msgid "The mask did not match any files!"
@@ -2939,12 +2942,11 @@ msgstr "Page introuvable"
 
 #: trans/templatetags/translations.py:57
 msgid "Tab character"
-msgstr ""
+msgstr "Tabulation"
 
 #: trans/templatetags/translations.py:107
-#, fuzzy
 msgid "New line"
-msgstr "Nouvelle langue"
+msgstr "Nouvelle ligne"
 
 #~ msgid "Promote"
 #~ msgstr "Promouvoir"
