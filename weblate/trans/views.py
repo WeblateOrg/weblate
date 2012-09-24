@@ -63,6 +63,8 @@ def home(request):
     and user links if logged in.
     '''
     projects = Project.objects.all()
+    if projects.count() == 1:
+        projects = SubProject.objects.all()
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
