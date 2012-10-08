@@ -694,7 +694,7 @@ class SubProject(models.Model):
         # commit possible pending changes
         self.commit_pending()
 
-        # update remote branc
+        # update remote branch
         ret = self.update_branch(request)
 
         # create translation objects for all files
