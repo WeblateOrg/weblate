@@ -23,7 +23,7 @@
 {% if needs_commit %}
 <p>{% trans "There are some not commited changes!" %}</p>
 {% endif %}
-{% if object.git_needs_pull %}
+{% if object.git_needs_merge %}
 <p>{% trans "Remote Git repository needs to be merged!" %}</p>
 {% endif %}
 {% if object.git_needs_push %}

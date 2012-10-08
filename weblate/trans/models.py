@@ -369,9 +369,9 @@ class Project(models.Model):
                 return True
         return False
 
-    def git_needs_pull(self, gitrepo = None):
+    def git_needs_merge(self, gitrepo = None):
         for s in self.subproject_set.all():
-            if s.git_needs_pull():
+            if s.git_needs_merge():
                 return True
         return False
 
@@ -688,7 +688,7 @@ class SubProject(models.Model):
         self.pull_repo()
 
         # do we have something to merge?
-        if not self.git_needs_pull():
+        if not self.git_needs_merge():
             return True
 
         # commit possible pending changes
@@ -726,7 +726,7 @@ class SubProject(models.Model):
         self.do_update(request)
 
         # Were all changes merged?
-        if self.git_needs_pull():
+        if self.git_needs_merge():
             return False
 
         # Do actual push
@@ -1059,7 +1059,7 @@ class SubProject(models.Model):
             return False
         return True
 
-    def git_needs_pull(self, gitrepo = None):
+    def git_needs_merge(self, gitrepo = None):
         return self.git_check_merge('..origin/%s' % self.branch, gitrepo)
 
     def git_needs_push(self, gitrepo = None):
@@ -1582,8 +1582,8 @@ class Translation(models.Model):
             return False
         return True
 
-    def git_needs_pull(self):
-        return self.subproject.git_needs_pull()
+    def git_needs_merge(self):
+        return self.subproject.git_needs_merge()
 
     def git_needs_push(self):
         return self.subproject.git_needs_push()
