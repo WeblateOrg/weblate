@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-09-20 16:48+0200\n"
-"PO-Revision-Date: 2012-10-05 16:04+0200\n"
+"PO-Revision-Date: 2012-10-08 11:28+0200\n"
 "Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -1504,12 +1504,12 @@ msgid ""
 "Best regards,\n"
 "%(site_title)s\n"
 msgstr ""
-"\\n\n"
-"S'il y a un problème avec votre enregistrement, répondez s'il vous plaît\\n\n"
-"ce courriel.\\n\n"
-"\\n\n"
-"Cordialement,\\n\n"
-"%(site_title)s\\n"
+"\n"
+"S'il y a un problème avec votre enregistrement, répondez s'il vous plaît\n"
+"ce courriel.\n"
+"\n"
+"Cordialement,\n"
+"%(site_title)s\n"
 
 #: html/registration/activation_email_subject.txt:1
 #, python-format
@@ -2511,7 +2511,7 @@ msgstr "Fichier de traduction Qt Linguist"
 
 #: trans/models.py:85
 msgid "OS X Strings"
-msgstr "Chaînes de caractères OS X"
+msgstr "Chaînes OS X"
 
 #: trans/models.py:90
 msgid "Java Properties"
@@ -2523,12 +2523,12 @@ msgstr "Propriétés Java (UTF-8)"
 
 #: trans/models.py:109 trans/models.py:115
 msgid "Android String Resource"
-msgstr "Ressource chaîne de caractères Android"
+msgstr "Ressource chaîne Android"
 
 #: trans/models.py:171 trans/models.py:177
 #, python-format
 msgid "Bad format string (%s)"
-msgstr "Format de chaîne incorrect (%s)"
+msgstr "Mauvaise chaîne de format (%s)"
 
 #: trans/models.py:181
 msgid "File mask does not contain * as a language placeholder!"
@@ -2538,7 +2538,7 @@ msgstr ""
 
 #: trans/models.py:202
 msgid "Can not link to linked repository!"
-msgstr "Le lien vers le dépôt est invalide !"
+msgstr "Impossible d'établir un lien vers un dépôt lié !"
 
 #: trans/models.py:204
 msgid "Invalid link to repository!"
@@ -2550,7 +2550,7 @@ msgstr "Utilisez le formulaire de contact"
 
 #: trans/models.py:208
 msgid "Point to translation instructions URL"
-msgstr "Pointer vers un URL contenant les directives de traduction"
+msgstr "Pointer vers l'URL des directives de traduction"
 
 #: trans/models.py:211
 msgid "Merge"
@@ -2558,7 +2558,7 @@ msgstr "Fusionner"
 
 #: trans/models.py:212
 msgid "Rebase"
-msgstr "Réinitialiser"
+msgstr "Refonder"
 
 #: trans/models.py:219
 msgid "Project website"
@@ -2570,7 +2570,7 @@ msgstr "Liste de discussion pour les traducteurs"
 
 #: trans/models.py:227
 msgid "URL with instructions for translators"
-msgstr "Directives pour les traducteurs"
+msgstr "URL avec les directives pour les traducteurs"
 
 #: trans/models.py:234
 msgid "How to handle requests for creating new languages"
@@ -2585,8 +2585,8 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
-"Définir si Weblate doit fusionner le dépôt amont ou réinitialiser les "
-"changements sur le dépôt amont"
+"Définir si Weblate doit fusionner le dépôt amont ou refonder les changements "
+"sur le dépôt amont"
 
 #: trans/models.py:247
 #, python-format
@@ -2605,16 +2605,16 @@ msgstr "Le dépôt doit être poussé en amont à chaque commit."
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
-"Si le champs \"Translation-Team\" dans les entêtes de fichiers doit être mis "
-"à jour par Weblate."
+"Si le champs Translation-Team dans les entêtes de fichiers doit être mis à "
+"jour par Weblate."
 
 #: trans/models.py:274
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
-"Veuillez remplir l'URL d'instructions ou utiliser une option différente pour "
-"ajouter une nouvelle langue."
+"Veuillez remplir l'URL des instructions ou utiliser une option différente "
+"pour ajouter une nouvelle langue."
 
 #: trans/models.py:430
 msgid "Name to display"
@@ -2642,7 +2642,7 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
-"Lien vers la navigation du dépôt, utilisez %(branch)s, %(file)s et %(line)s "
+"Lien vers l'explorateur de dépôts, utilisez %(branch)s, %(file)s et %(line)s "
 "comme paramètres fictifs pour le nom de la branche, du fichier et le numéro "
 "de ligne"
 
@@ -2680,17 +2680,17 @@ msgstr "Le sous-projet est bloqué pour les mises à jour de traduction"
 #: trans/models.py:634
 #, python-format
 msgid "Failed to fetch git repository: %s"
-msgstr "Impossible de récupérer le dépôt Git: %s"
+msgstr "Impossible de récupérer les modifications sur le dépôt git : %s"
 
 #: trans/models.py:714
 #, python-format
 msgid "Push is disabled for %s."
-msgstr "L'envoi (push) est désactivé pour %s."
+msgstr "L'envoi des modifications est désactivé pour %s."
 
 #: trans/models.py:746
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr "L'envoi à la branche distante de %s a échoué."
+msgstr "L'envoi des modifications à la branche distante sur %s a échoué."
 
 #: trans/models.py:772
 #, python-format
@@ -2705,7 +2705,7 @@ msgstr "Échec de la fusion de la branche distante dans %s."
 #: trans/models.py:853
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Échec de réinitialisation de notre branche sur la branche distance %s."
+msgstr "Échec de la refonte de notre branche sur la branche distance %s."
 
 #: trans/models.py:960
 msgid "The mask did not match any files!"
@@ -2722,7 +2722,7 @@ msgstr ""
 #: trans/models.py:980
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr "Le format de %d fichiers qui correspondent n'a pu être reconnu."
+msgstr "Le format de %d fichiers correspondants n'a pu être reconnu."
 
 #: trans/models.py:985
 #, python-format
@@ -2743,8 +2743,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Le fichier %s n'a pas été trouvé dans le dépôt! Pour ajouter de nouvelles "
-"traductions, ajoutez une nouvelle langue dans le dépôt."
+"Le fichier %s n'a pas été trouvé dans le dépôt ! Pour ajouter de nouvelles "
+"traductions, ajoutez un fichier de langue dans le dépôt."
 
 #: trans/models.py:1130
 #, python-format
@@ -2843,7 +2843,7 @@ msgstr "Tous les dépôts ont été réinitialisés."
 
 #: trans/views.py:531
 msgid "Translation is now locked for you."
-msgstr "Cette traduction est actuellement verrouillée pour vous."
+msgstr "Cette traduction est maintenant verrouillée pour vous."
 
 #: trans/views.py:543
 msgid "Translation is now open for translation updates."
@@ -2861,7 +2861,7 @@ msgstr "Le sous-projet est maintenant ouvert aux mises à jour de traduction."
 #: trans/views.py:584
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
-"Tous les sous-projets sont maintenant bloqué pour les mises à jour de "
+"Tous les sous-projets sont maintenant bloqués pour les mises à jour de "
 "traduction !"
 
 #: trans/views.py:597
@@ -2900,7 +2900,9 @@ msgstr ""
 
 #: trans/views.py:782 trans/views.py:823
 msgid "You don't have privileges to save translations!"
-msgstr "Vous n'avez pas le droit de sauvegarder les traductions !"
+msgstr ""
+"Vous n'avez pas les autorisations requises pour sauvegarder des traductions "
+"!"
 
 #: trans/views.py:799
 msgid "Some checks have failed on your translation!"
@@ -2920,11 +2922,11 @@ msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions !"
 
 #: trans/views.py:872
 msgid "You do not have privilege to accept suggestions!"
-msgstr "Vous n'avez pas le droit d'accepter les suggestions !"
+msgstr "Vous n'avez pas l'autorisation d'accepter les suggestions !"
 
 #: trans/views.py:882
 msgid "You do not have privilege to delete suggestions!"
-msgstr "Vous n'avez pas le droit de supprimer les suggestions !"
+msgstr "Vous n'avez pas l'autorisation de supprimer les suggestions !"
 
 #: trans/views.py:906
 msgid "Invalid suggestion!"
