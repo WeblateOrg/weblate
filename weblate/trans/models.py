@@ -608,12 +608,12 @@ class SubProject(models.Model):
             'branch': self.branch
         }
 
-    def pull_repo(self, validate = False, gitrepo = None):
+    def update_remote_branch(self, validate = False, gitrepo = None):
         '''
         Pulls from remote repository.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().pull_repo(validate, gitrepo)
+            return self.get_linked_repo().update_remote_branch(validate, gitrepo)
 
         if gitrepo is None:
             gitrepo = self.get_repo()
@@ -658,7 +658,7 @@ class SubProject(models.Model):
         if pushurl != self.push:
             gitrepo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
-        self.pull_repo(validate, gitrepo)
+        self.update_remote_branch(validate, gitrepo)
 
 
     def configure_branch(self):
@@ -685,7 +685,7 @@ class SubProject(models.Model):
             return self.get_linked_repo().do_update(request)
 
         # pull remote
-        self.pull_repo()
+        self.update_remote_branch()
 
         # do we have something to merge?
         if not self.git_needs_merge():
@@ -754,7 +754,7 @@ class SubProject(models.Model):
             return self.get_linked_repo().do_reset(request)
 
         # First check we're up to date
-        self.pull_repo()
+        self.update_remote_branch()
 
         # Do actual reset
         gitrepo = self.get_repo()
@@ -939,7 +939,7 @@ class SubProject(models.Model):
         self.configure_repo(validate)
         self.configure_branch()
         self.commit_pending()
-        self.pull_repo()
+        self.update_remote_branch()
         self.update_branch()
 
     def clean(self):
