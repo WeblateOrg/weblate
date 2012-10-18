@@ -249,17 +249,49 @@ def download_dictionary(request, project, lang):
     export_format = None
     if 'format' in request.GET:
         export_format = request.GET['format']
-    if not export_format in ['csv']:
+    if not export_format in ['csv', 'po']:
         export_format = 'csv'
+
+    # Grab all words
+    words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
 
     if export_format == 'csv':
         response = HttpResponse(mimetype='text/csv')
         response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.csv' % (prj.slug, lang.code)
 
         writer = csv.writer(response)
-        words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
+
         for word in words.iterator():
             writer.writerow((word.source.encode('utf8'), word.target.encode('utf8')))
+
+        return response
+    elif export_format == 'po':
+        from translate.storage.po import pounit, pofile
+
+        response = HttpResponse(mimetype='text/x-po')
+        response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.po' % (prj.slug, lang.code)
+
+        store = pofile()
+
+        site = Site.objects.get_current()
+        store.updateheader(
+            add = True,
+            language = lang.code,
+            x_generator = 'Weblate %s' % weblate.VERSION,
+            project_id_version = '%s dictionary for %s' % (lang.name, prj.name),
+            language_team = '%s <http://%s%s>' % (
+                lang.name,
+                site.domain,
+                reverse('weblate.trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}),
+            )
+        )
+
+        for word in words.iterator():
+            unit = pounit(word.source)
+            unit.target = word.target
+            store.addunit(unit)
+
+        store.savefile(response)
 
         return response
 
