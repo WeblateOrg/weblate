@@ -256,7 +256,7 @@ def download_dictionary(request, project, lang):
     words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
 
     if export_format == 'csv':
-        response = HttpResponse(mimetype='text/csv')
+        response = HttpResponse(mimetype='text/csv; charset=utf-8')
         response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.csv' % (prj.slug, lang.code)
 
         writer = csv.writer(response)
@@ -268,7 +268,7 @@ def download_dictionary(request, project, lang):
     elif export_format == 'po':
         from translate.storage.po import pounit, pofile
 
-        response = HttpResponse(mimetype='text/x-po')
+        response = HttpResponse(mimetype='text/x-po; charset=utf-8')
         response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.po' % (prj.slug, lang.code)
 
         store = pofile()
