@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-17 15:40+0200\n"
+"POT-Creation-Date: 2012-10-18 14:02+0200\n"
 "PO-Revision-Date: 2012-10-05 17:28+0200\n"
 "Last-Translator: Antón Méixome <meixome@certima.net>\n"
 "Language-Team: Galician <http://l10n.cihar.com/projects/weblate/master/gl/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.2\n"
 
-#: urls.py:125 urls.py:132 urls.py:139 urls.py:146
+#: urls.py:126 urls.py:133 urls.py:140 urls.py:147
 msgid "User registration"
 msgstr "Rexistro do usuario"
 
-#: urls.py:154
+#: urls.py:155
 msgid "Account activation"
 msgstr "Activación da conta"
 
-#: urls.py:163 html/base.html:49 html/registration/login.html:30
+#: urls.py:164 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Acceder"
 
-#: urls.py:170
+#: urls.py:171
 msgid "Logged out"
 msgstr "Saír"
 
-#: urls.py:175
+#: urls.py:176
 msgid "Change password"
 msgstr "Cambiar o contrasinal"
 
-#: urls.py:179
+#: urls.py:180
 msgid "Password changed"
 msgstr "Contrasinal cambiado"
 
-#: urls.py:183 urls.py:187 urls.py:191 urls.py:195
+#: urls.py:184 urls.py:188 urls.py:192 urls.py:196
 msgid "Password reset"
 msgstr "Restabelecer o contrasinal"
 
@@ -204,7 +204,7 @@ msgstr "Cancelar"
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: accounts/models.py:78 html/index.html:21 trans/views.py:165
+#: accounts/models.py:78 html/index.html:21 trans/views.py:166
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -275,7 +275,7 @@ msgstr ""
 "O servidor ten graves problemas para responder á súa solicitude. Acabamos de "
 "enviar os trasnos para para arranxar o problema."
 
-#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1200
+#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1268
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
@@ -531,11 +531,16 @@ msgstr "Engadir unha nova palabra"
 msgid "Import dictionary"
 msgstr "Importar o corrector"
 
-#: html/dictionary.html:89
+#: html/dictionary.html:79
+#, fuzzy
+msgid "Export dictionary"
+msgstr "Importar o corrector"
+
+#: html/dictionary.html:90
 msgid "Add"
 msgstr "Engadir"
 
-#: html/dictionary.html:98
+#: html/dictionary.html:99
 msgid ""
 "You can upload any format which is understood by Translate Toolkit for "
 "example csv or po file."
@@ -543,9 +548,21 @@ msgstr ""
 "Pode enviar calquera formato que sexa compatíbel co Translate Toolkit, por "
 "exemplo ficheiros csv ou po."
 
-#: html/dictionary.html:105
+#: html/dictionary.html:106
 msgid "Import"
 msgstr "Importar"
+
+#: html/dictionary.html:114
+msgid "You can download dictionary in following formats:"
+msgstr ""
+
+#: html/dictionary.html:117
+msgid "Comma separated values (CSV)"
+msgstr ""
+
+#: html/dictionary.html:118
+msgid "Gettext (PO)"
+msgstr ""
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -782,7 +799,7 @@ msgstr "Subproxectos"
 msgid "Subproject"
 msgstr "Subproxecto"
 
-#: html/project.html:40 trans/views.py:180
+#: html/project.html:40 trans/views.py:181
 msgid "Dictionaries"
 msgstr "Correctores"
 
@@ -910,7 +927,7 @@ msgstr "Iniciar nova liña"
 msgid "Insert horizontal elipsis"
 msgstr ""
 
-#: html/translate.html:82 trans/views.py:100
+#: html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
 msgstr "Fallo nas comprobacións"
 
@@ -2725,7 +2742,7 @@ msgstr "Non se puido recoñecer o formato de %s."
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Produciuse un fallo ao procesar o ficheiro %(file)s: %(error)s"
 
-#: trans/models.py:1157 trans/views.py:314
+#: trans/models.py:1157 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr "Neste intre, esta tradución está bloqueada para actualizacións!"
 
@@ -2770,154 +2787,154 @@ msgstr ""
 msgid "unit ID %s"
 msgstr "ID de unidade %s"
 
-#: trans/views.py:72
+#: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr "Estabeleza o seu nome completo no seu perfil."
 
-#: trans/views.py:203 trans/views.py:281
+#: trans/views.py:204 trans/views.py:339
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Corrector de %(language)s para %(project)s"
 
-#: trans/views.py:231
+#: trans/views.py:232
 msgid "No words to import found in file."
 msgstr "Non se atoparon palabras para importar no ficheiro."
 
-#: trans/views.py:233
+#: trans/views.py:234
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Importáronse %d palabras do ficheiro."
 
-#: trans/views.py:235 trans/views.py:237 trans/views.py:362
+#: trans/views.py:236 trans/views.py:238 trans/views.py:420
 msgid "Failed to process form!"
 msgstr "Fallou o procesamento do formulario!"
 
-#: trans/views.py:360
+#: trans/views.py:418
 msgid "Automatic translation completed."
 msgstr "Tradución automática completada."
 
-#: trans/views.py:411 trans/views.py:421 trans/views.py:431
+#: trans/views.py:469 trans/views.py:479 trans/views.py:489
 msgid "All pending translations were committed."
 msgstr "Remitíronse todas as traducións pendentes."
 
-#: trans/views.py:441 trans/views.py:451 trans/views.py:461
+#: trans/views.py:499 trans/views.py:509 trans/views.py:519
 msgid "All repositories were updated."
 msgstr "Actualizáronse todos os repositorios."
 
-#: trans/views.py:471 trans/views.py:481 trans/views.py:491
+#: trans/views.py:529 trans/views.py:539 trans/views.py:549
 msgid "All repositories were pushed."
 msgstr "Puláronse todos os repositorios."
 
-#: trans/views.py:501 trans/views.py:511 trans/views.py:521
+#: trans/views.py:559 trans/views.py:569 trans/views.py:579
 msgid "All repositories have been reset."
 msgstr "Restabelecéronse todos os repositorios."
 
-#: trans/views.py:533
+#: trans/views.py:591
 msgid "Translation is now locked for you."
 msgstr "Vostede acaba de bloquear esta tradución."
 
-#: trans/views.py:545
+#: trans/views.py:603
 msgid "Translation is now open for translation updates."
 msgstr "A tradución está agora aberta para actualizacións."
 
-#: trans/views.py:559
+#: trans/views.py:617
 msgid "Subproject is now locked for translation updates!"
 msgstr "O subproxecto está agora bloqueado para a actualización da tradución!"
 
-#: trans/views.py:571
+#: trans/views.py:629
 msgid "Subproject is now open for translation updates."
 msgstr "O subproxecto está agora aberto para actualizacións da tradución."
 
-#: trans/views.py:586
+#: trans/views.py:644
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 "Todos os subproxectos están agora bloqueados para actualizacións da "
 "tradución!"
 
-#: trans/views.py:599
+#: trans/views.py:657
 msgid "Project is now open for translation updates."
 msgstr "O proxecto está agora aberto para actualizacións da tradución."
 
-#: trans/views.py:688
+#: trans/views.py:746
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Buscar \"%s\""
 
-#: trans/views.py:692
+#: trans/views.py:750
 msgid "Fuzzy strings"
 msgstr "Cadeas revisábeis"
 
-#: trans/views.py:694
+#: trans/views.py:752
 msgid "Not translated strings"
 msgstr "Cadeas non traducidas"
 
-#: trans/views.py:696
+#: trans/views.py:754
 msgid "Strings with suggestions"
 msgstr "Cadeas con suxestións"
 
-#: trans/views.py:698
+#: trans/views.py:756
 #, fuzzy
 msgid "Strings with any failing checks"
 msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
 
-#: trans/views.py:755
+#: trans/views.py:813
 msgid "Your suggestion is empty!"
 msgstr "A súa suxestión está vadía!"
 
-#: trans/views.py:781
+#: trans/views.py:839
 msgid "You need to log in to be able to save translations!"
 msgstr "Cómpre acceder para poder gardar as traducións!"
 
-#: trans/views.py:784 trans/views.py:825
+#: trans/views.py:842 trans/views.py:883
 msgid "You don't have privileges to save translations!"
 msgstr "Non ten permisos para gardar as traducións!"
 
-#: trans/views.py:801
+#: trans/views.py:859
 msgid "Some checks have failed on your translation!"
 msgstr "Fallaron algunhas comprobacións na súa tradución!"
 
-#: trans/views.py:819 trans/views.py:857
+#: trans/views.py:877 trans/views.py:915
 msgid "Message you wanted to translate is no longer available!"
 msgstr "A mensaxe que quere traducir xa non está dispoñíbel!"
 
-#: trans/views.py:840
+#: trans/views.py:898
 msgid "Can not merge different messages!"
 msgstr "Non se poden fusionar diferentes mensaxes!"
 
-#: trans/views.py:863
+#: trans/views.py:921
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Cómpre acceder para xestionar as suxestións!"
 
-#: trans/views.py:874
+#: trans/views.py:932
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Non ten permiso para aceptar suxestións!"
 
-#: trans/views.py:884
+#: trans/views.py:942
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Non ten permiso para eliminar suxestións!"
 
-#: trans/views.py:908
+#: trans/views.py:966
 msgid "Invalid suggestion!"
 msgstr "Suxestión incorrecta!"
 
-#: trans/views.py:965
+#: trans/views.py:1023
 msgid "You have reached end of translating."
 msgstr "Rematou a tradución."
 
-#: trans/views.py:1131
+#: trans/views.py:1199
 msgid "File content successfully merged into translation."
 msgstr "Fusionouse correctamente o contido do ficheiro na tradución."
 
-#: trans/views.py:1133
+#: trans/views.py:1201
 msgid "There were no new strings in uploaded file."
 msgstr "Non hai cadeas novas no ficheiro enviado."
 
-#: trans/views.py:1135
+#: trans/views.py:1203
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Fallou a fusión do contido do ficheiro: %s"
 
-#: trans/views.py:1146
+#: trans/views.py:1214
 msgid "Page Not Found"
 msgstr "Non se atopou a páxina"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-17 15:40+0200\n"
+"POT-Creation-Date: 2012-10-18 14:02+0200\n"
 "PO-Revision-Date: 2012-05-18 11:10+0200\n"
 "Last-Translator: Yuichiro Takahashi <yuichiro@pop07.odn.ne.jp>\n"
 "Language-Team: japanese <jp@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.0\n"
 
-#: urls.py:125 urls.py:132 urls.py:139 urls.py:146
+#: urls.py:126 urls.py:133 urls.py:140 urls.py:147
 msgid "User registration"
 msgstr "ユーザ登録"
 
-#: urls.py:154
+#: urls.py:155
 msgid "Account activation"
 msgstr "アカウント本登録"
 
-#: urls.py:163 html/base.html:49 html/registration/login.html:30
+#: urls.py:164 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "ログイン"
 
-#: urls.py:170
+#: urls.py:171
 msgid "Logged out"
 msgstr "ログアウト"
 
-#: urls.py:175
+#: urls.py:176
 msgid "Change password"
 msgstr "パスワードを変更する"
 
-#: urls.py:179
+#: urls.py:180
 msgid "Password changed"
 msgstr "パスワードの変更"
 
-#: urls.py:183 urls.py:187 urls.py:191 urls.py:195
+#: urls.py:184 urls.py:188 urls.py:192 urls.py:196
 msgid "Password reset"
 msgstr "パスワードのリセット"
 
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Interface Language"
 msgstr "インターフェイスの言語"
 
-#: accounts/models.py:78 html/index.html:21 trans/views.py:165
+#: accounts/models.py:78 html/index.html:21 trans/views.py:166
 msgid "Languages"
 msgstr "言語"
 
@@ -278,7 +278,7 @@ msgstr ""
 "リクエストを処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解"
 "決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
-#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1200
+#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1268
 msgid "About Weblate"
 msgstr "Weblate について"
 
@@ -539,11 +539,16 @@ msgstr "新しい単語の追加"
 msgid "Import dictionary"
 msgstr "辞書のインポート"
 
-#: html/dictionary.html:89
+#: html/dictionary.html:79
+#, fuzzy
+msgid "Export dictionary"
+msgstr "辞書のインポート"
+
+#: html/dictionary.html:90
 msgid "Add"
 msgstr "追加"
 
-#: html/dictionary.html:98
+#: html/dictionary.html:99
 msgid ""
 "You can upload any format which is understood by Translate Toolkit for "
 "example csv or po file."
@@ -551,9 +556,21 @@ msgstr ""
 "Translate Toolkit で理解できる形式のもの (CSV や po ファイルなど) をアップ"
 "ロードできます。"
 
-#: html/dictionary.html:105
+#: html/dictionary.html:106
 msgid "Import"
 msgstr "インポート"
+
+#: html/dictionary.html:114
+msgid "You can download dictionary in following formats:"
+msgstr ""
+
+#: html/dictionary.html:117
+msgid "Comma separated values (CSV)"
+msgstr ""
+
+#: html/dictionary.html:118
+msgid "Gettext (PO)"
+msgstr ""
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -780,7 +797,7 @@ msgstr "サブプロジェクト"
 msgid "Subproject"
 msgstr "サブプロジェクト"
 
-#: html/project.html:40 trans/views.py:180
+#: html/project.html:40 trans/views.py:181
 msgid "Dictionaries"
 msgstr "辞書"
 
@@ -909,7 +926,7 @@ msgstr "文頭の改行"
 msgid "Insert horizontal elipsis"
 msgstr ""
 
-#: html/translate.html:82 trans/views.py:100
+#: html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
 msgstr "不完全性"
 
@@ -2684,7 +2701,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1157 trans/views.py:314
+#: trans/models.py:1157 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
@@ -2726,154 +2743,154 @@ msgstr ""
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/views.py:72
+#: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr "個人情報のお名前をフルネームで設定してください。"
 
-#: trans/views.py:203 trans/views.py:281
+#: trans/views.py:204 trans/views.py:339
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s 用の %(language)s 辞書"
 
-#: trans/views.py:231
+#: trans/views.py:232
 msgid "No words to import found in file."
 msgstr "インポートできる単語がファイル内にありません。"
 
-#: trans/views.py:233
+#: trans/views.py:234
 #, python-format
 msgid "Imported %d words from file."
 msgstr "ファイルから %d 単語インポートしました。"
 
-#: trans/views.py:235 trans/views.py:237 trans/views.py:362
+#: trans/views.py:236 trans/views.py:238 trans/views.py:420
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views.py:360
+#: trans/views.py:418
 msgid "Automatic translation completed."
 msgstr "自動翻訳が完了しました。"
 
-#: trans/views.py:411 trans/views.py:421 trans/views.py:431
+#: trans/views.py:469 trans/views.py:479 trans/views.py:489
 msgid "All pending translations were committed."
 msgstr "保留中のすべての翻訳をコミットしました。"
 
-#: trans/views.py:441 trans/views.py:451 trans/views.py:461
+#: trans/views.py:499 trans/views.py:509 trans/views.py:519
 msgid "All repositories were updated."
 msgstr "すべてのリポジトリを更新しました。"
 
-#: trans/views.py:471 trans/views.py:481 trans/views.py:491
+#: trans/views.py:529 trans/views.py:539 trans/views.py:549
 msgid "All repositories were pushed."
 msgstr "すべてのリポジトリにプッシュしました。"
 
-#: trans/views.py:501 trans/views.py:511 trans/views.py:521
+#: trans/views.py:559 trans/views.py:569 trans/views.py:579
 #, fuzzy
 msgid "All repositories have been reset."
 msgstr "すべてのリポジトリにプッシュしました。"
 
-#: trans/views.py:533
+#: trans/views.py:591
 msgid "Translation is now locked for you."
 msgstr ""
 
-#: trans/views.py:545
+#: trans/views.py:603
 #, fuzzy
 msgid "Translation is now open for translation updates."
 msgstr "自動翻訳"
 
-#: trans/views.py:559
+#: trans/views.py:617
 msgid "Subproject is now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:571
+#: trans/views.py:629
 msgid "Subproject is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:586
+#: trans/views.py:644
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:599
+#: trans/views.py:657
 msgid "Project is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:688
+#: trans/views.py:746
 #, python-format
 msgid "Search for \"%s\""
 msgstr "検索ワード「%s」"
 
-#: trans/views.py:692
+#: trans/views.py:750
 msgid "Fuzzy strings"
 msgstr "あいまい"
 
-#: trans/views.py:694
+#: trans/views.py:752
 msgid "Not translated strings"
 msgstr "未翻訳"
 
-#: trans/views.py:696
+#: trans/views.py:754
 msgid "Strings with suggestions"
 msgstr "提案があるもの"
 
-#: trans/views.py:698
+#: trans/views.py:756
 #, fuzzy
 msgid "Strings with any failing checks"
 msgstr "提案があるもの (%d)"
 
-#: trans/views.py:755
+#: trans/views.py:813
 msgid "Your suggestion is empty!"
 msgstr "提案内容がありません！"
 
-#: trans/views.py:781
+#: trans/views.py:839
 msgid "You need to log in to be able to save translations!"
 msgstr "翻訳を保存するには、ログインする必要があります！"
 
-#: trans/views.py:784 trans/views.py:825
+#: trans/views.py:842 trans/views.py:883
 msgid "You don't have privileges to save translations!"
 msgstr "翻訳を保存できる権限がありません！"
 
-#: trans/views.py:801
+#: trans/views.py:859
 msgid "Some checks have failed on your translation!"
 msgstr "翻訳の中に不完全なところがあります！"
 
-#: trans/views.py:819 trans/views.py:857
+#: trans/views.py:877 trans/views.py:915
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/views.py:840
+#: trans/views.py:898
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:863
+#: trans/views.py:921
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "提案を管理するには、ログインする必要があります！"
 
-#: trans/views.py:874
+#: trans/views.py:932
 msgid "You do not have privilege to accept suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: trans/views.py:884
+#: trans/views.py:942
 msgid "You do not have privilege to delete suggestions!"
 msgstr "提案を削除できる権限がありません！"
 
-#: trans/views.py:908
+#: trans/views.py:966
 msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
-#: trans/views.py:965
+#: trans/views.py:1023
 msgid "You have reached end of translating."
 msgstr "翻訳すべきものは以上です。"
 
-#: trans/views.py:1131
+#: trans/views.py:1199
 msgid "File content successfully merged into translation."
 msgstr "ファイルの内容を翻訳にマージするのに成功しました。"
 
-#: trans/views.py:1133
+#: trans/views.py:1201
 msgid "There were no new strings in uploaded file."
 msgstr "アップロードファイルには新しい翻訳がありません。"
 
-#: trans/views.py:1135
+#: trans/views.py:1203
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "ファイル内容のマージに失敗しました：%s"
 
-#: trans/views.py:1146
+#: trans/views.py:1214
 msgid "Page Not Found"
 msgstr "ページが見つかりません"
 

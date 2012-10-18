@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-17 15:40+0200\n"
+"POT-Creation-Date: 2012-10-18 14:02+0200\n"
 "PO-Revision-Date: 2012-09-22 19:02+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.2\n"
 
-#: urls.py:125 urls.py:132 urls.py:139 urls.py:146
+#: urls.py:126 urls.py:133 urls.py:140 urls.py:147
 msgid "User registration"
 msgstr "Bruger-registrering"
 
-#: urls.py:154
+#: urls.py:155
 msgid "Account activation"
 msgstr "Aktivering af konto"
 
-#: urls.py:163 html/base.html:49 html/registration/login.html:30
+#: urls.py:164 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Logind"
 
-#: urls.py:170
+#: urls.py:171
 msgid "Logged out"
 msgstr "Logget ud"
 
-#: urls.py:175
+#: urls.py:176
 msgid "Change password"
 msgstr "Skift adgangskode"
 
-#: urls.py:179
+#: urls.py:180
 msgid "Password changed"
 msgstr "Adgangskode er ændret"
 
-#: urls.py:183 urls.py:187 urls.py:191 urls.py:195
+#: urls.py:184 urls.py:188 urls.py:192 urls.py:196
 msgid "Password reset"
 msgstr "Nulstiling af adgangskode"
 
@@ -205,7 +205,7 @@ msgstr "Annullér"
 msgid "Interface Language"
 msgstr "Sprog for brugerflade"
 
-#: accounts/models.py:78 html/index.html:21 trans/views.py:165
+#: accounts/models.py:78 html/index.html:21 trans/views.py:166
 msgid "Languages"
 msgstr "Sprog"
 
@@ -276,7 +276,7 @@ msgstr ""
 "Serveren havde alvorlige problemer, mens din forespørgsel blev behandlet. Vi "
 "har netop sendt trænede aber til at rette fejlen."
 
-#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1200
+#: html/about.html:7 html/base.html:81 html/engage.html:60 trans/views.py:1268
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -535,11 +535,16 @@ msgstr "Tilføj nyt ord"
 msgid "Import dictionary"
 msgstr "Importér ordbog"
 
-#: html/dictionary.html:89
+#: html/dictionary.html:79
+#, fuzzy
+msgid "Export dictionary"
+msgstr "Importér ordbog"
+
+#: html/dictionary.html:90
 msgid "Add"
 msgstr "Tilføj"
 
-#: html/dictionary.html:98
+#: html/dictionary.html:99
 msgid ""
 "You can upload any format which is understood by Translate Toolkit for "
 "example csv or po file."
@@ -547,9 +552,22 @@ msgstr ""
 "Du kan overføre ethvert format, der forstås af Translate Toolit, eksempelvis "
 "en csv- eller po-fil."
 
-#: html/dictionary.html:105
+#: html/dictionary.html:106
 msgid "Import"
 msgstr "Importér"
+
+#: html/dictionary.html:114
+msgid "You can download dictionary in following formats:"
+msgstr ""
+
+#: html/dictionary.html:117
+msgid "Comma separated values (CSV)"
+msgstr ""
+
+#: html/dictionary.html:118
+#, fuzzy
+msgid "Gettext (PO)"
+msgstr "Gettext PO-fil"
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -783,7 +801,7 @@ msgstr "Delprojekter"
 msgid "Subproject"
 msgstr "Delprojekt"
 
-#: html/project.html:40 trans/views.py:180
+#: html/project.html:40 trans/views.py:181
 msgid "Dictionaries"
 msgstr "Ordbøger"
 
@@ -911,7 +929,7 @@ msgstr "Indsæt ny linje"
 msgid "Insert horizontal elipsis"
 msgstr "Indsæt vandrette udeladelsesprikker"
 
-#: html/translate.html:82 trans/views.py:100
+#: html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
 msgstr "Mislykkede tjek"
 
@@ -2727,7 +2745,7 @@ msgstr "Format fra %s kunne ikke genkendes."
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Mislykkedes med at fortolke filen %(file)s: %(error)s"
 
-#: trans/models.py:1157 trans/views.py:314
+#: trans/models.py:1157 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr "Denne oversættelse er i øjeblikket låst for opdateringer!"
 
@@ -2771,151 +2789,151 @@ msgstr ""
 msgid "unit ID %s"
 msgstr "enheds-ID %s"
 
-#: trans/views.py:72
+#: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr "Angiv venligst dit fulde navn i din profil."
 
-#: trans/views.py:203 trans/views.py:281
+#: trans/views.py:204 trans/views.py:339
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s-ordbog for %(project)s"
 
-#: trans/views.py:231
+#: trans/views.py:232
 msgid "No words to import found in file."
 msgstr "Fandt ingen ord i fil til import."
 
-#: trans/views.py:233
+#: trans/views.py:234
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Importerede %d ord fra fil."
 
-#: trans/views.py:235 trans/views.py:237 trans/views.py:362
+#: trans/views.py:236 trans/views.py:238 trans/views.py:420
 msgid "Failed to process form!"
 msgstr "Mislykkedes med at behandle formular!"
 
-#: trans/views.py:360
+#: trans/views.py:418
 msgid "Automatic translation completed."
 msgstr "Automatisk oversættelse fuldført."
 
-#: trans/views.py:411 trans/views.py:421 trans/views.py:431
+#: trans/views.py:469 trans/views.py:479 trans/views.py:489
 msgid "All pending translations were committed."
 msgstr "Alle afventende oversættelser blev indsendt."
 
-#: trans/views.py:441 trans/views.py:451 trans/views.py:461
+#: trans/views.py:499 trans/views.py:509 trans/views.py:519
 msgid "All repositories were updated."
 msgstr "Alle arkiver blev opdateret."
 
-#: trans/views.py:471 trans/views.py:481 trans/views.py:491
+#: trans/views.py:529 trans/views.py:539 trans/views.py:549
 msgid "All repositories were pushed."
 msgstr "Alle arkiver blev skubbet (pushed)."
 
-#: trans/views.py:501 trans/views.py:511 trans/views.py:521
+#: trans/views.py:559 trans/views.py:569 trans/views.py:579
 msgid "All repositories have been reset."
 msgstr "Alle arkiver blev nulstillet."
 
-#: trans/views.py:533
+#: trans/views.py:591
 msgid "Translation is now locked for you."
 msgstr "Oversættelse er nu låst til dig."
 
-#: trans/views.py:545
+#: trans/views.py:603
 msgid "Translation is now open for translation updates."
 msgstr "Oversættelsen er nu åben for oversættelsesopdateringer."
 
-#: trans/views.py:559
+#: trans/views.py:617
 msgid "Subproject is now locked for translation updates!"
 msgstr "Delprojekt er nu låst for oversættelsesopdateringer!"
 
-#: trans/views.py:571
+#: trans/views.py:629
 msgid "Subproject is now open for translation updates."
 msgstr "Delprojekt er nu åbnet for oversættelsesopdateringer."
 
-#: trans/views.py:586
+#: trans/views.py:644
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Alle delprojekter er nu låst for oversættelsesopdateringer!"
 
-#: trans/views.py:599
+#: trans/views.py:657
 msgid "Project is now open for translation updates."
 msgstr "Projektet er nu åbent for oversættelsesopdateringer."
 
-#: trans/views.py:688
+#: trans/views.py:746
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Søg efter \"%s\""
 
-#: trans/views.py:692
+#: trans/views.py:750
 msgid "Fuzzy strings"
 msgstr "Uklare strenge"
 
-#: trans/views.py:694
+#: trans/views.py:752
 msgid "Not translated strings"
 msgstr "Ikke-oversatte strenge"
 
-#: trans/views.py:696
+#: trans/views.py:754
 msgid "Strings with suggestions"
 msgstr "Strenge med forslag"
 
-#: trans/views.py:698
+#: trans/views.py:756
 msgid "Strings with any failing checks"
 msgstr "Strenge med enhver form for tjekfejl"
 
-#: trans/views.py:755
+#: trans/views.py:813
 msgid "Your suggestion is empty!"
 msgstr "Dit forslag er tomt!"
 
-#: trans/views.py:781
+#: trans/views.py:839
 msgid "You need to log in to be able to save translations!"
 msgstr "Du skal logge ind for at kunne gemme oversættelser!"
 
-#: trans/views.py:784 trans/views.py:825
+#: trans/views.py:842 trans/views.py:883
 msgid "You don't have privileges to save translations!"
 msgstr "Du har ikke rettigheder til at gemme oversættelser!"
 
-#: trans/views.py:801
+#: trans/views.py:859
 msgid "Some checks have failed on your translation!"
 msgstr "Nogle tjek mislykkedes for din oversættelse!"
 
-#: trans/views.py:819 trans/views.py:857
+#: trans/views.py:877 trans/views.py:915
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Beskeden du ønsker at oversætte er ikke længere tilgængelig!"
 
-#: trans/views.py:840
+#: trans/views.py:898
 msgid "Can not merge different messages!"
 msgstr "Kan ikke flette forskellige beskeder!"
 
-#: trans/views.py:863
+#: trans/views.py:921
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Du skal være logget ind for at håndtere forslag!"
 
-#: trans/views.py:874
+#: trans/views.py:932
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Du har ikke rettigheder til at godkende forslag!"
 
-#: trans/views.py:884
+#: trans/views.py:942
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Du har ikke rettigheder til at slette forslag!"
 
-#: trans/views.py:908
+#: trans/views.py:966
 msgid "Invalid suggestion!"
 msgstr "Ugyldigt forslag!"
 
-#: trans/views.py:965
+#: trans/views.py:1023
 msgid "You have reached end of translating."
 msgstr "Du er nået til slutningen af oversættelsen."
 
-#: trans/views.py:1131
+#: trans/views.py:1199
 msgid "File content successfully merged into translation."
 msgstr "Filindhold er flettet ind i oversættelse med succes."
 
-#: trans/views.py:1133
+#: trans/views.py:1201
 msgid "There were no new strings in uploaded file."
 msgstr "Der var ingen nye strenge i overført fil."
 
-#: trans/views.py:1135
+#: trans/views.py:1203
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Fletning af filindhold mislykkedes: %s"
 
-#: trans/views.py:1146
+#: trans/views.py:1214
 msgid "Page Not Found"
 msgstr "Siden blev ikke fundet"
 
