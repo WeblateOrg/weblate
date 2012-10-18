@@ -60,64 +60,105 @@ from distutils.version import LooseVersion
 
 logger = logging.getLogger('weblate')
 
+class FileFormat(object):
+    '''
+    Simple object defining file format loader.
+    '''
+    def __init__(self, name, loader, monolingual = None, mark_fuzzy = False, fixups = None):
+        self.name = name
+        self.loader = loader
+        self.monolingual = monolingual
+        self.mark_fuzzy = mark_fuzzy
+        self.fixups = fixups
+
+    def load(self, storefile):
+        '''
+        Loads file using defined loader.
+        '''
+        loader = self.loader
+
+        # If loader is callable call it directly
+        if callable(loader):
+            return loader(storefile)
+
+        # Tuple style loader, import from translate toolkit
+        module_name, class_name = loader
+        if '.' in module_name:
+            module = importlib.import_module(module_name)
+        else:
+            module = importlib.import_module('translate.storage.%s' % module_name)
+
+        # Get the class
+        storeclass = getattr(module, class_name)
+
+        # Parse file
+        store = storeclass.parsefile(storefile)
+
+        # Apply possible fixups
+        if self.fixups is not None:
+            for fix in self.fixups:
+                setattr(store, fix, self.fixups[fix])
+
+        return store
+
+
 FILE_FORMATS = {
-    'auto': {
-        'name': ugettext_lazy('Automatic detection'),
-        'loader': factory.getobject,
-        'monolingual': None, # Depends on actual format
-    },
-    'po': {
-        'name': ugettext_lazy('Gettext PO file'),
-        'loader': ('po', 'pofile'),
-        'monolingual': False,
-    },
-    'ts': {
-        'name': ugettext_lazy('XLIFF Translation File'),
-        'loader': ('ts2', 'tsfile'),
-        'monolingual': None, # Can be both
-    },
-    'xliff': {
-        'name': ugettext_lazy('Qt Linguist Translation File'),
-        'loader': ('xliff', 'xlifffile'),
-        'monolingual': None, # Can be both
-    },
-    'strings': {
-        'name': ugettext_lazy('OS X Strings'),
-        'loader': ('properties', 'stringsfile'),
-        'monolingual': False,
-    },
-    'properties': {
-        'name': ugettext_lazy('Java Properties'),
-        'loader': ('properties', 'javafile'),
-        'monolingual': True,
+    'auto': FileFormat(
+        ugettext_lazy('Automatic detection'),
+        factory.getobject,
+    ),
+    'po': FileFormat(
+        ugettext_lazy('Gettext PO file'),
+        ('po', 'pofile'),
+        False,
+    ),
+    'ts': FileFormat(
+        ugettext_lazy('XLIFF Translation File'),
+        ('ts2', 'tsfile'),
+    ),
+    'xliff': FileFormat(
+        ugettext_lazy('Qt Linguist Translation File'),
+        ('xliff', 'xlifffile'),
+    ),
+    'strings': FileFormat(
+        ugettext_lazy('OS X Strings'),
+        ('properties', 'stringsfile'),
+        False,
+    ),
+    'properties': FileFormat(
+        ugettext_lazy('Java Properties'),
+        ('properties', 'javafile'),
+        True,
         # Java properties need to be iso-8859-1, but
         # ttkit converts them to utf-8
-        'fixups': {'encoding': 'iso-8859-1'},
-    },
-    'properties-utf8': {
-        'name': ugettext_lazy('Java Properties (UTF-8)'),
-        'loader': ('properties', 'javautf8file'),
-        'monolingual': True,
-    },
+        fixups = {'encoding': 'iso-8859-1'},
+    ),
+    'properties-utf8': FileFormat(
+        ugettext_lazy('Java Properties (UTF-8)'),
+        ('properties', 'javautf8file'),
+        True,
+    ),
 }
 
 # Check if there is support for Android resources
 # Available as patch at https://github.com/translate/translate/pull/2
 try:
     from translate.storage import aresource
-    FILE_FORMATS['aresource'] = {
-        'name': ugettext_lazy('Android String Resource'),
-        'loader': ('aresource', 'AndroidResourceFile'),
-        'monolingual': True,
-    }
+    FILE_FORMATS['aresource'] = FileFormat(
+        ugettext_lazy('Android String Resource'),
+        ('aresource', 'AndroidResourceFile'),
+        True,
+        mark_fuzzy = True,
+    )
 except ImportError:
-    FILE_FORMATS['aresource'] = {
-        'name': ugettext_lazy('Android String Resource'),
-        'loader': ('ttkit.aresource', 'AndroidResourceFile'),
-        'monolingual': True,
-    }
+    FILE_FORMATS['aresource'] = FileFormat(
+        ugettext_lazy('Android String Resource'),
+        ('ttkit.aresource', 'AndroidResourceFile'),
+        True,
+        mark_fuzzy = True,
+    )
 
-FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt]['name']) for fmt in FILE_FORMATS]
+FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
 
 def ttkit(storefile, file_format = 'auto'):
     '''
@@ -137,32 +178,9 @@ def ttkit(storefile, file_format = 'auto'):
         raise Exception('Not supported file format: %s' % file_format)
 
     # Get loader
-    loader = FILE_FORMATS[file_format]['loader']
+    format_obj = FILE_FORMATS[file_format]
 
-    # If loader is callable call it directly
-    if callable(loader):
-        return loader(storefile)
-
-    # Tuple style loader, import from translate toolkit
-    module_name, class_name = loader
-    if '.' in module_name:
-        module = importlib.import_module(module_name)
-    else:
-        module = importlib.import_module('translate.storage.%s' % module_name)
-
-    # Get the class
-    storeclass = getattr(module, class_name)
-
-    # Parse file
-    store = storeclass.parsefile(storefile)
-
-    # Apply possible fixups
-    if 'fixups' in FILE_FORMATS[file_format]:
-        for fix in FILE_FORMATS[file_format]['fixups']:
-            setattr(store, fix, FILE_FORMATS[file_format]['fixups'][fix])
-
-    return store
-
+    return format_obj.load(storefile)
 
 def validate_repoweb(val):
     try:
@@ -1069,7 +1087,7 @@ class SubProject(models.Model):
         '''
         Returns true if subproject is using template for translation
         '''
-        return FILE_FORMATS[self.file_format]['monolingual'] != False and self.template != ''
+        return FILE_FORMATS[self.file_format].monolingual != False and self.template != ''
 
     def get_template_store(self):
         '''
