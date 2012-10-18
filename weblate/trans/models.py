@@ -51,7 +51,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock
-from util import is_plural, split_plural, join_plural, get_target, is_translated
+from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -1665,28 +1665,38 @@ class Translation(models.Model):
 
             else:
                 # Find all units with same source
-                for pounit in store.findunits(src):
-                    # Does context match?
-                    if pounit.getcontext() == unit.context:
-                        found = True
-                        # Is it plural?
-                        if hasattr(pounit.target, 'strings'):
-                            potarget = join_plural(pounit.target.strings)
+                found_units = store.findunits(src)
+                if len(found_units) > 0:
+                    for pounit in found_units:
+                        # Does context match?
+                        if pounit.getcontext() == unit.context:
+                            # We should have only one match
+                            found = True
+                            break
+                else:
+                    # Fallback to manual find for value based files
+                    for pounit in store.units:
+                        if get_source(pounit) == src:
+                            found = True
+                            break
+
+                if found:
+                    # Is it plural?
+                    if hasattr(pounit.target, 'strings'):
+                        potarget = join_plural(pounit.target.strings)
+                    else:
+                        potarget = pounit.target
+                    # Is there any change
+                    if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
+                        # Update fuzzy flag
+                        pounit.markfuzzy(unit.fuzzy)
+                        # Store translations
+                        if unit.is_plural():
+                            pounit.settarget(unit.get_target_plurals())
                         else:
-                            potarget = pounit.target
-                        # Is there any change
-                        if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
-                            # Update fuzzy flag
-                            pounit.markfuzzy(unit.fuzzy)
-                            # Store translations
-                            if unit.is_plural():
-                                pounit.settarget(unit.get_target_plurals())
-                            else:
-                                pounit.settarget(unit.target)
-                            # We need to update backend
-                            need_save = True
-                        # We should have only one match
-                        break
+                            pounit.settarget(unit.target)
+                        # We need to update backend
+                        need_save = True
 
             if not found:
                 return False, None
