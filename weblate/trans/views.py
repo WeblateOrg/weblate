@@ -46,6 +46,7 @@ import datetime
 import logging
 import os.path
 import json
+import csv
 from xml.etree import ElementTree
 import urllib2
 
@@ -236,6 +237,31 @@ def upload_dictionary(request, project, lang):
     else:
         messages.error(request, _('Failed to process form!'))
     return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs = {'project': prj.slug, 'lang': lang.code}))
+
+def download_dictionary(request, project, lang):
+    '''
+    Exports dictionary.
+    '''
+    prj = get_object_or_404(Project, slug = project)
+    lang = get_object_or_404(Language, code = lang)
+
+    # Parse parameters
+    export_format = None
+    if 'format' in request.GET:
+        export_format = request.GET['format']
+    if not export_format in ['csv']:
+        export_format = 'csv'
+
+    if export_format == 'csv':
+        response = HttpResponse(mimetype='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.csv' % (prj.slug, lang.code)
+
+        writer = csv.writer(response)
+        words = Dictionary.objects.filter(project = prj, language = lang).order_by('source')
+        for word in words.iterator():
+            writer.writerow((word.source.encode('utf8'), word.target.encode('utf8')))
+
+        return response
 
 def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug = project)
