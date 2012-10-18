@@ -119,12 +119,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
-    url(r'^accounts/register/$', register, {
-                'backend': 'registration.backends.default.DefaultBackend',
-                'form_class': RegistrationForm,
-                'extra_context': {'title': _('User registration')}
-            },
-            name='weblate_register'),
     url(r'^accounts/register/complete/$',
         direct_to_template,
         {
@@ -203,3 +197,22 @@ urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT}),
 )
+
+
+if settings.ENABLE_REGISTRATION : 
+    urlpatterns.append(patterns(
+                                url(r'^accounts/register/$', register, {
+                'backend': 'registration.backends.default.DefaultBackend',
+                'form_class': RegistrationForm,
+                'extra_context': {'title': _('User registration')}
+            },
+            name='weblate_register')))
+
+if settings.GLOBAL_REQUIRE_LOGIN :
+    LOGIN_REQUIRED_URLS = (
+        r'/(.*)$',
+    )
+    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+        r'/accounts/login(.*)$', 
+        r'/accounts/logout(.*)$',
+    )

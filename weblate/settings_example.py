@@ -150,6 +150,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'weblate.trans.security.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'weblate.urls'
@@ -342,3 +343,7 @@ DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 #        'LOCATION': '127.0.0.1:11211',
 #    }
 #}
+
+ENABLE_REGISTRATION=True
+
+GLOBAL_REQUIRE_LOGIN=False
