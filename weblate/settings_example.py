@@ -354,4 +354,7 @@ LOGIN_REQUIRED_URLS = (
 LOGIN_REQUIRED_URLS_EXCEPTIONS = (
     r'/accounts/login(.*)$', 
     r'/accounts/logout(.*)$',
+    r'/accounts/password(.*)$',
+    r'/accounts/activate(.*)$',
+    r'/accounts/register(.*)$',
 )

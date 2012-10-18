@@ -200,10 +200,10 @@ urlpatterns = patterns('',
 
 
 if settings.ENABLE_REGISTRATION : 
-    urlpatterns.append(patterns(
-                                url(r'^accounts/register/$', register, {
-                'backend': 'registration.backends.default.DefaultBackend',
-                'form_class': RegistrationForm,
-                'extra_context': {'title': _('User registration')}
-            },
-            name='weblate_register')))
+    urlpatterns += patterns('', 
+            url(r'^accounts/register/$', register, {
+                    'backend': 'registration.backends.default.DefaultBackend',
+                    'form_class': RegistrationForm,
+                    'extra_context': {'title': _('User registration')}
+                },
+                name='weblate_register'))
