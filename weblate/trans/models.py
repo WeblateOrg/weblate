@@ -1996,7 +1996,7 @@ class Unit(models.Model):
             return
 
         # Update translated flag
-        self.translated = pounit.istranslated()
+        self.translated = is_translated(pounit)
 
         # Update comments as they might have been changed (eg, fuzzy flag removed)
         if hasattr(pounit, 'typecomments'):
