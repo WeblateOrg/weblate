@@ -344,6 +344,14 @@ DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 #    }
 #}
 
-ENABLE_REGISTRATION=True
+# Set to False if you don't wan't public registration
+ENABLE_REGISTRATION = True
 
-GLOBAL_REQUIRE_LOGIN=False
+LOGIN_REQUIRED_URLS = (
+    # Uncomment this to force login for entire site.
+    # r'/(.*)$',
+)
+LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+    r'/accounts/login(.*)$', 
+    r'/accounts/logout(.*)$',
+)

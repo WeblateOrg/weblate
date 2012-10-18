@@ -207,12 +207,3 @@ if settings.ENABLE_REGISTRATION :
                 'extra_context': {'title': _('User registration')}
             },
             name='weblate_register')))
-
-if settings.GLOBAL_REQUIRE_LOGIN :
-    LOGIN_REQUIRED_URLS = (
-        r'/(.*)$',
-    )
-    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r'/accounts/login(.*)$', 
-        r'/accounts/logout(.*)$',
-    )
