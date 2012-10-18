@@ -1080,12 +1080,22 @@ def get_dictionary(request, unit_id):
     # join both lists
     words = set(words_std).union(words_stem)
 
+    # Grab all words in the dictionary
+    dictionary = Dictionary.objects.filter(
+        project = unit.translation.subproject.project,
+        language = unit.translation.language
+    )
+
+    # Built the query (can not use __in as we want case insensitive lookup)
+    query = Q()
+    for word in words:
+        query |= Q(source__iexact = word)
+
+    # Filter dictionary
+    dictionary = dictionary.filter(query)
+
     return render_to_response('js/dictionary.html', RequestContext(request, {
-        'dictionary': Dictionary.objects.filter(
-            project = unit.translation.subproject.project,
-            language = unit.translation.language,
-            source__in = words
-        ),
+        'dictionary': dictionary,
     }))
 
 @login_required
