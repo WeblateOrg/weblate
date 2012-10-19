@@ -17,6 +17,7 @@ Relased on ? 2012.
 * Support for generating SSH key from web interface.
 * More visible data exports.
 * New buttons to enter some special characters.
+* Support for exporting dictionary.
 
 weblate 1.2
 -----------

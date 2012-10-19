@@ -76,6 +76,7 @@
 {% if perms.trans.upload_dictionary %}
 <li><a href="#import">{% trans "Import dictionary" %}</a></li>
 {% endif %}
+<li><a href="#export">{% trans "Export dictionary" %}</a></li>
 </ul>
 
 {% if perms.trans.add_dictionary %}
@@ -107,5 +108,14 @@
 
 </div>
 {% endif %}
+
+<div id="export">
+
+<p>{% trans "You can download dictionary in following formats:" %}</p>
+
+<ul>
+<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
+</ul>
 
 {% endblock %}

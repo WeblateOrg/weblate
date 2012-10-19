@@ -51,6 +51,7 @@ urlpatterns = patterns('',
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'weblate.trans.views.upload_dictionary'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$', 'weblate.trans.views.delete_dictionary'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'weblate.trans.views.edit_dictionary'),
+    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.download_dictionary'),
 
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.show_subproject'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_translation'),

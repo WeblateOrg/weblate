@@ -79,7 +79,7 @@ class PluralTextarea(forms.Textarea):
 
         # Show plural equation for more strings
         pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
-            ugettext('This equation is used to identify which plural form will be used based on given count (n).'),
+            ugettext('This equation identifies which plural form will be used based on given count (n).'),
             ugettext('Plural equation'),
             lang.pluralequation)
 

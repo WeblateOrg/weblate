@@ -51,7 +51,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock
-from util import is_plural, split_plural, join_plural, get_target, is_translated
+from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -60,64 +60,105 @@ from distutils.version import LooseVersion
 
 logger = logging.getLogger('weblate')
 
+class FileFormat(object):
+    '''
+    Simple object defining file format loader.
+    '''
+    def __init__(self, name, loader, monolingual = None, mark_fuzzy = False, fixups = None):
+        self.name = name
+        self.loader = loader
+        self.monolingual = monolingual
+        self.mark_fuzzy = mark_fuzzy
+        self.fixups = fixups
+
+    def load(self, storefile):
+        '''
+        Loads file using defined loader.
+        '''
+        loader = self.loader
+
+        # If loader is callable call it directly
+        if callable(loader):
+            return loader(storefile)
+
+        # Tuple style loader, import from translate toolkit
+        module_name, class_name = loader
+        if '.' in module_name:
+            module = importlib.import_module(module_name)
+        else:
+            module = importlib.import_module('translate.storage.%s' % module_name)
+
+        # Get the class
+        storeclass = getattr(module, class_name)
+
+        # Parse file
+        store = storeclass.parsefile(storefile)
+
+        # Apply possible fixups
+        if self.fixups is not None:
+            for fix in self.fixups:
+                setattr(store, fix, self.fixups[fix])
+
+        return store
+
+
 FILE_FORMATS = {
-    'auto': {
-        'name': ugettext_lazy('Automatic detection'),
-        'loader': factory.getobject,
-        'monolingual': None, # Depends on actual format
-    },
-    'po': {
-        'name': ugettext_lazy('Gettext PO file'),
-        'loader': ('po', 'pofile'),
-        'monolingual': False,
-    },
-    'ts': {
-        'name': ugettext_lazy('XLIFF Translation File'),
-        'loader': ('ts2', 'tsfile'),
-        'monolingual': None, # Can be both
-    },
-    'xliff': {
-        'name': ugettext_lazy('Qt Linguist Translation File'),
-        'loader': ('xliff', 'xlifffile'),
-        'monolingual': None, # Can be both
-    },
-    'strings': {
-        'name': ugettext_lazy('OS X Strings'),
-        'loader': ('properties', 'stringsfile'),
-        'monolingual': False,
-    },
-    'properties': {
-        'name': ugettext_lazy('Java Properties'),
-        'loader': ('properties', 'javafile'),
-        'monolingual': True,
+    'auto': FileFormat(
+        ugettext_lazy('Automatic detection'),
+        factory.getobject,
+    ),
+    'po': FileFormat(
+        ugettext_lazy('Gettext PO file'),
+        ('po', 'pofile'),
+        False,
+    ),
+    'ts': FileFormat(
+        ugettext_lazy('XLIFF Translation File'),
+        ('ts2', 'tsfile'),
+    ),
+    'xliff': FileFormat(
+        ugettext_lazy('Qt Linguist Translation File'),
+        ('xliff', 'xlifffile'),
+    ),
+    'strings': FileFormat(
+        ugettext_lazy('OS X Strings'),
+        ('properties', 'stringsfile'),
+        False,
+    ),
+    'properties': FileFormat(
+        ugettext_lazy('Java Properties'),
+        ('properties', 'javafile'),
+        True,
         # Java properties need to be iso-8859-1, but
         # ttkit converts them to utf-8
-        'fixups': {'encoding': 'iso-8859-1'},
-    },
-    'properties-utf8': {
-        'name': ugettext_lazy('Java Properties (UTF-8)'),
-        'loader': ('properties', 'javautf8file'),
-        'monolingual': True,
-    },
+        fixups = {'encoding': 'iso-8859-1'},
+    ),
+    'properties-utf8': FileFormat(
+        ugettext_lazy('Java Properties (UTF-8)'),
+        ('properties', 'javautf8file'),
+        True,
+    ),
 }
 
 # Check if there is support for Android resources
 # Available as patch at https://github.com/translate/translate/pull/2
 try:
     from translate.storage import aresource
-    FILE_FORMATS['aresource'] = {
-        'name': ugettext_lazy('Android String Resource'),
-        'loader': ('aresource', 'AndroidResourceFile'),
-        'monolingual': True,
-    }
+    FILE_FORMATS['aresource'] = FileFormat(
+        ugettext_lazy('Android String Resource'),
+        ('aresource', 'AndroidResourceFile'),
+        True,
+        mark_fuzzy = True,
+    )
 except ImportError:
-    FILE_FORMATS['aresource'] = {
-        'name': ugettext_lazy('Android String Resource'),
-        'loader': ('ttkit.aresource', 'AndroidResourceFile'),
-        'monolingual': True,
-    }
+    FILE_FORMATS['aresource'] = FileFormat(
+        ugettext_lazy('Android String Resource'),
+        ('ttkit.aresource', 'AndroidResourceFile'),
+        True,
+        mark_fuzzy = True,
+    )
 
-FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt]['name']) for fmt in FILE_FORMATS]
+FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
 
 def ttkit(storefile, file_format = 'auto'):
     '''
@@ -137,32 +178,9 @@ def ttkit(storefile, file_format = 'auto'):
         raise Exception('Not supported file format: %s' % file_format)
 
     # Get loader
-    loader = FILE_FORMATS[file_format]['loader']
+    format_obj = FILE_FORMATS[file_format]
 
-    # If loader is callable call it directly
-    if callable(loader):
-        return loader(storefile)
-
-    # Tuple style loader, import from translate toolkit
-    module_name, class_name = loader
-    if '.' in module_name:
-        module = importlib.import_module(module_name)
-    else:
-        module = importlib.import_module('translate.storage.%s' % module_name)
-
-    # Get the class
-    storeclass = getattr(module, class_name)
-
-    # Parse file
-    store = storeclass.parsefile(storefile)
-
-    # Apply possible fixups
-    if 'fixups' in FILE_FORMATS[file_format]:
-        for fix in FILE_FORMATS[file_format]['fixups']:
-            setattr(store, fix, FILE_FORMATS[file_format]['fixups'][fix])
-
-    return store
-
+    return format_obj.load(storefile)
 
 def validate_repoweb(val):
     try:
@@ -1065,11 +1083,25 @@ class SubProject(models.Model):
     def git_needs_push(self, gitrepo = None):
         return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
 
+    def get_file_format(self):
+        '''
+        Returns file format object.
+        '''
+        if not hasattr(self, '_file_format'):
+            self._file_format = FILE_FORMATS[self.file_format]
+        return self._file_format
+
     def has_template(self):
         '''
         Returns true if subproject is using template for translation
         '''
-        return FILE_FORMATS[self.file_format]['monolingual'] != False and self.template != ''
+        return self.get_file_format().monolingual != False and self.template != ''
+
+    def should_mark_fuzzy(self):
+        '''
+        Returns whether we're handling fuzzy mark in the database.
+        '''
+        return self.get_file_format().mark_fuzzy
 
     def get_template_store(self):
         '''
@@ -1665,28 +1697,38 @@ class Translation(models.Model):
 
             else:
                 # Find all units with same source
-                for pounit in store.findunits(src):
-                    # Does context match?
-                    if pounit.getcontext() == unit.context:
-                        found = True
-                        # Is it plural?
-                        if hasattr(pounit.target, 'strings'):
-                            potarget = join_plural(pounit.target.strings)
+                found_units = store.findunits(src)
+                if len(found_units) > 0:
+                    for pounit in found_units:
+                        # Does context match?
+                        if pounit.getcontext() == unit.context:
+                            # We should have only one match
+                            found = True
+                            break
+                else:
+                    # Fallback to manual find for value based files
+                    for pounit in store.units:
+                        if get_source(pounit) == src:
+                            found = True
+                            break
+
+                if found:
+                    # Is it plural?
+                    if hasattr(pounit.target, 'strings'):
+                        potarget = join_plural(pounit.target.strings)
+                    else:
+                        potarget = pounit.target
+                    # Is there any change
+                    if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
+                        # Update fuzzy flag
+                        pounit.markfuzzy(unit.fuzzy)
+                        # Store translations
+                        if unit.is_plural():
+                            pounit.settarget(unit.get_target_plurals())
                         else:
-                            potarget = pounit.target
-                        # Is there any change
-                        if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
-                            # Update fuzzy flag
-                            pounit.markfuzzy(unit.fuzzy)
-                            # Store translations
-                            if unit.is_plural():
-                                pounit.settarget(unit.get_target_plurals())
-                            else:
-                                pounit.settarget(unit.target)
-                            # We need to update backend
-                            need_save = True
-                        # We should have only one match
-                        break
+                            pounit.settarget(unit.target)
+                        # We need to update backend
+                        need_save = True
 
             if not found:
                 return False, None
@@ -1996,7 +2038,7 @@ class Unit(models.Model):
             return
 
         # Update translated flag
-        self.translated = pounit.istranslated()
+        self.translated = is_translated(pounit)
 
         # Update comments as they might have been changed (eg, fuzzy flag removed)
         if hasattr(pounit, 'typecomments'):
