@@ -183,6 +183,15 @@ Trailing newline
 
 Source and translated do not both end with a newline.
 
+.. _check-begin_space:
+
+Starting spaces
++++++++++++++++
+
+Source and translation do not both start with same number of spaces. Space in
+beginning is usually used for indentation in the interface and thus is
+important.
+
 .. _check-end_space:
 
 Trailing space
