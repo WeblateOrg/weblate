@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-20 14:31+0200\n"
+"POT-Creation-Date: 2012-10-22 11:21+0200\n"
 "PO-Revision-Date: 2012-05-18 11:10+0200\n"
 "Last-Translator: Yuichiro Takahashi <yuichiro@pop07.odn.ne.jp>\n"
 "Language-Team: japanese <jp@li.org>\n"
@@ -2211,51 +2211,61 @@ msgstr ""
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/checks.py:239
+#: trans/checks.py:240
 msgid "Not translated"
 msgstr "未翻訳"
 
-#: trans/checks.py:240
+#: trans/checks.py:241
 msgid "Source and translated strings are same"
 msgstr "翻訳前後でメッセージが同じもの"
 
-#: trans/checks.py:284
+#: trans/checks.py:285
 msgid "Starting newline"
 msgstr "文頭の改行"
 
-#: trans/checks.py:285
+#: trans/checks.py:286
 msgid "Source and translation do not both start with a newline"
 msgstr "翻訳前後で文頭の改行の有無が異なるもの"
 
-#: trans/checks.py:295
+#: trans/checks.py:296
 msgid "Trailing newline"
 msgstr "文末の改行"
 
-#: trans/checks.py:296
+#: trans/checks.py:297
 msgid "Source and translation do not both end with a newline"
 msgstr "翻訳前後で文末の改行の有無が異なるもの"
 
-#: trans/checks.py:306
+#: trans/checks.py:307
+#, fuzzy
+msgid "Starting spaces"
+msgstr "開始日"
+
+#: trans/checks.py:308
+#, fuzzy
+msgid "Source and translation do not both start with same number of spaces"
+msgstr "翻訳前後で文頭の改行の有無が異なるもの"
+
+#: trans/checks.py:331
 msgid "Trailing space"
 msgstr "文末の空白"
 
-#: trans/checks.py:307
+#: trans/checks.py:332
 msgid "Source and translation do not both end with a space"
 msgstr "翻訳前後で文末の空白の有無が異なるもの"
 
-#: trans/checks.py:325
+#: trans/checks.py:350
 msgid "Trailing stop"
 msgstr "文末の〆"
 
-#: trans/checks.py:326
+#: trans/checks.py:351
 msgid "Source and translation do not both end with a full stop"
 msgstr "翻訳前後で終止符・句点の有無が異なるもの"
 
-#: trans/checks.py:343
+#: trans/checks.py:368
 msgid "Trailing colon"
 msgstr "文末のコロン"
 
-#: trans/checks.py:344
+#: trans/checks.py:369
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2263,11 +2273,11 @@ msgstr ""
 "翻訳前後で、文末のコロンの有無が異なるもの、もしくは文末コロンの前後空白が正"
 "しくないもの"
 
-#: trans/checks.py:368
+#: trans/checks.py:393
 msgid "Trailing question"
 msgstr "文末の疑問符"
 
-#: trans/checks.py:369
+#: trans/checks.py:394
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2275,11 +2285,11 @@ msgstr ""
 "翻訳前後で、疑問符の有無が異なるもの、もしくは文末疑問符の前後空白が正しくな"
 "いもの"
 
-#: trans/checks.py:386
+#: trans/checks.py:411
 msgid "Trailing exclamation"
 msgstr "文末の感嘆符"
 
-#: trans/checks.py:387
+#: trans/checks.py:412
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2287,71 +2297,71 @@ msgstr ""
 "翻訳前後で、感嘆符の有無が異なるもの、もしくは文末感嘆符の前後空白が正しくな"
 "いもの"
 
-#: trans/checks.py:410
+#: trans/checks.py:435
 #, fuzzy
 msgid "Trailing elipsis"
 msgstr "文末の改行"
 
-#: trans/checks.py:411
+#: trans/checks.py:436
 #, fuzzy
 msgid "Source and translation do not both end with an elipsis"
 msgstr "翻訳前後で文末の改行の有無が異なるもの"
 
-#: trans/checks.py:424
+#: trans/checks.py:449
 msgid "Python format"
 msgstr "Python 書式"
 
-#: trans/checks.py:425 trans/checks.py:438 trans/checks.py:451
+#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
 msgid "Format string does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
 
-#: trans/checks.py:437
+#: trans/checks.py:462
 msgid "PHP format"
 msgstr "PHP 書式"
 
-#: trans/checks.py:450
+#: trans/checks.py:475
 msgid "C format"
 msgstr "C 言語書式"
 
-#: trans/checks.py:464
+#: trans/checks.py:489
 msgid "Missing plurals"
 msgstr "複数形の欠如"
 
-#: trans/checks.py:465
+#: trans/checks.py:490
 msgid "Some plural forms are not translated"
 msgstr "翻訳されていない複数形が存在するもの"
 
-#: trans/checks.py:482
+#: trans/checks.py:507
 msgid "Inconsistent"
 msgstr "不一致"
 
-#: trans/checks.py:483
+#: trans/checks.py:508
 msgid "This message has more than one translation in this project"
 msgstr ""
 "同じプロジェクト内の一致するメッセージに対して複数通りの翻訳がされているもの"
 
-#: trans/checks.py:507
+#: trans/checks.py:532
 msgid "Invalid text direction"
 msgstr "無効な書字方向"
 
-#: trans/checks.py:508
+#: trans/checks.py:533
 msgid "Text direction can be either LTR or RTL"
 msgstr "書字方向は、LTR (左横書き) または RTL (右横書き) のいずれかから選択"
 
-#: trans/checks.py:535
+#: trans/checks.py:560
 msgid "Mismatched \\n"
 msgstr ""
 
-#: trans/checks.py:536
+#: trans/checks.py:561
 #, fuzzy
 msgid "Number of \\n in translation does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
 
-#: trans/checks.py:543
+#: trans/checks.py:568
 msgid "Mismatched BBcode"
 msgstr ""
 
-#: trans/checks.py:544
+#: trans/checks.py:569
 #, fuzzy
 msgid "BBcode in translation does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
