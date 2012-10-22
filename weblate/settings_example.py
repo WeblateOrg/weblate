@@ -312,6 +312,7 @@ CHECK_LIST = (
     'weblate.trans.checks.SameCheck',
     'weblate.trans.checks.BeginNewlineCheck',
     'weblate.trans.checks.EndNewlineCheck',
+    'weblate.trans.checks.BeginSpaceCheck',
     'weblate.trans.checks.EndSpaceCheck',
     'weblate.trans.checks.EndStopCheck',
     'weblate.trans.checks.EndColonCheck',
