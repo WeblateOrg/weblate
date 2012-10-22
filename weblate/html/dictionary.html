@@ -96,7 +96,7 @@
 {% if perms.trans.upload_dictionary %}
 <div id="import">
 
-<p>{% trans "You can upload any format which is understood by Translate Toolkit for example csv or po file." %}</p>
+<p>{% trans "You can upload any format which is understood by Translate Toolkit (including TBX, CSV or Gettext PO files)." %}</p>
 
 <form action="{% url 'weblate.trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
