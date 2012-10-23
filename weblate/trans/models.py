@@ -1751,6 +1751,7 @@ class Translation(models.Model):
                 if hasattr(store, 'updateheader'):
                     po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
+                    # Update genric headers
                     store.updateheader(
                         add = True,
                         last_translator = author,
@@ -1759,8 +1760,10 @@ class Translation(models.Model):
                         PO_Revision_Date = po_revision_date,
                         x_generator = 'Weblate %s' % weblate.VERSION
                         )
+
                     if self.subproject.project.set_translation_team:
                         site = Site.objects.get_current()
+                        # Store language team with link to website
                         store.updateheader(
                             language_team = '%s <http://%s%s>' % (
                                 self.language.name,
@@ -1768,6 +1771,7 @@ class Translation(models.Model):
                                 self.get_absolute_url(),
                             )
                         )
+                        # Optionally store email for reporting bugs in source
                         if self.subproject.report_source_bugs != '':
                             store.updateheader(
                                 report_msgid_bugs_to = self.subproject.report_source_bugs,
