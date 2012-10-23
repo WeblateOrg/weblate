@@ -421,6 +421,30 @@ def auto_translation(request, project, subproject, lang):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+def review_source(request, project, subproject):
+    '''
+    Listing of source strings to review.
+    '''
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+
+def show_source(request, project, subproject):
+    '''
+    Show source strings summary and checks.
+    '''
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    if not obj.translation_set.exists():
+        raise Http404('No translation exists in this subproject.')
+
+    # Grab first translation in subproject
+    # (this assumes all have same source strings)
+    source = obj.translation_set.all()[0]
+
+    return render_to_response('source.html', RequestContext(request, {
+        'object': obj,
+        'source': source,
+        'title': _('Source strings in %s') % obj.__unicode__(),
+    }))
+
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
     last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]
