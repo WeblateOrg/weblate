@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load i18n %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -34,7 +35,7 @@
 <tbody>
 {% for source in sources.object_list %}
 <tr>
-<td class="translatetext">{{ source.source }}</td>
+<td class="translatetext">{{ source.source|fmttranslation }}</td>
 <td>{{ source.get_source_checks }}</td>
 </tr>
 {% endfor %}
