@@ -468,7 +468,7 @@ class SubProject(models.Model):
         blank = True,
     )
     report_source_bugs = models.EmailField(
-        help_text = ugettext_lazy('Email address where errors in source string will be reported'),
+        help_text = ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails'),
         blank = True,
     )
     branch = models.CharField(
