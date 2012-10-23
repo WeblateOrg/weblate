@@ -467,6 +467,10 @@ class SubProject(models.Model):
         validators = [validate_repoweb],
         blank = True,
     )
+    report_source_bugs = models.EmailField(
+        help_text = ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails'),
+        blank = True,
+    )
     branch = models.CharField(
         max_length = 50,
         help_text = ugettext_lazy('Git branch to translate')
@@ -1331,6 +1335,13 @@ class Translation(models.Model):
             'lang': self.language.code
         })
 
+    @models.permalink
+    def get_source_review_url(self):
+        return ('weblate.trans.views.review_source', (), {
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+        })
+
     def __unicode__(self):
         return '%s - %s' % (self.subproject.__unicode__(), _(self.language.name))
 
@@ -1740,6 +1751,7 @@ class Translation(models.Model):
                 if hasattr(store, 'updateheader'):
                     po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
 
+                    # Update genric headers
                     store.updateheader(
                         add = True,
                         last_translator = author,
@@ -1748,8 +1760,10 @@ class Translation(models.Model):
                         PO_Revision_Date = po_revision_date,
                         x_generator = 'Weblate %s' % weblate.VERSION
                         )
+
                     if self.subproject.project.set_translation_team:
                         site = Site.objects.get_current()
+                        # Store language team with link to website
                         store.updateheader(
                             language_team = '%s <http://%s%s>' % (
                                 self.language.name,
@@ -1757,6 +1771,11 @@ class Translation(models.Model):
                                 self.get_absolute_url(),
                             )
                         )
+                        # Optionally store email for reporting bugs in source
+                        if self.subproject.report_source_bugs != '':
+                            store.updateheader(
+                                report_msgid_bugs_to = self.subproject.report_source_bugs,
+                            )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)
                 # save translation changes
@@ -1765,6 +1784,13 @@ class Translation(models.Model):
                 self.git_commit(author, timezone.now(), sync = True)
 
         return need_save, pounit
+
+    def get_source_checks(self):
+        '''
+        Returns list of failing source checks on current subproject.
+        '''
+        result = [('all', _('All strings'))]
+        return result
 
     def get_translation_checks(self):
         '''

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_source' project=object.project.slug subproject=object.slug %}">{% trans "source" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.review_source' project=object.project.slug subproject=object.slug %}">{% trans "review" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<h2>{% trans "Strings to review" %}</h2>
+
+<span id="navi-toolbar" class="ui-widget-header ui-corner-all">
+<span class="navi">
+<a class="button-first{% if sources.number == 1 %} button-disabled{% endif %}" href="?page=1&amp;letter={{ letter }}">{% trans "First" %}</a>
+<a class="button-prev{% if not sources.has_previous %} button-disabled{% endif %}" href="?page={{ sources.previous_page_number }}&amp;letter={{ letter }}">{% trans "Previous" %}</a>
+<a class="button-pos">{% blocktrans with sources.number as position and sources.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a class="button-next{% if not sources.has_next %} button-disabled{% endif %}" href="?page={{ sources.next_page_number }}&amp;letter={{ letter }}">{% trans "Next" %}</a>
+<a class="button-end{% if sources.paginator.num_pages == sources.number %} button-disabled{% endif %}" href="?page={{ sources.paginator.num_pages }}&amp;letter={{ letter }}">{% trans "Last" %}</a>
+</span>
+</span>
+
+{% if sources.object_list %}
+<table>
+<thead>
+<tr>
+<th>{% trans "Source" %}</th>
+<th>{% trans "Notes" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for source in sources.object_list %}
+<tr>
+<td class="translatetext">{{ source.source|fmttranslation }}</td>
+<td>{{ source.get_source_checks }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>{% trans "No sources found!" %}</p>
+{% endif %}
+
+{% endblock %}
