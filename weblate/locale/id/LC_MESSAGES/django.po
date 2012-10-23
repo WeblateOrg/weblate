@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-18 14:02+0200\n"
-"PO-Revision-Date: 2012-09-06 02:08+0200\n"
+"POT-Creation-Date: 2012-10-22 11:21+0200\n"
+"PO-Revision-Date: 2012-10-22 11:32+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
-"Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
-">\n"
+"Language-Team: Indonesian "
+"<http://l10n.cihar.com/projects/weblate/master/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -262,7 +262,6 @@ msgid "The page you are looking for was not found."
 msgstr "Halaman yang Anda cari tidak ditemukan."
 
 #: html/404.html:11
-#, fuzzy
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
@@ -313,7 +312,7 @@ msgstr ""
 
 #: html/about.html:16
 msgid "Flattr Weblate!"
-msgstr ""
+msgstr "Flattr Weblate!"
 
 #: html/about.html:17
 msgid "Donate to Weblate!"
@@ -369,7 +368,7 @@ msgid "Home"
 msgstr "Beranda"
 
 #: html/base.html:80 html/engage.html:59
-#, fuzzy, python-format
+#, python-format
 msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
 msgstr "Dikuatkan oleh <a href=\"http://weblate.org\">Weblate %(version)s</a>"
 
@@ -435,15 +434,17 @@ msgstr "Kirim"
 
 #: html/data.html:7
 msgid "data"
-msgstr ""
+msgstr "data"
 
 #: html/data.html:12
 msgid "Data export"
-msgstr ""
+msgstr "Ekspor data"
 
 #: html/data.html:15
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
+"Anda dapat mengambil berbagai data dari Weblate dalam format yang dapat "
+"dibaca mesin."
 
 #: html/data.html:21
 #, python-format
@@ -452,22 +453,25 @@ msgid ""
 "these data in other websites or tools. Format of the data is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
+"Statistik penerjemahan untuk setiap subproyek dalam format JSON memungkinkan "
+"Anda untuk menggunakan data ini di situs web atau aplikasi lainnya. Format "
+"data dijelaskan dalam <a href=\"%(api_docs)s\">dokumentasi</a>."
 
 #: html/data.html:29
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: html/data.html:30
 msgid "Link"
-msgstr ""
+msgstr "Taut"
 
 #: html/data.html:37 html/translation.html:54
 msgid "Download"
 msgstr "Unduh"
 
-#: html/dictionaries.html:8 html/dictionary.html:7 html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "Kamus"
+#: html/dictionaries.html:8 html/dictionary.html:7
+msgid "glossaries"
+msgstr "Glosarium"
 
 #: html/dictionaries.html:15 html/languages.html:14
 #: html/list-translations.html:6
@@ -478,9 +482,9 @@ msgstr "Bahasa"
 msgid "Words"
 msgstr "Kata"
 
-#: html/dictionary.html:15
-msgid "Dictionary"
-msgstr "Kamus"
+#: html/dictionary.html:15 html/translate.html:167
+msgid "Glossary"
+msgstr "Glosarium"
 
 #: html/dictionary.html:19 html/translate.html:20
 msgid "First"
@@ -531,13 +535,12 @@ msgid "Add new word"
 msgstr "Tambah kata baru"
 
 #: html/dictionary.html:77
-msgid "Import dictionary"
-msgstr "Impor kamus"
+msgid "Import glossary"
+msgstr "Impor glosarium"
 
 #: html/dictionary.html:79
-#, fuzzy
-msgid "Export dictionary"
-msgstr "Impor kamus"
+msgid "Export glossary"
+msgstr "Ekspor glosarium"
 
 #: html/dictionary.html:90
 msgid "Add"
@@ -556,16 +559,20 @@ msgid "Import"
 msgstr "Impor"
 
 #: html/dictionary.html:114
-msgid "You can download dictionary in following formats:"
-msgstr ""
+msgid "You can download glossary in following formats:"
+msgstr "Anda dapat mengunduh glosarium dalam format-format berikut:"
 
 #: html/dictionary.html:117
 msgid "Comma separated values (CSV)"
-msgstr ""
+msgstr "Nilai koma terpisah (CSV)"
 
 #: html/dictionary.html:118
 msgid "Gettext (PO)"
-msgstr ""
+msgstr "Gettext (PO)"
+
+#: html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "Kamus"
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -617,13 +624,13 @@ msgstr ""
 "lengkap."
 
 #: html/engage.html:51
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(name)s, you need to <a "
 "href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Jika Anda ingin berkontribusi untuk terjemahan dari %(name)s, Anda harus <a "
-"href=\"/accounts/register/\">mendaftar di server ini</a>."
+"Jika Anda ingin berkontribusi untuk penerjemahan %(name)s ini, Anda harus <a "
+"href=\"%(reg_url)s\">mendaftar di server ini</a>."
 
 #: html/engage.html:54
 #, python-format
@@ -802,9 +809,9 @@ msgstr "Subproyek"
 msgid "Subproject"
 msgstr "Subproyek"
 
-#: html/project.html:40 trans/views.py:181
-msgid "Dictionaries"
-msgstr "Kamus"
+#: html/project.html:40
+msgid "Glossaries"
+msgstr "Glosarium"
 
 #: html/project.html:43 html/subproject.html:31 html/translation.html:39
 msgid "Git maintenance"
@@ -812,11 +819,11 @@ msgstr "Pemeliharaan Git"
 
 #: html/project.html:45 html/subproject.html:33 html/translation.html:42
 msgid "Share"
-msgstr ""
+msgstr "Berbagi"
 
 #: html/project.html:53
-msgid "Manage all dictionaries"
-msgstr "Mengelola semua kamus"
+msgid "Manage all glossaries"
+msgstr "Mengelola semua glosarium"
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -844,13 +851,13 @@ msgid "Tweet this translation!"
 msgstr "Twit penerjemahan ini!"
 
 #: html/share.html:9
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">widgets</a>."
 msgstr ""
-"Mempromosikan proyek terjemahan Anda menggunakan <a href=\"%(widgets_url)s"
-"\">widget</a>."
+"Anda juga dapat mempromosikan proyek penerjemahan ini dengan menggunakan "
+"bermacam-macam <a href=\"%(widgets_url)s\">widget</a>."
 
 #: html/share.html:13
 #, python-format
@@ -858,8 +865,10 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
+"Berbagai <a href=\"%(data_url)s\">ekpor data</a> tersedia dalam format yang "
+"dapat dibaca mesin."
 
-#: html/subproject.html:28 trans/models.py:230
+#: html/subproject.html:28 trans/models.py:248
 msgid "New language"
 msgstr "Bahasa baru"
 
@@ -915,20 +924,19 @@ msgstr "Samar"
 
 #: html/translate.html:73
 msgid "Special characters:"
-msgstr ""
+msgstr "Karakter khusus:"
 
 #: html/translate.html:74
 msgid "Insert tab character"
-msgstr ""
+msgstr "Sisip tab karakter"
 
 #: html/translate.html:75
-#, fuzzy
 msgid "Insert new line"
-msgstr "Mulai baris baru"
+msgstr "Sisip baris baru"
 
 #: html/translate.html:76
 msgid "Insert horizontal elipsis"
-msgstr ""
+msgstr "Sisip elipsis horisontal"
 
 #: html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
@@ -1006,12 +1014,8 @@ msgid "All locations"
 msgstr "Semua lokasi"
 
 #: html/translate.html:167
-msgid "Words extracted from dictionary"
-msgstr "Kata-kata diambil dari kamus"
-
-#: html/translate.html:167
-msgid "Words in dictionary"
-msgstr "Kata-kata dalam kamus"
+msgid "Words extracted from glossary"
+msgstr "Kata-kata diambil dari glosarium"
 
 #: html/translate.html:168
 msgid "List of recent changes done in Weblate"
@@ -1200,7 +1204,7 @@ msgstr "Status repositori"
 #: html/admin/custom-index.html:23 html/admin/ssh.html:4
 #: html/admin/ssh.html.py:8
 msgid "SSH keys"
-msgstr ""
+msgstr "Kunci SSH"
 
 #: html/admin/report.html:8
 msgid "Status"
@@ -1217,30 +1221,31 @@ msgstr ""
 
 #: html/admin/ssh.html:14
 msgid "Public SSH key"
-msgstr ""
+msgstr "Kunci SSH publik"
 
 #: html/admin/ssh.html:15
 msgid "Weblate currently uses following SSH key:"
-msgstr ""
+msgstr "Weblate saat ini menggunakan kunci SSH berikut:"
 
 #: html/admin/ssh.html:22
 msgid "Generate SSH key"
-msgstr ""
+msgstr "Buat kunci SSH"
 
 #: html/admin/ssh.html:23
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
 msgstr ""
+"Anda tampaknya tidak memiliki kunci SSH, dengan menekan tombol di bawah "
+"Weblate akan membuatkannya untuk Anda."
 
 #: html/admin/ssh.html:26
 msgid "Generate"
-msgstr ""
+msgstr "Buat"
 
 #: html/admin/ssh.html:32
-#, fuzzy
 msgid "More information"
-msgstr "Informasi proyek"
+msgstr "Informasi lebih lanjut"
 
 #: html/admin/ssh.html:34
 #, python-format
@@ -1248,6 +1253,8 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
+"Anda dapat menemukan informasi lebih lanjut tentang pengaturan kunci SSH di "
+"<a href=\"%(ssh_docs)s\">manual Weblate</a>."
 
 #: html/js/dictionary.html:18
 msgid "No related strings found in dictionary."
@@ -1255,7 +1262,7 @@ msgstr "Tidak ada string terkait yang ditemukan dalam kamus."
 
 #: html/js/git-status.html:8
 msgid "Commit pending changes"
-msgstr "Commit perubahan tertunda"
+msgstr "Menyetujui perubahan tertunda"
 
 #: html/js/git-status.html:8
 msgid "Commit"
@@ -1453,14 +1460,14 @@ msgstr[0] ""
 "hari untuk mengaktifkannya."
 
 #: html/registration/activate.html:12
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Jika hal ini tidak disebabkan kasus tersebut, silakan <a href=\"/contact/"
-"\">menghubungi</a> administrator situs web ini. Atau anda dapat <a href="
+"Jika hal ini bukan permasalahan, silahkan <a href=\"%(contact_url)s"
+"\">hubungi</a> administrator situs web ini. Atau, Anda dapat <a href="
 "\"%(reg_url)s\">mendaftar lagi</a>."
 
 #: html/registration/activation_complete.html:8
@@ -1588,13 +1595,12 @@ msgstr ""
 "sandilewat yang anda ketik dalam benar."
 
 #: html/registration/password_reset_confirm.html:19
-#, fuzzy
 msgid ""
 "The password reset link is invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
-"Tautan setel ulang sandilewat tidak valid, mungkin karena ini telah "
-"digunakan.  Silakan meminta sandilewat baru."
+"Tautan tata ulang sandilewat tidak valid, mungkin karena ini telah "
+"digunakan. Silahkan meminta tata ulang sandilewat baru."
 
 #: html/registration/password_reset_done.html:7
 msgid ""
@@ -1644,34 +1650,34 @@ msgid "Reset my password"
 msgstr "Tata ulang sandilewat saya"
 
 #: html/registration/registration_closed.html:9
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Maaf, registrasi di situs ini dinonaktifkan. Anda dapat <a href=\"/contact/"
-"\">hubungi kami</a> untuk lebih jelasnya."
+"Maaf, registrasi di situs ini tidak diaktifkan. Anda dapat <a href="
+"\"%(contact_url)s\">hubungi kami</a> untuk lebih jelasnya."
 
 #: html/registration/registration_complete.html:7
-#, fuzzy
 msgid ""
 "Thank you for registering. You will very soon receive an email with a "
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"Terima kasih telah mendaftar. Anda akan segera menerima surel\n"
-"berisi tautan untuk konfirmasi. Ikuti tautan ini untuk menyelesaikannya."
+"Terima kasih telah mendaftar. Anda segera akan menerima surel berisi tautan "
+"untuk konfirmasi. Silahkan ikuti tautan ini untuk menyelesaikan permintaan "
+"registrasi Anda."
 
 #: html/registration/registration_complete.html:11
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
 "there, please <a href=\"%(contact_url)s?subject=Lost activation code"
 "\">contact us</a>."
 msgstr ""
-"Jika anda tidak menerima ini dalam waktu dekat, silahkan periksa pelipat "
-"surel spam. Jika tidak ada, silahkan <a href=\"/contact/?subject=Lost "
-"activation code\">hubungi kami</a>."
+"Jika anda tidak segera menerima ini, silahkan periksa pelipat surel spam. "
+"Jika tidak ada, silahkan <a href=\"%(contact_url)s?subject=Lost activation "
+"code\">hubungi kami</a>."
 
 #: html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
@@ -1692,7 +1698,7 @@ msgstr "Afrika"
 
 #: lang/i18n.py:33
 msgid "Akan"
-msgstr ""
+msgstr "Akan"
 
 #: lang/i18n.py:34
 msgid "Albanian"
@@ -1700,7 +1706,7 @@ msgstr "Albania"
 
 #: lang/i18n.py:35
 msgid "Amharic"
-msgstr ""
+msgstr "Amharic"
 
 #: lang/i18n.py:36
 msgid "Arabic"
@@ -1724,7 +1730,7 @@ msgstr "Azerbaijan"
 
 #: lang/i18n.py:41
 msgid "Basque"
-msgstr ""
+msgstr "Basque"
 
 #: lang/i18n.py:42
 msgid "Belarusian"
@@ -1776,7 +1782,7 @@ msgstr "Cina (Taiwan)"
 
 #: lang/i18n.py:55
 msgid "Cornish"
-msgstr ""
+msgstr "Cornish"
 
 #: lang/i18n.py:56
 msgid "Croatian"
@@ -1784,7 +1790,7 @@ msgstr "Kroasia"
 
 #: lang/i18n.py:57
 msgid "Czech"
-msgstr ""
+msgstr "Czechya"
 
 #: lang/i18n.py:58
 msgid "Danish"
@@ -1796,7 +1802,7 @@ msgstr "Belanda"
 
 #: lang/i18n.py:60
 msgid "Dzongkha"
-msgstr ""
+msgstr "Dzongkha"
 
 #: lang/i18n.py:61
 msgid "English"
@@ -1816,7 +1822,7 @@ msgstr "Inggris (Amerika Serikat)"
 
 #: lang/i18n.py:65
 msgid "Esperanto"
-msgstr ""
+msgstr "Esperanto"
 
 #: lang/i18n.py:66
 msgid "Estonian"
@@ -1824,7 +1830,7 @@ msgstr "Estonia"
 
 #: lang/i18n.py:67
 msgid "Faroese"
-msgstr ""
+msgstr "Faroese"
 
 #: lang/i18n.py:68
 msgid "Filipino"
@@ -1840,7 +1846,7 @@ msgstr "Prancis"
 
 #: lang/i18n.py:71
 msgid "Frisian"
-msgstr ""
+msgstr "Frisia"
 
 #: lang/i18n.py:72
 msgid "Friulian"
@@ -1848,7 +1854,7 @@ msgstr "Friulia"
 
 #: lang/i18n.py:73
 msgid "Gaelic"
-msgstr ""
+msgstr "Gaelic"
 
 #: lang/i18n.py:74
 msgid "Galician"
@@ -1872,11 +1878,11 @@ msgstr "Gujarat"
 
 #: lang/i18n.py:79
 msgid "Gun"
-msgstr ""
+msgstr "Gun"
 
 #: lang/i18n.py:80
 msgid "Hausa"
-msgstr ""
+msgstr "Hausa"
 
 #: lang/i18n.py:81
 msgid "Hebrew"
@@ -1900,7 +1906,7 @@ msgstr "Indonesia"
 
 #: lang/i18n.py:86
 msgid "Interlingua"
-msgstr ""
+msgstr "Interlingua"
 
 #: lang/i18n.py:87
 msgid "Irish"
@@ -1920,7 +1926,7 @@ msgstr "Jawa"
 
 #: lang/i18n.py:91
 msgid "Kannada"
-msgstr ""
+msgstr "Kannada"
 
 #: lang/i18n.py:92
 msgid "Kashubian"
@@ -1928,11 +1934,11 @@ msgstr "Kasubia"
 
 #: lang/i18n.py:93
 msgid "Kazakh"
-msgstr ""
+msgstr "Kazakh"
 
 #: lang/i18n.py:94
 msgid "Kirghiz"
-msgstr ""
+msgstr "Kirghiz"
 
 #: lang/i18n.py:95
 msgid "Korean"
@@ -1948,7 +1954,7 @@ msgstr "Kurdi Sorani"
 
 #: lang/i18n.py:98
 msgid "Lao"
-msgstr ""
+msgstr "Lao"
 
 #: lang/i18n.py:99
 msgid "Latvian"
@@ -1956,7 +1962,7 @@ msgstr "Latvia"
 
 #: lang/i18n.py:100
 msgid "Lingala"
-msgstr ""
+msgstr "Lingala"
 
 #: lang/i18n.py:101
 msgid "Lithuanian"
@@ -1964,7 +1970,7 @@ msgstr "Lithuania"
 
 #: lang/i18n.py:102
 msgid "Luxembourgish"
-msgstr ""
+msgstr "Luksemburg"
 
 #: lang/i18n.py:103
 msgid "Macedonian"
@@ -1972,7 +1978,7 @@ msgstr "Makedonia"
 
 #: lang/i18n.py:104
 msgid "Maithili"
-msgstr ""
+msgstr "Maithili"
 
 #: lang/i18n.py:105
 msgid "Malagasy"
@@ -1988,19 +1994,19 @@ msgstr "Malayalam"
 
 #: lang/i18n.py:108
 msgid "Maltese"
-msgstr ""
+msgstr "Maltese"
 
 #: lang/i18n.py:109
 msgid "Maori"
-msgstr ""
+msgstr "Maori"
 
 #: lang/i18n.py:110
 msgid "Mapudungun"
-msgstr ""
+msgstr "Mapudungun"
 
 #: lang/i18n.py:111
 msgid "Marathi"
-msgstr ""
+msgstr "Marathi"
 
 #: lang/i18n.py:112
 msgid "Mongolian"
@@ -2008,7 +2014,7 @@ msgstr "Mongolia"
 
 #: lang/i18n.py:113
 msgid "Morisyen"
-msgstr ""
+msgstr "Morisyen"
 
 #: lang/i18n.py:114
 msgid "Nahuatl languages"
@@ -2016,7 +2022,7 @@ msgstr "Bahasa Nahuatl"
 
 #: lang/i18n.py:115
 msgid "Neapolitan"
-msgstr ""
+msgstr "Neapolitan"
 
 #: lang/i18n.py:116
 msgid "Nepali"
@@ -2032,7 +2038,7 @@ msgstr "Norwegia Nynorsk"
 
 #: lang/i18n.py:119
 msgid "Occitan"
-msgstr ""
+msgstr "Oksitan"
 
 #: lang/i18n.py:120
 msgid "Oriya"
@@ -2052,7 +2058,7 @@ msgstr "Persia"
 
 #: lang/i18n.py:124
 msgid "Piemontese"
-msgstr ""
+msgstr "Piemontese"
 
 #: lang/i18n.py:125
 msgid "Polish"
@@ -2072,11 +2078,11 @@ msgstr "Portugis (Portugal)"
 
 #: lang/i18n.py:129
 msgid "Punjabi"
-msgstr ""
+msgstr "Punjabi"
 
 #: lang/i18n.py:130
 msgid "Pushto"
-msgstr ""
+msgstr "Pashtun"
 
 #: lang/i18n.py:131
 msgid "Romanian"
@@ -2084,7 +2090,7 @@ msgstr "Rumania"
 
 #: lang/i18n.py:132
 msgid "Romansh"
-msgstr ""
+msgstr "Romawi"
 
 #: lang/i18n.py:133
 msgid "Russian"
@@ -2236,59 +2242,67 @@ msgid "Plural form %d"
 msgstr "Bentuk jamak %d"
 
 #: trans/admin_views.py:51 trans/admin_views.py:55
-#, fuzzy
 msgid "Failed to generate key!"
-msgstr "Gagal untuk memproses formulir!"
+msgstr "Gagal untuk membuat kunci!"
 
 #: trans/admin_views.py:53
 msgid "Created new SSH key."
-msgstr ""
+msgstr "Kunci SSH baru dibuat."
 
-#: trans/checks.py:239
+#: trans/checks.py:240
 msgid "Not translated"
 msgstr "Tidak diterjemahkan"
 
-#: trans/checks.py:240
+#: trans/checks.py:241
 msgid "Source and translated strings are same"
 msgstr "Sumber dan string yang diterjemahkan sama persis"
 
-#: trans/checks.py:284
+#: trans/checks.py:285
 msgid "Starting newline"
 msgstr "Mulai baris baru"
 
-#: trans/checks.py:285
+#: trans/checks.py:286
 msgid "Source and translation do not both start with a newline"
 msgstr "Sumber dan terjemahan keduanya tidak mulai dengan baris baru"
 
-#: trans/checks.py:295
-msgid "Trailing newline"
-msgstr ""
-
 #: trans/checks.py:296
+msgid "Trailing newline"
+msgstr "Diekori baris baru"
+
+#: trans/checks.py:297
 msgid "Source and translation do not both end with a newline"
 msgstr "Sumber dan terjemahan keduanya tidak berakhir dengan baris baru"
 
-#: trans/checks.py:306
-msgid "Trailing space"
-msgstr ""
-
 #: trans/checks.py:307
+msgid "Starting spaces"
+msgstr "Permulaan spasi"
+
+#: trans/checks.py:308
+msgid "Source and translation do not both start with same number of spaces"
+msgstr ""
+"Sumber dan terjemahan keduanya tidak dimulai dengan nomor spasi yang sama"
+
+#: trans/checks.py:331
+msgid "Trailing space"
+msgstr "Diekori spasi"
+
+#: trans/checks.py:332
 msgid "Source and translation do not both end with a space"
 msgstr "Sumber dan terjemahan keduanya berakhir dengan spasi"
 
-#: trans/checks.py:325
+#: trans/checks.py:350
 msgid "Trailing stop"
-msgstr ""
+msgstr "Diekori tanda berhenti"
 
-#: trans/checks.py:326
+#: trans/checks.py:351
 msgid "Source and translation do not both end with a full stop"
 msgstr "Sumber dan terjemahan keduanya berakhir dengan perhentian penuh"
 
-#: trans/checks.py:343
+#: trans/checks.py:368
 msgid "Trailing colon"
-msgstr ""
+msgstr "Diekori tanda colon"
 
-#: trans/checks.py:344
+#: trans/checks.py:369
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2296,11 +2310,11 @@ msgstr ""
 "Sumber dan terjemahan keduanya tidak berakhir dengan tanda kutip atau tanda "
 "kutip diberikan spasi yang benar"
 
-#: trans/checks.py:368
+#: trans/checks.py:393
 msgid "Trailing question"
-msgstr ""
+msgstr "Diekori tanda tanya"
 
-#: trans/checks.py:369
+#: trans/checks.py:394
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2308,11 +2322,11 @@ msgstr ""
 "Sumber dan terjemahan keduanya tidak berakhir dengan tanda tanya atau tidak "
 "dengan spasi yang benar"
 
-#: trans/checks.py:386
+#: trans/checks.py:411
 msgid "Trailing exclamation"
-msgstr ""
+msgstr "Diekori tanda eksklamasi"
 
-#: trans/checks.py:387
+#: trans/checks.py:412
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2320,80 +2334,77 @@ msgstr ""
 "Sumber dan terjemahan keduanya tidak berakhir dengan tanda seru atau tidak "
 "dengan spasi yang benar"
 
-#: trans/checks.py:410
-#, fuzzy
+#: trans/checks.py:435
 msgid "Trailing elipsis"
-msgstr "Periksa kegagalan"
+msgstr "Diekori tanda elipsis"
 
-#: trans/checks.py:411
-#, fuzzy
+#: trans/checks.py:436
 msgid "Source and translation do not both end with an elipsis"
-msgstr "Sumber dan terjemahan keduanya tidak berakhir dengan baris baru"
+msgstr "Sumber dan penerjemahan keduanya tidak berakhir dengan elipsis"
 
-#: trans/checks.py:424
+#: trans/checks.py:449
 msgid "Python format"
 msgstr "Format python"
 
-#: trans/checks.py:425 trans/checks.py:438 trans/checks.py:451
+#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
 msgid "Format string does not match source"
 msgstr "Format string tidak cocok dengan sumber"
 
-#: trans/checks.py:437
+#: trans/checks.py:462
 msgid "PHP format"
 msgstr "Format PHP"
 
-#: trans/checks.py:450
+#: trans/checks.py:475
 msgid "C format"
 msgstr "Format C"
 
-#: trans/checks.py:464
+#: trans/checks.py:489
 msgid "Missing plurals"
 msgstr "Kata jamak hilang"
 
-#: trans/checks.py:465
+#: trans/checks.py:490
 msgid "Some plural forms are not translated"
 msgstr "Beberapa bentuk jamak tidak diterjemahkan"
 
-#: trans/checks.py:482
+#: trans/checks.py:507
 msgid "Inconsistent"
 msgstr "Tidak konsisten"
 
-#: trans/checks.py:483
+#: trans/checks.py:508
 msgid "This message has more than one translation in this project"
 msgstr "Pesan ini memiliki lebih dari satu terjemahan dalam proyek ini"
 
-#: trans/checks.py:507
+#: trans/checks.py:532
 msgid "Invalid text direction"
 msgstr "Arah teks tidak valid"
 
-#: trans/checks.py:508
+#: trans/checks.py:533
 msgid "Text direction can be either LTR or RTL"
 msgstr "Arah Teks dapat berupa LTR atau RTL"
 
-#: trans/checks.py:535
+#: trans/checks.py:560
 msgid "Mismatched \\n"
 msgstr "Tidak cocok \\n"
 
-#: trans/checks.py:536
+#: trans/checks.py:561
 msgid "Number of \\n in translation does not match source"
 msgstr "Nomor dari \\n didalam penerjemahan tidak cocok dengan sumber"
 
-#: trans/checks.py:543
+#: trans/checks.py:568
 msgid "Mismatched BBcode"
 msgstr "BBcode tidak cocok"
 
-#: trans/checks.py:544
+#: trans/checks.py:569
 msgid "BBcode in translation does not match source"
 msgstr "BBcode didalam penerjemahan tidak cocok dengan sumber"
 
 #: trans/forms.py:82
-#, fuzzy
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Persamaan ini digunakan untuk mengidentifikasi bentuk jamak yang mana yang "
-"akan digunakan sebagai dasar pada count(n)."
+"Persamaan ini mengidentifikasi bentuk jamak yang akan digunakan sebagai "
+"dasar mengingat jumlah(n)."
 
 #: trans/forms.py:83
 msgid "Plural equation"
@@ -2484,105 +2495,100 @@ msgstr "Awal huruf"
 msgid "Any"
 msgstr "Apasaja"
 
-#: trans/models.py:65
-#, fuzzy
+#: trans/models.py:107
 msgid "Automatic detection"
-msgstr "Penerjemahan otomatis"
+msgstr "Deteksi otomatis"
 
-#: trans/models.py:70
+#: trans/models.py:111
 msgid "Gettext PO file"
-msgstr ""
+msgstr "Berkas gettext PO"
 
-#: trans/models.py:75
-#, fuzzy
+#: trans/models.py:116
 msgid "XLIFF Translation File"
-msgstr "Terjemahan yang dibuat"
+msgstr "Berkas penerjemahan XLIFF"
 
-#: trans/models.py:80
-#, fuzzy
+#: trans/models.py:120
 msgid "Qt Linguist Translation File"
-msgstr "String untuk diterjemahkan"
+msgstr "Berkas penerjemahan Qt Linguist"
 
-#: trans/models.py:85
-#, fuzzy
+#: trans/models.py:124
 msgid "OS X Strings"
-msgstr "Semua string"
+msgstr "String OS X"
 
-#: trans/models.py:90
+#: trans/models.py:129
 msgid "Java Properties"
-msgstr ""
+msgstr "Properti Java"
 
-#: trans/models.py:98
+#: trans/models.py:137
 msgid "Java Properties (UTF-8)"
-msgstr ""
+msgstr "Properti Java (UTF-8)"
 
-#: trans/models.py:109 trans/models.py:115
+#: trans/models.py:148 trans/models.py:155
 msgid "Android String Resource"
-msgstr ""
+msgstr "Sumber String Android"
 
-#: trans/models.py:171 trans/models.py:177
+#: trans/models.py:189 trans/models.py:195
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "String berformat jelek (%s)"
 
-#: trans/models.py:181
+#: trans/models.py:199
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Berkas mask tidak mengandung * sebagai pengganti bahasa!"
 
-#: trans/models.py:202
+#: trans/models.py:220
 msgid "Can not link to linked repository!"
 msgstr "Tidak dapat menautkan ke repositori tertaut!"
 
-#: trans/models.py:204
+#: trans/models.py:222
 msgid "Invalid link to repository!"
 msgstr "tautan ke repositori tidak valid!"
 
-#: trans/models.py:207
+#: trans/models.py:225
 msgid "Use contact form"
 msgstr "Gunakan formulir kontak"
 
-#: trans/models.py:208
+#: trans/models.py:226
 msgid "Point to translation instructions URL"
 msgstr "URL menunjuki ke petunjuk peterjemahan"
 
-#: trans/models.py:211
+#: trans/models.py:229
 msgid "Merge"
-msgstr ""
+msgstr "Gabung"
 
-#: trans/models.py:212
+#: trans/models.py:230
 msgid "Rebase"
 msgstr ""
 
-#: trans/models.py:219
-#, fuzzy
-msgid "Project website"
-msgstr "Situs web proyek:"
-
-#: trans/models.py:223
-#, fuzzy
-msgid "Email conference for translators"
-msgstr "Daftar menyurat untuk penerjemah:"
-
-#: trans/models.py:227
-#, fuzzy
-msgid "URL with instructions for translators"
-msgstr "Petunjuk untuk penerjemah:"
-
-#: trans/models.py:234
-msgid "How to handle requests for creating new languages"
-msgstr ""
-
 #: trans/models.py:237
-msgid "Merge style"
-msgstr ""
+msgid "Project website"
+msgstr "Situs web proyek"
 
 #: trans/models.py:241
+msgid "Email conference for translators"
+msgstr "Surel konferensi untuk penerjemah"
+
+#: trans/models.py:245
+msgid "URL with instructions for translators"
+msgstr "URL mengandung instruksi untuk penerjemah"
+
+#: trans/models.py:252
+msgid "How to handle requests for creating new languages"
+msgstr "Bagaimana untuk menangani permintaan untuk membuat bahasa baru"
+
+#: trans/models.py:255
+msgid "Merge style"
+msgstr "Gaya penggabungan"
+
+#: trans/models.py:259
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
+"Menentukan apakah Weblate harus menggabungkan repositori hulu atau rebase "
+"perubahan ke atasnya"
 
-#: trans/models.py:247
+#: trans/models.py:265
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
@@ -2591,17 +2597,17 @@ msgstr ""
 "Anda dapat menggunakan %(language)s, %(subproject)s atau %(project)s untuk "
 "jalan pintas bahasa, nama sub-proyek atau proyek."
 
-#: trans/models.py:261
+#: trans/models.py:279
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Apakah repositori harus mendorong dari Hulu pada setiap komit."
 
-#: trans/models.py:266
+#: trans/models.py:284
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Apakah tim penerjemahan didalam file header harus diperbarui oleh Weblate."
 
-#: trans/models.py:274
+#: trans/models.py:292
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -2609,15 +2615,15 @@ msgstr ""
 "Silakan mengisi pada URL petunjuk atau menggunakan berbagai pilihan untuk "
 "menambahkan bahasa baru."
 
-#: trans/models.py:430
+#: trans/models.py:448
 msgid "Name to display"
 msgstr "Nama untuk menampilkan"
 
-#: trans/models.py:434
+#: trans/models.py:452
 msgid "Name used in URLs"
 msgstr "Nama yang digunakan dalam URL"
 
-#: trans/models.py:439
+#: trans/models.py:457
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2625,11 +2631,11 @@ msgstr ""
 "URL atau Git repositori, gunakan weblate://project/subproject untuk berbagi "
 "dengan subproyek lainnya"
 
-#: trans/models.py:444
+#: trans/models.py:462
 msgid "URL of push Git repository"
 msgstr "URL dari push Git repositori"
 
-#: trans/models.py:448
+#: trans/models.py:466
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2638,11 +2644,11 @@ msgstr ""
 "Tautan ke peramban repositori, gunakan %(branch)s untuk cabang, %(file)s dan "
 "%(line)s sebagai nama berkas dan barisnya."
 
-#: trans/models.py:454
+#: trans/models.py:472
 msgid "Git branch to translate"
 msgstr "Cabang Git untuk menerjemahkan"
 
-#: trans/models.py:459
+#: trans/models.py:477
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2650,7 +2656,7 @@ msgstr ""
 "Path berkas untuk menerjemahkan, gunakan*bukan kode bahasa, misalnya: po/*."
 "po atau locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:464
+#: trans/models.py:482
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2659,49 +2665,50 @@ msgstr ""
 "untuk penerjemahan yang hanya menyetorkan string yang diterjemahkannya saja "
 "seperti sumber string Android"
 
-#: trans/models.py:470
+#: trans/models.py:488
 msgid "Automatic detection might fail for some formats and is slightly slower"
 msgstr ""
+"Deteksi otomatis mungkin gagal untuk beberapa format dan sedikit lebih lambat"
 
-#: trans/models.py:474
+#: trans/models.py:492
 msgid "Whether subproject is locked for translation updates"
 msgstr "Apakah subproyek dikunci untuk memutakhirkan penerjemahan"
 
-#: trans/models.py:634
+#: trans/models.py:652
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Gagal untuk mengambil repositori git: %s"
 
-#: trans/models.py:714
+#: trans/models.py:732
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Dorong dinonaktifkan untuk %s."
 
-#: trans/models.py:746
+#: trans/models.py:764
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Gagal untuk mendorong ke cabang remot jauh di %s."
 
-#: trans/models.py:772
+#: trans/models.py:790
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Gagal untuk mentata ulang ke cabang remot jauh di %s."
 
-#: trans/models.py:826
+#: trans/models.py:844
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Gagal untuk menggabungkan cabang remot jauh didalam %s."
 
-#: trans/models.py:853
-#, fuzzy, python-format
+#: trans/models.py:871
+#, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Gagal untuk mentata ulang ke cabang remot jauh di %s."
+msgstr "Gagal untuk rebase cabang kita ke cabang jauh %s."
 
-#: trans/models.py:960
+#: trans/models.py:978
 msgid "The mask did not match any files!"
 msgstr "Topeng (mask) tidak cocok dengan berkas mana saja!"
 
-#: trans/models.py:965
+#: trans/models.py:983
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2709,25 +2716,25 @@ msgstr ""
 "Terdapat banyak berkas untuk satu bahasa, silahkan menyesuaikan topeng "
 "(mask) dan gunakan subproyek untuk menerjemahkan sumber yang berbeda."
 
-#: trans/models.py:980
+#: trans/models.py:998
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format dari berkas %d ini tidak bisa dikenali."
 
-#: trans/models.py:985
+#: trans/models.py:1003
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Gagal untuk mem-parsing berkas %d ini!"
 
-#: trans/models.py:995
+#: trans/models.py:1013
 msgid "Format of translation template could not be recognized."
 msgstr "Format dari templat penerjemahan tidak bisa dikenali."
 
-#: trans/models.py:997
+#: trans/models.py:1015
 msgid "Failed to parse translation template."
 msgstr "Gagal untuk men-parsing templat penerjemahan."
 
-#: trans/models.py:1126
+#: trans/models.py:1158
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2736,55 +2743,55 @@ msgstr ""
 "Nama berkas %s tidak ditemukan dalam repositori! Untuk menambahkan "
 "penerjemahan baru, tambahkan berkas bahasa ke dalam repositori."
 
-#: trans/models.py:1130
+#: trans/models.py:1162
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format dari %s tidak bisa dikenali."
 
-#: trans/models.py:1132
+#: trans/models.py:1164
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Gagal untuk men-parsing berkas %(file)s: %(error)s"
 
-#: trans/models.py:1157 trans/views.py:372
+#: trans/models.py:1189 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr "Penerjemahan ini saat ini dikunci untuk pemutakhiran!"
 
-#: trans/models.py:1165
+#: trans/models.py:1197
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 "Penerjemahan ini dikunci oleh %(user)s untuk penerjemahan sampai %(time)s!"
 
-#: trans/models.py:1731
+#: trans/models.py:1773
 msgid "All strings"
 msgstr "Semua string"
 
-#: trans/models.py:1737
+#: trans/models.py:1779
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "String tidak diterjemahkan (%d)"
 
-#: trans/models.py:1739
+#: trans/models.py:1781
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "String samar (%d)"
 
-#: trans/models.py:1741
+#: trans/models.py:1783
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "String dengan saran (%d)"
 
-#: trans/models.py:1743
+#: trans/models.py:1785
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "String dengan pemeriksaan gagal (%d)"
 
-#: trans/models.py:1990
+#: trans/models.py:2032
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Pesan tidak ditemukan di penyimpanan backend, kemungkinan rusak."
 
-#: trans/models.py:2083
+#: trans/models.py:2125
 #, python-format
 msgid "unit ID %s"
 msgstr "ID unit %s"
@@ -2792,6 +2799,10 @@ msgstr "ID unit %s"
 #: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr "Silakan atur nama lengkap anda di profil anda."
+
+#: trans/views.py:181
+msgid "Dictionaries"
+msgstr "Kamus"
 
 #: trans/views.py:204 trans/views.py:339
 #, python-format
@@ -2939,12 +2950,17 @@ msgstr "Halaman tidak ditemukan"
 
 #: trans/templatetags/translations.py:57
 msgid "Tab character"
-msgstr ""
+msgstr "Tab karakter"
 
 #: trans/templatetags/translations.py:107
-#, fuzzy
 msgid "New line"
-msgstr "Bahasa baru"
+msgstr "Baris baru"
+
+#~ msgid "Dictionary"
+#~ msgstr "Kamus"
+
+#~ msgid "Words in dictionary"
+#~ msgstr "Kata-kata dalam kamus"
 
 #~ msgid "Promote"
 #~ msgstr "Mempromosikan"

@@ -136,6 +136,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.SameCheck',
     'weblate.trans.checks.BeginNewlineCheck',
     'weblate.trans.checks.EndNewlineCheck',
+    'weblate.trans.checks.BeginSpaceCheck',
     'weblate.trans.checks.EndSpaceCheck',
     'weblate.trans.checks.EndStopCheck',
     'weblate.trans.checks.EndColonCheck',
@@ -297,6 +298,30 @@ class EndNewlineCheck(Check):
 
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, -1, ['\n'])
+
+class BeginSpaceCheck(Check):
+    '''
+    Whitespace check, starting whitespace usually is important for UI
+    '''
+    check_id = 'begin_space'
+    name = _('Starting spaces')
+    description = _('Source and translation do not both start with same number of spaces')
+
+    def check_single(self, source, target, flags, language, unit):
+        # One letter things are usually decimal/thousand separators
+        if len(source) <= 1 and len(target) <= 1:
+            return False
+
+        # Count space chars in source
+        cnt = 0
+        while source[cnt] == ' ':
+            cnt += 1
+
+        # Compare that with target
+        if target[:cnt] != ' ' * cnt:
+            return True
+
+        return False
 
 class EndSpaceCheck(Check):
     '''

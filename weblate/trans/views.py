@@ -421,6 +421,63 @@ def auto_translation(request, project, subproject, lang):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+def review_source(request, project, subproject):
+    '''
+    Listing of source strings to review.
+    '''
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+
+    if not obj.translation_set.exists():
+        raise Http404('No translation exists in this subproject.')
+
+    # Grab first translation in subproject
+    # (this assumes all have same source strings)
+    source = obj.translation_set.all()[0]
+
+    # Grab search type and page number
+    rqtype = request.GET.get('type', 'all')
+    limit = request.GET.get('limit', 50)
+    page = request.GET.get('page', 1)
+
+    # Fiter units
+    sources = source.unit_set.filter_type(rqtype, source)
+
+    paginator = Paginator(sources, limit)
+
+    try:
+        sources = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        sources = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        sources = paginator.page(paginator.num_pages)
+
+    return render_to_response('source-review.html', RequestContext(request, {
+        'object': obj,
+        'source': source,
+        'sources': sources,
+        'title': _('Review source strings in %s') % obj.__unicode__(),
+    }))
+
+def show_source(request, project, subproject):
+    '''
+    Show source strings summary and checks.
+    '''
+    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    if not obj.translation_set.exists():
+        raise Http404('No translation exists in this subproject.')
+
+    # Grab first translation in subproject
+    # (this assumes all have same source strings)
+    source = obj.translation_set.all()[0]
+
+    return render_to_response('source.html', RequestContext(request, {
+        'object': obj,
+        'source': source,
+        'title': _('Source strings in %s') % obj.__unicode__(),
+    }))
+
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
     last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]

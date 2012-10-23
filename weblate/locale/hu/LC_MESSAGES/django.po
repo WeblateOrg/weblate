@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-18 14:02+0200\n"
-"PO-Revision-Date: 2012-08-03 01:36+0200\n"
-"Last-Translator: Péter Báthory <bathory@index.hu>\n"
+"POT-Creation-Date: 2012-10-22 11:22+0200\n"
+"PO-Revision-Date: 2012-10-19 21:58+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <http://l10n.cihar.com/projects/weblate/master/hu/"
 ">\n"
 "Language: hu\n"
@@ -101,29 +101,30 @@ msgstr "Jelszó (újra)"
 
 #: accounts/forms.py:128
 msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr ""
+msgstr "Ismételje meg a jelszót, hogy ellenőrizni tudjuk a helyes begépelést."
 
 #: accounts/forms.py:135
 msgid "Password needs to have at least six characters."
-msgstr ""
+msgstr "A jelszónak legalább hat karakteresnek kell lennie."
 
 #: accounts/forms.py:143
 msgid "Username needs to have at least five characters."
-msgstr ""
+msgstr "A felhasználónévnek legalább öt karakteresnek kell lennie."
 
 #: accounts/i18n.py:29
 msgid "This username is already taken. Please choose another."
-msgstr ""
+msgstr "Ez a felhasználónév már használatban van. Válasszon egy másikat."
 
 #: accounts/i18n.py:30
 msgid "You must type the same password each time"
-msgstr ""
+msgstr "Minden esetben ugyanazt a jelszót kell megadnia"
 
 #: accounts/i18n.py:31
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr ""
+"Ez ez e-mail cím már használatban van. Adjon meg egy másik e-mail címet."
 
 #: accounts/i18n.py:32
 msgid "Old password"
@@ -135,16 +136,18 @@ msgstr "Új jelszó"
 
 #: accounts/i18n.py:34
 msgid "New password confirmation"
-msgstr ""
+msgstr "Új jelszó megerősítése"
 
 #: accounts/i18n.py:35
 msgid "The two password fields didn't match."
-msgstr ""
+msgstr "A két jelszómező nem egyezik."
 
 #: accounts/i18n.py:39
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
+"Tartsa nyomva a „Control” vagy Macintosh-on a „Command” gombot egynél több "
+"kiválaztásához."
 
 #: accounts/i18n.py:42
 msgid "Translate using Apertium"
@@ -442,9 +445,9 @@ msgstr ""
 msgid "Download"
 msgstr "Letöltés"
 
-#: html/dictionaries.html:8 html/dictionary.html:7 html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "szótárak"
+#: html/dictionaries.html:8 html/dictionary.html:7
+msgid "glossaries"
+msgstr ""
 
 #: html/dictionaries.html:15 html/languages.html:14
 #: html/list-translations.html:6
@@ -455,9 +458,9 @@ msgstr "Nyelv"
 msgid "Words"
 msgstr "Szavak"
 
-#: html/dictionary.html:15
-msgid "Dictionary"
-msgstr "Szótár"
+#: html/dictionary.html:15 html/translate.html:167
+msgid "Glossary"
+msgstr ""
 
 #: html/dictionary.html:19 html/translate.html:20
 msgid "First"
@@ -508,13 +511,14 @@ msgid "Add new word"
 msgstr "Új szó hozzáadása"
 
 #: html/dictionary.html:77
-msgid "Import dictionary"
+#, fuzzy
+msgid "Import glossary"
 msgstr "Szótár importálása"
 
 #: html/dictionary.html:79
 #, fuzzy
-msgid "Export dictionary"
-msgstr "Szótár importálása"
+msgid "Export glossary"
+msgstr "Szótár exportálása"
 
 #: html/dictionary.html:90
 msgid "Add"
@@ -531,7 +535,7 @@ msgid "Import"
 msgstr "Importálás"
 
 #: html/dictionary.html:114
-msgid "You can download dictionary in following formats:"
+msgid "You can download glossary in following formats:"
 msgstr ""
 
 #: html/dictionary.html:117
@@ -541,6 +545,10 @@ msgstr ""
 #: html/dictionary.html:118
 msgid "Gettext (PO)"
 msgstr ""
+
+#: html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "szótárak"
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -758,9 +766,9 @@ msgstr "Alprojektek"
 msgid "Subproject"
 msgstr "Alprojekt"
 
-#: html/project.html:40 trans/views.py:181
-msgid "Dictionaries"
-msgstr "Szótárak"
+#: html/project.html:40
+msgid "Glossaries"
+msgstr ""
 
 #: html/project.html:43 html/subproject.html:31 html/translation.html:39
 msgid "Git maintenance"
@@ -771,7 +779,7 @@ msgid "Share"
 msgstr ""
 
 #: html/project.html:53
-msgid "Manage all dictionaries"
+msgid "Manage all glossaries"
 msgstr ""
 
 #: html/project_info.html:2
@@ -796,9 +804,8 @@ msgid "Translate %(object)s using %%23Weblate!"
 msgstr ""
 
 #: html/share.html:5
-#, fuzzy
 msgid "Tweet this translation!"
-msgstr "Fordításaid"
+msgstr "A fordítás tweetelése!"
 
 #: html/share.html:9
 #, python-format
@@ -814,7 +821,7 @@ msgid ""
 "readable formats."
 msgstr ""
 
-#: html/subproject.html:28 trans/models.py:230
+#: html/subproject.html:28 trans/models.py:248
 msgid "New language"
 msgstr "Új nyelv"
 
@@ -953,11 +960,7 @@ msgid "All locations"
 msgstr "Minden hely"
 
 #: html/translate.html:167
-msgid "Words extracted from dictionary"
-msgstr ""
-
-#: html/translate.html:167
-msgid "Words in dictionary"
+msgid "Words extracted from glossary"
 msgstr ""
 
 #: html/translate.html:168
@@ -1170,9 +1173,8 @@ msgid "Generate"
 msgstr ""
 
 #: html/admin/ssh.html:32
-#, fuzzy
 msgid "More information"
-msgstr "Projektinformáció"
+msgstr "További információ"
 
 #: html/admin/ssh.html:34
 #, python-format
@@ -1274,14 +1276,12 @@ msgid "Translation:"
 msgstr ""
 
 #: html/mail/any_translation.txt:14
-#, fuzzy
 msgid "Previous translation:"
-msgstr "Fordításaid"
+msgstr "Korábbi fordítás:"
 
 #: html/mail/any_translation.txt:16
-#, fuzzy
 msgid "Previously not translated"
-msgstr "Fordításaid"
+msgstr "Korábban le nem fordított"
 
 #: html/mail/any_translation_subject.txt:1
 #, python-format
@@ -2113,137 +2113,145 @@ msgstr ""
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/checks.py:239
+#: trans/checks.py:240
 msgid "Not translated"
 msgstr ""
 
-#: trans/checks.py:240
+#: trans/checks.py:241
 msgid "Source and translated strings are same"
 msgstr ""
 
-#: trans/checks.py:284
+#: trans/checks.py:285
 msgid "Starting newline"
 msgstr ""
 
-#: trans/checks.py:285
+#: trans/checks.py:286
 msgid "Source and translation do not both start with a newline"
 msgstr ""
 
-#: trans/checks.py:295
+#: trans/checks.py:296
 msgid "Trailing newline"
 msgstr ""
 
-#: trans/checks.py:296
+#: trans/checks.py:297
 msgid "Source and translation do not both end with a newline"
 msgstr ""
 
-#: trans/checks.py:306
+#: trans/checks.py:307
+msgid "Starting spaces"
+msgstr ""
+
+#: trans/checks.py:308
+msgid "Source and translation do not both start with same number of spaces"
+msgstr ""
+
+#: trans/checks.py:331
 msgid "Trailing space"
 msgstr ""
 
-#: trans/checks.py:307
+#: trans/checks.py:332
 msgid "Source and translation do not both end with a space"
 msgstr ""
 
-#: trans/checks.py:325
+#: trans/checks.py:350
 msgid "Trailing stop"
 msgstr ""
 
-#: trans/checks.py:326
+#: trans/checks.py:351
 msgid "Source and translation do not both end with a full stop"
 msgstr ""
 
-#: trans/checks.py:343
+#: trans/checks.py:368
 msgid "Trailing colon"
 msgstr ""
 
-#: trans/checks.py:344
+#: trans/checks.py:369
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
 
-#: trans/checks.py:368
+#: trans/checks.py:393
 msgid "Trailing question"
 msgstr ""
 
-#: trans/checks.py:369
+#: trans/checks.py:394
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
 
-#: trans/checks.py:386
+#: trans/checks.py:411
 msgid "Trailing exclamation"
 msgstr ""
 
-#: trans/checks.py:387
+#: trans/checks.py:412
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
 
-#: trans/checks.py:410
+#: trans/checks.py:435
 msgid "Trailing elipsis"
 msgstr ""
 
-#: trans/checks.py:411
+#: trans/checks.py:436
 msgid "Source and translation do not both end with an elipsis"
 msgstr ""
 
-#: trans/checks.py:424
+#: trans/checks.py:449
 msgid "Python format"
 msgstr ""
 
-#: trans/checks.py:425 trans/checks.py:438 trans/checks.py:451
+#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
 msgid "Format string does not match source"
 msgstr ""
 
-#: trans/checks.py:437
+#: trans/checks.py:462
 msgid "PHP format"
 msgstr ""
 
-#: trans/checks.py:450
+#: trans/checks.py:475
 msgid "C format"
 msgstr ""
 
-#: trans/checks.py:464
+#: trans/checks.py:489
 msgid "Missing plurals"
 msgstr ""
 
-#: trans/checks.py:465
+#: trans/checks.py:490
 msgid "Some plural forms are not translated"
 msgstr ""
 
-#: trans/checks.py:482
+#: trans/checks.py:507
 msgid "Inconsistent"
 msgstr ""
 
-#: trans/checks.py:483
+#: trans/checks.py:508
 msgid "This message has more than one translation in this project"
 msgstr ""
 
-#: trans/checks.py:507
+#: trans/checks.py:532
 msgid "Invalid text direction"
 msgstr ""
 
-#: trans/checks.py:508
+#: trans/checks.py:533
 msgid "Text direction can be either LTR or RTL"
 msgstr ""
 
-#: trans/checks.py:535
+#: trans/checks.py:560
 msgid "Mismatched \\n"
 msgstr ""
 
-#: trans/checks.py:536
+#: trans/checks.py:561
 msgid "Number of \\n in translation does not match source"
 msgstr ""
 
-#: trans/checks.py:543
+#: trans/checks.py:568
 msgid "Mismatched BBcode"
 msgstr ""
 
-#: trans/checks.py:544
+#: trans/checks.py:569
 msgid "BBcode in translation does not match source"
 msgstr ""
 
@@ -2342,286 +2350,281 @@ msgstr ""
 msgid "Any"
 msgstr ""
 
-#: trans/models.py:65
-#, fuzzy
+#: trans/models.py:107
 msgid "Automatic detection"
-msgstr "Automatikus fordítás"
+msgstr "Automatikus felismerés"
 
-#: trans/models.py:70
+#: trans/models.py:111
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/models.py:75
-#, fuzzy
+#: trans/models.py:116
 msgid "XLIFF Translation File"
-msgstr "Elvégzett fordítások"
+msgstr "XLIFF fordítási fájl"
 
-#: trans/models.py:80
-#, fuzzy
+#: trans/models.py:120
 msgid "Qt Linguist Translation File"
-msgstr "Lefordítandó szövegek"
+msgstr "QT Linguist fordítási fájl"
 
-#: trans/models.py:85
-#, fuzzy
+#: trans/models.py:124
 msgid "OS X Strings"
-msgstr "Minden szöveg"
+msgstr "OS X karakterláncok"
 
-#: trans/models.py:90
+#: trans/models.py:129
 msgid "Java Properties"
 msgstr ""
 
-#: trans/models.py:98
+#: trans/models.py:137
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/models.py:109 trans/models.py:115
+#: trans/models.py:148 trans/models.py:155
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/models.py:171 trans/models.py:177
+#: trans/models.py:189 trans/models.py:195
 #, python-format
 msgid "Bad format string (%s)"
 msgstr ""
 
-#: trans/models.py:181
+#: trans/models.py:199
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
 
-#: trans/models.py:202
+#: trans/models.py:220
 msgid "Can not link to linked repository!"
 msgstr ""
 
-#: trans/models.py:204
+#: trans/models.py:222
 msgid "Invalid link to repository!"
 msgstr ""
 
-#: trans/models.py:207
+#: trans/models.py:225
 msgid "Use contact form"
 msgstr ""
 
-#: trans/models.py:208
+#: trans/models.py:226
 msgid "Point to translation instructions URL"
 msgstr ""
 
-#: trans/models.py:211
+#: trans/models.py:229
 msgid "Merge"
 msgstr ""
 
-#: trans/models.py:212
+#: trans/models.py:230
 msgid "Rebase"
 msgstr ""
 
-#: trans/models.py:219
-#, fuzzy
+#: trans/models.py:237
 msgid "Project website"
-msgstr "Projektek"
+msgstr "Projekt weboldal"
 
-#: trans/models.py:223
+#: trans/models.py:241
 msgid "Email conference for translators"
 msgstr ""
 
-#: trans/models.py:227
+#: trans/models.py:245
 msgid "URL with instructions for translators"
 msgstr ""
 
-#: trans/models.py:234
+#: trans/models.py:252
 msgid "How to handle requests for creating new languages"
 msgstr ""
 
-#: trans/models.py:237
+#: trans/models.py:255
 msgid "Merge style"
 msgstr ""
 
-#: trans/models.py:241
+#: trans/models.py:259
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
 
-#: trans/models.py:247
+#: trans/models.py:265
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
 
-#: trans/models.py:261
+#: trans/models.py:279
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models.py:266
+#: trans/models.py:284
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 
-#: trans/models.py:274
+#: trans/models.py:292
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:430
+#: trans/models.py:448
 msgid "Name to display"
 msgstr ""
 
-#: trans/models.py:434
+#: trans/models.py:452
 msgid "Name used in URLs"
 msgstr ""
 
-#: trans/models.py:439
+#: trans/models.py:457
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
 msgstr ""
 
-#: trans/models.py:444
+#: trans/models.py:462
 msgid "URL of push Git repository"
 msgstr ""
 
-#: trans/models.py:448
+#: trans/models.py:466
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders"
 msgstr ""
 
-#: trans/models.py:454
+#: trans/models.py:472
 msgid "Git branch to translate"
 msgstr ""
 
-#: trans/models.py:459
+#: trans/models.py:477
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
 msgstr ""
 
-#: trans/models.py:464
+#: trans/models.py:482
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
 msgstr ""
 
-#: trans/models.py:470
+#: trans/models.py:488
 msgid "Automatic detection might fail for some formats and is slightly slower"
 msgstr ""
 
-#: trans/models.py:474
+#: trans/models.py:492
 msgid "Whether subproject is locked for translation updates"
 msgstr ""
 
-#: trans/models.py:634
+#: trans/models.py:652
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models.py:714
+#: trans/models.py:732
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:746
+#: trans/models.py:764
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:772
+#: trans/models.py:790
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:826
+#: trans/models.py:844
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:853
+#: trans/models.py:871
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: trans/models.py:960
+#: trans/models.py:978
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:965
+#: trans/models.py:983
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:980
+#: trans/models.py:998
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:985
+#: trans/models.py:1003
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:995
+#: trans/models.py:1013
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:997
+#: trans/models.py:1015
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:1126
+#: trans/models.py:1158
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:1130
+#: trans/models.py:1162
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:1132
+#: trans/models.py:1164
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1157 trans/views.py:372
+#: trans/models.py:1189 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
-#: trans/models.py:1165
+#: trans/models.py:1197
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1731
+#: trans/models.py:1773
 msgid "All strings"
 msgstr "Minden szöveg"
 
-#: trans/models.py:1737
+#: trans/models.py:1779
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Lefordítatlan szövegek (%d)"
 
-#: trans/models.py:1739
+#: trans/models.py:1781
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Zavaros szövegek (%d)"
 
-#: trans/models.py:1741
+#: trans/models.py:1783
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Javaslattal rendelkező szövegek (%d)"
 
-#: trans/models.py:1743
+#: trans/models.py:1785
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Ellenőrzési hibás szövegek (%d)"
 
-#: trans/models.py:1990
+#: trans/models.py:2032
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2083
+#: trans/models.py:2125
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2629,6 +2632,10 @@ msgstr ""
 #: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr ""
+
+#: trans/views.py:181
+msgid "Dictionaries"
+msgstr "Szótárak"
 
 #: trans/views.py:204 trans/views.py:339
 #, python-format
@@ -2710,9 +2717,8 @@ msgid "Strings with suggestions"
 msgstr "Szövegek javaslatokkal"
 
 #: trans/views.py:756
-#, fuzzy
 msgid "Strings with any failing checks"
-msgstr "Ellenőrzési hibás szövegek (%d)"
+msgstr "Ellenőrzési hibás karakterláncok"
 
 #: trans/views.py:813
 msgid "Your suggestion is empty!"
@@ -2780,9 +2786,11 @@ msgid "Tab character"
 msgstr ""
 
 #: trans/templatetags/translations.py:107
-#, fuzzy
 msgid "New line"
-msgstr "Új nyelv"
+msgstr "Új sor"
+
+#~ msgid "Dictionary"
+#~ msgstr "Szótár"
 
 #~ msgid "Promote"
 #~ msgstr "Népszerűsítés"

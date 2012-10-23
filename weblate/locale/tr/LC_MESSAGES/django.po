@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-18 14:02+0200\n"
-"PO-Revision-Date: 2012-10-18 15:51+0200\n"
+"POT-Creation-Date: 2012-10-22 11:21+0200\n"
+"PO-Revision-Date: 2012-10-22 21:25+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
 "Language: tr\n"
@@ -466,9 +466,9 @@ msgstr "Bağlantı"
 msgid "Download"
 msgstr "İndir"
 
-#: html/dictionaries.html:8 html/dictionary.html:7 html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "sözlükler"
+#: html/dictionaries.html:8 html/dictionary.html:7
+msgid "glossaries"
+msgstr "terimler sözlükleri"
 
 #: html/dictionaries.html:15 html/languages.html:14
 #: html/list-translations.html:6
@@ -479,9 +479,9 @@ msgstr "Dil"
 msgid "Words"
 msgstr "Kelime"
 
-#: html/dictionary.html:15
-msgid "Dictionary"
-msgstr "Sözlük"
+#: html/dictionary.html:15 html/translate.html:167
+msgid "Glossary"
+msgstr "Terimler Sözlüğü"
 
 #: html/dictionary.html:19 html/translate.html:20
 msgid "First"
@@ -532,12 +532,12 @@ msgid "Add new word"
 msgstr "Yeni kelime ekle"
 
 #: html/dictionary.html:77
-msgid "Import dictionary"
-msgstr "Sözlüğü içe aktar"
+msgid "Import glossary"
+msgstr "Terimler sözlüğünü içe aktar"
 
 #: html/dictionary.html:79
-msgid "Export dictionary"
-msgstr "Sözlüğü dışa aktar"
+msgid "Export glossary"
+msgstr "Terimler sözlüğünü dışa aktar"
 
 #: html/dictionary.html:90
 msgid "Add"
@@ -556,8 +556,8 @@ msgid "Import"
 msgstr "İçe aktar"
 
 #: html/dictionary.html:114
-msgid "You can download dictionary in following formats:"
-msgstr "Sözlüğü aşağıdaki biçimlerde indirebilirsiniz:"
+msgid "You can download glossary in following formats:"
+msgstr "Terimler sözlüğünü aşağıdaki biçimlerde indirebilirsiniz:"
 
 #: html/dictionary.html:117
 msgid "Comma separated values (CSV)"
@@ -566,6 +566,10 @@ msgstr "Virgülle ayrılmış değerler (CSV)"
 #: html/dictionary.html:118
 msgid "Gettext (PO)"
 msgstr "Gettext (PO)"
+
+#: html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "sözlükler"
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -796,9 +800,9 @@ msgstr "Alt projeler"
 msgid "Subproject"
 msgstr "Alt proje"
 
-#: html/project.html:40 trans/views.py:181
-msgid "Dictionaries"
-msgstr "Sözlükler"
+#: html/project.html:40
+msgid "Glossaries"
+msgstr "Terimler Sözlükleri"
 
 #: html/project.html:43 html/subproject.html:31 html/translation.html:39
 msgid "Git maintenance"
@@ -809,8 +813,8 @@ msgid "Share"
 msgstr "Paylaş"
 
 #: html/project.html:53
-msgid "Manage all dictionaries"
-msgstr "Tüm sözlükleri yönet"
+msgid "Manage all glossaries"
+msgstr "Tüm terimler sözlüklerini yönet"
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -855,7 +859,7 @@ msgstr ""
 "Çeşitli <a href=\"%(data_url)s\">veri dışa aktarımları</a> okunabilir makine "
 "biçimlerinde mevcuttur."
 
-#: html/subproject.html:28 trans/models.py:230
+#: html/subproject.html:28 trans/models.py:248
 msgid "New language"
 msgstr "Yeni dil"
 
@@ -1000,12 +1004,8 @@ msgid "All locations"
 msgstr "Tüm yerler"
 
 #: html/translate.html:167
-msgid "Words extracted from dictionary"
-msgstr "Sözlükten çıkartılmış kelimeler"
-
-#: html/translate.html:167
-msgid "Words in dictionary"
-msgstr "Sözlükteki kelimeler"
+msgid "Words extracted from glossary"
+msgstr "Terimler sözlüğünden çıkartılmış kelimeler"
 
 #: html/translate.html:168
 msgid "List of recent changes done in Weblate"
@@ -2233,141 +2233,149 @@ msgstr "Anahtar üretme başarısız!"
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/checks.py:239
+#: trans/checks.py:240
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: trans/checks.py:240
+#: trans/checks.py:241
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
-#: trans/checks.py:284
+#: trans/checks.py:285
 msgid "Starting newline"
 msgstr "Satır başıyla başlama"
 
-#: trans/checks.py:285
+#: trans/checks.py:286
 msgid "Source and translation do not both start with a newline"
-msgstr "Kaynağın ve çevirinin ikiside satır başı ile başlamaz"
+msgstr "Kaynağın ve çevirinin ikiside satır başı ile başlamıyor"
 
-#: trans/checks.py:295
+#: trans/checks.py:296
 msgid "Trailing newline"
 msgstr "Satır başını izleme"
 
-#: trans/checks.py:296
+#: trans/checks.py:297
 msgid "Source and translation do not both end with a newline"
-msgstr "Kaynağın ve çevirinin ikiside satır başı ile bitmez"
+msgstr "Kaynağın ve çevirinin ikiside satır başı ile bitmiyor"
 
-#: trans/checks.py:306
+#: trans/checks.py:307
+msgid "Starting spaces"
+msgstr "Başlangıç boşlukları"
+
+#: trans/checks.py:308
+msgid "Source and translation do not both start with same number of spaces"
+msgstr "Kaynağın ve çevirinin ikiside aynı boşluk sayısıyla başlamıyor"
+
+#: trans/checks.py:331
 msgid "Trailing space"
 msgstr "Boşluğu izleme"
 
-#: trans/checks.py:307
+#: trans/checks.py:332
 msgid "Source and translation do not both end with a space"
-msgstr "Kaynağın ve çevirinin ikiside boşluk ile bitmez"
+msgstr "Kaynağın ve çevirinin ikiside boşluk ile bitmiyor"
 
-#: trans/checks.py:325
+#: trans/checks.py:350
 msgid "Trailing stop"
 msgstr "Nokta işaretini izleme"
 
-#: trans/checks.py:326
+#: trans/checks.py:351
 msgid "Source and translation do not both end with a full stop"
-msgstr "Kaynağın ve çevirinin ikiside nokta ile bitmez"
+msgstr "Kaynağın ve çevirinin ikiside nokta ile bitmiyor"
 
-#: trans/checks.py:343
+#: trans/checks.py:368
 msgid "Trailing colon"
 msgstr "İki nokta üst üste izleme"
 
-#: trans/checks.py:344
+#: trans/checks.py:369
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
-"Kaynağın ve çevirinin ikiside ':' ile bitmez ya da doğru aralıkta değil"
+"Kaynağın ve çevirinin ikiside ':' ile bitmiyor ya da doğru aralıkta değil"
 
-#: trans/checks.py:368
+#: trans/checks.py:393
 msgid "Trailing question"
 msgstr "Soru işaretini izleme"
 
-#: trans/checks.py:369
+#: trans/checks.py:394
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
-"Kaynağın ve çevirinin ikiside soru işareti ile bitmez ya da doğru aralıkta "
+"Kaynağın ve çevirinin ikiside soru işareti ile bitmiyor ya da doğru aralıkta "
 "değil"
 
-#: trans/checks.py:386
+#: trans/checks.py:411
 msgid "Trailing exclamation"
 msgstr "Ünlem işaretini izleme"
 
-#: trans/checks.py:387
+#: trans/checks.py:412
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
-"Kaynağın ve çevirinin ikiside ünlem ile bitmez ya da doğru aralıkta değil"
+"Kaynağın ve çevirinin ikiside ünlem ile bitmiyor ya da doğru aralıkta değil"
 
-#: trans/checks.py:410
+#: trans/checks.py:435
 msgid "Trailing elipsis"
 msgstr "Eksilti (...) izleme"
 
-#: trans/checks.py:411
+#: trans/checks.py:436
 msgid "Source and translation do not both end with an elipsis"
-msgstr "Kaynağın ve çevirinin ikiside eksilti (...) ile bitmez"
+msgstr "Kaynağın ve çevirinin ikiside eksilti (...) ile bitmiyor"
 
-#: trans/checks.py:424
+#: trans/checks.py:449
 msgid "Python format"
 msgstr "Python biçimi"
 
-#: trans/checks.py:425 trans/checks.py:438 trans/checks.py:451
+#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
 msgid "Format string does not match source"
 msgstr "Değişken dizgisi kaynakla eşleşmiyor"
 
-#: trans/checks.py:437
+#: trans/checks.py:462
 msgid "PHP format"
 msgstr "PHP biçimi"
 
-#: trans/checks.py:450
+#: trans/checks.py:475
 msgid "C format"
 msgstr "C biçimi"
 
-#: trans/checks.py:464
+#: trans/checks.py:489
 msgid "Missing plurals"
 msgstr "Eksik çoğullar"
 
-#: trans/checks.py:465
+#: trans/checks.py:490
 msgid "Some plural forms are not translated"
 msgstr "Bazı çoğul formlar çevrilmez"
 
-#: trans/checks.py:482
+#: trans/checks.py:507
 msgid "Inconsistent"
 msgstr "Tutarsız"
 
-#: trans/checks.py:483
+#: trans/checks.py:508
 msgid "This message has more than one translation in this project"
 msgstr "Bu ileti bu projede birden fazla çeviriye sahip"
 
-#: trans/checks.py:507
+#: trans/checks.py:532
 msgid "Invalid text direction"
 msgstr "Geçersiz metin yönü"
 
-#: trans/checks.py:508
+#: trans/checks.py:533
 msgid "Text direction can be either LTR or RTL"
 msgstr "Metin yönü ya LTR ya da RTL olabilir"
 
-#: trans/checks.py:535
+#: trans/checks.py:560
 msgid "Mismatched \\n"
 msgstr "Uyumsuz \\n"
 
-#: trans/checks.py:536
+#: trans/checks.py:561
 msgid "Number of \\n in translation does not match source"
 msgstr "Çevirideki \\n sayısı kaynakla eşleşmiyor"
 
-#: trans/checks.py:543
+#: trans/checks.py:568
 msgid "Mismatched BBcode"
 msgstr "Uyumsuz BBcode"
 
-#: trans/checks.py:544
+#: trans/checks.py:569
 msgid "BBcode in translation does not match source"
 msgstr "Çevirideki BBcode kaynakla eşleşmiyor"
 
@@ -2467,92 +2475,92 @@ msgstr "Başlangıç harfi"
 msgid "Any"
 msgstr "Herhangi"
 
-#: trans/models.py:65
+#: trans/models.py:107
 msgid "Automatic detection"
 msgstr "Otomatik algılama"
 
-#: trans/models.py:70
+#: trans/models.py:111
 msgid "Gettext PO file"
 msgstr "Gettext PO dosyası"
 
-#: trans/models.py:75
+#: trans/models.py:116
 msgid "XLIFF Translation File"
 msgstr "XLIFF Çeviri Dosyası"
 
-#: trans/models.py:80
+#: trans/models.py:120
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Çeviri Dosyası"
 
-#: trans/models.py:85
+#: trans/models.py:124
 msgid "OS X Strings"
 msgstr "OS X Satırları"
 
-#: trans/models.py:90
+#: trans/models.py:129
 msgid "Java Properties"
 msgstr "Java Özellikleri"
 
-#: trans/models.py:98
+#: trans/models.py:137
 msgid "Java Properties (UTF-8)"
 msgstr "Java Özellikleri (UTF-8)"
 
-#: trans/models.py:109 trans/models.py:115
+#: trans/models.py:148 trans/models.py:155
 msgid "Android String Resource"
 msgstr "Android Dizgi Kaynağı"
 
-#: trans/models.py:171 trans/models.py:177
+#: trans/models.py:189 trans/models.py:195
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Kötü biçimde dizgi (%s)"
 
-#: trans/models.py:181
+#: trans/models.py:199
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Dosya maskesi dil yer tutucusu olarak * içeremez!"
 
-#: trans/models.py:202
+#: trans/models.py:220
 msgid "Can not link to linked repository!"
 msgstr "Bağlantılı havuza bağlantı verilemiyor!"
 
-#: trans/models.py:204
+#: trans/models.py:222
 msgid "Invalid link to repository!"
 msgstr "Havuz için geçersiz bağlantı!"
 
-#: trans/models.py:207
+#: trans/models.py:225
 msgid "Use contact form"
 msgstr "İletişim formunu kullanın"
 
-#: trans/models.py:208
+#: trans/models.py:226
 msgid "Point to translation instructions URL"
 msgstr "Çeviri talimatları URL'sine gelin"
 
-#: trans/models.py:211
+#: trans/models.py:229
 msgid "Merge"
 msgstr "Birleştir"
 
-#: trans/models.py:212
+#: trans/models.py:230
 msgid "Rebase"
 msgstr "Yeniden Uyarla"
 
-#: trans/models.py:219
+#: trans/models.py:237
 msgid "Project website"
 msgstr "Proje web sitesi"
 
-#: trans/models.py:223
+#: trans/models.py:241
 msgid "Email conference for translators"
 msgstr "Çevirmenler için eposta toplantısı"
 
-#: trans/models.py:227
+#: trans/models.py:245
 msgid "URL with instructions for translators"
 msgstr "Çevirmenler için talimat URL'si"
 
-#: trans/models.py:234
+#: trans/models.py:252
 msgid "How to handle requests for creating new languages"
 msgstr "Yeni dilleri oluşturmak için isteklerle nasıl başa çıkılır"
 
-#: trans/models.py:237
+#: trans/models.py:255
 msgid "Merge style"
 msgstr "Birleştirme stili"
 
-#: trans/models.py:241
+#: trans/models.py:259
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
@@ -2560,7 +2568,7 @@ msgstr ""
 "Weblate'in havuz yönünde birleştirmesini ya da onun üzerinde değişiklikleri "
 "yeniden uyarlamasını tanımlar"
 
-#: trans/models.py:247
+#: trans/models.py:265
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
@@ -2569,18 +2577,18 @@ msgstr ""
 "Dil kısayolları, alt projeler veya proje adları için %(language)s, "
 "%(subproject)s ya da %(project)s kullanabilirsiniz."
 
-#: trans/models.py:261
+#: trans/models.py:279
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Her göndermede havuzun ters yönde zorlanıp zorlanmayacağıdır."
 
-#: trans/models.py:266
+#: trans/models.py:284
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Dosya başlıkları içindeki Çeviri-Takımının Weblate tarafından güncellenip "
 "güncellenmeyeceği."
 
-#: trans/models.py:274
+#: trans/models.py:292
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -2588,15 +2596,15 @@ msgstr ""
 "Yeni dil eklemek için lütfen ya talimatlar URL'sindekini doldurun ya da "
 "farklı seçenek kullanın."
 
-#: trans/models.py:430
+#: trans/models.py:448
 msgid "Name to display"
 msgstr "Görüntülemek için isim"
 
-#: trans/models.py:434
+#: trans/models.py:452
 msgid "Name used in URLs"
 msgstr "URL'ler içinde kullanılan isim"
 
-#: trans/models.py:439
+#: trans/models.py:457
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2604,11 +2612,11 @@ msgstr ""
 "Git havuzunun URL'si, diğer alt proje ile paylaşmak için weblate://project/"
 "subproject kullanın"
 
-#: trans/models.py:444
+#: trans/models.py:462
 msgid "URL of push Git repository"
 msgstr "Git havuzuna yollama URL'si"
 
-#: trans/models.py:448
+#: trans/models.py:466
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2617,11 +2625,11 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, dal için %(branch)s, dosya adı ve satır yer "
 "tutucuları olarak %(file)s ve %(line)s kullan"
 
-#: trans/models.py:454
+#: trans/models.py:472
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models.py:459
+#: trans/models.py:477
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2629,7 +2637,7 @@ msgstr ""
 "Çevirmek için dosyaların yolu, dil kodu yerine * kullanın, örneğin: po/*.po "
 "veya locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:464
+#: trans/models.py:482
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2637,49 +2645,49 @@ msgstr ""
 "Çeviri şablonunun dosya adı, bu Android kaynak dizgileri gibi sadece "
 "çevrilmiş dizgilerin saklandığı çeviriler için kullanılmasında önerilir"
 
-#: trans/models.py:470
+#: trans/models.py:488
 msgid "Automatic detection might fail for some formats and is slightly slower"
 msgstr "Otomatik algılama bazı biçimlerde başarısız olabilir ve biraz yavaştır"
 
-#: trans/models.py:474
+#: trans/models.py:492
 msgid "Whether subproject is locked for translation updates"
 msgstr "Çeviri güncellemeleri için alt projenin kilitli olup olmadığı"
 
-#: trans/models.py:634
+#: trans/models.py:652
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models.py:714
+#: trans/models.py:732
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models.py:746
+#: trans/models.py:764
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:772
+#: trans/models.py:790
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models.py:826
+#: trans/models.py:844
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models.py:853
+#: trans/models.py:871
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models.py:960
+#: trans/models.py:978
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models.py:965
+#: trans/models.py:983
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2687,25 +2695,25 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models.py:980
+#: trans/models.py:998
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:985
+#: trans/models.py:1003
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:995
+#: trans/models.py:1013
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models.py:997
+#: trans/models.py:1015
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:1126
+#: trans/models.py:1158
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2714,55 +2722,55 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models.py:1130
+#: trans/models.py:1162
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models.py:1132
+#: trans/models.py:1164
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1157 trans/views.py:372
+#: trans/models.py:1189 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr "Bu çeviri şu anda güncellemeler için kilitli!"
 
-#: trans/models.py:1165
+#: trans/models.py:1197
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 "Bu çeviri %(time)s tarihine kadar çeviri için %(user)s tarafından kilitli!"
 
-#: trans/models.py:1731
+#: trans/models.py:1773
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:1737
+#: trans/models.py:1779
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:1739
+#: trans/models.py:1781
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:1741
+#: trans/models.py:1783
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:1743
+#: trans/models.py:1785
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:1990
+#: trans/models.py:2032
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2083
+#: trans/models.py:2125
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
@@ -2770,6 +2778,10 @@ msgstr "birim ID %s"
 #: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı girin."
+
+#: trans/views.py:181
+msgid "Dictionaries"
+msgstr "Sözlükler"
 
 #: trans/views.py:204 trans/views.py:339
 #, python-format
@@ -2922,6 +2934,12 @@ msgstr "Tab karakteri"
 #: trans/templatetags/translations.py:107
 msgid "New line"
 msgstr "Yeni satır"
+
+#~ msgid "Dictionary"
+#~ msgstr "Sözlük"
+
+#~ msgid "Words in dictionary"
+#~ msgstr "Sözlükteki kelimeler"
 
 #~ msgid "Promote"
 #~ msgstr "Tanıtım"

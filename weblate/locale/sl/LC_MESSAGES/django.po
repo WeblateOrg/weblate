@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-18 14:02+0200\n"
+"POT-Creation-Date: 2012-10-22 11:21+0200\n"
 "PO-Revision-Date: 2012-09-06 13:23+0200\n"
 "Last-Translator: Domen <dbc334@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -458,9 +458,9 @@ msgstr ""
 msgid "Download"
 msgstr "Prenesi"
 
-#: html/dictionaries.html:8 html/dictionary.html:7 html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "slovarji"
+#: html/dictionaries.html:8 html/dictionary.html:7
+msgid "glossaries"
+msgstr ""
 
 #: html/dictionaries.html:15 html/languages.html:14
 #: html/list-translations.html:6
@@ -471,9 +471,9 @@ msgstr "Jezik"
 msgid "Words"
 msgstr "Besede"
 
-#: html/dictionary.html:15
-msgid "Dictionary"
-msgstr "Slovar"
+#: html/dictionary.html:15 html/translate.html:167
+msgid "Glossary"
+msgstr ""
 
 #: html/dictionary.html:19 html/translate.html:20
 msgid "First"
@@ -524,12 +524,13 @@ msgid "Add new word"
 msgstr "Dodaj novo besedo"
 
 #: html/dictionary.html:77
-msgid "Import dictionary"
+#, fuzzy
+msgid "Import glossary"
 msgstr "Uvozi slovar"
 
 #: html/dictionary.html:79
 #, fuzzy
-msgid "Export dictionary"
+msgid "Export glossary"
 msgstr "Uvozi slovar"
 
 #: html/dictionary.html:90
@@ -549,7 +550,7 @@ msgid "Import"
 msgstr "Uvozi"
 
 #: html/dictionary.html:114
-msgid "You can download dictionary in following formats:"
+msgid "You can download glossary in following formats:"
 msgstr ""
 
 #: html/dictionary.html:117
@@ -559,6 +560,10 @@ msgstr ""
 #: html/dictionary.html:118
 msgid "Gettext (PO)"
 msgstr ""
+
+#: html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "slovarji"
 
 #: html/edit_dictionary.html:14
 msgid "Change word"
@@ -795,9 +800,9 @@ msgstr "Podprojekti"
 msgid "Subproject"
 msgstr "Podprojekt"
 
-#: html/project.html:40 trans/views.py:181
-msgid "Dictionaries"
-msgstr "Slovarji"
+#: html/project.html:40
+msgid "Glossaries"
+msgstr ""
 
 #: html/project.html:43 html/subproject.html:31 html/translation.html:39
 msgid "Git maintenance"
@@ -808,7 +813,8 @@ msgid "Share"
 msgstr ""
 
 #: html/project.html:53
-msgid "Manage all dictionaries"
+#, fuzzy
+msgid "Manage all glossaries"
 msgstr "Upravljaj vse slovarje"
 
 #: html/project_info.html:2
@@ -852,7 +858,7 @@ msgid ""
 "readable formats."
 msgstr ""
 
-#: html/subproject.html:28 trans/models.py:230
+#: html/subproject.html:28 trans/models.py:248
 msgid "New language"
 msgstr "Nov jezik"
 
@@ -997,12 +1003,9 @@ msgid "All locations"
 msgstr "Vsa nahajališča"
 
 #: html/translate.html:167
-msgid "Words extracted from dictionary"
+#, fuzzy
+msgid "Words extracted from glossary"
 msgstr "Besede, izvlečene iz slovarja"
-
-#: html/translate.html:167
-msgid "Words in dictionary"
-msgstr "Besede v slovarju"
 
 #: html/translate.html:168
 msgid "List of recent changes done in Weblate"
@@ -2224,51 +2227,61 @@ msgstr "Nisem uspel obdelati obrazca!"
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/checks.py:239
+#: trans/checks.py:240
 msgid "Not translated"
 msgstr "Ni prevedeno"
 
-#: trans/checks.py:240
+#: trans/checks.py:241
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
-#: trans/checks.py:284
+#: trans/checks.py:285
 msgid "Starting newline"
 msgstr "Začetna nova vrstica"
 
-#: trans/checks.py:285
+#: trans/checks.py:286
 msgid "Source and translation do not both start with a newline"
 msgstr "Izvirnik in prevod se ne začneta z novo vrstico"
 
-#: trans/checks.py:295
+#: trans/checks.py:296
 msgid "Trailing newline"
 msgstr "Končna nova vrstica"
 
-#: trans/checks.py:296
+#: trans/checks.py:297
 msgid "Source and translation do not both end with a newline"
 msgstr "Izvirnik in prevod se ne končata z novo vrstico"
 
-#: trans/checks.py:306
+#: trans/checks.py:307
+#, fuzzy
+msgid "Starting spaces"
+msgstr "Začetni datum"
+
+#: trans/checks.py:308
+#, fuzzy
+msgid "Source and translation do not both start with same number of spaces"
+msgstr "Izvirnik in prevod se ne začneta z novo vrstico"
+
+#: trans/checks.py:331
 msgid "Trailing space"
 msgstr "Končni presledek"
 
-#: trans/checks.py:307
+#: trans/checks.py:332
 msgid "Source and translation do not both end with a space"
 msgstr "Izvirnik in prevod se ne končata s presledkom"
 
-#: trans/checks.py:325
+#: trans/checks.py:350
 msgid "Trailing stop"
 msgstr "Končna pika"
 
-#: trans/checks.py:326
+#: trans/checks.py:351
 msgid "Source and translation do not both end with a full stop"
 msgstr "Izvirnik in prevod se ne končata s piko"
 
-#: trans/checks.py:343
+#: trans/checks.py:368
 msgid "Trailing colon"
 msgstr "Končno dvopičje"
 
-#: trans/checks.py:344
+#: trans/checks.py:369
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2276,11 +2289,11 @@ msgstr ""
 "Izvirnik in prevod se ne končata z dvopičjem ali pa dvopičje ni pravilno "
 "obdano s presledki"
 
-#: trans/checks.py:368
+#: trans/checks.py:393
 msgid "Trailing question"
 msgstr "Končni vprašaj"
 
-#: trans/checks.py:369
+#: trans/checks.py:394
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2288,11 +2301,11 @@ msgstr ""
 "Izvirnik in prevod se ne končata z vprašajem ali pa ni pravilno obdan s "
 "presledki"
 
-#: trans/checks.py:386
+#: trans/checks.py:411
 msgid "Trailing exclamation"
 msgstr "Končni klicaj"
 
-#: trans/checks.py:387
+#: trans/checks.py:412
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2300,69 +2313,69 @@ msgstr ""
 "Izvirnik in prevod se ne končata s klicajem ali pa ni pravilno obdan s "
 "presledki"
 
-#: trans/checks.py:410
+#: trans/checks.py:435
 #, fuzzy
 msgid "Trailing elipsis"
 msgstr "Končna nova vrstica"
 
-#: trans/checks.py:411
+#: trans/checks.py:436
 #, fuzzy
 msgid "Source and translation do not both end with an elipsis"
 msgstr "Izvirnik in prevod se ne končata z novo vrstico"
 
-#: trans/checks.py:424
+#: trans/checks.py:449
 msgid "Python format"
 msgstr "Oblika Python"
 
-#: trans/checks.py:425 trans/checks.py:438 trans/checks.py:451
+#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
 msgid "Format string does not match source"
 msgstr "Oblika niza se ne ujema z izvirnikom"
 
-#: trans/checks.py:437
+#: trans/checks.py:462
 msgid "PHP format"
 msgstr "Oblika PHP"
 
-#: trans/checks.py:450
+#: trans/checks.py:475
 msgid "C format"
 msgstr "Oblika C"
 
-#: trans/checks.py:464
+#: trans/checks.py:489
 msgid "Missing plurals"
 msgstr "Manjkajoča množina"
 
-#: trans/checks.py:465
+#: trans/checks.py:490
 msgid "Some plural forms are not translated"
 msgstr "Nekatere množinske oblike niso prevedene"
 
-#: trans/checks.py:482
+#: trans/checks.py:507
 msgid "Inconsistent"
 msgstr "Neskladno"
 
-#: trans/checks.py:483
+#: trans/checks.py:508
 msgid "This message has more than one translation in this project"
 msgstr "Sporočilo ima v tem projektu več kot en prevod"
 
-#: trans/checks.py:507
+#: trans/checks.py:532
 msgid "Invalid text direction"
 msgstr "Neveljavna smer besedila"
 
-#: trans/checks.py:508
+#: trans/checks.py:533
 msgid "Text direction can be either LTR or RTL"
 msgstr "Smer besedila je lahko samo LTR ali RTL"
 
-#: trans/checks.py:535
+#: trans/checks.py:560
 msgid "Mismatched \\n"
 msgstr ""
 
-#: trans/checks.py:536
+#: trans/checks.py:561
 msgid "Number of \\n in translation does not match source"
 msgstr "Število \\n v prevodu se ne ujema z izvirnikom"
 
-#: trans/checks.py:543
+#: trans/checks.py:568
 msgid "Mismatched BBcode"
 msgstr ""
 
-#: trans/checks.py:544
+#: trans/checks.py:569
 msgid "BBcode in translation does not match source"
 msgstr "BBcode v prevodu se ne ujema z izvirnikom"
 
@@ -2463,121 +2476,121 @@ msgstr "Začetna črka"
 msgid "Any"
 msgstr "Katera koli"
 
-#: trans/models.py:65
+#: trans/models.py:107
 #, fuzzy
 msgid "Automatic detection"
 msgstr "Samodejni prevod"
 
-#: trans/models.py:70
+#: trans/models.py:111
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/models.py:75
+#: trans/models.py:116
 #, fuzzy
 msgid "XLIFF Translation File"
 msgstr "Oddani prevodi"
 
-#: trans/models.py:80
+#: trans/models.py:120
 #, fuzzy
 msgid "Qt Linguist Translation File"
 msgstr "Nizi za prevajanje"
 
-#: trans/models.py:85
+#: trans/models.py:124
 #, fuzzy
 msgid "OS X Strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:90
+#: trans/models.py:129
 msgid "Java Properties"
 msgstr ""
 
-#: trans/models.py:98
+#: trans/models.py:137
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/models.py:109 trans/models.py:115
+#: trans/models.py:148 trans/models.py:155
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/models.py:171 trans/models.py:177
+#: trans/models.py:189 trans/models.py:195
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Slaba oblika niza (%s)"
 
-#: trans/models.py:181
+#: trans/models.py:199
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Maska datoteke ne vsebuje * kot označbe mesta jezika!"
 
-#: trans/models.py:202
+#: trans/models.py:220
 msgid "Can not link to linked repository!"
 msgstr "Ne morem povezati do povezane shrambe!"
 
-#: trans/models.py:204
+#: trans/models.py:222
 msgid "Invalid link to repository!"
 msgstr "Neveljavna povezava do shrambe!"
 
-#: trans/models.py:207
+#: trans/models.py:225
 msgid "Use contact form"
 msgstr "Uporabite kontaktni obrazec"
 
-#: trans/models.py:208
+#: trans/models.py:226
 msgid "Point to translation instructions URL"
 msgstr "Pokažite na URL z navodili za prevajanje"
 
-#: trans/models.py:211
+#: trans/models.py:229
 msgid "Merge"
 msgstr ""
 
-#: trans/models.py:212
+#: trans/models.py:230
 msgid "Rebase"
 msgstr ""
 
-#: trans/models.py:219
+#: trans/models.py:237
 #, fuzzy
 msgid "Project website"
 msgstr "Spletna stran projekta:"
 
-#: trans/models.py:223
+#: trans/models.py:241
 #, fuzzy
 msgid "Email conference for translators"
 msgstr "Poštni seznam za prevajalce:"
 
-#: trans/models.py:227
+#: trans/models.py:245
 #, fuzzy
 msgid "URL with instructions for translators"
 msgstr "Navodila za prevajalce:"
 
-#: trans/models.py:234
+#: trans/models.py:252
 msgid "How to handle requests for creating new languages"
 msgstr ""
 
-#: trans/models.py:237
+#: trans/models.py:255
 msgid "Merge style"
 msgstr ""
 
-#: trans/models.py:241
+#: trans/models.py:259
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it"
 msgstr ""
 
-#: trans/models.py:247
+#: trans/models.py:265
 #, python-format
 msgid ""
 "You can use %(language)s, %(subproject)s or %(project)s for language "
 "shortcut, subproject or project names."
 msgstr ""
 
-#: trans/models.py:261
+#: trans/models.py:279
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models.py:266
+#: trans/models.py:284
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Ali naj Weblate posodobi Translation-Team v glavah datotek."
 
-#: trans/models.py:274
+#: trans/models.py:292
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -2585,15 +2598,15 @@ msgstr ""
 "Prosimo, vnesite URL navodil ali uporabite drugačno možnost za dodajanje "
 "novega jezika."
 
-#: trans/models.py:430
+#: trans/models.py:448
 msgid "Name to display"
 msgstr "Prikazno ime"
 
-#: trans/models.py:434
+#: trans/models.py:452
 msgid "Name used in URLs"
 msgstr "Ime, uporabljeno v URL-jih"
 
-#: trans/models.py:439
+#: trans/models.py:457
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject"
@@ -2601,11 +2614,11 @@ msgstr ""
 "URL shrambe Git; uporabite weblate://project/subproject za deljenje z "
 "ostalimi podprojekti"
 
-#: trans/models.py:444
+#: trans/models.py:462
 msgid "URL of push Git repository"
 msgstr "URL shrambe Git za potiskanje"
 
-#: trans/models.py:448
+#: trans/models.py:466
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2614,11 +2627,11 @@ msgstr ""
 "Povezava do brskalnika po shrambi; uporabite %(branch)s za podvejo, %(file)s "
 "in %(line)s za ime datoteke in označbe mesta vrstice"
 
-#: trans/models.py:454
+#: trans/models.py:472
 msgid "Git branch to translate"
 msgstr "Podveja Git za prevajanje"
 
-#: trans/models.py:459
+#: trans/models.py:477
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po"
@@ -2626,7 +2639,7 @@ msgstr ""
 "Pot datotek za prevajanje; uporabite * namesto kode jezika, na primer: po/*."
 "po ali locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:464
+#: trans/models.py:482
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource strings"
@@ -2634,49 +2647,49 @@ msgstr ""
 "Ime datoteke predloge prevodov; priporočljivo za prevode, ki shranjujejo "
 "samo preveden niz, kot so nizi virov Android"
 
-#: trans/models.py:470
+#: trans/models.py:488
 msgid "Automatic detection might fail for some formats and is slightly slower"
 msgstr ""
 
-#: trans/models.py:474
+#: trans/models.py:492
 msgid "Whether subproject is locked for translation updates"
 msgstr "Ali je podprojekt zaklenjen zaradi posodobitev prevodov"
 
-#: trans/models.py:634
+#: trans/models.py:652
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Zajemanje shrambe git je spodletelo: %s"
 
-#: trans/models.py:714
+#: trans/models.py:732
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Potiskanje je onemogočeno za %s."
 
-#: trans/models.py:746
+#: trans/models.py:764
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nisem uspel potisniti na oddaljeno podvejo na %s."
 
-#: trans/models.py:772
+#: trans/models.py:790
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nisem uspel ponastaviti oddaljene podveje na %s."
 
-#: trans/models.py:826
+#: trans/models.py:844
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nisem uspel združiti oddaljene podveje z %s."
 
-#: trans/models.py:853
+#: trans/models.py:871
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Nisem uspel ponastaviti oddaljene podveje na %s."
 
-#: trans/models.py:960
+#: trans/models.py:978
 msgid "The mask did not match any files!"
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: trans/models.py:965
+#: trans/models.py:983
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2684,25 +2697,25 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek; prosimo, prilagodite masko in "
 "uporabite podprojekte za prevajanje različnih virov."
 
-#: trans/models.py:980
+#: trans/models.py:998
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 
-#: trans/models.py:985
+#: trans/models.py:1003
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:995
+#: trans/models.py:1013
 msgid "Format of translation template could not be recognized."
 msgstr "Oblike predloge prevoda ni mogoče prepoznati."
 
-#: trans/models.py:997
+#: trans/models.py:1015
 msgid "Failed to parse translation template."
 msgstr "Razčlenjevanje predloge prevoda ni uspelo."
 
-#: trans/models.py:1126
+#: trans/models.py:1158
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2711,54 +2724,54 @@ msgstr ""
 "V shrambi nisem našel datoteke z imenom %s! Da dodate nov prevod, v shrambo "
 "dodajte datoteko jezika."
 
-#: trans/models.py:1130
+#: trans/models.py:1162
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Oblike %s ne morem prepoznati."
 
-#: trans/models.py:1132
+#: trans/models.py:1164
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
 
-#: trans/models.py:1157 trans/views.py:372
+#: trans/models.py:1189 trans/views.py:372
 msgid "This translation is currently locked for updates!"
 msgstr "Prevod je trenutno zaklenjen zaradi posodobitev!"
 
-#: trans/models.py:1165
+#: trans/models.py:1197
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "Prevod je zaklenil %(user)s zaradi prevajanja do %(time)s!"
 
-#: trans/models.py:1731
+#: trans/models.py:1773
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:1737
+#: trans/models.py:1779
 #, python-format
 msgid "Not translated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:1739
+#: trans/models.py:1781
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:1741
+#: trans/models.py:1783
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:1743
+#: trans/models.py:1785
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Nizi s katerim koli spodletelim preverjanjem (%d)"
 
-#: trans/models.py:1990
+#: trans/models.py:2032
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Sporočila nisem našel v zaledni shrambi; najverjetneje je pokvarjeno."
 
-#: trans/models.py:2083
+#: trans/models.py:2125
 #, python-format
 msgid "unit ID %s"
 msgstr "ID enote %s"
@@ -2766,6 +2779,10 @@ msgstr "ID enote %s"
 #: trans/views.py:73
 msgid "Please set your full name in your profile."
 msgstr "Prosimo, da v profilu nastavite svoje polno ime."
+
+#: trans/views.py:181
+msgid "Dictionaries"
+msgstr "Slovarji"
 
 #: trans/views.py:204 trans/views.py:339
 #, python-format
@@ -2919,6 +2936,12 @@ msgstr ""
 #, fuzzy
 msgid "New line"
 msgstr "Nov jezik"
+
+#~ msgid "Dictionary"
+#~ msgstr "Slovar"
+
+#~ msgid "Words in dictionary"
+#~ msgstr "Besede v slovarju"
 
 #~ msgid "Promote"
 #~ msgstr "Oglašujte"

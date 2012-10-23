@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=project.slug %}">{% trans "dictionaries" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
 <li><a href="{% url 'weblate.trans.views.show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endblock %}
 
@@ -12,7 +12,7 @@
 
 
 
-<h2>{% trans "Dictionary" %}</h2>
+<h2>{% trans "Glossary" %}</h2>
 
 <span id="navi-toolbar" class="ui-widget-header ui-corner-all">
 <span class="navi">
@@ -74,9 +74,9 @@
 <li><a href="#add">{% trans "Add new word" %}</a></li>
 {% endif %}
 {% if perms.trans.upload_dictionary %}
-<li><a href="#import">{% trans "Import dictionary" %}</a></li>
+<li><a href="#import">{% trans "Import glossary" %}</a></li>
 {% endif %}
-<li><a href="#export">{% trans "Export dictionary" %}</a></li>
+<li><a href="#export">{% trans "Export glossary" %}</a></li>
 </ul>
 
 {% if perms.trans.add_dictionary %}
@@ -96,7 +96,7 @@
 {% if perms.trans.upload_dictionary %}
 <div id="import">
 
-<p>{% trans "You can upload any format which is understood by Translate Toolkit for example csv or po file." %}</p>
+<p>{% trans "You can upload any format which is understood by Translate Toolkit (including TBX, CSV or Gettext PO files)." %}</p>
 
 <form action="{% url 'weblate.trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
@@ -111,7 +111,7 @@
 
 <div id="export">
 
-<p>{% trans "You can download dictionary in following formats:" %}</p>
+<p>{% trans "You can download glossary in following formats:" %}</p>
 
 <ul>
 <li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>

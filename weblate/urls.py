@@ -54,6 +54,8 @@ urlpatterns = patterns('',
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.download_dictionary'),
 
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.show_subproject'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/$', 'weblate.trans.views.show_source'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/review/$', 'weblate.trans.views.review_source'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'weblate.trans.views.translate'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.download_translation'),
