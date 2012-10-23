@@ -1768,6 +1768,10 @@ class Translation(models.Model):
                                 self.get_absolute_url(),
                             )
                         )
+                        if self.subproject.report_source_bugs != '':
+                            store.updateheader(
+                                report_msgid_bugs_to = self.subproject.report_source_bugs,
+                            )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)
                 # save translation changes
