@@ -467,6 +467,10 @@ class SubProject(models.Model):
         validators = [validate_repoweb],
         blank = True,
     )
+    report_source_bugs = models.EmailField(
+        help_text = ugettext_lazy('Email address where errors in source string will be reported'),
+        blank = True,
+    )
     branch = models.CharField(
         max_length = 50,
         help_text = ugettext_lazy('Git branch to translate')
