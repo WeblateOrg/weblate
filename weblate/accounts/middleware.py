@@ -55,6 +55,9 @@ class RequireLoginMiddleware(object):
         return tuple([re.compile(url) for url in getattr(settings, name, default)])
 
     def process_view(self,request,view_func,view_args,view_kwargs):
+        # No need to process URLs if not configured
+        if len(self.required) == 0:
+            return None
         # No need to process URLs if user already logged in
         if request.user.is_authenticated():
             return None
