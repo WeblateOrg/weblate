@@ -18,6 +18,7 @@ Relased on ? 2012.
 * More visible data exports.
 * New buttons to enter some special characters.
 * Support for exporting dictionary.
+* Support for locking down whole Weblate installation.
 
 weblate 1.2
 -----------
