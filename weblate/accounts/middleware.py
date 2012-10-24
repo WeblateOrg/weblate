@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <http://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 import re
 
 from django.conf import settings
@@ -30,13 +50,16 @@ class RequireLoginMiddleware(object):
 
     def process_view(self,request,view_func,view_args,view_kwargs):
         # No need to process URLs if user already logged in
-        if request.user.is_authenticated(): return None
+        if request.user.is_authenticated():
+            return None
         # An exception match should immediately return None
         for url in self.exceptions:
-            if url.match(request.path): return None
+            if url.match(request.path):
+                return None
         # Requests matching a restricted URL pattern are returned
         # wrapped with the login_required decorator
         for url in self.required:
-            if url.match(request.path): return login_required(view_func)(request,*view_args,**view_kwargs)
+            if url.match(request.path):
+                return login_required(view_func)(request,*view_args,**view_kwargs)
         # Explicitly return None for all non-matching requests
         return None
