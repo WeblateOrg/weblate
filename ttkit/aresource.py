@@ -25,6 +25,7 @@ from lxml import etree
 from StringIO import StringIO
 
 import re
+import pdb
 
 from translate.storage import lisa
 from translate.storage import base
@@ -33,21 +34,23 @@ from translate.lang import data
 EOF = None
 WHITESPACE = ' \n\t' # Whitespace that we collapse
 MULTIWHITESPACE = re.compile('[ \n\t]{2}')
+OPEN_TAG_TO_ESCAPE = re.compile('<(?!/?\S*>)')
 
 class AndroidResourceUnit(base.TranslationUnit):
     """A single term in the Android resource file."""
     rootNode = "string"
     languageNode = "string"
 
-    def __init__(self, source, empty=False, **kwargs):
-        self.xmlelement = etree.Element(self.rootNode)
-        self.xmlelement.tail = '\n'
-        if source is not None:
-            self.xmlelement.set('name', source)
+    def __init__(self, source, empty=False, xmlelement = None, **kwargs):
+        if xmlelement is not None:
+            self.xmlelement = xmlelement
+        else:
+            self.xmlelement = etree.Element(self.rootNode)
+            self.xmlelement.tail = '\n'
         super(AndroidResourceUnit, self).__init__(source)
 
-    def _parse(self):
-        self.source = self.getid()
+
+
 
     def getid(self):
         return self.xmlelement.get("name")
@@ -57,7 +60,6 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def setid(self, newid):
         return self.xmlelement.set("name", newid)
-
     def unescape(self, text):
         '''
         Remove escaping from Android resource.
@@ -208,6 +210,7 @@ class AndroidResourceUnit(base.TranslationUnit):
         text = text.replace('\t', '\\t')
         text = text.replace('\'', '\\\'')
         text = text.replace('"', '\\"')
+        
         # @ needs to be escaped at start
         if text.startswith('@'):
             text = '\\@' + text[1:]
@@ -216,14 +219,32 @@ class AndroidResourceUnit(base.TranslationUnit):
             return '"%s"' % text
         return text
 
+    def setsource(self, source):
+        super(AndroidResourceUnit, self).setsource(source)
+
+    def getsource(self, lang=None):
+        if (super(AndroidResourceUnit, self).source is None):
+            return self.target
+        else:
+            return super(AndroidResourceUnit, self).source
+            
+    source = property(getsource, setsource)
+    
     def settarget(self, target):
         if '<' in target:
             # Handle text with markup
-            newtarget = etree.parse(StringIO('<string>' + self.escape(target) + '</string>')).getroot()
-            for attr in self.xmlelement.attrib:
-                newtarget.set(attr, self.xmlelement.attrib[attr])
-            self.xmlelement.getparent().replace(self.xmlelement, newtarget)
-            self.xmlelement = newtarget
+            target = self.escape(target).replace('&', '&amp;')
+            target = OPEN_TAG_TO_ESCAPE.sub('&lt;', target)
+            # Parse new XML
+            newstring = etree.parse(StringIO('<string>' + target + '</string>')).getroot()
+            # Update text
+            self.xmlelement.text = newstring.text
+            # Remove old elements
+            for x in self.xmlelement.iterchildren():
+                self.xmlelement.remove(x)
+            # Add new elements
+            for x in newstring.iterchildren():
+                self.xmlelement.append(x)
         else:
             # Handle text only
             self.xmlelement.text = self.escape(target)
@@ -231,22 +252,51 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def gettarget(self, lang=None):
         # Grab inner text
-        target = (self.xmlelement.text or '')
+        target = (self.xmlelement.text or u'')
         # Include markup as well
-        target += ''.join([etree.tostring(child, encoding = 'utf-8') for child in self.xmlelement.iterchildren()])
+        target += u''.join([data.forceunicode(etree.tostring(child, encoding = 'utf-8')) for child in self.xmlelement.iterchildren()])
         return self.unescape(data.forceunicode(target))
 
     target = property(gettarget, settarget)
+    
 
     def getlanguageNode(self, lang=None, index=None):
         return self.xmlelement
 
     def createfromxmlElement(cls, element):
-        term = cls(None, empty=True)
-        term.xmlelement = element
-        term._parse()
+        term = cls(None, xmlelement = element)
         return term
     createfromxmlElement = classmethod(createfromxmlElement)
+    
+    # Notes are handled as previous sibling comments.
+    def addnote(self, text, origin=None, position="append"):
+        if origin in ['programmer', 'developer', 'source code', None]:
+            self.xmlelement.addprevious(etree.Comment(text))
+        else:
+            return super(AndroidResourceUnit, self).addnote(text, origin=origin,
+                                                 position=position)
+
+    def getnotes(self, origin=None):
+        if origin in ['programmer', 'developer', 'source code', None]:
+            comments = []
+            if (self.xmlelement is not None):
+                prevSibling = self.xmlelement.getprevious()
+                while ((prevSibling is not None) and (prevSibling.tag is etree.Comment)):
+                    comments.insert(0, prevSibling.text)
+                    prevSibling = prevSibling.getprevious()
+
+            return u'\n'.join(comments)
+        else:
+            return super(AndroidResourceUnit, self).getnotes(origin)
+
+    def removenotes(self):
+        if ((self.xmlelement is not None) and (self.xmlelement.getparent is not None)):
+            prevSibling = self.xmlelement.getprevious()
+            while ((prevSibling is not None) and (prevSibling.tag is etree.Comment)):
+                prevSibling.getparent().remove(prevSibling)
+                prevSibling = self.xmlelement.getprevious()
+            
+        super(AndroidResourceUnit, self).removenotes()
 
     def __str__(self):
         return etree.tostring(self.xmlelement, pretty_print=True,
