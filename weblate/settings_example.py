@@ -194,6 +194,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'weblate.trans.context_processors.date',
     'weblate.trans.context_processors.url',
     'weblate.trans.context_processors.mt',
+    'weblate.trans.context_processors.registration',
     )
 
 if DEBUG:

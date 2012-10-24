@@ -45,3 +45,8 @@ def mt(request):
         'apertium_api_key': settings.MT_APERTIUM_KEY,
         'microsoft_api_key': settings.MT_MICROSOFT_KEY,
     }
+
+def registration(request):
+    return {
+        'registration_open': getattr(settings, 'REGISTRATION_OPEN', True),
+    }
