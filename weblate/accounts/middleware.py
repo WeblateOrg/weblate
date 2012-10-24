@@ -46,7 +46,7 @@ class RequireLoginMiddleware(object):
     """
     def __init__(self):
         self.required = self.get_setting_re('LOGIN_REQUIRED_URLS', [])
-        self.exceptions = self.get_setting_re('LOGIN_REQUIRED_URLS_EXCEPTIONS', [r'/accounts/(.*)$'])
+        self.exceptions = self.get_setting_re('LOGIN_REQUIRED_URLS_EXCEPTIONS', [r'/accounts/(.*)$', r'/media/(.*)$'])
 
     def get_setting_re(self, name, default):
         '''
