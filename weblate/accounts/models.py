@@ -23,7 +23,6 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
-from django.db.models.signals import post_save
 from django.db.utils import DatabaseError
 from django.utils.translation import ugettext_lazy as _, gettext, ugettext_noop
 from django.contrib import messages
@@ -227,34 +226,6 @@ def set_lang(sender, **kwargs):
     lang_code = user.get_profile().language
     request.session['django_language'] = lang_code
 
-@receiver(post_save, sender = User)
-def create_profile_callback(sender, **kwargs):
-    '''
-    Automatically create profile when creating new user.
-    '''
-    if kwargs['created']:
-        # Need to handle this in separate transaction as it might fail
-        # in case we're run from syncdb. Transaction handling is needed
-        # for PostgreSQL as otherwise whole transaction will be in bad
-        # state ("current transaction is aborted, queries ignored until
-        # end of transaction block")
-        transaction.commit()
-        try:
-            with transaction.commit_on_success():
-                # Create profile
-                profile, newprofile = Profile.objects.get_or_create(user = kwargs['instance'])
-
-            with transaction.commit_on_success():
-                # Add user to Users group if it exists
-                try:
-                    group = Group.objects.get(name = 'Users')
-                    kwargs['instance'].groups.add(group)
-                except Group.DoesNotExist:
-                    pass
-        except DatabaseError:
-            pass
-
-
 def create_groups(update, move):
     '''
     Creates standard groups and gives them permissions.
@@ -312,9 +283,10 @@ def sync_create_groups(sender, **kwargs):
 @receiver(user_registered)
 def store_user_details(sender, user, request, **kwargs):
     '''
-    Stores user details on registration, here we rely on
+    Stores user details on registration and creates user profile. We rely on
     validation done by RegistrationForm.
     '''
     user.first_name = request.POST['first_name']
     user.last_name = request.POST['last_name']
     user.save()
+    profile, newprofile = Profile.objects.get_or_create(user = user)
