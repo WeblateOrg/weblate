@@ -18,6 +18,20 @@ All settings are stored in :file:`settings.py` (as usual for Django).
 
 .. _`Django's documentation`: https://docs.djangoproject.com/en/1.4/ref/settings/
 
+.. setting:: ACCOUNT_ACTIVATION_DAYS
+
+ACCOUNT_ACTIVATION_DAYS
+-----------------------
+
+This is the number of days users will have to activate their accounts after
+registering. Failing to activate during that period will leave the account
+inactive (and possibly subject to deletion). This setting is required, and must
+be an integer.
+
+.. note::
+
+    This is actually django-registration settings.
+
 .. setting:: AUTO_LOCK
 
 AUTO_LOCK
@@ -114,6 +128,19 @@ While enabling this, don't forget scheduling runs of
 This is recommended setup for production use.
 
 .. seealso:: :ref:`fulltext`
+
+.. setting:: REGISTRATION_OPEN
+
+REGISTRATION_OPEN
+-----------------
+
+A boolean (either ``True`` or ``False``) indicating whether registration of new
+accounts is currently permitted. This setting is optional, and a default of
+True will be assumed if it is not supplied.
+
+.. note::
+
+    This is actually django-registration settings.
 
 .. setting:: SIMILAR_MESSAGES
 
