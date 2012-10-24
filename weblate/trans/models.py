@@ -1974,6 +1974,8 @@ class Unit(models.Model):
             fuzzy = unit.isfuzzy()
             translated = is_translated(unit)
             comment = unit.getnotes()
+            if template is not None:
+                comment = template.getnotes() + ' ' + comment
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target and fuzzy == self.fuzzy)
