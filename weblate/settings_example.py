@@ -150,6 +150,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'weblate.trans.security.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'weblate.urls'
@@ -343,3 +344,18 @@ DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 #        'LOCATION': '127.0.0.1:11211',
 #    }
 #}
+
+# Set to False if you don't wan't public registration
+ENABLE_REGISTRATION = True
+
+LOGIN_REQUIRED_URLS = (
+    # Uncomment this to force login for entire site.
+    # r'/(.*)$',
+)
+LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+    r'/accounts/login(.*)$', 
+    r'/accounts/logout(.*)$',
+    r'/accounts/password(.*)$',
+    r'/accounts/activate(.*)$',
+    r'/accounts/register(.*)$',
+)
