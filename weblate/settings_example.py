@@ -344,3 +344,17 @@ DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 #        'LOCATION': '127.0.0.1:11211',
 #    }
 #}
+
+# Example for restricting access to logged in users
+#LOGIN_REQUIRED_URLS = (
+#    r'/(.*)$',
+#)
+
+# In such case you will want to include some of the exceptions
+#LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+#   r'/accounts/(.*)$', # Required for login
+#   r'/media/(.*)$',    # Required for development mode
+#   r'/widgets/(.*)$',  # Allowing public access to widgets
+#   r'/data/(.*)$',     # Allowing public access to data exports
+#   r'/hooks/(.*)$',    # Allowing public access to notification hooks
+#)

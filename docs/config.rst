@@ -51,6 +51,41 @@ translator.
 
 .. seealso:: :ref:`locking`
 
+.. setting:: LOGIN_REQUIRED_URLS
+
+LOGIN_REQUIRED_URLS
+-------------------
+
+List of URL which require login (besides standard rules built into Weblate).
+This allows you to password protect whole installation using:
+
+.. code-block:: python
+
+    LOGIN_REQUIRED_URLS = (
+        r'/(.*)$',
+    )
+
+.. setting:: LOGIN_REQUIRED_URLS_EXCEPTIONS
+
+LOGIN_REQUIRED_URLS_EXCEPTIONS
+------------------------------
+
+List of exceptions for :setting:`LOGIN_REQUIRED_URLS`, in case you won't
+specify this list, the default value will be used, which allows users to access
+login page.
+
+Some of exceptions you might want to include:
+
+.. code-block:: python
+
+    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+        r'/accounts/(.*)$', # Required for login
+        r'/media/(.*)$',    # Required for development mode
+        r'/widgets/(.*)$',  # Allowing public access to widgets
+        r'/data/(.*)$',     # Allowing public access to data exports
+        r'/hooks/(.*)$',    # Allowing public access to notification hooks
+    )
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST

@@ -263,6 +263,10 @@ group, which will be allowed to save translations and manage suggestions) and
 add selected users to this group. You can do all this from Django admin
 interface.
 
+To completely lock down your Weblate installation you can use
+:setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
+:setting:`REGISTRATION_OPEN` for disallowing new registrations.
+
 .. _lazy-commit:
 
 Lazy commits
