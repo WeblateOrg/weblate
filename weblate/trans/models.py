@@ -249,14 +249,14 @@ class Project(models.Model):
         max_length = 10,
         choices = NEW_LANG_CHOICES,
         default = 'contact',
-        help_text = ugettext_lazy('How to handle requests for creating new languages'),
+        help_text = ugettext_lazy('How to handle requests for creating new languages.'),
     )
     merge_style = models.CharField(
         ugettext_lazy('Merge style'),
         max_length = 10,
         choices = MERGE_CHOICES,
         default = 'merge',
-        help_text = ugettext_lazy('Define whether Weblate should merge upstream repository or rebase changes onto it'),
+        help_text = ugettext_lazy('Define whether Weblate should merge upstream repository or rebase changes onto it.'),
     )
 
     # VCS config
@@ -454,7 +454,7 @@ class SubProject(models.Model):
     project = models.ForeignKey(Project)
     repo = models.CharField(
         max_length = 200,
-        help_text = ugettext_lazy('URL of Git repository, use weblate://project/subproject for sharing with other subproject'),
+        help_text = ugettext_lazy('URL of Git repository, use weblate://project/subproject for sharing with other subproject.'),
         validators = [validate_repo],
     )
     push = models.CharField(
@@ -463,12 +463,12 @@ class SubProject(models.Model):
         blank = True
     )
     repoweb = models.URLField(
-        help_text = ugettext_lazy('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders'),
+        help_text = ugettext_lazy('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.'),
         validators = [validate_repoweb],
         blank = True,
     )
     report_source_bugs = models.EmailField(
-        help_text = ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails'),
+        help_text = ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails.'),
         blank = True,
     )
     branch = models.CharField(
@@ -478,22 +478,22 @@ class SubProject(models.Model):
     filemask = models.CharField(
         max_length = 200,
         validators = [validate_filemask],
-        help_text = ugettext_lazy('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po')
+        help_text = ugettext_lazy('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.')
     )
     template = models.CharField(
         max_length = 200,
         blank = True,
-        help_text = ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings')
+        help_text = ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings.')
     )
     file_format = models.CharField(
         max_length = 50,
         default = 'auto',
         choices = FILE_FORMAT_CHOICES,
-        help_text = ugettext_lazy('Automatic detection might fail for some formats and is slightly slower'),
+        help_text = ugettext_lazy('Automatic detection might fail for some formats and is slightly slower.'),
     )
     locked = models.BooleanField(
         default = False,
-        help_text = ugettext_lazy('Whether subproject is locked for translation updates')
+        help_text = ugettext_lazy('Whether subproject is locked for translation updates.')
     )
 
     class Meta:
