@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-10-29 10:01+0100\n"
-"PO-Revision-Date: 2012-10-26 21:19+0200\n"
+"PO-Revision-Date: 2012-10-29 17:16+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -542,13 +542,12 @@ msgid "Add"
 msgstr "Agregar"
 
 #: html/dictionary.html:99
-#, fuzzy
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"Puede subir cualquier formato aceptado por «Translate Toolkit», como CSV o "
-"PO."
+"Puede subir cualquier formato aceptado por «Translate Toolkit» (incluyendo "
+"archivos TBX, CSV o Gettext PO)."
 
 #: html/dictionary.html:106
 msgid "Import"
@@ -867,28 +866,24 @@ msgstr ""
 "formato para máquinas."
 
 #: html/source-review.html:9 html/source.html:8
-#, fuzzy
 msgid "source"
-msgstr "Original"
+msgstr "original"
 
 #: html/source-review.html:10
-#, fuzzy
 msgid "review"
-msgstr "Revisar"
+msgstr "revisar"
 
 #: html/source-review.html:15
-#, fuzzy
 msgid "Strings to review"
-msgstr "Iniciar revisión"
+msgstr "Cadenas a revisar"
 
 #: html/source-review.html:32
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #: html/source-review.html:45
-#, fuzzy
 msgid "No sources found!"
-msgstr "¡No se encontraron palabras!"
+msgstr "¡No se encontraron archivos de de origen!"
 
 #: html/source.html:19 html/translation.html:19
 msgid "Strings to check"
@@ -2595,22 +2590,20 @@ msgid "URL with instructions for translators"
 msgstr "Instrucciones para traductores"
 
 #: trans/models.py:252
-#, fuzzy
 msgid "How to handle requests for creating new languages."
-msgstr "Cómo manejar pedidos para crear nuevos idiomas"
+msgstr "Cómo manejar pedidos para crear nuevos idiomas."
 
 #: trans/models.py:255
 msgid "Merge style"
 msgstr "Estilo de fusión"
 
 #: trans/models.py:259
-#, fuzzy
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 "Define si Weblate fusiona el repositorio de origen («merge») o cambia la "
-"base de los cambios en el mismo («rebase»)"
+"base de los cambios en el mismo («rebase»)."
 
 #: trans/models.py:265
 #, python-format
@@ -2647,68 +2640,66 @@ msgid "Name used in URLs"
 msgstr "Nombre a utilizar en URLs"
 
 #: trans/models.py:457
-#, fuzzy
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
 "URL del repositorio Git, utilice weblate://proyecto/subproyecto para "
-"compartirlo con otro subproyecto"
+"compartirlo con otro subproyecto."
 
 #: trans/models.py:462
 msgid "URL of push Git repository"
 msgstr "URL de repositorio GIT remoto"
 
 #: trans/models.py:466
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
 "Enlace al navegador del repositorio, utilice %(branch)s, %(file)s y %(line)s "
-"como reemplazos para nombres de rama, nombres de archivo y números de línea"
+"como reemplazos para nombres de rama, nombres de archivo y números de línea "
+"respectivamente."
 
 #: trans/models.py:471
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"Dirección de correo electrónico al que se reportarán errores en cadenas de "
+"origen, si está vacío no se generarán correos."
 
 #: trans/models.py:476
 msgid "Git branch to translate"
 msgstr "Rama Git a traducir"
 
 #: trans/models.py:481
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 "Ruta de los archivos a traducir, utilice * en lugar del código de idioma; "
-"por ejemplo: «po/*.po» o «locale/*/LC_MESSAGES/django.po»"
+"por ejemplo: «po/*.po» o «locale/*/LC_MESSAGES/django.po»."
 
 #: trans/models.py:486
-#, fuzzy
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
 "strings."
 msgstr ""
-"Nombres de archivo de las plantillas de traducción; es recomendable "
+"Nombres de archivo de las plantillas de traducción, es recomendable "
 "utilizarlos para traducciones que sólo guardan las cadenas traducidas como "
-"las cadenas de recursos Android"
+"las cadenas de recursos Android."
 
 #: trans/models.py:492
-#, fuzzy
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "La detección automática puede fallar para algunos formatos y es ligeramente "
-"más lenta"
+"más lenta."
 
 #: trans/models.py:496
-#, fuzzy
 msgid "Whether subproject is locked for translation updates."
-msgstr "Si el subproyecto está bloqueado para actualizaciones de traducción"
+msgstr "Si el subproyecto está bloqueado para actualizaciones de traducción."
 
 #: trans/models.py:656
 #, python-format
@@ -2869,14 +2860,14 @@ msgid "Automatic translation completed."
 msgstr "Traducción automática completada."
 
 #: trans/views.py:463
-#, fuzzy, python-format
+#, python-format
 msgid "Review source strings in %s"
-msgstr "Buscar en cadenas originales"
+msgstr "Revisar cadenas de origen en %s"
 
 #: trans/views.py:481
-#, fuzzy, python-format
+#, python-format
 msgid "Source strings in %s"
-msgstr "Cadena original:"
+msgstr "Cadenas de origen en %s"
 
 #: trans/views.py:529 trans/views.py:539 trans/views.py:549
 msgid "All pending translations were committed."
