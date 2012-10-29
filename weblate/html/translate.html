@@ -133,7 +133,7 @@
 {% if unit.comment %}
 <tr>
 <th>{% trans "Comments" %}</th>
-<td>{{ unit.comment }}</td>
+<td class="translation_comment">{{ unit.comment }}</td>
 </tr>
 {% endif %}
 {% if unit.flags %}
@@ -177,8 +177,13 @@
     {% for item in unit.nearby %}
     <tr>
     <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
+    {% if unit.position == item.position %}
+    <td class="translatetext current_translation"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
+    <td class="translatetext current_translation"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
+    {% else %}
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
+    {% endif %}
     <td>{% include "unit-state.html" %}</td>
     </tr>
     {% endfor %}
