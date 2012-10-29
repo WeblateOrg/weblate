@@ -227,11 +227,14 @@ def upload_dictionary(request, project, lang):
     if request.method == 'POST':
         form = DictUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            count = Dictionary.objects.upload(prj, lang, request.FILES['file'], form.cleaned_data['overwrite'])
-            if count == 0:
-                messages.warning(request, _('No words to import found in file.'))
-            else:
-                messages.info(request, _('Imported %d words from file.') % count)
+            try:
+                count = Dictionary.objects.upload(prj, lang, request.FILES['file'], form.cleaned_data['overwrite'])
+                if count == 0:
+                    messages.warning(request, _('No words to import found in file.'))
+                else:
+                    messages.info(request, _('Imported %d words from file.') % count)
+            except Exception, e:
+                messages.error(request, _('File content merge failed: %s' % unicode(e)))
         else:
             messages.error(request, _('Failed to process form!'))
     else:
