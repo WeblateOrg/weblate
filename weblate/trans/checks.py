@@ -160,7 +160,7 @@ class Check(object):
     check_id = ''
     name = ''
     description = ''
-    target = True
+    target = False
     source = False
 
     def check(self, sources, targets, flags, language, unit):
@@ -238,9 +238,14 @@ class Check(object):
             self.check_id,
         )
 
+class TargetCheck(Check):
+    '''
+    Basic class for target checks.
+    '''
+    target = True
 
 
-class SameCheck(Check):
+class SameCheck(TargetCheck):
     '''
     Check for not translated entries.
     '''
@@ -285,7 +290,7 @@ class SameCheck(Check):
 
         return (source == target)
 
-class BeginNewlineCheck(Check):
+class BeginNewlineCheck(TargetCheck):
     '''
     Checks for newlines at beginning.
     '''
@@ -296,7 +301,7 @@ class BeginNewlineCheck(Check):
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, 0, ['\n'])
 
-class EndNewlineCheck(Check):
+class EndNewlineCheck(TargetCheck):
     '''
     Checks for newlines at end.
     '''
@@ -307,7 +312,7 @@ class EndNewlineCheck(Check):
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, -1, ['\n'])
 
-class BeginSpaceCheck(Check):
+class BeginSpaceCheck(TargetCheck):
     '''
     Whitespace check, starting whitespace usually is important for UI
     '''
@@ -331,7 +336,7 @@ class BeginSpaceCheck(Check):
 
         return False
 
-class EndSpaceCheck(Check):
+class EndSpaceCheck(TargetCheck):
     '''
     Whitespace check
     '''
@@ -350,7 +355,7 @@ class EndSpaceCheck(Check):
                 return False
         return self.check_chars(source, target, -1, [' '])
 
-class EndStopCheck(Check):
+class EndStopCheck(TargetCheck):
     '''
     Check for final stop
     '''
@@ -368,7 +373,7 @@ class EndStopCheck(Check):
         return self.check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
 
 
-class EndColonCheck(Check):
+class EndColonCheck(TargetCheck):
     '''
     Check for final colon
     '''
@@ -393,7 +398,7 @@ class EndColonCheck(Check):
         return self.check_chars(source, target, -1, [u':', u'：'])
 
 
-class EndQuestionCheck(Check):
+class EndQuestionCheck(TargetCheck):
     '''
     Check for final question mark
     '''
@@ -411,7 +416,7 @@ class EndQuestionCheck(Check):
             return False
         return self.check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
 
-class EndExclamationCheck(Check):
+class EndExclamationCheck(TargetCheck):
     '''
     Check for final exclamation mark
     '''
@@ -435,7 +440,7 @@ class EndExclamationCheck(Check):
             return False
         return self.check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
 
-class EndElipsisCheck(Check):
+class EndElipsisCheck(TargetCheck):
     '''
     Check for elipsis at the end of string.
     '''
@@ -449,7 +454,7 @@ class EndElipsisCheck(Check):
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
 
-class PythonFormatCheck(Check):
+class PythonFormatCheck(TargetCheck):
     '''
     Check for Python format string
     '''
@@ -462,7 +467,7 @@ class PythonFormatCheck(Check):
             return False
         return self.check_format_strings(source, target, PYTHON_PRINTF_MATCH)
 
-class PHPFormatCheck(Check):
+class PHPFormatCheck(TargetCheck):
     '''
     Check for PHP format string
     '''
@@ -475,7 +480,7 @@ class PHPFormatCheck(Check):
             return False
         return self.check_format_strings(source, target, PHP_PRINTF_MATCH)
 
-class CFormatCheck(Check):
+class CFormatCheck(TargetCheck):
     '''
     Check for C format string
     '''
@@ -489,7 +494,7 @@ class CFormatCheck(Check):
         return self.check_format_strings(source, target, C_PRINTF_MATCH)
 
 
-class PluralsCheck(Check):
+class PluralsCheck(TargetCheck):
     '''
     Check for incomplete plural forms
     '''
@@ -507,7 +512,7 @@ class PluralsCheck(Check):
         # Check for empty translation
         return ('' in targets)
 
-class ConsistencyCheck(Check):
+class ConsistencyCheck(TargetCheck):
     '''
     Check for inconsistent translations
     '''
@@ -532,7 +537,7 @@ class ConsistencyCheck(Check):
 
         return False
 
-class DirectionCheck(Check):
+class DirectionCheck(TargetCheck):
     '''
     Check for text direction values
     '''
@@ -548,7 +553,7 @@ class DirectionCheck(Check):
             return False
         return not targets[0].lower() in ['ltr', 'rtl']
 
-class CountingCheck(Check):
+class CountingCheck(TargetCheck):
     '''
     Check whether there is same count of given string.
     '''
@@ -559,7 +564,7 @@ class CountingCheck(Check):
             return False
         return source.count(self.string) != target.count(self.string)
 
-class NewlineCountingCheck(Check):
+class NewlineCountingCheck(TargetCheck):
     '''
     Check whether there is same amount of \n strings
     '''
@@ -568,7 +573,7 @@ class NewlineCountingCheck(Check):
     name = _('Mismatched \\n')
     description = _('Number of \\n in translation does not match source')
 
-class BBCodeCheck(Check):
+class BBCodeCheck(TargetCheck):
     '''
     Check for matching bbcode tags.
     '''

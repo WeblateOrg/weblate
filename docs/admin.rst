@@ -349,10 +349,10 @@ contain string "foo".
 
 .. code-block:: python
 
-    from weblate.trans.checks import Check
+    from weblate.trans.checks import TargetCheck
     from django.utils.translation import ugettext_lazy as _
 
-    class FooCheck(Check):
+    class FooCheck(TargetCheck):
 
         # Used as identifier for check, should be unique
         check_id = 'foo'
@@ -375,10 +375,10 @@ language are not same.
 
 .. code-block:: python
 
-    from weblate.trans.checks import Check
+    from weblate.trans.checks import TargetCheck
     from django.utils.translation import ugettext_lazy as _
 
-    class PluralCzechCheck(Check):
+    class PluralCzechCheck(TargetCheck):
 
         # Used as identifier for check, should be unique
         check_id = 'foo'
