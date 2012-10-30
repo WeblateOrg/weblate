@@ -1790,6 +1790,9 @@ class Translation(models.Model):
         Returns list of failing source checks on current subproject.
         '''
         result = [('all', _('All strings'))]
+        sourcechecks = self.unit_set.count_type('sourcechecks', self)
+        if sourcechecks > 0:
+            result.append(('sourcechecks', _('Strings with any failing checks (%d)') % sourcechecks))
         return result
 
     def get_translation_checks(self):
