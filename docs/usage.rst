@@ -304,3 +304,20 @@ Mismatched BBcode
 
 BBcode in translation does not match source. The method for detecting BBcode is
 currently quite simple.
+
+.. _optional_plural:
+
+Optional plural
++++++++++++++++
+
+The string is optionaly used as plural, but not using plural forms. In case
+your translation system supports this, you should use plural aware variant of
+it.
+
+For example with Gettext in Python it could be:
+
+.. code-block:: python
+
+    from gettext import ngettext
+
+    print ngettext('Selected %d file', 'Selected %d files', files) % files

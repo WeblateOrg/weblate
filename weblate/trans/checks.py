@@ -60,6 +60,9 @@ C_PRINTF_MATCH = re.compile('''
 
 BBCODE_MATCH = re.compile(r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])', re.MULTILINE)
 
+# Matches (s) not followed by alphanumeric chars or at the end
+PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
+
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
     'audio',
@@ -151,6 +154,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.DirectionCheck',
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
+    'weblate.trans.checks.OptionalPluralCheck',
 )
 
 class Check(object):
@@ -243,6 +247,13 @@ class TargetCheck(Check):
     Basic class for target checks.
     '''
     target = True
+
+
+class SourceCheck(Check):
+    '''
+    Basic class for source checks.
+    '''
+    source= True
 
 
 class SameCheck(TargetCheck):
@@ -592,6 +603,16 @@ class BBCodeCheck(TargetCheck):
         tgt_tags = set([x[0] for x in tgt_match])
         return (src_tags != tgt_tags)
 
+class OptionalPluralCheck(SourceCheck):
+    '''
+    Check for not used plural form.
+    '''
+    check_id = 'optional_plural'
+    name = _('Optional plural')
+    description = _('The string is optionaly used as plural, but not using plural forms')
+
+    def check_source(self, source, flags, unit):
+        return len(PLURAL_MATCH.findall(source)) > 0
 
 # Initialize checks list
 CHECKS = {}
