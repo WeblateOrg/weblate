@@ -2190,6 +2190,16 @@ class Unit(models.Model):
             language = self.translation.language
         )
 
+    def source_checks(self):
+        '''
+        Returns all source checks for this unit (even ignored).
+        '''
+        return Check.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = None
+        )
+
     def active_checks(self):
         '''
         Returns all active (not ignored) checks for this unit.
@@ -2198,6 +2208,17 @@ class Unit(models.Model):
             checksum = self.checksum,
             project = self.translation.subproject.project,
             language = self.translation.language,
+            ignore = False
+        )
+
+    def active_source_checks(self):
+        '''
+        Returns all active (not ignored) source checks for this unit.
+        '''
+        return Check.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = None,
             ignore = False
         )
 
@@ -2234,30 +2255,56 @@ class Unit(models.Model):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        failing = []
+        failing_target = []
+        failing_source = []
 
         change = False
 
         # Run all checks
         for check in checks_to_run:
-            if CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
-                failing.append(check)
+            check_obj = CHECKS[check]
+            # Target check
+            if check_obj.target and check_obj.check(src, tgt, self.flags, self.translation.language, self):
+                failing_target.append(check)
+            # Source check
+            if check_obj.source and check_obj.check_source(src, self.flags, self):
+                failing_source.append(check)
 
         # Compare to existing checks, delete non failing ones
         for check in self.checks():
-            if check.check in failing:
-                failing.remove(check.check)
+            if check.check in failing_target:
+                failing_target.remove(check.check)
+                continue
+            if cleanup_checks:
+                check.delete()
+                change = True
+
+        # Compare to existing source checks, delete non failing ones
+        for check in self.source_checks():
+            if check.check in failing_source:
+                failing_source.remove(check.check)
                 continue
             if cleanup_checks:
                 check.delete()
                 change = True
 
         # Store new checks in database
-        for check in failing:
+        for check in failing_target:
             Check.objects.create(
                 checksum = self.checksum,
                 project = self.translation.subproject.project,
                 language = self.translation.language,
+                ignore = False,
+                check = check
+            )
+            change = True
+
+        # Store new checks in database
+        for check in failing_source:
+            Check.objects.create(
+                checksum = self.checksum,
+                project = self.translation.subproject.project,
+                language = None,
                 ignore = False,
                 check = check
             )
@@ -2329,7 +2376,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 class Check(models.Model):
     checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
     project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language)
+    language = models.ForeignKey(Language, null = True)
     check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
     ignore = models.BooleanField(db_index = True)
 

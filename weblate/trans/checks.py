@@ -160,6 +160,8 @@ class Check(object):
     check_id = ''
     name = ''
     description = ''
+    target = True
+    source = False
 
     def check(self, sources, targets, flags, language, unit):
         '''
@@ -181,6 +183,12 @@ class Check(object):
     def check_single(self, source, target, flags, language, unit):
         '''
         Check for single phrase, not dealing with plurals.
+        '''
+        return False
+
+    def check_source(self, source, flags, unit):
+        '''
+        Checks source string
         '''
         return False
 
