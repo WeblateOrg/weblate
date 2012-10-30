@@ -185,7 +185,7 @@ class UnitManager(models.Manager):
                 checks = checks.filter(language = translation.language)
             elif rqtype == 'sourcechecks':
                 checks = checks.filter(language = None)
-            elif CHECKS[rqtype].source and check_obj.target:
+            elif CHECKS[rqtype].source and CHECKS[rqtype].target:
                 checks = checks.filter(
                     Q(language = translation.language) | Q(language = None)
                 )
