@@ -1813,6 +1813,8 @@ class Translation(models.Model):
         if allchecks > 0:
             result.append(('allchecks', _('Strings with any failing checks (%d)') % allchecks))
         for check in CHECKS:
+            if not CHECKS[check].target:
+                continue
             cnt = self.unit_set.count_type(check, self)
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
