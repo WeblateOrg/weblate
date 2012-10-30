@@ -160,6 +160,9 @@ class UnitManager(models.Manager):
         '''
         from weblate.trans.models import Suggestion, Check
         from weblate.trans.checks import CHECKS
+
+        filter_translated = True
+
         if rqtype == 'all':
             return self.all()
         elif rqtype == 'fuzzy':
@@ -185,12 +188,15 @@ class UnitManager(models.Manager):
                 checks = checks.filter(language = translation.language)
             elif rqtype == 'sourcechecks':
                 checks = checks.filter(language = None)
+                filter_translated = False
             elif CHECKS[rqtype].source and CHECKS[rqtype].target:
                 checks = checks.filter(
                     Q(language = translation.language) | Q(language = None)
                 )
+                filter_translated = False
             elif CHECKS[rqtype].source:
                 checks = checks.filter(language = None)
+                filter_translated = False
             elif CHECKS[rqtype].target:
                 checks = checks.filter(language = translation.language)
 
@@ -199,7 +205,10 @@ class UnitManager(models.Manager):
                 checks = checks.filter(check = rqtype)
 
             checks = checks.values_list('checksum', flat = True)
-            return self.filter(checksum__in = checks, translated = True)
+            ret = self.filter(checksum__in = checks)
+            if filter_translated:
+                ret = ret.filter(translated = True)
+            return ret
         else:
             return self.all()
 
