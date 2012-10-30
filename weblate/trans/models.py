@@ -1099,7 +1099,7 @@ class SubProject(models.Model):
         '''
         Returns true if subproject is using template for translation
         '''
-        return self.get_file_format().monolingual != False and self.template != ''
+        return self.get_file_format().monolingual != False and self.template != '' and not self.template is None
 
     def should_mark_fuzzy(self):
         '''
