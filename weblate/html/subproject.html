@@ -31,6 +31,7 @@
 <li><a href="{% url 'weblate.trans.views.git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#share">{% trans "Share" %}</a></li>
+<li><a href="#source">{% trans "Source" %}</a></li>
 </ul>
 
 <div id="new-lang">
@@ -49,6 +50,10 @@
 {% url 'weblate.trans.widgets.widgets' project=object.project.slug as widgets_url %}
 {% url 'weblate.trans.views.data' project=object.project.slug as data_url %}
 {% include 'share.html' %}
+</div>
+
+<div id="source">
+<a href="{% url 'weblate.trans.views.show_source' project=subproject.project.slug subproject=subproject.slug %}">{% trans "Source strings review" %}</a>
 </div>
 
 </div>
