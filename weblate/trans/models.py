@@ -1790,9 +1790,12 @@ class Translation(models.Model):
         Returns list of failing source checks on current subproject.
         '''
         result = [('all', _('All strings'))]
+
+        # All checks
         sourcechecks = self.unit_set.count_type('sourcechecks', self)
         if sourcechecks > 0:
             result.append(('sourcechecks', _('Strings with any failing checks (%d)') % sourcechecks))
+
         return result
 
     def get_translation_checks(self):
@@ -1800,18 +1803,28 @@ class Translation(models.Model):
         Returns list of failing checks on current translation.
         '''
         result = [('all', _('All strings'))]
+
+        # Not translated strings
         nottranslated = self.unit_set.count_type('untranslated', self)
-        fuzzy = self.unit_set.count_type('fuzzy', self)
-        suggestions = self.unit_set.count_type('suggestions', self)
-        allchecks = self.unit_set.count_type('allchecks', self)
         if nottranslated > 0:
             result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
+
+        # Fuzzy strings
+        fuzzy = self.unit_set.count_type('fuzzy', self)
         if fuzzy > 0:
             result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
+
+        # Translations with suggestions
+        suggestions = self.unit_set.count_type('suggestions', self)
         if suggestions > 0:
             result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
+
+        # All checks
+        allchecks = self.unit_set.count_type('allchecks', self)
         if allchecks > 0:
             result.append(('allchecks', _('Strings with any failing checks (%d)') % allchecks))
+
+        # Process specific checks
         for check in CHECKS:
             if not CHECKS[check].target:
                 continue
@@ -1819,6 +1832,7 @@ class Translation(models.Model):
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
+
         return result
 
     def merge_store(self, author, store2, overwrite, mergefuzzy = False, merge_header = True):
