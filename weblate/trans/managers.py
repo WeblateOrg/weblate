@@ -173,12 +173,29 @@ class UnitManager(models.Manager):
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
         elif rqtype in CHECKS or rqtype == 'allchecks':
+
+            # Filter checks for current project
             checks = Check.objects.filter(
-                language = translation.language,
                 project = translation.subproject.project,
-                ignore = False)
+                ignore = False
+            )
+
+            # Filter by language
+            if rqtype == 'allchecks':
+                checks = checks.filter(language = translation.language)
+            elif CHECKS[rqtype].source and check_obj.target:
+                checks = checks.filter(
+                    Q(language = translation.language) | Q(language = None)
+                )
+            elif CHECKS[rqtype].source:
+                checks = checks.filter(language = None)
+            elif CHECKS[rqtype].target:
+                checks = checks.filter(language = translation.language)
+
+            # Filter by check type
             if rqtype != 'allchecks':
                 checks = checks.filter(check = rqtype)
+
             checks = checks.values_list('checksum', flat = True)
             return self.filter(checksum__in = checks, translated = True)
         else:
