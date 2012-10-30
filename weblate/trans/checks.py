@@ -612,7 +612,9 @@ class OptionalPluralCheck(SourceCheck):
     description = _('The string is optionaly used as plural, but not using plural forms')
 
     def check_source(self, source, flags, unit):
-        return len(PLURAL_MATCH.findall(source)) > 0
+        if len(source) > 1:
+            return False
+        return len(PLURAL_MATCH.findall(source[0])) > 0
 
 # Initialize checks list
 CHECKS = {}
