@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-29 10:00+0100\n"
+"POT-Creation-Date: 2012-10-30 17:13+0100\n"
 "PO-Revision-Date: 2012-10-29 10:29+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -205,7 +205,7 @@ msgstr "İptal"
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:77 html/index.html:21 trans/views.py:166
+#: accounts/models.py:77 html/index.html:21 trans/views.py:184
 msgid "Languages"
 msgstr "Diller"
 
@@ -274,7 +274,7 @@ msgstr ""
 "Sunucunun isteğinizi yerine getirirken ciddi sorunları oldu. Bu sorunu "
 "çözmesi için eğitimli afacanlarımızı şimdi gönderdik."
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1328
+#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1346
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -403,7 +403,7 @@ msgstr "Proje"
 msgid "Failures"
 msgstr "Başarısız"
 
-#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:41
+#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:47
 msgid "There are no matching failed checks!"
 msgstr "Eşleşen başarısız olmuş kontroller yok!"
 
@@ -413,6 +413,13 @@ msgstr "Eşleşen başarısız olmuş kontroller yok!"
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "Çeviri"
+
+#: html/check_subproject.html:39 html/dictionary.html:32
+#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/js/similar.html:6 trans/forms.py:222
+msgid "Source"
+msgstr "Kaynak"
 
 #: html/checks.html:15
 msgid "Check"
@@ -503,12 +510,6 @@ msgstr "Sonraki"
 #: html/dictionary.html:23 html/source-review.html:23 html/translate.html:24
 msgid "Last"
 msgstr "Son"
-
-#: html/dictionary.html:32 html/source-review.html:31 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
-#: html/js/similar.html:6 trans/forms.py:222
-msgid "Source"
-msgstr "Kaynak"
 
 #: html/dictionary.html:48
 msgid "Edit"
@@ -876,9 +877,15 @@ msgstr "Gözden geçirmek için satırlar"
 msgid "Notes"
 msgstr "Notlar"
 
-#: html/source-review.html:45
-msgid "No sources found!"
-msgstr "Bulunan kaynaklar yok!"
+#: html/source-review.html:43 html/translate.html:87
+#, python-format
+msgid "Ignore: %(check)s"
+msgstr "Yoksay: %(check)s"
+
+#: html/source-review.html:54
+#, fuzzy
+msgid "No matching source strings found!"
+msgstr "Bulunan diğer satırlar yok."
 
 #: html/source.html:19 html/translation.html:19
 msgid "Strings to check"
@@ -888,7 +895,7 @@ msgstr "Satır kontrolü"
 msgid "New language"
 msgstr "Yeni dil"
 
-#: html/subproject.html:38
+#: html/subproject.html:39
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -897,7 +904,7 @@ msgstr ""
 "Diliniz eksik mi, lütfen <a href=\"%(url)s\">çevirmen talimatlarını</a> "
 "takip edin."
 
-#: html/subproject.html:40
+#: html/subproject.html:41
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -905,6 +912,11 @@ msgid ""
 msgstr ""
 "Diliniz eksik mi, lütfen <a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">bize ulaşın</a>."
+
+#: html/subproject.html:56
+#, fuzzy
+msgid "Source strings review"
+msgstr "%s içindeki kaynak satır"
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -956,11 +968,6 @@ msgstr "Yatay eksilti (...) ekle"
 #: html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
 msgstr "Başarısız kontrolleri"
-
-#: html/translate.html:87
-#, python-format
-msgid "Ignore: %(check)s"
-msgstr "Yoksay: %(check)s"
 
 #: html/translate.html:99
 msgid "Suggestions"
@@ -2254,70 +2261,70 @@ msgstr "Anahtar üretme başarısız!"
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/checks.py:240
+#: trans/checks.py:264
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: trans/checks.py:241
+#: trans/checks.py:265
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
-#: trans/checks.py:285
+#: trans/checks.py:309
 msgid "Starting newline"
 msgstr "Satır başıyla başlama"
 
-#: trans/checks.py:286
+#: trans/checks.py:310
 msgid "Source and translation do not both start with a newline"
 msgstr "Kaynağın ve çevirinin ikiside satır başı ile başlamıyor"
 
-#: trans/checks.py:296
+#: trans/checks.py:320
 msgid "Trailing newline"
 msgstr "Satır başını izleme"
 
-#: trans/checks.py:297
+#: trans/checks.py:321
 msgid "Source and translation do not both end with a newline"
 msgstr "Kaynağın ve çevirinin ikiside satır başı ile bitmiyor"
 
-#: trans/checks.py:307
+#: trans/checks.py:331
 msgid "Starting spaces"
 msgstr "Başlangıç boşlukları"
 
-#: trans/checks.py:308
+#: trans/checks.py:332
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Kaynağın ve çevirinin ikiside aynı boşluk sayısıyla başlamıyor"
 
-#: trans/checks.py:331
+#: trans/checks.py:355
 msgid "Trailing space"
 msgstr "Boşluğu izleme"
 
-#: trans/checks.py:332
+#: trans/checks.py:356
 msgid "Source and translation do not both end with a space"
 msgstr "Kaynağın ve çevirinin ikiside boşluk ile bitmiyor"
 
-#: trans/checks.py:350
+#: trans/checks.py:374
 msgid "Trailing stop"
 msgstr "Nokta işaretini izleme"
 
-#: trans/checks.py:351
+#: trans/checks.py:375
 msgid "Source and translation do not both end with a full stop"
 msgstr "Kaynağın ve çevirinin ikiside nokta ile bitmiyor"
 
-#: trans/checks.py:368
+#: trans/checks.py:392
 msgid "Trailing colon"
 msgstr "İki nokta üst üste izleme"
 
-#: trans/checks.py:369
+#: trans/checks.py:393
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
 "Kaynağın ve çevirinin ikiside ':' ile bitmiyor ya da doğru aralıkta değil"
 
-#: trans/checks.py:393
+#: trans/checks.py:417
 msgid "Trailing question"
 msgstr "Soru işaretini izleme"
 
-#: trans/checks.py:394
+#: trans/checks.py:418
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2325,80 +2332,89 @@ msgstr ""
 "Kaynağın ve çevirinin ikiside soru işareti ile bitmiyor ya da doğru aralıkta "
 "değil"
 
-#: trans/checks.py:411
+#: trans/checks.py:435
 msgid "Trailing exclamation"
 msgstr "Ünlem işaretini izleme"
 
-#: trans/checks.py:412
+#: trans/checks.py:436
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
 "Kaynağın ve çevirinin ikiside ünlem ile bitmiyor ya da doğru aralıkta değil"
 
-#: trans/checks.py:435
+#: trans/checks.py:459
 msgid "Trailing elipsis"
 msgstr "Eksilti (...) izleme"
 
-#: trans/checks.py:436
+#: trans/checks.py:460
 msgid "Source and translation do not both end with an elipsis"
 msgstr "Kaynağın ve çevirinin ikiside eksilti (...) ile bitmiyor"
 
-#: trans/checks.py:449
+#: trans/checks.py:473
 msgid "Python format"
 msgstr "Python biçimi"
 
-#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
+#: trans/checks.py:474 trans/checks.py:487 trans/checks.py:500
 msgid "Format string does not match source"
 msgstr "Değişken dizgisi kaynakla eşleşmiyor"
 
-#: trans/checks.py:462
+#: trans/checks.py:486
 msgid "PHP format"
 msgstr "PHP biçimi"
 
-#: trans/checks.py:475
+#: trans/checks.py:499
 msgid "C format"
 msgstr "C biçimi"
 
-#: trans/checks.py:489
+#: trans/checks.py:513
 msgid "Missing plurals"
 msgstr "Eksik çoğullar"
 
-#: trans/checks.py:490
+#: trans/checks.py:514
 msgid "Some plural forms are not translated"
 msgstr "Bazı çoğul formlar çevrilmez"
 
-#: trans/checks.py:507
+#: trans/checks.py:531
 msgid "Inconsistent"
 msgstr "Tutarsız"
 
-#: trans/checks.py:508
+#: trans/checks.py:532
 msgid "This message has more than one translation in this project"
 msgstr "Bu ileti bu projede birden fazla çeviriye sahip"
 
-#: trans/checks.py:532
+#: trans/checks.py:556
 msgid "Invalid text direction"
 msgstr "Geçersiz metin yönü"
 
-#: trans/checks.py:533
+#: trans/checks.py:557
 msgid "Text direction can be either LTR or RTL"
 msgstr "Metin yönü ya LTR ya da RTL olabilir"
 
-#: trans/checks.py:560
+#: trans/checks.py:584
 msgid "Mismatched \\n"
 msgstr "Uyumsuz \\n"
 
-#: trans/checks.py:561
+#: trans/checks.py:585
 msgid "Number of \\n in translation does not match source"
 msgstr "Çevirideki \\n sayısı kaynakla eşleşmiyor"
 
-#: trans/checks.py:568
+#: trans/checks.py:592
 msgid "Mismatched BBcode"
 msgstr "Uyumsuz BBcode"
 
-#: trans/checks.py:569
+#: trans/checks.py:593
 msgid "BBcode in translation does not match source"
 msgstr "Çevirideki BBcode kaynakla eşleşmiyor"
+
+#: trans/checks.py:611
+#, fuzzy
+msgid "Optional plural"
+msgstr "Eksik çoğullar"
+
+#: trans/checks.py:612
+msgid "The string is optionaly used as plural, but not using plural forms"
+msgstr ""
 
 #: trans/forms.py:82
 msgid ""
@@ -2630,8 +2646,8 @@ msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
-"Git havuzunun URL'si, diğer alt proje ile paylaşmak için "
-"weblate://project/subproject kullanın."
+"Git havuzunun URL'si, diğer alt proje ile paylaşmak için weblate://project/"
+"subproject kullanın."
 
 #: trans/models.py:462
 msgid "URL of push Git repository"
@@ -2677,7 +2693,8 @@ msgstr ""
 
 #: trans/models.py:492
 msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr "Otomatik algılama bazı biçimlerde başarısız olabilir ve biraz yavaştır."
+msgstr ""
+"Otomatik algılama bazı biçimlerde başarısız olabilir ve biraz yavaştır."
 
 #: trans/models.py:496
 msgid "Whether subproject is locked for translation updates."
@@ -2762,7 +2779,7 @@ msgstr "%s dosya biçimi tanınamadı."
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1193 trans/views.py:375
+#: trans/models.py:1193 trans/views.py:393
 msgid "This translation is currently locked for updates!"
 msgstr "Bu çeviri şu anda güncellemeler için kilitli!"
 
@@ -2772,35 +2789,35 @@ msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 "Bu çeviri %(time)s tarihine kadar çeviri için %(user)s tarafından kilitli!"
 
-#: trans/models.py:1792 trans/models.py:1799
+#: trans/models.py:1792 trans/models.py:1814
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:1805
-#, python-format
-msgid "Not translated strings (%d)"
-msgstr "Çevrilmemiş satır (%d)"
-
-#: trans/models.py:1807
-#, python-format
-msgid "Fuzzy strings (%d)"
-msgstr "Belirsiz satır (%d)"
-
-#: trans/models.py:1809
-#, python-format
-msgid "Strings with suggestions (%d)"
-msgstr "Önerileri olan satır (%d)"
-
-#: trans/models.py:1811
+#: trans/models.py:1797 trans/models.py:1834
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:2060
+#: trans/models.py:1819
+#, python-format
+msgid "Not translated strings (%d)"
+msgstr "Çevrilmemiş satır (%d)"
+
+#: trans/models.py:1824
+#, python-format
+msgid "Fuzzy strings (%d)"
+msgstr "Belirsiz satır (%d)"
+
+#: trans/models.py:1829
+#, python-format
+msgid "Strings with suggestions (%d)"
+msgstr "Önerileri olan satır (%d)"
+
+#: trans/models.py:2088
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2153
+#: trans/models.py:2181
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
@@ -2809,161 +2826,161 @@ msgstr "birim ID %s"
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı girin."
 
-#: trans/views.py:181
+#: trans/views.py:199
 msgid "Dictionaries"
 msgstr "Sözlükler"
 
-#: trans/views.py:204 trans/views.py:342
+#: trans/views.py:222 trans/views.py:360
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s için %(language)s sözlüğü"
 
-#: trans/views.py:233
+#: trans/views.py:251
 msgid "No words to import found in file."
 msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 
-#: trans/views.py:235
+#: trans/views.py:253
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Dosyadan %d kelime içe aktarıldı."
 
-#: trans/views.py:237 trans/views.py:1263
+#: trans/views.py:255 trans/views.py:1281
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views.py:239 trans/views.py:241 trans/views.py:423
+#: trans/views.py:257 trans/views.py:259 trans/views.py:441
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
-#: trans/views.py:421
+#: trans/views.py:439
 msgid "Automatic translation completed."
 msgstr "Otomatik çeviri tamamlandı."
 
-#: trans/views.py:463
+#: trans/views.py:481
 #, python-format
 msgid "Review source strings in %s"
 msgstr "%s içindeki kaynak satırları gözden geçir"
 
-#: trans/views.py:481
+#: trans/views.py:499
 #, python-format
 msgid "Source strings in %s"
 msgstr "%s içindeki kaynak satır"
 
-#: trans/views.py:529 trans/views.py:539 trans/views.py:549
+#: trans/views.py:547 trans/views.py:557 trans/views.py:567
 msgid "All pending translations were committed."
 msgstr "Tüm bekleyen çeviriler işlendi."
 
-#: trans/views.py:559 trans/views.py:569 trans/views.py:579
+#: trans/views.py:577 trans/views.py:587 trans/views.py:597
 msgid "All repositories were updated."
 msgstr "Tüm havuzlar güncellendi."
 
-#: trans/views.py:589 trans/views.py:599 trans/views.py:609
+#: trans/views.py:607 trans/views.py:617 trans/views.py:627
 msgid "All repositories were pushed."
 msgstr "Tüm havuzlar yollandı."
 
-#: trans/views.py:619 trans/views.py:629 trans/views.py:639
+#: trans/views.py:637 trans/views.py:647 trans/views.py:657
 msgid "All repositories have been reset."
 msgstr "Tüm havuzlar sıfırlandı."
 
-#: trans/views.py:651
+#: trans/views.py:669
 msgid "Translation is now locked for you."
 msgstr "Çeviri artık sizin için kilitli."
 
-#: trans/views.py:663
+#: trans/views.py:681
 msgid "Translation is now open for translation updates."
 msgstr "Çeviri artık çeviri güncellemeleri için açık."
 
-#: trans/views.py:677
+#: trans/views.py:695
 msgid "Subproject is now locked for translation updates!"
 msgstr "Alt proje artık çeviri güncellemeleri için kilitli!"
 
-#: trans/views.py:689
+#: trans/views.py:707
 msgid "Subproject is now open for translation updates."
 msgstr "Alt proje artık çeviri güncellemeleri için açık."
 
-#: trans/views.py:704
+#: trans/views.py:722
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Tüm alt projeler artık çeviri güncellemeleri için kilitli!"
 
-#: trans/views.py:717
+#: trans/views.py:735
 msgid "Project is now open for translation updates."
 msgstr "Proje artık çeviri güncellemeleri için açık."
 
-#: trans/views.py:806
+#: trans/views.py:824
 #, python-format
 msgid "Search for \"%s\""
 msgstr "\"%s\" için aranıyor"
 
-#: trans/views.py:810
+#: trans/views.py:828
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
 
-#: trans/views.py:812
+#: trans/views.py:830
 msgid "Not translated strings"
 msgstr "Çevrilmemiş satır"
 
-#: trans/views.py:814
+#: trans/views.py:832
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
 
-#: trans/views.py:816
+#: trans/views.py:834
 msgid "Strings with any failing checks"
 msgstr "Herhangi bir başarısız kontrolü olan satır"
 
-#: trans/views.py:873
+#: trans/views.py:891
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views.py:899
+#: trans/views.py:917
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:902 trans/views.py:943
+#: trans/views.py:920 trans/views.py:961
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:919
+#: trans/views.py:937
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:937 trans/views.py:975
+#: trans/views.py:955 trans/views.py:993
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views.py:958
+#: trans/views.py:976
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views.py:981
+#: trans/views.py:999
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:992
+#: trans/views.py:1010
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:1002
+#: trans/views.py:1020
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:1026
+#: trans/views.py:1044
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:1083
+#: trans/views.py:1101
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:1259
+#: trans/views.py:1277
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:1261
+#: trans/views.py:1279
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:1274
+#: trans/views.py:1292
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
@@ -2974,6 +2991,9 @@ msgstr "Tab karakteri"
 #: trans/templatetags/translations.py:107
 msgid "New line"
 msgstr "Yeni satır"
+
+#~ msgid "No sources found!"
+#~ msgstr "Bulunan kaynaklar yok!"
 
 #~ msgid "Dictionary"
 #~ msgstr "Sözlük"

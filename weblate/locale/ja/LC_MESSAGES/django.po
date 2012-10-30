@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-29 10:01+0100\n"
+"POT-Creation-Date: 2012-10-30 17:14+0100\n"
 "PO-Revision-Date: 2012-05-18 11:10+0200\n"
 "Last-Translator: Yuichiro Takahashi <yuichiro@pop07.odn.ne.jp>\n"
 "Language-Team: japanese <jp@li.org>\n"
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Interface Language"
 msgstr "インターフェイスの言語"
 
-#: accounts/models.py:77 html/index.html:21 trans/views.py:166
+#: accounts/models.py:77 html/index.html:21 trans/views.py:184
 msgid "Languages"
 msgstr "言語"
 
@@ -278,7 +278,7 @@ msgstr ""
 "リクエストを処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解"
 "決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1328
+#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1346
 msgid "About Weblate"
 msgstr "Weblate について"
 
@@ -411,7 +411,7 @@ msgstr "プロジェクト"
 msgid "Failures"
 msgstr "不完全数"
 
-#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:41
+#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:47
 msgid "There are no matching failed checks!"
 msgstr "不完全なものはありません！"
 
@@ -421,6 +421,13 @@ msgstr "不完全なものはありません！"
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "翻訳"
+
+#: html/check_subproject.html:39 html/dictionary.html:32
+#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/js/similar.html:6 trans/forms.py:222
+msgid "Source"
+msgstr "翻訳元"
 
 #: html/checks.html:15
 msgid "Check"
@@ -507,12 +514,6 @@ msgstr "次へ"
 #: html/dictionary.html:23 html/source-review.html:23 html/translate.html:24
 msgid "Last"
 msgstr "末尾"
-
-#: html/dictionary.html:32 html/source-review.html:31 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
-#: html/js/similar.html:6 trans/forms.py:222
-msgid "Source"
-msgstr "翻訳元"
 
 #: html/dictionary.html:48
 msgid "Edit"
@@ -882,10 +883,15 @@ msgstr "査読を開始する"
 msgid "Notes"
 msgstr ""
 
-#: html/source-review.html:45
+#: html/source-review.html:43 html/translate.html:87
+#, python-format
+msgid "Ignore: %(check)s"
+msgstr "「%(check)s」を無視する"
+
+#: html/source-review.html:54
 #, fuzzy
-msgid "No sources found!"
-msgstr "単語が見つかりません！"
+msgid "No matching source strings found!"
+msgstr "他の翻訳が見つかりません。"
 
 #: html/source.html:19 html/translation.html:19
 msgid "Strings to check"
@@ -895,7 +901,7 @@ msgstr "検討対象"
 msgid "New language"
 msgstr "新しい言語"
 
-#: html/subproject.html:38
+#: html/subproject.html:39
 #, fuzzy, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -904,7 +910,7 @@ msgstr ""
 "翻訳したい言語がない場合は、<a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">連絡</a>してください。"
 
-#: html/subproject.html:40
+#: html/subproject.html:41
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -912,6 +918,11 @@ msgid ""
 msgstr ""
 "翻訳したい言語がない場合は、<a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">連絡</a>してください。"
+
+#: html/subproject.html:56
+#, fuzzy
+msgid "Source strings review"
+msgstr "翻訳元内を検索する"
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -965,11 +976,6 @@ msgstr ""
 #: html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
 msgstr "不完全性"
-
-#: html/translate.html:87
-#, python-format
-msgid "Ignore: %(check)s"
-msgstr "「%(check)s」を無視する"
 
 #: html/translate.html:99
 msgid "Suggestions"
@@ -2237,61 +2243,61 @@ msgstr ""
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/checks.py:240
+#: trans/checks.py:264
 msgid "Not translated"
 msgstr "未翻訳"
 
-#: trans/checks.py:241
+#: trans/checks.py:265
 msgid "Source and translated strings are same"
 msgstr "翻訳前後でメッセージが同じもの"
 
-#: trans/checks.py:285
+#: trans/checks.py:309
 msgid "Starting newline"
 msgstr "文頭の改行"
 
-#: trans/checks.py:286
+#: trans/checks.py:310
 msgid "Source and translation do not both start with a newline"
 msgstr "翻訳前後で文頭の改行の有無が異なるもの"
 
-#: trans/checks.py:296
+#: trans/checks.py:320
 msgid "Trailing newline"
 msgstr "文末の改行"
 
-#: trans/checks.py:297
+#: trans/checks.py:321
 msgid "Source and translation do not both end with a newline"
 msgstr "翻訳前後で文末の改行の有無が異なるもの"
 
-#: trans/checks.py:307
+#: trans/checks.py:331
 #, fuzzy
 msgid "Starting spaces"
 msgstr "開始日"
 
-#: trans/checks.py:308
+#: trans/checks.py:332
 #, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "翻訳前後で文頭の改行の有無が異なるもの"
 
-#: trans/checks.py:331
+#: trans/checks.py:355
 msgid "Trailing space"
 msgstr "文末の空白"
 
-#: trans/checks.py:332
+#: trans/checks.py:356
 msgid "Source and translation do not both end with a space"
 msgstr "翻訳前後で文末の空白の有無が異なるもの"
 
-#: trans/checks.py:350
+#: trans/checks.py:374
 msgid "Trailing stop"
 msgstr "文末の〆"
 
-#: trans/checks.py:351
+#: trans/checks.py:375
 msgid "Source and translation do not both end with a full stop"
 msgstr "翻訳前後で終止符・句点の有無が異なるもの"
 
-#: trans/checks.py:368
+#: trans/checks.py:392
 msgid "Trailing colon"
 msgstr "文末のコロン"
 
-#: trans/checks.py:369
+#: trans/checks.py:393
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2299,11 +2305,11 @@ msgstr ""
 "翻訳前後で、文末のコロンの有無が異なるもの、もしくは文末コロンの前後空白が正"
 "しくないもの"
 
-#: trans/checks.py:393
+#: trans/checks.py:417
 msgid "Trailing question"
 msgstr "文末の疑問符"
 
-#: trans/checks.py:394
+#: trans/checks.py:418
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2311,11 +2317,11 @@ msgstr ""
 "翻訳前後で、疑問符の有無が異なるもの、もしくは文末疑問符の前後空白が正しくな"
 "いもの"
 
-#: trans/checks.py:411
+#: trans/checks.py:435
 msgid "Trailing exclamation"
 msgstr "文末の感嘆符"
 
-#: trans/checks.py:412
+#: trans/checks.py:436
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2323,74 +2329,83 @@ msgstr ""
 "翻訳前後で、感嘆符の有無が異なるもの、もしくは文末感嘆符の前後空白が正しくな"
 "いもの"
 
-#: trans/checks.py:435
+#: trans/checks.py:459
 #, fuzzy
 msgid "Trailing elipsis"
 msgstr "文末の改行"
 
-#: trans/checks.py:436
+#: trans/checks.py:460
 #, fuzzy
 msgid "Source and translation do not both end with an elipsis"
 msgstr "翻訳前後で文末の改行の有無が異なるもの"
 
-#: trans/checks.py:449
+#: trans/checks.py:473
 msgid "Python format"
 msgstr "Python 書式"
 
-#: trans/checks.py:450 trans/checks.py:463 trans/checks.py:476
+#: trans/checks.py:474 trans/checks.py:487 trans/checks.py:500
 msgid "Format string does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
 
-#: trans/checks.py:462
+#: trans/checks.py:486
 msgid "PHP format"
 msgstr "PHP 書式"
 
-#: trans/checks.py:475
+#: trans/checks.py:499
 msgid "C format"
 msgstr "C 言語書式"
 
-#: trans/checks.py:489
+#: trans/checks.py:513
 msgid "Missing plurals"
 msgstr "複数形の欠如"
 
-#: trans/checks.py:490
+#: trans/checks.py:514
 msgid "Some plural forms are not translated"
 msgstr "翻訳されていない複数形が存在するもの"
 
-#: trans/checks.py:507
+#: trans/checks.py:531
 msgid "Inconsistent"
 msgstr "不一致"
 
-#: trans/checks.py:508
+#: trans/checks.py:532
 msgid "This message has more than one translation in this project"
 msgstr ""
 "同じプロジェクト内の一致するメッセージに対して複数通りの翻訳がされているもの"
 
-#: trans/checks.py:532
+#: trans/checks.py:556
 msgid "Invalid text direction"
 msgstr "無効な書字方向"
 
-#: trans/checks.py:533
+#: trans/checks.py:557
 msgid "Text direction can be either LTR or RTL"
 msgstr "書字方向は、LTR (左横書き) または RTL (右横書き) のいずれかから選択"
 
-#: trans/checks.py:560
+#: trans/checks.py:584
 msgid "Mismatched \\n"
 msgstr ""
 
-#: trans/checks.py:561
+#: trans/checks.py:585
 #, fuzzy
 msgid "Number of \\n in translation does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
 
-#: trans/checks.py:568
+#: trans/checks.py:592
 msgid "Mismatched BBcode"
 msgstr ""
 
-#: trans/checks.py:569
+#: trans/checks.py:593
 #, fuzzy
 msgid "BBcode in translation does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
+
+#: trans/checks.py:611
+#, fuzzy
+msgid "Optional plural"
+msgstr "複数形の欠如"
+
+#: trans/checks.py:612
+msgid "The string is optionaly used as plural, but not using plural forms"
+msgstr ""
 
 #: trans/forms.py:82
 #, fuzzy
@@ -2748,7 +2763,7 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1193 trans/views.py:375
+#: trans/models.py:1193 trans/views.py:393
 msgid "This translation is currently locked for updates!"
 msgstr ""
 
@@ -2757,35 +2772,35 @@ msgstr ""
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 
-#: trans/models.py:1792 trans/models.py:1799
+#: trans/models.py:1792 trans/models.py:1814
 msgid "All strings"
 msgstr "すべて"
 
-#: trans/models.py:1805
-#, python-format
-msgid "Not translated strings (%d)"
-msgstr "未翻訳 (%d)"
-
-#: trans/models.py:1807
-#, python-format
-msgid "Fuzzy strings (%d)"
-msgstr "あいまい (%d)"
-
-#: trans/models.py:1809
-#, python-format
-msgid "Strings with suggestions (%d)"
-msgstr "提案があるもの (%d)"
-
-#: trans/models.py:1811
+#: trans/models.py:1797 trans/models.py:1834
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "提案があるもの (%d)"
 
-#: trans/models.py:2060
+#: trans/models.py:1819
+#, python-format
+msgid "Not translated strings (%d)"
+msgstr "未翻訳 (%d)"
+
+#: trans/models.py:1824
+#, python-format
+msgid "Fuzzy strings (%d)"
+msgstr "あいまい (%d)"
+
+#: trans/models.py:1829
+#, python-format
+msgid "Strings with suggestions (%d)"
+msgstr "提案があるもの (%d)"
+
+#: trans/models.py:2088
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2153
+#: trans/models.py:2181
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -2794,164 +2809,164 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "個人情報のお名前をフルネームで設定してください。"
 
-#: trans/views.py:181
+#: trans/views.py:199
 msgid "Dictionaries"
 msgstr "辞書"
 
-#: trans/views.py:204 trans/views.py:342
+#: trans/views.py:222 trans/views.py:360
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s 用の %(language)s 辞書"
 
-#: trans/views.py:233
+#: trans/views.py:251
 msgid "No words to import found in file."
 msgstr "インポートできる単語がファイル内にありません。"
 
-#: trans/views.py:235
+#: trans/views.py:253
 #, python-format
 msgid "Imported %d words from file."
 msgstr "ファイルから %d 単語インポートしました。"
 
-#: trans/views.py:237 trans/views.py:1263
+#: trans/views.py:255 trans/views.py:1281
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "ファイル内容のマージに失敗しました：%s"
 
-#: trans/views.py:239 trans/views.py:241 trans/views.py:423
+#: trans/views.py:257 trans/views.py:259 trans/views.py:441
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views.py:421
+#: trans/views.py:439
 msgid "Automatic translation completed."
 msgstr "自動翻訳が完了しました。"
 
-#: trans/views.py:463
+#: trans/views.py:481
 #, fuzzy, python-format
 msgid "Review source strings in %s"
 msgstr "翻訳元内を検索する"
 
-#: trans/views.py:481
+#: trans/views.py:499
 #, fuzzy, python-format
 msgid "Source strings in %s"
 msgstr "翻訳元内を検索する"
 
-#: trans/views.py:529 trans/views.py:539 trans/views.py:549
+#: trans/views.py:547 trans/views.py:557 trans/views.py:567
 msgid "All pending translations were committed."
 msgstr "保留中のすべての翻訳をコミットしました。"
 
-#: trans/views.py:559 trans/views.py:569 trans/views.py:579
+#: trans/views.py:577 trans/views.py:587 trans/views.py:597
 msgid "All repositories were updated."
 msgstr "すべてのリポジトリを更新しました。"
 
-#: trans/views.py:589 trans/views.py:599 trans/views.py:609
+#: trans/views.py:607 trans/views.py:617 trans/views.py:627
 msgid "All repositories were pushed."
 msgstr "すべてのリポジトリにプッシュしました。"
 
-#: trans/views.py:619 trans/views.py:629 trans/views.py:639
+#: trans/views.py:637 trans/views.py:647 trans/views.py:657
 #, fuzzy
 msgid "All repositories have been reset."
 msgstr "すべてのリポジトリにプッシュしました。"
 
-#: trans/views.py:651
+#: trans/views.py:669
 msgid "Translation is now locked for you."
 msgstr ""
 
-#: trans/views.py:663
+#: trans/views.py:681
 #, fuzzy
 msgid "Translation is now open for translation updates."
 msgstr "自動翻訳"
 
-#: trans/views.py:677
+#: trans/views.py:695
 msgid "Subproject is now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:689
+#: trans/views.py:707
 msgid "Subproject is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:704
+#: trans/views.py:722
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:717
+#: trans/views.py:735
 msgid "Project is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:806
+#: trans/views.py:824
 #, python-format
 msgid "Search for \"%s\""
 msgstr "検索ワード「%s」"
 
-#: trans/views.py:810
+#: trans/views.py:828
 msgid "Fuzzy strings"
 msgstr "あいまい"
 
-#: trans/views.py:812
+#: trans/views.py:830
 msgid "Not translated strings"
 msgstr "未翻訳"
 
-#: trans/views.py:814
+#: trans/views.py:832
 msgid "Strings with suggestions"
 msgstr "提案があるもの"
 
-#: trans/views.py:816
+#: trans/views.py:834
 #, fuzzy
 msgid "Strings with any failing checks"
 msgstr "提案があるもの (%d)"
 
-#: trans/views.py:873
+#: trans/views.py:891
 msgid "Your suggestion is empty!"
 msgstr "提案内容がありません！"
 
-#: trans/views.py:899
+#: trans/views.py:917
 msgid "You need to log in to be able to save translations!"
 msgstr "翻訳を保存するには、ログインする必要があります！"
 
-#: trans/views.py:902 trans/views.py:943
+#: trans/views.py:920 trans/views.py:961
 msgid "You don't have privileges to save translations!"
 msgstr "翻訳を保存できる権限がありません！"
 
-#: trans/views.py:919
+#: trans/views.py:937
 msgid "Some checks have failed on your translation!"
 msgstr "翻訳の中に不完全なところがあります！"
 
-#: trans/views.py:937 trans/views.py:975
+#: trans/views.py:955 trans/views.py:993
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/views.py:958
+#: trans/views.py:976
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:981
+#: trans/views.py:999
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "提案を管理するには、ログインする必要があります！"
 
-#: trans/views.py:992
+#: trans/views.py:1010
 msgid "You do not have privilege to accept suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: trans/views.py:1002
+#: trans/views.py:1020
 msgid "You do not have privilege to delete suggestions!"
 msgstr "提案を削除できる権限がありません！"
 
-#: trans/views.py:1026
+#: trans/views.py:1044
 msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
-#: trans/views.py:1083
+#: trans/views.py:1101
 msgid "You have reached end of translating."
 msgstr "翻訳すべきものは以上です。"
 
-#: trans/views.py:1259
+#: trans/views.py:1277
 msgid "File content successfully merged into translation."
 msgstr "ファイルの内容を翻訳にマージするのに成功しました。"
 
-#: trans/views.py:1261
+#: trans/views.py:1279
 msgid "There were no new strings in uploaded file."
 msgstr "アップロードファイルには新しい翻訳がありません。"
 
-#: trans/views.py:1274
+#: trans/views.py:1292
 msgid "Page Not Found"
 msgstr "ページが見つかりません"
 
@@ -2963,6 +2978,10 @@ msgstr ""
 #, fuzzy
 msgid "New line"
 msgstr "新しい言語"
+
+#, fuzzy
+#~ msgid "No sources found!"
+#~ msgstr "単語が見つかりません！"
 
 #~ msgid "Dictionary"
 #~ msgstr "辞書"
