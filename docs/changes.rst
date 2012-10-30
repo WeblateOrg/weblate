@@ -19,6 +19,7 @@ Relased on ? 2012.
 * New buttons to enter some special characters.
 * Support for exporting dictionary.
 * Support for locking down whole Weblate installation.
+* Checks for source strings and support for source strings review.
 
 weblate 1.2
 -----------
