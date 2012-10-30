@@ -20,7 +20,7 @@
 {% blocktrans with check.get_doc_url as link %}More information about this check is available in the <a href="{{ link }}">documentation</a>.{% endblocktrans %}
 </p>
 
-{% if checks %}
+{% if anychecks %}
 <table class="sort simple">
 <thead>
 <tr>
@@ -32,6 +32,12 @@
 <tr>
 <th><a href="{% url 'weblate.trans.views.show_translation' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}">{% language_name obj.translation__language__code %}</a></th>
 <td><a href="{% url 'weblate.trans.views.translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}?type={{ check.check_id }}">{{ obj.count }}</a></td>
+</tr>
+{% endfor %}
+{% for count in source_checks %}
+<tr>
+<th><a href="{% url 'weblate.trans.views.show_source' project=subproject.project.slug subproject=subproject.slug %}">{% trans "Source" %}</a></th>
+<td><a href="{% url 'weblate.trans.views.review_source' project=subproject.project.slug subproject=subproject.slug %}?type={{ check.check_id }}">{{ count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>

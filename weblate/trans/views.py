@@ -125,12 +125,20 @@ def show_check_project(request, name, project):
         check = CHECKS[name]
     except KeyError:
         raise Http404('No check matches the given query.')
-    langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
-    for lang in langs:
-        checks = Check.objects.filter(check = name, project = prj, language = lang, ignore = False).values_list('checksum', flat = True)
-        res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject__project = prj, translated = True).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
-        units |= res
+    if check.target:
+        langs = Check.objects.filter(check = name, project = prj, ignore = False).values_list('language', flat = True).distinct()
+        for lang in langs:
+            checks = Check.objects.filter(check = name, project = prj, language = lang, ignore = False).values_list('checksum', flat = True)
+            res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject__project = prj, translated = True).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
+            units |= res
+    if check.source:
+        checks = Check.objects.filter(check = name, project = prj, language = None, ignore = False).values_list('checksum', flat = True)
+        for sp in prj.subproject_set.all():
+            lang = sp.translation_set.all()[0].language
+            res = Unit.objects.filter(checksum__in = checks, translation__language = lang, translation__subproject = sp).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count = Count('id'))
+            units |= res
+
     return render_to_response('check_project.html', RequestContext(request, {
         'checks': units,
         'title': '%s/%s' % (prj.__unicode__(), check.name),
@@ -147,14 +155,24 @@ def show_check_subproject(request, name, project, subproject):
         check = CHECKS[name]
     except KeyError:
         raise Http404('No check matches the given query.')
-    langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
     units = Unit.objects.none()
-    for lang in langs:
-        checks = Check.objects.filter(check = name, project = subprj.project, language = lang, ignore = False).values_list('checksum', flat = True)
-        res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang, translated = True).values('translation__language__code').annotate(count = Count('id'))
-        units |= res
+    if check.target:
+        langs = Check.objects.filter(check = name, project = subprj.project, ignore = False).values_list('language', flat = True).distinct()
+        for lang in langs:
+            checks = Check.objects.filter(check = name, project = subprj.project, language = lang, ignore = False).values_list('checksum', flat = True)
+            res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang, translated = True).values('translation__language__code').annotate(count = Count('id'))
+            units |= res
+    source_checks = []
+    if check.source:
+        checks = Check.objects.filter(check = name, project = subprj.project, language = None, ignore = False).values_list('checksum', flat = True)
+        lang = subprj.translation_set.all()[0].language
+        res = Unit.objects.filter(translation__subproject = subprj, checksum__in = checks, translation__language = lang).count()
+        if res > 0:
+            source_checks.append(res)
     return render_to_response('check_subproject.html', RequestContext(request, {
         'checks': units,
+        'source_checks': source_checks,
+        'anychecks': len(units) + len(source_checks) > 0,
         'title': '%s/%s' % (subprj.__unicode__(), check.name),
         'check': check,
         'subproject': subprj,
