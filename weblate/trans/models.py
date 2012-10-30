@@ -2239,7 +2239,7 @@ class Unit(models.Model):
         change = False
 
         # Run all checks
-        for check in CHECKS:
+        for check in checks_to_run:
             if CHECKS[check].check(src, tgt, self.flags, self.translation.language, self):
                 failing.append(check)
 
