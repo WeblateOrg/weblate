@@ -1436,7 +1436,7 @@ class Translation(models.Model):
         # Cleanup checks for deleted units
         for checksum in deleted_checksums:
             units = Unit.objects.filter(translation__language = self.language, translation__subproject__project = self.subproject.project, checksum = checksum)
-            if units.count() == 0:
+            if not units.exists():
                 # Last unit referencing to these checks
                 Check.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
                 # Delete suggestons referencing this unit
