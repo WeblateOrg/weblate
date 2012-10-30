@@ -20,10 +20,16 @@ toolkit, for example:
 * Qt Linguist .ts
 * Android string resources
 * Symbian localization files
+* Apple OS X strings
 * CSV
 * INI
 
 .. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
+
+.. note::
+
+    Some formats (eg. Apple OS X strings) are half broken in translate-toolkit
+    1.9.0, please use Git snapshot for handling these.
 
 Monolingual resources
 +++++++++++++++++++++

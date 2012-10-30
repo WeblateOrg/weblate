@@ -10,7 +10,7 @@ Requirements
 
 Django (>= 1.4)
     https://www.djangoproject.com/
-Translate-toolkit
+Translate-toolkit (>= 1.9.0)
     http://translate.sourceforge.net/wiki/toolkit/index
 GitPython (>= 0.3)
     https://github.com/gitpython-developers/GitPython
