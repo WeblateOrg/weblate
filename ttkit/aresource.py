@@ -47,10 +47,9 @@ class AndroidResourceUnit(base.TranslationUnit):
         else:
             self.xmlelement = etree.Element(self.rootNode)
             self.xmlelement.tail = '\n'
+        if source is not None:
+            self.setid(source)
         super(AndroidResourceUnit, self).__init__(source)
-
-
-
 
     def getid(self):
         return self.xmlelement.get("name")
@@ -60,6 +59,7 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def setid(self, newid):
         return self.xmlelement.set("name", newid)
+
     def unescape(self, text):
         '''
         Remove escaping from Android resource.
@@ -210,7 +210,7 @@ class AndroidResourceUnit(base.TranslationUnit):
         text = text.replace('\t', '\\t')
         text = text.replace('\'', '\\\'')
         text = text.replace('"', '\\"')
-        
+
         # @ needs to be escaped at start
         if text.startswith('@'):
             text = '\\@' + text[1:]
@@ -227,9 +227,9 @@ class AndroidResourceUnit(base.TranslationUnit):
             return self.target
         else:
             return super(AndroidResourceUnit, self).source
-            
+
     source = property(getsource, setsource)
-    
+
     def settarget(self, target):
         if '<' in target:
             # Handle text with markup
@@ -258,7 +258,7 @@ class AndroidResourceUnit(base.TranslationUnit):
         return self.unescape(data.forceunicode(target))
 
     target = property(gettarget, settarget)
-    
+
 
     def getlanguageNode(self, lang=None, index=None):
         return self.xmlelement
@@ -267,7 +267,7 @@ class AndroidResourceUnit(base.TranslationUnit):
         term = cls(None, xmlelement = element)
         return term
     createfromxmlElement = classmethod(createfromxmlElement)
-    
+
     # Notes are handled as previous sibling comments.
     def addnote(self, text, origin=None, position="append"):
         if origin in ['programmer', 'developer', 'source code', None]:
@@ -295,7 +295,7 @@ class AndroidResourceUnit(base.TranslationUnit):
             while ((prevSibling is not None) and (prevSibling.tag is etree.Comment)):
                 prevSibling.getparent().remove(prevSibling)
                 prevSibling = self.xmlelement.getprevious()
-            
+
         super(AndroidResourceUnit, self).removenotes()
 
     def __str__(self):
