@@ -2270,6 +2270,26 @@ class Unit(models.Model):
             ignore = False
         )
 
+    def get_comments(self):
+        '''
+        Returns list of target comments.
+        '''
+        return Comment.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = self.translation.language,
+        )
+
+    def get_source_comments(self):
+        '''
+        Returns list of target comments.
+        '''
+        return Comment.objects.filter(
+            checksum = self.checksum,
+            project = self.translation.subproject.project,
+            language = None,
+        )
+
     def check(self):
         '''
         Updates checks for this unit.
