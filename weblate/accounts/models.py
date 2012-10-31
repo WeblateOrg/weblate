@@ -132,7 +132,7 @@ class Profile(models.Model):
         try:
             logger.info('sending notification %s on %s to %s', notification, translation_obj.__unicode__(), self.user.email)
 
-            # Load user languagesubject_fmt,
+            # Load user language
             translation.activate(self.language)
 
             # Template names
