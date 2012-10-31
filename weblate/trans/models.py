@@ -2443,7 +2443,7 @@ class Comment(models.Model):
     comment = models.TextField()
     user = models.ForeignKey(User, null = True, blank = True)
     project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language, null = True)
+    language = models.ForeignKey(Language, null = True, blank = True)
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
@@ -2451,7 +2451,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 class Check(models.Model):
     checksum = models.CharField(max_length = 40, db_index = True)
     project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language, null = True)
+    language = models.ForeignKey(Language, null = True, blank = True)
     check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
     ignore = models.BooleanField(db_index = True)
 
