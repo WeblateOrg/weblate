@@ -305,7 +305,7 @@ Mismatched BBcode
 BBcode in translation does not match source. The method for detecting BBcode is
 currently quite simple.
 
-.. _optional_plural:
+.. _check-optional_plural:
 
 Optional plural
 +++++++++++++++
@@ -321,3 +321,11 @@ For example with Gettext in Python it could be:
     from gettext import ngettext
 
     print ngettext('Selected %d file', 'Selected %d files', files) % files
+
+.. _check-elipsis:
+
+Elipsis
++++++++
+
+The string uses three commans (...) instead of elipsis character (…). Using
+unicode character is in most cases better approach and looks better.
