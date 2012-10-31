@@ -155,6 +155,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
     'weblate.trans.checks.OptionalPluralCheck',
+    'weblate.trans.checks.ElipsisCheck',
 )
 
 class Check(object):
@@ -615,6 +616,17 @@ class OptionalPluralCheck(SourceCheck):
         if len(source) > 1:
             return False
         return len(PLURAL_MATCH.findall(source[0])) > 0
+
+class ElipsisCheck(SourceCheck):
+    '''
+    Check for using ... instead of …
+    '''
+    check_id = 'elipsis'
+    name = _('Elipsis')
+    description = _('The string uses three commans (...) instead of elipsis character (…)')
+
+    def check_source(self, source, flags, unit):
+        return '...' in source[0]
 
 # Initialize checks list
 CHECKS = {}

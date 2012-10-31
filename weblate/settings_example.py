@@ -330,6 +330,7 @@ CHECK_LIST = (
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
     'weblate.trans.checks.OptionalPluralCheck',
+    'weblate.trans.checks.ElipsisCheck',
 )
 
 # E-mail address that error messages come from.
