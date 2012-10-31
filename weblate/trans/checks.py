@@ -610,7 +610,7 @@ class OptionalPluralCheck(SourceCheck):
     '''
     check_id = 'optional_plural'
     name = _('Optional plural')
-    description = _('The string is optionaly used as plural, but not using plural forms')
+    description = _('The string is optionally used as plural, but not using plural forms')
 
     def check_source(self, source, flags, unit):
         if len(source) > 1:
