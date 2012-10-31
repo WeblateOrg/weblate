@@ -1,0 +1,9 @@
+{% for comment in comments %}
+<tr>
+<td>
+<strong>{{ comment.user.get_full_name }}</strong><br />
+{{ comment.timestamp|date:"DATETIME_FORMAT" }}
+</td>
+<td>{{ comment.comment }}</td>
+</tr>
+{% endfor %}
