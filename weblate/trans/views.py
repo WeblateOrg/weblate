@@ -1218,9 +1218,6 @@ def get_dictionary(request, unit_id):
         ana = StemmingAnalyzer()
         words.union([token.text for token in ana(unit.get_source_plurals()[0])])
 
-    # join both lists
-    words = set(words_std).union(words_stem)
-
     # Grab all words in the dictionary
     dictionary = Dictionary.objects.filter(
         project = unit.translation.subproject.project,
