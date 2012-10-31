@@ -155,6 +155,7 @@
         <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
         <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
+        <li><a href="#tab-source" title="{% trans "Translation source details and feedback" %}">{% trans "Source" %}</a></li>
         <li><a href="#tab-project" title="{% trans "Information about project" %}">{% trans "Project" %}</a></li>
     </ul>
     <div id="tab-nearby">
@@ -192,6 +193,37 @@
     {% else %}
     <p>{% trans "No recent activity has been recorded." %}</p>
     {% endif %}
+    </div>
+    <div id="tab-source">
+
+    {% with unit.active_source_checks as checks %}
+    {% if checks %}
+    <h4>{% trans "Failing checks" %}</h4>
+    {% for check in checks %}
+    <span class="check" id="check-{{ check.id }}">
+    {% if perms.trans.ignore_check %}
+    <a href="{% url 'js-ignore-check' check_id=check.id %}" class="ignorecheck" title="{% blocktrans with check.get_check_display as check %}Ignore: {{ check }}{% endblocktrans %}"></a>
+    {% endif %}
+    <a href="{{ check.get_doc_url }}" title="{{ check.get_description }}">{{ check.get_check_display }}</a>
+    </span>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <h4>{% trans "User comments" %}</h4>
+    <table>
+    {% with unit.get_source_comments as comments %}
+    {% if comments %}
+    {% include "list-comments.html" %}
+    {% endif %}
+    {% endwith %}
+    <tr>
+    <th>{% trans "Add comment" %}</th>
+    <td>
+    <!-- TODO: add form for new comment -->
+    </td>
+    </tr>
+    </table>
     </div>
     <div id="tab-project">
     {% include "translation_info.html" %}
