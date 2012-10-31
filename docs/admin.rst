@@ -11,25 +11,7 @@ All translation resources need to be available as Git repositories and are
 organized as project/subproject structure.
 
 Weblate supports wide range of translation formats supported by translate
-toolkit, for example:
-
-* GNU Gettext
-* XLIFF
-* Java properties
-* Windows RC files
-* Qt Linguist .ts
-* Android string resources
-* Symbian localization files
-* Apple OS X strings
-* CSV
-* INI
-
-.. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
-
-.. note::
-
-    Some formats (eg. Apple OS X strings) are half broken in translate-toolkit
-    1.9.0, please use Git snapshot for handling these.
+toolkit, see :ref:`formats` for more information.
 
 Monolingual resources
 +++++++++++++++++++++

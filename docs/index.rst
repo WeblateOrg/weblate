@@ -17,6 +17,7 @@ Contents:
     install
     config
     admin
+    formats
     management
     api
     faq
