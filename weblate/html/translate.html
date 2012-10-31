@@ -189,6 +189,7 @@
     {% endif %}
     </div>
     <div id="tab-comments">
+    <p>{% trans "You can share comments about this translation with other translators." %}</p>
     <table>
     {% with unit.get_comments as comments %}
     {% include "list-comments.html" %}
@@ -220,6 +221,7 @@
     {% endwith %}
 
     <h4>{% trans "User comments" %}</h4>
+    <p>{% trans "You can share comments about source string for this translation with other translators and developers." %}</p>
     <table>
     {% with unit.get_source_comments as comments %}
     {% include "list-comments.html" %}
