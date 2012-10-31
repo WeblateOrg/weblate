@@ -244,3 +244,6 @@ class LetterForm(forms.Form):
         choices = [('', _('Any'))] + [(chr(97 + x), chr(65 + x)) for x in range(26)],
         required = False
     )
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(widget = forms.Textarea)

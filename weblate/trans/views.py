@@ -36,7 +36,7 @@ from django.contrib.sites.models import Site
 from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, get_versions
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
-from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm
+from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm, CommentForm
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile
 import weblate
@@ -1141,6 +1141,7 @@ def translate(request, project, subproject, lang):
         'filter_pos': filter_count + 1 - units.count(),
         'form': form,
         'antispam': antispam,
+        'comment_form': CommentForm(),
         'target_language': obj.language.code,
         'secondary': secondary,
         'search_query': search_query,

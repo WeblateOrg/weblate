@@ -194,9 +194,14 @@
     {% include "list-comments.html" %}
     {% endwith %}
     <tr>
-    <th>{% trans "Add comment" %}</th>
+    <th>{% trans "New comment" %}</th>
     <td>
-    <!-- TODO: add form for new comment -->
+    <form method="post" action="">
+    {% csrf_token %}
+    {{ comment_form.comment }}
+    <br />
+    <input class="button" type="submit" value="{% trans "Add" %}" />
+    </form>
     </td>
     </tr>
     </table>
@@ -216,9 +221,14 @@
     {% include "list-comments.html" %}
     {% endwith %}
     <tr>
-    <th>{% trans "Add comment" %}</th>
+    <th>{% trans "New comment" %}</th>
     <td>
-    <!-- TODO: add form for new comment -->
+    <form method="post" action="">
+    {% csrf_token %}
+    {{ comment_form.comment }}
+    <br />
+    <input class="button" type="submit" value="{% trans "Add" %}" />
+    </form>
     </td>
     </tr>
     </table>
