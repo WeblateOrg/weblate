@@ -2408,6 +2408,13 @@ class Suggestion(models.Model):
         '''
         return self.get_matching_unit().get_absolute_url()
 
+class Comment(models.Model):
+    checksum = models.CharField(max_length = 40, db_index = True)
+    comment = models.TextField()
+    user = models.ForeignKey(User, null = True, blank = True)
+    project = models.ForeignKey(Project)
+    language = models.ForeignKey(Language, null = True)
+    timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 

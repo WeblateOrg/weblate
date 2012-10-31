@@ -19,7 +19,7 @@
 #
 
 from django.contrib import admin
-from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change
+from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Comment, Check, Dictionary, Change
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']
@@ -101,6 +101,13 @@ class SuggestionAdmin(admin.ModelAdmin):
     search_fields = ['checksum', 'target']
 
 admin.site.register(Suggestion, SuggestionAdmin)
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['checksum', 'comment', 'user', 'project', 'language', 'user']
+    list_filter = ['project', 'language']
+    search_fields = ['checksum', 'comment']
+
+admin.site.register(Comment, CommentAdmin)
 
 class CheckAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'check', 'project', 'language', 'ignore']
