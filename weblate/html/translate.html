@@ -147,6 +147,7 @@
         <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
         <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
         <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
+        <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">{% trans "Comments" %}</a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Translation source details and feedback" %}">{% trans "Source" %}</a></li>
         <li><a href="#tab-project" title="{% trans "Information about project" %}">{% trans "Project" %}</a></li>
@@ -187,6 +188,19 @@
     <p>{% trans "No recent activity has been recorded." %}</p>
     {% endif %}
     </div>
+    <div id="tab-comments">
+    <table>
+    {% with unit.get_comments as comments %}
+    {% include "list-comments.html" %}
+    {% endwith %}
+    <tr>
+    <th>{% trans "Add comment" %}</th>
+    <td>
+    <!-- TODO: add form for new comment -->
+    </td>
+    </tr>
+    </table>
+    </div>
     <div id="tab-source">
 
     {% with unit.active_source_checks as checks %}
@@ -199,9 +213,7 @@
     <h4>{% trans "User comments" %}</h4>
     <table>
     {% with unit.get_source_comments as comments %}
-    {% if comments %}
     {% include "list-comments.html" %}
-    {% endif %}
     {% endwith %}
     <tr>
     <th>{% trans "Add comment" %}</th>
