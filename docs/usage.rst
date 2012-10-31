@@ -327,5 +327,5 @@ For example with Gettext in Python it could be:
 Ellipsis
 +++++++
 
-The string uses three commans (...) instead of ellipsis character (…). Using
+The string uses three commas (...) instead of ellipsis character (…). Using
 unicode character is in most cases better approach and looks better.

@@ -623,7 +623,7 @@ class EllipsisCheck(SourceCheck):
     '''
     check_id = 'ellipsis'
     name = _('Ellipsis')
-    description = _(u'The string uses three commans (...) instead of ellipsis character (…)')
+    description = _(u'The string uses three commas (...) instead of ellipsis character (…)')
 
     def check_source(self, source, flags, unit):
         return '...' in source[0]
