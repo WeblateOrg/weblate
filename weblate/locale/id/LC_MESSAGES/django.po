@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-31 14:36+0100\n"
+"POT-Creation-Date: 2012-10-31 16:14+0100\n"
 "PO-Revision-Date: 2012-10-30 23:42+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -395,7 +395,7 @@ msgstr ""
 "\"%(link)s\">dokumentasi</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/index.html:37 html/list-translations.html:6 html/translate.html:169
+#: html/index.html:37 html/list-translations.html:6 html/translate.html:158
 #: html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proyek"
@@ -410,15 +410,15 @@ msgid "There are no matching failed checks!"
 msgstr "Tidak ada kegagalan pemeriksaan yang cocok!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:174
+#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:163
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "Terjemahan"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/source-review.html:32 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:163 html/js/dictionary.html:6 html/js/other.html:6
 #: html/js/similar.html:6 trans/forms.py:222
 msgid "Source"
 msgstr "Sumber"
@@ -489,7 +489,7 @@ msgstr "Bahasa"
 msgid "Words"
 msgstr "Kata"
 
-#: html/dictionary.html:15 html/translate.html:167
+#: html/dictionary.html:15 html/translate.html:156
 msgid "Glossary"
 msgstr "Glosarium"
 
@@ -579,7 +579,7 @@ msgstr "Kamus"
 msgid "Change word"
 msgstr "Ganti kata"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:147
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:136
 msgid "Save"
 msgstr "Simpan"
 
@@ -719,7 +719,7 @@ msgstr "bahasa"
 msgid "Date"
 msgstr "Tanggal"
 
-#: html/last-changes.html:22 html/translate.html:204
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Tidak ada kegiatan baru-baru ini telah direkam."
 
@@ -882,16 +882,16 @@ msgstr "Peninjauan"
 msgid "Strings to review"
 msgstr "String untuk ditinjau"
 
-#: html/source-review.html:32
-msgid "Notes"
-msgstr "Catatan-catatan"
+#: html/source-review.html:33 html/translate.html:82 trans/views.py:101
+msgid "Failing checks"
+msgstr "Periksa kegagalan"
 
-#: html/source-review.html:43 html/translate.html:87
+#: html/source-review.html:47 html/translate.html:87
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Diabaikan: %(check)s"
 
-#: html/source-review.html:54
+#: html/source-review.html:71
 msgid "No matching source strings found!"
 msgstr "Tidak ditemukan sumber string yang cocok!"
 
@@ -973,10 +973,6 @@ msgstr "Sisip baris baru"
 msgid "Insert horizontal elipsis"
 msgstr "Sisip elipsis horisontal"
 
-#: html/translate.html:82 trans/views.py:101
-msgid "Failing checks"
-msgstr "Periksa kegagalan"
-
 #: html/translate.html:99
 msgid "Suggestions"
 msgstr "Saran"
@@ -994,19 +990,11 @@ msgstr "Disarankan oleh pengguna anonim"
 msgid "Accept"
 msgstr "Menerima"
 
-#: html/translate.html:129
-msgid "Used in"
-msgstr "Digunakan dalam"
-
-#: html/translate.html:135
-msgid "Comments"
-msgstr "Komentar"
-
-#: html/translate.html:141
+#: html/translate.html:130
 msgid "Flags"
 msgstr "Bendera"
 
-#: html/translate.html:151
+#: html/translate.html:140
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1015,51 +1003,51 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">log masuk</a> untuk "
 "menyimpan terjemahan."
 
-#: html/translate.html:154
+#: html/translate.html:143
 msgid "Suggest"
 msgstr "Menyarankan"
 
-#: html/translate.html:160
+#: html/translate.html:149
 msgid "Translation context"
 msgstr "Konteks terjemahan"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Messages placed around this one"
 msgstr "Pesan ditempatkan disekitar ini"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Nearby messages"
 msgstr "Pesan terdekat"
 
-#: html/translate.html:165
+#: html/translate.html:154
 msgid "Similar messages"
 msgstr "Pesan serupa"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "Same message used in different subprojects"
 msgstr "Pesan yang sama digunakan dalam berbagai subproyek"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "All locations"
 msgstr "Semua lokasi"
 
-#: html/translate.html:167
+#: html/translate.html:156
 msgid "Words extracted from glossary"
 msgstr "Kata-kata diambil dari glosarium"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "List of recent changes done in Weblate"
 msgstr "Daftar perubahan terbaru didalam Weblate"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "Recent edits"
 msgstr "Suntingan terakhir"
 
-#: html/translate.html:169
+#: html/translate.html:158
 msgid "Information about project"
 msgstr "Informasi tentang proyek"
 
-#: html/translate.html:174 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:163 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Status"
 
@@ -1161,6 +1149,14 @@ msgid ""
 msgstr ""
 "Terdapat %(count)s string, dimana %(translated)s&#37; telah diterjemahkan "
 "dan %(fuzzy)s&#37; dalam keadaan samar."
+
+#: html/unit-details.html:4
+msgid "Used in"
+msgstr "Digunakan dalam"
+
+#: html/unit-details.html:10
+msgid "Comments"
+msgstr "Komentar"
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -2843,11 +2839,11 @@ msgstr "String samar (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "String dengan saran (%d)"
 
-#: trans/models.py:2088
+#: trans/models.py:2089
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Pesan tidak ditemukan di penyimpanan backend, kemungkinan rusak."
 
-#: trans/models.py:2181
+#: trans/models.py:2191
 #, python-format
 msgid "unit ID %s"
 msgstr "ID unit %s"
@@ -3021,6 +3017,9 @@ msgstr "Tab karakter"
 #: trans/templatetags/translations.py:107
 msgid "New line"
 msgstr "Baris baru"
+
+#~ msgid "Notes"
+#~ msgstr "Catatan-catatan"
 
 #~ msgid "No sources found!"
 #~ msgstr "Tidak ada sumber ditemukan!"

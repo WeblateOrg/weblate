@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-31 14:36+0100\n"
+"POT-Creation-Date: 2012-10-31 16:14+0100\n"
 "PO-Revision-Date: 2012-05-18 11:10+0200\n"
 "Last-Translator: Yuichiro Takahashi <yuichiro@pop07.odn.ne.jp>\n"
 "Language-Team: japanese <jp@li.org>\n"
@@ -401,7 +401,7 @@ msgstr ""
 "い。"
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/index.html:37 html/list-translations.html:6 html/translate.html:169
+#: html/index.html:37 html/list-translations.html:6 html/translate.html:158
 #: html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "プロジェクト"
@@ -416,15 +416,15 @@ msgid "There are no matching failed checks!"
 msgstr "不完全なものはありません！"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:174
+#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:163
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "翻訳"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/source-review.html:32 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:163 html/js/dictionary.html:6 html/js/other.html:6
 #: html/js/similar.html:6 trans/forms.py:222
 msgid "Source"
 msgstr "翻訳元"
@@ -490,7 +490,7 @@ msgstr "言語"
 msgid "Words"
 msgstr "単語"
 
-#: html/dictionary.html:15 html/translate.html:167
+#: html/dictionary.html:15 html/translate.html:156
 msgid "Glossary"
 msgstr ""
 
@@ -583,7 +583,7 @@ msgstr "辞書"
 msgid "Change word"
 msgstr "単語の変更"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:147
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:136
 msgid "Save"
 msgstr "保存"
 
@@ -709,7 +709,7 @@ msgstr "言語"
 msgid "Date"
 msgstr "日付"
 
-#: html/last-changes.html:22 html/translate.html:204
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "最近の活動は記録されていません。"
 
@@ -879,16 +879,16 @@ msgstr "査読"
 msgid "Strings to review"
 msgstr "査読を開始する"
 
-#: html/source-review.html:32
-msgid "Notes"
-msgstr ""
+#: html/source-review.html:33 html/translate.html:82 trans/views.py:101
+msgid "Failing checks"
+msgstr "不完全性"
 
-#: html/source-review.html:43 html/translate.html:87
+#: html/source-review.html:47 html/translate.html:87
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "「%(check)s」を無視する"
 
-#: html/source-review.html:54
+#: html/source-review.html:71
 #, fuzzy
 msgid "No matching source strings found!"
 msgstr "他の翻訳が見つかりません。"
@@ -973,10 +973,6 @@ msgstr "文頭の改行"
 msgid "Insert horizontal elipsis"
 msgstr ""
 
-#: html/translate.html:82 trans/views.py:101
-msgid "Failing checks"
-msgstr "不完全性"
-
 #: html/translate.html:99
 msgid "Suggestions"
 msgstr "提案"
@@ -994,19 +990,11 @@ msgstr "匿名ユーザによる提案"
 msgid "Accept"
 msgstr "採用"
 
-#: html/translate.html:129
-msgid "Used in"
-msgstr "使用箇所"
-
-#: html/translate.html:135
-msgid "Comments"
-msgstr "コメント"
-
-#: html/translate.html:141
+#: html/translate.html:130
 msgid "Flags"
 msgstr "フラグ"
 
-#: html/translate.html:151
+#: html/translate.html:140
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1015,52 +1003,52 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">ログイン</a>することで翻訳を"
 "保存できるようになります。"
 
-#: html/translate.html:154
+#: html/translate.html:143
 msgid "Suggest"
 msgstr "提案"
 
-#: html/translate.html:160
+#: html/translate.html:149
 msgid "Translation context"
 msgstr "翻訳関連"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Messages placed around this one"
 msgstr "ここの翻訳の前後の翻訳状況"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Nearby messages"
 msgstr "前後の翻訳"
 
-#: html/translate.html:165
+#: html/translate.html:154
 msgid "Similar messages"
 msgstr "類似翻訳"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "Same message used in different subprojects"
 msgstr "異なるサブプロジェクト内で使われている同じメッセージ"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "All locations"
 msgstr "他のサブプロジェクト"
 
-#: html/translate.html:167
+#: html/translate.html:156
 #, fuzzy
 msgid "Words extracted from glossary"
 msgstr "辞書から抜き出した単語"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate 内で最近変更を行った一覧"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "Recent edits"
 msgstr "最近の編集"
 
-#: html/translate.html:169
+#: html/translate.html:158
 msgid "Information about project"
 msgstr "プロジェクトについての情報"
 
-#: html/translate.html:174 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:163 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "状態"
 
@@ -1157,6 +1145,14 @@ msgid ""
 msgstr ""
 "全 %(count)s 件、その内、翻訳済みが %(translated)s&#37;、あいまいが "
 "%(fuzzy)s&#37; です。"
+
+#: html/unit-details.html:4
+msgid "Used in"
+msgstr "使用箇所"
+
+#: html/unit-details.html:10
+msgid "Comments"
+msgstr "コメント"
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -2804,11 +2800,11 @@ msgstr "あいまい (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "提案があるもの (%d)"
 
-#: trans/models.py:2088
+#: trans/models.py:2089
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2181
+#: trans/models.py:2191
 #, python-format
 msgid "unit ID %s"
 msgstr ""

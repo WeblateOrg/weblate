@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-31 14:36+0100\n"
+"POT-Creation-Date: 2012-10-31 16:14+0100\n"
 "PO-Revision-Date: 2012-10-31 15:13+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -391,7 +391,7 @@ msgstr ""
 "\">documentación</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/index.html:37 html/list-translations.html:6 html/translate.html:169
+#: html/index.html:37 html/list-translations.html:6 html/translate.html:158
 #: html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proyecto"
@@ -406,15 +406,15 @@ msgid "There are no matching failed checks!"
 msgstr "¡No se encontraron chequeos fallidos!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:174
+#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:163
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "Traducción"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/source-review.html:32 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:163 html/js/dictionary.html:6 html/js/other.html:6
 #: html/js/similar.html:6 trans/forms.py:222
 msgid "Source"
 msgstr "Original"
@@ -484,7 +484,7 @@ msgstr "Idioma"
 msgid "Words"
 msgstr "Palabras"
 
-#: html/dictionary.html:15 html/translate.html:167
+#: html/dictionary.html:15 html/translate.html:156
 msgid "Glossary"
 msgstr "Glosario"
 
@@ -574,7 +574,7 @@ msgstr "diccionarios"
 msgid "Change word"
 msgstr "Cambiar palabra"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:147
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:136
 msgid "Save"
 msgstr "Guardar"
 
@@ -712,7 +712,7 @@ msgstr "idiomas"
 msgid "Date"
 msgstr "Fecha"
 
-#: html/last-changes.html:22 html/translate.html:204
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "No se registró actividad reciente."
 
@@ -878,16 +878,16 @@ msgstr "revisar"
 msgid "Strings to review"
 msgstr "Cadenas a revisar"
 
-#: html/source-review.html:32
-msgid "Notes"
-msgstr "Notas"
+#: html/source-review.html:33 html/translate.html:82 trans/views.py:101
+msgid "Failing checks"
+msgstr "Chequeos fallidos"
 
-#: html/source-review.html:43 html/translate.html:87
+#: html/source-review.html:47 html/translate.html:87
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Ignorar: %(check)s"
 
-#: html/source-review.html:54
+#: html/source-review.html:71
 msgid "No matching source strings found!"
 msgstr "¡No se encontraron cadenas originales que coincidan!"
 
@@ -968,10 +968,6 @@ msgstr "Agregar nueva línea"
 msgid "Insert horizontal elipsis"
 msgstr "Agregar puntos suspensivos"
 
-#: html/translate.html:82 trans/views.py:101
-msgid "Failing checks"
-msgstr "Chequeos fallidos"
-
 #: html/translate.html:99
 msgid "Suggestions"
 msgstr "Sugerencias"
@@ -989,19 +985,11 @@ msgstr "Sugerido por un usuario anónimo"
 msgid "Accept"
 msgstr "Aceptar"
 
-#: html/translate.html:129
-msgid "Used in"
-msgstr "Utilizado en"
-
-#: html/translate.html:135
-msgid "Comments"
-msgstr "Comentarios"
-
-#: html/translate.html:141
+#: html/translate.html:130
 msgid "Flags"
 msgstr "Indicadores"
 
-#: html/translate.html:151
+#: html/translate.html:140
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1010,51 +998,51 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Inicia sesión</a> para "
 "guardar las traducciones."
 
-#: html/translate.html:154
+#: html/translate.html:143
 msgid "Suggest"
 msgstr "Sugerir"
 
-#: html/translate.html:160
+#: html/translate.html:149
 msgid "Translation context"
 msgstr "Contexto de traducción"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Messages placed around this one"
 msgstr "Mensajes alrededor de este"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Nearby messages"
 msgstr "Mensajes cercanos"
 
-#: html/translate.html:165
+#: html/translate.html:154
 msgid "Similar messages"
 msgstr "Mensajes similares"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "Same message used in different subprojects"
 msgstr "El mismo mensaje es utilizado en diferentes subproyectos"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "All locations"
 msgstr "Todas las ubicaciones"
 
-#: html/translate.html:167
+#: html/translate.html:156
 msgid "Words extracted from glossary"
 msgstr "Palabras extraídas del glosario"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "List of recent changes done in Weblate"
 msgstr "Lista de cambios recientes realizados en Weblate"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "Recent edits"
 msgstr "Ediciones recientes"
 
-#: html/translate.html:169
+#: html/translate.html:158
 msgid "Information about project"
 msgstr "Información del proyecto"
 
-#: html/translate.html:174 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:163 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Estado"
 
@@ -1154,6 +1142,14 @@ msgid ""
 msgstr ""
 "Hay %(count)s cadenas, de las cuales %(translated)s&#37; están traducidas y "
 "%(fuzzy)s&#37; son parciales."
+
+#: html/unit-details.html:4
+msgid "Used in"
+msgstr "Utilizado en"
+
+#: html/unit-details.html:10
+msgid "Comments"
+msgstr "Comentarios"
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -2838,13 +2834,13 @@ msgstr "Cadenas parciales (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
-#: trans/models.py:2088
+#: trans/models.py:2089
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "No se encontró el mensaje almacenado en la base de datos, probablemente esté "
 "corrupto."
 
-#: trans/models.py:2181
+#: trans/models.py:2191
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidad %s"
@@ -3019,6 +3015,9 @@ msgstr "Caracter de tabulación"
 #: trans/templatetags/translations.py:107
 msgid "New line"
 msgstr "Nueva línea"
+
+#~ msgid "Notes"
+#~ msgstr "Notas"
 
 #~ msgid "No sources found!"
 #~ msgstr "¡No se encontraron archivos de de origen!"

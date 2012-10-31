@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-31 14:36+0100\n"
+"POT-Creation-Date: 2012-10-31 16:14+0100\n"
 "PO-Revision-Date: 2012-10-31 07:45+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -392,7 +392,7 @@ msgstr ""
 "\"%(link)s\">τεκμηρίωση</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/index.html:37 html/list-translations.html:6 html/translate.html:169
+#: html/index.html:37 html/list-translations.html:6 html/translate.html:158
 #: html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Έργο"
@@ -407,15 +407,15 @@ msgid "There are no matching failed checks!"
 msgstr "Δεν υπάρχουν αντιστοιχίες αποτυχίας ελέγχων!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:174
+#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:163
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "Μετάφραση"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/source-review.html:32 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:163 html/js/dictionary.html:6 html/js/other.html:6
 #: html/js/similar.html:6 trans/forms.py:222
 msgid "Source"
 msgstr "Προέλευση"
@@ -487,7 +487,7 @@ msgstr "Γλώσσα"
 msgid "Words"
 msgstr "Λέξεις"
 
-#: html/dictionary.html:15 html/translate.html:167
+#: html/dictionary.html:15 html/translate.html:156
 msgid "Glossary"
 msgstr "Γλωσσάρι"
 
@@ -577,7 +577,7 @@ msgstr "λεξικά"
 msgid "Change word"
 msgstr "Αλλαγή λέξης"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:147
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:136
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -715,7 +715,7 @@ msgstr "γλώσσες"
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: html/last-changes.html:22 html/translate.html:204
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Καμία πρόσφατη δραστηριότητα δεν καταγράφηκε."
 
@@ -881,16 +881,16 @@ msgstr "επισκόπηση"
 msgid "Strings to review"
 msgstr "Κείμενα για επισκόπηση"
 
-#: html/source-review.html:32
-msgid "Notes"
-msgstr "Σημειώσεις"
+#: html/source-review.html:33 html/translate.html:82 trans/views.py:101
+msgid "Failing checks"
+msgstr "Αποτυχημένοι έλεγχοι"
 
-#: html/source-review.html:43 html/translate.html:87
+#: html/source-review.html:47 html/translate.html:87
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "Αγνόηση: %(check)s"
 
-#: html/source-review.html:54
+#: html/source-review.html:71
 msgid "No matching source strings found!"
 msgstr "Δεν βρέθηκαν παρόμοια κείμενα προέλευσης!"
 
@@ -971,10 +971,6 @@ msgstr "Προσθήκη νέας γραμμής"
 msgid "Insert horizontal elipsis"
 msgstr "Εισαγωγή οριζόντιας έλλειψης"
 
-#: html/translate.html:82 trans/views.py:101
-msgid "Failing checks"
-msgstr "Αποτυχημένοι έλεγχοι"
-
 #: html/translate.html:99
 msgid "Suggestions"
 msgstr "Προτάσεις"
@@ -992,19 +988,11 @@ msgstr "Προτάθηκε από ανώνυμο χρήστη"
 msgid "Accept"
 msgstr "Αποδοχή"
 
-#: html/translate.html:129
-msgid "Used in"
-msgstr "Χρήση σε"
-
-#: html/translate.html:135
-msgid "Comments"
-msgstr "Σχόλια"
-
-#: html/translate.html:141
+#: html/translate.html:130
 msgid "Flags"
 msgstr "Σημαίες"
 
-#: html/translate.html:151
+#: html/translate.html:140
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1013,51 +1001,51 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Συνδεθείτε</a> για να "
 "αποθηκευτούν οι μεταφράσεις."
 
-#: html/translate.html:154
+#: html/translate.html:143
 msgid "Suggest"
 msgstr "Πρόταση"
 
-#: html/translate.html:160
+#: html/translate.html:149
 msgid "Translation context"
 msgstr "Συνοδευτικά μετάφρασης"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Messages placed around this one"
 msgstr "Τα μηνύματα γύρω από αυτό"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Nearby messages"
 msgstr "Κοντινά μηνύματα"
 
-#: html/translate.html:165
+#: html/translate.html:154
 msgid "Similar messages"
 msgstr "Παρόμοια μηνύματα"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "Same message used in different subprojects"
 msgstr "Το ίδιο μήνυμα που χρησιμοποιείται σε διαφορετικά υπόέργα"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "All locations"
 msgstr "Όλες οι τοποθεσίες"
 
-#: html/translate.html:167
+#: html/translate.html:156
 msgid "Words extracted from glossary"
 msgstr "Λέξεις εξαγόμενες από το γλωσσάρι"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "List of recent changes done in Weblate"
 msgstr "Λίστα πρόσφατων αλλαγών που έγιναν στο Weblate"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "Recent edits"
 msgstr "Πρόσφατες επεξεργασίες"
 
-#: html/translate.html:169
+#: html/translate.html:158
 msgid "Information about project"
 msgstr "Πληροφορίες για το έργο"
 
-#: html/translate.html:174 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:163 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Κατάσταση"
 
@@ -1157,6 +1145,14 @@ msgid ""
 msgstr ""
 "Υπάρχουν %(count)s κείμενα, από τα οποία το %(translated)s&#37; είναι "
 "μεταφρασμένα και το %(fuzzy)s&#37; είναι ασαφή."
+
+#: html/unit-details.html:4
+msgid "Used in"
+msgstr "Χρήση σε"
+
+#: html/unit-details.html:10
+msgid "Comments"
+msgstr "Σχόλια"
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -2855,12 +2851,12 @@ msgstr "Ασαφή κείμενα (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:2088
+#: trans/models.py:2089
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
 
-#: trans/models.py:2181
+#: trans/models.py:2191
 #, python-format
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
@@ -3034,6 +3030,9 @@ msgstr "Χαρακτήρας στηλοθέτη"
 #: trans/templatetags/translations.py:107
 msgid "New line"
 msgstr "Νέα γραμμή"
+
+#~ msgid "Notes"
+#~ msgstr "Σημειώσεις"
 
 #~ msgid "No sources found!"
 #~ msgstr "Δεν βρέθηκαν προελεύσεις!"

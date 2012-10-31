@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-10-31 14:36+0100\n"
+"POT-Creation-Date: 2012-10-31 16:14+0100\n"
 "PO-Revision-Date: 2012-09-12 12:43+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -383,7 +383,7 @@ msgid ""
 msgstr "更多此检查相关的信息在 <a href=\"%(link)s\">文档</a>。"
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/index.html:37 html/list-translations.html:6 html/translate.html:169
+#: html/index.html:37 html/list-translations.html:6 html/translate.html:158
 #: html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "项目"
@@ -398,15 +398,15 @@ msgid "There are no matching failed checks!"
 msgstr "没有与已检查条目匹配的！"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:174
+#: html/last-changes.html:9 html/translate.html:67 html/translate.html.py:163
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:223
 msgid "Translation"
 msgstr "翻译"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:31 html/subproject.html:34 html/translate.html:53
-#: html/translate.html.py:174 html/js/dictionary.html:6 html/js/other.html:6
+#: html/source-review.html:32 html/subproject.html:34 html/translate.html:53
+#: html/translate.html.py:163 html/js/dictionary.html:6 html/js/other.html:6
 #: html/js/similar.html:6 trans/forms.py:222
 msgid "Source"
 msgstr "源条目"
@@ -470,7 +470,7 @@ msgstr "语言"
 msgid "Words"
 msgstr "单词"
 
-#: html/dictionary.html:15 html/translate.html:167
+#: html/dictionary.html:15 html/translate.html:156
 msgid "Glossary"
 msgstr ""
 
@@ -561,7 +561,7 @@ msgstr "词典"
 msgid "Change word"
 msgstr "修改单词"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:147
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:136
 msgid "Save"
 msgstr "保存"
 
@@ -692,7 +692,7 @@ msgstr "语言"
 msgid "Date"
 msgstr "日期"
 
-#: html/last-changes.html:22 html/translate.html:204
+#: html/last-changes.html:22 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "没有最近活动的记录。"
 
@@ -851,16 +851,16 @@ msgstr "复查"
 msgid "Strings to review"
 msgstr "开始复查"
 
-#: html/source-review.html:32
-msgid "Notes"
-msgstr ""
+#: html/source-review.html:33 html/translate.html:82 trans/views.py:101
+msgid "Failing checks"
+msgstr "未通过检查"
 
-#: html/source-review.html:43 html/translate.html:87
+#: html/source-review.html:47 html/translate.html:87
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "忽略：%(check)s"
 
-#: html/source-review.html:54
+#: html/source-review.html:71
 #, fuzzy
 msgid "No matching source strings found!"
 msgstr "未找到其它条目。"
@@ -942,10 +942,6 @@ msgstr "换行开头"
 msgid "Insert horizontal elipsis"
 msgstr ""
 
-#: html/translate.html:82 trans/views.py:101
-msgid "Failing checks"
-msgstr "未通过检查"
-
 #: html/translate.html:99
 msgid "Suggestions"
 msgstr "建议"
@@ -963,19 +959,11 @@ msgstr "建议者为匿名用户"
 msgid "Accept"
 msgstr "接受"
 
-#: html/translate.html:129
-msgid "Used in"
-msgstr "用于"
-
-#: html/translate.html:135
-msgid "Comments"
-msgstr "注释"
-
-#: html/translate.html:141
+#: html/translate.html:130
 msgid "Flags"
 msgstr "标记"
 
-#: html/translate.html:151
+#: html/translate.html:140
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -983,52 +971,52 @@ msgid ""
 msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">登录</a> 以便保存译文。"
 
-#: html/translate.html:154
+#: html/translate.html:143
 msgid "Suggest"
 msgstr "建议"
 
-#: html/translate.html:160
+#: html/translate.html:149
 msgid "Translation context"
 msgstr "翻译上下文"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Messages placed around this one"
 msgstr "此条目附近的条目"
 
-#: html/translate.html:164
+#: html/translate.html:153
 msgid "Nearby messages"
 msgstr "附近的条目"
 
-#: html/translate.html:165
+#: html/translate.html:154
 msgid "Similar messages"
 msgstr "相似的条目"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "Same message used in different subprojects"
 msgstr "在不同子项目中所使用的相同条目"
 
-#: html/translate.html:166
+#: html/translate.html:155
 msgid "All locations"
 msgstr "所有位置"
 
-#: html/translate.html:167
+#: html/translate.html:156
 #, fuzzy
 msgid "Words extracted from glossary"
 msgstr "词典中提取的单词"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
-#: html/translate.html:168
+#: html/translate.html:157
 msgid "Recent edits"
 msgstr "最近的编辑"
 
-#: html/translate.html:169
+#: html/translate.html:158
 msgid "Information about project"
 msgstr "项目信息"
 
-#: html/translate.html:174 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:163 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "状态"
 
@@ -1122,6 +1110,14 @@ msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
 msgstr "共计 %(count)s 条，%(translated)s&#37; 已翻译、%(fuzzy)s&#37; 模糊。"
+
+#: html/unit-details.html:4
+msgid "Used in"
+msgstr "用于"
+
+#: html/unit-details.html:10
+msgid "Comments"
+msgstr "注释"
 
 #: html/unit-state.html:3
 msgid "Message is fuzzy"
@@ -2756,11 +2752,11 @@ msgstr "模糊条目 (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models.py:2088
+#: trans/models.py:2089
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:2181
+#: trans/models.py:2191
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
