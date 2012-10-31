@@ -145,7 +145,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.EndColonCheck',
     'weblate.trans.checks.EndQuestionCheck',
     'weblate.trans.checks.EndExclamationCheck',
-    'weblate.trans.checks.EndElipsisCheck',
+    'weblate.trans.checks.EndEllipsisCheck',
     'weblate.trans.checks.PythonFormatCheck',
     'weblate.trans.checks.PHPFormatCheck',
     'weblate.trans.checks.CFormatCheck',
@@ -155,7 +155,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
     'weblate.trans.checks.OptionalPluralCheck',
-    'weblate.trans.checks.ElipsisCheck',
+    'weblate.trans.checks.EllipsisCheck',
 )
 
 class Check(object):
@@ -452,13 +452,13 @@ class EndExclamationCheck(TargetCheck):
             return False
         return self.check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
 
-class EndElipsisCheck(TargetCheck):
+class EndEllipsisCheck(TargetCheck):
     '''
-    Check for elipsis at the end of string.
+    Check for ellipsis at the end of string.
     '''
-    check_id = 'end_elipsis'
-    name = _('Trailing elipsis')
-    description = _('Source and translation do not both end with an elipsis')
+    check_id = 'end_ellipsis'
+    name = _('Trailing ellipsis')
+    description = _('Source and translation do not both end with an ellipsis')
 
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, -1, [u'…'])
@@ -617,13 +617,13 @@ class OptionalPluralCheck(SourceCheck):
             return False
         return len(PLURAL_MATCH.findall(source[0])) > 0
 
-class ElipsisCheck(SourceCheck):
+class EllipsisCheck(SourceCheck):
     '''
     Check for using ... instead of …
     '''
-    check_id = 'elipsis'
-    name = _('Elipsis')
-    description = _(u'The string uses three commans (...) instead of elipsis character (…)')
+    check_id = 'ellipsis'
+    name = _('Ellipsis')
+    description = _(u'The string uses three commans (...) instead of ellipsis character (…)')
 
     def check_source(self, source, flags, unit):
         return '...' in source[0]

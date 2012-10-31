@@ -236,13 +236,13 @@ correctly spaced. This includes spacing rules for French or Breton.
 Exclamation mark is also check in various langauge variants (Chinese,
 Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
-.. _check-end_elipsis:
+.. _check-end_ellipsis:
 
-Trailing elipsis
+Trailing ellipsis
 ++++++++++++++++
 
-Source and translation do not both end with an elipsis. This only checks for
-real elipsis (`\u2026`) not for three commas (`...`).
+Source and translation do not both end with an ellipsis. This only checks for
+real ellipsis (`\u2026`) not for three commas (`...`).
 
 .. _check-python_format:
 
@@ -322,10 +322,10 @@ For example with Gettext in Python it could be:
 
     print ngettext('Selected %d file', 'Selected %d files', files) % files
 
-.. _check-elipsis:
+.. _check-ellipsis:
 
-Elipsis
+Ellipsis
 +++++++
 
-The string uses three commans (...) instead of elipsis character (…). Using
+The string uses three commans (...) instead of ellipsis character (…). Using
 unicode character is in most cases better approach and looks better.

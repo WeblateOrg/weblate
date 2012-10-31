@@ -320,7 +320,7 @@ CHECK_LIST = (
     'weblate.trans.checks.EndColonCheck',
     'weblate.trans.checks.EndQuestionCheck',
     'weblate.trans.checks.EndExclamationCheck',
-    'weblate.trans.checks.EndElipsisCheck',
+    'weblate.trans.checks.EndEllipsisCheck',
     'weblate.trans.checks.PythonFormatCheck',
     'weblate.trans.checks.PHPFormatCheck',
     'weblate.trans.checks.CFormatCheck',
@@ -330,7 +330,7 @@ CHECK_LIST = (
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
     'weblate.trans.checks.OptionalPluralCheck',
-    'weblate.trans.checks.ElipsisCheck',
+    'weblate.trans.checks.EllipsisCheck',
 )
 
 # E-mail address that error messages come from.
