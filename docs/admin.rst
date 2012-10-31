@@ -87,6 +87,9 @@ Filemask
     translation files (eg. more Gettext domains), you need to create separate
     subproject for each. For example ``po/*.po`` or
     ``locale/*/LC_MESSAGES/django.po``.
+Report source bugs
+    Email address used for reporting upstream bugs. This address will also receive
+    notification about any source string comments made in Weblate.
 
 .. note::
    
