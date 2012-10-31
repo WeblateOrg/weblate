@@ -1805,6 +1805,11 @@ class Translation(models.Model):
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
 
+        # Grab comments
+        sourcecomments = self.unit_set.count_type('sourcecomments', self)
+        if sourcecomments > 0:
+            result.append(('sourcecomments', _('Strings with comments (%d)') % sourcecomments))
+
         return result
 
     def get_translation_checks(self):
@@ -1841,6 +1846,11 @@ class Translation(models.Model):
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
+
+        # Grab comments
+        targetcomments = self.unit_set.count_type('targetcomments', self)
+        if targetcomments > 0:
+            result.append(('targetcomments', _('Strings with comments (%d)') % targetcomments))
 
         return result
 

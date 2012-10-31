@@ -158,7 +158,7 @@ class UnitManager(models.Manager):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        from weblate.trans.models import Suggestion, Check
+        from weblate.trans.models import Suggestion, Check, Comment
         from weblate.trans.checks import CHECKS
 
         filter_translated = True
@@ -175,6 +175,20 @@ class UnitManager(models.Manager):
                 project = translation.subproject.project)
             sugs = sugs.values_list('checksum', flat = True)
             return self.filter(checksum__in = sugs)
+        elif rqtype == 'sourcecomments':
+            coms = Comment.objects.filter(
+                language = None,
+                project = translation.subproject.project
+            )
+            coms = coms.values_list('checksum', flat = True)
+            return self.filter(checksum__in = coms)
+        elif rqtype == 'targetcomments':
+            coms = Comment.objects.filter(
+                language = translation.language,
+                project = translation.subproject.project
+            )
+            coms = coms.values_list('checksum', flat = True)
+            return self.filter(checksum__in = coms)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
 
             # Filter checks for current project
