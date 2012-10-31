@@ -49,6 +49,11 @@ Adroid specific file format for translating applications.
 
 .. seealso:: https://developer.android.com/guide/topics/resources/string-resource.html
 
+.. note::
+
+    This format is not yet supported by Translate-toolkit (merge request is
+    pending), but Weblate includes own support for it.
+
 Apple OS X strings
 ------------------
 
