@@ -1225,13 +1225,17 @@ def get_dictionary(request, unit_id):
         language = unit.translation.language
     )
 
-    # Built the query (can not use __in as we want case insensitive lookup)
-    query = Q()
-    for word in words:
-        query |= Q(source__iexact = word)
+    if len(words) == 0:
+        # No extracted words, no dictionary
+        dictionary = dictionary.none()
+    else:
+        # Build the query (can not use __in as we want case insensitive lookup)
+        query = Q()
+        for word in words:
+            query |= Q(source__iexact = word)
 
-    # Filter dictionary
-    dictionary = dictionary.filter(query)
+        # Filter dictionary
+        dictionary = dictionary.filter(query)
 
     return render_to_response('js/dictionary.html', RequestContext(request, {
         'dictionary': dictionary,
