@@ -1175,10 +1175,23 @@ def comment(request, pk):
         )
         messages.info(request, _('Posted new comment'))
         # Notify subscribed users
-        from weblate.accounts.models import Profile
+        from weblate.accounts.models import Profile, send_notification_email
         subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang)
         for subscription in subscriptions:
             subscription.notify_new_comment(obj, comment)
+        # Notify upstream
+        if lang is None and obj.translation.subproject.report_source_bugs != '':
+            send_notification_email(
+                'en',
+                obj.translation.subproject.report_source_bugs,
+                'new_comment',
+                obj.translation,
+                {
+                    'unit': obj,
+                    'comment': comment,
+                    'subproject': obj.translation.subproject,
+                }
+            )
     else:
         messages.error(request, _('Failed to add comment!'))
 
