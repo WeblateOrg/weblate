@@ -36,10 +36,10 @@
 <tbody>
 {% for source in sources.object_list %}
 <tr>
-<td>
-<span class="ui-icon ui-icon-triangle-1-e expander"></span>
+<td class="expander">
+<span class="ui-icon ui-icon-triangle-1-e expander-icon"></span>
 </td>
-<td class="translatetext">{{ source.source|fmttranslation }}</td>
+<td class="translatetext expander">{{ source.source|fmttranslation }}</td>
 <td>
 {% for check in source.active_source_checks %}
 <span class="check" id="check-{{ check.id }}">
