@@ -1940,7 +1940,7 @@ class Translation(models.Model):
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
-    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
+    checksum = models.CharField(max_length = 40, db_index = True)
     location = models.TextField(default = '', blank = True)
     context = models.TextField(default = '', blank = True)
     comment = models.TextField(default = '', blank = True)
@@ -2363,7 +2363,7 @@ class Unit(models.Model):
         )
 
 class Suggestion(models.Model):
-    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
+    checksum = models.CharField(max_length = 40, db_index = True)
     target = models.TextField()
     user = models.ForeignKey(User, null = True, blank = True)
     project = models.ForeignKey(Project)
@@ -2419,7 +2419,7 @@ class Comment(models.Model):
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 class Check(models.Model):
-    checksum = models.CharField(max_length = 40, default = '', blank = True, db_index = True)
+    checksum = models.CharField(max_length = 40, db_index = True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null = True)
     check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
