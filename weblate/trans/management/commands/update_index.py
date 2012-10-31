@@ -36,7 +36,7 @@ class Command(BaseCommand):
             return
 
         with FULLTEXT_INDEX.source_writer(buffered = False) as writer:
-            for update in base.iterator():
+            for update in base.filter(source = True).iterator():
                 Unit.objects.add_to_source_index(
                     update.unit.checksum,
                     update.unit.source,

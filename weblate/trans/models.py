@@ -2159,6 +2159,7 @@ class Unit(models.Model):
         # Pop parameter indicating that we don't have to process content
         same_content = kwargs.pop('same_content', False)
         same_fuzzy = kwargs.pop('same_fuzzy', False)
+        force_insert = kwargs.get('force_insert', False)
 
         # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
@@ -2166,9 +2167,14 @@ class Unit(models.Model):
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_fuzzy:
             self.check()
-        # Update fulltext index if content has changed
-        if not same_content:
-            Unit.objects.add_to_index(self)
+
+        # Update fulltext index if content has changed or this is a new unit
+        if force_insert:
+            # New unit, need to update both source and target index
+            Unit.objects.add_to_index(self, True)
+        else:
+            # We only update target index here
+            Unit.objects.add_to_index(self, False)
 
     def get_location_links(self):
         '''
@@ -2469,6 +2475,7 @@ class Change(models.Model):
 
 class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
+    source = models.BooleanField(default = True)
 
 def get_version_module(module, name, url):
     try:
