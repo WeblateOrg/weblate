@@ -1166,7 +1166,7 @@ def comment(request, pk):
     form = CommentForm(request.POST)
 
     if form.is_valid():
-        Comment.objects.create(
+        comment = Comment.objects.create(
             user = request.user,
             checksum = obj.checksum,
             project = obj.translation.subproject.project,
@@ -1174,6 +1174,11 @@ def comment(request, pk):
             language = lang
         )
         messages.info(request, _('Posted new comment'))
+        # Notify subscribed users
+        from weblate.accounts.models import Profile
+        subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang)
+        for subscription in subscriptions:
+            subscription.notify_new_comment(obj, comment)
     else:
         messages.error(request, _('Failed to add comment!'))
 

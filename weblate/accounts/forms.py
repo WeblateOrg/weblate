@@ -57,6 +57,7 @@ class SubscriptionForm(forms.ModelForm):
             'subscribe_new_string',
             'subscribe_new_suggestion',
             'subscribe_new_contributor',
+            'subscribe_new_comment',
         )
         widgets = {
             'subscriptions': forms.CheckboxSelectMultiple

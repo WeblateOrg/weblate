@@ -62,6 +62,13 @@ class ProfileManager(models.Manager):
     def subscribed_new_contributor(self, project, language):
         return self.filter(subscribe_new_contributor = True, subscriptions = project, languages = language)
 
+    def subscribed_new_comment(self, project, language):
+        ret = self.filter(subscribe_new_comment = True, subscriptions = project)
+        # Source comments go to every subscriber
+        if language is not None:
+            ret = ret.filter(languages = language)
+        return ret
+
 class Profile(models.Model):
     '''
     User profiles storage.
@@ -105,6 +112,10 @@ class Profile(models.Model):
     )
     subscribe_new_contributor = models.BooleanField(
         verbose_name = _('Notification on new contributor'),
+        default = False
+    )
+    subscribe_new_comment = models.BooleanField(
+        verbose_name = _('Notification on new comment'),
         default = False
     )
 
@@ -202,6 +213,20 @@ class Profile(models.Model):
             translation,
             {
                 'user': user,
+            }
+        )
+
+    def notify_new_comment(self, unit, comment):
+        '''
+        Sends notification about new comment.
+        '''
+        self.notify_user(
+            'new_comment',
+            unit.translation,
+            {
+                'unit': unit,
+                'comment': comment,
+                'subproject': unit.translation.subproject,
             }
         )
 
