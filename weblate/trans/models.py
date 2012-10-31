@@ -1406,7 +1406,7 @@ class Translation(models.Model):
                 if not unit.istranslatable() or unit.isblank():
                     continue
                 newunit, is_new = Unit.objects.update_from_unit(self, unit, pos)
-                was_new = was_new or is_new
+                was_new = was_new or (is_new and not newunit.translated)
                 pos += 1
                 try:
                     oldunits.remove(newunit.id)
@@ -1421,8 +1421,8 @@ class Translation(models.Model):
                     continue
                 unit = store.findid(template_unit.getid())
                 newunit, is_new = Unit.objects.update_from_unit(self, unit, pos, template = template_unit)
+                was_new = was_new or (is_new and not newunit.translated)
                 pos += 1
-                was_new = was_new or is_new
                 try:
                     oldunits.remove(newunit.id)
                 except:
