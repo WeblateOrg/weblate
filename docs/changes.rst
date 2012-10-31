@@ -20,6 +20,7 @@ Relased on ? 2012.
 * Support for exporting dictionary.
 * Support for locking down whole Weblate installation.
 * Checks for source strings and support for source strings review.
+* Support for user comments for both translations and source strings.
 
 weblate 1.2
 -----------
