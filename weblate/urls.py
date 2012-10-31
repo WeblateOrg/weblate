@@ -70,6 +70,8 @@ urlpatterns = patterns('',
     url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.update_subproject'),
     url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.update_translation'),
 
+    url(r'^comment/(?P<pk>[0-9]*)/$', 'weblate.trans.views.comment'),
+
     url(r'^push/(?P<project>[^/]*)/$', 'weblate.trans.views.push_project'),
     url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.push_subproject'),
     url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.push_translation'),

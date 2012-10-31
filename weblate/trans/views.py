@@ -33,7 +33,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
-from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, get_versions
+from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, Comment, get_versions
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm, CommentForm
@@ -1152,6 +1152,32 @@ def translate(request, project, subproject, lang):
         'search_target': bool2str(search_target),
         'search_context': bool2str(search_context),
     }))
+
+def comment(request, pk):
+    '''
+    Adds new comment.
+    '''
+    obj = get_object_or_404(Unit, pk = pk)
+    if request.POST.get('type', '') == 'source':
+        lang = None
+    else:
+        lang = obj.translation.language
+
+    form = CommentForm(request.POST)
+
+    if form.is_valid():
+        Comment.objects.create(
+            user = request.user,
+            checksum = obj.checksum,
+            project = obj.translation.subproject.project,
+            comment = form.cleaned_data['comment'],
+            language = lang
+        )
+        messages.info(request, _('Posted new comment'))
+    else:
+        messages.error(request, _('Failed to add comment!'))
+
+    return HttpResponseRedirect(obj.get_absolute_url())
 
 def get_string(request, checksum):
     '''
