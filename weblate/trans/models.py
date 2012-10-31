@@ -2447,7 +2447,7 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
 
     class Meta:
-        ordering = ['-timestamp']
+        ordering = ['timestamp']
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
