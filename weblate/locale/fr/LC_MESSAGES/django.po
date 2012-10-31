@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-10-31 16:14+0100\n"
-"PO-Revision-Date: 2012-10-23 14:04+0200\n"
-"Last-Translator: Alexandre Dupas <alexandre.dupas@gmail.com>\n"
+"PO-Revision-Date: 2012-10-31 23:05+0200\n"
+"Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -549,13 +549,12 @@ msgid "Add"
 msgstr "Ajouter"
 
 #: html/dictionary.html:99
-#, fuzzy
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
 "Vous pouvez envoyer tous les formats reconnus par « Translate Toolkit », par "
-"exemple des fichiers csv ou po."
+"exemple des fichiers TBX, CSV ou PO de Gettext."
 
 #: html/dictionary.html:106
 msgid "Import"
@@ -873,19 +872,16 @@ msgstr ""
 "disponibles dans des formats lisibles par des machines."
 
 #: html/source-review.html:9 html/source.html:8
-#, fuzzy
 msgid "source"
-msgstr "Source"
+msgstr "source"
 
 #: html/source-review.html:10
-#, fuzzy
 msgid "review"
-msgstr "Revue"
+msgstr "revue"
 
 #: html/source-review.html:15
-#, fuzzy
 msgid "Strings to review"
-msgstr "Démarrer la revue"
+msgstr "Messages à reviser"
 
 #: html/source-review.html:33 html/translate.html:82 trans/views.py:101
 msgid "Failing checks"
@@ -897,9 +893,8 @@ msgid "Ignore: %(check)s"
 msgstr "Ignorer : %(check)s"
 
 #: html/source-review.html:71
-#, fuzzy
 msgid "No matching source strings found!"
-msgstr "Pas d'autres messages trouvés."
+msgstr "Aucun message source correspondant n'a été trouvé !"
 
 #: html/source.html:19 html/translation.html:19
 msgid "Strings to check"
@@ -928,9 +923,8 @@ msgstr ""
 "subject=New+language+request+for+%(object)s\">contacter</a>."
 
 #: html/subproject.html:56
-#, fuzzy
 msgid "Source strings review"
-msgstr "Chaîne source : "
+msgstr "Revue des chaînes source"
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -2382,12 +2376,10 @@ msgstr ""
 "point d'exclamation, ou celui-ci n'est pas correctement entouré d'espaces"
 
 #: trans/checks.py:460
-#, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Ellipse à la fin"
 
 #: trans/checks.py:461
-#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr ""
 "Les messages source et traduit ne se terminent pas tous les deux par une "
@@ -2452,21 +2444,24 @@ msgid "BBcode in translation does not match source"
 msgstr "Les BBcodes dans la traduction ne correspondent pas à la source"
 
 #: trans/checks.py:612
-#, fuzzy
 msgid "Optional plural"
-msgstr "Pluriels manquants"
+msgstr "Pluriel facultatif"
 
 #: trans/checks.py:613
 msgid "The string is optionaly used as plural, but not using plural forms"
 msgstr ""
+"Cette chaîne est utilisée de manière facultative comme un pluriel, sans "
+"utiliser les formes plurielles"
 
 #: trans/checks.py:625
 msgid "Ellipsis"
-msgstr ""
+msgstr "Points de suspension"
 
 #: trans/checks.py:626
 msgid "The string uses three commas (...) instead of ellipsis character (…)"
 msgstr ""
+"Cette chaîne utilise trois points (...) au lieu d'un caractère de points de "
+"suspension (…)"
 
 #: trans/forms.py:82
 msgid ""
@@ -2645,22 +2640,20 @@ msgid "URL with instructions for translators"
 msgstr "URL avec les directives pour les traducteurs"
 
 #: trans/models.py:252
-#, fuzzy
 msgid "How to handle requests for creating new languages."
-msgstr "Comment traiter les requêtes de création de nouvelles langues"
+msgstr "Comment traiter les requêtes de création de nouvelles langues."
 
 #: trans/models.py:255
 msgid "Merge style"
 msgstr "Fusionner le style"
 
 #: trans/models.py:259
-#, fuzzy
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 "Définir si Weblate doit fusionner le dépôt amont ou refonder les changements "
-"sur le dépôt amont"
+"sur le dépôt amont."
 
 #: trans/models.py:265
 #, python-format
@@ -2699,49 +2692,48 @@ msgid "Name used in URLs"
 msgstr "Nom utilisé dans les URLs"
 
 #: trans/models.py:457
-#, fuzzy
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
 "URL du dépôt Git, utilisez weblate://projet/sousprojet pour le partager avec "
-"d'autre sous-projet"
+"un autre sous-projet."
 
 #: trans/models.py:462
 msgid "URL of push Git repository"
 msgstr "URL du dépôt Git pour l'envoi"
 
 #: trans/models.py:466
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
 "Lien vers l'explorateur de dépôts, utilisez %(branch)s, %(file)s et %(line)s "
 "comme paramètres fictifs pour le nom de la branche, du fichier et le numéro "
-"de ligne"
+"de ligne."
 
 #: trans/models.py:471
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"Adresse courriel à qui les erreurs dans la chaîne source seront rapportées, "
+"laisser vide si aucun courriel."
 
 #: trans/models.py:476
 msgid "Git branch to translate"
 msgstr "Branche Git à traduire"
 
 #: trans/models.py:481
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 "Chemin des fichiers à traduire, utilisez * à la place du code de langue, par "
-"exemple : po/*.po ou locale/*/LC_MESSAGES/django.po"
+"exemple : po/*.po ou locale/*/LC_MESSAGES/django.po."
 
 #: trans/models.py:486
-#, fuzzy
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -2749,19 +2741,17 @@ msgid ""
 msgstr ""
 "Nom du fichier du modèle de traductions, ceci est recommandé pour les "
 "traductions qui ne conservent que le message traduit, tel que les chaînes de "
-"ressources Android"
+"ressources Android."
 
 #: trans/models.py:492
-#, fuzzy
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "La détection automatique peut échouer pour certain formats et est légèrement "
-"plus lente"
+"plus lente."
 
 #: trans/models.py:496
-#, fuzzy
 msgid "Whether subproject is locked for translation updates."
-msgstr "Le sous-projet est bloqué pour les mises à jour de traduction"
+msgstr "Le sous-projet est-il bloqué pour les mises à jour de traduction."
 
 #: trans/models.py:656
 #, python-format
@@ -2921,14 +2911,14 @@ msgid "Automatic translation completed."
 msgstr "Traduction automatique terminée."
 
 #: trans/views.py:481
-#, fuzzy, python-format
+#, python-format
 msgid "Review source strings in %s"
-msgstr "Chercher dans les chaînes sources"
+msgstr "Passer en revue les chaînes sources de %s"
 
 #: trans/views.py:499
-#, fuzzy, python-format
+#, python-format
 msgid "Source strings in %s"
-msgstr "Chaîne source : "
+msgstr "Chaînes source de %s"
 
 #: trans/views.py:547 trans/views.py:557 trans/views.py:567
 msgid "All pending translations were committed."
