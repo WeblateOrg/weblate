@@ -196,12 +196,16 @@
     <tr>
     <th>{% trans "New comment" %}</th>
     <td>
+    {% if perms.trans.add_comment %}
     <form method="post" action="">
     {% csrf_token %}
     {{ comment_form.comment }}
     <br />
     <input class="button" type="submit" value="{% trans "Add" %}" />
     </form>
+    {% else %}
+    {% trans "You are not allowed to add comments." %}
+    {% endif %}
     </td>
     </tr>
     </table>
@@ -223,12 +227,16 @@
     <tr>
     <th>{% trans "New comment" %}</th>
     <td>
+    {% if perms.trans.add_comment %}
     <form method="post" action="">
     {% csrf_token %}
     {{ comment_form.comment }}
     <br />
     <input class="button" type="submit" value="{% trans "Add" %}" />
     </form>
+    {% else %}
+    {% trans "You are not allowed to add comments." %}
+    {% endif %}
     </td>
     </tr>
     </table>
