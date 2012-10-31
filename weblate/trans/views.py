@@ -1207,12 +1207,17 @@ def get_dictionary(request, unit_id):
     Lists words from dictionary for current translation.
     '''
     unit = get_object_or_404(Unit, pk = int(unit_id))
-    # split to words
-    ana = StandardAnalyzer()
-    words_std = [token.text for token in ana(unit.get_source_plurals()[0])]
-    # additionally extract stems, to catch things like plurals
-    ana = StemmingAnalyzer()
-    words_stem = [token.text for token in ana(unit.get_source_plurals()[0])]
+    words = set()
+
+    # Fetch words from all plurals and from context
+    for text in unit.get_source_plurals() + [unit.context]:
+        # split to words
+        ana = StandardAnalyzer()
+        words.union([token.text for token in ana(unit.get_source_plurals()[0])])
+        # additionally extract stems, to catch things like plurals
+        ana = StemmingAnalyzer()
+        words.union([token.text for token in ana(unit.get_source_plurals()[0])])
+
     # join both lists
     words = set(words_std).union(words_stem)
 
