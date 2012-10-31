@@ -2006,10 +2006,11 @@ class Unit(models.Model):
                 comment = template.getnotes() + ' ' + comment
 
         # Update checks on fuzzy update or on content change
-        same_content = (target == self.target and fuzzy == self.fuzzy)
+        same_content = (target == self.target)
+        same_fuzzy = (fuzzy == self.fuzzy)
 
         # Check if we actually need to change anything
-        if not force and location == self.location and flags == self.flags and same_content and fuzzy == self.fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
+        if not force and location == self.location and flags == self.flags and same_content and same_fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
             return
 
         # Store updated values
@@ -2020,7 +2021,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
-        self.save(force_insert = force, backend = True, same_content = same_content)
+        self.save(force_insert = force, backend = True, same_content = same_content, same_fuzzy = same_fuzzy)
 
     def is_plural(self):
         '''
@@ -2157,13 +2158,16 @@ class Unit(models.Model):
 
         # Pop parameter indicating that we don't have to process content
         same_content = kwargs.pop('same_content', False)
+        same_fuzzy = kwargs.pop('same_fuzzy', False)
 
         # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
 
-        # Update checks and fulltext index if content has changed
-        if not same_content:
+        # Update checks if content or fuzzy flag has changed
+        if not same_content or not same_fuzzy:
             self.check()
+        # Update fulltext index if content has changed
+        if not same_content:
             Unit.objects.add_to_index(self)
 
     def get_location_links(self):
