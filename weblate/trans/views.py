@@ -1209,14 +1209,15 @@ def get_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk = int(unit_id))
     words = set()
 
-    # Fetch words from all plurals and from context
+    # Prepare analyzers
+    # - standard analyzer simply splits words
+    # - stemming extracts stems, to catch things like plurals
+    analyzers = (StandardAnalyzer(), StemmingAnalyzer())
+
+    # Extract words from all plurals and from context
     for text in unit.get_source_plurals() + [unit.context]:
-        # split to words
-        ana = StandardAnalyzer()
-        words.union([token.text for token in ana(unit.get_source_plurals()[0])])
-        # additionally extract stems, to catch things like plurals
-        ana = StemmingAnalyzer()
-        words.union([token.text for token in ana(unit.get_source_plurals()[0])])
+        for analyzer in analyzers:
+            words = words.union([token.text for token in analyzer(text)])
 
     # Grab all words in the dictionary
     dictionary = Dictionary.objects.filter(
