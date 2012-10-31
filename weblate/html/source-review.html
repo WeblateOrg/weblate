@@ -28,6 +28,7 @@
 <table>
 <thead>
 <tr>
+<td></td>
 <th>{% trans "Source" %}</th>
 <th>{% trans "Failing checks" %}</th>
 </tr>
@@ -35,6 +36,9 @@
 <tbody>
 {% for source in sources.object_list %}
 <tr>
+<td>
+<span class="ui-icon ui-icon-triangle-1-e expander"></span>
+</td>
 <td class="translatetext">{{ source.source|fmttranslation }}</td>
 <td>
 {% for check in source.active_source_checks %}
@@ -45,6 +49,19 @@
 <a href="{{ check.get_doc_url }}" title="{{ check.get_description }}">{{ check.get_check_display }}</a>
 </span>
 {% endfor %}
+</td>
+</tr>
+<tr class="hidden">
+<td>
+</td>
+<td>
+<table>
+{% with source as unit %}
+{% include "unit-details.html" %}
+{% endwith %}
+</table>
+</td>
+<td>
 </td>
 </tr>
 {% endfor %}

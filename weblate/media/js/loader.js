@@ -321,4 +321,8 @@ $(function() {
         $("form.autosubmit").submit();
     });
     $('div#s_content').hide();
+    $('.expander').click(function() {
+        $(this).toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
+        $(this).parent().parent().next().toggle();
+    });
 });

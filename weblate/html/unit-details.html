@@ -1,0 +1,14 @@
+{% load i18n %}
+{% if unit.location %}
+<tr>
+<th>{% trans "Used in" %}</th>
+<td>{{ unit.get_location_links }}</td>
+</tr>
+{% endif %}
+{% if unit.comment %}
+<tr>
+<th>{% trans "Comments" %}</th>
+<td class="translation_comment">{{ unit.comment }}</td>
+</tr>
+{% endif %}
+
