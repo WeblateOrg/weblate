@@ -2446,6 +2446,9 @@ class Comment(models.Model):
     language = models.ForeignKey(Language, null = True, blank = True)
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
 
+    class Meta:
+        ordering = ['-timestamp']
+
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 class Check(models.Model):
