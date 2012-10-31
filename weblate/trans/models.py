@@ -2431,10 +2431,16 @@ class Check(models.Model):
         )
 
     def get_description(self):
-        return CHECKS[self.check].description
+        try:
+            return CHECKS[self.check].description
+        except:
+            return self.check
 
     def get_doc_url(self):
-        return CHECKS[self.check].get_doc_url()
+        try:
+            return CHECKS[self.check].get_doc_url()
+        except:
+            return ''
 
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)
