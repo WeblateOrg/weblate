@@ -725,7 +725,7 @@ class SubProject(models.Model):
         ret = self.update_branch(request)
 
         # create translation objects for all files
-        self.create_translations()
+        self.create_translations(request = request)
 
         return ret
 
@@ -800,7 +800,7 @@ class SubProject(models.Model):
             return False
 
         # create translation objects for all files
-        self.create_translations()
+        self.create_translations(request = request)
 
         return True
 
@@ -916,7 +916,7 @@ class SubProject(models.Model):
                 tree[filename].hexsha
                 )
 
-    def create_translations(self, force = False, langs = None):
+    def create_translations(self, force = False, langs = None, request = None):
         '''
         Loads translations from git.
         '''
@@ -927,7 +927,7 @@ class SubProject(models.Model):
                 continue
 
             logger.info('checking %s', path)
-            translation = Translation.objects.update_from_blob(self, code, path, force)
+            translation = Translation.objects.update_from_blob(self, code, path, force, request = request)
             translations.append(translation.id)
 
         # Delete possibly no longer existing translations
@@ -942,7 +942,7 @@ class SubProject(models.Model):
 
         # Process linked repos
         for sp in self.get_linked_childs():
-            sp.create_translations(force, langs)
+            sp.create_translations(force, langs, request = request)
 
     def get_lang_code(self, path):
         '''
@@ -1370,7 +1370,7 @@ class Translation(models.Model):
         '''
         self.update_from_blob()
 
-    def update_from_blob(self, force = False):
+    def update_from_blob(self, force = False, request = None):
         '''
         Updates translation data from blob.
         '''
@@ -1460,10 +1460,14 @@ class Translation(models.Model):
         self.update_stats()
 
         # Store change entry
-        Change.objects.create(
-            translation = unit.translation,
-            action = Change.ACTION_UPDATE
+        if request is None:
+            user = None
+        else:
             user = request.user
+        Change.objects.create(
+            translation = self,
+            action = Change.ACTION_UPDATE,
+            user = user
         )
 
         # Notify subscribed users
