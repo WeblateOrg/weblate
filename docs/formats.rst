@@ -68,6 +68,22 @@ and iPhone/iPad application translations.
     generate corrupted files while saving), please use Git snapshot for
     handling these.
 
+PHP files
+---------
+
+PHP files can be processed directly, though currently Translate-toolkit has
+some problems writing them properly, so please double check that your files
+won't get corrupted.
+
+Sample file which should work:
+
+.. code-block:: php
+
+    <?php
+
+    $string['foo'] = 'This is foo string';
+
+
 Others
 ------
 

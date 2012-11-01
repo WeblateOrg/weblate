@@ -138,6 +138,10 @@ FILE_FORMATS = {
         ('properties', 'javautf8file'),
         True,
     ),
+    'php': FileFormat(
+        ugettext_lazy('PHP strings'),
+        ('php', 'phpfile'),
+    ),
 }
 
 # Check if there is support for Android resources
