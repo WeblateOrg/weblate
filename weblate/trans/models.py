@@ -2547,7 +2547,7 @@ class Change(models.Model):
 
     unit = models.ForeignKey(Unit, null = True)
     translation = models.ForeignKey(Translation)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null = True)
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
     action = models.IntegerField(
         choices = ACTION_CHOICES,
