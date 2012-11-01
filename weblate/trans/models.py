@@ -2525,8 +2525,8 @@ class Change(models.Model):
         (ACTION_CHANGE, ugettext_lazy('Translation changed')),
     )
 
-    unit = models.ForeignKey(Unit)
-    translation = models.ForeignKey(Translation, null = True)
+    unit = models.ForeignKey(Unit, null = True)
+    translation = models.ForeignKey(Translation)
     user = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
     action = models.IntegerField(
