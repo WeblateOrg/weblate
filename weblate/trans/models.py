@@ -2558,12 +2558,12 @@ class Change(models.Model):
         ordering = ['-timestamp']
 
     def __unicode__(self):
-        return u'%s at %s on %s by %s' % (
-            self.get_action_display(),
-            self.timestamp,
-            self.translation,
-            self.user,
-        )
+        return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
+            'action': self.get_action_display(),
+            'time': self.timestamp,
+            'translation': self.translation,
+            'user': self.user,
+        }
 
     def get_user_display(self):
         if self.user is None:
