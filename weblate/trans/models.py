@@ -2515,9 +2515,23 @@ class Dictionary(models.Model):
         )
 
 class Change(models.Model):
+    ACTION_UPDATE = 0
+    ACTION_COMPLETE = 1
+    ACTION_CHANGE = 2
+
+    ACTION_CHOICES = (
+        (ACTION_UPDATE, ugettext_lazy('Resource update')),
+        (ACTION_COMPLETE, ugettext_lazy('Translation completed')),
+        (ACTION_CHANGE, ugettext_lazy('Translation changed')),
+    )
+
     unit = models.ForeignKey(Unit)
     user = models.ForeignKey(User)
     timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
+    action = models.IntegerField(
+        choices = ACTION_CHOICES,
+        default = ACTION_CHANGE
+    )
 
     class Meta:
         ordering = ['-timestamp']
