@@ -29,8 +29,15 @@ class Command(BaseCommand):
         '''
         Perfoms cleanup of Weblate database.
         '''
-        for lang in Language.objects.all():
-            for prj in Project.objects.all():
+        for prj in Project.objects.all():
+
+            # List all current unit checksums
+            units = Unit.objects.filter(translation__subproject__project = prj).values('checksum').distinct()
+
+            # Remove source comments referring to deleted units
+            Comment.objects.filter(language = None, project = prj).exclude(checksum__in = units).delete()
+
+            for lang in Language.objects.all():
 
                 # Remove checks referring to deleted or not translated units
                 translatedunits = Unit.objects.filter(translation__language = lang, translated = True, translation__subproject__project = prj).values('checksum').distinct()
@@ -42,7 +49,7 @@ class Command(BaseCommand):
                 # Remove suggestions referring to deleted units
                 Suggestion.objects.filter(language = lang, project = prj).exclude(checksum__in = units).delete()
 
-                # Remove comments referring to deleted units
+                # Remove translation comments referring to deleted units
                 Comment.objects.filter(language = lang, project = prj).exclude(checksum__in = units).delete()
 
                 for sug in Suggestion.objects.filter(language = lang, project = prj).iterator():
