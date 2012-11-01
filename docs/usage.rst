@@ -310,7 +310,7 @@ currently quite simple.
 Optional plural
 +++++++++++++++
 
-The string is optionaly used as plural, but not using plural forms. In case
+The string is optionally used as plural, but not using plural forms. In case
 your translation system supports this, you should use plural aware variant of
 it.
 
@@ -327,5 +327,5 @@ For example with Gettext in Python it could be:
 Ellipsis
 +++++++
 
-The string uses three commas (...) instead of ellipsis character (…). Using
+The string uses three dots (...) instead of an ellipsis character (…). Using
 unicode character is in most cases better approach and looks better.
