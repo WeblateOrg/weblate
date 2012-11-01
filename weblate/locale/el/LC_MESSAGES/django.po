@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
 "POT-Creation-Date: 2012-11-01 17:22+0100\n"
-"PO-Revision-Date: 2012-10-31 07:45+0200\n"
+"PO-Revision-Date: 2012-11-01 19:43+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -232,9 +232,8 @@ msgid "Notification on new contributor"
 msgstr "Ειδοποίηση για νέα συμβολή"
 
 #: accounts/models.py:165
-#, fuzzy
 msgid "Notification on new comment"
-msgstr "Ειδοποίηση για νέα συμβολή"
+msgstr "Ειδοποίηση για νέο σχόλιο"
 
 #: accounts/models.py:255
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -458,13 +457,15 @@ msgstr ""
 
 #: html/data.html:18
 msgid "RSS feeds"
-msgstr ""
+msgstr "Τροφοδοσίες RSS"
 
 #: html/data.html:20
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
+"Για να ακολουθείτε τη πρόοδο της μετάφρασης, μπορείτε να χρησιμοποιήσετε "
+"τροφοδοσίες RSS που περιλαμβάνει όλες τις σημαντικές αλλαγές στη μετάφραση."
 
 #: html/data.html:26 html/data.html.py:57
 msgid "URL"
@@ -476,13 +477,15 @@ msgstr "Σύνδεσμος"
 
 #: html/data.html:33 html/data.html.py:39
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: html/data.html:45
 msgid ""
 "There are also per language RSS feeds available, you can contruct them by "
 "appending language code to above URLs."
 msgstr ""
+"Υπάρχουν και τροφοδοσίες RSS ανά γλώσσα, μπορείτε να τις χρησιμοποιήσετε "
+"βάζοντας τον κωδικό γλώσσας στα παραπάνω URLs."
 
 #: html/data.html:50
 #, python-format
@@ -742,9 +745,8 @@ msgid "Date"
 msgstr "Ημερομηνία"
 
 #: html/last-changes.html:9
-#, fuzzy
 msgid "Action"
-msgstr "Όλες οι τοποθεσίες"
+msgstr "Ενέργεια"
 
 #: html/last-changes.html:24 html/translate.html:189
 msgid "No recent activity has been recorded."
@@ -923,14 +925,12 @@ msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
 #: html/source-review.html:48
-#, fuzzy
 msgid "Comment"
-msgstr "Σχόλια"
+msgstr "Σχόλιο"
 
 #: html/source-review.html:62 html/translate.html:224
-#, fuzzy
 msgid "User comments"
-msgstr "Σχόλια"
+msgstr "Σχόλια χρήστη"
 
 #: html/source-review.html:75
 msgid "No matching source strings found!"
@@ -1076,9 +1076,8 @@ msgid "Words extracted from glossary"
 msgstr "Λέξεις εξαγόμενες από το γλωσσάρι"
 
 #: html/translate.html:150
-#, fuzzy
 msgid "Comments about this translation"
-msgstr "Χρήση αυτής της μετάφρασης"
+msgstr "Σχόλια για αυτή τη μετάφραση"
 
 #: html/translate.html:150 html/unit-details.html:10
 msgid "Comments"
@@ -1093,9 +1092,8 @@ msgid "Recent edits"
 msgstr "Πρόσφατες επεξεργασίες"
 
 #: html/translate.html:152
-#, fuzzy
 msgid "Source string details and feedback"
-msgstr "Η μετάφραση δεν είναι κλειδωμένη."
+msgstr "Λεπτομέρειες κειμένου προέλευσης και παρατηρήσεις"
 
 #: html/translate.html:153
 msgid "Information about project"
@@ -1108,21 +1106,23 @@ msgstr "Κατάσταση"
 #: html/translate.html:193
 msgid "You can share comments about this translation with other translators."
 msgstr ""
+"Μπορείτε να μοιραστείτε σχόλια για αυτή τη μετάφραση με άλλους μεταφραστές."
 
 #: html/translate.html:199 html/translate.html.py:231
-#, fuzzy
 msgid "New comment"
-msgstr "Σχόλια"
+msgstr "Νέο σχόλιο"
 
 #: html/translate.html:209 html/translate.html.py:242
 msgid "You are not allowed to add comments."
-msgstr ""
+msgstr "Δεν σας επιτρέπεται να προσθέσετε σχόλια."
 
 #: html/translate.html:225
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
 msgstr ""
+"Μπορείτε να μοιραστείτε σχόλια για το κείμενο προέλευσης για αυτή τη "
+"μετάφραση με άλλους μεταφραστές και δημιουργούς."
 
 #: html/translation.html:32 html/translation.html.py:48
 msgid "Search"
@@ -1480,25 +1480,24 @@ msgid "Sent by Weblate translation system"
 msgstr "Απεστάλει από το μεταφραστικό σύστημα Weblate"
 
 #: html/mail/new_comment.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
 "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgstr ""
-"Hi,\n"
+"Γεια,\n"
 "\n"
-"υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s.\n"
+"υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s."
 
 #: html/mail/new_comment.txt:10
-#, fuzzy
 msgid "Comment:"
-msgstr "Σχόλια"
+msgstr "Σχόλιο:"
 
 #: html/mail/new_comment_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New comment in %(subproject)s"
-msgstr "Συμμετέχετε στο %(project)s!"
+msgstr "Νέο σχόλιο στο %(subproject)s"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -2458,12 +2457,10 @@ msgstr ""
 "θαυμαστικό ή δεν είναι χωρισμένο σωστά με κενά"
 
 #: trans/checks.py:460
-#, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Ακολουθεί έλλειψη"
 
 #: trans/checks.py:461
-#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Η προέλευση και η μετάφραση δεν τελείωνουν και τα δύο με έλλειψη"
 
@@ -2535,21 +2532,22 @@ msgstr ""
 
 #: trans/checks.py:625
 msgid "Ellipsis"
-msgstr ""
+msgstr "Έλλειψη"
 
 #: trans/checks.py:626
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
+"Το κείμενο χρησιμοποιεί τρεις τελείες (...) αντί για χαρακτήρα έλλειψης (…)"
 
 #: trans/feeds.py:31 trans/feeds.py:64
-#, fuzzy, python-format
+#, python-format
 msgid "Recent changes in %s"
-msgstr "Πρόσφατες Αλλαγές"
+msgstr "Πρόσφατες αλλαγές στο %s"
 
 #: trans/feeds.py:34 trans/feeds.py:67
-#, fuzzy, python-format
+#, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "Λίστα πρόσφατων αλλαγών που έγιναν στο Weblate"
+msgstr "Όλες οι πρόσβατες αλλαγές που έγιναν με χρήση του Weblate στο %s."
 
 #: trans/forms.py:82
 msgid ""
@@ -2677,9 +2675,8 @@ msgid "Java Properties (UTF-8)"
 msgstr "Ιδιότητες Java (UTF-8)"
 
 #: trans/models.py:142
-#, fuzzy
 msgid "PHP strings"
-msgstr "Όλα τα κείμενα"
+msgstr "Κείμενα PHP"
 
 #: trans/models.py:152 trans/models.py:159
 msgid "Android String Resource"
@@ -2945,9 +2942,9 @@ msgid "Strings with any failing checks (%d)"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων (%d)"
 
 #: trans/models.py:1832 trans/models.py:1874
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with comments (%d)"
-msgstr "Κείμενα με προτάσεις (%d)"
+msgstr "Κείμενα με σχόλια (%d)"
 
 #: trans/models.py:1845
 #, python-format
@@ -2976,26 +2973,24 @@ msgstr "μέχρι ID %s"
 
 #: trans/models.py:2543
 msgid "Resource update"
-msgstr ""
+msgstr "Ενημέρωση προέλευσης"
 
 #: trans/models.py:2544
-#, fuzzy
 msgid "Translation completed"
-msgstr "Συνοδευτικά μετάφρασης"
+msgstr "Η μετάφραση ολοκληρώθηκε"
 
 #: trans/models.py:2545
-#, fuzzy
 msgid "Translation changed"
-msgstr "Συνοδευτικά μετάφρασης"
+msgstr "Η μετάφραση άλλαξε"
 
 #: trans/models.py:2561
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
 
 #: trans/models.py:2570
 msgid "None"
-msgstr ""
+msgstr "Καμία"
 
 #: trans/views.py:73
 msgid "Please set your full name in your profile."
@@ -3149,12 +3144,11 @@ msgstr "Ολοκληρώσατε τη μετάφραση."
 
 #: trans/views.py:1187
 msgid "Posted new comment"
-msgstr ""
+msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
 #: trans/views.py:1207
-#, fuzzy
 msgid "Failed to add comment!"
-msgstr "Απέτυχε η δημιουργία κλειδιού!"
+msgstr "Απέτυχε η προσθήκη σχολίου!"
 
 #: trans/views.py:1340
 msgid "File content successfully merged into translation."
