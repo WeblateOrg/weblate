@@ -2565,6 +2565,12 @@ class Change(models.Model):
             self.user,
         )
 
+    def get_user_display(self):
+        if self.user is None:
+            return _('None')
+        else:
+            return self.user.get_full_name()
+
 class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
     source = models.BooleanField(default = True)

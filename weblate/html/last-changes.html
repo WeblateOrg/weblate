@@ -13,9 +13,9 @@
 {% for c in last_changes %}
 <tr>
 <td>{{ c.timestamp|date:"DATETIME_FORMAT" }}</td>
-<td>{{ c.user.get_full_name }}</td>
+<td>{{ c.get_user_display }}</td>
 <td>{{ c.get_action_display }}</td>
-<td>{{ c.unit.translation }}</td>
+<td>{{ c.translation }}</td>
 </tr>
 {% endfor %}
 </tbody>
