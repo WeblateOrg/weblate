@@ -125,11 +125,17 @@ def site_title(value):
 
 @register.simple_tag
 def check_name(check):
-    return CHECKS[check].name
+    try:
+        return CHECKS[check].name
+    except:
+        return check
 
 @register.simple_tag
 def check_description(check):
-    return CHECKS[check].description
+    try:
+        return CHECKS[check].description
+    except:
+        return check
 
 @register.simple_tag
 def project_name(prj):
