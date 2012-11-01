@@ -155,18 +155,21 @@ Machine translation service provided by Microsoft.
 Checks
 ------
 
-Weblate does wide range of consistency checks on translated messages. The
-following section describes them in more detail. The checks take account also
-special rules for different languages, so if you think the result is wrong,
-please report a bug.
+Weblate does wide range of consistency checks on  messages. The following
+section describes them in more detail. The checks take account also special
+rules for different languages, so if you think the result is wrong, please
+report a bug.
 
 Translation checks
-~~~~~~~~~~~~~~~~~~
+++++++++++++++++++
+
+These are executed on every translation change and help translators to keep
+good quality of translations.
 
 .. _check-same:
 
 Not translated
-++++++++++++++
+~~~~~~~~~~~~~~
 
 The source and translated strings are same at least in one of plural forms.
 This checks ignores some strings which are quite usually same in all
@@ -175,21 +178,21 @@ languages.
 .. _check-begin_newline:
 
 Starting newline
-++++++++++++++++
+~~~~~~~~~~~~~~~~
 
 Source and translated do not both start with a newline.
 
 .. _check-end_newline:
 
 Trailing newline
-++++++++++++++++
+~~~~~~~~~~~~~~~~
 
 Source and translated do not both end with a newline.
 
 .. _check-begin_space:
 
 Starting spaces
-+++++++++++++++
+~~~~~~~~~~~~~~~
 
 Source and translation do not both start with same number of spaces. Space in
 beginning is usually used for indentation in the interface and thus is
@@ -198,14 +201,14 @@ important.
 .. _check-end_space:
 
 Trailing space
-++++++++++++++
+~~~~~~~~~~~~~~
 
 Source and translated do not both end with a space.
 
 .. _check-end_stop:
 
 Trailing stop
-+++++++++++++
+~~~~~~~~~~~~~
 
 Source and translated do not both end with a full stop. Full stop is also
 checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
@@ -213,7 +216,7 @@ checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
 .. _check-end_colon:
 
 Trailing colon
-++++++++++++++
+~~~~~~~~~~~~~~
 
 Source and translated do not both end with a colon or colon is not correctly
 spaced. This includes spacing rules for French or Breton. Colon is also
@@ -222,7 +225,7 @@ checked in various language variants (Chinese or Japanese).
 .. _check-end_question:
 
 Trailing question
-+++++++++++++++++
+~~~~~~~~~~~~~~~~~
 
 Source and translated do not both end with question mark or it is not
 correctly spaced. This includes spacing rules for French or Breton. Question
@@ -232,7 +235,7 @@ Korean, Japanese, Ethiopic, Vai or Coptic).
 .. _check-end_exclamation:
 
 Trailing exclamation
-++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~
 
 Source and translated do not both end with exclamation mark or it is not
 correctly spaced. This includes spacing rules for French or Breton.
@@ -242,7 +245,7 @@ Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 .. _check-end_ellipsis:
 
 Trailing ellipsis
-++++++++++++++++
+~~~~~~~~~~~~~~~~
 
 Source and translation do not both end with an ellipsis. This only checks for
 real ellipsis (`\u2026`) not for three commas (`...`).
@@ -250,28 +253,28 @@ real ellipsis (`\u2026`) not for three commas (`...`).
 .. _check-python_format:
 
 Python format
-+++++++++++++
+~~~~~~~~~~~~~
 
 Python format string does not match source.
 
 .. _check-php_format:
 
 PHP format
-++++++++++
+~~~~~~~~~~
 
 PHP format string does not match source.
 
 .. _check-c_format:
 
 C format
-++++++++
+~~~~~~~~
 
 C format string does not match source.
 
 .. _check-plurals:
 
 Missing plurals
-+++++++++++++++
+~~~~~~~~~~~~~~~
 
 Some plural forms are not translated. Check plural form definition to see for
 which counts each plural form is being used.
@@ -279,7 +282,7 @@ which counts each plural form is being used.
 .. _check-inconsistent:
 
 Inconsistent
-++++++++++++
+~~~~~~~~~~~~
 
 More different translations of one string in a project. This can also lead to
 inconsistencies in displayed checks. You can find other translations of this
@@ -288,14 +291,14 @@ string on :guilabel:`All locations` tab.
 .. _check-direction:
 
 Invalid text direction
-++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~
 
 Text direction can be either ``LTR`` or ``RTL``.
 
 .. _check-escaped_newline:
 
 Mismatched \\n
-++++++++++++++
+~~~~~~~~~~~~~~
 
 Number of \\n in translation does not match source. Usually escaped newlines
 are important for formatting program output, so this should match to source.
@@ -303,7 +306,7 @@ are important for formatting program output, so this should match to source.
 .. _check-bbcode:
 
 Mismatched BBcode
-+++++++++++++++++
+~~~~~~~~~~~~~~~~~
 
 BBcode in translation does not match source. The method for detecting BBcode is
 currently quite simple.
@@ -311,10 +314,12 @@ currently quite simple.
 .. _check-optional_plural:
 
 Source checks
-~~~~~~~~~~~~~
++++++++++++++
+
+Source checks can help developers to improve quality of source strings.
 
 Optional plural
-+++++++++++++++
+~~~~~~~~~~~~~~~
 
 The string is optionally used as plural, but not using plural forms. In case
 your translation system supports this, you should use plural aware variant of
@@ -331,7 +336,7 @@ For example with Gettext in Python it could be:
 .. _check-ellipsis:
 
 Ellipsis
-+++++++
+~~~~~~~~
 
 The string uses three dots (...) instead of an ellipsis character (…). Using
 unicode character is in most cases better approach and looks better.
