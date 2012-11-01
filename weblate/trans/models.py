@@ -473,7 +473,8 @@ class SubProject(models.Model):
     )
     branch = models.CharField(
         max_length = 50,
-        help_text = ugettext_lazy('Git branch to translate')
+        help_text = ugettext_lazy('Git branch to translate'),
+        default = 'master'
     )
     filemask = models.CharField(
         max_length = 200,
