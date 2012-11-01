@@ -2164,6 +2164,11 @@ class Unit(models.Model):
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
             self.translation.commit_pending()
+            Change.objects.create(
+                translation = unit.translation,
+                action = Change.ACTION_COMPLETE
+                user = request.user
+            )
 
         # Propagate to other projects
         if propagate:
