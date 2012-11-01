@@ -2141,10 +2141,6 @@ class Unit(models.Model):
         for subscription in subscriptions:
             subscription.notify_any_translation(self, oldunit)
 
-        # Force commiting on completing translation
-        if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
-            self.translation.commit_pending()
-
         # Generate Change object for this change
         if gen_change:
             # Get list of subscribers for new contributor
@@ -2160,6 +2156,10 @@ class Unit(models.Model):
                         subscription.notify_new_contributor(self.translation, request.user)
             # Create change object
             Change.objects.create(unit = self, user = request.user)
+
+        # Force commiting on completing translation
+        if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
+            self.translation.commit_pending()
 
         # Propagate to other projects
         if propagate:
