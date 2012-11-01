@@ -94,6 +94,9 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = False
 
+# URL prefix to use
+URL_PREFIX = ''
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = '%s/media/' % WEB_ROOT
@@ -101,7 +104,7 @@ MEDIA_ROOT = '%s/media/' % WEB_ROOT
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/media/'
+MEDIA_URL = '%s/media/' % URL_PREFIX
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -111,12 +114,12 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = '%s/static/' % URL_PREFIX
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = '%s/static/admin/' % URL_PREFIX
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -272,8 +275,14 @@ GIT_ROOT = '%s/repos/' % WEB_ROOT
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
+# URL of login
+LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
+
+# URL of logout
+LOGOUT_URL = '%s/accounts/logout/' % URL_PREFIX
+
 # Default location for login
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '%s/' % URL_PREFIX
 
 # How long activation mail is valid
 ACCOUNT_ACTIVATION_DAYS = 7

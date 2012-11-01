@@ -145,8 +145,7 @@ using mod_wsgi (also available as :file:`examples/apache-path.conf`):
 
 Additionally you will have to adjust :file:`weblate/settings.py`::
 
-    MEDIA_URL = '/weblate/media/'
-    STATIC_URL = '/weblate/static/'
+    URL_PREFIX = '/weblate'
 
 .. note:: This is supported since Weblate 1.3.
 
