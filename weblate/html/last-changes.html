@@ -6,6 +6,7 @@
 <tr>
 <th>{% trans "Date" %}</th>
 <th>{% trans "User" %}</th>
+<th>{% trans "Action" %}</th>
 <th>{% trans "Translation" %}</th>
 </tr>
 <tbody>
@@ -13,6 +14,7 @@
 <tr>
 <td>{{ c.timestamp|date:"DATETIME_FORMAT" }}</td>
 <td>{{ c.user.get_full_name }}</td>
+<td>{{ c.get_action_display }}</td>
 <td>{{ c.unit.translation }}</td>
 </tr>
 {% endfor %}
