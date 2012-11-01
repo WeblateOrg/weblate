@@ -377,7 +377,7 @@ def show_engage(request, project):
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
     dicts = Dictionary.objects.filter(project = obj).values_list('language', flat = True).distinct()
-    last_changes = Change.objects.filter(unit__translation__subproject__project = obj).order_by('-timestamp')[:10]
+    last_changes = Change.objects.filter(translation__subproject__project = obj).order_by('-timestamp')[:10]
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
@@ -387,7 +387,7 @@ def show_project(request, project):
 
 def show_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
-    last_changes = Change.objects.filter(unit__translation__subproject = obj).order_by('-timestamp')[:10]
+    last_changes = Change.objects.filter(translation__subproject = obj).order_by('-timestamp')[:10]
 
     if obj.locked:
         messages.error(request, _('This translation is currently locked for updates!'))
@@ -505,7 +505,7 @@ def show_source(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
-    last_changes = Change.objects.filter(unit__translation = obj).order_by('-timestamp')[:10]
+    last_changes = Change.objects.filter(translation = obj).order_by('-timestamp')[:10]
 
     # Check locks
     obj.is_locked(request)
