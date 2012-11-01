@@ -1446,6 +1446,8 @@ class Translation(models.Model):
                 Check.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
                 # Delete suggestons referencing this unit
                 Suggestion.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+                # Delete comments referencing this unit
+                Comment.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
             else:
                 # There are other units as well, but some checks (eg. consistency) needs update now
                 for unit in units:
