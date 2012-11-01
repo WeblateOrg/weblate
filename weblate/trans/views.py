@@ -903,6 +903,8 @@ def translate(request, project, subproject, lang):
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
                         user = user)
+                    # Invalidate counts cache
+                    unit.translation.invalidate_cache('suggestions')
                     # Notify subscribed users
                     from weblate.accounts.models import Profile
                     subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language)
@@ -1173,6 +1175,11 @@ def comment(request, pk):
             comment = form.cleaned_data['comment'],
             language = lang
         )
+        # Invalidate counts cache
+        if lang is None:
+            obj.translation.invalidate_cache('sourcecomments')
+        else:
+            obj.translation.invalidate_cache('targetcomments')
         messages.info(request, _('Posted new comment'))
         # Notify subscribed users
         from weblate.accounts.models import Profile, send_notification_email
