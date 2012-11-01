@@ -432,7 +432,11 @@ def auto_translation(request, project, subproject, lang):
                 unit.target = update.target
                 # Create signle change object for whole merge
                 if change is None:
-                    change = Change.objects.create(unit = unit, user = request.user)
+                    change = Change.objects.create(
+                        unit = unit,
+                        translation = unit.translation,
+                        user = request.user
+                    )
                 # Save unit to backend
                 unit.save_backend(request, False, False)
 

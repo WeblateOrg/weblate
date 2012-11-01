@@ -2155,7 +2155,11 @@ class Unit(models.Model):
                     for subscription in subscriptions:
                         subscription.notify_new_contributor(self.translation, request.user)
             # Create change object
-            Change.objects.create(unit = self, user = request.user)
+            Change.objects.create(
+                unit = self,
+                translation = unit.translation,
+                user = request.user
+            )
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
