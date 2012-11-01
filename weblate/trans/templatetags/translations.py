@@ -116,15 +116,24 @@ def fmttranslation(value, language = None, diff = None):
 @register.filter
 @stringfilter
 def fmttranslationdiff(value, other):
+    '''
+    Formats diff between two translations.
+    '''
     return fmttranslation(value, other.translation.language, other.target)
 
 @register.filter
 @stringfilter
 def site_title(value):
+    '''
+    Returns site title
+    '''
     return settings.SITE_TITLE
 
 @register.simple_tag
 def check_name(check):
+    '''
+    Returns check name, or it's id if check is not known.
+    '''
     try:
         return CHECKS[check].name
     except:
@@ -132,6 +141,9 @@ def check_name(check):
 
 @register.simple_tag
 def check_description(check):
+    '''
+    Returns check description, or it's id if check is not known.
+    '''
     try:
         return CHECKS[check].description
     except:
@@ -139,16 +151,28 @@ def check_description(check):
 
 @register.simple_tag
 def project_name(prj):
+    '''
+    Gets project name based on slug.
+    '''
     return Project.objects.get(slug = prj).__unicode__()
 
 @register.simple_tag
 def subproject_name(prj, subprj):
+    '''
+    Gets subproject name based on slug.
+    '''
     return SubProject.objects.get(project__slug = prj, slug = subprj).__unicode__()
 
 @register.simple_tag
 def language_name(code):
+    '''
+    Gets language name based on it's code.
+    '''
     return Language.objects.get(code = code).__unicode__()
 
 @register.simple_tag
 def dictionary_count(lang, project):
+    '''
+    Returns number of words in dictionary.
+    '''
     return Dictionary.objects.filter(project = project, language = lang).count()
