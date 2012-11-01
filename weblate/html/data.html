@@ -15,12 +15,40 @@
 {% trans "You can retrieve various data from Weblate in machine readable format." %}
 </p>
 
+<h3>{% trans "RSS feeds" %}</h3>
+
+<p>{% trans "To follow translation progress you can use RSS feeds which include all important changes in translation." %}</p>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Link" %}</th>
+</thead>
+<tbody>
+<tr>
+<th>{{ object }}</th>
+<td>http://{{ site_domain }}{% url 'rss-project' project=object.slug %}</td>
+<td><a href="http://{{ site_domain }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
+</tr>
+{% for subproject in object.subproject_set.all %}
+<tr>
+<th>{{ subproject }}</th>
+<td>http://{{ site_domain }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}</td>
+<td><a href="http://{{ site_domain }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}">{% trans "RSS" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<p>{% trans "There are also per language RSS feeds available, you can contruct them by appending language code to above URLs." %}</p>
+
 <h3>{% trans "Statistics" %}</h3>
 
 <p>
 {% blocktrans %}Translation statistics for every subproject in JSON format allow you to use these data in other websites or tools. Format of the data is described in <a href="{{ api_docs }}">the documentation</a>.{% endblocktrans %}
 </p>
-
 
 <table>
 <thead>

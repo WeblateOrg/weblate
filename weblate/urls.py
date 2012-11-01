@@ -102,10 +102,10 @@ urlpatterns = patterns('',
 
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
 
-    url(r'^exports/rss/$', ChangesFeed()),
-    url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed()),
-    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed()),
-    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed()),
+    url(r'^exports/rss/$', ChangesFeed(), name = 'rss'),
+    url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed(), name = 'rss-project'),
+    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name = 'rss-subproject'),
+    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name = 'rss-translation'),
 
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
