@@ -29,6 +29,7 @@ from django.views.generic import RedirectView
 from registration.views import activate, register
 
 from weblate.accounts.forms import RegistrationForm
+from weblate.trans.feeds import TranslationChangesFeed, SubProjectChangesFeed, ProjectChangesFeed, ChangesFeed
 
 admin.autodiscover()
 
@@ -100,6 +101,11 @@ urlpatterns = patterns('',
     url(r'^hooks/github/$', 'weblate.trans.api.github_hook'),
 
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
+
+    url(r'^exports/rss/$', ChangesFeed()),
+    url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed()),
+    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed()),
+    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed()),
 
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
