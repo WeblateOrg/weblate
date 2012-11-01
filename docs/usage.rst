@@ -160,6 +160,9 @@ following section describes them in more detail. The checks take account also
 special rules for different languages, so if you think the result is wrong,
 please report a bug.
 
+Translation checks
+~~~~~~~~~~~~~~~~~~
+
 .. _check-same:
 
 Not translated
@@ -306,6 +309,9 @@ BBcode in translation does not match source. The method for detecting BBcode is
 currently quite simple.
 
 .. _check-optional_plural:
+
+Source checks
+~~~~~~~~~~~~~
 
 Optional plural
 +++++++++++++++
