@@ -2538,9 +2538,10 @@ class Change(models.Model):
         ordering = ['-timestamp']
 
     def __unicode__(self):
-        return u'%s on %s by %s' % (
-            self.unit,
+        return u'%s at %s on %s by %s' % (
+            self.get_action_display(),
             self.timestamp,
+            self.translation,
             self.user,
         )
 
