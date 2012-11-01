@@ -2177,7 +2177,7 @@ class Unit(models.Model):
             self.translation.commit_pending()
             Change.objects.create(
                 translation = unit.translation,
-                action = Change.ACTION_COMPLETE
+                action = Change.ACTION_COMPLETE,
                 user = request.user
             )
 
