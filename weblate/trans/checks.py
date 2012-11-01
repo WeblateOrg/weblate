@@ -610,7 +610,7 @@ class OptionalPluralCheck(SourceCheck):
     '''
     check_id = 'optional_plural'
     name = _('Optional plural')
-    description = _('The string is optionaly used as plural, but not using plural forms')
+    description = _('The string is optionally used as plural, but not using plural forms')
 
     def check_source(self, source, flags, unit):
         if len(source) > 1:
@@ -623,7 +623,7 @@ class EllipsisCheck(SourceCheck):
     '''
     check_id = 'ellipsis'
     name = _('Ellipsis')
-    description = _(u'The string uses three commas (...) instead of ellipsis character (…)')
+    description = _(u'The string uses three dots (...) instead of an ellipsis character (…)')
 
     def check_source(self, source, flags, unit):
         return '...' in source[0]
