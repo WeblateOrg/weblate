@@ -19,7 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand
-from weblate.trans.models import Suggestion, Check, Unit, Project
+from weblate.trans.models import Suggestion, Comment, Check, Unit, Project
 from weblate.lang.models import Language
 
 class Command(BaseCommand):
@@ -36,9 +36,14 @@ class Command(BaseCommand):
                 translatedunits = Unit.objects.filter(translation__language = lang, translated = True, translation__subproject__project = prj).values('checksum').distinct()
                 Check.objects.filter(language = lang, project = prj).exclude(checksum__in = translatedunits).delete()
 
-                # Remove suggestions referring to deleted units
+                # List current unit checksums
                 units = Unit.objects.filter(translation__language = lang, translation__subproject__project = prj).values('checksum').distinct()
+
+                # Remove suggestions referring to deleted units
                 Suggestion.objects.filter(language = lang, project = prj).exclude(checksum__in = units).delete()
+
+                # Remove comments referring to deleted units
+                Comment.objects.filter(language = lang, project = prj).exclude(checksum__in = units).delete()
 
                 for sug in Suggestion.objects.filter(language = lang, project = prj).iterator():
                     # Remove suggestions with same text as real translation
