@@ -1459,6 +1459,13 @@ class Translation(models.Model):
         # Update revision and stats
         self.update_stats()
 
+        # Store change entry
+        Change.objects.create(
+            translation = unit.translation,
+            action = Change.ACTION_UPDATE
+            user = request.user
+        )
+
         # Notify subscribed users
         if was_new:
             from weblate.accounts.models import Profile
