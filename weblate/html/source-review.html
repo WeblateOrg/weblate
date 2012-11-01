@@ -44,6 +44,9 @@
 {% with source.active_source_checks as checks %}
 {% include "list-checks.html" %}
 {% endwith %}
+{% if source.get_source_comments.exists %}
+<span class="check">{% trans "Comment" %}</span>
+{% endif %}
 </td>
 </tr>
 <tr class="hidden">
