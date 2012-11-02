@@ -21,19 +21,35 @@
 import os
 
 def get_root_dir():
+    '''
+    Returns Weblate root dir.
+    '''
     curdir = os.path.dirname(os.path.abspath(__file__))
     return os.path.abspath(os.path.join(curdir, '..'))
 
 def is_running_git():
+    '''
+    Checks whether we're running inside Git checkout.
+    '''
     return os.path.exists(os.path.join(get_root_dir(), '.git'))
 
+# Weblate version
 VERSION = '1.3'
 
+# Are we running git
 RUNNING_GIT = is_running_git()
 
+# Grab some information from git
 if RUNNING_GIT:
     import git
+    # Describe current checkout
     GIT_VERSION = git.Repo(get_root_dir()).git.describe()
+
+    # Check if we're close to release tag
     parts = GIT_VERSION.split('-')
     GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
     del parts
+
+    # Mark version as devel if it is
+    if not GIT_RELEASE:
+        VERSION += '-dev'
