@@ -1447,4 +1447,5 @@ def data(request, project):
         'object': obj,
         'site_domain': site.domain,
         'api_docs': weblate.get_doc_url('api', 'exports'),
+        'rss_docs': weblate.get_doc_url('api', 'rss'),
     }))

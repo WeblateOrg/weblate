@@ -86,6 +86,8 @@ Weblate provides various exports to allow you further process the data.
             }, 
         ]
 
+.. _rss:
+
 RSS feeds
 ---------
 
