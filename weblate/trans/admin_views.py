@@ -29,14 +29,22 @@ import os
 
 @staff_member_required
 def report(request):
+    '''
+    Provides report about git status of all repos.
+    '''
     return render_to_response("admin/report.html", RequestContext(request, {
         'subprojects': SubProject.objects.all()
     }))
 
 @staff_member_required
 def ssh(request):
+    '''
+    Show information and manipulate with SSH key.
+    '''
+    # Path to key, we default to RSA keys
     key_path = os.path.expanduser('~/.ssh/id_rsa.pub')
 
+    # Check whether we can generate SSH key
     try:
         ret = os.system('which ssh-keygen > /dev/null 2>&1')
         can_generate = ret == 0
@@ -54,6 +62,7 @@ def ssh(request):
         except:
             messages.error(request, _('Failed to generate key!'))
 
+    # Read key data if it exists
     if os.path.exists(key_path):
         key_data = file(key_path).read()
         key_type, key_fingerprint, key_id = key_data.strip().split()

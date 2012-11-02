@@ -58,11 +58,15 @@ def get_doc_url(page, anchor = ''):
     '''
     Return URL to documentation.
     '''
+    # Should we use tagged release or latest version
     if RUNNING_GIT and not GIT_RELEASE:
         version = 'latest'
     else:
         version = 'weblate-%s' % VERSION
+    # Generate URL
     url = 'http://weblate.readthedocs.org/en/%s/%s.html' % (version, page)
+    # Optionally append anchor
     if anchor != '':
         url += '#%s' % anchor
+
     return url
