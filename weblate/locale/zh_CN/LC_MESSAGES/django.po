@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-11-02 09:25+0100\n"
+"POT-Creation-Date: 2012-11-02 10:04+0100\n"
 "PO-Revision-Date: 2012-09-12 12:43+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -276,7 +276,7 @@ msgid ""
 msgstr ""
 "服务器在处理您的请求时发生严重问题。我们刚刚已经让程序猿去修复这个问题了。"
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1409
+#: html/about.html:7 html/footer.html:6 trans/views.py:1409
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
@@ -321,7 +321,7 @@ msgstr "版本"
 msgid "This site is built using following projects:"
 msgstr "此站点使用以下项目编译："
 
-#: html/about.html:36 html/data.html:47
+#: html/about.html:36 html/data.html:50
 msgid "Statistics"
 msgstr "统计"
 
@@ -362,19 +362,6 @@ msgstr "注册"
 msgid "Home"
 msgstr "主页"
 
-#: html/base.html:82 html/engage.html:59
-#, fuzzy, python-format
-msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
-
-#: html/base.html:84 html/engage.html:61
-msgid "Contact us"
-msgstr "联系我们"
-
-#: html/base.html:85 html/engage.html:62
-msgid "Documentation"
-msgstr "文档"
-
 #: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
 #: html/checks.html:7
 msgid "checks"
@@ -387,8 +374,8 @@ msgid ""
 "\">documentation</a>."
 msgstr "更多此检查相关的信息在 <a href=\"%(link)s\">文档</a>。"
 
-#: html/check.html:26 html/check_project.html:26 html/data.html:25
-#: html/data.html.py:56 html/index.html:37 html/list-translations.html:6
+#: html/check.html:26 html/check_project.html:26 html/data.html:28
+#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
 #: html/translate.html:153 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "项目"
@@ -447,31 +434,38 @@ msgstr ""
 msgid "RSS feeds"
 msgstr ""
 
-#: html/data.html:20
+#: html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
 
-#: html/data.html:26 html/data.html.py:57
+#: html/data.html:22
+#, fuzzy, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr "更多此检查相关的信息在 <a href=\"%(link)s\">文档</a>。"
+
+#: html/data.html:29 html/data.html.py:60
 msgid "URL"
 msgstr ""
 
-#: html/data.html:27 html/data.html.py:58
+#: html/data.html:30 html/data.html.py:61
 msgid "Link"
 msgstr ""
 
-#: html/data.html:33 html/data.html.py:39
+#: html/data.html:36 html/data.html.py:42
 msgid "RSS"
 msgstr ""
 
-#: html/data.html:45
+#: html/data.html:48
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
 
-#: html/data.html:50
+#: html/data.html:53
 #, python-format
 msgid ""
 "Translation statistics for every subproject in JSON format allow you to use "
@@ -479,7 +473,7 @@ msgid ""
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
 
-#: html/data.html:65 html/translation.html:54
+#: html/data.html:68 html/translation.html:54
 msgid "Download"
 msgstr "下载"
 
@@ -642,6 +636,19 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr "当您激活您的账户后即可<a href=\"%(url)s\">开始翻译</a>。"
+
+#: html/footer.html:5
+#, fuzzy, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
+msgstr "由 <a href=\"http://weblate.org\">Weblate %(version)s</a> 打造"
+
+#: html/footer.html:7
+msgid "Contact us"
+msgstr "联系我们"
+
+#: html/footer.html:8
+msgid "Documentation"
+msgstr "文档"
 
 #: html/index.html:9
 msgid ""
@@ -2292,166 +2299,166 @@ msgstr "处理表单失败！"
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/checks.py:265
+#: trans/checks.py:262
 msgid "Not translated"
 msgstr "未翻译"
 
-#: trans/checks.py:266
+#: trans/checks.py:263
 msgid "Source and translated strings are same"
 msgstr "源条目和已翻译条目相同"
 
-#: trans/checks.py:310
+#: trans/checks.py:307
 msgid "Starting newline"
 msgstr "换行开头"
 
-#: trans/checks.py:311
+#: trans/checks.py:308
 msgid "Source and translation do not both start with a newline"
 msgstr "源条目和已翻译条目不都以换行开头"
 
-#: trans/checks.py:321
+#: trans/checks.py:318
 msgid "Trailing newline"
 msgstr "换行结尾"
 
-#: trans/checks.py:322
+#: trans/checks.py:319
 msgid "Source and translation do not both end with a newline"
 msgstr "源条目和已翻译条目不都以换行结尾"
 
-#: trans/checks.py:332
+#: trans/checks.py:329
 #, fuzzy
 msgid "Starting spaces"
 msgstr "开始日期"
 
-#: trans/checks.py:333
+#: trans/checks.py:330
 #, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "源条目和已翻译条目不都以换行开头"
 
-#: trans/checks.py:356
+#: trans/checks.py:353
 msgid "Trailing space"
 msgstr "空格结尾"
 
-#: trans/checks.py:357
+#: trans/checks.py:354
 msgid "Source and translation do not both end with a space"
 msgstr "源条目和已翻译条目不都以空格结尾"
 
-#: trans/checks.py:375
+#: trans/checks.py:372
 msgid "Trailing stop"
 msgstr "句号结尾"
 
-#: trans/checks.py:376
+#: trans/checks.py:373
 msgid "Source and translation do not both end with a full stop"
 msgstr "源条目和已翻译条目不都以句号结尾"
 
-#: trans/checks.py:393
+#: trans/checks.py:390
 msgid "Trailing colon"
 msgstr "冒号结尾"
 
-#: trans/checks.py:394
+#: trans/checks.py:391
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr "源条目和已翻译条目不都以冒号结尾或冒号间隔错误"
 
-#: trans/checks.py:418
+#: trans/checks.py:415
 msgid "Trailing question"
 msgstr "问号结尾"
 
-#: trans/checks.py:419
+#: trans/checks.py:416
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "源条目和已翻译条目不都以问号结尾或问号间隔错误"
 
-#: trans/checks.py:436
+#: trans/checks.py:433
 msgid "Trailing exclamation"
 msgstr "感叹号结尾"
 
-#: trans/checks.py:437
+#: trans/checks.py:434
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "源条目和已翻译条目不都以感叹号结尾或感叹号间隔错误"
 
-#: trans/checks.py:460
+#: trans/checks.py:457
 #, fuzzy
 msgid "Trailing ellipsis"
 msgstr "换行结尾"
 
-#: trans/checks.py:461
+#: trans/checks.py:458
 #, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "源条目和已翻译条目不都以换行结尾"
 
-#: trans/checks.py:474
+#: trans/checks.py:471
 msgid "Python format"
 msgstr "Python 格式"
 
-#: trans/checks.py:475 trans/checks.py:488 trans/checks.py:501
+#: trans/checks.py:472 trans/checks.py:485 trans/checks.py:498
 msgid "Format string does not match source"
 msgstr "条目格式与源条目不匹配"
 
-#: trans/checks.py:487
+#: trans/checks.py:484
 msgid "PHP format"
 msgstr "PHP 格式"
 
-#: trans/checks.py:500
+#: trans/checks.py:497
 msgid "C format"
 msgstr "C 格式"
 
-#: trans/checks.py:514
+#: trans/checks.py:511
 msgid "Missing plurals"
 msgstr "缺少复数形式"
 
-#: trans/checks.py:515
+#: trans/checks.py:512
 msgid "Some plural forms are not translated"
 msgstr "一些复数形式没有翻译"
 
-#: trans/checks.py:532
+#: trans/checks.py:529
 msgid "Inconsistent"
 msgstr "不一致的"
 
-#: trans/checks.py:533
+#: trans/checks.py:530
 msgid "This message has more than one translation in this project"
 msgstr "此信息在项目中有不止一种翻译方式"
 
-#: trans/checks.py:557
+#: trans/checks.py:554
 msgid "Invalid text direction"
 msgstr "无效的文字方向"
 
-#: trans/checks.py:558
+#: trans/checks.py:555
 msgid "Text direction can be either LTR or RTL"
 msgstr "文字方向可以是 LTR 或 RTL"
 
-#: trans/checks.py:585
+#: trans/checks.py:582
 msgid "Mismatched \\n"
 msgstr "\\n 数量"
 
-#: trans/checks.py:586
+#: trans/checks.py:583
 msgid "Number of \\n in translation does not match source"
 msgstr "译文中的 \\n 数量和原文不一致"
 
-#: trans/checks.py:593
+#: trans/checks.py:590
 msgid "Mismatched BBcode"
 msgstr "BBcode 不一致"
 
-#: trans/checks.py:594
+#: trans/checks.py:591
 msgid "BBcode in translation does not match source"
 msgstr "译文中的 BBcode 和原文不一致"
 
-#: trans/checks.py:612
+#: trans/checks.py:609
 #, fuzzy
 msgid "Optional plural"
 msgstr "缺少复数形式"
 
-#: trans/checks.py:613
+#: trans/checks.py:610
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 
-#: trans/checks.py:625
+#: trans/checks.py:622
 msgid "Ellipsis"
 msgstr ""
 
-#: trans/checks.py:626
+#: trans/checks.py:623
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 

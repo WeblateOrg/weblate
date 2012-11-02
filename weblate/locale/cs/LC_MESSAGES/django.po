@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-11-02 09:24+0100\n"
+"POT-Creation-Date: 2012-11-02 10:04+0100\n"
 "PO-Revision-Date: 2012-11-02 09:34+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -277,7 +277,7 @@ msgstr ""
 "Server měl vážné problémy se zpracováním vašeho požadavku. Zrovna jsme "
 "vyslali cvičené opice, aby problém opravily."
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1409
+#: html/about.html:7 html/footer.html:6 trans/views.py:1409
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -323,7 +323,7 @@ msgstr "Verze"
 msgid "This site is built using following projects:"
 msgstr "Tyto stránky jsou vybudovány za použití na následujících projektů:"
 
-#: html/about.html:36 html/data.html:47
+#: html/about.html:36 html/data.html:50
 msgid "Statistics"
 msgstr "Statistika"
 
@@ -364,19 +364,6 @@ msgstr "Registrace"
 msgid "Home"
 msgstr "Domů"
 
-#: html/base.html:82 html/engage.html:59
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr "Provozováno na <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-
-#: html/base.html:84 html/engage.html:61
-msgid "Contact us"
-msgstr "Napište nám"
-
-#: html/base.html:85 html/engage.html:62
-msgid "Documentation"
-msgstr "Dokumentace"
-
 #: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
 #: html/checks.html:7
 msgid "checks"
@@ -391,8 +378,8 @@ msgstr ""
 "Více informací o této kontrole je k dispozici v <a href=\"%(link)s"
 "\">dokumentaci</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/data.html:25
-#: html/data.html.py:56 html/index.html:37 html/list-translations.html:6
+#: html/check.html:26 html/check_project.html:26 html/data.html:28
+#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
 #: html/translate.html:153 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Projekt"
@@ -454,7 +441,7 @@ msgstr ""
 msgid "RSS feeds"
 msgstr "RSS kanály"
 
-#: html/data.html:20
+#: html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
@@ -462,19 +449,28 @@ msgstr ""
 "Překlad můžete sledovat pomocí RSS kanálů, které informují o všech "
 "důležitých změnách."
 
-#: html/data.html:26 html/data.html.py:57
+#: html/data.html:22
+#, fuzzy, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Více informací o této kontrole je k dispozici v <a href=\"%(link)s"
+"\">dokumentaci</a>."
+
+#: html/data.html:29 html/data.html.py:60
 msgid "URL"
 msgstr "URL"
 
-#: html/data.html:27 html/data.html.py:58
+#: html/data.html:30 html/data.html.py:61
 msgid "Link"
 msgstr "Odkaz"
 
-#: html/data.html:33 html/data.html.py:39
+#: html/data.html:36 html/data.html.py:42
 msgid "RSS"
 msgstr "RSS"
 
-#: html/data.html:45
+#: html/data.html:48
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
@@ -482,7 +478,7 @@ msgstr ""
 "Jsou k dispozici i RSS kanály pro jednotlivé jazyky, stačí přidat kód jazyka "
 "k výše uvedeným URL."
 
-#: html/data.html:50
+#: html/data.html:53
 #, python-format
 msgid ""
 "Translation statistics for every subproject in JSON format allow you to use "
@@ -493,7 +489,7 @@ msgstr ""
 "tyto údaje v jiných webové stránkách nebo nástrojích. Formát dat je popsán v "
 "<a href=\"%(api_docs)s\">dokumentaci</a>."
 
-#: html/data.html:65 html/translation.html:54
+#: html/data.html:68 html/translation.html:54
 msgid "Download"
 msgstr "Stáhnout"
 
@@ -661,6 +657,19 @@ msgid ""
 msgstr ""
 "Jakmile budete mít aktivovaný účet můžete pokračovat <a href=\"%(url)s\">k "
 "překladům</a>."
+
+#: html/footer.html:5
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
+msgstr "Provozováno na <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
+
+#: html/footer.html:7
+msgid "Contact us"
+msgstr "Napište nám"
+
+#: html/footer.html:8
+msgid "Documentation"
+msgstr "Dokumentace"
 
 #: html/index.html:9
 msgid ""
@@ -2342,161 +2351,161 @@ msgstr "Nepodařilo se vytvořit klíč!"
 msgid "Created new SSH key."
 msgstr "Byl vytvořen nový SSH klíč."
 
-#: trans/checks.py:265
+#: trans/checks.py:262
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: trans/checks.py:266
+#: trans/checks.py:263
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
-#: trans/checks.py:310
+#: trans/checks.py:307
 msgid "Starting newline"
 msgstr "Počáteční nový řádek"
 
-#: trans/checks.py:311
+#: trans/checks.py:308
 msgid "Source and translation do not both start with a newline"
 msgstr "Překlad a zdroj oba nezačínají novým řádkem"
 
-#: trans/checks.py:321
+#: trans/checks.py:318
 msgid "Trailing newline"
 msgstr "Koncový nový řádek"
 
-#: trans/checks.py:322
+#: trans/checks.py:319
 msgid "Source and translation do not both end with a newline"
 msgstr "Překlad a zdroj oba nekončí novým řádkem"
 
-#: trans/checks.py:332
+#: trans/checks.py:329
 msgid "Starting spaces"
 msgstr "Počáteční mezery"
 
-#: trans/checks.py:333
+#: trans/checks.py:330
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Překlad a zdroj oba nezačínají stejným počtem mezer"
 
-#: trans/checks.py:356
+#: trans/checks.py:353
 msgid "Trailing space"
 msgstr "Koncová mezera"
 
-#: trans/checks.py:357
+#: trans/checks.py:354
 msgid "Source and translation do not both end with a space"
 msgstr "Překlad a zdroj oba nekončí mezerou"
 
-#: trans/checks.py:375
+#: trans/checks.py:372
 msgid "Trailing stop"
 msgstr "Koncová tečka"
 
-#: trans/checks.py:376
+#: trans/checks.py:373
 msgid "Source and translation do not both end with a full stop"
 msgstr "Překlad a zdroj oba nekončí tečkou"
 
-#: trans/checks.py:393
+#: trans/checks.py:390
 msgid "Trailing colon"
 msgstr "Koncová dvojtečka"
 
-#: trans/checks.py:394
+#: trans/checks.py:391
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí dvojtečkou nebo kolem ní chybí mezery"
 
-#: trans/checks.py:418
+#: trans/checks.py:415
 msgid "Trailing question"
 msgstr "Koncový otazník"
 
-#: trans/checks.py:419
+#: trans/checks.py:416
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí otazníkem nebo kolem něj chybí mezery"
 
-#: trans/checks.py:436
+#: trans/checks.py:433
 msgid "Trailing exclamation"
 msgstr "Koncový vykřičník"
 
-#: trans/checks.py:437
+#: trans/checks.py:434
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem nebo kolem něj chybí mezery"
 
-#: trans/checks.py:460
+#: trans/checks.py:457
 msgid "Trailing ellipsis"
 msgstr "Koncová výpustka"
 
-#: trans/checks.py:461
+#: trans/checks.py:458
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Překlad a zdroj oba nekončí výpustky"
 
-#: trans/checks.py:474
+#: trans/checks.py:471
 msgid "Python format"
 msgstr "Formát Pythonu"
 
-#: trans/checks.py:475 trans/checks.py:488 trans/checks.py:501
+#: trans/checks.py:472 trans/checks.py:485 trans/checks.py:498
 msgid "Format string does not match source"
 msgstr "Formátovací řetězec v překladu neodpovídá zdroji"
 
-#: trans/checks.py:487
+#: trans/checks.py:484
 msgid "PHP format"
 msgstr "Formát PHP"
 
-#: trans/checks.py:500
+#: trans/checks.py:497
 msgid "C format"
 msgstr "Formát C"
 
-#: trans/checks.py:514
+#: trans/checks.py:511
 msgid "Missing plurals"
 msgstr "Chybí plurál"
 
-#: trans/checks.py:515
+#: trans/checks.py:512
 msgid "Some plural forms are not translated"
 msgstr "Některé množné tvary nejsou přeložené"
 
-#: trans/checks.py:532
+#: trans/checks.py:529
 msgid "Inconsistent"
 msgstr "Nekonzistentní"
 
-#: trans/checks.py:533
+#: trans/checks.py:530
 msgid "This message has more than one translation in this project"
 msgstr "Řetězec má v tomto projektu více rozdílných překladů"
 
-#: trans/checks.py:557
+#: trans/checks.py:554
 msgid "Invalid text direction"
 msgstr "Chybný směr textu"
 
-#: trans/checks.py:558
+#: trans/checks.py:555
 msgid "Text direction can be either LTR or RTL"
 msgstr "Směr textu musí být LTR nebo RTL"
 
-#: trans/checks.py:585
+#: trans/checks.py:582
 msgid "Mismatched \\n"
 msgstr "Neodpovídající \\n"
 
-#: trans/checks.py:586
+#: trans/checks.py:583
 msgid "Number of \\n in translation does not match source"
 msgstr "Počet \\n v překladu neodpovídá zdroji"
 
-#: trans/checks.py:593
+#: trans/checks.py:590
 msgid "Mismatched BBcode"
 msgstr "Neodpovídající BBcode"
 
-#: trans/checks.py:594
+#: trans/checks.py:591
 msgid "BBcode in translation does not match source"
 msgstr "BBcode v překladu neodpovídá zdroji"
 
-#: trans/checks.py:612
+#: trans/checks.py:609
 msgid "Optional plural"
 msgstr "Volitelný plurál"
 
-#: trans/checks.py:613
+#: trans/checks.py:610
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr "Řetězec je občas používán jako plurál, ale nepoužívá množné tvary"
 
-#: trans/checks.py:625
+#: trans/checks.py:622
 msgid "Ellipsis"
 msgstr "Výpustka"
 
-#: trans/checks.py:626
+#: trans/checks.py:623
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Řetězec používá tři tečky (...) namísto výpustky (…)"
 

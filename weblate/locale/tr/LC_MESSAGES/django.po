@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-11-02 09:24+0100\n"
+"POT-Creation-Date: 2012-11-02 10:04+0100\n"
 "PO-Revision-Date: 2012-11-01 17:54+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -278,7 +278,7 @@ msgstr ""
 "Sunucunun isteğinizi yerine getirirken ciddi sorunları oldu. Bu sorunu "
 "çözmesi için eğitimli afacanlarımızı şimdi gönderdik."
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1409
+#: html/about.html:7 html/footer.html:6 trans/views.py:1409
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -326,7 +326,7 @@ msgstr "Sürümler"
 msgid "This site is built using following projects:"
 msgstr "Bu site aşağıdaki projeler kullanılarak yapılmıştır:"
 
-#: html/about.html:36 html/data.html:47
+#: html/about.html:36 html/data.html:50
 msgid "Statistics"
 msgstr "İstatistikler"
 
@@ -367,21 +367,6 @@ msgstr "Kayıt ol"
 msgid "Home"
 msgstr "Giriş"
 
-#: html/base.html:82 html/engage.html:59
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr ""
-"<a href=\"http://weblate.org/\">Weblate %(version)s</a> tarafından "
-"desteklenmektedir"
-
-#: html/base.html:84 html/engage.html:61
-msgid "Contact us"
-msgstr "Bize ulaşın"
-
-#: html/base.html:85 html/engage.html:62
-msgid "Documentation"
-msgstr "Belgeler"
-
 #: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
 #: html/checks.html:7
 msgid "checks"
@@ -396,8 +381,8 @@ msgstr ""
 "Bu kontrol ile ilgili daha fazla bilgi <a href=\"%(link)s\">belgelemede</a> "
 "mevcut."
 
-#: html/check.html:26 html/check_project.html:26 html/data.html:25
-#: html/data.html.py:56 html/index.html:37 html/list-translations.html:6
+#: html/check.html:26 html/check_project.html:26 html/data.html:28
+#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
 #: html/translate.html:153 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proje"
@@ -459,7 +444,7 @@ msgstr ""
 msgid "RSS feeds"
 msgstr "RSS bildirimleri"
 
-#: html/data.html:20
+#: html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
@@ -467,19 +452,28 @@ msgstr ""
 "Çeviri ilerlemesini takip etmek için çevirideki tüm önemli değişikliklerin "
 "dahil olduğu RSS bildirimlerini kullanabilirsiniz."
 
-#: html/data.html:26 html/data.html.py:57
+#: html/data.html:22
+#, fuzzy, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Bu kontrol ile ilgili daha fazla bilgi <a href=\"%(link)s\">belgelemede</a> "
+"mevcut."
+
+#: html/data.html:29 html/data.html.py:60
 msgid "URL"
 msgstr "URL"
 
-#: html/data.html:27 html/data.html.py:58
+#: html/data.html:30 html/data.html.py:61
 msgid "Link"
 msgstr "Bağlantı"
 
-#: html/data.html:33 html/data.html.py:39
+#: html/data.html:36 html/data.html.py:42
 msgid "RSS"
 msgstr "RSS"
 
-#: html/data.html:45
+#: html/data.html:48
 #, fuzzy
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
@@ -488,7 +482,7 @@ msgstr ""
 "Ayrıca dil başına RSS bildirimleri mevcuttur, yukarıdaki URL'lere dil kodunu "
 "ekleyerek onları düzenleyebilirsiniz."
 
-#: html/data.html:50
+#: html/data.html:53
 #, python-format
 msgid ""
 "Translation statistics for every subproject in JSON format allow you to use "
@@ -499,7 +493,7 @@ msgstr ""
 "web sitelerinde ya da araçlarda kullanmanıza izin verir. Verinin biçimi <a "
 "href=\"%(api_docs)s\">belgede</a> tanımlanır."
 
-#: html/data.html:65 html/translation.html:54
+#: html/data.html:68 html/translation.html:54
 msgid "Download"
 msgstr "İndir"
 
@@ -667,6 +661,21 @@ msgid ""
 msgstr ""
 "Hesabınızı etkinleştirdiğiniz anda hemen <a href=\"%(url)s\">çeviri "
 "bölümüne</a> ilerleyin."
+
+#: html/footer.html:5
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
+msgstr ""
+"<a href=\"http://weblate.org/\">Weblate %(version)s</a> tarafından "
+"desteklenmektedir"
+
+#: html/footer.html:7
+msgid "Contact us"
+msgstr "Bize ulaşın"
+
+#: html/footer.html:8
+msgid "Documentation"
+msgstr "Belgeler"
 
 #: html/index.html:9
 msgid ""
@@ -2348,70 +2357,70 @@ msgstr "Anahtar üretme başarısız!"
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/checks.py:265
+#: trans/checks.py:262
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: trans/checks.py:266
+#: trans/checks.py:263
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
-#: trans/checks.py:310
+#: trans/checks.py:307
 msgid "Starting newline"
 msgstr "Baştaki satır başı"
 
-#: trans/checks.py:311
+#: trans/checks.py:308
 msgid "Source and translation do not both start with a newline"
 msgstr "Kaynağın ve çevirinin ikiside satır başı ile başlamıyor"
 
-#: trans/checks.py:321
+#: trans/checks.py:318
 msgid "Trailing newline"
 msgstr "Sondaki satır başı"
 
-#: trans/checks.py:322
+#: trans/checks.py:319
 msgid "Source and translation do not both end with a newline"
 msgstr "Kaynağın ve çevirinin ikiside satır başı ile bitmiyor"
 
-#: trans/checks.py:332
+#: trans/checks.py:329
 msgid "Starting spaces"
 msgstr "Baştaki boşluklar"
 
-#: trans/checks.py:333
+#: trans/checks.py:330
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Kaynağın ve çevirinin ikiside aynı boşluk sayısıyla başlamıyor"
 
-#: trans/checks.py:356
+#: trans/checks.py:353
 msgid "Trailing space"
 msgstr "Sondaki boşluk"
 
-#: trans/checks.py:357
+#: trans/checks.py:354
 msgid "Source and translation do not both end with a space"
 msgstr "Kaynağın ve çevirinin ikiside boşluk ile bitmiyor"
 
-#: trans/checks.py:375
+#: trans/checks.py:372
 msgid "Trailing stop"
 msgstr "Sondaki nokta işareti"
 
-#: trans/checks.py:376
+#: trans/checks.py:373
 msgid "Source and translation do not both end with a full stop"
 msgstr "Kaynağın ve çevirinin ikiside nokta ile bitmiyor"
 
-#: trans/checks.py:393
+#: trans/checks.py:390
 msgid "Trailing colon"
 msgstr "Sondaki iki nokta üst üste"
 
-#: trans/checks.py:394
+#: trans/checks.py:391
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
 "Kaynağın ve çevirinin ikiside ':' ile bitmiyor ya da doğru aralıkta değil"
 
-#: trans/checks.py:418
+#: trans/checks.py:415
 msgid "Trailing question"
 msgstr "Sondaki soru işareti"
 
-#: trans/checks.py:419
+#: trans/checks.py:416
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2419,96 +2428,96 @@ msgstr ""
 "Kaynağın ve çevirinin ikiside soru işareti ile bitmiyor ya da doğru aralıkta "
 "değil"
 
-#: trans/checks.py:436
+#: trans/checks.py:433
 msgid "Trailing exclamation"
 msgstr "Sondaki ünlem işareti"
 
-#: trans/checks.py:437
+#: trans/checks.py:434
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
 "Kaynağın ve çevirinin ikiside ünlem ile bitmiyor ya da doğru aralıkta değil"
 
-#: trans/checks.py:460
+#: trans/checks.py:457
 msgid "Trailing ellipsis"
 msgstr "Sondaki üç nokta"
 
-#: trans/checks.py:461
+#: trans/checks.py:458
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Kaynağın ve çevirinin ikiside üç nokta ile bitmiyor"
 
-#: trans/checks.py:474
+#: trans/checks.py:471
 msgid "Python format"
 msgstr "Python biçimi"
 
-#: trans/checks.py:475 trans/checks.py:488 trans/checks.py:501
+#: trans/checks.py:472 trans/checks.py:485 trans/checks.py:498
 msgid "Format string does not match source"
 msgstr "Değişken dizgisi kaynakla eşleşmiyor"
 
-#: trans/checks.py:487
+#: trans/checks.py:484
 msgid "PHP format"
 msgstr "PHP biçimi"
 
-#: trans/checks.py:500
+#: trans/checks.py:497
 msgid "C format"
 msgstr "C biçimi"
 
-#: trans/checks.py:514
+#: trans/checks.py:511
 msgid "Missing plurals"
 msgstr "Eksik çoğullar"
 
-#: trans/checks.py:515
+#: trans/checks.py:512
 msgid "Some plural forms are not translated"
 msgstr "Bazı çoğul formlar çevrilmez"
 
-#: trans/checks.py:532
+#: trans/checks.py:529
 msgid "Inconsistent"
 msgstr "Tutarsız"
 
-#: trans/checks.py:533
+#: trans/checks.py:530
 msgid "This message has more than one translation in this project"
 msgstr "Bu ileti bu projede birden fazla çeviriye sahip"
 
-#: trans/checks.py:557
+#: trans/checks.py:554
 msgid "Invalid text direction"
 msgstr "Geçersiz metin yönü"
 
-#: trans/checks.py:558
+#: trans/checks.py:555
 msgid "Text direction can be either LTR or RTL"
 msgstr "Metin yönü ya LTR ya da RTL olabilir"
 
-#: trans/checks.py:585
+#: trans/checks.py:582
 msgid "Mismatched \\n"
 msgstr "Uyumsuz \\n"
 
-#: trans/checks.py:586
+#: trans/checks.py:583
 msgid "Number of \\n in translation does not match source"
 msgstr "Çevirideki \\n sayısı kaynakla eşleşmiyor"
 
-#: trans/checks.py:593
+#: trans/checks.py:590
 msgid "Mismatched BBcode"
 msgstr "Uyumsuz BBcode"
 
-#: trans/checks.py:594
+#: trans/checks.py:591
 msgid "BBcode in translation does not match source"
 msgstr "Çevirideki BBcode kaynakla eşleşmiyor"
 
-#: trans/checks.py:612
+#: trans/checks.py:609
 msgid "Optional plural"
 msgstr "İsteğe bağlı çoğul"
 
-#: trans/checks.py:613
+#: trans/checks.py:610
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 "Satır isteğe bağlı bir şekilde çoğul olarak kullanılır ama çoğul biçimleri "
 "kullanarak değil"
 
-#: trans/checks.py:625
+#: trans/checks.py:622
 msgid "Ellipsis"
 msgstr "Üç nokta"
 
-#: trans/checks.py:626
+#: trans/checks.py:623
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Satır, üç nokta karakteri (…) yerine üç tane nokta (...) kullanır"
 

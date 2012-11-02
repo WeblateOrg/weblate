@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-11-02 09:25+0100\n"
+"POT-Creation-Date: 2012-11-02 10:04+0100\n"
 "PO-Revision-Date: 2012-09-22 19:02+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -281,7 +281,7 @@ msgstr ""
 "Serveren havde alvorlige problemer, mens din forespørgsel blev behandlet. Vi "
 "har netop sendt trænede aber til at rette fejlen."
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1409
+#: html/about.html:7 html/footer.html:6 trans/views.py:1409
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -327,7 +327,7 @@ msgstr "Versioner"
 msgid "This site is built using following projects:"
 msgstr "Dette steder bygget med brug af følgende projekter:"
 
-#: html/about.html:36 html/data.html:47
+#: html/about.html:36 html/data.html:50
 msgid "Statistics"
 msgstr "Statistikker"
 
@@ -368,19 +368,6 @@ msgstr "Registrering"
 msgid "Home"
 msgstr "Hjem"
 
-#: html/base.html:82 html/engage.html:59
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr "Drevet af <a href=http://weblate.org/\">Weblate %(version)s</a>"
-
-#: html/base.html:84 html/engage.html:61
-msgid "Contact us"
-msgstr "Kontakt os"
-
-#: html/base.html:85 html/engage.html:62
-msgid "Documentation"
-msgstr "Dokumentation"
-
 #: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
 #: html/checks.html:7
 msgid "checks"
@@ -395,8 +382,8 @@ msgstr ""
 "Mere information om dette tjek er tilgængeligt i <a href=%(link)s"
 "\">dokumentationen</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/data.html:25
-#: html/data.html.py:56 html/index.html:37 html/list-translations.html:6
+#: html/check.html:26 html/check_project.html:26 html/data.html:28
+#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
 #: html/translate.html:153 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Projekt"
@@ -460,31 +447,40 @@ msgstr ""
 msgid "RSS feeds"
 msgstr ""
 
-#: html/data.html:20
+#: html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
 
-#: html/data.html:26 html/data.html.py:57
+#: html/data.html:22
+#, fuzzy, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Mere information om dette tjek er tilgængeligt i <a href=%(link)s"
+"\">dokumentationen</a>."
+
+#: html/data.html:29 html/data.html.py:60
 msgid "URL"
 msgstr "URL"
 
-#: html/data.html:27 html/data.html.py:58
+#: html/data.html:30 html/data.html.py:61
 msgid "Link"
 msgstr "Henvisning"
 
-#: html/data.html:33 html/data.html.py:39
+#: html/data.html:36 html/data.html.py:42
 msgid "RSS"
 msgstr ""
 
-#: html/data.html:45
+#: html/data.html:48
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
 
-#: html/data.html:50
+#: html/data.html:53
 #, python-format
 msgid ""
 "Translation statistics for every subproject in JSON format allow you to use "
@@ -495,7 +491,7 @@ msgstr ""
 "bruge disse data i andre websider og værktøjer. Formatet på dataene er "
 "beskrevet i <a href=\"%(api_docs)s\">dokumentationen</a>."
 
-#: html/data.html:65 html/translation.html:54
+#: html/data.html:68 html/translation.html:54
 msgid "Download"
 msgstr "Hent"
 
@@ -668,6 +664,19 @@ msgid ""
 msgstr ""
 "Når du har aktiveret din konto, så fortsæt blot til <a href=\"%(url)s"
 "\">oversættelses-sektionen</a>."
+
+#: html/footer.html:5
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
+msgstr "Drevet af <a href=http://weblate.org/\">Weblate %(version)s</a>"
+
+#: html/footer.html:7
+msgid "Contact us"
+msgstr "Kontakt os"
+
+#: html/footer.html:8
+msgid "Documentation"
+msgstr "Dokumentation"
 
 #: html/index.html:9
 msgid ""
@@ -2370,61 +2379,61 @@ msgstr "Mislykkedes med at oprette nøgle!"
 msgid "Created new SSH key."
 msgstr "Oprettede ny SSH-nøgle."
 
-#: trans/checks.py:265
+#: trans/checks.py:262
 msgid "Not translated"
 msgstr "Ikke oversat"
 
-#: trans/checks.py:266
+#: trans/checks.py:263
 msgid "Source and translated strings are same"
 msgstr "Kilde og oversatte strenge er ens"
 
-#: trans/checks.py:310
+#: trans/checks.py:307
 msgid "Starting newline"
 msgstr "Starter ny linje"
 
-#: trans/checks.py:311
+#: trans/checks.py:308
 msgid "Source and translation do not both start with a newline"
 msgstr "Kilde og oversættelse starter ikke begge med en ny linje"
 
-#: trans/checks.py:321
+#: trans/checks.py:318
 msgid "Trailing newline"
 msgstr "Efterfølgende linjeskift"
 
-#: trans/checks.py:322
+#: trans/checks.py:319
 msgid "Source and translation do not both end with a newline"
 msgstr "Kilde og oversættelser slutter ikke begge med linjeskift"
 
-#: trans/checks.py:332
+#: trans/checks.py:329
 #, fuzzy
 msgid "Starting spaces"
 msgstr "Startdato"
 
-#: trans/checks.py:333
+#: trans/checks.py:330
 #, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Kilde og oversættelse starter ikke begge med en ny linje"
 
-#: trans/checks.py:356
+#: trans/checks.py:353
 msgid "Trailing space"
 msgstr "Efterfølgende mellemrum"
 
-#: trans/checks.py:357
+#: trans/checks.py:354
 msgid "Source and translation do not both end with a space"
 msgstr "Kilde og oversættelse ender ikke begge med et mellemrum"
 
-#: trans/checks.py:375
+#: trans/checks.py:372
 msgid "Trailing stop"
 msgstr "Efterfølgende punktum"
 
-#: trans/checks.py:376
+#: trans/checks.py:373
 msgid "Source and translation do not both end with a full stop"
 msgstr "Kilde og oversættelse slutter ikke begge med et punktum"
 
-#: trans/checks.py:393
+#: trans/checks.py:390
 msgid "Trailing colon"
 msgstr "Efterfølgende kolon"
 
-#: trans/checks.py:394
+#: trans/checks.py:391
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2432,11 +2441,11 @@ msgstr ""
 "Kilde og oversætter slutter ikke begge med et kolon eller kolon har ikke "
 "rette afstand"
 
-#: trans/checks.py:418
+#: trans/checks.py:415
 msgid "Trailing question"
 msgstr "Efterfølgende spørgsmålstegn"
 
-#: trans/checks.py:419
+#: trans/checks.py:416
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2444,11 +2453,11 @@ msgstr ""
 "Kilde og oversættelse slutter ikke begge med et spørgsmålstegn eller "
 "afstanden er ikke korrekt"
 
-#: trans/checks.py:436
+#: trans/checks.py:433
 msgid "Trailing exclamation"
 msgstr "Efterfølgende udråbstegn"
 
-#: trans/checks.py:437
+#: trans/checks.py:434
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2456,86 +2465,86 @@ msgstr ""
 "Kilde og oversættelse slutter ikke begge med et udråbstegn, eller det har "
 "ikke korrekt afstand"
 
-#: trans/checks.py:460
+#: trans/checks.py:457
 #, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Efterfølgende udeladelsesprikker"
 
-#: trans/checks.py:461
+#: trans/checks.py:458
 #, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Kilde og oversættelse slutter ikke begge med udeladelsesprikker"
 
-#: trans/checks.py:474
+#: trans/checks.py:471
 msgid "Python format"
 msgstr "Python-format"
 
-#: trans/checks.py:475 trans/checks.py:488 trans/checks.py:501
+#: trans/checks.py:472 trans/checks.py:485 trans/checks.py:498
 msgid "Format string does not match source"
 msgstr "Format på streng matcher ikke kilden"
 
-#: trans/checks.py:487
+#: trans/checks.py:484
 msgid "PHP format"
 msgstr "PHP-format"
 
-#: trans/checks.py:500
+#: trans/checks.py:497
 msgid "C format"
 msgstr "C-format"
 
-#: trans/checks.py:514
+#: trans/checks.py:511
 msgid "Missing plurals"
 msgstr "Mangler flertalsform"
 
-#: trans/checks.py:515
+#: trans/checks.py:512
 msgid "Some plural forms are not translated"
 msgstr "Nogle flertalsformer er ikke oversat"
 
-#: trans/checks.py:532
+#: trans/checks.py:529
 msgid "Inconsistent"
 msgstr "Inkonsistent"
 
-#: trans/checks.py:533
+#: trans/checks.py:530
 msgid "This message has more than one translation in this project"
 msgstr "Denne besked har mere end én oversættelse i dette projekt"
 
-#: trans/checks.py:557
+#: trans/checks.py:554
 msgid "Invalid text direction"
 msgstr "Ugyldig tekstretning"
 
-#: trans/checks.py:558
+#: trans/checks.py:555
 msgid "Text direction can be either LTR or RTL"
 msgstr "Tekstretning kan være enten LTR eller RTL"
 
-#: trans/checks.py:585
+#: trans/checks.py:582
 msgid "Mismatched \\n"
 msgstr "Ikke i overensstemmelse \\n"
 
-#: trans/checks.py:586
+#: trans/checks.py:583
 msgid "Number of \\n in translation does not match source"
 msgstr "Antallet af \\n i oversættelsen matcher ikke kilden"
 
-#: trans/checks.py:593
+#: trans/checks.py:590
 msgid "Mismatched BBcode"
 msgstr "BBcode som ikke stemmer overens"
 
-#: trans/checks.py:594
+#: trans/checks.py:591
 msgid "BBcode in translation does not match source"
 msgstr "BBcode i oversættelsen matcher ikke kilden"
 
-#: trans/checks.py:612
+#: trans/checks.py:609
 #, fuzzy
 msgid "Optional plural"
 msgstr "Mangler flertalsform"
 
-#: trans/checks.py:613
+#: trans/checks.py:610
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 
-#: trans/checks.py:625
+#: trans/checks.py:622
 msgid "Ellipsis"
 msgstr ""
 
-#: trans/checks.py:626
+#: trans/checks.py:623
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 

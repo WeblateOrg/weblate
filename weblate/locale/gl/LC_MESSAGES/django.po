@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
-"POT-Creation-Date: 2012-11-02 09:25+0100\n"
+"POT-Creation-Date: 2012-11-02 10:04+0100\n"
 "PO-Revision-Date: 2012-10-05 17:28+0200\n"
 "Last-Translator: Antón Méixome <meixome@certima.net>\n"
 "Language-Team: Galician <http://l10n.cihar.com/projects/weblate/master/gl/>\n"
@@ -280,7 +280,7 @@ msgstr ""
 "O servidor ten graves problemas para responder á súa solicitude. Acabamos de "
 "enviar os trasnos para para arranxar o problema."
 
-#: html/about.html:7 html/base.html:83 html/engage.html:60 trans/views.py:1409
+#: html/about.html:7 html/footer.html:6 trans/views.py:1409
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
@@ -327,7 +327,7 @@ msgstr "Versións"
 msgid "This site is built using following projects:"
 msgstr "Este sitio está construído usando os seguintes proxectos:"
 
-#: html/about.html:36 html/data.html:47
+#: html/about.html:36 html/data.html:50
 msgid "Statistics"
 msgstr "Estatísticas"
 
@@ -368,19 +368,6 @@ msgstr "Rexistro"
 msgid "Home"
 msgstr "Inicio"
 
-#: html/base.html:82 html/engage.html:59
-#, python-format
-msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
-msgstr "Feito con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-
-#: html/base.html:84 html/engage.html:61
-msgid "Contact us"
-msgstr "Contacte con nós"
-
-#: html/base.html:85 html/engage.html:62
-msgid "Documentation"
-msgstr "Documentación"
-
 #: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
 #: html/checks.html:7
 msgid "checks"
@@ -395,8 +382,8 @@ msgstr ""
 "Hai máis información dispoñíbel sobre esta proba na <a href=\"%(link)s"
 "\">documentación</a>."
 
-#: html/check.html:26 html/check_project.html:26 html/data.html:25
-#: html/data.html.py:56 html/index.html:37 html/list-translations.html:6
+#: html/check.html:26 html/check_project.html:26 html/data.html:28
+#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
 #: html/translate.html:153 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proxecto"
@@ -459,31 +446,40 @@ msgstr ""
 msgid "RSS feeds"
 msgstr ""
 
-#: html/data.html:20
+#: html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
 
-#: html/data.html:26 html/data.html.py:57
+#: html/data.html:22
+#, fuzzy, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Hai máis información dispoñíbel sobre esta proba na <a href=\"%(link)s"
+"\">documentación</a>."
+
+#: html/data.html:29 html/data.html.py:60
 msgid "URL"
 msgstr ""
 
-#: html/data.html:27 html/data.html.py:58
+#: html/data.html:30 html/data.html.py:61
 msgid "Link"
 msgstr ""
 
-#: html/data.html:33 html/data.html.py:39
+#: html/data.html:36 html/data.html.py:42
 msgid "RSS"
 msgstr ""
 
-#: html/data.html:45
+#: html/data.html:48
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
 
-#: html/data.html:50
+#: html/data.html:53
 #, python-format
 msgid ""
 "Translation statistics for every subproject in JSON format allow you to use "
@@ -491,7 +487,7 @@ msgid ""
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
 
-#: html/data.html:65 html/translation.html:54
+#: html/data.html:68 html/translation.html:54
 msgid "Download"
 msgstr "Descargar"
 
@@ -662,6 +658,19 @@ msgid ""
 msgstr ""
 "Logo de activar a súa conta, proceda na <a href=\"%(url)s\">sección de "
 "tradución</a>."
+
+#: html/footer.html:5
+#, python-format
+msgid "Powered by <a href=\"http://weblate.org/\">Weblate %(version)s</a>"
+msgstr "Feito con <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+
+#: html/footer.html:7
+msgid "Contact us"
+msgstr "Contacte con nós"
+
+#: html/footer.html:8
+msgid "Documentation"
+msgstr "Documentación"
 
 #: html/index.html:9
 msgid ""
@@ -2361,61 +2370,61 @@ msgstr "Fallou o procesamento do formulario!"
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/checks.py:265
+#: trans/checks.py:262
 msgid "Not translated"
 msgstr "Non traducida"
 
-#: trans/checks.py:266
+#: trans/checks.py:263
 msgid "Source and translated strings are same"
 msgstr "As cadeas de orixe e as traducidas son as mesmas"
 
-#: trans/checks.py:310
+#: trans/checks.py:307
 msgid "Starting newline"
 msgstr "Iniciar nova liña"
 
-#: trans/checks.py:311
+#: trans/checks.py:308
 msgid "Source and translation do not both start with a newline"
 msgstr "Orixe e tradución non comezan as dúas cunha nova liña"
 
-#: trans/checks.py:321
+#: trans/checks.py:318
 msgid "Trailing newline"
 msgstr "Nova liña"
 
-#: trans/checks.py:322
+#: trans/checks.py:319
 msgid "Source and translation do not both end with a newline"
 msgstr "Orixe e tradución non terminan ambas cunha nova liña"
 
-#: trans/checks.py:332
+#: trans/checks.py:329
 #, fuzzy
 msgid "Starting spaces"
 msgstr "Data de inicio"
 
-#: trans/checks.py:333
+#: trans/checks.py:330
 #, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Orixe e tradución non comezan as dúas cunha nova liña"
 
-#: trans/checks.py:356
+#: trans/checks.py:353
 msgid "Trailing space"
 msgstr "Espazo final"
 
-#: trans/checks.py:357
+#: trans/checks.py:354
 msgid "Source and translation do not both end with a space"
 msgstr "Orixe e tradución non terminan ambas cun espazo"
 
-#: trans/checks.py:375
+#: trans/checks.py:372
 msgid "Trailing stop"
 msgstr "Espazo final"
 
-#: trans/checks.py:376
+#: trans/checks.py:373
 msgid "Source and translation do not both end with a full stop"
 msgstr "Orixe e tradución non terminan ambos cun punto final"
 
-#: trans/checks.py:393
+#: trans/checks.py:390
 msgid "Trailing colon"
 msgstr "Coma final"
 
-#: trans/checks.py:394
+#: trans/checks.py:391
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2423,11 +2432,11 @@ msgstr ""
 "Orixe e tradución non terminan ambas cunha coma ou a coma non está "
 "correctamente espazada"
 
-#: trans/checks.py:418
+#: trans/checks.py:415
 msgid "Trailing question"
 msgstr "Pregunta final"
 
-#: trans/checks.py:419
+#: trans/checks.py:416
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2435,11 +2444,11 @@ msgstr ""
 "Orixe e tradución non terminan ambas cun signo de interrogación ou non está "
 "correctamente espazado"
 
-#: trans/checks.py:436
+#: trans/checks.py:433
 msgid "Trailing exclamation"
 msgstr "Admiración final"
 
-#: trans/checks.py:437
+#: trans/checks.py:434
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2447,88 +2456,88 @@ msgstr ""
 "Orixe e tradución non terminan ambas cun signo de admiración ou non está "
 "correctamente espazado"
 
-#: trans/checks.py:460
+#: trans/checks.py:457
 #, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Nova liña"
 
-#: trans/checks.py:461
+#: trans/checks.py:458
 #, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Orixe e tradución non terminan ambas cunha nova liña"
 
-#: trans/checks.py:474
+#: trans/checks.py:471
 msgid "Python format"
 msgstr "Formato Python"
 
-#: trans/checks.py:475 trans/checks.py:488 trans/checks.py:501
+#: trans/checks.py:472 trans/checks.py:485 trans/checks.py:498
 msgid "Format string does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: trans/checks.py:487
+#: trans/checks.py:484
 msgid "PHP format"
 msgstr "Formato PHP"
 
-#: trans/checks.py:500
+#: trans/checks.py:497
 msgid "C format"
 msgstr "Formato C"
 
-#: trans/checks.py:514
+#: trans/checks.py:511
 msgid "Missing plurals"
 msgstr "Sen plurais"
 
-#: trans/checks.py:515
+#: trans/checks.py:512
 msgid "Some plural forms are not translated"
 msgstr "Algunhas formas de plural non están traducidas"
 
-#: trans/checks.py:532
+#: trans/checks.py:529
 msgid "Inconsistent"
 msgstr "Inconsistente"
 
-#: trans/checks.py:533
+#: trans/checks.py:530
 msgid "This message has more than one translation in this project"
 msgstr "Esta mensaxe ten máis dunha tradución neste proxecto"
 
-#: trans/checks.py:557
+#: trans/checks.py:554
 msgid "Invalid text direction"
 msgstr "A dirección do texto non é correcta"
 
-#: trans/checks.py:558
+#: trans/checks.py:555
 msgid "Text direction can be either LTR or RTL"
 msgstr "A dirección do texto pode ser tanto LTR como RTL"
 
-#: trans/checks.py:585
+#: trans/checks.py:582
 msgid "Mismatched \\n"
 msgstr ""
 
-#: trans/checks.py:586
+#: trans/checks.py:583
 #, fuzzy
 msgid "Number of \\n in translation does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: trans/checks.py:593
+#: trans/checks.py:590
 msgid "Mismatched BBcode"
 msgstr ""
 
-#: trans/checks.py:594
+#: trans/checks.py:591
 #, fuzzy
 msgid "BBcode in translation does not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: trans/checks.py:612
+#: trans/checks.py:609
 #, fuzzy
 msgid "Optional plural"
 msgstr "Sen plurais"
 
-#: trans/checks.py:613
+#: trans/checks.py:610
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 
-#: trans/checks.py:625
+#: trans/checks.py:622
 msgid "Ellipsis"
 msgstr ""
 
-#: trans/checks.py:626
+#: trans/checks.py:623
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 
