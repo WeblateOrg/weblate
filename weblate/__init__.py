@@ -18,4 +18,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+
+def get_root_dir():
+    curdir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(curdir, '..'))
+
+def is_running_git():
+    return os.path.exists(os.path.join(get_root_dir(), '.git'))
+
 VERSION = '1.3'
+
+RUNNING_GIT = is_running_git()
+
+if RUNNING_GIT:
+    import git
+    GIT_VERSION = git.Repo(get_root_dir()).git.describe()
+    parts = GIT_VERSION.split('-')
+    GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
+    del parts
