@@ -78,12 +78,7 @@
 
 {% if not request.is_ajax %}
 </div>
- <ul class="footer">
-  <li>{% blocktrans %}Powered by <a href="http://weblate.org/">Weblate {{ version }}</a>{% endblocktrans %}</li>
-  <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
-  <li><a href="{% url 'contact' %}">{% trans "Contact us" %}</a></li>
-  <li><a href="http://weblate.readthedocs.org/en/weblate-{{ version }}/usage.html">{% trans "Documentation" %}</a></li>
- </ul>
+{% include 'footer.html' %}
  </body>
 </html>
 {% endif %}

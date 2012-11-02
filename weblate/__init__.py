@@ -53,3 +53,16 @@ if RUNNING_GIT:
     # Mark version as devel if it is
     if not GIT_RELEASE:
         VERSION += '-dev'
+
+def get_doc_url(page, anchor = ''):
+    '''
+    Return URL to documentation.
+    '''
+    if RUNNING_GIT and not GIT_RELEASE:
+        version = 'latest'
+    else:
+        version = 'weblate-%s' % VERSION
+    url = 'http://weblate.readthedocs.org/en/%s/%s.html' % (version, page)
+    if anchor != '':
+        url += '#%s' % anchor
+    return url

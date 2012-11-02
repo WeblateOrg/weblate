@@ -1446,5 +1446,5 @@ def data(request, project):
     return render_to_response('data.html', RequestContext(request, {
         'object': obj,
         'site_domain': site.domain,
-        'api_docs': 'http://weblate.readthedocs.org/en/weblate-%s/api.html#exports' % weblate.VERSION,
+        'api_docs': weblate.get_doc_url('api', 'exports'),
     }))

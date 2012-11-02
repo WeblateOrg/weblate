@@ -238,10 +238,7 @@ class Check(object):
         '''
         Returns link to documentation.
         '''
-        return 'http://weblate.readthedocs.org/en/weblate-%s/usage.html#check-%s' % (
-            weblate.VERSION,
-            self.check_id,
-        )
+        return weblate.get_doc_url('usage', 'check-%s' % self.check_id)
 
 class TargetCheck(Check):
     '''

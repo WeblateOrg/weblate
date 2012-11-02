@@ -176,3 +176,10 @@ def dictionary_count(lang, project):
     Returns number of words in dictionary.
     '''
     return Dictionary.objects.filter(project = project, language = lang).count()
+
+@register.simple_tag
+def documentation(page, anchor = ''):
+    '''
+    Returns link to Weblate documentation.
+    '''
+    return weblate.get_doc_url(page, anchor)

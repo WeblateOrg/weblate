@@ -69,5 +69,5 @@ def ssh(request):
     return render_to_response("admin/ssh.html", RequestContext(request, {
         'public_key': key,
         'can_generate': can_generate,
-        'ssh_docs': 'http://weblate.readthedocs.org/en/weblate-%s/admin.html#private' % weblate.VERSION,
+        'ssh_docs': weblate.get_doc_url('admin', 'private'),
     }))
