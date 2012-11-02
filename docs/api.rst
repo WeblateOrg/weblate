@@ -85,3 +85,24 @@ Weblate provides various exports to allow you further process the data.
                 "url": "http://l10n.cihar.com/projects/weblate/master/el/"
             }, 
         ]
+
+RSS feeds
+---------
+
+Changes in translations are exported in RSS feeds.
+
+.. describe:: GET /exports/rss/(string:project)/(string:subproject)/(string:language)/
+
+    Retrieves RSS feed with recent changes for a translation.
+
+.. describe:: GET /exports/rss/(string:project)/(string:subproject)/
+
+    Retrieves RSS feed with recent changes for a subproject.
+
+.. describe:: GET /exports/rss/(string:project)/
+
+    Retrieves RSS feed with recent changes for a project.
+
+.. describe:: GET /exports/rss/
+
+    Retrieves RSS feed with recent changes for Weblate instance.
