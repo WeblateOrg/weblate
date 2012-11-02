@@ -89,6 +89,7 @@ def home(request):
         'top_translations': top_translations,
         'top_suggestions': top_suggestions,
         'last_changes': last_changes,
+        'last_changes_rss': reverse('rss'),
         'usertranslations': usertranslations,
     }))
 
@@ -383,6 +384,7 @@ def show_project(request, project):
         'object': obj,
         'dicts': Language.objects.filter(id__in = dicts),
         'last_changes': last_changes,
+        'last_changes_rss': reverse('rss-project', kwargs = {'project': obj.slug}),
     }))
 
 def show_subproject(request, project, subproject):
@@ -395,6 +397,7 @@ def show_subproject(request, project, subproject):
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
+        'last_changes_rss': reverse('rss-subproject', kwargs = {'subproject': obj.slug, 'project': obj.project.slug}),
     }))
 
 @login_required
@@ -540,6 +543,7 @@ def show_translation(request, project, subproject, lang):
         'search_form': search_form,
         'review_form': review_form,
         'last_changes': last_changes,
+        'last_changes_rss': reverse('rss-translation', kwargs = {'lang': obj.language.code, 'subproject': obj.subproject.slug, 'project': obj.subproject.project.slug}),
     }))
 
 @login_required
