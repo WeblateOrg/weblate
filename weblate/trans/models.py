@@ -2168,7 +2168,7 @@ class Unit(models.Model):
             # Create change object
             Change.objects.create(
                 unit = self,
-                translation = unit.translation,
+                translation = self.translation,
                 user = request.user
             )
 
