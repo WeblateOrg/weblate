@@ -2176,7 +2176,7 @@ class Unit(models.Model):
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
             self.translation.commit_pending()
             Change.objects.create(
-                translation = unit.translation,
+                translation = self.translation,
                 action = Change.ACTION_COMPLETE,
                 user = request.user
             )
