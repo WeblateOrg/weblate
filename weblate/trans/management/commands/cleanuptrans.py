@@ -37,6 +37,9 @@ class Command(BaseCommand):
             # Remove source comments referring to deleted units
             Comment.objects.filter(language = None, project = prj).exclude(checksum__in = units).delete()
 
+            # Remove source checks referring to deleted units
+            Check.objects.filter(language = None, project = prj).exclude(checksum__in = units).delete()
+
             for lang in Language.objects.all():
 
                 # Remove checks referring to deleted or not translated units

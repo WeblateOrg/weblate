@@ -1448,9 +1448,11 @@ class Translation(models.Model):
                 Suggestion.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
                 # Delete translation comments referencing this unit
                 Comment.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
-                # Delete source comments as well if this was last reference
                 if not Unit.objects.filter(translation__subproject__project = self.subproject.project, checksum = checksum).exists():
+                    # Delete source comments as well if this was last reference
                     Comment.objects.filter(project = self.subproject.project, language = None, checksum = checksum).delete()
+                    # Delete source checks as well if this was last reference
+                    Check.objects.filter(project = self.subproject.project, language = None, checksum = checksum).delete()
             else:
                 # There are other units as well, but some checks (eg. consistency) needs update now
                 for unit in units:
