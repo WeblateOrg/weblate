@@ -283,7 +283,7 @@ $(function() {
             load_progress();
             $('.buttons').buttonset();
             $('.buttons .disabled').button('disable');
-            $('.details-accordion').accordion({collapsible: true, active: -1});
+            $('.details-accordion').accordion({collapsible: true, active: false});
             $('.confirm-reset').click(function() {
 
                 $('<div title="' + gettext('Confirm resetting repository') + '"><p>' + gettext('Resetting the repository will throw away all local changes!') + '</p></div>').dialog({
