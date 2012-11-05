@@ -175,21 +175,21 @@ The source and translated strings are same at least in one of plural forms.
 This checks ignores some strings which are quite usually same in all
 languages.
 
-.. _check-begin_newline:
+.. _check-begin-newline:
 
 Starting newline
 ~~~~~~~~~~~~~~~~
 
 Source and translated do not both start with a newline.
 
-.. _check-end_newline:
+.. _check-end-newline:
 
 Trailing newline
 ~~~~~~~~~~~~~~~~
 
 Source and translated do not both end with a newline.
 
-.. _check-begin_space:
+.. _check-begin-space:
 
 Starting spaces
 ~~~~~~~~~~~~~~~
@@ -198,14 +198,14 @@ Source and translation do not both start with same number of spaces. Space in
 beginning is usually used for indentation in the interface and thus is
 important.
 
-.. _check-end_space:
+.. _check-end-space:
 
 Trailing space
 ~~~~~~~~~~~~~~
 
 Source and translated do not both end with a space.
 
-.. _check-end_stop:
+.. _check-end-stop:
 
 Trailing stop
 ~~~~~~~~~~~~~
@@ -213,7 +213,7 @@ Trailing stop
 Source and translated do not both end with a full stop. Full stop is also
 checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
 
-.. _check-end_colon:
+.. _check-end-colon:
 
 Trailing colon
 ~~~~~~~~~~~~~~
@@ -222,7 +222,7 @@ Source and translated do not both end with a colon or colon is not correctly
 spaced. This includes spacing rules for French or Breton. Colon is also
 checked in various language variants (Chinese or Japanese).
 
-.. _check-end_question:
+.. _check-end-question:
 
 Trailing question
 ~~~~~~~~~~~~~~~~~
@@ -232,7 +232,7 @@ correctly spaced. This includes spacing rules for French or Breton. Question
 mark is also checked in various language variants (Armenian, Arabic, Chinese,
 Korean, Japanese, Ethiopic, Vai or Coptic).
 
-.. _check-end_exclamation:
+.. _check-end-exclamation:
 
 Trailing exclamation
 ~~~~~~~~~~~~~~~~~~~~
@@ -242,7 +242,7 @@ correctly spaced. This includes spacing rules for French or Breton.
 Exclamation mark is also check in various langauge variants (Chinese,
 Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
-.. _check-end_ellipsis:
+.. _check-end-ellipsis:
 
 Trailing ellipsis
 ~~~~~~~~~~~~~~~~
@@ -250,21 +250,21 @@ Trailing ellipsis
 Source and translation do not both end with an ellipsis. This only checks for
 real ellipsis (`\u2026`) not for three commas (`...`).
 
-.. _check-python_format:
+.. _check-python-format:
 
 Python format
 ~~~~~~~~~~~~~
 
 Python format string does not match source.
 
-.. _check-php_format:
+.. _check-php-format:
 
 PHP format
 ~~~~~~~~~~
 
 PHP format string does not match source.
 
-.. _check-c_format:
+.. _check-c-format:
 
 C format
 ~~~~~~~~
@@ -295,7 +295,7 @@ Invalid text direction
 
 Text direction can be either ``LTR`` or ``RTL``.
 
-.. _check-escaped_newline:
+.. _check-escaped-newline:
 
 Mismatched \\n
 ~~~~~~~~~~~~~~
@@ -311,7 +311,7 @@ Mismatched BBcode
 BBcode in translation does not match source. The method for detecting BBcode is
 currently quite simple.
 
-.. _check-optional_plural:
+.. _check-optional-plural:
 
 Source checks
 +++++++++++++

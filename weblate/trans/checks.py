@@ -238,7 +238,7 @@ class Check(object):
         '''
         Returns link to documentation.
         '''
-        return weblate.get_doc_url('usage', 'check-%s' % self.check_id)
+        return weblate.get_doc_url('usage', 'check-%s' % self.check_id.replace('_', '-'))
 
 class TargetCheck(Check):
     '''
