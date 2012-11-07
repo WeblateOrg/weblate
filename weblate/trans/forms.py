@@ -42,6 +42,7 @@ class PluralTextarea(forms.Textarea):
         # Need to add extra class
         attrs['class'] = 'translation'
         attrs['tabindex'] = '100'
+        attrs['lang'] = lang.code
 
         # Handle single item translation
         if len(value) == 1:
