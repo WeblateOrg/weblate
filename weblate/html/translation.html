@@ -94,7 +94,7 @@
 
 {% if autoform %}
 <div id="auto">
-<p>{% trans "Automatic translation takes existing translations in this project and applies it to the current subproject. It can be used to push translations to a different branch or to fix inconsistent translations." %}</p>
+<p>{% trans "Automatic translation takes existing translations in this project and applies it to the current subproject. It can be used to push translations to a different branch or to fix inconsistent translations or to translate new subproject using translation memory." %}</p>
 <form action="{% url 'weblate.trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
