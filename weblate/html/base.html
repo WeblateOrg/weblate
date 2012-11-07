@@ -25,7 +25,7 @@
   
  </head>
 
- <body>
+ <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
     <h1 class="ui-state-default"><a href="{% url 'home' %}">{% include "title.html" %}</a></h1>
 
 <ul class="menu">

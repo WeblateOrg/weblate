@@ -25,6 +25,9 @@ ul.footer li{
     color:gray;
     border:none;
 }
+body.dir-rtl ul.footer li {
+    float: right;
+}
 ul.footer a{
     color:#333;
 }
@@ -38,6 +41,9 @@ ul.menu {
     margin: 0;
     font-size: smaller;
     list-style: none;
+}
+body.dir-rtl ul.menu {
+    float: left;
 }
 ul.menu li {
     display: inline-block;
@@ -73,6 +79,9 @@ ul.breadcrumbs li {
 }
 .suggestionactions {
     float: right;
+}
+body.dir-rtl .suggestionactions {
+    float: left;
 }
 .suggestionactions a {
     width: 20px;
@@ -111,11 +120,18 @@ td.suggestions table {
 .specialchars {
     margin-left: 5em;
 }
+body.dir-rtl .specialchars {
+    margin-left: 0;
+    margin-left: 5em;
+}
 .helptext {
     font-size: smaller;
 }
 .percent, .number {
     text-align: right;
+}
+body.dir-rtl .parent, body.dir-rtl .number {
+    text-align: left;
 }
 div.progress {
     width: 20em;
@@ -168,6 +184,10 @@ span.navi a.button-pos {
     vertical-align: bottom;
     margin-right: -5px;
 }
+body.dir-rtl span.navi a.button-pos {
+    margin-right: 0;
+    margin-left: -5px;
+}
 form.letter, form.letter p {
     display: inline;
 }
@@ -187,6 +207,10 @@ img.engage-icon {
     position: absolute;
     top: 10px;
     left: 10px;
+}
+body.dir-rtl img.engage-icon {
+    left: 0;
+    right: 10px;
 }
 
 pre.code {
@@ -209,4 +233,7 @@ span.check {
 a.rss {
     float: right;
     display: block;
+}
+body.dir-rtl a.rss {
+    float: right;
 }
