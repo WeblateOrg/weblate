@@ -159,15 +159,10 @@
     </thead>
     <tbody>
     {% for item in unit.nearby %}
-    <tr>
+    <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
     <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-    {% if unit.position == item.position %}
-    <td class="translatetext current_translation"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
-    <td class="translatetext current_translation"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
-    {% else %}
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
-    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
-    {% endif %}
+    <td class="translatetext" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
     <td>{% include "unit-state.html" %}</td>
     </tr>
     {% endfor %}

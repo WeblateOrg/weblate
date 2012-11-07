@@ -375,3 +375,6 @@ class Language(models.Model):
         if translations['total__sum'] == 0:
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
+
+    def get_html(self):
+        return 'lang="%s" dir="%s"' % (self.code, self.direction)
