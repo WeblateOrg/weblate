@@ -1444,6 +1444,15 @@ def git_status_translation(request, project, subproject, lang):
         'object': obj,
     }))
 
+def data_root(request):
+    site = Site.objects.get_current()
+    return render_to_response('data-root.html', RequestContext(request, {
+        'site_domain': site.domain,
+        'api_docs': weblate.get_doc_url('api', 'exports'),
+        'rss_docs': weblate.get_doc_url('api', 'rss'),
+        'projects': Project.objects.all(),
+    }))
+
 def data(request, project):
     obj = get_object_or_404(Project, slug = project)
     site = Site.objects.get_current()

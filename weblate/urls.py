@@ -110,6 +110,8 @@ urlpatterns = patterns('',
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets'),
+
+    url(r'^data/$', 'weblate.trans.views.data_root'),
     url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string', name = 'js-get'),
