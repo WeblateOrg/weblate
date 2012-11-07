@@ -23,6 +23,7 @@ Relased on ? 2012.
 * Support for user comments for both translations and source strings.
 * Better changes log tracking.
 * Changes can now be monitored using RSS.
+* Improved support for RTL languages.
 
 weblate 1.2
 -----------
