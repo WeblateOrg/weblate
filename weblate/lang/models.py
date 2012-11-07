@@ -145,6 +145,20 @@ DEFAULT_LANGS = (
     'zu_ZA',
 )
 
+RTL_LANGS = set((
+    'ar',
+    'arc',
+    'dv',
+    'fa',
+    'ha',
+    'he',
+    'ks',
+    'ku',
+    'ps',
+    'ur',
+    'yi',
+))
+
 class LanguageManager(models.Manager):
     def auto_get_or_create(self, code):
         '''
@@ -274,6 +288,11 @@ class LanguageManager(models.Manager):
                 lang.nplurals = props[1]
                 lang.pluralequation = props[2]
 
+            if code in RTL_LANGS:
+                lang.direction = 'rtl'
+            else:
+                lang.direction = 'ltr'
+
             # Save language
             lang.save()
 
@@ -312,6 +331,7 @@ class Language(models.Model):
     name = models.CharField(max_length = 100)
     nplurals = models.SmallIntegerField(default = 0)
     pluralequation = models.CharField(max_length = 255, blank = True)
+    direction = models.CharField(max_length = 3, default = 'ltr')
 
     objects = LanguageManager()
 

@@ -22,8 +22,9 @@ from django.contrib import admin
 from weblate.lang.models import Language
 
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'code', 'get_plural_form']
+    list_display = ['name', 'code', 'get_plural_form', 'direction']
     search_fields = ['name', 'code']
+    list_filter = ('direction', )
 
 admin.site.register(Language, LanguageAdmin)
 
