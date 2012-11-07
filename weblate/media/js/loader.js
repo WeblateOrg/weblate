@@ -312,7 +312,7 @@ $(function() {
             var $panel = $(ui.panel);
 
             if ($panel.is(":empty")) {
-                $panel.append("<div class='tab-loading'>" + gettext("Loading...") + "</div>");
+                $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
         },
     });
