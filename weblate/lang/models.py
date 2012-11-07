@@ -309,7 +309,7 @@ class LanguageManager(models.Manager):
             lang.nplurals = props[2]
             lang.pluralequation = props[3]
 
-            if code in RTL_LANGS:
+            if props[0] in RTL_LANGS:
                 lang.direction = 'rtl'
             else:
                 lang.direction = 'ltr'
