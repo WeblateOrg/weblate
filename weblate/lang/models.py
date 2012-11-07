@@ -336,7 +336,11 @@ class Language(models.Model):
     name = models.CharField(max_length = 100)
     nplurals = models.SmallIntegerField(default = 0)
     pluralequation = models.CharField(max_length = 255, blank = True)
-    direction = models.CharField(max_length = 3, default = 'ltr')
+    direction = models.CharField(
+        max_length = 3,
+        default = 'ltr',
+        choices = (('ltr', 'ltr'), ('rtl', 'rtl')),
+    )
 
     objects = LanguageManager()
 
