@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
-"Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-07 13:45+0100\n"
+"Report-Msgid-Bugs-To: https://github.com/nijel/weblate/issues\n"
+"POT-Creation-Date: 2012-11-07 16:26+0100\n"
 "PO-Revision-Date: 2012-11-07 15:23+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.3-dev\n"
 
-#: urls.py:136 urls.py:143 urls.py:150 urls.py:157
+#: urls.py:138 urls.py:145 urls.py:152 urls.py:159
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:165
+#: urls.py:167
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:174 html/base.html:39 html/registration/login.html:30
+#: urls.py:176 html/base.html:39 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:181
+#: urls.py:183
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:186
+#: urls.py:188
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:190
+#: urls.py:192
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:194 urls.py:198 urls.py:202 urls.py:206
+#: urls.py:196 urls.py:200 urls.py:204 urls.py:208
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -383,7 +383,7 @@ msgstr ""
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
 #: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:153 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:162 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proje"
 
@@ -397,17 +397,17 @@ msgid "There are no matching failed checks!"
 msgstr "Eşleşen başarısız olmuş kontroller yok!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:15 html/translate.html:67 html/translate.html.py:158
+#: html/last-changes.html:15 html/translate.html:76 html/translate.html.py:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:223
+#: trans/forms.py:225
 msgid "Translation"
 msgstr "Çeviri"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
 #: html/source-review.html:32 html/subproject.html:34 html/translate.html:53
-#: html/translate.html.py:152 html/translate.html:158
+#: html/translate.html.py:161 html/translate.html:167
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:222
+#: trans/forms.py:224
 msgid "Source"
 msgstr "Kaynak"
 
@@ -427,24 +427,24 @@ msgstr ""
 msgid "Send"
 msgstr "Gönder"
 
-#: html/data.html:7
+#: html/data-root.html:6 html/data.html:7
 msgid "data"
 msgstr "veri"
 
-#: html/data.html:12
+#: html/data-root.html:11 html/data.html:12 html/index.html:110
 msgid "Data export"
 msgstr "Veri dışa aktarma"
 
-#: html/data.html:15
+#: html/data-root.html:14 html/data.html:15
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
 "Weblate'den çeşitli veriyi makinenin okuyabilir biçiminde geri alabilirsiniz."
 
-#: html/data.html:18
+#: html/data-root.html:17 html/data.html:18
 msgid "RSS feeds"
 msgstr "RSS bildirimleri"
 
-#: html/data.html:21
+#: html/data-root.html:20 html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
@@ -452,7 +452,7 @@ msgstr ""
 "Çeviri ilerlemesini takip etmek için çevirideki tüm önemli değişikliklerin "
 "dahil olduğu RSS bildirimlerini kullanabilirsiniz."
 
-#: html/data.html:22
+#: html/data-root.html:21 html/data.html:22
 #, python-format
 msgid ""
 "More information about exported RSS feeds is available in <a href="
@@ -461,17 +461,28 @@ msgstr ""
 "Dışa aktarılan RSS bildirimleri hakkında daha fazla bilgi <a href="
 "\"%(rss_docs)s\">belgelerde</a> mevcut."
 
-#: html/data.html:29 html/data.html.py:60
+#: html/data-root.html:27 html/data.html:29 html/data.html.py:60
 msgid "URL"
 msgstr "URL"
 
-#: html/data.html:30 html/data.html.py:61
+#: html/data-root.html:28 html/data.html:30 html/data.html.py:61
 msgid "Link"
 msgstr "Bağlantı"
 
-#: html/data.html:36 html/data.html.py:42
+#: html/data-root.html:33 html/data.html:36 html/data.html.py:42
 msgid "RSS"
 msgstr "RSS"
+
+#: html/data-root.html:38
+#, fuzzy
+msgid "Per project data"
+msgstr "Proje"
+
+#: html/data-root.html:41
+msgid ""
+"There is more data exported per project, please check following links for "
+"more information."
+msgstr ""
 
 #: html/data.html:48
 msgid ""
@@ -509,7 +520,7 @@ msgstr "Dil"
 msgid "Words"
 msgstr "Kelime"
 
-#: html/dictionary.html:15 html/translate.html:149
+#: html/dictionary.html:15 html/translate.html:158
 msgid "Glossary"
 msgstr "Terimler Sözlüğü"
 
@@ -538,7 +549,7 @@ msgstr "Son"
 msgid "Edit"
 msgstr "Düzenle"
 
-#: html/dictionary.html:57 html/translate.html:109
+#: html/dictionary.html:57 html/translate.html:118
 msgid "Delete"
 msgstr "Sil"
 
@@ -563,7 +574,7 @@ msgstr "Terimler sözlüğünü içe aktar"
 msgid "Export glossary"
 msgstr "Terimler sözlüğünü dışa aktar"
 
-#: html/dictionary.html:90 html/translate.html:206 html/translate.html.py:239
+#: html/dictionary.html:90 html/translate.html:210 html/translate.html.py:243
 msgid "Add"
 msgstr "Ekle"
 
@@ -599,7 +610,7 @@ msgstr "sözlükler"
 msgid "Change word"
 msgstr "Kelimeyi değiştir"
 
-#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:129
+#: html/edit_dictionary.html:21 html/profile.html:70 html/translate.html:138
 msgid "Save"
 msgstr "Kaydet"
 
@@ -686,7 +697,7 @@ msgstr ""
 "\"http://weblate.org/\">Weblate</a> çalıştırmaktadır. Çevirmek için oturum "
 "açmış olmanız gerekir aksi halde sadece öneride bulunabilirsiniz."
 
-#: html/index.html:13 html/subproject.html:15 html/translate.html:67
+#: html/index.html:13 html/subproject.html:15 html/translate.html:76
 msgid "Translations"
 msgstr "Çeviriler"
 
@@ -756,7 +767,7 @@ msgstr "Tarih"
 msgid "Action"
 msgstr "Eylem"
 
-#: html/last-changes.html:29 html/translate.html:189
+#: html/last-changes.html:29 html/translate.html:193
 msgid "No recent activity has been recorded."
 msgstr "Kaydedilmiş en son etkinlik yok."
 
@@ -920,8 +931,8 @@ msgstr "gözden geçir"
 msgid "Strings to review"
 msgstr "Gözden geçirmek için satırlar"
 
-#: html/source-review.html:33 html/translate.html:82
-#: html/translate.html.py:219 trans/views.py:102
+#: html/source-review.html:33 html/translate.html:91
+#: html/translate.html.py:223 trans/views.py:102
 msgid "Failing checks"
 msgstr "Başarısız kontrolleri"
 
@@ -929,7 +940,7 @@ msgstr "Başarısız kontrolleri"
 msgid "Comment"
 msgstr "Yorum"
 
-#: html/source-review.html:62 html/translate.html:224
+#: html/source-review.html:62 html/translate.html:228
 msgid "User comments"
 msgstr "Kullanıcı yorumları"
 
@@ -989,53 +1000,58 @@ msgstr "Şu anki süzgeç: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Context"
 msgstr "Bağlam"
 
-#: html/translate.html:64
+#: html/translate.html:65
 msgid "Copy"
 msgstr "Kopyala"
 
-#: html/translate.html:72
+#: html/translate.html:68
+#, fuzzy
+msgid "Toggle text direction"
+msgstr "Geçersiz metin yönü"
+
+#: html/translate.html:81
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
-#: html/translate.html:73
+#: html/translate.html:82
 msgid "Special characters:"
 msgstr "Özel karakter:"
 
-#: html/translate.html:74
+#: html/translate.html:83
 msgid "Insert tab character"
 msgstr "Tab karakteri ekle"
 
-#: html/translate.html:75
+#: html/translate.html:84
 msgid "Insert new line"
 msgstr "Yeni satır ekle"
 
-#: html/translate.html:76
+#: html/translate.html:85
 msgid "Insert horizontal elipsis"
 msgstr "Yatay üç nokta ekle"
 
-#: html/translate.html:92
+#: html/translate.html:101
 msgid "Suggestions"
 msgstr "Öneriler"
 
-#: html/translate.html:99
+#: html/translate.html:108
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "%(user)s tarafından önerildi"
 
-#: html/translate.html:101
+#: html/translate.html:110
 msgid "Suggested by anonymous user"
 msgstr "İsimsiz kullanıcı tarafından önerildi"
 
-#: html/translate.html:106
+#: html/translate.html:115
 msgid "Accept"
 msgstr "Kabul"
 
-#: html/translate.html:123
+#: html/translate.html:132
 msgid "Flags"
 msgstr "İşaretler"
 
-#: html/translate.html:133
+#: html/translate.html:142
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1044,80 +1060,80 @@ msgstr ""
 "Çevirileri kaydetmek için <a href=\"%(login_url)s?next=%(translate_url)s"
 "\">oturum açın</a>."
 
-#: html/translate.html:136
+#: html/translate.html:145
 msgid "Suggest"
 msgstr "Öner"
 
-#: html/translate.html:142
+#: html/translate.html:151
 msgid "Translation context"
 msgstr "Çeviri bağlamı"
 
-#: html/translate.html:146
+#: html/translate.html:155
 msgid "Messages placed around this one"
 msgstr "Bu iletinin yakınında olan iletiler"
 
-#: html/translate.html:146
+#: html/translate.html:155
 msgid "Nearby messages"
 msgstr "Yakındaki iletiler"
 
-#: html/translate.html:147
+#: html/translate.html:156
 msgid "Similar messages"
 msgstr "Benzer iletiler"
 
-#: html/translate.html:148
+#: html/translate.html:157
 msgid "Same message used in different subprojects"
 msgstr "Farklı alt projelerde kullanılmış aynı iletiler"
 
-#: html/translate.html:148
+#: html/translate.html:157
 msgid "All locations"
 msgstr "Tüm yerler"
 
-#: html/translate.html:149
+#: html/translate.html:158
 msgid "Words extracted from glossary"
 msgstr "Terimler sözlüğünden çıkartılmış kelimeler"
 
-#: html/translate.html:150
+#: html/translate.html:159
 msgid "Comments about this translation"
 msgstr "Bu çeviri hakkında yorumlar"
 
-#: html/translate.html:150 html/unit-details.html:10
+#: html/translate.html:159 html/unit-details.html:10
 msgid "Comments"
 msgstr "Yorumlar"
 
-#: html/translate.html:151
+#: html/translate.html:160
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate'te yapılmış en son değişikliklerin listesi"
 
-#: html/translate.html:151
+#: html/translate.html:160
 msgid "Recent edits"
 msgstr "En son düzenlemeler"
 
-#: html/translate.html:152
+#: html/translate.html:161
 msgid "Source string details and feedback"
 msgstr "Kaynak satırı ayrıntıları ve geri bildirim"
 
-#: html/translate.html:153
+#: html/translate.html:162
 msgid "Information about project"
 msgstr "Proje hakkında bilgi"
 
-#: html/translate.html:158 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:167 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Durum"
 
-#: html/translate.html:193
+#: html/translate.html:197
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 "Bu çeviri hakkındaki yorumları diğer çevirmenler ile paylaşabilirsiniz."
 
-#: html/translate.html:199 html/translate.html.py:231
+#: html/translate.html:203 html/translate.html.py:235
 msgid "New comment"
 msgstr "Yeni yorum"
 
-#: html/translate.html:209 html/translate.html.py:242
+#: html/translate.html:213 html/translate.html.py:246
 msgid "You are not allowed to add comments."
 msgstr "Yorum eklemenize izin verilmiyor."
 
-#: html/translate.html:225
+#: html/translate.html:229
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -2337,15 +2353,15 @@ msgstr "Yoruba dili"
 msgid "Zulu"
 msgstr "Zulu dili"
 
-#: lang/models.py:337
+#: lang/models.py:366
 msgid "Singular"
 msgstr "Tekil"
 
-#: lang/models.py:339
+#: lang/models.py:368
 msgid "Plural"
 msgstr "Çoğul"
 
-#: lang/models.py:340
+#: lang/models.py:369
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
@@ -2532,99 +2548,99 @@ msgstr "%s içindeki son değişiklikler"
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
 
-#: trans/forms.py:82
+#: trans/forms.py:84
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
 "Bu eşitlik verilen sayıya (n) bağlı kullanılacak olan çoğul biçimi tanımlar."
 
-#: trans/forms.py:83
+#: trans/forms.py:85
 msgid "Plural equation"
 msgstr "Çoğul eşitlik"
 
-#: trans/forms.py:121
+#: trans/forms.py:123
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
-#: trans/forms.py:138 trans/forms.py:226
+#: trans/forms.py:140 trans/forms.py:228
 msgid "File"
 msgstr "Dosya"
 
-#: trans/forms.py:140
+#: trans/forms.py:142
 msgid "Merge file header"
 msgstr "Dosya başlığını birleştir"
 
-#: trans/forms.py:141
+#: trans/forms.py:143
 msgid "Merges content of file header into the translation."
 msgstr "Dosya başlığının içeriğini çeviri içine birleştirir."
 
-#: trans/forms.py:148
+#: trans/forms.py:150
 msgid "Overwrite existing translations"
 msgstr "Mevcut çevirilerin üzerine yaz"
 
-#: trans/forms.py:154
+#: trans/forms.py:156
 msgid "Author name"
 msgstr "Hazırlayanın adı"
 
-#: trans/forms.py:156 trans/forms.py:161
+#: trans/forms.py:158 trans/forms.py:163
 msgid "Keep empty for using currently logged in user."
 msgstr "Şu anki oturum açmış kullanıcıyı kullanmak için boş tut."
 
-#: trans/forms.py:159
+#: trans/forms.py:161
 msgid "Author email"
 msgstr "Hazırlayanın epostası"
 
-#: trans/forms.py:165
+#: trans/forms.py:167
 msgid "Query"
 msgstr "Sorgu"
 
-#: trans/forms.py:167
+#: trans/forms.py:169
 msgid "Exact match"
 msgstr "Tam eşleşme"
 
-#: trans/forms.py:172
+#: trans/forms.py:174
 msgid "Search in source strings"
 msgstr "Kaynak satırlarında ara"
 
-#: trans/forms.py:177
+#: trans/forms.py:179
 msgid "Search in target strings"
 msgstr "Çeviri satırlarında ara"
 
-#: trans/forms.py:182
+#: trans/forms.py:184
 msgid "Search in context strings"
 msgstr "Bağlam satırlarında ara"
 
-#: trans/forms.py:193
+#: trans/forms.py:195
 msgid "Overwrite strings"
 msgstr "Satırları üzerine yaz"
 
-#: trans/forms.py:198
+#: trans/forms.py:200
 msgid "Replace inconsistent"
 msgstr "Tutarsızı değiştir"
 
-#: trans/forms.py:203
+#: trans/forms.py:205
 msgid "Subproject to use"
 msgstr "Kullanmak için alt proje"
 
-#: trans/forms.py:219
+#: trans/forms.py:221
 msgid "All subprojects"
 msgstr "Tüm alt projeler"
 
-#: trans/forms.py:228
+#: trans/forms.py:230
 msgid "Overwrite existing"
 msgstr "Mevcut olanın üzerine yaz"
 
-#: trans/forms.py:233
+#: trans/forms.py:235
 msgid "Starting date"
 msgstr "Başlangıç tarihi"
 
-#: trans/forms.py:243
+#: trans/forms.py:245
 msgid "Starting letter"
 msgstr "Başlangıç harfi"
 
-#: trans/forms.py:244
+#: trans/forms.py:246
 msgid "Any"
 msgstr "Herhangi"
 
@@ -3211,10 +3227,6 @@ msgstr "Yeni satır"
 
 #~ msgid "Users"
 #~ msgstr "Kullanıcılar"
-
-#, fuzzy
-#~ msgid "Project "
-#~ msgstr "Proje"
 
 #~ msgid "Source and translation do not both end with question mark"
 #~ msgstr "Kaynak ve çevrilmiş olanın ikiside soru işareti ile bitmez"
