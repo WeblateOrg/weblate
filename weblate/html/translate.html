@@ -61,7 +61,16 @@
 {% endif %}
 <tr>
 <td></td>
-<td class="toolbar"><a href="#" id="copy-text">{% trans "Copy" %}</a><img src="{% get_media_prefix %}loading.gif" id="loading" style="display: none" /></td>
+<td class="toolbar">
+<a href="#" id="copy-text">{% trans "Copy" %}</a>
+<img src="{% get_media_prefix %}loading.gif" id="loading" style="display: none" />
+{% if unit.translation.language.direction == "rtl" %}
+<div id="toggle-direction" title="{% trans "Toggle text direction" %}">
+<input type="radio" id="direction-rtl" name="direction" value="rtl" checked="checked" /><label for="direction-rtl">RTL</label>
+<input type="radio" id="direction-ltr" name="direction" value="ltr" /><label for="direction-ltr">LTR</label>
+</div>
+{% endif %}
+</td>
 </tr>
 <tr>
 <th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>

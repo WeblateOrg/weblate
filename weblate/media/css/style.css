@@ -105,11 +105,17 @@ td.suggestions table {
     width: 20px;
     height: 20px;
 }
-.toolbar a {
+.toolbar a, #toggle-direction {
     height: 20px;
     font-size: 10px;
     font-weight: normal;
     vertical-align: top;
+}
+#toggle-direction {
+    float: right;
+}
+body.dir-rtl #toggle-direction {
+    float: left;
 }
 .specialchars a {
     height: 20px;
