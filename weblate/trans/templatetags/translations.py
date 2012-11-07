@@ -111,7 +111,7 @@ def fmttranslation(value, language = None, diff = None):
 
     value = '<hr />'.join(parts)
 
-    return mark_safe('<span lang="%s">%s</span>' % (language.code, value))
+    return mark_safe('<span lang="%s" dir="%s">%s</span>' % (language.code, language.direction, value))
 
 @register.filter
 @stringfilter
