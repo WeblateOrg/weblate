@@ -215,6 +215,9 @@ $(function() {
     $('.navi .button-disabled').button('disable');
     $('textarea.translation').change(text_change).keypress(text_change).autogrow();
     $('textarea#id_target').focus();
+    $('#toggle-direction').buttonset().change(function(e) {
+        $('#id_target').attr('dir', $("#toggle-direction :radio:checked").attr('value'));
+    });
     $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
         get_source_string(function(data) {
             mt_set(data);
