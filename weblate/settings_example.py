@@ -72,6 +72,7 @@ LANGUAGES = (
     ('gl', 'Galego'),
     ('id', 'Indonesia'),
     ('ja', u'日本語'),
+    ('ko', u'한국어'),
     ('nl', 'Nederlands'),
     ('pl', 'Polski'),
     ('pt_BR', u'Português brasileiro'),
