@@ -36,30 +36,33 @@ class Command(WeblateCommand):
 
     def handle(self, *args, **options):
         languages = Language.objects.all()
+
+        # Optionally rebuild indices from scratch
         if options['clean']:
             create_source_index()
             for lang in languages:
                 create_target_index(lang = lang.code)
 
-        base = self.get_units(*args, **options)
+        units = self.get_units(*args, **options)
 
-        if base.count() == 0:
-            return
-
+        # Update source index
         with FULLTEXT_INDEX.source_writer(buffered = False) as writer:
-            for unit in base.values('checksum', 'source', 'context').iterator():
+            for unit in units.values('checksum', 'source', 'context').iterator():
                 Unit.objects.add_to_source_index(
                     unit['checksum'],
                     unit['source'],
                     unit['context'],
-                    writer)
+                    writer
+                )
 
+        # Update per language indices
         for lang in languages:
             with FULLTEXT_INDEX.target_writer(lang = lang.code, buffered = False) as writer:
-                for unit in base.filter(translation__language =
-                    lang).exclude(target = '').values('checksum', 'target').iterator():
+                language_units = units.filter(translation__language = lang).exclude(target = '')
+                for unit in language_units.values('checksum', 'target').iterator():
                     Unit.objects.add_to_target_index(
                         unit['checksum'],
                         unit['target'],
-                        writer)
+                        writer
+                    )
 
