@@ -245,7 +245,7 @@ Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 .. _check-end-ellipsis:
 
 Trailing ellipsis
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Source and translation do not both end with an ellipsis. This only checks for
 real ellipsis (`\u2026`) not for three commas (`...`).
