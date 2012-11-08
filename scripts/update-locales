@@ -10,7 +10,7 @@ cd weblate
 ../manage.py makemessages -a -i 'repos/*' -i 'docs/*' -d djangojs
 
 # Fix Report-Msgid-Bugs-To as it gets removed
-sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: https:\/\/github.com\/nijel\/weblate\/issues\\n"/' locale/*/*/*.po
+sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' locale/*/*/*.po
 
 # Commit changes
 git add locale/*/*/*.po
