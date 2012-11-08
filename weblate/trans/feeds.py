@@ -22,6 +22,7 @@ from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Change, Translation, SubProject, Project
 
@@ -34,7 +35,7 @@ class ChangesFeed(Feed):
         return _('All recent changes made using Weblate in %s.') % settings.SITE_TITLE
 
     def link(self):
-        return '/'
+        return reverse('home')
 
     def items(self, obj):
         return Change.objects.order_by('-timestamp')[:10]
