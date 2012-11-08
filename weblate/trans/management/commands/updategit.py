@@ -18,32 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand
-from weblate.trans.models import SubProject, Project
-from optparse import make_option
+from weblate.trans.management.commands import SubProjectCommand
 
-class Command(BaseCommand):
+class Command(SubProjectCommand):
     help = 'updates git repos'
-    args = '<project/subproject>'
-    option_list = BaseCommand.option_list + (
-        make_option('--all',
-            action='store_true',
-            dest='all',
-            default=False,
-            help='Update all projects'),
-        )
 
     def handle(self, *args, **options):
-        if options['all']:
-            for s in SubProject.objects.all():
-                s.do_update()
-        for arg in args:
-            parts = arg.split('/')
-            if len(parts) == 2:
-                prj, subprj = parts
-                s = SubProject.objects.get(slug = subprj, project__slug = prj)
-                s.do_update()
-
-            else:
-                p = Project.objects.get(slug = parts[0])
-                p.do_update()
+        for s in self.get_subprojects(*args, **options):
+            s.do_update()

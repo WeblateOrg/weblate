@@ -18,14 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand
-from weblate.trans.models import SubProject
+from weblate.trans.management.commands import SubProjectCommand
 from optparse import make_option
 
-class Command(BaseCommand):
+class Command(SubProjectCommand):
     help = '(re)loads translations from disk'
-    args = '<project/subproject>'
-    option_list = BaseCommand.option_list + (
+    option_list = SubProjectCommand.option_list + (
         make_option('--force',
             action='store_true',
             dest='force',
@@ -45,7 +43,5 @@ class Command(BaseCommand):
         langs = None
         if options['lang'] is not None:
             langs = options['lang'].split(',')
-        for arg in args:
-            prj, subprj = arg.split('/')
-            s = SubProject.objects.get(slug = subprj, project__slug = prj)
+        for s in self.get_subprojects(*args, **options):
             s.create_translations(options['force'], langs)

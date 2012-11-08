@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from weblate.trans.models import Unit
+from weblate.trans.models import Unit, SubProject
 
 class UnitCommand(BaseCommand):
     '''
@@ -54,7 +54,40 @@ class UnitCommand(BaseCommand):
                 else:
                     prj = parts[0]
                     base |= Unit.objects.filter(translation__subproject__project__slug = prj)
-            else:
+            if len(args) == 0 or base.count() == 0:
+                print 'Nothing to process, please use either --all or <project/subproject>'
+        return base
+
+class SubProjectCommand(BaseCommand):
+    '''
+    Command which accepts project/subproject/--all params to process subprojects.
+    '''
+    args = '<project/subproject>'
+    option_list = BaseCommand.option_list + (
+        make_option('--all',
+            action='store_true',
+            dest='all',
+            default=False,
+            help='work on all projects'),
+        )
+
+    def get_subprojects(self, *args, **options):
+        '''
+        Returns list of units matching parameters.
+        '''
+        if options['all']:
+            base = SubProject.objects.all()
+        else:
+            base = SubProject.objects.none()
+            for arg in args:
+                parts = arg.split('/')
+                if len(parts) == 2:
+                    prj, subprj = parts
+                    base |= SubProject.objects.filter(slug = subprj, project__slug = prj)
+                else:
+                    prj = parts[0]
+                    base |= SubProject.objects.filter(project__slug = prj)
+            if len(args) == 0 or base.count() == 0:
                 print 'Nothing to process, please use either --all or <project/subproject>'
         return base
 
