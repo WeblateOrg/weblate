@@ -13,14 +13,14 @@ Contents:
 
     about
     usage
+    faq
+    formats
+    api
     quick
     install
-    config
     admin
-    formats
+    config
     management
-    api
-    faq
     changes
     license
 
