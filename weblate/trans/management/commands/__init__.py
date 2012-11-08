@@ -49,10 +49,12 @@ class UnitCommand(BaseCommand):
                     prj, subprj = parts
                     base |= Unit.objects.filter(
                         translation__subproject__slug = subprj,
-                        translation__subproject__project__slug = prj)
-
+                        translation__subproject__project__slug = prj
+                    )
                 else:
                     prj = parts[0]
                     base |= Unit.objects.filter(translation__subproject__project__slug = prj)
+            else:
+                print 'Nothing to process, please use either --all or <project/subproject>'
         return base
 
