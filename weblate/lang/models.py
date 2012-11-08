@@ -22,7 +22,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
 from translate.lang import data
-from django.db.models.signals import post_syncdb
+from south.signals import post_migrate
 
 # Extra languages not included in ttkit
 EXTRALANGS = [
@@ -322,14 +322,14 @@ class LanguageManager(models.Manager):
         return self.filter(translation__total__gt = 0).distinct()
 
 
-def setup_lang(sender=None, **kwargs):
+def setup_lang(sender=None, app=None, **kwargs):
     '''
     Hook for creating basic set of languages on syncdb.
     '''
-    if sender.__name__ == 'weblate.lang.models':
+    if app == 'lang':
         Language.objects.setup(False)
 
-post_syncdb.connect(setup_lang)
+post_migrate.connect(setup_lang)
 
 class Language(models.Model):
     code = models.SlugField(unique = True)
