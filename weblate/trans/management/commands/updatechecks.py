@@ -18,9 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import UnitCommand
+from weblate.trans.management.commands import WeblateCommand
 
-class Command(UnitCommand):
+class Command(WeblateCommand):
     help = 'updates checks for units'
 
     def handle(self, *args, **options):

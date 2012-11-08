@@ -22,9 +22,9 @@ from django.core.management.base import BaseCommand
 from optparse import make_option
 from weblate.trans.models import Unit, SubProject
 
-class UnitCommand(BaseCommand):
+class WeblateCommand(BaseCommand):
     '''
-    Command which accepts project/subproject/--all params to process units.
+    Command which accepts project/subproject/--all params to process.
     '''
     args = '<project/subproject>'
     option_list = BaseCommand.option_list + (
@@ -32,62 +32,49 @@ class UnitCommand(BaseCommand):
             action='store_true',
             dest='all',
             default=False,
-            help='work on all projects'),
-        )
+            help='process all subprojects'),
+    )
 
     def get_units(self, *args, **options):
         '''
         Returns list of units matching parameters.
         '''
-        if options['all']:
-            base = Unit.objects.all()
-        else:
-            base = Unit.objects.none()
-            for arg in args:
-                parts = arg.split('/')
-                if len(parts) == 2:
-                    prj, subprj = parts
-                    base |= Unit.objects.filter(
-                        translation__subproject__slug = subprj,
-                        translation__subproject__project__slug = prj
-                    )
-                else:
-                    prj = parts[0]
-                    base |= Unit.objects.filter(translation__subproject__project__slug = prj)
-            if len(args) == 0 or base.count() == 0:
-                print 'Nothing to process, please use either --all or <project/subproject>'
-        return base
-
-class SubProjectCommand(BaseCommand):
-    '''
-    Command which accepts project/subproject/--all params to process subprojects.
-    '''
-    args = '<project/subproject>'
-    option_list = BaseCommand.option_list + (
-        make_option('--all',
-            action='store_true',
-            dest='all',
-            default=False,
-            help='work on all projects'),
-        )
+        subprojects = self.get_subprojects(*args, **options)
+        return Unit.objects.filter(translation__subproject__in = subprojects)
 
     def get_subprojects(self, *args, **options):
         '''
         Returns list of units matching parameters.
         '''
         if options['all']:
-            base = SubProject.objects.all()
+            # all subprojects
+            result = SubProject.objects.all()
+        elif len(args) == 0:
+            # no argumets to filter projects
+            print 'WARNING: nothing to process, please use either --all or <project/subproject>'
+            result = SubProject.objects.none()
         else:
-            base = SubProject.objects.none()
+            # start with none and add found
+            result = SubProject.objects.none()
+
+            # process arguments
             for arg in args:
+                # do we have also subproject?
                 parts = arg.split('/')
+
+                # filter by project
+                found = SubProject.objects.filter(project__slug = parts[0])
+
+                # filter by subproject if available
                 if len(parts) == 2:
-                    prj, subprj = parts
-                    base |= SubProject.objects.filter(slug = subprj, project__slug = prj)
-                else:
-                    prj = parts[0]
-                    base |= SubProject.objects.filter(project__slug = prj)
-            if len(args) == 0 or base.count() == 0:
-                print 'Nothing to process, please use either --all or <project/subproject>'
-        return base
+                    found = found.filter(project__slug = parts[1])
+
+                # warn on no match
+                if found.count() == 0:
+                    print 'WARNING: "%s" did not match any subproject' % arg
+
+                # merge results
+                result|= found
+
+        return result
 

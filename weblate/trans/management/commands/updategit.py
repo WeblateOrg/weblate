@@ -18,9 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import SubProjectCommand
+from weblate.trans.management.commands import WeblateCommand
 
-class Command(SubProjectCommand):
+class Command(WeblateCommand):
     help = 'updates git repos'
 
     def handle(self, *args, **options):

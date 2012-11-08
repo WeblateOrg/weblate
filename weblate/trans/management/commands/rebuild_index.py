@@ -18,15 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import UnitCommand
+from weblate.trans.management.commands import WeblateCommand
 from weblate.trans.models import Unit
 from weblate.lang.models import Language
 from weblate.trans.search import FULLTEXT_INDEX, create_source_index, create_target_index
 from optparse import make_option
 
-class Command(UnitCommand):
+class Command(WeblateCommand):
     help = 'rebuilds index for fulltext search'
-    option_list = UnitCommand.option_list + (
+    option_list = WeblateCommand.option_list + (
         make_option('--clean',
             action='store_true',
             dest='clean',
