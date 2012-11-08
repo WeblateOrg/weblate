@@ -5,25 +5,25 @@ Management commands
 
 The ./manage.py is extended with following commands:
 
-checkgit
---------
+checkgit <project|project/subproject>
+-------------------------------------
 
 .. django-admin:: checkgit
 
 Prints current state of backend git repository.
 
-You can either define which subproject to check (eg. ``weblate/master``) or
-use ``--all`` to check all existing subprojects.
+You can either define which project or subproject to update (eg.
+``weblate/master``) or use ``--all`` to update all existing subprojects.
 
-commitgit
----------
+commitgit <project|project/subproject>
+--------------------------------------
 
 .. django-admin:: commitgit
 
 Commits any possible pending changes to  backend git repository.
 
-You can either define which subproject to check (eg. ``weblate/master``) or
-use ``--all`` to check all existing subprojects.
+You can either define which project or subproject to update (eg.
+``weblate/master``) or use ``--all`` to update all existing subprojects.
 
 cleanuptrans
 ------------
@@ -62,8 +62,8 @@ For example:
 
     ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
 
-loadpo
-------
+loadpo <project|project/subproject>
+-----------------------------------
 
 .. django-admin:: loadpo
 
@@ -72,6 +72,9 @@ repository).
 
 You can use ``--force`` to force update even if the files should be up
 to date. Additionally you can limit languages to process with ``--lang``.
+
+You can either define which project or subproject to update (eg.
+``weblate/master``) or use ``--all`` to update all existing subprojects.
 
 rebuild_index
 -------------
@@ -121,8 +124,8 @@ translate-toolkit).
 The option ``--no-update`` disables update of existing languages (only add 
 new ones).
 
-updatechecks
-------------
+updatechecks <project|project/subproject>
+-----------------------------------------
 
 .. django-admin:: updatechecks
 
@@ -132,8 +135,8 @@ which do major changes to checks.
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
 
-updategit
----------
+updategit <project|project/subproject>
+--------------------------------------
 
 .. django-admin:: updategit
 
