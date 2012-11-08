@@ -2564,7 +2564,7 @@ class Change(models.Model):
             'action': self.get_action_display(),
             'time': self.timestamp,
             'translation': self.translation,
-            'user': self.user,
+            'user': self.get_user_display(),
         }
 
     def get_user_display(self):
