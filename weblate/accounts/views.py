@@ -27,6 +27,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
+from django.core.urlresolvers import reverse
 
 from weblate.accounts.models import set_lang
 from weblate.accounts.forms import ProfileForm, SubscriptionForm, UserForm, ContactForm
@@ -62,7 +63,7 @@ def profile(request):
             set_lang(request.user, request = request, user = request.user)
 
             # Redirect after saving (and possibly changing language)
-            response = HttpResponseRedirect('/accounts/profile/')
+            response = HttpResponseRedirect(reverse('profile'))
 
             # Set language cookie and activate new language (for message below)
             lang_code = request.user.get_profile().language
@@ -102,7 +103,7 @@ def contact(request):
                 form.cleaned_data['email'],
             )
             messages.info(request, _('Message has been sent to administrator.'))
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('home'))
     else:
         initial = {}
         if request.user.is_authenticated():
