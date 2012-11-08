@@ -7,6 +7,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('weblate.lang', '0002_auto__add_field_language_direction'),
+    )
+
     def forwards(self, orm):
 
         # Changing field 'Change.user'
