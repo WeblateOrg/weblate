@@ -2147,15 +2147,16 @@ class Unit(models.Model):
         self.translation.update_stats()
 
         # Notify subscribed users about new translation
-        subscriptions = Profile.objects.subscribed_any_translation(
-            self.translation.subproject.project,
-            self.translation.language
-        )
-        for subscription in subscriptions:
-            subscription.notify_any_translation(self, oldunit)
+        if saved:
+            subscriptions = Profile.objects.subscribed_any_translation(
+                self.translation.subproject.project,
+                self.translation.language
+            )
+            for subscription in subscriptions:
+                subscription.notify_any_translation(self, oldunit)
 
         # Generate Change object for this change
-        if gen_change:
+        if saved and gen_change:
             # Get list of subscribers for new contributor
             subscriptions = Profile.objects.subscribed_new_contributor(
                 self.translation.subproject.project,
