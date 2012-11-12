@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-08 11:22+0100\n"
-"PO-Revision-Date: 2012-09-22 19:02+0200\n"
+"PO-Revision-Date: 2012-11-12 07:12+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 1.2\n"
+"X-Generator: Weblate 1.3-dev\n"
 
 #: urls.py:138 urls.py:145 urls.py:152 urls.py:159
 msgid "User registration"
@@ -170,7 +170,6 @@ msgid "AJAX request to load this content has failed!"
 msgstr "AJAX-forespørgsel om indlæsning af dette indhold fejlede!"
 
 #: accounts/i18n.py:47
-#, fuzzy
 msgid "Loading…"
 msgstr "Indlæser …"
 
@@ -235,9 +234,8 @@ msgid "Notification on new contributor"
 msgstr "Notifikation ved ny bidragyder"
 
 #: accounts/models.py:165
-#, fuzzy
 msgid "Notification on new comment"
-msgstr "Notifikation ved ny bidragyder"
+msgstr "Notifikation ved ny kommentar"
 
 #: accounts/models.py:255
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -264,11 +262,11 @@ msgid "The page you are looking for was not found."
 msgstr "Siden du leder efter blev ikke fundet."
 
 #: html/404.html:11
-#, fuzzy
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
-"Der er dog følgende tilgængelige oversættelsesprojekter på denne server:"
+"Der er dog følgende oversættelsesprojekter som er tilgængelige på denne "
+"server:"
 
 #: html/500.html:5
 msgid "Server Error"
@@ -438,30 +436,31 @@ msgid "Data export"
 msgstr "Data-eksport"
 
 #: html/data-root.html:14 html/data.html:15
-#, fuzzy
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
-"Der er forskellige <a href=\"%(data_url)s\">data-eksporter</a> tilgængelige "
-"i formater som kan maskinlæses."
+"Du kan hente forskellige data fra Weblate, i formater som kan læses af "
+"maskiner."
 
 #: html/data-root.html:17 html/data.html:18
 msgid "RSS feeds"
-msgstr ""
+msgstr "RSS-nyhedskilder"
 
 #: html/data-root.html:20 html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
+"For at følge fremgangen i oversættelsen, så kan du bruge RSS-nyhedskilder, "
+"der inkluderer alle vigtige ændringer i oversættelsen."
 
 #: html/data-root.html:21 html/data.html:22
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"Mere information om dette tjek er tilgængeligt i <a href=%(link)s"
-"\">dokumentationen</a>."
+"Mere information om eksporterede RSS-nyhedskilder er tilgængelige via <a "
+"href=\"%(rss_docs)s\">dokumentationen</a>."
 
 #: html/data-root.html:27 html/data.html:29 html/data.html.py:60
 msgid "URL"
@@ -473,24 +472,27 @@ msgstr "Henvisning"
 
 #: html/data-root.html:33 html/data.html:36 html/data.html.py:42
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: html/data-root.html:38
-#, fuzzy
 msgid "Per project data"
-msgstr "Projekt"
+msgstr "Data per projekt"
 
 #: html/data-root.html:41
 msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
+"Der er yderligere data som eksporteres per projekt. Tjek venligst følgende "
+"henvisninger for mere information."
 
 #: html/data.html:48
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
+"Der er også RSS-nyhedskilder tilgængelige per sprog. Du kan konstruere dem "
+"ved at tilføje en sprogkode til ovenstående URL'er."
 
 #: html/data.html:53
 #, python-format
@@ -509,7 +511,7 @@ msgstr "Hent"
 
 #: html/dictionaries.html:8 html/dictionary.html:7
 msgid "glossaries"
-msgstr ""
+msgstr "ordlister"
 
 #: html/dictionaries.html:15 html/languages.html:14
 #: html/list-translations.html:6
@@ -522,7 +524,7 @@ msgstr "Ord"
 
 #: html/dictionary.html:15 html/translate.html:158
 msgid "Glossary"
-msgstr ""
+msgstr "Ordliste"
 
 #: html/dictionary.html:19 html/source-review.html:19 html/translate.html:20
 msgid "First"
@@ -567,27 +569,24 @@ msgid "Add new word"
 msgstr "Tilføj nyt ord"
 
 #: html/dictionary.html:77
-#, fuzzy
 msgid "Import glossary"
-msgstr "Importér ordbog"
+msgstr "Importér ordliste"
 
 #: html/dictionary.html:79
-#, fuzzy
 msgid "Export glossary"
-msgstr "Importér ordbog"
+msgstr "Eksportér ordliste"
 
 #: html/dictionary.html:90 html/translate.html:210 html/translate.html.py:243
 msgid "Add"
 msgstr "Tilføj"
 
 #: html/dictionary.html:99
-#, fuzzy
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"Du kan overføre ethvert format, der forstås af Translate Toolit, eksempelvis "
-"en csv- eller po-fil."
+"Du kan overføre ethvert format, der forstås af Translate Toolkit (inklusive "
+"TBX, CSV eller Gettext PO-filer)."
 
 #: html/dictionary.html:106
 msgid "Import"
@@ -595,16 +594,15 @@ msgstr "Importér"
 
 #: html/dictionary.html:114
 msgid "You can download glossary in following formats:"
-msgstr ""
+msgstr "Du kan hente ordlisten i følgendende formater:"
 
 #: html/dictionary.html:117
 msgid "Comma separated values (CSV)"
-msgstr ""
+msgstr "Komma-separerede værdier (CSV)"
 
 #: html/dictionary.html:118
-#, fuzzy
 msgid "Gettext (PO)"
-msgstr "Gettext PO-fil"
+msgstr "Gettext (PO)"
 
 #: html/edit_dictionary.html:7
 msgid "dictionaries"
@@ -767,9 +765,8 @@ msgid "Date"
 msgstr "Dato"
 
 #: html/last-changes.html:14
-#, fuzzy
 msgid "Action"
-msgstr "Alle placeringer"
+msgstr "Handling"
 
 #: html/last-changes.html:29 html/translate.html:193
 msgid "No recent activity has been recorded."
@@ -868,7 +865,7 @@ msgstr "Delprojekt"
 
 #: html/project.html:40
 msgid "Glossaries"
-msgstr ""
+msgstr "Ordlister"
 
 #: html/project.html:43 html/subproject.html:31 html/translation.html:39
 msgid "Git maintenance"
@@ -879,9 +876,8 @@ msgid "Share"
 msgstr "Del"
 
 #: html/project.html:53
-#, fuzzy
 msgid "Manage all glossaries"
-msgstr "Administration af alle ordbøger"
+msgstr "Administration af alle ordlister"
 
 #: html/project_info.html:2
 msgid "Project website:"
@@ -927,19 +923,16 @@ msgstr ""
 "i formater som kan maskinlæses."
 
 #: html/source-review.html:9 html/source.html:8
-#, fuzzy
 msgid "source"
-msgstr "Kilde"
+msgstr "kilde"
 
 #: html/source-review.html:10
-#, fuzzy
 msgid "review"
-msgstr "Gennemgang"
+msgstr "gennemgang"
 
 #: html/source-review.html:15
-#, fuzzy
 msgid "Strings to review"
-msgstr "Start gennemgang"
+msgstr "strenge til gennemgang"
 
 #: html/source-review.html:33 html/translate.html:91
 #: html/translate.html.py:223 trans/views.py:102
@@ -947,19 +940,16 @@ msgid "Failing checks"
 msgstr "Mislykkede tjek"
 
 #: html/source-review.html:48
-#, fuzzy
 msgid "Comment"
-msgstr "Kommentarer"
+msgstr "Kommentér"
 
 #: html/source-review.html:62 html/translate.html:228
-#, fuzzy
 msgid "User comments"
-msgstr "Kommentarer"
+msgstr "Kommentarer fra brugere"
 
 #: html/source-review.html:75
-#, fuzzy
 msgid "No matching source strings found!"
-msgstr "Der blev ikke fundet andre strenge."
+msgstr "Der blev ikke fundet matchende strenge!"
 
 #: html/source.html:19 html/translation.html:19
 msgid "Strings to check"
@@ -988,9 +978,8 @@ msgstr ""
 "subject=New+language+request+for+%(object)s\">kontakt  til os</a>."
 
 #: html/subproject.html:56
-#, fuzzy
 msgid "Source strings review"
-msgstr "Kildestreng:"
+msgstr "Gennemgang af kildestrenge"
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -1019,9 +1008,8 @@ msgid "Copy"
 msgstr "Kopiér"
 
 #: html/translate.html:68
-#, fuzzy
 msgid "Toggle text direction"
-msgstr "Ugyldig tekstretning"
+msgstr "Skift imellem tekstretninger"
 
 #: html/translate.html:81
 msgctxt "Message is fuzzy"
@@ -1103,14 +1091,12 @@ msgid "All locations"
 msgstr "Alle placeringer"
 
 #: html/translate.html:158
-#, fuzzy
 msgid "Words extracted from glossary"
-msgstr "Ord trukket fra ordbog"
+msgstr "Ord udtrukket fra ordliste"
 
 #: html/translate.html:159
-#, fuzzy
 msgid "Comments about this translation"
-msgstr "Benyt denne oversættelse"
+msgstr "Kommentarer til denne oversættelse"
 
 #: html/translate.html:159 html/unit-details.html:10
 msgid "Comments"
@@ -1125,9 +1111,8 @@ msgid "Recent edits"
 msgstr "Seneste redigeringer"
 
 #: html/translate.html:161
-#, fuzzy
 msgid "Source string details and feedback"
-msgstr "Denne oversættelse er ikke låst i øjeblikket."
+msgstr "Detaljer om kildestreng og tilbagemeldinger"
 
 #: html/translate.html:162
 msgid "Information about project"
@@ -1139,22 +1124,23 @@ msgstr "Tilstand"
 
 #: html/translate.html:197
 msgid "You can share comments about this translation with other translators."
-msgstr ""
+msgstr "Du kan dele kommentarer til denne oversættelser med andre oversættere."
 
 #: html/translate.html:203 html/translate.html.py:235
-#, fuzzy
 msgid "New comment"
-msgstr "Kommentarer"
+msgstr "Ny kommentar"
 
 #: html/translate.html:213 html/translate.html.py:246
 msgid "You are not allowed to add comments."
-msgstr ""
+msgstr "Du har ikke lov til at tilføje kommentarer."
 
 #: html/translate.html:229
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
 msgstr ""
+"Du kan dele kommentarer til kildestrenge for denne oversættelse med andre "
+"oversættere og udviklere."
 
 #: html/translation.html:32 html/translation.html.py:48
 msgid "Search"
@@ -1206,17 +1192,17 @@ msgid "Start review"
 msgstr "Start gennemgang"
 
 #: html/translation.html:97
-#, fuzzy
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to the current subproject. It can be used to push translations to "
 "a different branch, to fix inconsistent translations or to translate new "
 "subproject using translation memory."
 msgstr ""
-"Automatisk oversættelse tager dette projekts eksisterende oversættelser, og "
+"Automatisk oversættelse tager eksisterende oversættelser i dette projekt, og "
 "anvender dem i nuværende delprojekt. Det kan bruges til at skubbe "
-"oversættelser til en anden forgrening eller rette inkonsistente "
-"oversættelser."
+"oversættelser til en anden forgrening, rette rette inkonsistente "
+"oversættelser eller oversætte nye delprojekter med brug af "
+"oversættelseshukommelse."
 
 #: html/translation.html:103
 msgid "Process"
@@ -1515,7 +1501,7 @@ msgid "Sent by Weblate translation system"
 msgstr "Sendt af oversættelsessystemet Weblate"
 
 #: html/mail/new_comment.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1523,17 +1509,16 @@ msgid ""
 msgstr ""
 "Hej,\n"
 "\n"
-"der er foretaget en ny oversættelse af %(translation)s på %(site_title)s.\n"
+"der er kommet en ny kommentar til %(subproject)s på %(site_title)s.\n"
 
 #: html/mail/new_comment.txt:10
-#, fuzzy
 msgid "Comment:"
-msgstr "Kommentarer"
+msgstr "Kommentar:"
 
 #: html/mail/new_comment_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New comment in %(subproject)s"
-msgstr "Deltag i %(project)s!"
+msgstr "Ny kommentar til %(subproject)s"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1744,13 +1729,12 @@ msgstr ""
 "indtastede det korrekt."
 
 #: html/registration/password_reset_confirm.html:19
-#, fuzzy
 msgid ""
 "The password reset link is invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
-"Henvisningen til nulstilling af adgangskode var ugyldig, muligvis fordi det "
-"allerede er anvendt. Anmod venligst en en ny nulstilling af adgangskode."
+"Henvisningen til nulstilling af adgangskode var ugyldigt. Muligvis fordi det "
+"allerede er anvendt. Anmod venligst om en ny nulstilling af adgangskode."
 
 #: html/registration/password_reset_done.html:7
 msgid ""
@@ -1808,14 +1792,14 @@ msgstr ""
 "\"%(contact_url)s\">kontakte os</a> for at få flere detaljer."
 
 #: html/registration/registration_complete.html:7
-#, fuzzy
 msgid ""
 "Thank you for registering. You will very soon receive an email with a "
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"Tak for din tilmelding. Du vil snart modtage en e-mail med\n"
-"en bekræftelseslink. Følg dette link for at fuldføre din tilmelding."
+"Tak for du tilmeldte dig. Du vil snart modtage e-post med\n"
+"en henivsning til bekræftelse. Følg dette link for at fuldføre din "
+"tilmelding."
 
 #: html/registration/registration_complete.html:11
 #, python-format
@@ -2423,14 +2407,12 @@ msgid "Source and translation do not both end with a newline"
 msgstr "Kilde og oversættelser slutter ikke begge med linjeskift"
 
 #: trans/checks.py:329
-#, fuzzy
 msgid "Starting spaces"
-msgstr "Startdato"
+msgstr "Indledende mellemrum"
 
 #: trans/checks.py:330
-#, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "Kilde og oversættelse starter ikke begge med en ny linje"
+msgstr "Kilde og oversættelse starter ikke begge med samme antal mellemrum"
 
 #: trans/checks.py:353
 msgid "Trailing space"
@@ -2485,12 +2467,10 @@ msgstr ""
 "ikke korrekt afstand"
 
 #: trans/checks.py:457
-#, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Efterfølgende udeladelsesprikker"
 
 #: trans/checks.py:458
-#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Kilde og oversættelse slutter ikke begge med udeladelsesprikker"
 
@@ -2551,40 +2531,41 @@ msgid "BBcode in translation does not match source"
 msgstr "BBcode i oversættelsen matcher ikke kilden"
 
 #: trans/checks.py:609
-#, fuzzy
 msgid "Optional plural"
-msgstr "Mangler flertalsform"
+msgstr "Valgfri flertalsform"
 
 #: trans/checks.py:610
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
+"Tekststrengen kan valgfrit benævnes i flertal, men anvender ikke "
+"flertalsformer"
 
 #: trans/checks.py:622
 msgid "Ellipsis"
-msgstr ""
+msgstr "Udeladelsesprikker"
 
 #: trans/checks.py:623
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
+"Tekststrengen bruger tre prikker (...) i stedet for udeladelsestegnet (...)"
 
 #: trans/feeds.py:31 trans/feeds.py:64
-#, fuzzy, python-format
+#, python-format
 msgid "Recent changes in %s"
-msgstr "Seneste ændringer"
+msgstr "Seneste ændringer i %s"
 
 #: trans/feeds.py:34 trans/feeds.py:67
-#, fuzzy, python-format
+#, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "Liste med seneste ændringer foretaget i Weblate"
+msgstr "Alle de seneste ændringer foretage med Weblate i %s."
 
 #: trans/forms.py:84
-#, fuzzy
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Denne ligning bruges til at identificere hvilken flertalsform, der vil blive "
-"brugt, baseret på givne antal (n)."
+"Denne ligning identificerer hvilke flertalsformer, der skal bruges, baseret "
+"på et givent antal (n)."
 
 #: trans/forms.py:85
 msgid "Plural equation"
@@ -2705,9 +2686,8 @@ msgid "Java Properties (UTF-8)"
 msgstr "Java-egenskaber (UTF-8)"
 
 #: trans/models.py:142
-#, fuzzy
 msgid "PHP strings"
-msgstr "Alle strenge"
+msgstr "PHP-strenge"
 
 #: trans/models.py:152 trans/models.py:159
 msgid "Android String Resource"
@@ -2759,22 +2739,20 @@ msgid "URL with instructions for translators"
 msgstr "URL med vejledning for oversættere"
 
 #: trans/models.py:256
-#, fuzzy
 msgid "How to handle requests for creating new languages."
-msgstr "Hvorledes forespørgsler om oprettelse af nye sprog håndteres"
+msgstr "Hvorledes forespørgsler om oprettelse af nye sprog håndteres."
 
 #: trans/models.py:259
 msgid "Merge style"
 msgstr "Flette-stil"
 
 #: trans/models.py:263
-#, fuzzy
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Bestem om Weblate skal flette opstrømsarkiv eller flytte forgreningspunkt "
-"for ændringer ovenpå det"
+"Tag stilling til om Weblate skal flette opstrømsarkiv eller flytte "
+"forgreningspunkt for ændringer ovenpå det."
 
 #: trans/models.py:269
 #, python-format
@@ -2811,68 +2789,65 @@ msgid "Name used in URLs"
 msgstr "Navn som bruges i URL'er"
 
 #: trans/models.py:461
-#, fuzzy
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
-"URL på Git-arkiv, brug weblate://projekt/delprojekt for at dele med andet "
-"delprojekt"
+"URL for Git-arkiv. Anvend weblate://projekt/delprojekt for at dele med andet "
+"delprojekt."
 
 #: trans/models.py:466
 msgid "URL of push Git repository"
 msgstr "URL for Git-arkiv som der skubbes til (push)"
 
 #: trans/models.py:470
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
-"Henvisning til arkiv-browser, brug %(branch)s for forgrening, %(file)s og "
-"%(line)s som filnavn og pladsholdere for linjer"
+"Henvisning til arkiv-browser, brug %(branch)s for forgrening, %(file)s og %"
+"(line)s som filnavn og pladsholdere for linjer."
 
 #: trans/models.py:475
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"E-post-adresser hvortil fejl i kildestrenge bliver rapporteret. Bevar tom "
+"for at undlade e-post."
 
 #: trans/models.py:480
 msgid "Git branch to translate"
 msgstr "Git-forgrening som skal oversættes"
 
 #: trans/models.py:486
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Sti for filer som skal oversættes, brug * i stedet for sprogkode, "
-"eksempelvis: po/*.po eller locale/*/LC_MESSAGES/django.po"
+"Sti for filer som skal oversættes. Anvend * i stedet for sprogkode, "
+"eksempelvis: po/*.po eller locale/*/LC_MESSAGES/django.po."
 
 #: trans/models.py:491
-#, fuzzy
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
 "strings."
 msgstr ""
-"Filnavn for oversættelsesskabebelon, dette anbefales til brug for "
-"oversættelser, der blot lagrer oversætte strenge, såsom ressource-strenge "
-"for Android"
+"Filnavn for oversættelsesskabebelon. Dette anbefales til brug for "
+"oversættelser, der blot lagrer oversatte strenge, såsom Androids ressource-"
+"strenge."
 
 #: trans/models.py:497
-#, fuzzy
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatisk detektering kan fejle for nogle formater, og er en smule "
-"langsommere"
+"langsommere."
 
 #: trans/models.py:501
-#, fuzzy
 msgid "Whether subproject is locked for translation updates."
-msgstr "Om hvorvidt delprojektet er låst for oversættelsesopdateringer"
+msgstr "Hvorvidt et delprojektet låses for oversættelsesopdateringer."
 
 #: trans/models.py:661
 #, python-format
@@ -2975,9 +2950,9 @@ msgid "Strings with any failing checks (%d)"
 msgstr "Alle strenge med tjekfejl (%d)"
 
 #: trans/models.py:1834 trans/models.py:1876
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with comments (%d)"
-msgstr "Strenge med forslag (%d)"
+msgstr "Strenge med kommentarer (%d)"
 
 #: trans/models.py:1847
 #, python-format
@@ -3006,26 +2981,24 @@ msgstr "enheds-ID %s"
 
 #: trans/models.py:2545
 msgid "Resource update"
-msgstr ""
+msgstr "Ressource-opdatering"
 
 #: trans/models.py:2546
-#, fuzzy
 msgid "Translation completed"
-msgstr "Kontekst for oversættelse"
+msgstr "Oversættelse er færdiggjort"
 
 #: trans/models.py:2547
-#, fuzzy
 msgid "Translation changed"
-msgstr "Kontekst for oversættelse"
+msgstr "Oversættelse er ændret"
 
 #: trans/models.py:2563
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
 
 #: trans/models.py:2572
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: trans/views.py:73
 msgid "Please set your full name in your profile."
@@ -3063,14 +3036,14 @@ msgid "Automatic translation completed."
 msgstr "Automatisk oversættelse fuldført."
 
 #: trans/views.py:488
-#, fuzzy, python-format
+#, python-format
 msgid "Review source strings in %s"
-msgstr "Søg i kildestrenge"
+msgstr "Gennemgå kildestrenge i %s"
 
 #: trans/views.py:506
-#, fuzzy, python-format
+#, python-format
 msgid "Source strings in %s"
-msgstr "Kildestreng:"
+msgstr "Kildestrenge i %s"
 
 #: trans/views.py:555 trans/views.py:565 trans/views.py:575
 msgid "All pending translations were committed."
@@ -3179,12 +3152,11 @@ msgstr "Du er nået til slutningen af oversættelsen."
 
 #: trans/views.py:1191
 msgid "Posted new comment"
-msgstr ""
+msgstr "Indsendte ny kommentar"
 
 #: trans/views.py:1211
-#, fuzzy
 msgid "Failed to add comment!"
-msgstr "Mislykkedes med at oprette nøgle!"
+msgstr "Mislykkedes med at tilføje kommentar!"
 
 #: trans/views.py:1344
 msgid "File content successfully merged into translation."
