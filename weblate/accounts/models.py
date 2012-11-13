@@ -97,20 +97,24 @@ class ProfileManager(models.Manager):
     '''
     Manager providing shortcuts for subscription queries.
     '''
-    def subscribed_any_translation(self, project, language):
-        return self.filter(subscribe_any_translation = True, subscriptions = project, languages = language)
+    def subscribed_any_translation(self, project, language, user):
+        return self.filter(subscribe_any_translation = True, subscriptions = project, languages = language).exclude(user = user)
 
     def subscribed_new_string(self, project, language):
         return self.filter(subscribe_new_string = True, subscriptions = project, languages = language)
 
-    def subscribed_new_suggestion(self, project, language):
-        return self.filter(subscribe_new_suggestion = True, subscriptions = project, languages = language)
+    def subscribed_new_suggestion(self, project, language, user):
+        ret = self.filter(subscribe_new_suggestion = True, subscriptions = project, languages = language)
+        # We don't want to filter out anonymous user
+        if user.is_authenticated():
+            ret = ret.exclude(user = user)
+        return ret
 
-    def subscribed_new_contributor(self, project, language):
-        return self.filter(subscribe_new_contributor = True, subscriptions = project, languages = language)
+    def subscribed_new_contributor(self, project, language, user):
+        return self.filter(subscribe_new_contributor = True, subscriptions = project, languages = language).exclude(user = user)
 
-    def subscribed_new_comment(self, project, language):
-        ret = self.filter(subscribe_new_comment = True, subscriptions = project)
+    def subscribed_new_comment(self, project, language, user):
+        ret = self.filter(subscribe_new_comment = True, subscriptions = project).exclude(user = user)
         # Source comments go to every subscriber
         if language is not None:
             ret = ret.filter(languages = language)
