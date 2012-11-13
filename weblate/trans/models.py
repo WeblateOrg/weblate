@@ -2150,7 +2150,8 @@ class Unit(models.Model):
             # Notify subscribed users about new translation
             subscriptions = Profile.objects.subscribed_any_translation(
                 self.translation.subproject.project,
-                self.translation.language
+                self.translation.language,
+                request.user
             )
             for subscription in subscriptions:
                 subscription.notify_any_translation(self, oldunit)
@@ -2160,7 +2161,8 @@ class Unit(models.Model):
                 # Get list of subscribers for new contributor
                 subscriptions = Profile.objects.subscribed_new_contributor(
                     self.translation.subproject.project,
-                    self.translation.language
+                    self.translation.language,
+                    request.user
                 )
                 for subscription in subscriptions:
                     subscription.notify_new_contributor(self.translation, request.user)

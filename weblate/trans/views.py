@@ -915,7 +915,7 @@ def translate(request, project, subproject, lang):
                     unit.translation.invalidate_cache('suggestions')
                     # Notify subscribed users
                     from weblate.accounts.models import Profile
-                    subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language)
+                    subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language, request.user)
                     for subscription in subscriptions:
                         subscription.notify_new_suggestion(obj, sug)
                     # Update suggestion stats
@@ -1191,7 +1191,7 @@ def comment(request, pk):
         messages.info(request, _('Posted new comment'))
         # Notify subscribed users
         from weblate.accounts.models import Profile, send_notification_email
-        subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang)
+        subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang, request.user)
         for subscription in subscriptions:
             subscription.notify_new_comment(obj, comment)
         # Notify upstream
