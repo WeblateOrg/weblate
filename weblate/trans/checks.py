@@ -219,7 +219,11 @@ class Check(object):
         '''
         if len(target) == 0 or len(source) == 0:
             return False
-        src_matches = set([x[0] for x in regex.findall(source)])
+        # Try geting source parsing from cache
+        src_matches = self.get_cache(unit)
+        # Cache miss
+        if src_matches is None:
+            src_matches = set([x[0] for x in regex.findall(source)])
         tgt_matches = set([x[0] for x in regex.findall(target)])
         # We ignore %% as this is really not relevant. However it needs
         # to be matched to prevent handling %%s as %s.
@@ -615,14 +619,22 @@ class BBCodeCheck(TargetCheck):
     description = _('BBcode in translation does not match source')
 
     def check_single(self, source, target, flags, language, unit):
-        src_match = BBCODE_MATCH.findall(source)
+        # Try geting source parsing from cache
+        src_match = self.get_cache(unit)
+        # Cache miss
+        if src_match is None:
+            src_match = BBCODE_MATCH.findall(source)
+        # Any BBCode in source?
         if len(src_match) == 0:
             return False
+        # Parse target
         tgt_match = BBCODE_MATCH.findall(target)
         if len(src_match) != len(tgt_match):
             return True
+
         src_tags = set([x[0] for x in src_match])
         tgt_tags = set([x[0] for x in tgt_match])
+
         return (src_tags != tgt_tags)
 
 class ZeroWidthSpaceCheck(TargetCheck):
