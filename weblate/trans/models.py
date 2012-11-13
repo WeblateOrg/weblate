@@ -2146,8 +2146,8 @@ class Unit(models.Model):
         old_translated = self.translation.translated
         self.translation.update_stats()
 
-        # Notify subscribed users about new translation
         if saved:
+            # Notify subscribed users about new translation
             subscriptions = Profile.objects.subscribed_any_translation(
                 self.translation.subproject.project,
                 self.translation.language
@@ -2155,25 +2155,24 @@ class Unit(models.Model):
             for subscription in subscriptions:
                 subscription.notify_any_translation(self, oldunit)
 
-        # Generate Change object for this change
-        if saved and gen_change:
-            # Get list of subscribers for new contributor
-            subscriptions = Profile.objects.subscribed_new_contributor(
-                self.translation.subproject.project,
-                self.translation.language
-            )
-            if subscriptions.exists():
-                # Is this new contributor?
-                if not Change.objects.filter(unit__translation = self.translation, user = request.user).exists():
-                    # Notify subscribers
-                    for subscription in subscriptions:
-                        subscription.notify_new_contributor(self.translation, request.user)
-            # Create change object
-            Change.objects.create(
-                unit = self,
-                translation = self.translation,
-                user = request.user
-            )
+            # Notify about new contributor
+            if not Change.objects.filter(unit__translation = self.translation, user = request.user).exists():
+                # Get list of subscribers for new contributor
+                subscriptions = Profile.objects.subscribed_new_contributor(
+                    self.translation.subproject.project,
+                    self.translation.language
+                )
+                for subscription in subscriptions:
+                    subscription.notify_new_contributor(self.translation, request.user)
+
+            # Generate Change object for this change
+            if gen_change:
+                # Create change object
+                Change.objects.create(
+                    unit = self,
+                    translation = self.translation,
+                    user = request.user
+                )
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
