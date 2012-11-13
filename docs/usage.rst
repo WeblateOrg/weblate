@@ -311,6 +311,14 @@ Mismatched BBcode
 BBcode in translation does not match source. The method for detecting BBcode is
 currently quite simple.
 
+.. _check-zero-width-space:
+
+Zero-width space
+~~~~~~~~~~~~~~~~
+
+Translation contains extra zero-width space (<U+200B>) character. This
+character is usually inserted by mistake.
+
 .. _check-optional-plural:
 
 Source checks

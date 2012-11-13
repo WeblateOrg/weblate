@@ -154,6 +154,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.DirectionCheck',
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
+    'weblate.trans.checks.ZeroWidthSpaceCheck',
     'weblate.trans.checks.OptionalPluralCheck',
     'weblate.trans.checks.EllipsisCheck',
 )
@@ -600,6 +601,17 @@ class BBCodeCheck(TargetCheck):
         src_tags = set([x[0] for x in src_match])
         tgt_tags = set([x[0] for x in tgt_match])
         return (src_tags != tgt_tags)
+
+class ZeroWidthSpaceCheck(TargetCheck):
+    '''
+    Check for zero width space char (<U+200B>).
+    '''
+    check_id = 'zero-width-space'
+    name = _('Zero-width space')
+    description = _('Translation contains extra zero-width space character')
+
+    def check_single(self, source, target, flags, language, unit):
+        return u'\u200b' in target and not u'\u200b' in source
 
 class OptionalPluralCheck(SourceCheck):
     '''
