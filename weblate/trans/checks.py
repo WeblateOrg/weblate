@@ -213,7 +213,7 @@ class Check(object):
         t = target[pos]
         return (s in chars and t not in chars) or (s not in chars and t in chars)
 
-    def check_format_strings(self, source, target, regex):
+    def check_format_strings(self, source, target, regex, unit):
         '''
         Generic checker for format strings.
         '''
@@ -502,7 +502,7 @@ class PythonFormatCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         if not 'python-format' in flags:
             return False
-        return self.check_format_strings(source, target, PYTHON_PRINTF_MATCH)
+        return self.check_format_strings(source, target, PYTHON_PRINTF_MATCH, unit)
 
 class PHPFormatCheck(TargetCheck):
     '''
@@ -515,7 +515,7 @@ class PHPFormatCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         if not 'php-format' in flags:
             return False
-        return self.check_format_strings(source, target, PHP_PRINTF_MATCH)
+        return self.check_format_strings(source, target, PHP_PRINTF_MATCH, unit)
 
 class CFormatCheck(TargetCheck):
     '''
@@ -528,7 +528,7 @@ class CFormatCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         if not 'c-format' in flags:
             return False
-        return self.check_format_strings(source, target, C_PRINTF_MATCH)
+        return self.check_format_strings(source, target, C_PRINTF_MATCH, unit)
 
 
 class PluralsCheck(TargetCheck):
