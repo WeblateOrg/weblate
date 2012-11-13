@@ -246,6 +246,24 @@ class Check(object):
         '''
         return weblate.get_doc_url('usage', 'check-%s' % self.check_id.replace('_', '-'))
 
+    def get_cache_key(self, unit):
+        '''
+        Generates key for a cache.
+        '''
+        return 'check-%s-%s' % (self.check_id, unit.checksum)
+
+    def get_cache(self, unit):
+        '''
+        Returns cached result.
+        '''
+        return cache.get(self.get_cache_key(unit))
+
+    def set_cache(self, unit, value):
+        '''
+        Sets cache.
+        '''
+        return cache.set(self.get_cache_key(unit), value)
+
 class TargetCheck(Check):
     '''
     Basic class for target checks.
@@ -627,16 +645,29 @@ class XMLTagsCheck(TargetCheck):
     description = _('XML tags in translation do not match source')
 
     def check_single(self, source, target, flags, language, unit):
-        # Quick check if source looks like XML
-        if not '<' in source or len(XML_MATCH.findall(source)) == 0:
+        # Try getting source string data from cache
+        source_tags = self.get_cache(unit)
+
+        # Source is not XML
+        if source_tags == False:
             return False
-        # Check if source is XML
-        try:
-            source_tree = ElementTree.fromstring('<weblate>%s</weblate>' % source)
-            source_tags = [x.tag for x in source_tree.iter()]
-        except:
-            # Source is not valid XML, we give up
-            return False
+
+        # Do we need to process source (cache miss)
+        if source_tags is None:
+            # Quick check if source looks like XML
+            if not '<' in source or len(XML_MATCH.findall(source)) == 0:
+                self.set_cache(unit, False)
+                return False
+            # Check if source is XML
+            try:
+                source_tree = ElementTree.fromstring('<weblate>%s</weblate>' % source)
+                source_tags = [x.tag for x in source_tree.iter()]
+                self.set_cache(unit, source_tags)
+            except:
+                # Source is not valid XML, we give up
+                self.set_cache(unit, False)
+                return False
+
         # Check target
         try:
             target_tree = ElementTree.fromstring('<weblate>%s</weblate>' % target)
@@ -644,6 +675,7 @@ class XMLTagsCheck(TargetCheck):
         except:
             # Target is not valid XML
             return True
+
         # Compare tags
         return source_tags != target_tags
 
