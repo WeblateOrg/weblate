@@ -9,7 +9,7 @@ Relased on ? 2012.
 * Compatibility with PostgreSQL database backend.
 * Removes languages removed in upstream git repository.
 * Improved consistency checks processing.
-* Added new checks (BB code and newlines).
+* Added new checks (BB code, XML markup and newlines).
 * Support for optional rebasing instead of merge.
 * Possibility to relocate Weblate (eg. to run it under /weblate path).
 * Support for manually choosing file type in case autodetection fails.
