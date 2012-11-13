@@ -82,7 +82,7 @@ able to create translation projects using admin interface.
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
-.. seealso:: :ref:`config`, :ref:`privileges`
+.. seealso:: :ref:`config`, :ref:`privileges`, :ref:`faq-site`
 
 Production setup
 ----------------
@@ -90,6 +90,7 @@ Production setup
 For production setup you should do following adjustments:
 
 * disable Django's debug mode by setting ``DEBUG = False``
+* adjust site name in admin interface
 * enable :setting:`OFFLOAD_INDEXING`, see :ref:`fulltext` for more details
 * use powerful database engine (not SQLite)
 * if possible, use memcache from Django by adjusting ``CACHE`` config variable,

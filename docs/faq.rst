@@ -58,6 +58,18 @@ Here are examples of workflows used with Weblate:
 
 Of course your are free to mix all of these as you wish.
 
+.. _faq-site:
+
+Why does registration contain example.com as domain?
+----------------------------------------------------
+
+Weblate uses Django sites framework and it defines site name inside the
+database. Please open admin interface and edit default site name and domain
+(you can do that directly at ``/admin/sites/site/1/`` URL under your Weblate
+installation).
+
+.. seealso:: https://docs.djangoproject.com/en/dev/ref/contrib/sites/
+
 Troubleshooting
 +++++++++++++++
 
