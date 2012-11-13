@@ -1416,6 +1416,8 @@ def about(request):
     context['total_users'] = Profile.objects.count()
     context['total_strings'] = total_strings
     context['total_languages'] = Language.objects.filter(translation__total__gt = 0).distinct().count()
+    context['total_checks'] = Check.objects.count()
+    context['ignored_checks'] = Check.objects.filter(ignore = True).count()
     context['versions'] = versions
 
     return render_to_response('about.html', RequestContext(request, context))

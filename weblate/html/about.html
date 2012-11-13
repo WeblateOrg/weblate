@@ -56,6 +56,14 @@
 <th>{% trans "Translations made" %}</th>
 <td>{{ total_translations }}</td>
 </tr>
+<tr>
+<th>{% trans "Failing checks found" %}</th>
+<td>{{ total_checks }}</td>
+</tr>
+<tr>
+<th>{% trans "Ignored checks" %}</th>
+<td>{{ ignored_checks }}</td>
+</tr>
 </table>
 
 {% endblock %}
