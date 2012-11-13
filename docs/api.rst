@@ -32,7 +32,7 @@ repository has been updated.
         ``git:/github.com/owner/repo.git``, otherwise automatic detection of used
         repository will fail.
 
-    .. seealso:: http://help.github.com/post-receive-hooks/
+    .. seealso:: http://help.github.com/post-receive-hooks/ :setting:`ENABLE_HOOKS`
 
 .. _exports:
 
