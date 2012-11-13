@@ -224,6 +224,7 @@ class Check(object):
         # Cache miss
         if src_matches is None:
             src_matches = set([x[0] for x in regex.findall(source)])
+            self.set_cache(unit, src_matches)
         tgt_matches = set([x[0] for x in regex.findall(target)])
         # We ignore %% as this is really not relevant. However it needs
         # to be matched to prevent handling %%s as %s.
@@ -624,6 +625,7 @@ class BBCodeCheck(TargetCheck):
         # Cache miss
         if src_match is None:
             src_match = BBCODE_MATCH.findall(source)
+            self.set_cache(unit, src_match)
         # Any BBCode in source?
         if len(src_match) == 0:
             return False
