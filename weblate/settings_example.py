@@ -339,6 +339,7 @@ CHECK_LIST = (
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
     'weblate.trans.checks.ZeroWidthSpaceCheck',
+    'weblate.trans.checks.XMLTagsCheck',
     'weblate.trans.checks.OptionalPluralCheck',
     'weblate.trans.checks.EllipsisCheck',
 )

@@ -21,6 +21,8 @@
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
+from django.core.cache import cache
+from xml.etree import ElementTree
 import weblate
 import re
 
@@ -59,6 +61,8 @@ C_PRINTF_MATCH = re.compile('''
         )''', re.VERBOSE)
 
 BBCODE_MATCH = re.compile(r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])', re.MULTILINE)
+
+XML_MATCH = re.compile(r'<[^>]+>')
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
@@ -155,6 +159,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.NewlineCountingCheck',
     'weblate.trans.checks.BBCodeCheck',
     'weblate.trans.checks.ZeroWidthSpaceCheck',
+    'weblate.trans.checks.XMLTagsCheck',
     'weblate.trans.checks.OptionalPluralCheck',
     'weblate.trans.checks.EllipsisCheck',
 )
@@ -612,6 +617,35 @@ class ZeroWidthSpaceCheck(TargetCheck):
 
     def check_single(self, source, target, flags, language, unit):
         return u'\u200b' in target and not u'\u200b' in source
+
+class XMLTagsCheck(TargetCheck):
+    '''
+    Check whether XML in target matches source.
+    '''
+    check_id = 'xml-tags'
+    name = _('XML tags mismatch')
+    description = _('XML tags in translation do not match source')
+
+    def check_single(self, source, target, flags, language, unit):
+        # Quick check if source looks like XML
+        if not '<' in source or len(XML_MATCH.findall(source)) == 0:
+            return False
+        # Check if source is XML
+        try:
+            source_tree = ElementTree.fromstring('<weblate>%s</weblate>' % source)
+            source_tags = [x.tag for x in source_tree.iter()]
+        except:
+            # Source is not valid XML, we give up
+            return False
+        # Check target
+        try:
+            target_tree = ElementTree.fromstring('<weblate>%s</weblate>' % target)
+            target_tags = [x.tag for x in target_tree.iter()]
+        except:
+            # Target is not valid XML
+            return True
+        # Compare tags
+        return source_tags != target_tags
 
 class OptionalPluralCheck(SourceCheck):
     '''

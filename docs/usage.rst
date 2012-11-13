@@ -319,6 +319,16 @@ Zero-width space
 Translation contains extra zero-width space (<U+200B>) character. This
 character is usually inserted by mistake.
 
+
+.. _check-xml-tags:
+
+XML tags mismatch
+~~~~~~~~~~~~~~~~~
+
+XML tags in translation do not match source. This usually means resulting
+output will look different. In most cases this is not desired result from
+translation, but occasionally it is desired.
+
 .. _check-optional-plural:
 
 Source checks
