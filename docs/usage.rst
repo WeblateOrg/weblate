@@ -250,12 +250,16 @@ Trailing ellipsis
 Source and translation do not both end with an ellipsis. This only checks for
 real ellipsis (`\u2026`) not for three commas (`...`).
 
+.. seealso:: https://en.wikipedia.org/wiki/Ellipsis
+
 .. _check-python-format:
 
 Python format
 ~~~~~~~~~~~~~
 
 Python format string does not match source.
+
+.. seealso:: http://docs.python.org/2.7/library/stdtypes.html#string-formatting
 
 .. _check-php-format:
 
@@ -264,12 +268,16 @@ PHP format
 
 PHP format string does not match source.
 
+.. seealso:: http://www.php.net/manual/en/function.sprintf.php
+
 .. _check-c-format:
 
 C format
 ~~~~~~~~
 
 C format string does not match source.
+
+.. seealso:: https://en.wikipedia.org/wiki/Printf_format_string
 
 .. _check-plurals:
 
@@ -319,6 +327,7 @@ Zero-width space
 Translation contains extra zero-width space (<U+200B>) character. This
 character is usually inserted by mistake.
 
+.. seealso:: https://en.wikipedia.org/wiki/Zero-width_space
 
 .. _check-xml-tags:
 
@@ -358,3 +367,5 @@ Ellipsis
 
 The string uses three dots (...) instead of an ellipsis character (…). Using
 unicode character is in most cases better approach and looks better.
+
+.. seealso:: https://en.wikipedia.org/wiki/Ellipsis
