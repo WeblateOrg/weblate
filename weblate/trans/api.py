@@ -70,11 +70,14 @@ def github_hook(request):
         data = json.loads(request.POST['payload'])
     except (ValueError, KeyError):
         return HttpResponseBadRequest('could not parse json!')
-    repo = 'git://github.com/%s/%s.git' % (
-        data['repository']['owner']['name'],
-        data['repository']['name'],
-        )
-    branch = data['ref'].split('/')[-1]
+    try:
+        repo = 'git://github.com/%s/%s.git' % (
+            data['repository']['owner']['name'],
+            data['repository']['name'],
+            )
+        branch = data['ref'].split('/')[-1]
+    except KeyError:
+        return HttpResponseBadRequest('could not parse json!')
     logger.info('received GitHub notification on repository %s, branch %s', repo, branch)
     for obj in SubProject.objects.filter(repo = repo, branch = branch):
         logger.info('GitHub notification will update %s', obj)
