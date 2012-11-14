@@ -70,6 +70,7 @@ LANGUAGES = (
     ('fi', 'Suomi'),
     ('fr', u'Français'),
     ('gl', 'Galego'),
+    ('hu', 'Magyar'),
     ('id', 'Indonesia'),
     ('ja', u'日本語'),
     ('nl', 'Nederlands'),
