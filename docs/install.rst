@@ -60,7 +60,12 @@ options:
 
 ``DEBUG``
 
-    Disable this for production server.
+    Disable this for production server. With debug mode enabled, Django will
+    show backtraces in case of error to users, when you disable it, errors will
+    go by email to ``ADMINS`` (see above).
+
+    Debug mode also slows down Weblate as Django stores much more information
+    internally in this case.
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#debug
 
