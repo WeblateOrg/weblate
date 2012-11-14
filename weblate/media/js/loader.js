@@ -86,7 +86,7 @@ function load_translate_apis() {
             get_source_string(function(data) {
                 inc_loading();
                 $.ajax({
-                    url: "http://api.apertium.org/json/translate?q=" + data + "&langpair=en|" + target_language + "&key=" + APERTIUM_API_KEY,
+                    url: "http://api.apertium.org/json/translate?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language + "&key=" + APERTIUM_API_KEY,
                     success: process_mt,
                     error: failed_mt,
                     timeout: 10000,
@@ -101,7 +101,7 @@ function load_translate_apis() {
             get_source_string(function(data) {
                 inc_loading();
                 $.ajax({
-                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + data + "&from=en&to=" + target_language,
+                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + encodeURIComponent(data) + "&from=en&to=" + target_language,
                     success: process_mt,
                     error: failed_mt,
                     dataType: 'jsonp',
@@ -115,7 +115,7 @@ function load_translate_apis() {
         get_source_string(function(data) {
             inc_loading();
             $.ajax({
-                url: "http://mymemory.translated.net/api/get?q=" + data + "&langpair=en|" + target_language,
+                url: "http://mymemory.translated.net/api/get?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language,
                 success: process_mt,
                 error: failed_mt,
                 dataType: 'json',
