@@ -1841,10 +1841,10 @@ class Translation(models.Model):
         '''
         result = [('all', _('All strings'))]
 
-        # Not translated strings
+        # Untranslated strings
         nottranslated = self.unit_set.count_type('untranslated', self)
         if nottranslated > 0:
-            result.append(('untranslated', _('Not translated strings (%d)') % nottranslated))
+            result.append(('untranslated', _('Untranslated strings (%d)') % nottranslated))
 
         # Fuzzy strings
         fuzzy = self.unit_set.count_type('fuzzy', self)

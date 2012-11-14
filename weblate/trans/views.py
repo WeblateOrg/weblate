@@ -835,7 +835,7 @@ def get_filter_name(rqtype, search_query):
     elif rqtype == 'fuzzy':
         return _('Fuzzy strings')
     elif rqtype == 'untranslated':
-        return _('Not translated strings')
+        return _('Untranslated strings')
     elif rqtype == 'suggestions':
         return _('Strings with suggestions')
     elif rqtype == 'allchecks':
