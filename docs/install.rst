@@ -27,6 +27,8 @@ south
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
+.. _installation:
+
 Installation
 ------------
 
@@ -89,8 +91,9 @@ Production setup
 
 For production setup you should do following adjustments:
 
-* disable Django's debug mode by setting ``DEBUG = False``
-* adjust site name in admin interface
+* disable Django's debug mode by setting ``DEBUG = False`` (see :ref:`installation`)
+* set correct admin addresses to ``ADMINS`` setting (see :ref:`installation`)
+* adjust site name in admin interface (see :ref:`faq-site`)
 * enable :setting:`OFFLOAD_INDEXING`, see :ref:`fulltext` for more details
 * use powerful database engine (not SQLite)
 * if possible, use memcache from Django by adjusting ``CACHE`` config variable,
