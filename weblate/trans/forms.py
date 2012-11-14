@@ -126,7 +126,7 @@ class AntispamForm(forms.Form):
     '''
     Honeypot based spam protection form.
     '''
-    content = forms.CharField()
+    content = forms.CharField(required = False)
 
     def clean_content(self):
         '''
