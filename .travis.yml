@@ -1,0 +1,22 @@
+language: python
+python:
+  - "2.6"
+  - "2.7"
+#  - "3.2"
+env:
+  - DJANGO_VERSION=1.2.7
+  - DJANGO_VERSION=1.3.1
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq git
+# command to install dependencies
+install: 
+  - pip install --use-mirrors -q Django==$DJANGO_VERSION
+  - pip install --use-mirrors gitpython
+  - pip install --use-mirrors South
+  - pip install --use-mirrors translate-toolkit
+  - pip install --use-mirrors PyCairo
+  - pip install --use-mirrors Django-registration
+  - pip install --use-mirrors Whoosh
+# command to run tests
+script: ./manage.py validate
