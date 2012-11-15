@@ -8,15 +8,9 @@ env:
   - DJANGO_VERSION=1.5a1
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq git
+  - sudo apt-get install -qq git python-cairo python-git python-django-south python-django-registration python-whoosh translate-toolkit
 # command to install dependencies
 install: 
   - pip install --use-mirrors -q Django==$DJANGO_VERSION
-  - pip install --use-mirrors gitpython
-  - pip install --use-mirrors South
-  - pip install --use-mirrors translate-toolkit
-  - pip install --use-mirrors PyCairo
-  - pip install --use-mirrors Django-registration
-  - pip install --use-mirrors Whoosh
 # command to run tests
 script: ./manage.py validate
