@@ -38,21 +38,27 @@ VERSION = '1.3'
 
 # Are we running git
 RUNNING_GIT = is_running_git()
+GIT_RELEASE = False
 
 # Grab some information from git
 if RUNNING_GIT:
-    import git
-    # Describe current checkout
-    GIT_VERSION = git.Repo(get_root_dir()).git.describe()
+    try:
+        import git
+        # Describe current checkout
+        GIT_VERSION = git.Repo(get_root_dir()).git.describe()
 
-    # Check if we're close to release tag
-    parts = GIT_VERSION.split('-')
-    GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
-    del parts
+        # Check if we're close to release tag
+        parts = GIT_VERSION.split('-')
+        GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
+        del parts
 
-    # Mark version as devel if it is
-    if not GIT_RELEASE:
-        VERSION += '-dev'
+        # Mark version as devel if it is
+        if not GIT_RELEASE:
+            VERSION += '-dev'
+    except (ImportError, git.exc.GitCommandError):
+        # Import failed or git has troubles reading
+        # repo (eg. swallow clone)
+        RUNNING_GIT = False
 
 def get_doc_url(page, anchor = ''):
     '''
