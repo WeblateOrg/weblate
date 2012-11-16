@@ -17,4 +17,7 @@ install:
 before_script:
   - cp weblate/settings_example.py weblate/settings.py
 # command to run tests
-script: ./manage.py validate
+script: 
+  - ./manage.py validate
+  - ./manage.py syncdb --noinput
+  - ./manage.py migrate
