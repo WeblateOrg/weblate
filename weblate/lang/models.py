@@ -236,6 +236,7 @@ class LanguageManager(models.Manager):
                 lang.name = baselang.name
                 lang.nplurals = baselang.nplurals
                 lang.pluralequation = baselang.pluralequation
+                lang.direction = baselang.direction
                 lang.save()
                 return lang
             except Language.DoesNotExist:
