@@ -10,14 +10,22 @@ from weblate.lang.models import Language
 
 
 class LanguagesTest(TestCase):
-    AUTO_CREATE_LANGUAGES = (
-        ('cs_CZ', 'cs'),
-        ('de-DE', 'de'),
-        ('de_AT', 'de_AT'),
+    TEST_LANGUAGES = (
+        ('cs_CZ', 'cs', 'ltr'),
+        ('de-DE', 'de', 'ltr'),
+        ('de_AT', 'de_AT', 'ltr'),
+        ('ar', 'ar', 'rtl'),
     )
     def test_auto_create(self):
         """
         Tests that auto create correctly handles languages
         """
-        for original, expected in self.AUTO_CREATE_LANGUAGES:
+        for original, expected, direction in self.TEST_LANGUAGES:
             self.assertEqual(Language.objects.auto_get_or_create(original).code, expected)
+
+    def test_rtl(self):
+        '''
+        Test for detecting RTL languages.
+        '''
+        for original, expected, direction in self.TEST_LANGUAGES:
+            self.assertEqual(Language.objects.auto_get_or_create(original).direction, direction)
