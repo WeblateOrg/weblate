@@ -8,10 +8,11 @@ env:
 #  - DJANGO_VERSION=1.5a1
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq git python-cairo python-git python-django-south python-django-registration python-whoosh translate-toolkit
+  - sudo apt-get install -qq git python-cairo python-django-south python-django-registration python-whoosh translate-toolkit
 # command to install dependencies
 install: 
   - pip install --use-mirrors -q Django==$DJANGO_VERSION
+  - pip install --use-mirrors -q git
   - cp weblate/settings_example.py weblate/settings.py
 # command to run tests
 script: ./manage.py validate
