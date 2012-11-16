@@ -11,8 +11,7 @@ before_install:
   - sudo apt-get install -qq git
 # command to install dependencies
 install: 
-  - pip install --use-mirrors -q Django==$DJANGO_VERSION
-  - pip install --use-mirrors GitPython south django-registration whoosh translate
+  - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit
   - cp weblate/settings_example.py weblate/settings.py
 # command to run tests
 script: ./manage.py validate
