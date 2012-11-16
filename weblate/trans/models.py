@@ -113,11 +113,11 @@ FILE_FORMATS = {
         False,
     ),
     'ts': FileFormat(
-        ugettext_lazy('XLIFF Translation File'),
+        ugettext_lazy('Qt Linguist Translation File'),
         ('ts2', 'tsfile'),
     ),
     'xliff': FileFormat(
-        ugettext_lazy('Qt Linguist Translation File'),
+        ugettext_lazy('XLIFF Translation File'),
         ('xliff', 'xlifffile'),
     ),
     'strings': FileFormat(
