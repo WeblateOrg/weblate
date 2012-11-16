@@ -4,7 +4,7 @@ Changes
 weblate 1.3
 -----------
 
-Relased on ? 2012.
+Relased on November 16th 2012.
 
 * Compatibility with PostgreSQL database backend.
 * Removes languages removed in upstream git repository.
