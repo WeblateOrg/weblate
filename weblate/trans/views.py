@@ -751,7 +751,11 @@ def download_translation(request, project, subproject, lang):
     # Retrieve ttkit store to get extension and mime type
     store = obj.get_store()
     srcfilename = obj.get_filename()
-    mime = store.Mimetypes[0]
+    if store.Mimetypes is None:
+        # Properties files do not expose mimetype
+        mime = 'text/plain'
+    else:
+        mime = store.Mimetypes[0]
     ext = store.Extensions[0]
 
     # Construct file name (do not use real filename as it is usually not that useful)
