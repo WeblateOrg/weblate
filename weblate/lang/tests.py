@@ -6,11 +6,18 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from weblate.lang.models import Language
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
+class LanguagesTest(TestCase):
+    AUTO_CREATE_LANGUAGES = (
+        ('cs_CZ', 'cs'),
+        ('de-DE', 'de'),
+        ('de_AT', 'de_AT'),
+    )
+    def test_auto_create(self):
         """
-        Tests that 1 + 1 always equals 2.
+        Tests that auto create correctly handles languages
         """
-        self.assertEqual(1 + 1, 2)
+        for original, expected in self.AUTO_CREATE_LANGUAGES:
+            self.assertEqual(Language.objects.auto_get_or_create(original).code, expected)
