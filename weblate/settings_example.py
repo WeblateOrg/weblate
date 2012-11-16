@@ -179,6 +179,8 @@ INSTALLED_APPS = (
     'weblate',
 )
 
+LOCALE_PATHS = ('%s/weblate/locale' % WEB_ROOT, )
+
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
