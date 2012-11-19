@@ -853,6 +853,14 @@ class SubProject(models.Model):
                     'failed merge on repo %s' % self.__unicode__(),
                     msg
                 )
+                # Notify subscribed users about failure
+                from weblate.accounts.models import Profile
+                subscriptions = Profile.objects.subscribed_merge_failure(
+                    self.project,
+                )
+                for subscription in subscriptions:
+                    subscription.notify_merge_failure(self, str(e), status)
+
                 if request is not None:
                     messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
                 return False

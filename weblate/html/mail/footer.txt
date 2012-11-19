@@ -5,7 +5,4 @@
 {% trans "Fuzzy strings:" %} {{ translation.fuzzy }} ({{ translation.get_fuzzy_percent }}%)
 
 {% blocktrans %}You can translate at {{ translation_url }}{% endblocktrans %}
-{% endfilter%}{% endautoescape %}
--- 
-    {% trans "Sent by Weblate translation system" %}
-    http://weblate.org/
+{% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

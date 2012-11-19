@@ -120,6 +120,9 @@ class ProfileManager(models.Manager):
             ret = ret.filter(languages = language)
         return ret
 
+    def subscribed_merge_failure(self, project):
+        return self.filter(subscribe_merge_failure = True, subscriptions = project)
+
 class Profile(models.Model):
     '''
     User profiles storage.
@@ -167,6 +170,10 @@ class Profile(models.Model):
     )
     subscribe_new_comment = models.BooleanField(
         verbose_name = _('Notification on new comment'),
+        default = False
+    )
+    subscribe_merge_failure = models.BooleanField(
+        verbose_name = _('Notification on merge failure'),
         default = False
     )
 
@@ -238,6 +245,20 @@ class Profile(models.Model):
                 'unit': unit,
                 'comment': comment,
                 'subproject': unit.translation.subproject,
+            }
+        )
+
+    def notify_merge_failure(self, subproject, error, status):
+        '''
+        Sends notification on merge failure.
+        '''
+        self.notify_user(
+            'merge_failure',
+            subproject,
+            {
+                'subproject': subproject,
+                'error': error,
+                'status': status,
             }
         )
 
