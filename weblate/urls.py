@@ -25,7 +25,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
 from django.views.generic import RedirectView
-from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps import GenericSitemap, Sitemap
 
 from registration.views import activate, register
 
@@ -56,10 +56,30 @@ translation_dict = {
     'date_field': 'get_last_change',
 }
 
+class PagesSitemap(Sitemap):
+    changefreq = 'monthly'
+    def items(self):
+        return (
+            ('/', 1.0),
+            ('/about/', 0.5),
+            ('/contact/', 0.5),
+        )
+
+    def location(self, item):
+        return item[0]
+
+    def lastmod(self, item):
+        from weblate.trans.models import Change
+        return Change.objects.all()[0].timestamp
+
+    def priority(self, item):
+        return item[1]
+
 sitemaps = {
     'project': GenericSitemap(project_dict, priority = 0.9),
     'subproject': GenericSitemap(subproject_dict, priority = 0.8),
     'translation': GenericSitemap(translation_dict, priority = 0.7),
+    'pages': PagesSitemap(),
 }
 
 admin.site.index_template = 'admin/custom-index.html'
