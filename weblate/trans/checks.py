@@ -724,7 +724,7 @@ for path in getattr(settings, 'CHECK_LIST', DEFAULT_CHECK_LIST):
     module, attr = path[:i], path[i+1:]
     try:
         mod = __import__(module, {}, {}, [attr])
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured('Error importing translation check module %s: "%s"' % (module, e))
     try:
         cls = getattr(mod, attr)

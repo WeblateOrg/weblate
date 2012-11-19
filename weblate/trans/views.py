@@ -252,7 +252,7 @@ def upload_dictionary(request, project, lang):
                     messages.warning(request, _('No words to import found in file.'))
                 else:
                     messages.info(request, _('Imported %d words from file.') % count)
-            except Exception, e:
+            except Exception as e:
                 messages.error(request, _('File content merge failed: %s' % unicode(e)))
         else:
             messages.error(request, _('Failed to process form!'))
@@ -1358,7 +1358,7 @@ def upload_translation(request, project, subproject, lang):
                     messages.info(request, _('File content successfully merged into translation.'))
                 else:
                     messages.info(request, _('There were no new strings in uploaded file.'))
-            except Exception, e:
+            except Exception as e:
                 messages.error(request, _('File content merge failed: %s' % unicode(e)))
 
     return HttpResponseRedirect(obj.get_absolute_url())
@@ -1389,7 +1389,7 @@ def js_config(request):
             pairs = listpairs.read()
             parsed = json.loads(pairs)
             apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
-        except Exception, e:
+        except Exception as e:
             logger.error('failed to get supported languages from Apertium, using defaults (%s)', str(e))
             apertium_langs = ['gl', 'ca', 'es', 'eo']
     else:
@@ -1402,7 +1402,7 @@ def js_config(request):
             data = listpairs.read()
             parsed = ElementTree.fromstring(data)
             microsoft_langs = [p.text for p in parsed.getchildren()]
-        except Exception, e:
+        except Exception as e:
             logger.error('failed to get supported languages from Microsoft, using defaults (%s)', str(e))
             microsoft_langs = ['ar','bg','ca','zh-CHS','zh-CHT','cs','da','nl','en','et','fi','fr','de','el','ht','he','hi','mww','hu','id','it','ja','ko','lv','lt','no','pl','pt','ro','ru','sk','sl','es','sv','th','tr','uk','vi']
     else:

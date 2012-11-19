@@ -189,13 +189,13 @@ def ttkit(storefile, file_format = 'auto'):
 def validate_repoweb(val):
     try:
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
-    except Exception, e:
+    except Exception as e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
 def validate_commit_message(val):
     try:
         val % {'language': 'cs', 'project': 'Weblate', 'subproject': 'master'}
-    except Exception, e:
+    except Exception as e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
 def validate_filemask(val):
@@ -655,7 +655,7 @@ class SubProject(models.Model):
                 # so we will sleep a bit an retry
                 time.sleep(random.random() * 2)
                 gitrepo.git.remote('update', 'origin')
-        except Exception, e:
+        except Exception as e:
             logger.error('Failed to update Git repo: %s', str(e))
             if validate:
                 raise ValidationError(_('Failed to fetch git repository: %s') % str(e))
@@ -762,7 +762,7 @@ class SubProject(models.Model):
             logger.info('pushing to remote repo %s', self.__unicode__())
             gitrepo.git.push('origin', '%s:%s' % (self.branch, self.branch))
             return True
-        except Exception, e:
+        except Exception as e:
             logger.warning('failed push on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
             mail_admins(
@@ -788,7 +788,7 @@ class SubProject(models.Model):
         try:
             logger.info('reseting to remote repo %s', self.__unicode__())
             gitrepo.git.reset('--hard', 'origin/%s' % self.branch)
-        except Exception, e:
+        except Exception as e:
             logger.warning('failed reset on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
             mail_admins(
@@ -838,7 +838,7 @@ class SubProject(models.Model):
                 gitrepo.git.merge('origin/%s' % self.branch)
                 logger.info('merged remote into repo %s', self.__unicode__())
                 return True
-            except Exception, e:
+            except Exception as e:
                 # In case merge has failer recover and tell admins
                 status = gitrepo.git.status()
                 gitrepo.git.merge('--abort')
@@ -865,7 +865,7 @@ class SubProject(models.Model):
                 gitrepo.git.rebase('origin/%s' % self.branch)
                 logger.info('rebased remote into repo %s', self.__unicode__())
                 return True
-            except Exception, e:
+            except Exception as e:
                 # In case merge has failer recover and tell admins
                 status = gitrepo.git.status()
                 gitrepo.git.rebase('--abort')
@@ -1000,7 +1000,7 @@ class SubProject(models.Model):
                     ttkit(os.path.join(self.get_path(), match), self.file_format)
                 except ValueError:
                     notrecognized.append(match)
-                except Exception, e:
+                except Exception as e:
                     errors.append('%s: %s' % (match, str(e)))
             if len(notrecognized) > 0:
                 raise ValidationError( '%s\n%s' % (
@@ -1020,7 +1020,7 @@ class SubProject(models.Model):
                     ttkit(os.path.join(self.get_path(), match), self.file_format)
                 except ValueError:
                     raise ValidationError(_('Format of translation template could not be recognized.'))
-                except Exception, e:
+                except Exception as e:
                     raise ValidationError(_('Failed to parse translation template.'))
         except SubProject.DoesNotExist:
             # Happens with invalid link
@@ -1169,7 +1169,7 @@ class Translation(models.Model):
             self.get_store()
         except ValueError:
             raise ValidationError(_('Format of %s could not be recognized.') % self.filename)
-        except Exception, e:
+        except Exception as e:
             raise ValidationError(_('Failed to parse file %(file)s: %(error)s') % {
                 'file': self.filename,
                 'error': str(e)
@@ -2583,7 +2583,7 @@ class IndexUpdate(models.Model):
 def get_version_module(module, name, url):
     try:
         mod = __import__(module)
-    except ImportError, e:
+    except ImportError as e:
         raise Exception('Failed to import %s, please install %s from %s' % (
             module,
             name,
