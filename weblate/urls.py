@@ -61,8 +61,8 @@ class PagesSitemap(Sitemap):
     def items(self):
         return (
             ('/', 1.0),
-            ('/about/', 0.5),
-            ('/contact/', 0.5),
+            ('/about/', 0.8),
+            ('/contact/', 0.2),
         )
 
     def location(self, item):
@@ -84,10 +84,10 @@ class EngageSitemap(GenericSitemap):
         return reverse('engage', kwargs = {'project': obj.slug})
 
 sitemaps = {
-    'project': GenericSitemap(project_dict, priority = 0.9),
-    'engage': EngageSitemap(project_dict, priority = 0.9),
-    'subproject': GenericSitemap(subproject_dict, priority = 0.8),
-    'translation': GenericSitemap(translation_dict, priority = 0.7),
+    'project': GenericSitemap(project_dict, priority = 0.8),
+    'engage': EngageSitemap(project_dict, priority = 1.0),
+    'subproject': GenericSitemap(subproject_dict, priority = 0.6),
+    'translation': GenericSitemap(translation_dict, priority = 0.2),
     'pages': PagesSitemap(),
 }
 
