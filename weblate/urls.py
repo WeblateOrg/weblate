@@ -75,8 +75,17 @@ class PagesSitemap(Sitemap):
     def priority(self, item):
         return item[1]
 
+class EngageSitemap(GenericSitemap):
+    '''
+    Wrapper around GenericSitemap to point to engage page.
+    '''
+    def location(self, obj):
+        from django.core.urlresolvers import reverse
+        return reverse('engage', kwargs = {'project': obj.slug})
+
 sitemaps = {
     'project': GenericSitemap(project_dict, priority = 0.9),
+    'engage': EngageSitemap(project_dict, priority = 0.9),
     'subproject': GenericSitemap(subproject_dict, priority = 0.8),
     'translation': GenericSitemap(translation_dict, priority = 0.7),
     'pages': PagesSitemap(),
@@ -88,7 +97,7 @@ urlpatterns = patterns('',
     url(r'^$', 'weblate.trans.views.home', name = 'home'),
     url(r'^projects/$', RedirectView.as_view(url = '/')),
     url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
-    url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.show_engage'),
+    url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.show_engage', name = 'engage'),
 
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.show_dictionaries'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_dictionary'),
