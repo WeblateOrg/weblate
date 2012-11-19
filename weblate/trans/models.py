@@ -1969,13 +1969,22 @@ class Translation(models.Model):
         '''
         Top level handler for file uploads.
         '''
+        # Load backend file
         store2 = ttkit(fileobj)
+
+        # Optionally set authorship
         if author is None:
             author = self.get_author_name(request.user)
 
+        # List translations we should process
+        translations = Translation.objects.filter(language = self.language, subproject__project = self.subproject.project)
+        # Filter out those who don't want automatic update, but keep ourselves
+        translations = translations.filter(Q(pk = self.pk) | Q(subproject__allow_translation_propagation = True))
+
         ret = False
 
-        for s in Translation.objects.filter(language = self.language, subproject__project = self.subproject.project).filter(Q(pk = self.pk) | Q(subproject__allow_translation_propagation = True)):
+        # Do actual merge
+        for s in translations:
             ret |= s.merge_store(author, store2, overwrite, mergefuzzy, merge_header)
 
         return ret
