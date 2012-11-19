@@ -50,7 +50,7 @@ import weblate
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
-from weblate.trans.filelock import FileLock
+from weblate.trans.filelock import FileLock, FileLockException
 from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated
 
 from django.db.models.signals import post_syncdb
@@ -2115,7 +2115,12 @@ class Unit(models.Model):
         self.translation.update_lock(request)
 
         # Store to backend
-        (saved, pounit) = self.translation.update_unit(self, request)
+        try:
+            (saved, pounit) = self.translation.update_unit(self, request)
+        except FileLockException:
+            logger.error('failed to lock backend for %s!', self)
+            messages.error(request, _('Failed to store message in the backend, lock timeout occurred!'))
+            return
 
         # Handle situation when backend did not find the message
         if pounit is None:
