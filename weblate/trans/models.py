@@ -588,7 +588,7 @@ class SubProject(models.Model):
         Returns lock object for current translation instance.
         '''
         if not hasattr(self, '__lock__'):
-            self.__lock__ = FileLock(self.get_git_lock_path())
+            self.__lock__ = FileLock(self.get_git_lock_path(), timeout = 20)
         return self.__lock__
 
     def can_push(self):
