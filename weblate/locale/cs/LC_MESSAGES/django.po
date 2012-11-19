@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-19 15:12+0100\n"
-"PO-Revision-Date: 2012-11-13 10:02+0200\n"
+"PO-Revision-Date: 2012-11-19 15:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 1.3-dev\n"
+"X-Generator: Weblate 1.3\n"
 
 #: urls.py:138 urls.py:145 urls.py:152 urls.py:159
 msgid "User registration"
@@ -237,9 +237,8 @@ msgid "Notification on new comment"
 msgstr "Upozornění na nový komentář"
 
 #: accounts/models.py:184
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Upozornění na nového přispěvatele"
+msgstr "Upozornění na chybu při sloučení"
 
 #: accounts/models.py:288
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1505,7 +1504,7 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Překládat můžete na %(translation_url)s"
 
 #: html/mail/merge_failure.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1513,22 +1512,20 @@ msgid ""
 msgstr ""
 "Ahoj,\n"
 "\n"
-"v překladu %(subproject)s na %(site_title)s byl přidán nový komentář.\n"
+"v překladu %(subproject)s na %(site_title)s došlo k chybě při slučování.\n"
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Podrobnosti chyby:"
+msgstr "Chybová zpráva:"
 
 #: html/mail/merge_failure.txt:10
-#, fuzzy
 msgid "Repository status:"
-msgstr "Git repozitář:"
+msgstr "Stav repozitáře:"
 
 #: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "Nový komentář v %(subproject)s"
+msgstr "Chyba při slučování v %(subproject)s"
 
 #: html/mail/new_comment.txt:1
 #, python-format
@@ -2884,6 +2881,8 @@ msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Jestli překlady v jiných podprojektech způsobí automatický překlad v tomto "
+"projektu"
 
 #: trans/models.py:665
 #, python-format
@@ -3004,7 +3003,7 @@ msgstr "Řetězců s návrhy (%d)"
 
 #: trans/models.py:2157
 msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr ""
+msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
 
 #: trans/models.py:2163
 msgid "Message not found in backend storage, it is probably corrupted."
