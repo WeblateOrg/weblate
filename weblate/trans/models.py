@@ -1970,7 +1970,10 @@ class Translation(models.Model):
         Top level handler for file uploads.
         '''
         # Load backend file
-        store2 = ttkit(fileobj)
+        try:
+            store = ttkit(fileobj)
+        except:
+            store = ttkit(fileobj, self.subproject.file_format)
 
         # Optionally set authorship
         if author is None:
@@ -1985,7 +1988,7 @@ class Translation(models.Model):
 
         # Do actual merge
         for s in translations:
-            ret |= s.merge_store(author, store2, overwrite, mergefuzzy, merge_header)
+            ret |= s.merge_store(author, store, overwrite, mergefuzzy, merge_header)
 
         return ret
 
