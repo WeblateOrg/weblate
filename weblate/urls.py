@@ -25,11 +25,13 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.simple import direct_to_template
 from django.conf import settings
 from django.views.generic import RedirectView
+from django.contrib.sitemaps import GenericSitemap
 
 from registration.views import activate, register
 
 from weblate.accounts.forms import RegistrationForm
 from weblate.trans.feeds import TranslationChangesFeed, SubProjectChangesFeed, ProjectChangesFeed, ChangesFeed
+from weblate.trans.models import Project, SubProject, Translation
 
 admin.autodiscover()
 
@@ -37,6 +39,27 @@ handler404 = 'weblate.trans.views.not_found'
 
 js_info_dict = {
     'packages': ('weblate',),
+}
+
+project_dict = {
+    'queryset': Project.objects.all(),
+    'date_field': 'get_last_change',
+}
+
+subproject_dict = {
+    'queryset': SubProject.objects.all(),
+    'date_field': 'get_last_change',
+}
+
+translation_dict = {
+    'queryset': Translation.objects.all(),
+    'date_field': 'get_last_change',
+}
+
+sitemaps = {
+    'project': GenericSitemap(project_dict, priority = 0.9),
+    'subproject': GenericSitemap(subproject_dict, priority = 0.8),
+    'translation': GenericSitemap(translation_dict, priority = 0.7),
 }
 
 admin.site.index_template = 'admin/custom-index.html'
@@ -211,6 +234,10 @@ urlpatterns = patterns('',
 
     url(r'^contact/', 'weblate.accounts.views.contact', name = 'contact'),
     url(r'^about/$', 'weblate.trans.views.about', name = 'about'),
+
+    # the sitemap
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
+    (r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
     # Media files
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',

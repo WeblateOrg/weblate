@@ -446,6 +446,16 @@ class Project(models.Model):
             ret |= s.can_push()
         return ret
 
+    def get_last_change(self):
+        '''
+        Returns date of last change done in Weblate.
+        '''
+        try:
+            change = Change.objects.filter(translation__subproject__project = self).order_by('-timestamp')[0]
+            return change.timestamp
+        except IndexError:
+            return None
+
 class SubProject(models.Model):
     name = models.CharField(
         max_length = 100,
@@ -1160,6 +1170,15 @@ class SubProject(models.Model):
 
         return self.store_cache
 
+    def get_last_change(self):
+        '''
+        Returns date of last change done in Weblate.
+        '''
+        try:
+            change = Change.objects.filter(translation__subproject = self).order_by('-timestamp')[0]
+            return change.timestamp
+        except IndexError:
+            return None
 
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
