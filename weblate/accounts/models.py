@@ -35,6 +35,7 @@ from django.template.loader import render_to_string, get_template_from_string
 from django.template.context import Context
 from django.core.mail import EmailMessage
 from django.db import transaction
+from django.core.mail import mail_admins
 
 from south.signals import post_migrate
 
@@ -79,16 +80,23 @@ def send_notification_email(language, email, notification, translation_obj, cont
         headers['Precedence'] = 'bulk'
         headers['X-Mailer'] = 'Weblate %s' % weblate.VERSION
 
-        # Create message
-        email = EmailMessage(
-            settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
-            body,
-            to = [email],
-            headers = headers
-        )
+        if email == 'ADMINS':
+            # Special handling for ADMINS
+            mail_admins(
+                subject.strip(),
+                body,
+            )
+        else:
+            # Create message
+            email = EmailMessage(
+                settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
+                body,
+                to = [email],
+                headers = headers
+            )
 
-        # Send it out
-        email.send(fail_silently = False)
+            # Send it out
+            email.send(fail_silently = False)
     finally:
         translation.activate(cur_language)
 

@@ -847,22 +847,32 @@ class SubProject(models.Model):
                 status = gitrepo.git.status()
                 gitrepo.git.merge('--abort')
                 logger.warning('failed merge on repo %s', self.__unicode__())
-                msg = 'Error:\n%s' % str(e)
-                msg += '\n\nStatus:\n' + status
-                mail_admins(
-                    'failed merge on repo %s' % self.__unicode__(),
-                    msg
-                )
+
                 # Notify subscribed users about failure
-                from weblate.accounts.models import Profile
+                from weblate.accounts.models import Profile, send_notification_email
                 subscriptions = Profile.objects.subscribed_merge_failure(
                     self.project,
                 )
                 for subscription in subscriptions:
                     subscription.notify_merge_failure(self, str(e), status)
 
+                # Notify admins
+                send_notification_email(
+                    'en',
+                    'ADMINS',
+                    'merge_failure',
+                    self,
+                    {
+                        'subproject': self,
+                        'status': status,
+                        'error': str(e),
+                    }
+                )
+
+                # Tell user (if there is any)
                 if request is not None:
                     messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
+
                 return False
 
     def update_rebase(self, request = None):
