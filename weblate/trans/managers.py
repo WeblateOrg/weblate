@@ -263,7 +263,7 @@ class UnitManager(models.Manager):
             return self.none()
         from weblate.trans.models import Change
         sample = self.all()[0]
-        changes = Change.objects.filter(unit__translation = sample.translation, timestamp__gte = date).exclude(user = user)
+        changes = Change.objects.filter(translation = sample.translation, timestamp__gte = date).exclude(user = user)
         return self.filter(id__in = changes.values_list('unit__id', flat = True))
 
     def add_to_source_index(self, checksum, source, context, writer):

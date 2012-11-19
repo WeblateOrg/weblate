@@ -1565,7 +1565,7 @@ class Translation(models.Model):
         Returns last autor of change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(unit__translation = self).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation = self).order_by('-timestamp')[0]
             return self.get_author_name(change.user, email)
         except IndexError:
             return None
@@ -1575,7 +1575,7 @@ class Translation(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(unit__translation = self).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation = self).order_by('-timestamp')[0]
             return change.timestamp
         except IndexError:
             return None
@@ -2210,7 +2210,7 @@ class Unit(models.Model):
                 subscription.notify_any_translation(self, oldunit)
 
             # Notify about new contributor
-            if not Change.objects.filter(unit__translation = self.translation, user = request.user).exists():
+            if not Change.objects.filter(translation = self.translation, user = request.user).exists():
                 # Get list of subscribers for new contributor
                 subscriptions = Profile.objects.subscribed_new_contributor(
                     self.translation.subproject.project,
