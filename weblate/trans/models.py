@@ -870,17 +870,20 @@ class SubProject(models.Model):
             except Exception as e:
                 # In case merge has failer recover
                 status = gitrepo.git.status()
+                error = str(e)
                 gitrepo.git.merge('--abort')
-                logger.warning('failed merge on repo %s', self.__unicode__())
 
-                # Notify subscribers and admins
-                self.notify_merge_failure(str(e), status)
+        # Log error
+        logger.warning('failed merge on repo %s', self.__unicode__())
 
-                # Tell user (if there is any)
-                if request is not None:
-                    messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
+        # Notify subscribers and admins
+        self.notify_merge_failure(error, status)
 
-                return False
+        # Tell user (if there is any)
+        if request is not None:
+            messages.error(request, _('Failed to merge remote branch into %s.') % self.__unicode__())
+
+        return False
 
     def update_rebase(self, request = None):
         '''
@@ -897,17 +900,20 @@ class SubProject(models.Model):
             except Exception as e:
                 # In case merge has failer recover
                 status = gitrepo.git.status()
+                error = str(e)
                 gitrepo.git.rebase('--abort')
-                logger.warning('failed rebase on repo %s', self.__unicode__())
 
-                # Notify subscribers and admins
-                self.notify_merge_failure(str(e), status)
+        # Log error
+        logger.warning('failed rebase on repo %s', self.__unicode__())
 
-                # Tell user (if there is any)
-                if request is not None:
-                    messages.error(request, _('Failed to rebase our branch onto remote branch %s.') % self.__unicode__())
+        # Notify subscribers and admins
+        self.notify_merge_failure(error, status)
 
-                return False
+        # Tell user (if there is any)
+        if request is not None:
+            messages.error(request, _('Failed to rebase our branch onto remote branch %s.') % self.__unicode__())
+
+        return False
 
     def update_branch(self, request = None):
         '''
