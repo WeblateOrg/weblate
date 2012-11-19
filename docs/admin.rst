@@ -29,7 +29,7 @@ To add new resource to translate, you need to create translation project first.
 The project is sort of shelf, in which real translations are folded. All
 subprojects in same project share suggestions and dictionary, also the
 translations are automatically propagated through the all subproject in single
-project.
+project (unless disabled in subproject configuration).
 
 The project has only few attributes giving translators information about
 project.
@@ -90,6 +90,12 @@ Filemask
 Report source bugs
     Email address used for reporting upstream bugs. This address will also receive
     notification about any source string comments made in Weblate.
+Locked
+    You can lock the translation to prevent updates by users.
+Allow translation propagation
+    You can disable propagation of translations to this subproject from other
+    subprojects withing same project. This really depens on what you are
+    translating, sometimes it's desirable to have same string used.
 
 .. note::
    

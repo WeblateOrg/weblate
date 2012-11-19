@@ -500,6 +500,10 @@ class SubProject(models.Model):
         default = False,
         help_text = ugettext_lazy('Whether subproject is locked for translation updates.')
     )
+    allow_translation_propagation = models.BooleanField(
+        default = True,
+        help_text = ugettext_lazy('Whether translation updates in other subproject will cause automatic translation in this project')
+    )
 
     class Meta:
         ordering = ['project__name', 'name']
@@ -1940,7 +1944,7 @@ class Translation(models.Model):
 
         ret = False
 
-        for s in Translation.objects.filter(language = self.language, subproject__project = self.subproject.project):
+        for s in Translation.objects.filter(language = self.language, subproject__project = self.subproject.project).filter(Q(pk = self.pk) | Q(subproject__allow_translation_propagation = True)):
             ret |= s.merge_store(author, store2, overwrite, mergefuzzy, merge_header)
 
         return ret
@@ -2099,7 +2103,7 @@ class Unit(models.Model):
         '''
         Propagates current translation to all others.
         '''
-        allunits = Unit.objects.same(self).exclude(id = self.id)
+        allunits = Unit.objects.same(self).exclude(id = self.id).filter(translation__subproject__allow_translation_propagation = True)
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = self.fuzzy

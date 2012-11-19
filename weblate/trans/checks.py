@@ -560,12 +560,16 @@ class ConsistencyCheck(TargetCheck):
 
     def check(self, sources, targets, flags, language, unit):
         from weblate.trans.models import Unit
+        # Do not check consistency if user asked not to have it
+        if not unit.translation.subproject.allow_translation_propagation:
+            return False
         related = Unit.objects.filter(
             translation__language = language,
             translation__subproject__project = unit.translation.subproject.project,
             checksum = unit.checksum,
         ).exclude(
-            id = unit.id
+            id = unit.id,
+            translation__subproject__allow_translation_propagation = False,
         )
         if unit.fuzzy:
             related = related.exclude(fuzzy = True)
