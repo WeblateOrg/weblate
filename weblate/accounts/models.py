@@ -23,6 +23,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
+from django.db.models.signals import post_save
 from django.db.utils import DatabaseError
 from django.utils.translation import ugettext_lazy as _, gettext, ugettext_noop
 from django.contrib import messages
@@ -358,3 +359,16 @@ def store_user_details(sender, user, request, **kwargs):
     user.last_name = request.POST['last_name']
     user.save()
     profile, newprofile = Profile.objects.get_or_create(user = user)
+
+@receiver(post_save, sender = User)
+def create_profile_callback(sender, **kwargs):
+    '''
+    Automatically adds user to Users group.
+    '''
+    if kwargs['created']:
+        # Add user to Users group if it exists
+        try:
+            group = Group.objects.get(name = 'Users')
+            kwargs['instance'].groups.add(group)
+        except Group.DoesNotExist:
+            pass
