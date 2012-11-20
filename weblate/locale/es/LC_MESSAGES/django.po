@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-19 15:12+0100\n"
-"PO-Revision-Date: 2012-11-13 12:24+0200\n"
+"PO-Revision-Date: 2012-11-20 14:02+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 1.3-dev\n"
+"X-Generator: Weblate 1.4\n"
 
 #: urls.py:138 urls.py:145 urls.py:152 urls.py:159
 msgid "User registration"
@@ -237,9 +237,8 @@ msgid "Notification on new comment"
 msgstr "Notificar en nuevos comentarios"
 
 #: accounts/models.py:184
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Notificar en nuevos colaboradores"
+msgstr "Notificar en fallos de fusión"
 
 #: accounts/models.py:288
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1513,7 +1512,7 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Puede traducir en %(translation_url)s"
 
 #: html/mail/merge_failure.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1521,22 +1520,20 @@ msgid ""
 msgstr ""
 "Hola,\n"
 "\n"
-"Hay un nuevo comentario en %(subproject)s en %(site_title)s.\n"
+"Hubo un error en la fusión de %(subproject)s en %(site_title)s.\n"
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Detalles de error:"
+msgstr "Mensaje de error:"
 
 #: html/mail/merge_failure.txt:10
-#, fuzzy
 msgid "Repository status:"
-msgstr "Repositorio Git:"
+msgstr "Estado del repositorio:"
 
 #: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "Nuevo comentario en %(subproject)s"
+msgstr "Fallo de fusión en %(subproject)s"
 
 #: html/mail/new_comment.txt:1
 #, python-format
@@ -2916,6 +2913,8 @@ msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Si actualizar traducciones en otro subproyecto causará traducciones en este "
+"proyecto automáticamente"
 
 #: trans/models.py:665
 #, python-format
@@ -3037,6 +3036,8 @@ msgstr "Cadenas con sugerencias (%d)"
 #: trans/models.py:2157
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
+"No se pudo almacenar el mensaje internamente, ¡se agotó el tiempo esperando "
+"un bloqueo!"
 
 #: trans/models.py:2163
 msgid "Message not found in backend storage, it is probably corrupted."
