@@ -678,7 +678,7 @@ class XMLTagsCheck(TargetCheck):
                 return False
             # Check if source is XML
             try:
-                source_tree = ElementTree.fromstring('<weblate>%s</weblate>' % source)
+                source_tree = ElementTree.fromstring('<weblate>%s</weblate>' % source.encode('utf-8'))
                 source_tags = [x.tag for x in source_tree.iter()]
                 self.set_cache(unit, source_tags)
             except:
@@ -688,7 +688,7 @@ class XMLTagsCheck(TargetCheck):
 
         # Check target
         try:
-            target_tree = ElementTree.fromstring('<weblate>%s</weblate>' % target)
+            target_tree = ElementTree.fromstring('<weblate>%s</weblate>' % target.encode('utf-8'))
             target_tags = [x.tag for x in target_tree.iter()]
         except:
             # Target is not valid XML
