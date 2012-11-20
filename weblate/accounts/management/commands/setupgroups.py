@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from weblate.accounts.models import create_groups
+from weblate.accounts.models import create_groups, move_users
 
 class Command(BaseCommand):
     help = 'setups default groups'
@@ -42,4 +42,6 @@ class Command(BaseCommand):
         Creates default set of groups and optionally updates them and moves
         users around to default group.
         '''
-        create_groups(options['update'], options['move'])
+        create_groups(options['update'])
+        if options['move']:
+            move_users()

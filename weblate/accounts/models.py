@@ -292,7 +292,7 @@ def set_lang(sender, **kwargs):
     lang_code = user.get_profile().language
     request.session['django_language'] = lang_code
 
-def create_groups(update, move):
+def create_groups(update):
     '''
     Creates standard groups and gives them permissions.
     '''
@@ -336,9 +336,15 @@ def create_groups(update, move):
             Permission.objects.get(codename = 'add_comment'),
             Permission.objects.get(codename = 'delete_comment'),
         )
-    if move:
-        for u in User.objects.all():
-            u.groups.add(group)
+
+def move_users():
+    '''
+    Moves users to default group.
+    '''
+    group = Group.objects.get(name = 'Users')
+
+    for u in User.objects.all():
+        u.groups.add(group)
 
 @receiver(post_syncdb)
 @receiver(post_migrate)
@@ -347,7 +353,7 @@ def sync_create_groups(sender, **kwargs):
     Create groups on syncdb.
     '''
     if ('app' in kwargs and kwargs['app'] == 'accounts') or (sender is not None and sender.__name__ == 'weblate.accounts.models'):
-        create_groups(False, False)
+        create_groups(False)
 
 @receiver(user_registered)
 def store_user_details(sender, user, request, **kwargs):
