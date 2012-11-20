@@ -271,6 +271,12 @@ class Profile(models.Model):
             }
         )
 
+    def get_full_name(self):
+        '''
+        Returns user's full name.
+        '''
+        return self.user.get_full_name()
+
 @receiver(user_logged_in)
 def set_lang(sender, **kwargs):
     '''

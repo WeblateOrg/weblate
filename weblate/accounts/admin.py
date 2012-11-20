@@ -22,8 +22,8 @@ from django.contrib import admin
 from weblate.accounts.models import Profile
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'language', 'suggested', 'translated']
-    search_fields = ['user__username', 'user__email']
+    list_display = ['user', 'get_full_name', 'language', 'suggested', 'translated']
+    search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name']
     list_filter = ['language']
 
 admin.site.register(Profile, ProfileAdmin)
