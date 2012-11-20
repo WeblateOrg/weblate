@@ -15,4 +15,8 @@ there has been new translation on {{ translation }} at {{ site_title }}.
 
 {{ oldunit.target }}{% else %}{% trans "Previously not translated" %}{% endif %}
 
+{% trans "You can edit this string at:" %}
+
+http://{{ current_site }}{{ unit.get_absolute_url }}
+
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

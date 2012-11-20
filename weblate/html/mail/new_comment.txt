@@ -11,4 +11,8 @@ there has been a new comment on {{ subproject }} at {{ site_title }}.
 
 {{ comment.comment }}
 
+{% trans "You can edit this string at:" %}
+
+http://{{ current_site }}{{ unit.get_absolute_url }}
+
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}
