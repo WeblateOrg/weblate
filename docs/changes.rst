@@ -11,6 +11,8 @@ Relased on ? 2012.
 * Added option to subscribe for merge failures.
 * Correctly import on projects which needs custom ttkit loader.
 * Added sitemaps to allow easier access by crawlers.
+* Provide direct links to string in notification emails or feeds.
+* Various improvements to admin interface.
 
 weblate 1.3
 -----------
