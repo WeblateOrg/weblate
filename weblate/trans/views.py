@@ -1105,6 +1105,8 @@ def translate(request, project, subproject, lang):
             units = allunits.filter(position__lt = pos).order_by('-position')
         else:
             units = allunits.filter(position__gt = pos)
+    elif 'checksum' in request.GET:
+        allunits = obj.unit_set.filter(checksum = request.GET['checksum'])
     else:
         allunits = obj.unit_set.filter_type(rqtype, obj)
         # What unit set is about to show

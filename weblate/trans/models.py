@@ -2065,7 +2065,7 @@ class Unit(models.Model):
         )
 
     def get_absolute_url(self):
-        return '%s?pos=%d&dir=stay' % (self.translation.get_translate_url(), self.position)
+        return '%s?checksum=%s' % (self.translation.get_translate_url(), self.checksum)
 
     def update_from_unit(self, unit, pos, force, template = None):
         '''
