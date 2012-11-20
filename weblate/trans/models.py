@@ -1584,7 +1584,7 @@ class Translation(models.Model):
         Returns last autor of change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation = self).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation = self).exclude(user = None).order_by('-timestamp')[0]
             return self.get_author_name(change.user, email)
         except IndexError:
             return None
@@ -1617,9 +1617,6 @@ class Translation(models.Model):
         '''
         Returns formatted author name with email.
         '''
-        if user is None:
-            return _('None')
-
         # Get full name from database
         full_name = user.get_full_name()
 
