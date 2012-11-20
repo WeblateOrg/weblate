@@ -52,12 +52,6 @@ class ChangesFeed(Feed):
     def item_pubdate(self, item):
         return item.timestamp
 
-    def item_link(self, item):
-        if item.unit is not None:
-            return item.unit.get_absolute_url()
-        else:
-            return item.translation.get_absolute_url()
-
 
 class TranslationChangesFeed(ChangesFeed):
 

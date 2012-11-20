@@ -2646,6 +2646,15 @@ class Change(models.Model):
         else:
             return self.user.get_full_name()
 
+    def get_absolute_url(self):
+        '''
+        Returns link either to unit or translation.
+        '''
+        if self.unit is not None:
+            return self.unit.get_absolute_url()
+        else:
+            return self.translation.get_absolute_url()
+
 class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
     source = models.BooleanField(default = True)
