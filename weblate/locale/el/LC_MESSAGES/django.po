@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-19 15:12+0100\n"
-"PO-Revision-Date: 2012-11-13 18:53+0200\n"
+"PO-Revision-Date: 2012-11-20 09:34+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -236,9 +236,8 @@ msgid "Notification on new comment"
 msgstr "Ειδοποίηση για νέο σχόλιο"
 
 #: accounts/models.py:184
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Ειδοποίηση για νέα συμβολή"
+msgstr "Ειδοποίηση για σφάλμα ένωσης"
 
 #: accounts/models.py:288
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1516,7 +1515,7 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Μπορείτε να μεταφράσετε στο %(translation_url)s"
 
 #: html/mail/merge_failure.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1524,22 +1523,20 @@ msgid ""
 msgstr ""
 "Γεια,\n"
 "\n"
-"υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s.\n"
+"υπήρξε ένα σφάλμα ένωσης του %(subproject)s στο %(site_title)s.\n"
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Λεπτομέρειες σφάλματος:"
+msgstr "Μήνυμα σφάλματος:"
 
 #: html/mail/merge_failure.txt:10
-#, fuzzy
 msgid "Repository status:"
-msgstr "Αποθετήριο Git:"
+msgstr "Κατάσταση αποθετηρίου:"
 
 #: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "Νέο σχόλιο στο %(subproject)s"
+msgstr "Σφάλμα ένωσης στο %(subproject)s"
 
 #: html/mail/new_comment.txt:1
 #, python-format
@@ -2927,6 +2924,8 @@ msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Αν η μετάφραση ενημερωθεί σε άλλο υπόέργο, τότε θα προκαλέσει αυτόματη "
+"μετάφραση σε αυτό το έργο"
 
 #: trans/models.py:665
 #, python-format
@@ -3051,7 +3050,7 @@ msgstr "Κείμενα με προτάσεις (%d)"
 
 #: trans/models.py:2157
 msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr ""
+msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
 #: trans/models.py:2163
 msgid "Message not found in backend storage, it is probably corrupted."
