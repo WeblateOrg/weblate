@@ -34,7 +34,7 @@ def is_running_git():
     return os.path.exists(os.path.join(get_root_dir(), '.git'))
 
 # Weblate version
-VERSION = '1.3'
+VERSION = '1.4'
 
 # Are we running git
 RUNNING_GIT = is_running_git()
@@ -45,11 +45,11 @@ if RUNNING_GIT:
     try:
         import git
         # Describe current checkout
-        GIT_VERSION = git.Repo(get_root_dir()).git.describe()
+        GIT_VERSION = '1.4'
 
         # Check if we're close to release tag
         parts = GIT_VERSION.split('-')
-        GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
+        GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 40)
         del parts
 
         # Mark version as devel if it is
