@@ -20,6 +20,8 @@
 
 from django.contrib import admin
 from weblate.accounts.models import Profile
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'get_full_name', 'language', 'suggested', 'translated']
@@ -28,3 +30,21 @@ class ProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Profile, ProfileAdmin)
 
+class WeblateUserAdmin(UserAdmin):
+    '''
+    Custom UserAdmin to add listing of group membership and whether user is active.
+    '''
+    list_display = UserAdmin.list_display + ('is_active', 'user_groups')
+    list_filter = UserAdmin.list_filter + ('groups',)
+
+    def user_groups(self, obj):
+        """
+        Get group, separate by comma, and display empty string if user has no group
+        """
+        print obj
+        return ','.join([g.name for g in obj.groups.all()])
+
+# Need to unregister orignal Django UserAdmin
+admin.site.unregister(User)
+# Set WeblateUserAdmin to handle User in admin interface
+admin.site.register(User, WeblateUserAdmin)
