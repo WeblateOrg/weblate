@@ -6,6 +6,12 @@ weblate 1.4
 
 Relased on ? 2012.
 
+* Fixed deleting of checks/comments on unit deletion.
+* Added option to disable automatic propagation of translations.
+* Added option to subscribe for merge failures.
+* Correctly import on projects which needs custom ttkit loader.
+* Added sitemaps to allow easier access by crawlers.
+
 weblate 1.3
 -----------
 
