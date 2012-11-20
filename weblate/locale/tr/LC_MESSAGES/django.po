@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-19 15:12+0100\n"
-"PO-Revision-Date: 2012-11-13 18:35+0200\n"
+"PO-Revision-Date: 2012-11-20 18:00+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 1.3-dev\n"
+"X-Generator: Weblate 1.4\n"
 
 #: urls.py:138 urls.py:145 urls.py:152 urls.py:159
 msgid "User registration"
@@ -238,9 +238,8 @@ msgid "Notification on new comment"
 msgstr "Yeni yorumda bildirim"
 
 #: accounts/models.py:184
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Yeni katkıda bulunmada bildirim"
+msgstr "Birleştirmenin başarısız olmasında bildirim"
 
 #: accounts/models.py:288
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1508,7 +1507,7 @@ msgid "You can translate at %(translation_url)s"
 msgstr "%(translation_url)s adresinde çevirebilirsiniz"
 
 #: html/mail/merge_failure.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1516,22 +1515,21 @@ msgid ""
 msgstr ""
 "Merhaba,\n"
 "\n"
-"%(site_title)s sitesinde %(subproject)s projesinde yeni bir yorum yapılmış.\n"
+"%(site_title)s sitesinde %(subproject)s projesinde birleştirme başarısız "
+"olmuş.\n"
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Hata ayrıntıları:"
+msgstr "Hata iletisi:"
 
 #: html/mail/merge_failure.txt:10
-#, fuzzy
 msgid "Repository status:"
-msgstr "Git havuzu:"
+msgstr "Havuz durumu:"
 
 #: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "%(subproject)s içinde yeni yorum"
+msgstr "%(subproject)s içinde birleştirme başarısız"
 
 #: html/mail/new_comment.txt:1
 #, python-format
@@ -2896,6 +2894,8 @@ msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Diğer alt projedeki çeviri güncellemeleri bu projede otomatik çeviriye neden "
+"olacaksa"
 
 #: trans/models.py:665
 #, python-format
@@ -3018,6 +3018,8 @@ msgstr "Önerileri olan satır (%d)"
 #: trans/models.py:2157
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
+"Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana "
+"geldi!"
 
 #: trans/models.py:2163
 msgid "Message not found in backend storage, it is probably corrupted."
