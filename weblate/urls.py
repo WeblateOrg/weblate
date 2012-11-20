@@ -57,12 +57,11 @@ translation_dict = {
 }
 
 class PagesSitemap(Sitemap):
-    changefreq = 'monthly'
     def items(self):
         return (
-            ('/', 1.0),
-            ('/about/', 0.8),
-            ('/contact/', 0.2),
+            ('/', 1.0, 'daily'),
+            ('/about/', 0.8, 'daily'),
+            ('/contact/', 0.2, 'monthly'),
         )
 
     def location(self, item):
@@ -74,6 +73,9 @@ class PagesSitemap(Sitemap):
 
     def priority(self, item):
         return item[1]
+
+    def changefreq(self, item):
+        return item[2]
 
 class EngageSitemap(GenericSitemap):
     '''
