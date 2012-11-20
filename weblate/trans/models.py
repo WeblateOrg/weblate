@@ -1617,6 +1617,8 @@ class Translation(models.Model):
         '''
         Returns formatted author name with email.
         '''
+        if user is None:
+            return _('None')
 
         # Get full name from database
         full_name = user.get_full_name()
