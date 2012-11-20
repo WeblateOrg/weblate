@@ -53,7 +53,10 @@ class ChangesFeed(Feed):
         return item.timestamp
 
     def item_link(self, item):
-        return item.translation.get_absolute_url()
+        if item.unit is not None:
+            return item.unit.get_absolute_url()
+        else:
+            return item.translation.get_absolute_url()
 
 
 class TranslationChangesFeed(ChangesFeed):
