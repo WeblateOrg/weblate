@@ -89,6 +89,12 @@ able to create translation projects using admin interface.
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
+.. note::
+
+    If you are running version from Git, you should also regenerate locale
+    files every time you are upgrading. You can do this by invoking script
+    :file:`./scripts/generate-locales`.
+
 .. seealso:: :ref:`config`, :ref:`privileges`, :ref:`faq-site`
 
 Production setup
