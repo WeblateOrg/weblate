@@ -23,6 +23,7 @@ from django.contrib.sites.models import Site
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.conf import settings
 import weblate
