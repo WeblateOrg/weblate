@@ -593,7 +593,7 @@ class DirectionCheck(TargetCheck):
             return False
         if not sources[0].lower() in ['ltr', 'rtl']:
             return False
-        return not targets[0].lower() in ['ltr', 'rtl']
+        return targets[0].lower() != language.direction
 
 class CountingCheck(TargetCheck):
     '''
