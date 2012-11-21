@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-19 15:12+0100\n"
+"POT-Creation-Date: 2012-11-21 14:09+0100\n"
 "PO-Revision-Date: 2012-11-20 18:06+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.4\n"
 
-#: urls.py:138 urls.py:145 urls.py:152 urls.py:159
+#: urls.py:193 urls.py:200 urls.py:207 urls.py:214
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:167
+#: urls.py:222
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:176 html/base.html:39 html/registration/login.html:30
+#: urls.py:231 html/base.html:39 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:183
+#: urls.py:238
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:188
+#: urls.py:243
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:192
+#: urls.py:247
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:196 urls.py:200 urls.py:204 urls.py:208
+#: urls.py:251 urls.py:255 urls.py:259 urls.py:263
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -201,47 +201,47 @@ msgstr "Tamam"
 msgid "Cancel"
 msgstr "İptal"
 
-#: accounts/models.py:140
+#: accounts/models.py:141
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:146 html/index.html:21 trans/views.py:185
+#: accounts/models.py:147 html/index.html:21 trans/views.py:185
 msgid "Languages"
 msgstr "Diller"
 
-#: accounts/models.py:151
+#: accounts/models.py:152
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: accounts/models.py:160
+#: accounts/models.py:161
 msgid "Subscribed projects"
 msgstr "Abone olunmuş projeler"
 
-#: accounts/models.py:164
+#: accounts/models.py:165
 msgid "Notification on any translation"
 msgstr "Herhangi bir çeviride bildirim"
 
-#: accounts/models.py:168
+#: accounts/models.py:169
 msgid "Notification on new string to translate"
 msgstr "Yeni satır çevirmek için bildirim"
 
-#: accounts/models.py:172
+#: accounts/models.py:173
 msgid "Notification on new suggestion"
 msgstr "Yeni öneride bildirim"
 
-#: accounts/models.py:176
+#: accounts/models.py:177
 msgid "Notification on new contributor"
 msgstr "Yeni katkıda bulunmada bildirim"
 
-#: accounts/models.py:180
+#: accounts/models.py:181
 msgid "Notification on new comment"
 msgstr "Yeni yorumda bildirim"
 
-#: accounts/models.py:184
+#: accounts/models.py:185
 msgid "Notification on merge failure"
 msgstr "Birleştirmenin başarısız olmasında bildirim"
 
-#: accounts/models.py:288
+#: accounts/models.py:295
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
 
@@ -282,7 +282,7 @@ msgstr ""
 "Sunucunun isteğinizi yerine getirirken ciddi sorunları oldu. Bu sorunu "
 "çözmesi için eğitimli afacanlarımızı şimdi gönderdik."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1427
+#: html/about.html:7 html/footer.html:6 trans/views.py:1430
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -375,7 +375,8 @@ msgstr "Oturumu kapat"
 msgid "Register"
 msgstr "Kayıt ol"
 
-#: html/base.html:44 html/admin/report.html:8 html/admin/ssh.html:8
+#: html/base.html:44 html/admin/performance.html:9 html/admin/report.html:8
+#: html/admin/ssh.html:8
 msgid "Home"
 msgstr "Giriş"
 
@@ -423,7 +424,7 @@ msgstr "Çeviri"
 msgid "Source"
 msgstr "Kaynak"
 
-#: html/checks.html:15
+#: html/checks.html:15 html/admin/performance.html:20
 msgid "Check"
 msgstr "Kontrol"
 
@@ -696,7 +697,8 @@ msgstr ""
 msgid "Contact us"
 msgstr "Bize ulaşın"
 
-#: html/footer.html:8
+#: html/footer.html:8 html/admin/performance.html:22
+#: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "Belgeler"
 
@@ -1316,15 +1318,28 @@ msgstr "Kod:"
 msgid "Reports"
 msgstr "Raporlar"
 
-#: html/admin/custom-index.html:14 html/admin/report.html:4
+#: html/admin/custom-index.html:13 html/admin/report.html:4
 #: html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "Havuzların durumu"
 
-#: html/admin/custom-index.html:23 html/admin/ssh.html:4
+#: html/admin/custom-index.html:19 html/admin/ssh.html:4
 #: html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr "SSH anahtarları"
+
+#: html/admin/custom-index.html:25 html/admin/performance.html:5
+#: html/admin/performance.html.py:14
+msgid "Performance report"
+msgstr ""
+
+#: html/admin/performance.html:9
+msgid "Performance"
+msgstr ""
+
+#: html/admin/performance.html:21
+msgid "Result"
+msgstr ""
 
 #: html/admin/report.html:8
 msgid "Status"
@@ -1479,6 +1494,11 @@ msgstr "Önceki çeviri:"
 #: html/mail/any_translation.txt:16
 msgid "Previously not translated"
 msgstr "Önceden çevrilmemiş"
+
+#: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
+#, fuzzy
+msgid "You can edit this string at:"
+msgstr "Şu adreste gözden geçirebilirsiniz:"
 
 #: html/mail/any_translation_subject.txt:1
 #, python-format
@@ -2403,11 +2423,35 @@ msgstr "Çoğul"
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
 
-#: trans/admin_views.py:59 trans/admin_views.py:63
+#: trans/admin_views.py:49
+msgid "Debug mode"
+msgstr ""
+
+#: trans/admin_views.py:55
+msgid "Site domain"
+msgstr ""
+
+#: trans/admin_views.py:61
+msgid "Database backend"
+msgstr ""
+
+#: trans/admin_views.py:67
+msgid "Site administrator"
+msgstr ""
+
+#: trans/admin_views.py:73
+msgid "Indexing offloading"
+msgstr ""
+
+#: trans/admin_views.py:89
+msgid "Django caching"
+msgstr ""
+
+#: trans/admin_views.py:118 trans/admin_views.py:122
 msgid "Failed to generate key!"
 msgstr "Anahtar üretme başarısız!"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:120
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
@@ -2591,12 +2635,12 @@ msgstr "Üç nokta"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Satır, üç nokta karakteri (…) yerine üç tane nokta (...) kullanır"
 
-#: trans/feeds.py:32 trans/feeds.py:65
+#: trans/feeds.py:32 trans/feeds.py:62
 #, python-format
 msgid "Recent changes in %s"
 msgstr "%s içindeki son değişiklikler"
 
-#: trans/feeds.py:35 trans/feeds.py:68
+#: trans/feeds.py:35 trans/feeds.py:65
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
@@ -2821,15 +2865,15 @@ msgstr ""
 "Yeni dil eklemek için lütfen ya talimatlar URL'sindekini doldurun ya da "
 "farklı seçenek kullanın."
 
-#: trans/models.py:452
+#: trans/models.py:462
 msgid "Name to display"
 msgstr "Görüntülemek için isim"
 
-#: trans/models.py:456
+#: trans/models.py:466
 msgid "Name used in URLs"
 msgstr "URL'ler içinde kullanılan isim"
 
-#: trans/models.py:461
+#: trans/models.py:471
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
@@ -2837,11 +2881,11 @@ msgstr ""
 "Git havuzunun URL'si, diğer alt proje ile paylaşmak için weblate://project/"
 "subproject kullanın."
 
-#: trans/models.py:466
+#: trans/models.py:476
 msgid "URL of push Git repository"
 msgstr "Git havuzuna yollama URL'si"
 
-#: trans/models.py:470
+#: trans/models.py:480
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2850,7 +2894,7 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, dal için %(branch)s, dosya adı ve satır yer "
 "tutucuları olarak %(file)s ve %(line)s kullan."
 
-#: trans/models.py:475
+#: trans/models.py:485
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -2858,11 +2902,11 @@ msgstr ""
 "Kaynak satırdaki hataların raporlanacağı eposta adresi, eposta almamak için "
 "boş bırakın."
 
-#: trans/models.py:480
+#: trans/models.py:490
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models.py:486
+#: trans/models.py:496
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -2870,7 +2914,7 @@ msgstr ""
 "Çevirmek için dosyaların yolu, dil kodu yerine * kullanın, örneğin: po/*.po "
 "veya locale/*/LC_MESSAGES/django.po."
 
-#: trans/models.py:491
+#: trans/models.py:501
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -2879,16 +2923,16 @@ msgstr ""
 "Çeviri şablonunun dosya adı, bu Android kaynak satırları gibi sadece "
 "çevrilmiş satırın saklandığı çeviriler için kullanılması önerilir."
 
-#: trans/models.py:497
+#: trans/models.py:507
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Otomatik algılama bazı biçimlerde başarısız olabilir ve biraz yavaştır."
 
-#: trans/models.py:501
+#: trans/models.py:511
 msgid "Whether subproject is locked for translation updates."
 msgstr "Çeviri güncellemeleri için alt proje kilitlenirse."
 
-#: trans/models.py:505
+#: trans/models.py:515
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -2896,41 +2940,41 @@ msgstr ""
 "Diğer alt projedeki çeviri güncellemeleri bu projede otomatik çeviriye neden "
 "olacaksa"
 
-#: trans/models.py:665
+#: trans/models.py:675
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models.py:745
+#: trans/models.py:755
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models.py:777
+#: trans/models.py:787
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:803
+#: trans/models.py:813
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models.py:884
+#: trans/models.py:894
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models.py:914
+#: trans/models.py:924
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models.py:1022
+#: trans/models.py:1032
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models.py:1027
+#: trans/models.py:1037
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2938,25 +2982,25 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models.py:1042
+#: trans/models.py:1052
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:1047
+#: trans/models.py:1057
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:1057
+#: trans/models.py:1067
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models.py:1059
+#: trans/models.py:1069
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:1202
+#: trans/models.py:1221
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -2965,90 +3009,89 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models.py:1206
+#: trans/models.py:1225
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models.py:1208
+#: trans/models.py:1227
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1233 trans/views.py:395
+#: trans/models.py:1252 trans/views.py:395
 msgid "This translation is currently locked for updates!"
 msgstr "Bu çeviri şu anda güncellemeler için kilitli!"
 
-#: trans/models.py:1241
+#: trans/models.py:1260
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 "Bu çeviri %(time)s tarihine kadar çeviri için %(user)s tarafından kilitli!"
 
-#: trans/models.py:1851 trans/models.py:1878
+#: trans/models.py:1869 trans/models.py:1896
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:1856 trans/models.py:1898
+#: trans/models.py:1874 trans/models.py:1916
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:1870 trans/models.py:1912
+#: trans/models.py:1888 trans/models.py:1930
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models.py:1883
+#: trans/models.py:1901
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:1888
+#: trans/models.py:1906
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:1893
+#: trans/models.py:1911
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:2157
+#: trans/models.py:2187
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
-"Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana "
-"geldi!"
+"Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models.py:2163
+#: trans/models.py:2193
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2276
+#: trans/models.py:2306
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
 
-#: trans/models.py:2588
+#: trans/models.py:2618
 msgid "Resource update"
 msgstr "Kaynak Güncellemesi"
 
-#: trans/models.py:2589
+#: trans/models.py:2619
 msgid "Translation completed"
 msgstr "Çeviri Tamamlandı"
 
-#: trans/models.py:2590
+#: trans/models.py:2620
 msgid "Translation changed"
 msgstr "Çeviri Değiştirildi"
 
-#: trans/models.py:2606
+#: trans/models.py:2636
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 "%(user)s tarafından %(translation)s Dilinde %(time)s Tarih/Saatinde "
 "%(action)s"
 
-#: trans/models.py:2615
+#: trans/models.py:2645
 msgid "None"
 msgstr "Yok"
 
@@ -3074,7 +3117,7 @@ msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 msgid "Imported %d words from file."
 msgstr "Dosyadan %d kelime içe aktarıldı."
 
-#: trans/views.py:256 trans/views.py:1362
+#: trans/views.py:256 trans/views.py:1365
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
@@ -3198,35 +3241,35 @@ msgstr "Önerileri silmek için yetkiniz yok!"
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:1125
+#: trans/views.py:1128
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:1205
+#: trans/views.py:1208
 msgid "Posted new comment"
 msgstr "Gönderilen yeni yorum"
 
-#: trans/views.py:1225
+#: trans/views.py:1228
 msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
-#: trans/views.py:1358
+#: trans/views.py:1361
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:1360
+#: trans/views.py:1363
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:1373
+#: trans/views.py:1376
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
-#: trans/templatetags/translations.py:57
+#: trans/templatetags/translations.py:58
 msgid "Tab character"
 msgstr "Tab karakteri"
 
-#: trans/templatetags/translations.py:107
+#: trans/templatetags/translations.py:108
 msgid "New line"
 msgstr "Yeni satır"
 
