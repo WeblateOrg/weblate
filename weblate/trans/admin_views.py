@@ -71,7 +71,7 @@ def performance(request):
     # Check offloading indexing
     checks.append((
         _('Indexing offloading'),
-        not settings.OFFLOAD_INDEXING,
+        settings.OFFLOAD_INDEXING,
         'production-indexing',
     ))
     # Check for sane caching
