@@ -63,6 +63,7 @@ C_PRINTF_MATCH = re.compile('''
 BBCODE_MATCH = re.compile(r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])', re.MULTILINE)
 
 XML_MATCH = re.compile(r'<[^>]+>')
+XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
@@ -662,16 +663,23 @@ class XMLTagsCheck(TargetCheck):
     name = _('XML tags mismatch')
     description = _('XML tags in translation do not match source')
 
+
+    def strip_entities(self, text):
+        '''
+        Strips all HTML entities (we don't care about them).
+        '''
+        return XML_ENTITY_MATCH.sub('', text)
+
     def parse_xml(self, text):
         '''
         Wrapper for parsing XML.
         '''
-        return ElementTree.fromstring('<weblate>%s</weblate>' % text.encode('utf-8'))
-
+        text = self.strip_entities(text.encode('utf-8'))
+        return ElementTree.fromstring('<weblate>%s</weblate>' % text)
 
     def check_single(self, source, target, flags, language, unit):
         # Try getting source string data from cache
-        source_tags = self.get_cache(unit)
+        source_tags = None #self.get_cache(unit)
 
         # Source is not XML
         if source_tags == False:
