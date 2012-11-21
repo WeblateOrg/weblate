@@ -662,6 +662,13 @@ class XMLTagsCheck(TargetCheck):
     name = _('XML tags mismatch')
     description = _('XML tags in translation do not match source')
 
+    def parse_xml(self, text):
+        '''
+        Wrapper for parsing XML.
+        '''
+        return ElementTree.fromstring('<weblate>%s</weblate>' % text.encode('utf-8'))
+
+
     def check_single(self, source, target, flags, language, unit):
         # Try getting source string data from cache
         source_tags = self.get_cache(unit)
@@ -678,7 +685,7 @@ class XMLTagsCheck(TargetCheck):
                 return False
             # Check if source is XML
             try:
-                source_tree = ElementTree.fromstring('<weblate>%s</weblate>' % source.encode('utf-8'))
+                source_tree = self.parse_xml(source)
                 source_tags = [x.tag for x in source_tree.iter()]
                 self.set_cache(unit, source_tags)
             except:
@@ -688,7 +695,7 @@ class XMLTagsCheck(TargetCheck):
 
         # Check target
         try:
-            target_tree = ElementTree.fromstring('<weblate>%s</weblate>' % target.encode('utf-8'))
+            target_tree = self.parse_xml(target)
             target_tags = [x.tag for x in target_tree.iter()]
         except:
             # Target is not valid XML
