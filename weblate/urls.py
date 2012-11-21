@@ -183,6 +183,7 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/report/$', 'weblate.trans.admin_views.report'),
     url(r'^admin/ssh/$', 'weblate.trans.admin_views.ssh'),
+    url(r'^admin/performance/$', 'weblate.trans.admin_views.performance'),
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth

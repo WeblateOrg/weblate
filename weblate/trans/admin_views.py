@@ -19,10 +19,12 @@
 #
 
 from weblate.trans.models import SubProject
+from django.contrib.sites.models import Site
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
+from django.conf import settings
 import weblate
 
 import os
@@ -34,6 +36,63 @@ def report(request):
     '''
     return render_to_response("admin/report.html", RequestContext(request, {
         'subprojects': SubProject.objects.all()
+    }))
+
+@staff_member_required
+def performance(request):
+    '''
+    Shows performance tuning tips.
+    '''
+    checks = []
+    # Check for debug mode
+    checks.append((
+        _('Debug mode'),
+        not settings.DEBUG,
+        'production-debug',
+    ))
+    # Check for domain configuration
+    checks.append((
+        _('Site domain'),
+        Site.objects.get_current() != 'example.net',
+        'production-site',
+    ))
+    # Check database being used
+    checks.append((
+        _('Database backend'),
+        "sqlite" not in settings.DATABASES['default']['ENGINE'],
+        'production-database',
+    ))
+    # Check configured admins
+    checks.append((
+        _('Site administrator'),
+        len(settings.ADMINS) > 0,
+        'production-admins',
+    ))
+    # Check offloading indexing
+    checks.append((
+        _('Indexing offloading'),
+        not settings.OFFLOAD_INDEXING,
+        'production-indexing',
+    ))
+    # Check for sane caching
+    cache = settings.CACHES['default']['BACKEND'].split('.')[-1]
+    if cache in ['MemcachedCache', 'DatabaseCache']:
+        # We consider these good
+        cache = True
+    elif cache in ['DummyCache']:
+        # This one is definitely bad
+        cache = False
+    else:
+        # These might not be that bad
+        cache = None
+    checks.append((
+        _('Django caching'),
+        cache,
+        'production-cache',
+    ))
+    return render_to_response("admin/performance.html", RequestContext(request, {
+        'checks': checks,
+
     }))
 
 @staff_member_required

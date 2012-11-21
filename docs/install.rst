@@ -43,7 +43,7 @@ options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#admins
 
-``DATABASE``
+``DATABASES``
 
     Connectivity to database server, please check Django's documentation for more
     details.
@@ -96,15 +96,100 @@ Production setup
 
 For production setup you should do following adjustments:
 
-* disable Django's debug mode by setting ``DEBUG = False`` (see :ref:`installation`)
-* set correct admin addresses to ``ADMINS`` setting (see :ref:`installation`)
-* adjust site name in admin interface (see :ref:`faq-site`)
-* enable :setting:`OFFLOAD_INDEXING`, see :ref:`fulltext` for more details
-* use powerful database engine (not SQLite)
-* if possible, use memcache from Django by adjusting ``CACHE`` config variable,
-  see `Django’s cache framework`_ for more detais
+.. _production-debug:
 
-.. _`Django’s cache framework`: https://docs.djangoproject.com/en/1.4/topics/cache/
+Disable debug mode
+++++++++++++++++++
+
+Disable Django's debug mode by:
+
+.. code-block:: python
+
+    DEBUG = False
+
+With debug mode Django stores all executed queries and shows users backtrackes
+of errors what is not desired in production setup.
+
+.. seealso:: :ref:`installation`
+
+.. _production-admins:
+
+Properly configure admins
++++++++++++++++++++++++++
+
+Set correct admin addresses to ``ADMINS`` setting for defining who will receive
+mail in case something goes wrong on the server, for example:
+
+.. code-block:: python
+
+    ADMINS = (
+        ('Your Name', 'your_email@example.com'),
+    )
+
+.. seealso:: :ref:`installation`
+
+.. _production-site:
+
+Set correct site name
++++++++++++++++++++++
+
+Sdjust site name in admin interface, otherwise links in RSS or registration
+emails will not work.
+
+.. seealso:: :ref:`faq-site`
+
+.. _production-indexing:
+
+Enable indexing offloading
+++++++++++++++++++++++++++
+
+Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
+performance.
+
+.. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`
+
+.. _production-database:
+
+Use powerful database engine
+++++++++++++++++++++++++++++
+
+Use powerful database engine (SQLite is usually not good enough for production
+environment), for example setup for MySQL:
+
+.. code-block:: python
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'weblate',
+            'USER': 'weblate',
+            'PASSWORD': 'weblate',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
+    }
+
+.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/1.4/ref/databases/>`_
+
+.. _production-cache:
+
+Enable caching
+++++++++++++++
+
+If possible, use memcache from Django by adjusting ``CACHES`` config variable,
+for example:
+
+.. code-block:: python
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
+
+.. seealso:: `Django’s cache framework <https://docs.djangoproject.com/en/1.4/topics/cache/>`_
+
 .. _server:
 
 Running server

@@ -13,6 +13,7 @@ Relased on ? 2012.
 * Added sitemaps to allow easier access by crawlers.
 * Provide direct links to string in notification emails or feeds.
 * Various improvements to admin interface.
+* Provide hints for production setup in admin interface.
 
 weblate 1.3
 -----------

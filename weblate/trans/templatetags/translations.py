@@ -20,6 +20,7 @@
 
 from django.template.defaultfilters import stringfilter
 from django.utils.html import escape
+from django.contrib.admin.templatetags.admin_static import static
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext as _
@@ -183,3 +184,13 @@ def documentation(page, anchor = ''):
     Returns link to Weblate documentation.
     '''
     return weblate.get_doc_url(page, anchor)
+
+@register.simple_tag
+def admin_boolean_icon(val):
+    '''
+    Admin icon wrapper.
+    '''
+    icon_url = static('admin/img/icon-%s.gif' %
+                      {True: 'yes', False: 'no', None: 'unknown'}[val])
+    return mark_safe(u'<img src="%s" alt="%s" />' % (icon_url, val))
+
