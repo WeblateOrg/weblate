@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-21 14:09+0100\n"
-"PO-Revision-Date: 2012-11-21 09:36+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2012-11-22 23:04+0200\n"
+"Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 1.4\n"
+"X-Generator: Weblate 1.4-dev\n"
 
 #: urls.py:193 urls.py:200 urls.py:207 urls.py:214
 msgid "User registration"
@@ -238,9 +238,8 @@ msgid "Notification on new comment"
 msgstr "Notifikation ved ny kommentar"
 
 #: accounts/models.py:185
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Notifikation ved ny bidragyder"
+msgstr "Notifikation ved flette-fejl"
 
 #: accounts/models.py:295
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -1334,15 +1333,15 @@ msgstr "SSH-nøgler"
 #: html/admin/custom-index.html:25 html/admin/performance.html:5
 #: html/admin/performance.html.py:14
 msgid "Performance report"
-msgstr ""
+msgstr "Ydelsesrapport"
 
 #: html/admin/performance.html:9
 msgid "Performance"
-msgstr ""
+msgstr "Ydelse"
 
 #: html/admin/performance.html:21
 msgid "Result"
-msgstr ""
+msgstr "Resultat"
 
 #: html/admin/report.html:8
 msgid "Status"
@@ -1499,9 +1498,8 @@ msgid "Previously not translated"
 msgstr "Tidligere ikke oversat"
 
 #: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
-#, fuzzy
 msgid "You can edit this string at:"
-msgstr "Du kan gennemgå den på:"
+msgstr "Du kan denne streng på:"
 
 #: html/mail/any_translation_subject.txt:1
 #, python-format
@@ -1530,7 +1528,7 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Du kan oversætte på %(translation_url)s"
 
 #: html/mail/merge_failure.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1538,22 +1536,20 @@ msgid ""
 msgstr ""
 "Hej,\n"
 "\n"
-"der er kommet en ny kommentar til %(subproject)s på %(site_title)s.\n"
+"der er opstået en flette-fejl i %(subproject)s på %(site_title)s.\n"
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Fejldetaljer:"
+msgstr "Fejlbesked:"
 
 #: html/mail/merge_failure.txt:10
-#, fuzzy
 msgid "Repository status:"
-msgstr "Git-depot:"
+msgstr "Status for depot:"
 
 #: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "Ny kommentar til %(subproject)s"
+msgstr "Flette-fejl i %(subproject)s"
 
 #: html/mail/new_comment.txt:1
 #, python-format
@@ -2435,27 +2431,27 @@ msgstr "Flertalsform %d"
 
 #: trans/admin_views.py:49
 msgid "Debug mode"
-msgstr ""
+msgstr "Fejlsøgningstilstand"
 
 #: trans/admin_views.py:55
 msgid "Site domain"
-msgstr ""
+msgstr "Domæne for sted"
 
 #: trans/admin_views.py:61
 msgid "Database backend"
-msgstr ""
+msgstr "Database-motor"
 
 #: trans/admin_views.py:67
 msgid "Site administrator"
-msgstr ""
+msgstr "Administrator af sted"
 
 #: trans/admin_views.py:73
 msgid "Indexing offloading"
-msgstr ""
+msgstr "Aflæsning af indeksering"
 
 #: trans/admin_views.py:89
 msgid "Django caching"
-msgstr ""
+msgstr "Django-mellemlagring"
 
 #: trans/admin_views.py:118 trans/admin_views.py:122
 msgid "Failed to generate key!"
@@ -2953,6 +2949,8 @@ msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Om hvorvidt opdateringer for oversættelser i andre delprojekter, skal føre "
+"til automatisk oversættelse i dette projekt"
 
 #: trans/models.py:675
 #, python-format
@@ -3076,7 +3074,7 @@ msgstr "Strenge med forslag (%d)"
 
 #: trans/models.py:2187
 msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr ""
+msgstr "Mislykkedes med at lagre besked i motoren. Der opstod låst tidsudløb!"
 
 #: trans/models.py:2193
 msgid "Message not found in backend storage, it is probably corrupted."
