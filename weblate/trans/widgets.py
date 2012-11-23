@@ -149,8 +149,22 @@ def widgets(request, project):
         site.domain,
         reverse('weblate.trans.widgets.widgets', kwargs = {'project': obj.slug}),
     )
-
-    widget_list = [{'name': w, 'colors': list(WIDGETS[w]['colors'])} for w in WIDGETS]
+    widget_list = []
+    for widget_name in WIDGETS:
+        widget = WIDGETS[widget_name]
+        color_list = []
+        for color in widget['colors']:
+            color_list.append({
+                'name': color,
+                'url': 'http://%s%s' % (
+                    site.domain,
+                    reverse('widget-image', kwargs = {'project': obj.slug, 'widget': widget_name, 'color': color})
+                ),
+            })
+        widget_list.append({
+            'name': widget_name,
+            'colors': color_list,
+        })
 
     return render_to_response('widgets.html', RequestContext(request, {
         'engage_url': engage_url,

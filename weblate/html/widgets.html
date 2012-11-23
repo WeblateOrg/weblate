@@ -28,7 +28,7 @@
 
 <p>
 {% for color in widget.colors %}
-<a href="{{ engage_url_track }}"><img src="{{ widget_base_url }}{{ widget.name }}/{{ color }}/" /></a>
+<a href="{{ engage_url_track }}"><img src="{{ color.url }}" /></a>
 {% endfor %}
 </p>
 
@@ -45,7 +45,7 @@
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 &lt;a href="{{ engage_url_track }}"&gt;
-&lt;img src="{{ widget_base_url }}{{ widget.name }}/{{ color }}/" alt="{% trans "Translation status" %}" /&gt;
+&lt;img src="{{ color.url }}" alt="{% trans "Translation status" %}" /&gt;
 &lt;/a&gt;
 </pre>
 {% endfor %}
@@ -54,7 +54,7 @@
 <div id="{{ widget.name }}-bb-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
-[url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ widget_base_url }}{{ widget.name }}/{{ color }}/[/img][/url]
+[url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ color.url }}[/img][/url]
 </pre>
 {% endfor %}
 </div>
@@ -62,7 +62,7 @@
 <div id="{{ widget.name }}-mdk-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
-[![{% trans "Translation status" %}]({{ widget_base_url }}{{ widget.name }}/{{ color }}/)]({{ engage_url_track }})
+[![{% trans "Translation status" %}]({{ color.url }})]({{ engage_url_track }})
 </pre>
 {% endfor %}
 </div>
@@ -70,7 +70,7 @@
 <div id="{{ widget.name }}-rst-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
-.. image:: {{ widget_base_url }}{{ widget.name }}/{{ color }}/
+.. image:: {{ color.url }}
     :alt: {% trans "Translation status" %}
     :target: {{ engage_url_track }}
 </pre>
@@ -80,7 +80,7 @@
 <div id="{{ widget.name }}-textile-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
-!{{ widget_base_url }}{{ widget.name }}/{{ color }}/!:{{ engage_url_track }}
+!{{ color.url }}!:{{ engage_url_track }}
 </pre>
 {% endfor %}
 </div>

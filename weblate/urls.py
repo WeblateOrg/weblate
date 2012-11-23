@@ -161,8 +161,11 @@ urlpatterns = patterns('',
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name = 'rss-subproject'),
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name = 'rss-translation'),
 
+    # Not promoted, compatibility only:
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
+
+    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^-]*)-(?P<color>[^-]*)\.png$', 'weblate.trans.widgets.render', name = 'widget-image'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets'),
 
     url(r'^data/$', 'weblate.trans.views.data_root'),
