@@ -32,13 +32,39 @@
 {% endfor %}
 </p>
 
-<p>{% trans "Code:" %}</p>
+<p>{% trans "HTML code:" %}</p>
 
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 &lt;a href="{{ engage_url_track }}"&gt;
-&lt;img src="{{ widget_base_url }}{{ widget.name }}/{{ color }}/" /&gt;
+&lt;img src="{{ widget_base_url }}{{ widget.name }}/{{ color }}/" alt="{% trans "Translation status" %}" /&gt;
 &lt;/a&gt;
+</pre>
+{% endfor %}
+
+<p>{% trans "BB code:" %}</p>
+
+{% for color in widget.colors %}
+<pre class="ui-widget-content ui-corner-all code">
+[url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ widget_base_url }}{{ widget.name }}/{{ color }}/[/img][/url]
+</pre>
+{% endfor %}
+
+<p>{% trans "Markdown code:" %}</p>
+
+{% for color in widget.colors %}
+<pre class="ui-widget-content ui-corner-all code">
+[![{% trans "Translation status" %}]({{ widget_base_url }}{{ widget.name }}/{{ color }}/)]({{ engage_url_track }})
+</pre>
+{% endfor %}
+
+<p>{% trans "RST code:" %}</p>
+
+{% for color in widget.colors %}
+<pre class="ui-widget-content ui-corner-all code">
+.. image:: {{ widget_base_url }}{{ widget.name }}/{{ color }}/
+    :alt: {% trans "Translation status" %}
+    :target: {{ engage_url_track }}
 </pre>
 {% endfor %}
 
