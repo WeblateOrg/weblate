@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-21 14:09+0100\n"
+"POT-Creation-Date: 2012-11-23 09:43+0100\n"
 "PO-Revision-Date: 2012-11-22 23:04+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -1312,9 +1312,31 @@ msgstr "Billed-%(widget)s"
 msgid "Color variants:"
 msgstr "Farvevarianter:"
 
-#: html/widgets.html:35
-msgid "Code:"
-msgstr "Kode:"
+#: html/widgets.html:37
+msgid "HTML code"
+msgstr ""
+
+#: html/widgets.html:38
+msgid "BB code"
+msgstr ""
+
+#: html/widgets.html:39
+msgid "Markdown code"
+msgstr ""
+
+#: html/widgets.html:40
+msgid "RST code"
+msgstr ""
+
+#: html/widgets.html:41
+msgid "Textile code"
+msgstr ""
+
+#: html/widgets.html:48 html/widgets.html.py:57 html/widgets.html.py:65
+#: html/widgets.html:74
+#, fuzzy
+msgid "Translation status"
+msgstr "Oversættelser"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -2429,91 +2451,91 @@ msgstr "Flertal"
 msgid "Plural form %d"
 msgstr "Flertalsform %d"
 
-#: trans/admin_views.py:49
+#: trans/admin_views.py:50
 msgid "Debug mode"
 msgstr "Fejlsøgningstilstand"
 
-#: trans/admin_views.py:55
+#: trans/admin_views.py:56
 msgid "Site domain"
 msgstr "Domæne for sted"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:62
 msgid "Database backend"
 msgstr "Database-motor"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:68
 msgid "Site administrator"
 msgstr "Administrator af sted"
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:74
 msgid "Indexing offloading"
 msgstr "Aflæsning af indeksering"
 
-#: trans/admin_views.py:89
+#: trans/admin_views.py:90
 msgid "Django caching"
 msgstr "Django-mellemlagring"
 
-#: trans/admin_views.py:118 trans/admin_views.py:122
+#: trans/admin_views.py:119 trans/admin_views.py:123
 msgid "Failed to generate key!"
 msgstr "Mislykkedes med at oprette nøgle!"
 
-#: trans/admin_views.py:120
+#: trans/admin_views.py:121
 msgid "Created new SSH key."
 msgstr "Oprettede ny SSH-nøgle."
 
-#: trans/checks.py:291
+#: trans/checks.py:292
 msgid "Not translated"
 msgstr "Ikke oversat"
 
-#: trans/checks.py:292
+#: trans/checks.py:293
 msgid "Source and translated strings are same"
 msgstr "Kilde og oversatte strenge er ens"
 
-#: trans/checks.py:336
+#: trans/checks.py:337
 msgid "Starting newline"
 msgstr "Starter ny linje"
 
-#: trans/checks.py:337
+#: trans/checks.py:338
 msgid "Source and translation do not both start with a newline"
 msgstr "Kilde og oversættelse starter ikke begge med en ny linje"
 
-#: trans/checks.py:347
+#: trans/checks.py:348
 msgid "Trailing newline"
 msgstr "Efterfølgende linjeskift"
 
-#: trans/checks.py:348
+#: trans/checks.py:349
 msgid "Source and translation do not both end with a newline"
 msgstr "Kilde og oversættelser slutter ikke begge med linjeskift"
 
-#: trans/checks.py:358
+#: trans/checks.py:359
 msgid "Starting spaces"
 msgstr "Indledende mellemrum"
 
-#: trans/checks.py:359
+#: trans/checks.py:360
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Kilde og oversættelse starter ikke begge med samme antal mellemrum"
 
-#: trans/checks.py:382
+#: trans/checks.py:383
 msgid "Trailing space"
 msgstr "Efterfølgende mellemrum"
 
-#: trans/checks.py:383
+#: trans/checks.py:384
 msgid "Source and translation do not both end with a space"
 msgstr "Kilde og oversættelse ender ikke begge med et mellemrum"
 
-#: trans/checks.py:401
+#: trans/checks.py:402
 msgid "Trailing stop"
 msgstr "Efterfølgende punktum"
 
-#: trans/checks.py:402
+#: trans/checks.py:403
 msgid "Source and translation do not both end with a full stop"
 msgstr "Kilde og oversættelse slutter ikke begge med et punktum"
 
-#: trans/checks.py:419
+#: trans/checks.py:420
 msgid "Trailing colon"
 msgstr "Efterfølgende kolon"
 
-#: trans/checks.py:420
+#: trans/checks.py:421
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2521,11 +2543,11 @@ msgstr ""
 "Kilde og oversætter slutter ikke begge med et kolon eller kolon har ikke "
 "rette afstand"
 
-#: trans/checks.py:444
+#: trans/checks.py:445
 msgid "Trailing question"
 msgstr "Efterfølgende spørgsmålstegn"
 
-#: trans/checks.py:445
+#: trans/checks.py:446
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2533,11 +2555,11 @@ msgstr ""
 "Kilde og oversættelse slutter ikke begge med et spørgsmålstegn eller "
 "afstanden er ikke korrekt"
 
-#: trans/checks.py:462
+#: trans/checks.py:463
 msgid "Trailing exclamation"
 msgstr "Efterfølgende udråbstegn"
 
-#: trans/checks.py:463
+#: trans/checks.py:464
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2545,101 +2567,101 @@ msgstr ""
 "Kilde og oversættelse slutter ikke begge med et udråbstegn, eller det har "
 "ikke korrekt afstand"
 
-#: trans/checks.py:486
+#: trans/checks.py:487
 msgid "Trailing ellipsis"
 msgstr "Efterfølgende udeladelsesprikker"
 
-#: trans/checks.py:487
+#: trans/checks.py:488
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Kilde og oversættelse slutter ikke begge med udeladelsesprikker"
 
-#: trans/checks.py:500
+#: trans/checks.py:501
 msgid "Python format"
 msgstr "Python-format"
 
-#: trans/checks.py:501 trans/checks.py:514 trans/checks.py:527
+#: trans/checks.py:502 trans/checks.py:515 trans/checks.py:528
 msgid "Format string does not match source"
 msgstr "Format på streng matcher ikke kilden"
 
-#: trans/checks.py:513
+#: trans/checks.py:514
 msgid "PHP format"
 msgstr "PHP-format"
 
-#: trans/checks.py:526
+#: trans/checks.py:527
 msgid "C format"
 msgstr "C-format"
 
-#: trans/checks.py:540
+#: trans/checks.py:541
 msgid "Missing plurals"
 msgstr "Mangler flertalsform"
 
-#: trans/checks.py:541
+#: trans/checks.py:542
 msgid "Some plural forms are not translated"
 msgstr "Nogle flertalsformer er ikke oversat"
 
-#: trans/checks.py:558
+#: trans/checks.py:559
 msgid "Inconsistent"
 msgstr "Inkonsistent"
 
-#: trans/checks.py:559
+#: trans/checks.py:560
 msgid "This message has more than one translation in this project"
 msgstr "Denne besked har mere end én oversættelse i dette projekt"
 
-#: trans/checks.py:587
+#: trans/checks.py:588
 msgid "Invalid text direction"
 msgstr "Ugyldig tekstretning"
 
-#: trans/checks.py:588
+#: trans/checks.py:589
 msgid "Text direction can be either LTR or RTL"
 msgstr "Tekstretning kan være enten LTR eller RTL"
 
-#: trans/checks.py:615
+#: trans/checks.py:616
 msgid "Mismatched \\n"
 msgstr "Ikke i overensstemmelse \\n"
 
-#: trans/checks.py:616
+#: trans/checks.py:617
 msgid "Number of \\n in translation does not match source"
 msgstr "Antallet af \\n i oversættelsen matcher ikke kilden"
 
-#: trans/checks.py:623
+#: trans/checks.py:624
 msgid "Mismatched BBcode"
 msgstr "BBcode som ikke stemmer overens"
 
-#: trans/checks.py:624
+#: trans/checks.py:625
 msgid "BBcode in translation does not match source"
 msgstr "BBcode i oversættelsen matcher ikke kilden"
 
-#: trans/checks.py:651
+#: trans/checks.py:652
 msgid "Zero-width space"
 msgstr "Afstand med nul-bredde"
 
-#: trans/checks.py:652
+#: trans/checks.py:653
 msgid "Translation contains extra zero-width space character"
 msgstr "Oversættelse indeholder ekstra tegn med nul-bredde"
 
-#: trans/checks.py:662
+#: trans/checks.py:663
 msgid "XML tags mismatch"
 msgstr "Uoverstemmelse mellem XML-mærker"
 
-#: trans/checks.py:663
+#: trans/checks.py:664
 msgid "XML tags in translation do not match source"
 msgstr "XML-mærkerne i oversættelsen matcher ikke kildens"
 
-#: trans/checks.py:705
+#: trans/checks.py:720
 msgid "Optional plural"
 msgstr "Valgfri flertalsform"
 
-#: trans/checks.py:706
+#: trans/checks.py:721
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 "Tekststrengen kan valgfrit benævnes i flertal, men anvender ikke "
 "flertalsformer"
 
-#: trans/checks.py:718
+#: trans/checks.py:733
 msgid "Ellipsis"
 msgstr "Udeladelsesprikker"
 
-#: trans/checks.py:719
+#: trans/checks.py:734
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Tekststrengen bruger tre prikker (...) i stedet for udeladelsestegnet (...)"
@@ -3284,6 +3306,9 @@ msgstr "Tabuleringstegn"
 #: trans/templatetags/translations.py:108
 msgid "New line"
 msgstr "Ny linje"
+
+#~ msgid "Code:"
+#~ msgstr "Kode:"
 
 #, fuzzy
 #~ msgid "No sources found!"

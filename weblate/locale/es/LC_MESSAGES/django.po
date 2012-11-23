@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-21 14:09+0100\n"
+"POT-Creation-Date: 2012-11-23 09:43+0100\n"
 "PO-Revision-Date: 2012-11-21 17:12+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -1315,9 +1315,31 @@ msgstr "Imágen %(widget)s"
 msgid "Color variants:"
 msgstr "Variantes de color:"
 
-#: html/widgets.html:35
-msgid "Code:"
-msgstr "Código:"
+#: html/widgets.html:37
+msgid "HTML code"
+msgstr ""
+
+#: html/widgets.html:38
+msgid "BB code"
+msgstr ""
+
+#: html/widgets.html:39
+msgid "Markdown code"
+msgstr ""
+
+#: html/widgets.html:40
+msgid "RST code"
+msgstr ""
+
+#: html/widgets.html:41
+msgid "Textile code"
+msgstr ""
+
+#: html/widgets.html:48 html/widgets.html.py:57 html/widgets.html.py:65
+#: html/widgets.html:74
+#, fuzzy
+msgid "Translation status"
+msgstr "Traducciones"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -2428,92 +2450,92 @@ msgstr "Plural"
 msgid "Plural form %d"
 msgstr "Forma plural %d"
 
-#: trans/admin_views.py:49
+#: trans/admin_views.py:50
 msgid "Debug mode"
 msgstr "Modo de depuración"
 
-#: trans/admin_views.py:55
+#: trans/admin_views.py:56
 msgid "Site domain"
 msgstr "Dominio del sitio"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:62
 msgid "Database backend"
 msgstr "Base de datos"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:68
 msgid "Site administrator"
 msgstr "Administrador del sitio"
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:74
 msgid "Indexing offloading"
 msgstr "Delegación de índices"
 
-#: trans/admin_views.py:89
+#: trans/admin_views.py:90
 msgid "Django caching"
 msgstr "Caché de Django"
 
-#: trans/admin_views.py:118 trans/admin_views.py:122
+#: trans/admin_views.py:119 trans/admin_views.py:123
 msgid "Failed to generate key!"
 msgstr "¡No se pudo generar la llave!"
 
-#: trans/admin_views.py:120
+#: trans/admin_views.py:121
 msgid "Created new SSH key."
 msgstr "Se creó una nueva llave SSH."
 
-#: trans/checks.py:291
+#: trans/checks.py:292
 msgid "Not translated"
 msgstr "Sin traducir"
 
-#: trans/checks.py:292
+#: trans/checks.py:293
 msgid "Source and translated strings are same"
 msgstr "La cadena original y la traducida son iguales"
 
-#: trans/checks.py:336
+#: trans/checks.py:337
 msgid "Starting newline"
 msgstr "Salto de línea al incio"
 
-#: trans/checks.py:337
+#: trans/checks.py:338
 msgid "Source and translation do not both start with a newline"
 msgstr "Sólo uno de original y traducción comienza con un salto de línea"
 
-#: trans/checks.py:347
+#: trans/checks.py:348
 msgid "Trailing newline"
 msgstr "Salto de línea al final"
 
-#: trans/checks.py:348
+#: trans/checks.py:349
 msgid "Source and translation do not both end with a newline"
 msgstr "Sólo uno de original y traducción finaliza con un salto de línea"
 
-#: trans/checks.py:358
+#: trans/checks.py:359
 msgid "Starting spaces"
 msgstr "Espacios iniciales"
 
-#: trans/checks.py:359
+#: trans/checks.py:360
 msgid "Source and translation do not both start with same number of spaces"
 msgstr ""
 "El original y la traducción no comienzan con la misma cantidad de espacios"
 
-#: trans/checks.py:382
+#: trans/checks.py:383
 msgid "Trailing space"
 msgstr "Espacio al final"
 
-#: trans/checks.py:383
+#: trans/checks.py:384
 msgid "Source and translation do not both end with a space"
 msgstr "Sólo uno de original y traducción termina con un espacio"
 
-#: trans/checks.py:401
+#: trans/checks.py:402
 msgid "Trailing stop"
 msgstr "Punto final"
 
-#: trans/checks.py:402
+#: trans/checks.py:403
 msgid "Source and translation do not both end with a full stop"
 msgstr "Sólo uno de original y traducción termina con un punto"
 
-#: trans/checks.py:419
+#: trans/checks.py:420
 msgid "Trailing colon"
 msgstr "Dos puntos al final"
 
-#: trans/checks.py:420
+#: trans/checks.py:421
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2521,11 +2543,11 @@ msgstr ""
 "Sólo uno de original y traducción termina con dos puntos o éste se encuentra "
 "incorrectamente espaciado"
 
-#: trans/checks.py:444
+#: trans/checks.py:445
 msgid "Trailing question"
 msgstr "Signo de interrogación al final"
 
-#: trans/checks.py:445
+#: trans/checks.py:446
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2533,11 +2555,11 @@ msgstr ""
 "Sólo uno de original y traducción termina con signo de interrogación o éste "
 "no está correctamente espaciado"
 
-#: trans/checks.py:462
+#: trans/checks.py:463
 msgid "Trailing exclamation"
 msgstr "Signo de exclamación al final"
 
-#: trans/checks.py:463
+#: trans/checks.py:464
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2545,106 +2567,106 @@ msgstr ""
 "Sólo uno de original y traducción termina con un signo de exclamación o éste "
 "no está correctamente espaciado"
 
-#: trans/checks.py:486
+#: trans/checks.py:487
 msgid "Trailing ellipsis"
 msgstr "Puntos suspensivos al final"
 
-#: trans/checks.py:487
+#: trans/checks.py:488
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Sólo uno de original y traducción finaliza con puntos suspensivos"
 
-#: trans/checks.py:500
+#: trans/checks.py:501
 msgid "Python format"
 msgstr "Formato Python"
 
-#: trans/checks.py:501 trans/checks.py:514 trans/checks.py:527
+#: trans/checks.py:502 trans/checks.py:515 trans/checks.py:528
 msgid "Format string does not match source"
 msgstr "El formato de cadena no coincide con cadena original"
 
-#: trans/checks.py:513
+#: trans/checks.py:514
 msgid "PHP format"
 msgstr "Formato PHP"
 
-#: trans/checks.py:526
+#: trans/checks.py:527
 msgid "C format"
 msgstr "Formato C"
 
-#: trans/checks.py:540
+#: trans/checks.py:541
 msgid "Missing plurals"
 msgstr "Faltan plurales"
 
-#: trans/checks.py:541
+#: trans/checks.py:542
 msgid "Some plural forms are not translated"
 msgstr "Algunos plurales no están traducidos"
 
-#: trans/checks.py:558
+#: trans/checks.py:559
 msgid "Inconsistent"
 msgstr "Inconsistente"
 
-#: trans/checks.py:559
+#: trans/checks.py:560
 msgid "This message has more than one translation in this project"
 msgstr "Este mensaje tiene más de una traducción en este proyecto"
 
-#: trans/checks.py:587
+#: trans/checks.py:588
 msgid "Invalid text direction"
 msgstr "Dirección de texto inválida"
 
-#: trans/checks.py:588
+#: trans/checks.py:589
 msgid "Text direction can be either LTR or RTL"
 msgstr ""
 "La dirección del texto tiene que ser «LTR» (izquierda a derecha) o "
 "«RTL» (derecha a izquierda)"
 
-#: trans/checks.py:615
+#: trans/checks.py:616
 msgid "Mismatched \\n"
 msgstr "Diferencias de \\n"
 
-#: trans/checks.py:616
+#: trans/checks.py:617
 msgid "Number of \\n in translation does not match source"
 msgstr ""
 "La cantidad de \\n en la traducción no corresponde con la cantidad en el "
 "original"
 
-#: trans/checks.py:623
+#: trans/checks.py:624
 msgid "Mismatched BBcode"
 msgstr "Diferencias en BBCode"
 
-#: trans/checks.py:624
+#: trans/checks.py:625
 msgid "BBcode in translation does not match source"
 msgstr "El BBCode en la traducción no coincide con aquél en el original"
 
-#: trans/checks.py:651
+#: trans/checks.py:652
 msgid "Zero-width space"
 msgstr "Espacio de ancho cero"
 
-#: trans/checks.py:652
+#: trans/checks.py:653
 msgid "Translation contains extra zero-width space character"
 msgstr "La traducción contiene espacios de ancho cero extras"
 
-#: trans/checks.py:662
+#: trans/checks.py:663
 msgid "XML tags mismatch"
 msgstr "No coinciden las etiquetas XML"
 
-#: trans/checks.py:663
+#: trans/checks.py:664
 msgid "XML tags in translation do not match source"
 msgstr ""
 "Las etiquetas XML en la traducción no coincide con aquellas en el original"
 
-#: trans/checks.py:705
+#: trans/checks.py:720
 msgid "Optional plural"
 msgstr "Plural opcional"
 
-#: trans/checks.py:706
+#: trans/checks.py:721
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 "La cadena es utilizada como plural de forma opcional, pero no usa una forma "
 "plural"
 
-#: trans/checks.py:718
+#: trans/checks.py:733
 msgid "Ellipsis"
 msgstr "Puntos suspensivos"
 
-#: trans/checks.py:719
+#: trans/checks.py:734
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "La cadena utiliza tres puntos (...) en lugar del caracter de puntos "
@@ -3292,6 +3314,9 @@ msgstr "Caracter de tabulación"
 #: trans/templatetags/translations.py:108
 msgid "New line"
 msgstr "Nueva línea"
+
+#~ msgid "Code:"
+#~ msgstr "Código:"
 
 #~ msgid "Notes"
 #~ msgstr "Notas"
