@@ -34,13 +34,14 @@
 
 <div class="tabs">
 <ul>
-<li><a href="#html-code">{% trans "HTML code:" %}</a></li>
-<li><a href="#bb-code">{% trans "BB code:" %}</a></li>
-<li><a href="#mdk-code">{% trans "Markdown code:" %}</a></li>
-<li><a href="#rst-code">{% trans "RST code:" %}</a></li>
+<li><a href="#{{ widget.name }}-html-code">{% trans "HTML code" %}</a></li>
+<li><a href="#{{ widget.name }}-bb-code">{% trans "BB code" %}</a></li>
+<li><a href="#{{ widget.name }}-mdk-code">{% trans "Markdown code" %}</a></li>
+<li><a href="#{{ widget.name }}-rst-code">{% trans "RST code" %}</a></li>
+<li><a href="#{{ widget.name }}-textile-code">{% trans "Textile code" %}</a></li>
 </ul>
 
-<div id="html-code">
+<div id="{{ widget.name }}-html-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 &lt;a href="{{ engage_url_track }}"&gt;
@@ -50,7 +51,7 @@
 {% endfor %}
 </div>
 
-<div id="bb-code">
+<div id="{{ widget.name }}-bb-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 [url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ widget_base_url }}{{ widget.name }}/{{ color }}/[/img][/url]
@@ -58,7 +59,7 @@
 {% endfor %}
 </div>
 
-<div id="mdk-code">
+<div id="{{ widget.name }}-mdk-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 [![{% trans "Translation status" %}]({{ widget_base_url }}{{ widget.name }}/{{ color }}/)]({{ engage_url_track }})
@@ -66,12 +67,20 @@
 {% endfor %}
 </div>
 
-<div id="rst-code">
+<div id="{{ widget.name }}-rst-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 .. image:: {{ widget_base_url }}{{ widget.name }}/{{ color }}/
     :alt: {% trans "Translation status" %}
     :target: {{ engage_url_track }}
+</pre>
+{% endfor %}
+</div>
+
+<div id="{{ widget.name }}-textile-code">
+{% for color in widget.colors %}
+<pre class="ui-widget-content ui-corner-all code">
+!{{ widget_base_url }}{{ widget.name }}/{{ color }}/!:{{ engage_url_track }}
 </pre>
 {% endfor %}
 </div>
