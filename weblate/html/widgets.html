@@ -32,8 +32,15 @@
 {% endfor %}
 </p>
 
-<p>{% trans "HTML code:" %}</p>
+<div class="tabs">
+<ul>
+<li><a href="#html-code">{% trans "HTML code:" %}</a></li>
+<li><a href="#bb-code">{% trans "BB code:" %}</a></li>
+<li><a href="#mdk-code">{% trans "Markdown code:" %}</a></li>
+<li><a href="#rst-code">{% trans "RST code:" %}</a></li>
+</ul>
 
+<div id="html-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 &lt;a href="{{ engage_url_track }}"&gt;
@@ -41,25 +48,25 @@
 &lt;/a&gt;
 </pre>
 {% endfor %}
+</div>
 
-<p>{% trans "BB code:" %}</p>
-
+<div id="bb-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 [url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ widget_base_url }}{{ widget.name }}/{{ color }}/[/img][/url]
 </pre>
 {% endfor %}
+</div>
 
-<p>{% trans "Markdown code:" %}</p>
-
+<div id="mdk-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 [![{% trans "Translation status" %}]({{ widget_base_url }}{{ widget.name }}/{{ color }}/)]({{ engage_url_track }})
 </pre>
 {% endfor %}
+</div>
 
-<p>{% trans "RST code:" %}</p>
-
+<div id="rst-code">
 {% for color in widget.colors %}
 <pre class="ui-widget-content ui-corner-all code">
 .. image:: {{ widget_base_url }}{{ widget.name }}/{{ color }}/
@@ -67,6 +74,9 @@
     :target: {{ engage_url_track }}
 </pre>
 {% endfor %}
+</div>
+
+</div>
 
 
 {% endfor %}
