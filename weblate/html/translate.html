@@ -4,6 +4,10 @@
 {% load static %}
 {% load translations %}
 
+{% block extra_meta %}
+<link rel="canonical" href="{{ unit.get_absolute_url }}" />
+{% endblock %}
+
 {% block breadcrumbs %}
 <li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
 <li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
