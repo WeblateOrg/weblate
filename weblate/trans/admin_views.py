@@ -91,6 +91,12 @@ def performance(request):
         cache,
         'production-cache',
     ))
+    # Check email setup
+    checks.append((
+        _('Email addresses'),
+        settings.SERVER_EMAIL != 'root@localhost' and DEFAULT_FROM_EMAIL != 'webmaster@localhost',
+        'production-email',
+    ))
     return render_to_response("admin/performance.html", RequestContext(request, {
         'checks': checks,
 

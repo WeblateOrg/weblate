@@ -73,14 +73,14 @@ options:
 
     Email sender address for outgoing email, for example registration emails.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
+    .. seealso:: `DEFAULT_FROM_EMAIL documentation`_
 
 ``SERVER_EMAIL``
 
     Email used as sender address for sending emails to administrator, for
     example notifications on failed merge.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
+    .. seealso:: `SERVER_EMAIL documentation`_
 
 After your configuration is ready, you can run :program:`./manage.py syncdb` and 
 :program:`./manage.py migrate` to create database structure. Now you should be
@@ -195,6 +195,28 @@ for example:
     }
 
 .. seealso:: `Django’s cache framework <https://docs.djangoproject.com/en/1.4/topics/cache/>`_
+
+.. _production-email:
+
+Email addresses
++++++++++++++++
+
+Weblate needs to send out emails on several occasions and these emails should
+have correct sender address, please configure ``SERVER_EMAIL`` and
+``DEFAULT_FROM_EMAIL`` to match your environment, for example:
+
+.. code-block:: python
+
+    SERVER_EMAIL = 'admin@example.org'
+    DEFAULT_FROM_EMAIL = 'weblate@example.org'
+
+.. seealso:: 
+    :ref:`installation`, 
+    `DEFAULT_FROM_EMAIL documentation`_,
+    `SERVER_EMAIL documentation`_
+
+.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
+.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
 .. _server:
 
