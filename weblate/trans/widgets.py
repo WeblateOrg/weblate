@@ -190,9 +190,6 @@ def render(request, project, widget = '287x66', color = None):
     if color not in widget_data['colors']:
         color = widget_data['default']
 
-    # Prepare response object
-    response = HttpResponse(mimetype='image/png')
-
     # Background 287 x 66, logo 64 px
     surface = cairo.ImageSurface.create_from_png(
         os.path.join(settings.WEB_ROOT, 'media', widget_data['name'] % {
@@ -238,6 +235,9 @@ def render(request, project, widget = '287x66', color = None):
             'percent': percent,
         })
     ctx.fill()
+
+    # Prepare response object
+    response = HttpResponse(content_type = 'image/png')
 
     # Render PNG
     out = StringIO()
