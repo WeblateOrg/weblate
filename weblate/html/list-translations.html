@@ -26,7 +26,7 @@
 </td>
 <td>
 {% if checks > 0 %}
-<a href="{{ trans.get_absolute_url }}" title="{% blocktrans count checks as count %}There is {{ count }} failing check.{% plural %}There are {{ count }} failing checks.{% endblocktrans %}">{% trans "Review" %}</a>
+<a href="{{ trans.get_translate_url }}?type=allchecks" title="{% blocktrans count checks as count %}There is {{ count }} failing check.{% plural %}There are {{ count }} failing checks.{% endblocktrans %}">{% trans "Review" %}</a>
 {% endif %}
 </td>
 </tr>
