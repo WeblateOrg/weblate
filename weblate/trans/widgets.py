@@ -152,11 +152,9 @@ def widgets(request, project):
     # Parse possible language selection
     form = EnageLanguageForm(obj, request.GET)
     lang = None
-    lang_url = ''
     if form.is_valid():
         if form.cleaned_data['lang'] != '':
             lang = Language.objects.get(code = form.cleaned_data['lang'])
-            lang_url = '?lang=%s' % lang.code
 
     site = Site.objects.get_current()
     if lang is None:
@@ -177,12 +175,15 @@ def widgets(request, project):
         widget = WIDGETS[widget_name]
         color_list = []
         for color in widget['colors']:
+            if lang is None:
+                color_url = reverse('widget-image', kwargs = {'project': obj.slug, 'widget': widget_name, 'color': color})
+            else:
+                color_url = reverse('widget-image-lang', kwargs = {'project': obj.slug, 'widget': widget_name, 'color': color, 'lang': lang.code})
             color_list.append({
                 'name': color,
-                'url': 'http://%s%s%s' % (
+                'url': 'http://%s%s' % (
                     site.domain,
-                    reverse('widget-image', kwargs = {'project': obj.slug, 'widget': widget_name, 'color': color}),
-                    lang_url
+                    color_url,
                 ),
             })
         widget_list.append({
@@ -201,17 +202,16 @@ def widgets(request, project):
     }))
 
 @cache_page(3600)
-def render(request, project, widget = '287x66', color = None):
+def render(request, project, widget = '287x66', color = None, lang = None):
     obj = get_object_or_404(Project, slug = project)
 
     # Handle language parameter
-    lang = None
-    if 'lang' in request.GET:
+    if lang is not None:
         try:
-            lang = Language.objects.get(code = request.GET['lang'])
-            django.utils.translation.activate(request.GET['lang'])
+            django.utils.translation.activate(lang)
+            lang = Language.objects.get(code = lang)
         except Language.DoesNotExist:
-            pass
+            lang = None
 
     percent = obj.get_translated_percent(lang)
 
