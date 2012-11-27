@@ -252,7 +252,7 @@ def render(request, project, widget = '287x66', color = None):
         'percent': percent,
     }
     if lang is not None:
-        params['language_name'] = lang.__unicode__()
+        params['language_name'] = lang.name
 
     for line in widget_data['text']:
         ctx.move_to(*line['pos'])

@@ -389,7 +389,7 @@ def show_engage(request, project, lang = None):
         'total': obj.get_total(),
         'percent': obj.get_translated_percent(language),
         'url': obj.get_absolute_url(),
-        'language_name': language,
+        'language': language,
     }))
 
 def show_project(request, project):
