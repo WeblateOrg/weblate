@@ -104,11 +104,11 @@ def export_stats(request, project, subproject):
             'code': trans.language.code,
             'name': trans.language.name,
             'total': trans.total,
-            'fuzzy': trans.fuzzy,
             'last_change': trans.get_last_change(),
             'last_author': trans.get_last_author(False),
             'translated': trans.translated,
             'translated_percent': trans.get_translated_percent(),
+            'fuzzy': trans.fuzzy,
             'fuzzy_percent': trans.get_fuzzy_percent(),
             'url': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
         })
