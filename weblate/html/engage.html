@@ -32,8 +32,9 @@
 {% blocktrans %}{{ project }} is being translated using <a href="http://weblate.org/">Weblate</a>, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
 </p>
 <p>
-{% if language %}
-{% blocktrans %}<a href="{{ url }}">Translation project for {{ project }}</a> into {{ language }} currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
+{% if language_name %}
+{% comment %}Translators: please use your language name instead of %(language_name)s{% endcomment %}
+{% blocktrans %}<a href="{{ url }}">Translation project for {{ project }}</a> into {{ language_name }} currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
 {% else %}
 {% blocktrans %}<a href="{{ url }}">Translation project for {{ project }}</a> currently contains {{ total }} strings for translation and is <a href="{{ url }}">being translated into {{ languages }} languages</a>. Overall, these translations are {{ percent }}% complete.{% endblocktrans %}
 {% endif %}

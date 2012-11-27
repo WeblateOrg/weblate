@@ -76,7 +76,7 @@ WIDGETS = {
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages"),
-                # Translators: line of text in engagement widget
+                # Translators: line of text in engagement widget, please use your language name instead of %(language_name)s
                 'text_lang': ugettext_lazy("translating %(count)d strings into %(language_name)s"),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
