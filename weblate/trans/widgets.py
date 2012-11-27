@@ -236,14 +236,9 @@ def render(request, project, widget = '287x66', color = None):
         })
     ctx.fill()
 
-    # Prepare response object
-    response = HttpResponse(content_type = 'image/png')
-
     # Render PNG
     out = StringIO()
     surface.write_to_png(out)
     data = out.getvalue()
-    response['Content-Length'] = len(data)
-    response.write(data)
 
-    return response
+    return HttpResponse(content_type = 'image/png', content = data)
