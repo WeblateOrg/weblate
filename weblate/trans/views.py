@@ -925,6 +925,13 @@ def translate(request, project, subproject, lang):
                         language = unit.translation.language,
                         project = unit.translation.subproject.project,
                         user = user)
+                    # Record in change
+                    Change.objects.create(
+                        unit = unit,
+                        action = Change.ACTION_SUGGESTION,
+                        translation = unit.translation,
+                        user = user
+                    )
                     # Invalidate counts cache
                     unit.translation.invalidate_cache('suggestions')
                     # Notify subscribed users

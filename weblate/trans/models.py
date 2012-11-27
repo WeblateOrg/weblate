@@ -2614,12 +2614,14 @@ class Change(models.Model):
     ACTION_COMPLETE = 1
     ACTION_CHANGE = 2
     ACTION_COMMENT = 3
+    ACTION_SUGGESTION = 4
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
         (ACTION_COMPLETE, ugettext_lazy('Translation completed')),
         (ACTION_CHANGE, ugettext_lazy('Translation changed')),
         (ACTION_COMMENT, ugettext_lazy('Comment added')),
+        (ACTION_SUGGESTION, ugettext_lazy('Suggestion added')),
     )
 
     unit = models.ForeignKey(Unit, null = True)
