@@ -1756,33 +1756,19 @@ class Translation(models.Model):
             src = unit.get_source_plurals()[0]
             need_save = False
             found = False
+            add = False
 
             if self.subproject.has_template():
-                add = False
+                # We search by ID when using template
                 pounit = store.findid(unit.context)
-                if pounit is None:
+                if pounit is not None:
+                    found = True
+                else:
+                    # Need to create new unit based on template
                     template_store = self.subproject.get_template_store()
                     pounit = template_store.findid(unit.context)
                     add = True
-                if pounit is not None:
-                    found = True
-                    # Update fuzzy flag
-                    pounit.markfuzzy(unit.fuzzy)
-                    # Store translations
-                    if unit.is_plural():
-                        pounit.settarget(unit.get_target_plurals())
-                    else:
-                        pounit.settarget(unit.target)
-                    # Add unit to translation file
-                    if add:
-                        if isinstance(store, LISAfile):
-                            # LISA based stores need to know this
-                            store.addunit(pounit, new = True)
-                        else:
-                            store.addunit(pounit)
-                    # We need to update backend
-                    need_save = True
-
+                    found = pounit is not None
             else:
                 # Find all units with same source
                 found_units = store.findunits(src)
@@ -1800,26 +1786,28 @@ class Translation(models.Model):
                             found = True
                             break
 
-                if found:
-                    # Is it plural?
-                    if hasattr(pounit.target, 'strings'):
-                        potarget = join_plural(pounit.target.strings)
-                    else:
-                        potarget = pounit.target
-                    # Is there any change
-                    if unit.target != potarget or unit.fuzzy != pounit.isfuzzy():
-                        # Update fuzzy flag
-                        pounit.markfuzzy(unit.fuzzy)
-                        # Store translations
-                        if unit.is_plural():
-                            pounit.settarget(unit.get_target_plurals())
-                        else:
-                            pounit.settarget(unit.target)
-                        # We need to update backend
-                        need_save = True
-
+            # Bail out if we have not found anything
             if not found:
                 return False, None
+
+            # Detect changes
+            if unit.target != get_target(pounit) or unit.fuzzy != pounit.isfuzzy():
+                # Update fuzzy flag
+                pounit.markfuzzy(unit.fuzzy)
+                # Store translations
+                if unit.is_plural():
+                    pounit.settarget(unit.get_target_plurals())
+                else:
+                    pounit.settarget(unit.target)
+                # Optionally add unit to translation file
+                if add:
+                    if isinstance(store, LISAfile):
+                        # LISA based stores need to know this
+                        store.addunit(pounit, new = True)
+                    else:
+                        store.addunit(pounit)
+                # We need to update backend
+                need_save = True
 
             # Save backend if there was a change
             if need_save:
