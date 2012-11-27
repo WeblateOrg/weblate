@@ -173,6 +173,7 @@ def widgets(request, project):
         'widget_list': widget_list,
         'widget_base_url': widget_base_url,
         'object': obj,
+        'image_src': widget_list[0]['colors'][0]['url'],
     }))
 
 @cache_page(3600)
