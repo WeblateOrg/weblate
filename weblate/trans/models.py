@@ -1239,32 +1239,35 @@ class Translation(models.Model):
             return 0
         return round(self.translated * 100.0 / self.total, 1)
 
-    def is_locked(self, request = None):
+    def is_locked(self, request = None, multi = False):
         '''
         Check whether the translation is locked and
         possibly emmits messages if request object is
         provided.
         '''
 
+        prj_lock = self.subproject.locked
+        usr_lock = self.is_user_locked(request)
+
         # Check for project lock
-        if self.subproject.locked:
-            if request is not None:
-                messages.error(request, _('This translation is currently locked for updates!'))
-            return True
+        if prj_lock and request is not None:
+            messages.error(request, _('This translation is currently locked for updates!'))
 
         # Check for translation lock
-        if self.is_user_locked(request):
-            if request is not None:
-                messages.error(
-                    request,
-                    _('This translation is locked by %(user)s for translation till %(time)s!') % {
-                        'user': self.lock_user.get_full_name(),
-                        'time': date_format(self.lock_time, 'DATETIME_FORMAT')
-                    }
-                )
-            return True
+        if usr_lock and request is not None:
+            messages.error(
+                request,
+                _('This translation is locked by %(user)s for translation till %(time)s!') % {
+                    'user': self.lock_user.get_full_name(),
+                    'time': date_format(self.lock_time, 'DATETIME_FORMAT')
+                }
+            )
 
-        return False
+        # Calculate return value
+        if multi:
+            return (prj_lock, usr_lock)
+        else:
+            return prj_lock or usr_lock
 
     def is_user_locked(self, request = None):
         '''

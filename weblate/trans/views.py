@@ -862,7 +862,8 @@ def translate(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
     # Check locks
-    locked = obj.is_locked(request)
+    project_locked, user_locked = obj.is_locked(request, True)
+    locked = project_locked or user_locked
 
     if request.user.is_authenticated():
         profile = request.user.get_profile()
@@ -892,7 +893,7 @@ def translate(request, project, subproject, lang):
                 ))
 
         form = TranslationForm(request.POST)
-        if form.is_valid() and not locked:
+        if form.is_valid() and not project_locked:
             # Check whether translation is not outdated
             obj.check_sync()
             try:
@@ -947,7 +948,7 @@ def translate(request, project, subproject, lang):
                 elif not request.user.has_perm('trans.save_translation'):
                     # Need privilege to save
                     messages.error(request, _('You don\'t have privileges to save translations!'))
-                else:
+                elif not user_locked:
                     # Remember old checks
                     oldchecks = set(unit.active_checks().values_list('check', flat = True))
                     # Update unit and save it
