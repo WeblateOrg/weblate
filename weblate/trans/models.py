@@ -362,7 +362,7 @@ class Project(models.Model):
         translations = Translation.objects.filter(subproject__project = self)
         # Filter by language
         if lang is not None:
-            translations = translations.filter(language__code = lang)
+            translations = translations.filter(language = lang)
         # Aggregate
         translations = translations.aggregate(Sum('translated'), Sum('total'))
         # Catch no translations

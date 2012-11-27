@@ -29,6 +29,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
 
 from weblate.trans.models import Project
+from weblate.lang.models import Language
 
 import cairo
 from cStringIO import StringIO
@@ -75,6 +76,8 @@ WIDGETS = {
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages"),
+                # Translators: line of text in engagement widget
+                'text': ugettext_lazy("translating %(count)d strings into %(language_name)s"),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
                 'pos': (72, 32),
@@ -186,12 +189,15 @@ def widgets(request, project):
 def render(request, project, widget = '287x66', color = None):
     obj = get_object_or_404(Project, slug = project)
 
-    # Possibly activate chosen language
+    # Handle language parameter
+    lang = None
     if 'lang' in request.GET:
-        django.utils.translation.activate(request.GET['lang'])
-        percent = obj.get_translated_percent(request.GET['lang'])
-    else:
-        percent = obj.get_translated_percent()
+        try:
+            lang = Language.objects.get(code = request.GET['lang'])
+            django.utils.translation.activate(request.GET['lang'])
+        except Language.DoesNotExist:
+            pass
+    percent = obj.get_translated_percent(lang)
 
     # Get widget data
     try:
@@ -237,16 +243,25 @@ def render(request, project, widget = '287x66', color = None):
     ctx.set_source_rgb (*widget_data['colors'][color]['text'])
     ctx.new_path()
 
+    # Text format strings
+    params =  {
+        'name': obj.name,
+        'count': obj.get_total(),
+        'languages': obj.get_language_count(),
+        'percent': percent,
+    }
+    if lang is not None:
+        params['language_name'] = lang.__unicode__()
+
     for line in widget_data['text']:
         ctx.move_to(*line['pos'])
         ctx.select_font_face(*line['font'])
         ctx.set_font_size(line['font_size'])
-        ctx.text_path(line['text'] % {
-            'name': obj.name,
-            'count': obj.get_total(),
-            'languages': obj.get_language_count(),
-            'percent': percent,
-        })
+        text = line['text']
+        if lang is not None and 'text_lang' in line:
+            text = line['text_lang']
+        ctx.text_path(text % params)
+
     ctx.fill()
 
     # Render PNG
