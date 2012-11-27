@@ -2054,6 +2054,15 @@ class Translation(models.Model):
         '''
         return self.unit_set.count_type(check, self)
 
+    def get_failing_checks_percent(self, check = 'allchecks'):
+        '''
+        Returns percentage of failed checks.
+        '''
+        if self.total == 0:
+            return 0
+        return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
+
+
     def invalidate_cache(self, cache_type = None):
         '''
         Invalidates any cached stats.

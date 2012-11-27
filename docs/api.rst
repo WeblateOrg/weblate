@@ -50,6 +50,8 @@ Weblate provides various exports to allow you further process the data.
         [
             {
                 "code": "cs", 
+                "failing": 0, 
+                "failing_percent": 0.0, 
                 "fuzzy": 0, 
                 "fuzzy_percent": 0.0, 
                 "last_author": "Michal \u010ciha\u0159",
@@ -62,6 +64,8 @@ Weblate provides various exports to allow you further process the data.
             }, 
             {
                 "code": "nl", 
+                "failing": 21, 
+                "failing_percent": 4.8, 
                 "fuzzy": 11, 
                 "fuzzy_percent": 2.5, 
                 "last_author": null,
@@ -74,6 +78,8 @@ Weblate provides various exports to allow you further process the data.
             }, 
             {
                 "code": "el", 
+                "failing": 11, 
+                "failing_percent": 2.5, 
                 "fuzzy": 21, 
                 "fuzzy_percent": 4.8, 
                 "last_author": null,

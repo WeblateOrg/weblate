@@ -110,6 +110,8 @@ def export_stats(request, project, subproject):
             'translated_percent': trans.get_translated_percent(),
             'fuzzy': trans.fuzzy,
             'fuzzy_percent': trans.get_fuzzy_percent(),
+            'failing': trans.get_failing_checks(),
+            'failing_percent': trans.get_failing_checks_percent(),
             'url': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
         })
     return HttpResponse(
