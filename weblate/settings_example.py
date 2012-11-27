@@ -344,11 +344,11 @@ CHECK_LIST = (
 )
 
 # E-mail address that error messages come from.
-SERVER_EMAIL = 'root@localhost'
+SERVER_EMAIL = 'noreply@weblate.org'
 
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
-DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+DEFAULT_FROM_EMAIL = 'noreply@weblate.org'
 
 # Example configuration to use memcached for caching
 #CACHES = {
