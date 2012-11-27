@@ -384,11 +384,17 @@ class Project(models.Model):
                 pass
         return total
 
+    def get_languages(self):
+        '''
+        Returns list of all languages used in project.
+        '''
+        return Language.objects.filter(translation__subproject__project = self).distinct()
+
     def get_language_count(self):
         '''
         Returns number of languages used in this project.
         '''
-        return Language.objects.filter( translation__subproject__project = self).distinct().count()
+        return self.get_languages().count()
 
     def git_needs_commit(self):
         '''

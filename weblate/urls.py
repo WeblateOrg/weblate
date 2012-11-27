@@ -85,9 +85,31 @@ class EngageSitemap(GenericSitemap):
         from django.core.urlresolvers import reverse
         return reverse('engage', kwargs = {'project': obj.slug})
 
+class EngageLangSitemap(Sitemap):
+    '''
+    Wrapper to generate sitemap for all per language engage pages.
+    '''
+    priority = 0.9
+
+    def items(self):
+        '''
+        Return list of existing project, langauge tuples.
+        '''
+        ret = []
+        for project in Project.objects.all():
+            for lang in project.get_languages():
+                ret.append((project, lang))
+        return ret
+
+    def location(self, item):
+        from django.core.urlresolvers import reverse
+        return reverse('engage-lang', kwargs = {'project': item[0].slug, 'lang': item[1].code})
+
+
 sitemaps = {
     'project': GenericSitemap(project_dict, priority = 0.8),
     'engage': EngageSitemap(project_dict, priority = 1.0),
+    'engagelang': EngageLangSitemap(),
     'subproject': GenericSitemap(subproject_dict, priority = 0.6),
     'translation': GenericSitemap(translation_dict, priority = 0.2),
     'pages': PagesSitemap(),
