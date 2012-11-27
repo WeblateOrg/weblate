@@ -249,3 +249,19 @@ class LetterForm(forms.Form):
 
 class CommentForm(forms.Form):
     comment = forms.CharField(widget = forms.Textarea(attrs = {'dir': 'auto'}))
+
+class EnageLanguageForm(forms.Form):
+    lang = forms.ChoiceField(
+        required = False,
+        choices = [('', _('Whole project'))],
+    )
+
+    def __init__(self, project, *args, **kwargs):
+        # Dynamically generate choices for used languages
+        # in project
+        choices = [(l.code, l.__unicode__()) for l in project.get_languages()]
+
+        super(EnageLanguageForm, self).__init__(*args, **kwargs)
+
+        self.fields['lang'].choices += choices
+
