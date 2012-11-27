@@ -198,8 +198,8 @@ for example:
 
 .. _production-email:
 
-Email addresses
-+++++++++++++++
+Configure email addresses
++++++++++++++++++++++++++
 
 Weblate needs to send out emails on several occasions and these emails should
 have correct sender address, please configure ``SERVER_EMAIL`` and
@@ -290,6 +290,12 @@ admin    admin    Weblate Weblate/Django admin user
 ======== ======== ======= ==================================================
 
 The appliance is built using SUSE Studio and is based on openSUSE 12.2.
+
+You should also adjust some settings to match your environment, namely:
+
+* :ref:`production-debug`
+* :ref:`production-site`
+* :ref:`production-email`
 
 Upgrading
 ---------
