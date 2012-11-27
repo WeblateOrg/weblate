@@ -29,6 +29,7 @@ from django.views.decorators.cache import cache_page
 from weblate.trans.models import Project
 
 import cairo
+from cStringIO import StringIO
 import os.path
 
 WIDGETS = {
@@ -239,6 +240,10 @@ def render(request, project, widget = '287x66', color = None):
     ctx.fill()
 
     # Render PNG
-    surface.write_to_png(response)
+    out = StringIO()
+    surface.write_to_png(out)
+    data = out.getvalue()
+    response['Content-Length'] = len(data)
+    response.write(data)
 
     return response
