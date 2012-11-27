@@ -17,6 +17,9 @@
   
 {% include 'meta-header.html' %}
 
+{% block extra_meta %}
+{% endblock %}
+
 {% if target_language %}
   <script type="text/javascript">
   var target_language = '{{ target_language }}';
