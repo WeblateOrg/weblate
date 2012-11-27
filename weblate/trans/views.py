@@ -369,28 +369,27 @@ def show_dictionary(request, project, lang):
         'letter': letterform.cleaned_data['letter'],
     }))
 
-def show_engage(request, project):
+def show_engage(request, project, lang = None):
     # Get project object
     obj = get_object_or_404(Project, slug = project)
 
     # Handle language parameter
-    lang = None
-    if 'lang' in request.GET:
+    language = None
+    if lang is not None:
         try:
-            lang = Language.objects.get(code = request.GET['lang'])
-            django.utils.translation.activate(request.GET['lang'])
+            language = Language.objects.get(code = lang)
+            django.utils.translation.activate(lang)
         except Language.DoesNotExist:
             pass
-    print lang
 
     return render_to_response('engage.html', RequestContext(request, {
         'object': obj,
         'project': obj.name,
         'languages': obj.get_language_count(),
         'total': obj.get_total(),
-        'percent': obj.get_translated_percent(lang),
+        'percent': obj.get_translated_percent(language),
         'url': obj.get_absolute_url(),
-        'language': lang,
+        'language': language,
     }))
 
 def show_project(request, project):
