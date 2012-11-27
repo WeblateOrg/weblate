@@ -22,6 +22,8 @@ from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
+from django.utils.translation import ugettext_lazy
+import django.utils.translation
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
@@ -71,13 +73,15 @@ WIDGETS = {
                 'pos': (72, 19),
             },
             {
-                'text': "translating %(count)d strings into %(languages)d languages",
+                # Translators: line of text in engagement widget
+                'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages"),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
                 'pos': (72, 32),
             },
             {
-                'text': '%(percent)d%% complete, help us improve!',
+                # Translators: line of text in engagement widget
+                'text': ugettext_lazy('%(percent)d%% complete, help us improve!'),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
                 'pos': (72, 44),
@@ -118,13 +122,15 @@ WIDGETS = {
                 'pos': (23, 10),
             },
             {
-                'text': 'translation',
+                # Translators: line of text in engagement widget
+                'text': ugettext_lazy('translation'),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
                 'pos': (23, 19),
             },
             {
-                'text': '%(percent)d%% done',
+                # Translators: line of text in engagement widget
+                'text': ugettext_lazy('%(percent)d%% done'),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
                 'pos': (23, 28),
@@ -180,6 +186,10 @@ def widgets(request, project):
 def render(request, project, widget = '287x66', color = None):
     obj = get_object_or_404(Project, slug = project)
     percent = obj.get_translated_percent()
+
+    # Possibly activate chosen language
+    if 'lang' in request.GET:
+        django.utils.translation.activate(request.GET['lang'])
 
     # Get widget data
     try:

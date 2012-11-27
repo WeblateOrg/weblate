@@ -23,6 +23,7 @@ from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext as _
+import django.utils.translation
 from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
 from django.contrib import messages
@@ -369,7 +370,12 @@ def show_dictionary(request, project, lang):
     }))
 
 def show_engage(request, project):
+    # Get project object
     obj = get_object_or_404(Project, slug = project)
+
+    # Possibly activate chosen language
+    if 'lang' in request.GET:
+        django.utils.translation.activate(request.GET['lang'])
 
     return render_to_response('engage.html', RequestContext(request, {
         'object': obj,
