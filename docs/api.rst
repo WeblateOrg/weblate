@@ -45,7 +45,9 @@ Weblate provides various exports to allow you further process the data.
 
     Retrieves statistics for given subproject in JSON format.
 
-    Example response::
+    Example response:
+
+    .. code-block:: json
 
         [
             {
@@ -91,6 +93,27 @@ Weblate provides various exports to allow you further process the data.
                 "url": "http://l10n.cihar.com/projects/weblate/master/el/"
             }, 
         ]
+
+    Included data:
+
+    ``code``
+        language code
+    ``failing``, ``failing_percent``
+        number and percentage of failing checks
+    ``fuzzy``, ``fuzzy_percent``
+        number and percentage of fuzzy strings
+    ``last_author``
+        name of last author
+    ``last_change``
+        date of last change
+    ``name``
+        language name
+    ``total``
+        total number of strings
+    ``translated``, ``translated_percet``
+        number and percentage of translated strings
+    ``url``
+        URL to access the translation
 
 .. _rss:
 
