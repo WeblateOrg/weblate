@@ -112,7 +112,8 @@ def export_stats(request, project, subproject):
             'fuzzy_percent': trans.get_fuzzy_percent(),
             'failing': trans.get_failing_checks(),
             'failing_percent': trans.get_failing_checks_percent(),
-            'url': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
+            'url': trans.get_share_url(),
+            'url_translate': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
         })
     return HttpResponse(
         json.dumps(response, default = dt_handler),
