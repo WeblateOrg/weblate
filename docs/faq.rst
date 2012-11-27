@@ -58,6 +58,13 @@ Here are examples of workflows used with Weblate:
 
 Of course your are free to mix all of these as you wish.
 
+How can I check if my Weblate is configured properly?
+-----------------------------------------------------
+
+Weblate includes set of configuration checks, which you can see in admin
+interface, just follow :guilabel:`Performace report` link in admin interface or
+directly open ``/admin/performance/`` URL.
+
 .. _faq-site:
 
 Why does registration contain example.com as domain?
