@@ -197,6 +197,7 @@ def render(request, project, widget = '287x66', color = None):
             django.utils.translation.activate(request.GET['lang'])
         except Language.DoesNotExist:
             pass
+
     percent = obj.get_translated_percent(lang)
 
     # Get widget data

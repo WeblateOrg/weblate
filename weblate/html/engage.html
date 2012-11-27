@@ -9,8 +9,8 @@
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
 
-  <title>{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}</title>
-  <meta name="description" content="{% blocktrans with object.name as project and object.get_language_count as languages %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
+  <title>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</title>
+  <meta name="description" content="{% blocktrans %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
   <link rel="image_src" type="image/png" href="{% get_media_prefix %}weblate-128.png"/>
 
 {% include 'meta-header.html' %}
@@ -23,23 +23,27 @@
 
 <div class="engage content ui-widget-content ui-corner-all">
 
-<h1>{% blocktrans with object.name as project %}Get involved in {{ project }}!{% endblocktrans %}</h1>
+<h1>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</h1>
 
 <p>
 {% blocktrans %}Hi, and thank you for your interest!{% endblocktrans %}
 </p>
 <p>
-{% blocktrans with object.name as name %}{{ name }} is being translated using <a href="http://weblate.org/">Weblate</a>, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
+{% blocktrans %}{{ project }} is being translated using <a href="http://weblate.org/">Weblate</a>, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
 </p>
 <p>
-{% blocktrans with object.name as name and object.get_total as total and object.get_language_count as languages and object.get_absolute_url as url and object.get_translated_percent as percent%}Translation project for {{ name }} currently contains {{ total }} strings for translation and is <a href="{{ url }}">being translated into {{ languages }} languages</a>. Overall, these translations are {{ percent }}% complete.{% endblocktrans %}
+{% if language %}
+{% blocktrans %}<a href="{{ url }}">Translation project for {{ project }}</a> into {{ language }} currently contains {{ total }} strings for translation and is {{ percent }}% complete.{% endblocktrans %}
+{% else %}
+{% blocktrans %}<a href="{{ url }}">Translation project for {{ project }}</a> currently contains {{ total }} strings for translation and is <a href="{{ url }}">being translated into {{ languages }} languages</a>. Overall, these translations are {{ percent }}% complete.{% endblocktrans %}
+{% endif %}
 </p>
 <p>
 {% url 'weblate_register' as reg_url %}
-{% blocktrans with object.name as name %}If you would like to contribute to translation of {{ name }}, you need to <a href="{{ reg_url }}">register on this server</a>.{% endblocktrans %}
+{% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to <a href="{{ reg_url }}">register on this server</a>.{% endblocktrans %}
 </p>
 <p>
-{% blocktrans with object.get_absolute_url as url %}Once you have activated your account just proceed to the <a href="{{ url }}">translation section</a>.{% endblocktrans %}
+{% blocktrans %}Once you have activated your account just proceed to the <a href="{{ url }}">translation section</a>.{% endblocktrans %}
 </p>
 
 </div>

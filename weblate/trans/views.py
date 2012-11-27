@@ -373,12 +373,24 @@ def show_engage(request, project):
     # Get project object
     obj = get_object_or_404(Project, slug = project)
 
-    # Possibly activate chosen language
+    # Handle language parameter
+    lang = None
     if 'lang' in request.GET:
-        django.utils.translation.activate(request.GET['lang'])
+        try:
+            lang = Language.objects.get(code = request.GET['lang'])
+            django.utils.translation.activate(request.GET['lang'])
+        except Language.DoesNotExist:
+            pass
+    print lang
 
     return render_to_response('engage.html', RequestContext(request, {
         'object': obj,
+        'project': obj.name,
+        'languages': obj.get_language_count(),
+        'total': obj.get_total(),
+        'percent': obj.get_translated_percent(lang),
+        'url': obj.get_absolute_url(),
+        'language': lang,
     }))
 
 def show_project(request, project):
