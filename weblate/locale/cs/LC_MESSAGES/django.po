@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-27 16:03+0100\n"
-"PO-Revision-Date: 2012-11-23 10:05+0200\n"
+"PO-Revision-Date: 2012-11-27 16:19+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -644,47 +644,46 @@ msgid "Hi, and thank you for your interest!"
 msgstr "Ahoj a děkujeme za váš zájem!"
 
 #: html/engage.html:32
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "%(project)s is being translated using <a href=\"http://weblate.org/"
 "\">Weblate</a>, a web tool designed to ease translating for both developers "
 "and translators."
 msgstr ""
-"Projekt %(name)s je překládán pomocí <a href=\"http://weblate.org/\"> "
+"Projekt %(project)s je překládán pomocí <a href=\"http://weblate.org/\"> "
 "Weblate</a>, webového nástroje, který usnadní překládání jak pro vývojáře "
 "tak i pro překladatele."
 
 #. Translators: please use your language name instead of %(language_name)s
 #: html/engage.html:37
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into "
 "%(language_name)s currently contains %(total)s strings for translation and "
 "is %(percent)s%% complete."
 msgstr ""
-"Překlad projektu %(name)s v současné době obsahuje %(total)s řetězců k "
-"překladu a je <a href=\"%(url)s\">překládán do %(languages)s jazyků</a>. "
-"Celkově je tento překlad hotový z %(percent)s%%."
+"<a href=\"%(url)s\">Překlad projektu %(name)s</a> do češtiny v současné době "
+"obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
 #: html/engage.html:39
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
 "contains %(total)s strings for translation and is <a href=\"%(url)s\">being "
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"Překlad projektu %(name)s v současné době obsahuje %(total)s řetězců k "
-"překladu a je <a href=\"%(url)s\">překládán do %(languages)s jazyků</a>. "
-"Celkově je tento překlad hotový z %(percent)s%%."
+"<a href=\"%(url)s\">Překlad projektu %(project)s</a> v současné době obsahuje "
+"%(total)s řetězců k překladu a je <a href=\"%(url)s\">překládán do %"
+"(languages)s jazyků</a>. Celkově je tento překlad hotový z %(percent)s%%."
 
 #: html/engage.html:44
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Pokud chcete přispět do překladu projektu %(name)s, musíte se na tomto "
+"Pokud chcete přispět do překladu projektu %(project)s, musíte se na tomto "
 "serveru <a href=\"%(reg_url)s\">zaregistrovat</a>."
 
 #: html/engage.html:47
@@ -921,22 +920,22 @@ msgid "Share on Facebook!"
 msgstr "Sdílejte na Facebooku!"
 
 #: html/share.html:6
-#, fuzzy, python-format
+#, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Překládejte %(object)s pomocí %%23Weblate!"
+msgstr "Překládejte %(object)s pomocí %%23Weblate na %(share_url)s!"
 
 #: html/share.html:6
 msgid "Tweet this translation!"
 msgstr "Twittrujte tento překlad!"
 
 #: html/share.html:11
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"Váš překladový projekt můžete propagovat pomocí různých <a href="
-"\"%(widgets_url)s\">widgetů</a>."
+"Váš překladový projekt můžete propagovat pomocí různých <a href=\"%"
+"(widgets_url)s\">dalších možností</a>."
 
 #: html/share.html:15
 #, python-format
@@ -1286,29 +1285,27 @@ msgid "widgets"
 msgstr "widgety"
 
 #: html/widgets.html:16
-#, fuzzy
 msgid "Promoting translation projects"
-msgstr "Použít tento překlad pro všechny podprojekty"
+msgstr "Propagace překladových projektů"
 
 #: html/widgets.html:19
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"Nově příchozí můžete také odkazovat na informativní stránku na <a href="
-"\"%(engage_url)s\">%(engage_url)s</a>."
+"Nově příchozí můžete odkazovat na informativní stránku na <a href=\"%"
+"(engage_url)s\">%(engage_url)s</a>."
 
 #: html/widgets.html:22
-#, fuzzy
 msgid "Promoting specific translations"
-msgstr "Automatický překlad"
+msgstr "Propagace jednotlivých překladů"
 
 #: html/widgets.html:25
 msgid ""
 "Besides promoting whole translation project, you can also choose specific "
 "language to promote:"
-msgstr ""
+msgstr "Kromě propagace celého projektu můžete propagovat i jednotlivé jazyky:"
 
 #: html/widgets.html:29
 msgid "Image widgets"
@@ -2487,9 +2484,8 @@ msgid "Django caching"
 msgstr "Mezipaměť Djanga"
 
 #: trans/admin_views.py:97
-#, fuzzy
 msgid "Email addresses"
-msgstr "Emailová adresa"
+msgstr "Emailové adresy"
 
 #: trans/admin_views.py:126 trans/admin_views.py:130
 msgid "Failed to generate key!"
@@ -2781,9 +2777,8 @@ msgid "Any"
 msgstr "Jakékoliv"
 
 #: trans/forms.py:256
-#, fuzzy
 msgid "Whole project"
-msgstr "Všechny podprojekty"
+msgstr "Celý projekt"
 
 #: trans/models.py:108
 msgid "Automatic detection"
@@ -3128,14 +3123,12 @@ msgid "Translation changed"
 msgstr "Změna překladu"
 
 #: trans/models.py:2659
-#, fuzzy
 msgid "Comment added"
-msgstr "Komentář"
+msgstr "Přidán komentář"
 
 #: trans/models.py:2660
-#, fuzzy
 msgid "Suggestion added"
-msgstr "Návrhů"
+msgstr "Přidán návrh"
 
 #: trans/models.py:2676
 #, python-format
@@ -3320,31 +3313,30 @@ msgstr "Stránka nenalezena"
 #: trans/widgets.py:79
 #, python-format
 msgid "translating %(count)d strings into %(languages)d languages"
-msgstr ""
+msgstr "překládáme %(count)d řetězců do %(languages)d jazyků"
 
 #. Translators: line of text in engagement widget, please use your language name instead of %(language_name)s
 #: trans/widgets.py:81
 #, python-format
 msgid "translating %(count)d strings into %(language_name)s"
-msgstr ""
+msgstr "překládáme %(count)d řetězců do češtiny"
 
 #. Translators: line of text in engagement widget
 #: trans/widgets.py:88
 #, python-format
 msgid "%(percent)d%% complete, help us improve!"
-msgstr ""
+msgstr "%(percent)d%% hotovo, pomozte nám se zlepšit!"
 
 #. Translators: line of text in engagement widget
 #: trans/widgets.py:130
-#, fuzzy
 msgid "translation"
-msgstr "Překlad"
+msgstr "překlad"
 
 #. Translators: line of text in engagement widget
 #: trans/widgets.py:137
 #, python-format
 msgid "%(percent)d%% done"
-msgstr ""
+msgstr "%(percent)d%% hotovo"
 
 #: trans/templatetags/translations.py:58
 msgid "Tab character"
