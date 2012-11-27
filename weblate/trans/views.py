@@ -1006,12 +1006,14 @@ def translate(request, project, subproject, lang):
                     if unit.checksum != merged.checksum:
                         messages.error(request, _('Can not merge different messages!'))
                     else:
+                        # Store unit
                         unit.target = merged.target
                         unit.fuzzy = merged.fuzzy
-                        unit.save_backend(request)
-                        # Update stats
-                        profile.translated += 1
-                        profile.save()
+                        saved = unit.save_backend(request)
+                        # Update stats if there was change
+                        if saved:
+                            profile.translated += 1
+                            profile.save()
                         # Redirect to next entry
                         return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
                             obj.get_translate_url(),

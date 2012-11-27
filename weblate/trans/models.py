@@ -2246,6 +2246,8 @@ class Unit(models.Model):
         if propagate:
             self.propagate(request)
 
+        return saved
+
     def save(self, *args, **kwargs):
         '''
         Wrapper around save to warn when save did not come from
