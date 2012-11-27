@@ -357,10 +357,18 @@ class Project(models.Model):
 
         super(Project, self).save(*args, **kwargs)
 
-    def get_translated_percent(self):
-        translations = Translation.objects.filter(subproject__project = self).aggregate(Sum('translated'), Sum('total'))
-        if translations['total__sum'] == 0:
+    def get_translated_percent(self, lang = None):
+        # Filter all translations
+        translations = Translation.objects.filter(subproject__project = self)
+        # Filter by language
+        if lang is not None:
+            translations = translations.filter(language__code = lang)
+        # Aggregate
+        translations = translations.aggregate(Sum('translated'), Sum('total'))
+        # Catch no translations
+        if translations['total__sum'] == 0 or translations['total__sum'] is None:
             return 0
+        # Return percent
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
     def get_total(self):

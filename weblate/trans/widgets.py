@@ -185,11 +185,13 @@ def widgets(request, project):
 @cache_page(3600)
 def render(request, project, widget = '287x66', color = None):
     obj = get_object_or_404(Project, slug = project)
-    percent = obj.get_translated_percent()
 
     # Possibly activate chosen language
     if 'lang' in request.GET:
         django.utils.translation.activate(request.GET['lang'])
+        percent = obj.get_translated_percent(request.GET['lang'])
+    else:
+        percent = obj.get_translated_percent()
 
     # Get widget data
     try:
