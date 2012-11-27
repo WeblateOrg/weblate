@@ -31,6 +31,7 @@ from django.utils.formats import date_format
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 from glob import glob
 import os
 import time
@@ -301,6 +302,16 @@ class Project(models.Model):
             'project': self.slug
         })
 
+    def get_share_url(self):
+        '''
+        Returns absolute URL usable for sharing.
+        '''
+        site = Site.objects.get_current()
+        return 'http://%s%s' % (
+            site.domain,
+            reverse('engage', kwargs = {'project': self.slug}),
+        )
+
     @models.permalink
     def get_commit_url(self):
         return ('weblate.trans.views.commit_project', (), {
@@ -541,6 +552,16 @@ class SubProject(models.Model):
             'project': self.project.slug,
             'subproject': self.slug
         })
+
+    def get_share_url(self):
+        '''
+        Returns absolute URL usable for sharing.
+        '''
+        site = Site.objects.get_current()
+        return 'http://%s%s' % (
+            site.domain,
+            reverse('engage', kwargs = {'project': self.project.slug}),
+        )
 
     @models.permalink
     def get_commit_url(self):
@@ -1343,6 +1364,16 @@ class Translation(models.Model):
             'subproject': self.subproject.slug,
             'lang': self.language.code
         })
+
+    def get_share_url(self):
+        '''
+        Returns absolute URL usable for sharing.
+        '''
+        site = Site.objects.get_current()
+        return 'http://%s%s' % (
+            site.domain,
+            reverse('engage-lang', kwargs = {'project': self.subproject.project.slug, 'lang': self.language.code}),
+        )
 
     @models.permalink
     def get_commit_url(self):
