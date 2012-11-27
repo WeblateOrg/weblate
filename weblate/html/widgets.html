@@ -43,45 +43,40 @@
 
 <div id="{{ widget.name }}-html-code">
 {% for color in widget.colors %}
-<pre class="ui-widget-content ui-corner-all code">
+<textarea class="code-example">
 &lt;a href="{{ engage_url_track }}"&gt;
 &lt;img src="{{ color.url }}" alt="{% trans "Translation status" %}" /&gt;
-&lt;/a&gt;
-</pre>
+&lt;/a&gt;</textarea>
 {% endfor %}
 </div>
 
 <div id="{{ widget.name }}-bb-code">
 {% for color in widget.colors %}
-<pre class="ui-widget-content ui-corner-all code">
-[url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ color.url }}[/img][/url]
-</pre>
+<textarea class="code-example">
+[url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ color.url }}[/img][/url]</textarea>
 {% endfor %}
 </div>
 
 <div id="{{ widget.name }}-mdk-code">
 {% for color in widget.colors %}
-<pre class="ui-widget-content ui-corner-all code">
-[![{% trans "Translation status" %}]({{ color.url }})]({{ engage_url_track }})
-</pre>
+<textarea class="code-example">
+[![{% trans "Translation status" %}]({{ color.url }})]({{ engage_url_track }})</textarea>
 {% endfor %}
 </div>
 
 <div id="{{ widget.name }}-rst-code">
 {% for color in widget.colors %}
-<pre class="ui-widget-content ui-corner-all code">
+<textarea class="code-example">
 .. image:: {{ color.url }}
     :alt: {% trans "Translation status" %}
-    :target: {{ engage_url_track }}
-</pre>
+    :target: {{ engage_url_track }}</textarea>
 {% endfor %}
 </div>
 
 <div id="{{ widget.name }}-textile-code">
 {% for color in widget.colors %}
-<pre class="ui-widget-content ui-corner-all code">
-!{{ color.url }}!:{{ engage_url_track }}
-</pre>
+<textarea class="code-example">
+!{{ color.url }}!:{{ engage_url_track }}</textarea>
 {% endfor %}
 </div>
 

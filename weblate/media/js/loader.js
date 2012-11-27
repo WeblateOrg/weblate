@@ -328,4 +328,7 @@ $(function() {
         $(this).parent().find('.expander-icon').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
         $(this).parent().next().toggle();
     });
+    $('textarea.code-example').focus(function() {
+        $(this).select();
+    });
 });
