@@ -2244,6 +2244,7 @@ class Unit(models.Model):
                 Change.objects.create(
                     unit = self,
                     translation = self.translation,
+                    action = Change.ACTION_CHANGE,
                     user = request.user
                 )
 
