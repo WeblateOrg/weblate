@@ -673,8 +673,7 @@ def lock_translation(request, project, subproject, lang):
 
     if not obj.is_user_locked(request):
         obj.create_lock(request.user)
-
-    messages.info(request, _('Translation is now locked for you.'))
+        messages.info(request, _('Translation is now locked for you.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -685,8 +684,7 @@ def unlock_translation(request, project, subproject, lang):
 
     if not obj.is_user_locked(request):
         obj.create_lock(None)
-
-    messages.info(request, _('Translation is now open for translation updates.'))
+        messages.info(request, _('Translation is now open for translation updates.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
