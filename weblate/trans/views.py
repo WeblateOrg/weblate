@@ -1186,6 +1186,9 @@ def translate(request, project, subproject, lang):
         'search_exact': bool2str(search_exact),
         'search_target': bool2str(search_target),
         'search_context': bool2str(search_context),
+        'locked': locked,
+        'user_locked': user_locked,
+        'project_locked': project_locked,
     }))
 
 @login_required

@@ -139,14 +139,14 @@
 {% endif %}
 <tr><td></td><td>
 {% if perms.trans.save_translation %}
-<input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" />
+<input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
 {% else %}
 {% url 'django.contrib.auth.views.login' as login_url %}
 {% with unit.translation.get_translate_url as translate_url %}
 {% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
 {% endwith %}
 {% endif %}
-<input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" />
+<input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
 </td></tr>
 
 </table>
