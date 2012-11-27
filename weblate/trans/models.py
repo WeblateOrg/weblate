@@ -2073,9 +2073,6 @@ class Unit(models.Model):
             flags = ''
         # Get target
         target = get_target(unit)
-        # Check for null target (happens with XLIFF)
-        if target is None:
-            target = ''
 
         # Get data from unit
         if unit is None:
