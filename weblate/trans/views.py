@@ -1180,6 +1180,7 @@ def translate(request, project, subproject, lang):
         'search_context': bool2str(search_context),
     }))
 
+@login_required
 def comment(request, pk):
     '''
     Adds new comment.
