@@ -1354,7 +1354,7 @@ def upload_translation(request, project, subproject, lang):
     '''
     obj = get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
 
-    if not obj.is_user_locked(request) and not obj.subproject.locked and request.method == 'POST':
+    if not obj.is_locked(request) and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):
             form = ExtraUploadForm(request.POST, request.FILES)
         elif request.user.has_perm('trans.overwrite_translation'):
