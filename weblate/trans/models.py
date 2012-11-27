@@ -2613,11 +2613,13 @@ class Change(models.Model):
     ACTION_UPDATE = 0
     ACTION_COMPLETE = 1
     ACTION_CHANGE = 2
+    ACTION_COMMENT = 3
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
         (ACTION_COMPLETE, ugettext_lazy('Translation completed')),
         (ACTION_CHANGE, ugettext_lazy('Translation changed')),
+        (ACTION_COMMENT, ugettext_lazy('Comment added')),
     )
 
     unit = models.ForeignKey(Unit, null = True)

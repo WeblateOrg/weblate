@@ -1201,6 +1201,13 @@ def comment(request, pk):
             comment = form.cleaned_data['comment'],
             language = lang
         )
+        Change.objects.create(
+            unit = obj,
+            action = Change.ACTION_COMMENT,
+            translation = obj.translation,
+            user = request.user
+        )
+
         # Invalidate counts cache
         if lang is None:
             obj.translation.invalidate_cache('sourcecomments')
