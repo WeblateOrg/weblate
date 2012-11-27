@@ -77,8 +77,8 @@ WIDGETS = {
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages"),
-                # Translators: line of text in engagement widget, please use your language name instead of %(language_name)s
-                'text_lang': ugettext_lazy("translating %(count)d strings into %(language_name)s"),
+                # Translators: line of text in engagement widget, please use your language name instead of English
+                'text_lang': ugettext_lazy("translating %(count)d strings into English"),
                 'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
                 'font_size': 10,
                 'pos': (72, 32),
@@ -266,8 +266,6 @@ def render(request, project, widget = '287x66', color = None):
         'languages': obj.get_language_count(),
         'percent': percent,
     }
-    if lang is not None:
-        params['language_name'] = lang.name
 
     for line in widget_data['text']:
         ctx.move_to(*line['pos'])
@@ -276,6 +274,8 @@ def render(request, project, widget = '287x66', color = None):
         text = line['text']
         if lang is not None and 'text_lang' in line:
             text = line['text_lang']
+            if 'English' in text:
+                text = text.replace('English', lang.name)
         ctx.text_path(text % params)
 
     ctx.fill()

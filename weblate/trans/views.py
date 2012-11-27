@@ -33,6 +33,7 @@ from django.db.models import Q, Count, Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
+from django.utils.safestring import mark_safe
 
 from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, Comment, get_versions
 from weblate.lang.models import Language
@@ -382,7 +383,7 @@ def show_engage(request, project, lang = None):
         except Language.DoesNotExist:
             pass
 
-    return render_to_response('engage.html', RequestContext(request, {
+    context = {
         'object': obj,
         'project': obj.name,
         'languages': obj.get_language_count(),
@@ -390,7 +391,20 @@ def show_engage(request, project, lang = None):
         'percent': obj.get_translated_percent(language),
         'url': obj.get_absolute_url(),
         'language': language,
-    }))
+    }
+
+    # Render text
+    if language is None:
+        status_text = _('<a href="%(url)s">Translation project for %(project)s</a> currently contains %(total)s strings for translation and is <a href="%(url)s">being translated into %(languages)s languages</a>. Overall, these translations are %(percent)s%% complete.')
+    else:
+                # Translators: line of text in engagement widget, please use your language name instead of English
+        status_text = _('<a href="%(url)s">Translation project for %(project)s</a> into English currently contains %(total)s strings for translation and is %(percent)s%% complete.')
+        if 'English' in status_text:
+            status_text = status_text.replace('English', language.name)
+
+    context['status_text'] = mark_safe(status_text % context)
+
+    return render_to_response('engage.html', RequestContext(request, context))
 
 def show_project(request, project):
     obj = get_object_or_404(Project, slug = project)
