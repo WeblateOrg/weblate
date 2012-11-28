@@ -195,7 +195,16 @@ def validate_repoweb(val):
 
 def validate_commit_message(val):
     try:
-        val % {'language': 'cs', 'project': 'Weblate', 'subproject': 'master'}
+        val % {
+            'language': 'cs',
+            'project': 'Weblate',
+            'subproject': 'master',
+            'total': 200,
+            'fuzzy': 20,
+            'fuzzy_percent': 10.0,
+            'translated': 40,
+            'translated_percent': 20.0,
+        }
     except Exception as e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
@@ -268,7 +277,7 @@ class Project(models.Model):
     commit_message = models.TextField(
         help_text = ugettext_lazy('You can use %(language)s, %(subproject)s or %(project)s for language shortcut, subproject or project names.'),
         validators = [validate_commit_message],
-        default = 'Translated using Weblate.'
+        default = 'Translated using Weblate\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
     )
     committer_name = models.CharField(
         max_length = 200,
@@ -1684,6 +1693,11 @@ class Translation(models.Model):
             'language': self.language_code,
             'subproject': self.subproject.name,
             'project': self.subproject.project.name,
+            'total': self.total,
+            'fuzzy': self.fuzzy,
+            'fuzzy_percent': self.get_fuzzy_percent(),
+            'translated': self.translated,
+            'translated_percent': self.get_translated_percent(),
         }
 
     def __configure_conf(self, gitrepo, section, key, expected):
