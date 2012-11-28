@@ -276,7 +276,7 @@ class Project(models.Model):
 
     # VCS config
     commit_message = models.TextField(
-        help_text = ugettext_lazy('You can use %(language)s, %(subproject)s or %(project)s for language shortcut, subproject or project names.'),
+        help_text = ugettext_lazy('You can use format strings for various information, please check documentation for more details.'),
         validators = [validate_commit_message],
         default = 'Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
     )
