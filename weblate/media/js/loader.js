@@ -202,9 +202,10 @@ function load_progress() {
             var checks = parseFloat($e.attr('checks'));
             good = good - checks;
         }
-        var parts = [
-            {value: good}
-        ];
+        var parts = [{
+            value: good,
+            barClass: 'good'
+        }];
         if ($e.attr('checks')) {
             parts.push({
                 value: checks,
@@ -221,6 +222,9 @@ function load_progress() {
             parts: parts
         });
     });
+    $('div.progress .checks').attr('title', gettext('Strings with any failing checks'));
+    $('div.progress .fuzzy').attr('title', gettext('Fuzzy strings'));
+    $('div.progress .good').attr('title', gettext('Translated strings'));
 }
 
 $(function() {

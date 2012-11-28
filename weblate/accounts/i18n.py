@@ -52,4 +52,7 @@ def fake():
     _('Resetting the repository will throw away all local changes!')
     _('Ok')
     _('Cancel')
+    _('Strings with any failing checks')
+    _('Fuzzy strings')
+    _('Translated strings')
 
