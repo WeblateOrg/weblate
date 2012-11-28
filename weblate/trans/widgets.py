@@ -209,6 +209,10 @@ def render(request, project, widget = '287x66', color = None, lang = None):
     if lang is not None:
         try:
             django.utils.translation.activate(lang)
+        except:
+            # Ignore failure on activating language
+            pass
+        try:
             lang = Language.objects.get(code = lang)
         except Language.DoesNotExist:
             lang = None
