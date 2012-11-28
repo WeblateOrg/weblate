@@ -75,6 +75,7 @@ LANGUAGES = (
     ('ja', u'日本語'),
     ('nl', 'Nederlands'),
     ('pl', 'Polski'),
+    ('pt', u'Português'),
     ('pt_BR', u'Português brasileiro'),
     ('sl', u'Slovenščina'),
     ('sv', u'Svenska'),
