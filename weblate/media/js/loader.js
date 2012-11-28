@@ -197,8 +197,17 @@ function load_table_sorting() {
 function load_progress() {
     $('div.progress').each(function f(i, e) {
         var $e = $(e);
-        $e.progressbar({
-            value: parseInt($e.attr('value'))
+        var parts = [
+            {value: parseFloat($e.attr('value'))}
+        ];
+        if ($e.attr('fuzzy')) {
+            parts.push({
+                value: parseFloat($e.attr('fuzzy')),
+                barClass: 'fuzzy'
+            });
+        }
+        $e.multiprogressbar({
+            parts: parts
         });
     });
 }
