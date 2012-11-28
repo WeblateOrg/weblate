@@ -195,7 +195,7 @@ function load_table_sorting() {
     });
 }
 function load_progress() {
-    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('id')) })});
+    $('div.progress').each(function f(i, e) {e = $(e); e.progressbar({ value: parseInt(e.attr('value')) })});
 }
 
 $(function() {
