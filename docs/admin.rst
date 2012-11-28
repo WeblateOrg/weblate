@@ -39,10 +39,22 @@ strings in the message:
 
 ``%(language)s``
     Language code
+``%(language_name)s``
+    Language name
 ``%(subproject)s``
     Subproject name
 ``%(project)s``
     Project name
+``%(total)s``
+    Total strings count
+``%(fuzzy)s``
+    Fuzzy strings count
+``%(fuzzy_percent)s``
+    Fuzzy strings percent
+``%(translated)s``
+    Translated strings count
+``%(translated_percent)s``
+    Translated strings percent
 
 There are also additional features which you can control, like automatic
 pushing of changes (see also :ref:`push-changes`), merge or rebase 
