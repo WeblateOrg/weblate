@@ -12,10 +12,10 @@
 </tr>
 <tbody>
 {% for trans in translations %}
-{% with trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.get_failing_checks as checks and trans.get_non_translated as count %}
+{% with trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.get_failing_checks as checks and trans.get_non_translated as count and trans.get_failing_checks_percent as check_percent %}
 <tr>
 <th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{{ trans.subproject }}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a></th>
-<td class="progress"><div class="progress" id="{{ percent|floatformat:0 }}"></div></td>
+<td class="progress"><div class="progress" value="{{ percent|floatformat:0 }}" fuzzy="{{ fuzzy|floatformat:0 }}" checks="{{ check_percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ percent }}%</td>
 <td class="percent">{{ fuzzy }}%</td>
 <td class="number">{{ checks }}</td>
