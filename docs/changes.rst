@@ -18,6 +18,7 @@ Relased on ? 2012.
 * Improved translation locking handling.
 * Show code snippets for widgets in more variants.
 * Indicate failing checks or fuzzy strings in progressbars.
+* More options for formatting commit message.
 
 weblate 1.3
 -----------
