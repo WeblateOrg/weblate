@@ -278,7 +278,7 @@ class Project(models.Model):
     commit_message = models.TextField(
         help_text = ugettext_lazy('You can use %(language)s, %(subproject)s or %(project)s for language shortcut, subproject or project names.'),
         validators = [validate_commit_message],
-        default = 'Translated using Weblate\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
+        default = 'Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
     )
     committer_name = models.CharField(
         max_length = 200,
