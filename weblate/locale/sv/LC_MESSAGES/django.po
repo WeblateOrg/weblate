@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-28 14:53+0100\n"
-"PO-Revision-Date: 2012-11-28 14:49+0200\n"
+"PO-Revision-Date: 2012-11-29 00:40+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -282,10 +282,10 @@ msgid "The page you are looking for was not found."
 msgstr "Sidan du letar efter hittades inte."
 
 #: html/404.html:11
-#, fuzzy
 msgid ""
 "However the following translation projects are available on this server:"
-msgstr "Dock finns följande översättningsprojekt tillgängliga på servern:"
+msgstr ""
+"Dock finns följande översättningsprojekt tillgängliga på den här servern:"
 
 #: html/500.html:5
 msgid "Server Error"
@@ -296,7 +296,7 @@ msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
 msgstr ""
-"Servern hade alvarliga problem med din förfrågan. Vi har kallat in våra "
+"Servern hade allvarliga problem med din förfrågan. Vi har kallat in våra "
 "tränade apor för att rätta till problemet."
 
 #: html/about.html:7 html/footer.html:6 trans/views.py:1484
@@ -681,9 +681,9 @@ msgid ""
 msgstr ""
 
 #: html/footer.html:5
-#, fuzzy, python-format
+#, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr "Drivs av <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Drivs av <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: html/footer.html:7
 msgid "Contact us"
@@ -798,8 +798,8 @@ msgstr "Kontroller"
 #, python-format
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Det finns %(count)s ej översatt sträng."
+msgstr[1] "Det finns %(count)s ej översatta strängar."
 
 #: html/list-translations.html:24 html/translate.html:20
 msgid "Translate"
@@ -856,9 +856,8 @@ msgid "Last login"
 msgstr "Senaste inloggning"
 
 #: html/profile.html:63
-#, fuzzy
 msgid "Registration date"
-msgstr "Användarregistrering"
+msgstr "Registreringsdatum"
 
 #: html/project.html:11 html/source.html:13 html/subproject.html:11
 #: html/translation.html:13
@@ -912,9 +911,8 @@ msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Tack för att du använder Weblate!"
 
 #: html/share.html:6
-#, fuzzy
 msgid "Tweet this translation!"
-msgstr "Använd denna översättning"
+msgstr "Twittra denna översättning!"
 
 #: html/share.html:11
 #, fuzzy, python-format
@@ -1109,9 +1107,8 @@ msgid "Words extracted from glossary"
 msgstr ""
 
 #: html/translate.html:163
-#, fuzzy
 msgid "Comments about this translation"
-msgstr "Använd denna översättning"
+msgstr "Kommentarer om denna översättning"
 
 #: html/translate.html:163 html/unit-details.html:10
 msgid "Comments"
@@ -1329,9 +1326,8 @@ msgstr ""
 
 #: html/widgets.html:59 html/widgets.html.py:67 html/widgets.html.py:74
 #: html/widgets.html:82
-#, fuzzy
 msgid "Translation status"
-msgstr "Översättningar"
+msgstr "Översättningsstatus"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -1394,9 +1390,8 @@ msgid "Generate"
 msgstr ""
 
 #: html/admin/ssh.html:32
-#, fuzzy
 msgid "More information"
-msgstr "Projektinformation"
+msgstr "Mer information"
 
 #: html/admin/ssh.html:34
 #, python-format
@@ -1499,14 +1494,12 @@ msgid "Source string:"
 msgstr "Källa"
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "Översättning"
+msgstr "Översättning:"
 
 #: html/mail/any_translation.txt:14
-#, fuzzy
 msgid "Previous translation:"
-msgstr "Dina översättningar"
+msgstr "Tidigare översättning:"
 
 #: html/mail/any_translation.txt:16
 #, fuzzy
@@ -1533,9 +1526,8 @@ msgid "Total strings:"
 msgstr "Källa"
 
 #: html/mail/footer.txt:4
-#, fuzzy
 msgid "Translated strings:"
-msgstr "Översättningar"
+msgstr "Översatta strängar:"
 
 #: html/mail/footer.txt:5
 #, fuzzy
@@ -1556,9 +1548,8 @@ msgid ""
 msgstr ""
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Detaljer om felet:"
+msgstr "Felmeddelande:"
 
 #: html/mail/merge_failure.txt:10
 #, fuzzy
@@ -1586,7 +1577,7 @@ msgstr "Kommentarer"
 #: html/mail/new_comment_subject.txt:1
 #, python-format
 msgid "New comment in %(subproject)s"
-msgstr ""
+msgstr "Ny kommentar i %(subproject)s"
 
 #: html/mail/new_contributor.txt:1
 #, python-format
@@ -1628,9 +1619,9 @@ msgid "You can review it at:"
 msgstr ""
 
 #: html/mail/new_suggestion_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New suggestion in %(translation)s"
-msgstr "Automatisk översättning"
+msgstr "Nytt förslag i %(translation)s"
 
 #: html/mail/signature.txt:3
 msgid "Sent by Weblate translation system"
@@ -1649,7 +1640,11 @@ msgid_plural ""
 "This may be because it is already active or because you waited over %(days)s "
 "days to activate it."
 msgstr[0] ""
+"Detta kan bero på att det redan är aktivt eller att du väntade över %(days)s "
+"dag med att aktivera det."
 msgstr[1] ""
+"Detta kan bero på att det redan är aktivt eller att du väntade över %(days)s "
+"dagar med att aktivera det."
 
 #: html/registration/activate.html:12
 #, python-format
