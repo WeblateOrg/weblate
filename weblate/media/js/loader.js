@@ -229,19 +229,19 @@ function load_progress() {
 
 $(function() {
     $('.button').button();
-    $('ul.menu li a').button();
-    $('ul.breadcrumbs').buttonset();
+    $('#menu li a').button();
+    $('#breadcrumbs').buttonset();
     load_progress();
     $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
-    $('.navi').buttonset();
-    $('.button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
-    $('.button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
-    $('.button-pos').button({text: true});
-    $('.button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
-    $('.button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
-    $('.navi .button-disabled').button('disable');
+    $('#navi').buttonset();
+    $('#button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
+    $('#button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
+    $('#button-pos').button({text: true});
+    $('#button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
+    $('#button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
+    $('#navi .button-disabled').button('disable');
     $('textarea.translation').change(text_change).keypress(text_change).autogrow();
     $('#id_target').focus();
     $('#toggle-direction').buttonset().change(function(e) {
@@ -276,7 +276,7 @@ $(function() {
         return false;
     });
     load_table_sorting();
-    $("div.translate-tabs").tabs({
+    $("#translate-tabs").tabs({
         ajaxOptions: {
             error: function(xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
@@ -352,12 +352,12 @@ $(function() {
     $("form.autosubmit select").change(function() {
         $("form.autosubmit").submit();
     });
-    $('div#s_content').hide();
+    $('#s_content').hide();
     $('.expander').click(function() {
         $(this).parent().find('.expander-icon').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
         $(this).parent().next().toggle();
     });
-    $('textarea.code-example').focus(function() {
+    $('.code-example').focus(function() {
         $(this).select();
     });
 });

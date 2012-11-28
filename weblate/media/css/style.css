@@ -11,13 +11,13 @@ a {
 div.content {
     margin: 0.5em;
 }
-ul.footer{
+#footer{
     padding:0;
     margin:1em;
     max-width:none;
     clear:both;
 }
-ul.footer li{
+#footer li{
     font-size:smaller;
     list-style:none;
     float:left;
@@ -25,36 +25,36 @@ ul.footer li{
     color:gray;
     border:none;
 }
-body.dir-rtl ul.footer li {
+body.dir-rtl #footer > li {
     float: right;
 }
-ul.footer a{
+#footer a{
     color:#333;
 }
 h1 {
     padding: 0.5em;
     margin: 0;
 }
-ul.menu {
+#menu {
     float: right;
     padding: 1em;
     margin: 0;
     font-size: smaller;
     list-style: none;
 }
-body.dir-rtl ul.menu {
+body.dir-rtl #menu {
     float: left;
 }
-ul.menu li {
+#menu li {
     display: inline-block;
 }
-ul.breadcrumbs {
+#breadcrumbs {
     list-style: none;
     padding: 1em;
     margin: 0;
     font-size: smaller;
 }
-ul.breadcrumbs li {
+#breadcrumbs li {
     display: inline-block;
 }
 .translatetext {
@@ -98,10 +98,13 @@ textarea.translation {
     width: 100%;
     height: 3em;
 }
-td.suggestions table {
+#suggestions table {
     width: 100%
 }
-.button-prev, .button-next, .button-first, .button-end, .ignorecheck {
+#button-prev, #button-next, #button-first, #button-end {
+    height: 20px;
+}
+.ignorecheck {
     width: 20px;
     height: 20px;
 }
@@ -117,19 +120,19 @@ td.suggestions table {
 body.dir-rtl #toggle-direction {
     float: left;
 }
-.specialchars a {
+#specialchars a {
     height: 20px;
     font-size: 12px;
     font-weight: normal;
     vertical-align: top;
 }
-.specialchars a span {
+#specialchars a span {
     padding: 2px 4px !important;
 }
-.specialchars {
+#specialchars {
     margin-left: 5em;
 }
-body.dir-rtl .specialchars {
+body.dir-rtl #specialchars {
     margin-left: 0;
     margin-left: 5em;
 }
@@ -185,29 +188,29 @@ ul.buttons {
 ul.buttons li {
     display: inline-block;
 }
-span#navi-toolbar {
+#navi-toolbar {
     padding: 4px;
     margin: 0.5em;
     display: block;
     font-weight: normal;
 }
-span.navi a {
+#navi a {
     vertical-align: bottom;
 }
-span.navi a.button-pos {
+#button-pos {
     font-size: 10px;
     height: 20px;
     vertical-align: bottom;
     margin-right: -5px;
 }
-body.dir-rtl span.navi a.button-pos {
+body.dir-rtl #button-pos {
     margin-right: 0;
     margin-left: -5px;
 }
-form.letter, form.letter p {
+#letter-form, #letter-form p {
     display: inline;
 }
-form.letter select, form.letter p {
+#letter-form select, #letter-form p {
     font-size: 10px;
     font-weight: bolder;
 }
@@ -233,7 +236,7 @@ pre.code {
     max-width: 80em;
     overflow: auto;
 }
-div#subscriptions ul {
+#subscriptions ul {
     list-style: none;
     padding: 0;
 }

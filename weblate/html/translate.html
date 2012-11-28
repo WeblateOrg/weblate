@@ -20,12 +20,12 @@
 <h2>{% trans "Translate" %}</h2>
 
 <span id="navi-toolbar" class="ui-widget-header ui-corner-all">
-<span class="navi">
-<a class="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
-<a class="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
-<a class="button-pos">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
-<a class="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
-<a class="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
+<span id="navi">
+<a id="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
+<a id="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
+<a id="button-pos">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a id="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
+<a id="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
 </span>
 
 {% if filter_name %}
@@ -83,7 +83,7 @@
 {{ form.target }}
 <br />
 {{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
-<span class="specialchars">{% trans "Special characters:" %}
+<span id="specialchars">{% trans "Special characters:" %}
 <a class="specialchar" title="{% trans "Insert tab character" %}">→</a>
 <a class="specialchar" title="{% trans "Insert new line" %}">↵</a>
 <a class="specialchar" title="{% trans "Insert horizontal elipsis" %}">…</a>
@@ -103,7 +103,7 @@
 {% if suggestions %}
 <tr>
 <th>{% trans "Suggestions" %}</th>
-<td class="suggestions">
+<td id="suggestions">
 <table>
 {% for suggestion in suggestions %}
 <tr><td class="translatetext">{{ suggestion.target|fmttranslation:unit.translation.language }}</td></tr>
@@ -154,7 +154,7 @@
 
 <h2>{% trans "Translation context" %}</h2>
 
-<div class="translate-tabs">
+<div id="translate-tabs">
     <ul>
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
         <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>

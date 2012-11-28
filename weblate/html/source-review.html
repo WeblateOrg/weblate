@@ -15,12 +15,12 @@
 <h2>{% trans "Strings to review" %}</h2>
 
 <span id="navi-toolbar" class="ui-widget-header ui-corner-all">
-<span class="navi">
-<a class="button-first{% if sources.number == 1 %} button-disabled{% endif %}" href="?page=1&amp;letter={{ letter }}">{% trans "First" %}</a>
-<a class="button-prev{% if not sources.has_previous %} button-disabled{% endif %}" href="?page={{ sources.previous_page_number }}&amp;letter={{ letter }}">{% trans "Previous" %}</a>
-<a class="button-pos">{% blocktrans with sources.number as position and sources.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
-<a class="button-next{% if not sources.has_next %} button-disabled{% endif %}" href="?page={{ sources.next_page_number }}&amp;letter={{ letter }}">{% trans "Next" %}</a>
-<a class="button-end{% if sources.paginator.num_pages == sources.number %} button-disabled{% endif %}" href="?page={{ sources.paginator.num_pages }}&amp;letter={{ letter }}">{% trans "Last" %}</a>
+<span id="navi">
+<a id="button-first" {% if sources.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;letter={{ letter }}">{% trans "First" %}</a>
+<a id="button-prev" {% if not sources.has_previous %}class="button-disabled"{% endif %} href="?page={{ sources.previous_page_number }}&amp;letter={{ letter }}">{% trans "Previous" %}</a>
+<a id="button-pos">{% blocktrans with sources.number as position and sources.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a id="button-next" {% if not sources.has_next %}class="button-disabled"{% endif %} href="?page={{ sources.next_page_number }}&amp;letter={{ letter }}">{% trans "Next" %}</a>
+<a id="button-end" {% if sources.paginator.num_pages == sources.number %}class="button-disabled"{% endif %} href="?page={{ sources.paginator.num_pages }}&amp;letter={{ letter }}">{% trans "Last" %}</a>
 </span>
 </span>
 
