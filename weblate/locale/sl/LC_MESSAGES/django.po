@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:36+0100\n"
+"POT-Creation-Date: 2012-11-28 09:30+0100\n"
 "PO-Revision-Date: 2012-11-25 23:40+0200\n"
 "Last-Translator: Štefan  Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -20,31 +20,31 @@ msgstr ""
 "%100==4 ? 2 : 3);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Registracija uporabnika"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Aktivacija računa"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Prijava"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Odjavljen"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Spremeni geslo"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Geslo sem spremenil"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Ponastavitev gesla"
 
@@ -199,6 +199,19 @@ msgstr "V redu"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "Prekliči"
+
+#: accounts/i18n.py:55 trans/views.py:885
+msgid "Strings with any failing checks"
+msgstr "Nizi s katerim koli spodletelim preverjanjem"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Neurejeni nizi"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Prevedenih nizov:"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -3085,47 +3098,47 @@ msgstr "Neurejeni nizi (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Sporočila nisem našel v zaledni shrambi; najverjetneje je pokvarjeno."
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr "ID enote %s"
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 msgid "Translation completed"
 msgstr "Dokončanje prevoda"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 msgid "Translation changed"
 msgstr "Sprememba prevoda"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 #, fuzzy
 msgid "Comment added"
 msgstr "Pripomba"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Oddani predlogi"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr "Nihče"
 
@@ -3243,10 +3256,6 @@ msgstr "Projekt je sedaj odprt za posodobitve prevodov."
 msgid "Search for \"%s\""
 msgstr "Iskanje »%s«"
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Neurejeni nizi"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Neprevedeni nizi"
@@ -3254,10 +3263,6 @@ msgstr "Neprevedeni nizi"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Nizi s predlogi"
-
-#: trans/views.py:885
-msgid "Strings with any failing checks"
-msgstr "Nizi s katerim koli spodletelim preverjanjem"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

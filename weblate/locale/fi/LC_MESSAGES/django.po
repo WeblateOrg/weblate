@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:36+0100\n"
+"POT-Creation-Date: 2012-11-28 09:29+0100\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Käyttäjän rekisteröinti"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Tunnuksen aktivointi"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Sisäänkirjautuminen"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Uloskirjautuneena"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Vaihda salasanaa"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Salasana vaihdettu"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Salasanan palautus"
 
@@ -203,6 +203,20 @@ msgstr ""
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr ""
+
+#: accounts/i18n.py:55 trans/views.py:885
+#, fuzzy
+msgid "Strings with any failing checks"
+msgstr "Merkkijonojen ehdotukset (%d)"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Epäselvät merkkijonot"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Kääntämättömät merkkijonot"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -3103,49 +3117,49 @@ msgstr "Epäselvät merkkijonot (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Merkkijonojen ehdotukset (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 #, fuzzy
 msgid "Translation completed"
 msgstr "Käännöksen sisältö"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 #, fuzzy
 msgid "Translation changed"
 msgstr "Käännöksen sisältö"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 #, fuzzy
 msgid "Comment added"
 msgstr "Kommentit"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Ehdotukset"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr ""
 
@@ -3259,10 +3273,6 @@ msgstr ""
 msgid "Search for \"%s\""
 msgstr "Etsii \"%s\""
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Epäselvät merkkijonot"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Kääntämättömät merkkijonot"
@@ -3270,11 +3280,6 @@ msgstr "Kääntämättömät merkkijonot"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Ehdotetut merkkijonot"
-
-#: trans/views.py:885
-#, fuzzy
-msgid "Strings with any failing checks"
-msgstr "Merkkijonojen ehdotukset (%d)"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

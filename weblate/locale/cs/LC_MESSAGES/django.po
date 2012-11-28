@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:35+0100\n"
+"POT-Creation-Date: 2012-11-28 09:29+0100\n"
 "PO-Revision-Date: 2012-11-27 16:38+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Odhlášen"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Heslo bylo změněno"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -199,6 +199,19 @@ msgstr "Ok"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "Zrušit"
+
+#: accounts/i18n.py:55 trans/views.py:885
+msgid "Strings with any failing checks"
+msgstr "Řetězce s jakoukoliv selhavší kontrolou"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Nejasné řetězce"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Přeložených řetězců:"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -3072,47 +3085,47 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
 "poškození."
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr "Aktualizace zdroje"
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 msgid "Translation completed"
 msgstr "Dokončení překladu"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 msgid "Translation changed"
 msgstr "Změna překladu"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 msgid "Comment added"
 msgstr "Přidán komentář"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 msgid "Suggestion added"
 msgstr "Přidán návrh"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr "Žádný"
 
@@ -3167,8 +3180,8 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné době "
-"obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
+"<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné "
+"době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
 #: trans/views.py:477
 msgid "Automatic translation completed."
@@ -3229,10 +3242,6 @@ msgstr "Projekt je nyní přístupný pro překladání."
 msgid "Search for \"%s\""
 msgstr "Vyhledávání „%s“"
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Nejasné řetězce"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Nepřeložené řetězce"
@@ -3240,10 +3249,6 @@ msgstr "Nepřeložené řetězce"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Řetězce s návrhy"
-
-#: trans/views.py:885
-msgid "Strings with any failing checks"
-msgstr "Řetězce s jakoukoliv selhavší kontrolou"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

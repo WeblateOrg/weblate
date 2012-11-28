@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:36+0100\n"
+"POT-Creation-Date: 2012-11-28 09:29+0100\n"
 "PO-Revision-Date: 2012-09-05 13:07+0200\n"
 "Last-Translator: f k <cihar@eideo.de>\n"
 "Language-Team: German <http://l10n.cihar.com/projects/weblate/master/de/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.2\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Benutzer-Registrierung"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Konto-Aktivierung"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Anmelden"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Abgemeldet"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Kennwort ändern"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Kennwort geändert"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Kennwort zurücksetzen"
 
@@ -205,6 +205,20 @@ msgstr "Ok"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "Abbrechen"
+
+#: accounts/i18n.py:55 trans/views.py:885
+#, fuzzy
+msgid "Strings with any failing checks"
+msgstr "Zeichenketten mit Vorschlägen (%d)"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Ungenaue Zeichenketten"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Nicht übersetzte Zeichenketten"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -3133,49 +3147,49 @@ msgstr "Ungenaue Zeichenketten (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 #, fuzzy
 msgid "Translation completed"
 msgstr "Übersetzungskontext"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 #, fuzzy
 msgid "Translation changed"
 msgstr "Übersetzungskontext"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 #, fuzzy
 msgid "Comment added"
 msgstr "Kommentare"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Vorschläge"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr ""
 
@@ -3289,10 +3303,6 @@ msgstr ""
 msgid "Search for \"%s\""
 msgstr "Suchen nach \"%s\""
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Ungenaue Zeichenketten"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Nicht übersetzte Zeichenketten"
@@ -3300,11 +3310,6 @@ msgstr "Nicht übersetzte Zeichenketten"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Zeichenketten mit Vorschlägen"
-
-#: trans/views.py:885
-#, fuzzy
-msgid "Strings with any failing checks"
-msgstr "Zeichenketten mit Vorschlägen (%d)"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

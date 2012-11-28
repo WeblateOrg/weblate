@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:36+0100\n"
+"POT-Creation-Date: 2012-11-28 09:29+0100\n"
 "PO-Revision-Date: 2012-11-27 19:57+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Registro de usuarios"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Activación de cuenta"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Sesión finalizada"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Contraseña modificada"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Reinicializar contraseña"
 
@@ -199,6 +199,19 @@ msgstr "OK"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "Cancelar"
+
+#: accounts/i18n.py:55 trans/views.py:885
+msgid "Strings with any failing checks"
+msgstr "Cadenas con chequeos fallidos"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Cadenas parciales"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Cadenas traducidas:"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -653,9 +666,9 @@ msgid ""
 "\">Weblate</a>, a web tool designed to ease translating for both developers "
 "and translators."
 msgstr ""
-"%(project)s es traducido utilizando <a "
-"href=\"http://weblate.org/\">Weblate</a>, una herramienta diseñada para "
-"facilitar la traducción tanto a desarrolladores como a traductores."
+"%(project)s es traducido utilizando <a href=\"http://weblate.org/\">Weblate</"
+"a>, una herramienta diseñada para facilitar la traducción tanto a "
+"desarrolladores como a traductores."
 
 #: html/engage.html:39
 #, python-format
@@ -663,8 +676,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Si desea contribuir a la traducción de %(project)s, necesita <a href=\"%"
-"(reg_url)s\">registrarse en este servidor</a>."
+"Si desea contribuir a la traducción de %(project)s, necesita <a href="
+"\"%(reg_url)s\">registrarse en este servidor</a>."
 
 #: html/engage.html:42
 #, python-format
@@ -916,8 +929,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"También puede promocionar este proyecto de traducción utilizando <a href=\"%"
-"(widgets_url)s\">otras variadas posibilidades</a>."
+"También puede promocionar este proyecto de traducción utilizando <a href="
+"\"%(widgets_url)s\">otras variadas posibilidades</a>."
 
 #: html/share.html:15
 #, python-format
@@ -3106,49 +3119,49 @@ msgstr "Cadenas parciales (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "No se pudo almacenar el mensaje internamente, ¡se agotó el tiempo de espera "
 "de un bloqueo!"
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "No se encontró el mensaje almacenado en la base de datos, probablemente esté "
 "corrupto."
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidad %s"
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr "Actualización de recurso"
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 msgid "Translation completed"
 msgstr "Traducción completada"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 msgid "Translation changed"
 msgstr "Traducción cambiada"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 msgid "Comment added"
 msgstr "Comentario agregado"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 msgid "Suggestion added"
 msgstr "Sugerencia agregada"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr "Ninguno"
 
@@ -3191,10 +3204,10 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">El proyecto de traducción para %(project)s</a> actualmente "
-"contiene %(total)s cadenas para traducción y <a href=\"%(url)s\">es traducido "
-"a %(languages)s idiomas</a>. En general, estas traducciones están %"
-"(percent)s%% completas."
+"<a href=\"%(url)s\">El proyecto de traducción para %(project)s</a> "
+"actualmente contiene %(total)s cadenas para traducción y <a href=\"%(url)s"
+"\">es traducido a %(languages)s idiomas</a>. En general, estas traducciones "
+"están %(percent)s%% completas."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
 #: trans/views.py:401
@@ -3204,9 +3217,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">El proyecto de traducción para %(project)s</a> en español "
-"actualmente contiene %(total)s cadenas para traducción y está %(percent)s%% "
-"completo."
+"<a href=\"%(url)s\">El proyecto de traducción para %(project)s</a> en "
+"español actualmente contiene %(total)s cadenas para traducción y está "
+"%(percent)s%% completo."
 
 #: trans/views.py:477
 msgid "Automatic translation completed."
@@ -3267,10 +3280,6 @@ msgstr "El proyecto ahora acepta actualizaciones a las traducciones."
 msgid "Search for \"%s\""
 msgstr "Búsqueda de «%s»"
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Cadenas parciales"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Cadenas sin traducir"
@@ -3278,10 +3287,6 @@ msgstr "Cadenas sin traducir"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Cadenas con sugerencias"
-
-#: trans/views.py:885
-msgid "Strings with any failing checks"
-msgstr "Cadenas con chequeos fallidos"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

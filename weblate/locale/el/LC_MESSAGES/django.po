@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:36+0100\n"
+"POT-Creation-Date: 2012-11-28 09:30+0100\n"
 "PO-Revision-Date: 2012-11-27 21:50+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Εγγραφή χρήστη"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Ενεργοποιήση λογαριασμού"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Σύνδεση"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Αποσυνδέθηκε"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Αλλαγή κωδικού"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Ο κωδικός αλλάχτηκε"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Επαναφορά κωδικού"
 
@@ -198,6 +198,19 @@ msgstr "Εντάξει"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "Άκυρο"
+
+#: accounts/i18n.py:55 trans/views.py:885
+msgid "Strings with any failing checks"
+msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Ασαφή κείμενα"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Μεταφρασμένα κείμενα:"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -655,10 +668,9 @@ msgid ""
 "\">Weblate</a>, a web tool designed to ease translating for both developers "
 "and translators."
 msgstr ""
-"Το %(project)s μεταφράζεται χρησιμοποιώντας το <a "
-"href=\"http://weblate.org/\">Weblate</a>, ένα διαδικτυακό εργαλείο που έχει "
-"σχεδιαστεί για να διευκολύνουν τη μετάφραση για προγραμματιστές και για "
-"μεταφραστές."
+"Το %(project)s μεταφράζεται χρησιμοποιώντας το <a href=\"http://weblate.org/"
+"\">Weblate</a>, ένα διαδικτυακό εργαλείο που έχει σχεδιαστεί για να "
+"διευκολύνουν τη μετάφραση για προγραμματιστές και για μεταφραστές."
 
 #: html/engage.html:39
 #, python-format
@@ -666,8 +678,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Αν θα θέλατε να συμβάλετε στη μετάφραση του %(project)s, πρέπει να <a href=\""
-"%(reg_url)s\">εγγραφείτε σε αυτόν το διακομιστή</a>."
+"Αν θα θέλατε να συμβάλετε στη μετάφραση του %(project)s, πρέπει να <a href="
+"\"%(reg_url)s\">εγγραφείτε σε αυτόν το διακομιστή</a>."
 
 #: html/engage.html:42
 #, python-format
@@ -3123,46 +3135,46 @@ msgstr "Ασαφή κείμενα (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr "Ενημέρωση προέλευσης"
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 msgid "Translation completed"
 msgstr "Η μετάφραση ολοκληρώθηκε"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 msgid "Translation changed"
 msgstr "Η μετάφραση άλλαξε"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 msgid "Comment added"
 msgstr "Προστέθηκε σχόλιο"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 msgid "Suggestion added"
 msgstr "Προστέθηκαν προτάσεις"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr "Καμία"
 
@@ -3205,10 +3217,10 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">Το μεταφραστικό έργο για το %(project)s</a> περιέχει προς "
-"το παρόν %(total)s κείμενα για μετάφραση και <a href=\"%(url)s\">μεταφράζεται "
-"σε %(languages)s γλώσσες</a>. Συνολικά, αυτές οι μεταφράσεις είναι κατά %"
-"(percent)s%% ολοκληρωμένες."
+"<a href=\"%(url)s\">Το μεταφραστικό έργο για το %(project)s</a> περιέχει "
+"προς το παρόν %(total)s κείμενα για μετάφραση και <a href=\"%(url)s"
+"\">μεταφράζεται σε %(languages)s γλώσσες</a>. Συνολικά, αυτές οι μεταφράσεις "
+"είναι κατά %(percent)s%% ολοκληρωμένες."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
 #: trans/views.py:401
@@ -3281,10 +3293,6 @@ msgstr "Το έργο είναι τώρα ανοιχτό για μεταφρασ
 msgid "Search for \"%s\""
 msgstr "Αναζήτηση για το «%s»"
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Ασαφή κείμενα"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Αμετάφραστα κείμενα"
@@ -3292,10 +3300,6 @@ msgstr "Αμετάφραστα κείμενα"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
-
-#: trans/views.py:885
-msgid "Strings with any failing checks"
-msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

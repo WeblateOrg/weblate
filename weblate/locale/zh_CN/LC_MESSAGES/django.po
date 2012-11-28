@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:36+0100\n"
+"POT-Creation-Date: 2012-11-28 09:29+0100\n"
 "PO-Revision-Date: 2012-11-24 13:15+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "注册用户"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "已退出"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "修改密码"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "密码已修改"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -197,6 +197,19 @@ msgstr "确定"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "取消"
+
+#: accounts/i18n.py:55 trans/views.py:885
+msgid "Strings with any failing checks"
+msgstr "未通过检查的条目"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "模糊条目"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "已翻译条目:"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -2995,49 +3008,49 @@ msgstr "模糊条目 (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 #, fuzzy
 msgid "Translation completed"
 msgstr "翻译上下文"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 #, fuzzy
 msgid "Translation changed"
 msgstr "翻译上下文"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 #, fuzzy
 msgid "Comment added"
 msgstr "注释"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 #, fuzzy
 msgid "Suggestion added"
 msgstr "作出建议"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr ""
 
@@ -3153,10 +3166,6 @@ msgstr "已开放项目的翻译更新。"
 msgid "Search for \"%s\""
 msgstr "搜索 “%s”"
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "模糊条目"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "未翻译条目"
@@ -3164,10 +3173,6 @@ msgstr "未翻译条目"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "有建议的条目"
-
-#: trans/views.py:885
-msgid "Strings with any failing checks"
-msgstr "未通过检查的条目"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"

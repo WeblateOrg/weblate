@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-27 16:35+0100\n"
+"POT-Creation-Date: 2012-11-28 09:29+0100\n"
 "PO-Revision-Date: 2012-11-28 09:15+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:219 urls.py:226 urls.py:233 urls.py:240
+#: urls.py:220 urls.py:227 urls.py:234 urls.py:241
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:248
+#: urls.py:249
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:257 html/base.html:42 html/registration/login.html:30
+#: urls.py:258 html/base.html:42 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:264
+#: urls.py:265
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:269
+#: urls.py:270
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:273
+#: urls.py:274
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:277 urls.py:281 urls.py:285 urls.py:289
+#: urls.py:278 urls.py:282 urls.py:286 urls.py:290
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -200,6 +200,19 @@ msgstr "Tamam"
 #: accounts/i18n.py:54
 msgid "Cancel"
 msgstr "İptal"
+
+#: accounts/i18n.py:55 trans/views.py:885
+msgid "Strings with any failing checks"
+msgstr "Herhangi bir başarısız kontrolü olan satır"
+
+#: accounts/i18n.py:56 trans/views.py:879
+msgid "Fuzzy strings"
+msgstr "Belirsiz satır"
+
+#: accounts/i18n.py:57
+#, fuzzy
+msgid "Translated strings"
+msgstr "Çevrilmiş satır:"
 
 #: accounts/models.py:141
 msgid "Interface Language"
@@ -663,8 +676,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"%(project)s çevirisine katkıda bulunmak isterseniz, <a href=\"%(reg_url)s\">bu "
-"sunucuya kayıt olmanız</a> gerekir."
+"%(project)s çevirisine katkıda bulunmak isterseniz, <a href=\"%(reg_url)s"
+"\">bu sunucuya kayıt olmanız</a> gerekir."
 
 #: html/engage.html:42
 #, python-format
@@ -3088,48 +3101,48 @@ msgstr "Belirsiz satır (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models.py:2226
+#: trans/models.py:2235
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2342
+#: trans/models.py:2351
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
 
-#: trans/models.py:2656
+#: trans/models.py:2665
 msgid "Resource update"
 msgstr "Kaynak Güncellemesi"
 
-#: trans/models.py:2657
+#: trans/models.py:2666
 msgid "Translation completed"
 msgstr "Çeviri Tamamlandı"
 
-#: trans/models.py:2658
+#: trans/models.py:2667
 msgid "Translation changed"
 msgstr "Çeviri Değiştirildi"
 
-#: trans/models.py:2659
+#: trans/models.py:2668
 msgid "Comment added"
 msgstr "Yorum Eklendi"
 
-#: trans/models.py:2660
+#: trans/models.py:2669
 msgid "Suggestion added"
 msgstr "Öneri Eklendi"
 
-#: trans/models.py:2676
+#: trans/models.py:2685
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 "%(user)s tarafından %(translation)s Dilinde %(time)s Tarih/Saatinde "
 "%(action)s"
 
-#: trans/models.py:2685
+#: trans/models.py:2694
 msgid "None"
 msgstr "Yok"
 
@@ -3172,8 +3185,8 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">%(project)s için çeviri projesi</a> çeviri için şu anda %"
-"(total)s satır içeriyor ve <a href=\"%(url)s\"> %(languages)s dile "
+"<a href=\"%(url)s\">%(project)s için çeviri projesi</a> çeviri için şu anda "
+"%(total)s satır içeriyor ve <a href=\"%(url)s\"> %(languages)s dile "
 "çevrilmektedir</a>. Toplamda, bu çeviriler %%%(percent)s tamamlandı."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
@@ -3246,10 +3259,6 @@ msgstr "Proje artık çeviri güncellemeleri için açık."
 msgid "Search for \"%s\""
 msgstr "\"%s\" için aranıyor"
 
-#: trans/views.py:879
-msgid "Fuzzy strings"
-msgstr "Belirsiz satır"
-
 #: trans/views.py:881
 msgid "Untranslated strings"
 msgstr "Çevrilmemiş satır"
@@ -3257,10 +3266,6 @@ msgstr "Çevrilmemiş satır"
 #: trans/views.py:883
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
-
-#: trans/views.py:885
-msgid "Strings with any failing checks"
-msgstr "Herhangi bir başarısız kontrolü olan satır"
 
 #: trans/views.py:943
 msgid "Your suggestion is empty!"
