@@ -378,8 +378,12 @@ def show_engage(request, project, lang = None):
     language = None
     if lang is not None:
         try:
-            language = Language.objects.get(code = lang)
             django.utils.translation.activate(lang)
+        except:
+            # Ignore failure on activating language
+            pass
+        try:
+            language = Language.objects.get(code = lang)
         except Language.DoesNotExist:
             pass
 
