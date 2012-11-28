@@ -197,6 +197,7 @@ def validate_commit_message(val):
     try:
         val % {
             'language': 'cs',
+            'language_name': 'Czech',
             'project': 'Weblate',
             'subproject': 'master',
             'total': 200,
@@ -1691,6 +1692,7 @@ class Translation(models.Model):
         '''
         return self.subproject.project.commit_message % {
             'language': self.language_code,
+            'language_name': self.language.name,
             'subproject': self.subproject.name,
             'project': self.subproject.project.name,
             'total': self.total,
