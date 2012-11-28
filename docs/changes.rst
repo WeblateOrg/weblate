@@ -17,6 +17,7 @@ Relased on ? 2012.
 * Added per language widgets and engage page.
 * Improved translation locking handling.
 * Show code snippets for widgets in more variants.
+* Indicate failing checks or fuzzy strings in progressbars.
 
 weblate 1.3
 -----------
