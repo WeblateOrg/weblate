@@ -197,9 +197,20 @@ function load_table_sorting() {
 function load_progress() {
     $('div.progress').each(function f(i, e) {
         var $e = $(e);
+        var good = parseFloat($e.attr('value'));
+        if ($e.attr('checks')) {
+            var checks = parseFloat($e.attr('checks'));
+            good = good - checks;
+        }
         var parts = [
-            {value: parseFloat($e.attr('value'))}
+            {value: good}
         ];
+        if ($e.attr('checks')) {
+            parts.push({
+                value: checks,
+                barClass: 'checks'
+            });
+        }
         if ($e.attr('fuzzy')) {
             parts.push({
                 value: parseFloat($e.attr('fuzzy')),
