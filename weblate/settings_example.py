@@ -193,6 +193,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
     'weblate.trans.context_processors.version',
+    'weblate.trans.context_processors.weblate_url',
     'weblate.trans.context_processors.title',
     'weblate.trans.context_processors.date',
     'weblate.trans.context_processors.url',
