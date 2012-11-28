@@ -2,7 +2,7 @@
 {% load url from future %}
 {% load i18n %}
  <ul id="footer">
-  <li>{% blocktrans %}Powered by <a href="http://weblate.org/">Weblate {{ version }}</a>{% endblocktrans %}</li>
+  <li>{% blocktrans %}Powered by <a href="{{ weblate_url }}">Weblate {{ version }}</a>{% endblocktrans %}</li>
   <li><a href="{% url 'weblate.trans.views.about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
   <li><a href="{% url 'weblate.accounts.views.contact' %}">{% trans "Contact us" %}</a></li>
   <li><a href="{% documentation 'usage' %}">{% trans "Documentation" %}</a></li>

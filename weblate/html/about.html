@@ -8,7 +8,7 @@
 
 <p>{% blocktrans %}Weblate is a web based translation tool with tight Git integration. It features simple and clean user interface, propagation of translations across subprojects, consistency checks and automatic linking to source files.{% endblocktrans %}</p>
 
-<p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="http://weblate.org/">weblate.org</a>.{% endblocktrans %}</p>
+<p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</p>
 
 <p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially:{% endblocktrans %}</p>
 
@@ -23,7 +23,7 @@
 
 <table>
 <tr>
-<th><a href="http://weblate.org/">Weblate</a></th>
+<th><a href="{{ weblate_url }}">Weblate</a></th>
 <td>{{ version }}</td>
 </tr>
 {% for ver in versions %}

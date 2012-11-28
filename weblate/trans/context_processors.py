@@ -25,6 +25,11 @@ from datetime import datetime
 def version(request):
     return {'version': weblate.VERSION}
 
+def weblate_url(request):
+    return {
+        'weblate_url': 'http://weblate.org/?utm_source=weblate&utm_term=%s' % weblate.VERSION
+    }
+
 def title(request):
     return {'site_title': settings.SITE_TITLE}
 
