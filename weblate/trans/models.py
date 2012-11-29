@@ -52,7 +52,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock, FileLockException
-from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated
+from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated, get_user_display
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -1283,6 +1283,24 @@ class Translation(models.Model):
             return 0
         return round(self.translated * 100.0 / self.total, 1)
 
+    def get_lock_time_display(self):
+        '''
+        Returns formatted lock time.
+        '''
+        return date_format(self.lock_time, 'DATETIME_FORMAT')
+
+    def get_lock_user_display(self):
+        '''
+        Returns formatted lock user.
+        '''
+        return get_user_display(self.lock_user)
+
+    def get_lock_display(self):
+        return mark_safe(_('This translation is locked by %(user)s for translation till %(time)s!') % {
+            'user': self.get_lock_user_display(),
+            'time': self.get_lock_time_display(),
+        })
+
     def is_locked(self, request = None, multi = False):
         '''
         Check whether the translation is locked and
@@ -1292,20 +1310,6 @@ class Translation(models.Model):
 
         prj_lock = self.subproject.locked
         usr_lock = self.is_user_locked(request)
-
-        # Check for project lock
-        if prj_lock and request is not None:
-            messages.error(request, _('This translation is currently locked for updates!'))
-
-        # Check for translation lock
-        if usr_lock and request is not None:
-            messages.error(
-                request,
-                _('This translation is locked by %(user)s for translation till %(time)s!') % {
-                    'user': self.lock_user.get_full_name(),
-                    'time': date_format(self.lock_time, 'DATETIME_FORMAT')
-                }
-            )
 
         # Calculate return value
         if multi:
@@ -2603,6 +2607,9 @@ class Suggestion(models.Model):
         '''
         return self.get_matching_unit().get_absolute_url()
 
+    def get_user_display(self):
+        return get_user_display(self.user)
+
 class Comment(models.Model):
     checksum = models.CharField(max_length = 40, db_index = True)
     comment = models.TextField()
@@ -2613,6 +2620,9 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['timestamp']
+
+    def get_user_display(self):
+        return get_user_display(self.user)
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
@@ -2705,10 +2715,7 @@ class Change(models.Model):
         }
 
     def get_user_display(self):
-        if self.user is None:
-            return _('None')
-        else:
-            return self.user.get_full_name()
+        return get_user_display(self.user)
 
     def get_absolute_url(self):
         '''

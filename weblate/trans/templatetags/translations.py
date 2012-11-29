@@ -194,3 +194,9 @@ def admin_boolean_icon(val):
                       {True: 'yes', False: 'no', None: 'unknown'}[val])
     return mark_safe(u'<img src="%s" alt="%s" />' % (icon_url, val))
 
+@register.inclusion_tag('message.html')
+def show_message(tags, message):
+    return {
+        'tags': tags,
+        'message': message,
+    }

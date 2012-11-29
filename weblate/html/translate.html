@@ -17,6 +17,10 @@
 
 {% block content %}
 
+{% with unit.translation as object %}
+{% include "show-lock.html" %}
+{% endwith %}
+
 <h2>{% trans "Translate" %}</h2>
 
 <span id="navi-toolbar" class="ui-widget-header ui-corner-all">
@@ -109,7 +113,7 @@
 <tr><td class="translatetext">{{ suggestion.target|fmttranslation:unit.translation.language }}</td></tr>
 <tr><td>
 {% if suggestion.user %}
-{% blocktrans with suggestion.user.get_full_name as user %}Suggested by {{ user }}{% endblocktrans %}
+{% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
 {% else %}
 {% trans "Suggested by anonymous user" %}
 {% endif %}

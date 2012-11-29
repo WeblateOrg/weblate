@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 {% load url from future %}
+{% load translations %}
 {% if not request.is_ajax %}
 <!DOCTYPE html>
 
@@ -32,7 +33,7 @@
 
 <ul id="menu">
 {% if user.is_authenticated %}
-<li><a href="{% url 'profile' %}">{% blocktrans with user.get_full_name as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
+<li><a href="{% url 'profile' %}">{% blocktrans with user.get_profile.get_user_display as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
 <li><a href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
 {% else %}
 {% if registration_open %}
@@ -51,13 +52,7 @@
 <div class="content">
 {% if messages %}
 {% for message in messages %}
-<div class="ui-widget">
-    <div style="padding: 0pt 0.7em;" class="ui-state-{% if message.tags == "error" %}error{% else %}highlight{% endif %} ui-corner-all"> 
-        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-{% if message.tags == "error" or message.tags == "warning" %}alert{% else %}info{% endif %}"></span>
-            {{ message }}
-        </p>
-    </div>
-</div>
+{% show_message message.tags message %}
 {% endfor %}
 {% endif %}
 

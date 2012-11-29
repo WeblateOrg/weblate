@@ -42,6 +42,7 @@ from south.signals import post_migrate
 
 from weblate.lang.models import Language
 from weblate.trans.models import Project
+from weblate.trans.util import get_user_display
 import weblate
 
 import logging
@@ -190,6 +191,9 @@ class Profile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def get_user_display(self):
+        return get_user_display(self.user)
 
     def notify_user(self, notification, translation_obj, context = {}, headers = {}):
         '''

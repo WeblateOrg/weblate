@@ -76,7 +76,7 @@
 <tbody>
 {% for u in top_translations %}
 <tr>
-<td>{{ u.user.get_full_name }}</td>
+<td>{{ u.get_user_display }}</td>
 <td class="percent">{{ u.translated }}</td>
 </tr>
 {% endfor %}
@@ -95,7 +95,7 @@
 <tbody>
 {% for u in top_suggestions %}
 <tr>
-<td>{{ u.user.get_full_name }}</td>
+<td>{{ u.get_user_display }}</td>
 <td class="percent">{{ u.suggested }}</td>
 </tr>
 {% endfor %}
