@@ -291,7 +291,7 @@ $(function() {
         load: function (e, ui) {
             $(ui.panel).find(".tab-loading").remove();
         },
-        show: function (e, ui) {
+        beforeLoad: function (e, ui) {
             var $panel = $(ui.panel);
 
             if ($panel.is(":empty")) {
@@ -340,7 +340,7 @@ $(function() {
                 return false;
             });
         },
-        show: function (e, ui) {
+        beforeLoad: function (e, ui) {
             var $panel = $(ui.panel);
 
             if ($panel.is(":empty")) {
