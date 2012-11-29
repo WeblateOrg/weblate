@@ -33,7 +33,7 @@ import weblate
 import weblate.trans
 
 from weblate.trans.simplediff import htmlDiff
-from weblate.trans.util import split_plural
+from weblate.trans.util import split_plural, gravatar_for_email, get_user_display
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject, Dictionary
 from weblate.trans.checks import CHECKS
@@ -200,3 +200,11 @@ def show_message(tags, message):
         'tags': tags,
         'message': message,
     }
+
+@register.simple_tag
+def gravatar(user, size = 80):
+    url = gravatar_for_email(user.email, size)
+    alt = escape(_('Avatar for %s') % get_user_display(user, False))
+    return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (
+        url, alt, size, size
+    )

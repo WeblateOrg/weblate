@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load i18n %}
+{% load translations %}
 
 {% block content %}
 
@@ -23,6 +24,7 @@
 <li><a href="#account">{% trans "Account" %}</a></li>
 <li><a href="#password">{% trans "Password" %}</a></li>
 <li><a href="#info">{% trans "Information" %}</a></li>
+<li><a href="#avatar">{% trans "Avatar" %}</a></li>
 </ul>
 <div id="preferences">
 <table>
@@ -64,6 +66,10 @@
 <td>{{ request.user.date_joined|date:"DATETIME_FORMAT" }}</td>
 </tr>
 </table>
+</div>
+<div id="avatar">
+<p>{% gravatar request.user 128 %}</p>
+<p><a href="http://gravatar.com/emails/">{% trans "Change your avatar at gravatar.com" %}</a></p>
 </div>
 </div>
 
