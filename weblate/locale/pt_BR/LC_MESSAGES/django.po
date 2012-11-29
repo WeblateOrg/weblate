@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-11-28 14:53+0100\n"
-"PO-Revision-Date: 2012-11-29 12:58+0200\n"
+"PO-Revision-Date: 2012-11-29 13:22+0200\n"
 "Last-Translator: Claudio F Filho <filhocf@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
@@ -249,9 +249,8 @@ msgid "Notification on new comment"
 msgstr "Notificar sobre novo comentário"
 
 #: accounts/models.py:185
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Notificar sobre novo colaborador"
+msgstr "Notificar falhas na mesclagem"
 
 #: accounts/models.py:295
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -663,24 +662,24 @@ msgid "Hi, and thank you for your interest!"
 msgstr "Olá, e obrigado pelo seu interesse!"
 
 #: html/engage.html:31
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(name)s está sendo traduzido usando <a href=\"%(weblate_url)s\">Weblate</"
-"a>, uma ferramenta web desenhada para uma tradução fácil para "
-"desenvolvedores e tradutores."
+"%(project)s está sendo traduzido usando <a href=\"%"
+"(weblate_url)s\">Weblate</a>, uma ferramenta web desenhada para uma tradução "
+"fácil para desenvolvedores e tradutores."
 
 #: html/engage.html:38
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Para colaborar na tradução de %(name)s, você precisa <a href=\"%(reg_url)s"
-"\">Registrar-se neste Servidor</a>."
+"Se deseja colaborar na tradução de %(project)s, você precisa <a href=\"%"
+"(reg_url)s\">se registrar neste servidor</a>."
 
 #: html/engage.html:41
 #, python-format
@@ -918,22 +917,22 @@ msgid "Share on Facebook!"
 msgstr "Compartilhar no Facebook!"
 
 #: html/share.html:6
-#, fuzzy, python-format
+#, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Traduzir %(object)s usando %%23Weblate!"
+msgstr "Traduzir %(object)s usando %%23Weblate em %(share_url)s!"
 
 #: html/share.html:6
 msgid "Tweet this translation!"
 msgstr "Tweet esta tradução!"
 
 #: html/share.html:11
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"Esta tradução pode ser promovida usando vários <a href=\"%(widgets_url)s"
-"\">widgets</a>."
+"Você também pode promover esse projeto de tradução usando várias <a href=\"%"
+"(widgets_url)s\">outras possibilidades</a>."
 
 #: html/share.html:15
 #, python-format
@@ -1284,23 +1283,21 @@ msgid "widgets"
 msgstr "widgets"
 
 #: html/widgets.html:16
-#, fuzzy
 msgid "Promoting translation projects"
-msgstr "Utilize esta tradução para todos subprojetos"
+msgstr "Promovendo projetos de tradução"
 
 #: html/widgets.html:19
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"Você também pode direcionar os novatos para a página de introdução em <a "
-"href=\"%(engage_url)s\">%(engage_url)s</a>."
+"Você pode direcionar os novatos para a página de introdução em <a href=\"%"
+"(engage_url)s\">%(engage_url)s</a>."
 
 #: html/widgets.html:22
-#, fuzzy
 msgid "Promoting specific translations"
-msgstr "Tradução automática"
+msgstr "Promovendo traduções espefícicas"
 
 #: html/widgets.html:25
 msgid ""
@@ -1353,9 +1350,8 @@ msgstr ""
 
 #: html/widgets.html:59 html/widgets.html.py:67 html/widgets.html.py:74
 #: html/widgets.html:82
-#, fuzzy
 msgid "Translation status"
-msgstr "Traduções"
+msgstr "Estado da tradução"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -1539,9 +1535,8 @@ msgid "Previously not translated"
 msgstr "Anteriormente não traduzido"
 
 #: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
-#, fuzzy
 msgid "You can edit this string at:"
-msgstr "Você pode revisá-la em:"
+msgstr "Você pode editar essa cadeia em:"
 
 #: html/mail/any_translation_subject.txt:1
 #, python-format
@@ -1570,7 +1565,7 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Você pode traduzir em %(translation_url)s"
 
 #: html/mail/merge_failure.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Hi,\n"
 "\n"
@@ -1578,22 +1573,20 @@ msgid ""
 msgstr ""
 "Olá,\n"
 "\n"
-"Existe um novo comentário no %(subproject)s em %(site_title)s.\n"
+"Houve um erro na mesclagem de %(subproject)s em %(site_title)s.\n"
 
 #: html/mail/merge_failure.txt:6
-#, fuzzy
 msgid "Error message:"
-msgstr "Detalhes do erro:"
+msgstr "Mensagem de erro:"
 
 #: html/mail/merge_failure.txt:10
-#, fuzzy
 msgid "Repository status:"
-msgstr "Repositório Git:"
+msgstr "Estado do repositório:"
 
 #: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "Novo comentário em %(subproject)s"
+msgstr "Falha de mesclagem em %(subproject)s"
 
 #: html/mail/new_comment.txt:1
 #, python-format
@@ -2494,9 +2487,8 @@ msgid "Django caching"
 msgstr ""
 
 #: trans/admin_views.py:97
-#, fuzzy
 msgid "Email addresses"
-msgstr "Endereço de e-mail"
+msgstr "Endereços de e-mail"
 
 #: trans/admin_views.py:126 trans/admin_views.py:130
 msgid "Failed to generate key!"
@@ -2795,9 +2787,8 @@ msgid "Any"
 msgstr "Qualquer"
 
 #: trans/forms.py:256
-#, fuzzy
 msgid "Whole project"
-msgstr "Todos os subprojetos"
+msgstr "Projeto completo"
 
 #: trans/models.py:108
 msgid "Automatic detection"
@@ -2862,7 +2853,7 @@ msgstr "Apontar para a URL de instruções de tradução"
 
 #: trans/models.py:244
 msgid "Merge"
-msgstr "Intercalar"
+msgstr "Mesclar"
 
 #: trans/models.py:245
 msgid "Rebase"
@@ -2886,15 +2877,15 @@ msgstr "Como proceder para requisitar criação de novos idiomas."
 
 #: trans/models.py:270
 msgid "Merge style"
-msgstr "Estilo Intercalar"
+msgstr "Estilo de mesclagem"
 
 #: trans/models.py:274
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Definir quando Weblate deve, intercalar strings ou tomar por base "
-"atualizações, em um repositório."
+"Definir quando Weblate deve mesclar o repositório de origem ou se rebasear "
+"nele mesmo."
 
 #: trans/models.py:279
 msgid ""
@@ -3018,7 +3009,7 @@ msgstr "Reinicialização do ramo remoto em %s falhou."
 #: trans/models.py:938
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr "Falha ao fundir no ramo remoto com %s."
+msgstr "Falha ao mesclar no ramo remoto em %s."
 
 #: trans/models.py:968
 #, python-format
@@ -3140,14 +3131,12 @@ msgid "Translation changed"
 msgstr "Tradução modificada"
 
 #: trans/models.py:2683
-#, fuzzy
 msgid "Comment added"
-msgstr "Comentário"
+msgstr "Comentário adicionado"
 
 #: trans/models.py:2684
-#, fuzzy
 msgid "Suggestion added"
-msgstr "Sugestões feitas"
+msgstr "Sugestões adicionadas"
 
 #: trans/models.py:2700
 #, python-format
@@ -3185,35 +3174,35 @@ msgstr "Importada %d palavras do arquivo."
 #: trans/views.py:258 trans/views.py:1419
 #, python-format
 msgid "File content merge failed: %s"
-msgstr "Falha ao fundir o conteúdo do arquivo: %s"
+msgstr "Falha ao mesclar o conteúdo do arquivo: %s"
 
 #: trans/views.py:260 trans/views.py:262 trans/views.py:483
 msgid "Failed to process form!"
 msgstr "Falha ao processar o formulário!"
 
 #: trans/views.py:402
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
 "contains %(total)s strings for translation and is <a href=\"%(url)s\">being "
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"O projeto de tradução para %(name)s atualmente contém %(total)s cadeias para "
-"traduzir e <a href=\"%(url)s\">s traduzido a %(languages)s idiomas</a>. Em "
-"geral, estas traduções estão %(percent)s%% completas."
+"<a href=\"%(url)s\">O projeto de tradução para %(project)s</a> atualmente "
+"contém %(total)s cadeias para traduzir e <a href=\"%(url)s\">s traduzido a %"
+"(languages)s idiomas</a>. Em geral, estas traduções estão %(percent)s%% "
+"completas."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
 #: trans/views.py:405
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"O projeto de tradução para %(name)s atualmente contém %(total)s cadeias para "
-"traduzir e <a href=\"%(url)s\">s traduzido a %(languages)s idiomas</a>. Em "
-"geral, estas traduções estão %(percent)s%% completas."
+"<a href=\"%(url)s\">O projeto de tradução para %(project)s</a> em português "
+"contém %(total)s cadeias para traduzir e está %(percent)s%% completa."
 
 #: trans/views.py:481
 msgid "Automatic translation completed."
@@ -3305,11 +3294,11 @@ msgstr "A mensagem que deseja traduzir não está mais disponível!"
 
 #: trans/views.py:1041
 msgid "Can not merge different messages!"
-msgstr "Não pode fundir mensagens diferentes!"
+msgstr "Não pode mesclar mensagens diferentes!"
 
 #: trans/views.py:1066
 msgid "You need to log in to be able to manage suggestions!"
-msgstr "Você precisa conectar para gerenciar sugestões!"
+msgstr "Você precisa iniciar a sessão para gerenciar sugestões!"
 
 #: trans/views.py:1077
 msgid "You do not have privilege to accept suggestions!"
@@ -3367,9 +3356,8 @@ msgstr ""
 
 #. Translators: line of text in engagement widget
 #: trans/widgets.py:130
-#, fuzzy
 msgid "translation"
-msgstr "Tradução"
+msgstr "tradução"
 
 #. Translators: line of text in engagement widget
 #: trans/widgets.py:137
