@@ -17,6 +17,10 @@
 
 {% block content %}
 
+{% with unit.translation as object %}
+{% include "show-lock.html" %}
+{% endwith %}
+
 <h2>{% trans "Translate" %}</h2>
 
 <span id="navi-toolbar" class="ui-widget-header ui-corner-all">

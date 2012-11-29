@@ -426,9 +426,6 @@ def show_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
     last_changes = Change.objects.filter(translation__subproject = obj).order_by('-timestamp')[:10]
 
-    if obj.locked:
-        messages.error(request, _('This translation is currently locked for updates!'))
-
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,

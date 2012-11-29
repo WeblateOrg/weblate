@@ -1283,6 +1283,24 @@ class Translation(models.Model):
             return 0
         return round(self.translated * 100.0 / self.total, 1)
 
+    def get_lock_time_display(self):
+        '''
+        Returns formatted lock time.
+        '''
+        return date_format(self.lock_time, 'DATETIME_FORMAT')
+
+    def get_lock_user_display(self):
+        '''
+        Returns formatted lock user.
+        '''
+        return self.lock_user.get_full_name()
+
+    def get_lock_display(self):
+        return _('This translation is locked by %(user)s for translation till %(time)s!') % {
+            'user': self.get_lock_user_display(),
+            'time': self.get_lock_time_display(),
+        }
+
     def is_locked(self, request = None, multi = False):
         '''
         Check whether the translation is locked and
@@ -1292,20 +1310,6 @@ class Translation(models.Model):
 
         prj_lock = self.subproject.locked
         usr_lock = self.is_user_locked(request)
-
-        # Check for project lock
-        if prj_lock and request is not None:
-            messages.error(request, _('This translation is currently locked for updates!'))
-
-        # Check for translation lock
-        if usr_lock and request is not None:
-            messages.error(
-                request,
-                _('This translation is locked by %(user)s for translation till %(time)s!') % {
-                    'user': self.lock_user.get_full_name(),
-                    'time': date_format(self.lock_time, 'DATETIME_FORMAT')
-                }
-            )
 
         # Calculate return value
         if multi:
