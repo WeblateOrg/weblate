@@ -20,6 +20,7 @@
 
 import hashlib
 import re
+import os.path
 from translate.misc import quote
 from translate.storage.properties import propunit
 from django.utils.translation import ugettext as _
@@ -48,21 +49,26 @@ def get_user_display(user, icon = True):
     '''
     # Did we get any user?
     if user is None:
-        return _('None')
+        # None user, probably remotely triggered action
+        full_name = _('None')
+    else:
+        # Get full name
+        full_name = user.get_full_name()
 
-    # Get full name
-    full_name = user.get_full_name()
-
-    # Use user name if full name is empty
-    if full_name.strip() == '':
-        full_name = user.username
+        # Use user name if full name is empty
+        if full_name.strip() == '':
+            full_name = user.username
 
     # No icon requested
     if not icon:
         return full_name
 
-    # Get gravatar image
-    gravatar = gravatar_for_email(user.email, size = 32)
+    if user is None:
+        # Weblate icon
+        gravatar = os.path.join(settings.MEDIA_URL, 'weblate-32.png')
+    else:
+        # Get gravatar image
+        gravatar = gravatar_for_email(user.email, size = 32)
 
     return mark_safe('<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
         'name': escape(full_name),
