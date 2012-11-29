@@ -23,8 +23,24 @@ import re
 from translate.misc import quote
 from translate.storage.properties import propunit
 from django.utils.translation import ugettext as _
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.hashcompat import md5_constructor
+from django.conf import settings
+import urllib
+
+GRAVATAR_URL_PREFIX = getattr(settings, "GRAVATAR_URL_PREFIX", "http://www.gravatar.com/")
+GRAVATAR_DEFAULT_IMAGE = getattr(settings, "GRAVATAR_DEFAULT_IMAGE", "")
 
 PLURAL_SEPARATOR = '\x00\x00'
+
+def gravatar_for_email(email, size = 80):
+    '''
+    Generates url for gravatar.
+    '''
+    url = "%savatar/%s/?" % (GRAVATAR_URL_PREFIX, md5_constructor(email.lower()).hexdigest())
+    url += urllib.urlencode({"s": str(size), "default": GRAVATAR_DEFAULT_IMAGE})
+    return escape(url)
 
 def get_user_display(user):
     '''
@@ -41,7 +57,13 @@ def get_user_display(user):
     if full_name.strip() == '':
         full_name = user.username
 
-    return full_name
+    # Get gravatar image
+    gravatar = gravatar_for_email(user.email, size = 32)
+
+    return mark_safe('<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
+        'name': escape(full_name),
+        'gravatar': gravatar
+    })
 
 def is_plural(s):
     '''

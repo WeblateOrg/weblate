@@ -1296,10 +1296,10 @@ class Translation(models.Model):
         return get_user_display(self.lock_user)
 
     def get_lock_display(self):
-        return _('This translation is locked by %(user)s for translation till %(time)s!') % {
+        return mark_safe(_('This translation is locked by %(user)s for translation till %(time)s!') % {
             'user': self.get_lock_user_display(),
             'time': self.get_lock_time_display(),
-        }
+        })
 
     def is_locked(self, request = None, multi = False):
         '''
