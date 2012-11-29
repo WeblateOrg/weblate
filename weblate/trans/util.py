@@ -42,7 +42,7 @@ def gravatar_for_email(email, size = 80):
     url += urllib.urlencode({"s": str(size), "default": GRAVATAR_DEFAULT_IMAGE})
     return escape(url)
 
-def get_user_display(user):
+def get_user_display(user, icon = True):
     '''
     Nicely formats user for display.
     '''
@@ -56,6 +56,10 @@ def get_user_display(user):
     # Use user name if full name is empty
     if full_name.strip() == '':
         full_name = user.username
+
+    # No icon requested
+    if not icon:
+        return full_name
 
     # Get gravatar image
     gravatar = gravatar_for_email(user.email, size = 32)

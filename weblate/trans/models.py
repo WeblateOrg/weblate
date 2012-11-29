@@ -2711,11 +2711,11 @@ class Change(models.Model):
             'action': self.get_action_display(),
             'time': self.timestamp,
             'translation': self.translation,
-            'user': self.get_user_display(),
+            'user': self.get_user_display(False),
         }
 
-    def get_user_display(self):
-        return get_user_display(self.user)
+    def get_user_display(self, icon = True):
+        return get_user_display(self.user, icon)
 
     def get_absolute_url(self):
         '''
