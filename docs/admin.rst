@@ -34,6 +34,9 @@ project (unless disabled in subproject configuration).
 The project has only few attributes giving translators information about
 project.
 
+Commit message
+++++++++++++++
+
 The commit message on each commit Weblate does, it can use following format
 strings in the message:
 
@@ -55,6 +58,9 @@ strings in the message:
     Translated strings count
 ``%(translated_percent)s``
     Translated strings percent
+
+Adjusting interaction
++++++++++++++++++++++
 
 There are also additional features which you can control, like automatic
 pushing of changes (see also :ref:`push-changes`), merge or rebase 
