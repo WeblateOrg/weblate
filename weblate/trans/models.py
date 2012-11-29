@@ -52,7 +52,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock, FileLockException
-from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated
+from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated, get_user_display
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -1293,7 +1293,7 @@ class Translation(models.Model):
         '''
         Returns formatted lock user.
         '''
-        return self.lock_user.get_full_name()
+        return get_user_display(self.lock_user)
 
     def get_lock_display(self):
         return _('This translation is locked by %(user)s for translation till %(time)s!') % {
@@ -2607,6 +2607,9 @@ class Suggestion(models.Model):
         '''
         return self.get_matching_unit().get_absolute_url()
 
+    def get_user_display(self):
+        return get_user_display(self.user)
+
 class Comment(models.Model):
     checksum = models.CharField(max_length = 40, db_index = True)
     comment = models.TextField()
@@ -2617,6 +2620,9 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['timestamp']
+
+    def get_user_display(self):
+        return get_user_display(self.user)
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
@@ -2709,10 +2715,7 @@ class Change(models.Model):
         }
 
     def get_user_display(self):
-        if self.user is None:
-            return _('None')
-        else:
-            return self.user.get_full_name()
+        return get_user_display(self.user)
 
     def get_absolute_url(self):
         '''

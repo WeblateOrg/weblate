@@ -25,6 +25,15 @@ from translate.storage.properties import propunit
 
 PLURAL_SEPARATOR = '\x00\x00'
 
+def get_user_display(user):
+    '''
+    Nicely formats user for display.
+    '''
+    if user is None:
+        return _('None')
+    else:
+        return user.get_full_name()
+
 def is_plural(s):
     '''
     Checks whether string is plural form.

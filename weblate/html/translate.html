@@ -113,7 +113,7 @@
 <tr><td class="translatetext">{{ suggestion.target|fmttranslation:unit.translation.language }}</td></tr>
 <tr><td>
 {% if suggestion.user %}
-{% blocktrans with suggestion.user.get_full_name as user %}Suggested by {{ user }}{% endblocktrans %}
+{% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
 {% else %}
 {% trans "Suggested by anonymous user" %}
 {% endif %}

@@ -33,7 +33,7 @@
 
 <ul id="menu">
 {% if user.is_authenticated %}
-<li><a href="{% url 'profile' %}">{% blocktrans with user.get_full_name as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
+<li><a href="{% url 'profile' %}">{% blocktrans with user.get_profile.get_user_display as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
 <li><a href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
 {% else %}
 {% if registration_open %}

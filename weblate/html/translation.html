@@ -110,7 +110,7 @@
 <div id="locking">
 <p>{% trans "Locking the translation will prevent others to work on translation." %}</p>
 {% if object.is_user_locked %}
-<p>{% trans "Locked by:" %} {{ object.lock_user.get_full_name }}</p>
+<p>{% trans "Locked by:" %} {{ object.get_lock_user_display }}</p>
 <p>{% trans "Lock valid till:" %} {{ object.lock_time|date:"DATETIME_FORMAT" }}</p>
 {% else %}
 <p>{% trans "Translation is currently not locked." %}</p>
