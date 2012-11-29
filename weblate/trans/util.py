@@ -22,6 +22,7 @@ import hashlib
 import re
 from translate.misc import quote
 from translate.storage.properties import propunit
+from django.utils.translation import ugettext as _
 
 PLURAL_SEPARATOR = '\x00\x00'
 
@@ -29,10 +30,18 @@ def get_user_display(user):
     '''
     Nicely formats user for display.
     '''
+    # Did we get any user?
     if user is None:
         return _('None')
-    else:
-        return user.get_full_name()
+
+    # Get full name
+    full_name = user.get_full_name()
+
+    # Use user name if full name is empty
+    if full_name.strip() == '':
+        full_name = user.username
+
+    return full_name
 
 def is_plural(s):
     '''
