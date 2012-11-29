@@ -47,7 +47,7 @@ class ChangesFeed(Feed):
         return str(item)
 
     def item_author_name(self, item):
-        return item.get_user_display()
+        return item.get_user_display(False)
 
     def item_pubdate(self, item):
         return item.timestamp
