@@ -36,3 +36,9 @@
 {% endfor %}
 </tbody>
 </table>
+
+<p>
+<div class="progress legend" value="100" fuzzy="0" checks="0"></div> - {% trans "Translated strings" %}
+<div class="progress legend" value="0" fuzzy="0" checks="100"></div> - {% trans "Strings with any failing checks" %}
+<div class="progress legend" value="0" fuzzy="100" checks="0"></div> - {% trans "Fuzzy strings" %}
+</p>
