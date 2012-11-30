@@ -139,6 +139,10 @@ Changes in translations are exported in RSS feeds.
 
     Retrieves RSS feed with recent changes for a project.
 
+.. describe:: GET /exports/rss/language/(string:language)/
+
+    Retrieves RSS feed with recent changes for a language.
+
 .. describe:: GET /exports/rss/
 
     Retrieves RSS feed with recent changes for Weblate instance.
