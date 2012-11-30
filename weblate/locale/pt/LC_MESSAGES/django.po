@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-11-29 14:10+0100\n"
+"POT-Creation-Date: 2012-11-30 11:59+0100\n"
 "PO-Revision-Date: 2012-11-15 13:26+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Portuguese <http://l10n.cihar.com/projects/weblate/master/pt/"
@@ -200,11 +200,11 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: accounts/i18n.py:55 trans/views.py:886
+#: accounts/i18n.py:55 trans/views.py:890
 msgid "Strings with any failing checks"
 msgstr "Cadeias com qualquer falha de verificação"
 
-#: accounts/i18n.py:56 trans/views.py:880
+#: accounts/i18n.py:56 trans/views.py:884
 msgid "Fuzzy strings"
 msgstr "Strings confusas"
 
@@ -297,7 +297,7 @@ msgstr ""
 "O servidor teve sérios problemas com o seu pedido. Já enviamos macaquinhos "
 "amestrados resolver o problema."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1481
+#: html/about.html:7 html/footer.html:6 trans/views.py:1485
 msgid "About Weblate"
 msgstr "Acerca do Weblate"
 
@@ -584,8 +584,8 @@ msgstr "Apagar"
 msgid "No words found!"
 msgstr "Nenhuma palavra encontrada!"
 
-#: html/dictionary.html:69 html/project.html:36 html/subproject.html:26
-#: html/translation.html:30
+#: html/dictionary.html:69 html/language.html:18 html/project.html:36
+#: html/subproject.html:26 html/translation.html:30
 msgid "Tools"
 msgstr "Ferramentas"
 
@@ -722,7 +722,7 @@ msgstr "Traduções"
 msgid "Your translations"
 msgstr "Suas traduções"
 
-#: html/index.html:20
+#: html/index.html:20 html/language.html:12
 msgid "Projects"
 msgstr "Projetos"
 
@@ -739,8 +739,9 @@ msgstr "Traduzido"
 msgid "Summaries"
 msgstr "Resumos"
 
-#: html/index.html:59 html/project.html:41 html/subproject.html:31
-#: html/translation.html:36 html/translation.html.py:81
+#: html/index.html:59 html/language.html:23 html/project.html:40
+#: html/subproject.html:30 html/translation.html:34
+#: html/translation.html.py:81
 msgid "Recent changes"
 msgstr "Modificações recentes"
 
@@ -776,6 +777,10 @@ msgstr "Visão geral das verificações"
 msgid "languages"
 msgstr "Idiomas"
 
+#: html/language.html:24 html/project.html:41
+msgid "Glossaries"
+msgstr "Glossários"
+
 #: html/last-changes.html:12
 msgid "Date"
 msgstr "Data"
@@ -804,25 +809,25 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Verificações"
 
-#: html/list-translations.html:24
+#: html/list-translations.html:25
 #, python-format
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Existe %(count)s cadeia por traduzir."
 msgstr[1] "Existem %(count)s cadeias por traduzir."
 
-#: html/list-translations.html:24 html/translate.html:24
+#: html/list-translations.html:25 html/translate.html:24
 msgid "Translate"
 msgstr "Traduzir"
 
-#: html/list-translations.html:29
+#: html/list-translations.html:30
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "Existe %(count)s falha de verificação."
 msgstr[1] "Existem %(count)s falhas de verificação."
 
-#: html/list-translations.html:29 html/translation.html:85
+#: html/list-translations.html:30 html/translation.html:85
 msgid "Review"
 msgstr "Rever"
 
@@ -891,10 +896,6 @@ msgstr "Subprojetos"
 #: html/project.html:20
 msgid "Subproject"
 msgstr "Subprojeto"
-
-#: html/project.html:40
-msgid "Glossaries"
-msgstr "Glossários"
 
 #: html/project.html:43 html/subproject.html:33 html/translation.html:41
 msgid "Git maintenance"
@@ -990,7 +991,7 @@ msgstr "Não foram encontradas outras strings."
 msgid "Strings to check"
 msgstr "Strings para verificar"
 
-#: html/subproject.html:30 trans/models.py:263
+#: html/subproject.html:31 trans/models.py:263
 msgid "New language"
 msgstr "Novo Idioma"
 
@@ -1180,11 +1181,11 @@ msgid ""
 "translators and developers."
 msgstr ""
 
-#: html/translation.html:34 html/translation.html.py:50
+#: html/translation.html:35 html/translation.html.py:50
 msgid "Search"
 msgstr "Procurar"
 
-#: html/translation.html:35
+#: html/translation.html:36
 msgid "Files"
 msgstr "Ficheiros"
 
@@ -2524,61 +2525,61 @@ msgstr "Falha ao gerar a chave!"
 msgid "Created new SSH key."
 msgstr "Criada nova chave SSH."
 
-#: trans/checks.py:292
+#: trans/checks.py:293
 msgid "Not translated"
 msgstr "Não traduzido"
 
-#: trans/checks.py:293
+#: trans/checks.py:294
 msgid "Source and translated strings are same"
 msgstr "Fonte e cadeias traduzidas são a mesma"
 
-#: trans/checks.py:337
+#: trans/checks.py:338
 msgid "Starting newline"
 msgstr "Iniciando nova linha"
 
-#: trans/checks.py:338
+#: trans/checks.py:339
 msgid "Source and translation do not both start with a newline"
 msgstr "Fonte e tradução não iniciam com uma nova linha"
 
-#: trans/checks.py:348
+#: trans/checks.py:349
 msgid "Trailing newline"
 msgstr "Atrás da nova linha"
 
-#: trans/checks.py:349
+#: trans/checks.py:350
 msgid "Source and translation do not both end with a newline"
 msgstr "Fonte e tradução não terminam com uma nova linha"
 
-#: trans/checks.py:359
+#: trans/checks.py:360
 #, fuzzy
 msgid "Starting spaces"
 msgstr "Data de início"
 
-#: trans/checks.py:360
+#: trans/checks.py:361
 #, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Fonte e tradução não iniciam com uma nova linha"
 
-#: trans/checks.py:383
+#: trans/checks.py:384
 msgid "Trailing space"
 msgstr "Espaço final"
 
-#: trans/checks.py:384
+#: trans/checks.py:385
 msgid "Source and translation do not both end with a space"
 msgstr "Fonte e tradução não terminam com um espaço"
 
-#: trans/checks.py:402
+#: trans/checks.py:403
 msgid "Trailing stop"
 msgstr "Atrás do ponto final"
 
-#: trans/checks.py:403
+#: trans/checks.py:404
 msgid "Source and translation do not both end with a full stop"
 msgstr "Fonte e tradução não terminam com ponto final"
 
-#: trans/checks.py:420
+#: trans/checks.py:421
 msgid "Trailing colon"
 msgstr "Vírgula final"
 
-#: trans/checks.py:421
+#: trans/checks.py:422
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2586,11 +2587,11 @@ msgstr ""
 "Fonte e tradução não terminam com uma vírgula ou a vírgula não está espaçada "
 "corretamente"
 
-#: trans/checks.py:445
+#: trans/checks.py:446
 msgid "Trailing question"
 msgstr "Atrás do ponto de interrogação"
 
-#: trans/checks.py:446
+#: trans/checks.py:447
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2598,11 +2599,11 @@ msgstr ""
 "Fonte e tradução não terminam com um ponto de interrogação ou não está "
 "espaçado corretamente"
 
-#: trans/checks.py:463
+#: trans/checks.py:464
 msgid "Trailing exclamation"
 msgstr "Ponto exclamação final"
 
-#: trans/checks.py:464
+#: trans/checks.py:465
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2610,103 +2611,103 @@ msgstr ""
 "Fonte e tradução não terminam com um ponto de exclamação ou não está "
 "espaçado corretamente"
 
-#: trans/checks.py:487
+#: trans/checks.py:488
 #, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Reticências finais"
 
-#: trans/checks.py:488
+#: trans/checks.py:489
 #, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Fonte e tradução não terminam com um elipsis"
 
-#: trans/checks.py:501
+#: trans/checks.py:502
 msgid "Python format"
 msgstr "Formato Python"
 
-#: trans/checks.py:502 trans/checks.py:515 trans/checks.py:528
+#: trans/checks.py:503 trans/checks.py:516 trans/checks.py:529
 msgid "Format string does not match source"
 msgstr "Formato da cadeia não combina com a fonte"
 
-#: trans/checks.py:514
+#: trans/checks.py:515
 msgid "PHP format"
 msgstr "Formato PHP"
 
-#: trans/checks.py:527
+#: trans/checks.py:528
 msgid "C format"
 msgstr "Formato C"
 
-#: trans/checks.py:541
+#: trans/checks.py:542
 msgid "Missing plurals"
 msgstr "Faltam plurais"
 
-#: trans/checks.py:542
+#: trans/checks.py:543
 msgid "Some plural forms are not translated"
 msgstr "Algumas formas plurais não estão traduzidas"
 
-#: trans/checks.py:559
+#: trans/checks.py:560
 msgid "Inconsistent"
 msgstr "Inconsistente"
 
-#: trans/checks.py:560
+#: trans/checks.py:561
 msgid "This message has more than one translation in this project"
 msgstr "Esta mensagem tem mais de uma tradução neste projeto"
 
-#: trans/checks.py:588
+#: trans/checks.py:589
 msgid "Invalid text direction"
 msgstr "Direção do texto inválida"
 
-#: trans/checks.py:589
+#: trans/checks.py:590
 msgid "Text direction can be either LTR or RTL"
 msgstr "A direção do texto pode ser ED ou DE"
 
-#: trans/checks.py:616
+#: trans/checks.py:617
 msgid "Mismatched \\n"
 msgstr "Incompatível \\n"
 
-#: trans/checks.py:617
+#: trans/checks.py:618
 msgid "Number of \\n in translation does not match source"
 msgstr "Número de \\n na tradução não corresponde à fonte"
 
-#: trans/checks.py:624
+#: trans/checks.py:625
 msgid "Mismatched BBcode"
 msgstr "BBcode sem correspondência"
 
-#: trans/checks.py:625
+#: trans/checks.py:626
 msgid "BBcode in translation does not match source"
 msgstr "BBcode na tradução não corresponde à fonte"
 
-#: trans/checks.py:652
+#: trans/checks.py:653
 msgid "Zero-width space"
 msgstr ""
 
-#: trans/checks.py:653
+#: trans/checks.py:654
 msgid "Translation contains extra zero-width space character"
 msgstr ""
 
-#: trans/checks.py:663
+#: trans/checks.py:664
 msgid "XML tags mismatch"
 msgstr ""
 
-#: trans/checks.py:664
+#: trans/checks.py:665
 #, fuzzy
 msgid "XML tags in translation do not match source"
 msgstr "BBcode na tradução não corresponde à fonte"
 
-#: trans/checks.py:720
+#: trans/checks.py:721
 #, fuzzy
 msgid "Optional plural"
 msgstr "Faltam plurais"
 
-#: trans/checks.py:721
+#: trans/checks.py:722
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 
-#: trans/checks.py:733
+#: trans/checks.py:734
 msgid "Ellipsis"
 msgstr ""
 
-#: trans/checks.py:734
+#: trans/checks.py:735
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 
@@ -3182,7 +3183,7 @@ msgstr "Sugestões feitas"
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: trans/util.py:51
+#: trans/util.py:53
 msgid "None"
 msgstr ""
 
@@ -3190,34 +3191,34 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Por favor, defina seu nome completo no perfil."
 
-#: trans/views.py:202
+#: trans/views.py:206
 msgid "Dictionaries"
 msgstr "Dicionários"
 
-#: trans/views.py:225 trans/views.py:363
+#: trans/views.py:229 trans/views.py:367
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Dicionário %(language)s para %(project)s"
 
-#: trans/views.py:254
+#: trans/views.py:258
 msgid "No words to import found in file."
 msgstr "Não foram encontradas palavras no ficheiro para importar."
 
-#: trans/views.py:256
+#: trans/views.py:260
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Importadas %d palavras do ficheiro."
 
-#: trans/views.py:258 trans/views.py:1416
+#: trans/views.py:262 trans/views.py:1420
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao fundir o conteúdo do arquivo: %s"
 
-#: trans/views.py:260 trans/views.py:262 trans/views.py:480
+#: trans/views.py:264 trans/views.py:266 trans/views.py:484
 msgid "Failed to process form!"
 msgstr "Falha ao processar o formulário!"
 
-#: trans/views.py:402
+#: trans/views.py:406
 #, fuzzy, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -3230,7 +3231,7 @@ msgstr ""
 "geral, estas traduções estão %(percent)s%% completas."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
-#: trans/views.py:405
+#: trans/views.py:409
 #, fuzzy, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -3241,136 +3242,136 @@ msgstr ""
 "traduzir e <a href=\"%(url)s\">s traduzido a %(languages)s idiomas</a>. Em "
 "geral, estas traduções estão %(percent)s%% completas."
 
-#: trans/views.py:478
+#: trans/views.py:482
 msgid "Automatic translation completed."
 msgstr "Tradução automática finalizada."
 
-#: trans/views.py:520
+#: trans/views.py:524
 #, fuzzy, python-format
 msgid "Review source strings in %s"
 msgstr "Procurar em cadeias fonte"
 
-#: trans/views.py:538
+#: trans/views.py:542
 #, fuzzy, python-format
 msgid "Source strings in %s"
 msgstr "Cadeia original:"
 
-#: trans/views.py:587 trans/views.py:597 trans/views.py:607
+#: trans/views.py:591 trans/views.py:601 trans/views.py:611
 msgid "All pending translations were committed."
 msgstr "Todas as traduções pendentes foram publicadas."
 
-#: trans/views.py:617 trans/views.py:627 trans/views.py:637
+#: trans/views.py:621 trans/views.py:631 trans/views.py:641
 msgid "All repositories were updated."
 msgstr "Todos os repositórios foram atualizados."
 
-#: trans/views.py:647 trans/views.py:657 trans/views.py:667
+#: trans/views.py:651 trans/views.py:661 trans/views.py:671
 msgid "All repositories were pushed."
 msgstr "Todos os repositórios foram enviados."
 
-#: trans/views.py:677 trans/views.py:687 trans/views.py:697
+#: trans/views.py:681 trans/views.py:691 trans/views.py:701
 msgid "All repositories have been reset."
 msgstr "Todos os repositórios foram reiniciados."
 
-#: trans/views.py:708
+#: trans/views.py:712
 msgid "Translation is now locked for you."
 msgstr "A tradução agora está bloqueada para si."
 
-#: trans/views.py:719
+#: trans/views.py:723
 msgid "Translation is now open for translation updates."
 msgstr "A tradução está agora aberta para actualizações de tradução."
 
-#: trans/views.py:733
+#: trans/views.py:737
 msgid "Subproject is now locked for translation updates!"
 msgstr "O subprojeto agora está bloqueado para atualizações da tradução!"
 
-#: trans/views.py:745
+#: trans/views.py:749
 msgid "Subproject is now open for translation updates."
 msgstr "O subprojeto agora está aberto para atualização da tradução."
 
-#: trans/views.py:760
+#: trans/views.py:764
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 "Todos os subprojetos agora estão bloqueados para atualização da tradução!"
 
-#: trans/views.py:773
+#: trans/views.py:777
 msgid "Project is now open for translation updates."
 msgstr "O projeto agora está aberto para atualização da tradução."
 
-#: trans/views.py:876
+#: trans/views.py:880
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Procurar por \"%s\""
 
-#: trans/views.py:882
+#: trans/views.py:886
 msgid "Untranslated strings"
 msgstr "Strings não traduzidas"
 
-#: trans/views.py:884
+#: trans/views.py:888
 msgid "Strings with suggestions"
 msgstr "Cadeias com sugestões"
 
-#: trans/views.py:944
+#: trans/views.py:948
 msgid "Your suggestion is empty!"
 msgstr "A sua sugestão está vazia!"
 
-#: trans/views.py:979
+#: trans/views.py:983
 msgid "You need to log in to be able to save translations!"
 msgstr "Precisa estar ligado para poder salvar as traduções!"
 
-#: trans/views.py:982 trans/views.py:1023
+#: trans/views.py:986 trans/views.py:1027
 msgid "You don't have privileges to save translations!"
 msgstr "Não tem permissão para salvar as traduções!"
 
-#: trans/views.py:999
+#: trans/views.py:1003
 msgid "Some checks have failed on your translation!"
 msgstr "Algumas verificações falharam na sua tradução!"
 
-#: trans/views.py:1017 trans/views.py:1057
+#: trans/views.py:1021 trans/views.py:1061
 msgid "Message you wanted to translate is no longer available!"
 msgstr "A mensagem que deseja traduzir não está mais disponível!"
 
-#: trans/views.py:1038
+#: trans/views.py:1042
 msgid "Can not merge different messages!"
 msgstr "Não pode fundir mensagens diferentes!"
 
-#: trans/views.py:1063
+#: trans/views.py:1067
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Precisa iniciar a sessão para gerir as sugestões!"
 
-#: trans/views.py:1074
+#: trans/views.py:1078
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Não tem privilégios para aceitar sugestões!"
 
-#: trans/views.py:1084
+#: trans/views.py:1088
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Não tem privilégios para eliminar sugestões!"
 
-#: trans/views.py:1108
+#: trans/views.py:1112
 msgid "Invalid suggestion!"
 msgstr "Sugestão inválida!"
 
-#: trans/views.py:1168
+#: trans/views.py:1172
 msgid "You have reached end of translating."
 msgstr "Chegou no final da tradução."
 
-#: trans/views.py:1259
+#: trans/views.py:1263
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views.py:1279
+#: trans/views.py:1283
 #, fuzzy
 msgid "Failed to add comment!"
 msgstr "Falha ao gerar a chave!"
 
-#: trans/views.py:1412
+#: trans/views.py:1416
 msgid "File content successfully merged into translation."
 msgstr "O conteúdo do arquivo foi fundido na tradução com sucesso."
 
-#: trans/views.py:1414
+#: trans/views.py:1418
 msgid "There were no new strings in uploaded file."
 msgstr "Não há novas cadeias no arquivo enviado."
 
-#: trans/views.py:1427
+#: trans/views.py:1431
 msgid "Page Not Found"
 msgstr "Página não encontrada"
 
