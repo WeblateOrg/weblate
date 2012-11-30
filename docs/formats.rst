@@ -7,7 +7,7 @@ Weblate supports any format understood by Translate-toolkit, however each
 format being slightly different, there might be some issues with not well
 tested formats.
 
-.. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
+.. seealso:: `Supported formats in translate-toolkit`_
 
 GNU Gettext
 -----------
@@ -90,4 +90,6 @@ Others
 As already mentioned, all Translate-toolkit formats are supported, but they
 did not (yet) receive deeper testing.
 
-.. seealso:: http://translate.sourceforge.net/wiki/toolkit/formats
+.. seealso:: `Supported formats in translate-toolkit`_
+   
+.. _Supported formats in translate-toolkit: http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/index.html

@@ -2768,7 +2768,7 @@ def get_versions():
     ))
 
     name = 'Translate Toolkit'
-    url = 'http://translate.sourceforge.net/wiki/toolkit/index'
+    url = 'http://toolkit.translatehouse.org/'
     mod = get_version_module('translate', name, url)
     result.append((
         name,
