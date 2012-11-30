@@ -25,6 +25,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Change, Translation, SubProject, Project
+from weblate.lang.models import Language
 
 class ChangesFeed(Feed):
 
@@ -85,3 +86,11 @@ class ProjectChangesFeed(TranslationChangesFeed):
 
     def items(self, obj):
         return Change.objects.filter(translation__subproject__project = obj).order_by('-timestamp')[:10]
+
+class LanguageChangesFeed(TranslationChangesFeed):
+
+    def get_object(self, request, lang):
+        return get_object_or_404(Language, code = lang)
+
+    def items(self, obj):
+        return Change.objects.filter(translation__language = obj).order_by('-timestamp')[:10]

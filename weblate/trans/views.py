@@ -195,6 +195,7 @@ def show_language(request, lang):
     return render_to_response('language.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
+        'last_changes_rss': reverse('rss-language', kwargs = {'lang': obj.code}),
         'dicts': Project.objects.filter(id__in = dicts),
     }))
 

@@ -30,7 +30,7 @@ from django.contrib.sitemaps import GenericSitemap, Sitemap
 from registration.views import activate, register
 
 from weblate.accounts.forms import RegistrationForm
-from weblate.trans.feeds import TranslationChangesFeed, SubProjectChangesFeed, ProjectChangesFeed, ChangesFeed
+from weblate.trans.feeds import TranslationChangesFeed, SubProjectChangesFeed, ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 from weblate.trans.models import Project, SubProject, Translation
 
 admin.autodiscover()
@@ -180,6 +180,7 @@ urlpatterns = patterns('',
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
 
     url(r'^exports/rss/$', ChangesFeed(), name = 'rss'),
+    url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name = 'rss-language'),
     url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed(), name = 'rss-project'),
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name = 'rss-subproject'),
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name = 'rss-translation'),
