@@ -190,10 +190,12 @@ def show_languages(request):
 def show_language(request, lang):
     obj = get_object_or_404(Language, code = lang)
     last_changes = Change.objects.filter(translation__language = obj).order_by('-timestamp')[:10]
+    dicts = Dictionary.objects.filter(language = obj).values_list('project', flat = True).distinct()
 
     return render_to_response('language.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
+        'dicts': Project.objects.filter(id__in = dicts),
     }))
 
 def show_dictionaries(request, project):
