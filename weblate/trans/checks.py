@@ -72,6 +72,7 @@ PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
 SAME_BLACKLIST = frozenset((
     'audio',
     'auto',
+    'avatar',
     'bluetooth',
     'bzip2',
     'cm',
