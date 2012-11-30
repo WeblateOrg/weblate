@@ -3,7 +3,8 @@
 <table class="sort">
 <thead>
 <tr>
-<th colspan="2">{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
+<th>{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
+<th></th>
 <th colspan="2">{% trans "Translated" %}</th>
 <th>{% trans "Fuzzy" context "Number of fuzzy strings" %}</th>
 <th>{% trans "Checks" context "Number of failing checks" %}</th>
