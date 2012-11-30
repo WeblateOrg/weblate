@@ -360,4 +360,11 @@ $(function() {
     $('.code-example').focus(function() {
         $(this).select();
     });
+    $(document).tooltip({
+        content: function() {
+            var element = $(this);
+            return element.html();
+        },
+        items: "span.tooltip"
+    });
 });
