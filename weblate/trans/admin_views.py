@@ -70,8 +70,8 @@ def performance(request):
         'production-admins',
     ))
     # Check offloading indexing
-    # Translators: Indexing is postponed to cron job
     checks.append((
+        # Translators: Indexing is postponed to cron job
         _('Indexing offloading'),
         settings.OFFLOAD_INDEXING,
         'production-indexing',
