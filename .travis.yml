@@ -11,7 +11,7 @@ before_install:
   - sudo apt-get install -qq git libcairo2-dev
 # command to install dependencies
 install: 
-  - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml
+  - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml pygtk
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors  importlib ; fi
   - wget http://www.cairographics.org/releases/py2cairo-1.10.0.tar.bz2
   - tar xf py2cairo-1.10.0.tar.bz2
