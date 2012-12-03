@@ -33,6 +33,8 @@ from weblate.lang.models import Language
 from weblate.trans.forms import EnageLanguageForm
 
 import cairo
+import pango
+import pangocairo
 from cStringIO import StringIO
 import os.path
 
@@ -70,25 +72,25 @@ WIDGETS = {
         'text': [
             {
                 'text': "%(name)s",
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD),
-                'font_size': 14,
-                'pos': (72, 19),
+                'font': "Sans Bold",
+                'font_size': 10,
+                'pos': (72, 6),
             },
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages"),
                 # Translators: line of text in engagement widget, please use your language name instead of English
                 'text_lang': ugettext_lazy("translating %(count)d strings into English"),
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
-                'font_size': 10,
-                'pos': (72, 32),
+                'font': "Sans",
+                'font_size': 7,
+                'pos': (72, 24),
             },
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy('%(percent)d%% complete, help us improve!'),
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
-                'font_size': 10,
-                'pos': (72, 44),
+                'font': "Sans",
+                'font_size': 7,
+                'pos': (72, 37),
             },
 
 
@@ -121,23 +123,23 @@ WIDGETS = {
         'text': [
             {
                 'text': "%(name)s",
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD),
-                'font_size': 10,
-                'pos': (23, 10),
+                'font': "Sans Bold",
+                'font_size': 7,
+                'pos': (23, 2),
             },
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy('translation'),
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
-                'font_size': 10,
-                'pos': (23, 19),
+                'font': "Sans",
+                'font_size': 7,
+                'pos': (23, 11),
             },
             {
                 # Translators: line of text in engagement widget
                 'text': ugettext_lazy('%(percent)d%% done'),
-                'font': ("Sans", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL),
-                'font_size': 10,
-                'pos': (23, 28),
+                'font': "Sans",
+                'font_size': 7,
+                'pos': (23, 20),
             },
 
 
@@ -201,7 +203,7 @@ def widgets(request, project):
         'form': form,
     }))
 
-@cache_page(3600)
+#@cache_page(3600)
 def render(request, project, widget = '287x66', color = None, lang = None):
     obj = get_object_or_404(Project, slug = project)
 
@@ -241,7 +243,7 @@ def render(request, project, widget = '287x66', color = None, lang = None):
     # Setup
     ctx.set_line_width(widget_data['colors'][color]['line'])
 
-    # Progress bar
+    # Progress bar rendering
     if widget_data['progress'] is not None:
         # Filled bar
         ctx.new_path()
@@ -259,9 +261,11 @@ def render(request, project, widget = '287x66', color = None, lang = None):
         ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'], widget_data['progress']['height'])
         ctx.stroke()
 
-    # Text
-    ctx.set_source_rgb (*widget_data['colors'][color]['text'])
-    ctx.new_path()
+    # Text rendering
+
+    # Create pango context
+    pangocairo_context = pangocairo.CairoContext(ctx)
+    pangocairo_context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
 
     # Text format strings
     params =  {
@@ -272,17 +276,29 @@ def render(request, project, widget = '287x66', color = None, lang = None):
     }
 
     for line in widget_data['text']:
-        ctx.move_to(*line['pos'])
-        ctx.select_font_face(*line['font'])
-        ctx.set_font_size(line['font_size'])
+        # Format text
         text = line['text']
         if lang is not None and 'text_lang' in line:
             text = line['text_lang']
             if 'English' in text:
                 text = text.replace('English', lang.name)
-        ctx.text_path(text % params)
+        text = text % params
 
-    ctx.fill()
+        # Create pango layout and set font
+        layout = pangocairo_context.create_layout()
+        font = pango.FontDescription('%s %d' % (line['font'], line['font_size']))
+        layout.set_font_description(font)
+
+        # Set color and position
+        ctx.move_to(*line['pos'])
+        ctx.set_source_rgb(0, 0, 0)
+
+        # Add text
+        layout.set_text(text)
+
+        # Render to cairo context
+        pangocairo_context.update_layout(layout)
+        pangocairo_context.show_layout(layout)
 
     # Render PNG
     out = StringIO()
