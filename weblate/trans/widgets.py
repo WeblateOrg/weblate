@@ -262,6 +262,8 @@ def render(request, project, widget = '287x66', color = None, lang = None):
         ctx.stroke()
 
     # Text rendering
+    # Set text color
+    ctx.set_source_rgb (*widget_data['colors'][color]['text'])
 
     # Create pango context
     pangocairo_context = pangocairo.CairoContext(ctx)
@@ -291,7 +293,6 @@ def render(request, project, widget = '287x66', color = None, lang = None):
 
         # Set color and position
         ctx.move_to(*line['pos'])
-        ctx.set_source_rgb(0, 0, 0)
 
         # Add text
         layout.set_text(text)
