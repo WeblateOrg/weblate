@@ -8,7 +8,7 @@ env:
 #  - DJANGO_VERSION=1.5a1
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq git libcairo2-dev
+  - sudo apt-get install -qq git libcairo2-dev libgtk2.0-dev
 # command to install dependencies
 install: 
   - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml pygtk
@@ -16,6 +16,9 @@ install:
   - wget http://www.cairographics.org/releases/py2cairo-1.10.0.tar.bz2
   - tar xf py2cairo-1.10.0.tar.bz2
   - cd py2cairo-1.10.0; ./waf configure --prefix=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION/;./waf build;./waf install; cd ..
+  - wget http://ftp.gnome.org/pub/GNOME/sources/pygtk/2.24/pygtk-2.24.0.tar.bz2
+  - tar xf pygtk-2.24.0.tar.bz2
+  - cd pygtk-2.24.0; ./configure --prefix=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION/; make; make install; cd ..
 # configuration
 before_script:
   - cp weblate/settings_example.py weblate/settings.py
