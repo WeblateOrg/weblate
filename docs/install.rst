@@ -22,6 +22,8 @@ Whoosh
     http://bitbucket.org/mchaput/whoosh/
 PyCairo
     http://cairographics.org/pycairo/
+PyGtk
+    http://www.pygtk.org/
 south
     http://south.aeracode.org/
 Database backend

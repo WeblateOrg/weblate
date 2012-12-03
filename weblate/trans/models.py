@@ -2821,6 +2821,16 @@ def get_versions():
         '1.8',
     ))
 
+    name = 'PyGtk'
+    url = 'http://www.pygtk.org/'
+    mod = get_version_module('pango', name, url)
+    result.append((
+        name,
+        url,
+        mod.version_string(),
+        '1.0',
+    ))
+
     name = 'South'
     url = 'http://south.aeracode.org/'
     mod = get_version_module('south', name, url)
