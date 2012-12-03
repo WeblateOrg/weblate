@@ -77,23 +77,14 @@ WIDGETS = {
                 'pos': (72, 6),
             },
             {
-                # Translators: line of text in engagement widget
-                'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages"),
-                # Translators: line of text in engagement widget, please use your language name instead of English
-                'text_lang': ugettext_lazy("translating %(count)d strings into English"),
+                # Translators: text in the engagement widget
+                'text': ugettext_lazy("translating %(count)d strings into %(languages)d languages\n%(percent)d%% complete, help us improve!"),
+                # Translators: text in the engagement widget, please use your language name instead of English
+                'text_lang': ugettext_lazy("translating %(count)d strings into English\n%(percent)d%% complete, help us improve!"),
                 'font': "Sans",
                 'font_size': 8,
                 'pos': (72, 22),
             },
-            {
-                # Translators: line of text in engagement widget
-                'text': ugettext_lazy('%(percent)d%% complete, help us improve!'),
-                'font': "Sans",
-                'font_size': 8,
-                'pos': (72, 36),
-            },
-
-
         ],
     },
     '88x31': {
@@ -128,21 +119,12 @@ WIDGETS = {
                 'pos': (23, 2),
             },
             {
-                # Translators: line of text in engagement widget
-                'text': ugettext_lazy('translation'),
+                # Translators: text in the engagement widget
+                'text': ugettext_lazy('translation\n%(percent)d%% done'),
                 'font': "Sans",
                 'font_size': 7,
                 'pos': (23, 11),
             },
-            {
-                # Translators: line of text in engagement widget
-                'text': ugettext_lazy('%(percent)d%% done'),
-                'font': "Sans",
-                'font_size': 7,
-                'pos': (23, 20),
-            },
-
-
         ],
     }
 }
