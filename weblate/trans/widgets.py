@@ -121,6 +121,8 @@ WIDGETS = {
             {
                 # Translators: text in the engagement widget
                 'text': ugettext_lazy('translation\n%(percent)d%% done'),
+                # Translators: text in the engagement widget, please use your language name instead of English
+                'text_lang': ugettext_lazy('English translation\n%(percent)d%% done'),
                 'font': "Sans",
                 'font_size': 7,
                 'pos': (23, 11),
