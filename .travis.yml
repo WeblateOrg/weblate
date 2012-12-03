@@ -17,8 +17,8 @@ install:
   - tar xf py2cairo-1.10.0.tar.bz2
   - cd py2cairo-1.10.0; ./waf configure --prefix=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION/;./waf build;./waf install; cd ..
   - wget http://ftp.gnome.org/pub/GNOME/sources/pygobject/3.2/pygobject-3.2.2.tar.xz
-  - tar xf pygobject-3.7.2.tar.xz
-  - cd pygobject-3.7.2; ./configure --prefix=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION/; make; make install; cd ..
+  - tar xf pygobject-3.2.2.tar.xz
+  - cd pygobject-3.2.2; ./configure --prefix=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION/; make; make install; cd ..
   - wget http://ftp.gnome.org/pub/GNOME/sources/pygtk/2.24/pygtk-2.24.0.tar.bz2
   - tar xf pygtk-2.24.0.tar.bz2
   - cd pygtk-2.24.0; ./configure --prefix=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION/; make; make install; cd ..
