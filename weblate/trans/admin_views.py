@@ -70,6 +70,7 @@ def performance(request):
         'production-admins',
     ))
     # Check offloading indexing
+    # Translators: Indexing is postponed to cron job
     checks.append((
         _('Indexing offloading'),
         settings.OFFLOAD_INDEXING,
@@ -95,7 +96,7 @@ def performance(request):
     default_mails = ('root@localhost', 'webmaster@localhost', 'noreply@weblate.org')
     checks.append((
         _('Email addresses'),
-        settings.SERVER_EMAIL not in default_mails and DEFAULT_FROM_EMAIL not in default_mails,
+        settings.SERVER_EMAIL not in default_mails and settings.DEFAULT_FROM_EMAIL not in default_mails,
         'production-email',
     ))
     return render_to_response("admin/performance.html", RequestContext(request, {
