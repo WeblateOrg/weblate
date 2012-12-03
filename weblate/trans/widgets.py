@@ -203,7 +203,7 @@ def widgets(request, project):
         'form': form,
     }))
 
-#@cache_page(3600)
+@cache_page(3600)
 def render(request, project, widget = '287x66', color = None, lang = None):
     obj = get_object_or_404(Project, slug = project)
 
