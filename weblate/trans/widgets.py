@@ -203,6 +203,20 @@ def widgets(request, project):
         'form': form,
     }))
 
+def render_text(pangocairo_context, line, text, params, font_size):
+    '''
+    Generates Pango layout for text.
+    '''
+    # Create pango layout and set font
+    layout = pangocairo_context.create_layout()
+    font = pango.FontDescription('%s %d' % (line['font'], font_size))
+    layout.set_font_description(font)
+
+    # Add text
+    layout.set_text(text)
+
+    return layout
+
 @cache_page(3600)
 def render(request, project, widget = '287x66', color = None, lang = None):
     obj = get_object_or_404(Project, slug = project)
@@ -286,16 +300,21 @@ def render(request, project, widget = '287x66', color = None, lang = None):
                 text = text.replace('English', lang.name)
         text = text % params
 
-        # Create pango layout and set font
-        layout = pangocairo_context.create_layout()
-        font = pango.FontDescription('%s %d' % (line['font'], line['font_size']))
-        layout.set_font_description(font)
+        font_size = line['font_size']
 
-        # Set color and position
+        # Render text
+        layout = render_text(pangocairo_context, line, text, params, font_size)
+
+        # Fit text to image if it is too big
+        extent = layout.get_pixel_extents()
+        width = surface.get_width()
+        while extent[1][2] + line['pos'][0] > width and font_size > 4:
+            font_size -= 1
+            layout = render_text(pangocairo_context, line, text, params, font_size)
+            extent = layout.get_pixel_extents()
+
+        # Set position
         ctx.move_to(*line['pos'])
-
-        # Add text
-        layout.set_text(text)
 
         # Render to cairo context
         pangocairo_context.update_layout(layout)
