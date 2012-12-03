@@ -9,9 +9,9 @@ env:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git
-  - sude apt-get build-dep pygobject
-  - sude apt-get build-dep pygtk
-  - sude apt-get build-dep pycairo
+  - sudo apt-get build-dep pygobject
+  - sudo apt-get build-dep pygtk
+  - sudo apt-get build-dep pycairo
 # command to install dependencies
 install: 
   - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml
