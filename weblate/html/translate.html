@@ -187,19 +187,7 @@
     </table>
     </div>
     <div id="tab-changes">
-    {% if changes %}
-    <table>
-    {% for change in changes %}
-    <tr>
-    <td>{{ change.timestamp|date:"DATETIME_FORMAT" }}</td>
-    <td>{{ change.get_user_display }}</td>
-    <td>{{ change.get_action_display }}</td>
-    </tr>
-    {% endfor %}
-    </table>
-    {% else %}
-    <p>{% trans "No recent activity has been recorded." %}</p>
-    {% endif %}
+    {% include "last-changes.html" %}
     </div>
     <div id="tab-comments">
     <p>{% trans "You can share comments about this translation with other translators." %}</p>
