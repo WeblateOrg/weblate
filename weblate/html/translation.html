@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% load url from future %}
 {% load i18n %}
 
@@ -111,7 +112,7 @@
 <p>{% trans "Locking the translation will prevent others to work on translation." %}</p>
 {% if object.is_user_locked %}
 <p>{% trans "Locked by:" %} {{ object.get_lock_user_display }}</p>
-<p>{% trans "Lock valid till:" %} {{ object.lock_time|date:"DATETIME_FORMAT" }}</p>
+<p>{% trans "Lock expires:" %} {{ object.lock_time|naturaltime }}</p>
 {% else %}
 <p>{% trans "Translation is currently not locked." %}</p>
 {% endif %}

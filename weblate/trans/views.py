@@ -1205,7 +1205,7 @@ def translate(request, project, subproject, lang):
     return render_to_response('translate.html', RequestContext(request, {
         'object': obj,
         'unit': unit,
-        'changes': unit.change_set.all()[:10],
+        'last_changes': unit.change_set.all()[:10],
         'total': total,
         'type': rqtype,
         'filter_name': get_filter_name(rqtype, search_query),

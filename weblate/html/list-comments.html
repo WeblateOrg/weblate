@@ -1,8 +1,9 @@
+{% load humanize %}
 {% for comment in comments %}
 <tr>
 <td>
 <strong>{{ comment.get_user_display }}</strong><br />
-{{ comment.timestamp|date:"DATETIME_FORMAT" }}
+{{ comment.timestamp|naturaltime }}
 </td>
 <td dir="auto">{{ comment.comment }}</td>
 </tr>
