@@ -2163,7 +2163,10 @@ class Unit(models.Model):
             translated = is_translated(unit)
             comment = unit.getnotes()
             if template is not None:
-                comment = template.getnotes() + ' ' + comment
+                # Avoid duplication in case template has same comments
+                template_comment = template.getnotes()
+                if template_comment != comment:
+                    comment = template_comment + ' ' + comment
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target)
