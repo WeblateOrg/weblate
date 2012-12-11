@@ -41,7 +41,6 @@ class WeblateUserAdmin(UserAdmin):
         """
         Get group, separate by comma, and display empty string if user has no group
         """
-        print obj
         return ','.join([g.name for g in obj.groups.all()])
 
 # Need to unregister orignal Django UserAdmin
