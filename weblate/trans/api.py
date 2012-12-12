@@ -32,6 +32,7 @@ import threading
 
 logger = logging.getLogger('weblate')
 
+
 @csrf_exempt
 def update_subproject(request, project, subproject):
     '''
@@ -39,10 +40,11 @@ def update_subproject(request, project, subproject):
     '''
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
-    t = threading.Thread(target = obj.do_update)
+    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
+    t = threading.Thread(target=obj.do_update)
     t.start()
     return HttpResponse('update triggered')
+
 
 @csrf_exempt
 def update_project(request, project):
@@ -51,8 +53,8 @@ def update_project(request, project):
     '''
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_object_or_404(Project, slug = project)
-    t = threading.Thread(target = obj.do_update)
+    obj = get_object_or_404(Project, slug=project)
+    t = threading.Thread(target=obj.do_update)
     t.start()
     return HttpResponse('update triggered')
 
@@ -79,12 +81,13 @@ def github_hook(request):
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
     logger.info('received GitHub notification on repository %s, branch %s', repo, branch)
-    for obj in SubProject.objects.filter(repo = repo, branch = branch):
+    for obj in SubProject.objects.filter(repo=repo, branch=branch):
         logger.info('GitHub notification will update %s', obj)
-        t = threading.Thread(target = obj.do_update)
+        t = threading.Thread(target=obj.do_update)
         t.start()
 
     return HttpResponse('update triggered')
+
 
 def dt_handler(obj):
     if hasattr(obj, 'isoformat'):
@@ -92,11 +95,12 @@ def dt_handler(obj):
     else:
         raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
 
+
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
-    subprj = get_object_or_404(SubProject, slug = subproject, project__slug = project)
+    subprj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
     response = []
     site = Site.objects.get_current()
     for trans in subprj.translation_set.all():
@@ -116,6 +120,6 @@ def export_stats(request, project, subproject):
             'url_translate': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
         })
     return HttpResponse(
-        json.dumps(response, default = dt_handler),
+        json.dumps(response, default=dt_handler),
         mimetype = 'application/json'
     )

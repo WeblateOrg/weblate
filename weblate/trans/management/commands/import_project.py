@@ -30,6 +30,7 @@ import fnmatch
 
 logger = logging.getLogger('weblate')
 
+
 class Command(BaseCommand):
     help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
@@ -55,7 +56,7 @@ class Command(BaseCommand):
 
         # Try to get project
         try:
-            project = Project.objects.get(slug = prjname)
+            project = Project.objects.get(slug=prjname)
         except Project.DoesNotExist:
             raise CommandError('Project %s does not exist, you need to create it first!' % prjname)
 
@@ -64,7 +65,7 @@ class Command(BaseCommand):
             raise CommandError('You need to specify double wildcard for subproject part of the match!')
 
         # Create temporary working dir
-        workdir = tempfile.mkdtemp(dir = project.get_path())
+        workdir = tempfile.mkdtemp(dir=project.get_path())
         os.chmod(workdir, 0755)
 
         # Initialize git repository
@@ -96,12 +97,12 @@ class Command(BaseCommand):
         os.rename(workdir, os.path.join(project.get_path(), name))
 
         SubProject.objects.create(
-            name = name,
-            slug = name,
-            project = project,
-            repo = repo,
-            branch = branch,
-            filemask = filemask.replace('**', name)
+            name=name,
+            slug=name,
+            project=project,
+            repo=repo,
+            branch=branch,
+            filemask=filemask.replace('**', name)
         )
 
         sharedrepo = 'weblate://%s/%s' % (project.slug, name)
@@ -110,10 +111,10 @@ class Command(BaseCommand):
         for name in names:
             logger.info('Creating subproject %s', name)
             SubProject.objects.create(
-                name = name,
-                slug = name,
-                project = project,
-                repo = sharedrepo,
-                branch = branch,
-                filemask = filemask.replace('**', name)
+                name=name,
+                slug=name,
+                project=project,
+                repo=sharedrepo,
+                branch=branch,
+                filemask=filemask.replace('**', name)
             )

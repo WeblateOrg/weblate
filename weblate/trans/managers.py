@@ -90,29 +90,31 @@ IGNORE_SIMILAR = set([
     'www',
 ]) | IGNORE_WORDS
 
+
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, force = False, request = None):
+    def update_from_blob(self, subproject, code, path, force=False, request=None):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
-        lang = Language.objects.auto_get_or_create(code = code)
+        lang = Language.objects.auto_get_or_create(code=code)
         translation, created = self.get_or_create(
-            language = lang,
-            language_code = code,
-            subproject = subproject
+            language=lang,
+            language_code=code,
+            subproject=subproject
         )
         if translation.filename != path:
             force = True
             translation.filename = path
-        translation.update_from_blob(force, request = request)
+        translation.update_from_blob(force, request=request)
 
         return translation
 
     def enabled(self):
-        return self.filter(enabled = True)
+        return self.filter(enabled=True)
+
 
 class UnitManager(models.Manager):
-    def update_from_unit(self, translation, unit, pos, template = None):
+    def update_from_unit(self, translation, unit, pos, template=None):
         '''
         Process translation toolkit unit and stores/updates database entry.
         '''
@@ -129,24 +131,27 @@ class UnitManager(models.Manager):
         dbunit = None
         try:
             dbunit = self.get(
-                translation = translation,
-                checksum = checksum)
+                translation=translation,
+                checksum=checksum
+            )
             force = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
             self.filter(
-                translation = translation,
-                checksum = checksum).delete()
+                translation=translation,
+                checksum=checksum
+            ).delete()
         except Unit.DoesNotExist:
             pass
 
         # Create unit if it does not exist
         if dbunit is None:
             dbunit = Unit(
-                translation = translation,
-                checksum = checksum,
-                source = src,
-                context = ctx)
+                translation=translation,
+                checksum=checksum,
+                source=src,
+                context=ctx
+            )
             force = True
 
         # Update all details
@@ -167,62 +172,63 @@ class UnitManager(models.Manager):
         if rqtype == 'all':
             return self.all()
         elif rqtype == 'fuzzy':
-            return self.filter(fuzzy = True)
+            return self.filter(fuzzy=True)
         elif rqtype == 'untranslated':
-            return self.filter(translated = False)
+            return self.filter(translated=False)
         elif rqtype == 'suggestions':
             sugs = Suggestion.objects.filter(
-                language = translation.language,
-                project = translation.subproject.project)
-            sugs = sugs.values_list('checksum', flat = True)
-            return self.filter(checksum__in = sugs)
+                language=translation.language,
+                project=translation.subproject.project
+            )
+            sugs = sugs.values_list('checksum', flat=True)
+            return self.filter(checksum__in=sugs)
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
-                language = None,
-                project = translation.subproject.project
+                language=None,
+                project=translation.subproject.project
             )
-            coms = coms.values_list('checksum', flat = True)
-            return self.filter(checksum__in = coms)
+            coms = coms.values_list('checksum', flat=True)
+            return self.filter(checksum__in=coms)
         elif rqtype == 'targetcomments':
             coms = Comment.objects.filter(
-                language = translation.language,
-                project = translation.subproject.project
+                language=translation.language,
+                project=translation.subproject.project
             )
-            coms = coms.values_list('checksum', flat = True)
-            return self.filter(checksum__in = coms)
+            coms = coms.values_list('checksum', flat=True)
+            return self.filter(checksum__in=coms)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
 
             # Filter checks for current project
             checks = Check.objects.filter(
-                project = translation.subproject.project,
-                ignore = False
+                project=translation.subproject.project,
+                ignore=False
             )
 
             # Filter by language
             if rqtype == 'allchecks':
-                checks = checks.filter(language = translation.language)
+                checks = checks.filter(language=translation.language)
             elif rqtype == 'sourcechecks':
-                checks = checks.filter(language = None)
+                checks = checks.filter(language=None)
                 filter_translated = False
             elif CHECKS[rqtype].source and CHECKS[rqtype].target:
                 checks = checks.filter(
-                    Q(language = translation.language) | Q(language = None)
+                    Q(language=translation.language) | Q(language=None)
                 )
                 filter_translated = False
             elif CHECKS[rqtype].source:
-                checks = checks.filter(language = None)
+                checks = checks.filter(language=None)
                 filter_translated = False
             elif CHECKS[rqtype].target:
-                checks = checks.filter(language = translation.language)
+                checks = checks.filter(language=translation.language)
 
             # Filter by check type
             if not rqtype in ['allchecks', 'sourcechecks']:
-                checks = checks.filter(check = rqtype)
+                checks = checks.filter(check=rqtype)
 
-            checks = checks.values_list('checksum', flat = True)
-            ret = self.filter(checksum__in = checks)
+            checks = checks.values_list('checksum', flat=True)
+            ret = self.filter(checksum__in=checks)
             if filter_translated:
-                ret = ret.filter(translated = True)
+                ret = ret.filter(translated=True)
             return ret
         else:
             return self.all()
@@ -264,17 +270,20 @@ class UnitManager(models.Manager):
             return self.none()
         from weblate.trans.models import Change
         sample = self.all()[0]
-        changes = Change.objects.filter(translation = sample.translation, timestamp__gte = date).exclude(user = user)
-        return self.filter(id__in = changes.values_list('unit__id', flat = True))
+        changes = Change.objects.filter(
+            translation=sample.translation,
+            timestamp__gte=date
+        ).exclude(user=user)
+        return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
     def add_to_source_index(self, checksum, source, context, writer):
         '''
         Updates/Adds to source index given unit.
         '''
         writer.update_document(
-            checksum = unicode(checksum),
-            source = unicode(source),
-            context = unicode(context),
+            checksum=unicode(checksum),
+            source=unicode(source),
+            context=unicode(context),
         )
 
     def add_to_target_index(self, checksum, target, writer):
@@ -282,17 +291,17 @@ class UnitManager(models.Manager):
         Updates/Adds to target index given unit.
         '''
         writer.update_document(
-            checksum = unicode(checksum),
-            target = unicode(target),
+            checksum=unicode(checksum),
+            target=unicode(target),
         )
 
-    def add_to_index(self, unit, source = True):
+    def add_to_index(self, unit, source=True):
         '''
         Updates/Adds to all indices given unit.
         '''
         if settings.OFFLOAD_INDEXING:
             from weblate.trans.models import IndexUpdate
-            IndexUpdate.objects.get_or_create(unit = unit, source = source)
+            IndexUpdate.objects.get_or_create(unit=unit, source=source)
             return
 
         writer_target = FULLTEXT_INDEX.target_writer(unit.translation.language.code)
@@ -318,7 +327,7 @@ class UnitManager(models.Manager):
         return [searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)]
 
 
-    def search(self, query, source = True, context = True, translation = True, checksums = False):
+    def search(self, query, source=True, context=True, translation=True, checksums=False):
         '''
         Performs full text search on defined set of fields.
 
@@ -340,7 +349,7 @@ class UnitManager(models.Manager):
         if checksums:
             return ret
 
-        return self.filter(checksum__in = ret)
+        return self.filter(checksum__in=ret)
 
     def similar(self, unit):
         '''
@@ -349,7 +358,7 @@ class UnitManager(models.Manager):
         ret = set([unit.checksum])
         with FULLTEXT_INDEX.source_searcher(not settings.OFFLOAD_INDEXING) as searcher:
             # Extract up to 10 terms from the source
-            terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms = 10) if not kw in IGNORE_SIMILAR]
+            terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms=10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
             # Try to find at least configured number of similar strings, remove up to 4 words
             while len(ret) < settings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
@@ -358,20 +367,23 @@ class UnitManager(models.Manager):
                 cnt -= 1
 
         return self.filter(
-                    translation__subproject__project = unit.translation.subproject.project,
-                    translation__language = unit.translation.language,
-                    checksum__in = ret).exclude(
-                    target__in = ['', unit.target])
+                    translation__subproject__project=unit.translation.subproject.project,
+                    translation__language=unit.translation.language,
+                    checksum__in=ret
+                ).exclude(
+                    target__in=['', unit.target]
+                )
 
     def same(self, unit):
         '''
         Units with same source withing same project.
         '''
         return self.filter(
-            checksum = unit.checksum,
-            translation__subproject__project = unit.translation.subproject.project,
-            translation__language = unit.translation.language
+            checksum=unit.checksum,
+            translation__subproject__project=unit.translation.subproject.project,
+            translation__language=unit.translation.language
         )
+
 
 class DictionaryManager(models.Manager):
     def upload(self, project, language, fileobj, overwrite):

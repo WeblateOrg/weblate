@@ -50,9 +50,9 @@ def profile(request):
 
     if request.method == 'POST':
         # Read params
-        form = ProfileForm(request.POST, instance = request.user.get_profile())
-        subscriptionform = SubscriptionForm(request.POST, instance = request.user.get_profile())
-        userform = UserForm(request.POST, instance = request.user)
+        form = ProfileForm(request.POST, instance=request.user.get_profile())
+        subscriptionform = SubscriptionForm(request.POST, instance=request.user.get_profile())
+        userform = UserForm(request.POST, instance=request.user)
         if form.is_valid() and userform.is_valid() and subscriptionform.is_valid():
             # Save changes
             form.save()
@@ -60,7 +60,7 @@ def profile(request):
             userform.save()
 
             # Change language
-            set_lang(request.user, request = request, user = request.user)
+            set_lang(request.user, request=request, user=request.user)
 
             # Redirect after saving (and possibly changing language)
             response = HttpResponseRedirect(reverse('profile'))
@@ -74,9 +74,9 @@ def profile(request):
 
             return response
     else:
-        form = ProfileForm(instance = request.user.get_profile())
-        subscriptionform = SubscriptionForm(instance = request.user.get_profile())
-        userform = UserForm(instance = request.user)
+        form = ProfileForm(instance=request.user.get_profile())
+        subscriptionform = SubscriptionForm(instance=request.user.get_profile())
+        userform = UserForm(instance=request.user)
 
     profile = request.user.get_profile()
     response = render_to_response('profile.html', RequestContext(request, {
@@ -111,7 +111,7 @@ def contact(request):
             initial['email'] = request.user.email
         if 'subject' in request.GET:
             initial['subject'] = request.GET['subject']
-        form = ContactForm(initial = initial)
+        form = ContactForm(initial=initial)
 
     return render_to_response('contact.html', RequestContext(request, {
         'form': form,

@@ -60,7 +60,7 @@ if RUNNING_GIT:
         # repo (eg. swallow clone)
         RUNNING_GIT = False
 
-def get_doc_url(page, anchor = ''):
+def get_doc_url(page, anchor=''):
     '''
     Return URL to documentation.
     '''

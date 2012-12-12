@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 from weblate.trans.models import Change, Translation, SubProject, Project
 from weblate.lang.models import Language
 
+
 class ChangesFeed(Feed):
 
     def title(self):
@@ -57,7 +58,13 @@ class ChangesFeed(Feed):
 class TranslationChangesFeed(ChangesFeed):
 
     def get_object(self, request, project, subproject, lang):
-        return get_object_or_404(Translation, language__code = lang, subproject__slug = subproject, subproject__project__slug = project, enabled = True)
+        return get_object_or_404(
+            Translation,
+            language__code=lang,
+            subproject__slug=subproject,
+            subproject__project__slug=project,
+            enabled=True
+        )
 
     def title(self, obj):
         return _('Recent changes in %s') % obj
@@ -69,28 +76,31 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return Change.objects.filter(translation = obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(translation=obj).order_by('-timestamp')[:10]
+
 
 class SubProjectChangesFeed(TranslationChangesFeed):
 
     def get_object(self, request, project, subproject):
-        return get_object_or_404(SubProject, slug = subproject, project__slug = project)
+        return get_object_or_404(SubProject, slug=subproject, project__slug=project)
 
     def items(self, obj):
-        return Change.objects.filter(translation__subproject = obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(translation__subproject=obj).order_by('-timestamp')[:10]
+
 
 class ProjectChangesFeed(TranslationChangesFeed):
 
     def get_object(self, request, project):
-        return get_object_or_404(Project, slug = project)
+        return get_object_or_404(Project, slug=project)
 
     def items(self, obj):
-        return Change.objects.filter(translation__subproject__project = obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(translation__subproject__project=obj).order_by('-timestamp')[:10]
+
 
 class LanguageChangesFeed(TranslationChangesFeed):
 
     def get_object(self, request, lang):
-        return get_object_or_404(Language, code = lang)
+        return get_object_or_404(Language, code=lang)
 
     def items(self, obj):
-        return Change.objects.filter(translation__language = obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(translation__language=obj).order_by('-timestamp')[:10]

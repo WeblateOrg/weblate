@@ -43,6 +43,7 @@ register = template.Library()
 WHITESPACE_RE = re.compile(r'(  +| $|^ )')
 NEWLINES_RE = re.compile(r'\r\n|\r|\n')
 
+
 def fmt_whitespace(value):
     '''
     Formats whitespace so that it is more visible.
@@ -59,15 +60,16 @@ def fmt_whitespace(value):
     )
     return value
 
+
 @register.filter
 @stringfilter
-def fmttranslation(value, language = None, diff = None):
+def fmttranslation(value, language=None, diff=None):
     '''
     Formats translation to show whitespace, plural forms or diff.
     '''
     # Get language
     if language is None:
-        language = Language.objects.get(code = 'en')
+        language = Language.objects.get(code='en')
 
     # Split plurals to separate strings
     plurals = split_plural(value)
@@ -114,6 +116,7 @@ def fmttranslation(value, language = None, diff = None):
 
     return mark_safe('<span lang="%s" dir="%s" class="direction">%s</span>' % (language.code, language.direction, value))
 
+
 @register.filter
 @stringfilter
 def fmttranslationdiff(value, other):
@@ -122,6 +125,7 @@ def fmttranslationdiff(value, other):
     '''
     return fmttranslation(value, other.translation.language, other.target)
 
+
 @register.filter
 @stringfilter
 def site_title(value):
@@ -129,6 +133,7 @@ def site_title(value):
     Returns site title
     '''
     return settings.SITE_TITLE
+
 
 @register.simple_tag
 def check_name(check):
@@ -140,6 +145,7 @@ def check_name(check):
     except:
         return check
 
+
 @register.simple_tag
 def check_description(check):
     '''
@@ -150,40 +156,46 @@ def check_description(check):
     except:
         return check
 
+
 @register.simple_tag
 def project_name(prj):
     '''
     Gets project name based on slug.
     '''
-    return Project.objects.get(slug = prj).__unicode__()
+    return Project.objects.get(slug=prj).__unicode__()
+
 
 @register.simple_tag
 def subproject_name(prj, subprj):
     '''
     Gets subproject name based on slug.
     '''
-    return SubProject.objects.get(project__slug = prj, slug = subprj).__unicode__()
+    return SubProject.objects.get(project__slug=prj, slug=subprj).__unicode__()
+
 
 @register.simple_tag
 def language_name(code):
     '''
     Gets language name based on it's code.
     '''
-    return Language.objects.get(code = code).__unicode__()
+    return Language.objects.get(code=code).__unicode__()
+
 
 @register.simple_tag
 def dictionary_count(lang, project):
     '''
     Returns number of words in dictionary.
     '''
-    return Dictionary.objects.filter(project = project, language = lang).count()
+    return Dictionary.objects.filter(project=project, language=lang).count()
+
 
 @register.simple_tag
-def documentation(page, anchor = ''):
+def documentation(page, anchor=''):
     '''
     Returns link to Weblate documentation.
     '''
     return weblate.get_doc_url(page, anchor)
+
 
 @register.simple_tag
 def admin_boolean_icon(val):
@@ -194,6 +206,7 @@ def admin_boolean_icon(val):
                       {True: 'yes', False: 'no', None: 'unknown'}[val])
     return mark_safe(u'<img src="%s" alt="%s" />' % (icon_url, val))
 
+
 @register.inclusion_tag('message.html')
 def show_message(tags, message):
     return {
@@ -201,8 +214,9 @@ def show_message(tags, message):
         'message': message,
     }
 
+
 @register.simple_tag
-def gravatar(user, size = 80):
+def gravatar(user, size=80):
     url = gravatar_for_email(user.email, size)
     alt = escape(_('Avatar for %s') % get_user_display(user, False))
     return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (

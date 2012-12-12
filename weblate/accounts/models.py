@@ -45,7 +45,8 @@ import logging
 
 logger = logging.getLogger('weblate')
 
-def send_notification_email(language, email, notification, translation_obj, context = {}, headers = {}):
+
+def send_notification_email(language, email, notification, translation_obj, context={}, headers={}):
     '''
     Renders and sends notification email.
     '''
@@ -94,7 +95,7 @@ def send_notification_email(language, email, notification, translation_obj, cont
             )
 
             # Send it out
-            email.send(fail_silently = False)
+            email.send(fail_silently=False)
     finally:
         translation.activate(cur_language)
 
@@ -104,83 +105,84 @@ class ProfileManager(models.Manager):
     Manager providing shortcuts for subscription queries.
     '''
     def subscribed_any_translation(self, project, language, user):
-        return self.filter(subscribe_any_translation = True, subscriptions = project, languages = language).exclude(user = user)
+        return self.filter(subscribe_any_translation=True, subscriptions=project, languages=language).exclude(user=user)
 
     def subscribed_new_string(self, project, language):
-        return self.filter(subscribe_new_string = True, subscriptions = project, languages = language)
+        return self.filter(subscribe_new_string=True, subscriptions=project, languages=language)
 
     def subscribed_new_suggestion(self, project, language, user):
-        ret = self.filter(subscribe_new_suggestion = True, subscriptions = project, languages = language)
+        ret = self.filter(subscribe_new_suggestion=True, subscriptions=project, languages=language)
         # We don't want to filter out anonymous user
         if user.is_authenticated():
-            ret = ret.exclude(user = user)
+            ret = ret.exclude(user=user)
         return ret
 
     def subscribed_new_contributor(self, project, language, user):
-        return self.filter(subscribe_new_contributor = True, subscriptions = project, languages = language).exclude(user = user)
+        return self.filter(subscribe_new_contributor=True, subscriptions=project, languages=language).exclude(user=user)
 
     def subscribed_new_comment(self, project, language, user):
-        ret = self.filter(subscribe_new_comment = True, subscriptions = project).exclude(user = user)
+        ret = self.filter(subscribe_new_comment=True, subscriptions=project).exclude(user=user)
         # Source comments go to every subscriber
         if language is not None:
-            ret = ret.filter(languages = language)
+            ret = ret.filter(languages=language)
         return ret
 
     def subscribed_merge_failure(self, project):
-        return self.filter(subscribe_merge_failure = True, subscriptions = project)
+        return self.filter(subscribe_merge_failure=True, subscriptions=project)
+
 
 class Profile(models.Model):
     '''
     User profiles storage.
     '''
-    user = models.ForeignKey(User, unique = True, editable = False)
+    user = models.ForeignKey(User, unique=True, editable=False)
     language = models.CharField(
-        verbose_name = _(u"Interface Language"),
-        max_length = 10,
-        choices = settings.LANGUAGES
+        verbose_name=_(u"Interface Language"),
+        max_length=10,
+        choices=settings.LANGUAGES
     )
     languages = models.ManyToManyField(
         Language,
-        verbose_name = _('Languages'),
-        blank = True,
+        verbose_name=_('Languages'),
+        blank=True,
     )
     secondary_languages = models.ManyToManyField(
         Language,
-        verbose_name = _('Secondary languages'),
-        related_name = 'secondary_profile_set',
-        blank = True,
+        verbose_name=_('Secondary languages'),
+        related_name='secondary_profile_set',
+        blank=True,
     )
-    suggested = models.IntegerField(default = 0, db_index = True)
-    translated = models.IntegerField(default = 0, db_index = True)
+    suggested = models.IntegerField(default=0, db_index=True)
+    translated = models.IntegerField(default=0, db_index=True)
 
     subscriptions = models.ManyToManyField(
         Project,
-        verbose_name = _('Subscribed projects')
+        verbose_name=_('Subscribed projects')
     )
 
     subscribe_any_translation = models.BooleanField(
-        verbose_name = _('Notification on any translation'),
-        default = False
+        verbose_name=_('Notification on any translation'),
+        default=False
     )
     subscribe_new_string = models.BooleanField(
-        verbose_name = _('Notification on new string to translate'),
-        default = False
+        verbose_name=_('Notification on new string to translate'),
+        default=False
     )
     subscribe_new_suggestion = models.BooleanField(
-        verbose_name = _('Notification on new suggestion'),
-        default = False
+        verbose_name=_('Notification on new suggestion'),
+        default=False
     )
     subscribe_new_contributor = models.BooleanField(
-        verbose_name = _('Notification on new contributor'),
-        default = False
+        verbose_name=_('Notification on new contributor'),
+        default=False
     )
     subscribe_new_comment = models.BooleanField(
-        verbose_name = _('Notification on new comment'),
-        default = False
+        verbose_name=_('Notification on new comment'),
+        default=False
     )
     subscribe_merge_failure = models.BooleanField(
-        verbose_name = _('Notification on merge failure'),
-        default = False
+        verbose_name=_('Notification on merge failure'),
+        default=False
     )
 
     objects = ProfileManager()
@@ -191,7 +193,7 @@ class Profile(models.Model):
     def get_user_display(self):
         return get_user_display(self.user)
 
-    def notify_user(self, notification, translation_obj, context = {}, headers = {}):
+    def notify_user(self, notification, translation_obj, context={}, headers={}):
         '''
         Wrapper for sending notifications to user.
         '''
@@ -277,6 +279,7 @@ class Profile(models.Model):
         '''
         return self.user.get_full_name()
 
+
 @receiver(user_logged_in)
 def set_lang(sender, **kwargs):
     '''
@@ -290,7 +293,7 @@ def set_lang(sender, **kwargs):
     try:
         profile = user.get_profile()
     except Profile.DoesNotExist:
-        profile, newprofile = Profile.objects.get_or_create(user = user)
+        profile, newprofile = Profile.objects.get_or_create(user=user)
         if newprofile:
             messages.info(request, gettext('Your profile has been migrated, you might want to adjust preferences.'))
 
@@ -298,59 +301,62 @@ def set_lang(sender, **kwargs):
     lang_code = user.get_profile().language
     request.session['django_language'] = lang_code
 
+
 def create_groups(update):
     '''
     Creates standard groups and gives them permissions.
     '''
-    group, created = Group.objects.get_or_create(name = 'Users')
+    group, created = Group.objects.get_or_create(name='Users')
     if created or update:
         group.permissions.add(
-            Permission.objects.get(codename = 'upload_translation'),
-            Permission.objects.get(codename = 'overwrite_translation'),
-            Permission.objects.get(codename = 'save_translation'),
-            Permission.objects.get(codename = 'accept_suggestion'),
-            Permission.objects.get(codename = 'delete_suggestion'),
-            Permission.objects.get(codename = 'ignore_check'),
-            Permission.objects.get(codename = 'upload_dictionary'),
-            Permission.objects.get(codename = 'add_dictionary'),
-            Permission.objects.get(codename = 'change_dictionary'),
-            Permission.objects.get(codename = 'delete_dictionary'),
-            Permission.objects.get(codename = 'lock_translation'),
-            Permission.objects.get(codename = 'add_comment'),
+            Permission.objects.get(codename='upload_translation'),
+            Permission.objects.get(codename='overwrite_translation'),
+            Permission.objects.get(codename='save_translation'),
+            Permission.objects.get(codename='accept_suggestion'),
+            Permission.objects.get(codename='delete_suggestion'),
+            Permission.objects.get(codename='ignore_check'),
+            Permission.objects.get(codename='upload_dictionary'),
+            Permission.objects.get(codename='add_dictionary'),
+            Permission.objects.get(codename='change_dictionary'),
+            Permission.objects.get(codename='delete_dictionary'),
+            Permission.objects.get(codename='lock_translation'),
+            Permission.objects.get(codename='add_comment'),
         )
-    group, created = Group.objects.get_or_create(name = 'Managers')
+    group, created = Group.objects.get_or_create(name='Managers')
     if created or update:
         group.permissions.add(
-            Permission.objects.get(codename = 'author_translation'),
-            Permission.objects.get(codename = 'upload_translation'),
-            Permission.objects.get(codename = 'overwrite_translation'),
-            Permission.objects.get(codename = 'commit_translation'),
-            Permission.objects.get(codename = 'update_translation'),
-            Permission.objects.get(codename = 'push_translation'),
-            Permission.objects.get(codename = 'automatic_translation'),
-            Permission.objects.get(codename = 'save_translation'),
-            Permission.objects.get(codename = 'accept_suggestion'),
-            Permission.objects.get(codename = 'delete_suggestion'),
-            Permission.objects.get(codename = 'ignore_check'),
-            Permission.objects.get(codename = 'upload_dictionary'),
-            Permission.objects.get(codename = 'add_dictionary'),
-            Permission.objects.get(codename = 'change_dictionary'),
-            Permission.objects.get(codename = 'delete_dictionary'),
-            Permission.objects.get(codename = 'lock_subproject'),
-            Permission.objects.get(codename = 'reset_translation'),
-            Permission.objects.get(codename = 'lock_translation'),
-            Permission.objects.get(codename = 'add_comment'),
-            Permission.objects.get(codename = 'delete_comment'),
+            Permission.objects.get(codename='author_translation'),
+            Permission.objects.get(codename='upload_translation'),
+            Permission.objects.get(codename='overwrite_translation'),
+            Permission.objects.get(codename='commit_translation'),
+            Permission.objects.get(codename='update_translation'),
+            Permission.objects.get(codename='push_translation'),
+            Permission.objects.get(codename='automatic_translation'),
+            Permission.objects.get(codename='save_translation'),
+            Permission.objects.get(codename='accept_suggestion'),
+            Permission.objects.get(codename='delete_suggestion'),
+            Permission.objects.get(codename='ignore_check'),
+            Permission.objects.get(codename='upload_dictionary'),
+            Permission.objects.get(codename='add_dictionary'),
+            Permission.objects.get(codename='change_dictionary'),
+            Permission.objects.get(codename='delete_dictionary'),
+            Permission.objects.get(codename='lock_subproject'),
+            Permission.objects.get(codename='reset_translation'),
+            Permission.objects.get(codename='lock_translation'),
+            Permission.objects.get(codename='add_comment'),
+            Permission.objects.get(codename='delete_comment'),
         )
+
 
 def move_users():
     '''
     Moves users to default group.
     '''
-    group = Group.objects.get(name = 'Users')
+    group = Group.objects.get(name='Users')
 
     for u in User.objects.all():
         u.groups.add(group)
+
 
 @receiver(post_syncdb)
 @receiver(post_migrate)
@@ -361,6 +367,7 @@ def sync_create_groups(sender, **kwargs):
     if ('app' in kwargs and kwargs['app'] == 'accounts') or (sender is not None and sender.__name__ == 'weblate.accounts.models'):
         create_groups(False)
 
+
 @receiver(user_registered)
 def store_user_details(sender, user, request, **kwargs):
     '''
@@ -370,9 +377,10 @@ def store_user_details(sender, user, request, **kwargs):
     user.first_name = request.POST['first_name']
     user.last_name = request.POST['last_name']
     user.save()
-    profile, newprofile = Profile.objects.get_or_create(user = user)
+    profile, newprofile = Profile.objects.get_or_create(user=user)
 
-@receiver(post_save, sender = User)
+
+@receiver(post_save, sender=User)
 def create_profile_callback(sender, **kwargs):
     '''
     Automatically adds user to Users group.
@@ -380,7 +388,7 @@ def create_profile_callback(sender, **kwargs):
     if kwargs['created']:
         # Add user to Users group if it exists
         try:
-            group = Group.objects.get(name = 'Users')
+            group = Group.objects.get(name='Users')
             kwargs['instance'].groups.add(group)
         except Group.DoesNotExist:
             pass

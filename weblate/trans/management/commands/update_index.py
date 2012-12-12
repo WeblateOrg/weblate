@@ -23,6 +23,7 @@ from weblate.trans.models import IndexUpdate, Unit
 from weblate.lang.models import Language
 from weblate.trans.search import FULLTEXT_INDEX
 
+
 class Command(BaseCommand):
     help = 'updates index for fulltext search'
 
@@ -34,8 +35,8 @@ class Command(BaseCommand):
         if base.count() == 0:
             return
 
-        with FULLTEXT_INDEX.source_writer(buffered = False) as writer:
-            for update in base.filter(source = True).iterator():
+        with FULLTEXT_INDEX.source_writer(buffered=False) as writer:
+            for update in base.filter(source=True).iterator():
                 Unit.objects.add_to_source_index(
                     update.unit.checksum,
                     update.unit.source,
@@ -43,9 +44,9 @@ class Command(BaseCommand):
                     writer)
 
         for lang in languages:
-            with FULLTEXT_INDEX.target_writer(lang = lang.code, buffered = False) as writer:
+            with FULLTEXT_INDEX.target_writer(lang=lang.code, buffered=False) as writer:
                 for update in base.filter(unit__translation__language =
-                    lang).exclude(unit__target = '').iterator():
+                    lang).exclude(unit__target='').iterator():
                     Unit.objects.add_to_target_index(
                         update.unit.checksum,
                         update.unit.target,

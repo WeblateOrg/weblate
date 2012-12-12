@@ -166,6 +166,7 @@ DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.EllipsisCheck',
 )
 
+
 class Check(object):
     '''
     Basic class for checks.
@@ -271,6 +272,7 @@ class Check(object):
         '''
         return cache.set(self.get_cache_key(unit), value)
 
+
 class TargetCheck(Check):
     '''
     Basic class for target checks.
@@ -278,11 +280,13 @@ class TargetCheck(Check):
     target = True
 
 
+
 class SourceCheck(Check):
     '''
     Basic class for source checks.
     '''
     source= True
+
 
 
 class SameCheck(TargetCheck):
@@ -330,6 +334,7 @@ class SameCheck(TargetCheck):
 
         return (source == target)
 
+
 class BeginNewlineCheck(TargetCheck):
     '''
     Checks for newlines at beginning.
@@ -341,6 +346,7 @@ class BeginNewlineCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, 0, ['\n'])
 
+
 class EndNewlineCheck(TargetCheck):
     '''
     Checks for newlines at end.
@@ -351,6 +357,7 @@ class EndNewlineCheck(TargetCheck):
 
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, -1, ['\n'])
+
 
 class BeginSpaceCheck(TargetCheck):
     '''
@@ -376,6 +383,7 @@ class BeginSpaceCheck(TargetCheck):
 
         return False
 
+
 class EndSpaceCheck(TargetCheck):
     '''
     Whitespace check
@@ -395,6 +403,7 @@ class EndSpaceCheck(TargetCheck):
                 return False
         return self.check_chars(source, target, -1, [' '])
 
+
 class EndStopCheck(TargetCheck):
     '''
     Check for final stop
@@ -411,6 +420,7 @@ class EndStopCheck(TargetCheck):
             # in case it's used before list.
             return self.check_chars(source, target, -1, [u':', u'：', u'.', u'。'])
         return self.check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
+
 
 
 class EndColonCheck(TargetCheck):
@@ -438,6 +448,7 @@ class EndColonCheck(TargetCheck):
         return self.check_chars(source, target, -1, [u':', u'：'])
 
 
+
 class EndQuestionCheck(TargetCheck):
     '''
     Check for final question mark
@@ -455,6 +466,7 @@ class EndQuestionCheck(TargetCheck):
                     return True
             return False
         return self.check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
+
 
 class EndExclamationCheck(TargetCheck):
     '''
@@ -480,6 +492,7 @@ class EndExclamationCheck(TargetCheck):
             return False
         return self.check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
 
+
 class EndEllipsisCheck(TargetCheck):
     '''
     Check for ellipsis at the end of string.
@@ -494,6 +507,7 @@ class EndEllipsisCheck(TargetCheck):
 # For now all format string checks use generic implementation, but
 # it should be switched to language specific
 
+
 class PythonFormatCheck(TargetCheck):
     '''
     Check for Python format string
@@ -506,6 +520,7 @@ class PythonFormatCheck(TargetCheck):
         if not 'python-format' in flags:
             return False
         return self.check_format_strings(source, target, PYTHON_PRINTF_MATCH, unit)
+
 
 class PHPFormatCheck(TargetCheck):
     '''
@@ -520,6 +535,7 @@ class PHPFormatCheck(TargetCheck):
             return False
         return self.check_format_strings(source, target, PHP_PRINTF_MATCH, unit)
 
+
 class CFormatCheck(TargetCheck):
     '''
     Check for C format string
@@ -532,6 +548,7 @@ class CFormatCheck(TargetCheck):
         if not 'c-format' in flags:
             return False
         return self.check_format_strings(source, target, C_PRINTF_MATCH, unit)
+
 
 
 class PluralsCheck(TargetCheck):
@@ -552,6 +569,7 @@ class PluralsCheck(TargetCheck):
         # Check for empty translation
         return ('' in targets)
 
+
 class ConsistencyCheck(TargetCheck):
     '''
     Check for inconsistent translations
@@ -566,20 +584,21 @@ class ConsistencyCheck(TargetCheck):
         if not unit.translation.subproject.allow_translation_propagation:
             return False
         related = Unit.objects.filter(
-            translation__language = language,
-            translation__subproject__project = unit.translation.subproject.project,
-            checksum = unit.checksum,
+            translation__language=language,
+            translation__subproject__project=unit.translation.subproject.project,
+            checksum=unit.checksum,
         ).exclude(
-            id = unit.id,
-            translation__subproject__allow_translation_propagation = False,
+            id=unit.id,
+            translation__subproject__allow_translation_propagation=False,
         )
         if unit.fuzzy:
-            related = related.exclude(fuzzy = True)
+            related = related.exclude(fuzzy=True)
         for unit2 in related.iterator():
             if unit2.target != unit.target:
                 return True
 
         return False
+
 
 class DirectionCheck(TargetCheck):
     '''
@@ -597,6 +616,7 @@ class DirectionCheck(TargetCheck):
             return False
         return targets[0].lower() != language.direction
 
+
 class CountingCheck(TargetCheck):
     '''
     Check whether there is same count of given string.
@@ -608,6 +628,7 @@ class CountingCheck(TargetCheck):
             return False
         return source.count(self.string) != target.count(self.string)
 
+
 class NewlineCountingCheck(TargetCheck):
     '''
     Check whether there is same amount of \n strings
@@ -616,6 +637,7 @@ class NewlineCountingCheck(TargetCheck):
     check_id = 'escaped_newline'
     name = _('Mismatched \\n')
     description = _('Number of \\n in translation does not match source')
+
 
 class BBCodeCheck(TargetCheck):
     '''
@@ -645,6 +667,7 @@ class BBCodeCheck(TargetCheck):
 
         return (src_tags != tgt_tags)
 
+
 class ZeroWidthSpaceCheck(TargetCheck):
     '''
     Check for zero width space char (<U+200B>).
@@ -655,6 +678,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
 
     def check_single(self, source, target, flags, language, unit):
         return u'\u200b' in target and not u'\u200b' in source
+
 
 class XMLTagsCheck(TargetCheck):
     '''
@@ -713,6 +737,7 @@ class XMLTagsCheck(TargetCheck):
         # Compare tags
         return source_tags != target_tags
 
+
 class OptionalPluralCheck(SourceCheck):
     '''
     Check for not used plural form.
@@ -725,6 +750,7 @@ class OptionalPluralCheck(SourceCheck):
         if len(source) > 1:
             return False
         return len(PLURAL_MATCH.findall(source[0])) > 0
+
 
 class EllipsisCheck(SourceCheck):
     '''

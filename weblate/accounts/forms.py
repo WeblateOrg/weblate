@@ -26,6 +26,7 @@ from weblate.lang.models import Language
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
 
+
 class ProfileForm(forms.ModelForm):
     '''
     User profile editing.
@@ -44,6 +45,7 @@ class ProfileForm(forms.ModelForm):
         qs = Language.objects.have_translation()
         self.fields['languages'].queryset = qs
         self.fields['secondary_languages'].queryset = qs
+
 
 class SubscriptionForm(forms.ModelForm):
     '''
@@ -94,26 +96,28 @@ class UserForm(forms.ModelForm):
         self.fields['last_name'].label = _('Last name')
         self.fields['email'].label = _('E-mail')
 
+
 class ContactForm(forms.Form):
     '''
     Form for contacting site owners.
     '''
-    subject = forms.CharField(label = _('Subject'), required = True)
-    name = forms.CharField(label = _('Your name'), required = True)
-    email = forms.EmailField(label = _('Your email'), required = True)
+    subject = forms.CharField(label=_('Subject'), required=True)
+    name = forms.CharField(label=_('Your name'), required=True)
+    email = forms.EmailField(label=_('Your email'), required=True)
     message = forms.CharField(
-        label = _('Message'),
-        required = True,
-        widget = forms.Textarea
+        label=_('Message'),
+        required=True,
+        widget=forms.Textarea
     )
+
 
 class RegistrationForm(RegistrationFormUniqueEmail):
     '''
     Registration form, please note it does not save first/last name
     this is done by signal handler in weblate.accounts.models.
     '''
-    first_name = forms.CharField(label = _('First name'))
-    last_name = forms.CharField(label = _('Last name'))
+    first_name = forms.CharField(label=_('First name'))
+    last_name = forms.CharField(label=_('Last name'))
 
     def __init__(self, *args, **kwargs):
 

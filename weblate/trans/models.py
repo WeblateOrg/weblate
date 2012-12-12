@@ -61,11 +61,12 @@ from distutils.version import LooseVersion
 
 logger = logging.getLogger('weblate')
 
+
 class FileFormat(object):
     '''
     Simple object defining file format loader.
     '''
-    def __init__(self, name, loader, monolingual = None, mark_fuzzy = False, fixups = None):
+    def __init__(self, name, loader, monolingual=None, mark_fuzzy=False, fixups=None):
         self.name = name
         self.loader = loader
         self.monolingual = monolingual
@@ -165,7 +166,7 @@ except ImportError:
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
 
-def ttkit(storefile, file_format = 'auto'):
+def ttkit(storefile, file_format='auto'):
     '''
     Returns translate-toolkit storage for a path.
     '''
@@ -226,7 +227,7 @@ def get_linked_repo(val):
     if not is_repo_link(val):
         return None
     project, subproject = val[10:].split('/', 1)
-    return SubProject.objects.get(slug = subproject, project__slug = project)
+    return SubProject.objects.get(slug=subproject, project__slug=project)
 
 def validate_repo(val):
     try:
@@ -245,57 +246,58 @@ MERGE_CHOICES = (
     ('rebase', ugettext_lazy('Rebase')),
 )
 
+
 class Project(models.Model):
-    name = models.CharField(max_length = 100)
-    slug = models.SlugField(db_index = True)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(db_index=True)
     web = models.URLField(
-        help_text = ugettext_lazy('Project website'),
+        help_text=ugettext_lazy('Project website'),
     )
     mail = models.EmailField(
-        blank = True,
-        help_text = ugettext_lazy('Email conference for translators'),
+        blank=True,
+        help_text=ugettext_lazy('Email conference for translators'),
     )
     instructions = models.URLField(
-        blank = True,
-        help_text = ugettext_lazy('URL with instructions for translators'),
+        blank=True,
+        help_text=ugettext_lazy('URL with instructions for translators'),
     )
     new_lang = models.CharField(
         ugettext_lazy('New language'),
-        max_length = 10,
-        choices = NEW_LANG_CHOICES,
-        default = 'contact',
-        help_text = ugettext_lazy('How to handle requests for creating new languages.'),
+        max_length=10,
+        choices=NEW_LANG_CHOICES,
+        default='contact',
+        help_text=ugettext_lazy('How to handle requests for creating new languages.'),
     )
     merge_style = models.CharField(
         ugettext_lazy('Merge style'),
-        max_length = 10,
-        choices = MERGE_CHOICES,
-        default = 'merge',
-        help_text = ugettext_lazy('Define whether Weblate should merge upstream repository or rebase changes onto it.'),
+        max_length=10,
+        choices=MERGE_CHOICES,
+        default='merge',
+        help_text=ugettext_lazy('Define whether Weblate should merge upstream repository or rebase changes onto it.'),
     )
 
     # VCS config
     commit_message = models.TextField(
-        help_text = ugettext_lazy('You can use format strings for various information, please check documentation for more details.'),
-        validators = [validate_commit_message],
-        default = 'Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
+        help_text=ugettext_lazy('You can use format strings for various information, please check documentation for more details.'),
+        validators=[validate_commit_message],
+        default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
     )
     committer_name = models.CharField(
-        max_length = 200,
-        default = 'Weblate'
+        max_length=200,
+        default='Weblate'
     )
     committer_email = models.EmailField(
-        default = 'noreply@weblate.org'
+        default='noreply@weblate.org'
     )
 
     push_on_commit = models.BooleanField(
-        default = False,
-        help_text = ugettext_lazy('Whether the repository should be pushed upstream on every commit.'),
+        default=False,
+        help_text=ugettext_lazy('Whether the repository should be pushed upstream on every commit.'),
     )
 
     set_translation_team = models.BooleanField(
-        default = True,
-        help_text = ugettext_lazy('Whether the Translation-Team in file headers should be updated by Weblate.'),
+        default=True,
+        help_text=ugettext_lazy('Whether the Translation-Team in file headers should be updated by Weblate.'),
     )
 
     class Meta:
@@ -318,7 +320,7 @@ class Project(models.Model):
         site = Site.objects.get_current()
         return 'http://%s%s' % (
             site.domain,
-            reverse('engage', kwargs = {'project': self.slug}),
+            reverse('engage', kwargs={'project': self.slug}),
         )
 
     @models.permalink
@@ -377,12 +379,12 @@ class Project(models.Model):
 
         super(Project, self).save(*args, **kwargs)
 
-    def get_translated_percent(self, lang = None):
+    def get_translated_percent(self, lang=None):
         # Filter all translations
-        translations = Translation.objects.filter(subproject__project = self)
+        translations = Translation.objects.filter(subproject__project=self)
         # Filter by language
         if lang is not None:
-            translations = translations.filter(language = lang)
+            translations = translations.filter(language=lang)
         # Aggregate
         translations = translations.aggregate(Sum('translated'), Sum('total'))
         # Catch no translations
@@ -408,7 +410,7 @@ class Project(models.Model):
         '''
         Returns list of all languages used in project.
         '''
-        return Language.objects.filter(translation__subproject__project = self).distinct()
+        return Language.objects.filter(translation__subproject__project=self).distinct()
 
     def get_language_count(self):
         '''
@@ -425,13 +427,13 @@ class Project(models.Model):
                 return True
         return False
 
-    def git_needs_merge(self, gitrepo = None):
+    def git_needs_merge(self, gitrepo=None):
         for s in self.subproject_set.all():
             if s.git_needs_merge():
                 return True
         return False
 
-    def git_needs_push(self, gitrepo = None):
+    def git_needs_push(self, gitrepo=None):
         for s in self.subproject_set.all():
             if s.git_needs_push():
                 return True
@@ -444,7 +446,7 @@ class Project(models.Model):
         for s in self.subproject_set.all():
             s.commit_pending()
 
-    def do_update(self, request = None):
+    def do_update(self, request=None):
         '''
         Updates all git repos.
         '''
@@ -453,7 +455,7 @@ class Project(models.Model):
             ret &= s.do_update(request)
         return ret
 
-    def do_push(self, request = None):
+    def do_push(self, request=None):
         '''
         Pushes all git repos.
         '''
@@ -462,7 +464,7 @@ class Project(models.Model):
             ret |= s.do_push(request)
         return ret
 
-    def do_reset(self, request = None):
+    def do_reset(self, request=None):
         '''
         Pushes all git repos.
         '''
@@ -485,68 +487,69 @@ class Project(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation__subproject__project = self).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation__subproject__project=self).order_by('-timestamp')[0]
             return change.timestamp
         except IndexError:
             return None
 
+
 class SubProject(models.Model):
     name = models.CharField(
-        max_length = 100,
-        help_text = ugettext_lazy('Name to display')
+        max_length=100,
+        help_text=ugettext_lazy('Name to display')
     )
     slug = models.SlugField(
-        db_index = True,
-        help_text = ugettext_lazy('Name used in URLs')
-        )
+        db_index=True,
+        help_text=ugettext_lazy('Name used in URLs')
+    )
     project = models.ForeignKey(Project)
     repo = models.CharField(
-        max_length = 200,
-        help_text = ugettext_lazy('URL of Git repository, use weblate://project/subproject for sharing with other subproject.'),
-        validators = [validate_repo],
+        max_length=200,
+        help_text=ugettext_lazy('URL of Git repository, use weblate://project/subproject for sharing with other subproject.'),
+        validators=[validate_repo],
     )
     push = models.CharField(
-        max_length = 200,
-        help_text = ugettext_lazy('URL of push Git repository'),
-        blank = True
+        max_length=200,
+        help_text=ugettext_lazy('URL of push Git repository'),
+        blank=True
     )
     repoweb = models.URLField(
-        help_text = ugettext_lazy('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.'),
-        validators = [validate_repoweb],
-        blank = True,
+        help_text=ugettext_lazy('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.'),
+        validators=[validate_repoweb],
+        blank=True,
     )
     report_source_bugs = models.EmailField(
-        help_text = ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails.'),
-        blank = True,
+        help_text=ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails.'),
+        blank=True,
     )
     branch = models.CharField(
-        max_length = 50,
-        help_text = ugettext_lazy('Git branch to translate'),
-        default = 'master'
+        max_length=50,
+        help_text=ugettext_lazy('Git branch to translate'),
+        default='master'
     )
     filemask = models.CharField(
-        max_length = 200,
-        validators = [validate_filemask],
-        help_text = ugettext_lazy('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.')
+        max_length=200,
+        validators=[validate_filemask],
+        help_text=ugettext_lazy('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.')
     )
     template = models.CharField(
-        max_length = 200,
-        blank = True,
-        help_text = ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings.')
+        max_length=200,
+        blank=True,
+        help_text=ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings.')
     )
     file_format = models.CharField(
-        max_length = 50,
-        default = 'auto',
-        choices = FILE_FORMAT_CHOICES,
-        help_text = ugettext_lazy('Automatic detection might fail for some formats and is slightly slower.'),
+        max_length=50,
+        default='auto',
+        choices=FILE_FORMAT_CHOICES,
+        help_text=ugettext_lazy('Automatic detection might fail for some formats and is slightly slower.'),
     )
     locked = models.BooleanField(
-        default = False,
-        help_text = ugettext_lazy('Whether subproject is locked for translation updates.')
+        default=False,
+        help_text=ugettext_lazy('Whether subproject is locked for translation updates.')
     )
     allow_translation_propagation = models.BooleanField(
-        default = True,
-        help_text = ugettext_lazy('Whether translation updates in other subproject will cause automatic translation in this project')
+        default=True,
+        help_text=ugettext_lazy('Whether translation updates in other subproject will cause automatic translation in this project')
     )
 
     class Meta:
@@ -569,7 +572,7 @@ class SubProject(models.Model):
         site = Site.objects.get_current()
         return 'http://%s%s' % (
             site.domain,
-            reverse('engage', kwargs = {'project': self.project.slug}),
+            reverse('engage', kwargs={'project': self.project.slug}),
         )
 
     @models.permalink
@@ -646,7 +649,7 @@ class SubProject(models.Model):
         Returns lock object for current translation instance.
         '''
         if not hasattr(self, '__lock__'):
-            self.__lock__ = FileLock(self.get_git_lock_path(), timeout = 20)
+            self.__lock__ = FileLock(self.get_git_lock_path(), timeout=20)
         return self.__lock__
 
     def can_push(self):
@@ -693,7 +696,7 @@ class SubProject(models.Model):
             'branch': self.branch
         }
 
-    def update_remote_branch(self, validate = False, gitrepo = None):
+    def update_remote_branch(self, validate=False, gitrepo=None):
         '''
         Pulls from remote repository.
         '''
@@ -718,7 +721,7 @@ class SubProject(models.Model):
             if validate:
                 raise ValidationError(_('Failed to fetch git repository: %s') % str(e))
 
-    def configure_repo(self, validate = False):
+    def configure_repo(self, validate=False):
         '''
         Ensures repository is correctly configured and points to current remote.
         '''
@@ -762,7 +765,7 @@ class SubProject(models.Model):
         # switch to correct branch
         gitrepo.git.checkout(self.branch)
 
-    def do_update(self, request = None):
+    def do_update(self, request=None):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
@@ -783,11 +786,11 @@ class SubProject(models.Model):
         ret = self.update_branch(request)
 
         # create translation objects for all files
-        self.create_translations(request = request)
+        self.create_translations(request=request)
 
         return ret
 
-    def do_push(self, request = None, force_commit = True):
+    def do_push(self, request=None, force_commit=True):
         '''
         Wrapper for pushing changes to remote repo.
         '''
@@ -801,7 +804,7 @@ class SubProject(models.Model):
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending(skip_push = True)
+            self.commit_pending(skip_push=True)
 
         # Do we have anything to push?
         if not self.git_needs_push():
@@ -831,7 +834,7 @@ class SubProject(models.Model):
                 messages.error(request, _('Failed to push to remote branch on %s.') % self.__unicode__())
             return False
 
-    def do_reset(self, request = None):
+    def do_reset(self, request=None):
         '''
         Wrapper for reseting repo to same sources as remote.
         '''
@@ -858,7 +861,7 @@ class SubProject(models.Model):
             return False
 
         # create translation objects for all files
-        self.create_translations(request = request)
+        self.create_translations(request=request)
 
         return True
 
@@ -866,21 +869,21 @@ class SubProject(models.Model):
         '''
         Returns list of subprojects which link repository to us.
         '''
-        return SubProject.objects.filter(repo = 'weblate://%s/%s' % (self.project.slug, self.slug))
+        return SubProject.objects.filter(repo='weblate://%s/%s' % (self.project.slug, self.slug))
 
-    def commit_pending(self, from_link = False, skip_push = False):
+    def commit_pending(self, from_link=False, skip_push=False):
         '''
         Checks whether there is any translation which needs commit.
         '''
         if not from_link and self.is_repo_link():
-            return self.get_linked_repo().commit_pending(True, skip_push = skip_push)
+            return self.get_linked_repo().commit_pending(True, skip_push=skip_push)
 
         for translation in self.translation_set.all():
-            translation.commit_pending(skip_push = skip_push)
+            translation.commit_pending(skip_push=skip_push)
 
         # Process linked projects
         for sp in self.get_linked_childs():
-            sp.commit_pending(True, skip_push = skip_push)
+            sp.commit_pending(True, skip_push=skip_push)
 
     def notify_merge_failure(self, error, status):
         '''
@@ -907,7 +910,7 @@ class SubProject(models.Model):
             }
         )
 
-    def update_merge(self, request = None):
+    def update_merge(self, request=None):
         '''
         Updates current branch to remote using merge.
         '''
@@ -937,7 +940,7 @@ class SubProject(models.Model):
 
         return False
 
-    def update_rebase(self, request = None):
+    def update_rebase(self, request=None):
         '''
         Updates current branch to remote using rebase.
         '''
@@ -967,7 +970,7 @@ class SubProject(models.Model):
 
         return False
 
-    def update_branch(self, request = None):
+    def update_branch(self, request=None):
         '''
         Updates current branch to match remote (if possible).
         '''
@@ -1003,7 +1006,7 @@ class SubProject(models.Model):
                 tree[filename].hexsha
                 )
 
-    def create_translations(self, force = False, langs = None, request = None):
+    def create_translations(self, force=False, langs=None, request=None):
         '''
         Loads translations from git.
         '''
@@ -1014,12 +1017,12 @@ class SubProject(models.Model):
                 continue
 
             logger.info('checking %s', path)
-            translation = Translation.objects.update_from_blob(self, code, path, force, request = request)
+            translation = Translation.objects.update_from_blob(self, code, path, force, request=request)
             translations.append(translation.id)
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(id__in = translations)
+            todelete = self.translation_set.exclude(id__in=translations)
             if todelete.exists():
                 logger.info(
                     'removing stale translations: %s',
@@ -1029,7 +1032,7 @@ class SubProject(models.Model):
 
         # Process linked repos
         for sp in self.get_linked_childs():
-            sp.create_translations(force, langs, request = request)
+            sp.create_translations(force, langs, request=request)
 
     def get_lang_code(self, path):
         '''
@@ -1044,7 +1047,7 @@ class SubProject(models.Model):
         # Remove possible encoding part
         return code.split('.')[0]
 
-    def sync_git_repo(self, validate = False):
+    def sync_git_repo(self, validate=False):
         '''
         Brings git repo in sync with current model.
         '''
@@ -1124,7 +1127,7 @@ class SubProject(models.Model):
         # Detect if git config has changed (so that we have to pull the repo)
         changed_git = True
         if (self.id):
-            old = SubProject.objects.get(pk = self.id)
+            old = SubProject.objects.get(pk=self.id)
             changed_git = (old.repo != self.repo) or (old.branch != self.branch) or (old.filemask != self.filemask)
 
         # Configure git repo if there were changes
@@ -1148,7 +1151,7 @@ class SubProject(models.Model):
             return 0
         return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
 
-    def git_needs_commit(self, gitrepo = None):
+    def git_needs_commit(self, gitrepo=None):
         '''
         Checks whether there are some not commited changes.
         '''
@@ -1160,7 +1163,7 @@ class SubProject(models.Model):
             return False
         return True
 
-    def git_check_merge(self, revision, gitrepo = None):
+    def git_check_merge(self, revision, gitrepo=None):
         '''
         Checks whether there are any unmerged commits compared to given
         revision.
@@ -1173,10 +1176,10 @@ class SubProject(models.Model):
             return False
         return True
 
-    def git_needs_merge(self, gitrepo = None):
+    def git_needs_merge(self, gitrepo=None):
         return self.git_check_merge('..origin/%s' % self.branch, gitrepo)
 
-    def git_needs_push(self, gitrepo = None):
+    def git_needs_push(self, gitrepo=None):
         return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
 
     def get_file_format(self):
@@ -1217,27 +1220,28 @@ class SubProject(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation__subproject = self).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation__subproject=self).order_by('-timestamp')[0]
             return change.timestamp
         except IndexError:
             return None
 
+
 class Translation(models.Model):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
-    revision = models.CharField(max_length = 100, default = '', blank = True)
-    filename = models.CharField(max_length = 200)
+    revision = models.CharField(max_length=100, default='', blank=True)
+    filename = models.CharField(max_length=200)
 
-    translated = models.IntegerField(default = 0, db_index = True)
-    fuzzy = models.IntegerField(default = 0, db_index = True)
-    total = models.IntegerField(default = 0, db_index = True)
+    translated = models.IntegerField(default=0, db_index=True)
+    fuzzy = models.IntegerField(default=0, db_index=True)
+    total = models.IntegerField(default=0, db_index=True)
 
-    enabled = models.BooleanField(default = True, db_index = True)
+    enabled = models.BooleanField(default=True, db_index=True)
 
-    language_code = models.CharField(max_length = 20, default = '')
+    language_code = models.CharField(max_length=20, default='')
 
-    lock_user = models.ForeignKey(User, null = True, blank = True, default = None)
-    lock_time = models.DateTimeField(default = datetime.now)
+    lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
+    lock_time = models.DateTimeField(default=datetime.now)
 
     objects = TranslationManager()
 
@@ -1299,7 +1303,7 @@ class Translation(models.Model):
             'time': self.get_lock_time_display(),
         })
 
-    def is_locked(self, request = None, multi = False):
+    def is_locked(self, request=None, multi=False):
         '''
         Check whether the translation is locked and
         possibly emmits messages if request object is
@@ -1315,7 +1319,7 @@ class Translation(models.Model):
         else:
             return prj_lock or usr_lock
 
-    def is_user_locked(self, request = None):
+    def is_user_locked(self, request=None):
         '''
         Checks whether there is valid user lock on this translation.
         '''
@@ -1348,7 +1352,7 @@ class Translation(models.Model):
         '''
         Sets lock timestamp.
         '''
-        self.lock_time = datetime.now() + timedelta(seconds = settings.LOCK_TIME)
+        self.lock_time = datetime.now() + timedelta(seconds=settings.LOCK_TIME)
         self.save()
 
     def update_lock(self, request):
@@ -1383,7 +1387,7 @@ class Translation(models.Model):
         site = Site.objects.get_current()
         return 'http://%s%s' % (
             site.domain,
-            reverse('engage-lang', kwargs = {'project': self.subproject.project.slug, 'lang': self.language.code}),
+            reverse('engage-lang', kwargs={'project': self.subproject.project.slug, 'lang': self.language.code}),
         )
 
     @models.permalink
@@ -1483,7 +1487,7 @@ class Translation(models.Model):
         '''
         self.update_from_blob()
 
-    def update_from_blob(self, force = False, request = None):
+    def update_from_blob(self, force=False, request=None):
         '''
         Updates translation data from blob.
         '''
@@ -1506,7 +1510,7 @@ class Translation(models.Model):
             return
 
 
-        oldunits = set(self.unit_set.all().values_list('id', flat = True))
+        oldunits = set(self.unit_set.all().values_list('id', flat=True))
 
         # Was there change?
         was_new = False
@@ -1538,7 +1542,7 @@ class Translation(models.Model):
                 if not template_unit.istranslatable() or template_unit.isblank():
                     continue
                 unit = store.findid(template_unit.getid())
-                newunit, is_new = Unit.objects.update_from_unit(self, unit, pos, template = template_unit)
+                newunit, is_new = Unit.objects.update_from_unit(self, unit, pos, template=template_unit)
                 was_new = was_new or (is_new and not newunit.translated)
                 pos += 1
                 try:
@@ -1547,26 +1551,26 @@ class Translation(models.Model):
                     pass
 
         # Delete not used units
-        units_to_delete = Unit.objects.filter(translation = self, id__in = oldunits)
+        units_to_delete = Unit.objects.filter(translation=self, id__in=oldunits)
         # We need to resolve this now as otherwise list will become empty after delete
-        deleted_checksums = list(units_to_delete.values_list('checksum', flat = True))
+        deleted_checksums = list(units_to_delete.values_list('checksum', flat=True))
         units_to_delete.delete()
 
         # Cleanup checks for deleted units
         for checksum in deleted_checksums:
-            units = Unit.objects.filter(translation__language = self.language, translation__subproject__project = self.subproject.project, checksum = checksum)
+            units = Unit.objects.filter(translation__language=self.language, translation__subproject__project=self.subproject.project, checksum=checksum)
             if not units.exists():
                 # Last unit referencing to these checks
-                Check.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+                Check.objects.filter(project=self.subproject.project, language=self.language, checksum=checksum).delete()
                 # Delete suggestons referencing this unit
-                Suggestion.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
+                Suggestion.objects.filter(project=self.subproject.project, language=self.language, checksum=checksum).delete()
                 # Delete translation comments referencing this unit
-                Comment.objects.filter(project = self.subproject.project, language = self.language, checksum = checksum).delete()
-                if not Unit.objects.filter(translation__subproject__project = self.subproject.project, checksum = checksum).exists():
+                Comment.objects.filter(project=self.subproject.project, language=self.language, checksum=checksum).delete()
+                if not Unit.objects.filter(translation__subproject__project=self.subproject.project, checksum=checksum).exists():
                     # Delete source comments as well if this was last reference
-                    Comment.objects.filter(project = self.subproject.project, language = None, checksum = checksum).delete()
+                    Comment.objects.filter(project=self.subproject.project, language=None, checksum=checksum).delete()
                     # Delete source checks as well if this was last reference
-                    Check.objects.filter(project = self.subproject.project, language = None, checksum = checksum).delete()
+                    Check.objects.filter(project=self.subproject.project, language=None, checksum=checksum).delete()
             else:
                 # There are other units as well, but some checks (eg. consistency) needs update now
                 for unit in units:
@@ -1581,9 +1585,9 @@ class Translation(models.Model):
         else:
             user = request.user
         Change.objects.create(
-            translation = self,
-            action = Change.ACTION_UPDATE,
-            user = user
+            translation=self,
+            action=Change.ACTION_UPDATE,
+            user=user
         )
 
         # Notify subscribed users
@@ -1596,13 +1600,13 @@ class Translation(models.Model):
     def get_repo(self):
         return self.subproject.get_repo()
 
-    def do_update(self, request = None):
+    def do_update(self, request=None):
         return self.subproject.do_update(request)
 
-    def do_push(self, request = None):
+    def do_push(self, request=None):
         return self.subproject.do_push(request)
 
-    def do_reset(self, request = None):
+    def do_reset(self, request=None):
         return self.subproject.do_reset(request)
 
     def can_push(self):
@@ -1625,8 +1629,8 @@ class Translation(models.Model):
         Updates translation statistics.
         '''
         self.total = self.unit_set.count()
-        self.fuzzy = self.unit_set.filter(fuzzy = True).count()
-        self.translated = self.unit_set.filter(translated = True).count()
+        self.fuzzy = self.unit_set.filter(fuzzy=True).count()
+        self.translated = self.unit_set.filter(translated=True).count()
         self.save()
         self.store_hash()
 
@@ -1638,12 +1642,12 @@ class Translation(models.Model):
         self.revision = blob_hash
         self.save()
 
-    def get_last_author(self, email = True):
+    def get_last_author(self, email=True):
         '''
         Returns last autor of change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation = self).exclude(user = None).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation=self).exclude(user=None).order_by('-timestamp')[0]
             return self.get_author_name(change.user, email)
         except IndexError:
             return None
@@ -1653,12 +1657,12 @@ class Translation(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation = self).order_by('-timestamp')[0]
+            change = Change.objects.filter(translation=self).order_by('-timestamp')[0]
             return change.timestamp
         except IndexError:
             return None
 
-    def commit_pending(self, author = None, skip_push = False):
+    def commit_pending(self, author=None, skip_push=False):
         '''
         Commits any pending changes.
         '''
@@ -1672,7 +1676,7 @@ class Translation(models.Model):
         # Commit changes
         self.git_commit(last, self.get_last_change(), True, True, skip_push)
 
-    def get_author_name(self, user, email = True):
+    def get_author_name(self, user, email=True):
         '''
         Returns formatted author name with email.
         '''
@@ -1733,7 +1737,7 @@ class Translation(models.Model):
         self.__configure_conf(gitrepo, 'user', 'name', self.subproject.project.committer_name)
         self.__configure_conf(gitrepo, 'user', 'email', self.subproject.project.committer_email)
 
-    def __git_commit(self, gitrepo, author, timestamp, sync = False):
+    def __git_commit(self, gitrepo, author, timestamp, sync=False):
         '''
         Commits translation to git.
         '''
@@ -1755,7 +1759,7 @@ class Translation(models.Model):
         if sync:
             self.store_hash()
 
-    def git_needs_commit(self, gitrepo = None):
+    def git_needs_commit(self, gitrepo=None):
         '''
         Checks whether there are some not commited changes.
         '''
@@ -1773,7 +1777,7 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, author, timestamp, force_commit = False, sync = False, skip_push = False):
+    def git_commit(self, author, timestamp, force_commit=False, sync=False, skip_push=False):
         '''
         Wrapper for commiting translation to git.
 
@@ -1806,7 +1810,7 @@ class Translation(models.Model):
 
         # Push if we should
         if self.subproject.project.push_on_commit and not skip_push:
-            self.subproject.do_push(force_commit = False)
+            self.subproject.do_push(force_commit=False)
 
         return True
 
@@ -1868,7 +1872,7 @@ class Translation(models.Model):
                 if add:
                     if isinstance(store, LISAfile):
                         # LISA based stores need to know this
-                        store.addunit(pounit, new = True)
+                        store.addunit(pounit, new=True)
                     else:
                         store.addunit(pounit)
                 # We need to update backend
@@ -1883,13 +1887,13 @@ class Translation(models.Model):
 
                     # Update genric headers
                     store.updateheader(
-                        add = True,
-                        last_translator = author,
-                        plural_forms = self.language.get_plural_form(),
-                        language = self.language_code,
-                        PO_Revision_Date = po_revision_date,
-                        x_generator = 'Weblate %s' % weblate.VERSION
-                        )
+                        add=True,
+                        last_translator=author,
+                        plural_forms=self.language.get_plural_form(),
+                        language=self.language_code,
+                        PO_Revision_Date=po_revision_date,
+                        x_generator='Weblate %s' % weblate.VERSION
+                    )
 
                     if self.subproject.project.set_translation_team:
                         site = Site.objects.get_current()
@@ -1904,14 +1908,14 @@ class Translation(models.Model):
                         # Optionally store email for reporting bugs in source
                         if self.subproject.report_source_bugs != '':
                             store.updateheader(
-                                report_msgid_bugs_to = self.subproject.report_source_bugs,
+                                report_msgid_bugs_to=self.subproject.report_source_bugs,
                             )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)
                 # save translation changes
                 store.save()
                 # commit Git repo if needed
-                self.git_commit(author, timezone.now(), sync = True)
+                self.git_commit(author, timezone.now(), sync=True)
 
         return need_save, pounit
 
@@ -1984,7 +1988,7 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, author, store2, overwrite, mergefuzzy = False, merge_header = True):
+    def merge_store(self, author, store2, overwrite, mergefuzzy=False, merge_header=True):
         '''
         Merges ttkit store into current translation.
         '''
@@ -2036,7 +2040,7 @@ class Translation(models.Model):
 
         return ret
 
-    def merge_upload(self, request, fileobj, overwrite, author = None, mergefuzzy = False, merge_header = True):
+    def merge_upload(self, request, fileobj, overwrite, author=None, mergefuzzy=False, merge_header=True):
         '''
         Top level handler for file uploads.
         '''
@@ -2051,9 +2055,9 @@ class Translation(models.Model):
             author = self.get_author_name(request.user)
 
         # List translations we should process
-        translations = Translation.objects.filter(language = self.language, subproject__project = self.subproject.project)
+        translations = Translation.objects.filter(language=self.language, subproject__project=self.subproject.project)
         # Filter out those who don't want automatic update, but keep ourselves
-        translations = translations.filter(Q(pk = self.pk) | Q(subproject__allow_translation_propagation = True))
+        translations = translations.filter(Q(pk=self.pk) | Q(subproject__allow_translation_propagation=True))
 
         ret = False
 
@@ -2063,7 +2067,7 @@ class Translation(models.Model):
 
         return ret
 
-    def get_failing_checks(self, check = 'allchecks'):
+    def get_failing_checks(self, check='allchecks'):
         '''
         Returns number of units with failing checks.
 
@@ -2071,7 +2075,7 @@ class Translation(models.Model):
         '''
         return self.unit_set.count_type(check, self)
 
-    def get_failing_checks_percent(self, check = 'allchecks'):
+    def get_failing_checks_percent(self, check='allchecks'):
         '''
         Returns percentage of failed checks.
         '''
@@ -2080,7 +2084,7 @@ class Translation(models.Model):
         return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
 
 
-    def invalidate_cache(self, cache_type = None):
+    def invalidate_cache(self, cache_type=None):
         '''
         Invalidates any cached stats.
         '''
@@ -2099,18 +2103,19 @@ class Translation(models.Model):
             cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
             cache.delete(cache_key)
 
+
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
-    checksum = models.CharField(max_length = 40, db_index = True)
-    location = models.TextField(default = '', blank = True)
-    context = models.TextField(default = '', blank = True)
-    comment = models.TextField(default = '', blank = True)
-    flags = models.TextField(default = '', blank = True)
+    checksum = models.CharField(max_length=40, db_index=True)
+    location = models.TextField(default='', blank=True)
+    context = models.TextField(default='', blank=True)
+    comment = models.TextField(default='', blank=True)
+    flags = models.TextField(default='', blank=True)
     source = models.TextField()
-    target = models.TextField(default = '', blank = True)
-    fuzzy = models.BooleanField(default = False, db_index = True)
-    translated = models.BooleanField(default = False, db_index = True)
-    position = models.IntegerField(db_index = True)
+    target = models.TextField(default='', blank=True)
+    fuzzy = models.BooleanField(default=False, db_index=True)
+    translated = models.BooleanField(default=False, db_index=True)
+    position = models.IntegerField(db_index=True)
 
     objects = UnitManager()
 
@@ -2129,7 +2134,7 @@ class Unit(models.Model):
     def get_absolute_url(self):
         return '%s?checksum=%s' % (self.translation.get_translate_url(), self.checksum)
 
-    def update_from_unit(self, unit, pos, force, template = None):
+    def update_from_unit(self, unit, pos, force, template=None):
         '''
         Updates Unit from ttkit unit.
         '''
@@ -2182,7 +2187,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
-        self.save(force_insert = force, backend = True, same_content = same_content, same_fuzzy = same_fuzzy)
+        self.save(force_insert=force, backend=True, same_content=same_content, same_fuzzy=same_fuzzy)
 
     def is_plural(self):
         '''
@@ -2226,13 +2231,13 @@ class Unit(models.Model):
         '''
         Propagates current translation to all others.
         '''
-        allunits = Unit.objects.same(self).exclude(id = self.id).filter(translation__subproject__allow_translation_propagation = True)
+        allunits = Unit.objects.same(self).exclude(id=self.id).filter(translation__subproject__allow_translation_propagation=True)
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = self.fuzzy
             unit.save_backend(request, False)
 
-    def save_backend(self, request, propagate = True, gen_change = True):
+    def save_backend(self, request, propagate=True, gen_change=True):
         '''
         Stores unit to backend.
         '''
@@ -2243,7 +2248,7 @@ class Unit(models.Model):
 
         # Store to backend
         try:
-            (saved, pounit) = self.translation.update_unit(self, request)
+            (saved, pounit)=self.translation.update_unit(self, request)
         except FileLockException:
             logger.error('failed to lock backend for %s!', self)
             messages.error(request, _('Failed to store message in the backend, lock timeout occurred!'))
@@ -2270,10 +2275,10 @@ class Unit(models.Model):
             self.flags = ''
 
         # Get old unit from database (for notifications)
-        oldunit = Unit.objects.get(id = self.id)
+        oldunit = Unit.objects.get(id=self.id)
 
         # Save updated unit to database
-        self.save(backend = True)
+        self.save(backend=True)
 
         # Update translation stats
         old_translated = self.translation.translated
@@ -2290,7 +2295,7 @@ class Unit(models.Model):
                 subscription.notify_any_translation(self, oldunit)
 
             # Notify about new contributor
-            if not Change.objects.filter(translation = self.translation, user = request.user).exists():
+            if not Change.objects.filter(translation=self.translation, user=request.user).exists():
                 # Get list of subscribers for new contributor
                 subscriptions = Profile.objects.subscribed_new_contributor(
                     self.translation.subproject.project,
@@ -2304,19 +2309,19 @@ class Unit(models.Model):
             if gen_change:
                 # Create change object
                 Change.objects.create(
-                    unit = self,
-                    translation = self.translation,
-                    action = Change.ACTION_CHANGE,
-                    user = request.user
+                    unit=self,
+                    translation=self.translation,
+                    action=Change.ACTION_CHANGE,
+                    user=request.user
                 )
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
             self.translation.commit_pending()
             Change.objects.create(
-                translation = self.translation,
-                action = Change.ACTION_COMPLETE,
-                user = request.user
+                translation=self.translation,
+                action=Change.ACTION_COMPLETE,
+                user=request.user
             )
 
         # Propagate to other projects
@@ -2393,9 +2398,9 @@ class Unit(models.Model):
         Returns all suggestions for this unit.
         '''
         return Suggestion.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = self.translation.language
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=self.translation.language
         )
 
     def checks(self):
@@ -2403,9 +2408,9 @@ class Unit(models.Model):
         Returns all checks for this unit (even ignored).
         '''
         return Check.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = self.translation.language
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=self.translation.language
         )
 
     def source_checks(self):
@@ -2413,9 +2418,9 @@ class Unit(models.Model):
         Returns all source checks for this unit (even ignored).
         '''
         return Check.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = None
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=None
         )
 
     def active_checks(self):
@@ -2423,10 +2428,10 @@ class Unit(models.Model):
         Returns all active (not ignored) checks for this unit.
         '''
         return Check.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = self.translation.language,
-            ignore = False
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=self.translation.language,
+            ignore=False
         )
 
     def active_source_checks(self):
@@ -2434,10 +2439,10 @@ class Unit(models.Model):
         Returns all active (not ignored) source checks for this unit.
         '''
         return Check.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = None,
-            ignore = False
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=None,
+            ignore=False
         )
 
     def get_comments(self):
@@ -2445,9 +2450,9 @@ class Unit(models.Model):
         Returns list of target comments.
         '''
         return Comment.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = self.translation.language,
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=self.translation.language,
         )
 
     def get_source_comments(self):
@@ -2455,9 +2460,9 @@ class Unit(models.Model):
         Returns list of target comments.
         '''
         return Comment.objects.filter(
-            checksum = self.checksum,
-            project = self.translation.subproject.project,
-            language = None,
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            language=None,
         )
 
     def check(self):
@@ -2470,12 +2475,12 @@ class Unit(models.Model):
         if self.fuzzy or not self.translated:
             # Check whether there is any message with same source
             same_source = Unit.objects.filter(
-                translation__language = self.translation.language,
-                translation__subproject__project = self.translation.subproject.project,
-                checksum = self.checksum,
-                fuzzy = False,
+                translation__language=self.translation.language,
+                translation__subproject__project=self.translation.subproject.project,
+                checksum=self.checksum,
+                fuzzy=False,
             ).exclude(
-                id = self.id
+                id=self.id
             )
 
             # Delete all checks if only message with this source is fuzzy
@@ -2529,22 +2534,22 @@ class Unit(models.Model):
         # Store new checks in database
         for check in failing_target:
             Check.objects.create(
-                checksum = self.checksum,
-                project = self.translation.subproject.project,
-                language = self.translation.language,
-                ignore = False,
-                check = check
+                checksum=self.checksum,
+                project=self.translation.subproject.project,
+                language=self.translation.language,
+                ignore=False,
+                check=check
             )
             change = True
 
         # Store new checks in database
         for check in failing_source:
             Check.objects.create(
-                checksum = self.checksum,
-                project = self.translation.subproject.project,
-                language = None,
-                ignore = False,
-                check = check
+                checksum=self.checksum,
+                project=self.translation.subproject.project,
+                language=None,
+                ignore=False,
+                check=check
             )
             change = True
 
@@ -2557,15 +2562,16 @@ class Unit(models.Model):
         Returns list of nearby messages based on location.
         '''
         return Unit.objects.filter(
-            translation = self.translation,
-            position__gte = self.position - settings.NEARBY_MESSAGES,
-            position__lte = self.position + settings.NEARBY_MESSAGES,
+            translation=self.translation,
+            position__gte=self.position - settings.NEARBY_MESSAGES,
+            position__lte=self.position + settings.NEARBY_MESSAGES,
         )
 
+
 class Suggestion(models.Model):
-    checksum = models.CharField(max_length = 40, db_index = True)
+    checksum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
-    user = models.ForeignKey(User, null = True, blank = True)
+    user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
 
@@ -2576,9 +2582,9 @@ class Suggestion(models.Model):
 
     def accept(self, request):
         allunits = Unit.objects.filter(
-            checksum = self.checksum,
-            translation__subproject__project = self.project,
-            translation__language = self.language
+            checksum=self.checksum,
+            translation__subproject__project=self.project,
+            translation__language=self.language
         )
         for unit in allunits:
             unit.target = self.target
@@ -2591,9 +2597,9 @@ class Suggestion(models.Model):
         this suggestion.
         '''
         return Unit.objects.filter(
-            checksum = self.checksum,
-            translation__subproject__project = self.project,
-            translation__language = self.language,
+            checksum=self.checksum,
+            translation__subproject__project=self.project,
+            translation__language=self.language,
         )[0]
 
     def get_source(self):
@@ -2611,13 +2617,14 @@ class Suggestion(models.Model):
     def get_user_display(self):
         return get_user_display(self.user)
 
+
 class Comment(models.Model):
-    checksum = models.CharField(max_length = 40, db_index = True)
+    checksum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
-    user = models.ForeignKey(User, null = True, blank = True)
+    user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language, null = True, blank = True)
-    timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
+    language = models.ForeignKey(Language, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
         ordering = ['timestamp']
@@ -2627,12 +2634,13 @@ class Comment(models.Model):
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
+
 class Check(models.Model):
-    checksum = models.CharField(max_length = 40, db_index = True)
+    checksum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
-    language = models.ForeignKey(Language, null = True, blank = True)
-    check = models.CharField(max_length = 20, choices = CHECK_CHOICES)
-    ignore = models.BooleanField(db_index = True)
+    language = models.ForeignKey(Language, null=True, blank=True)
+    check = models.CharField(max_length=20, choices=CHECK_CHOICES)
+    ignore = models.BooleanField(db_index=True)
 
     class Meta:
         permissions = (
@@ -2658,11 +2666,12 @@ class Check(models.Model):
         except:
             return ''
 
+
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
-    source = models.CharField(max_length = 200, db_index = True)
-    target = models.CharField(max_length = 200)
+    source = models.CharField(max_length=200, db_index=True)
+    target = models.CharField(max_length=200)
 
     objects = DictionaryManager()
 
@@ -2680,6 +2689,7 @@ class Dictionary(models.Model):
             self.target
         )
 
+
 class Change(models.Model):
     ACTION_UPDATE = 0
     ACTION_COMPLETE = 1
@@ -2695,13 +2705,13 @@ class Change(models.Model):
         (ACTION_SUGGESTION, ugettext_lazy('Suggestion added')),
     )
 
-    unit = models.ForeignKey(Unit, null = True)
+    unit = models.ForeignKey(Unit, null=True)
     translation = models.ForeignKey(Translation)
-    user = models.ForeignKey(User, null = True)
-    timestamp = models.DateTimeField(auto_now_add = True, db_index = True)
+    user = models.ForeignKey(User, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
     action = models.IntegerField(
-        choices = ACTION_CHOICES,
-        default = ACTION_CHANGE
+        choices=ACTION_CHOICES,
+        default=ACTION_CHANGE
     )
 
     class Meta:
@@ -2715,7 +2725,7 @@ class Change(models.Model):
             'user': self.get_user_display(False),
         }
 
-    def get_user_display(self, icon = True):
+    def get_user_display(self, icon=True):
         return get_user_display(self.user, icon)
 
     def get_absolute_url(self):
@@ -2727,9 +2737,11 @@ class Change(models.Model):
         else:
             return self.translation.get_absolute_url()
 
+
 class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
-    source = models.BooleanField(default = True)
+    source = models.BooleanField(default=True)
+
 
 def get_version_module(module, name, url):
     try:
@@ -2741,6 +2753,7 @@ def get_version_module(module, name, url):
             url,
         ))
     return mod
+
 
 def get_versions():
     '''
@@ -2844,6 +2857,7 @@ def get_versions():
 
     return result
 
+
 def check_version(name, url, version, expected):
     '''
     Check for single module version.
@@ -2855,6 +2869,7 @@ def check_version(name, url, version, expected):
         print 'Installed version %s, required %s' % (version, expected)
         return True
     return False
+
 
 def check_versions(sender, **kwargs):
     '''

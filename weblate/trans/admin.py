@@ -21,6 +21,7 @@
 from django.contrib import admin
 from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Comment, Check, Dictionary, Change
 
+
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'web']
     prepopulated_fields = {'slug': ('name',)}
@@ -34,7 +35,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def update_checks(self, request, queryset):
         cnt = 0
-        for unit in Unit.objects.filter(translation__subproject__project__in = queryset).iterator():
+        for unit in Unit.objects.filter(translation__subproject__project__in=queryset).iterator():
             unit.check()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
@@ -45,6 +46,7 @@ class ProjectAdmin(admin.ModelAdmin):
         self.message_user(request, "Flushed changes in %d git repos." % queryset.count())
 
 admin.site.register(Project, ProjectAdmin)
+
 
 class SubProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'project', 'repo', 'branch']
@@ -60,7 +62,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
     def update_checks(self, request, queryset):
         cnt = 0
-        for unit in Unit.objects.filter(translation__subproject__in = queryset).iterator():
+        for unit in Unit.objects.filter(translation__subproject__in=queryset).iterator():
             unit.check()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
@@ -72,6 +74,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
 admin.site.register(SubProject, SubProjectAdmin)
 
+
 class TranslationAdmin(admin.ModelAdmin):
     list_display = ['subproject', 'language', 'translated', 'total', 'fuzzy', 'revision', 'filename', 'enabled']
     search_fields = ['subproject__slug', 'language__code', 'revision', 'filename']
@@ -79,14 +82,15 @@ class TranslationAdmin(admin.ModelAdmin):
     actions = ['enable_translation', 'disable_translation']
 
     def enable_translation(self, request, queryset):
-        queryset.update(enabled = True)
+        queryset.update(enabled=True)
         self.message_user(request, "Enabled %d translations." % queryset.count())
 
     def disable_translation(self, request, queryset):
-        queryset.update(enabled = False)
+        queryset.update(enabled=False)
         self.message_user(request, "Disabled %d translations." % queryset.count())
 
 admin.site.register(Translation, TranslationAdmin)
+
 
 class UnitAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
@@ -95,12 +99,14 @@ class UnitAdmin(admin.ModelAdmin):
 
 admin.site.register(Unit, UnitAdmin)
 
+
 class SuggestionAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'target', 'project', 'language', 'user']
     list_filter = ['project', 'language']
     search_fields = ['checksum', 'target']
 
 admin.site.register(Suggestion, SuggestionAdmin)
+
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'comment', 'user', 'project', 'language', 'user']
@@ -109,6 +115,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Comment, CommentAdmin)
 
+
 class CheckAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'check', 'project', 'language', 'ignore']
     search_fields = ['checksum', 'check']
@@ -116,12 +123,14 @@ class CheckAdmin(admin.ModelAdmin):
 
 admin.site.register(Check, CheckAdmin)
 
+
 class DictionaryAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'project', 'language']
     search_fields = ['source', 'target']
     list_filter = ['project', 'language']
 
 admin.site.register(Dictionary, DictionaryAdmin)
+
 
 class ChangeAdmin(admin.ModelAdmin):
     list_display = ['unit', 'user', 'timestamp']

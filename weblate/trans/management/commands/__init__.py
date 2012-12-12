@@ -22,6 +22,7 @@ from django.core.management.base import BaseCommand
 from optparse import make_option
 from weblate.trans.models import Unit, SubProject
 
+
 class WeblateCommand(BaseCommand):
     '''
     Command which accepts project/subproject/--all params to process.
@@ -40,7 +41,7 @@ class WeblateCommand(BaseCommand):
         Returns list of units matching parameters.
         '''
         subprojects = self.get_subprojects(*args, **options)
-        return Unit.objects.filter(translation__subproject__in = subprojects)
+        return Unit.objects.filter(translation__subproject__in=subprojects)
 
     def get_subprojects(self, *args, **options):
         '''
@@ -63,11 +64,11 @@ class WeblateCommand(BaseCommand):
                 parts = arg.split('/')
 
                 # filter by project
-                found = SubProject.objects.filter(project__slug = parts[0])
+                found = SubProject.objects.filter(project__slug=parts[0])
 
                 # filter by subproject if available
                 if len(parts) == 2:
-                    found = found.filter(project__slug = parts[1])
+                    found = found.filter(project__slug=parts[1])
 
                 # warn on no match
                 if found.count() == 0:

@@ -159,6 +159,7 @@ RTL_LANGS = set((
     'yi',
 ))
 
+
 class LanguageManager(models.Manager):
     def auto_get_or_create(self, code):
         '''
@@ -168,7 +169,7 @@ class LanguageManager(models.Manager):
 
         # First try getting langauge as is
         try:
-            return self.get(code = code)
+            return self.get(code=code)
         except Language.DoesNotExist:
             pass
 
@@ -187,14 +188,14 @@ class LanguageManager(models.Manager):
         else:
             newcode = lang.lower()
         try:
-            return self.get(code = newcode)
+            return self.get(code=newcode)
         except Language.DoesNotExist:
             pass
 
         # Try canonical variant
         if newcode in DEFAULT_LANGS:
             try:
-                return self.get(code = lang.lower())
+                return self.get(code=lang.lower())
             except Language.DoesNotExist:
                 pass
 
@@ -209,15 +210,15 @@ class LanguageManager(models.Manager):
         '''
         # Create standard language
         lang = Language.objects.create(
-            code = code,
-            name = '%s (generated)' % code,
-            nplurals = 2,
-            pluralequation = '(n != 1)',
+            code=code,
+            name='%s (generated)' % code,
+            nplurals=2,
+            pluralequation='(n != 1)',
         )
         # Try cs_CZ instead of cs-CZ
         if '-' in code:
             try:
-                baselang = Language.objects.get(code = code.replace('-', '_'))
+                baselang = Language.objects.get(code=code.replace('-', '_'))
                 lang.name = baselang.name
                 lang.nplurals = baselang.nplurals
                 lang.pluralequation = baselang.pluralequation
@@ -232,7 +233,7 @@ class LanguageManager(models.Manager):
             if len(parts) == 1:
                 parts = code.split('-')
             try:
-                baselang = Language.objects.get(code = parts[0])
+                baselang = Language.objects.get(code=parts[0])
                 lang.name = baselang.name
                 lang.nplurals = baselang.nplurals
                 lang.pluralequation = baselang.pluralequation
@@ -252,7 +253,8 @@ class LanguageManager(models.Manager):
         # Languages from ttkit
         for code, props in data.languages.items():
             lang, created = Language.objects.get_or_create(
-                code = code)
+                code=code
+            )
 
             # Should we update existing?
             if not update and not created:
@@ -300,7 +302,8 @@ class LanguageManager(models.Manager):
         # Create Weblate extra languages
         for props in EXTRALANGS:
             lang, created = Language.objects.get_or_create(
-                code = props[0])
+                code=props[0]
+            )
 
             # Should we update existing?
             if not update and not created:
@@ -320,7 +323,7 @@ class LanguageManager(models.Manager):
         '''
         Returns list of languages which have at least one translation.
         '''
-        return self.filter(translation__total__gt = 0).distinct()
+        return self.filter(translation__total__gt=0).distinct()
 
 
 def setup_lang(sender=None, app=None, **kwargs):
@@ -332,15 +335,16 @@ def setup_lang(sender=None, app=None, **kwargs):
 
 post_migrate.connect(setup_lang)
 
+
 class Language(models.Model):
-    code = models.SlugField(unique = True)
-    name = models.CharField(max_length = 100)
-    nplurals = models.SmallIntegerField(default = 0)
-    pluralequation = models.CharField(max_length = 255, blank = True)
+    code = models.SlugField(unique=True)
+    name = models.CharField(max_length=100)
+    nplurals = models.SmallIntegerField(default=0)
+    pluralequation = models.CharField(max_length=255, blank=True)
     direction = models.CharField(
-        max_length = 3,
-        default = 'ltr',
-        choices = (('ltr', 'ltr'), ('rtl', 'rtl')),
+        max_length=3,
+        default='ltr',
+        choices=(('ltr', 'ltr'), ('rtl', 'rtl')),
     )
 
     objects = LanguageManager()
@@ -380,7 +384,7 @@ class Language(models.Model):
         Returns status of translations in this language.
         '''
         from weblate.trans.models import Translation
-        translations = Translation.objects.filter(language = self).aggregate(Sum('translated'), Sum('total'))
+        translations = Translation.objects.filter(language=self).aggregate(Sum('translated'), Sum('total'))
         # Prevent division by zero on no translations
         if translations['total__sum'] == 0:
             return 0

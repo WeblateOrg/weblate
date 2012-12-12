@@ -31,29 +31,32 @@ from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 
 TARGET_SCHEMA = Schema(
-    checksum = ID(stored = True, unique = True),
-    target = TEXT
+    checksum=ID(stored=True, unique=True),
+    target=TEXT
 )
 
 SOURCE_SCHEMA = Schema(
-    checksum = ID(stored = True, unique = True),
-    source = TEXT,
-    context = TEXT
+    checksum=ID(stored=True, unique=True),
+    source=TEXT,
+    context=TEXT
 )
+
 
 def create_source_index():
     return create_in(
         settings.WHOOSH_INDEX,
-        schema = SOURCE_SCHEMA,
-        indexname = 'source'
+        schema=SOURCE_SCHEMA,
+        indexname='source'
     )
+
 
 def create_target_index(lang):
     return create_in(
         settings.WHOOSH_INDEX,
-        schema = TARGET_SCHEMA,
-        indexname = 'target-%s' % lang
+        schema=TARGET_SCHEMA,
+        indexname='target-%s' % lang
     )
+
 
 def create_index(sender=None, **kwargs):
     if not os.path.exists(settings.WHOOSH_INDEX):
@@ -61,6 +64,7 @@ def create_index(sender=None, **kwargs):
         create_source_index()
 
 post_syncdb.connect(create_index)
+
 
 class Index(object):
     '''
@@ -103,7 +107,7 @@ class Index(object):
                 self._target[lang] = create_target_index(lang)
         return self._target[lang]
 
-    def source_writer(self, buffered = True):
+    def source_writer(self, buffered=True):
         '''
         Returns source index writer (by default buffered).
         '''
@@ -113,7 +117,7 @@ class Index(object):
             self._source_writer = BufferedWriter(self.source())
         return self._source_writer
 
-    def target_writer(self, lang, buffered = True):
+    def target_writer(self, lang, buffered=True):
         '''
         Returns target index writer (by default buffered) for given language.
         '''
@@ -123,7 +127,7 @@ class Index(object):
             self._target_writer[lang] = BufferedWriter(self.target(lang))
         return self._target_writer[lang]
 
-    def source_searcher(self, buffered = True):
+    def source_searcher(self, buffered=True):
         '''
         Returns source index searcher (on buffered writer).
         '''
@@ -131,7 +135,7 @@ class Index(object):
             return self.source().searcher()
         return self.source_writer(buffered).searcher()
 
-    def target_searcher(self, lang, buffered = True):
+    def target_searcher(self, lang, buffered=True):
         '''
         Returns target index searcher (on buffered writer) for given language.
         '''

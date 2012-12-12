@@ -131,22 +131,23 @@ WIDGETS = {
     }
 }
 
+
 def widgets(request, project):
 
-    obj = get_object_or_404(Project, slug = project)
+    obj = get_object_or_404(Project, slug=project)
 
     # Parse possible language selection
     form = EnageLanguageForm(obj, request.GET)
     lang = None
     if form.is_valid():
         if form.cleaned_data['lang'] != '':
-            lang = Language.objects.get(code = form.cleaned_data['lang'])
+            lang = Language.objects.get(code=form.cleaned_data['lang'])
 
     site = Site.objects.get_current()
     if lang is None:
-        engage_base = reverse('engage', kwargs = {'project': obj.slug})
+        engage_base = reverse('engage', kwargs={'project': obj.slug})
     else:
-        engage_base = reverse('engage-lang', kwargs = {'project': obj.slug, 'lang': lang.code})
+        engage_base = reverse('engage-lang', kwargs={'project': obj.slug, 'lang': lang.code})
     engage_url = 'http://%s%s' % (
         site.domain,
         engage_base,
@@ -154,7 +155,7 @@ def widgets(request, project):
     engage_url_track = '%s?utm_source=widget' % engage_url
     widget_base_url = 'http://%s%s' % (
         site.domain,
-        reverse('weblate.trans.widgets.widgets', kwargs = {'project': obj.slug}),
+        reverse('weblate.trans.widgets.widgets', kwargs={'project': obj.slug}),
     )
     widget_list = []
     for widget_name in WIDGETS:
@@ -162,9 +163,9 @@ def widgets(request, project):
         color_list = []
         for color in widget['colors']:
             if lang is None:
-                color_url = reverse('widget-image', kwargs = {'project': obj.slug, 'widget': widget_name, 'color': color})
+                color_url = reverse('widget-image', kwargs={'project': obj.slug, 'widget': widget_name, 'color': color})
             else:
-                color_url = reverse('widget-image-lang', kwargs = {'project': obj.slug, 'widget': widget_name, 'color': color, 'lang': lang.code})
+                color_url = reverse('widget-image-lang', kwargs={'project': obj.slug, 'widget': widget_name, 'color': color, 'lang': lang.code})
             color_list.append({
                 'name': color,
                 'url': 'http://%s%s' % (
@@ -187,6 +188,7 @@ def widgets(request, project):
         'form': form,
     }))
 
+
 def render_text(pangocairo_context, line, text, params, font_size):
     '''
     Generates Pango layout for text.
@@ -201,9 +203,10 @@ def render_text(pangocairo_context, line, text, params, font_size):
 
     return layout
 
+
 @cache_page(3600)
-def render(request, project, widget = '287x66', color = None, lang = None):
-    obj = get_object_or_404(Project, slug = project)
+def render(request, project, widget='287x66', color=None, lang=None):
+    obj = get_object_or_404(Project, slug=project)
 
     # Handle language parameter
     if lang is not None:
@@ -213,7 +216,7 @@ def render(request, project, widget = '287x66', color = None, lang = None):
             # Ignore failure on activating language
             pass
         try:
-            lang = Language.objects.get(code = lang)
+            lang = Language.objects.get(code=lang)
         except Language.DoesNotExist:
             lang = None
 
@@ -309,4 +312,4 @@ def render(request, project, widget = '287x66', color = None, lang = None):
     surface.write_to_png(out)
     data = out.getvalue()
 
-    return HttpResponse(content_type = 'image/png', content = data)
+    return HttpResponse(content_type='image/png', content=data)

@@ -24,6 +24,7 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
 
+
 def escape_newline(value):
     '''
     Escapes newlines so that they are not lost in <textarea>.
@@ -31,6 +32,7 @@ def escape_newline(value):
     if len(value) >= 1 and value[0] == '\n':
         return '\n' + value
     return value
+
 
 class PluralTextarea(forms.Textarea):
     '''
@@ -100,6 +102,7 @@ class PluralTextarea(forms.Textarea):
             return ret[0]
         return ret
 
+
 class PluralField(forms.CharField):
     '''
     Renderer for plural field. The only difference
@@ -109,7 +112,7 @@ class PluralField(forms.CharField):
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
         super(PluralField, self).__init__(
             *args,
-            widget = PluralTextarea,
+            widget=PluralTextarea,
             **kwargs
         )
 
@@ -117,16 +120,18 @@ class PluralField(forms.CharField):
         # We can get list from PluralTextarea
         return value
 
+
 class TranslationForm(forms.Form):
-    checksum = forms.CharField(widget = forms.HiddenInput)
-    target = PluralField(required = False)
-    fuzzy = forms.BooleanField(label = pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'), required = False)
+    checksum = forms.CharField(widget=forms.HiddenInput)
+    target = PluralField(required=False)
+    fuzzy = forms.BooleanField(label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'), required=False)
+
 
 class AntispamForm(forms.Form):
     '''
     Honeypot based spam protection form.
     '''
-    content = forms.CharField(required = False)
+    content = forms.CharField(required=False)
 
     def clean_content(self):
         '''
@@ -136,75 +141,81 @@ class AntispamForm(forms.Form):
             raise ValidationError('Invalid value')
         return ''
 
+
 class SimpleUploadForm(forms.Form):
-    file = forms.FileField(label = _('File'))
+    file = forms.FileField(label=_('File'))
     merge_header = forms.BooleanField(
-        label = _('Merge file header'),
-        help_text = _('Merges content of file header into the translation.'),
-        required = False,
-        initial = True,
+        label=_('Merge file header'),
+        help_text=_('Merges content of file header into the translation.'),
+        required=False,
+        initial=True,
     )
+
 
 class UploadForm(SimpleUploadForm):
     overwrite = forms.BooleanField(
-        label = _('Overwrite existing translations'),
-        required = False
+        label=_('Overwrite existing translations'),
+        required=False
     )
+
 
 class ExtraUploadForm(UploadForm):
     author_name = forms.CharField(
-        label = _('Author name'),
-        required = False,
-        help_text = _('Keep empty for using currently logged in user.')
-        )
+        label=_('Author name'),
+        required=False,
+        help_text=_('Keep empty for using currently logged in user.')
+    )
     author_email = forms.EmailField(
-        label = _('Author email'),
-        required = False,
-        help_text = _('Keep empty for using currently logged in user.')
-        )
+        label=_('Author email'),
+        required=False,
+        help_text=_('Keep empty for using currently logged in user.')
+    )
+
 
 class SearchForm(forms.Form):
-    q = forms.CharField(label = _('Query'))
+    q = forms.CharField(label=_('Query'))
     exact = forms.BooleanField(
-        label = _('Exact match'),
-        required = False,
-        initial = False
+        label=_('Exact match'),
+        required=False,
+        initial=False
     )
     src = forms.BooleanField(
-        label = _('Search in source strings'),
-        required = False,
-        initial = True
+        label=_('Search in source strings'),
+        required=False,
+        initial=True
     )
     tgt = forms.BooleanField(
-        label = _('Search in target strings'),
-        required = False,
-        initial = True
+        label=_('Search in target strings'),
+        required=False,
+        initial=True
     )
     ctx = forms.BooleanField(
-        label = _('Search in context strings'),
-        required = False,
-        initial = False
+        label=_('Search in context strings'),
+        required=False,
+        initial=False
     )
+
 
 class MergeForm(forms.Form):
     checksum = forms.CharField()
     merge = forms.IntegerField()
 
+
 class AutoForm(forms.Form):
     overwrite = forms.BooleanField(
-        label = _('Overwrite strings'),
-        required = False,
-        initial = False
+        label=_('Overwrite strings'),
+        required=False,
+        initial=False
     )
     inconsistent = forms.BooleanField(
-        label = _('Replace inconsistent'),
-        required = False,
-        initial = False
+        label=_('Replace inconsistent'),
+        required=False,
+        initial=False
     )
     subproject = forms.ChoiceField(
-        label = _('Subproject to use'),
-        required = False,
-        initial = ''
+        label=_('Subproject to use'),
+        required=False,
+        initial=''
     )
 
     def __init__(self, obj, *args, **kwargs):
@@ -220,40 +231,46 @@ class AutoForm(forms.Form):
 
         self.fields['subproject'].choices = [('', _('All subprojects'))] + choices
 
+
 class WordForm(forms.Form):
-    source = forms.CharField(label = _('Source'))
-    target = forms.CharField(label = _('Translation'))
+    source = forms.CharField(label=_('Source'))
+    target = forms.CharField(label=_('Translation'))
+
 
 class DictUploadForm(forms.Form):
-    file  = forms.FileField(label = _('File'))
+    file  = forms.FileField(label=_('File'))
     overwrite = forms.BooleanField(
         label = _('Overwrite existing'),
         required = False
     )
 
+
 class ReviewForm(forms.Form):
-    date = forms.DateField(label = _('Starting date'))
-    type = forms.CharField(widget = forms.HiddenInput, initial = 'review')
+    date = forms.DateField(label=_('Starting date'))
+    type = forms.CharField(widget=forms.HiddenInput, initial='review')
 
     def clean_type(self):
         if self.cleaned_data['type'] != 'review':
             raise ValidationError('Invalid value')
         return self.cleaned_data['type']
 
+
 class LetterForm(forms.Form):
     letter = forms.ChoiceField(
-        label = _('Starting letter'),
-        choices = [('', _('Any'))] + [(chr(97 + x), chr(65 + x)) for x in range(26)],
-        required = False
+        label=_('Starting letter'),
+        choices=[('', _('Any'))] + [(chr(97 + x), chr(65 + x)) for x in range(26)],
+        required=False
     )
 
+
 class CommentForm(forms.Form):
-    comment = forms.CharField(widget = forms.Textarea(attrs = {'dir': 'auto'}))
+    comment = forms.CharField(widget=forms.Textarea(attrs={'dir': 'auto'}))
+
 
 class EnageLanguageForm(forms.Form):
     lang = forms.ChoiceField(
-        required = False,
-        choices = [('', _('Whole project'))],
+        required=False,
+        choices=[('', _('Whole project'))],
     )
 
     def __init__(self, project, *args, **kwargs):

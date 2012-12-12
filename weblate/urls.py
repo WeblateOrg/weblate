@@ -83,7 +83,7 @@ class EngageSitemap(GenericSitemap):
     '''
     def location(self, obj):
         from django.core.urlresolvers import reverse
-        return reverse('engage', kwargs = {'project': obj.slug})
+        return reverse('engage', kwargs={'project': obj.slug})
 
 class EngageLangSitemap(Sitemap):
     '''
@@ -103,26 +103,26 @@ class EngageLangSitemap(Sitemap):
 
     def location(self, item):
         from django.core.urlresolvers import reverse
-        return reverse('engage-lang', kwargs = {'project': item[0].slug, 'lang': item[1].code})
+        return reverse('engage-lang', kwargs={'project': item[0].slug, 'lang': item[1].code})
 
 
 sitemaps = {
-    'project': GenericSitemap(project_dict, priority = 0.8),
-    'engage': EngageSitemap(project_dict, priority = 1.0),
+    'project': GenericSitemap(project_dict, priority=0.8),
+    'engage': EngageSitemap(project_dict, priority=1.0),
     'engagelang': EngageLangSitemap(),
-    'subproject': GenericSitemap(subproject_dict, priority = 0.6),
-    'translation': GenericSitemap(translation_dict, priority = 0.2),
+    'subproject': GenericSitemap(subproject_dict, priority=0.6),
+    'translation': GenericSitemap(translation_dict, priority=0.2),
     'pages': PagesSitemap(),
 }
 
 admin.site.index_template = 'admin/custom-index.html'
 
 urlpatterns = patterns('',
-    url(r'^$', 'weblate.trans.views.home', name = 'home'),
-    url(r'^projects/$', RedirectView.as_view(url = '/')),
+    url(r'^$', 'weblate.trans.views.home', name='home'),
+    url(r'^projects/$', RedirectView.as_view(url='/')),
     url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
-    url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.show_engage', name = 'engage'),
-    url(r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_engage', name = 'engage-lang'),
+    url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.show_engage', name='engage'),
+    url(r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_engage', name='engage-lang'),
 
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.show_dictionaries'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_dictionary'),
@@ -179,30 +179,30 @@ urlpatterns = patterns('',
 
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
 
-    url(r'^exports/rss/$', ChangesFeed(), name = 'rss'),
-    url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name = 'rss-language'),
-    url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed(), name = 'rss-project'),
-    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name = 'rss-subproject'),
-    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name = 'rss-translation'),
+    url(r'^exports/rss/$', ChangesFeed(), name='rss'),
+    url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name='rss-language'),
+    url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed(), name='rss-project'),
+    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name='rss-subproject'),
+    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name='rss-translation'),
 
     # Not promoted, compatibility only:
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render'),
 
-    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]*)\.png$', 'weblate.trans.widgets.render', name = 'widget-image-lang'),
-    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'weblate.trans.widgets.render', name = 'widget-image'),
+    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]*)\.png$', 'weblate.trans.widgets.render', name='widget-image-lang'),
+    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'weblate.trans.widgets.render', name='widget-image'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets'),
 
     url(r'^data/$', 'weblate.trans.views.data_root'),
     url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data'),
 
-    url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string', name = 'js-get'),
-    url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check', name = 'js-ignore-check'),
+    url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string', name='js-get'),
+    url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check', name='js-ignore-check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    url(r'^js/config/$', 'weblate.trans.views.js_config', name = 'js-config'),
-    url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_similar', name = 'js-similar'),
-    url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_other', name = 'js-other'),
-    url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_dictionary', name = 'js-dictionary'),
+    url(r'^js/config/$', 'weblate.trans.views.js_config', name='js-config'),
+    url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_similar', name='js-similar'),
+    url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_other', name='js-other'),
+    url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'weblate.trans.views.get_dictionary', name='js-dictionary'),
     url(r'^js/git/(?P<project>[^/]*)/$', 'weblate.trans.views.git_status_project'),
     url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.git_status_subproject'),
     url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.git_status_translation'),
@@ -290,10 +290,10 @@ urlpatterns = patterns('',
         auth_views.password_reset_done,
         {'extra_context': {'title': _('Password reset')}},
         name='auth_password_reset_done'),
-    url(r'^accounts/profile/', 'weblate.accounts.views.profile', name = 'profile'),
+    url(r'^accounts/profile/', 'weblate.accounts.views.profile', name='profile'),
 
-    url(r'^contact/', 'weblate.accounts.views.contact', name = 'contact'),
-    url(r'^about/$', 'weblate.trans.views.about', name = 'about'),
+    url(r'^contact/', 'weblate.accounts.views.contact', name='contact'),
+    url(r'^about/$', 'weblate.trans.views.about', name='about'),
 
     # the sitemap
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),

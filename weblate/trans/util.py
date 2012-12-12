@@ -35,7 +35,8 @@ GRAVATAR_DEFAULT_IMAGE = getattr(settings, "GRAVATAR_DEFAULT_IMAGE", "")
 
 PLURAL_SEPARATOR = '\x00\x00'
 
-def gravatar_for_email(email, size = 80):
+
+def gravatar_for_email(email, size=80):
     '''
     Generates url for gravatar.
     '''
@@ -43,7 +44,8 @@ def gravatar_for_email(email, size = 80):
     url += urllib.urlencode({"s": str(size), "default": GRAVATAR_DEFAULT_IMAGE})
     return escape(url)
 
-def get_user_display(user, icon = True):
+
+def get_user_display(user, icon=True):
     '''
     Nicely formats user for display.
     '''
@@ -68,12 +70,13 @@ def get_user_display(user, icon = True):
         gravatar = os.path.join(settings.MEDIA_URL, 'weblate-32.png')
     else:
         # Get gravatar image
-        gravatar = gravatar_for_email(user.email, size = 32)
+        gravatar = gravatar_for_email(user.email, size=32)
 
     return mark_safe('<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
         'name': escape(full_name),
         'gravatar': gravatar
     })
+
 
 def is_plural(s):
     '''
@@ -81,11 +84,14 @@ def is_plural(s):
     '''
     return s.find(PLURAL_SEPARATOR) != -1
 
+
 def split_plural(s):
     return s.split(PLURAL_SEPARATOR)
 
+
 def join_plural(s):
     return PLURAL_SEPARATOR.join(s)
+
 
 def msg_checksum(source, context):
     '''
@@ -97,6 +103,7 @@ def msg_checksum(source, context):
     m.update(source.encode('utf-8'))
     m.update(context.encode('utf-8'))
     return m.hexdigest()
+
 
 def is_unit_key_value(unit):
     '''
@@ -112,6 +119,7 @@ def is_unit_key_value(unit):
         and hasattr(unit, 'translation')
     )
 
+
 def get_source(unit):
     '''
     Returns source string from a ttkit unit.
@@ -123,6 +131,7 @@ def get_source(unit):
             return join_plural(unit.source.strings)
         else:
             return unit.source
+
 
 def get_target(unit):
     '''
@@ -149,6 +158,7 @@ def get_target(unit):
                 return ''
             return unit.target
 
+
 def get_context(unit):
     '''
     Returns context of message. In some cases we have to use
@@ -160,6 +170,7 @@ def get_context(unit):
     if is_unit_key_value(unit) and context == '':
         return unit.getid()
     return context
+
 
 def is_translated(unit):
     '''
