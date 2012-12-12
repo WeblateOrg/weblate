@@ -74,14 +74,21 @@ def home(request):
     # Warn about not filled in username (usually caused by migration of
     # users from older system
     if not request.user.is_anonymous() and request.user.get_full_name() == '':
-        messages.warning(request, _('Please set your full name in your profile.'))
+        messages.warning(
+            request,
+            _('Please set your full name in your profile.')
+        )
 
     # Load user translations if user is authenticated
     usertranslations = None
     if request.user.is_authenticated():
         profile = request.user.get_profile()
 
-        usertranslations = Translation.objects.filter(language__in=profile.languages.all()).order_by('subproject__project__name', 'subproject__name')
+        usertranslations = Translation.objects.filter(
+            language__in=profile.languages.all()
+        ).order_by(
+            'subproject__project__name', 'subproject__name'
+        )
 
     # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
@@ -102,8 +109,11 @@ def show_checks(request):
     '''
     List of failing checks.
     '''
+    allchecks = Check.objects.filter(
+        ignore=False
+    ).values('check').annotate(count=Count('id'))
     return render_to_response('checks.html', RequestContext(request, {
-        'checks': Check.objects.filter(ignore=False).values('check').annotate(count=Count('id')),
+        'checks': allchecks,
         'title': _('Failing checks'),
     }))
 
@@ -117,8 +127,12 @@ def show_check(request, name):
     except KeyError:
         raise Http404('No check matches the given query.')
 
+    checks = Check.objects.filter(
+        check=name, ignore=False
+    ).values('project__slug').annotate(count=Count('id'))
+
     return render_to_response('check.html', RequestContext(request, {
-        'checks': Check.objects.filter(check=name, ignore=False).values('project__slug').annotate(count=Count('id')),
+        'checks': checks,
         'title': check.name,
         'check': check,
     }))
@@ -135,16 +149,42 @@ def show_check_project(request, name, project):
         raise Http404('No check matches the given query.')
     units = Unit.objects.none()
     if check.target:
-        langs = Check.objects.filter(check=name, project=prj, ignore=False).values_list('language', flat=True).distinct()
+        langs = Check.objects.filter(
+            check=name, project=prj, ignore=False
+        ).values_list('language', flat=True).distinct()
         for lang in langs:
-            checks = Check.objects.filter(check=name, project=prj, language=lang, ignore=False).values_list('checksum', flat=True)
-            res = Unit.objects.filter(checksum__in=checks, translation__language=lang, translation__subproject__project=prj, translated=True).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count=Count('id'))
+            checks = Check.objects.filter(
+                check=name, project=prj, language=lang, ignore=False
+            ).values_list('checksum', flat=True)
+            res = Unit.objects.filter(
+                checksum__in=checks,
+                translation__language=lang,
+                translation__subproject__project=prj,
+                translated=True
+            ).values(
+                'translation__subproject__slug',
+                'translation__subproject__project__slug'
+            ).annotate(count=Count('id'))
             units |= res
     if check.source:
-        checks = Check.objects.filter(check=name, project=prj, language=None, ignore=False).values_list('checksum', flat=True)
+        checks = Check.objects.filter(
+            check=name,
+            project=prj,
+            language=None,
+            ignore=False
+        ).values_list(
+            'checksum', flat=True
+        )
         for sp in prj.subproject_set.all():
             lang = sp.translation_set.all()[0].language
-            res = Unit.objects.filter(checksum__in=checks, translation__language=lang, translation__subproject=sp).values('translation__subproject__slug', 'translation__subproject__project__slug').annotate(count=Count('id'))
+            res = Unit.objects.filter(
+                checksum__in=checks,
+                translation__language=lang,
+                translation__subproject=sp
+            ).values(
+                'translation__subproject__slug',
+                'translation__subproject__project__slug'
+            ).annotate(count=Count('id'))
             units |= res
 
     return render_to_response('check_project.html', RequestContext(request, {
@@ -159,33 +199,65 @@ def show_check_subproject(request, name, project, subproject):
     '''
     Show checks failing in a subproject.
     '''
-    subprj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
+    subprj = get_object_or_404(
+        SubProject,
+        slug=subproject,
+        project__slug=project
+    )
     try:
         check = CHECKS[name]
     except KeyError:
         raise Http404('No check matches the given query.')
     units = Unit.objects.none()
     if check.target:
-        langs = Check.objects.filter(check=name, project=subprj.project, ignore=False).values_list('language', flat=True).distinct()
+        langs = Check.objects.filter(
+            check=name,
+            project=subprj.project,
+            ignore=False
+        ).values_list(
+            'language', flat=True
+        ).distinct()
         for lang in langs:
-            checks = Check.objects.filter(check=name, project=subprj.project, language=lang, ignore=False).values_list('checksum', flat=True)
-            res = Unit.objects.filter(translation__subproject=subprj, checksum__in=checks, translation__language=lang, translated=True).values('translation__language__code').annotate(count=Count('id'))
+            checks = Check.objects.filter(
+                check=name,
+                project=subprj.project,
+                language=lang,
+                ignore=False
+            ).values_list('checksum', flat=True)
+            res = Unit.objects.filter(
+                translation__subproject=subprj,
+                checksum__in=checks,
+                translation__language=lang,
+                translated=True
+            ).values(
+                'translation__language__code'
+            ).annotate(count=Count('id'))
             units |= res
     source_checks = []
     if check.source:
-        checks = Check.objects.filter(check=name, project=subprj.project, language=None, ignore=False).values_list('checksum', flat=True)
+        checks = Check.objects.filter(
+            check=name, project=subprj.project,
+            language=None,
+            ignore=False
+        ).values_list('checksum', flat=True)
         lang = subprj.translation_set.all()[0].language
-        res = Unit.objects.filter(translation__subproject=subprj, checksum__in=checks, translation__language=lang).count()
+        res = Unit.objects.filter(
+            translation__subproject=subprj,
+            checksum__in=checks,
+            translation__language=lang
+        ).count()
         if res > 0:
             source_checks.append(res)
-    return render_to_response('check_subproject.html', RequestContext(request, {
-        'checks': units,
-        'source_checks': source_checks,
-        'anychecks': len(units) + len(source_checks) > 0,
-        'title': '%s/%s' % (subprj.__unicode__(), check.name),
-        'check': check,
-        'subproject': subprj,
-    }))
+    return render_to_response('check_subproject.html',
+        RequestContext(request, {
+            'checks': units,
+            'source_checks': source_checks,
+            'anychecks': len(units) + len(source_checks) > 0,
+            'title': '%s/%s' % (subprj.__unicode__(), check.name),
+            'check': check,
+            'subproject': subprj,
+        })
+    )
 
 
 def show_languages(request):
@@ -197,8 +269,12 @@ def show_languages(request):
 
 def show_language(request, lang):
     obj = get_object_or_404(Language, code=lang)
-    last_changes = Change.objects.filter(translation__language=obj).order_by('-timestamp')[:10]
-    dicts = Dictionary.objects.filter(language=obj).values_list('project', flat=True).distinct()
+    last_changes = Change.objects.filter(
+        translation__language=obj
+    ).order_by('-timestamp')[:10]
+    dicts = Dictionary.objects.filter(
+        language=obj
+    ).values_list('project', flat=True).distinct()
 
     return render_to_response('language.html', RequestContext(request, {
         'object': obj,
@@ -210,7 +286,9 @@ def show_language(request, lang):
 
 def show_dictionaries(request, project):
     obj = get_object_or_404(Project, slug=project)
-    dicts = Translation.objects.filter(subproject__project=obj).values_list('language', flat=True).distinct()
+    dicts = Translation.objects.filter(
+        subproject__project=obj
+    ).values_list('language', flat=True).distinct()
 
     return render_to_response('dictionaries.html', RequestContext(request, {
         'title': _('Dictionaries'),
@@ -224,7 +302,12 @@ def show_dictionaries(request, project):
 def edit_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
     lang = get_object_or_404(Language, code=lang)
-    word = get_object_or_404(Dictionary, project=prj, language=lang, id=request.GET.get('id'))
+    word = get_object_or_404(
+        Dictionary,
+        project=prj,
+        language=lang,
+        id=request.GET.get('id')
+    )
 
     if request.method == 'POST':
         form = WordForm(request.POST)
@@ -232,12 +315,18 @@ def edit_dictionary(request, project, lang):
             word.source = form.cleaned_data['source']
             word.target = form.cleaned_data['target']
             word.save()
-            return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs={'project': prj.slug, 'lang': lang.code}))
+            return HttpResponseRedirect(reverse(
+                'weblate.trans.views.show_dictionary',
+                kwargs={'project': prj.slug, 'lang': lang.code}
+            ))
     else:
-        form = WordForm(initial={'source': word.source, 'target': word.target })
+        form = WordForm(
+            initial={'source': word.source, 'target': word.target }
+        )
 
     return render_to_response('edit_dictionary.html', RequestContext(request, {
-        'title': _('%(language)s dictionary for %(project)s') % {'language': lang, 'project': prj},
+        'title': _('%(language)s dictionary for %(project)s') %
+            {'language': lang, 'project': prj},
         'project': prj,
         'language': lang,
         'form': form,
@@ -249,11 +338,19 @@ def edit_dictionary(request, project, lang):
 def delete_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
     lang = get_object_or_404(Language, code=lang)
-    word = get_object_or_404(Dictionary, project=prj, language=lang, id=request.POST.get('id'))
+    word = get_object_or_404(
+        Dictionary,
+        project=prj,
+        language=lang,
+        id=request.POST.get('id')
+    )
 
     word.delete()
 
-    return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs={'project': prj.slug, 'lang': lang.code}))
+    return HttpResponseRedirect(reverse(
+        'weblate.trans.views.show_dictionary',
+        kwargs={'project': prj.slug, 'lang': lang.code})
+    )
 
 
 @login_required
@@ -266,18 +363,35 @@ def upload_dictionary(request, project, lang):
         form = DictUploadForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                count = Dictionary.objects.upload(prj, lang, request.FILES['file'], form.cleaned_data['overwrite'])
+                count = Dictionary.objects.upload(
+                    prj,
+                    lang,
+                    request.FILES['file'],
+                    form.cleaned_data['overwrite']
+                )
                 if count == 0:
-                    messages.warning(request, _('No words to import found in file.'))
+                    messages.warning(
+                        request,
+                        _('No words to import found in file.')
+                    )
                 else:
-                    messages.info(request, _('Imported %d words from file.') % count)
+                    messages.info(
+                        request,
+                        _('Imported %d words from file.') % count
+                    )
             except Exception as e:
-                messages.error(request, _('File content merge failed: %s' % unicode(e)))
+                messages.error(
+                    request,
+                    _('File content merge failed: %s' % unicode(e))
+                )
         else:
             messages.error(request, _('Failed to process form!'))
     else:
         messages.error(request, _('Failed to process form!'))
-    return HttpResponseRedirect(reverse('weblate.trans.views.show_dictionary', kwargs={'project': prj.slug, 'lang': lang.code}))
+    return HttpResponseRedirect(reverse(
+        'weblate.trans.views.show_dictionary',
+        kwargs={'project': prj.slug, 'lang': lang.code}
+    ))
 
 def download_dictionary(request, project, lang):
     '''
@@ -294,7 +408,10 @@ def download_dictionary(request, project, lang):
         export_format = 'csv'
 
     # Grab all words
-    words = Dictionary.objects.filter(project=prj, language=lang).order_by('source')
+    words = Dictionary.objects.filter(
+        project=prj,
+        language=lang
+    ).order_by('source')
 
     if export_format == 'csv':
         response = HttpResponse(mimetype='text/csv; charset=utf-8')
@@ -564,8 +681,16 @@ def show_source(request, project, subproject):
 
 
 def show_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
-    last_changes = Change.objects.filter(translation=obj).order_by('-timestamp')[:10]
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
+    last_changes = Change.objects.filter(
+        translation=obj
+    ).order_by('-timestamp')[:10]
 
     # Check locks
     obj.is_locked(request)
@@ -591,7 +716,9 @@ def show_translation(request, project, subproject, lang):
     if request.user.is_anonymous():
         review_form = None
     else:
-        review_form = ReviewForm(initial={'date': datetime.date.today() - datetime.timedelta(days=31)})
+        review_form = ReviewForm(
+            initial={'date': datetime.date.today() - datetime.timedelta(days=31)}
+        )
 
     return render_to_response('translation.html', RequestContext(request, {
         'object': obj,
@@ -629,7 +756,13 @@ def commit_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.commit_translation')
 def commit_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
     obj.commit_pending()
 
     messages.info(request, _('All pending translations were committed.'))
@@ -662,7 +795,13 @@ def update_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.update_translation')
 def update_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
@@ -695,7 +834,13 @@ def push_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.push_translation')
 def push_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
@@ -728,7 +873,13 @@ def reset_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.reset_translation')
 def reset_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
@@ -739,7 +890,13 @@ def reset_translation(request, project, subproject, lang):
 @login_required
 @permission_required('trans.lock_translation')
 def lock_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     if not obj.is_user_locked(request):
         obj.create_lock(request.user)
@@ -751,11 +908,20 @@ def lock_translation(request, project, subproject, lang):
 @login_required
 @permission_required('trans.lock_translation')
 def unlock_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     if not obj.is_user_locked(request):
         obj.create_lock(None)
-        messages.info(request, _('Translation is now open for translation updates.'))
+        messages.info(
+            request,
+            _('Translation is now open for translation updates.')
+        )
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -770,7 +936,10 @@ def lock_subproject(request, project, subproject):
     obj.locked = True
     obj.save()
 
-    messages.info(request, _('Subproject is now locked for translation updates!'))
+    messages.info(
+        request,
+        _('Subproject is now locked for translation updates!')
+    )
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -783,7 +952,10 @@ def unlock_subproject(request, project, subproject):
     obj.locked = False
     obj.save()
 
-    messages.info(request, _('Subproject is now open for translation updates.'))
+    messages.info(
+        request,
+        _('Subproject is now open for translation updates.')
+    )
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -799,7 +971,10 @@ def lock_project(request, project):
         sp.locked = True
         sp.save()
 
-    messages.info(request, _('All subprojects are now locked for translation updates!'))
+    messages.info(
+        request,
+        _('All subprojects are now locked for translation updates!')
+    )
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
@@ -819,7 +994,13 @@ def unlock_project(request, project):
 
 
 def download_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     # Retrieve ttkit store to get extension and mime type
     store = obj.get_store()
@@ -841,7 +1022,8 @@ def download_translation(request, project, subproject, lang):
     else:
         ext = store.Extensions[0]
 
-    # Construct file name (do not use real filename as it is usually not that useful)
+    # Construct file name (do not use real filename as it is usually not
+    # that useful)
     filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
 
     # Django wrapper for sending file
@@ -936,7 +1118,13 @@ def get_filter_name(rqtype, search_query):
 
 
 def translate(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     # Check locks
     project_locked, user_locked = obj.is_locked(request, True)
