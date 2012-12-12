@@ -20,22 +20,18 @@
 
 from django.db import models
 from django.dispatch import receiver
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
-from django.db.utils import DatabaseError
-from django.utils.translation import ugettext_lazy as _, gettext, ugettext_noop
+from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
 from django.contrib.auth.models import Group, Permission, User
 from django.db.models.signals import post_syncdb
 from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation
-from django.template.loader import render_to_string, get_template_from_string
-from django.template.context import Context
+from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from django.db import transaction
 from django.core.mail import mail_admins
 
 from south.signals import post_migrate

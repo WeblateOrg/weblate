@@ -20,7 +20,6 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from weblate.trans.models import SubProject, Project
-from optparse import make_option
 from glob import glob
 import tempfile
 import git

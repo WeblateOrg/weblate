@@ -21,7 +21,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
@@ -52,7 +52,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
 from weblate.trans.filelock import FileLock, FileLockException
-from util import is_plural, split_plural, join_plural, get_source, get_target, is_translated, get_user_display
+from util import is_plural, split_plural, get_source, get_target, is_translated, get_user_display
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -872,8 +872,6 @@ class SubProject(models.Model):
         '''
         Checks whether there is any translation which needs commit.
         '''
-        gitrepo = self.get_repo()
-
         if not from_link and self.is_repo_link():
             return self.get_linked_repo().commit_pending(True, skip_push = skip_push)
 
@@ -1106,7 +1104,7 @@ class SubProject(models.Model):
             if self.template != '':
                 template = self.get_template_filename()
                 try:
-                    ttkit(os.path.join(self.get_path(), match), self.file_format)
+                    ttkit(template, self.file_format)
                 except ValueError:
                     raise ValidationError(_('Format of translation template could not be recognized.'))
                 except Exception as e:
@@ -2736,7 +2734,7 @@ class IndexUpdate(models.Model):
 def get_version_module(module, name, url):
     try:
         mod = __import__(module)
-    except ImportError as e:
+    except ImportError:
         raise Exception('Failed to import %s, please install %s from %s' % (
             module,
             name,
