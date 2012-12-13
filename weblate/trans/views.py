@@ -1626,7 +1626,13 @@ def upload_translation(request, project, subproject, lang):
     '''
     Handling of translation uploads.
     '''
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
 
     if not obj.is_locked(request) and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):
@@ -1698,7 +1704,12 @@ def js_config(request):
             microsoft_langs = [p.text for p in parsed.getchildren()]
         except Exception as e:
             logger.error('failed to get supported languages from Microsoft, using defaults (%s)', str(e))
-            microsoft_langs = ['ar','bg','ca','zh-CHS','zh-CHT','cs','da','nl','en','et','fi','fr','de','el','ht','he','hi','mww','hu','id','it','ja','ko','lv','lt','no','pl','pt','ro','ru','sk','sl','es','sv','th','tr','uk','vi']
+            microsoft_langs = [
+                'ar', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'cs', 'da', 'nl', 'en',
+                'et', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww', 'hu',
+                'id', 'it', 'ja', 'ko', 'lv', 'lt', 'no', 'pl', 'pt', 'ro',
+                'ru', 'sk', 'sl', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
+            ]
     else:
         microsoft_langs = None
 
@@ -1724,7 +1735,9 @@ def about(request):
     context['total_suggestions'] = totals['suggested__sum']
     context['total_users'] = Profile.objects.count()
     context['total_strings'] = total_strings
-    context['total_languages'] = Language.objects.filter(translation__total__gt=0).distinct().count()
+    context['total_languages'] = Language.objects.filter(
+        translation__total__gt=0
+    ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
     context['versions'] = versions
