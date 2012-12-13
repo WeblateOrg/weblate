@@ -37,9 +37,17 @@ def diff(old, new):
     else:
         # ...otherwise, the common substring is considered to have no change,
         # and we recurse on the text before and after the substring
-        return diff(old[:sub_start_old], new[:sub_start_new]) + \
-               [('=', new[sub_start_new:sub_start_new + sub_length])] + \
-               diff(old[sub_start_old + sub_length:], new[sub_start_new + sub_length:])
+        return (
+            diff(
+                old[:sub_start_old],
+                new[:sub_start_new]
+            ) +
+            [('=', new[sub_start_new:sub_start_new + sub_length])] +
+            diff(
+                old[sub_start_old + sub_length:],
+                new[sub_start_new + sub_length:]
+            )
+        )
 
 
 def stringDiff(old, new):
