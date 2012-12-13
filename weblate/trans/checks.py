@@ -408,7 +408,13 @@ class EndSpaceCheck(TargetCheck):
                 return False
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
                 return False
-        return self.check_chars(source, target, -1, [' '])
+
+        # Count space chars in source and target
+        source_space = len(source) - len(source.rstrip(' '))
+        target_space = len(target) - len(target.rstrip(' '))
+
+        # Compare numbers
+        return (source_space != target_space)
 
 
 class EndStopCheck(TargetCheck):
