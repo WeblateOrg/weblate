@@ -1738,9 +1738,9 @@ class Translation(models.Model):
         # Do actual commit
         gitrepo.git.commit(
             self.filename,
-            author = author.encode('utf-8'),
-            date = timestamp.isoformat(),
-            m = msg
+            author=author.encode('utf-8'),
+            date=timestamp.isoformat(),
+            m=msg
         )
 
         # Optionally store updated hash
