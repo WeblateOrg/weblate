@@ -324,7 +324,7 @@ class SameCheck(TargetCheck):
 
     def check_single(self, source, target, flags, language, unit):
         # Ignore strings which don't contain any string to translate
-        if self.is_format_only(source, PYTHON_PRINTF_MATCH):
+        if self.is_format_only(source, flags):
             return False
 
         # One letter things are usually labels or decimal/thousand separators
