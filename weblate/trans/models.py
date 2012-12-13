@@ -361,9 +361,9 @@ class Project(models.Model):
 
     def save(self, *args, **kwargs):
         # Create filesystem directory for storing data
-        p = self.get_path()
-        if not os.path.exists(p):
-            os.makedirs(p)
+        path = self.get_path()
+        if not os.path.exists(path):
+            os.makedirs(path)
 
         super(Project, self).save(*args, **kwargs)
 
@@ -387,9 +387,9 @@ class Project(models.Model):
         all languages have same number of strings.
         '''
         total = 0
-        for p in self.subproject_set.all():
+        for resource in self.subproject_set.all():
             try:
-                total += p.translation_set.all()[0].total
+                total += resource.translation_set.all()[0].total
             except Translation.DoesNotExist:
                 pass
         return total
@@ -410,20 +410,20 @@ class Project(models.Model):
         '''
         Checks whether there are some not commited changes.
         '''
-        for s in self.subproject_set.all():
-            if s.git_needs_commit():
+        for resource in self.subproject_set.all():
+            if resource.git_needs_commit():
                 return True
         return False
 
     def git_needs_merge(self, gitrepo=None):
-        for s in self.subproject_set.all():
-            if s.git_needs_merge():
+        for resource in self.subproject_set.all():
+            if resource.git_needs_merge():
                 return True
         return False
 
     def git_needs_push(self, gitrepo=None):
-        for s in self.subproject_set.all():
-            if s.git_needs_push():
+        for resource in self.subproject_set.all():
+            if resource.git_needs_push():
                 return True
         return False
 
@@ -431,16 +431,16 @@ class Project(models.Model):
         '''
         Commits any pending changes.
         '''
-        for s in self.subproject_set.all():
-            s.commit_pending()
+        for resource in self.subproject_set.all():
+            resource.commit_pending()
 
     def do_update(self, request=None):
         '''
         Updates all git repos.
         '''
         ret = True
-        for s in self.subproject_set.all():
-            ret &= s.do_update(request)
+        for resource in self.subproject_set.all():
+            ret &= resource.do_update(request)
         return ret
 
     def do_push(self, request=None):
@@ -448,8 +448,8 @@ class Project(models.Model):
         Pushes all git repos.
         '''
         ret = True
-        for s in self.subproject_set.all():
-            ret |= s.do_push(request)
+        for resource in self.subproject_set.all():
+            ret |= resource.do_push(request)
         return ret
 
     def do_reset(self, request=None):
@@ -457,8 +457,8 @@ class Project(models.Model):
         Pushes all git repos.
         '''
         ret = True
-        for s in self.subproject_set.all():
-            ret |= s.do_reset(request)
+        for resource in self.subproject_set.all():
+            ret |= resource.do_reset(request)
         return ret
 
     def can_push(self):
@@ -466,8 +466,8 @@ class Project(models.Model):
         Checks whether any suprojects can push.
         '''
         ret = False
-        for s in self.subproject_set.all():
-            ret |= s.can_push()
+        for resource in self.subproject_set.all():
+            ret |= resource.can_push()
         return ret
 
     def get_last_change(self):
