@@ -72,7 +72,9 @@ def htmlDiff(old, new):
     '<del>First</del><ins>Second</ins> string<ins> new</ins>'
 
     """
-    con = {'=': (lambda x: x),
-           '+': (lambda x: "<ins>" + x + "</ins>"),
-           '-': (lambda x: "<del>" + x + "</del>")}
+    con = {
+        '=': (lambda x: x),
+        '+': (lambda x: "<ins>" + x + "</ins>"),
+        '-': (lambda x: "<del>" + x + "</del>")
+    }
     return "".join([(con[a])("".join(b)) for a, b in diff(old, new)])
