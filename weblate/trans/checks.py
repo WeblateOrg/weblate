@@ -716,7 +716,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     description = _('Translation contains extra zero-width space character')
 
     def check_single(self, source, target, flags, language, unit):
-        return u'\u200b' in target and not u'\u200b' in source
+        return (u'\u200b' in target) != (u'\u200b' in source)
 
 
 class XMLTagsCheck(TargetCheck):
