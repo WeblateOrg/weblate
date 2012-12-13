@@ -3,7 +3,11 @@ Tests for consistency checks.
 """
 
 from django.test import TestCase
-from weblate.trans.checks import SameCheck, BeginNewlineCheck, EndNewlineCheck
+from weblate.trans.checks import (
+    SameCheck,
+    BeginNewlineCheck, EndNewlineCheck,
+    BeginSpaceCheck,
+)
 
 
 class Language(object):
@@ -95,6 +99,38 @@ class EndNewlineCheckTest(TestCase):
         self.assertTrue(self.check.check_single(
             'string\n',
             'string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+
+class BeginSpaceCheckTest(TestCase):
+    def setUp(self):
+        self.check = BeginSpaceCheck()
+
+    def test_whitespace(self):
+        self.assertFalse(self.check.check_single(
+            '   string',
+            '   string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_whitespace_1(self):
+        self.assertTrue(self.check.check_single(
+            '  string',
+            '    string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_whitespace_2(self):
+        self.assertTrue(self.check.check_single(
+            '    string',
+            '  string',
             '',
             Language('cs'),
             None
