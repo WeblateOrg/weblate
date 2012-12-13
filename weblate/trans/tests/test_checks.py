@@ -35,6 +35,7 @@ from weblate.trans.checks import (
     NewlineCountingCheck,
     BBCodeCheck,
     ZeroWidthSpaceCheck,
+    XMLTagsCheck,
 )
 
 
@@ -782,4 +783,54 @@ class ZeroWidthSpaceCheckTest(TestCase):
             '',
             Language('cs'),
             None
+        ))
+
+
+class XMLTagsCheckTest(TestCase):
+    def setUp(self):
+        self.check = XMLTagsCheck()
+
+    def test_none(self):
+        self.assertFalse(self.check.check_single(
+            u'string',
+            u'string',
+            '',
+            Language('cs'),
+            Unit('xml_none')
+        ))
+
+    def test_invalid(self):
+        self.assertFalse(self.check.check_single(
+            u'string</a>',
+            u'string</a>',
+            '',
+            Language('cs'),
+            Unit('xml_invalid')
+        ))
+
+    def test_matching(self):
+        self.assertFalse(self.check.check_single(
+            u'<a>string</a>',
+            u'<a>string</a>',
+            '',
+            Language('cs'),
+            Unit('xml_matching')
+        ))
+
+    def test_not_matching_1(self):
+        self.assertTrue(self.check.check_single(
+            u'<a>string</a>',
+            u'<b>string</b>',
+            '',
+            Language('cs'),
+            Unit('xml_not_matching_1')
+        ))
+
+    def test_not_matching_2(self):
+        self.assertTrue(self.check.check_single(
+            u'<a>string</a>',
+            u'<a>string</b>',
+            '',
+            Language('cs'),
+            Unit('xml_not_matching_2')
         ))
