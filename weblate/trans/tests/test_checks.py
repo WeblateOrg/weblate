@@ -809,6 +809,13 @@ class XMLTagsCheckTest(TestCase):
             Language('cs'),
             Unit('xml_none')
         ))
+        self.assertFalse(self.check.check_single(
+            u'string',
+            u'string',
+            '',
+            Language('de'),
+            Unit('xml_none')
+        ))
 
     def test_invalid(self):
         self.assertFalse(self.check.check_single(
@@ -825,6 +832,13 @@ class XMLTagsCheckTest(TestCase):
             u'<a>string</a>',
             '',
             Language('cs'),
+            Unit('xml_matching')
+        ))
+        self.assertFalse(self.check.check_single(
+            u'<a>string</a>',
+            u'<a>string</a>',
+            '',
+            Language('de'),
             Unit('xml_matching')
         ))
 
