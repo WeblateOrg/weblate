@@ -429,9 +429,12 @@ class EndStopCheck(TargetCheck):
         if self.is_language(language, ['ja']) and source[-1] in [':', ';']:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
-            return self.check_chars(source, target, -1, [u':', u'：', u'.', u'。'])
-        return self.check_chars(source, target, -1, [u'.', u'。', u'।', u'۔'])
-
+            return self.check_chars(
+                source, target, -1, [u':', u'：', u'.', u'。']
+            )
+        return self.check_chars(
+            source, target, -1, [u'.', u'。', u'।', u'۔']
+        )
 
 
 class EndColonCheck(TargetCheck):
@@ -459,7 +462,6 @@ class EndColonCheck(TargetCheck):
         return self.check_chars(source, target, -1, [u':', u'：'])
 
 
-
 class EndQuestionCheck(TargetCheck):
     '''
     Check for final question mark
@@ -476,7 +478,12 @@ class EndQuestionCheck(TargetCheck):
                 if target[-2:] not in [' ?', '&nbsp;?', u' ?']:
                     return True
             return False
-        return self.check_chars(source, target, -1, [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺'])
+        return self.check_chars(
+            source,
+            target,
+            -1,
+            [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺']
+        )
 
 
 class EndExclamationCheck(TargetCheck):
@@ -501,7 +508,12 @@ class EndExclamationCheck(TargetCheck):
                 if target[-2:] not in [' !', '&nbsp;!', u' !']:
                     return True
             return False
-        return self.check_chars(source, target, -1, [u'!', u'！', u'՜', u'᥄', u'႟', u'߹'])
+        return self.check_chars(
+            source,
+            target,
+            -1,
+            [u'!', u'！', u'՜', u'᥄', u'႟', u'߹']
+        )
 
 
 class EndEllipsisCheck(TargetCheck):
@@ -530,7 +542,12 @@ class PythonFormatCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         if not 'python-format' in flags:
             return False
-        return self.check_format_strings(source, target, PYTHON_PRINTF_MATCH, unit)
+        return self.check_format_strings(
+            source,
+            target,
+            PYTHON_PRINTF_MATCH,
+            unit
+        )
 
 
 class PHPFormatCheck(TargetCheck):
@@ -544,7 +561,12 @@ class PHPFormatCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         if not 'php-format' in flags:
             return False
-        return self.check_format_strings(source, target, PHP_PRINTF_MATCH, unit)
+        return self.check_format_strings(
+            source,
+            target,
+            PHP_PRINTF_MATCH,
+            unit
+        )
 
 
 class CFormatCheck(TargetCheck):
@@ -558,8 +580,12 @@ class CFormatCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         if not 'c-format' in flags:
             return False
-        return self.check_format_strings(source, target, C_PRINTF_MATCH, unit)
-
+        return self.check_format_strings(
+            source,
+            target,
+            C_PRINTF_MATCH,
+            unit
+        )
 
 
 class PluralsCheck(TargetCheck):
@@ -698,7 +724,6 @@ class XMLTagsCheck(TargetCheck):
     check_id = 'xml-tags'
     name = _('XML tags mismatch')
     description = _('XML tags in translation do not match source')
-
 
     def strip_entities(self, text):
         '''
