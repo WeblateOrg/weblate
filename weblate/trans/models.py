@@ -1722,8 +1722,18 @@ class Translation(models.Model):
         Wrapper for setting proper committer. As this can not be done by
         passing parameter, we need to check config on every commit.
         '''
-        self.__configure_git(gitrepo, 'user', 'name', self.subproject.project.committer_name)
-        self.__configure_git(gitrepo, 'user', 'email', self.subproject.project.committer_email)
+        self.__configure_git(
+            gitrepo,
+            'user',
+            'name',
+            self.subproject.project.committer_name
+        )
+        self.__configure_git(
+            gitrepo,
+            'user',
+            'email',
+            self.subproject.project.committer_email
+        )
 
     def __git_commit(self, gitrepo, author, timestamp, sync=False):
         '''
