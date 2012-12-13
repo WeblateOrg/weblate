@@ -30,7 +30,8 @@ from weblate.trans.checks import (
     EndStopCheck, EndColonCheck,
     EndQuestionCheck, EndExclamationCheck,
     EndEllipsisCheck,
-    PythonFormatCheck, PHPFormatCheck, CFormatCheck
+    PythonFormatCheck, PHPFormatCheck, CFormatCheck,
+    PluralsCheck,
 )
 
 
@@ -623,4 +624,36 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_wrong_named_format')
+        ))
+
+
+class PluralsCheckTest(TestCase):
+    def setUp(self):
+        self.check = PluralsCheck()
+
+    def test_none(self):
+        self.assertFalse(self.check.check(
+            ['string'],
+            ['string'],
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_empty(self):
+        self.assertFalse(self.check.check(
+            ['string', 'plural'],
+            ['', ''],
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_partial_empty(self):
+        self.assertTrue(self.check.check(
+            ['string', 'plural'],
+            ['string', ''],
+            '',
+            Language('cs'),
+            None
         ))
