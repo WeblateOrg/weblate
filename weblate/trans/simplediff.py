@@ -64,18 +64,15 @@ def htmlDiff(old, new):
     """
     Returns the difference between two strings (as in stringDiff) in
     HTML format.
+
+    >>> htmlDiff('First string', 'Second string')
+    '<del>First</del><ins>Second</ins> string'
+
+    >>> htmlDiff('First string', 'Second string new')
+    '<del>First</del><ins>Second</ins> string<ins> new</ins>'
+
     """
     con = {'=': (lambda x: x),
            '+': (lambda x: "<ins>" + x + "</ins>"),
            '-': (lambda x: "<del>" + x + "</del>")}
     return "".join([(con[a])("".join(b)) for a, b in diff(old, new)])
-
-#Examples:
-#print htmlDiff(
-#   "The world is a tragedy to those who feel, but a comedy to those who think",
-#   "Life is a tragedy for those who feel, and a comedy to those who think"
-#)
-# Horace Walpole
-
-#print htmlDiff("I have often regretted my speech, never my silence",
-# "I have regretted my speech often, my silence never") # Xenocrates
