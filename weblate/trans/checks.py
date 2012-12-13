@@ -22,7 +22,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 from django.core.cache import cache
-from xml.etree import ElementTree
+from xml.etree import cElementTree
 import weblate
 import re
 
@@ -738,7 +738,7 @@ class XMLTagsCheck(TargetCheck):
         Wrapper for parsing XML.
         '''
         text = self.strip_entities(text.encode('utf-8'))
-        return ElementTree.fromstring('<weblate>%s</weblate>' % text)
+        return cElementTree.fromstring('<weblate>%s</weblate>' % text)
 
     def check_single(self, source, target, flags, language, unit):
         # Try getting source string data from cache
