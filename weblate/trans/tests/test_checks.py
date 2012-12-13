@@ -72,10 +72,19 @@ class BeginNewlineCheckTest(TestCase):
             None
         ))
 
-    def test_no_newline(self):
+    def test_no_newline_1(self):
         self.assertTrue(self.check.check_single(
             '\nstring',
             ' \nstring',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_newline_2(self):
+        self.assertTrue(self.check.check_single(
+            'string',
+            '\nstring',
             '',
             Language('cs'),
             None
@@ -95,10 +104,19 @@ class EndNewlineCheckTest(TestCase):
             None
         ))
 
-    def test_no_newline(self):
+    def test_no_newline_1(self):
         self.assertTrue(self.check.check_single(
             'string\n',
             'string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_newline_2(self):
+        self.assertTrue(self.check.check_single(
+            'string',
+            'string\n',
             '',
             Language('cs'),
             None
