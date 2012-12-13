@@ -19,27 +19,27 @@ def diff(old, new):
         ohash.setdefault(val,[]).append(i)
 
     # Find the largest substring common to old and new
-    lastRow = [0] * len(old)
-    subStartOld = subStartNew = subLength = 0
+    last_row = [0] * len(old)
+    sub_start_old = sub_start_new = sub_length = 0
     for j, val in enumerate(new):
         thisRow = [0] * len(old)
         for k in ohash.setdefault(val,[]):
-            thisRow[k] = (k and lastRow[k - 1]) + 1
-            if(thisRow[k] > subLength):
-                subLength = thisRow[k]
-                subStartOld = k - subLength + 1
-                subStartNew = j - subLength + 1
-        lastRow = thisRow
-    if subLength == 0:
+            thisRow[k] = (k and last_row[k - 1]) + 1
+            if(thisRow[k] > sub_length):
+                sub_length = thisRow[k]
+                sub_start_old = k - sub_length + 1
+                sub_start_new = j - sub_length + 1
+        last_row = thisRow
+    if sub_length == 0:
         # If no common substring is found, assume that an insert and
         # delete has taken place...
         return (old and [('-', old)] or []) + (new and [('+', new)] or [])
     else:
         # ...otherwise, the common substring is considered to have no change,
         # and we recurse on the text before and after the substring
-        return diff(old[:subStartOld], new[:subStartNew]) + \
-               [('=', new[subStartNew:subStartNew + subLength])] + \
-               diff(old[subStartOld + subLength:], new[subStartNew + subLength:])
+        return diff(old[:sub_start_old], new[:sub_start_new]) + \
+               [('=', new[sub_start_new:sub_start_new + sub_length])] + \
+               diff(old[sub_start_old + sub_length:], new[sub_start_new + sub_length:])
 
 
 def stringDiff(old, new):
