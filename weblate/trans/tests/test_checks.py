@@ -46,12 +46,14 @@ class Language(object):
     def __init__(self, code):
         self.code = code
 
+
 class Unit(object):
     '''
     Mock unit object.
     '''
     def __init__(self, checksum):
         self.checksum = checksum
+
 
 class SameCheckTest(TestCase):
     def setUp(self):
