@@ -33,6 +33,7 @@ from weblate.trans.checks import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck,
     PluralsCheck,
     NewlineCountingCheck,
+    BBCodeCheck,
 )
 
 
@@ -659,6 +660,7 @@ class PluralsCheckTest(TestCase):
             None
         ))
 
+
 class NewlineCountingCheckTest(TestCase):
     def setUp(self):
         self.check = NewlineCountingCheck()
@@ -697,4 +699,45 @@ class NewlineCountingCheckTest(TestCase):
             '',
             Language('cs'),
             None
+        ))
+
+
+class BBCodeCheckTest(TestCase):
+    def setUp(self):
+        self.check = BBCodeCheck()
+
+    def test_none(self):
+        self.assertFalse(self.check.check_single(
+            u'string',
+            u'string',
+            '',
+            Language('cs'),
+            Unit('bbcode_none')
+        ))
+
+    def test_matching(self):
+        self.assertFalse(self.check.check_single(
+            u'[a]string[/a]',
+            u'[a]string[/a]',
+            '',
+            Language('cs'),
+            Unit('bbcode_matching')
+        ))
+
+    def test_not_matching_1(self):
+        self.assertTrue(self.check.check_single(
+            u'[a]string[/a]',
+            u'[b]string[/b]',
+            '',
+            Language('cs'),
+            Unit('bbcode_not_matching_1')
+        ))
+
+    def test_not_matching_2(self):
+        self.assertTrue(self.check.check_single(
+            u'[a]string[/a]',
+            u'[a]string[/b]',
+            '',
+            Language('cs'),
+            Unit('bbcode_not_matching_2')
         ))
