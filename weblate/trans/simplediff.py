@@ -16,20 +16,22 @@ def diff(old, new):
     # Build a hash map with elements from old as keys, and
     # a list of indexes as values
     for i, val in enumerate(old):
-        ohash.setdefault(val,[]).append(i)
+        ohash.setdefault(val, []).append(i)
 
     # Find the largest substring common to old and new
     last_row = [0] * len(old)
     sub_start_old = sub_start_new = sub_length = 0
+
     for j, val in enumerate(new):
-        thisRow = [0] * len(old)
-        for k in ohash.setdefault(val,[]):
-            thisRow[k] = (k and last_row[k - 1]) + 1
-            if(thisRow[k] > sub_length):
-                sub_length = thisRow[k]
+        this_row = [0] * len(old)
+        for k in ohash.setdefault(val, []):
+            this_row[k] = (k and last_row[k - 1]) + 1
+            if(this_row[k] > sub_length):
+                sub_length = this_row[k]
                 sub_start_old = k - sub_length + 1
                 sub_start_new = j - sub_length + 1
-        last_row = thisRow
+        last_row = this_row
+
     if sub_length == 0:
         # If no common substring is found, assume that an insert and
         # delete has taken place...
@@ -69,8 +71,11 @@ def htmlDiff(old, new):
     return "".join([(con[a])("".join(b)) for a, b in diff(old, new)])
 
 #Examples:
-#print htmlDiff("The world is a tragedy to those who feel, but a comedy to those who think",
-# "Life is a tragedy for those who feel, and a comedy to those who think") # Horace Walpole
+#print htmlDiff(
+#   "The world is a tragedy to those who feel, but a comedy to those who think",
+#   "Life is a tragedy for those who feel, and a comedy to those who think"
+#)
+# Horace Walpole
 
 #print htmlDiff("I have often regretted my speech, never my silence",
 # "I have regretted my speech often, my silence never") # Xenocrates
