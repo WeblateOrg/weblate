@@ -144,25 +144,13 @@ FILE_FORMATS = {
         ugettext_lazy('PHP strings'),
         ('php', 'phpfile'),
     ),
-}
-
-# Check if there is support for Android resources
-# Available as patch at https://github.com/translate/translate/pull/2
-try:
-    from translate.storage import aresource
-    FILE_FORMATS['aresource'] = FileFormat(
+    'aresource': FileFormat(
         ugettext_lazy('Android String Resource'),
         ('aresource', 'AndroidResourceFile'),
         True,
         mark_fuzzy = True,
     )
-except ImportError:
-    FILE_FORMATS['aresource'] = FileFormat(
-        ugettext_lazy('Android String Resource'),
-        ('ttkit.aresource', 'AndroidResourceFile'),
-        True,
-        mark_fuzzy = True,
-    )
+}
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
 
