@@ -32,6 +32,7 @@ from weblate.trans.checks import (
     EndEllipsisCheck,
     PythonFormatCheck, PHPFormatCheck, CFormatCheck,
     PluralsCheck,
+    NewlineCountingCheck,
 )
 
 
@@ -653,6 +654,46 @@ class PluralsCheckTest(TestCase):
         self.assertTrue(self.check.check(
             ['string', 'plural'],
             ['string', ''],
+            '',
+            Language('cs'),
+            None
+        ))
+
+class NewlineCountingCheckTest(TestCase):
+    def setUp(self):
+        self.check = NewlineCountingCheck()
+
+    def test_none(self):
+        self.assertFalse(self.check.check_single(
+            u'string',
+            u'string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_matching(self):
+        self.assertFalse(self.check.check_single(
+            u'string\\nstring',
+            u'string\\nstring',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_not_matching_1(self):
+        self.assertTrue(self.check.check_single(
+            u'string\\n\\nstring',
+            u'string\\nstring',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_not_matching_2(self):
+        self.assertTrue(self.check.check_single(
+            u'string\\nstring',
+            u'string\\n\\nstring',
             '',
             Language('cs'),
             None
