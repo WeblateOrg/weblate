@@ -1725,9 +1725,9 @@ def about(request):
     versions = get_versions()
     totals =  Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
-    for p in SubProject.objects.iterator():
+    for project in SubProject.objects.iterator():
         try:
-            total_strings += p.translation_set.all()[0].total
+            total_strings += project.translation_set.all()[0].total
         except Translation.DoesNotExist:
             pass
     context['title'] = _('About Weblate')
