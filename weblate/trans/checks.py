@@ -745,14 +745,14 @@ class XMLTagsCheck(TargetCheck):
         source_tags = self.get_cache(unit)
 
         # Source is not XML
-        if source_tags is False:
+        if source_tags == []:
             return False
 
         # Do we need to process source (cache miss)
         if source_tags is None:
             # Quick check if source looks like XML
             if not '<' in source or len(XML_MATCH.findall(source)) == 0:
-                self.set_cache(unit, False)
+                self.set_cache(unit, [])
                 return False
             # Check if source is XML
             try:
@@ -761,7 +761,7 @@ class XMLTagsCheck(TargetCheck):
                 self.set_cache(unit, source_tags)
             except:
                 # Source is not valid XML, we give up
-                self.set_cache(unit, False)
+                self.set_cache(unit, [])
                 return False
 
         # Check target
