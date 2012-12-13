@@ -803,15 +803,19 @@ class EllipsisCheck(SourceCheck):
 CHECKS = {}
 for path in getattr(settings, 'CHECK_LIST', DEFAULT_CHECK_LIST):
     i = path.rfind('.')
-    module, attr = path[:i], path[i+1:]
+    module, attr = path[:i], path[i + 1:]
     try:
         mod = __import__(module, {}, {}, [attr])
     except ImportError as e:
-        raise ImproperlyConfigured('Error importing translation check module %s: "%s"' % (module, e))
+        raise ImproperlyConfigured(
+            'Error importing translation check module %s: "%s"' %
+            (module, e)
+        )
     try:
         cls = getattr(mod, attr)
     except AttributeError:
-        raise ImproperlyConfigured('Module "%s" does not define a "%s" callable check' % (module, attr))
+        raise ImproperlyConfigured(
+            'Module "%s" does not define a "%s" callable check' %
+            (module, attr)
+        )
     CHECKS[cls.check_id] = cls()
-
-
