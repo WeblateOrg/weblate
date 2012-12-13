@@ -3,7 +3,7 @@ Tests for consistency checks.
 """
 
 from django.test import TestCase
-from weblate.trans.checks import SameCheck
+from weblate.trans.checks import SameCheck, BeginNewlineCheck
 
 
 class Language(object):
@@ -50,6 +50,29 @@ class SameCheckTest(TestCase):
             '%(source)s',
             '%(source)s',
             'python-format',
+            Language('cs'),
+            None
+        ))
+
+
+class BeginNewlineCheckTest(TestCase):
+    def setUp(self):
+        self.check = BeginNewlineCheck()
+
+    def test_newline(self):
+        self.assertFalse(self.check.check_single(
+            '\nstring',
+            '\nstring',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_newline(self):
+        self.assertTrue(self.check.check_single(
+            '\nstring',
+            ' \nstring',
+            '',
             Language('cs'),
             None
         ))
