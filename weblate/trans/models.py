@@ -1497,7 +1497,6 @@ class Translation(models.Model):
         else:
             return
 
-
         oldunits = set(self.unit_set.all().values_list('id', flat=True))
 
         # Was there change?
