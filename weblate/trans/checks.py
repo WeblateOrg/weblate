@@ -60,7 +60,10 @@ C_PRINTF_MATCH = re.compile('''
             (?P<type>[\w%]))        # type (%s, %d, etc.)
         )''', re.VERBOSE)
 
-BBCODE_MATCH = re.compile(r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])', re.MULTILINE)
+BBCODE_MATCH = re.compile(
+    r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])',
+    re.MULTILINE
+)
 
 XML_MATCH = re.compile(r'<[^>]+>')
 XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
