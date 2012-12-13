@@ -127,7 +127,7 @@
 
 <div id="share">
 {% url 'weblate.trans.widgets.widgets' project=object.subproject.project.slug as widgets_url %}
-{% url 'weblate.trans.views.data' project=object.subproject.project.slug as data_url %}
+{% url 'weblate.trans.views.data_project' project=object.subproject.project.slug as data_url %}
 {% include 'share.html' %}
 </div>
 
