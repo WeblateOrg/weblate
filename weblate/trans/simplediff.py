@@ -3,14 +3,21 @@
 # May be used and distributed under the zlib/libpng license
 # <http://www.opensource.org/licenses/zlib-license.php>
 
+
 def diff(old, new):
-    """Find the differences between two lists. Returns a list of pairs, where the first value
-is in ['+','-','='] and represents an insertion, deletion, or no change for that list.
-The second value of the pair is the list of elements."""
+    """
+    Find the differences between two lists. Returns a list of pairs, where
+    the first value is in ['+','-','='] and represents an insertion, deletion,
+    or no change for that list. The second value of the pair is the list of
+    elements.
+    """
     ohash = {}
-    for i, val in enumerate(old): # Build a hash map with elements from old as keys, and
-                                  # a list of indexes as values
+
+    # Build a hash map with elements from old as keys, and
+    # a list of indexes as values
+    for i, val in enumerate(old):
         ohash.setdefault(val,[]).append(i)
+
     # Find the largest substring common to old and new
     lastRow = [0] * len(old)
     subStartOld = subStartNew = subLength = 0
@@ -23,23 +30,31 @@ The second value of the pair is the list of elements."""
                 subStartOld = k - subLength + 1
                 subStartNew = j - subLength + 1
         lastRow = thisRow
-    if subLength == 0: # If no common substring is found, assume that an insert and
-                       # delete has taken place...
+    if subLength == 0:
+        # If no common substring is found, assume that an insert and
+        # delete has taken place...
         return (old and [('-', old)] or []) + (new and [('+', new)] or [])
-    else: # ...otherwise, the common substring is considered to have no change, and we recurse
-          # on the text before and after the substring
+    else:
+        # ...otherwise, the common substring is considered to have no change,
+        # and we recurse on the text before and after the substring
         return diff(old[:subStartOld], new[:subStartNew]) + \
                [('=', new[subStartNew:subStartNew + subLength])] + \
                diff(old[subStartOld + subLength:], new[subStartNew + subLength:])
 
-# The below functions are intended for simple tests and experimentation; you will want to write more sophisticated wrapper functions for real use
 
 def stringDiff(old, new):
-    """Returns the difference between the old and new strings when split on whitespace. Considers punctuation a part of the word"""
+    """
+    Returns the difference between the old and new strings when split on
+    whitespace. Considers punctuation a part of the word
+    """
     return diff(old.split(), new.split())
 
+
 def htmlDiff(old, new):
-    """Returns the difference between two strings (as in stringDiff) in HTML format."""
+    """
+    Returns the difference between two strings (as in stringDiff) in
+    HTML format.
+    """
     con = {'=': (lambda x: x),
            '+': (lambda x: "<ins>" + x + "</ins>"),
            '-': (lambda x: "<del>" + x + "</del>")}
