@@ -740,10 +740,10 @@ class XMLTagsCheck(TargetCheck):
 
     def check_single(self, source, target, flags, language, unit):
         # Try getting source string data from cache
-        source_tags = None #self.get_cache(unit)
+        source_tags = self.get_cache(unit)
 
         # Source is not XML
-        if source_tags == False:
+        if source_tags is False:
             return False
 
         # Do we need to process source (cache miss)
