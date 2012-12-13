@@ -668,7 +668,7 @@ class CountingCheck(TargetCheck):
         return source.count(self.string) != target.count(self.string)
 
 
-class NewlineCountingCheck(TargetCheck):
+class NewlineCountingCheck(CountingCheck):
     '''
     Check whether there is same amount of \n strings
     '''
