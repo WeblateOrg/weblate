@@ -142,7 +142,8 @@ SAME_BLACKLIST = frozenset((
     'www',
     'xml',
     'zip',
-    ))
+    )
+)
 
 DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.SameCheck',
@@ -215,9 +216,12 @@ class Check(object):
         '''
         if len(target) == 0 or len(source) == 0:
             return False
-        s = source[pos]
-        t = target[pos]
-        return (s in chars and t not in chars) or (s not in chars and t in chars)
+        src = source[pos]
+        tgt = target[pos]
+        return (
+            (src in chars and tgt not in chars)
+            or (src not in chars and tgt in chars)
+        )
 
     def check_format_strings(self, source, target, regex, unit):
         '''
@@ -255,7 +259,10 @@ class Check(object):
         '''
         Returns link to documentation.
         '''
-        return weblate.get_doc_url('usage', 'check-%s' % self.check_id.replace('_', '-'))
+        return weblate.get_doc_url(
+            'usage',
+            'check-%s' % self.check_id.replace('_', '-')
+        )
 
     def get_cache_key(self, unit):
         '''
@@ -283,13 +290,11 @@ class TargetCheck(Check):
     target = True
 
 
-
 class SourceCheck(Check):
     '''
     Basic class for source checks.
     '''
-    source= True
-
+    source = True
 
 
 class SameCheck(TargetCheck):
@@ -308,7 +313,6 @@ class SameCheck(TargetCheck):
         '''
         stripped = regex.sub('', msg)
         return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
-
 
     def check_single(self, source, target, flags, language, unit):
         # Ignore strings which don't contain any string to translate
