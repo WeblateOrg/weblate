@@ -451,6 +451,15 @@ class PythonFormatCheckTest(TestCase):
             Unit('python_format')
         ))
 
+    def test_percent_format(self):
+        self.assertFalse(self.check.check_single(
+            u'%d%% string',
+            u'%d%% string',
+            'python-format',
+            Language('cs'),
+            Unit('python_percent_format')
+        ))
+
     def test_named_format(self):
         self.assertFalse(self.check.check_single(
             u'%(name)s string',
