@@ -40,7 +40,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm, CommentForm
 from weblate.trans.util import join_plural
-from weblate.accounts.models import Profile
+from weblate.accounts.models import Profile, send_notification_email
 import weblate
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
@@ -1199,7 +1199,6 @@ def translate(request, project, subproject, lang):
                     # Invalidate counts cache
                     unit.translation.invalidate_cache('suggestions')
                     # Notify subscribed users
-                    from weblate.accounts.models import Profile
                     subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language, request.user)
                     for subscription in subscriptions:
                         subscription.notify_new_suggestion(obj, sug)
@@ -1492,7 +1491,6 @@ def comment(request, pk):
             obj.translation.invalidate_cache('targetcomments')
         messages.info(request, _('Posted new comment'))
         # Notify subscribed users
-        from weblate.accounts.models import Profile, send_notification_email
         subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang, request.user)
         for subscription in subscriptions:
             subscription.notify_new_comment(obj, comment)
