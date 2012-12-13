@@ -6,7 +6,7 @@ from django.test import TestCase
 from weblate.trans.checks import (
     SameCheck,
     BeginNewlineCheck, EndNewlineCheck,
-    BeginSpaceCheck,
+    BeginSpaceCheck, EndSpaceCheck,
 )
 
 
@@ -149,6 +149,38 @@ class BeginSpaceCheckTest(TestCase):
         self.assertTrue(self.check.check_single(
             '    string',
             '  string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+
+class EndSpaceCheckTest(TestCase):
+    def setUp(self):
+        self.check = EndSpaceCheck()
+
+    def test_whitespace(self):
+        self.assertFalse(self.check.check_single(
+            'string  ',
+            'string  ',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_whitespace_1(self):
+        self.assertTrue(self.check.check_single(
+            'string  ',
+            'string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_no_whitespace_2(self):
+        self.assertTrue(self.check.check_single(
+            'string',
+            'string ',
             '',
             Language('cs'),
             None
