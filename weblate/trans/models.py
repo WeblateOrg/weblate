@@ -1696,7 +1696,7 @@ class Translation(models.Model):
             'translated_percent': self.get_translated_percent(),
         }
 
-    def __configure_conf(self, gitrepo, section, key, expected):
+    def __configure_git(self, gitrepo, section, key, expected):
         '''
         Adjysts git config to ensure that section.key is set to expected.
         '''
@@ -1722,8 +1722,8 @@ class Translation(models.Model):
         Wrapper for setting proper committer. As this can not be done by
         passing parameter, we need to check config on every commit.
         '''
-        self.__configure_conf(gitrepo, 'user', 'name', self.subproject.project.committer_name)
-        self.__configure_conf(gitrepo, 'user', 'email', self.subproject.project.committer_email)
+        self.__configure_git(gitrepo, 'user', 'name', self.subproject.project.committer_name)
+        self.__configure_git(gitrepo, 'user', 'email', self.subproject.project.committer_email)
 
     def __git_commit(self, gitrepo, author, timestamp, sync=False):
         '''
