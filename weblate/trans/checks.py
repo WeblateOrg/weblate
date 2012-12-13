@@ -305,22 +305,26 @@ class SameCheck(TargetCheck):
     name = _('Not translated')
     description = _('Source and translated strings are same')
 
-    def is_format_only(self, msg, regex):
+    def is_format_only(self, msg, flags):
         '''
         Checks whether given string contains only format strings
         and possible punctation. These are quite often not changed
         by translators.
         '''
+        if 'python-format' in flags:
+            regex = PYTHON_PRINTF_MATCH
+        elif 'php-format' in flags:
+            regex = PHP_PRINTF_MATCH
+        elif 'c-format' in flags:
+            regex = C_PRINTF_MATCH
+        else:
+            return False
         stripped = regex.sub('', msg)
         return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
 
     def check_single(self, source, target, flags, language, unit):
         # Ignore strings which don't contain any string to translate
-        if 'python-format' in flags and self.is_format_only(source, PYTHON_PRINTF_MATCH):
-            return False
-        elif 'php-format' in flags and self.is_format_only(source, PHP_PRINTF_MATCH):
-            return False
-        elif 'c-format' in flags and self.is_format_only(source, C_PRINTF_MATCH):
+        if self.is_format_only(source, PYTHON_PRINTF_MATCH):
             return False
 
         # One letter things are usually labels or decimal/thousand separators
