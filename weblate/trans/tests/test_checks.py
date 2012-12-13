@@ -34,6 +34,7 @@ from weblate.trans.checks import (
     PluralsCheck,
     NewlineCountingCheck,
     BBCodeCheck,
+    ZeroWidthSpaceCheck,
 )
 
 
@@ -740,4 +741,45 @@ class BBCodeCheckTest(TestCase):
             '',
             Language('cs'),
             Unit('bbcode_not_matching_2')
+        ))
+
+
+class ZeroWidthSpaceCheckTest(TestCase):
+    def setUp(self):
+        self.check = ZeroWidthSpaceCheck()
+
+    def test_none(self):
+        self.assertFalse(self.check.check_single(
+            u'string',
+            u'string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_matching(self):
+        self.assertFalse(self.check.check_single(
+            u'str\u200bing',
+            u'str\u200bing',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_not_matching_1(self):
+        self.assertTrue(self.check.check_single(
+            u'str\u200bing',
+            u'string',
+            '',
+            Language('cs'),
+            None
+        ))
+
+    def test_not_matching_2(self):
+        self.assertTrue(self.check.check_single(
+            u'string',
+            u'str\u200bing',
+            '',
+            Language('cs'),
+            None
         ))
