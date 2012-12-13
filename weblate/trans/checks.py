@@ -383,16 +383,12 @@ class BeginSpaceCheck(TargetCheck):
         if len(source) <= 1 and len(target) <= 1:
             return False
 
-        # Count space chars in source
-        cnt = 0
-        while source[cnt] == ' ':
-            cnt += 1
+        # Count space chars in source and target
+        source_space = len(source) - len(source.lstrip(' '))
+        target_space = len(target) - len(target.lstrip(' '))
 
-        # Compare that with target
-        if target[:cnt] != ' ' * cnt:
-            return True
-
-        return False
+        # Compare numbers
+        return (source_space != target_space)
 
 
 class EndSpaceCheck(TargetCheck):
