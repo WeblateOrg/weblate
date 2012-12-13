@@ -1771,7 +1771,7 @@ def data_root(request):
     }))
 
 
-def data(request, project):
+def data_project(request, project):
     obj = get_object_or_404(Project, slug=project)
     site = Site.objects.get_current()
     return render_to_response('data.html', RequestContext(request, {

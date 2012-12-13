@@ -194,7 +194,7 @@ urlpatterns = patterns('',
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets'),
 
     url(r'^data/$', 'weblate.trans.views.data_root'),
-    url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data'),
+    url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data_project'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string', name='js-get'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check', name='js-ignore-check'),
