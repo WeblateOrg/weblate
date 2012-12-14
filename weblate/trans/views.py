@@ -482,6 +482,9 @@ def show_dictionary(request, project, lang):
 
     if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
         words = words.filter(source__istartswith=letterform.cleaned_data['letter'])
+        letter = letterform.cleaned_data['letter']
+    else:
+        letter = ''
 
     paginator = Paginator(words, limit)
 
@@ -502,7 +505,7 @@ def show_dictionary(request, project, lang):
         'form': form,
         'uploadform': uploadform,
         'letterform': letterform,
-        'letter': letterform.cleaned_data['letter'],
+        'letter': letter,
     }))
 
 
