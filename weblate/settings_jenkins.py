@@ -1,4 +1,5 @@
 from settings_example import *
+import os
 
 INSTALLED_APPS += ('django_jenkins', )
 
@@ -16,3 +17,5 @@ PROJECT_APPS = (
     'weblate.lang',
     'weblate.accounts',
 )
+
+PYLINT_RCFILE = os.path.join(WEB_ROOT, '..', 'pylint.rc')
