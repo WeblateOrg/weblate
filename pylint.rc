@@ -16,7 +16,8 @@ cache-size=500
 # W0702 No exception's type specified Used when an except clause doesn't specify exceptions type to catch.
 # R0201 Method could be a function
 # E1101 does not work well on metaclasses like Django models or Mechanize browser
-disable=C0111,I0011,I0012,W0704,W0142,W0212,W0232,W0613,W0702,R0201,E1101
+# R0924 Badly implemented Container, implements __getitem__ but not __delitem__, __len__, __setitem__
+disable=C0111,I0011,I0012,W0704,W0142,W0212,W0232,W0613,W0702,R0201,E1101,R0924
 
 [REPORTS]
 output-format=parseable
