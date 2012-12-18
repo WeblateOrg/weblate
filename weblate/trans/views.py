@@ -187,11 +187,11 @@ def show_check_project(request, name, project):
             'checksum', flat=True
         )
         for subproject in prj.subproject_set.all():
-            lang = suproject.translation_set.all()[0].language
+            lang = subproject.translation_set.all()[0].language
             res = Unit.objects.filter(
                 checksum__in=checks,
                 translation__language=lang,
-                translation__subproject=suproject
+                translation__subproject=subproject
             ).values(
                 'translation__subproject__slug',
                 'translation__subproject__project__slug'
@@ -479,7 +479,7 @@ def show_dictionary(request, project, lang):
     lang = get_object_or_404(Language, code=lang)
 
     if (request.method == 'POST'
-        and request.user.has_perm('trans.add_dictionary')):
+            and request.user.has_perm('trans.add_dictionary')):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(
