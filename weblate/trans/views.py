@@ -25,9 +25,13 @@ from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext as _
 import django.utils.translation
 from django.template import RequestContext, loader
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
+from django.http import (
+    HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
+)
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import (
+    login_required, permission_required, user_passes_test
+)
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q, Count, Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -35,10 +39,17 @@ from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
 
-from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Check, Dictionary, Change, Comment, get_versions
+from weblate.trans.models import (
+    Project, SubProject, Translation, Unit, Suggestion, Check,
+    Dictionary, Change, Comment, get_versions
+)
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
-from weblate.trans.forms import TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm, MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm, AntispamForm, CommentForm
+from weblate.trans.forms import (
+    TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
+    MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm,
+    AntispamForm, CommentForm
+)
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile, send_notification_email
 import weblate
@@ -417,19 +428,23 @@ def download_dictionary(request, project, lang):
 
     if export_format == 'csv':
         response = HttpResponse(mimetype='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.csv' % (prj.slug, lang.code)
+        filename = 'dictionary-%s-%s.csv' % (prj.slug, lang.code)
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
         writer = csv.writer(response)
 
         for word in words.iterator():
-            writer.writerow((word.source.encode('utf8'), word.target.encode('utf8')))
+            writer.writerow((
+                word.source.encode('utf8'), word.target.encode('utf8')
+            ))
 
         return response
     elif export_format == 'po':
         from translate.storage.po import pounit, pofile
 
         response = HttpResponse(mimetype='text/x-po; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename=dictionary-%s-%s.po' % (prj.slug, lang.code)
+        filename = 'dictionary-%s-%s.po' % (prj.slug, lang.code)
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
         store = pofile()
 
@@ -442,7 +457,10 @@ def download_dictionary(request, project, lang):
             language_team='%s <http://%s%s>' % (
                 lang.name,
                 site.domain,
-                reverse('weblate.trans.views.show_dictionary', kwargs={'project': prj.slug, 'lang': lang.code}),
+                reverse(
+                    'weblate.trans.views.show_dictionary',
+                    kwargs={'project': prj.slug, 'lang': lang.code}
+                ),
             )
         )
 
@@ -460,7 +478,8 @@ def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
     lang = get_object_or_404(Language, code=lang)
 
-    if request.method == 'POST' and request.user.has_perm('trans.add_dictionary'):
+    if (request.method == 'POST'
+        and request.user.has_perm('trans.add_dictionary')):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(
@@ -475,7 +494,9 @@ def show_dictionary(request, project, lang):
 
     uploadform = DictUploadForm()
 
-    words = Dictionary.objects.filter(project=prj, language=lang).order_by('source')
+    words = Dictionary.objects.filter(
+        project=prj, language=lang
+    ).order_by('source')
 
     limit = request.GET.get('limit', 25)
     page = request.GET.get('page', 1)
@@ -483,7 +504,9 @@ def show_dictionary(request, project, lang):
     letterform = LetterForm(request.GET)
 
     if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
-        words = words.filter(source__istartswith=letterform.cleaned_data['letter'])
+        words = words.filter(
+            source__istartswith=letterform.cleaned_data['letter']
+        )
         letter = letterform.cleaned_data['letter']
     else:
         letter = ''
@@ -500,7 +523,8 @@ def show_dictionary(request, project, lang):
         words = paginator.page(paginator.num_pages)
 
     return render_to_response('dictionary.html', RequestContext(request, {
-        'title': _('%(language)s dictionary for %(project)s') % {'language': lang, 'project': prj},
+        'title': _('%(language)s dictionary for %(project)s') %
+        {'language': lang, 'project': prj},
         'project': prj,
         'language': lang,
         'words': words,
