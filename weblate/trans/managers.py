@@ -304,7 +304,9 @@ class UnitManager(models.Manager):
             IndexUpdate.objects.get_or_create(unit=unit, source=source)
             return
 
-        writer_target = FULLTEXT_INDEX.target_writer(unit.translation.language.code)
+        writer_target = FULLTEXT_INDEX.target_writer(
+            unit.translation.language.code
+        )
         writer_source = FULLTEXT_INDEX.source_writer()
 
         if source:
