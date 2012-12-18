@@ -142,8 +142,7 @@ SAME_BLACKLIST = frozenset((
     'www',
     'xml',
     'zip',
-    )
-)
+))
 
 DEFAULT_CHECK_LIST = (
     'weblate.trans.checks.SameCheck',
