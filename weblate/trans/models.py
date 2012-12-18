@@ -50,9 +50,14 @@ from datetime import datetime, timedelta
 import weblate
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
-from weblate.trans.managers import TranslationManager, UnitManager, DictionaryManager
+from weblate.trans.managers import (
+    TranslationManager, UnitManager, DictionaryManager
+)
 from weblate.trans.filelock import FileLock, FileLockException
-from util import is_plural, split_plural, get_source, get_target, is_translated, get_user_display
+from util import (
+    is_plural, split_plural, get_source, get_target,
+    is_translated, get_user_display
+)
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -88,7 +93,9 @@ class FileFormat(object):
         if '.' in module_name:
             module = importlib.import_module(module_name)
         else:
-            module = importlib.import_module('translate.storage.%s' % module_name)
+            module = importlib.import_module(
+                'translate.storage.%s' % module_name
+            )
 
         # Get the class
         storeclass = getattr(module, class_name)
@@ -133,7 +140,7 @@ FILE_FORMATS = {
         True,
         # Java properties need to be iso-8859-1, but
         # ttkit converts them to utf-8
-        fixups = {'encoding': 'iso-8859-1'},
+        fixups={'encoding': 'iso-8859-1'},
     ),
     'properties-utf8': FileFormat(
         ugettext_lazy('Java Properties (UTF-8)'),
@@ -148,11 +155,12 @@ FILE_FORMATS = {
         ugettext_lazy('Android String Resource'),
         ('aresource', 'AndroidResourceFile'),
         True,
-        mark_fuzzy = True,
+        mark_fuzzy=True,
     )
 }
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
+
 
 def ttkit(storefile, file_format='auto'):
     '''
@@ -176,11 +184,13 @@ def ttkit(storefile, file_format='auto'):
 
     return format_obj.load(storefile)
 
+
 def validate_repoweb(val):
     try:
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
     except Exception as e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
+
 
 def validate_commit_message(val):
     try:
@@ -198,15 +208,18 @@ def validate_commit_message(val):
     except Exception as e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
+
 def validate_filemask(val):
     if not '*' in val:
         raise ValidationError(_('File mask does not contain * as a language placeholder!'))
+
 
 def is_repo_link(val):
     '''
     Checks whethere repository is just a link for other one.
     '''
     return val.startswith('weblate://')
+
 
 def get_linked_repo(val):
     '''
@@ -217,6 +230,7 @@ def get_linked_repo(val):
     project, subproject = val[10:].split('/', 1)
     return SubProject.objects.get(slug=subproject, project__slug=project)
 
+
 def validate_repo(val):
     try:
         repo = get_linked_repo(val)
@@ -224,6 +238,7 @@ def validate_repo(val):
             raise ValidationError(_('Can not link to linked repository!'))
     except SubProject.DoesNotExist:
         raise ValidationError(_('Invalid link to repository!'))
+
 
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
@@ -992,7 +1007,7 @@ class SubProject(models.Model):
                 self.get_lang_code(filename),
                 filename,
                 tree[filename].hexsha
-                )
+            )
 
     def create_translations(self, force=False, langs=None, request=None):
         '''
