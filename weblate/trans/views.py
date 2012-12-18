@@ -175,12 +175,12 @@ def show_check_project(request, name, project):
         ).values_list(
             'checksum', flat=True
         )
-        for sp in prj.subproject_set.all():
-            lang = sp.translation_set.all()[0].language
+        for subproject in prj.subproject_set.all():
+            lang = suproject.translation_set.all()[0].language
             res = Unit.objects.filter(
                 checksum__in=checks,
                 translation__language=lang,
-                translation__subproject=sp
+                translation__subproject=suproject
             ).values(
                 'translation__subproject__slug',
                 'translation__subproject__project__slug'
@@ -248,7 +248,8 @@ def show_check_subproject(request, name, project, subproject):
         ).count()
         if res > 0:
             source_checks.append(res)
-    return render_to_response('check_subproject.html',
+    return render_to_response(
+        'check_subproject.html',
         RequestContext(request, {
             'checks': units,
             'source_checks': source_checks,
@@ -321,12 +322,12 @@ def edit_dictionary(request, project, lang):
             ))
     else:
         form = WordForm(
-            initial={'source': word.source, 'target': word.target }
+            initial={'source': word.source, 'target': word.target}
         )
 
     return render_to_response('edit_dictionary.html', RequestContext(request, {
         'title': _('%(language)s dictionary for %(project)s') %
-            {'language': lang, 'project': prj},
+        {'language': lang, 'project': prj},
         'project': prj,
         'language': lang,
         'form': form,
@@ -393,6 +394,7 @@ def upload_dictionary(request, project, lang):
         kwargs={'project': prj.slug, 'lang': lang.code}
     ))
 
+
 def download_dictionary(request, project, lang):
     '''
     Exports dictionary.
@@ -433,11 +435,11 @@ def download_dictionary(request, project, lang):
 
         site = Site.objects.get_current()
         store.updateheader(
-            add = True,
-            language = lang.code,
-            x_generator = 'Weblate %s' % weblate.VERSION,
-            project_id_version = '%s dictionary for %s' % (lang.name, prj.name),
-            language_team = '%s <http://%s%s>' % (
+            add=True,
+            language=lang.code,
+            x_generator='Weblate %s' % weblate.VERSION,
+            project_id_version='%s dictionary for %s' % (lang.name, prj.name),
+            language_team='%s <http://%s%s>' % (
                 lang.name,
                 site.domain,
                 reverse('weblate.trans.views.show_dictionary', kwargs={'project': prj.slug, 'lang': lang.code}),
@@ -462,10 +464,10 @@ def show_dictionary(request, project, lang):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(
-                project = prj,
-                language = lang,
-                source = form.cleaned_data['source'],
-                target = form.cleaned_data['target']
+                project=prj,
+                language=lang,
+                source=form.cleaned_data['source'],
+                target=form.cleaned_data['target']
             )
         return HttpResponseRedirect(request.get_full_path())
     else:
@@ -610,9 +612,9 @@ def auto_translation(request, project, subproject, lang):
                 # Create signle change object for whole merge
                 if change is None:
                     change = Change.objects.create(
-                        unit = unit,
-                        translation = unit.translation,
-                        user = request.user
+                        unit=unit,
+                        translation=unit.translation,
+                        user=request.user
                     )
                 # Save unit to backend
                 unit.save_backend(request, False, False)
@@ -970,9 +972,9 @@ def lock_project(request, project):
 
     obj.commit_pending()
 
-    for sp in obj.subproject_set.all():
-        sp.locked = True
-        sp.save()
+    for subproject in obj.subproject_set.all():
+        subproject.locked = True
+        subproject.save()
 
     messages.info(
         request,
@@ -987,9 +989,9 @@ def lock_project(request, project):
 def unlock_project(request, project):
     obj = get_object_or_404(Project, slug=project)
 
-    for sp in obj.subproject_set.all():
-        sp.locked = False
-        sp.save()
+    for subproject in obj.subproject_set.all():
+        subproject.locked = False
+        subproject.save()
 
     messages.info(request, _('Project is now open for translation updates.'))
 
@@ -1059,15 +1061,15 @@ def parse_search_url(request):
 
     # Pre-process search form
     if request.method == 'POST':
-        s = SearchForm(request.POST)
+        search_form = SearchForm(request.POST)
     else:
-        s = SearchForm(request.GET)
-    if s.is_valid():
-        search_query = s.cleaned_data['q']
-        search_exact = s.cleaned_data['exact']
-        search_source = s.cleaned_data['src']
-        search_target = s.cleaned_data['tgt']
-        search_context = s.cleaned_data['ctx']
+        search_form = SearchForm(request.GET)
+    if search_form.is_valid():
+        search_query = search_form.cleaned_data['q']
+        search_exact = search_form.cleaned_data['exact']
+        search_source = search_form.cleaned_data['src']
+        search_target = search_form.cleaned_data['tgt']
+        search_context = search_form.cleaned_data['ctx']
         search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&exact=%s' % (
             search_query,
             bool2str(search_source),
@@ -1096,7 +1098,8 @@ def parse_search_url(request):
         search_target,
         search_context,
         search_url
-        )
+    )
+
 
 def get_filter_name(rqtype, search_query):
     '''
@@ -1187,17 +1190,17 @@ def translate(request, project, subproject, lang):
                         ))
                     # Create the suggestion
                     sug = Suggestion.objects.create(
-                        target = join_plural(form.cleaned_data['target']),
-                        checksum = unit.checksum,
-                        language = unit.translation.language,
-                        project = unit.translation.subproject.project,
-                        user = user)
+                        target=join_plural(form.cleaned_data['target']),
+                        checksum=unit.checksum,
+                        language=unit.translation.language,
+                        project=unit.translation.subproject.project,
+                        user=user)
                     # Record in change
                     Change.objects.create(
-                        unit = unit,
-                        action = Change.ACTION_SUGGESTION,
-                        translation = unit.translation,
-                        user = user
+                        unit=unit,
+                        action=Change.ACTION_SUGGESTION,
+                        translation=unit.translation,
+                        user=user
                     )
                     # Invalidate counts cache
                     unit.translation.invalidate_cache('suggestions')
@@ -1415,11 +1418,11 @@ def translate(request, project, subproject, lang):
             # based on presumption we won't get too many results
             targets = {}
             res = []
-            for s in secondary:
-                if s.target in targets:
+            for lang in secondary:
+                if lang.target in targets:
                     continue
-                targets[s.target] = 1
-                res.append(s)
+                targets[lang.target] = 1
+                res.append(lang)
             secondary = res
 
         # Prepare form
@@ -1432,31 +1435,34 @@ def translate(request, project, subproject, lang):
     total = obj.unit_set.all().count()
     filter_count = allunits.count()
 
-    return render_to_response('translate.html', RequestContext(request, {
-        'object': obj,
-        'unit': unit,
-        'last_changes': unit.change_set.all()[:10],
-        'total': total,
-        'type': rqtype,
-        'filter_name': get_filter_name(rqtype, search_query),
-        'filter_count': filter_count,
-        'filter_pos': filter_count + 1 - units.count(),
-        'form': form,
-        'antispam': antispam,
-        'comment_form': CommentForm(),
-        'target_language': obj.language.code,
-        'secondary': secondary,
-        'search_query': search_query,
-        'search_url': search_url,
-        'search_query': search_query,
-        'search_source': bool2str(search_source),
-        'search_exact': bool2str(search_exact),
-        'search_target': bool2str(search_target),
-        'search_context': bool2str(search_context),
-        'locked': locked,
-        'user_locked': user_locked,
-        'project_locked': project_locked,
-    }))
+    return render_to_response(
+        'translate.html',
+        RequestContext(request, {
+            'object': obj,
+            'unit': unit,
+            'last_changes': unit.change_set.all()[:10],
+            'total': total,
+            'type': rqtype,
+            'filter_name': get_filter_name(rqtype, search_query),
+            'filter_count': filter_count,
+            'filter_pos': filter_count + 1 - units.count(),
+            'form': form,
+            'antispam': antispam,
+            'comment_form': CommentForm(),
+            'target_language': obj.language.code,
+            'secondary': secondary,
+            'search_query': search_query,
+            'search_url': search_url,
+            'search_query': search_query,
+            'search_source': bool2str(search_source),
+            'search_exact': bool2str(search_exact),
+            'search_target': bool2str(search_target),
+            'search_context': bool2str(search_context),
+            'locked': locked,
+            'user_locked': user_locked,
+            'project_locked': project_locked,
+        },
+    ))
 
 
 @login_required
@@ -1473,18 +1479,18 @@ def comment(request, pk):
     form = CommentForm(request.POST)
 
     if form.is_valid():
-        comment = Comment.objects.create(
-            user = request.user,
-            checksum = obj.checksum,
-            project = obj.translation.subproject.project,
-            comment = form.cleaned_data['comment'],
-            language = lang
+        new_comment = Comment.objects.create(
+            user=request.user,
+            checksum=obj.checksum,
+            project=obj.translation.subproject.project,
+            comment=form.cleaned_data['comment'],
+            language=lang
         )
         Change.objects.create(
-            unit = obj,
-            action = Change.ACTION_COMMENT,
-            translation = obj.translation,
-            user = request.user
+            unit=obj,
+            action=Change.ACTION_COMMENT,
+            translation=obj.translation,
+            user=request.user
         )
 
         # Invalidate counts cache
@@ -1496,7 +1502,7 @@ def comment(request, pk):
         # Notify subscribed users
         subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang, request.user)
         for subscription in subscriptions:
-            subscription.notify_new_comment(obj, comment)
+            subscription.notify_new_comment(obj, new_comment)
         # Notify upstream
         if lang is None and obj.translation.subproject.report_source_bugs != '':
             send_notification_email(
@@ -1506,7 +1512,7 @@ def comment(request, pk):
                 obj.translation,
                 {
                     'unit': obj,
-                    'comment': comment,
+                    'comment': new_comment,
                     'subproject': obj.translation.subproject,
                 }
             )
@@ -1533,17 +1539,17 @@ def get_similar(request, unit_id):
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
 
-    similar = Unit.objects.similar(unit)
+    similar_units = Unit.objects.similar(unit)
 
     # distinct('target') works with Django 1.4 so let's emulate that
     # based on presumption we won't get too many results
     targets = {}
     res = []
-    for s in similar:
-        if s.target in targets:
+    for similar in similar_units:
+        if similar.target in targets:
             continue
         targets[s.target] = 1
-        res.append(s)
+        res.append(similar)
     similar = res
 
     return render_to_response('js/similar.html', RequestContext(request, {
@@ -1669,12 +1675,14 @@ def not_found(request):
     '''
     Error handler showing list of available projects.
     '''
-    t = loader.get_template('404.html')
-    return HttpResponseNotFound(t.render(RequestContext(request, {
-        'request_path': request.path,
-        'title': _('Page Not Found'),
-        'projects': Project.objects.all(),
-    })))
+    template = loader.get_template('404.html')
+    return HttpResponseNotFound(
+        template.render(RequestContext(request, {
+            'request_path': request.path,
+            'title': _('Page Not Found'),
+            'projects': Project.objects.all(),
+        }
+    )))
 
 
 # Cache this page for one month, it should not really change much
