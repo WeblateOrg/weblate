@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2012-12-13 11:59+0100\n"
-"PO-Revision-Date: 2012-12-19 16:17+0200\n"
+"PO-Revision-Date: 2012-12-19 16:36+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
 "Language: nl\n"
@@ -203,9 +203,8 @@ msgid "Cancel"
 msgstr "Annuleer"
 
 #: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1113
-#, fuzzy
 msgid "Strings with any failing checks"
-msgstr "Tekenreeksen met suggesties (%d)"
+msgstr "Tekenreeksen met gefaalde controles"
 
 #: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1107
 msgid "Fuzzy strings"
@@ -252,9 +251,8 @@ msgid "Notification on new comment"
 msgstr "Melding van een nieuwe opmerking"
 
 #: accounts/models.py:184
-#, fuzzy
 msgid "Notification on merge failure"
-msgstr "Melding bij een nieuwe medewerker"
+msgstr "Melding bij een samenvoegfout"
 
 #: accounts/models.py:298
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -520,6 +518,8 @@ msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
+"Voor elke taal zijn er ook RSS feeds beschikbaar, u kunt ze aanmaken door "
+"het toevoegen van een taalcode aan de bovenstaande URL's."
 
 #: html/data.html:53
 #, python-format
@@ -528,6 +528,9 @@ msgid ""
 "these data in other websites or tools. Format of the data is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
+"Vertaalstatistieken voor elk deelproject in JSON-formaat laat u toe om deze "
+"gegevens te gebruiken in andere websites of hulpmiddelen. Het formaat van de "
+"data is beschreven in <a href=\"%(api_docs)s\">de documentatie</a>."
 
 #: html/data.html:68 html/translation.html:57
 msgid "Download"
@@ -593,27 +596,24 @@ msgid "Add new word"
 msgstr "Een nieuw woord toevoegen"
 
 #: html/dictionary.html:77
-#, fuzzy
 msgid "Import glossary"
 msgstr "Woordenboek importeren"
 
 #: html/dictionary.html:79
-#, fuzzy
 msgid "Export glossary"
-msgstr "Woordenboek importeren"
+msgstr "Woordenboek exporteren"
 
 #: html/dictionary.html:90 html/translate.html:206 html/translate.html.py:239
 msgid "Add"
 msgstr "Toevoegen"
 
 #: html/dictionary.html:99
-#, fuzzy
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
 "U kan elk formaat uploaden waar Translate Toolkit mee om kan gaan, zoals "
-"bijvoorbeeld csv of po bestanden."
+"bijvoorbeeld TBX, CSV of Gettext PO bestanden."
 
 #: html/dictionary.html:106
 msgid "Import"
@@ -662,24 +662,24 @@ msgid "Hi, and thank you for your interest!"
 msgstr "Hallo, en bedankt voor uw interesse!"
 
 #: html/engage.html:31
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(name)s wordt vertaald met behulp van <a href=\"%(weblate_url)s\">Weblate</"
-"a>, een webgebaseerde tool om vertalen eenvoudig te maken voor zowel "
-"ontwikkelaars als vertalers."
+"%(project)s wordt vertaald met behulp van <a href=\"%"
+"(weblate_url)s\">Weblate</a>, een webgebaseerde tool om vertalen eenvoudig te "
+"maken voor zowel ontwikkelaars als vertalers."
 
 #: html/engage.html:38
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Om te helpen bij vertaling van %(name)s, dient u zich te <a href=\"/accounts/"
-"register/\">registreren op deze server</a>."
+"Om te helpen bij vertaling van %(project)s, dient u zich te <a href=\"%"
+"(reg_url)s\">registreren op deze server</a>."
 
 #: html/engage.html:41
 #, python-format
@@ -691,10 +691,9 @@ msgstr ""
 "\">vertaalonderdeel</a> gaan."
 
 #: html/footer.html:5
-#, fuzzy, python-format
+#, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr ""
-"Aangedreven door <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+msgstr "Aangedreven door <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: html/footer.html:7
 msgid "Contact us"
@@ -788,9 +787,8 @@ msgid "When"
 msgstr ""
 
 #: html/last-changes.html:15
-#, fuzzy
 msgid "Action"
-msgstr "Alle locaties"
+msgstr "Actie"
 
 #: html/last-changes.html:30
 msgid "No recent activity has been recorded."
@@ -854,9 +852,8 @@ msgid "Information"
 msgstr "Informatie"
 
 #: html/profile.html:27
-#, fuzzy
 msgid "Avatar"
-msgstr "Tataars"
+msgstr "Avatar"
 
 #: html/profile.html:35
 msgid "You will receive chosen notifications via email for all your languages."
@@ -907,7 +904,6 @@ msgid "Share"
 msgstr ""
 
 #: html/project.html:53
-#, fuzzy
 msgid "Manage all glossaries"
 msgstr "Alle woordenboeken beheren"
 
@@ -928,9 +924,9 @@ msgid "Share on Facebook!"
 msgstr "Deel op Facebook!"
 
 #: html/share.html:6
-#, fuzzy, python-format
+#, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Vertaal %(object)s met %%23Weblate!"
+msgstr "Vertaal %(object)s met %%23Weblate op %(share_url)s!"
 
 #: html/share.html:6
 msgid "Tweet this translation!"
@@ -952,19 +948,16 @@ msgid ""
 msgstr ""
 
 #: html/source-review.html:9 html/source.html:8
-#, fuzzy
 msgid "source"
-msgstr "Bron"
+msgstr "bron"
 
 #: html/source-review.html:10
-#, fuzzy
 msgid "review"
-msgstr "Nakijken"
+msgstr "nakijken"
 
 #: html/source-review.html:15
-#, fuzzy
 msgid "Strings to review"
-msgstr "Begin met nakijken"
+msgstr "Na te kijken tekenreeksen"
 
 #: html/source-review.html:33 html/translate.html:99
 #: html/translate.html.py:219 trans/views.py:117
@@ -972,19 +965,16 @@ msgid "Failing checks"
 msgstr "Gefaalde controles"
 
 #: html/source-review.html:48
-#, fuzzy
 msgid "Comment"
-msgstr "Opmerkingen"
+msgstr "Opmerking"
 
 #: html/source-review.html:62 html/translate.html:224
-#, fuzzy
 msgid "User comments"
-msgstr "Opmerkingen"
+msgstr "Opmerkingen van de gebruiker"
 
 #: html/source-review.html:75
-#, fuzzy
 msgid "No matching source strings found!"
-msgstr "Geen andere tekenreeksen gevonden."
+msgstr "Geen gelijkende brontekenreeksen gevonden!"
 
 #: html/source.html:19 html/translation.html:22
 msgid "Strings to check"
@@ -1013,9 +1003,8 @@ msgstr ""
 "+language+request+for+%(object)s\">ons te contacteren</a>."
 
 #: html/subproject.html:58
-#, fuzzy
 msgid "Source strings review"
-msgstr "Zoeken in brontekenreeksen"
+msgstr "Brontekenreeksen nakijken"
 
 #: html/subproject_info.html:6
 msgid "Git repository:"
@@ -1044,9 +1033,8 @@ msgid "Copy"
 msgstr "Kopiëren"
 
 #: html/translate.html:76
-#, fuzzy
 msgid "Toggle text direction"
-msgstr "Ongeldige suggestie!"
+msgstr "Leesrichting omkeren"
 
 #: html/translate.html:89
 msgctxt "Message is fuzzy"
@@ -1062,9 +1050,8 @@ msgid "Insert tab character"
 msgstr ""
 
 #: html/translate.html:92
-#, fuzzy
 msgid "Insert new line"
-msgstr "Begint met een nieuwe regel"
+msgstr "Nieuwe regel toevoegen"
 
 #: html/translate.html:93
 msgid "Insert horizontal elipsis"
@@ -1129,14 +1116,12 @@ msgid "All locations"
 msgstr "Alle locaties"
 
 #: html/translate.html:166
-#, fuzzy
 msgid "Words extracted from glossary"
 msgstr "Woorden uit het woordenboek"
 
 #: html/translate.html:167
-#, fuzzy
 msgid "Comments about this translation"
-msgstr "Gebruik deze vertaling"
+msgstr "Opmerkingen over deze vertaling"
 
 #: html/translate.html:167 html/unit-details.html:10
 msgid "Comments"
@@ -1151,9 +1136,8 @@ msgid "Recent edits"
 msgstr "Recente bewerkingen"
 
 #: html/translate.html:169
-#, fuzzy
 msgid "Source string details and feedback"
-msgstr "Zoeken in brontekenreeksen"
+msgstr "Details en reacties over brontekenreeksen"
 
 #: html/translate.html:170
 msgid "Information about project"
@@ -1168,9 +1152,8 @@ msgid "You can share comments about this translation with other translators."
 msgstr ""
 
 #: html/translate.html:199 html/translate.html.py:231
-#, fuzzy
 msgid "New comment"
-msgstr "Opmerkingen"
+msgstr "Nieuwe opmerking"
 
 #: html/translate.html:209 html/translate.html.py:242
 msgid "You are not allowed to add comments."
@@ -1292,9 +1275,8 @@ msgid "Message is fuzzy"
 msgstr "Het bericht is vaag"
 
 #: html/unit-state.html:4
-#, fuzzy
 msgid "Message has failing checks"
-msgstr "Gefaalde controles"
+msgstr "Boodschap heeft gefaalde controles"
 
 #: html/unit-state.html:5
 msgid "Message is translated"
@@ -1305,9 +1287,8 @@ msgid "widgets"
 msgstr ""
 
 #: html/widgets.html:16
-#, fuzzy
 msgid "Promoting translation projects"
-msgstr "Gebruik deze vertaling voor alle subprojecten"
+msgstr "Promoot vertaalprojecten"
 
 #: html/widgets.html:19
 #, python-format
@@ -1317,9 +1298,8 @@ msgid ""
 msgstr ""
 
 #: html/widgets.html:22
-#, fuzzy
 msgid "Promoting specific translations"
-msgstr "Automatische vertaling"
+msgstr "Promoot bepaalde vertalingen"
 
 #: html/widgets.html:25
 msgid ""
@@ -1369,9 +1349,8 @@ msgstr ""
 
 #: html/widgets.html:59 html/widgets.html.py:67 html/widgets.html.py:74
 #: html/widgets.html:82
-#, fuzzy
 msgid "Translation status"
-msgstr "Vertalingen"
+msgstr "Status van de vertaling"
 
 #: html/admin/custom-index.html:10
 msgid "Reports"
@@ -1434,9 +1413,8 @@ msgid "Generate"
 msgstr ""
 
 #: html/admin/ssh.html:32
-#, fuzzy
 msgid "More information"
-msgstr "Projectinformatie"
+msgstr "Meer informatie"
 
 #: html/admin/ssh.html:34
 #, python-format
@@ -1474,23 +1452,20 @@ msgid "Push"
 msgstr "Doorsturen"
 
 #: html/js/git-status.html:12
-#, fuzzy
 msgid "Reset all changes in local repository"
-msgstr "Wijzigingen van extern repository ophalen"
+msgstr "Alle wijzigingen in lokaal repository ongedaan maken"
 
 #: html/js/git-status.html:12
 msgid "Reset"
 msgstr ""
 
 #: html/js/git-status.html:16
-#, fuzzy
 msgid "Allow changes in the repository"
-msgstr "Wijzigingen van extern repository ophalen"
+msgstr "Wijzigingen toelaten in het repository"
 
 #: html/js/git-status.html:18
-#, fuzzy
 msgid "Prevent any changes in the repository"
-msgstr "Wijzigingen naar extern repository doorsturen"
+msgstr "Elke wijzigingen aan het repository tegenhouden"
 
 #: html/js/git-status.html:24
 msgid "There are some not commited changes!"
@@ -1534,33 +1509,29 @@ msgstr ""
 
 #: html/mail/any_translation.txt:6 html/mail/new_comment.txt:6
 #: html/mail/new_suggestion.txt:6
-#, fuzzy
 msgid "Source string:"
-msgstr "Zoeken in brontekenreeksen"
+msgstr "Brontekenreeks:"
 
 #: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
-#, fuzzy
 msgid "Translation:"
-msgstr "Vertaling"
+msgstr "Vertaling:"
 
 #: html/mail/any_translation.txt:14
-#, fuzzy
 msgid "Previous translation:"
-msgstr "Uw vertalingen"
+msgstr "Vorige vertaling:"
 
 #: html/mail/any_translation.txt:16
-#, fuzzy
 msgid "Previously not translated"
-msgstr "Uw vertalingen"
+msgstr "Nog niet eerder vertaald"
 
 #: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
 msgid "You can edit this string at:"
 msgstr ""
 
 #: html/mail/any_translation_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New translation in %(translation)s"
-msgstr "Automatische vertaling"
+msgstr "Nieuwe vertaling in %(translation)s"
 
 #: html/mail/footer.txt:1
 #, fuzzy
@@ -3395,9 +3366,8 @@ msgid "Tab character"
 msgstr ""
 
 #: trans/templatetags/translations.py:110
-#, fuzzy
 msgid "New line"
-msgstr "Nieuwe taal"
+msgstr "Nieuwe regel"
 
 #: trans/templatetags/translations.py:221
 #, fuzzy, python-format
