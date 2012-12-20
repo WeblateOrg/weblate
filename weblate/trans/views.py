@@ -1572,7 +1572,7 @@ def get_similar(request, unit_id):
     for similar in similar_units:
         if similar.target in targets:
             continue
-        targets[s.target] = 1
+        targets[similar.target] = 1
         res.append(similar)
     similar = res
 
