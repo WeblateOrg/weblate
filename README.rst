@@ -28,6 +28,14 @@ Detailed documentation is available in docs/ directory in the sources.
 The documentation can be also viewed online on
 <http://weblate.readthedocs.org/>.
 
+Installation
+------------
+
+Installation and setup instructions are provided in our manual, check
+quick setup guide:
+
+<http://weblate.readthedocs.org/en/latest/quick.html>
+
 Bugs
 ----
 
