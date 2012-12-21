@@ -74,7 +74,7 @@ Subproject
 
 Subproject is real resource for translating. You enter Git repository location
 and file mask which files to translate and Weblate automatically fetches the Git
-and finds all translated files.
+and finds all matching translatable files.
 
 Should the language definition for translation be missing, empty definition is
 created and named as "cs_CZ (generated)". You should adjust the definition and
