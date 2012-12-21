@@ -12,10 +12,10 @@ Installing from sources
 
 #. Install all required dependencies, see :ref:`requirements`.
 
-#. Grab Weblate sources (either using Git or download a tarball) and unpack 
+#. Grab Weblate sources (either using Git or download a tarball) and unpack
    them.
 
-#. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and 
+#. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
    adjust it to match your setup. You will at least need to configure database
    connection (possibly adding user and creating the database). Check
    :ref:`config` for Weblate specific configuration options.
@@ -53,10 +53,10 @@ Adding translation
    Git repository and selects which files to translate. See :ref:`subproject`
    for more details.
 
-   The important fields here being subproject name, Git repository address and 
-   mask for finding translatable files. Weblate supports wide range of formats 
-   including Gettext PO files, Android resource strings, OS X string properties
-   , Java properties or Qt Linguist files, see :ref:`formats` for more details.
+   The important fields here being subproject name, Git repository address and
+   mask for finding translatable files. Weblate supports wide range of formats
+   including Gettext PO files, Android resource strings, OS X string properties,
+   Java properties or Qt Linguist files, see :ref:`formats` for more details.
 
 
 #. Once above is completed (it can be lengthy process depending on size of
