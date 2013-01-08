@@ -155,6 +155,7 @@ RTL_LANGS = set((
     'ks',
     'ku',
     'ps',
+    'ug',
     'ur',
     'yi',
 ))
