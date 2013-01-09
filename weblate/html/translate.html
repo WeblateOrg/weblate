@@ -61,6 +61,12 @@
 <th class="source">{% trans "Source" %}</th>
 <td class="translatetext">{{ unit.source|fmttranslation }}</td>
 </tr>
+{% if unit.previous_source %}
+<tr>
+<th>{% trans "Source change" %}</th>
+<td>{{ unit.previous_source|fmtsourcediff:unit }}</td>
+</tr>
+{% endif %}
 {% if unit.context %}
 <tr>
 <th>{% trans "Context" %}</th>

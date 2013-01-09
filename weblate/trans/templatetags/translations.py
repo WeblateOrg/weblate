@@ -128,6 +128,15 @@ def fmttranslationdiff(value, other):
 
 @register.filter
 @stringfilter
+def fmtsourcediff(value, other):
+    '''
+    Formats diff between two sources.
+    '''
+    return fmttranslation(other.source, diff=value)
+
+
+@register.filter
+@stringfilter
 def site_title(value):
     '''
     Returns site title
