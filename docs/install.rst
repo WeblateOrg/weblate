@@ -88,6 +88,10 @@ After your configuration is ready, you can run :program:`./manage.py syncdb` and
 :program:`./manage.py migrate` to create database structure. Now you should be
 able to create translation projects using admin interface.
 
+In case you want to run installation non interactively, you can use 
+:program:`./manage.py syncdb --noinput` and then create admin user using 
+:djadmin:`createadmin` command.
+
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
