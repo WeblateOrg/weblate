@@ -934,7 +934,6 @@ def lock_translation(request, project, subproject, lang):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 @login_required
-@permission_required('trans.lock_translation')
 def update_lock(request, project, subproject, lang):
     obj = get_object_or_404(
         Translation,
