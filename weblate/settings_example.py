@@ -316,6 +316,7 @@ OFFLOAD_INDEXING = False
 
 # Translation locking
 AUTO_LOCK = True
+AUTO_LOCK_TIME = 60
 LOCK_TIME = 15 * 60
 
 # Where to put Whoosh index

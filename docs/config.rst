@@ -41,6 +41,15 @@ Enables automatic locking of translation when somebody is working on it.
 
 .. seealso:: :ref:`locking`
 
+.. setting:: AUTO_LOCK_TIME
+
+AUTO_LOCK_TIME
+--------------
+
+Time in seconds for how long the automatic lock for translation will be active.
+
+.. seealso:: :ref:`locking`
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
@@ -84,7 +93,7 @@ LOCK_TIME
 ---------
 
 Time in seconds for how long the translation will be locked for single
-translator.
+translator when locked manually.
 
 .. seealso:: :ref:`locking`
 

@@ -1349,18 +1349,35 @@ class Translation(models.Model):
 
         return True
 
-    def create_lock(self, user):
+    def create_lock(self, user, explicit=False):
         '''
         Creates lock on translation.
         '''
+        is_new = self.lock_user is None
         self.lock_user = user
-        self.update_lock_time()
 
-    def update_lock_time(self):
+        # Clean timestamp on unlock
+        if user is None:
+            self.lock_time = datetime.now()
+            self.save()
+            return
+
+        self.update_lock_time(explicit, is_new)
+
+    def update_lock_time(self, explicit=False, is_new=True):
         '''
         Sets lock timestamp.
         '''
-        self.lock_time = datetime.now() + timedelta(seconds=settings.LOCK_TIME)
+        if explicit:
+            seconds = settings.LOCK_TIME
+        else:
+            seconds = settings.AUTO_LOCK_TIME
+
+        new_lock_time = datetime.now() + timedelta(seconds=seconds)
+
+        if is_new or new_lock_time > self.lock_time:
+            self.lock_time = new_lock_time
+
         self.save()
 
     def update_lock(self, request):

@@ -333,8 +333,10 @@ This can be either done manually on translation page or is done automatically
 when somebody starts to work on translation. The automatic locking needs to be
 enabled using :setting:`AUTO_LOCK`.
 
-The lock is valid for :setting:`LOCK_TIME` seconds and is automatically
-extended on every translation made.
+The automatic lock is valid for :setting:`AUTO_LOCK_TIME` seconds and is
+automatically extended on every translation made.
+
+User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
 
 
 .. _custom-checks:
