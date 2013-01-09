@@ -100,12 +100,19 @@ function load_translate_apis() {
             return false;
         });
     }
-    if (typeof(MICROSOFT_LANGS) != 'undefined' && MICROSOFT_LANGS.indexOf(target_language) != -1) {
+
+    var microsoft_language = target_language;
+    if (microsoft_language == 'zh-tw') {
+        microsoft_language = 'zh-CHT';
+    } else if (microsoft_language == 'zh-cn') {
+        microsoft_language = 'zh-CHS';
+    }
+    if (typeof(MICROSOFT_LANGS) != 'undefined' && MICROSOFT_LANGS.indexOf(microsoft_language) != -1) {
         add_translate_button('apertium', gettext('Translate using Microsoft Translator'), function () {
             get_source_string(function(data) {
                 inc_loading();
                 $.ajax({
-                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + encodeURIComponent(data) + "&from=en&to=" + target_language,
+                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + encodeURIComponent(data) + "&from=en&to=" + microsoft_language,
                     success: process_mt,
                     error: failed_mt,
                     dataType: 'jsonp',
