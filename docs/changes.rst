@@ -21,6 +21,7 @@ Relased on ? 2012.
 * More options for formatting commit message.
 * Fixed error handling with machine translation services.
 * Improved automatic translation locking behaviour.
+* Support for showing changes from previous source string.
 
 weblate 1.3
 -----------
