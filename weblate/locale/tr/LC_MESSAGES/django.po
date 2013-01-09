@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-12-20 15:44+0100\n"
+"POT-Creation-Date: 2013-01-09 14:03+0100\n"
 "PO-Revision-Date: 2012-12-13 06:30+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -409,7 +409,7 @@ msgstr ""
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
 #: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:170 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:176 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proje"
 
@@ -423,7 +423,7 @@ msgid "There are no matching failed checks!"
 msgstr "Eşleşen başarısız olmuş kontroller yok!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:16 html/translate.html:84 html/translate.html.py:175
+#: html/last-changes.html:16 html/translate.html:90 html/translate.html.py:181
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:237
 msgid "Translation"
@@ -431,7 +431,7 @@ msgstr "Çeviri"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
 #: html/source-review.html:32 html/subproject.html:36 html/translate.html:61
-#: html/translate.html.py:169 html/translate.html:175
+#: html/translate.html.py:175 html/translate.html:181
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:236
 msgid "Source"
@@ -547,7 +547,7 @@ msgstr "Dil"
 msgid "Words"
 msgstr "Kelime"
 
-#: html/dictionary.html:15 html/translate.html:166
+#: html/dictionary.html:15 html/translate.html:172
 msgid "Glossary"
 msgstr "Terimler Sözlüğü"
 
@@ -576,7 +576,7 @@ msgstr "Son"
 msgid "Edit"
 msgstr "Düzenle"
 
-#: html/dictionary.html:57 html/translate.html:126
+#: html/dictionary.html:57 html/translate.html:132
 msgid "Delete"
 msgstr "Sil"
 
@@ -601,7 +601,7 @@ msgstr "Terimler sözlüğünü içe aktar"
 msgid "Export glossary"
 msgstr "Terimler sözlüğünü dışa aktar"
 
-#: html/dictionary.html:90 html/translate.html:206 html/translate.html.py:239
+#: html/dictionary.html:90 html/translate.html:212 html/translate.html.py:245
 msgid "Add"
 msgstr "Ekle"
 
@@ -637,7 +637,7 @@ msgstr "sözlükler"
 msgid "Change word"
 msgstr "Kelimeyi değiştir"
 
-#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:146
+#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:152
 msgid "Save"
 msgstr "Kaydet"
 
@@ -715,7 +715,7 @@ msgstr ""
 "\"%(weblate_url)s\">Weblate</a> çalıştırmaktadır. Çevirmek için oturum açmış "
 "olmanız gerekir aksi halde sadece öneride bulunabilirsiniz."
 
-#: html/index.html:13 html/subproject.html:17 html/translate.html:84
+#: html/index.html:13 html/subproject.html:17 html/translate.html:90
 msgid "Translations"
 msgstr "Çeviriler"
 
@@ -959,8 +959,8 @@ msgstr "gözden geçir"
 msgid "Strings to review"
 msgstr "Gözden geçirmek için satırlar"
 
-#: html/source-review.html:33 html/translate.html:99
-#: html/translate.html.py:219 trans/views.py:128
+#: html/source-review.html:33 html/translate.html:105
+#: html/translate.html.py:225 trans/views.py:128
 msgid "Failing checks"
 msgstr "Başarısız kontrolleri"
 
@@ -968,7 +968,7 @@ msgstr "Başarısız kontrolleri"
 msgid "Comment"
 msgstr "Yorum"
 
-#: html/source-review.html:62 html/translate.html:224
+#: html/source-review.html:62 html/translate.html:230
 msgid "User comments"
 msgstr "Kullanıcı yorumları"
 
@@ -1025,60 +1025,65 @@ msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Şu anki süzgeç: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
 #: html/translate.html:66
+#, fuzzy
+msgid "Source change"
+msgstr "En son değişiklikler"
+
+#: html/translate.html:72
 msgid "Context"
 msgstr "Bağlam"
 
-#: html/translate.html:73
+#: html/translate.html:79
 msgid "Copy"
 msgstr "Kopyala"
 
-#: html/translate.html:76
+#: html/translate.html:82
 msgid "Toggle text direction"
 msgstr "Metin yönünü değiştir"
 
-#: html/translate.html:89
+#: html/translate.html:95
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
-#: html/translate.html:90
+#: html/translate.html:96
 msgid "Special characters:"
 msgstr "Özel karakterler:"
 
-#: html/translate.html:91
+#: html/translate.html:97
 msgid "Insert tab character"
 msgstr "Tab karakteri ekle"
 
-#: html/translate.html:92
+#: html/translate.html:98
 msgid "Insert new line"
 msgstr "Yeni satır ekle"
 
-#: html/translate.html:93
+#: html/translate.html:99
 msgid "Insert horizontal elipsis"
 msgstr "Yatay üç nokta ekle"
 
-#: html/translate.html:109
+#: html/translate.html:115
 msgid "Suggestions"
 msgstr "Öneriler"
 
-#: html/translate.html:116
+#: html/translate.html:122
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "%(user)s tarafından önerildi"
 
-#: html/translate.html:118
+#: html/translate.html:124
 msgid "Suggested by anonymous user"
 msgstr "İsimsiz kullanıcı tarafından önerildi"
 
-#: html/translate.html:123
+#: html/translate.html:129
 msgid "Accept"
 msgstr "Kabul"
 
-#: html/translate.html:140
+#: html/translate.html:146
 msgid "Flags"
 msgstr "İşaretler"
 
-#: html/translate.html:150
+#: html/translate.html:156
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1087,80 +1092,80 @@ msgstr ""
 "Çevirileri kaydetmek için <a href=\"%(login_url)s?next=%(translate_url)s"
 "\">oturum açın</a>."
 
-#: html/translate.html:153
+#: html/translate.html:159
 msgid "Suggest"
 msgstr "Öner"
 
-#: html/translate.html:159
+#: html/translate.html:165
 msgid "Translation context"
 msgstr "Çeviri bağlamı"
 
-#: html/translate.html:163
+#: html/translate.html:169
 msgid "Messages placed around this one"
 msgstr "Bu iletinin yakınında olan iletiler"
 
-#: html/translate.html:163
+#: html/translate.html:169
 msgid "Nearby messages"
 msgstr "Yakındaki iletiler"
 
-#: html/translate.html:164
+#: html/translate.html:170
 msgid "Similar messages"
 msgstr "Benzer iletiler"
 
-#: html/translate.html:165
+#: html/translate.html:171
 msgid "Same message used in different subprojects"
 msgstr "Farklı alt projelerde kullanılmış aynı iletiler"
 
-#: html/translate.html:165
+#: html/translate.html:171
 msgid "All locations"
 msgstr "Tüm yerler"
 
-#: html/translate.html:166
+#: html/translate.html:172
 msgid "Words extracted from glossary"
 msgstr "Terimler sözlüğünden çıkartılmış kelimeler"
 
-#: html/translate.html:167
+#: html/translate.html:173
 msgid "Comments about this translation"
 msgstr "Bu çeviri hakkında yorumlar"
 
-#: html/translate.html:167 html/unit-details.html:10
+#: html/translate.html:173 html/unit-details.html:10
 msgid "Comments"
 msgstr "Yorumlar"
 
-#: html/translate.html:168
+#: html/translate.html:174
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate'te yapılmış en son değişikliklerin listesi"
 
-#: html/translate.html:168
+#: html/translate.html:174
 msgid "Recent edits"
 msgstr "En son düzenlemeler"
 
-#: html/translate.html:169
+#: html/translate.html:175
 msgid "Source string details and feedback"
 msgstr "Kaynak satırı ayrıntıları ve geri bildirim"
 
-#: html/translate.html:170
+#: html/translate.html:176
 msgid "Information about project"
 msgstr "Proje hakkında bilgi"
 
-#: html/translate.html:175 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:181 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Durum"
 
-#: html/translate.html:193
+#: html/translate.html:199
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 "Bu çeviri hakkındaki yorumları diğer çevirmenler ile paylaşabilirsiniz."
 
-#: html/translate.html:199 html/translate.html.py:231
+#: html/translate.html:205 html/translate.html.py:237
 msgid "New comment"
 msgstr "Yeni yorum"
 
-#: html/translate.html:209 html/translate.html.py:242
+#: html/translate.html:215 html/translate.html.py:248
 msgid "You are not allowed to add comments."
 msgstr "Yorumları eklemenize izin verilmiyor."
 
-#: html/translate.html:225
+#: html/translate.html:231
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -2455,15 +2460,15 @@ msgstr "Yoruba dili"
 msgid "Zulu"
 msgstr "Zulu dili"
 
-#: lang/models.py:371
+#: lang/models.py:372
 msgid "Singular"
 msgstr "Tekil"
 
-#: lang/models.py:373
+#: lang/models.py:374
 msgid "Plural"
 msgstr "Çoğul"
 
-#: lang/models.py:374
+#: lang/models.py:375
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
@@ -3053,7 +3058,7 @@ msgstr "Çeviri şablonu biçimi tanınamadı."
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:1270
+#: trans/models.py:1276
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3062,86 +3067,86 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models.py:1274
+#: trans/models.py:1280
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models.py:1276
+#: trans/models.py:1282
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1304
+#: trans/models.py:1310
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr ""
 "Bu çeviri %(user)s tarafından %(time)s tarihine kadar çeviri için kilitli!"
 
-#: trans/models.py:1938 trans/models.py:1965
+#: trans/models.py:1944 trans/models.py:1971
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:1943 trans/models.py:1985
+#: trans/models.py:1949 trans/models.py:1991
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:1957 trans/models.py:1999
+#: trans/models.py:1963 trans/models.py:2005
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models.py:1970
+#: trans/models.py:1976
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:1975
+#: trans/models.py:1981
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:1980
+#: trans/models.py:1986
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:2266
+#: trans/models.py:2279
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models.py:2272
+#: trans/models.py:2285
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2388
+#: trans/models.py:2401
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
 
-#: trans/models.py:2713
+#: trans/models.py:2726
 msgid "Resource update"
 msgstr "Kaynak Güncellemesi"
 
-#: trans/models.py:2714
+#: trans/models.py:2727
 msgid "Translation completed"
 msgstr "Çeviri Tamamlandı"
 
-#: trans/models.py:2715
+#: trans/models.py:2728
 msgid "Translation changed"
 msgstr "Çeviri Değiştirildi"
 
-#: trans/models.py:2716
+#: trans/models.py:2729
 msgid "Comment added"
 msgstr "Yorum Eklendi"
 
-#: trans/models.py:2717
+#: trans/models.py:2730
 msgid "Suggestion added"
 msgstr "Öneri Eklendi"
 
-#: trans/models.py:2733
+#: trans/models.py:2746
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -3385,7 +3390,7 @@ msgstr "Tab karakteri"
 msgid "New line"
 msgstr "Yeni satır"
 
-#: trans/templatetags/translations.py:221
+#: trans/templatetags/translations.py:230
 #, python-format
 msgid "Avatar for %s"
 msgstr "%s için avatar"

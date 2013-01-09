@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-12-20 15:44+0100\n"
+"POT-Creation-Date: 2013-01-09 14:03+0100\n"
 "PO-Revision-Date: 2012-12-04 16:14+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -409,7 +409,7 @@ msgstr ""
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
 #: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:170 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:176 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "Proyecto"
 
@@ -423,7 +423,7 @@ msgid "There are no matching failed checks!"
 msgstr "¡No se encontraron chequeos fallidos!"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:16 html/translate.html:84 html/translate.html.py:175
+#: html/last-changes.html:16 html/translate.html:90 html/translate.html.py:181
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:237
 msgid "Translation"
@@ -431,7 +431,7 @@ msgstr "Traducción"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
 #: html/source-review.html:32 html/subproject.html:36 html/translate.html:61
-#: html/translate.html.py:169 html/translate.html:175
+#: html/translate.html.py:175 html/translate.html:181
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:236
 msgid "Source"
@@ -547,7 +547,7 @@ msgstr "Idioma"
 msgid "Words"
 msgstr "Palabras"
 
-#: html/dictionary.html:15 html/translate.html:166
+#: html/dictionary.html:15 html/translate.html:172
 msgid "Glossary"
 msgstr "Glosario"
 
@@ -576,7 +576,7 @@ msgstr "Último"
 msgid "Edit"
 msgstr "Editar"
 
-#: html/dictionary.html:57 html/translate.html:126
+#: html/dictionary.html:57 html/translate.html:132
 msgid "Delete"
 msgstr "Borrar"
 
@@ -601,7 +601,7 @@ msgstr "Importar glosario"
 msgid "Export glossary"
 msgstr "Exportar glosario"
 
-#: html/dictionary.html:90 html/translate.html:206 html/translate.html.py:239
+#: html/dictionary.html:90 html/translate.html:212 html/translate.html.py:245
 msgid "Add"
 msgstr "Agregar"
 
@@ -637,7 +637,7 @@ msgstr "diccionarios"
 msgid "Change word"
 msgstr "Cambiar palabra"
 
-#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:146
+#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:152
 msgid "Save"
 msgstr "Guardar"
 
@@ -713,7 +713,7 @@ msgstr ""
 "proyectos listados a continuación. Necesita iniciar sesión para traducir, de "
 "lo contrario sólo podrá hacer sugerencias."
 
-#: html/index.html:13 html/subproject.html:17 html/translate.html:84
+#: html/index.html:13 html/subproject.html:17 html/translate.html:90
 msgid "Translations"
 msgstr "Traducciones"
 
@@ -963,8 +963,8 @@ msgstr "revisar"
 msgid "Strings to review"
 msgstr "Cadenas a revisar"
 
-#: html/source-review.html:33 html/translate.html:99
-#: html/translate.html.py:219 trans/views.py:128
+#: html/source-review.html:33 html/translate.html:105
+#: html/translate.html.py:225 trans/views.py:128
 msgid "Failing checks"
 msgstr "Chequeos fallidos"
 
@@ -972,7 +972,7 @@ msgstr "Chequeos fallidos"
 msgid "Comment"
 msgstr "Comentario"
 
-#: html/source-review.html:62 html/translate.html:224
+#: html/source-review.html:62 html/translate.html:230
 msgid "User comments"
 msgstr "Comentarios de usuarios"
 
@@ -1029,60 +1029,65 @@ msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "Filtro actual: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
 #: html/translate.html:66
+#, fuzzy
+msgid "Source change"
+msgstr "Cambios recientes"
+
+#: html/translate.html:72
 msgid "Context"
 msgstr "Contexto"
 
-#: html/translate.html:73
+#: html/translate.html:79
 msgid "Copy"
 msgstr "Copiar"
 
-#: html/translate.html:76
+#: html/translate.html:82
 msgid "Toggle text direction"
 msgstr "Cambiar dirección de texto"
 
-#: html/translate.html:89
+#: html/translate.html:95
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Parcial"
 
-#: html/translate.html:90
+#: html/translate.html:96
 msgid "Special characters:"
 msgstr "Caracteres especiales:"
 
-#: html/translate.html:91
+#: html/translate.html:97
 msgid "Insert tab character"
 msgstr "Agregar caracter de tabulación"
 
-#: html/translate.html:92
+#: html/translate.html:98
 msgid "Insert new line"
 msgstr "Agregar nueva línea"
 
-#: html/translate.html:93
+#: html/translate.html:99
 msgid "Insert horizontal elipsis"
 msgstr "Agregar puntos suspensivos"
 
-#: html/translate.html:109
+#: html/translate.html:115
 msgid "Suggestions"
 msgstr "Sugerencias"
 
-#: html/translate.html:116
+#: html/translate.html:122
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Sugerido por %(user)s"
 
-#: html/translate.html:118
+#: html/translate.html:124
 msgid "Suggested by anonymous user"
 msgstr "Sugerido por un usuario anónimo"
 
-#: html/translate.html:123
+#: html/translate.html:129
 msgid "Accept"
 msgstr "Aceptar"
 
-#: html/translate.html:140
+#: html/translate.html:146
 msgid "Flags"
 msgstr "Indicadores"
 
-#: html/translate.html:150
+#: html/translate.html:156
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1091,80 +1096,80 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Inicia sesión</a> para "
 "guardar las traducciones."
 
-#: html/translate.html:153
+#: html/translate.html:159
 msgid "Suggest"
 msgstr "Sugerir"
 
-#: html/translate.html:159
+#: html/translate.html:165
 msgid "Translation context"
 msgstr "Contexto de traducción"
 
-#: html/translate.html:163
+#: html/translate.html:169
 msgid "Messages placed around this one"
 msgstr "Mensajes alrededor de este"
 
-#: html/translate.html:163
+#: html/translate.html:169
 msgid "Nearby messages"
 msgstr "Mensajes cercanos"
 
-#: html/translate.html:164
+#: html/translate.html:170
 msgid "Similar messages"
 msgstr "Mensajes similares"
 
-#: html/translate.html:165
+#: html/translate.html:171
 msgid "Same message used in different subprojects"
 msgstr "El mismo mensaje es utilizado en diferentes subproyectos"
 
-#: html/translate.html:165
+#: html/translate.html:171
 msgid "All locations"
 msgstr "Todas las ubicaciones"
 
-#: html/translate.html:166
+#: html/translate.html:172
 msgid "Words extracted from glossary"
 msgstr "Palabras extraídas del glosario"
 
-#: html/translate.html:167
+#: html/translate.html:173
 msgid "Comments about this translation"
 msgstr "Comentarios sobre esta traducción"
 
-#: html/translate.html:167 html/unit-details.html:10
+#: html/translate.html:173 html/unit-details.html:10
 msgid "Comments"
 msgstr "Comentarios"
 
-#: html/translate.html:168
+#: html/translate.html:174
 msgid "List of recent changes done in Weblate"
 msgstr "Lista de cambios recientes realizados en Weblate"
 
-#: html/translate.html:168
+#: html/translate.html:174
 msgid "Recent edits"
 msgstr "Ediciones recientes"
 
-#: html/translate.html:169
+#: html/translate.html:175
 msgid "Source string details and feedback"
 msgstr "Detalles y reacciones sobre la cadena original"
 
-#: html/translate.html:170
+#: html/translate.html:176
 msgid "Information about project"
 msgstr "Información del proyecto"
 
-#: html/translate.html:175 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:181 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "Estado"
 
-#: html/translate.html:193
+#: html/translate.html:199
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 "Puede compartir comentarios sobre esta traducción con otros traductores."
 
-#: html/translate.html:199 html/translate.html.py:231
+#: html/translate.html:205 html/translate.html.py:237
 msgid "New comment"
 msgstr "Comentario nuevo"
 
-#: html/translate.html:209 html/translate.html.py:242
+#: html/translate.html:215 html/translate.html.py:248
 msgid "You are not allowed to add comments."
 msgstr "No tiene permitido agregar comentarios."
 
-#: html/translate.html:225
+#: html/translate.html:231
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -2460,15 +2465,15 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zulú"
 
-#: lang/models.py:371
+#: lang/models.py:372
 msgid "Singular"
 msgstr "Singular"
 
-#: lang/models.py:373
+#: lang/models.py:374
 msgid "Plural"
 msgstr "Plural"
 
-#: lang/models.py:374
+#: lang/models.py:375
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -3072,7 +3077,7 @@ msgstr "No se reconoció el formato de la plantilla de traducción."
 msgid "Failed to parse translation template."
 msgstr "No se pudo procesar la plantilla de traducción."
 
-#: trans/models.py:1270
+#: trans/models.py:1276
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3081,88 +3086,88 @@ msgstr ""
 "¡No se encontró el archivo %s en el repositorio! Para agregar una nueva "
 "traducción, agregue el archivo de idioma en el repositorio."
 
-#: trans/models.py:1274
+#: trans/models.py:1280
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "No se reconoció el formato de %s."
 
-#: trans/models.py:1276
+#: trans/models.py:1282
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "No se pudo procesar el archivo %(file)s: %(error)s"
 
-#: trans/models.py:1304
+#: trans/models.py:1310
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "¡Esta traducción está bloqueada por %(user)s hasta %(time)s!"
 
-#: trans/models.py:1938 trans/models.py:1965
+#: trans/models.py:1944 trans/models.py:1971
 msgid "All strings"
 msgstr "Todas las cadenas"
 
-#: trans/models.py:1943 trans/models.py:1985
+#: trans/models.py:1949 trans/models.py:1991
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadenas con chequeos fallidos (%d)"
 
-#: trans/models.py:1957 trans/models.py:1999
+#: trans/models.py:1963 trans/models.py:2005
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Cadenas con comentarios (%d)"
 
-#: trans/models.py:1970
+#: trans/models.py:1976
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Cadenas sin traducir (%d)"
 
-#: trans/models.py:1975
+#: trans/models.py:1981
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadenas parciales (%d)"
 
-#: trans/models.py:1980
+#: trans/models.py:1986
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
 
-#: trans/models.py:2266
+#: trans/models.py:2279
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "No se pudo almacenar el mensaje internamente, ¡se agotó el tiempo de espera "
 "de un bloqueo!"
 
-#: trans/models.py:2272
+#: trans/models.py:2285
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "No se encontró el mensaje almacenado en la base de datos, probablemente esté "
 "corrupto."
 
-#: trans/models.py:2388
+#: trans/models.py:2401
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidad %s"
 
-#: trans/models.py:2713
+#: trans/models.py:2726
 msgid "Resource update"
 msgstr "Actualización de recurso"
 
-#: trans/models.py:2714
+#: trans/models.py:2727
 msgid "Translation completed"
 msgstr "Traducción completada"
 
-#: trans/models.py:2715
+#: trans/models.py:2728
 msgid "Translation changed"
 msgstr "Traducción cambiada"
 
-#: trans/models.py:2716
+#: trans/models.py:2729
 msgid "Comment added"
 msgstr "Comentario agregado"
 
-#: trans/models.py:2717
+#: trans/models.py:2730
 msgid "Suggestion added"
 msgstr "Sugerencia agregada"
 
-#: trans/models.py:2733
+#: trans/models.py:2746
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
@@ -3407,7 +3412,7 @@ msgstr "Caracter de tabulación"
 msgid "New line"
 msgstr "Nueva línea"
 
-#: trans/templatetags/translations.py:221
+#: trans/templatetags/translations.py:230
 #, python-format
 msgid "Avatar for %s"
 msgstr "Avatar para %s"

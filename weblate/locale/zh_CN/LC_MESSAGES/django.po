@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2012-12-20 15:44+0100\n"
+"POT-Creation-Date: 2013-01-09 14:03+0100\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -398,7 +398,7 @@ msgstr "更多此检查相关的信息在 <a href=\"%(link)s\">文档</a>。"
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
 #: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:170 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:176 html/js/other.html:6 html/js/similar.html:6
 msgid "Project"
 msgstr "项目"
 
@@ -412,7 +412,7 @@ msgid "There are no matching failed checks!"
 msgstr "没有与已检查条目匹配的！"
 
 #: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:16 html/translate.html:84 html/translate.html.py:175
+#: html/last-changes.html:16 html/translate.html:90 html/translate.html.py:181
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:237
 msgid "Translation"
@@ -420,7 +420,7 @@ msgstr "翻译"
 
 #: html/check_subproject.html:39 html/dictionary.html:32
 #: html/source-review.html:32 html/subproject.html:36 html/translate.html:61
-#: html/translate.html.py:169 html/translate.html:175
+#: html/translate.html.py:175 html/translate.html:181
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:236
 msgid "Source"
@@ -525,7 +525,7 @@ msgstr "语言"
 msgid "Words"
 msgstr "单词"
 
-#: html/dictionary.html:15 html/translate.html:166
+#: html/dictionary.html:15 html/translate.html:172
 msgid "Glossary"
 msgstr "词汇表"
 
@@ -554,7 +554,7 @@ msgstr "最后一条"
 msgid "Edit"
 msgstr "编辑"
 
-#: html/dictionary.html:57 html/translate.html:126
+#: html/dictionary.html:57 html/translate.html:132
 msgid "Delete"
 msgstr "删除"
 
@@ -579,7 +579,7 @@ msgstr "导入词汇表"
 msgid "Export glossary"
 msgstr "导出词汇表"
 
-#: html/dictionary.html:90 html/translate.html:206 html/translate.html.py:239
+#: html/dictionary.html:90 html/translate.html:212 html/translate.html.py:245
 msgid "Add"
 msgstr "添加"
 
@@ -614,7 +614,7 @@ msgstr "词典"
 msgid "Change word"
 msgstr "修改单词"
 
-#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:146
+#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:152
 msgid "Save"
 msgstr "保存"
 
@@ -685,7 +685,7 @@ msgstr ""
 "此站点使用 <a href=\"%(weblate_url)s\">Weblate</a> 翻译以下列出的软件项目。您"
 "需要登录后才能翻译，否则只能提建议。"
 
-#: html/index.html:13 html/subproject.html:17 html/translate.html:84
+#: html/index.html:13 html/subproject.html:17 html/translate.html:90
 msgid "Translations"
 msgstr "翻译"
 
@@ -927,8 +927,8 @@ msgstr "复查"
 msgid "Strings to review"
 msgstr "要复查的条目"
 
-#: html/source-review.html:33 html/translate.html:99
-#: html/translate.html.py:219 trans/views.py:128
+#: html/source-review.html:33 html/translate.html:105
+#: html/translate.html.py:225 trans/views.py:128
 msgid "Failing checks"
 msgstr "未通过检查"
 
@@ -936,7 +936,7 @@ msgstr "未通过检查"
 msgid "Comment"
 msgstr "注释"
 
-#: html/source-review.html:62 html/translate.html:224
+#: html/source-review.html:62 html/translate.html:230
 msgid "User comments"
 msgstr "用户注释"
 
@@ -991,60 +991,65 @@ msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "当前过滤结果：%(filter_name)s (%(filter_pos)s/%(filter_count)s)"
 
 #: html/translate.html:66
+#, fuzzy
+msgid "Source change"
+msgstr "最近的修改"
+
+#: html/translate.html:72
 msgid "Context"
 msgstr "上下文"
 
-#: html/translate.html:73
+#: html/translate.html:79
 msgid "Copy"
 msgstr "复制"
 
-#: html/translate.html:76
+#: html/translate.html:82
 msgid "Toggle text direction"
 msgstr "切换文字方向"
 
-#: html/translate.html:89
+#: html/translate.html:95
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "模糊"
 
-#: html/translate.html:90
+#: html/translate.html:96
 msgid "Special characters:"
 msgstr "特殊字符："
 
-#: html/translate.html:91
+#: html/translate.html:97
 msgid "Insert tab character"
 msgstr "插入制表符"
 
-#: html/translate.html:92
+#: html/translate.html:98
 msgid "Insert new line"
 msgstr "插入换行符"
 
-#: html/translate.html:93
+#: html/translate.html:99
 msgid "Insert horizontal elipsis"
 msgstr "插入省略号"
 
-#: html/translate.html:109
+#: html/translate.html:115
 msgid "Suggestions"
 msgstr "建议"
 
-#: html/translate.html:116
+#: html/translate.html:122
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "建议者 %(user)s"
 
-#: html/translate.html:118
+#: html/translate.html:124
 msgid "Suggested by anonymous user"
 msgstr "建议者为匿名用户"
 
-#: html/translate.html:123
+#: html/translate.html:129
 msgid "Accept"
 msgstr "接受"
 
-#: html/translate.html:140
+#: html/translate.html:146
 msgid "Flags"
 msgstr "标记"
 
-#: html/translate.html:150
+#: html/translate.html:156
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -1052,79 +1057,79 @@ msgid ""
 msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">登录</a> 以便保存译文。"
 
-#: html/translate.html:153
+#: html/translate.html:159
 msgid "Suggest"
 msgstr "建议"
 
-#: html/translate.html:159
+#: html/translate.html:165
 msgid "Translation context"
 msgstr "翻译上下文"
 
-#: html/translate.html:163
+#: html/translate.html:169
 msgid "Messages placed around this one"
 msgstr "此条目附近的条目"
 
-#: html/translate.html:163
+#: html/translate.html:169
 msgid "Nearby messages"
 msgstr "附近的条目"
 
-#: html/translate.html:164
+#: html/translate.html:170
 msgid "Similar messages"
 msgstr "相似的条目"
 
-#: html/translate.html:165
+#: html/translate.html:171
 msgid "Same message used in different subprojects"
 msgstr "在不同子项目中所使用的相同条目"
 
-#: html/translate.html:165
+#: html/translate.html:171
 msgid "All locations"
 msgstr "所有位置"
 
-#: html/translate.html:166
+#: html/translate.html:172
 msgid "Words extracted from glossary"
 msgstr "词汇表中提取的单词"
 
-#: html/translate.html:167
+#: html/translate.html:173
 msgid "Comments about this translation"
 msgstr "关于此翻译的注释"
 
-#: html/translate.html:167 html/unit-details.html:10
+#: html/translate.html:173 html/unit-details.html:10
 msgid "Comments"
 msgstr "注释"
 
-#: html/translate.html:168
+#: html/translate.html:174
 msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
-#: html/translate.html:168
+#: html/translate.html:174
 msgid "Recent edits"
 msgstr "最近的编辑"
 
-#: html/translate.html:169
+#: html/translate.html:175
 msgid "Source string details and feedback"
 msgstr "源条目详细及反馈"
 
-#: html/translate.html:170
+#: html/translate.html:176
 msgid "Information about project"
 msgstr "项目信息"
 
-#: html/translate.html:175 html/js/other.html:6 html/js/similar.html:6
+#: html/translate.html:181 html/js/other.html:6 html/js/similar.html:6
 msgid "State"
 msgstr "状态"
 
-#: html/translate.html:193
+#: html/translate.html:199
 msgid "You can share comments about this translation with other translators."
 msgstr "您可以分享关于此条目的注释给其它翻译。"
 
-#: html/translate.html:199 html/translate.html.py:231
+#: html/translate.html:205 html/translate.html.py:237
 msgid "New comment"
 msgstr "新注释"
 
-#: html/translate.html:209 html/translate.html.py:242
+#: html/translate.html:215 html/translate.html.py:248
 msgid "You are not allowed to add comments."
 msgstr "您不能添加注释。"
 
-#: html/translate.html:225
+#: html/translate.html:231
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -2376,15 +2381,15 @@ msgstr "约鲁巴语"
 msgid "Zulu"
 msgstr "祖鲁语"
 
-#: lang/models.py:371
+#: lang/models.py:372
 msgid "Singular"
 msgstr "单数形式"
 
-#: lang/models.py:373
+#: lang/models.py:374
 msgid "Plural"
 msgstr "复数形式"
 
-#: lang/models.py:374
+#: lang/models.py:375
 #, python-format
 msgid "Plural form %d"
 msgstr "复数形式 %d"
@@ -2951,91 +2956,91 @@ msgstr "无法识别译文模板的格式。"
 msgid "Failed to parse translation template."
 msgstr "解析译文模板失败。"
 
-#: trans/models.py:1270
+#: trans/models.py:1276
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr "代码库中找不到 %s 文件！要添加新翻译，请在代码库中添加语言文件。"
 
-#: trans/models.py:1274
+#: trans/models.py:1280
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "无法识别 %s 格式。"
 
-#: trans/models.py:1276
+#: trans/models.py:1282
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "解析文件 %(file)s 失败: %(error)s"
 
-#: trans/models.py:1304
+#: trans/models.py:1310
 #, python-format
 msgid "This translation is locked by %(user)s for translation till %(time)s!"
 msgstr "此翻译已被 %(user)s 锁定到 %(time)s！"
 
-#: trans/models.py:1938 trans/models.py:1965
+#: trans/models.py:1944 trans/models.py:1971
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:1943 trans/models.py:1985
+#: trans/models.py:1949 trans/models.py:1991
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "未通过检查的条目 (%d)"
 
-#: trans/models.py:1957 trans/models.py:1999
+#: trans/models.py:1963 trans/models.py:2005
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "有注释的条目 (%d)"
 
-#: trans/models.py:1970
+#: trans/models.py:1976
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:1975
+#: trans/models.py:1981
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:1980
+#: trans/models.py:1986
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models.py:2266
+#: trans/models.py:2279
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2272
+#: trans/models.py:2285
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:2388
+#: trans/models.py:2401
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
 
-#: trans/models.py:2713
+#: trans/models.py:2726
 msgid "Resource update"
 msgstr "资源更新"
 
-#: trans/models.py:2714
+#: trans/models.py:2727
 msgid "Translation completed"
 msgstr "完成翻译"
 
-#: trans/models.py:2715
+#: trans/models.py:2728
 msgid "Translation changed"
 msgstr "修改翻译"
 
-#: trans/models.py:2716
+#: trans/models.py:2729
 msgid "Comment added"
 msgstr "添加注释"
 
-#: trans/models.py:2717
+#: trans/models.py:2730
 msgid "Suggestion added"
 msgstr "提出建议"
 
-#: trans/models.py:2733
+#: trans/models.py:2746
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
@@ -3273,7 +3278,7 @@ msgstr "制表符"
 msgid "New line"
 msgstr "换行符"
 
-#: trans/templatetags/translations.py:221
+#: trans/templatetags/translations.py:230
 #, python-format
 msgid "Avatar for %s"
 msgstr "%s 的头像"
