@@ -2216,7 +2216,10 @@ class Unit(models.Model):
         same_fuzzy = (fuzzy == self.fuzzy)
 
         if fuzzy and hasattr(unit, 'prev_source'):
-            previous_source = unit.prev_source
+            if hasattr(unit.prev_source, 'strings'):
+                previous_source = join_plural(unit.prev_source.strings)
+            else:
+                previous_source = unit.prev_source
         else:
             previous_source = ''
 
