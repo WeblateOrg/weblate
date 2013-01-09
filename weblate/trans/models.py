@@ -55,7 +55,8 @@ from weblate.trans.managers import (
 )
 from weblate.trans.filelock import FileLock, FileLockException
 from util import (
-    is_plural, split_plural, get_source, get_target,
+    is_plural, split_plural, join_plural,
+    get_source, get_target,
     is_translated, get_user_display
 )
 
