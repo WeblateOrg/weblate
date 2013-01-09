@@ -68,14 +68,14 @@ class WeblateCommand(BaseCommand):
 
                 # filter by subproject if available
                 if len(parts) == 2:
-                    found = found.filter(project__slug=parts[1])
+                    found = found.filter(slug=parts[1])
 
                 # warn on no match
                 if found.count() == 0:
                     print 'WARNING: "%s" did not match any subproject' % arg
 
                 # merge results
-                result|= found
+                result |= found
 
         return result
 
