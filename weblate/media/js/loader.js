@@ -391,6 +391,6 @@ $(function() {
     if (update_lock) {
         window.setInterval(function() {
             $.get($('#js-lock').attr('href'));
-        }, 30000);
+        }, 19000);
     }
 });
