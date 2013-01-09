@@ -1338,8 +1338,7 @@ class Translation(models.Model):
         # Is lock still valid?
         if self.lock_time < datetime.now():
             # Clear the lock
-            self.lock_user = None
-            self.save()
+            self.create_lock(None)
 
             return False
 
