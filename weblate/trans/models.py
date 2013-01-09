@@ -2130,6 +2130,7 @@ class Unit(models.Model):
     comment = models.TextField(default='', blank=True)
     flags = models.TextField(default='', blank=True)
     source = models.TextField()
+    previous_source = models.TextField(default='', blank=True)
     target = models.TextField(default='', blank=True)
     fuzzy = models.BooleanField(default=False, db_index=True)
     translated = models.BooleanField(default=False, db_index=True)
@@ -2193,8 +2194,13 @@ class Unit(models.Model):
         same_content = (target == self.target)
         same_fuzzy = (fuzzy == self.fuzzy)
 
+        if fuzzy and hasattr(unit, 'prev_source'):
+            previous_source = unit.prev_source
+        else:
+            previous_source = ''
+
         # Check if we actually need to change anything
-        if not force and location == self.location and flags == self.flags and same_content and same_fuzzy and translated == self.translated and comment == self.comment and pos == self.position:
+        if not force and location == self.location and flags == self.flags and same_content and same_fuzzy and translated == self.translated and comment == self.comment and pos == self.position and previous_source == self.previous_source:
             return
 
         # Store updated values
@@ -2205,6 +2211,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
+        self.previous_source = previous_source
         self.save(force_insert=force, backend=True, same_content=same_content, same_fuzzy=same_fuzzy)
 
     def is_plural(self):
