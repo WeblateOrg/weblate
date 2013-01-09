@@ -70,7 +70,11 @@ function process_mt(data, textStatus, jqXHR) {
     if (typeof(data.responseData) == 'undefined') {
         mt_set(data);
     } else if (data.responseData != '') {
-        mt_set(data.responseData.translatedText);
+        if (data.responseStatus == 200) {
+            mt_set(data.responseData.translatedText);
+        } else {
+            failed_mt(null, data.responseDetails, null)
+        }
     }
     dec_loading();
 }
