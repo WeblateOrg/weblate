@@ -55,7 +55,8 @@ from weblate.trans.managers import (
 )
 from weblate.trans.filelock import FileLock, FileLockException
 from util import (
-    is_plural, split_plural, get_source, get_target,
+    is_plural, split_plural, join_plural,
+    get_source, get_target,
     is_translated, get_user_display
 )
 
@@ -2216,7 +2217,10 @@ class Unit(models.Model):
         same_fuzzy = (fuzzy == self.fuzzy)
 
         if fuzzy and hasattr(unit, 'prev_source'):
-            previous_source = unit.prev_source
+            if hasattr(unit.prev_source, 'strings'):
+                previous_source = join_plural(unit.prev_source.strings)
+            else:
+                previous_source = unit.prev_source
         else:
             previous_source = ''
 
