@@ -1473,7 +1473,7 @@ def translate(request, project, subproject, lang):
             'form': form,
             'antispam': antispam,
             'comment_form': CommentForm(),
-            'target_language': obj.language.code,
+            'target_language': obj.language.code.replace('_', '-').lower(),
             'secondary': secondary,
             'search_query': search_query,
             'search_url': search_url,
