@@ -300,6 +300,9 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
+            ui.jqXHR.error(function() {
+                $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
+            });
         },
         load: function (e, ui) {
             $('a.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
@@ -349,6 +352,10 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
+            ui.jqXHR.error(function() {
+                $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
+            });
+
         },
     });
     $("#id_date").datepicker();

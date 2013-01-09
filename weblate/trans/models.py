@@ -1132,6 +1132,12 @@ class SubProject(models.Model):
         if (self.id):
             old = SubProject.objects.get(pk=self.id)
             changed_git = (old.repo != self.repo) or (old.branch != self.branch) or (old.filemask != self.filemask)
+            # Detect slug changes and rename git repo
+            if old.slug != self.slug:
+                os.rename(
+                    old.get_path(),
+                    self.get_path()
+                )
 
         # Configure git repo if there were changes
         if changed_git:
