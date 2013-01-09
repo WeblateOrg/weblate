@@ -1035,7 +1035,13 @@ class SubProject(models.Model):
 
         # Process linked repos
         for sp in self.get_linked_childs():
+            logger.info(
+                'updating linked project %s',
+                sp
+            )
             sp.create_translations(force, langs, request=request)
+
+        logger.info('updating completed')
 
     def get_lang_code(self, path):
         '''
