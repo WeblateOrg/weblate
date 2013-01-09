@@ -1742,8 +1742,8 @@ def js_config(request):
             microsoft_langs = [
                 'ar', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'cs', 'da', 'nl', 'en',
                 'et', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww', 'hu',
-                'id', 'it', 'ja', 'ko', 'lv', 'lt', 'no', 'pl', 'pt', 'ro',
-                'ru', 'sk', 'sl', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
+                'id', 'it', 'ja', 'ko', 'lv', 'lt', 'no', 'fa', 'pl', 'pt',
+                'ro', 'ru', 'sk', 'sl', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
             ]
     else:
         microsoft_langs = None
