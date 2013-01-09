@@ -19,6 +19,7 @@ Relased on ? 2012.
 * Show code snippets for widgets in more variants.
 * Indicate failing checks or fuzzy strings in progressbars.
 * More options for formatting commit message.
+* Fixed error handling with machine translation services.
 
 weblate 1.3
 -----------
