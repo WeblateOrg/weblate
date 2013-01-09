@@ -1300,12 +1300,6 @@ class Translation(models.Model):
             return 0
         return round(self.translated * 100.0 / self.total, 1)
 
-    def get_lock_time_display(self):
-        '''
-        Returns formatted lock time.
-        '''
-        return date_format(self.lock_time, 'DATETIME_FORMAT')
-
     def get_lock_user_display(self):
         '''
         Returns formatted lock user.
@@ -1313,9 +1307,8 @@ class Translation(models.Model):
         return get_user_display(self.lock_user)
 
     def get_lock_display(self):
-        return mark_safe(_('This translation is locked by %(user)s for translation till %(time)s!') % {
+        return mark_safe(_('This translation is locked by %(user)s for translation!') % {
             'user': self.get_lock_user_display(),
-            'time': self.get_lock_time_display(),
         })
 
     def is_locked(self, request=None, multi=False):
