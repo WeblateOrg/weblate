@@ -388,4 +388,9 @@ $(function() {
         },
         items: "span.tooltip"
     });
+    if (update_lock) {
+        window.setInterval(function() {
+            $.get($('#js-lock').attr('href'));
+        }, 30000);
+    }
 });

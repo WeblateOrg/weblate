@@ -334,7 +334,8 @@ when somebody starts to work on translation. The automatic locking needs to be
 enabled using :setting:`AUTO_LOCK`.
 
 The automatic lock is valid for :setting:`AUTO_LOCK_TIME` seconds and is
-automatically extended on every translation made.
+automatically extended on every translation made and while user has opened
+translation page.
 
 User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
 

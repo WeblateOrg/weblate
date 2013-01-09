@@ -39,6 +39,7 @@
 
 <form action="{{ unit.translation.get_translate_url }}" method="post">
 <a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
+<a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
 {% csrf_token %}
 {% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
 <input type="hidden" name="type" value="{{ type }}" />

@@ -933,6 +933,22 @@ def lock_translation(request, project, subproject, lang):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+@login_required
+@permission_required('trans.lock_translation')
+def update_lock(request, project, subproject, lang):
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
+
+    if not obj.is_user_locked(request):
+        obj.update_lock_time()
+
+    return HttpResponse('ok')
+
 
 @login_required
 @permission_required('trans.lock_translation')
@@ -1157,7 +1173,7 @@ def translate(request, project, subproject, lang):
     )
 
     # Check locks
-    project_locked, user_locked = obj.is_locked(request, True)
+    project_locked, user_locked, own_lock = obj.is_locked(request, True)
     locked = project_locked or user_locked
 
     if request.user.is_authenticated():
@@ -1474,6 +1490,7 @@ def translate(request, project, subproject, lang):
             'antispam': antispam,
             'comment_form': CommentForm(),
             'target_language': obj.language.code.replace('_', '-').lower(),
+            'update_lock': own_lock,
             'secondary': secondary,
             'search_query': search_query,
             'search_url': search_url,

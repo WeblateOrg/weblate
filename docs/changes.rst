@@ -20,6 +20,7 @@ Relased on ? 2012.
 * Indicate failing checks or fuzzy strings in progressbars.
 * More options for formatting commit message.
 * Fixed error handling with machine translation services.
+* Improved automatic translation locking behaviour.
 
 weblate 1.3
 -----------

@@ -20,12 +20,17 @@
 {% block extra_meta %}
 {% endblock %}
 
-{% if target_language %}
   <script type="text/javascript">
+{% if target_language %}
   var target_language = '{{ target_language }}';
-  </script>
 {% endif %}
-  
+{% if update_lock %}
+  var update_lock = true;
+{% else %}
+  var update_lock = false;
+{% endif %}
+  </script>
+
  </head>
 
  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>

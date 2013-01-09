@@ -1319,34 +1319,40 @@ class Translation(models.Model):
         '''
 
         prj_lock = self.subproject.locked
-        usr_lock = self.is_user_locked(request)
+        usr_lock, own_lock = self.is_user_locked(request, True)
 
         # Calculate return value
         if multi:
-            return (prj_lock, usr_lock)
+            return (prj_lock, usr_lock, own_lock)
         else:
             return prj_lock or usr_lock
 
-    def is_user_locked(self, request=None):
+    def is_user_locked(self, request=None, multi=False):
         '''
         Checks whether there is valid user lock on this translation.
         '''
         # Any user?
         if self.lock_user is None:
-            return False
+            result = (False, False)
 
         # Is lock still valid?
-        if self.lock_time < datetime.now():
+        elif self.lock_time < datetime.now():
             # Clear the lock
             self.create_lock(None)
 
-            return False
+            result = (False, False)
 
         # Is current user the one who has locked?
-        if request is not None and self.lock_user == request.user:
-            return False
+        elif request is not None and self.lock_user == request.user:
+            result = (False, True)
 
-        return True
+        else:
+            result = (True, False)
+
+        if multi:
+            return result
+        else:
+            return result[0]
 
     def create_lock(self, user, explicit=False):
         '''

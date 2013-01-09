@@ -197,6 +197,7 @@ urlpatterns = patterns('',
     url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data_project'),
 
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.get_string', name='js-get'),
+    url(r'^js/lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.update_lock', name='js-lock'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.ignore_check', name='js-ignore-check'),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
     url(r'^js/config/$', 'weblate.trans.views.js_config', name='js-config'),
