@@ -522,7 +522,10 @@ class BaseFormatCheck(TargetCheck):
             return self.check_format(sources[1], targets[0], flags, language, unit, 1, False)
         # Check singular
         if self.check_format(sources[0], targets[0], flags, language, unit, 0, len(sources) > 1):
-            return True
+            if len(sources) == 1:
+                return True
+            if self.check_format(sources[1], targets[0], flags, language, unit, 1, True):
+                return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
