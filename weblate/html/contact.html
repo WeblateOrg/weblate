@@ -12,7 +12,7 @@
 
 <form method="post" action="{% url 'weblate.accounts.views.contact' %}">
 {% csrf_token %}
-<table>
+<table id="contact-table">
 {{ form.as_table }}
 <tr><td></td><td><input type="submit" class="button" value="{% trans "Send" %}" /></td></tr>
 </table>
