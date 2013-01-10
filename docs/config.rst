@@ -55,7 +55,7 @@ Time in seconds for how long the automatic lock for translation will be active.
 CHECK_LIST
 ----------
 
-List of consistency checks to perform on translation.
+List of quality checks to perform on translation.
 
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
 

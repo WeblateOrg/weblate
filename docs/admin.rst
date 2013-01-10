@@ -345,7 +345,7 @@ User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
 Customizing checks
 ------------------
 
-Weblate comes with wide range of consistency checks (see :ref:`checks`), though
+Weblate comes with wide range of quality checks (see :ref:`checks`), though
 they might not 100% cover all you want to check. The list of performed checks
 can be adjusted using :setting:`CHECK_LIST` and you can also add custom checks.
 All you need to do is to subclass :class:`trans.checks.Check`, set few

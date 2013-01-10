@@ -43,7 +43,7 @@ List of features includes:
 * Upload and automatic merging of po files
 * Links to source files for context
 * Allows to use machine translation services
-* Message consistency checks
+* Message quality checks
 * Tunable access control
 * Wide range of supported translation formats (Getext, Qt, Java, Windows, Symbian and more)
 

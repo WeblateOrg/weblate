@@ -321,7 +321,7 @@ LOCK_TIME = 15 * 60
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
-# List of consistency checks
+# List of quality checks
 CHECK_LIST = (
     'weblate.trans.checks.SameCheck',
     'weblate.trans.checks.BeginNewlineCheck',

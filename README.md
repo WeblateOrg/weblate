@@ -14,7 +14,7 @@ Weblate has it's website at http://weblate.org/.
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
 * Links to source files for context
-* Message consistency checks
+* Message quality checks
 * Tunable access control
 * Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more)
 

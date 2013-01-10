@@ -19,7 +19,7 @@
 #
 
 """
-Tests for consistency checks.
+Tests for quality checks.
 """
 
 from django.test import TestCase

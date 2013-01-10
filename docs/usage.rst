@@ -155,10 +155,9 @@ Machine translation service provided by Microsoft.
 Checks
 ------
 
-Weblate does wide range of consistency checks on  messages. The following
-section describes them in more detail. The checks take account also special
-rules for different languages, so if you think the result is wrong, please
-report a bug.
+Weblate does wide range of quality checks on  messages. The following section
+describes them in more detail. The checks take account also special rules for
+different languages, so if you think the result is wrong, please report a bug.
 
 Translation checks
 ++++++++++++++++++
