@@ -22,6 +22,8 @@ Relased on ? 2012.
 * Fixed error handling with machine translation services.
 * Improved automatic translation locking behaviour.
 * Support for showing changes from previous source string.
+* Added support for substring search.
+* Various quality checks improvements.
 
 weblate 1.3
 -----------
