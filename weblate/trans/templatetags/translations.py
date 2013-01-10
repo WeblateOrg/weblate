@@ -269,7 +269,7 @@ compared to current timestamp returns representing string.
             ) % {'count': count}
         elif delta.days > 0:
             return ungettext(
-                'a day ago', '%(count)s days ago', delta.days
+                'yesterday', '%(count)s days ago', delta.days
             ) % {'count': delta.days}
         elif delta.seconds == 0:
             return _('now')
@@ -306,7 +306,7 @@ compared to current timestamp returns representing string.
             ) % {'count': count}
         elif delta.days > 0:
             return ungettext(
-                'a day from now', '%(count)s days from now', delta.days
+                'tomorrow', '%(count)s days from now', delta.days
             ) % {'count': delta.days}
         elif delta.seconds == 0:
             return _('now')
