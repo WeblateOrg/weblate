@@ -517,6 +517,9 @@ class BaseFormatCheck(TargetCheck):
         '''
         if not self.flag in flags:
             return False
+        # Special case languages with single plural form
+        if len(sources) > 1 and len(targets) == 1:
+            return self.check_format(sources[1], targets[0], flags, language, unit, 1, False)
         # Check singular
         if self.check_format(sources[0], targets[0], flags, language, unit, 0, len(sources) > 1):
             return True
