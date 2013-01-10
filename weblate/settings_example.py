@@ -173,7 +173,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.sitemaps',
-    'django.contrib.humanize',
     'registration',
     'south',
     'weblate.trans',

@@ -23,11 +23,14 @@ from django.utils.html import escape
 from django.contrib.admin.templatetags.admin_static import static
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ungettext
+from django.utils import timezone
 from django import template
 from django.conf import settings
 
 import re
+
+from datetime import date
 
 import weblate
 import weblate.trans
@@ -231,3 +234,90 @@ def gravatar(user, size=80):
     return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (
         url, alt, size, size
     )
+
+# Following code is heavily based on Django's django.contrib.humanize
+# implementation of naturaltime
+@register.filter
+def naturaltime(value):
+    """
+For date and time values shows how many seconds, minutes or hours ago
+compared to current timestamp returns representing string.
+"""
+    if not isinstance(value, date): # datetime is a subclass of date
+        return value
+
+    now = timezone.now()
+    if value < now:
+        delta = now - value
+        if delta.days >= 365:
+            count = delta.days / 365
+            return ungettext(
+                'a year ago', '%(count)s years ago', count
+            ) % {'count': count}
+        elif delta.days >= 30:
+            count = delta.days / 30
+            return ungettext(
+                'a month ago', '%(count)s months ago', count
+            ) % {'count': count}
+        elif delta.days >= 14:
+            count = delta.days / 7
+            return ungettext(
+                'a week ago', '%(count)s weeks ago', count
+            ) % {'count': count}
+        elif delta.days > 0:
+            return ungettext(
+                'a day ago', '%(count)s days ago', delta.days
+            ) % {'count': delta.days}
+        elif delta.seconds == 0:
+            return _('now')
+        elif delta.seconds < 60:
+            return ungettext(
+                'a second ago', '%(count)s seconds ago', delta.seconds
+            ) % {'count': delta.seconds}
+        elif delta.seconds // 60 < 60:
+            count = delta.seconds // 60
+            return ungettext(
+                'a minute ago', '%(count)s minutes ago', count
+            ) % {'count': count}
+        else:
+            count = delta.seconds // 60 // 60
+            return ungettext(
+                'an hour ago', '%(count)s hours ago', count
+            ) % {'count': count}
+    else:
+        delta = value - now
+        if delta.days >= 365:
+            count = delta.days / 365
+            return ungettext(
+                'a year from now', '%(count)s years from now', count
+            ) % {'count': count}
+        elif delta.days >= 30:
+            count = delta.days / 30
+            return ungettext(
+                'a month from now', '%(count)s months from now', count
+            ) % {'count': count}
+        elif delta.days >= 14:
+            count = delta.days / 7
+            return ungettext(
+                'a week from now', '%(count)s weeks from now', count
+            ) % {'count': count}
+        elif delta.days > 0:
+            return ungettext(
+                'a day from now', '%(count)s days from now', delta.days
+            ) % {'count': delta.days}
+        elif delta.seconds == 0:
+            return _('now')
+        elif delta.seconds < 60:
+            return ungettext(
+                'a second from now', '%(count)s seconds from now', delta.seconds
+            ) % {'count': delta.seconds}
+        elif delta.seconds // 60 < 60:
+            count = delta.seconds // 60
+            return ungettext(
+                'a minute from now', '%(count)s minutes from now', count
+            ) % {'count': count}
+        else:
+            count = delta.seconds // 60 // 60
+            return ungettext(
+                'an hour from now', '%(count)s hours from now', count
+            ) % {'count': count}
