@@ -65,7 +65,8 @@ class SameCheckTest(TestCase):
             'translation',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_same(self):
@@ -74,7 +75,8 @@ class SameCheckTest(TestCase):
             'source',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_same_english(self):
@@ -83,7 +85,8 @@ class SameCheckTest(TestCase):
             'source',
             '',
             Language('en'),
-            None
+            None,
+            0
         ))
 
     def test_same_format(self):
@@ -92,7 +95,8 @@ class SameCheckTest(TestCase):
             '%(source)s',
             'python-format',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -106,7 +110,8 @@ class BeginNewlineCheckTest(TestCase):
             '\nstring',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_newline_1(self):
@@ -115,7 +120,8 @@ class BeginNewlineCheckTest(TestCase):
             ' \nstring',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_newline_2(self):
@@ -124,7 +130,8 @@ class BeginNewlineCheckTest(TestCase):
             '\nstring',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -138,7 +145,8 @@ class EndNewlineCheckTest(TestCase):
             'string\n',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_newline_1(self):
@@ -147,7 +155,8 @@ class EndNewlineCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_newline_2(self):
@@ -156,7 +165,8 @@ class EndNewlineCheckTest(TestCase):
             'string\n',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -170,7 +180,8 @@ class BeginSpaceCheckTest(TestCase):
             '   string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_whitespace_1(self):
@@ -179,7 +190,8 @@ class BeginSpaceCheckTest(TestCase):
             '    string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_whitespace_2(self):
@@ -188,7 +200,8 @@ class BeginSpaceCheckTest(TestCase):
             '  string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -202,7 +215,8 @@ class EndSpaceCheckTest(TestCase):
             'string  ',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_whitespace_1(self):
@@ -211,7 +225,8 @@ class EndSpaceCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_no_whitespace_2(self):
@@ -220,7 +235,8 @@ class EndSpaceCheckTest(TestCase):
             'string ',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -234,7 +250,8 @@ class EndStopCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_stop(self):
@@ -243,7 +260,8 @@ class EndStopCheckTest(TestCase):
             'string.',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_stop_1(self):
@@ -252,7 +270,8 @@ class EndStopCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_stop_2(self):
@@ -261,7 +280,8 @@ class EndStopCheckTest(TestCase):
             'string.',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -275,7 +295,8 @@ class EndColonCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_colon(self):
@@ -284,7 +305,8 @@ class EndColonCheckTest(TestCase):
             'string:',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_colon_1(self):
@@ -293,7 +315,8 @@ class EndColonCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_colon_2(self):
@@ -302,7 +325,8 @@ class EndColonCheckTest(TestCase):
             'string:',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -316,7 +340,8 @@ class EndQuestionCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_question(self):
@@ -325,7 +350,8 @@ class EndQuestionCheckTest(TestCase):
             'string?',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_question_1(self):
@@ -334,7 +360,8 @@ class EndQuestionCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_question_2(self):
@@ -343,7 +370,8 @@ class EndQuestionCheckTest(TestCase):
             'string?',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -357,7 +385,8 @@ class EndExclamationCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_exclamation(self):
@@ -366,7 +395,8 @@ class EndExclamationCheckTest(TestCase):
             'string!',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_exclamation_1(self):
@@ -375,7 +405,8 @@ class EndExclamationCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_exclamation_2(self):
@@ -384,7 +415,8 @@ class EndExclamationCheckTest(TestCase):
             'string!',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -398,7 +430,8 @@ class EndEllipsisCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_ellipsis(self):
@@ -407,7 +440,8 @@ class EndEllipsisCheckTest(TestCase):
             u'string…',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_ellipsis_1(self):
@@ -416,7 +450,8 @@ class EndEllipsisCheckTest(TestCase):
             'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_missing_ellipsis_2(self):
@@ -425,7 +460,8 @@ class EndEllipsisCheckTest(TestCase):
             u'string…',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -440,6 +476,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_no_format'),
+            0,
             False
         ))
 
@@ -450,6 +487,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_format'),
+            0,
             False
         ))
 
@@ -460,6 +498,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_percent_format'),
+            0,
             False
         ))
 
@@ -470,6 +509,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_named_format'),
+            0,
             False
         ))
 
@@ -480,6 +520,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_missing_format'),
+            0,
             False
         ))
 
@@ -490,6 +531,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_missing_named_format'),
+            0,
             False
         ))
 
@@ -500,6 +542,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_missing_named_format'),
+            0,
            True
         ))
 
@@ -510,6 +553,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_wrong_format'),
+            0,
             False
         ))
 
@@ -520,6 +564,7 @@ class PythonFormatCheckTest(TestCase):
             'python-format',
             Language('cs'),
             Unit('python_wrong_named_format'),
+            0,
             False
         ))
 
@@ -535,6 +580,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_no_format'),
+            0,
             False
         ))
 
@@ -545,6 +591,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_format'),
+            0,
             False
         ))
 
@@ -555,6 +602,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_named_format'),
+            0,
             False
         ))
 
@@ -565,6 +613,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_missing_format'),
+            0,
             False
         ))
 
@@ -575,6 +624,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_missing_named_format'),
+            0,
             False
         ))
 
@@ -585,6 +635,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_missing_named_format'),
+            0,
             True
         ))
 
@@ -595,6 +646,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_wrong_format'),
+            0,
             False
         ))
 
@@ -605,6 +657,7 @@ class PHPFormatCheckTest(TestCase):
             'php-format',
             Language('cs'),
             Unit('php_wrong_named_format'),
+            0,
             False
         ))
 
@@ -620,6 +673,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_no_format'),
+            0,
             False
         ))
 
@@ -630,6 +684,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_format'),
+            0,
             False
         ))
 
@@ -640,6 +695,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_named_format'),
+            0,
             False
         ))
 
@@ -650,6 +706,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_missing_format'),
+            0,
             False
         ))
 
@@ -660,6 +717,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_missing_named_format'),
+            0,
             False
         ))
 
@@ -670,6 +728,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_missing_named_format'),
+            0,
             True
         ))
 
@@ -680,6 +739,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_wrong_format'),
+            0,
             False
         ))
 
@@ -690,6 +750,7 @@ class CFormatCheckTest(TestCase):
             'c-format',
             Language('cs'),
             Unit('c_wrong_named_format'),
+            0,
             False
         ))
 
@@ -736,7 +797,8 @@ class NewlineCountingCheckTest(TestCase):
             u'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_matching(self):
@@ -745,7 +807,8 @@ class NewlineCountingCheckTest(TestCase):
             u'string\\nstring',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_not_matching_1(self):
@@ -754,7 +817,8 @@ class NewlineCountingCheckTest(TestCase):
             u'string\\nstring',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_not_matching_2(self):
@@ -763,7 +827,8 @@ class NewlineCountingCheckTest(TestCase):
             u'string\\n\\nstring',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -777,7 +842,8 @@ class BBCodeCheckTest(TestCase):
             u'string',
             '',
             Language('cs'),
-            Unit('bbcode_none')
+            Unit('bbcode_none'),
+            0
         ))
 
     def test_matching(self):
@@ -786,7 +852,8 @@ class BBCodeCheckTest(TestCase):
             u'[a]string[/a]',
             '',
             Language('cs'),
-            Unit('bbcode_matching')
+            Unit('bbcode_matching'),
+            0
         ))
 
     def test_not_matching_1(self):
@@ -795,7 +862,8 @@ class BBCodeCheckTest(TestCase):
             u'[b]string[/b]',
             '',
             Language('cs'),
-            Unit('bbcode_not_matching_1')
+            Unit('bbcode_not_matching_1'),
+            0
         ))
 
     def test_not_matching_2(self):
@@ -804,7 +872,8 @@ class BBCodeCheckTest(TestCase):
             u'[a]string[/b]',
             '',
             Language('cs'),
-            Unit('bbcode_not_matching_2')
+            Unit('bbcode_not_matching_2'),
+            0
         ))
 
 
@@ -818,7 +887,8 @@ class ZeroWidthSpaceCheckTest(TestCase):
             u'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_matching(self):
@@ -827,7 +897,8 @@ class ZeroWidthSpaceCheckTest(TestCase):
             u'str\u200bing',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_not_matching_1(self):
@@ -836,7 +907,8 @@ class ZeroWidthSpaceCheckTest(TestCase):
             u'string',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
     def test_not_matching_2(self):
@@ -845,7 +917,8 @@ class ZeroWidthSpaceCheckTest(TestCase):
             u'str\u200bing',
             '',
             Language('cs'),
-            None
+            None,
+            0
         ))
 
 
@@ -859,14 +932,16 @@ class XMLTagsCheckTest(TestCase):
             u'string',
             '',
             Language('cs'),
-            Unit('xml_none')
+            Unit('xml_none'),
+            0
         ))
         self.assertFalse(self.check.check_single(
             u'string',
             u'string',
             '',
             Language('de'),
-            Unit('xml_none')
+            Unit('xml_none'),
+            0
         ))
 
     def test_invalid(self):
@@ -875,14 +950,16 @@ class XMLTagsCheckTest(TestCase):
             u'string</a>',
             '',
             Language('cs'),
-            Unit('xml_invalid')
+            Unit('xml_invalid'),
+            0
         ))
         self.assertFalse(self.check.check_single(
             u'string</a>',
             u'string</a>',
             '',
             Language('de'),
-            Unit('xml_invalid')
+            Unit('xml_invalid'),
+            0
         ))
 
     def test_matching(self):
@@ -891,14 +968,16 @@ class XMLTagsCheckTest(TestCase):
             u'<a>string</a>',
             '',
             Language('cs'),
-            Unit('xml_matching')
+            Unit('xml_matching'),
+            0
         ))
         self.assertFalse(self.check.check_single(
             u'<a>string</a>',
             u'<a>string</a>',
             '',
             Language('de'),
-            Unit('xml_matching')
+            Unit('xml_matching'),
+            0
         ))
 
     def test_not_matching_1(self):
@@ -907,7 +986,8 @@ class XMLTagsCheckTest(TestCase):
             u'<b>string</b>',
             '',
             Language('cs'),
-            Unit('xml_not_matching_1')
+            Unit('xml_not_matching_1'),
+            0
         ))
 
     def test_not_matching_2(self):
@@ -916,5 +996,6 @@ class XMLTagsCheckTest(TestCase):
             u'<a>string</b>',
             '',
             Language('cs'),
-            Unit('xml_not_matching_2')
+            Unit('xml_not_matching_2'),
+            0
         ))
