@@ -1105,20 +1105,20 @@ def parse_search_url(request):
         search_form = SearchForm(request.GET)
     if search_form.is_valid():
         search_query = search_form.cleaned_data['q']
-        search_exact = search_form.cleaned_data['exact']
+        search_type = search_form.cleaned_data['search']
         search_source = search_form.cleaned_data['src']
         search_target = search_form.cleaned_data['tgt']
         search_context = search_form.cleaned_data['ctx']
-        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&exact=%s' % (
+        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&search=%s' % (
             search_query,
             bool2str(search_source),
             bool2str(search_target),
             bool2str(search_context),
-            bool2str(search_exact),
+            search_type,
         )
     else:
         search_query = ''
-        search_exact = False
+        search_type = 'ftx'
         search_source = True
         search_target = True
         search_context = True
@@ -1132,7 +1132,7 @@ def parse_search_url(request):
         direction,
         pos,
         search_query,
-        search_exact,
+        search_type,
         search_source,
         search_target,
         search_context,
@@ -1185,7 +1185,7 @@ def translate(request, project, subproject, lang):
     secondary = None
     unit = None
 
-    rqtype, direction, pos, search_query, search_exact, search_source, search_target, search_context, search_url = parse_search_url(request)
+    rqtype, direction, pos, search_query, search_type, search_source, search_target, search_context, search_url = parse_search_url(request)
 
     # Any form submitted?
     if request.method == 'POST':
@@ -1405,7 +1405,7 @@ def translate(request, project, subproject, lang):
             units = allunits.filter(position__gt=pos)
     elif search_query != '':
         # Apply search conditions
-        if search_exact:
+        if search_type == 'exact':
             query = Q()
             if search_source:
                 query |= Q(source=search_query)
@@ -1413,6 +1413,15 @@ def translate(request, project, subproject, lang):
                 query |= Q(target=search_query)
             if search_context:
                 query |= Q(context=search_query)
+            allunits = obj.unit_set.filter(query)
+        elif search_type == 'substring':
+            query = Q()
+            if search_source:
+                query |= Q(source__icontains=search_query)
+            if search_target:
+                query |= Q(target__icontains=search_query)
+            if search_context:
+                query |= Q(context__icontains=search_query)
             allunits = obj.unit_set.filter(query)
         else:
             allunits = obj.unit_set.search(search_query, search_source, search_context, search_target)
@@ -1495,7 +1504,7 @@ def translate(request, project, subproject, lang):
             'search_url': search_url,
             'search_query': search_query,
             'search_source': bool2str(search_source),
-            'search_exact': bool2str(search_exact),
+            'search_type': search_type,
             'search_target': bool2str(search_target),
             'search_context': bool2str(search_context),
             'locked': locked,
@@ -1605,7 +1614,7 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
-    rqtype, direction, pos, search_query, search_exact, search_source, search_target, search_context, search_url = parse_search_url(request)
+    rqtype, direction, pos, search_query, search_type, search_source, search_target, search_context, search_url = parse_search_url(request)
 
     return render_to_response('js/other.html', RequestContext(request, {
         'other': other,

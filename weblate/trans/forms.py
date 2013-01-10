@@ -174,9 +174,14 @@ class ExtraUploadForm(UploadForm):
 
 class SearchForm(forms.Form):
     q = forms.CharField(label=_('Query'))
-    exact = forms.BooleanField(
-        label=_('Exact match'),
+    search = forms.ChoiceField(
+        label=_('Search type'),
         required=False,
+        choices=(
+            ('ftx', _('Fulltext')),
+            ('exact', _('Exact match')),
+            ('substring', _('Substring')),
+        ),
         initial=False
     )
     src = forms.BooleanField(
