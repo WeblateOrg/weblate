@@ -1106,9 +1106,16 @@ def parse_search_url(request):
     if search_form.is_valid():
         search_query = search_form.cleaned_data['q']
         search_type = search_form.cleaned_data['search']
+        if search_type == '':
+            search_type = 'ftx'
         search_source = search_form.cleaned_data['src']
         search_target = search_form.cleaned_data['tgt']
         search_context = search_form.cleaned_data['ctx']
+        # Sane defaults
+        if not search_context and not search_source and not search_target:
+            search_source = True
+            search_target = True
+
         search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&search=%s' % (
             search_query,
             bool2str(search_source),
@@ -1121,7 +1128,7 @@ def parse_search_url(request):
         search_type = 'ftx'
         search_source = True
         search_target = True
-        search_context = True
+        search_context = False
         search_url = ''
 
     if 'date' in request.REQUEST:
