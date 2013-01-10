@@ -185,19 +185,19 @@ class Check(object):
         Checks single unit, handling plurals.
         '''
         # Check singular
-        if self.check_single(sources[0], targets[0], flags, language, unit):
+        if self.check_single(sources[0], targets[0], flags, language, unit, 0):
             return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
         # Check plurals against plural from source
         for target in targets[1:]:
-            if self.check_single(sources[1], target, flags, language, unit):
+            if self.check_single(sources[1], target, flags, language, unit, 1):
                 return True
         # Check did not fire
         return False
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         '''
         Check for single phrase, not dealing with plurals.
         '''
@@ -238,23 +238,23 @@ class Check(object):
             'check-%s' % self.check_id.replace('_', '-')
         )
 
-    def get_cache_key(self, unit):
+    def get_cache_key(self, unit, cache_slot=0):
         '''
         Generates key for a cache.
         '''
-        return 'check-%s-%s' % (self.check_id, unit.checksum)
+        return 'check-%s-%s-%d' % (self.check_id, unit.checksum, cache_slot)
 
-    def get_cache(self, unit):
+    def get_cache(self, unit, cache_slot=0):
         '''
         Returns cached result.
         '''
-        return cache.get(self.get_cache_key(unit))
+        return cache.get(self.get_cache_key(unit, cache_slot))
 
-    def set_cache(self, unit, value):
+    def set_cache(self, unit, value, cache_slot=0):
         '''
         Sets cache.
         '''
-        return cache.set(self.get_cache_key(unit), value)
+        return cache.set(self.get_cache_key(unit, cache_slot), value)
 
 
 class TargetCheck(Check):
@@ -296,7 +296,7 @@ class SameCheck(TargetCheck):
         stripped = regex.sub('', msg)
         return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         # Ignore strings which don't contain any string to translate
         if self.is_format_only(source, flags):
             return False
@@ -328,7 +328,7 @@ class BeginNewlineCheck(TargetCheck):
     name = _('Starting newline')
     description = _('Source and translation do not both start with a newline')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         return self.check_chars(source, target, 0, ['\n'])
 
 
@@ -340,7 +340,7 @@ class EndNewlineCheck(TargetCheck):
     name = _('Trailing newline')
     description = _('Source and translation do not both end with a newline')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         return self.check_chars(source, target, -1, ['\n'])
 
 
@@ -352,7 +352,7 @@ class BeginSpaceCheck(TargetCheck):
     name = _('Starting spaces')
     description = _('Source and translation do not both start with same number of spaces')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -373,7 +373,7 @@ class EndSpaceCheck(TargetCheck):
     name = _('Trailing space')
     description = _('Source and translation do not both end with a space')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -399,7 +399,7 @@ class EndStopCheck(TargetCheck):
     name = _('Trailing stop')
     description = _('Source and translation do not both end with a full stop')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         if len(source) == 1 and len(target) == 1:
             return False
         if self.is_language(language, ['ja']) and source[-1] in [':', ';']:
@@ -421,7 +421,7 @@ class EndColonCheck(TargetCheck):
     name = _('Trailing colon')
     description = _('Source and translation do not both end with a colon or colon is not correctly spaced')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         if self.is_language(language, ['fr', 'br']):
             if len(target) == 0 or len(source) == 0:
                 return False
@@ -446,7 +446,7 @@ class EndQuestionCheck(TargetCheck):
     name = _('Trailing question')
     description = _('Source and translation do not both end with a question mark or it is not correctly spaced')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         if self.is_language(language, ['fr', 'br']):
             if len(target) == 0 or len(source) == 0:
                 return False
@@ -470,7 +470,7 @@ class EndExclamationCheck(TargetCheck):
     name = _('Trailing exclamation')
     description = _('Source and translation do not both end with an exclamation mark or it is not correctly spaced')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         if len(source) == 0:
             return False
         if self.is_language(language, ['eu']):
@@ -500,7 +500,7 @@ class EndEllipsisCheck(TargetCheck):
     name = _('Trailing ellipsis')
     description = _('Source and translation do not both end with an ellipsis')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         return self.check_chars(source, target, -1, [u'…'])
 
 
@@ -518,30 +518,30 @@ class BaseFormatCheck(TargetCheck):
         if not self.flag in flags:
             return False
         # Check singular
-        if self.check_format(sources[0], targets[0], flags, language, unit, len(sources) > 1):
+        if self.check_format(sources[0], targets[0], flags, language, unit, 0, len(sources) > 1):
             return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
         # Check plurals against plural from source
         for target in targets[1:]:
-            if self.check_format(sources[1], target, flags, language, unit, False):
+            if self.check_format(sources[1], target, flags, language, unit, 1, False):
                 return True
         # Check did not fire
         return False
 
-    def check_format(self, source, target, flags, language, unit, ignore_missing):
+    def check_format(self, source, target, flags, language, unit, cache_slot, ignore_missing):
         '''
         Generic checker for format strings.
         '''
         if len(target) == 0 or len(source) == 0:
             return False
         # Try geting source parsing from cache
-        src_matches = self.get_cache(unit)
+        src_matches = self.get_cache(unit, cache_slot)
         # Cache miss
         if src_matches is None:
             src_matches = set([x[0] for x in self.regexp.findall(source)])
-            self.set_cache(unit, src_matches)
+            self.set_cache(unit, src_matches, cache_slot)
         tgt_matches = set([x[0] for x in self.regexp.findall(target)])
         # We ignore %% as this is really not relevant. However it needs
         # to be matched to prevent handling %%s as %s.
@@ -665,7 +665,7 @@ class CountingCheck(TargetCheck):
     '''
     string = None
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         if len(target) == 0 or len(source) == 0:
             return False
         return source.count(self.string) != target.count(self.string)
@@ -689,13 +689,13 @@ class BBCodeCheck(TargetCheck):
     name = _('Mismatched BBcode')
     description = _('BBcode in translation does not match source')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         # Try geting source parsing from cache
-        src_match = self.get_cache(unit)
+        src_match = self.get_cache(unit, cache_slot)
         # Cache miss
         if src_match is None:
             src_match = BBCODE_MATCH.findall(source)
-            self.set_cache(unit, src_match)
+            self.set_cache(unit, src_match, cache_slot)
         # Any BBCode in source?
         if len(src_match) == 0:
             return False
@@ -718,7 +718,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     name = _('Zero-width space')
     description = _('Translation contains extra zero-width space character')
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         return (u'\u200b' in target) != (u'\u200b' in source)
 
 
@@ -743,9 +743,9 @@ class XMLTagsCheck(TargetCheck):
         text = self.strip_entities(text.encode('utf-8'))
         return cElementTree.fromstring('<weblate>%s</weblate>' % text)
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_single(self, source, target, flags, language, unit, cache_slot):
         # Try getting source string data from cache
-        source_tags = self.get_cache(unit)
+        source_tags = self.get_cache(unit, cache_slot)
 
         # Source is not XML
         if source_tags == []:
@@ -755,16 +755,16 @@ class XMLTagsCheck(TargetCheck):
         if source_tags is None:
             # Quick check if source looks like XML
             if not '<' in source or len(XML_MATCH.findall(source)) == 0:
-                self.set_cache(unit, [])
+                self.set_cache(unit, [], cache_slot)
                 return False
             # Check if source is XML
             try:
                 source_tree = self.parse_xml(source)
                 source_tags = [x.tag for x in source_tree.iter()]
-                self.set_cache(unit, source_tags)
+                self.set_cache(unit, source_tags, cache_slot)
             except:
                 # Source is not valid XML, we give up
-                self.set_cache(unit, [])
+                self.set_cache(unit, [], cache_slot)
                 return False
 
         # Check target
