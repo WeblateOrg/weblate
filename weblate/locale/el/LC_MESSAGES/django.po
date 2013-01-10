@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 09:34+0100\n"
+"POT-Creation-Date: 2013-01-10 10:59+0100\n"
 "PO-Revision-Date: 2013-01-09 22:46+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -199,11 +199,11 @@ msgstr "Εντάξει"
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1158
+#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1152
+#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr "Ασαφή κείμενα"
 
@@ -294,7 +294,7 @@ msgstr ""
 "Ο διακομιστής είχε σοβαρά προβλήματα να εξυπηρετήσει το αίτημά σας. Στείλαμε "
 "τους τεχνικούς μας να διορθώσουν το θέμα."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1784
+#: html/about.html:7 html/footer.html:6 trans/views.py:1800
 msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
@@ -308,7 +308,7 @@ msgstr ""
 "Διαθέτει καθαρό και απλό περιβάλλον χρήστη, διαμοιρασμός των μεταφράσεων "
 "μεταξύ υποέργων, ακέραιους ελέγχους και αυτόματη σύνδεση με τα πηγαία αρχεία."
 
-#: html/about.html:11
+#: html/about.html:11 html/contact.html:11
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
@@ -425,7 +425,7 @@ msgstr "Δεν υπάρχουν αντιστοιχίες αποτυχίας ελ
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:237
+#: trans/forms.py:242
 msgid "Translation"
 msgstr "Μετάφραση"
 
@@ -433,7 +433,7 @@ msgstr "Μετάφραση"
 #: html/source-review.html:32 html/subproject.html:36 html/translate.html:62
 #: html/translate.html.py:176 html/translate.html:182
 #: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:236
+#: trans/forms.py:241
 msgid "Source"
 msgstr "Προέλευση"
 
@@ -442,6 +442,10 @@ msgid "Check"
 msgstr "Έλεγχος"
 
 #: html/contact.html:7
+msgid "You can contact maintainers of this server here."
+msgstr ""
+
+#: html/contact.html:9
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
@@ -449,7 +453,7 @@ msgstr ""
 "Επικοινωνήστε μαζί μας στα Αγγλικά, διαφορετικά δεν θα μπορέσουμε να "
 "καταλάβουμε το αίτημά σας."
 
-#: html/contact.html:13
+#: html/contact.html:17
 msgid "Send"
 msgstr "Αποστολή"
 
@@ -2525,67 +2529,67 @@ msgstr "Απέτυχε η δημιουργία κλειδιού!"
 msgid "Created new SSH key."
 msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
-#: trans/checks.py:304
+#: trans/checks.py:279
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: trans/checks.py:305
+#: trans/checks.py:280
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
-#: trans/checks.py:353
+#: trans/checks.py:328
 msgid "Starting newline"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/checks.py:354
+#: trans/checks.py:329
 msgid "Source and translation do not both start with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:365
+#: trans/checks.py:340
 msgid "Trailing newline"
 msgstr "Ακολουθεί νέα γραμμή"
 
-#: trans/checks.py:366
+#: trans/checks.py:341
 msgid "Source and translation do not both end with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελείωνουν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:377
+#: trans/checks.py:352
 msgid "Starting spaces"
 msgstr "Διαστήματα έναρξης"
 
-#: trans/checks.py:378
+#: trans/checks.py:353
 msgid "Source and translation do not both start with same number of spaces"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με τον "
 "ίδιο αριθμό διαστημάτων"
 
-#: trans/checks.py:398
+#: trans/checks.py:373
 msgid "Trailing space"
 msgstr "Ακολουθεί κενό"
 
-#: trans/checks.py:399
+#: trans/checks.py:374
 msgid "Source and translation do not both end with a space"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με κενό"
 
-#: trans/checks.py:424
+#: trans/checks.py:399
 msgid "Trailing stop"
 msgstr "Ακολουθεί τελεία"
 
-#: trans/checks.py:425
+#: trans/checks.py:400
 msgid "Source and translation do not both end with a full stop"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με τελεία"
 
-#: trans/checks.py:446
+#: trans/checks.py:421
 msgid "Trailing colon"
 msgstr "Ακολουθεί άνω κάτω τελεία"
 
-#: trans/checks.py:447
+#: trans/checks.py:422
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2593,11 +2597,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με άνω "
 "κάτω τελεία ή δεν είναι χωρισμένη σωστά με κενά"
 
-#: trans/checks.py:471
+#: trans/checks.py:446
 msgid "Trailing question"
 msgstr "Ακολουθεί ερωτηματικό"
 
-#: trans/checks.py:472
+#: trans/checks.py:447
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2605,11 +2609,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "ερωτηματικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:495
+#: trans/checks.py:470
 msgid "Trailing exclamation"
 msgstr "Ακολουθεί θαυμαστικό"
 
-#: trans/checks.py:496
+#: trans/checks.py:471
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2617,101 +2621,101 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "θαυμαστικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:525
+#: trans/checks.py:500
 msgid "Trailing ellipsis"
 msgstr "Ακολουθεί έλλειψη"
 
-#: trans/checks.py:526
+#: trans/checks.py:501
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Η προέλευση και η μετάφραση δεν τελείωνουν και τα δύο με έλλειψη"
 
-#: trans/checks.py:540
+#: trans/checks.py:574
 msgid "Python format"
 msgstr "Μορφή Python"
 
-#: trans/checks.py:541 trans/checks.py:560 trans/checks.py:579
+#: trans/checks.py:575 trans/checks.py:586 trans/checks.py:597
 msgid "Format string does not match source"
 msgstr "Η μορφή του κειμένου δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:559
+#: trans/checks.py:585
 msgid "PHP format"
 msgstr "Μορφή PHP"
 
-#: trans/checks.py:578
+#: trans/checks.py:596
 msgid "C format"
 msgstr "Μορφή C"
 
-#: trans/checks.py:597
+#: trans/checks.py:607
 msgid "Missing plurals"
 msgstr "Απόντες πληθυντικοί"
 
-#: trans/checks.py:598
+#: trans/checks.py:608
 msgid "Some plural forms are not translated"
 msgstr "Ορισμένοι πληθυντικοί δεν μεταφράστηκαν"
 
-#: trans/checks.py:616
+#: trans/checks.py:626
 msgid "Inconsistent"
 msgstr "Ασυνεπές"
 
-#: trans/checks.py:617
+#: trans/checks.py:627
 msgid "This message has more than one translation in this project"
 msgstr "Αυτό το μήνυμα έχει περισσότερες από μια μεταφράσεις σε αυτό το έργο"
 
-#: trans/checks.py:646
+#: trans/checks.py:656
 msgid "Invalid text direction"
 msgstr "Μη έγκυρη κατεύθυνση κειμένου"
 
-#: trans/checks.py:647
+#: trans/checks.py:657
 msgid "Text direction can be either LTR or RTL"
 msgstr "Η κατευθυνση κειμένου μπορεί να είναι LTR ή RTL"
 
-#: trans/checks.py:676
+#: trans/checks.py:686
 msgid "Mismatched \\n"
 msgstr "Δεν ταιριάζουν \\n"
 
-#: trans/checks.py:677
+#: trans/checks.py:687
 msgid "Number of \\n in translation does not match source"
 msgstr "Ο αριθμός των \\n στη μετάφραση δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:685
+#: trans/checks.py:695
 msgid "Mismatched BBcode"
 msgstr "Αταίριαστος κώδικας BB"
 
-#: trans/checks.py:686
+#: trans/checks.py:696
 msgid "BBcode in translation does not match source"
 msgstr "Ο κώδικας BB στη μετάφραση δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:714
+#: trans/checks.py:724
 msgid "Zero-width space"
 msgstr "Διάστημα μηδενικού πλάτους"
 
-#: trans/checks.py:715
+#: trans/checks.py:725
 msgid "Translation contains extra zero-width space character"
 msgstr "Η μετάφραση περιέχει πρόσθετο χαρακτήρα διαστήματος μηδενικού πλάτους"
 
-#: trans/checks.py:726
+#: trans/checks.py:736
 msgid "XML tags mismatch"
 msgstr "Οι ετικέτες XML δεν ταιριάζουν"
 
-#: trans/checks.py:727
+#: trans/checks.py:737
 msgid "XML tags in translation do not match source"
 msgstr "Οι ετικέτες XML στη μετάφραση δεν ταιριάζουν με την προέλευση"
 
-#: trans/checks.py:783
+#: trans/checks.py:793
 msgid "Optional plural"
 msgstr "Προαιρετικός πληθυντικός"
 
-#: trans/checks.py:784
+#: trans/checks.py:794
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 "Το κείμενο χρησιμοποιείται προαιρετικά ως πληθυντικός αλλά δεν "
 "χρησιμοποιούνται πληθυντικές μορφές"
 
-#: trans/checks.py:797
+#: trans/checks.py:807
 msgid "Ellipsis"
 msgstr "Έλλειψη"
 
-#: trans/checks.py:798
+#: trans/checks.py:808
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Το κείμενο χρησιμοποιεί τρεις τελείες (...) αντί για χαρακτήρα έλλειψης (…)"
@@ -2743,7 +2747,7 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: trans/forms.py:146 trans/forms.py:241
+#: trans/forms.py:146 trans/forms.py:246
 msgid "File"
 msgstr "Αρχείο"
 
@@ -2776,54 +2780,70 @@ msgid "Query"
 msgstr "Ερώτημα"
 
 #: trans/forms.py:178
+#, fuzzy
+#| msgid "Search"
+msgid "Search type"
+msgstr "Αναζήτηση"
+
+#: trans/forms.py:181
+msgid "Fulltext"
+msgstr ""
+
+#: trans/forms.py:182
 msgid "Exact match"
 msgstr "Απόλυτο ταίριασμα"
 
 #: trans/forms.py:183
+#, fuzzy
+#| msgid "Source string:"
+msgid "Substring"
+msgstr "Κείμενο προέλευσης:"
+
+#: trans/forms.py:188
 msgid "Search in source strings"
 msgstr "Αναζήτηση στα κείμενα προέλευσης"
 
-#: trans/forms.py:188
+#: trans/forms.py:193
 msgid "Search in target strings"
 msgstr "Αναζήτηση στα κείμενα προορισμού"
 
-#: trans/forms.py:193
+#: trans/forms.py:198
 msgid "Search in context strings"
 msgstr "Αναζήτηση στα συνοδευτικά κείμενα"
 
-#: trans/forms.py:206
+#: trans/forms.py:211
 msgid "Overwrite strings"
 msgstr "Αντικατάσταση κειμενων"
 
-#: trans/forms.py:211
+#: trans/forms.py:216
 msgid "Replace inconsistent"
 msgstr "Αντικατάσταση ασυνεπούς"
 
-#: trans/forms.py:216
+#: trans/forms.py:221
 msgid "Subproject to use"
 msgstr "Υπόέργο για χρήση"
 
-#: trans/forms.py:232
+#: trans/forms.py:237
 msgid "All subprojects"
 msgstr "Όλα τα υπόέργα"
 
-#: trans/forms.py:243
+#: trans/forms.py:248
 msgid "Overwrite existing"
 msgstr "Αντικατάσταση υπαρχόντων"
 
-#: trans/forms.py:249
+#: trans/forms.py:254
 msgid "Starting date"
 msgstr "Ημερομηνία εκκίνησης"
 
-#: trans/forms.py:260
+#: trans/forms.py:265
 msgid "Starting letter"
 msgstr "Γράμμα εκκίνησης"
 
-#: trans/forms.py:261
+#: trans/forms.py:266
 msgid "Any"
 msgstr "Οποιοδήποτε"
 
-#: trans/forms.py:273
+#: trans/forms.py:278
 msgid "Whole project"
 msgstr "Ολόκληρο έργο"
 
@@ -3209,7 +3229,7 @@ msgstr "Καμιά λέξη για εισαγωγή δεν βρέθηκε στο
 msgid "Imported %d words from file."
 msgstr "Εισήχθησαν %d λέξεις από το αρχείο."
 
-#: trans/views.py:397 trans/views.py:1709
+#: trans/views.py:397 trans/views.py:1725
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"
@@ -3297,80 +3317,80 @@ msgstr "Όλα τα υποέργα είναι τώρα κλειδωμένα γι
 msgid "Project is now open for translation updates."
 msgstr "Το έργο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
 
-#: trans/views.py:1148
+#: trans/views.py:1155
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Αναζήτηση για το «%s»"
 
-#: trans/views.py:1154
+#: trans/views.py:1161
 msgid "Untranslated strings"
 msgstr "Αμετάφραστα κείμενα"
 
-#: trans/views.py:1156
+#: trans/views.py:1163
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
 
-#: trans/views.py:1222
+#: trans/views.py:1229
 msgid "Your suggestion is empty!"
 msgstr "Η πρότασή σας είναι άδεια!"
 
-#: trans/views.py:1256
+#: trans/views.py:1263
 msgid "You need to log in to be able to save translations!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να αποθηκεύσετε μεταφράσεις!"
 
-#: trans/views.py:1259 trans/views.py:1300
+#: trans/views.py:1266 trans/views.py:1307
 msgid "You don't have privileges to save translations!"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
-#: trans/views.py:1276
+#: trans/views.py:1283
 msgid "Some checks have failed on your translation!"
 msgstr "Ορισμένοι έλεγχοι απέτυχαν στη μετάφρασή σας!"
 
-#: trans/views.py:1294 trans/views.py:1334
+#: trans/views.py:1301 trans/views.py:1341
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Το μήνυμα που θέλατε να μεταφράσετε δεν είναι πλέον διαθέσιμο!"
 
-#: trans/views.py:1315
+#: trans/views.py:1322
 msgid "Can not merge different messages!"
 msgstr "Αδύνατη η ένωση διαφορετικών γλωσσών!"
 
-#: trans/views.py:1340
+#: trans/views.py:1347
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να διαχειριστείτε τις προτάσεις!"
 
-#: trans/views.py:1351
+#: trans/views.py:1358
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
-#: trans/views.py:1361
+#: trans/views.py:1368
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
-#: trans/views.py:1385
+#: trans/views.py:1392
 msgid "Invalid suggestion!"
 msgstr "Μη έγκυρη πρόταση!"
 
-#: trans/views.py:1445
+#: trans/views.py:1461
 msgid "You have reached end of translating."
 msgstr "Ολοκληρώσατε τη μετάφραση."
 
-#: trans/views.py:1541
+#: trans/views.py:1557
 msgid "Posted new comment"
 msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
-#: trans/views.py:1560
+#: trans/views.py:1576
 msgid "Failed to add comment!"
 msgstr "Απέτυχε η προσθήκη σχολίου!"
 
-#: trans/views.py:1705
+#: trans/views.py:1721
 msgid "File content successfully merged into translation."
 msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
 
-#: trans/views.py:1707
+#: trans/views.py:1723
 msgid "There were no new strings in uploaded file."
 msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
 
-#: trans/views.py:1722
+#: trans/views.py:1738
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
 
