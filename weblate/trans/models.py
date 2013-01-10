@@ -1042,7 +1042,7 @@ class SubProject(models.Model):
             )
             sp.create_translations(force, langs, request=request)
 
-        logger.info('updating completed')
+        logger.info('updating of %s completed', self)
 
     def get_lang_code(self, path):
         '''
