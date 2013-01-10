@@ -80,6 +80,9 @@ def fmttranslation(value, language=None, diff=None):
     # Split diff plurals
     if diff is not None:
         diff = split_plural(diff)
+        # Previous message did not have to be a plural
+        while len(diff) < len(plurals):
+            diff.append(diff[0])
 
     # We will collect part for each plural
     parts = []
