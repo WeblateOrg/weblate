@@ -518,19 +518,19 @@ class BaseFormatCheck(TargetCheck):
         if not self.flag in flags:
             return False
         # Check singular
-        if self.check_single(sources[0], targets[0], flags, language, unit):
+        if self.check_format(sources[0], targets[0], flags, language, unit, len(sources) > 1):
             return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
         # Check plurals against plural from source
         for target in targets[1:]:
-            if self.check_single(sources[1], target, flags, language, unit):
+            if self.check_format(sources[1], target, flags, language, unit, False):
                 return True
         # Check did not fire
         return False
 
-    def check_single(self, source, target, flags, language, unit):
+    def check_format(self, source, target, flags, language, unit, ignore_missing):
         '''
         Generic checker for format strings.
         '''
@@ -551,6 +551,10 @@ class BaseFormatCheck(TargetCheck):
             tgt_matches.remove('%')
 
         if src_matches != tgt_matches:
+            # We can ignore missing format strings
+            # for first of plurals
+            if ignore_missing and tgt_matches < src_matches:
+                return False
             return True
 
         return False

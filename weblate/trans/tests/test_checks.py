@@ -434,75 +434,93 @@ class PythonFormatCheckTest(TestCase):
         self.check = PythonFormatCheck()
 
     def test_no_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             'strins',
             'string',
             'python-format',
             Language('cs'),
-            Unit('python_no_format')
+            Unit('python_no_format'),
+            False
         ))
 
     def test_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%s string',
             u'%s string',
             'python-format',
             Language('cs'),
-            Unit('python_format')
+            Unit('python_format'),
+            False
         ))
 
     def test_percent_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%d%% string',
             u'%d%% string',
             'python-format',
             Language('cs'),
-            Unit('python_percent_format')
+            Unit('python_percent_format'),
+            False
         ))
 
     def test_named_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%(name)s string',
             u'%(name)s string',
             'python-format',
             Language('cs'),
-            Unit('python_named_format')
+            Unit('python_named_format'),
+            False
         ))
 
     def test_missing_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%s string',
             u'string',
             'python-format',
             Language('cs'),
-            Unit('python_missing_format')
+            Unit('python_missing_format'),
+            False
         ))
 
     def test_missing_named_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%(name)s string',
             u'string',
             'python-format',
             Language('cs'),
-            Unit('python_missing_named_format')
+            Unit('python_missing_named_format'),
+            False
+        ))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            u'%(name)s string',
+            u'string',
+            'python-format',
+            Language('cs'),
+            Unit('python_missing_named_format'),
+           True
         ))
 
     def test_wrong_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%s string',
             u'%c string',
             'python-format',
             Language('cs'),
-            Unit('python_wrong_format')
+            Unit('python_wrong_format'),
+            False
         ))
 
     def test_wrong_named_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%(name)s string',
             u'%(jmeno)s string',
             'python-format',
             Language('cs'),
-            Unit('python_wrong_named_format')
+            Unit('python_wrong_named_format'),
+            False
         ))
 
 
@@ -511,66 +529,83 @@ class PHPFormatCheckTest(TestCase):
         self.check = PHPFormatCheck()
 
     def test_no_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             'strins',
             'string',
             'php-format',
             Language('cs'),
-            Unit('php_no_format')
+            Unit('php_no_format'),
+            False
         ))
 
     def test_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%s string',
             u'%s string',
             'php-format',
             Language('cs'),
-            Unit('php_format')
+            Unit('php_format'),
+            False
         ))
 
     def test_named_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%1$s string',
             u'%1$s string',
             'php-format',
             Language('cs'),
-            Unit('php_named_format')
+            Unit('php_named_format'),
+            False
         ))
 
     def test_missing_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%s string',
             u'string',
             'php-format',
             Language('cs'),
-            Unit('php_missing_format')
+            Unit('php_missing_format'),
+            False
         ))
 
     def test_missing_named_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%1$s string',
             u'string',
             'php-format',
             Language('cs'),
-            Unit('php_missing_named_format')
+            Unit('php_missing_named_format'),
+            False
+        ))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            u'%1$s string',
+            u'string',
+            'php-format',
+            Language('cs'),
+            Unit('php_missing_named_format'),
+            True
         ))
 
     def test_wrong_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%s string',
             u'%c string',
             'php-format',
             Language('cs'),
-            Unit('php_wrong_format')
+            Unit('php_wrong_format'),
+            False
         ))
 
     def test_wrong_named_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%1$s string',
             u'%s string',
             'php-format',
             Language('cs'),
-            Unit('php_wrong_named_format')
+            Unit('php_wrong_named_format'),
+            False
         ))
 
 
@@ -579,66 +614,83 @@ class CFormatCheckTest(TestCase):
         self.check = CFormatCheck()
 
     def test_no_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             'strins',
             'string',
             'c-format',
             Language('cs'),
-            Unit('c_no_format')
+            Unit('c_no_format'),
+            False
         ))
 
     def test_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%s string',
             u'%s string',
             'c-format',
             Language('cs'),
-            Unit('c_format')
+            Unit('c_format'),
+            False
         ))
 
     def test_named_format(self):
-        self.assertFalse(self.check.check_single(
+        self.assertFalse(self.check.check_format(
             u'%10s string',
             u'%10s string',
             'c-format',
             Language('cs'),
-            Unit('c_named_format')
+            Unit('c_named_format'),
+            False
         ))
 
     def test_missing_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%s string',
             u'string',
             'c-format',
             Language('cs'),
-            Unit('c_missing_format')
+            Unit('c_missing_format'),
+            False
         ))
 
     def test_missing_named_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%10s string',
             u'string',
             'c-format',
             Language('cs'),
-            Unit('c_missing_named_format')
+            Unit('c_missing_named_format'),
+            False
+        ))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            u'%10s string',
+            u'string',
+            'c-format',
+            Language('cs'),
+            Unit('c_missing_named_format'),
+            True
         ))
 
     def test_wrong_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%s string',
             u'%c string',
             'c-format',
             Language('cs'),
-            Unit('c_wrong_format')
+            Unit('c_wrong_format'),
+            False
         ))
 
     def test_wrong_named_format(self):
-        self.assertTrue(self.check.check_single(
+        self.assertTrue(self.check.check_format(
             u'%10s string',
             u'%20s string',
             'c-format',
             Language('cs'),
-            Unit('c_wrong_named_format')
+            Unit('c_wrong_named_format'),
+            False
         ))
 
 
