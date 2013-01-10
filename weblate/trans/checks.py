@@ -222,31 +222,6 @@ class Check(object):
             or (src not in chars and tgt in chars)
         )
 
-    def check_format_strings(self, source, target, regex, unit):
-        '''
-        Generic checker for format strings.
-        '''
-        if len(target) == 0 or len(source) == 0:
-            return False
-        # Try geting source parsing from cache
-        src_matches = self.get_cache(unit)
-        # Cache miss
-        if src_matches is None:
-            src_matches = set([x[0] for x in regex.findall(source)])
-            self.set_cache(unit, src_matches)
-        tgt_matches = set([x[0] for x in regex.findall(target)])
-        # We ignore %% as this is really not relevant. However it needs
-        # to be matched to prevent handling %%s as %s.
-        if '%' in src_matches:
-            src_matches.remove('%')
-        if '%' in tgt_matches:
-            tgt_matches.remove('%')
-
-        if src_matches != tgt_matches:
-            return True
-
-        return False
-
     def is_language(self, language, vals):
         '''
         Detects whether language is in given list, ignores language
@@ -528,65 +503,90 @@ class EndEllipsisCheck(TargetCheck):
     def check_single(self, source, target, flags, language, unit):
         return self.check_chars(source, target, -1, [u'…'])
 
-# For now all format string checks use generic implementation, but
-# it should be switched to language specific
+
+class BaseFormatCheck(TargetCheck):
+    '''
+    Base class for fomat string checks.
+    '''
+    flag = None
+    regexp = None
+
+    def check(self, sources, targets, flags, language, unit):
+        '''
+        Checks single unit, handling plurals.
+        '''
+        if not self.flag in flags:
+            return False
+        # Check singular
+        if self.check_single(sources[0], targets[0], flags, language, unit):
+            return True
+        # Do we have more to check?
+        if len(sources) == 1:
+            return False
+        # Check plurals against plural from source
+        for target in targets[1:]:
+            if self.check_single(sources[1], target, flags, language, unit):
+                return True
+        # Check did not fire
+        return False
+
+    def check_single(self, source, target, flags, language, unit):
+        '''
+        Generic checker for format strings.
+        '''
+        if len(target) == 0 or len(source) == 0:
+            return False
+        # Try geting source parsing from cache
+        src_matches = self.get_cache(unit)
+        # Cache miss
+        if src_matches is None:
+            src_matches = set([x[0] for x in self.regexp.findall(source)])
+            self.set_cache(unit, src_matches)
+        tgt_matches = set([x[0] for x in self.regexp.findall(target)])
+        # We ignore %% as this is really not relevant. However it needs
+        # to be matched to prevent handling %%s as %s.
+        if '%' in src_matches:
+            src_matches.remove('%')
+        if '%' in tgt_matches:
+            tgt_matches.remove('%')
+
+        if src_matches != tgt_matches:
+            return True
+
+        return False
 
 
-class PythonFormatCheck(TargetCheck):
+class PythonFormatCheck(BaseFormatCheck):
     '''
     Check for Python format string
     '''
     check_id = 'python_format'
     name = _('Python format')
     description = _('Format string does not match source')
-
-    def check_single(self, source, target, flags, language, unit):
-        if not 'python-format' in flags:
-            return False
-        return self.check_format_strings(
-            source,
-            target,
-            PYTHON_PRINTF_MATCH,
-            unit
-        )
+    flag = 'python-format'
+    regexp = PYTHON_PRINTF_MATCH
 
 
-class PHPFormatCheck(TargetCheck):
+class PHPFormatCheck(BaseFormatCheck):
     '''
     Check for PHP format string
     '''
     check_id = 'php_format'
     name = _('PHP format')
     description = _('Format string does not match source')
-
-    def check_single(self, source, target, flags, language, unit):
-        if not 'php-format' in flags:
-            return False
-        return self.check_format_strings(
-            source,
-            target,
-            PHP_PRINTF_MATCH,
-            unit
-        )
+    flag = 'php-format'
+    regexp = PHP_PRINTF_MATCH
 
 
-class CFormatCheck(TargetCheck):
+class CFormatCheck(BaseFormatCheck):
     '''
     Check for C format string
     '''
     check_id = 'c_format'
     name = _('C format')
     description = _('Format string does not match source')
-
-    def check_single(self, source, target, flags, language, unit):
-        if not 'c-format' in flags:
-            return False
-        return self.check_format_strings(
-            source,
-            target,
-            C_PRINTF_MATCH,
-            unit
-        )
+    flag = 'c-format'
+    regexp = C_PRINTF_MATCH
 
 
 class PluralsCheck(TargetCheck):
