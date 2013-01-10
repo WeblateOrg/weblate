@@ -4,7 +4,11 @@
 
 {% block content %}
 
+<p>{% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}</p>
+
 <p>{% blocktrans %}Please contact us in English, otherwise we might be unable to understand your request.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</p>
 
 <form method="post" action="{% url 'weblate.accounts.views.contact' %}">
 {% csrf_token %}
@@ -15,4 +19,3 @@
 </form>
 
 {% endblock %}
-
