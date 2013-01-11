@@ -1083,7 +1083,9 @@ class SubProject(models.Model):
 
         # Push repo is not used with link
         if self.is_repo_link() and self.push != '':
-            raise ValidationError(_('Push URL is not used when repository is linked!'))
+            raise ValidationError(
+                _('Push URL is not used when repository is linked!')
+            )
 
         try:
             matches = self.get_mask_matches()
@@ -1093,7 +1095,9 @@ class SubProject(models.Model):
             for match in matches:
                 code = self.get_lang_code(match)
                 if code in langs:
-                    raise ValidationError(_('There are more files for single language, please adjust the mask and use subprojects for translating different resources.'))
+                    raise ValidationError(
+                        _('There are more files for single language, please adjust the mask and use subprojects for translating different resources.')
+                    )
                 langs[code] = match
 
             # Try parsing files
