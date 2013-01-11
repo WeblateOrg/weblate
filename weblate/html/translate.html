@@ -117,7 +117,7 @@
 <td id="suggestions">
 <table>
 {% for suggestion in suggestions %}
-<tr><td class="translatetext">{{ suggestion.target|fmttranslation:unit.translation.language }}</td></tr>
+<tr><td class="translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</td></tr>
 <tr><td>
 {% if suggestion.user %}
 {% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
