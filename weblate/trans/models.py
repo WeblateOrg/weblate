@@ -2115,6 +2115,12 @@ class Translation(models.Model):
 
         return ret
 
+    def get_suggestions_count(self):
+        '''
+        Returns number of units with suggestions.
+        '''
+        return self.unit_set.count_type('suggestions', self)
+
     def get_failing_checks(self, check='allchecks'):
         '''
         Returns number of units with failing checks.
