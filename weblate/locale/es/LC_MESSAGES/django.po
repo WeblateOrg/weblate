@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-01-11 14:46+0100\n"
-"PO-Revision-Date: 2013-01-10 14:56+0200\n"
+"PO-Revision-Date: 2013-01-11 16:44+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -812,20 +812,19 @@ msgid "Checks"
 msgstr "Chequeos"
 
 #: html/list-translations.html:11
-#, fuzzy
 #| msgid "Suggestions"
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "Sugerencias"
 
 #: html/list-translations.html:24
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s not translated string."
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
-msgstr[0] "Hay %(count)s cadena sin traducir."
-msgstr[1] "Hay %(count)s cadenas sin traducir."
+msgstr[0] "Hay %(count)s cadena parcial."
+msgstr[1] "Hay %(count)s cadenas parciales."
 
 #: html/list-translations.html:33
 #, python-format
@@ -835,13 +834,13 @@ msgstr[0] "Hay %(count)s chequeo fallido."
 msgstr[1] "Hay %(count)s chequeos fallidos."
 
 #: html/list-translations.html:42
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s not translated string."
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
-msgstr[0] "Hay %(count)s cadena sin traducir."
-msgstr[1] "Hay %(count)s cadenas sin traducir."
+msgstr[0] "Hay %(count)s sugerencia."
+msgstr[1] "Hay %(count)s sugerencias."
 
 #: html/list-translations.html:51
 #, python-format
@@ -3089,7 +3088,7 @@ msgstr "No se pudo cambiar la base sobre la rama remota %s."
 
 #: trans/models.py:1087
 msgid "Push URL is not used when repository is linked!"
-msgstr ""
+msgstr "¡No se utiliza la URL de «Push» cuando se enlaza el repositorio!"
 
 #: trans/models.py:1093
 msgid "The mask did not match any files!"
@@ -3353,6 +3352,9 @@ msgid ""
 "consider becoming translator as your suggestion might stay unreviewed "
 "otherwise."
 msgstr ""
+"Actualmente no hay traductores activos para esta traducción, considere "
+"convertirse en un traductora ya que de lo contrario su sugerencia podría no "
+"ser revisada."
 
 #: trans/views.py:1273
 msgid "You need to log in to be able to save translations!"
