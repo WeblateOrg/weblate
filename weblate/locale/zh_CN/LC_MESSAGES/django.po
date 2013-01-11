@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 11:19+0100\n"
+"POT-Creation-Date: 2013-01-11 14:29+0100\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -198,15 +198,15 @@ msgstr "确定"
 msgid "Cancel"
 msgstr "取消"
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
+#: accounts/i18n.py:55 html/list-translations.html:62 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr "未通过检查的条目"
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
+#: accounts/i18n.py:56 html/list-translations.html:63 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr "模糊条目"
 
-#: accounts/i18n.py:57 html/list-translations.html:41
+#: accounts/i18n.py:57 html/list-translations.html:61
 msgid "Translated strings"
 msgstr "已翻译条目"
 
@@ -789,25 +789,44 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "检查"
 
-#: html/list-translations.html:26
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
+#: html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "建议"
+
+#: html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "还有 %(count)s 个条目未翻译。"
 
-#: html/list-translations.html:26 html/translate.html:24
-msgid "Translate"
-msgstr "翻译"
-
-#: html/list-translations.html:31
+#: html/list-translations.html:33
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "还有 %(count)s 个未通过检查。"
 
-#: html/list-translations.html:31 html/translation.html:86
-msgid "Review"
-msgstr "复查"
+#: html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "还有 %(count)s 个条目未翻译。"
+
+#: html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "还有 %(count)s 个条目未翻译。"
+
+#: html/list-translations.html:51 html/translate.html:24
+msgid "Translate"
+msgstr "翻译"
 
 #: html/profile.html:12
 msgid "Please fix errors in the form."
@@ -1183,6 +1202,10 @@ msgstr ""
 #: html/translation.html:67
 msgid "Uploaded file will be merged with current translation."
 msgstr "已上传的文件将与当前译文合并。"
+
+#: html/translation.html:86
+msgid "Review"
+msgstr "复查"
 
 #: html/translation.html:88
 msgid "Review translations touched by other users."
@@ -2955,120 +2978,124 @@ msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "重设至远程分支 %s 失败。"
 
 #: trans/models.py:1087
+msgid "Push URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models.py:1093
 msgid "The mask did not match any files!"
 msgstr "此掩码不和任何文件匹配！"
 
-#: trans/models.py:1092
+#: trans/models.py:1099
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr "每种语言都有其它文件，请调整掩码并使用子项目翻译不同的源条目。"
 
-#: trans/models.py:1107
+#: trans/models.py:1115
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "无法识别匹配 %d 格式的文件。"
 
-#: trans/models.py:1112
+#: trans/models.py:1120
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "解析 %d 匹配文件失败！"
 
-#: trans/models.py:1122
+#: trans/models.py:1130
 msgid "Format of translation template could not be recognized."
 msgstr "无法识别译文模板的格式。"
 
-#: trans/models.py:1124
+#: trans/models.py:1132
 msgid "Failed to parse translation template."
 msgstr "解析译文模板失败。"
 
-#: trans/models.py:1283
+#: trans/models.py:1291
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr "代码库中找不到 %s 文件！要添加新翻译，请在代码库中添加语言文件。"
 
-#: trans/models.py:1287
+#: trans/models.py:1295
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "无法识别 %s 格式。"
 
-#: trans/models.py:1289
+#: trans/models.py:1297
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "解析文件 %(file)s 失败: %(error)s"
 
-#: trans/models.py:1311
+#: trans/models.py:1319
 #, fuzzy, python-format
 #| msgid ""
 #| "This translation is locked by %(user)s for translation till %(time)s!"
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "此翻译已被 %(user)s 锁定到 %(time)s！"
 
-#: trans/models.py:1966 trans/models.py:1993
+#: trans/models.py:1974 trans/models.py:2001
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models.py:1971 trans/models.py:2013
+#: trans/models.py:1979 trans/models.py:2021
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "未通过检查的条目 (%d)"
 
-#: trans/models.py:1985 trans/models.py:2027
+#: trans/models.py:1993 trans/models.py:2035
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "有注释的条目 (%d)"
 
-#: trans/models.py:1998
+#: trans/models.py:2006
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models.py:2003
+#: trans/models.py:2011
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models.py:2008
+#: trans/models.py:2016
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models.py:2304
+#: trans/models.py:2318
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2310
+#: trans/models.py:2324
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models.py:2426
+#: trans/models.py:2440
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
 
-#: trans/models.py:2751
+#: trans/models.py:2765
 msgid "Resource update"
 msgstr "资源更新"
 
-#: trans/models.py:2752
+#: trans/models.py:2766
 msgid "Translation completed"
 msgstr "完成翻译"
 
-#: trans/models.py:2753
+#: trans/models.py:2767
 msgid "Translation changed"
 msgstr "修改翻译"
 
-#: trans/models.py:2754
+#: trans/models.py:2768
 msgid "Comment added"
 msgstr "添加注释"
 
-#: trans/models.py:2755
+#: trans/models.py:2769
 msgid "Suggestion added"
 msgstr "提出建议"
 
-#: trans/models.py:2771
+#: trans/models.py:2785
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"

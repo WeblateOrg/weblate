@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 11:19+0100\n"
+"POT-Creation-Date: 2013-01-11 14:29+0100\n"
 "PO-Revision-Date: 2013-01-10 11:04+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -200,15 +200,15 @@ msgstr "V redu"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
+#: accounts/i18n.py:55 html/list-translations.html:62 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr "Nizi s katerimkoli spodletelim preverjanjem"
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
+#: accounts/i18n.py:56 html/list-translations.html:63 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr "Neurejeni nizi"
 
-#: accounts/i18n.py:57 html/list-translations.html:41
+#: accounts/i18n.py:57 html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Prevedeni nizi"
 
@@ -812,20 +812,25 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Preverjanj"
 
-#: html/list-translations.html:26
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
+#: html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Predlogi"
+
+#: html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Tukaj je %(count)s nepreveden niz."
 msgstr[1] "Tukaj je %(count)s neprevedena niza."
 msgstr[2] "Tukaj je %(count)s neprevedeni nizi."
 msgstr[3] "Tukaj je %(count)s neprevedenih nizov."
 
-#: html/list-translations.html:26 html/translate.html:24
-msgid "Translate"
-msgstr "Prevedi"
-
-#: html/list-translations.html:31
+#: html/list-translations.html:33
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
@@ -834,9 +839,29 @@ msgstr[1] "Tukaj je %(count)s spodleteli preverjanji."
 msgstr[2] "Tukaj je %(count)s spodletela preverjanja."
 msgstr[3] "Tukaj je %(count)s spodletelih preverjanj."
 
-#: html/list-translations.html:31 html/translation.html:86
-msgid "Review"
-msgstr "Preglej"
+#: html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "Tukaj je %(count)s nepreveden niz."
+msgstr[1] "Tukaj je %(count)s neprevedena niza."
+msgstr[2] "Tukaj je %(count)s neprevedeni nizi."
+msgstr[3] "Tukaj je %(count)s neprevedenih nizov."
+
+#: html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "Tukaj je %(count)s nepreveden niz."
+msgstr[1] "Tukaj je %(count)s neprevedena niza."
+msgstr[2] "Tukaj je %(count)s neprevedeni nizi."
+msgstr[3] "Tukaj je %(count)s neprevedenih nizov."
+
+#: html/list-translations.html:51 html/translate.html:24
+msgid "Translate"
+msgstr "Prevedi"
 
 #: html/profile.html:12
 msgid "Please fix errors in the form."
@@ -1219,6 +1244,10 @@ msgstr ""
 #: html/translation.html:67
 msgid "Uploaded file will be merged with current translation."
 msgstr "Naloženo datoteko bomo združili s trenutnim prevodom."
+
+#: html/translation.html:86
+msgid "Review"
+msgstr "Preglej"
 
 #: html/translation.html:88
 msgid "Review translations touched by other users."
@@ -3060,10 +3089,14 @@ msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
 #: trans/models.py:1087
+msgid "Push URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models.py:1093
 msgid "The mask did not match any files!"
 msgstr "Maska se ne ujema z nobeno datoteko!"
 
-#: trans/models.py:1092
+#: trans/models.py:1099
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3071,25 +3104,25 @@ msgstr ""
 "Za posamezen jezik obstaja več datotek; prosimo, prilagodite masko in "
 "uporabite podprojekte za prevajanje različnih virov."
 
-#: trans/models.py:1107
+#: trans/models.py:1115
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Oblike %d ujemajočih datotek nisem mogel prepoznati."
 
-#: trans/models.py:1112
+#: trans/models.py:1120
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
-#: trans/models.py:1122
+#: trans/models.py:1130
 msgid "Format of translation template could not be recognized."
 msgstr "Oblike predloge prevoda ni mogoče prepoznati."
 
-#: trans/models.py:1124
+#: trans/models.py:1132
 msgid "Failed to parse translation template."
 msgstr "Razčlenjevanje predloge prevoda ni uspelo."
 
-#: trans/models.py:1283
+#: trans/models.py:1291
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3098,84 +3131,84 @@ msgstr ""
 "V shrambi nisem našel datoteke z imenom %s! Da dodate nov prevod, v shrambo "
 "dodajte datoteko jezika."
 
-#: trans/models.py:1287
+#: trans/models.py:1295
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Oblike %s ne morem prepoznati."
 
-#: trans/models.py:1289
+#: trans/models.py:1297
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
 
-#: trans/models.py:1311
+#: trans/models.py:1319
 #, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "Ta prevod je %(user)s zaklenil zaradi prevajanja!"
 
-#: trans/models.py:1966 trans/models.py:1993
+#: trans/models.py:1974 trans/models.py:2001
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models.py:1971 trans/models.py:2013
+#: trans/models.py:1979 trans/models.py:2021
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Nizi s katerimkoli spodletelim preverjanjem (%d)"
 
-#: trans/models.py:1985 trans/models.py:2027
+#: trans/models.py:1993 trans/models.py:2035
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Nizi s pripombami (%d)"
 
-#: trans/models.py:1998
+#: trans/models.py:2006
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models.py:2003
+#: trans/models.py:2011
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models.py:2008
+#: trans/models.py:2016
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
 
-#: trans/models.py:2304
+#: trans/models.py:2318
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Ni bilo mogoče shraniti sporočila v zaledje, zaklep je potekel!"
 
-#: trans/models.py:2310
+#: trans/models.py:2324
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Sporočila nisem našel v zaledni shrambi; najverjetneje je pokvarjeno."
 
-#: trans/models.py:2426
+#: trans/models.py:2440
 #, python-format
 msgid "unit ID %s"
 msgstr "ID enote %s"
 
-#: trans/models.py:2751
+#: trans/models.py:2765
 msgid "Resource update"
 msgstr "Posodobitev vira"
 
-#: trans/models.py:2752
+#: trans/models.py:2766
 msgid "Translation completed"
 msgstr "Dokončanje prevoda"
 
-#: trans/models.py:2753
+#: trans/models.py:2767
 msgid "Translation changed"
 msgstr "Sprememba prevoda"
 
-#: trans/models.py:2754
+#: trans/models.py:2768
 msgid "Comment added"
 msgstr "Dodan komentar"
 
-#: trans/models.py:2755
+#: trans/models.py:2769
 msgid "Suggestion added"
 msgstr "Podan predlog"
 
-#: trans/models.py:2771
+#: trans/models.py:2785
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s je ob %(time)s %(action)s na %(translation)s"

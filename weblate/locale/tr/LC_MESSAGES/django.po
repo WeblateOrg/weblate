@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 11:19+0100\n"
+"POT-Creation-Date: 2013-01-11 14:29+0100\n"
 "PO-Revision-Date: 2013-01-10 12:24+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -201,15 +201,15 @@ msgstr "Tamam"
 msgid "Cancel"
 msgstr "İptal"
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
+#: accounts/i18n.py:55 html/list-translations.html:62 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr "Herhangi bir başarısız kontrolü olan satır"
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
+#: accounts/i18n.py:56 html/list-translations.html:63 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
 
-#: accounts/i18n.py:57 html/list-translations.html:41
+#: accounts/i18n.py:57 html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Çevrilmiş satır"
 
@@ -299,11 +299,6 @@ msgid "About Weblate"
 msgstr "Weblate hakkında"
 
 #: html/about.html:9
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across subprojects, consistency checks and automatic linking to source "
-#| "files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -817,25 +812,44 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Kontrol"
 
-#: html/list-translations.html:26
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
+#: html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Öneriler"
+
+#: html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "%(count)s çevrilmemiş satır var."
 
-#: html/list-translations.html:26 html/translate.html:24
-msgid "Translate"
-msgstr "Çevir"
-
-#: html/list-translations.html:31
+#: html/list-translations.html:33
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "%(count)s başarısız kontrolü var."
 
-#: html/list-translations.html:31 html/translation.html:86
-msgid "Review"
-msgstr "Gözden geçir"
+#: html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "%(count)s çevrilmemiş satır var."
+
+#: html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "%(count)s çevrilmemiş satır var."
+
+#: html/list-translations.html:51 html/translate.html:24
+msgid "Translate"
+msgstr "Çevir"
 
 #: html/profile.html:12
 msgid "Please fix errors in the form."
@@ -1221,6 +1235,10 @@ msgstr ""
 #: html/translation.html:67
 msgid "Uploaded file will be merged with current translation."
 msgstr "Gönderilen dosya şu anki çeviri ile birleştirilecektir."
+
+#: html/translation.html:86
+msgid "Review"
+msgstr "Gözden geçir"
 
 #: html/translation.html:88
 msgid "Review translations touched by other users."
@@ -2756,7 +2774,6 @@ msgid "Query"
 msgstr "Sorgu"
 
 #: trans/forms.py:178
-#| msgid "Search"
 msgid "Search type"
 msgstr "Arama türü"
 
@@ -2769,7 +2786,6 @@ msgid "Exact match"
 msgstr "Tam eşleşme"
 
 #: trans/forms.py:183
-#| msgid "Source string:"
 msgid "Substring"
 msgstr "Alt satır"
 
@@ -3050,10 +3066,14 @@ msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
 #: trans/models.py:1087
+msgid "Push URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models.py:1093
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models.py:1092
+#: trans/models.py:1099
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3061,25 +3081,25 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models.py:1107
+#: trans/models.py:1115
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:1112
+#: trans/models.py:1120
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:1122
+#: trans/models.py:1130
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models.py:1124
+#: trans/models.py:1132
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:1283
+#: trans/models.py:1291
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3088,85 +3108,85 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models.py:1287
+#: trans/models.py:1295
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models.py:1289
+#: trans/models.py:1297
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1311
+#: trans/models.py:1319
 #, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "Bu çeviri %(user)s tarafından çeviri için kilitli!"
 
-#: trans/models.py:1966 trans/models.py:1993
+#: trans/models.py:1974 trans/models.py:2001
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:1971 trans/models.py:2013
+#: trans/models.py:1979 trans/models.py:2021
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:1985 trans/models.py:2027
+#: trans/models.py:1993 trans/models.py:2035
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models.py:1998
+#: trans/models.py:2006
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:2003
+#: trans/models.py:2011
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:2008
+#: trans/models.py:2016
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:2304
+#: trans/models.py:2318
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models.py:2310
+#: trans/models.py:2324
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2426
+#: trans/models.py:2440
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
 
-#: trans/models.py:2751
+#: trans/models.py:2765
 msgid "Resource update"
 msgstr "Kaynak Güncellemesi"
 
-#: trans/models.py:2752
+#: trans/models.py:2766
 msgid "Translation completed"
 msgstr "Çeviri Tamamlandı"
 
-#: trans/models.py:2753
+#: trans/models.py:2767
 msgid "Translation changed"
 msgstr "Çeviri Değiştirildi"
 
-#: trans/models.py:2754
+#: trans/models.py:2768
 msgid "Comment added"
 msgstr "Yorum Eklendi"
 
-#: trans/models.py:2755
+#: trans/models.py:2769
 msgid "Suggestion added"
 msgstr "Öneri Eklendi"
 
-#: trans/models.py:2771
+#: trans/models.py:2785
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -3417,24 +3437,18 @@ msgstr "%s için avatar"
 
 #: trans/templatetags/translations.py:258
 #, python-format
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s yıl önce"
 
 #: trans/templatetags/translations.py:263
 #, python-format
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s ay önce"
 
 #: trans/templatetags/translations.py:268
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s hafta önce"
@@ -3470,24 +3484,18 @@ msgstr[0] "%(count)s saat önce"
 
 #: trans/templatetags/translations.py:295
 #, python-format
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "şu andan %(count)s yıl sonra"
 
 #: trans/templatetags/translations.py:300
 #, python-format
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "şu andan %(count)s ay sonra"
 
 #: trans/templatetags/translations.py:305
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "şu andan %(count)s hafta sonra"

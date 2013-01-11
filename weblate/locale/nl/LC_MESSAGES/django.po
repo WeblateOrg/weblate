@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 11:19+0100\n"
+"POT-Creation-Date: 2013-01-11 14:29+0100\n"
 "PO-Revision-Date: 2012-12-19 16:36+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -202,15 +202,15 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
+#: accounts/i18n.py:55 html/list-translations.html:62 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr "Tekenreeksen met gefaalde controles"
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
+#: accounts/i18n.py:56 html/list-translations.html:63 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr "Vage tekenreeksen"
 
-#: accounts/i18n.py:57 html/list-translations.html:41
+#: accounts/i18n.py:57 html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Vertaalde tekenreeksen"
 
@@ -819,27 +819,48 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Aantal gefaalde controles"
 
-#: html/list-translations.html:26
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
+#: html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Voorstellen"
+
+#: html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Er is %(count)s niet vertaalde tekenreeks."
 msgstr[1] "Er zijn %(count)s niet vertaalde tekenreeksen."
 
-#: html/list-translations.html:26 html/translate.html:24
-msgid "Translate"
-msgstr "Vertaal"
-
-#: html/list-translations.html:31
+#: html/list-translations.html:33
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "Er is %(count)s falende controle."
 msgstr[1] "Er zijn %(count)s falende controles."
 
-#: html/list-translations.html:31 html/translation.html:86
-msgid "Review"
-msgstr "Nakijken"
+#: html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "Er is %(count)s niet vertaalde tekenreeks."
+msgstr[1] "Er zijn %(count)s niet vertaalde tekenreeksen."
+
+#: html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "Er is %(count)s niet vertaalde tekenreeks."
+msgstr[1] "Er zijn %(count)s niet vertaalde tekenreeksen."
+
+#: html/list-translations.html:51 html/translate.html:24
+msgid "Translate"
+msgstr "Vertaal"
 
 #: html/profile.html:12
 msgid "Please fix errors in the form."
@@ -1222,6 +1243,10 @@ msgstr ""
 msgid "Uploaded file will be merged with current translation."
 msgstr ""
 "Het upgeloade bestand zal samengevoegd worden met de huidige vertaling."
+
+#: html/translation.html:86
+msgid "Review"
+msgstr "Nakijken"
 
 #: html/translation.html:88
 msgid "Review translations touched by other users."
@@ -3046,123 +3071,127 @@ msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
 #: trans/models.py:1087
+msgid "Push URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models.py:1093
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models.py:1092
+#: trans/models.py:1099
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:1107
+#: trans/models.py:1115
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:1112
+#: trans/models.py:1120
 #, fuzzy, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Het formulier kon niet verwerkt worden!"
 
-#: trans/models.py:1122
+#: trans/models.py:1130
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:1124
+#: trans/models.py:1132
 #, fuzzy
 msgid "Failed to parse translation template."
 msgstr "Vertaling mislukt"
 
-#: trans/models.py:1283
+#: trans/models.py:1291
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:1287
+#: trans/models.py:1295
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:1289
+#: trans/models.py:1297
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Het formulier kon niet verwerkt worden!"
 
-#: trans/models.py:1311
+#: trans/models.py:1319
 #, fuzzy, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "Automatische vertaling"
 
-#: trans/models.py:1966 trans/models.py:1993
+#: trans/models.py:1974 trans/models.py:2001
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: trans/models.py:1971 trans/models.py:2013
+#: trans/models.py:1979 trans/models.py:2021
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:1985 trans/models.py:2027
+#: trans/models.py:1993 trans/models.py:2035
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:1998
+#: trans/models.py:2006
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Niet vertaalde tekenreeksen (%d)"
 
-#: trans/models.py:2003
+#: trans/models.py:2011
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Vage tekenreeksen (%d)"
 
-#: trans/models.py:2008
+#: trans/models.py:2016
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:2304
+#: trans/models.py:2318
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2310
+#: trans/models.py:2324
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2426
+#: trans/models.py:2440
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:2751
+#: trans/models.py:2765
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2752
+#: trans/models.py:2766
 #, fuzzy
 msgid "Translation completed"
 msgstr "Vertaalcontext"
 
-#: trans/models.py:2753
+#: trans/models.py:2767
 #, fuzzy
 msgid "Translation changed"
 msgstr "Vertaalcontext"
 
-#: trans/models.py:2754
+#: trans/models.py:2768
 #, fuzzy
 msgid "Comment added"
 msgstr "Opmerkingen"
 
-#: trans/models.py:2755
+#: trans/models.py:2769
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Gedane voorstellen"
 
-#: trans/models.py:2771
+#: trans/models.py:2785
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 11:19+0100\n"
+"POT-Creation-Date: 2013-01-11 14:29+0100\n"
 "PO-Revision-Date: 2012-12-13 12:57+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -201,15 +201,15 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
+#: accounts/i18n.py:55 html/list-translations.html:62 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications échouées"
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
+#: accounts/i18n.py:56 html/list-translations.html:63 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr "Chaînes floues"
 
-#: accounts/i18n.py:57 html/list-translations.html:41
+#: accounts/i18n.py:57 html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Chaînes traduites"
 
@@ -823,27 +823,48 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Vérifications"
 
-#: html/list-translations.html:26
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
+#: html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Suggestions"
+
+#: html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Il y a %(count)s chaîne non traduite."
 msgstr[1] "Il y a %(count)s chaînes non traduites."
 
-#: html/list-translations.html:26 html/translate.html:24
-msgid "Translate"
-msgstr "Traduire"
-
-#: html/list-translations.html:31
+#: html/list-translations.html:33
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "Il y a %(count)s vérification échouée."
 msgstr[1] "Il y a %(count)s vérifications échouées."
 
-#: html/list-translations.html:31 html/translation.html:86
-msgid "Review"
-msgstr "Revue"
+#: html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "Il y a %(count)s chaîne non traduite."
+msgstr[1] "Il y a %(count)s chaînes non traduites."
+
+#: html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "Il y a %(count)s chaîne non traduite."
+msgstr[1] "Il y a %(count)s chaînes non traduites."
+
+#: html/list-translations.html:51 html/translate.html:24
+msgid "Translate"
+msgstr "Traduire"
 
 #: html/profile.html:12
 msgid "Please fix errors in the form."
@@ -1233,6 +1254,10 @@ msgstr ""
 #: html/translation.html:67
 msgid "Uploaded file will be merged with current translation."
 msgstr "Le fichier téléversé sera fusionné avec la traduction courante."
+
+#: html/translation.html:86
+msgid "Review"
+msgstr "Revue"
 
 #: html/translation.html:88
 msgid "Review translations touched by other users."
@@ -3105,10 +3130,14 @@ msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Échec de la refonte de notre branche sur la branche distance %s."
 
 #: trans/models.py:1087
+msgid "Push URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models.py:1093
 msgid "The mask did not match any files!"
 msgstr "Le masque ne correspond à aucun fichier !"
 
-#: trans/models.py:1092
+#: trans/models.py:1099
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3116,25 +3145,25 @@ msgstr ""
 "Il y a plusieurs fichiers pour un même langage, veuillez ajuster le masque "
 "et utiliser des sous-projets pour traduire différentes ressources."
 
-#: trans/models.py:1107
+#: trans/models.py:1115
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Le format de %d fichiers correspondants n'a pu être reconnu."
 
-#: trans/models.py:1112
+#: trans/models.py:1120
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Échec d'analyse de %d fichiers correspondants !"
 
-#: trans/models.py:1122
+#: trans/models.py:1130
 msgid "Format of translation template could not be recognized."
 msgstr "Le format du modèle de traduction n'a pu être reconnu."
 
-#: trans/models.py:1124
+#: trans/models.py:1132
 msgid "Failed to parse translation template."
 msgstr "Échec d'analyse du modèle de traduction."
 
-#: trans/models.py:1283
+#: trans/models.py:1291
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3143,89 +3172,89 @@ msgstr ""
 "Le fichier %s n'a pas été trouvé dans le dépôt ! Pour ajouter de nouvelles "
 "traductions, ajoutez un fichier de langue dans le dépôt."
 
-#: trans/models.py:1287
+#: trans/models.py:1295
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Le format de %s n'est pas reconnu."
 
-#: trans/models.py:1289
+#: trans/models.py:1297
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 
-#: trans/models.py:1311
+#: trans/models.py:1319
 #, fuzzy, python-format
 #| msgid ""
 #| "This translation is locked by %(user)s for translation till %(time)s!"
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "Cette traduction est verrouillée par %(user)s jusqu'à %(time)s !"
 
-#: trans/models.py:1966 trans/models.py:1993
+#: trans/models.py:1974 trans/models.py:2001
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models.py:1971 trans/models.py:2013
+#: trans/models.py:1979 trans/models.py:2021
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Chaînes ayant au moins une vérification en échec (%d)"
 
-#: trans/models.py:1985 trans/models.py:2027
+#: trans/models.py:1993 trans/models.py:2035
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Chaînes avec commentaires (%d)"
 
-#: trans/models.py:1998
+#: trans/models.py:2006
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models.py:2003
+#: trans/models.py:2011
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models.py:2008
+#: trans/models.py:2016
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
 
-#: trans/models.py:2304
+#: trans/models.py:2318
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Impossible de stocker le message dans la base de données, un verrou a "
 "expiré !"
 
-#: trans/models.py:2310
+#: trans/models.py:2324
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Le message n'a pas été trouvé dans le stock, il est probablement corrompu."
 
-#: trans/models.py:2426
+#: trans/models.py:2440
 #, python-format
 msgid "unit ID %s"
 msgstr "identification d'unité %s"
 
-#: trans/models.py:2751
+#: trans/models.py:2765
 msgid "Resource update"
 msgstr "Mise à jour de la ressource"
 
-#: trans/models.py:2752
+#: trans/models.py:2766
 msgid "Translation completed"
 msgstr "Traduction complétée"
 
-#: trans/models.py:2753
+#: trans/models.py:2767
 msgid "Translation changed"
 msgstr "Traduction modifiée"
 
-#: trans/models.py:2754
+#: trans/models.py:2768
 msgid "Comment added"
 msgstr "Commentaire ajouté"
 
-#: trans/models.py:2755
+#: trans/models.py:2769
 msgid "Suggestion added"
 msgstr "Suggestion ajoutée"
 
-#: trans/models.py:2771
+#: trans/models.py:2785
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"

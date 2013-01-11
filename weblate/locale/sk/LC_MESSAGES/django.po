@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-10 11:19+0100\n"
+"POT-Creation-Date: 2013-01-11 14:29+0100\n"
 "PO-Revision-Date: 2012-11-15 13:30+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
@@ -197,15 +197,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/i18n.py:55 html/list-translations.html:42 trans/views.py:1165
+#: accounts/i18n.py:55 html/list-translations.html:62 trans/views.py:1165
 msgid "Strings with any failing checks"
 msgstr ""
 
-#: accounts/i18n.py:56 html/list-translations.html:43 trans/views.py:1159
+#: accounts/i18n.py:56 html/list-translations.html:63 trans/views.py:1159
 msgid "Fuzzy strings"
 msgstr ""
 
-#: accounts/i18n.py:57 html/list-translations.html:41
+#: accounts/i18n.py:57 html/list-translations.html:61
 msgid "Translated strings"
 msgstr ""
 
@@ -766,26 +766,43 @@ msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr ""
 
-#: html/list-translations.html:26
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
-msgstr[0] ""
-msgstr[1] ""
-
-#: html/list-translations.html:26 html/translate.html:24
-msgid "Translate"
+#: html/list-translations.html:11
+msgctxt "Number of suggestions"
+msgid "Suggestions"
 msgstr ""
 
-#: html/list-translations.html:31
+#: html/list-translations.html:24
+#, python-format
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: html/list-translations.html:33
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] ""
 msgstr[1] ""
 
-#: html/list-translations.html:31 html/translation.html:86
-msgid "Review"
+#: html/list-translations.html:42
+#, python-format
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] ""
+msgstr[1] ""
+
+#: html/list-translations.html:51 html/translate.html:24
+msgid "Translate"
 msgstr ""
 
 #: html/profile.html:12
@@ -1153,6 +1170,10 @@ msgstr ""
 
 #: html/translation.html:67
 msgid "Uploaded file will be merged with current translation."
+msgstr ""
+
+#: html/translation.html:86
+msgid "Review"
 msgstr ""
 
 #: html/translation.html:88
@@ -2869,118 +2890,122 @@ msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
 #: trans/models.py:1087
+msgid "Push URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models.py:1093
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:1092
+#: trans/models.py:1099
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:1107
+#: trans/models.py:1115
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:1112
+#: trans/models.py:1120
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:1122
+#: trans/models.py:1130
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:1124
+#: trans/models.py:1132
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:1283
+#: trans/models.py:1291
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:1287
+#: trans/models.py:1295
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:1289
+#: trans/models.py:1297
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1311
+#: trans/models.py:1319
 #, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr ""
 
-#: trans/models.py:1966 trans/models.py:1993
+#: trans/models.py:1974 trans/models.py:2001
 msgid "All strings"
 msgstr ""
 
-#: trans/models.py:1971 trans/models.py:2013
+#: trans/models.py:1979 trans/models.py:2021
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr ""
 
-#: trans/models.py:1985 trans/models.py:2027
+#: trans/models.py:1993 trans/models.py:2035
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr ""
 
-#: trans/models.py:1998
+#: trans/models.py:2006
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr ""
 
-#: trans/models.py:2003
+#: trans/models.py:2011
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models.py:2008
+#: trans/models.py:2016
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/models.py:2304
+#: trans/models.py:2318
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2310
+#: trans/models.py:2324
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2426
+#: trans/models.py:2440
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:2751
+#: trans/models.py:2765
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2752
+#: trans/models.py:2766
 msgid "Translation completed"
 msgstr ""
 
-#: trans/models.py:2753
+#: trans/models.py:2767
 msgid "Translation changed"
 msgstr ""
 
-#: trans/models.py:2754
+#: trans/models.py:2768
 msgid "Comment added"
 msgstr ""
 
-#: trans/models.py:2755
+#: trans/models.py:2769
 msgid "Suggestion added"
 msgstr ""
 
-#: trans/models.py:2771
+#: trans/models.py:2785
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
