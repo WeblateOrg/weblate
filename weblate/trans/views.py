@@ -1250,6 +1250,16 @@ def translate(request, project, subproject, lang):
                     )
                     # Invalidate counts cache
                     unit.translation.invalidate_cache('suggestions')
+                    # Invite user to become translator if there is nobody else
+                    recent_changes = Change.objects.filter(
+                        action=Change.ACTION_CHANGE,
+                        translation=unit.translation,
+                    ).exclude(user=None).order_by('-timestamp')
+                    if recent_changes.count() == 0 or True:
+                        messages.info(
+                            request,
+                            _('There is currently no active translator for this translation, please consider becoming translator as your suggestion might stay unreviewed otherwise.')
+                        )
                     # Notify subscribed users
                     subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language, request.user)
                     for subscription in subscriptions:
