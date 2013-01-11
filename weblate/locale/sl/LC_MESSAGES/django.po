@@ -7,16 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-11 14:29+0100\n"
+"POT-Creation-Date: 2013-01-11 14:46+0100\n"
 "PO-Revision-Date: 2013-01-11 14:37+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
 #: urls.py:222 urls.py:229 urls.py:236 urls.py:243
@@ -292,16 +293,11 @@ msgstr ""
 "Strežnik je med obdelavo vaše zahteve naletel na resne težave. Pravkar smo "
 "odposlali naše izurjene opice, da odpravijo napako."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1800
+#: html/about.html:7 html/footer.html:6 trans/views.py:1810
 msgid "About Weblate"
 msgstr "O Weblate"
 
 #: html/about.html:9
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across subprojects, consistency checks and automatic linking to source "
-#| "files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -811,15 +807,12 @@ msgid "Checks"
 msgstr "Preverjanj"
 
 #: html/list-translations.html:11
-#| msgid "Suggestions"
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "Predlogi"
 
 #: html/list-translations.html:24
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Tukaj je %(count)s neurejen niz."
@@ -838,8 +831,6 @@ msgstr[3] "Tukaj je %(count)s spodletelih preverjanj."
 
 #: html/list-translations.html:42
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "Tukaj je %(count)s predlog."
@@ -3236,7 +3227,7 @@ msgstr "V datoteki nisem našel nobene besede za uvoz."
 msgid "Imported %d words from file."
 msgstr "Iz datoteke sem uvozil %d besed."
 
-#: trans/views.py:397 trans/views.py:1725
+#: trans/views.py:397 trans/views.py:1735
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Združitev vsebine datoteke je spodletelo: %s"
@@ -3339,63 +3330,70 @@ msgstr "Nizi s predlogi"
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views.py:1263
+#: trans/views.py:1261
+msgid ""
+"There is currently no active translator for this translation, please "
+"consider becoming translator as your suggestion might stay unreviewed "
+"otherwise."
+msgstr ""
+
+#: trans/views.py:1273
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views.py:1266 trans/views.py:1307
+#: trans/views.py:1276 trans/views.py:1317
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views.py:1283
+#: trans/views.py:1293
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views.py:1301 trans/views.py:1341
+#: trans/views.py:1311 trans/views.py:1351
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
 
-#: trans/views.py:1322
+#: trans/views.py:1332
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različnih sporočil!"
 
-#: trans/views.py:1347
+#: trans/views.py:1357
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views.py:1358
+#: trans/views.py:1368
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views.py:1368
+#: trans/views.py:1378
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views.py:1392
+#: trans/views.py:1402
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views.py:1461
+#: trans/views.py:1471
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views.py:1557
+#: trans/views.py:1567
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views.py:1576
+#: trans/views.py:1586
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 
-#: trans/views.py:1721
+#: trans/views.py:1731
 msgid "File content successfully merged into translation."
 msgstr "Vsebino datoteke sem uspešno združil s prevodom."
 
-#: trans/views.py:1723
+#: trans/views.py:1733
 msgid "There were no new strings in uploaded file."
 msgstr "V naloženi datoteki ni bilo novih nizov."
 
-#: trans/views.py:1738
+#: trans/views.py:1748
 msgid "Page Not Found"
 msgstr "Strani ni mogoče najti"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-11 14:29+0100\n"
+"POT-Creation-Date: 2013-01-11 14:46+0100\n"
 "PO-Revision-Date: 2013-01-11 14:42+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -294,7 +294,7 @@ msgstr ""
 "Sunucunun isteğinizi yerine getirirken ciddi sorunları oldu. Bu sorunu "
 "çözmesi için eğitimli afacanlarımızı şimdi gönderdik."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1800
+#: html/about.html:7 html/footer.html:6 trans/views.py:1810
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -813,15 +813,12 @@ msgid "Checks"
 msgstr "Kontrol"
 
 #: html/list-translations.html:11
-#| msgid "Suggestions"
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "Öneri"
 
 #: html/list-translations.html:24
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "%(count)s belirsiz satır var."
@@ -834,8 +831,6 @@ msgstr[0] "%(count)s başarısız kontrolü var."
 
 #: html/list-translations.html:42
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "%(count)s öneri var."
@@ -3218,7 +3213,7 @@ msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 msgid "Imported %d words from file."
 msgstr "Dosyadan %d kelime içe aktarıldı."
 
-#: trans/views.py:397 trans/views.py:1725
+#: trans/views.py:397 trans/views.py:1735
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
@@ -3321,63 +3316,70 @@ msgstr "Önerileri olan satır"
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views.py:1263
+#: trans/views.py:1261
+msgid ""
+"There is currently no active translator for this translation, please "
+"consider becoming translator as your suggestion might stay unreviewed "
+"otherwise."
+msgstr ""
+
+#: trans/views.py:1273
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:1266 trans/views.py:1307
+#: trans/views.py:1276 trans/views.py:1317
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views.py:1283
+#: trans/views.py:1293
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views.py:1301 trans/views.py:1341
+#: trans/views.py:1311 trans/views.py:1351
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views.py:1322
+#: trans/views.py:1332
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views.py:1347
+#: trans/views.py:1357
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views.py:1358
+#: trans/views.py:1368
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views.py:1368
+#: trans/views.py:1378
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views.py:1392
+#: trans/views.py:1402
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views.py:1461
+#: trans/views.py:1471
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views.py:1557
+#: trans/views.py:1567
 msgid "Posted new comment"
 msgstr "Gönderilen yeni yorum"
 
-#: trans/views.py:1576
+#: trans/views.py:1586
 msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
-#: trans/views.py:1721
+#: trans/views.py:1731
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views.py:1723
+#: trans/views.py:1733
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views.py:1738
+#: trans/views.py:1748
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
