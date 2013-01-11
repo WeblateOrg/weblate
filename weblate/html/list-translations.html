@@ -21,7 +21,7 @@
 <td class="percent">{{ percent }}%</td>
 <td class="percent">
 {% if fuzzy > 0 %}
-<a href="{{ trans.get_translate_url }}?type=fuzzy" title="{% blocktrans count fuzzy as count %}There is {{ count }} fuzzy string.{% plural %}There are {{ count }} fuzzy strings.{% endblocktrans %}">
+<a href="{{ trans.get_translate_url }}?type=fuzzy" title="{% blocktrans count trans.fuzzy as count %}There is {{ count }} fuzzy string.{% plural %}There are {{ count }} fuzzy strings.{% endblocktrans %}">
 {{ fuzzy }}%
 </a>
 {% else %}
