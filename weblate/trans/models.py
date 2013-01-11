@@ -1081,6 +1081,10 @@ class SubProject(models.Model):
         # Validate git repo
         self.sync_git_repo(True)
 
+        # Push repo is not used with link
+        if self.is_repo_link() and self.push != '':
+            raise ValidationError(_('Push URL is not used when repository is linked!'))
+
         try:
             matches = self.get_mask_matches()
             if len(matches) == 0:
