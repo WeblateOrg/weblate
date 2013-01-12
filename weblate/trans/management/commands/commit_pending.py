@@ -66,5 +66,6 @@ class Command(WeblateCommand):
                 if last_change > age:
                     continue
 
-                print 'Committing %s' % translation
+                if int(options['verbosity']) >= 1:
+                    print 'Committing %s' % translation
                 translation.commit_pending()
