@@ -302,6 +302,9 @@ fulfilled:
 * translation for a language is completed
 * explicit commit is requested
 
+You can also additionally set a cron job to commit pending changes after some
+delay, see :djadmin:`commit_pending`.
+
 .. _fulltext:
 
 Fulltext search

@@ -25,6 +25,23 @@ Commits any possible pending changes to  backend git repository.
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
 
+commit_pending <project|project/subproject>
+-------------------------------------------
+
+.. django-admin:: commit_pending
+
+Commits pending changes older than given age (using ``--age`` parameter,
+defaults to 24 hours).
+
+You can either define which project or subproject to update (eg.
+``weblate/master``) or use ``--all`` to update all existing subprojects.
+
+This is most useful if executed periodically from cron or similar tool:
+
+.. code-block:: sh
+
+    ./manage.py commit_pending --all --age=48
+
 cleanuptrans
 ------------
 
