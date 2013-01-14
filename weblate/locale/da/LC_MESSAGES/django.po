@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-11 14:46+0100\n"
+"POT-Creation-Date: 2013-01-14 15:20+0100\n"
 "PO-Revision-Date: 2012-11-30 00:36+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -213,47 +213,47 @@ msgstr "Uklare strenge"
 msgid "Translated strings"
 msgstr "Oversatte strenge"
 
-#: accounts/models.py:140
+#: accounts/models.py:141
 msgid "Interface Language"
 msgstr "Sprog for brugerflade"
 
-#: accounts/models.py:146 html/index.html:21 trans/views.py:278
+#: accounts/models.py:147 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "Sprog"
 
-#: accounts/models.py:151
+#: accounts/models.py:152
 msgid "Secondary languages"
 msgstr "Sekundære sprog"
 
-#: accounts/models.py:160
+#: accounts/models.py:161
 msgid "Subscribed projects"
 msgstr "Abonnerede projekter"
 
-#: accounts/models.py:164
+#: accounts/models.py:165
 msgid "Notification on any translation"
 msgstr "Notifikation ved enhver oversættelse"
 
-#: accounts/models.py:168
+#: accounts/models.py:169
 msgid "Notification on new string to translate"
 msgstr "Notifikation ved ny streng som kan oversættes"
 
-#: accounts/models.py:172
+#: accounts/models.py:173
 msgid "Notification on new suggestion"
 msgstr "Notifikation ved nye forslag"
 
-#: accounts/models.py:176
+#: accounts/models.py:177
 msgid "Notification on new contributor"
 msgstr "Notifikation ved ny bidragyder"
 
-#: accounts/models.py:180
+#: accounts/models.py:181
 msgid "Notification on new comment"
 msgstr "Notifikation ved ny kommentar"
 
-#: accounts/models.py:184
+#: accounts/models.py:185
 msgid "Notification on merge failure"
 msgstr "Notifikation ved flette-fejl"
 
-#: accounts/models.py:298
+#: accounts/models.py:303
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Din profil er blevet overført, du kan evt. tilpasse præferencer."
 
@@ -296,7 +296,7 @@ msgstr ""
 "Serveren havde alvorlige problemer, mens din forespørgsel blev behandlet. Vi "
 "har netop sendt trænede aber til at rette fejlen."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1810
+#: html/about.html:7 html/footer.html:6 trans/views.py:1811
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -1553,41 +1553,48 @@ msgstr "Der blev ikke fundet andre strenge."
 msgid "No similar strings found."
 msgstr "Der blev ikke fundet lignende strenge."
 
-#: html/mail/any_translation.txt:1
-#, python-format
+#: html/mail/changed_translation.txt:1
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
 "Hi,\n"
 "\n"
-"there has been new translation on %(translation)s at %(site_title)s.\n"
+"there has been change in translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
 "Hej,\n"
 "\n"
 "der er foretaget en ny oversættelse af %(translation)s på %(site_title)s.\n"
 
-#: html/mail/any_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6
+#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
 msgid "Source string:"
 msgstr "Kildestreng:"
 
-#: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
+#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
+#: html/mail/new_translation.txt:10
 msgid "Translation:"
 msgstr "Oversættelse:"
 
-#: html/mail/any_translation.txt:14
+#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
 msgid "Previous translation:"
 msgstr "Tidligere oversættelse:"
 
-#: html/mail/any_translation.txt:16
+#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
 msgid "Previously not translated"
 msgstr "Tidligere ikke oversat"
 
-#: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
+#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
+#: html/mail/new_translation.txt:18
 msgid "You can edit this string at:"
 msgstr "Du kan denne streng på:"
 
-#: html/mail/any_translation_subject.txt:1
-#, python-format
-msgid "New translation in %(translation)s"
+#: html/mail/changed_translation_subject.txt:1
+#, fuzzy, python-format
+#| msgid "New translation in %(translation)s"
+msgid "Changed translation in %(translation)s"
 msgstr "Ny oversættelse i %(translation)s"
 
 #: html/mail/footer.txt:1
@@ -1708,6 +1715,22 @@ msgstr "Du kan gennemgå den på:"
 #, python-format
 msgid "New suggestion in %(translation)s"
 msgstr "Nyt forslag i %(translation)s"
+
+#: html/mail/new_translation.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"there has been new translation on %(translation)s at %(site_title)s.\n"
+msgstr ""
+"Hej,\n"
+"\n"
+"der er foretaget en ny oversættelse af %(translation)s på %(site_title)s.\n"
+
+#: html/mail/new_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Ny oversættelse i %(translation)s"
 
 #: html/mail/signature.txt:3
 msgid "Sent by Weblate translation system"
@@ -3191,32 +3214,38 @@ msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis beskadiget."
 
-#: trans/models.py:2440
+#: trans/models.py:2444
 #, python-format
 msgid "unit ID %s"
 msgstr "enheds-ID %s"
 
-#: trans/models.py:2765
+#: trans/models.py:2770
 msgid "Resource update"
 msgstr "Ressource-opdatering"
 
-#: trans/models.py:2766
+#: trans/models.py:2771
 msgid "Translation completed"
 msgstr "Oversættelse er færdiggjort"
 
-#: trans/models.py:2767
+#: trans/models.py:2772
 msgid "Translation changed"
 msgstr "Oversættelse er ændret"
 
-#: trans/models.py:2768
+#: trans/models.py:2773
+#, fuzzy
+#| msgid "translation"
+msgid "New translation"
+msgstr "oversættelse"
+
+#: trans/models.py:2774
 msgid "Comment added"
 msgstr "Kommentar tilføjet"
 
-#: trans/models.py:2769
+#: trans/models.py:2775
 msgid "Suggestion added"
 msgstr "Forslag tilføjet"
 
-#: trans/models.py:2785
+#: trans/models.py:2793
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
@@ -3247,7 +3276,7 @@ msgstr "Fandt ingen ord i fil til import."
 msgid "Imported %d words from file."
 msgstr "Importerede %d ord fra fil."
 
-#: trans/views.py:397 trans/views.py:1735
+#: trans/views.py:397 trans/views.py:1736
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Fletning af filindhold mislykkedes: %s"
@@ -3403,19 +3432,19 @@ msgstr "Du er nået til slutningen af oversættelsen."
 msgid "Posted new comment"
 msgstr "Indsendte ny kommentar"
 
-#: trans/views.py:1586
+#: trans/views.py:1587
 msgid "Failed to add comment!"
 msgstr "Mislykkedes med at tilføje kommentar!"
 
-#: trans/views.py:1731
+#: trans/views.py:1732
 msgid "File content successfully merged into translation."
 msgstr "Filindhold er flettet ind i oversættelse med succes."
 
-#: trans/views.py:1733
+#: trans/views.py:1734
 msgid "There were no new strings in uploaded file."
 msgstr "Der var ingen nye strenge i overført fil."
 
-#: trans/views.py:1748
+#: trans/views.py:1749
 msgid "Page Not Found"
 msgstr "Siden blev ikke fundet"
 
@@ -3617,9 +3646,6 @@ msgstr[1] "%(count)s timer fra nu af"
 
 #~ msgid "%(percent)d%% complete, help us improve!"
 #~ msgstr "%(percent)d%% komplet, hjælp os med forbedringer!"
-
-#~ msgid "translation"
-#~ msgstr "oversættelse"
 
 #~ msgid "This translation is currently locked for updates!"
 #~ msgstr "Denne oversættelse er i øjeblikket låst for opdateringer!"

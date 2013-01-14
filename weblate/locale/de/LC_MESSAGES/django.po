@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-11 14:46+0100\n"
+"POT-Creation-Date: 2013-01-14 15:20+0100\n"
 "PO-Revision-Date: 2013-01-11 14:36+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: German <http://l10n.cihar.com/projects/weblate/master/de/>\n"
@@ -218,49 +218,49 @@ msgstr "Ungenaue Zeichenketten"
 msgid "Translated strings"
 msgstr "Übersetzte Zeichenketten"
 
-#: accounts/models.py:140
+#: accounts/models.py:141
 msgid "Interface Language"
 msgstr "Sprache der Oberfläche"
 
-#: accounts/models.py:146 html/index.html:21 trans/views.py:278
+#: accounts/models.py:147 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "Sprachen"
 
-#: accounts/models.py:151
+#: accounts/models.py:152
 msgid "Secondary languages"
 msgstr "Zweitsprachen"
 
-#: accounts/models.py:160
+#: accounts/models.py:161
 #, fuzzy
 msgid "Subscribed projects"
 msgstr "Unterprojekte"
 
-#: accounts/models.py:164
+#: accounts/models.py:165
 msgid "Notification on any translation"
 msgstr "Benachrichtigung über Übersetzung"
 
-#: accounts/models.py:168
+#: accounts/models.py:169
 msgid "Notification on new string to translate"
 msgstr ""
 
-#: accounts/models.py:172
+#: accounts/models.py:173
 msgid "Notification on new suggestion"
 msgstr "Benachrichtigung über einen neuen Vorschlag"
 
-#: accounts/models.py:176
+#: accounts/models.py:177
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:180
+#: accounts/models.py:181
 msgid "Notification on new comment"
 msgstr "Benachrichtigung über einen neuen Kommentar"
 
-#: accounts/models.py:184
+#: accounts/models.py:185
 #, fuzzy
 msgid "Notification on merge failure"
 msgstr "Benachrichtigung über einen neuen Vorschlag"
 
-#: accounts/models.py:298
+#: accounts/models.py:303
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Ihr Profil wurde übertragen, eventuell möchten Sie Einstellungen anpassen."
@@ -303,7 +303,7 @@ msgstr ""
 "Der Server hatte ernste Probleme beim Bedienen Ihrer Anfrage. Soeben haben "
 "wir unsere trainierten Affen ausgesendet, um das Problem zu beheben."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1810
+#: html/about.html:7 html/footer.html:6 trans/views.py:1811
 msgid "About Weblate"
 msgstr "Über Weblate"
 
@@ -1563,42 +1563,44 @@ msgstr "Keine anderen Zeichenketten gefunden."
 msgid "No similar strings found."
 msgstr "Keine ähnlichen Zeichenketten gefunden."
 
-#: html/mail/any_translation.txt:1
+#: html/mail/changed_translation.txt:1
 #, python-format
 msgid ""
 "Hi,\n"
 "\n"
-"there has been new translation on %(translation)s at %(site_title)s.\n"
+"there has been change in translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
-#: html/mail/any_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6
+#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
 #, fuzzy
 msgid "Source string:"
 msgstr "In Quell-Zeichenketten suchen"
 
-#: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
+#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
+#: html/mail/new_translation.txt:10
 #, fuzzy
 msgid "Translation:"
 msgstr "Übersetzung"
 
-#: html/mail/any_translation.txt:14
+#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
 #, fuzzy
 msgid "Previous translation:"
 msgstr "Ihre Übersetzungen"
 
-#: html/mail/any_translation.txt:16
+#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
 #, fuzzy
 msgid "Previously not translated"
 msgstr "Ihre Übersetzungen"
 
-#: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
+#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
+#: html/mail/new_translation.txt:18
 msgid "You can edit this string at:"
 msgstr ""
 
-#: html/mail/any_translation_subject.txt:1
+#: html/mail/changed_translation_subject.txt:1
 #, fuzzy, python-format
-msgid "New translation in %(translation)s"
+msgid "Changed translation in %(translation)s"
 msgstr "Automatische Übersetzung"
 
 #: html/mail/footer.txt:1
@@ -1709,6 +1711,19 @@ msgstr ""
 #: html/mail/new_suggestion_subject.txt:1
 #, fuzzy, python-format
 msgid "New suggestion in %(translation)s"
+msgstr "Automatische Übersetzung"
+
+#: html/mail/new_translation.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"there has been new translation on %(translation)s at %(site_title)s.\n"
+msgstr ""
+
+#: html/mail/new_translation_subject.txt:1
+#, fuzzy, python-format
+msgid "New translation in %(translation)s"
 msgstr "Automatische Übersetzung"
 
 #: html/mail/signature.txt:3
@@ -3201,36 +3216,41 @@ msgstr ""
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2440
+#: trans/models.py:2444
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:2765
+#: trans/models.py:2770
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2766
+#: trans/models.py:2771
 #, fuzzy
 msgid "Translation completed"
 msgstr "Übersetzungskontext"
 
-#: trans/models.py:2767
+#: trans/models.py:2772
 #, fuzzy
 msgid "Translation changed"
 msgstr "Übersetzungskontext"
 
-#: trans/models.py:2768
+#: trans/models.py:2773
+#, fuzzy
+msgid "New translation"
+msgstr "Übersetzung"
+
+#: trans/models.py:2774
 #, fuzzy
 msgid "Comment added"
 msgstr "Kommentare"
 
-#: trans/models.py:2769
+#: trans/models.py:2775
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Vorschläge"
 
-#: trans/models.py:2785
+#: trans/models.py:2793
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -3261,7 +3281,7 @@ msgstr "Keine Wörter zum Importieren in Datei gefunden."
 msgid "Imported %d words from file."
 msgstr "%d Wörter aus Datei importiert."
 
-#: trans/views.py:397 trans/views.py:1735
+#: trans/views.py:397 trans/views.py:1736
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Zusammenführung des Datei-Inhalts fehlgeschlagen: %s"
@@ -3412,20 +3432,20 @@ msgstr "Sie haben das Ende der Übersetzung erreicht."
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views.py:1586
+#: trans/views.py:1587
 #, fuzzy
 msgid "Failed to add comment!"
 msgstr "Fehler beim Verarbeiten des Formulars!"
 
-#: trans/views.py:1731
+#: trans/views.py:1732
 msgid "File content successfully merged into translation."
 msgstr "Datei-Inhalt erfolgreich mit Übersetzung zusammengeführt."
 
-#: trans/views.py:1733
+#: trans/views.py:1734
 msgid "There were no new strings in uploaded file."
 msgstr "Es gab keine neuen Zeichenketten in der hochgeladenen Datei."
 
-#: trans/views.py:1748
+#: trans/views.py:1749
 msgid "Page Not Found"
 msgstr "Seite nicht gefunden"
 
@@ -3612,10 +3632,6 @@ msgstr[1] "in %(count)s Stunden"
 
 #~ msgid "Date"
 #~ msgstr "Datum"
-
-#, fuzzy
-#~ msgid "translation"
-#~ msgstr "Übersetzung"
 
 #, fuzzy
 #~ msgid "No sources found!"

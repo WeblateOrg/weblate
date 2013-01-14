@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-11 14:46+0100\n"
+"POT-Creation-Date: 2013-01-14 15:20+0100\n"
 "PO-Revision-Date: 2013-01-11 12:40+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: Polish <http://l10n.cihar.com/projects/weblate/master/pl/>\n"
@@ -211,47 +211,47 @@ msgstr "Napisy niepewne"
 msgid "Translated strings"
 msgstr "Napisy przetłumaczone"
 
-#: accounts/models.py:140
+#: accounts/models.py:141
 msgid "Interface Language"
 msgstr "Język interfejsu"
 
-#: accounts/models.py:146 html/index.html:21 trans/views.py:278
+#: accounts/models.py:147 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "Języki"
 
-#: accounts/models.py:151
+#: accounts/models.py:152
 msgid "Secondary languages"
 msgstr "Języki drugorzędne"
 
-#: accounts/models.py:160
+#: accounts/models.py:161
 msgid "Subscribed projects"
 msgstr "Projekty subskrybowane"
 
-#: accounts/models.py:164
+#: accounts/models.py:165
 msgid "Notification on any translation"
 msgstr "Powiadomienie o tłumaczeniach"
 
-#: accounts/models.py:168
+#: accounts/models.py:169
 msgid "Notification on new string to translate"
 msgstr "Powiadomienie o nowym napisie do przetłumaczenia"
 
-#: accounts/models.py:172
+#: accounts/models.py:173
 msgid "Notification on new suggestion"
 msgstr "Powiadomienie o nowej sugestii"
 
-#: accounts/models.py:176
+#: accounts/models.py:177
 msgid "Notification on new contributor"
 msgstr "Powiadomienie o nowym współpracowniku"
 
-#: accounts/models.py:180
+#: accounts/models.py:181
 msgid "Notification on new comment"
 msgstr "Powiadomienie o nowym komentarzu"
 
-#: accounts/models.py:184
+#: accounts/models.py:185
 msgid "Notification on merge failure"
 msgstr "Powiadomienie o nieudanym scalaniu"
 
-#: accounts/models.py:298
+#: accounts/models.py:303
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Twój profil został przeniesiony. Możesz, jeśli chcesz, dostosować "
@@ -295,7 +295,7 @@ msgstr ""
 "Serwer miał poważne problemy, próbując obsłużyć Twoje żądanie. Właśnie "
 "wysłaliśmy nasze \"przeszkolone małpy\", aby to naprawić."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1810
+#: html/about.html:7 html/footer.html:6 trans/views.py:1811
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -1551,43 +1551,50 @@ msgstr "Nie znaleziono innych napisów."
 msgid "No similar strings found."
 msgstr "Nie znaleziono podobnych napisów."
 
-#: html/mail/any_translation.txt:1
-#, python-format
+#: html/mail/changed_translation.txt:1
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
 "Hi,\n"
 "\n"
-"there has been new translation on %(translation)s at %(site_title)s.\n"
+"there has been change in translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
 "Cześć,/n\n"
 "Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
 
-#: html/mail/any_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6
+#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
 msgid "Source string:"
 msgstr "Źródłowy ciąg znaków:"
 
-#: html/mail/any_translation.txt:10 html/mail/new_suggestion.txt:10
+#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
+#: html/mail/new_translation.txt:10
 msgid "Translation:"
 msgstr "Tłumaczenie:"
 
-#: html/mail/any_translation.txt:14
+#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
 #, fuzzy
 msgid "Previous translation:"
 msgstr "Twoje tłumaczenia"
 
-#: html/mail/any_translation.txt:16
+#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
 #, fuzzy
 msgid "Previously not translated"
 msgstr "Twoje tłumaczenia"
 
-#: html/mail/any_translation.txt:18 html/mail/new_comment.txt:14
+#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
+#: html/mail/new_translation.txt:18
 #, fuzzy
 msgid "You can edit this string at:"
 msgstr "Możesz to przeglądać na:"
 
-#: html/mail/any_translation_subject.txt:1
-#, python-format
-msgid "New translation in %(translation)s"
+#: html/mail/changed_translation_subject.txt:1
+#, fuzzy, python-format
+#| msgid "New translation in %(translation)s"
+msgid "Changed translation in %(translation)s"
 msgstr "Nowe tłumaczenie w %(translation)s"
 
 #: html/mail/footer.txt:1
@@ -1707,6 +1714,21 @@ msgstr "Możesz to przeglądać na:"
 #, python-format
 msgid "New suggestion in %(translation)s"
 msgstr "Nowa sugestia w %(translation)s"
+
+#: html/mail/new_translation.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"there has been new translation on %(translation)s at %(site_title)s.\n"
+msgstr ""
+"Cześć,/n\n"
+"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
+
+#: html/mail/new_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Nowe tłumaczenie w %(translation)s"
 
 #: html/mail/signature.txt:3
 msgid "Sent by Weblate translation system"
@@ -3203,36 +3225,41 @@ msgstr ""
 "Nie odnaleziono komunikatu w przechowalni, gdyż jest on prawdopodobnie "
 "uszkodzony."
 
-#: trans/models.py:2440
+#: trans/models.py:2444
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednostki %s"
 
-#: trans/models.py:2765
+#: trans/models.py:2770
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2766
+#: trans/models.py:2771
 #, fuzzy
 msgid "Translation completed"
 msgstr "Kontekst tłumaczenia"
 
-#: trans/models.py:2767
+#: trans/models.py:2772
 #, fuzzy
 msgid "Translation changed"
 msgstr "Kontekst tłumaczenia"
 
-#: trans/models.py:2768
+#: trans/models.py:2773
+#, fuzzy
+msgid "New translation"
+msgstr "Tłumaczenie"
+
+#: trans/models.py:2774
 #, fuzzy
 msgid "Comment added"
 msgstr "Komentarze"
 
-#: trans/models.py:2769
+#: trans/models.py:2775
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Sugestie"
 
-#: trans/models.py:2785
+#: trans/models.py:2793
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -3263,7 +3290,7 @@ msgstr "W pliku nie znaleziono słów do zaimportowania."
 msgid "Imported %d words from file."
 msgstr "Zaimportowano %d słów z pliku."
 
-#: trans/views.py:397 trans/views.py:1735
+#: trans/views.py:397 trans/views.py:1736
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Scalanie zawartości pliku nie powiodło się: %s"
@@ -3422,20 +3449,20 @@ msgstr "Został osiągnięty koniec tłumaczenia."
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views.py:1586
+#: trans/views.py:1587
 #, fuzzy
 msgid "Failed to add comment!"
 msgstr "Przetworzenie formularza nie powiodło się!"
 
-#: trans/views.py:1731
+#: trans/views.py:1732
 msgid "File content successfully merged into translation."
 msgstr "Zawartość pliku pomyślnie połączona z tłumaczeniem."
 
-#: trans/views.py:1733
+#: trans/views.py:1734
 msgid "There were no new strings in uploaded file."
 msgstr "Nie było nowych napisów w przesłanym pliku."
 
-#: trans/views.py:1748
+#: trans/views.py:1749
 msgid "Page Not Found"
 msgstr "Nie znaleziono strony"
 
@@ -3641,10 +3668,6 @@ msgstr[2] "za %(count)s godzin"
 
 #~ msgid "Lock valid till:"
 #~ msgstr "Blokada ważna do:"
-
-#, fuzzy
-#~ msgid "translation"
-#~ msgstr "Tłumaczenie"
 
 #~ msgid "This translation is currently locked for updates!"
 #~ msgstr "To tłumaczenie jest aktualnie zablokowane do aktualizacji!"
