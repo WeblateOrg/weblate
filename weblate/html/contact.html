@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load url from future %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'contact' %}">{% trans "contact" %}</a></li>
+{% endblock %}
+
 {% block content %}
 
 <p>{% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}</p>
