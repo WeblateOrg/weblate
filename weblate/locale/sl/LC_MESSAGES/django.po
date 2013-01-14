@@ -7,16 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-14 15:20+0100\n"
+"POT-Creation-Date: 2013-01-14 15:31+0100\n"
 "PO-Revision-Date: 2013-01-14 15:27+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
 #: urls.py:222 urls.py:229 urls.py:236 urls.py:243
@@ -292,11 +293,15 @@ msgstr ""
 "Strežnik je med obdelavo vaše zahteve naletel na resne težave. Pravkar smo "
 "odposlali naše izurjene opice, da odpravijo napako."
 
-#: html/about.html:7 html/footer.html:6 trans/views.py:1811
+#: html/about.html:6
+msgid "about"
+msgstr ""
+
+#: html/about.html:11 html/footer.html:6 trans/views.py:1811
 msgid "About Weblate"
 msgstr "O Weblate"
 
-#: html/about.html:9
+#: html/about.html:13
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -306,7 +311,7 @@ msgstr ""
 "preprost in jasen uporabniški vmesnik, razširjanje prevodov na podprojekte, "
 "preverjanje kvalitete in samodejno povezovanje do izvornih datotek."
 
-#: html/about.html:11 html/contact.html:11
+#: html/about.html:15 html/contact.html:15
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
@@ -315,7 +320,7 @@ msgstr ""
 "Če iščete podporo za Weblate ali želite vložiti poročilo o hrošču, preverite "
 "spletno stran na <a href=\"%(weblate_url)s\">weblate.org</a>."
 
-#: html/about.html:13
+#: html/about.html:17
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially:"
@@ -323,51 +328,51 @@ msgstr ""
 "Weblate je prosto programje, ki ga ustvarjajo prostovoljci, a jih lahko "
 "kljub temu finančno podprete:"
 
-#: html/about.html:16
+#: html/about.html:20
 msgid "Flattr Weblate!"
 msgstr "Flattr Weblate!"
 
-#: html/about.html:17
+#: html/about.html:21
 msgid "Donate to Weblate!"
 msgstr "Prispevajte k Weblate!"
 
-#: html/about.html:20
+#: html/about.html:24
 msgid "Versions"
 msgstr "Različice"
 
-#: html/about.html:22
+#: html/about.html:26
 msgid "This site is built using following projects:"
 msgstr "Stran je zgrajena z uporabo naslednjih projektov:"
 
-#: html/about.html:36 html/data.html:50
+#: html/about.html:40 html/data.html:50
 msgid "Statistics"
 msgstr "Statistika"
 
-#: html/about.html:40
+#: html/about.html:44
 msgid "Strings to translate"
 msgstr "Nizi za prevajanje"
 
-#: html/about.html:44
+#: html/about.html:48
 msgid "Used languages"
 msgstr "Uporabljeni jeziki"
 
-#: html/about.html:48
+#: html/about.html:52
 msgid "Registered users"
 msgstr "Registrirani uporabniki"
 
-#: html/about.html:52 html/profile.html:53
+#: html/about.html:56 html/profile.html:53
 msgid "Suggestions made"
 msgstr "Oddani predlogi"
 
-#: html/about.html:56 html/profile.html:57
+#: html/about.html:60 html/profile.html:57
 msgid "Translations made"
 msgstr "Oddani prevodi"
 
-#: html/about.html:60
+#: html/about.html:64
 msgid "Failing checks found"
 msgstr "Nekatera preverjanja niso uspela"
 
-#: html/about.html:64
+#: html/about.html:68
 msgid "Ignored checks"
 msgstr "Prezrta preverjanja"
 
@@ -437,11 +442,17 @@ msgstr "Vir"
 msgid "Check"
 msgstr "Preverjanje"
 
-#: html/contact.html:7
+#: html/contact.html:6
+#, fuzzy
+#| msgid "Contact"
+msgid "contact"
+msgstr "Kontakt"
+
+#: html/contact.html:11
 msgid "You can contact maintainers of this server here."
 msgstr "Tu lahko stopite v stik s skrbniki strežnika."
 
-#: html/contact.html:9
+#: html/contact.html:13
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
@@ -449,7 +460,7 @@ msgstr ""
 "Prosimo, da nas kontaktirate v angleščini; v nasprotnem primeru morda ne "
 "bomo razumeli vaše zahteve."
 
-#: html/contact.html:17
+#: html/contact.html:21
 msgid "Send"
 msgstr "Pošlji"
 
@@ -1541,10 +1552,6 @@ msgstr "Nisem našel podobnih nizov."
 
 #: html/mail/changed_translation.txt:1
 #, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
 "Hi,\n"
 "\n"
@@ -1579,7 +1586,6 @@ msgstr "Ta niz lahko uredite na:"
 
 #: html/mail/changed_translation_subject.txt:1
 #, python-format
-#| msgid "New translation in %(translation)s"
 msgid "Changed translation in %(translation)s"
 msgstr "Spremenjen prevod - %(translation)s"
 
@@ -3211,7 +3217,6 @@ msgid "Translation changed"
 msgstr "Sprememba prevoda"
 
 #: trans/models.py:2773
-#| msgid "translation"
 msgid "New translation"
 msgstr "Nov prevod"
 
