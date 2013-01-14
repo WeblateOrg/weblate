@@ -34,8 +34,10 @@
  </head>
 
  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+ <header>
     <h1 class="ui-state-default"><a href="{% url 'home' %}">{% include "title.html" %}</a></h1>
 
+<nav>
 <ul id="menu">
 {% if user.is_authenticated %}
 <li><a href="{% url 'profile' %}">{% blocktrans with user.get_profile.get_user_display as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
@@ -53,6 +55,8 @@
 {% block breadcrumbs %}
 {% endblock %}
 </ul>
+</nav>
+</header>
 
 <div class="content">
 {% if messages %}
