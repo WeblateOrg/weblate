@@ -427,3 +427,14 @@ class DictionaryManager(models.Manager):
             ret += 1
 
         return ret
+
+class ChangeManager(models.Manager):
+    def content(self):
+        '''
+        Retuns queryset with content changes.
+        '''
+        from weblate.trans.models import Change
+        return self.filter(
+            action=Change.ACTION_CHANGE,
+            user__isnull=False,
+        )

@@ -51,7 +51,7 @@ import weblate
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import (
-    TranslationManager, UnitManager, DictionaryManager
+    TranslationManager, UnitManager, DictionaryManager, ChangeManager,
 )
 from weblate.trans.filelock import FileLock, FileLockException
 from util import (
@@ -491,7 +491,7 @@ class Project(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation__subproject__project=self).order_by('-timestamp')[0]
+            change = Change.objects.content().filter(translation__subproject__project=self)[0]
             return change.timestamp
         except IndexError:
             return None
@@ -1244,7 +1244,7 @@ class SubProject(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation__subproject=self).order_by('-timestamp')[0]
+            change = Change.objects.content().filter(translation__subproject=self)[0]
             return change.timestamp
         except IndexError:
             return None
@@ -1685,7 +1685,7 @@ class Translation(models.Model):
         Returns last autor of change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation=self).exclude(user=None).order_by('-timestamp')[0]
+            change = Change.objects.content().filter(translation=self)[0]
             return self.get_author_name(change.user, email)
         except IndexError:
             return None
@@ -1695,7 +1695,7 @@ class Translation(models.Model):
         Returns date of last change done in Weblate.
         '''
         try:
-            change = Change.objects.filter(translation=self).order_by('-timestamp')[0]
+            change = Change.objects.content().filter(translation=self)[0]
             return change.timestamp
         except IndexError:
             return None
@@ -2777,6 +2777,8 @@ class Change(models.Model):
         choices=ACTION_CHOICES,
         default=ACTION_CHANGE
     )
+
+    objects = ChangeManager()
 
     class Meta:
         ordering = ['-timestamp']
