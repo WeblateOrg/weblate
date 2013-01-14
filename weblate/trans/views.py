@@ -1580,7 +1580,8 @@ def comment(request, pk):
                     'unit': obj,
                     'comment': new_comment,
                     'subproject': obj.translation.subproject,
-                }
+                },
+                from_email=request.user.email,
             )
     else:
         messages.error(request, _('Failed to add comment!'))
