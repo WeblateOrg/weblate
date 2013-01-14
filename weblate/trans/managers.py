@@ -435,6 +435,6 @@ class ChangeManager(models.Manager):
         '''
         from weblate.trans.models import Change
         return self.filter(
-            action=Change.ACTION_CHANGE,
+            action__in=(Change.ACTION_CHANGE, Change.ACTION_NEW),
             user__isnull=False,
         )
