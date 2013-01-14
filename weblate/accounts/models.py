@@ -46,7 +46,7 @@ import logging
 logger = logging.getLogger('weblate')
 
 
-def send_notification_email(language, email, notification, translation_obj, context={}, headers={}):
+def send_notification_email(language, email, notification, translation_obj, context={}, headers={}, from_email=None):
     '''
     Renders and sends notification email.
     '''
@@ -90,8 +90,9 @@ def send_notification_email(language, email, notification, translation_obj, cont
             email = EmailMessage(
                 settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
                 body,
-                to = [email],
-                headers = headers
+                to=[email],
+                headers=headers,
+                from_email=from_email,
             )
 
             # Send it out
