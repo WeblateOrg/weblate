@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load url from future %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'about' %}">{% trans "about" %}</a></li>
+{% endblock %}
+
 {% block content %}
 
 <h2>{% trans "About Weblate" %}</h2>
