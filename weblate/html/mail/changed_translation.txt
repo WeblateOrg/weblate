@@ -1,0 +1,22 @@
+{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% blocktrans with site|site_title as site_title %}Hi,
+
+there has been change in translation on {{ translation }} at {{ site_title }}.
+{% endblocktrans %}
+
+{% trans "Source string:" %}
+
+{{ unit.source }}
+
+{% trans "Translation:" %}
+
+{{ unit.target }}
+
+{% if oldunit.translated %}{% trans "Previous translation:" %}
+
+{{ oldunit.target }}{% else %}{% trans "Previously not translated" %}{% endif %}
+
+{% trans "You can edit this string at:" %}
+
+http://{{ current_site }}{{ unit.get_absolute_url }}
+
+{% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

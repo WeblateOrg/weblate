@@ -204,8 +204,12 @@ class Profile(models.Model):
         '''
         Sends notification on translation.
         '''
+        if oldunit.translated:
+            template = 'changed_translation'
+        else:
+            template = 'new_translation'
         self.notify_user(
-            'any_translation',
+            template,
             unit.translation,
             {
                 'unit': unit,
