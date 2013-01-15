@@ -1,0 +1,29 @@
+{% extends "mail/base.html" %}
+
+{% load url from future %}
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans with site|site_title as site_title %}
+there has been a merge failure on {{ subproject }} at {{ site_title }}.
+{% endblocktrans %}
+<p>
+
+
+<h2>{% trans "Error message" %}</h2>
+
+<p>
+{{ error }}
+</p>
+
+<h2>{% trans "Repository status" %}</h2>
+
+<pre>
+{{ status }}
+</pre>
+{% endblock %}

@@ -31,7 +31,7 @@ from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation
 from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.core.mail import mail_admins
 
 from south.signals import post_migrate
@@ -60,18 +60,21 @@ def send_notification_email(language, email, notification, translation_obj, cont
         # Template names
         subject_template = 'mail/%s_subject.txt' % notification
         body_template = 'mail/%s.txt' % notification
+        html_body_template = 'mail/%s.html' % notification
 
         # Adjust context
         domain = Site.objects.get_current().domain
         context['translation'] = translation_obj
         context['current_site'] = domain
         context['translation_url'] = 'http://%s%s' % (domain, translation_obj.get_absolute_url())
+        context['subject_template'] = subject_template
 
         # Render subject
         subject = render_to_string(subject_template, context)
 
         # Render body
         body = render_to_string(body_template, context)
+        html_body = render_to_string(html_body_template, context)
 
         # Define headers
         headers['Auto-Submitted'] = 'auto-generated'
@@ -84,15 +87,20 @@ def send_notification_email(language, email, notification, translation_obj, cont
             mail_admins(
                 subject.strip(),
                 body,
+                html_message=html_body
             )
         else:
             # Create message
-            email = EmailMessage(
+            email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
                 body,
                 to=[email],
                 headers=headers,
                 from_email=from_email,
+            )
+            email.attach_alternative(
+                html_body,
+                'text/html'
             )
 
             # Send it out
@@ -226,7 +234,7 @@ class Profile(models.Model):
             translation,
         )
 
-    def notify_new_suggestion(self, translation, suggestion):
+    def notify_new_suggestion(self, translation, suggestion, unit):
         '''
         Sends notification on new suggestion.
         '''
@@ -235,6 +243,7 @@ class Profile(models.Model):
             translation,
             {
                 'suggestion': suggestion,
+                'unit': unit,
             }
         )
 

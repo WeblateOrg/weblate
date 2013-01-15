@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load static %}
+{% load url from future %}
+{% load translations %}
+<!DOCTYPE html>
+
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>{% include subject_template %}</title>
+  <style>
+.translatetext {
+    background-color: #eee;
+}
+ins {
+    background-color: lightgreen;
+}
+del {
+    background-color: #fc7979;
+}
+footer {
+    font-size: small;
+}
+  </style>
+ </head>
+
+ <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+{% block content %}
+{% endblock %}
+<footer>
+    {% trans "Sent by Weblate translation system" %}<br />
+    <a href="http://weblate.org/">weblate.org</a>
+</footer>
+ </body>
+</html>

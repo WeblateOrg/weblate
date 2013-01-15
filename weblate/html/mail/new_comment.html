@@ -1,0 +1,47 @@
+{% extends "mail/base.html" %}
+
+{% load url from future %}
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans with site|site_title as site_title %}
+there has been a new comment on {{ subproject }} at {{ site_title }}.
+{% endblocktrans %}
+</p>
+
+<table>
+<tr>
+<th>
+{% trans "Source string:" %}
+</th>
+
+<td>
+{{ unit.source|fmttranslation }}
+</td>
+</tr>
+
+
+<tr>
+<th>
+{% trans "Comment:" %}
+</th>
+
+<td>
+{{ comment.comment }}
+</td>
+</tr>
+</table>
+
+<p>
+{% trans "You can edit this string at:" %}
+</p>
+
+<p><a href="http://{{ current_site }}{{ unit.get_absolute_url }}">http://{{ current_site }}{{ unit.get_absolute_url }}</a></p>
+
+{% include "mail/footer.html" %}
+{% endblock %}

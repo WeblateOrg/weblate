@@ -1,0 +1,18 @@
+{% load url from future %}
+{% load i18n %}
+{% load translations %}
+<p>{% trans "Translation summary:" %}</p>
+
+<table>
+<tr>
+<th>{% trans "Total strings:" %}</th><td>{{ translation.total }}</td>
+</tr>
+<tr>
+<td>{% trans "Translated strings:" %}</th><td>{{ translation.translated }} ({{ translation.get_translated_percent }}%)</td>
+</tr>
+<tr>
+<td>{% trans "Fuzzy strings:" %}</th><td>{{ translation.fuzzy }} ({{ translation.get_fuzzy_percent }}%)</td>
+</tr>
+</table>
+
+<p>{% blocktrans %}You can translate at <a href="{{ translation_url }}">{{ translation_url }}</a>{% endblocktrans %}</p>

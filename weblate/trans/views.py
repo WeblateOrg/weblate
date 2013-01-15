@@ -1263,7 +1263,7 @@ def translate(request, project, subproject, lang):
                     # Notify subscribed users
                     subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language, request.user)
                     for subscription in subscriptions:
-                        subscription.notify_new_suggestion(obj, sug)
+                        subscription.notify_new_suggestion(obj, sug, unit)
                     # Update suggestion stats
                     if profile is not None:
                         profile.suggested += 1

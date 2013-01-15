@@ -1,0 +1,18 @@
+{% extends "mail/base.html" %}
+
+{% load url from future %}
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans with site|site_title as site_title and user.get_full_name as username %}
+{{ username }} has just made his first contribution on {{ translation }} at {{ site_title }}.
+{% endblocktrans %}
+<p>
+
+{% include "mail/footer.html" %}
+{% endblock %}
