@@ -31,7 +31,7 @@ from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation
 from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.core.mail import mail_admins
 
 from south.signals import post_migrate
@@ -87,7 +87,7 @@ def send_notification_email(language, email, notification, translation_obj, cont
             )
         else:
             # Create message
-            email = EmailMessage(
+            email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
                 body,
                 to=[email],
