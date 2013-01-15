@@ -1,0 +1,57 @@
+{% extends "mail/base.html" %}
+
+{% load url from future %}
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans with site|site_title as site_title %}
+there has been change in translation on {{ translation }} at {{ site_title }}.
+{% endblocktrans %}
+</p>
+
+<table>
+<tr>
+
+<th>
+{% trans "Source string:" %}
+</th>
+
+<td>
+{{ unit.source|fmttranslation }}
+</td>
+</tr>
+
+<tr>
+<th>
+{% trans "Translation:" %}
+</th>
+
+<td>
+{{ unit.target|fmttranslation:unit.translation.language }}
+</td>
+</tr>
+
+<tr>
+<th>
+{% trans "Translation change:" %}
+</th>
+
+<td>
+{{ unit.target|fmttranslationdiff:oldunit }}
+</td>
+</tr>
+</table>
+
+<p>
+{% trans "You can edit this string at:" %}
+</p>
+
+<p><a href="http://{{ current_site }}{{ unit.get_absolute_url }}">http://{{ current_site }}{{ unit.get_absolute_url }}</a></p>
+
+{% include "mail/footer.html" %}
+{% endblock %}
