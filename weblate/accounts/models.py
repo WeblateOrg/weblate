@@ -234,7 +234,7 @@ class Profile(models.Model):
             translation,
         )
 
-    def notify_new_suggestion(self, translation, suggestion):
+    def notify_new_suggestion(self, translation, suggestion, unit):
         '''
         Sends notification on new suggestion.
         '''
@@ -243,6 +243,7 @@ class Profile(models.Model):
             translation,
             {
                 'suggestion': suggestion,
+                'unit': unit,
             }
         )
 
