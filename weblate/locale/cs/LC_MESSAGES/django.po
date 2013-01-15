@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-01-15 15:30+0100\n"
-"PO-Revision-Date: 2013-01-14 15:46+0200\n"
+"PO-Revision-Date: 2013-01-15 15:35+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -1557,10 +1557,10 @@ msgstr "Odesláno překladovým systémem Weblate"
 #: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
 #: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
 msgid "Hi,"
-msgstr ""
+msgstr "Ahoj,"
 
 #: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -1568,10 +1568,7 @@ msgstr ""
 #| "%(site_title)s.\n"
 msgid ""
 "there has been change in translation on %(translation)s at %(site_title)s."
-msgstr ""
-"Ahoj,\n"
-"\n"
-"v překladu %(translation)s na %(site_title)s byl změněn řetězec.\n"
+msgstr "v překladu %(translation)s na %(site_title)s byl změněn řetězec."
 
 #: html/mail/changed_translation.html:19 html/mail/changed_translation.txt:5
 #: html/mail/new_comment.html:18 html/mail/new_comment.txt:5
@@ -1586,10 +1583,9 @@ msgid "Translation:"
 msgstr "Překlad:"
 
 #: html/mail/changed_translation.html:39 html/mail/new_suggestion.html:40
-#, fuzzy
 #| msgid "Translation changed"
 msgid "Translation change:"
-msgstr "Změna překladu"
+msgstr "Změna v překladu:"
 
 #: html/mail/changed_translation.html:49 html/mail/changed_translation.txt:17
 #: html/mail/new_comment.html:39 html/mail/new_comment.txt:13
@@ -1623,11 +1619,12 @@ msgid "Fuzzy strings:"
 msgstr "Nejasných řetězců:"
 
 #: html/mail/footer.html:18
-#, fuzzy, python-format
+#, python-format
 #| msgid "You can translate at %(translation_url)s"
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr "Překládat můžete na %(translation_url)s"
+msgstr ""
+"Překládat můžete na <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 
 #: html/mail/footer.txt:7
 #, python-format
@@ -1635,28 +1632,24 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Překládat můžete na %(translation_url)s"
 
 #: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
 msgstr ""
-"Ahoj,\n"
-"\n"
-"v překladu %(subproject)s na %(site_title)s došlo k chybě při slučování.\n"
+"v překladu %(subproject)s na %(site_title)s došlo k chybě při slučování."
 
 #: html/mail/merge_failure.html:16
-#, fuzzy
 #| msgid "Error message:"
 msgid "Error message"
-msgstr "Chybová zpráva:"
+msgstr "Chybová zpráva"
 
 #: html/mail/merge_failure.html:22
-#, fuzzy
 #| msgid "Repository status:"
 msgid "Repository status"
-msgstr "Stav repozitáře:"
+msgstr "Stav repozitáře"
 
 #: html/mail/merge_failure.txt:5
 msgid "Error message:"
@@ -1672,16 +1665,13 @@ msgid "Merge failure in %(subproject)s"
 msgstr "Chyba při slučování v %(subproject)s"
 
 #: html/mail/new_comment.html:12 html/mail/new_comment.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgid "there has been a new comment on %(subproject)s at %(site_title)s."
-msgstr ""
-"Ahoj,\n"
-"\n"
-"v překladu %(subproject)s na %(site_title)s byl přidán nový komentář.\n"
+msgstr "v překladu %(subproject)s na %(site_title)s byl přidán nový komentář."
 
 #: html/mail/new_comment.html:29 html/mail/new_comment.txt:9
 msgid "Comment:"
@@ -1693,7 +1683,7 @@ msgid "New comment in %(subproject)s"
 msgstr "Nový komentář v %(subproject)s"
 
 #: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -1703,10 +1693,8 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"Ahoj,\n"
-"\n"
-"do překladu %(translation)s na %(site_title)s právě poprvé přispěl "
-"%(username)s.\n"
+"do překladu %(translation)s na %(site_title)s právě poprvé přispěl %"
+"(username)s."
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -1714,7 +1702,7 @@ msgid "New contributor in %(translation)s"
 msgstr "Nový přispěvatel v %(translation)s"
 
 #: html/mail/new_string.html:12 html/mail/new_string.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -1722,9 +1710,7 @@ msgstr "Nový přispěvatel v %(translation)s"
 msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s."
 msgstr ""
-"Ahoj,\n"
-"\n"
-"v překladu %(translation)s na %(site_title)s jsou nové řetězce k přeložení.\n"
+"v překladu %(translation)s na %(site_title)s jsou nové řetězce k přeložení."
 
 #: html/mail/new_string_subject.txt:1
 #, python-format
@@ -1732,22 +1718,18 @@ msgid "New string to translate in %(translation)s"
 msgstr "Nový řetězec k překladu v %(translation)s"
 
 #: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgid "there is new suggestion evaluate on %(translation)s at %(site_title)s."
-msgstr ""
-"Ahoj,\n"
-"\n"
-"v překladu %(translation)s na %(site_title)s přibyl nový návrh.\n"
+msgstr "v překladu %(translation)s na %(site_title)s přibyl nový návrh."
 
 #: html/mail/new_suggestion.html:29 html/mail/new_suggestion.txt:9
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion:"
-msgstr "Návrhy"
+msgstr "Návrh:"
 
 #: html/mail/new_suggestion.html:51 html/mail/new_suggestion.txt:13
 msgid "You can review it at:"
@@ -1759,16 +1741,13 @@ msgid "New suggestion in %(translation)s"
 msgstr "Nový návrh překladu v %(translation)s"
 
 #: html/mail/new_translation.html:12 html/mail/new_translation.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid "there has been new translation on %(translation)s at %(site_title)s."
-msgstr ""
-"Ahoj,\n"
-"\n"
-"v překladu %(translation)s na %(site_title)s byl nově přeložen řetězec.\n"
+msgstr "v překladu %(translation)s na %(site_title)s byl nově přeložen řetězec."
 
 #: html/mail/new_translation.txt:13
 msgid "Previously not translated"
