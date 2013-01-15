@@ -2312,7 +2312,7 @@ class Unit(models.Model):
 
         # Store to backend
         try:
-            (saved, pounit)=self.translation.update_unit(self, request)
+            (saved, pounit) = self.translation.update_unit(self, request)
         except FileLockException:
             logger.error('failed to lock backend for %s!', self)
             messages.error(request, _('Failed to store message in the backend, lock timeout occurred!'))
