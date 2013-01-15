@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-14 15:31+0100\n"
+"POT-Creation-Date: 2013-01-15 15:25+0100\n"
 "PO-Revision-Date: 2012-11-28 14:58+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -27,7 +27,7 @@ msgstr "Pendaftaran pengguna"
 msgid "Account activation"
 msgstr "Aktivasi akun"
 
-#: urls.py:260 html/base.html:47 html/registration/login.html:30
+#: urls.py:260 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Log masuk"
 
@@ -217,48 +217,48 @@ msgstr "String samar"
 msgid "Translated strings"
 msgstr "String diterjemahkan:"
 
-#: accounts/models.py:141
+#: accounts/models.py:149
 msgid "Interface Language"
 msgstr "Antarmuka Bahasa"
 
-#: accounts/models.py:147 html/index.html:21 trans/views.py:278
+#: accounts/models.py:155 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "Bahasa"
 
-#: accounts/models.py:152
+#: accounts/models.py:160
 msgid "Secondary languages"
 msgstr "Bahasa sekunder"
 
-#: accounts/models.py:161
+#: accounts/models.py:169
 msgid "Subscribed projects"
 msgstr "Berlangganan proyek"
 
-#: accounts/models.py:165
+#: accounts/models.py:173
 msgid "Notification on any translation"
 msgstr "Pemberitahuan pada semua terjemahan"
 
-#: accounts/models.py:169
+#: accounts/models.py:177
 msgid "Notification on new string to translate"
 msgstr "Pemberitahuan jika ada string baru untuk menerjemahkan"
 
-#: accounts/models.py:173
+#: accounts/models.py:181
 msgid "Notification on new suggestion"
 msgstr "Pemberitahuan jika ada saran baru"
 
-#: accounts/models.py:177
+#: accounts/models.py:185
 msgid "Notification on new contributor"
 msgstr "Pemberitahuan jika ada kontributor baru"
 
-#: accounts/models.py:181
+#: accounts/models.py:189
 msgid "Notification on new comment"
 msgstr "Pemberitahuan jika ada komentar baru"
 
-#: accounts/models.py:185
+#: accounts/models.py:193
 #, fuzzy
 msgid "Notification on merge failure"
 msgstr "Pemberitahuan jika ada kontributor baru"
 
-#: accounts/models.py:303
+#: accounts/models.py:312
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Profil Anda telah dipindah, Anda mungkin ingin menyesuaikan preferensinya."
@@ -305,7 +305,7 @@ msgstr ""
 msgid "about"
 msgstr ""
 
-#: html/about.html:11 html/footer.html:6 trans/views.py:1811
+#: html/about.html:11 html/footer.html:7 trans/views.py:1811
 msgid "About Weblate"
 msgstr "Tentang Weblate"
 
@@ -391,20 +391,20 @@ msgstr "Pemeriksaan kegagalan ditemukan"
 msgid "Ignored checks"
 msgstr "Pemeriksaan diabaikan"
 
-#: html/base.html:41
+#: html/base.html:43
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Log masuk sebagai %(name)s"
 
-#: html/base.html:42
+#: html/base.html:44
 msgid "Logout"
 msgstr "Log keluar"
 
-#: html/base.html:45 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Daftar"
 
-#: html/base.html:52 html/admin/performance.html:9 html/admin/report.html:8
+#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
 #: html/admin/ssh.html:8
 msgid "Home"
 msgstr "Beranda"
@@ -717,16 +717,16 @@ msgstr ""
 "Setelah Anda telah mengaktifkan akun anda, Silakan berlanjut ke <a href="
 "\"%(url)s\">bagian terjemahan</a>."
 
-#: html/footer.html:5
+#: html/footer.html:6
 #, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "Dikuatkan oleh <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
-#: html/footer.html:7
+#: html/footer.html:8
 msgid "Contact us"
 msgstr "Hubungi kami"
 
-#: html/footer.html:8 html/admin/performance.html:22
+#: html/footer.html:9 html/admin/performance.html:22
 #: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "Dokumentasi"
@@ -1579,14 +1579,27 @@ msgstr "Tidak ada string lain ditemukan."
 msgid "No similar strings found."
 msgstr "Tidak ada string serupa ditemukan."
 
-#: html/mail/changed_translation.txt:1
+#: html/mail/base.html:31 html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
+msgstr "Dikirim oleh sistem terjemahan Weblate"
+
+#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
+#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
+#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
+#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
+#: html/mail/new_string.html:8 html/mail/new_string.txt:1
+#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
+#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:2
 #, fuzzy, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been change in translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1594,29 +1607,34 @@ msgstr ""
 "\n"
 "terdapat terjemahan baru dalam %(translation)s di %(site_title)s.\n"
 
-#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
+#: html/mail/changed_translation.html:21 html/mail/changed_translation.txt:6
+#: html/mail/new_comment.html:20 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.html:21 html/mail/new_suggestion.txt:6
+#: html/mail/new_translation.html:21 html/mail/new_translation.txt:6
 msgid "Source string:"
 msgstr "String sumber:"
 
-#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
-#: html/mail/new_translation.txt:10
+#: html/mail/changed_translation.html:31 html/mail/changed_translation.txt:10
+#: html/mail/new_translation.html:31 html/mail/new_translation.txt:10
 msgid "Translation:"
 msgstr "Penerjemahan:"
 
-#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
-msgid "Previous translation:"
-msgstr "Penerjemahan sebelumnya:"
+#: html/mail/changed_translation.html:41 html/mail/new_suggestion.html:42
+#, fuzzy
+#| msgid "Translation changed"
+msgid "Translation change:"
+msgstr "Penerjemahan telah dirubah"
 
-#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
-msgid "Previously not translated"
-msgstr "Sebelumnya tidak diterjemahkan"
-
-#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
-#: html/mail/new_translation.txt:18
+#: html/mail/changed_translation.html:51 html/mail/changed_translation.txt:18
+#: html/mail/new_comment.html:41 html/mail/new_comment.txt:14
+#: html/mail/new_translation.html:41 html/mail/new_translation.txt:16
 #, fuzzy
 msgid "You can edit this string at:"
 msgstr "Anda dapat memeriksanya di:"
+
+#: html/mail/changed_translation.txt:14
+msgid "Previous translation:"
+msgstr "Penerjemahan sebelumnya:"
 
 #: html/mail/changed_translation_subject.txt:1
 #, fuzzy, python-format
@@ -1624,37 +1642,53 @@ msgstr "Anda dapat memeriksanya di:"
 msgid "Changed translation in %(translation)s"
 msgstr "Terjemahan baru dalam %(translation)s"
 
-#: html/mail/footer.txt:1
+#: html/mail/footer.html:4 html/mail/footer.txt:1
 msgid "Translation summary:"
 msgstr "Ringkasan terjemahan:"
 
-#: html/mail/footer.txt:3
+#: html/mail/footer.html:8 html/mail/footer.txt:3
 msgid "Total strings:"
 msgstr "Total string:"
 
-#: html/mail/footer.txt:4
+#: html/mail/footer.html:11 html/mail/footer.txt:4
 msgid "Translated strings:"
 msgstr "String diterjemahkan:"
 
-#: html/mail/footer.txt:5
+#: html/mail/footer.html:14 html/mail/footer.txt:5
 msgid "Fuzzy strings:"
 msgstr "String samar:"
+
+#: html/mail/footer.html:18
+#, fuzzy, python-format
+#| msgid "You can translate at %(translation_url)s"
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr "Anda dapat menerjemahkan di %(translation_url)s"
 
 #: html/mail/footer.txt:7
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "Anda dapat menerjemahkan di %(translation_url)s"
 
-#: html/mail/merge_failure.txt:1
+#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:2
 #, fuzzy, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgstr ""
 "Hi,\n"
 "\n"
 "telah ada sebuah komentar baru dalam  %(subproject)s di %(site_title)s.\n"
+
+#: html/mail/merge_failure.html:18
+#, fuzzy
+msgid "Error message"
+msgstr "Rincian galat:"
+
+#: html/mail/merge_failure.html:24
+#, fuzzy
+msgid "Repository status"
+msgstr "Repositori Git:"
 
 #: html/mail/merge_failure.txt:6
 #, fuzzy
@@ -1671,10 +1705,13 @@ msgstr "Repositori Git:"
 msgid "Merge failure in %(subproject)s"
 msgstr "Komentar baru dalam %(subproject)s"
 
-#: html/mail/new_comment.txt:1
-#, python-format
+#: html/mail/new_comment.html:12 html/mail/new_comment.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgstr ""
@@ -1682,7 +1719,7 @@ msgstr ""
 "\n"
 "telah ada sebuah komentar baru dalam  %(subproject)s di %(site_title)s.\n"
 
-#: html/mail/new_comment.txt:10
+#: html/mail/new_comment.html:31 html/mail/new_comment.txt:10
 msgid "Comment:"
 msgstr "Komentar:"
 
@@ -1691,10 +1728,14 @@ msgstr "Komentar:"
 msgid "New comment in %(subproject)s"
 msgstr "Komentar baru dalam %(subproject)s"
 
-#: html/mail/new_contributor.txt:1
-#, python-format
+#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "%(username)s has just made his first contribution on %(translation)s at "
+#| "%(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
@@ -1709,10 +1750,13 @@ msgstr ""
 msgid "New contributor in %(translation)s"
 msgstr "Kontributor baru dalam %(translation)s"
 
-#: html/mail/new_string.txt:1
-#, python-format
+#: html/mail/new_string.html:12 html/mail/new_string.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1725,10 +1769,13 @@ msgstr ""
 msgid "New string to translate in %(translation)s"
 msgstr "String baru untuk menerjemahkan dalam %(translation)s"
 
-#: html/mail/new_suggestion.txt:1
-#, python-format
+#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1736,7 +1783,13 @@ msgstr ""
 "\n"
 "ada saran baru untuk dievaluasi pada %(translation)s di %(site_title)s.\n"
 
-#: html/mail/new_suggestion.txt:14
+#: html/mail/new_suggestion.html:31 html/mail/new_suggestion.txt:10
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Suggestion:"
+msgstr "Saran"
+
+#: html/mail/new_suggestion.html:53 html/mail/new_suggestion.txt:14
 msgid "You can review it at:"
 msgstr "Anda dapat memeriksanya di:"
 
@@ -1745,10 +1798,13 @@ msgstr "Anda dapat memeriksanya di:"
 msgid "New suggestion in %(translation)s"
 msgstr "Saran baru dalam %(translation)s"
 
-#: html/mail/new_translation.txt:1
-#, python-format
+#: html/mail/new_translation.html:12 html/mail/new_translation.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1756,14 +1812,14 @@ msgstr ""
 "\n"
 "terdapat terjemahan baru dalam %(translation)s di %(site_title)s.\n"
 
+#: html/mail/new_translation.txt:14
+msgid "Previously not translated"
+msgstr "Sebelumnya tidak diterjemahkan"
+
 #: html/mail/new_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
 msgstr "Terjemahan baru dalam %(translation)s"
-
-#: html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr "Dikirim oleh sistem terjemahan Weblate"
 
 #: html/registration/activate.html:7
 msgid "Your account could not be activated"

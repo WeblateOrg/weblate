@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-14 15:31+0100\n"
+"POT-Creation-Date: 2013-01-15 15:25+0100\n"
 "PO-Revision-Date: 2012-11-15 13:26+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Portuguese <http://l10n.cihar.com/projects/weblate/master/pt/"
@@ -27,7 +27,7 @@ msgstr "Registo de Utilizador"
 msgid "Account activation"
 msgstr "Activação de Conta"
 
-#: urls.py:260 html/base.html:47 html/registration/login.html:30
+#: urls.py:260 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Autenticar"
 
@@ -213,48 +213,48 @@ msgstr "Strings confusas"
 msgid "Translated strings"
 msgstr "Cadeias traduzidas:"
 
-#: accounts/models.py:141
+#: accounts/models.py:149
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: accounts/models.py:147 html/index.html:21 trans/views.py:278
+#: accounts/models.py:155 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "Idiomas"
 
-#: accounts/models.py:152
+#: accounts/models.py:160
 msgid "Secondary languages"
 msgstr "Idiomas secundários"
 
-#: accounts/models.py:161
+#: accounts/models.py:169
 msgid "Subscribed projects"
 msgstr "Projetos subscritos"
 
-#: accounts/models.py:165
+#: accounts/models.py:173
 msgid "Notification on any translation"
 msgstr "Notificar em qualquer tradução"
 
-#: accounts/models.py:169
+#: accounts/models.py:177
 msgid "Notification on new string to translate"
 msgstr "Notificar sobre novas cadeias para traduzir"
 
-#: accounts/models.py:173
+#: accounts/models.py:181
 msgid "Notification on new suggestion"
 msgstr "Notificar sobre novas sugestões"
 
-#: accounts/models.py:177
+#: accounts/models.py:185
 msgid "Notification on new contributor"
 msgstr "Notificar sobre novo colaborador"
 
-#: accounts/models.py:181
+#: accounts/models.py:189
 msgid "Notification on new comment"
 msgstr "Notificar sobre novo comentário"
 
-#: accounts/models.py:185
+#: accounts/models.py:193
 #, fuzzy
 msgid "Notification on merge failure"
 msgstr "Notificar sobre novo colaborador"
 
-#: accounts/models.py:303
+#: accounts/models.py:312
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "O seu perfil foi migrado, poderá querer ajustar as suas preferências."
 
@@ -301,7 +301,7 @@ msgstr ""
 msgid "about"
 msgstr ""
 
-#: html/about.html:11 html/footer.html:6 trans/views.py:1811
+#: html/about.html:11 html/footer.html:7 trans/views.py:1811
 msgid "About Weblate"
 msgstr "Acerca do Weblate"
 
@@ -389,20 +389,20 @@ msgstr "Verificações falharam"
 msgid "Ignored checks"
 msgstr "Ignorar: %(check)s"
 
-#: html/base.html:41
+#: html/base.html:43
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Sessão iniciada como %(name)s"
 
-#: html/base.html:42
+#: html/base.html:44
 msgid "Logout"
 msgstr "Terminar sessão"
 
-#: html/base.html:45 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Registar"
 
-#: html/base.html:52 html/admin/performance.html:9 html/admin/report.html:8
+#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
 #: html/admin/ssh.html:8
 msgid "Home"
 msgstr "Início"
@@ -709,16 +709,16 @@ msgstr ""
 "Depois de ativar a sua conta prossiga para a <a href=\"%(url)s\">secção de "
 "tradução</a>."
 
-#: html/footer.html:5
+#: html/footer.html:6
 #, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "Produzido por <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
-#: html/footer.html:7
+#: html/footer.html:8
 msgid "Contact us"
 msgstr "Contacte-nos"
 
-#: html/footer.html:8 html/admin/performance.html:22
+#: html/footer.html:9 html/admin/performance.html:22
 #: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "Documentação"
@@ -1577,14 +1577,27 @@ msgstr "Não foram encontradas outras strings."
 msgid "No similar strings found."
 msgstr "Não forma encontradas strings similares."
 
-#: html/mail/changed_translation.txt:1
+#: html/mail/base.html:31 html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
+msgstr "Enviado pelo sistema de tradução Weblate"
+
+#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
+#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
+#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
+#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
+#: html/mail/new_string.html:8 html/mail/new_string.txt:1
+#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
+#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:2
 #, fuzzy, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been change in translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1592,29 +1605,33 @@ msgstr ""
 "\n"
 "Existe uma nova tradução de %(translation)s em %(site_title)s.\n"
 
-#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
+#: html/mail/changed_translation.html:21 html/mail/changed_translation.txt:6
+#: html/mail/new_comment.html:20 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.html:21 html/mail/new_suggestion.txt:6
+#: html/mail/new_translation.html:21 html/mail/new_translation.txt:6
 msgid "Source string:"
 msgstr "Cadeia original:"
 
-#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
-#: html/mail/new_translation.txt:10
+#: html/mail/changed_translation.html:31 html/mail/changed_translation.txt:10
+#: html/mail/new_translation.html:31 html/mail/new_translation.txt:10
 msgid "Translation:"
 msgstr "Tradução:"
 
-#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
-msgid "Previous translation:"
-msgstr "Tradução anterior:"
+#: html/mail/changed_translation.html:41 html/mail/new_suggestion.html:42
+#, fuzzy
+msgid "Translation change:"
+msgstr "Contexto da tradução"
 
-#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
-msgid "Previously not translated"
-msgstr "Não traduzido previamente"
-
-#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
-#: html/mail/new_translation.txt:18
+#: html/mail/changed_translation.html:51 html/mail/changed_translation.txt:18
+#: html/mail/new_comment.html:41 html/mail/new_comment.txt:14
+#: html/mail/new_translation.html:41 html/mail/new_translation.txt:16
 #, fuzzy
 msgid "You can edit this string at:"
 msgstr "Você pode revê-la em:"
+
+#: html/mail/changed_translation.txt:14
+msgid "Previous translation:"
+msgstr "Tradução anterior:"
 
 #: html/mail/changed_translation_subject.txt:1
 #, fuzzy, python-format
@@ -1622,37 +1639,53 @@ msgstr "Você pode revê-la em:"
 msgid "Changed translation in %(translation)s"
 msgstr "Nova tradução em %(translation)s"
 
-#: html/mail/footer.txt:1
+#: html/mail/footer.html:4 html/mail/footer.txt:1
 msgid "Translation summary:"
 msgstr "Resumo da tradução:"
 
-#: html/mail/footer.txt:3
+#: html/mail/footer.html:8 html/mail/footer.txt:3
 msgid "Total strings:"
 msgstr "Total de cadeias:"
 
-#: html/mail/footer.txt:4
+#: html/mail/footer.html:11 html/mail/footer.txt:4
 msgid "Translated strings:"
 msgstr "Cadeias traduzidas:"
 
-#: html/mail/footer.txt:5
+#: html/mail/footer.html:14 html/mail/footer.txt:5
 msgid "Fuzzy strings:"
 msgstr "Cadeias vagas:"
+
+#: html/mail/footer.html:18
+#, fuzzy, python-format
+#| msgid "You can translate at %(translation_url)s"
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr "Pode traduzir em %(translation_url)s"
 
 #: html/mail/footer.txt:7
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "Pode traduzir em %(translation_url)s"
 
-#: html/mail/merge_failure.txt:1
+#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:2
 #, fuzzy, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgstr ""
 "Olá,\n"
 "\n"
 "Existe uma nova tradução de %(translation)s em %(site_title)s.\n"
+
+#: html/mail/merge_failure.html:18
+#, fuzzy
+msgid "Error message"
+msgstr "Detalhes do erro:"
+
+#: html/mail/merge_failure.html:24
+#, fuzzy
+msgid "Repository status"
+msgstr "Repositório Git:"
 
 #: html/mail/merge_failure.txt:6
 #, fuzzy
@@ -1669,10 +1702,9 @@ msgstr "Repositório Git:"
 msgid "Merge failure in %(subproject)s"
 msgstr "Envolva-se em %(project)s!"
 
-#: html/mail/new_comment.txt:1
+#: html/mail/new_comment.html:12 html/mail/new_comment.txt:2
 #, fuzzy, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgstr ""
@@ -1680,7 +1712,7 @@ msgstr ""
 "\n"
 "Existe uma nova tradução de %(translation)s em %(site_title)s.\n"
 
-#: html/mail/new_comment.txt:10
+#: html/mail/new_comment.html:31 html/mail/new_comment.txt:10
 #, fuzzy
 msgid "Comment:"
 msgstr "Comentários"
@@ -1690,10 +1722,14 @@ msgstr "Comentários"
 msgid "New comment in %(subproject)s"
 msgstr "Envolva-se em %(project)s!"
 
-#: html/mail/new_contributor.txt:1
-#, python-format
+#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "%(username)s has just made his first contribution on %(translation)s at "
+#| "%(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
@@ -1708,10 +1744,13 @@ msgstr ""
 msgid "New contributor in %(translation)s"
 msgstr "Novo colaborador em %(translation)s"
 
-#: html/mail/new_string.txt:1
-#, python-format
+#: html/mail/new_string.html:12 html/mail/new_string.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1724,10 +1763,13 @@ msgstr ""
 msgid "New string to translate in %(translation)s"
 msgstr "Nova cadeia para traduzir em %(translation)s"
 
-#: html/mail/new_suggestion.txt:1
-#, python-format
+#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1735,7 +1777,13 @@ msgstr ""
 "\n"
 "Existem novas sugestões para avaliar de %(translation)s em %(site_title)s.\n"
 
-#: html/mail/new_suggestion.txt:14
+#: html/mail/new_suggestion.html:31 html/mail/new_suggestion.txt:10
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Suggestion:"
+msgstr "Sugestões"
+
+#: html/mail/new_suggestion.html:53 html/mail/new_suggestion.txt:14
 msgid "You can review it at:"
 msgstr "Você pode revê-la em:"
 
@@ -1744,10 +1792,13 @@ msgstr "Você pode revê-la em:"
 msgid "New suggestion in %(translation)s"
 msgstr "Nova sugestão em %(translation)s"
 
-#: html/mail/new_translation.txt:1
-#, python-format
+#: html/mail/new_translation.html:12 html/mail/new_translation.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1755,14 +1806,14 @@ msgstr ""
 "\n"
 "Existe uma nova tradução de %(translation)s em %(site_title)s.\n"
 
+#: html/mail/new_translation.txt:14
+msgid "Previously not translated"
+msgstr "Não traduzido previamente"
+
 #: html/mail/new_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
 msgstr "Nova tradução em %(translation)s"
-
-#: html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr "Enviado pelo sistema de tradução Weblate"
 
 #: html/registration/activate.html:7
 msgid "Your account could not be activated"
