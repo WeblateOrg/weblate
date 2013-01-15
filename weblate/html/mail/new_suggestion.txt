@@ -1,5 +1,5 @@
-{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% blocktrans with site|site_title as site_title %}Hi,
-
+{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
+{% blocktrans with site|site_title as site_title %}
 there is new suggestion evaluate on {{ translation }} at {{ site_title }}.
 {% endblocktrans %}
 

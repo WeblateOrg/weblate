@@ -1,5 +1,5 @@
-{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% blocktrans with site|site_title as site_title %}Hi,
-
+{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{%trans "Hi,"%}
+{% blocktrans with site|site_title as site_title %}
 there has been change in translation on {{ translation }} at {{ site_title }}.
 {% endblocktrans %}
 
@@ -11,9 +11,9 @@ there has been change in translation on {{ translation }} at {{ site_title }}.
 
 {{ unit.target }}
 
-{% if oldunit.translated %}{% trans "Previous translation:" %}
+{% trans "Previous translation:" %}
 
-{{ oldunit.target }}{% else %}{% trans "Previously not translated" %}{% endif %}
+{{ oldunit.target }}
 
 {% trans "You can edit this string at:" %}
 
