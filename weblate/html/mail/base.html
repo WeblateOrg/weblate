@@ -18,13 +18,16 @@ ins {
 del {
     background-color: #fc7979;
 }
+footer {
+    font-size: small;
+}
   </style>
  </head>
 
  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
 {% block content %}
 {% endblock %}
-<footer style="font-size:small">
+<footer>
     {% trans "Sent by Weblate translation system" %}<br />
     <a href="http://weblate.org/">weblate.org</a>
 </footer>
