@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-01-15 15:30+0100\n"
-"PO-Revision-Date: 2013-01-11 19:07+0200\n"
+"PO-Revision-Date: 2013-01-15 22:00+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -296,7 +296,7 @@ msgstr ""
 
 #: html/about.html:6
 msgid "about"
-msgstr ""
+msgstr "σχετικά"
 
 #: html/about.html:11 html/footer.html:7 trans/views.py:1811
 msgid "About Weblate"
@@ -446,10 +446,9 @@ msgid "Check"
 msgstr "Έλεγχος"
 
 #: html/contact.html:6
-#, fuzzy
 #| msgid "Contact"
 msgid "contact"
-msgstr "Επικοινωνία"
+msgstr "επικοινωνία"
 
 #: html/contact.html:11
 msgid "You can contact maintainers of this server here."
@@ -1571,20 +1570,17 @@ msgstr "Απεστάλει από το μεταφραστικό σύστημα W
 #: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
 #: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
 msgid "Hi,"
-msgstr ""
+msgstr "Γεια σας,"
 
 #: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
 "there has been change in translation on %(translation)s at %(site_title)s."
-msgstr ""
-"Hi,\n"
-"\n"
-"υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s.\n"
+msgstr "υπήρξε αλλαγή στη μετάφραση στο %(translation)s στο %(site_title)s."
 
 #: html/mail/changed_translation.html:19 html/mail/changed_translation.txt:5
 #: html/mail/new_comment.html:18 html/mail/new_comment.txt:5
@@ -1599,10 +1595,9 @@ msgid "Translation:"
 msgstr "Μετάφραση:"
 
 #: html/mail/changed_translation.html:39 html/mail/new_suggestion.html:40
-#, fuzzy
 #| msgid "Translation changed"
 msgid "Translation change:"
-msgstr "Η μετάφραση άλλαξε"
+msgstr "Αλλαγή μετάφρασης:"
 
 #: html/mail/changed_translation.html:49 html/mail/changed_translation.txt:17
 #: html/mail/new_comment.html:39 html/mail/new_comment.txt:13
@@ -1615,10 +1610,10 @@ msgid "Previous translation:"
 msgstr "Προηγούμενη μετάφραση:"
 
 #: html/mail/changed_translation_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "New translation in %(translation)s"
 msgid "Changed translation in %(translation)s"
-msgstr "Νέα μετάφραση σto %(translation)s"
+msgstr "Αλλαγμένη μετάφραση στο %(translation)s"
 
 #: html/mail/footer.html:4 html/mail/footer.txt:1
 msgid "Translation summary:"
@@ -1637,11 +1632,13 @@ msgid "Fuzzy strings:"
 msgstr "Ασαφή κείμενα:"
 
 #: html/mail/footer.html:18
-#, fuzzy, python-format
+#, python-format
 #| msgid "You can translate at %(translation_url)s"
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr "Μπορείτε να μεταφράσετε στο %(translation_url)s"
+msgstr ""
+"Μπορείτε να μεταφράσετε στο <a href=\"%(translation_url)s\">%"
+"(translation_url)s</a>"
 
 #: html/mail/footer.txt:7
 #, python-format
@@ -1649,28 +1646,23 @@ msgid "You can translate at %(translation_url)s"
 msgstr "Μπορείτε να μεταφράσετε στο %(translation_url)s"
 
 #: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
-msgstr ""
-"Γεια,\n"
-"\n"
-"υπήρξε ένα σφάλμα ένωσης του %(subproject)s στο %(site_title)s.\n"
+msgstr "υπήρξε ένα σφάλμα ένωσης του %(subproject)s στο %(site_title)s."
 
 #: html/mail/merge_failure.html:16
-#, fuzzy
 #| msgid "Error message:"
 msgid "Error message"
-msgstr "Μήνυμα σφάλματος:"
+msgstr "Μήνυμα σφάλματος"
 
 #: html/mail/merge_failure.html:22
-#, fuzzy
 #| msgid "Repository status:"
 msgid "Repository status"
-msgstr "Κατάσταση αποθετηρίου:"
+msgstr "Κατάσταση αποθετηρίου"
 
 #: html/mail/merge_failure.txt:5
 msgid "Error message:"
@@ -1686,16 +1678,13 @@ msgid "Merge failure in %(subproject)s"
 msgstr "Σφάλμα ένωσης στο %(subproject)s"
 
 #: html/mail/new_comment.html:12 html/mail/new_comment.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgid "there has been a new comment on %(subproject)s at %(site_title)s."
-msgstr ""
-"Γεια,\n"
-"\n"
-"υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s.\n"
+msgstr "υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s."
 
 #: html/mail/new_comment.html:29 html/mail/new_comment.txt:9
 msgid "Comment:"
@@ -1707,7 +1696,7 @@ msgid "New comment in %(subproject)s"
 msgstr "Νέο σχόλιο στο %(subproject)s"
 
 #: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -1717,10 +1706,8 @@ msgid ""
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"Hi,\n"
-"\n"
-"Ο χρήστης %(username)s μόλις είχε την πρώτη του συμμετοχή στο "
-"%(translation)s του %(site_title)s.\n"
+"Ο χρήστης %(username)s μόλις είχε την πρώτη του συμμετοχή στο %"
+"(translation)s του %(site_title)s."
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -1728,7 +1715,7 @@ msgid "New contributor in %(translation)s"
 msgstr "Νέα συμβολή στο %(translation)s"
 
 #: html/mail/new_string.html:12 html/mail/new_string.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -1736,9 +1723,7 @@ msgstr "Νέα συμβολή στο %(translation)s"
 msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s."
 msgstr ""
-"Hi,\n"
-"\n"
-"υπάρχουν νέα κείμενα για μετάφραση στο %(translation)s του %(site_title)s.\n"
+"υπάρχουν νέα κείμενα για μετάφραση στο %(translation)s του %(site_title)s."
 
 #: html/mail/new_string_subject.txt:1
 #, python-format
@@ -1746,22 +1731,18 @@ msgid "New string to translate in %(translation)s"
 msgstr "Νέο κείμενο για μετάφραση στο %(translation)s"
 
 #: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgid "there is new suggestion evaluate on %(translation)s at %(site_title)s."
-msgstr ""
-"Hi,\n"
-"\n"
-"υπάρχει νέα εκτίμηση πρότασης στο %(translation)s του %(site_title)s.\n"
+msgstr "υπάρχει νέα εκτίμηση πρότασης στο %(translation)s του %(site_title)s."
 
 #: html/mail/new_suggestion.html:29 html/mail/new_suggestion.txt:9
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion:"
-msgstr "Προτάσεις"
+msgstr "Πρόταση:"
 
 #: html/mail/new_suggestion.html:51 html/mail/new_suggestion.txt:13
 msgid "You can review it at:"
@@ -1773,16 +1754,13 @@ msgid "New suggestion in %(translation)s"
 msgstr "Αυτόματη πρόταση στο %(translation)s"
 
 #: html/mail/new_translation.html:12 html/mail/new_translation.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid "there has been new translation on %(translation)s at %(site_title)s."
-msgstr ""
-"Hi,\n"
-"\n"
-"υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s.\n"
+msgstr "υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
 
 #: html/mail/new_translation.txt:13
 msgid "Previously not translated"
@@ -3295,10 +3273,9 @@ msgid "Translation changed"
 msgstr "Η μετάφραση άλλαξε"
 
 #: trans/models.py:2773
-#, fuzzy
 #| msgid "translation"
 msgid "New translation"
-msgstr "μετάφραση"
+msgstr "Νέα μετάφραση"
 
 #: trans/models.py:2774
 msgid "Comment added"
