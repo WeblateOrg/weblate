@@ -2322,6 +2322,8 @@ class Unit(models.Model):
         if pounit is None:
             logger.error('message %s disappeared!', self)
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
+            # Try reloading from backend
+            self.translation.update_from_blob(True)
             return
 
         # Return if there was no change
