@@ -60,18 +60,21 @@ def send_notification_email(language, email, notification, translation_obj, cont
         # Template names
         subject_template = 'mail/%s_subject.txt' % notification
         body_template = 'mail/%s.txt' % notification
+        html_body_template = 'mail/%s.html' % notification
 
         # Adjust context
         domain = Site.objects.get_current().domain
         context['translation'] = translation_obj
         context['current_site'] = domain
         context['translation_url'] = 'http://%s%s' % (domain, translation_obj.get_absolute_url())
+        context['subject_template'] = subject_template
 
         # Render subject
         subject = render_to_string(subject_template, context)
 
         # Render body
         body = render_to_string(body_template, context)
+        html_body = render_to_string(html_body_template, context)
 
         # Define headers
         headers['Auto-Submitted'] = 'auto-generated'
@@ -84,6 +87,7 @@ def send_notification_email(language, email, notification, translation_obj, cont
             mail_admins(
                 subject.strip(),
                 body,
+                html_message=html_body
             )
         else:
             # Create message
@@ -93,6 +97,10 @@ def send_notification_email(language, email, notification, translation_obj, cont
                 to=[email],
                 headers=headers,
                 from_email=from_email,
+            )
+            email.attach_alternative(
+                html_body,
+                'text/html'
             )
 
             # Send it out
