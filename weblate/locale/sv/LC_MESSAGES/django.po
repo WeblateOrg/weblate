@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-14 15:31+0100\n"
+"POT-Creation-Date: 2013-01-15 15:25+0100\n"
 "PO-Revision-Date: 2013-01-13 21:06+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
@@ -26,7 +26,7 @@ msgstr "Användarregistrering"
 msgid "Account activation"
 msgstr "Kontoaktivering"
 
-#: urls.py:260 html/base.html:47 html/registration/login.html:30
+#: urls.py:260 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Logga in"
 
@@ -213,51 +213,51 @@ msgstr ""
 msgid "Translated strings"
 msgstr "Översatta strängar"
 
-#: accounts/models.py:141
+#: accounts/models.py:149
 msgid "Interface Language"
 msgstr "Gränssnittsspråk"
 
-#: accounts/models.py:147 html/index.html:21 trans/views.py:278
+#: accounts/models.py:155 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "Språk"
 
-#: accounts/models.py:152
+#: accounts/models.py:160
 msgid "Secondary languages"
 msgstr "Sekundära språk"
 
-#: accounts/models.py:161
+#: accounts/models.py:169
 #, fuzzy
 msgid "Subscribed projects"
 msgstr "Underprojekt"
 
-#: accounts/models.py:165
+#: accounts/models.py:173
 #, fuzzy
 msgid "Notification on any translation"
 msgstr "Automatisk översättning"
 
-#: accounts/models.py:169
+#: accounts/models.py:177
 msgid "Notification on new string to translate"
 msgstr ""
 
-#: accounts/models.py:173
+#: accounts/models.py:181
 msgid "Notification on new suggestion"
 msgstr ""
 
-#: accounts/models.py:177
+#: accounts/models.py:185
 msgid "Notification on new contributor"
 msgstr ""
 
-#: accounts/models.py:181
+#: accounts/models.py:189
 #, fuzzy
 msgid "Notification on new comment"
 msgstr "Automatisk översättning"
 
-#: accounts/models.py:185
+#: accounts/models.py:193
 #, fuzzy
 msgid "Notification on merge failure"
 msgstr "Automatisk översättning"
 
-#: accounts/models.py:303
+#: accounts/models.py:312
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Din profil har migrerats och du kanske vill justera inställningarna."
 
@@ -303,7 +303,7 @@ msgstr ""
 msgid "about"
 msgstr ""
 
-#: html/about.html:11 html/footer.html:6 trans/views.py:1811
+#: html/about.html:11 html/footer.html:7 trans/views.py:1811
 msgid "About Weblate"
 msgstr "Om Weblate"
 
@@ -384,20 +384,20 @@ msgstr ""
 msgid "Ignored checks"
 msgstr "Ignorera: %(check)s"
 
-#: html/base.html:41
+#: html/base.html:43
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Inloggad som %(name)s"
 
-#: html/base.html:42
+#: html/base.html:44
 msgid "Logout"
 msgstr "Logga ut"
 
-#: html/base.html:45 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Registrera"
 
-#: html/base.html:52 html/admin/performance.html:9 html/admin/report.html:8
+#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
 #: html/admin/ssh.html:8
 msgid "Home"
 msgstr "Hem"
@@ -694,16 +694,16 @@ msgid ""
 "\">translation section</a>."
 msgstr ""
 
-#: html/footer.html:5
+#: html/footer.html:6
 #, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "Drivs av <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
-#: html/footer.html:7
+#: html/footer.html:8
 msgid "Contact us"
 msgstr "Kontakta oss"
 
-#: html/footer.html:8 html/admin/performance.html:22
+#: html/footer.html:9 html/admin/performance.html:22
 #: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "Dokumentation"
@@ -1533,73 +1533,108 @@ msgstr "Inga andra strängar hittades."
 msgid "No similar strings found."
 msgstr "Inga liknande strängar hittades."
 
-#: html/mail/changed_translation.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"there has been change in translation on %(translation)s at %(site_title)s.\n"
+#: html/mail/base.html:31 html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
 msgstr ""
 
-#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
+#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
+#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
+#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
+#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
+#: html/mail/new_string.html:8 html/mail/new_string.txt:1
+#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
+#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:2
+#, fuzzy, python-format
+msgid ""
+"\n"
+"there has been change in translation on %(translation)s at %(site_title)s.\n"
+msgstr "Automatisk översättning"
+
+#: html/mail/changed_translation.html:21 html/mail/changed_translation.txt:6
+#: html/mail/new_comment.html:20 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.html:21 html/mail/new_suggestion.txt:6
+#: html/mail/new_translation.html:21 html/mail/new_translation.txt:6
 #, fuzzy
 msgid "Source string:"
 msgstr "Källa"
 
-#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
-#: html/mail/new_translation.txt:10
+#: html/mail/changed_translation.html:31 html/mail/changed_translation.txt:10
+#: html/mail/new_translation.html:31 html/mail/new_translation.txt:10
 msgid "Translation:"
 msgstr "Översättning:"
 
-#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
-msgid "Previous translation:"
-msgstr "Tidigare översättning:"
+#: html/mail/changed_translation.html:41 html/mail/new_suggestion.html:42
+#, fuzzy
+#| msgid "Translation changed"
+msgid "Translation change:"
+msgstr "Översättning ändrad"
 
-#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
-msgid "Previously not translated"
-msgstr "Ej tidigare översatt"
-
-#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
-#: html/mail/new_translation.txt:18
+#: html/mail/changed_translation.html:51 html/mail/changed_translation.txt:18
+#: html/mail/new_comment.html:41 html/mail/new_comment.txt:14
+#: html/mail/new_translation.html:41 html/mail/new_translation.txt:16
 msgid "You can edit this string at:"
 msgstr ""
+
+#: html/mail/changed_translation.txt:14
+msgid "Previous translation:"
+msgstr "Tidigare översättning:"
 
 #: html/mail/changed_translation_subject.txt:1
 #, fuzzy, python-format
 msgid "Changed translation in %(translation)s"
 msgstr "Automatisk översättning"
 
-#: html/mail/footer.txt:1
+#: html/mail/footer.html:4 html/mail/footer.txt:1
 #, fuzzy
 msgid "Translation summary:"
 msgstr "Översättningar"
 
-#: html/mail/footer.txt:3
+#: html/mail/footer.html:8 html/mail/footer.txt:3
 msgid "Total strings:"
 msgstr "Totalt antal strängar:"
 
-#: html/mail/footer.txt:4
+#: html/mail/footer.html:11 html/mail/footer.txt:4
 msgid "Translated strings:"
 msgstr "Översatta strängar:"
 
-#: html/mail/footer.txt:5
+#: html/mail/footer.html:14 html/mail/footer.txt:5
 #, fuzzy
 msgid "Fuzzy strings:"
 msgstr "Källa"
+
+#: html/mail/footer.html:18
+#, fuzzy, python-format
+#| msgid "You can translate at %(translation_url)s"
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr "Du kan översätta på %(translation_url)s"
 
 #: html/mail/footer.txt:7
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "Du kan översätta på %(translation_url)s"
 
-#: html/mail/merge_failure.txt:1
+#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:2
 #, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgstr ""
+
+#: html/mail/merge_failure.html:18
+#, fuzzy
+#| msgid "Error message:"
+msgid "Error message"
+msgstr "Felmeddelande:"
+
+#: html/mail/merge_failure.html:24
+#, fuzzy
+msgid "Repository status"
+msgstr "Git-förråd:"
 
 #: html/mail/merge_failure.txt:6
 msgid "Error message:"
@@ -1615,15 +1650,14 @@ msgstr "Git-förråd:"
 msgid "Merge failure in %(subproject)s"
 msgstr ""
 
-#: html/mail/new_comment.txt:1
+#: html/mail/new_comment.html:12 html/mail/new_comment.txt:2
 #, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgstr ""
 
-#: html/mail/new_comment.txt:10
+#: html/mail/new_comment.html:31 html/mail/new_comment.txt:10
 #, fuzzy
 msgid "Comment:"
 msgstr "Kommentarer"
@@ -1633,10 +1667,9 @@ msgstr "Kommentarer"
 msgid "New comment in %(subproject)s"
 msgstr "Ny kommentar i %(subproject)s"
 
-#: html/mail/new_contributor.txt:1
+#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:2
 #, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
@@ -1647,10 +1680,9 @@ msgstr ""
 msgid "New contributor in %(translation)s"
 msgstr "Automatisk översättning"
 
-#: html/mail/new_string.txt:1
+#: html/mail/new_string.html:12 html/mail/new_string.txt:2
 #, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1660,15 +1692,20 @@ msgstr ""
 msgid "New string to translate in %(translation)s"
 msgstr ""
 
-#: html/mail/new_suggestion.txt:1
+#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:2
 #, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
 
-#: html/mail/new_suggestion.txt:14
+#: html/mail/new_suggestion.html:31 html/mail/new_suggestion.txt:10
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Suggestion:"
+msgstr "Förslag"
+
+#: html/mail/new_suggestion.html:53 html/mail/new_suggestion.txt:14
 msgid "You can review it at:"
 msgstr ""
 
@@ -1677,22 +1714,21 @@ msgstr ""
 msgid "New suggestion in %(translation)s"
 msgstr "Nytt förslag i %(translation)s"
 
-#: html/mail/new_translation.txt:1
-#, python-format
+#: html/mail/new_translation.html:12 html/mail/new_translation.txt:2
+#, fuzzy, python-format
 msgid ""
-"Hi,\n"
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
-msgstr ""
+msgstr "Automatisk översättning"
+
+#: html/mail/new_translation.txt:14
+msgid "Previously not translated"
+msgstr "Ej tidigare översatt"
 
 #: html/mail/new_translation_subject.txt:1
 #, fuzzy, python-format
 msgid "New translation in %(translation)s"
 msgstr "Automatisk översättning"
-
-#: html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr ""
 
 #: html/registration/activate.html:7
 msgid "Your account could not be activated"

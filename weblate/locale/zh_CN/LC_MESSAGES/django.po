@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-14 15:31+0100\n"
+"POT-Creation-Date: 2013-01-15 15:25+0100\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -27,7 +27,7 @@ msgstr "注册用户"
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:260 html/base.html:47 html/registration/login.html:30
+#: urls.py:260 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
@@ -210,47 +210,47 @@ msgstr "模糊条目"
 msgid "Translated strings"
 msgstr "已翻译条目"
 
-#: accounts/models.py:141
+#: accounts/models.py:149
 msgid "Interface Language"
 msgstr "界面语言"
 
-#: accounts/models.py:147 html/index.html:21 trans/views.py:278
+#: accounts/models.py:155 html/index.html:21 trans/views.py:278
 msgid "Languages"
 msgstr "语言"
 
-#: accounts/models.py:152
+#: accounts/models.py:160
 msgid "Secondary languages"
 msgstr "第二语言"
 
-#: accounts/models.py:161
+#: accounts/models.py:169
 msgid "Subscribed projects"
 msgstr "已订阅的项目"
 
-#: accounts/models.py:165
+#: accounts/models.py:173
 msgid "Notification on any translation"
 msgstr "在有任何翻译时通知"
 
-#: accounts/models.py:169
+#: accounts/models.py:177
 msgid "Notification on new string to translate"
 msgstr "在有新条目需要翻译时通知"
 
-#: accounts/models.py:173
+#: accounts/models.py:181
 msgid "Notification on new suggestion"
 msgstr "在有新建议时通知"
 
-#: accounts/models.py:177
+#: accounts/models.py:185
 msgid "Notification on new contributor"
 msgstr "在有新贡献者时通知"
 
-#: accounts/models.py:181
+#: accounts/models.py:189
 msgid "Notification on new comment"
 msgstr "在有新注释时通知"
 
-#: accounts/models.py:185
+#: accounts/models.py:193
 msgid "Notification on merge failure"
 msgstr "在合并失败时通知"
 
-#: accounts/models.py:303
+#: accounts/models.py:312
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "您的资料已经迁移，您也许想要调整首选项。"
 
@@ -294,7 +294,7 @@ msgstr ""
 msgid "about"
 msgstr ""
 
-#: html/about.html:11 html/footer.html:6 trans/views.py:1811
+#: html/about.html:11 html/footer.html:7 trans/views.py:1811
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
@@ -376,20 +376,20 @@ msgstr "未通过检查"
 msgid "Ignored checks"
 msgstr "已忽略检查"
 
-#: html/base.html:41
+#: html/base.html:43
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "作为 %(name)s 登录"
 
-#: html/base.html:42
+#: html/base.html:44
 msgid "Logout"
 msgstr "退出"
 
-#: html/base.html:45 html/registration/registration_form.html:25
+#: html/base.html:47 html/registration/registration_form.html:25
 msgid "Register"
 msgstr "注册"
 
-#: html/base.html:52 html/admin/performance.html:9 html/admin/report.html:8
+#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
 #: html/admin/ssh.html:8
 msgid "Home"
 msgstr "主页"
@@ -681,16 +681,16 @@ msgid ""
 "\">translation section</a>."
 msgstr "当您激活您的账户后即可<a href=\"%(url)s\">开始翻译</a>。"
 
-#: html/footer.html:5
+#: html/footer.html:6
 #, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "由 <a href=\"%(weblate_url)s\">Weblate %(version)s</a> 打造"
 
-#: html/footer.html:7
+#: html/footer.html:8
 msgid "Contact us"
 msgstr "联系我们"
 
-#: html/footer.html:8 html/admin/performance.html:22
+#: html/footer.html:9 html/admin/performance.html:22
 #: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "文档"
@@ -1508,14 +1508,27 @@ msgstr "未找到其它条目。"
 msgid "No similar strings found."
 msgstr "未找到相似条目。"
 
-#: html/mail/changed_translation.txt:1
+#: html/mail/base.html:31 html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
+msgstr "由 Weblate 翻译系统发送"
+
+#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
+#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
+#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
+#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
+#: html/mail/new_string.html:8 html/mail/new_string.txt:1
+#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
+#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:2
 #, fuzzy, python-format
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
 #| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been change in translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1523,28 +1536,33 @@ msgstr ""
 "\n"
 "%(site_title)s 上的 %(translation)s 有新条目需要翻译。\n"
 
-#: html/mail/changed_translation.txt:6 html/mail/new_comment.txt:6
-#: html/mail/new_suggestion.txt:6 html/mail/new_translation.txt:6
+#: html/mail/changed_translation.html:21 html/mail/changed_translation.txt:6
+#: html/mail/new_comment.html:20 html/mail/new_comment.txt:6
+#: html/mail/new_suggestion.html:21 html/mail/new_suggestion.txt:6
+#: html/mail/new_translation.html:21 html/mail/new_translation.txt:6
 msgid "Source string:"
 msgstr "源条目："
 
-#: html/mail/changed_translation.txt:10 html/mail/new_suggestion.txt:10
-#: html/mail/new_translation.txt:10
+#: html/mail/changed_translation.html:31 html/mail/changed_translation.txt:10
+#: html/mail/new_translation.html:31 html/mail/new_translation.txt:10
 msgid "Translation:"
 msgstr "翻译："
 
-#: html/mail/changed_translation.txt:14 html/mail/new_translation.txt:14
-msgid "Previous translation:"
-msgstr "原有翻译:"
+#: html/mail/changed_translation.html:41 html/mail/new_suggestion.html:42
+#, fuzzy
+#| msgid "Translation changed"
+msgid "Translation change:"
+msgstr "修改翻译"
 
-#: html/mail/changed_translation.txt:16 html/mail/new_translation.txt:16
-msgid "Previously not translated"
-msgstr "未曾翻译"
-
-#: html/mail/changed_translation.txt:18 html/mail/new_comment.txt:14
-#: html/mail/new_translation.txt:18
+#: html/mail/changed_translation.html:51 html/mail/changed_translation.txt:18
+#: html/mail/new_comment.html:41 html/mail/new_comment.txt:14
+#: html/mail/new_translation.html:41 html/mail/new_translation.txt:16
 msgid "You can edit this string at:"
 msgstr "您可以到这里编辑此条目："
+
+#: html/mail/changed_translation.txt:14
+msgid "Previous translation:"
+msgstr "原有翻译:"
 
 #: html/mail/changed_translation_subject.txt:1
 #, fuzzy, python-format
@@ -1552,37 +1570,59 @@ msgstr "您可以到这里编辑此条目："
 msgid "Changed translation in %(translation)s"
 msgstr "%(translation)s 的新翻译"
 
-#: html/mail/footer.txt:1
+#: html/mail/footer.html:4 html/mail/footer.txt:1
 msgid "Translation summary:"
 msgstr "翻译概要:"
 
-#: html/mail/footer.txt:3
+#: html/mail/footer.html:8 html/mail/footer.txt:3
 msgid "Total strings:"
 msgstr "所有条目:"
 
-#: html/mail/footer.txt:4
+#: html/mail/footer.html:11 html/mail/footer.txt:4
 msgid "Translated strings:"
 msgstr "已翻译条目:"
 
-#: html/mail/footer.txt:5
+#: html/mail/footer.html:14 html/mail/footer.txt:5
 msgid "Fuzzy strings:"
 msgstr "模糊条目:"
+
+#: html/mail/footer.html:18
+#, fuzzy, python-format
+#| msgid "You can translate at %(translation_url)s"
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr "您可以到 %(translation_url)s 翻译"
 
 #: html/mail/footer.txt:7
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "您可以到 %(translation_url)s 翻译"
 
-#: html/mail/merge_failure.txt:1
-#, python-format
+#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a merge failure on %(subproject)s at %(site_title)s.\n"
 msgstr ""
 "您好：\n"
 "\n"
 "%(site_title)s 上的 %(subproject)s 合并失败。\n"
+
+#: html/mail/merge_failure.html:18
+#, fuzzy
+#| msgid "Error message:"
+msgid "Error message"
+msgstr "错误消息："
+
+#: html/mail/merge_failure.html:24
+#, fuzzy
+#| msgid "Repository status:"
+msgid "Repository status"
+msgstr "代码库状态："
 
 #: html/mail/merge_failure.txt:6
 msgid "Error message:"
@@ -1597,10 +1637,13 @@ msgstr "代码库状态："
 msgid "Merge failure in %(subproject)s"
 msgstr "%(subproject)s 合并失败"
 
-#: html/mail/new_comment.txt:1
-#, python-format
+#: html/mail/new_comment.html:12 html/mail/new_comment.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been a new comment on %(subproject)s at %(site_title)s.\n"
 msgstr ""
@@ -1608,7 +1651,7 @@ msgstr ""
 "\n"
 "%(site_title)s 上的 %(subproject)s 有新注释。\n"
 
-#: html/mail/new_comment.txt:10
+#: html/mail/new_comment.html:31 html/mail/new_comment.txt:10
 msgid "Comment:"
 msgstr "注释："
 
@@ -1617,10 +1660,14 @@ msgstr "注释："
 msgid "New comment in %(subproject)s"
 msgstr "%(subproject)s 的新注释"
 
-#: html/mail/new_contributor.txt:1
-#, python-format
+#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "%(username)s has just made his first contribution on %(translation)s at "
+#| "%(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "%(username)s has just made his first contribution on %(translation)s at "
 "%(site_title)s.\n"
@@ -1635,10 +1682,13 @@ msgstr ""
 msgid "New contributor in %(translation)s"
 msgstr "%(translation)s 的新翻译"
 
-#: html/mail/new_string.txt:1
-#, python-format
+#: html/mail/new_string.html:12 html/mail/new_string.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there are new strings to translate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1651,10 +1701,13 @@ msgstr ""
 msgid "New string to translate in %(translation)s"
 msgstr "%(translation)s 中有新条目需要翻译"
 
-#: html/mail/new_suggestion.txt:1
-#, python-format
+#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there is new suggestion evaluate on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1662,7 +1715,13 @@ msgstr ""
 "\n"
 "%(site_title)s 的 %(translation)s 项目有新的建议。\n"
 
-#: html/mail/new_suggestion.txt:14
+#: html/mail/new_suggestion.html:31 html/mail/new_suggestion.txt:10
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Suggestion:"
+msgstr "建议"
+
+#: html/mail/new_suggestion.html:53 html/mail/new_suggestion.txt:14
 msgid "You can review it at:"
 msgstr "您可以到这里复查:"
 
@@ -1671,10 +1730,13 @@ msgstr "您可以到这里复查:"
 msgid "New suggestion in %(translation)s"
 msgstr "%(translation)s 中有新的建议"
 
-#: html/mail/new_translation.txt:1
-#, python-format
+#: html/mail/new_translation.html:12 html/mail/new_translation.txt:2
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgid ""
-"Hi,\n"
 "\n"
 "there has been new translation on %(translation)s at %(site_title)s.\n"
 msgstr ""
@@ -1682,14 +1744,14 @@ msgstr ""
 "\n"
 "%(site_title)s 上的 %(translation)s 有新条目需要翻译。\n"
 
+#: html/mail/new_translation.txt:14
+msgid "Previously not translated"
+msgstr "未曾翻译"
+
 #: html/mail/new_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
 msgstr "%(translation)s 的新翻译"
-
-#: html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr "由 Weblate 翻译系统发送"
 
 #: html/registration/activate.html:7
 msgid "Your account could not be activated"
