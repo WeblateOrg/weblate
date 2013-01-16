@@ -22,12 +22,14 @@
 Fake file to translate language names.
 
 Generated using:
-./manage.py dumpdata --format=yaml lang | grep fields:| sed 's/.*name: /    _("/; s/, nplu.*/")/'
+./manage.py dumpdata --format=yaml lang | \
+    grep fields:| \
+    sed 's/.*name: /    _("/; s/, nplu.*/")/'
 '''
 
 
-def _(s):
-    return s
+def _(text):
+    return text
 
 
 def fake():
