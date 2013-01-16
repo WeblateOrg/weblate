@@ -42,17 +42,17 @@ js_info_dict = {
 }
 
 project_dict = {
-    'queryset': Project.objects.all(),
+    'queryset': Project.objects.all_acl(None),
     'date_field': 'get_last_change',
 }
 
 subproject_dict = {
-    'queryset': SubProject.objects.all(),
+    'queryset': SubProject.objects.all_acl(None),
     'date_field': 'get_last_change',
 }
 
 translation_dict = {
-    'queryset': Translation.objects.all(),
+    'queryset': Translation.objects.all_acl(None),
     'date_field': 'get_last_change',
 }
 
@@ -96,7 +96,7 @@ class EngageLangSitemap(Sitemap):
         Return list of existing project, langauge tuples.
         '''
         ret = []
-        for project in Project.objects.all():
+        for project in Project.objects.all_acl(None):
             for lang in project.get_languages():
                 ret.append((project, lang))
         return ret

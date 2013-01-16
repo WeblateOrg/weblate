@@ -102,9 +102,23 @@ class ProjectManager(models.Manager):
         project_ids = [
             project.id for project in projects if project.has_acl(user)
         ]
-        if projects.count == len(project_ids):
+        if projects.count() == len(project_ids):
             return projects
         return self.filter(id__in=project_ids)
+
+
+class SubProjectManager(models.Manager):
+    def all_acl(self, user):
+        '''
+        Returns list of projects user is allowed to access.
+        '''
+        from weblate.trans.models import Project
+        all_projects = Project.objects.all()
+        projects = Project.objects.all_acl(user)
+        if projects.count() == all_projects.count():
+            return self.all()
+        return self.filter(project__in=projects)
+
 
 class TranslationManager(models.Manager):
     def update_from_blob(self, subproject, code, path, force=False, request=None):
@@ -126,6 +140,17 @@ class TranslationManager(models.Manager):
 
     def enabled(self):
         return self.filter(enabled=True)
+
+    def all_acl(self, user):
+        '''
+        Returns list of projects user is allowed to access.
+        '''
+        from weblate.trans.models import Project
+        all_projects = Project.objects.all()
+        projects = Project.objects.all_acl(user)
+        if projects.count() == all_projects.count():
+            return self.all()
+        return self.filter(subproject__project__in=projects)
 
 
 class UnitManager(models.Manager):

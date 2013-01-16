@@ -54,7 +54,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import (
     TranslationManager, UnitManager, DictionaryManager, ChangeManager,
-    ProjectManager,
+    ProjectManager, SubProjectManager,
 )
 from weblate.trans.filelock import FileLock, FileLockException
 from util import (
@@ -614,6 +614,8 @@ class SubProject(models.Model):
         default=True,
         help_text=ugettext_lazy('Whether translation updates in other subproject will cause automatic translation in this project')
     )
+
+    objects = SubProjectManager()
 
     class Meta:
         ordering = ['project__name', 'name']
