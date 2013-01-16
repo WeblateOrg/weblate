@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-16 11:51+0100\n"
+"POT-Creation-Date: 2013-01-16 15:37+0100\n"
 "PO-Revision-Date: 2013-01-16 14:21+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -199,11 +199,11 @@ msgstr "Εντάξει"
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: accounts/i18n.py:58 html/list-translations.html:62 trans/views.py:1206
+#: accounts/i18n.py:58 html/list-translations.html:62 trans/views.py:1226
 msgid "Strings with any failing checks"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
-#: accounts/i18n.py:59 html/list-translations.html:63 trans/views.py:1200
+#: accounts/i18n.py:59 html/list-translations.html:63 trans/views.py:1220
 msgid "Fuzzy strings"
 msgstr "Ασαφή κείμενα"
 
@@ -215,7 +215,7 @@ msgstr "Μεταφρασμένα κείμενα"
 msgid "Interface Language"
 msgstr "Γλώσσα Περιβάλλοντος εργασίας"
 
-#: accounts/models.py:155 html/index.html:21 trans/views.py:280
+#: accounts/models.py:155 html/index.html:21 trans/views.py:283
 msgid "Languages"
 msgstr "Γλώσσες"
 
@@ -298,7 +298,7 @@ msgstr ""
 msgid "about"
 msgstr "σχετικά"
 
-#: html/about.html:11 html/footer.html:7 trans/views.py:1860
+#: html/about.html:11 html/footer.html:7 trans/views.py:1950
 msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
@@ -428,7 +428,7 @@ msgstr "Δεν υπάρχουν αντιστοιχίες αποτυχίας ελ
 
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
-#: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
+#: html/js/dictionary.html:8 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:247
 msgid "Translation"
 msgstr "Μετάφραση"
@@ -436,7 +436,7 @@ msgstr "Μετάφραση"
 #: html/check_subproject.html:39 html/dictionary.html:32
 #: html/source-review.html:32 html/subproject.html:36 html/translate.html:62
 #: html/translate.html.py:176 html/translate.html:182
-#: html/js/dictionary.html:6 html/js/other.html:6 html/js/similar.html:6
+#: html/js/dictionary.html:7 html/js/other.html:6 html/js/similar.html:6
 #: trans/forms.py:246
 msgid "Source"
 msgstr "Προέλευση"
@@ -996,7 +996,7 @@ msgid "Strings to review"
 msgstr "Κείμενα για επισκόπηση"
 
 #: html/source-review.html:33 html/translate.html:106
-#: html/translate.html.py:226 trans/views.py:128
+#: html/translate.html.py:226 trans/views.py:131
 msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
@@ -1016,7 +1016,7 @@ msgstr "Δεν βρέθηκαν παρόμοια κείμενα προέλευσ
 msgid "Strings to check"
 msgstr "Κείμενα για έλεγχο"
 
-#: html/subproject.html:31 trans/models.py:272
+#: html/subproject.html:31 trans/models.py:273
 msgid "New language"
 msgstr "Νέα Γλώσσα"
 
@@ -1068,7 +1068,7 @@ msgstr "Αλλαγή προέλευσης"
 msgid "Context"
 msgstr "Συνοδευτικά"
 
-#: html/translate.html:80
+#: html/translate.html:80 html/js/dictionary.html:19
 msgid "Copy"
 msgstr "Αντιγραφή"
 
@@ -1481,7 +1481,13 @@ msgstr ""
 "Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τη ρύθμιση κλειδιών "
 "SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
 
-#: html/js/dictionary.html:18
+#: html/js/dictionary.html:19
+#, fuzzy
+#| msgid "Your translations"
+msgid "Copy word to translation"
+msgstr "Οι μεταφράσεις σας"
+
+#: html/js/dictionary.html:27
 msgid "No related strings found in dictionary."
 msgstr "Δεν βρέθηκαν σχετικά κείμενα στο λεξικό."
 
@@ -2579,67 +2585,67 @@ msgstr "Απέτυχε η δημιουργία κλειδιού!"
 msgid "Created new SSH key."
 msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
-#: trans/checks.py:279
+#: trans/checks.py:282
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: trans/checks.py:280
+#: trans/checks.py:283
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
-#: trans/checks.py:328
+#: trans/checks.py:331
 msgid "Starting newline"
 msgstr "Εκκίνηση νέας γραμμής"
 
-#: trans/checks.py:329
+#: trans/checks.py:332
 msgid "Source and translation do not both start with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:340
+#: trans/checks.py:343
 msgid "Trailing newline"
 msgstr "Ακολουθεί νέα γραμμή"
 
-#: trans/checks.py:341
+#: trans/checks.py:344
 msgid "Source and translation do not both end with a newline"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελείωνουν και τα δύο με νέα "
 "γραμμή"
 
-#: trans/checks.py:352
+#: trans/checks.py:355
 msgid "Starting spaces"
 msgstr "Διαστήματα έναρξης"
 
-#: trans/checks.py:353
+#: trans/checks.py:356
 msgid "Source and translation do not both start with same number of spaces"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν ξεκινούν και τα δύο με τον "
 "ίδιο αριθμό διαστημάτων"
 
-#: trans/checks.py:373
+#: trans/checks.py:376
 msgid "Trailing space"
 msgstr "Ακολουθεί κενό"
 
-#: trans/checks.py:374
+#: trans/checks.py:377
 msgid "Source and translation do not both end with a space"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με κενό"
 
-#: trans/checks.py:399
+#: trans/checks.py:402
 msgid "Trailing stop"
 msgstr "Ακολουθεί τελεία"
 
-#: trans/checks.py:400
+#: trans/checks.py:403
 msgid "Source and translation do not both end with a full stop"
 msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με τελεία"
 
-#: trans/checks.py:421
+#: trans/checks.py:424
 msgid "Trailing colon"
 msgstr "Ακολουθεί άνω κάτω τελεία"
 
-#: trans/checks.py:422
+#: trans/checks.py:425
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -2647,11 +2653,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με άνω "
 "κάτω τελεία ή δεν είναι χωρισμένη σωστά με κενά"
 
-#: trans/checks.py:446
+#: trans/checks.py:449
 msgid "Trailing question"
 msgstr "Ακολουθεί ερωτηματικό"
 
-#: trans/checks.py:447
+#: trans/checks.py:450
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -2659,11 +2665,11 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "ερωτηματικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:470
+#: trans/checks.py:473
 msgid "Trailing exclamation"
 msgstr "Ακολουθεί θαυμαστικό"
 
-#: trans/checks.py:471
+#: trans/checks.py:474
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -2671,101 +2677,101 @@ msgstr ""
 "Το κείμενο προέλευσης και το μεταφρασμένο δεν τελειώνουν και τα δύο με "
 "θαυμαστικό ή δεν είναι χωρισμένο σωστά με κενά"
 
-#: trans/checks.py:500
+#: trans/checks.py:503
 msgid "Trailing ellipsis"
 msgstr "Ακολουθεί έλλειψη"
 
-#: trans/checks.py:501
+#: trans/checks.py:504
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Η προέλευση και η μετάφραση δεν τελείωνουν και τα δύο με έλλειψη"
 
-#: trans/checks.py:574
+#: trans/checks.py:577
 msgid "Python format"
 msgstr "Μορφή Python"
 
-#: trans/checks.py:575 trans/checks.py:586 trans/checks.py:597
+#: trans/checks.py:578 trans/checks.py:589 trans/checks.py:600
 msgid "Format string does not match source"
 msgstr "Η μορφή του κειμένου δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:585
+#: trans/checks.py:588
 msgid "PHP format"
 msgstr "Μορφή PHP"
 
-#: trans/checks.py:596
+#: trans/checks.py:599
 msgid "C format"
 msgstr "Μορφή C"
 
-#: trans/checks.py:607
+#: trans/checks.py:610
 msgid "Missing plurals"
 msgstr "Απόντες πληθυντικοί"
 
-#: trans/checks.py:608
+#: trans/checks.py:611
 msgid "Some plural forms are not translated"
 msgstr "Ορισμένοι πληθυντικοί δεν μεταφράστηκαν"
 
-#: trans/checks.py:626
+#: trans/checks.py:629
 msgid "Inconsistent"
 msgstr "Ασυνεπές"
 
-#: trans/checks.py:627
+#: trans/checks.py:630
 msgid "This message has more than one translation in this project"
 msgstr "Αυτό το μήνυμα έχει περισσότερες από μια μεταφράσεις σε αυτό το έργο"
 
-#: trans/checks.py:656
+#: trans/checks.py:659
 msgid "Invalid text direction"
 msgstr "Μη έγκυρη κατεύθυνση κειμένου"
 
-#: trans/checks.py:657
+#: trans/checks.py:660
 msgid "Text direction can be either LTR or RTL"
 msgstr "Η κατευθυνση κειμένου μπορεί να είναι LTR ή RTL"
 
-#: trans/checks.py:686
+#: trans/checks.py:689
 msgid "Mismatched \\n"
 msgstr "Δεν ταιριάζουν \\n"
 
-#: trans/checks.py:687
+#: trans/checks.py:690
 msgid "Number of \\n in translation does not match source"
 msgstr "Ο αριθμός των \\n στη μετάφραση δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:695
+#: trans/checks.py:698
 msgid "Mismatched BBcode"
 msgstr "Αταίριαστος κώδικας BB"
 
-#: trans/checks.py:696
+#: trans/checks.py:699
 msgid "BBcode in translation does not match source"
 msgstr "Ο κώδικας BB στη μετάφραση δεν ταιριάζει με την προέλευση"
 
-#: trans/checks.py:724
+#: trans/checks.py:727
 msgid "Zero-width space"
 msgstr "Διάστημα μηδενικού πλάτους"
 
-#: trans/checks.py:725
+#: trans/checks.py:728
 msgid "Translation contains extra zero-width space character"
 msgstr "Η μετάφραση περιέχει πρόσθετο χαρακτήρα διαστήματος μηδενικού πλάτους"
 
-#: trans/checks.py:736
+#: trans/checks.py:739
 msgid "XML tags mismatch"
 msgstr "Οι ετικέτες XML δεν ταιριάζουν"
 
-#: trans/checks.py:737
+#: trans/checks.py:740
 msgid "XML tags in translation do not match source"
 msgstr "Οι ετικέτες XML στη μετάφραση δεν ταιριάζουν με την προέλευση"
 
-#: trans/checks.py:793
+#: trans/checks.py:796
 msgid "Optional plural"
 msgstr "Προαιρετικός πληθυντικός"
 
-#: trans/checks.py:794
+#: trans/checks.py:797
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 "Το κείμενο χρησιμοποιείται προαιρετικά ως πληθυντικός αλλά δεν "
 "χρησιμοποιούνται πληθυντικές μορφές"
 
-#: trans/checks.py:807
+#: trans/checks.py:810
 msgid "Ellipsis"
 msgstr "Έλλειψη"
 
-#: trans/checks.py:808
+#: trans/checks.py:811
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Το κείμενο χρησιμοποιεί τρεις τελείες (...) αντί για χαρακτήρα έλλειψης (…)"
@@ -2893,43 +2899,43 @@ msgstr "Οποιοδήποτε"
 msgid "Whole project"
 msgstr "Ολόκληρο έργο"
 
-#: trans/models.py:120
+#: trans/models.py:119
 msgid "Automatic detection"
 msgstr "Αυτόματη ανίχνευση"
 
-#: trans/models.py:124
+#: trans/models.py:123
 msgid "Gettext PO file"
 msgstr "Αρχείο Gettext PO"
 
-#: trans/models.py:129
+#: trans/models.py:128
 msgid "Qt Linguist Translation File"
 msgstr "Αρχείο Μετάφρασης Qt Linguist"
 
-#: trans/models.py:133
+#: trans/models.py:132
 msgid "XLIFF Translation File"
 msgstr "Αρχείο Μετάφρασης XLIFF"
 
-#: trans/models.py:137
+#: trans/models.py:136
 msgid "OS X Strings"
 msgstr "Κείμενα OS X"
 
-#: trans/models.py:142
+#: trans/models.py:141
 msgid "Java Properties"
 msgstr "Ιδιότητες Java"
 
-#: trans/models.py:150
+#: trans/models.py:149
 msgid "Java Properties (UTF-8)"
 msgstr "Ιδιότητες Java (UTF-8)"
 
-#: trans/models.py:155
+#: trans/models.py:154
 msgid "PHP strings"
 msgstr "Κείμενα PHP"
 
-#: trans/models.py:159
+#: trans/models.py:158
 msgid "Android String Resource"
 msgstr "Προέλευση Κειμένου Android"
 
-#: trans/models.py:196 trans/models.py:213
+#: trans/models.py:195 trans/models.py:212
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Κακή μορφή κειμένου (%s)"
@@ -2938,51 +2944,51 @@ msgstr "Κακή μορφή κειμένου (%s)"
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Η μάσκα αρχείου δεν περιέχει * ως ταυτότητα γλώσσας!"
 
-#: trans/models.py:242
+#: trans/models.py:243
 msgid "Can not link to linked repository!"
 msgstr "Αδύνατη η σύνδεση με το συνδεδεμένο αποθετήριο!"
 
-#: trans/models.py:244
+#: trans/models.py:245
 msgid "Invalid link to repository!"
 msgstr "Μη έγκυρος σύνδεσμος με το αποθετήριο!"
 
-#: trans/models.py:248
+#: trans/models.py:249
 msgid "Use contact form"
 msgstr "Χρήση φόρμας επικοινωνίας"
 
-#: trans/models.py:249
+#: trans/models.py:250
 msgid "Point to translation instructions URL"
 msgstr "Εστιάστε στο URL οδηγιών μετάφρασης"
 
-#: trans/models.py:252
+#: trans/models.py:253
 msgid "Merge"
 msgstr "Ένωση"
 
-#: trans/models.py:253
+#: trans/models.py:254
 msgid "Rebase"
 msgstr "Αναβάθμιση"
 
-#: trans/models.py:261
+#: trans/models.py:262
 msgid "Project website"
 msgstr "Ιστοσελίδα έργου"
 
-#: trans/models.py:265
+#: trans/models.py:266
 msgid "Email conference for translators"
 msgstr "Συνέδριο αλληλογραφίας για μεταφραστές"
 
-#: trans/models.py:269
+#: trans/models.py:270
 msgid "URL with instructions for translators"
 msgstr "URL με Οδηγίες για μεταφραστές"
 
-#: trans/models.py:276
+#: trans/models.py:277
 msgid "How to handle requests for creating new languages."
 msgstr "Πως να χειρίζεστε αιτήσεις για δημιουργία νέων γνωσσών."
 
-#: trans/models.py:279
+#: trans/models.py:280
 msgid "Merge style"
 msgstr "Ένωση στυλ"
 
-#: trans/models.py:283
+#: trans/models.py:284
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -2990,7 +2996,7 @@ msgstr ""
 "Ορίστε αν το Weblate θα πρέπει να συγχωνεύσει αποστέλοντας το χώρο φύλαξης ή "
 "να αναβαθμίσει τις αλλαγές σε αυτό."
 
-#: trans/models.py:288
+#: trans/models.py:289
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -2998,24 +3004,23 @@ msgstr ""
 "Μπορείτε να χρησιμιοποιήσετε μορφοποιημένα κείμενα για διάφορες πληροφορίες, "
 "για περισσότερες λεπτομέρειες δείτε την τεκμηρίωση."
 
-#: trans/models.py:302
+#: trans/models.py:303
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Αν το αποθετήριο πρέπει να προωθηθεί προς τα πάνω σε κάθε πράξη."
 
-#: trans/models.py:307
+#: trans/models.py:308
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Αν θα πρέπει η Μεταφραστική Ομάδα στις κεφαλίδες αρχείου να ενημερώνετε από "
 "το Weblate."
 
-#: trans/models.py:340
+#: trans/models.py:341
 #, python-format
-#| msgid "You are not allowed to add comments."
 msgid "You are not allowed to access project %s."
 msgstr "Δεν σας επιτρέπεται η πρόσβαση στο έργο %s."
 
-#: trans/models.py:346
+#: trans/models.py:347
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -3023,15 +3028,15 @@ msgstr ""
 "Είτε συμπληρώστε το URL οδηγιών ή χρησιμοποιήστε διαφορετική επιλογή για "
 "προσθήκη νέας γλώσσας."
 
-#: trans/models.py:562
+#: trans/models.py:567
 msgid "Name to display"
 msgstr "Όνομα για εμφάνιση"
 
-#: trans/models.py:566
+#: trans/models.py:571
 msgid "Name used in URLs"
 msgstr "Όνομα για χρήση σε URLs"
 
-#: trans/models.py:571
+#: trans/models.py:576
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
@@ -3039,11 +3044,11 @@ msgstr ""
 "Το URL του αποθετηρίου Git, χρησιμοποιήστε το weblate://project/subproject "
 "για κοινή χρήση με άλλο υποέργο."
 
-#: trans/models.py:576
+#: trans/models.py:581
 msgid "URL of push Git repository"
 msgstr "URL για προώθηση του αποθετηρίου Git"
 
-#: trans/models.py:580
+#: trans/models.py:585
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -3052,7 +3057,7 @@ msgstr ""
 "Σύνδεσμος για φυλλομετρητή αποθετηρίου, χρησιμοποιήστε τα %(branch)s για "
 "κλάδο, %(file)s και %(line)s ως όνομα αρχείου και χαρακτήρες αλλαγής γραμμής."
 
-#: trans/models.py:585
+#: trans/models.py:590
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -3060,11 +3065,11 @@ msgstr ""
 "Ηλεκτρονική διεύθυνση όπου θα αναφερθούν σφάλματα στο κείμενο προέλευσης, "
 "άδειο για καμιά αλληλογραφία."
 
-#: trans/models.py:590
+#: trans/models.py:595
 msgid "Git branch to translate"
 msgstr "Κλάδος Git για μετάφραση"
 
-#: trans/models.py:596
+#: trans/models.py:601
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -3072,7 +3077,7 @@ msgstr ""
 "Διαδρομή αρχείων για μετάφραση, χρήση του * αντί για κωδικό γλώσσας, για "
 "παράδειγμα: po/*.po ή locale/*/LC_MESSAGES/django.po."
 
-#: trans/models.py:601
+#: trans/models.py:606
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -3082,17 +3087,17 @@ msgstr ""
 "χρησιμοποιείται για μεταφράσεις που αποθηκεύουν μόνο το μεταφρασμένο κείμενο "
 "όπως τα κείμενα πηγαίου κώδικα Android."
 
-#: trans/models.py:607
+#: trans/models.py:612
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Η αυτόματη ανίχνευση μπορεί να αποτύχει για ορισμένες μορφές και είναι "
 "σχετικά αργή."
 
-#: trans/models.py:611
+#: trans/models.py:616
 msgid "Whether subproject is locked for translation updates."
 msgstr "Αν το υποέργο είναι κλειδωμένο για μεταφραστικές ενημερώσεις."
 
-#: trans/models.py:615
+#: trans/models.py:620
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -3100,47 +3105,47 @@ msgstr ""
 "Αν η μετάφραση ενημερωθεί σε άλλο υπόέργο, τότε θα προκαλέσει αυτόματη "
 "μετάφραση σε αυτό το έργο"
 
-#: trans/models.py:798
+#: trans/models.py:810
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Απέτυχε η λήψη του αποθετηρίου git: %s"
 
-#: trans/models.py:878
+#: trans/models.py:893
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#: trans/models.py:910
+#: trans/models.py:928
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Απέτυχε η προώθηση στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models.py:936
+#: trans/models.py:958
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Απέτυχε η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models.py:1015
+#: trans/models.py:1045
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Απέτυχε η ένωση του απομακρυσμένου κλάδου στο %s."
 
-#: trans/models.py:1045
+#: trans/models.py:1079
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Απέτυχε η αναβαθμίστε του υποκαταστήματός μας σε απομακρυσμένο υποκατάστημα "
 "%s."
 
-#: trans/models.py:1159
+#: trans/models.py:1197
 msgid "Push URL is not used when repository is linked!"
 msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: trans/models.py:1165
+#: trans/models.py:1203
 msgid "The mask did not match any files!"
 msgstr "Η μάσκα δεν ταιριάζει με κανένα αρχείο!"
 
-#: trans/models.py:1171
+#: trans/models.py:1209
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3148,25 +3153,25 @@ msgstr ""
 "Υπάρχουν περισσότερα αρχεία για μονή γλώσσα, προσαρμόστε τη μάσκα και "
 "χρησιμοποιήστε υποέργα για μετάφραση διαφορετικών προελεύσεων."
 
-#: trans/models.py:1187
+#: trans/models.py:1228
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
 
-#: trans/models.py:1192
+#: trans/models.py:1233
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
 
-#: trans/models.py:1202
+#: trans/models.py:1243
 msgid "Format of translation template could not be recognized."
 msgstr "Η μορφή του προτύπου μετάφρασης δεν μπορεί να αναγνωριστεί."
 
-#: trans/models.py:1204
+#: trans/models.py:1246
 msgid "Failed to parse translation template."
 msgstr "Απέτυχε η ανάλυση του προτύπου μετάφρασης."
 
-#: trans/models.py:1376
+#: trans/models.py:1439
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3175,90 +3180,90 @@ msgstr ""
 "Το όνομα αρχείου %s δεν βρέθηκε στο αποθετήριο! Για προσθήκη νέας "
 "μετάφρασης, προσθέστε αρχείο γλώσσας στο αποθετήριο."
 
-#: trans/models.py:1380
+#: trans/models.py:1443
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Η μορφή του %s δεν αναγνωρίζεται."
 
-#: trans/models.py:1382
+#: trans/models.py:1446
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error)s"
 
-#: trans/models.py:1404
+#: trans/models.py:1470
 #, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr ""
 "Αυτή η μετάφραση είναι κλειδωμένη από τον χρήστη %(user)s για μετάφραση!"
 
-#: trans/models.py:2059 trans/models.py:2086
+#: trans/models.py:2183 trans/models.py:2210
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:2064 trans/models.py:2106
+#: trans/models.py:2188 trans/models.py:2230
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων (%d)"
 
-#: trans/models.py:2078 trans/models.py:2120
+#: trans/models.py:2202 trans/models.py:2244
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Κείμενα με σχόλια (%d)"
 
-#: trans/models.py:2091
+#: trans/models.py:2215
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:2096
+#: trans/models.py:2220
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:2101
+#: trans/models.py:2225
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:2416
+#: trans/models.py:2543
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
-#: trans/models.py:2422
+#: trans/models.py:2549
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
 
-#: trans/models.py:2544
+#: trans/models.py:2671
 #, python-format
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
 
-#: trans/models.py:2870
+#: trans/models.py:2997
 msgid "Resource update"
 msgstr "Ενημέρωση προέλευσης"
 
-#: trans/models.py:2871
+#: trans/models.py:2998
 msgid "Translation completed"
 msgstr "Η μετάφραση ολοκληρώθηκε"
 
-#: trans/models.py:2872
+#: trans/models.py:2999
 msgid "Translation changed"
 msgstr "Η μετάφραση άλλαξε"
 
-#: trans/models.py:2873
+#: trans/models.py:3000
 msgid "New translation"
 msgstr "Νέα μετάφραση"
 
-#: trans/models.py:2874
+#: trans/models.py:3001
 msgid "Comment added"
 msgstr "Προστέθηκε σχόλιο"
 
-#: trans/models.py:2875
+#: trans/models.py:3002
 msgid "Suggestion added"
 msgstr "Προστέθηκαν προτάσεις"
 
-#: trans/models.py:2893
+#: trans/models.py:3020
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
@@ -3267,38 +3272,38 @@ msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
 msgid "None"
 msgstr "Καμία"
 
-#: trans/views.py:90
+#: trans/views.py:91
 msgid "Please set your full name in your profile."
 msgstr "Ορίστε το πλήρες σας όνομα στο προφίλ σας."
 
-#: trans/views.py:309
+#: trans/views.py:312
 msgid "Dictionaries"
 msgstr "Λεξικά"
 
-#: trans/views.py:344 trans/views.py:534
+#: trans/views.py:347 trans/views.py:537
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Το λεξικό %(language)s για το %(project)s"
 
-#: trans/views.py:393
+#: trans/views.py:396
 msgid "No words to import found in file."
 msgstr "Καμιά λέξη για εισαγωγή δεν βρέθηκε στο αρχείο."
 
-#: trans/views.py:398
+#: trans/views.py:401
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Εισήχθησαν %d λέξεις από το αρχείο."
 
-#: trans/views.py:403 trans/views.py:1785
+#: trans/views.py:406 trans/views.py:1875
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"
 
-#: trans/views.py:406 trans/views.py:408 trans/views.py:666
+#: trans/views.py:409 trans/views.py:411 trans/views.py:679
 msgid "Failed to process form!"
 msgstr "Απέτυχε η προώθηση της φόμρας!"
 
-#: trans/views.py:576
+#: trans/views.py:579
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -3312,7 +3317,7 @@ msgstr ""
 "είναι κατά %(percent)s%% ολοκληρωμένες."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
-#: trans/views.py:579
+#: trans/views.py:582
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -3323,78 +3328,78 @@ msgstr ""
 "περιέχει προς το παρόν %(total)s κείμενα για μετάφραση και είναι "
 "μεταφρασμένο κατά %(percent)s%%."
 
-#: trans/views.py:664
+#: trans/views.py:677
 msgid "Automatic translation completed."
 msgstr "Ολοκλήρωση αυτόματης μετάφρασης."
 
-#: trans/views.py:708
+#: trans/views.py:721
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Επισκόπηση κειμένων προέλευσης στο %s"
 
-#: trans/views.py:728
+#: trans/views.py:741
 #, python-format
 msgid "Source strings in %s"
 msgstr "Κείμενα προέλευσης στο %s"
 
-#: trans/views.py:791 trans/views.py:803 trans/views.py:821
+#: trans/views.py:811 trans/views.py:823 trans/views.py:841
 msgid "All pending translations were committed."
 msgstr "Όλες οι εκκρεμείς μεταφράσεις εκτελέστηκαν."
 
-#: trans/views.py:833 trans/views.py:845 trans/views.py:863
+#: trans/views.py:853 trans/views.py:865 trans/views.py:883
 msgid "All repositories were updated."
 msgstr "Όλα τα αποθετήρια ενημερώθηκαν."
 
-#: trans/views.py:875 trans/views.py:887 trans/views.py:905
+#: trans/views.py:895 trans/views.py:907 trans/views.py:925
 msgid "All repositories were pushed."
 msgstr "Όλα τα αποθετήρια προωθήθηκαν."
 
-#: trans/views.py:917 trans/views.py:929 trans/views.py:947
+#: trans/views.py:937 trans/views.py:949 trans/views.py:967
 msgid "All repositories have been reset."
 msgstr "Όλα τα αποθετήρια εναναφέρθηκαν."
 
-#: trans/views.py:966
+#: trans/views.py:986
 msgid "Translation is now locked for you."
 msgstr "Η μετάφραση είναι τώρα κλειδωμένη για εσάς."
 
-#: trans/views.py:1003
+#: trans/views.py:1023
 msgid "Translation is now open for translation updates."
 msgstr "Η μετάφραση είναι τώρα ανοικτή για ενημερώσεις μετάφρασης."
 
-#: trans/views.py:1022
+#: trans/views.py:1042
 msgid "Subproject is now locked for translation updates!"
 msgstr "Το υποέργο είναι τώρα κλειδωμένο για μεταφραστικές ενημερώσεις!"
 
-#: trans/views.py:1039
+#: trans/views.py:1059
 msgid "Subproject is now open for translation updates."
 msgstr "Το υποέργο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
 
-#: trans/views.py:1059
+#: trans/views.py:1079
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Όλα τα υποέργα είναι τώρα κλειδωμένα για μεταφραστικές ενημερώσεις!"
 
-#: trans/views.py:1075
+#: trans/views.py:1095
 msgid "Project is now open for translation updates."
 msgstr "Το έργο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
 
-#: trans/views.py:1196
+#: trans/views.py:1216
 #, python-format
 msgid "Search for \"%s\""
 msgstr "Αναζήτηση για το «%s»"
 
-#: trans/views.py:1202
+#: trans/views.py:1222
 msgid "Untranslated strings"
 msgstr "Αμετάφραστα κείμενα"
 
-#: trans/views.py:1204
+#: trans/views.py:1224
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
 
-#: trans/views.py:1271
+#: trans/views.py:1297
 msgid "Your suggestion is empty!"
 msgstr "Η πρότασή σας είναι άδεια!"
 
-#: trans/views.py:1303
+#: trans/views.py:1331
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming translator as your suggestion might stay unreviewed "
@@ -3403,63 +3408,63 @@ msgstr ""
 "Δεν υπάρχει ενεργός μεταφραστής για αυτή τη μετάφραση, σκεφτείτε να γίνετε "
 "μεταφραστής καθώς η πρότασή σας μπορεί να μην  ελεγχθεί διαφορετικά."
 
-#: trans/views.py:1315
+#: trans/views.py:1349
 msgid "You need to log in to be able to save translations!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να αποθηκεύσετε μεταφράσεις!"
 
-#: trans/views.py:1318 trans/views.py:1359
+#: trans/views.py:1355 trans/views.py:1414
 msgid "You don't have privileges to save translations!"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
-#: trans/views.py:1335
+#: trans/views.py:1379
 msgid "Some checks have failed on your translation!"
 msgstr "Ορισμένοι έλεγχοι απέτυχαν στη μετάφρασή σας!"
 
-#: trans/views.py:1353 trans/views.py:1393
+#: trans/views.py:1405 trans/views.py:1465
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Το μήνυμα που θέλατε να μεταφράσετε δεν είναι πλέον διαθέσιμο!"
 
-#: trans/views.py:1374
+#: trans/views.py:1440
 msgid "Can not merge different messages!"
 msgstr "Αδύνατη η ένωση διαφορετικών γλωσσών!"
 
-#: trans/views.py:1399
+#: trans/views.py:1472
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Πρέπει να συνδεθείτε για να μπορείτε να διαχειριστείτε τις προτάσεις!"
 
-#: trans/views.py:1410
+#: trans/views.py:1483
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
-#: trans/views.py:1420
+#: trans/views.py:1493
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
-#: trans/views.py:1444
+#: trans/views.py:1518
 msgid "Invalid suggestion!"
 msgstr "Μη έγκυρη πρόταση!"
 
-#: trans/views.py:1513
+#: trans/views.py:1595
 msgid "You have reached end of translating."
 msgstr "Ολοκληρώσατε τη μετάφραση."
 
-#: trans/views.py:1610
+#: trans/views.py:1696
 msgid "Posted new comment"
 msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
-#: trans/views.py:1630
+#: trans/views.py:1720
 msgid "Failed to add comment!"
 msgstr "Απέτυχε η προσθήκη σχολίου!"
 
-#: trans/views.py:1781
+#: trans/views.py:1871
 msgid "File content successfully merged into translation."
 msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
 
-#: trans/views.py:1783
+#: trans/views.py:1873
 msgid "There were no new strings in uploaded file."
 msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
 
-#: trans/views.py:1798
+#: trans/views.py:1888
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
 
