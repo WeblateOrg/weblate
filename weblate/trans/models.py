@@ -304,6 +304,11 @@ class Project(models.Model):
         help_text=ugettext_lazy('Whether the Translation-Team in file headers should be updated by Weblate.'),
     )
 
+    enable_acl = models.BooleanField(
+        default=False,
+        help_text='Whether to enable ACL for this project, please check documentation before enabling this.'
+    )
+
     class Meta:
         ordering = ['name']
 
