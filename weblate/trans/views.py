@@ -636,11 +636,21 @@ def auto_translation(request, project, subproject, lang):
         else:
             units = obj.unit_set.filter(translated=False)
 
-        sources = Unit.objects.filter(translation__language=obj.language, translated=True)
+        sources = Unit.objects.filter(
+            translation__language=obj.language,
+            translated=True
+        )
         if autoform.cleaned_data['subproject'] == '':
-            sources = sources.filter(translation__subproject__project=obj.subproject.project).exclude(translation=obj)
+            sources = sources.filter(
+                translation__subproject__project=obj.subproject.project
+            ).exclude(
+                translation=obj
+            )
         else:
-            subprj = SubProject.objects.get(project=obj.subproject.project, slug=autoform.cleaned_data['subproject'])
+            subprj = SubProject.objects.get(
+                project=obj.subproject.project,
+                slug=autoform.cleaned_data['subproject']
+            )
             sources = sources.filter(translation__subproject=subprj)
 
         for unit in units.iterator():
@@ -780,7 +790,14 @@ def show_translation(request, project, subproject, lang):
         'search_form': search_form,
         'review_form': review_form,
         'last_changes': last_changes,
-        'last_changes_rss': reverse('rss-translation', kwargs={'lang': obj.language.code, 'subproject': obj.subproject.slug, 'project': obj.subproject.project.slug}),
+        'last_changes_rss': reverse(
+            'rss-translation',
+            kwargs={
+                'lang': obj.language.code,
+                'subproject': obj.subproject.slug,
+                'project': obj.subproject.project.slug
+            }
+        ),
     }))
 
 
@@ -1260,11 +1277,17 @@ def translate(request, project, subproject, lang):
             obj.check_sync()
             try:
                 try:
-                    unit = Unit.objects.get(checksum=form.cleaned_data['checksum'], translation=obj)
+                    unit = Unit.objects.get(
+                        checksum=form.cleaned_data['checksum'],
+                        translation=obj
+                    )
                 except Unit.MultipleObjectsReturned:
-                    # Possible temporary inconsistency caused by ongoing update of repo,
-                    # let's pretend everyting is okay
-                    unit = Unit.objects.filter(checksum=form.cleaned_data['checksum'], translation=obj)[0]
+                    # Possible temporary inconsistency caused by ongoing update
+                    # of repo, let's pretend everyting is okay
+                    unit = Unit.objects.filter(
+                        checksum=form.cleaned_data['checksum'],
+                        translation=obj
+                    )[0]
                 if 'suggest' in request.POST:
                     # Handle suggesion saving
                     user = request.user
@@ -1273,12 +1296,14 @@ def translate(request, project, subproject, lang):
                     if form.cleaned_data['target'] == len(form.cleaned_data['target']) * ['']:
                         messages.error(request, _('Your suggestion is empty!'))
                         # Stay on same entry
-                        return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
-                            obj.get_translate_url(),
-                            rqtype,
-                            pos,
-                            search_url
-                        ))
+                        return HttpResponseRedirect(
+                            '%s?type=%s&pos=%d&dir=stay%s' % (
+                                obj.get_translate_url(),
+                                rqtype,
+                                pos,
+                                search_url
+                            )
+                        )
                     # Create the suggestion
                     sug = Suggestion.objects.create(
                         target=join_plural(form.cleaned_data['target']),
@@ -1306,7 +1331,11 @@ def translate(request, project, subproject, lang):
                             _('There is currently no active translator for this translation, please consider becoming translator as your suggestion might stay unreviewed otherwise.')
                         )
                     # Notify subscribed users
-                    subscriptions = Profile.objects.subscribed_new_suggestion(obj.subproject.project, obj.language, request.user)
+                    subscriptions = Profile.objects.subscribed_new_suggestion(
+                        obj.subproject.project,
+                        obj.language,
+                        request.user
+                    )
                     for subscription in subscriptions:
                         subscription.notify_new_suggestion(obj, sug, unit)
                     # Update suggestion stats
@@ -1315,13 +1344,21 @@ def translate(request, project, subproject, lang):
                         profile.save()
                 elif not request.user.is_authenticated():
                     # We accept translations only from authenticated
-                    messages.error(request, _('You need to log in to be able to save translations!'))
+                    messages.error(
+                        request,
+                        _('You need to log in to be able to save translations!')
+                    )
                 elif not request.user.has_perm('trans.save_translation'):
                     # Need privilege to save
-                    messages.error(request, _('You don\'t have privileges to save translations!'))
+                    messages.error(
+                        request,
+                        _('You don\'t have privileges to save translations!')
+                    )
                 elif not user_locked:
                     # Remember old checks
-                    oldchecks = set(unit.active_checks().values_list('check', flat=True))
+                    oldchecks = set(
+                        unit.active_checks().values_list('check', flat=True)
+                    )
                     # Update unit and save it
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
@@ -1331,18 +1368,25 @@ def translate(request, project, subproject, lang):
                     profile.translated += 1
                     profile.save()
                     # Get new set of checks
-                    newchecks = set(unit.active_checks().values_list('check', flat=True))
+                    newchecks = set(
+                        unit.active_checks().values_list('check', flat=True)
+                    )
                     # Did we introduce any new failures?
                     if newchecks > oldchecks:
                         # Show message to user
-                        messages.error(request, _('Some checks have failed on your translation!'))
+                        messages.error(
+                            request,
+                            _('Some checks have failed on your translation!')
+                        )
                         # Stay on same entry
-                        return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
-                            obj.get_translate_url(),
-                            rqtype,
-                            pos,
-                            search_url
-                        ))
+                        return HttpResponseRedirect(
+                            '%s?type=%s&pos=%d&dir=stay%s' % (
+                                obj.get_translate_url(),
+                                rqtype,
+                                pos,
+                                search_url
+                            )
+                        )
 
                 # Redirect to next entry
                 return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
@@ -1352,29 +1396,49 @@ def translate(request, project, subproject, lang):
                     search_url
                 ))
             except Unit.DoesNotExist:
-                logger.error('message %s disappeared!', form.cleaned_data['checksum'])
-                messages.error(request, _('Message you wanted to translate is no longer available!'))
+                logger.error(
+                    'message %s disappeared!',
+                    form.cleaned_data['checksum']
+                )
+                messages.error(
+                    request,
+                    _('Message you wanted to translate is no longer available!')
+                )
 
     # Handle translation merging
     if 'merge' in request.GET and not locked:
         if not request.user.has_perm('trans.save_translation'):
             # Need privilege to save
-            messages.error(request, _('You don\'t have privileges to save translations!'))
+            messages.error(
+                request,
+                _('You don\'t have privileges to save translations!')
+            )
         else:
             try:
                 mergeform = MergeForm(request.GET)
                 if mergeform.is_valid():
                     try:
-                        unit = Unit.objects.get(checksum=mergeform.cleaned_data['checksum'], translation=obj)
+                        unit = Unit.objects.get(
+                            checksum=mergeform.cleaned_data['checksum'],
+                            translation=obj
+                        )
                     except Unit.MultipleObjectsReturned:
-                        # Possible temporary inconsistency caused by ongoing update of repo,
-                        # let's pretend everyting is okay
-                        unit = Unit.objects.filter(checksum=mergeform.cleaned_data['checksum'], translation=obj)[0]
+                        # Possible temporary inconsistency caused by ongoing
+                        # update of repo, let's pretend everyting is okay
+                        unit = Unit.objects.filter(
+                            checksum=mergeform.cleaned_data['checksum'],
+                            translation=obj
+                        )[0]
 
-                    merged = Unit.objects.get(pk=mergeform.cleaned_data['merge'])
+                    merged = Unit.objects.get(
+                        pk=mergeform.cleaned_data['merge']
+                    )
 
                     if unit.checksum != merged.checksum:
-                        messages.error(request, _('Can not merge different messages!'))
+                        messages.error(
+                            request,
+                            _('Can not merge different messages!')
+                        )
                     else:
                         # Store unit
                         unit.target = merged.target
@@ -1392,8 +1456,14 @@ def translate(request, project, subproject, lang):
                             search_url
                         ))
             except Unit.DoesNotExist:
-                logger.error('message %s disappeared!', form.cleaned_data['checksum'])
-                messages.error(request, _('Message you wanted to translate is no longer available!'))
+                logger.error(
+                    'message %s disappeared!',
+                    form.cleaned_data['checksum']
+                )
+                messages.error(
+                    request,
+                    _('Message you wanted to translate is no longer available!')
+                )
 
     # Handle accepting/deleting suggestions
     if not locked and ('accept' in request.GET or 'delete' in request.GET):
@@ -1441,7 +1511,8 @@ def translate(request, project, subproject, lang):
             # Invalidate caches
             for unit in Unit.objects.filter(checksum=suggestion.checksum):
                 unit.translation.invalidate_cache('suggestions')
-            # Delete suggestion in both cases (accepted ones are no longer needed)
+            # Delete suggestion in both cases (accepted ones are no longer
+            # needed)
             suggestion.delete()
         else:
             messages.error(request, _('Invalid suggestion!'))
@@ -1457,7 +1528,10 @@ def translate(request, project, subproject, lang):
     reviewform = ReviewForm(request.GET)
 
     if reviewform.is_valid():
-        allunits = obj.unit_set.review(reviewform.cleaned_data['date'], request.user)
+        allunits = obj.unit_set.review(
+            reviewform.cleaned_data['date'],
+            request.user
+        )
         # Review
         if direction == 'stay':
             units = allunits.filter(position=pos)
@@ -1486,7 +1560,12 @@ def translate(request, project, subproject, lang):
                 query |= Q(context__icontains=search_query)
             allunits = obj.unit_set.filter(query)
         else:
-            allunits = obj.unit_set.search(search_query, search_source, search_context, search_target)
+            allunits = obj.unit_set.search(
+                search_query,
+                search_source,
+                search_context,
+                search_target
+            )
         if direction == 'stay':
             units = obj.unit_set.filter(position=pos)
         elif direction == 'back':
@@ -1518,11 +1597,15 @@ def translate(request, project, subproject, lang):
 
         # Show secondary languages for logged in users
         if profile:
+            secondary_langs = profile.secondary_languages.exclude(
+                id=unit.translation.language.id
+            )
+            project = unit.translation.subproject.project
             secondary = Unit.objects.filter(
-                checksum = unit.checksum,
-                translated = True,
-                translation__subproject__project = unit.translation.subproject.project,
-                translation__language__in = profile.secondary_languages.exclude(id=unit.translation.language.id)
+                checksum=unit.checksum,
+                translated=True,
+                translation__subproject__project=project,
+                translation__language__in=secondary_langs,
             )
             # distinct('target') works with Django 1.4 so let's emulate that
             # based on presumption we won't get too many results
@@ -1612,7 +1695,11 @@ def comment(request, pk):
             obj.translation.invalidate_cache('targetcomments')
         messages.info(request, _('Posted new comment'))
         # Notify subscribed users
-        subscriptions = Profile.objects.subscribed_new_comment(obj.translation.subproject.project, lang, request.user)
+        subscriptions = Profile.objects.subscribed_new_comment(
+            obj.translation.subproject.project,
+            lang,
+            request.user
+        )
         for subscription in subscriptions:
             subscription.notify_new_comment(obj, new_comment)
         # Notify upstream
