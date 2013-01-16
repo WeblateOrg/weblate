@@ -228,7 +228,8 @@ class LanguageManager(models.Manager):
             except Language.DoesNotExist:
                 pass
 
-        # In case this is just a different variant of known language, get params from that
+        # In case this is just a different variant of known language, get
+        # params from that
         if '_' in code or '-' in code:
             parts = code.split('_')
             if len(parts) == 1:
@@ -284,7 +285,8 @@ class LanguageManager(models.Manager):
                 lang.nplurals = 4
                 lang.pluralequation = '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'
             elif code in ['kk', 'fa']:
-                # Kazakh and Persian should have plurals, ttkit says it does not have
+                # Kazakh and Persian should have plurals, ttkit says it does
+                # not have
                 lang.nplurals = 2
                 lang.pluralequation = '(n != 1)'
             else:
@@ -385,11 +387,21 @@ class Language(models.Model):
         Returns status of translations in this language.
         '''
         from weblate.trans.models import Translation
-        translations = Translation.objects.filter(language=self).aggregate(Sum('translated'), Sum('total'))
+
+        translations = Translation.objects.filter(
+            language=self
+        ).aggregate(
+            Sum('translated'),
+            Sum('total')
+        )
+
+        translated = translations['translated__sum']
+        total = translations['total__sum']
+
         # Prevent division by zero on no translations
-        if translations['total__sum'] == 0:
+        if total == 0:
             return 0
-        return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
+        return round(translated * 100.0 / total, 1)
 
     def get_html(self):
         return 'lang="%s" dir="%s"' % (self.code, self.direction)
