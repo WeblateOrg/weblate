@@ -79,8 +79,9 @@ def home(request):
     and user links if logged in.
     '''
     projects = Project.objects.all()
-    if projects.count() == 1:
-        projects = SubProject.objects.all()
+    projects = [project for project in projects if project.has_acl(request)]
+    if len(projects) == 1:
+        projects = SubProject.objects.filter(project=projects[0])
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
