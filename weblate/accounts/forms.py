@@ -23,6 +23,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
+from weblate.trans.models import Project
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -72,6 +73,7 @@ class SubscriptionForm(forms.ModelForm):
         user = kwargs['instance'].user
         self.fields['subscriptions'].help_text = None
         self.fields['subscriptions'].required = False
+        self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
 
 
 class UserForm(forms.ModelForm):
