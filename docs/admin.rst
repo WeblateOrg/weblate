@@ -282,6 +282,28 @@ To completely lock down your Weblate installation you can use
 :setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
 :setting:`REGISTRATION_OPEN` for disallowing new registrations.
 
+Per project access control
+++++++++++++++++++++++++++
+
+.. versionadded:: 1.4
+    This feature is available since Weblate 1.4.
+
+.. note::
+
+    By enabling ACL, all users are prohibited to access anything withing given
+    project unless you add them the permission to do that.
+
+Additionally you can limit users access to individual projects. This feature is
+enabled by :guilabel:`Enable ACL` at Project configuration. Once you enable
+this, users without specific privilege 
+(:guilabel:`trans | project | Can access project NAME`) can not access this
+project.
+
+To allow access to this project, you have to add the privilege to do so either
+directly to given user or group of users in Django admin interface.
+
+.. seealso:: https://docs.djangoproject.com/en/1.4/topics/auth/default/#auth-admin
+
 .. _lazy-commit:
 
 Lazy commits

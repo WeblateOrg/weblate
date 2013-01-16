@@ -24,6 +24,7 @@ Relased on ? 2013.
 * Support for showing changes from previous source string.
 * Added support for substring search.
 * Various quality checks improvements.
+* Support for per project ACL.
 
 weblate 1.3
 -----------
