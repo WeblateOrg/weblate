@@ -35,7 +35,13 @@ GRAVATAR_URL_PREFIX = getattr(
     'GRAVATAR_URL_PREFIX',
     'https://secure.gravatar.com/'
 )
-GRAVATAR_DEFAULT_IMAGE = getattr(settings, "GRAVATAR_DEFAULT_IMAGE", "")
+# See http://cs.gravatar.com/site/implement/images/
+# for available choices
+GRAVATAR_DEFAULT_IMAGE = getattr(
+    settings,
+    'GRAVATAR_DEFAULT_IMAGE',
+    'mm'
+)
 
 PLURAL_SEPARATOR = '\x00\x00'
 
