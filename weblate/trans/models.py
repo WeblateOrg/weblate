@@ -27,7 +27,6 @@ from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
-from django.utils.formats import date_format
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.utils import timezone
