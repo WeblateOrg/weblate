@@ -206,7 +206,18 @@ class Profile(models.Model):
         '''
         Wrapper for sending notifications to user.
         '''
-        send_notification_email(self.language, self.user.email, notification, translation_obj, context, headers)
+        # Check whether user is still allowed to access this project
+        if not translation_obj.has_acl(self):
+            return
+        # Actually send notification
+        send_notification_email(
+            self.language,
+            self.user.email,
+            notification,
+            translation_obj,
+            context,
+            headers
+        )
 
     def notify_any_translation(self, unit, oldunit):
         '''
