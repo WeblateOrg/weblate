@@ -23,24 +23,27 @@ from django.utils import timezone
 from datetime import timedelta
 from optparse import make_option
 
+
 class Command(WeblateCommand):
     help = 'commits pending changes older than given age'
     option_list = WeblateCommand.option_list + (
-        make_option('--age',
+        make_option(
+            '--age',
             action='store',
             type='int',
             dest='age',
             default=24,
             help='Age of changes to commit in hours (default is 24 hours)'
         ),
-        make_option('--lang',
+        make_option(
+            '--lang',
             action='store',
             type='string',
             dest='lang',
             default=None,
             help='Limit only to given languages (comma separated list)'
         ),
-        )
+    )
 
     def handle(self, *args, **options):
 
@@ -55,7 +58,7 @@ class Command(WeblateCommand):
                 translations = subproject.translation_set.all()
             else:
                 translations = subproject.translation_set.filter(
-                    language_code__in = langs
+                    language_code__in=langs
                 )
 
             for translation in translations:

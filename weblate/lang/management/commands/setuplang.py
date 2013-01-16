@@ -22,16 +22,19 @@ from django.core.management.base import BaseCommand
 from optparse import make_option
 from weblate.lang.models import Language
 
+
 class Command(BaseCommand):
     help = 'Populates language definitions'
 
     option_list = BaseCommand.option_list + (
-        make_option('--no-update',
+        make_option(
+            '--no-update',
             action='store_false',
             dest='update',
             default=True,
-            help='Prevents updates to existing language definitions'),
-        )
+            help='Prevents updates to existing language definitions'
+        ),
+    )
 
     def handle(self, *args, **options):
         '''

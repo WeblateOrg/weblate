@@ -20,6 +20,7 @@
 
 from weblate.trans.management.commands import WeblateCommand
 
+
 class Command(WeblateCommand):
     help = 'forces commiting changes to git repo'
 

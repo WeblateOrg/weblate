@@ -21,27 +21,30 @@
 from weblate.trans.management.commands import WeblateCommand
 from optparse import make_option
 
+
 class Command(WeblateCommand):
     help = '(re)loads translations from disk'
     option_list = WeblateCommand.option_list + (
-        make_option('--force',
+        make_option(
+            '--force',
             action='store_true',
             dest='force',
             default=False,
             help='Force rereading files even when they should be up to date'
         ),
-        make_option('--lang',
+        make_option(
+            '--lang',
             action='store',
             type='string',
             dest='lang',
             default=None,
             help='Limit only to given languages (comma separated list)'
         ),
-        )
+    )
 
     def handle(self, *args, **options):
         langs = None
         if options['lang'] is not None:
             langs = options['lang'].split(',')
-        for s in self.get_subprojects(*args, **options):
-            s.create_translations(options['force'], langs)
+        for subproject in self.get_subprojects(*args, **options):
+            subproject.create_translations(options['force'], langs)

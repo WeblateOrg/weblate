@@ -45,12 +45,16 @@ class Command(BaseCommand):
 
         for lang in languages:
             with FULLTEXT_INDEX.target_writer(lang=lang.code, buffered=False) as writer:
-                for update in base.filter(unit__translation__language =
-                    lang).exclude(unit__target='').iterator():
+                units = base.filter(
+                    unit__translation__language=lang
+                ).exclude(
+                    unit__target=''
+                )
+                for update in units.iterator():
                     Unit.objects.add_to_target_index(
                         update.unit.checksum,
                         update.unit.target,
-                        writer)
-
+                        writer
+                    )
 
         base.delete()

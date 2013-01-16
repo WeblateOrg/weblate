@@ -28,12 +28,14 @@ from optparse import make_option
 class Command(WeblateCommand):
     help = 'rebuilds index for fulltext search'
     option_list = WeblateCommand.option_list + (
-        make_option('--clean',
+        make_option(
+            '--clean',
             action='store_true',
             dest='clean',
             default=False,
-            help='removes also all words from database'),
-        )
+            help='removes also all words from database'
+        ),
+    )
 
     def handle(self, *args, **options):
         languages = Language.objects.all()

@@ -20,6 +20,7 @@
 
 from weblate.trans.management.commands import WeblateCommand
 
+
 class Command(WeblateCommand):
     help = 'checks status of git repo'
 
