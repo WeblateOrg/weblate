@@ -54,6 +54,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import (
     TranslationManager, UnitManager, DictionaryManager, ChangeManager,
+    ProjectManager,
 )
 from weblate.trans.filelock import FileLock, FileLockException
 from util import (
@@ -310,6 +311,8 @@ class Project(models.Model):
         default=False,
         help_text='Whether to enable ACL for this project, please check documentation before enabling this.'
     )
+
+    objects = ProjectManager()
 
     class Meta:
         ordering = ['name']

@@ -69,6 +69,7 @@ class SubscriptionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
 
         super(SubscriptionForm, self).__init__(*args, **kwargs)
+        user = kwargs['instance'].user
         self.fields['subscriptions'].help_text = None
         self.fields['subscriptions'].required = False
 

@@ -93,6 +93,19 @@ IGNORE_SIMILAR = set([
 ]) | IGNORE_WORDS
 
 
+class ProjectManager(models.Manager):
+    def all_acl(self, user):
+        '''
+        Returns list of projects user is allowed to access.
+        '''
+        projects = self.all()
+        project_ids = [
+            project.id for project in projects if project.has_acl(user)
+        ]
+        if projects.count == len(project_ids):
+            return projects
+        return self.filter(id__in=project_ids)
+
 class TranslationManager(models.Manager):
     def update_from_blob(self, subproject, code, path, force=False, request=None):
         '''

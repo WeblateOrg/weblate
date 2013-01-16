@@ -78,9 +78,8 @@ def home(request):
     Home page of Weblate showing list of projects, stats
     and user links if logged in.
     '''
-    projects = Project.objects.all()
-    projects = [project for project in projects if project.has_acl(request.user)]
-    if len(projects) == 1:
+    projects = Project.objects.all_acl(request.user)
+    if projects.count() == 1:
         projects = SubProject.objects.filter(project=projects[0])
 
     # Warn about not filled in username (usually caused by migration of
