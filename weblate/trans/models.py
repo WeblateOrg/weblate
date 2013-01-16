@@ -32,6 +32,8 @@ from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from glob import glob
 import os
 import time
@@ -387,6 +389,31 @@ class Project(models.Model):
             os.makedirs(path)
 
         super(Project, self).save(*args, **kwargs)
+
+        # Create ACL permissions on save
+        if self.enable_acl:
+            content_type = ContentType.objects.get(
+                app_label='trans',
+                model='Project'
+            )
+
+            perm_code = 'weblate_acl_%s' % self.slug
+            perm_name = 'Can access project %s' % self.name
+
+            try:
+                permission = Permission.objects.get(
+                    codename=perm_code,
+                    content_type=content_type
+                )
+                if permission.name != perm_name:
+                    permission.name = perm_name
+                    permission.save()
+            except Permission.DoesNotExist:
+                Permission.objects.create(
+                    codename=perm_code,
+                    name=perm_name,
+                    content_type=content_type
+                )
 
     def get_translated_percent(self, lang=None):
         # Filter all translations
