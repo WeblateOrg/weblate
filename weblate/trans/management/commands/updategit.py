@@ -20,9 +20,10 @@
 
 from weblate.trans.management.commands import WeblateCommand
 
+
 class Command(WeblateCommand):
     help = 'updates git repos'
 
     def handle(self, *args, **options):
-        for s in self.get_subprojects(*args, **options):
-            s.do_update()
+        for subproject in self.get_subprojects(*args, **options):
+            subproject.do_update()
