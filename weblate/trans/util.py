@@ -45,7 +45,10 @@ def gravatar_for_email(email, size=80):
     Generates url for gravatar.
     '''
     url = "%savatar/%s/?" % (GRAVATAR_URL_PREFIX, md5_constructor(email.lower()).hexdigest())
-    url += urllib.urlencode({"s": str(size), "default": GRAVATAR_DEFAULT_IMAGE})
+    url += urllib.urlencode({
+        's': str(size),
+        'd': GRAVATAR_DEFAULT_IMAGE
+    })
     return escape(url)
 
 
