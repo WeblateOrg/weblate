@@ -317,6 +317,10 @@ $(function() {
         },
         load: function (e, ui) {
             $('a.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
+            $('a.copydict').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
+                var text = $(this).parent().parent().find('.target').text();
+                $('#id_target').insertAtCaret(text);
+            });
         }
     });
     $("div.tabs").tabs({
