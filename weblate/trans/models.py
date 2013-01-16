@@ -25,7 +25,7 @@ from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.core.mail import mail_admins
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
 from django.utils.formats import date_format
 from django.contrib.sites.models import Site
@@ -314,6 +314,30 @@ class Project(models.Model):
     class Meta:
         ordering = ['name']
 
+    def has_acl(self, request):
+        '''
+        Checks whether current user is allowed to access this
+        project.
+        '''
+        if not self.enable_acl:
+            return True
+
+        if not request.user.is_authenticated():
+            return False
+
+        return request.user.has_perm('weblate_acl_%s' % self.slug)
+
+    def check_acl(self, request):
+        '''
+        Raises an error if user is not allowed to acces s this project.
+        '''
+        if not self.has_acl(request):
+            messages.error(
+                request,
+                _('You are not allowed to access project %s.') % self.name
+            )
+            raise PermissionDenied
+
     def clean(self):
         if self.new_lang == 'url' and self.instructions == '':
             raise ValidationError(_('Please either fill in instructions URL or use different option for adding new language.'))
@@ -593,6 +617,19 @@ class SubProject(models.Model):
         permissions = (
             ('lock_subproject', "Can lock translation for translating"),
         )
+
+    def has_acl(self, request):
+        '''
+        Checks whether current user is allowed to access this
+        subproject.
+        '''
+        return self.project.has_acl(request)
+
+    def check_acl(self, request):
+        '''
+        Raises an error if user is not allowed to acces s this project.
+        '''
+        self.project.check_acl(request)
 
     @models.permalink
     def get_absolute_url(self):
@@ -1314,6 +1351,19 @@ class Translation(models.Model):
             ('automatic_translation', "Can do automatic translation"),
             ('lock_translation', "Can lock whole translation project"),
         )
+
+    def has_acl(self, request):
+        '''
+        Checks whether current user is allowed to access this
+        subproject.
+        '''
+        return self.subproject.project.has_acl(request)
+
+    def check_acl(self, request):
+        '''
+        Raises an error if user is not allowed to acces s this project.
+        '''
+        self.subproject.project.check_acl(request)
 
     def clean(self):
         '''
@@ -2211,6 +2261,19 @@ class Unit(models.Model):
             ('save_translation', "Can save translation"),
         )
         ordering = ['position']
+
+    def has_acl(self, request):
+        '''
+        Checks whether current user is allowed to access this
+        subproject.
+        '''
+        return self.translation.subproject.project.has_acl(request)
+
+    def check_acl(self, request):
+        '''
+        Raises an error if user is not allowed to acces s this project.
+        '''
+        self.translation.subproject.project.check_acl(request)
 
     def __unicode__(self):
         return '%s on %s' % (
