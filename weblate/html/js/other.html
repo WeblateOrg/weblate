@@ -14,7 +14,7 @@
     <td>{% include "unit-state.html" %}</td>
     <td>
     {% if perms.trans.save_translation %}
-    <a class="mergebutton" href="{{ unit.translation.get_translate_url}}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" class="mergebutton" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>
+    <a class="mergebutton small-button" href="{{ unit.translation.get_translate_url}}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>
     {% endif %}
     </td>
     </tr>
