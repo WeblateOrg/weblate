@@ -19,7 +19,10 @@
 #
 
 from django.contrib import admin
-from weblate.trans.models import Project, SubProject, Translation, Unit, Suggestion, Comment, Check, Dictionary, Change
+from weblate.trans.models import (
+    Project, SubProject, Translation,
+    Unit, Suggestion, Comment, Check, Dictionary, Change
+)
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -29,21 +32,27 @@ class ProjectAdmin(admin.ModelAdmin):
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
-        for s in queryset:
-            s.do_update()
+        for project in queryset:
+            project.do_update()
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
         cnt = 0
-        for unit in Unit.objects.filter(translation__subproject__project__in=queryset).iterator():
+        units = Unit.objects.filter(
+            translation__subproject__project__in=queryset
+        )
+        for unit in units.iterator():
             unit.check()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
 
     def force_commit(self, request, queryset):
-        for s in queryset:
-            s.commit_pending()
-        self.message_user(request, "Flushed changes in %d git repos." % queryset.count())
+        for project in queryset:
+            project.commit_pending()
+        self.message_user(
+            request,
+            "Flushed changes in %d git repos." % queryset.count()
+        )
 
 admin.site.register(Project, ProjectAdmin)
 
@@ -56,38 +65,58 @@ class SubProjectAdmin(admin.ModelAdmin):
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
-        for s in queryset:
-            s.do_update()
+        for project in queryset:
+            project.do_update()
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
         cnt = 0
-        for unit in Unit.objects.filter(translation__subproject__in=queryset).iterator():
+        units = Unit.objects.filter(
+            translation__subproject__in=queryset
+        )
+        for unit in units.iterator():
             unit.check()
             cnt += 1
-        self.message_user(request, "Updated checks for %d units." % cnt)
+        self.message_user(
+            request,
+            "Updated checks for %d units." % cnt
+        )
 
     def force_commit(self, request, queryset):
-        for s in queryset:
-            s.commit_pending()
-        self.message_user(request, "Flushed changes in %d git repos." % queryset.count())
+        for project in queryset:
+            project.commit_pending()
+        self.message_user(
+            request,
+            "Flushed changes in %d git repos." % queryset.count()
+        )
 
 admin.site.register(SubProject, SubProjectAdmin)
 
 
 class TranslationAdmin(admin.ModelAdmin):
-    list_display = ['subproject', 'language', 'translated', 'total', 'fuzzy', 'revision', 'filename', 'enabled']
-    search_fields = ['subproject__slug', 'language__code', 'revision', 'filename']
+    list_display = [
+        'subproject', 'language', 'translated', 'total',
+        'fuzzy', 'revision', 'filename', 'enabled'
+    ]
+    search_fields = [
+        'subproject__slug', 'language__code', 'revision', 'filename'
+    ]
     list_filter = ['enabled', 'subproject__project', 'subproject', 'language']
     actions = ['enable_translation', 'disable_translation']
 
     def enable_translation(self, request, queryset):
         queryset.update(enabled=True)
-        self.message_user(request, "Enabled %d translations." % queryset.count())
+        self.message_user(
+            request,
+            "Enabled %d translations." % queryset.count()
+        )
 
     def disable_translation(self, request, queryset):
         queryset.update(enabled=False)
-        self.message_user(request, "Disabled %d translations." % queryset.count())
+        self.message_user(
+            request,
+            "Disabled %d translations." % queryset.count()
+        )
 
 admin.site.register(Translation, TranslationAdmin)
 
@@ -95,7 +124,12 @@ admin.site.register(Translation, TranslationAdmin)
 class UnitAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
     search_fields = ['source', 'target', 'checksum']
-    list_filter = ['translation__subproject', 'translation__language', 'fuzzy', 'translated']
+    list_filter = [
+        'translation__subproject',
+        'translation__language',
+        'fuzzy',
+        'translated'
+    ]
 
 admin.site.register(Unit, UnitAdmin)
 
@@ -109,7 +143,9 @@ admin.site.register(Suggestion, SuggestionAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['checksum', 'comment', 'user', 'project', 'language', 'user']
+    list_display = [
+        'checksum', 'comment', 'user', 'project', 'language', 'user'
+    ]
     list_filter = ['project', 'language']
     search_fields = ['checksum', 'comment']
 
@@ -135,6 +171,10 @@ admin.site.register(Dictionary, DictionaryAdmin)
 class ChangeAdmin(admin.ModelAdmin):
     list_display = ['unit', 'user', 'timestamp']
     date_hierarchy = 'timestamp'
-    list_filter = ['unit__translation__subproject', 'unit__translation__subproject__project', 'unit__translation__language']
+    list_filter = [
+        'unit__translation__subproject',
+        'unit__translation__subproject__project',
+        'unit__translation__language'
+    ]
 
 admin.site.register(Change, ChangeAdmin)
