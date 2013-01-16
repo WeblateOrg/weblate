@@ -304,15 +304,12 @@ def set_lang(sender, **kwargs):
     user = kwargs['user']
 
     # Get or create profile
-    try:
-        profile = user.get_profile()
-    except Profile.DoesNotExist:
-        profile, newprofile = Profile.objects.get_or_create(user=user)
-        if newprofile:
-            messages.info(request, gettext('Your profile has been migrated, you might want to adjust preferences.'))
+    profile, newprofile = Profile.objects.get_or_create(user=user)
+    if newprofile:
+        messages.info(request, gettext('Your profile has been migrated, you might want to adjust preferences.'))
 
     # Set language for session based on preferences
-    lang_code = user.get_profile().language
+    lang_code = profile.language
     request.session['django_language'] = lang_code
 
 
@@ -368,8 +365,8 @@ def move_users():
     '''
     group = Group.objects.get(name='Users')
 
-    for u in User.objects.all():
-        u.groups.add(group)
+    for user in User.objects.all():
+        user.groups.add(group)
 
 
 @receiver(post_syncdb)
