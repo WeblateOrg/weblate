@@ -157,7 +157,7 @@ def show_check_project(request, name, project):
     Show checks failing in a project.
     '''
     prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request.user)
+    prj.check_acl(request)
     try:
         check = CHECKS[name]
     except KeyError:
@@ -219,7 +219,7 @@ def show_check_subproject(request, name, project, subproject):
         slug=subproject,
         project__slug=project
     )
-    subprj.check_acl(request.user)
+    subprj.check_acl(request)
     try:
         check = CHECKS[name]
     except KeyError:
@@ -303,7 +303,7 @@ def show_language(request, lang):
 
 def show_dictionaries(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     dicts = Translation.objects.filter(
         subproject__project=obj
     ).values_list('language', flat=True).distinct()
@@ -319,7 +319,7 @@ def show_dictionaries(request, project):
 @permission_required('trans.change_dictionary')
 def edit_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request.user)
+    prj.check_acl(request)
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
         Dictionary,
@@ -356,7 +356,7 @@ def edit_dictionary(request, project, lang):
 @permission_required('trans.delete_dictionary')
 def delete_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request.user)
+    prj.check_acl(request)
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
         Dictionary,
@@ -377,7 +377,7 @@ def delete_dictionary(request, project, lang):
 @permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request.user)
+    prj.check_acl(request)
     lang = get_object_or_404(Language, code=lang)
 
     if request.method == 'POST':
@@ -420,7 +420,7 @@ def download_dictionary(request, project, lang):
     Exports dictionary.
     '''
     prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request.user)
+    prj.check_acl(request)
     lang = get_object_or_404(Language, code=lang)
 
     # Parse parameters
@@ -486,7 +486,7 @@ def download_dictionary(request, project, lang):
 
 def show_dictionary(request, project, lang):
     prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request.user)
+    prj.check_acl(request)
     lang = get_object_or_404(Language, code=lang)
 
     if (request.method == 'POST'
@@ -549,7 +549,7 @@ def show_dictionary(request, project, lang):
 def show_engage(request, project, lang=None):
     # Get project object
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     # Handle language parameter
     language = None
@@ -590,7 +590,7 @@ def show_engage(request, project, lang=None):
 
 def show_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     dicts = Dictionary.objects.filter(project=obj).values_list('language', flat=True).distinct()
     last_changes = Change.objects.filter(translation__subproject__project=obj).order_by('-timestamp')[:10]
 
@@ -604,7 +604,7 @@ def show_project(request, project):
 
 def show_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     last_changes = Change.objects.filter(translation__subproject=obj).order_by('-timestamp')[:10]
 
     return render_to_response('subproject.html', RequestContext(request, {
@@ -624,7 +624,7 @@ def auto_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     obj.commit_pending()
     autoform = AutoForm(obj, request.POST)
     change = None
@@ -676,7 +676,7 @@ def review_source(request, project, subproject):
     Listing of source strings to review.
     '''
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if not obj.translation_set.exists():
         raise Http404('No translation exists in this subproject.')
@@ -717,7 +717,7 @@ def show_source(request, project, subproject):
     Show source strings summary and checks.
     '''
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     if not obj.translation_set.exists():
         raise Http404('No translation exists in this subproject.')
 
@@ -740,7 +740,7 @@ def show_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     last_changes = Change.objects.filter(
         translation=obj
     ).order_by('-timestamp')[:10]
@@ -788,7 +788,7 @@ def show_translation(request, project, subproject, lang):
 @permission_required('trans.commit_translation')
 def commit_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     obj.commit_pending()
 
     messages.info(request, _('All pending translations were committed.'))
@@ -800,7 +800,7 @@ def commit_project(request, project):
 @permission_required('trans.commit_translation')
 def commit_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     obj.commit_pending()
 
     messages.info(request, _('All pending translations were committed.'))
@@ -818,7 +818,7 @@ def commit_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     obj.commit_pending()
 
     messages.info(request, _('All pending translations were committed.'))
@@ -830,7 +830,7 @@ def commit_translation(request, project, subproject, lang):
 @permission_required('trans.update_translation')
 def update_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
@@ -842,7 +842,7 @@ def update_project(request, project):
 @permission_required('trans.update_translation')
 def update_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
@@ -860,7 +860,7 @@ def update_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
@@ -872,7 +872,7 @@ def update_translation(request, project, subproject, lang):
 @permission_required('trans.push_translation')
 def push_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
@@ -884,7 +884,7 @@ def push_project(request, project):
 @permission_required('trans.push_translation')
 def push_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
@@ -902,7 +902,7 @@ def push_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
@@ -914,7 +914,7 @@ def push_translation(request, project, subproject, lang):
 @permission_required('trans.reset_translation')
 def reset_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
@@ -926,7 +926,7 @@ def reset_project(request, project):
 @permission_required('trans.reset_translation')
 def reset_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
@@ -944,7 +944,7 @@ def reset_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
@@ -962,7 +962,7 @@ def lock_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if not obj.is_user_locked(request):
         obj.create_lock(request.user, True)
@@ -979,7 +979,7 @@ def update_lock(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if not obj.is_user_locked(request):
         obj.update_lock_time()
@@ -997,7 +997,7 @@ def unlock_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if not obj.is_user_locked(request):
         obj.create_lock(None)
@@ -1013,7 +1013,7 @@ def unlock_translation(request, project, subproject, lang):
 @permission_required('trans.lock_subproject')
 def lock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     obj.commit_pending()
 
@@ -1032,7 +1032,7 @@ def lock_subproject(request, project, subproject):
 @permission_required('trans.lock_subproject')
 def unlock_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     obj.locked = False
     obj.save()
@@ -1049,7 +1049,7 @@ def unlock_subproject(request, project, subproject):
 @permission_required('trans.lock_subproject')
 def lock_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     obj.commit_pending()
 
@@ -1069,7 +1069,7 @@ def lock_project(request, project):
 @permission_required('trans.lock_subproject')
 def unlock_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     for subproject in obj.subproject_set.all():
         subproject.locked = False
@@ -1088,7 +1088,7 @@ def download_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     # Retrieve ttkit store to get extension and mime type
     store = obj.get_store()
@@ -1221,7 +1221,7 @@ def translate(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     # Check locks
     project_locked, user_locked, own_lock = obj.is_locked(request, True)
@@ -1582,7 +1582,7 @@ def comment(request, pk):
     Adds new comment.
     '''
     obj = get_object_or_404(Unit, pk=pk)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     if request.POST.get('type', '') == 'source':
         lang = None
     else:
@@ -1642,7 +1642,7 @@ def get_string(request, checksum):
     units = Unit.objects.filter(checksum=checksum)
     if units.count() == 0:
         return HttpResponse('')
-    units[0].check_acl(request.user)
+    units[0].check_acl(request)
 
     return HttpResponse(units[0].get_source_plurals()[0])
 
@@ -1652,7 +1652,7 @@ def get_similar(request, unit_id):
     AJAX handler for getting similar strings.
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request.user)
+    unit.check_acl(request)
 
     similar_units = Unit.objects.similar(unit)
 
@@ -1677,7 +1677,7 @@ def get_other(request, unit_id):
     AJAX handler for same strings in other subprojects.
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request.user)
+    unit.check_acl(request)
 
     other = Unit.objects.same(unit)
 
@@ -1696,7 +1696,7 @@ def get_dictionary(request, unit_id):
     Lists words from dictionary for current translation.
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request.user)
+    unit.check_acl(request)
     words = set()
 
     # Prepare analyzers
@@ -1736,7 +1736,7 @@ def get_dictionary(request, unit_id):
 @permission_required('trans.ignore_check')
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
-    obj.project.check_acl(request.user)
+    obj.project.check_acl(request)
     # Mark check for ignoring
     obj.ignore = True
     obj.save()
@@ -1760,7 +1760,7 @@ def upload_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     if not obj.is_locked(request) and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):
@@ -1878,7 +1878,7 @@ def about(request):
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
 def git_status_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
@@ -1888,7 +1888,7 @@ def git_status_project(request, project):
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
 def git_status_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
@@ -1898,7 +1898,7 @@ def git_status_subproject(request, project, subproject):
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
 def git_status_translation(request, project, subproject, lang):
     obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
@@ -1917,7 +1917,7 @@ def data_root(request):
 
 def data_project(request, project):
     obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request.user)
+    obj.check_acl(request)
     site = Site.objects.get_current()
     return render_to_response('data.html', RequestContext(request, {
         'object': obj,

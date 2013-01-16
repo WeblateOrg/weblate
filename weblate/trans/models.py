@@ -329,11 +329,11 @@ class Project(models.Model):
 
         return user.has_perm('weblate_acl_%s' % self.slug)
 
-    def check_acl(self, user):
+    def check_acl(self, request):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        if not self.has_acl(user):
+        if not self.has_acl(request.user):
             messages.error(
                 request,
                 _('You are not allowed to access project %s.') % self.name
@@ -629,11 +629,11 @@ class SubProject(models.Model):
         '''
         return self.project.has_acl(user)
 
-    def check_acl(self, user):
+    def check_acl(self, request):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        self.project.check_acl(user)
+        self.project.check_acl(request)
 
     @models.permalink
     def get_absolute_url(self):
@@ -1363,11 +1363,11 @@ class Translation(models.Model):
         '''
         return self.subproject.project.has_acl(user)
 
-    def check_acl(self, user):
+    def check_acl(self, request):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        self.subproject.project.check_acl(user)
+        self.subproject.project.check_acl(request)
 
     def clean(self):
         '''
@@ -2273,11 +2273,11 @@ class Unit(models.Model):
         '''
         return self.translation.subproject.project.has_acl(user)
 
-    def check_acl(self, user):
+    def check_acl(self, request):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        self.translation.subproject.project.check_acl(user)
+        self.translation.subproject.project.check_acl(request)
 
     def __unicode__(self):
         return '%s on %s' % (
