@@ -25,14 +25,17 @@ Generated using:
 ./manage.py dumpdata --format=yaml lang | grep fields:| sed 's/.*name: /    _("/; s/, nplu.*/")/'
 '''
 
+
 def _(s):
     return s
+
 
 def fake():
     _("Afrikaans")
     _("Akan")
     _("Albanian")
     _("Amharic")
+    _("Arabic")
     _("Arabic")
     _("Aragonese")
     _("Armenian")
@@ -70,6 +73,7 @@ def fake():
     _("French")
     _("Frisian")
     _("Friulian")
+    _("Fulah")
     _("Gaelic")
     _("Galician")
     _("Georgian")
@@ -133,8 +137,8 @@ def fake():
     _("Russian")
     _("Scots")
     _("Serbian")
-    _("Serbian (latin)")
     _("Serbian (cyrillic)")
+    _("Serbian (latin)")
     _("Sinhala")
     _("Slovak")
     _("Slovenian")
@@ -164,4 +168,3 @@ def fake():
     _("Welsh")
     _("Yoruba")
     _("Zulu")
-
