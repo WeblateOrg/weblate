@@ -33,35 +33,86 @@ class Command(BaseCommand):
         for prj in Project.objects.all():
 
             # List all current unit checksums
-            units = Unit.objects.filter(translation__subproject__project=prj).values('checksum').distinct()
+            units = Unit.objects.filter(
+                translation__subproject__project=prj
+            ).values('checksum').distinct()
 
             # Remove source comments referring to deleted units
-            Comment.objects.filter(language=None, project=prj).exclude(checksum__in=units).delete()
+            Comment.objects.filter(
+                language=None,
+                project=prj
+            ).exclude(
+                checksum__in=units
+            ).delete()
 
             # Remove source checks referring to deleted units
-            Check.objects.filter(language=None, project=prj).exclude(checksum__in=units).delete()
+            Check.objects.filter(
+                language=None,
+                project=prj
+            ).exclude(
+                checksum__in=units
+            ).delete()
 
             for lang in Language.objects.all():
 
                 # Remove checks referring to deleted or not translated units
-                translatedunits = Unit.objects.filter(translation__language=lang, translated=True, translation__subproject__project=prj).values('checksum').distinct()
-                Check.objects.filter(language=lang, project=prj).exclude(checksum__in=translatedunits).delete()
+                translatedunits = Unit.objects.filter(
+                    translation__language=lang,
+                    translated=True,
+                    translation__subproject__project=prj
+                ).values('checksum').distinct()
+                Check.objects.filter(
+                    language=lang, project=prj
+                ).exclude(
+                    checksum__in=translatedunits
+                ).delete()
 
                 # List current unit checksums
-                units = Unit.objects.filter(translation__language=lang, translation__subproject__project=prj).values('checksum').distinct()
+                units = Unit.objects.filter(
+                    translation__language=lang,
+                    translation__subproject__project=prj
+                ).values('checksum').distinct()
 
                 # Remove suggestions referring to deleted units
-                Suggestion.objects.filter(language=lang, project=prj).exclude(checksum__in=units).delete()
+                Suggestion.objects.filter(
+                    language=lang,
+                    project=prj
+                ).exclude(
+                    checksum__in=units
+                ).delete()
 
                 # Remove translation comments referring to deleted units
-                Comment.objects.filter(language=lang, project=prj).exclude(checksum__in=units).delete()
+                Comment.objects.filter(
+                    language=lang,
+                    project=prj
+                ).exclude(
+                    checksum__in=units
+                ).delete()
 
-                for sug in Suggestion.objects.filter(language=lang, project=prj).iterator():
+                # Process suggestions
+                all_suggestions = Suggestion.objects.filter(
+                    language=lang,
+                    project=prj
+                )
+                for sug in all_suggestions.iterator():
                     # Remove suggestions with same text as real translation
-                    units = Unit.objects.filter(checksum=sug.checksum, translation__language=lang, translation__subproject__project=prj, target=sug.target)
+                    units = Unit.objects.filter(
+                        checksum=sug.checksum,
+                        translation__language=lang,
+                        translation__subproject__project=prj,
+                        target=sug.target
+                    )
                     if units.exists():
                         sug.delete()
+
                     # Remove duplicate suggestions
-                    sugs = Suggestion.objects.filter(checksum=sug.checksum, language=lang, project=prj, target=sug.target).exclude(id=sug.id)
+                    sugs = Suggestion.objects.filter(
+                        checksum=sug.checksum,
+                        language=lang,
+                        project=prj,
+                        target=sug.target
+                    ).exclude(
+                        id=sug.id
+                    )
                     if sugs.exists():
                         sugs.delete()
