@@ -30,7 +30,11 @@ from django.utils.hashcompat import md5_constructor
 from django.conf import settings
 import urllib
 
-GRAVATAR_URL_PREFIX = getattr(settings, "GRAVATAR_URL_PREFIX", "http://www.gravatar.com/")
+GRAVATAR_URL_PREFIX = getattr(
+    settings,
+    'GRAVATAR_URL_PREFIX',
+    'https://secure.gravatar.com/'
+)
 GRAVATAR_DEFAULT_IMAGE = getattr(settings, "GRAVATAR_DEFAULT_IMAGE", "")
 
 PLURAL_SEPARATOR = '\x00\x00'
