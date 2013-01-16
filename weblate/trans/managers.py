@@ -28,7 +28,9 @@ from weblate.lang.models import Language
 
 from whoosh import qparser
 
-from util import msg_checksum, get_source, get_target, get_context
+from weblate.trans.util import (
+    msg_checksum, get_source, get_target, get_context
+)
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 
@@ -324,9 +326,9 @@ class UnitManager(models.Manager):
         '''
         Wrapper for fulltext search.
         '''
-        qp = qparser.QueryParser(field, schema)
-        q = qp.parse(query)
-        return [searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(q)]
+        parser = qparser.QueryParser(field, schema)
+        parsed = parser.parse(query)
+        return [searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(parsed)]
 
 
     def search(self, query, source=True, context=True, translation=True, checksums=False):
@@ -339,14 +341,32 @@ class UnitManager(models.Manager):
         if source or context:
             with FULLTEXT_INDEX.source_searcher(not settings.OFFLOAD_INDEXING) as searcher:
                 if source:
-                    ret = ret.union(self.__search(searcher, 'source', SOURCE_SCHEMA, query))
+                    results = self.__search(
+                        searcher,
+                        'source',
+                        SOURCE_SCHEMA,
+                        query
+                    )
+                    ret = ret.union(results)
                 if context:
-                    ret = ret.union(self.__search(searcher, 'context', SOURCE_SCHEMA, query))
+                    results = self.__search(
+                        searcher,
+                        'context',
+                        SOURCE_SCHEMA,
+                        query
+                    )
+                    ret = ret.union(results)
 
         if translation:
             sample = self.all()[0]
             with FULLTEXT_INDEX.target_searcher(sample.translation.language.code, not settings.OFFLOAD_INDEXING) as searcher:
-                ret = ret.union(self.__search(searcher, 'target', TARGET_SCHEMA, query))
+                results = self.__search(
+                    searcher,
+                    'target',
+                    TARGET_SCHEMA,
+                    query
+                )
+                ret = ret.union(results)
 
         if checksums:
             return ret
@@ -365,7 +385,14 @@ class UnitManager(models.Manager):
             # Try to find at least configured number of similar strings, remove up to 4 words
             while len(ret) < settings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
-                    ret = ret.union(self.search(' '.join(search), True, False, False, True))
+                    results = self.search(
+                        ' '.join(search),
+                        True,
+                        False,
+                        False,
+                        True
+                    )
+                    ret = ret.union(results)
                 cnt -= 1
 
         return self.filter(
@@ -427,6 +454,7 @@ class DictionaryManager(models.Manager):
             ret += 1
 
         return ret
+
 
 class ChangeManager(models.Manager):
     def content(self):

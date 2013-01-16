@@ -19,7 +19,9 @@
 #
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _, ugettext, pgettext_lazy
+from django.utils.translation import (
+    ugettext_lazy as _, ugettext, pgettext_lazy
+)
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
@@ -124,7 +126,10 @@ class PluralField(forms.CharField):
 class TranslationForm(forms.Form):
     checksum = forms.CharField(widget=forms.HiddenInput)
     target = PluralField(required=False)
-    fuzzy = forms.BooleanField(label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'), required=False)
+    fuzzy = forms.BooleanField(
+        label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'),
+        required=False
+    )
 
 
 class AntispamForm(forms.Form):
@@ -286,4 +291,3 @@ class EnageLanguageForm(forms.Form):
         super(EnageLanguageForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += choices
-

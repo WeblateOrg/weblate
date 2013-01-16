@@ -20,7 +20,9 @@
 
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
+from django.http import (
+    HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
+)
 from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 
@@ -80,7 +82,11 @@ def github_hook(request):
         branch = data['ref'].split('/')[-1]
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
-    logger.info('received GitHub notification on repository %s, branch %s', repo, branch)
+    logger.info(
+        'received GitHub notification on repository %s, branch %s',
+        repo,
+        branch
+    )
     for obj in SubProject.objects.filter(repo=repo, branch=branch):
         logger.info('GitHub notification will update %s', obj)
         t = threading.Thread(target=obj.do_update)
@@ -93,14 +99,21 @@ def dt_handler(obj):
     if hasattr(obj, 'isoformat'):
         return obj.isoformat()
     else:
-        raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+        raise TypeError(
+            'Object of type %s with value of %s is not JSON serializable' %
+            (type(obj), repr(obj))
+        )
 
 
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
-    subprj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
+    subprj = get_object_or_404(
+        SubProject,
+        slug=subproject,
+        project__slug=project
+    )
     response = []
     site = Site.objects.get_current()
     for trans in subprj.translation_set.all():
@@ -117,7 +130,9 @@ def export_stats(request, project, subproject):
             'failing': trans.get_failing_checks(),
             'failing_percent': trans.get_failing_checks_percent(),
             'url': trans.get_share_url(),
-            'url_translate': 'http://%s%s' % (site.domain, trans.get_absolute_url()),
+            'url_translate': 'http://%s%s' % (
+                site.domain, trans.get_absolute_url()
+            ),
         })
     return HttpResponse(
         json.dumps(response, default=dt_handler),

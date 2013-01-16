@@ -30,6 +30,7 @@ import weblate
 
 import os
 
+
 @staff_member_required
 def report(request):
     '''
@@ -38,6 +39,7 @@ def report(request):
     return render_to_response("admin/report.html", RequestContext(request, {
         'subprojects': SubProject.objects.all()
     }))
+
 
 @staff_member_required
 def performance(request):
@@ -93,16 +95,26 @@ def performance(request):
         'production-cache',
     ))
     # Check email setup
-    default_mails = ('root@localhost', 'webmaster@localhost', 'noreply@weblate.org')
+    default_mails = (
+        'root@localhost',
+        'webmaster@localhost',
+        'noreply@weblate.org'
+    )
     checks.append((
         _('Email addresses'),
         settings.SERVER_EMAIL not in default_mails and settings.DEFAULT_FROM_EMAIL not in default_mails,
         'production-email',
     ))
-    return render_to_response("admin/performance.html", RequestContext(request, {
-        'checks': checks,
+    return render_to_response(
+        "admin/performance.html",
+        RequestContext(
+            request,
+            {
+                'checks': checks,
+            }
+        )
+    )
 
-    }))
 
 @staff_member_required
 def ssh(request):

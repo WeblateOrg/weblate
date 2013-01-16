@@ -21,7 +21,9 @@
 from weblate.trans.management.commands import WeblateCommand
 from weblate.trans.models import Unit
 from weblate.lang.models import Language
-from weblate.trans.search import FULLTEXT_INDEX, create_source_index, create_target_index
+from weblate.trans.search import (
+    FULLTEXT_INDEX, create_source_index, create_target_index
+)
 from optparse import make_option
 
 
@@ -50,7 +52,8 @@ class Command(WeblateCommand):
 
         # Update source index
         with FULLTEXT_INDEX.source_writer(buffered=False) as writer:
-            for unit in units.values('checksum', 'source', 'context').iterator():
+            checksums = units.values('checksum', 'source', 'context')
+            for unit in checksums.iterator():
                 Unit.objects.add_to_source_index(
                     unit['checksum'],
                     unit['source'],
@@ -61,11 +64,18 @@ class Command(WeblateCommand):
         # Update per language indices
         for lang in languages:
             with FULLTEXT_INDEX.target_writer(lang=lang.code, buffered=False) as writer:
-                language_units = units.filter(translation__language=lang).exclude(target='')
-                for unit in language_units.values('checksum', 'target').iterator():
+
+                language_units = units.filter(
+                    translation__language=lang
+                ).exclude(
+                    target=''
+                ).values(
+                    'checksum', 'target'
+                )
+
+                for unit in language_units.iterator():
                     Unit.objects.add_to_target_index(
                         unit['checksum'],
                         unit['target'],
                         writer
                     )
-

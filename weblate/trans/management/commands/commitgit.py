@@ -30,6 +30,3 @@ class Command(WeblateCommand):
         '''
         for s in self.get_subprojects(*args, **options):
             s.commit_pending()
-
-
-

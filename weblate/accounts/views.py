@@ -32,14 +32,17 @@ from django.core.urlresolvers import reverse
 from weblate.accounts.models import set_lang
 from weblate.accounts.forms import ProfileForm, SubscriptionForm, UserForm, ContactForm
 
+
 def mail_admins_sender(subject, message, sender, fail_silently=False, connection=None,
                 html_message=None):
     """Sends a message to the admins, as defined by the ADMINS setting."""
     if not settings.ADMINS:
         return
-    mail = EmailMultiAlternatives(u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject),
-                message, sender, [a[1] for a in settings.ADMINS],
-                connection=connection)
+    mail = EmailMultiAlternatives(
+        u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject),
+        message, sender, [a[1] for a in settings.ADMINS],
+        connection=connection
+    )
     if html_message:
         mail.attach_alternative(html_message, 'text/html')
     mail.send(fail_silently=fail_silently)
@@ -51,8 +54,14 @@ def profile(request):
     if request.method == 'POST':
         # Read params
         form = ProfileForm(request.POST, instance=request.user.get_profile())
-        subscriptionform = SubscriptionForm(request.POST, instance=request.user.get_profile())
-        userform = UserForm(request.POST, instance=request.user)
+        subscriptionform = SubscriptionForm(
+            request.POST,
+            instance=request.user.get_profile()
+        )
+        userform = UserForm(
+            request.POST,
+            instance=request.user
+        )
         if form.is_valid() and userform.is_valid() and subscriptionform.is_valid():
             # Save changes
             form.save()
@@ -75,8 +84,12 @@ def profile(request):
             return response
     else:
         form = ProfileForm(instance=request.user.get_profile())
-        subscriptionform = SubscriptionForm(instance=request.user.get_profile())
-        userform = UserForm(instance=request.user)
+        subscriptionform = SubscriptionForm(
+            instance=request.user.get_profile()
+        )
+        userform = UserForm(
+            instance=request.user
+        )
 
     profile = request.user.get_profile()
     response = render_to_response('profile.html', RequestContext(request, {
@@ -88,6 +101,7 @@ def profile(request):
         }))
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
     return response
+
 
 def contact(request):
     if request.method == 'POST':
@@ -102,7 +116,10 @@ def contact(request):
                 ),
                 form.cleaned_data['email'],
             )
-            messages.info(request, _('Message has been sent to administrator.'))
+            messages.info(
+                request,
+                _('Message has been sent to administrator.')
+            )
             return HttpResponseRedirect(reverse('home'))
     else:
         initial = {}

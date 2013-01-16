@@ -23,23 +23,31 @@ from weblate.accounts.models import Profile
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
+
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'get_full_name', 'language', 'suggested', 'translated']
-    search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name']
+    list_display = [
+        'user', 'get_full_name', 'language', 'suggested', 'translated'
+    ]
+    search_fields = [
+        'user__username', 'user__email', 'user__first_name', 'user__last_name'
+    ]
     list_filter = ['language']
 
 admin.site.register(Profile, ProfileAdmin)
 
+
 class WeblateUserAdmin(UserAdmin):
     '''
-    Custom UserAdmin to add listing of group membership and whether user is active.
+    Custom UserAdmin to add listing of group membership and whether user is
+    active.
     '''
     list_display = UserAdmin.list_display + ('is_active', 'user_groups')
     list_filter = UserAdmin.list_filter + ('groups',)
 
     def user_groups(self, obj):
         """
-        Get group, separate by comma, and display empty string if user has no group
+        Get group, separate by comma, and display empty string if user has
+        no group
         """
         return ','.join([g.name for g in obj.groups.all()])
 

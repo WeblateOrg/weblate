@@ -29,11 +29,13 @@ class WeblateCommand(BaseCommand):
     '''
     args = '<project/subproject>'
     option_list = BaseCommand.option_list + (
-        make_option('--all',
+        make_option(
+            '--all',
             action='store_true',
             dest='all',
             default=False,
-            help='process all subprojects'),
+            help='process all subprojects'
+        ),
     )
 
     def get_units(self, *args, **options):
@@ -78,4 +80,3 @@ class WeblateCommand(BaseCommand):
                 result |= found
 
         return result
-

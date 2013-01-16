@@ -19,11 +19,14 @@
 #
 
 '''
-Fake file to translate messages from django-registration and django.contrib.auth.
+Fake file to translate messages from django-registration and
+django.contrib.auth.
 '''
 
-def _(s):
-    return s
+
+def _(text):
+    return text
+
 
 def fake():
     _(u'This username is already taken. Please choose another.')
@@ -55,4 +58,3 @@ def fake():
     _('Strings with any failing checks')
     _('Fuzzy strings')
     _('Translated strings')
-

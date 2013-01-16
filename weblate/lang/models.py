@@ -203,7 +203,6 @@ class LanguageManager(models.Manager):
         # Create new one
         return self.auto_create(code)
 
-
     def auto_create(self, code):
         '''
         Automatically creates new language based on code and best guess

@@ -84,7 +84,7 @@ class Index(object):
             try:
                 self._source = open_dir(
                     settings.WHOOSH_INDEX,
-                    indexname = 'source'
+                    indexname='source'
                 )
             except whoosh.index.EmptyIndexError:
                 self._source = create_source_index()
@@ -101,7 +101,7 @@ class Index(object):
             try:
                 self._target[lang] = open_dir(
                     settings.WHOOSH_INDEX,
-                    indexname = 'target-%s' % lang
+                    indexname='target-%s' % lang
                 )
             except whoosh.index.EmptyIndexError:
                 self._target[lang] = create_target_index(lang)

@@ -23,6 +23,7 @@ import re
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 
+
 class RequireLoginMiddleware(object):
     """
     Middleware component that wraps the login_required decorator around
@@ -45,14 +46,22 @@ class RequireLoginMiddleware(object):
     define any exceptions (like login and logout URLs).
     """
     def __init__(self):
-        self.required = self.get_setting_re('LOGIN_REQUIRED_URLS', [])
-        self.exceptions = self.get_setting_re('LOGIN_REQUIRED_URLS_EXCEPTIONS', [r'/accounts/(.*)$', r'/media/(.*)$'])
+        self.required = self.get_setting_re(
+            'LOGIN_REQUIRED_URLS',
+            []
+        )
+        self.exceptions = self.get_setting_re(
+            'LOGIN_REQUIRED_URLS_EXCEPTIONS',
+            [r'/accounts/(.*)$', r'/media/(.*)$']
+        )
 
     def get_setting_re(self, name, default):
         '''
         Grabs regexp list from settings and compiles them
         '''
-        return tuple([re.compile(url) for url in getattr(settings, name, default)])
+        return tuple(
+            [re.compile(url) for url in getattr(settings, name, default)]
+        )
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         '''
@@ -62,17 +71,25 @@ class RequireLoginMiddleware(object):
         # No need to process URLs if not configured
         if len(self.required) == 0:
             return None
+
         # No need to process URLs if user already logged in
         if request.user.is_authenticated():
             return None
+
         # An exception match should immediately return None
         for url in self.exceptions:
             if url.match(request.path):
                 return None
+
         # Requests matching a restricted URL pattern are returned
         # wrapped with the login_required decorator
         for url in self.required:
             if url.match(request.path):
-                return login_required(view_func)(request,*view_args,**view_kwargs)
+                return login_required(view_func)(
+                    request,
+                    *view_args,
+                    **view_kwargs
+                )
+
         # Explicitly return None for all non-matching requests
         return None

@@ -32,5 +32,3 @@ class Command(WeblateCommand):
             r = s.get_repo()
             print '%s:' % s
             print r.git.status()
-
-

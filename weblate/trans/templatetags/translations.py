@@ -36,7 +36,9 @@ import weblate
 import weblate.trans
 
 from weblate.trans.simplediff import htmlDiff
-from weblate.trans.util import split_plural, gravatar_for_email, get_user_display
+from weblate.trans.util import (
+    split_plural, gravatar_for_email, get_user_display
+)
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject, Dictionary
 from weblate.trans.checks import CHECKS
@@ -120,7 +122,10 @@ def fmttranslation(value, language=None, diff=None):
 
     value = '<hr />'.join(parts)
 
-    return mark_safe('<span lang="%s" dir="%s" class="direction">%s</span>' % (language.code, language.direction, value))
+    return mark_safe(
+        '<span lang="%s" dir="%s" class="direction">%s</span>' %
+        (language.code, language.direction, value)
+    )
 
 
 @register.filter
@@ -238,15 +243,17 @@ def gravatar(user, size=80):
         url, alt, size, size
     )
 
-# Following code is heavily based on Django's django.contrib.humanize
-# implementation of naturaltime
 @register.filter
 def naturaltime(value):
     """
-For date and time values shows how many seconds, minutes or hours ago
-compared to current timestamp returns representing string.
-"""
-    if not isinstance(value, date): # datetime is a subclass of date
+    Heavily based on Django's django.contrib.humanize
+    implementation of naturaltime
+
+    For date and time values shows how many seconds, minutes or hours ago
+    compared to current timestamp returns representing string.
+    """
+    # datetime is a subclass of date
+    if not isinstance(value, date):
         return value
 
     now = timezone.now()
