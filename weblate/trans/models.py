@@ -325,7 +325,7 @@ class Project(models.Model):
         if not self.enable_acl:
             return True
 
-        if not user.is_authenticated():
+        if user is None or not user.is_authenticated():
             return False
 
         return user.has_perm('weblate_acl_%s' % self.slug)
