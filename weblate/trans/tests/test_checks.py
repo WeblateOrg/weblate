@@ -543,7 +543,7 @@ class PythonFormatCheckTest(TestCase):
             Language('cs'),
             Unit('python_missing_named_format'),
             0,
-           True
+            True
         ))
 
     def test_wrong_format(self):
