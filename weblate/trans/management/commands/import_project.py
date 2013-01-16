@@ -36,8 +36,8 @@ class Command(BaseCommand):
     args = '<project> <gitrepo> <branch> <filemask>'
 
     def get_name(self, path):
-        m = self.maskre.match(path)
-        return m.group(1)
+        matches = self.maskre.match(path)
+        return matches.group(1)
 
     def handle(self, *args, **options):
         '''
@@ -85,8 +85,8 @@ class Command(BaseCommand):
 
         # Parse subproject names out of them
         names = set()
-        for m in matches:
-            names.add(self.get_name(m))
+        for match in matches:
+            names.add(self.get_name(match))
         logger.info('Found %d subprojects', len(names))
 
         # Create first subproject (this one will get full git repo)
