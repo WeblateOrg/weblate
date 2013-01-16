@@ -70,6 +70,7 @@ def get_user_display(user, icon=True):
     if user is None:
         # None user, probably remotely triggered action
         full_name = _('None')
+        email = 'noreply@weblate.org'
     else:
         # Get full name
         full_name = user.get_full_name()
@@ -78,16 +79,14 @@ def get_user_display(user, icon=True):
         if full_name.strip() == '':
             full_name = user.username
 
+        email = user.email
+
     # No icon requested
     if not icon:
         return full_name
 
-    if user is None:
-        # Weblate icon
-        gravatar = os.path.join(settings.MEDIA_URL, 'weblate-32.png')
-    else:
-        # Get gravatar image
-        gravatar = gravatar_for_email(user.email, size=32)
+    # Get gravatar image
+    gravatar = gravatar_for_email(email, size=32)
 
     return mark_safe('<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
         'name': escape(full_name),
