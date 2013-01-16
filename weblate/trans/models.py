@@ -314,7 +314,7 @@ class Project(models.Model):
     class Meta:
         ordering = ['name']
 
-    def has_acl(self, request):
+    def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
         project.
@@ -322,16 +322,16 @@ class Project(models.Model):
         if not self.enable_acl:
             return True
 
-        if not request.user.is_authenticated():
+        if not user.is_authenticated():
             return False
 
-        return request.user.has_perm('weblate_acl_%s' % self.slug)
+        return user.has_perm('weblate_acl_%s' % self.slug)
 
-    def check_acl(self, request):
+    def check_acl(self, user):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        if not self.has_acl(request):
+        if not self.has_acl(user):
             messages.error(
                 request,
                 _('You are not allowed to access project %s.') % self.name
@@ -618,18 +618,18 @@ class SubProject(models.Model):
             ('lock_subproject', "Can lock translation for translating"),
         )
 
-    def has_acl(self, request):
+    def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
         subproject.
         '''
-        return self.project.has_acl(request)
+        return self.project.has_acl(user)
 
-    def check_acl(self, request):
+    def check_acl(self, user):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        self.project.check_acl(request)
+        self.project.check_acl(user)
 
     @models.permalink
     def get_absolute_url(self):
@@ -1352,18 +1352,18 @@ class Translation(models.Model):
             ('lock_translation', "Can lock whole translation project"),
         )
 
-    def has_acl(self, request):
+    def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
         subproject.
         '''
-        return self.subproject.project.has_acl(request)
+        return self.subproject.project.has_acl(user)
 
-    def check_acl(self, request):
+    def check_acl(self, user):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        self.subproject.project.check_acl(request)
+        self.subproject.project.check_acl(user)
 
     def clean(self):
         '''
@@ -2262,18 +2262,18 @@ class Unit(models.Model):
         )
         ordering = ['position']
 
-    def has_acl(self, request):
+    def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
         subproject.
         '''
-        return self.translation.subproject.project.has_acl(request)
+        return self.translation.subproject.project.has_acl(user)
 
-    def check_acl(self, request):
+    def check_acl(self, user):
         '''
         Raises an error if user is not allowed to acces s this project.
         '''
-        self.translation.subproject.project.check_acl(request)
+        self.translation.subproject.project.check_acl(user)
 
     def __unicode__(self):
         return '%s on %s' % (
