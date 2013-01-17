@@ -795,12 +795,12 @@ class SubProject(models.Model):
             'branch': self.branch
         }
 
-    def update_remote_branch(self, validate=False, gitrepo=None):
+    def update_remote_branch(self, validate=False):
         '''
         Pulls from remote repository.
         '''
         if self.is_repo_link():
-            return self.linked_subproject.update_remote_branch(validate, gitrepo)
+            return self.linked_subproject.update_remote_branch(validate)
 
         if gitrepo is None:
             gitrepo = self.get_repo()
@@ -847,7 +847,7 @@ class SubProject(models.Model):
         if pushurl != self.push:
             gitrepo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
-        self.update_remote_branch(validate, gitrepo)
+        self.update_remote_branch(validate)
 
     def configure_branch(self):
         '''
