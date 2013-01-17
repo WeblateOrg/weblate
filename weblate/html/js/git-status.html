@@ -30,6 +30,20 @@
 <p>{% trans "There are some new commits in local Git repository!" %}</p>
 {% endif %}
 
+
+{% if object.subproject_set %}
+{% else %}
+{% with object.get_last_remote_commit as commit %}
+<p>
+{% trans "Last remote commit:" %}
+<span class="git-commit">
+{{ commit.hexsha|slice:":7" }}
+{% include "git-commit-info.html" %}
+</span>
+</p>
+{% endwith %}
+{% endif %}
+
 <div class="details-accordion">
 <h3><a href="#">{% trans "Details" %}</a></h3>
 <div>

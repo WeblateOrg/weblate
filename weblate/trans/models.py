@@ -767,6 +767,12 @@ class SubProject(models.Model):
             # Fallback to initializing the repository
             return git.Repo.init(path)
 
+    def get_last_remote_commit(self):
+        '''
+        Returns latest remote commit we know.
+        '''
+        return self.get_repo().commit('origin/master')
+
     def get_repoweb_link(self, filename, line):
         '''
         Generates link to source code browser for given file and line.
@@ -1841,6 +1847,9 @@ class Translation(models.Model):
 
     def get_repo(self):
         return self.subproject.get_repo()
+
+    def get_last_remote_commit(self):
+        return self.subproject.get_last_remote_commit()
 
     def do_update(self, request=None):
         return self.subproject.do_update(request)
