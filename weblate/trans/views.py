@@ -1365,10 +1365,6 @@ def translate(request, project, subproject, lang):
                     saved = unit.save_backend(request)
 
                     if saved:
-                        # Update userstats
-                        profile.translated += 1
-                        profile.save()
-
                         # Get new set of checks
                         newchecks = set(
                             unit.active_checks().values_list('check', flat=True)

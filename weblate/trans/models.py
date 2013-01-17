@@ -2597,6 +2597,11 @@ class Unit(models.Model):
             for subscription in subscriptions:
                 subscription.notify_any_translation(self, oldunit)
 
+            # Update user stats
+            profile = request.user.get_profile()
+            profile.translated += 1
+            profile.save()
+
             # Notify about new contributor
             if not Change.objects.filter(translation=self.translation, user=request.user).exists():
                 # Get list of subscribers for new contributor
