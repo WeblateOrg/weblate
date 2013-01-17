@@ -434,12 +434,12 @@ class UnitManager(models.Manager):
                 cnt -= 1
 
         return self.filter(
-                    translation__subproject__project=unit.translation.subproject.project,
-                    translation__language=unit.translation.language,
-                    checksum__in=ret
-                ).exclude(
-                    target__in=['', unit.target]
-                )
+            translation__subproject__project=unit.translation.subproject.project,
+            translation__language=unit.translation.language,
+            checksum__in=ret
+        ).exclude(
+            target__in=['', unit.target]
+        )
 
     def same(self, unit):
         '''
