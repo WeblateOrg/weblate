@@ -803,19 +803,16 @@ class SubProject(models.Model):
         if self.is_repo_link():
             return self.linked_subproject.update_remote_branch(validate)
 
-        if gitrepo is None:
-            gitrepo = self.git_repo
-
         # Update
         logger.info('updating repo %s', self.__unicode__())
         try:
             try:
-                gitrepo.git.remote('update', 'origin')
+                self.git_repo.git.remote('update', 'origin')
             except git.GitCommandError:
                 # There might be another attempt on pull in same time
                 # so we will sleep a bit an retry
                 time.sleep(random.random() * 2)
-                gitrepo.git.remote('update', 'origin')
+                self.git_repo.git.remote('update', 'origin')
         except Exception as e:
             logger.error('Failed to update Git repo: %s', str(e))
             if validate:
@@ -922,10 +919,9 @@ class SubProject(models.Model):
             return False
 
         # Do actual push
-        gitrepo = self.git_repo
         try:
             logger.info('pushing to remote repo %s', self.__unicode__())
-            gitrepo.git.push('origin', '%s:%s' % (self.branch, self.branch))
+            self.git_repo.git.push('origin', '%s:%s' % (self.branch, self.branch))
             return True
         except Exception as e:
             logger.warning('failed push on repo %s', self.__unicode__())
@@ -953,10 +949,9 @@ class SubProject(models.Model):
         self.update_remote_branch()
 
         # Do actual reset
-        gitrepo = self.git_repo
         try:
             logger.info('reseting to remote repo %s', self.__unicode__())
-            gitrepo.git.reset('--hard', 'origin/%s' % self.branch)
+            self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
         except Exception as e:
             logger.warning('failed reset on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
@@ -1119,8 +1114,7 @@ class SubProject(models.Model):
         '''
         Iterator over translations in filesystem.
         '''
-        gitrepo = self.git_repo
-        tree = gitrepo.tree()
+        tree = self.git_repo.tree()
 
         # Glob files
         for filename in self.get_mask_matches():
@@ -1323,24 +1317,22 @@ class SubProject(models.Model):
             return False
         return True
 
-    def git_check_merge(self, revision, gitrepo=None):
+    def git_check_merge(self, revision):
         '''
         Checks whether there are any unmerged commits compared to given
         revision.
         '''
-        if gitrepo is None:
-            gitrepo = self.git_repo
-        status = gitrepo.git.log(revision, '--')
+        status = self.git_repo.git.log(revision, '--')
         if status == '':
             # No changes to merge
             return False
         return True
 
     def git_needs_merge(self):
-        return self.git_check_merge('..origin/%s' % self.branch, gitrepo)
+        return self.git_check_merge('..origin/%s' % self.branch)
 
     def git_needs_push(self):
-        return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
+        return self.git_check_merge('origin/%s..' % self.branch)
 
     def get_file_format(self):
         '''
@@ -1872,8 +1864,7 @@ class Translation(models.Model):
         '''
         Returns current Git blob hash for file.
         '''
-        gitrepo = self.git_repo
-        tree = gitrepo.tree()
+        tree = self.git_repo.tree()
         ret = tree[self.filename].hexsha
         if self.subproject.has_template():
             ret += ','
