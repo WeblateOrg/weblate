@@ -1886,7 +1886,7 @@ def not_found(request):
         template.render(RequestContext(request, {
             'request_path': request.path,
             'title': _('Page Not Found'),
-            'projects': Project.objects.all(),
+            'projects': Project.objects.all_acl(request.user),
         }
     )))
 
@@ -1998,7 +1998,7 @@ def data_root(request):
         'site_domain': site.domain,
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
-        'projects': Project.objects.all(),
+        'projects': Project.objects.all_acl(request.user),
     }))
 
 
