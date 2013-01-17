@@ -846,7 +846,6 @@ class SubProject(models.Model):
         # Update
         self.update_remote_branch(validate, gitrepo)
 
-
     def configure_branch(self):
         '''
         Ensures local tracking branch exists and is checkouted.
@@ -1225,7 +1224,7 @@ class SubProject(models.Model):
             for match in matches:
                 try:
                     ttkit(
-                        os.path.join( self.get_path(), match),
+                        os.path.join(self.get_path(), match),
                         self.file_format
                     )
                 except ValueError:
@@ -1233,7 +1232,7 @@ class SubProject(models.Model):
                 except Exception as e:
                     errors.append('%s: %s' % (match, str(e)))
             if len(notrecognized) > 0:
-                raise ValidationError( '%s\n%s' % (
+                raise ValidationError('%s\n%s' % (
                     (_('Format of %d matched files could not be recognized.') % len(notrecognized)),
                     '\n'.join(notrecognized)
                 ))
@@ -2168,7 +2167,7 @@ class Translation(models.Model):
                         site = Site.objects.get_current()
                         # Store language team with link to website
                         store.updateheader(
-                            language_team = '%s <http://%s%s>' % (
+                            language_team='%s <http://%s%s>' % (
                                 self.language.name,
                                 site.domain,
                                 self.get_absolute_url(),
@@ -2360,7 +2359,6 @@ class Translation(models.Model):
         if self.total == 0:
             return 0
         return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
-
 
     def invalidate_cache(self, cache_type=None):
         '''
