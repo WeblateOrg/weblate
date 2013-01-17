@@ -2130,13 +2130,13 @@ class Translation(models.Model):
 
             # Detect changes
             if unit.target != get_target(pounit) or unit.fuzzy != pounit.isfuzzy():
-                # Update fuzzy flag
-                pounit.markfuzzy(unit.fuzzy)
                 # Store translations
                 if unit.is_plural():
                     pounit.settarget(unit.get_target_plurals())
                 else:
                     pounit.settarget(unit.target)
+                # Update fuzzy flag
+                pounit.markfuzzy(unit.fuzzy)
                 # Optionally add unit to translation file
                 if add:
                     if isinstance(store, LISAfile):
@@ -2553,7 +2553,7 @@ class Unit(models.Model):
         except FileLockException:
             logger.error('failed to lock backend for %s!', self)
             messages.error(request, _('Failed to store message in the backend, lock timeout occurred!'))
-            return
+            return False
 
         # Handle situation when backend did not find the message
         if pounit is None:
@@ -2561,12 +2561,14 @@ class Unit(models.Model):
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
             # Try reloading from backend
             self.translation.update_from_blob(True)
-            return
+            return False
 
         # Return if there was no change
-        if not saved and propagate:
-            self.propagate(request)
-            return
+        if not saved:
+            # Propagate if we should
+            if propagate:
+                self.propagate(request)
+            return False
 
         # Update translated flag
         self.translated = is_translated(pounit)
@@ -2587,40 +2589,44 @@ class Unit(models.Model):
         old_translated = self.translation.translated
         self.translation.update_stats()
 
-        if saved:
-            # Notify subscribed users about new translation
-            subscriptions = Profile.objects.subscribed_any_translation(
+        # Notify subscribed users about new translation
+        subscriptions = Profile.objects.subscribed_any_translation(
+            self.translation.subproject.project,
+            self.translation.language,
+            request.user
+        )
+        for subscription in subscriptions:
+            subscription.notify_any_translation(self, oldunit)
+
+        # Update user stats
+        profile = request.user.get_profile()
+        profile.translated += 1
+        profile.save()
+
+        # Notify about new contributor
+        if not Change.objects.filter(translation=self.translation, user=request.user).exists():
+            # Get list of subscribers for new contributor
+            subscriptions = Profile.objects.subscribed_new_contributor(
                 self.translation.subproject.project,
                 self.translation.language,
                 request.user
             )
             for subscription in subscriptions:
-                subscription.notify_any_translation(self, oldunit)
+                subscription.notify_new_contributor(self.translation, request.user)
 
-            # Notify about new contributor
-            if not Change.objects.filter(translation=self.translation, user=request.user).exists():
-                # Get list of subscribers for new contributor
-                subscriptions = Profile.objects.subscribed_new_contributor(
-                    self.translation.subproject.project,
-                    self.translation.language,
-                    request.user
-                )
-                for subscription in subscriptions:
-                    subscription.notify_new_contributor(self.translation, request.user)
-
-            # Generate Change object for this change
-            if gen_change:
-                if oldunit.translated:
-                    action = Change.ACTION_CHANGE
-                else:
-                    action = Change.ACTION_NEW
-                # Create change object
-                Change.objects.create(
-                    unit=self,
-                    translation=self.translation,
-                    action=action,
-                    user=request.user
-                )
+        # Generate Change object for this change
+        if gen_change:
+            if oldunit.translated:
+                action = Change.ACTION_CHANGE
+            else:
+                action = Change.ACTION_NEW
+            # Create change object
+            Change.objects.create(
+                unit=self,
+                translation=self.translation,
+                action=action,
+                user=request.user
+            )
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
@@ -2635,7 +2641,7 @@ class Unit(models.Model):
         if propagate:
             self.propagate(request)
 
-        return saved
+        return True
 
     def save(self, *args, **kwargs):
         '''

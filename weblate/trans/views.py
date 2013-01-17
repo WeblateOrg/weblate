@@ -1362,31 +1362,29 @@ def translate(request, project, subproject, lang):
                     # Update unit and save it
                     unit.target = join_plural(form.cleaned_data['target'])
                     unit.fuzzy = form.cleaned_data['fuzzy']
-                    unit.save_backend(request)
+                    saved = unit.save_backend(request)
 
-                    # Update stats
-                    profile.translated += 1
-                    profile.save()
-                    # Get new set of checks
-                    newchecks = set(
-                        unit.active_checks().values_list('check', flat=True)
-                    )
-                    # Did we introduce any new failures?
-                    if newchecks > oldchecks:
-                        # Show message to user
-                        messages.error(
-                            request,
-                            _('Some checks have failed on your translation!')
+                    if saved:
+                        # Get new set of checks
+                        newchecks = set(
+                            unit.active_checks().values_list('check', flat=True)
                         )
-                        # Stay on same entry
-                        return HttpResponseRedirect(
-                            '%s?type=%s&pos=%d&dir=stay%s' % (
-                                obj.get_translate_url(),
-                                rqtype,
-                                pos,
-                                search_url
+                        # Did we introduce any new failures?
+                        if newchecks > oldchecks:
+                            # Show message to user
+                            messages.error(
+                                request,
+                                _('Some checks have failed on your translation!')
                             )
-                        )
+                            # Stay on same entry
+                            return HttpResponseRedirect(
+                                '%s?type=%s&pos=%d&dir=stay%s' % (
+                                    obj.get_translate_url(),
+                                    rqtype,
+                                    pos,
+                                    search_url
+                                )
+                            )
 
                 # Redirect to next entry
                 return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
