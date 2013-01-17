@@ -495,13 +495,13 @@ class Project(models.Model):
                 return True
         return False
 
-    def git_needs_merge(self, gitrepo=None):
+    def git_needs_merge(self):
         for resource in self.subproject_set.all():
             if resource.git_needs_merge():
                 return True
         return False
 
-    def git_needs_push(self, gitrepo=None):
+    def git_needs_push(self):
         for resource in self.subproject_set.all():
             if resource.git_needs_push():
                 return True
@@ -1313,13 +1313,11 @@ class SubProject(models.Model):
 
         return round(translated * 100.0 / total, 1)
 
-    def git_needs_commit(self, gitrepo=None):
+    def git_needs_commit(self):
         '''
         Checks whether there are some not commited changes.
         '''
-        if gitrepo is None:
-            gitrepo = self.git_repo
-        status = gitrepo.git.status('--porcelain')
+        status = self.git_repo.git.status('--porcelain')
         if status == '':
             # No changes to commit
             return False
@@ -1338,10 +1336,10 @@ class SubProject(models.Model):
             return False
         return True
 
-    def git_needs_merge(self, gitrepo=None):
+    def git_needs_merge(self):
         return self.git_check_merge('..origin/%s' % self.branch, gitrepo)
 
-    def git_needs_push(self, gitrepo=None):
+    def git_needs_push(self):
         return self.git_check_merge('origin/%s..' % self.branch, gitrepo)
 
     def get_file_format(self):
@@ -2027,13 +2025,11 @@ class Translation(models.Model):
         if sync:
             self.store_hash()
 
-    def git_needs_commit(self, gitrepo=None):
+    def git_needs_commit(self):
         '''
         Checks whether there are some not commited changes.
         '''
-        if gitrepo is None:
-            gitrepo = self.git_repo
-        status = gitrepo.git.status('--porcelain', '--', self.filename)
+        status = self.git_repo.git.status('--porcelain', '--', self.filename)
         if status == '':
             # No changes to commit
             return False
@@ -2057,7 +2053,7 @@ class Translation(models.Model):
         gitrepo = self.git_repo
 
         # Is there something for commit?
-        if not self.git_needs_commit(gitrepo):
+        if not self.git_needs_commit():
             return False
 
         # Can we delay commit?
