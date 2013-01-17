@@ -100,7 +100,7 @@ def profile(request):
         'subscriptionform': subscriptionform,
         'profile': profile,
         'title': _('User profile'),
-        }))
+    }))
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
     return response
 

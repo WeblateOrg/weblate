@@ -136,5 +136,5 @@ def export_stats(request, project, subproject):
         })
     return HttpResponse(
         json.dumps(response, default=dt_handler),
-        mimetype = 'application/json'
+        mimetype='application/json'
     )
