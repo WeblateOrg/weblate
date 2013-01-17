@@ -2130,13 +2130,13 @@ class Translation(models.Model):
 
             # Detect changes
             if unit.target != get_target(pounit) or unit.fuzzy != pounit.isfuzzy():
-                # Update fuzzy flag
-                pounit.markfuzzy(unit.fuzzy)
                 # Store translations
                 if unit.is_plural():
                     pounit.settarget(unit.get_target_plurals())
                 else:
                     pounit.settarget(unit.target)
+                # Update fuzzy flag
+                pounit.markfuzzy(unit.fuzzy)
                 # Optionally add unit to translation file
                 if add:
                     if isinstance(store, LISAfile):
