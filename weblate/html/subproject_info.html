@@ -4,10 +4,18 @@
 {% include "project_info.html" %}
 {% endwith %}
 <p>{% trans "Git repository:" %} 
-<code>{% if object.is_repo_link %}{{ object.get_linked_repo.repo }}{% else %}{{ object.repo }}{% endif %}</code> 
+<code>{% if object.is_repo_link %}{{ object.get_linked_repo.repo }}{% else %}{{ object.repo }}{% endif %}</code> (
 {% if object.is_repo_link %}
-({% blocktrans with object.get_linked_repo.branch as branch %}{{ branch }} branch{% endblocktrans %})
+{% blocktrans with object.get_linked_repo.branch as branch %}{{ branch }} branch{% endblocktrans %}
 {% else %}
-({% blocktrans with object.branch as branch %}{{ branch }} branch{% endblocktrans %})
+{% blocktrans with object.branch as branch %}{{ branch }} branch{% endblocktrans %}
+ @ 
+{% with object.get_last_remote_commit as commit %}
+<span class="git-commit">
+{{ commit.hexsha|slice:":7" }}
+{% include "git-commit-info.html" %}
+</span>
+{% endwith %}
+)
 {% endif %}
 </p>
