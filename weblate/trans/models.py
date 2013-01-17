@@ -1477,7 +1477,7 @@ class Translation(models.Model):
 
     def get_lock_display(self):
         return mark_safe(
-            _('This translation is locked by %(user)s for translation!') % {
+            _('This translation is locked by %(user)s!') % {
                 'user': self.get_lock_user_display(),
             }
         )
@@ -1485,7 +1485,7 @@ class Translation(models.Model):
     def is_locked(self, request=None, multi=False):
         '''
         Check whether the translation is locked and
-        possibly emmits messages if request object is
+        possibly emits messages if request object is
         provided.
         '''
 

@@ -1328,7 +1328,7 @@ def translate(request, project, subproject, lang):
                     if recent_changes.count() == 0 or True:
                         messages.info(
                             request,
-                            _('There is currently no active translator for this translation, please consider becoming translator as your suggestion might stay unreviewed otherwise.')
+                            _('There is currently no active translator for this translation, please consider becoming a translator as your suggestion might otherwise remain unreviewed.')
                         )
                     # Notify subscribed users
                     subscriptions = Profile.objects.subscribed_new_suggestion(
