@@ -39,9 +39,9 @@ class FileLock(object):
         start_time = time.time()
         while True:
             try:
-                self.fd = os.open(
+                self.handle = os.open(
                     self.lockfile,
-                    os.O_CREAT|os.O_EXCL|os.O_RDWR
+                    os.O_CREAT | os.O_EXCL | os.O_RDWR
                 )
                 break
             except OSError as e:
@@ -59,7 +59,7 @@ class FileLock(object):
         called at the end.
         """
         if self.is_locked:
-            os.close(self.fd)
+            os.close(self.handle)
             os.unlink(self.lockfile)
             self.is_locked = False
 
@@ -72,7 +72,7 @@ class FileLock(object):
             self.acquire()
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, typ, value, traceback):
         """
         Activated at the end of the with statement.
         It automatically releases the lock if it isn't locked.
