@@ -73,6 +73,7 @@ PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
+    'alarm',
     'audio',
     'auto',
     'avatar',
@@ -107,10 +108,12 @@ SAME_BLACKLIST = frozenset((
     'imei',
     'import',
     'info',
+    'information',
     'jabber',
     'kib',
     'km',
     'latex',
+    'model',
     'mib',
     'mm',
     'n/a',
@@ -131,6 +134,7 @@ SAME_BLACKLIST = frozenset((
     'sim',
     'smsc',
     'software',
+    'standard',
     'sql',
     'status',
     'text',
