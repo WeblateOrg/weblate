@@ -39,6 +39,14 @@ class Command(BaseCommand):
         matches = maskre.match(path)
         return matches.group(1)
 
+    def get_match_regexp(self, filemask):
+        '''
+        Prepare regexp for file matching
+        '''
+        match = fnmatch.translate(filemask)
+        match = match.replace('.*.*', '(.*.*)')
+        return re.compile(match)
+
     def handle(self, *args, **options):
         '''
         Automatic import of project.
@@ -49,10 +57,7 @@ class Command(BaseCommand):
         # Read params
         prjname, repo, branch, filemask = args
 
-        # Prepare regexp for file matching
-        match = fnmatch.translate(filemask)
-        match = match.replace('.*.*', '(.*.*)')
-        maskre = re.compile(match)
+        maskre = self.get_match_regexp(filemask)
 
         # Try to get project
         try:
