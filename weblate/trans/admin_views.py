@@ -127,14 +127,16 @@ def ssh(request):
     # Check whether we can generate SSH key
     try:
         ret = os.system('which ssh-keygen > /dev/null 2>&1')
-        can_generate = ret == 0
+        can_generate = (ret == 0 and not os.path.exists(key_path))
     except:
         can_generate = False
 
     # Generate key if it does not exist yet
-    if can_generate and request.method == 'POST' and  not os.path.exists(key_path):
+    if can_generate and request.method == 'POST':
         try:
-            ret = os.system('ssh-keygen -q -N \'\' -C Weblate -t rsa -f %s' % key_path[:-4])
+            ret = os.system(
+                'ssh-keygen -q -N \'\' -C Weblate -t rsa -f %s' % key_path[:-4]
+            )
             if ret != 0:
                 messages.error(request, _('Failed to generate key!'))
             else:
