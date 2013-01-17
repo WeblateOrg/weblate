@@ -2488,7 +2488,12 @@ class Unit(models.Model):
         self.translated = translated
         self.comment = comment
         self.previous_source = previous_source
-        self.save(force_insert=force, backend=True, same_content=same_content, same_fuzzy=same_fuzzy)
+        self.save(
+            force_insert=force,
+            backend=True,
+            same_content=same_content,
+            same_fuzzy=same_fuzzy
+        )
 
     def is_plural(self):
         '''
@@ -2532,7 +2537,9 @@ class Unit(models.Model):
         '''
         Propagates current translation to all others.
         '''
-        allunits = Unit.objects.same(self).exclude(id=self.id).filter(translation__subproject__allow_translation_propagation=True)
+        allunits = Unit.objects.same(self).exclude(id=self.id).filter(
+            translation__subproject__allow_translation_propagation=True
+        )
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = self.fuzzy
