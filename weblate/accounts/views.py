@@ -53,12 +53,17 @@ def mail_admins_sender(subject, message, sender, fail_silently=False,
 @login_required
 def profile(request):
 
+    user_profile = request.user.get_profile()
+
     if request.method == 'POST':
         # Read params
-        form = ProfileForm(request.POST, instance=request.user.get_profile())
+        form = ProfileForm(
+            request.POST,
+            instance=user_profile
+        )
         subscriptionform = SubscriptionForm(
             request.POST,
-            instance=request.user.get_profile()
+            instance=user_profile
         )
         userform = UserForm(
             request.POST,
@@ -77,7 +82,7 @@ def profile(request):
             response = HttpResponseRedirect(reverse('profile'))
 
             # Set language cookie and activate new language (for message below)
-            lang_code = request.user.get_profile().language
+            lang_code = user_profile.language
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
             translation.activate(lang_code)
 
@@ -85,23 +90,27 @@ def profile(request):
 
             return response
     else:
-        form = ProfileForm(instance=request.user.get_profile())
+        form = ProfileForm(
+            instance=user_profile
+        )
         subscriptionform = SubscriptionForm(
-            instance=request.user.get_profile()
+            instance=user_profile
         )
         userform = UserForm(
             instance=request.user
         )
 
-    profile = request.user.get_profile()
     response = render_to_response('profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
         'subscriptionform': subscriptionform,
-        'profile': profile,
+        'profile': user_profile,
         'title': _('User profile'),
     }))
-    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
+    response.set_cookie(
+        settings.LANGUAGE_COOKIE_NAME,
+        user_profile.language
+    )
     return response
 
 
