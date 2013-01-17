@@ -22,6 +22,8 @@ import weblate
 from django.conf import settings
 from datetime import datetime
 
+URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
+
 
 def version(request):
     return {'version': weblate.VERSION}
@@ -29,7 +31,7 @@ def version(request):
 
 def weblate_url(request):
     return {
-        'weblate_url': 'http://weblate.org/?utm_source=weblate&utm_term=%s' % weblate.VERSION
+        'weblate_url': URL_BASE % weblate.VERSION
     }
 
 
