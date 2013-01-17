@@ -451,11 +451,13 @@ class Project(models.Model):
             translations = translations.filter(language=lang)
         # Aggregate
         translations = translations.aggregate(Sum('translated'), Sum('total'))
+        total = translations['total__sum']
+        translated = translations['translated__sum']
         # Catch no translations
-        if translations['total__sum'] == 0 or translations['total__sum'] is None:
+        if total == 0 or total is None:
             return 0
         # Return percent
-        return round(translations['translated__sum'] * 100.0 / translations['total__sum'], 1)
+        return round(translated * 100.0 / total, 1)
 
     def get_total(self):
         '''
