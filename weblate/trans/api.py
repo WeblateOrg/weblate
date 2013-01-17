@@ -43,8 +43,8 @@ def update_subproject(request, project, subproject):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    t = threading.Thread(target=obj.do_update)
-    t.start()
+    thread = threading.Thread(target=obj.do_update)
+    thread.start()
     return HttpResponse('update triggered')
 
 
@@ -56,8 +56,8 @@ def update_project(request, project):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(Project, slug=project)
-    t = threading.Thread(target=obj.do_update)
-    t.start()
+    thread = threading.Thread(target=obj.do_update)
+    thread.start()
     return HttpResponse('update triggered')
 
 
@@ -89,8 +89,8 @@ def github_hook(request):
     )
     for obj in SubProject.objects.filter(repo=repo, branch=branch):
         logger.info('GitHub notification will update %s', obj)
-        t = threading.Thread(target=obj.do_update)
-        t.start()
+        thread = threading.Thread(target=obj.do_update)
+        thread.start()
 
     return HttpResponse('update triggered')
 
