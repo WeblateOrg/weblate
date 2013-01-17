@@ -63,11 +63,15 @@ class Command(BaseCommand):
         try:
             project = Project.objects.get(slug=prjname)
         except Project.DoesNotExist:
-            raise CommandError('Project %s does not exist, you need to create it first!' % prjname)
+            raise CommandError(
+                'Project %s does not exist, you need to create it first!' % prjname
+            )
 
         # Do we have correct mask?
         if not '**' in filemask:
-            raise CommandError('You need to specify double wildcard for subproject part of the match!')
+            raise CommandError(
+                'You need to specify double wildcard for subproject part of the match!'
+            )
 
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.get_path())
@@ -77,9 +81,11 @@ class Command(BaseCommand):
         logger.info('Initializing git repository...')
         gitrepo = git.Repo.init(workdir)
         gitrepo.git.remote('add', 'origin', repo)
+
         logger.info('Fetching remote git repository...')
         gitrepo.git.remote('update', 'origin')
         gitrepo.git.branch('--track', branch, 'origin/%s' % branch)
+
         logger.info('Updating working copy in git repository...')
         gitrepo.git.checkout(branch)
 
@@ -99,7 +105,10 @@ class Command(BaseCommand):
         logger.info('Creating subproject %s as main subproject', name)
 
         # Rename gitrepository to new name
-        os.rename(workdir, os.path.join(project.get_path(), name))
+        os.rename(
+            workdir,
+            os.path.join(project.get_path(), name)
+        )
 
         SubProject.objects.create(
             name=name,
