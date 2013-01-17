@@ -133,7 +133,6 @@ WIDGETS = {
 
 
 def widgets_root(request):
-    site = Site.objects.get_current()
     return render_to_response('widgets-root.html', RequestContext(request, {
         'projects': Project.objects.all_acl(request.user),
     }))
