@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-17 11:20+0100\n"
+"POT-Creation-Date: 2013-01-17 14:23+0100\n"
 "PO-Revision-Date: 2013-01-17 11:52+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:222 urls.py:229 urls.py:236 urls.py:243
+#: urls.py:223 urls.py:230 urls.py:237 urls.py:244
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: urls.py:251
+#: urls.py:252
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:260 html/base.html:49 html/registration/login.html:30
+#: urls.py:261 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: urls.py:267
+#: urls.py:268
 msgid "Logged out"
 msgstr "Odhlášen"
 
-#: urls.py:272
+#: urls.py:273
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: urls.py:276
+#: urls.py:277
 msgid "Password changed"
 msgstr "Heslo bylo změněno"
 
-#: urls.py:280 urls.py:284 urls.py:288 urls.py:292
+#: urls.py:281 urls.py:285 urls.py:289 urls.py:293
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -792,6 +792,10 @@ msgstr "Přehled jazyků"
 msgid "Checks overview"
 msgstr "Souhrn kontrol"
 
+#: html/index.html:111
+msgid "Widgets"
+msgstr "Widgety"
+
 #: html/language.html:6 html/languages.html:6
 msgid "languages"
 msgstr "jazyky"
@@ -1328,13 +1332,19 @@ msgstr "Řetězec má selhavší kontroly"
 msgid "Message is translated"
 msgstr "Řetězec je přeložený"
 
-#: html/widgets.html:7
+#: html/widgets-root.html:6 html/widgets.html:7
 msgid "widgets"
 msgstr "widgety"
 
-#: html/widgets.html:16
+#: html/widgets-root.html:11 html/widgets.html:16
 msgid "Promoting translation projects"
 msgstr "Propagace překladových projektů"
+
+#: html/widgets-root.html:14
+msgid ""
+"Weblate provides various widgets to promote your translation projects. Open "
+"one of bellow project pages to them."
+msgstr ""
 
 #: html/widgets.html:19
 #, python-format
@@ -2575,177 +2585,177 @@ msgstr "Nepodařilo se vytvořit klíč!"
 msgid "Created new SSH key."
 msgstr "Byl vytvořen nový SSH klíč."
 
-#: trans/checks.py:282
+#: trans/checks.py:286
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: trans/checks.py:283
+#: trans/checks.py:287
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
-#: trans/checks.py:331
+#: trans/checks.py:335
 msgid "Starting newline"
 msgstr "Počáteční nový řádek"
 
-#: trans/checks.py:332
+#: trans/checks.py:336
 msgid "Source and translation do not both start with a newline"
 msgstr "Překlad a zdroj oba nezačínají novým řádkem"
 
-#: trans/checks.py:343
+#: trans/checks.py:347
 msgid "Trailing newline"
 msgstr "Koncový nový řádek"
 
-#: trans/checks.py:344
+#: trans/checks.py:348
 msgid "Source and translation do not both end with a newline"
 msgstr "Překlad a zdroj oba nekončí novým řádkem"
 
-#: trans/checks.py:355
+#: trans/checks.py:359
 msgid "Starting spaces"
 msgstr "Počáteční mezery"
 
-#: trans/checks.py:356
+#: trans/checks.py:360
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Překlad a zdroj oba nezačínají stejným počtem mezer"
 
-#: trans/checks.py:376
+#: trans/checks.py:380
 msgid "Trailing space"
 msgstr "Koncová mezera"
 
-#: trans/checks.py:377
+#: trans/checks.py:381
 msgid "Source and translation do not both end with a space"
 msgstr "Překlad a zdroj oba nekončí mezerou"
 
-#: trans/checks.py:402
+#: trans/checks.py:406
 msgid "Trailing stop"
 msgstr "Koncová tečka"
 
-#: trans/checks.py:403
+#: trans/checks.py:407
 msgid "Source and translation do not both end with a full stop"
 msgstr "Překlad a zdroj oba nekončí tečkou"
 
-#: trans/checks.py:424
+#: trans/checks.py:428
 msgid "Trailing colon"
 msgstr "Koncová dvojtečka"
 
-#: trans/checks.py:425
+#: trans/checks.py:429
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí dvojtečkou nebo kolem ní chybí mezery"
 
-#: trans/checks.py:449
+#: trans/checks.py:453
 msgid "Trailing question"
 msgstr "Koncový otazník"
 
-#: trans/checks.py:450
+#: trans/checks.py:454
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí otazníkem nebo kolem něj chybí mezery"
 
-#: trans/checks.py:473
+#: trans/checks.py:477
 msgid "Trailing exclamation"
 msgstr "Koncový vykřičník"
 
-#: trans/checks.py:474
+#: trans/checks.py:478
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem nebo kolem něj chybí mezery"
 
-#: trans/checks.py:503
+#: trans/checks.py:507
 msgid "Trailing ellipsis"
 msgstr "Koncová výpustka"
 
-#: trans/checks.py:504
+#: trans/checks.py:508
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Překlad a zdroj oba nekončí výpustky"
 
-#: trans/checks.py:577
+#: trans/checks.py:581
 msgid "Python format"
 msgstr "Formát Pythonu"
 
-#: trans/checks.py:578 trans/checks.py:589 trans/checks.py:600
+#: trans/checks.py:582 trans/checks.py:593 trans/checks.py:604
 msgid "Format string does not match source"
 msgstr "Formátovací řetězec v překladu neodpovídá zdroji"
 
-#: trans/checks.py:588
+#: trans/checks.py:592
 msgid "PHP format"
 msgstr "Formát PHP"
 
-#: trans/checks.py:599
+#: trans/checks.py:603
 msgid "C format"
 msgstr "Formát C"
 
-#: trans/checks.py:610
+#: trans/checks.py:614
 msgid "Missing plurals"
 msgstr "Chybí plurál"
 
-#: trans/checks.py:611
+#: trans/checks.py:615
 msgid "Some plural forms are not translated"
 msgstr "Některé množné tvary nejsou přeložené"
 
-#: trans/checks.py:629
+#: trans/checks.py:633
 msgid "Inconsistent"
 msgstr "Nekonzistentní"
 
-#: trans/checks.py:630
+#: trans/checks.py:634
 msgid "This message has more than one translation in this project"
 msgstr "Řetězec má v tomto projektu více rozdílných překladů"
 
-#: trans/checks.py:659
+#: trans/checks.py:663
 msgid "Invalid text direction"
 msgstr "Chybný směr textu"
 
-#: trans/checks.py:660
+#: trans/checks.py:664
 msgid "Text direction can be either LTR or RTL"
 msgstr "Směr textu musí být LTR nebo RTL"
 
-#: trans/checks.py:689
+#: trans/checks.py:693
 msgid "Mismatched \\n"
 msgstr "Neodpovídající \\n"
 
-#: trans/checks.py:690
+#: trans/checks.py:694
 msgid "Number of \\n in translation does not match source"
 msgstr "Počet \\n v překladu neodpovídá zdroji"
 
-#: trans/checks.py:698
+#: trans/checks.py:702
 msgid "Mismatched BBcode"
 msgstr "Neodpovídající BBcode"
 
-#: trans/checks.py:699
+#: trans/checks.py:703
 msgid "BBcode in translation does not match source"
 msgstr "BBcode v překladu neodpovídá zdroji"
 
-#: trans/checks.py:727
+#: trans/checks.py:731
 msgid "Zero-width space"
 msgstr "Nulová mezera"
 
-#: trans/checks.py:728
+#: trans/checks.py:732
 msgid "Translation contains extra zero-width space character"
 msgstr "Překlad obsahuje navíc nulovou mezeru"
 
-#: trans/checks.py:739
+#: trans/checks.py:743
 msgid "XML tags mismatch"
 msgstr "Neodpovídající XML"
 
-#: trans/checks.py:740
+#: trans/checks.py:744
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: trans/checks.py:796
+#: trans/checks.py:800
 msgid "Optional plural"
 msgstr "Volitelný plurál"
 
-#: trans/checks.py:797
+#: trans/checks.py:801
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr "Řetězec je občas používán jako plurál, ale nepoužívá množné tvary"
 
-#: trans/checks.py:810
+#: trans/checks.py:814
 msgid "Ellipsis"
 msgstr "Výpustka"
 
-#: trans/checks.py:811
+#: trans/checks.py:815
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Řetězec používá tři tečky (...) namísto výpustky (…)"
 
@@ -3074,45 +3084,45 @@ msgstr ""
 "Jestli překlady v jiných podprojektech způsobí automatický překlad v tomto "
 "projektu"
 
-#: trans/models.py:816
+#: trans/models.py:819
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Nepodařilo se stáhnout Git repozitář: %s"
 
-#: trans/models.py:899
+#: trans/models.py:902
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: trans/models.py:934
+#: trans/models.py:937
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nepodařilo se odeslat do vzdálené větve %s."
 
-#: trans/models.py:964
+#: trans/models.py:967
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nepodařilo se resetovat na vzdálenou větev %s."
 
-#: trans/models.py:1051
+#: trans/models.py:1054
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: trans/models.py:1085
+#: trans/models.py:1088
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Nepodařilo se přeskládat změny na vzdálenou větev %s."
 
-#: trans/models.py:1203
+#: trans/models.py:1206
 msgid "Push URL is not used when repository is linked!"
 msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
 
-#: trans/models.py:1209
+#: trans/models.py:1212
 msgid "The mask did not match any files!"
 msgstr "Masce neodpovídají žádné soubory!"
 
-#: trans/models.py:1215
+#: trans/models.py:1218
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3120,25 +3130,25 @@ msgstr ""
 "Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
 "podprojekty pro překládání různých souborů."
 
-#: trans/models.py:1234
+#: trans/models.py:1237
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát %d souborů."
 
-#: trans/models.py:1239
+#: trans/models.py:1242
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nepodařilo ze zpracovat %d souborů!"
 
-#: trans/models.py:1249
+#: trans/models.py:1252
 msgid "Format of translation template could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát šablony překladů."
 
-#: trans/models.py:1252
+#: trans/models.py:1255
 msgid "Failed to parse translation template."
 msgstr "Nepodařilo se zpracovat šablonu překladů."
 
-#: trans/models.py:1445
+#: trans/models.py:1448
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3147,90 +3157,90 @@ msgstr ""
 "Soubor %s nebyl nalezen v repozitáři! Chcete-li přidat nový překlad, "
 "přidejte soubor s překladem do repozitáře."
 
-#: trans/models.py:1449
+#: trans/models.py:1452
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát souboru %s."
 
-#: trans/models.py:1452
+#: trans/models.py:1455
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
 
-#: trans/models.py:1476
+#: trans/models.py:1479
 #, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "Tento překlad je uzamčen pro uživatele %(user)s!"
 
-#: trans/models.py:2192 trans/models.py:2219
+#: trans/models.py:2195 trans/models.py:2222
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models.py:2197 trans/models.py:2239
+#: trans/models.py:2200 trans/models.py:2242
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Řetězců s jakoukoliv selhavší kontrolou (%d)"
 
-#: trans/models.py:2211 trans/models.py:2253
+#: trans/models.py:2214 trans/models.py:2256
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Řetězců s komentáři (%d)"
 
-#: trans/models.py:2224
+#: trans/models.py:2227
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models.py:2229
+#: trans/models.py:2232
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models.py:2234
+#: trans/models.py:2237
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models.py:2552
+#: trans/models.py:2555
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
 
-#: trans/models.py:2558
+#: trans/models.py:2561
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
 "poškození."
 
-#: trans/models.py:2680
+#: trans/models.py:2683
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
 
-#: trans/models.py:3006
+#: trans/models.py:3009
 msgid "Resource update"
 msgstr "Aktualizace zdroje"
 
-#: trans/models.py:3007
+#: trans/models.py:3010
 msgid "Translation completed"
 msgstr "Dokončení překladu"
 
-#: trans/models.py:3008
+#: trans/models.py:3011
 msgid "Translation changed"
 msgstr "Změna překladu"
 
-#: trans/models.py:3009
+#: trans/models.py:3012
 msgid "New translation"
 msgstr "Nový překlad"
 
-#: trans/models.py:3010
+#: trans/models.py:3013
 msgid "Comment added"
 msgstr "Přidán komentář"
 
-#: trans/models.py:3011
+#: trans/models.py:3014
 msgid "Suggestion added"
 msgstr "Přidán návrh"
 
-#: trans/models.py:3029
+#: trans/models.py:3032
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
@@ -3648,9 +3658,6 @@ msgstr[2] "za %(count)s hodin"
 #~ msgstr ""
 #~ "Můžete použít %(language)s, %(subproject)s nebo %(project)s pro zkratku "
 #~ "jazyka, jméno podprojektu nebo projektu."
-
-#~ msgid "Widgets"
-#~ msgstr "Widgety"
 
 #~ msgid "Code:"
 #~ msgstr "Kód:"
