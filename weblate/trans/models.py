@@ -2564,8 +2564,10 @@ class Unit(models.Model):
             return False
 
         # Return if there was no change
-        if not saved and propagate:
-            self.propagate(request)
+        if not saved:
+            # Propagate if we should
+            if propagate:
+                self.propagate(request)
             return False
 
         # Update translated flag
@@ -2587,45 +2589,44 @@ class Unit(models.Model):
         old_translated = self.translation.translated
         self.translation.update_stats()
 
-        if saved:
-            # Notify subscribed users about new translation
-            subscriptions = Profile.objects.subscribed_any_translation(
+        # Notify subscribed users about new translation
+        subscriptions = Profile.objects.subscribed_any_translation(
+            self.translation.subproject.project,
+            self.translation.language,
+            request.user
+        )
+        for subscription in subscriptions:
+            subscription.notify_any_translation(self, oldunit)
+
+        # Update user stats
+        profile = request.user.get_profile()
+        profile.translated += 1
+        profile.save()
+
+        # Notify about new contributor
+        if not Change.objects.filter(translation=self.translation, user=request.user).exists():
+            # Get list of subscribers for new contributor
+            subscriptions = Profile.objects.subscribed_new_contributor(
                 self.translation.subproject.project,
                 self.translation.language,
                 request.user
             )
             for subscription in subscriptions:
-                subscription.notify_any_translation(self, oldunit)
+                subscription.notify_new_contributor(self.translation, request.user)
 
-            # Update user stats
-            profile = request.user.get_profile()
-            profile.translated += 1
-            profile.save()
-
-            # Notify about new contributor
-            if not Change.objects.filter(translation=self.translation, user=request.user).exists():
-                # Get list of subscribers for new contributor
-                subscriptions = Profile.objects.subscribed_new_contributor(
-                    self.translation.subproject.project,
-                    self.translation.language,
-                    request.user
-                )
-                for subscription in subscriptions:
-                    subscription.notify_new_contributor(self.translation, request.user)
-
-            # Generate Change object for this change
-            if gen_change:
-                if oldunit.translated:
-                    action = Change.ACTION_CHANGE
-                else:
-                    action = Change.ACTION_NEW
-                # Create change object
-                Change.objects.create(
-                    unit=self,
-                    translation=self.translation,
-                    action=action,
-                    user=request.user
-                )
+        # Generate Change object for this change
+        if gen_change:
+            if oldunit.translated:
+                action = Change.ACTION_CHANGE
+            else:
+                action = Change.ACTION_NEW
+            # Create change object
+            Change.objects.create(
+                unit=self,
+                translation=self.translation,
+                action=action,
+                user=request.user
+            )
 
         # Force commiting on completing translation
         if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
@@ -2640,7 +2641,7 @@ class Unit(models.Model):
         if propagate:
             self.propagate(request)
 
-        return saved
+        return True
 
     def save(self, *args, **kwargs):
         '''
