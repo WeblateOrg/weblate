@@ -51,12 +51,12 @@
 {% for sp in object.subproject_set.all %}
 <h4>{{ sp }}</h3>
 <pre>
-{{ sp.get_repo.git.status }}
+{{ sp.git_repo.git.status }}
 </pre>
 {% endfor %}
 {% else %}
 <pre>
-{{ object.get_repo.git.status }}
+{{ object.git_repo.git.status }}
 </pre>
 {% endif %}
 </div>

@@ -759,7 +759,8 @@ class SubProject(models.Model):
         '''
         return get_linked_repo(self.repo)
 
-    def get_repo(self):
+    @property
+    def git_repo(self):
         '''
         Gets Git repository object.
         '''
@@ -777,7 +778,7 @@ class SubProject(models.Model):
         '''
         Returns latest remote commit we know.
         '''
-        return self.get_repo().commit('origin/master')
+        return self.git_repo.commit('origin/master')
 
     def get_repoweb_link(self, filename, line):
         '''
@@ -803,7 +804,7 @@ class SubProject(models.Model):
             return self.linked_subproject.update_remote_branch(validate)
 
         if gitrepo is None:
-            gitrepo = self.get_repo()
+            gitrepo = self.git_repo
 
         # Update
         logger.info('updating repo %s', self.__unicode__())
@@ -829,7 +830,7 @@ class SubProject(models.Model):
         if self.is_repo_link():
             return self.linked_subproject.configure_repo(validate)
         # Create/Open repo
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
         # Get/Create origin remote
         try:
             origin = gitrepo.remotes.origin
@@ -856,7 +857,7 @@ class SubProject(models.Model):
         if self.is_repo_link():
             return self.linked_subproject.configure_branch()
 
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
 
         # create branch if it does not exist
         if not self.branch in gitrepo.heads:
@@ -921,7 +922,7 @@ class SubProject(models.Model):
             return False
 
         # Do actual push
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
         try:
             logger.info('pushing to remote repo %s', self.__unicode__())
             gitrepo.git.push('origin', '%s:%s' % (self.branch, self.branch))
@@ -952,7 +953,7 @@ class SubProject(models.Model):
         self.update_remote_branch()
 
         # Do actual reset
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
         try:
             logger.info('reseting to remote repo %s', self.__unicode__())
             gitrepo.git.reset('--hard', 'origin/%s' % self.branch)
@@ -1029,7 +1030,7 @@ class SubProject(models.Model):
         '''
         Updates current branch to remote using merge.
         '''
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
 
         with self.get_git_lock():
             try:
@@ -1063,7 +1064,7 @@ class SubProject(models.Model):
         '''
         Updates current branch to remote using rebase.
         '''
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
 
         with self.get_git_lock():
             try:
@@ -1118,7 +1119,7 @@ class SubProject(models.Model):
         '''
         Iterator over translations in filesystem.
         '''
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
         tree = gitrepo.tree()
 
         # Glob files
@@ -1317,7 +1318,7 @@ class SubProject(models.Model):
         Checks whether there are some not commited changes.
         '''
         if gitrepo is None:
-            gitrepo = self.get_repo()
+            gitrepo = self.git_repo
         status = gitrepo.git.status('--porcelain')
         if status == '':
             # No changes to commit
@@ -1330,7 +1331,7 @@ class SubProject(models.Model):
         revision.
         '''
         if gitrepo is None:
-            gitrepo = self.get_repo()
+            gitrepo = self.git_repo
         status = gitrepo.git.log(revision, '--')
         if status == '':
             # No changes to merge
@@ -1850,8 +1851,9 @@ class Translation(models.Model):
             for subscription in subscriptions:
                 subscription.notify_new_string(self)
 
-    def get_repo(self):
-        return self.subproject.get_repo()
+    @property
+    def git_repo(self):
+        return self.subproject.git_repo
 
     def get_last_remote_commit(self):
         return self.subproject.get_last_remote_commit()
@@ -1872,7 +1874,7 @@ class Translation(models.Model):
         '''
         Returns current Git blob hash for file.
         '''
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
         tree = gitrepo.tree()
         ret = tree[self.filename].hexsha
         if self.subproject.has_template():
@@ -2030,7 +2032,7 @@ class Translation(models.Model):
         Checks whether there are some not commited changes.
         '''
         if gitrepo is None:
-            gitrepo = self.get_repo()
+            gitrepo = self.git_repo
         status = gitrepo.git.status('--porcelain', '--', self.filename)
         if status == '':
             # No changes to commit
@@ -2052,7 +2054,7 @@ class Translation(models.Model):
         sync updates git hash stored within the translation (otherwise
         translation rescan will be needed)
         '''
-        gitrepo = self.get_repo()
+        gitrepo = self.git_repo
 
         # Is there something for commit?
         if not self.git_needs_commit(gitrepo):
