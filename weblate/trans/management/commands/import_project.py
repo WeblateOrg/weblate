@@ -35,8 +35,8 @@ class Command(BaseCommand):
     help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
 
-    def get_name(self, path):
-        matches = self.maskre.match(path)
+    def get_name(self, maskre, path):
+        matches = maskre.match(path)
         return matches.group(1)
 
     def handle(self, *args, **options):
@@ -52,7 +52,7 @@ class Command(BaseCommand):
         # Prepare regexp for file matching
         match = fnmatch.translate(filemask)
         match = match.replace('.*.*', '(.*.*)')
-        self.maskre = re.compile(match)
+        maskre = re.compile(match)
 
         # Try to get project
         try:
@@ -86,7 +86,7 @@ class Command(BaseCommand):
         # Parse subproject names out of them
         names = set()
         for match in matches:
-            names.add(self.get_name(match))
+            names.add(self.get_name(maskre, match))
         logger.info('Found %d subprojects', len(names))
 
         # Create first subproject (this one will get full git repo)
