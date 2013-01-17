@@ -54,7 +54,8 @@ class WeblateCommand(BaseCommand):
             result = SubProject.objects.all()
         elif len(args) == 0:
             # no argumets to filter projects
-            print 'WARNING: nothing to process, please use either --all or <project/subproject>'
+            print 'WARNING: Nothing to process!'
+            print 'Please specify either --all or <project/subproject>'
             result = SubProject.objects.none()
         else:
             # start with none and add found
