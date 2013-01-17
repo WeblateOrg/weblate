@@ -87,7 +87,8 @@ class PluralTextarea(forms.Textarea):
         pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
             ugettext('This equation identifies which plural form will be used based on given count (n).'),
             ugettext('Plural equation'),
-            lang.pluralequation)
+            lang.pluralequation
+        )
 
         # Join output
         return mark_safe('<br />'.join(ret) + pluralmsg)
@@ -233,7 +234,7 @@ class AutoForm(forms.Form):
         # in same project
         project = obj.subproject.project
         other_subprojects = project.subproject_set.exclude(
-            id = obj.subproject.id
+            id=obj.subproject.id
         )
         choices = [(s.slug, s.name) for s in other_subprojects]
 
@@ -248,7 +249,7 @@ class WordForm(forms.Form):
 
 
 class DictUploadForm(forms.Form):
-    file  = forms.FileField(label=_('File'))
+    file = forms.FileField(label=_('File'))
     overwrite = forms.BooleanField(
         label = _('Overwrite existing'),
         required = False
