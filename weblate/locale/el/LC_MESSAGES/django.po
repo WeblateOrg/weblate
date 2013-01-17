@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-16 15:37+0100\n"
+"POT-Creation-Date: 2013-01-17 11:20+0100\n"
 "PO-Revision-Date: 2013-01-16 23:26+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -717,6 +717,16 @@ msgstr "Επικοινωνήστε μαζί μας"
 #: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "Τεκμηρίωση"
+
+#: html/git-commit-info.html:4
+#, python-format
+msgid "Commit %(hash)s"
+msgstr ""
+
+#: html/git-commit-info.html:5
+#, python-format
+msgid "Authored by %(author)s on %(date)s"
+msgstr ""
 
 #: html/index.html:9
 #, python-format
@@ -1482,7 +1492,6 @@ msgstr ""
 "SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
 
 #: html/js/dictionary.html:19
-#| msgid "Your translations"
 msgid "Copy word to translation"
 msgstr "Αντιγραφή λέξης στη μετάφραση"
 
@@ -1542,7 +1551,11 @@ msgstr "Το απομακρυσμένο αποθετήριο Git πρέπει ν
 msgid "There are some new commits in local Git repository!"
 msgstr "Υπάρχουν ορισμένες νέες δεσμεύσεις σε τοπικό αποθετήριο Git!"
 
-#: html/js/git-status.html:34
+#: html/js/git-status.html:38
+msgid "Last remote commit:"
+msgstr ""
+
+#: html/js/git-status.html:48
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
@@ -3104,47 +3117,47 @@ msgstr ""
 "Αν η μετάφραση ενημερωθεί σε άλλο υπόέργο, τότε θα προκαλέσει αυτόματη "
 "μετάφραση σε αυτό το έργο"
 
-#: trans/models.py:810
+#: trans/models.py:816
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Απέτυχε η λήψη του αποθετηρίου git: %s"
 
-#: trans/models.py:893
+#: trans/models.py:899
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#: trans/models.py:928
+#: trans/models.py:934
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Απέτυχε η προώθηση στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models.py:958
+#: trans/models.py:964
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Απέτυχε η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models.py:1045
+#: trans/models.py:1051
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Απέτυχε η ένωση του απομακρυσμένου κλάδου στο %s."
 
-#: trans/models.py:1079
+#: trans/models.py:1085
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Απέτυχε η αναβαθμίστε του υποκαταστήματός μας σε απομακρυσμένο υποκατάστημα "
 "%s."
 
-#: trans/models.py:1197
+#: trans/models.py:1203
 msgid "Push URL is not used when repository is linked!"
 msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: trans/models.py:1203
+#: trans/models.py:1209
 msgid "The mask did not match any files!"
 msgstr "Η μάσκα δεν ταιριάζει με κανένα αρχείο!"
 
-#: trans/models.py:1209
+#: trans/models.py:1215
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3152,25 +3165,25 @@ msgstr ""
 "Υπάρχουν περισσότερα αρχεία για μονή γλώσσα, προσαρμόστε τη μάσκα και "
 "χρησιμοποιήστε υποέργα για μετάφραση διαφορετικών προελεύσεων."
 
-#: trans/models.py:1228
+#: trans/models.py:1234
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
 
-#: trans/models.py:1233
+#: trans/models.py:1239
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
 
-#: trans/models.py:1243
+#: trans/models.py:1249
 msgid "Format of translation template could not be recognized."
 msgstr "Η μορφή του προτύπου μετάφρασης δεν μπορεί να αναγνωριστεί."
 
-#: trans/models.py:1246
+#: trans/models.py:1252
 msgid "Failed to parse translation template."
 msgstr "Απέτυχε η ανάλυση του προτύπου μετάφρασης."
 
-#: trans/models.py:1439
+#: trans/models.py:1445
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3179,90 +3192,90 @@ msgstr ""
 "Το όνομα αρχείου %s δεν βρέθηκε στο αποθετήριο! Για προσθήκη νέας "
 "μετάφρασης, προσθέστε αρχείο γλώσσας στο αποθετήριο."
 
-#: trans/models.py:1443
+#: trans/models.py:1449
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Η μορφή του %s δεν αναγνωρίζεται."
 
-#: trans/models.py:1446
+#: trans/models.py:1452
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error)s"
 
-#: trans/models.py:1470
+#: trans/models.py:1476
 #, python-format
 msgid "This translation is locked by %(user)s for translation!"
 msgstr ""
 "Αυτή η μετάφραση είναι κλειδωμένη από τον χρήστη %(user)s για μετάφραση!"
 
-#: trans/models.py:2183 trans/models.py:2210
+#: trans/models.py:2192 trans/models.py:2219
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models.py:2188 trans/models.py:2230
+#: trans/models.py:2197 trans/models.py:2239
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων (%d)"
 
-#: trans/models.py:2202 trans/models.py:2244
+#: trans/models.py:2211 trans/models.py:2253
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Κείμενα με σχόλια (%d)"
 
-#: trans/models.py:2215
+#: trans/models.py:2224
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models.py:2225
+#: trans/models.py:2234
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models.py:2543
+#: trans/models.py:2552
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
-#: trans/models.py:2549
+#: trans/models.py:2558
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
 
-#: trans/models.py:2671
+#: trans/models.py:2680
 #, python-format
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
 
-#: trans/models.py:2997
+#: trans/models.py:3006
 msgid "Resource update"
 msgstr "Ενημέρωση προέλευσης"
 
-#: trans/models.py:2998
+#: trans/models.py:3007
 msgid "Translation completed"
 msgstr "Η μετάφραση ολοκληρώθηκε"
 
-#: trans/models.py:2999
+#: trans/models.py:3008
 msgid "Translation changed"
 msgstr "Η μετάφραση άλλαξε"
 
-#: trans/models.py:3000
+#: trans/models.py:3009
 msgid "New translation"
 msgstr "Νέα μετάφραση"
 
-#: trans/models.py:3001
+#: trans/models.py:3010
 msgid "Comment added"
 msgstr "Προστέθηκε σχόλιο"
 
-#: trans/models.py:3002
+#: trans/models.py:3011
 msgid "Suggestion added"
 msgstr "Προστέθηκαν προτάσεις"
 
-#: trans/models.py:3020
+#: trans/models.py:3029
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s στις %(time)s στην %(translation)s από %(user)s"
@@ -3507,116 +3520,116 @@ msgstr ""
 "Αγγλική μετάφραση\n"
 "%(percent)d%% ολοκληρώθηκε"
 
-#: trans/templatetags/translations.py:64
+#: trans/templatetags/translations.py:65
 msgid "Tab character"
 msgstr "Χαρακτήρας στηλοθέτη"
 
-#: trans/templatetags/translations.py:118
+#: trans/templatetags/translations.py:119
 msgid "New line"
 msgstr "Νέα γραμμή"
 
-#: trans/templatetags/translations.py:241
+#: trans/templatetags/translations.py:242
 #, python-format
 msgid "Avatar for %s"
 msgstr "Είδωλο για «%s»"
 
-#: trans/templatetags/translations.py:265
+#: trans/templatetags/translations.py:278
 #, python-format
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "ένα έτος πριν"
 msgstr[1] "%(count)s έτη πριν"
 
-#: trans/templatetags/translations.py:270
+#: trans/templatetags/translations.py:283
 #, python-format
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "ένα μήνα πριν"
 msgstr[1] "%(count)s μήνες πριν"
 
-#: trans/templatetags/translations.py:275
+#: trans/templatetags/translations.py:288
 #, python-format
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "μια εβδομάδα πριν"
 msgstr[1] "%(count)s εβδομάδες πριν"
 
-#: trans/templatetags/translations.py:279
+#: trans/templatetags/translations.py:292
 #, python-format
 msgid "yesterday"
 msgid_plural "%(count)s days ago"
 msgstr[0] "χθες"
 msgstr[1] "%(count)s ημέρες πριν"
 
-#: trans/templatetags/translations.py:282
-#: trans/templatetags/translations.py:319
+#: trans/templatetags/translations.py:295
+#: trans/templatetags/translations.py:332
 msgid "now"
 msgstr "τώρα"
 
-#: trans/templatetags/translations.py:285
+#: trans/templatetags/translations.py:298
 #, python-format
 msgid "a second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "πριν από ένα δευτερόλεπτο"
 msgstr[1] "πριν από %(count)s δευτερόλεπτα"
 
-#: trans/templatetags/translations.py:290
+#: trans/templatetags/translations.py:303
 #, python-format
 msgid "a minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "πριν από ένα λεπτό"
 msgstr[1] "πριν από %(count)s λεπτά"
 
-#: trans/templatetags/translations.py:295
+#: trans/templatetags/translations.py:308
 #, python-format
 msgid "an hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "πριν από μια ώρα"
 msgstr[1] "πριν από %(count)s ώρες"
 
-#: trans/templatetags/translations.py:302
+#: trans/templatetags/translations.py:315
 #, python-format
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "ένα έτος από τώρα"
 msgstr[1] "%(count)s έτη από τώρα"
 
-#: trans/templatetags/translations.py:307
+#: trans/templatetags/translations.py:320
 #, python-format
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "ένας μήνας από τώρα"
 msgstr[1] "%(count)s μήνες από τώρα"
 
-#: trans/templatetags/translations.py:312
+#: trans/templatetags/translations.py:325
 #, python-format
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "μια εβδομάδα από τώρα"
 msgstr[1] "%(count)s εβδομάδες από τώρα"
 
-#: trans/templatetags/translations.py:316
+#: trans/templatetags/translations.py:329
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
 msgstr[0] "αύριο"
 msgstr[1] "%(count)s ημέρες από τώρα"
 
-#: trans/templatetags/translations.py:322
+#: trans/templatetags/translations.py:335
 #, python-format
 msgid "a second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "σε ένα δευτερόλεπτο"
 msgstr[1] "σε %(count)s δευτερόλεπτα"
 
-#: trans/templatetags/translations.py:327
+#: trans/templatetags/translations.py:340
 #, python-format
 msgid "a minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "σε ένα λεπτό"
 msgstr[1] "σε %(count)s λεπτά"
 
-#: trans/templatetags/translations.py:332
+#: trans/templatetags/translations.py:345
 #, python-format
 msgid "an hour from now"
 msgid_plural "%(count)s hours from now"

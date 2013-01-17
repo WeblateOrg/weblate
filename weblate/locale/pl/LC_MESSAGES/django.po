@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-16 15:37+0100\n"
+"POT-Creation-Date: 2013-01-17 11:20+0100\n"
 "PO-Revision-Date: 2013-01-11 12:40+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: Polish <http://l10n.cihar.com/projects/weblate/master/pl/>\n"
@@ -701,6 +701,16 @@ msgstr "Skontaktuj się z nami"
 #: html/admin/performance.html.py:30
 msgid "Documentation"
 msgstr "Dokumentacja"
+
+#: html/git-commit-info.html:4
+#, python-format
+msgid "Commit %(hash)s"
+msgstr ""
+
+#: html/git-commit-info.html:5
+#, python-format
+msgid "Authored by %(author)s on %(date)s"
+msgstr ""
 
 #: html/index.html:9
 #, python-format
@@ -1547,7 +1557,11 @@ msgstr "Zdalne repozytorium Git musi zostać scalone!"
 msgid "There are some new commits in local Git repository!"
 msgstr "W lokalnym repozytorium Git znajdują się jakieś nowe zmiany!"
 
-#: html/js/git-status.html:34
+#: html/js/git-status.html:38
+msgid "Last remote commit:"
+msgstr ""
+
+#: html/js/git-status.html:48
 msgid "Details"
 msgstr "Szczegóły"
 
@@ -3161,45 +3175,45 @@ msgid ""
 "translation in this project"
 msgstr ""
 
-#: trans/models.py:810
+#: trans/models.py:816
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Pobranie repozytorium git nie powiodło się: %s"
 
-#: trans/models.py:893
+#: trans/models.py:899
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Przesyłanie dla %s jest wyłączone."
 
-#: trans/models.py:928
+#: trans/models.py:934
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Przesłanie do zdalnej gałęzi dla %s nie powiodło się."
 
-#: trans/models.py:958
+#: trans/models.py:964
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Resetowanie zdalnej gałęzi na %s nie powiodło się."
 
-#: trans/models.py:1045
+#: trans/models.py:1051
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Scalenie zdalnej gałęzi z %s nie powiodło się."
 
-#: trans/models.py:1079
+#: trans/models.py:1085
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Resetowanie zdalnej gałęzi na %s nie powiodło się."
 
-#: trans/models.py:1197
+#: trans/models.py:1203
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models.py:1203
+#: trans/models.py:1209
 msgid "The mask did not match any files!"
 msgstr "Maska nie pasuje do żadnych plików!"
 
-#: trans/models.py:1209
+#: trans/models.py:1215
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3207,25 +3221,25 @@ msgstr ""
 "Istnieje więcej plików dla jednego języka, proszę poprawić maskę i używać "
 "podprojektów do tłumaczenia różnych zasobów."
 
-#: trans/models.py:1228
+#: trans/models.py:1234
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nie można było rozpoznać formatu %d pasujących plików. "
 
-#: trans/models.py:1233
+#: trans/models.py:1239
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Analiza %d dopasowanych plików nie powiodła się!"
 
-#: trans/models.py:1243
+#: trans/models.py:1249
 msgid "Format of translation template could not be recognized."
 msgstr "Nie można było rozpoznać format szablonu tłumaczenia."
 
-#: trans/models.py:1246
+#: trans/models.py:1252
 msgid "Failed to parse translation template."
 msgstr "Analiza szablonu tłumaczenia nie powiodła się."
 
-#: trans/models.py:1439
+#: trans/models.py:1445
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3234,97 +3248,97 @@ msgstr ""
 "Nie znaleziono nazwy pliku %s w repozytorium! Aby dodać nowe tłumaczenie, "
 "dodaj plik języka do repozytorium."
 
-#: trans/models.py:1443
+#: trans/models.py:1449
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format %s nie mógł być rozpoznany."
 
-#: trans/models.py:1446
+#: trans/models.py:1452
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nie powiodła się analiza pliku %(file)s: %(error)s"
 
-#: trans/models.py:1470
+#: trans/models.py:1476
 #, fuzzy, python-format
 #| msgid ""
 #| "This translation is locked by %(user)s for translation till %(time)s!"
 msgid "This translation is locked by %(user)s for translation!"
 msgstr "To tłumaczenie jest zablokowane przez %(user)s do %(time)s!"
 
-#: trans/models.py:2183 trans/models.py:2210
+#: trans/models.py:2192 trans/models.py:2219
 msgid "All strings"
 msgstr "Wszystkie napisy"
 
-#: trans/models.py:2188 trans/models.py:2230
+#: trans/models.py:2197 trans/models.py:2239
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Napisy z nieudanymi testami (%d)"
 
-#: trans/models.py:2202 trans/models.py:2244
+#: trans/models.py:2211 trans/models.py:2253
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "Napisy z sugestiami (%d)"
 
-#: trans/models.py:2215
+#: trans/models.py:2224
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Nieprzetłumaczone napisy (%d)"
 
-#: trans/models.py:2220
+#: trans/models.py:2229
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Napisy niepewne (%d)"
 
-#: trans/models.py:2225
+#: trans/models.py:2234
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Napisy z sugestiami (%d)"
 
-#: trans/models.py:2543
+#: trans/models.py:2552
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2549
+#: trans/models.py:2558
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Nie odnaleziono komunikatu w przechowalni, gdyż jest on prawdopodobnie "
 "uszkodzony."
 
-#: trans/models.py:2671
+#: trans/models.py:2680
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednostki %s"
 
-#: trans/models.py:2997
+#: trans/models.py:3006
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2998
+#: trans/models.py:3007
 #, fuzzy
 msgid "Translation completed"
 msgstr "Kontekst tłumaczenia"
 
-#: trans/models.py:2999
+#: trans/models.py:3008
 #, fuzzy
 msgid "Translation changed"
 msgstr "Kontekst tłumaczenia"
 
-#: trans/models.py:3000
+#: trans/models.py:3009
 #, fuzzy
 msgid "New translation"
 msgstr "Tłumaczenie"
 
-#: trans/models.py:3001
+#: trans/models.py:3010
 #, fuzzy
 msgid "Comment added"
 msgstr "Komentarze"
 
-#: trans/models.py:3002
+#: trans/models.py:3011
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Sugestie"
 
-#: trans/models.py:3020
+#: trans/models.py:3029
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -3563,21 +3577,21 @@ msgid ""
 "%(percent)d%% done"
 msgstr ""
 
-#: trans/templatetags/translations.py:64
+#: trans/templatetags/translations.py:65
 msgid "Tab character"
 msgstr ""
 
-#: trans/templatetags/translations.py:118
+#: trans/templatetags/translations.py:119
 #, fuzzy
 msgid "New line"
 msgstr "Nowy język"
 
-#: trans/templatetags/translations.py:241
+#: trans/templatetags/translations.py:242
 #, fuzzy, python-format
 msgid "Avatar for %s"
 msgstr "Szukaj dla \"%s\""
 
-#: trans/templatetags/translations.py:265
+#: trans/templatetags/translations.py:278
 #, fuzzy, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
@@ -3587,7 +3601,7 @@ msgstr[0] "godzinę temu"
 msgstr[1] "%(count)s  godzin temu"
 msgstr[2] "%(count)s  godziny temu"
 
-#: trans/templatetags/translations.py:270
+#: trans/templatetags/translations.py:283
 #, fuzzy, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
@@ -3597,7 +3611,7 @@ msgstr[0] "minutę temu"
 msgstr[1] "%(count)s minuty temu"
 msgstr[2] "%(count)s minut temu"
 
-#: trans/templatetags/translations.py:275
+#: trans/templatetags/translations.py:288
 #, fuzzy, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
@@ -3607,7 +3621,7 @@ msgstr[0] "sekundę temu"
 msgstr[1] "%(count)s sekundy temu"
 msgstr[2] "%(count)s sekund temu"
 
-#: trans/templatetags/translations.py:279
+#: trans/templatetags/translations.py:292
 #, python-format
 msgid "yesterday"
 msgid_plural "%(count)s days ago"
@@ -3615,12 +3629,12 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: trans/templatetags/translations.py:282
-#: trans/templatetags/translations.py:319
+#: trans/templatetags/translations.py:295
+#: trans/templatetags/translations.py:332
 msgid "now"
 msgstr "teraz"
 
-#: trans/templatetags/translations.py:285
+#: trans/templatetags/translations.py:298
 #, python-format
 msgid "a second ago"
 msgid_plural "%(count)s seconds ago"
@@ -3628,7 +3642,7 @@ msgstr[0] "sekundę temu"
 msgstr[1] "%(count)s sekundy temu"
 msgstr[2] "%(count)s sekund temu"
 
-#: trans/templatetags/translations.py:290
+#: trans/templatetags/translations.py:303
 #, python-format
 msgid "a minute ago"
 msgid_plural "%(count)s minutes ago"
@@ -3636,7 +3650,7 @@ msgstr[0] "minutę temu"
 msgstr[1] "%(count)s minuty temu"
 msgstr[2] "%(count)s minut temu"
 
-#: trans/templatetags/translations.py:295
+#: trans/templatetags/translations.py:308
 #, python-format
 msgid "an hour ago"
 msgid_plural "%(count)s hours ago"
@@ -3644,7 +3658,7 @@ msgstr[0] "godzinę temu"
 msgstr[1] "%(count)s  godzin temu"
 msgstr[2] "%(count)s  godziny temu"
 
-#: trans/templatetags/translations.py:302
+#: trans/templatetags/translations.py:315
 #, fuzzy, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
@@ -3654,7 +3668,7 @@ msgstr[0] "za godzinę"
 msgstr[1] "za %(count)s godziny"
 msgstr[2] "za %(count)s godzin"
 
-#: trans/templatetags/translations.py:307
+#: trans/templatetags/translations.py:320
 #, fuzzy, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
@@ -3664,7 +3678,7 @@ msgstr[0] "za minutę"
 msgstr[1] "za %(count)s minuty"
 msgstr[2] "za %(count)s minut"
 
-#: trans/templatetags/translations.py:312
+#: trans/templatetags/translations.py:325
 #, fuzzy, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
@@ -3674,7 +3688,7 @@ msgstr[0] "za sekundę"
 msgstr[1] "za %(count)s sekundy"
 msgstr[2] "za %(count)s sekund"
 
-#: trans/templatetags/translations.py:316
+#: trans/templatetags/translations.py:329
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
@@ -3682,7 +3696,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: trans/templatetags/translations.py:322
+#: trans/templatetags/translations.py:335
 #, python-format
 msgid "a second from now"
 msgid_plural "%(count)s seconds from now"
@@ -3690,7 +3704,7 @@ msgstr[0] "za sekundę"
 msgstr[1] "za %(count)s sekundy"
 msgstr[2] "za %(count)s sekund"
 
-#: trans/templatetags/translations.py:327
+#: trans/templatetags/translations.py:340
 #, python-format
 msgid "a minute from now"
 msgid_plural "%(count)s minutes from now"
@@ -3698,7 +3712,7 @@ msgstr[0] "za minutę"
 msgstr[1] "za %(count)s minuty"
 msgstr[2] "za %(count)s minut"
 
-#: trans/templatetags/translations.py:332
+#: trans/templatetags/translations.py:345
 #, python-format
 msgid "an hour from now"
 msgid_plural "%(count)s hours from now"
