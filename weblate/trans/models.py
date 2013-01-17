@@ -2553,7 +2553,7 @@ class Unit(models.Model):
         except FileLockException:
             logger.error('failed to lock backend for %s!', self)
             messages.error(request, _('Failed to store message in the backend, lock timeout occurred!'))
-            return
+            return False
 
         # Handle situation when backend did not find the message
         if pounit is None:
@@ -2561,12 +2561,12 @@ class Unit(models.Model):
             messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
             # Try reloading from backend
             self.translation.update_from_blob(True)
-            return
+            return False
 
         # Return if there was no change
         if not saved and propagate:
             self.propagate(request)
-            return
+            return False
 
         # Update translated flag
         self.translated = is_translated(pounit)
