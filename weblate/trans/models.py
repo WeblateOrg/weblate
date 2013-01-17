@@ -822,7 +822,8 @@ class SubProject(models.Model):
 
     def configure_repo(self, validate=False):
         '''
-        Ensures repository is correctly configured and points to current remote.
+        Ensures repository is correctly configured and points to current
+        remote.
         '''
         if self.is_repo_link():
             return self.linked_subproject.configure_repo(validate)
@@ -858,7 +859,11 @@ class SubProject(models.Model):
 
         # create branch if it does not exist
         if not self.branch in gitrepo.heads:
-            gitrepo.git.branch('--track', self.branch, 'origin/%s' % self.branch)
+            gitrepo.git.branch(
+                '--track',
+                self.branch,
+                'origin/%s' % self.branch
+            )
 
         # switch to correct branch
         gitrepo.git.checkout(self.branch)
@@ -921,7 +926,10 @@ class SubProject(models.Model):
         # Do actual push
         try:
             logger.info('pushing to remote repo %s', self.__unicode__())
-            self.git_repo.git.push('origin', '%s:%s' % (self.branch, self.branch))
+            self.git_repo.git.push(
+                'origin',
+                '%s:%s' % (self.branch, self.branch)
+            )
             return True
         except Exception as e:
             logger.warning('failed push on repo %s', self.__unicode__())
@@ -2215,22 +2223,34 @@ class Translation(models.Model):
         # Untranslated strings
         nottranslated = self.unit_set.count_type('untranslated', self)
         if nottranslated > 0:
-            result.append(('untranslated', _('Untranslated strings (%d)') % nottranslated))
+            result.append((
+                'untranslated',
+                _('Untranslated strings (%d)') % nottranslated
+            ))
 
         # Fuzzy strings
         fuzzy = self.unit_set.count_type('fuzzy', self)
         if fuzzy > 0:
-            result.append(('fuzzy', _('Fuzzy strings (%d)') % fuzzy))
+            result.append((
+                'fuzzy',
+                _('Fuzzy strings (%d)') % fuzzy
+            ))
 
         # Translations with suggestions
         suggestions = self.unit_set.count_type('suggestions', self)
         if suggestions > 0:
-            result.append(('suggestions', _('Strings with suggestions (%d)') % suggestions))
+            result.append((
+                'suggestions',
+                _('Strings with suggestions (%d)') % suggestions
+            ))
 
         # All checks
         allchecks = self.unit_set.count_type('allchecks', self)
         if allchecks > 0:
-            result.append(('allchecks', _('Strings with any failing checks (%d)') % allchecks))
+            result.append((
+                'allchecks',
+                _('Strings with any failing checks (%d)') % allchecks
+            ))
 
         # Process specific checks
         for check in CHECKS:
@@ -2244,7 +2264,10 @@ class Translation(models.Model):
         # Grab comments
         targetcomments = self.unit_set.count_type('targetcomments', self)
         if targetcomments > 0:
-            result.append(('targetcomments', _('Strings with comments (%d)') % targetcomments))
+            result.append((
+                'targetcomments',
+                _('Strings with comments (%d)') % targetcomments
+            ))
 
         return result
 
@@ -2422,7 +2445,9 @@ class Unit(models.Model):
         )
 
     def get_absolute_url(self):
-        return '%s?checksum=%s' % (self.translation.get_translate_url(), self.checksum)
+        return '%s?checksum=%s' % (
+            self.translation.get_translate_url(), self.checksum
+        )
 
     def update_from_unit(self, unit, pos, force, template=None):
         '''
@@ -2578,7 +2603,8 @@ class Unit(models.Model):
         # Update translated flag
         self.translated = is_translated(pounit)
 
-        # Update comments as they might have been changed (eg, fuzzy flag removed)
+        # Update comments as they might have been changed (eg, fuzzy flag
+        # removed)
         if hasattr(pounit, 'typecomments'):
             self.flags = ', '.join(pounit.typecomments)
         else:
