@@ -78,7 +78,7 @@ def github_hook(request):
         repo = 'git://github.com/%s/%s.git' % (
             data['repository']['owner']['name'],
             data['repository']['name'],
-            )
+        )
         branch = data['ref'].split('/')[-1]
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
