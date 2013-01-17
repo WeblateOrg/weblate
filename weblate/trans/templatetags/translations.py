@@ -24,13 +24,14 @@ from django.contrib.admin.templatetags.admin_static import static
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext as _, ungettext
+from django.utils.formats import date_format
 from django.utils import timezone
 from django import template
 from django.conf import settings
 
 import re
 
-from datetime import date
+from datetime import date, datetime
 
 import weblate
 import weblate.trans
@@ -242,6 +243,18 @@ def gravatar(user, size=80):
     return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (
         url, alt, size, size
     )
+
+
+@register.filter
+def gitdate(value):
+    '''
+    Formats timestamp as returned byt GitPython.
+    '''
+    return date_format(
+        datetime.fromtimestamp(value),
+        'DATETIME_FORMAT'
+    )
+
 
 @register.filter
 def naturaltime(value):
