@@ -388,16 +388,12 @@ $(function() {
     $(document).tooltip({
         content: function() {
             var element = $(this);
+            if (element.is('span.git-commit')) {
+                element = $(this).find('.git-details');
+            }
             return element.html();
         },
-        items: "span.tooltip"
-    });
-    $(document).tooltip({
-        content: function() {
-            var element = $(this).find('.git-details');
-            return element.html();
-        },
-        items: "span.git-commit"
+        items: "span.tooltip, span.git-commit"
     });
     if (update_lock) {
         window.setInterval(function() {
