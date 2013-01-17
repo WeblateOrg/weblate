@@ -30,11 +30,13 @@ from django.utils import translation
 from django.core.urlresolvers import reverse
 
 from weblate.accounts.models import set_lang
-from weblate.accounts.forms import ProfileForm, SubscriptionForm, UserForm, ContactForm
+from weblate.accounts.forms import (
+    ProfileForm, SubscriptionForm, UserForm, ContactForm
+)
 
 
-def mail_admins_sender(subject, message, sender, fail_silently=False, connection=None,
-                html_message=None):
+def mail_admins_sender(subject, message, sender, fail_silently=False,
+        connection=None, html_message=None):
     """Sends a message to the admins, as defined by the ADMINS setting."""
     if not settings.ADMINS:
         return
