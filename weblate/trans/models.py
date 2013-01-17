@@ -461,8 +461,8 @@ class Project(models.Model):
 
     def get_total(self):
         '''
-        Calculates total number of strings to translate. This is done based on assumption that
-        all languages have same number of strings.
+        Calculates total number of strings to translate. This is done based on
+        assumption that all languages have same number of strings.
         '''
         total = 0
         for resource in self.subproject_set.all():
@@ -719,7 +719,7 @@ class SubProject(models.Model):
         Returns full path to subproject git repository.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().get_path()
+            return self.linked_subproject.get_path()
 
         return os.path.join(self.project.get_path(), self.slug)
 
@@ -752,7 +752,8 @@ class SubProject(models.Model):
         '''
         return is_repo_link(self.repo)
 
-    def get_linked_repo(self):
+    @property
+    def linked_subproject(self):
         '''
         Returns subproject for linked repo.
         '''
@@ -783,7 +784,7 @@ class SubProject(models.Model):
         Generates link to source code browser for given file and line.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().get_repoweb_link(filename, line)
+            return self.linked_subproject.get_repoweb_link(filename, line)
 
         if self.repoweb == '' or self.repoweb is None:
             return None
@@ -799,7 +800,7 @@ class SubProject(models.Model):
         Pulls from remote repository.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().update_remote_branch(validate, gitrepo)
+            return self.linked_subproject.update_remote_branch(validate, gitrepo)
 
         if gitrepo is None:
             gitrepo = self.get_repo()
@@ -826,7 +827,7 @@ class SubProject(models.Model):
         Ensures repository is correctly configured and points to current remote.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().configure_repo(validate)
+            return self.linked_subproject.configure_repo(validate)
         # Create/Open repo
         gitrepo = self.get_repo()
         # Get/Create origin remote
@@ -853,7 +854,7 @@ class SubProject(models.Model):
         Ensures local tracking branch exists and is checkouted.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().configure_branch()
+            return self.linked_subproject.configure_branch()
 
         gitrepo = self.get_repo()
 
@@ -869,7 +870,7 @@ class SubProject(models.Model):
         Wrapper for doing repository update and pushing them to translations.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().do_update(request)
+            return self.linked_subproject.do_update(request)
 
         # pull remote
         self.update_remote_branch()
@@ -894,7 +895,7 @@ class SubProject(models.Model):
         Wrapper for pushing changes to remote repo.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().do_push(request)
+            return self.linked_subproject.do_push(request)
 
         # Do we have push configured
         if not self.can_push():
@@ -945,7 +946,7 @@ class SubProject(models.Model):
         Wrapper for reseting repo to same sources as remote.
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().do_reset(request)
+            return self.linked_subproject.do_reset(request)
 
         # First check we're up to date
         self.update_remote_branch()
@@ -988,7 +989,7 @@ class SubProject(models.Model):
         Checks whether there is any translation which needs commit.
         '''
         if not from_link and self.is_repo_link():
-            return self.get_linked_repo().commit_pending(
+            return self.linked_subproject.commit_pending(
                 True, skip_push=skip_push
             )
 
@@ -1097,7 +1098,7 @@ class SubProject(models.Model):
         Updates current branch to match remote (if possible).
         '''
         if self.is_repo_link():
-            return self.get_linked_repo().update_branch(request)
+            return self.linked_subproject.update_branch(request)
 
         # Merge/rebase
         if self.project.merge_style == 'rebase':

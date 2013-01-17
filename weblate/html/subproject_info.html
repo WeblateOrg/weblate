@@ -4,9 +4,9 @@
 {% include "project_info.html" %}
 {% endwith %}
 <p>{% trans "Git repository:" %} 
-<code>{% if object.is_repo_link %}{{ object.get_linked_repo.repo }}{% else %}{{ object.repo }}{% endif %}</code> (
+<code>{% if object.is_repo_link %}{{ object.linked_subproject.repo }}{% else %}{{ object.repo }}{% endif %}</code> (
 {% if object.is_repo_link %}
-{% blocktrans with object.get_linked_repo.branch as branch %}{{ branch }} branch{% endblocktrans %}
+{% blocktrans with object.linked_subproject.branch as branch %}{{ branch }} branch{% endblocktrans %}
 {% else %}
 {% blocktrans with object.branch as branch %}{{ branch }} branch{% endblocktrans %}
  @ 

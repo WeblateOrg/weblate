@@ -14,7 +14,7 @@
   {% for sp in subprojects %}
     <h3 id="{{ sp.get_full_slug }}"><a href="{{ sp.get_absolute_url }}">{{ sp }}</a></h3>
 {% if sp.is_repo_link %}
-<p>{% blocktrans with sp.repo as repo and sp.get_linked_repo.get_full_slug as slug %}Not showing status of linked repository. Check <a href="#{{ slug }}">{{ repo }}</a> instead.{% endblocktrans %}</p>
+<p>{% blocktrans with sp.repo as repo and sp.linked_subproject.get_full_slug as slug %}Not showing status of linked repository. Check <a href="#{{ slug }}">{{ repo }}</a> instead.{% endblocktrans %}</p>
 {% else %}
     <pre>
 {{ sp.get_repo.git.status }}
