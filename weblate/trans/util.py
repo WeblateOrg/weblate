@@ -20,7 +20,6 @@
 
 import hashlib
 import re
-import os.path
 from translate.misc import quote
 from translate.storage.properties import propunit
 from django.utils.translation import ugettext as _
