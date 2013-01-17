@@ -28,5 +28,5 @@ class Command(WeblateCommand):
         '''
         Commits pending translations in given projects.
         '''
-        for s in self.get_subprojects(*args, **options):
-            s.commit_pending()
+        for subproject in self.get_subprojects(*args, **options):
+            subproject.commit_pending()

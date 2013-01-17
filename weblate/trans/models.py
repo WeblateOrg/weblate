@@ -2328,13 +2328,21 @@ class Translation(models.Model):
             subproject__project=self.subproject.project
         )
         # Filter out those who don't want automatic update, but keep ourselves
-        translations = translations.filter(Q(pk=self.pk) | Q(subproject__allow_translation_propagation=True))
+        translations = translations.filter(
+            Q(pk=self.pk) | Q(subproject__allow_translation_propagation=True)
+        )
 
         ret = False
 
         # Do actual merge
-        for s in translations:
-            ret |= s.merge_store(author, store, overwrite, mergefuzzy, merge_header)
+        for translation in translations:
+            ret |= translation.merge_store(
+                author,
+                store,
+                overwrite,
+                mergefuzzy,
+                merge_header
+            )
 
         return ret
 
