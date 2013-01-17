@@ -760,12 +760,15 @@ class SubProject(models.Model):
         '''
         Gets Git repository object.
         '''
-        path = self.get_path()
-        try:
-            return git.Repo(path)
-        except:
-            # Fallback to initializing the repository
-            return git.Repo.init(path)
+        if not hasattr(self, '_git_repo'):
+            path = self.get_path()
+            try:
+                self._git_repo = git.Repo(path)
+            except:
+                # Fallback to initializing the repository
+                self._git_repo = git.Repo.init(path)
+
+        return self._git_repo
 
     def get_last_remote_commit(self):
         '''
