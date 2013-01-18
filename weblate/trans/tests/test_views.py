@@ -28,6 +28,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.utils import simplejson
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.accounts.models import Profile
 
 
 class ViewTestCase(RepoTestCase):
@@ -40,8 +41,11 @@ class ViewTestCase(RepoTestCase):
             username='testuser',
             password='testpassword'
         )
+        # Create profile for him
+        Profile.objects.create(user=self.user)
         # Create project to have some test base
         self.subproject = self.create_subproject()
+        self.client.login(username='testuser', password='testpassword')
 
     def get_request(self, *args, **kwargs):
         '''
@@ -133,3 +137,56 @@ class ExportsViewTest(ViewTestCase):
         )
         parsed = simplejson.loads(response.content)
         self.assertEqual(parsed[0]['name'], 'Czech')
+
+
+class EditTest(ViewTestCase):
+    '''
+    Tests for manipulating translation.
+    '''
+    def test_edit(self):
+        translation = self.subproject.translation_set.get(language_code='cs')
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        translate_url = reverse('translate', kwargs={
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': 'cs',
+        })
+        response = self.client.post(
+            translate_url,
+            {
+                'checksum': unit.checksum,
+                'target': 'Nazdar svete!\n',
+                'type': 'all',
+                'dir': 'forward',
+                'pos': '1',
+            }
+        )
+        # We should get to second message
+        self.assertRedirects(response, translate_url + '?type=all&pos=1')
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(len(unit.checks()), 0)
+
+    def test_edit_check(self):
+        translation = self.subproject.translation_set.get(language_code='cs')
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        translate_url = reverse('translate', kwargs={
+            'project': self.subproject.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': 'cs',
+        })
+        response = self.client.post(
+            translate_url,
+            {
+                'checksum': unit.checksum,
+                'target': 'Nazdar svete!',
+                'type': 'all',
+                'dir': 'forward',
+                'pos': '1',
+            }
+        )
+        # We should stay on current message
+        self.assertRedirects(response, translate_url + '?type=all&pos=1&dir=stay')
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        self.assertEqual(unit.target, 'Nazdar svete!')
+        self.assertEqual(len(unit.checks()), 2)
