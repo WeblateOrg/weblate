@@ -93,19 +93,19 @@ def get_user_display(user, icon=True):
     })
 
 
-def is_plural(s):
+def is_plural(text):
     '''
     Checks whether string is plural form.
     '''
-    return s.find(PLURAL_SEPARATOR) != -1
+    return text.find(PLURAL_SEPARATOR) != -1
 
 
-def split_plural(s):
-    return s.split(PLURAL_SEPARATOR)
+def split_plural(text):
+    return text.split(PLURAL_SEPARATOR)
 
 
-def join_plural(s):
-    return PLURAL_SEPARATOR.join(s)
+def join_plural(text):
+    return PLURAL_SEPARATOR.join(text)
 
 
 def msg_checksum(source, context):
@@ -114,10 +114,10 @@ def msg_checksum(source, context):
 
     We use MD5 as it is faster than SHA1.
     '''
-    m = hashlib.md5()
-    m.update(source.encode('utf-8'))
-    m.update(context.encode('utf-8'))
-    return m.hexdigest()
+    md5 = hashlib.md5()
+    md5.update(source.encode('utf-8'))
+    md5.update(context.encode('utf-8'))
+    return md5.hexdigest()
 
 
 def is_unit_key_value(unit):
