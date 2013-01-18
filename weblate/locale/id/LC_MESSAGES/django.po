@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-17 14:56+0100\n"
+"POT-Creation-Date: 2013-01-18 08:08+0100\n"
 "PO-Revision-Date: 2013-01-17 12:43+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -261,19 +261,19 @@ msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Profil Anda telah dipindah, Anda mungkin ingin menyesuaikan preferensinya."
 
-#: accounts/views.py:82
+#: accounts/views.py:89
 msgid "Your profile has been updated."
 msgstr "Profil anda telah dimutakhirkan."
 
-#: accounts/views.py:100
+#: accounts/views.py:108
 msgid "User profile"
 msgstr "Profil pengguna"
 
-#: accounts/views.py:121
+#: accounts/views.py:132
 msgid "Message has been sent to administrator."
 msgstr "Pesan sudah dikirim ke administrator."
 
-#: accounts/views.py:135
+#: accounts/views.py:146
 msgid "Contact"
 msgstr "Kontak"
 
@@ -433,7 +433,7 @@ msgstr "Tidak ada kegagalan pemeriksaan yang cocok!"
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
 #: html/js/dictionary.html:8 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:247
+#: trans/forms.py:248
 msgid "Translation"
 msgstr "Terjemahan"
 
@@ -441,7 +441,7 @@ msgstr "Terjemahan"
 #: html/source-review.html:32 html/subproject.html:36 html/translate.html:62
 #: html/translate.html.py:176 html/translate.html:182
 #: html/js/dictionary.html:7 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:246
+#: trans/forms.py:247
 msgid "Source"
 msgstr "Sumber"
 
@@ -1353,7 +1353,7 @@ msgstr "Mempromosikan proyek-proyek penerjemahan"
 #: html/widgets-root.html:14
 msgid ""
 "Weblate provides various widgets to promote your translation projects. Open "
-"one of bellow project pages to them."
+"one of the project pages below."
 msgstr ""
 
 #: html/widgets.html:19
@@ -1738,8 +1738,11 @@ msgid "New string to translate in %(translation)s"
 msgstr "String baru untuk menerjemahkan dalam %(translation)s"
 
 #: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
-#, python-format
-msgid "there is a new suggestion evaluate on %(translation)s at %(site_title)s."
+#, fuzzy, python-format
+#| msgid ""
+#| "there is a new suggestion evaluate on %(translation)s at %(site_title)s."
+msgid ""
+"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
 msgstr ""
 "ada saran baru untuk dievaluasi pada %(translation)s di %(site_title)s."
 
@@ -2601,11 +2604,11 @@ msgstr "Django caching"
 msgid "Email addresses"
 msgstr "Alamat surel"
 
-#: trans/admin_views.py:139 trans/admin_views.py:143
+#: trans/admin_views.py:144 trans/admin_views.py:148
 msgid "Failed to generate key!"
 msgstr "Gagal untuk membuat kunci!"
 
-#: trans/admin_views.py:141
+#: trans/admin_views.py:146
 msgid "Created new SSH key."
 msgstr "Kunci SSH baru dibuat."
 
@@ -2816,106 +2819,106 @@ msgstr ""
 msgid "Plural equation"
 msgstr "Persamaan jamak"
 
-#: trans/forms.py:130
+#: trans/forms.py:131
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "samar"
 
-#: trans/forms.py:151 trans/forms.py:251
+#: trans/forms.py:152 trans/forms.py:252
 msgid "File"
 msgstr "Berkas"
 
-#: trans/forms.py:153
+#: trans/forms.py:154
 msgid "Merge file header"
 msgstr "Menggabungkan file header"
 
-#: trans/forms.py:154
+#: trans/forms.py:155
 msgid "Merges content of file header into the translation."
 msgstr "Menggabungkan konten dari file header ke dalam terjemahan."
 
-#: trans/forms.py:162
+#: trans/forms.py:163
 msgid "Overwrite existing translations"
 msgstr "Menimpa terjemahan yang ada"
 
-#: trans/forms.py:169
+#: trans/forms.py:170
 msgid "Author name"
 msgstr "Nama penulis"
 
-#: trans/forms.py:171 trans/forms.py:176
+#: trans/forms.py:172 trans/forms.py:177
 msgid "Keep empty for using currently logged in user."
 msgstr "Biarkan kosong untuk menggunakan log masuk pengguna saat ini."
 
-#: trans/forms.py:174
+#: trans/forms.py:175
 msgid "Author email"
 msgstr "Surel penulis"
 
-#: trans/forms.py:181
+#: trans/forms.py:182
 msgid "Query"
 msgstr "Queri"
 
-#: trans/forms.py:183
+#: trans/forms.py:184
 msgid "Search type"
 msgstr "Tipe Pencarian"
 
-#: trans/forms.py:186
+#: trans/forms.py:187
 msgid "Fulltext"
 msgstr "Text penuh"
 
-#: trans/forms.py:187
+#: trans/forms.py:188
 msgid "Exact match"
 msgstr "Pencocokan sama persis"
 
-#: trans/forms.py:188
+#: trans/forms.py:189
 #, fuzzy
 #| msgid "Source string:"
 msgid "Substring"
 msgstr "Substring"
 
-#: trans/forms.py:193
+#: trans/forms.py:194
 msgid "Search in source strings"
 msgstr "Cari dalam string sumber"
 
-#: trans/forms.py:198
+#: trans/forms.py:199
 msgid "Search in target strings"
 msgstr "Cari dalam target string"
 
-#: trans/forms.py:203
+#: trans/forms.py:204
 msgid "Search in context strings"
 msgstr "Cari dalam konteks string"
 
-#: trans/forms.py:216
+#: trans/forms.py:217
 msgid "Overwrite strings"
 msgstr "Menimpa string"
 
-#: trans/forms.py:221
+#: trans/forms.py:222
 msgid "Replace inconsistent"
 msgstr "Gantikan yang tidak konsisten"
 
-#: trans/forms.py:226
+#: trans/forms.py:227
 msgid "Subproject to use"
 msgstr "Sub-proyek yang digunakan"
 
-#: trans/forms.py:242
+#: trans/forms.py:243
 msgid "All subprojects"
 msgstr "Semua sub-proyek"
 
-#: trans/forms.py:253
+#: trans/forms.py:254
 msgid "Overwrite existing"
 msgstr "Menimpa yang ada"
 
-#: trans/forms.py:259
+#: trans/forms.py:260
 msgid "Starting date"
 msgstr "Tanggal mulai"
 
-#: trans/forms.py:270
+#: trans/forms.py:271
 msgid "Starting letter"
 msgstr "Awal huruf"
 
-#: trans/forms.py:271
+#: trans/forms.py:272
 msgid "Any"
 msgstr "Apasaja"
 
-#: trans/forms.py:283
+#: trans/forms.py:284
 msgid "Whole project"
 msgstr "Semua proyek"
 
@@ -3048,15 +3051,15 @@ msgstr ""
 "Silakan mengisi pada URL petunjuk atau menggunakan berbagai pilihan untuk "
 "menambahkan bahasa baru."
 
-#: trans/models.py:567
+#: trans/models.py:569
 msgid "Name to display"
 msgstr "Nama untuk menampilkan"
 
-#: trans/models.py:571
+#: trans/models.py:573
 msgid "Name used in URLs"
 msgstr "Nama yang digunakan dalam URL"
 
-#: trans/models.py:576
+#: trans/models.py:578
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
@@ -3064,11 +3067,11 @@ msgstr ""
 "URL atau Git repositori, gunakan weblate://project/subproject untuk berbagi "
 "dengan subproyek lainnya."
 
-#: trans/models.py:581
+#: trans/models.py:583
 msgid "URL of push Git repository"
 msgstr "URL dari push Git repositori"
 
-#: trans/models.py:585
+#: trans/models.py:587
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -3077,7 +3080,7 @@ msgstr ""
 "Tautan ke peramban repositori, gunakan %(branch)s untuk cabang, %(file)s dan "
 "%(line)s sebagai nama berkas dan barisnya."
 
-#: trans/models.py:590
+#: trans/models.py:592
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -3085,11 +3088,11 @@ msgstr ""
 "Alamat surel dimana galat dalam sumber string akan dilaporkan, jaga kosong "
 "untuk tanpa ada surel."
 
-#: trans/models.py:595
+#: trans/models.py:597
 msgid "Git branch to translate"
 msgstr "Cabang Git untuk menerjemahkan"
 
-#: trans/models.py:601
+#: trans/models.py:603
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -3097,7 +3100,7 @@ msgstr ""
 "Jalur berkas untuk menerjemahkan, gunakan kode bahasa *, misalnya: po/*.po "
 "atau locale/*/LC_MESSAGES/django.po."
 
-#: trans/models.py:606
+#: trans/models.py:608
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -3107,17 +3110,17 @@ msgstr ""
 "untuk penerjemahan yang hanya menyetorkan string yang diterjemahkannya saja "
 "seperti sumber string Android."
 
-#: trans/models.py:612
+#: trans/models.py:614
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Deteksi otomatis mungkin gagal untuk beberapa format dan sedikit lebih "
 "lambat."
 
-#: trans/models.py:616
+#: trans/models.py:618
 msgid "Whether subproject is locked for translation updates."
 msgstr "Apakah subproyek dikunci untuk memutakhirkan penerjemahan."
 
-#: trans/models.py:620
+#: trans/models.py:622
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -3125,45 +3128,45 @@ msgstr ""
 "Adapun pemutakhiran penerjemahan dalam subproyek lainnya akan menyebabkan "
 "penerjemahan otomatis dalam proyek ini"
 
-#: trans/models.py:819
+#: trans/models.py:820
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Gagal untuk mengambil repositori git: %s"
 
-#: trans/models.py:902
+#: trans/models.py:907
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Dorong dinonaktifkan untuk %s."
 
-#: trans/models.py:937
+#: trans/models.py:944
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Gagal untuk mendorong ke cabang remot jauh di %s."
 
-#: trans/models.py:967
+#: trans/models.py:973
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Gagal untuk mentata ulang ke cabang remot jauh di %s."
 
-#: trans/models.py:1054
+#: trans/models.py:1060
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Gagal untuk menggabungkan cabang remot jauh didalam %s."
 
-#: trans/models.py:1088
+#: trans/models.py:1094
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Gagal untuk rebase cabang kita ke cabang jauh %s."
 
-#: trans/models.py:1206
+#: trans/models.py:1211
 msgid "Push URL is not used when repository is linked!"
 msgstr "Dorong URL tidak digunakan apabila repositori telah dihubungkan!"
 
-#: trans/models.py:1212
+#: trans/models.py:1217
 msgid "The mask did not match any files!"
 msgstr "Topeng (mask) tidak cocok dengan berkas mana saja!"
 
-#: trans/models.py:1218
+#: trans/models.py:1223
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3171,25 +3174,25 @@ msgstr ""
 "Terdapat banyak berkas untuk satu bahasa, silahkan menyesuaikan topeng "
 "(mask) dan gunakan subproyek untuk menerjemahkan sumber yang berbeda."
 
-#: trans/models.py:1237
+#: trans/models.py:1242
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format dari berkas %d ini tidak bisa dikenali."
 
-#: trans/models.py:1242
+#: trans/models.py:1247
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Gagal untuk mem-parsing berkas %d ini!"
 
-#: trans/models.py:1252
+#: trans/models.py:1257
 msgid "Format of translation template could not be recognized."
 msgstr "Format dari templat penerjemahan tidak bisa dikenali."
 
-#: trans/models.py:1255
+#: trans/models.py:1260
 msgid "Failed to parse translation template."
 msgstr "Gagal untuk men-parsing templat penerjemahan."
 
-#: trans/models.py:1448
+#: trans/models.py:1449
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3198,93 +3201,94 @@ msgstr ""
 "Nama berkas %s tidak ditemukan dalam repositori! Untuk menambahkan "
 "penerjemahan baru, tambahkan berkas bahasa ke dalam repositori."
 
-#: trans/models.py:1452
+#: trans/models.py:1453
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format dari %s tidak bisa dikenali."
 
-#: trans/models.py:1455
+#: trans/models.py:1456
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Gagal untuk men-parsing berkas %(file)s: %(error)s"
 
-#: trans/models.py:1479
-#, python-format
-msgid "This translation is locked by %(user)s for translation!"
+#: trans/models.py:1480
+#, fuzzy, python-format
+#| msgid "This translation is locked by %(user)s for translation!"
+msgid "This translation is locked by %(user)s!"
 msgstr "Penerjemahan ini dikunci oleh %(user)s untuk penerjemahan!"
 
-#: trans/models.py:2195 trans/models.py:2222
+#: trans/models.py:2194 trans/models.py:2221
 msgid "All strings"
 msgstr "Semua string"
 
-#: trans/models.py:2200 trans/models.py:2242
+#: trans/models.py:2199 trans/models.py:2252
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "String dengan pemeriksaan gagal (%d)"
 
-#: trans/models.py:2214 trans/models.py:2256
+#: trans/models.py:2213 trans/models.py:2269
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "String dengan komentar (%d)"
 
-#: trans/models.py:2227
+#: trans/models.py:2228
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "String tidak diterjemahkan (%d)"
 
-#: trans/models.py:2232
+#: trans/models.py:2236
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "String samar (%d)"
 
-#: trans/models.py:2237
+#: trans/models.py:2244
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "String dengan saran (%d)"
 
-#: trans/models.py:2555
+#: trans/models.py:2585
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Gagal menyimpan pesan didalam backend, kunci timeout terjadi!"
 
-#: trans/models.py:2561
+#: trans/models.py:2591
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Pesan tidak ditemukan di penyimpanan backend, kemungkinan rusak."
 
-#: trans/models.py:2689
+#: trans/models.py:2720
 #, python-format
 msgid "unit ID %s"
 msgstr "ID unit %s"
 
-#: trans/models.py:3015
+#: trans/models.py:3046
 msgid "Resource update"
 msgstr "Mutakhir Sumber"
 
-#: trans/models.py:3016
+#: trans/models.py:3047
 msgid "Translation completed"
 msgstr "Penerjemahan rampung"
 
-#: trans/models.py:3017
+#: trans/models.py:3048
 msgid "Translation changed"
 msgstr "Penerjemahan telah dirubah"
 
-#: trans/models.py:3018
+#: trans/models.py:3049
 msgid "New translation"
 msgstr "Penerjemahan baru"
 
-#: trans/models.py:3019
+#: trans/models.py:3050
 msgid "Comment added"
 msgstr "Komentar ditambahkan"
 
-#: trans/models.py:3020
+#: trans/models.py:3051
 msgid "Suggestion added"
 msgstr "Saran ditambahkan"
 
-#: trans/models.py:3038
+#: trans/models.py:3069
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s pada waktu %(time)s di %(translation)s oleh %(user)s"
 
-#: trans/util.py:72
+#: trans/util.py:71
 #, fuzzy
 msgid "None"
 msgstr "None"
@@ -3417,10 +3421,15 @@ msgid "Your suggestion is empty!"
 msgstr "Saran anda kosong!"
 
 #: trans/views.py:1331
+#, fuzzy
+#| msgid ""
+#| "There is currently no active translator for this translation, please "
+#| "consider becoming translator as your suggestion might stay unreviewed "
+#| "otherwise."
 msgid ""
 "There is currently no active translator for this translation, please "
-"consider becoming translator as your suggestion might stay unreviewed "
-"otherwise."
+"consider becoming a translator as your suggestion might otherwise remain "
+"unreviewed."
 msgstr ""
 "Saat ini tidak ada penerjemah aktif untuk penerjemahan ini, silakan "
 "mempertimbangkan untuk menjadi penerjemah karena mungkin saja saran Anda ini "
