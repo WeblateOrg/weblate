@@ -47,7 +47,7 @@ logger = logging.getLogger('weblate')
 
 
 def send_notification_email(language, email, notification, translation_obj,
-            context=None, headers=None, from_email=None):
+                            context=None, headers=None, from_email=None):
     '''
     Renders and sends notification email.
     '''
@@ -57,7 +57,12 @@ def send_notification_email(language, email, notification, translation_obj,
     if headers is None:
         headers = {}
     try:
-        logger.info('sending notification %s on %s to %s', notification, translation_obj.__unicode__(), email)
+        logger.info(
+            'sending notification %s on %s to %s',
+            notification,
+            translation_obj.__unicode__(),
+            email
+        )
 
         # Load user language
         translation.activate(language)
@@ -71,7 +76,9 @@ def send_notification_email(language, email, notification, translation_obj,
         domain = Site.objects.get_current().domain
         context['translation'] = translation_obj
         context['current_site'] = domain
-        context['translation_url'] = 'http://%s%s' % (domain, translation_obj.get_absolute_url())
+        context['translation_url'] = 'http://%s%s' % (
+            domain, translation_obj.get_absolute_url()
+        )
         context['subject_template'] = subject_template
 
         # Render subject
@@ -119,23 +126,48 @@ class ProfileManager(models.Manager):
     Manager providing shortcuts for subscription queries.
     '''
     def subscribed_any_translation(self, project, language, user):
-        return self.filter(subscribe_any_translation=True, subscriptions=project, languages=language).exclude(user=user)
+        return self.filter(
+            subscribe_any_translation=True,
+            subscriptions=project,
+            languages=language
+        ).exclude(
+            user=user
+        )
 
     def subscribed_new_string(self, project, language):
-        return self.filter(subscribe_new_string=True, subscriptions=project, languages=language)
+        return self.filter(
+            subscribe_new_string=True,
+            subscriptions=project,
+            languages=language
+        )
 
     def subscribed_new_suggestion(self, project, language, user):
-        ret = self.filter(subscribe_new_suggestion=True, subscriptions=project, languages=language)
+        ret = self.filter(
+            subscribe_new_suggestion=True,
+            subscriptions=project,
+            languages=language
+        )
         # We don't want to filter out anonymous user
         if user.is_authenticated():
             ret = ret.exclude(user=user)
         return ret
 
     def subscribed_new_contributor(self, project, language, user):
-        return self.filter(subscribe_new_contributor=True, subscriptions=project, languages=language).exclude(user=user)
+        return self.filter(
+            subscribe_new_contributor=True,
+            subscriptions=project,
+            languages=language
+        ).exclude(
+            user=user
+        )
 
     def subscribed_new_comment(self, project, language, user):
-        ret = self.filter(subscribe_new_comment=True, subscriptions=project).exclude(user=user)
+        ret = self.filter(
+            subscribe_new_comment=True,
+            subscriptions=project
+        ).exclude(
+            user=user
+        )
         # Source comments go to every subscriber
         if language is not None:
             ret = ret.filter(languages=language)
