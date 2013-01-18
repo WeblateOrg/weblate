@@ -44,7 +44,7 @@ class RepoTestCase(TestCase):
 
         self.repo_path = os.path.join(settings.GIT_ROOT, 'test-repo.git')
 
-        # Clone repo for testing just once
+        # Clone repo for testing
         if not os.path.exists(self.repo_path):
             cmd = git.Git()
             cmd.clone(
