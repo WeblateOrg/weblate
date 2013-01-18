@@ -185,7 +185,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertEqual(len(unit.checks()), 2)
 
-    def test_commit(self):
+    def test_commit_push(self):
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
@@ -193,7 +193,19 @@ class EditTest(ViewTestCase):
         self.assertTrue(self.translation.git_needs_commit())
         self.assertTrue(self.subproject.git_needs_commit())
         self.assertTrue(self.subproject.project.git_needs_commit())
+
         self.translation.commit_pending()
+
         self.assertFalse(self.translation.git_needs_commit())
         self.assertFalse(self.subproject.git_needs_commit())
         self.assertFalse(self.subproject.project.git_needs_commit())
+
+        self.assertTrue(self.translation.git_needs_push())
+        self.assertTrue(self.subproject.git_needs_push())
+        self.assertTrue(self.subproject.project.git_needs_push())
+
+        self.translation.do_push()
+
+        self.assertFalse(self.translation.git_needs_push())
+        self.assertFalse(self.subproject.git_needs_push())
+        self.assertFalse(self.subproject.project.git_needs_push())
