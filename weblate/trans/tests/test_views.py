@@ -143,16 +143,17 @@ class EditTest(ViewTestCase):
     '''
     Tests for manipulating translation.
     '''
+    def setUp(self):
+        super(EditTest, self).setUp()
+        self.translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        self.translate_url = self.translation.get_translate_url()
+
     def edit_unit(self, source, target):
-        translation = self.subproject.translation_set.get(language_code='cs')
-        unit = translation.unit_set.get(source=source)
-        translate_url = reverse('translate', kwargs={
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': 'cs',
-        })
+        unit = self.translation.unit_set.get(source=source)
         return self.client.post(
-            translate_url,
+            self.translate_url,
             {
                 'checksum': unit.checksum,
                 'target': target,
@@ -168,8 +169,8 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirects(response, translate_url + '?type=all&pos=1')
-        unit = translation.unit_set.get(source='Hello, world!\n')
+        self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
 
@@ -179,7 +180,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!'
         )
         # We should stay on current message
-        self.assertRedirects(response, translate_url + '?type=all&pos=1&dir=stay')
-        unit = translation.unit_set.get(source='Hello, world!\n')
+        self.assertRedirects(response, self.translate_url + '?type=all&pos=1&dir=stay')
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertEqual(len(unit.checks()), 2)
