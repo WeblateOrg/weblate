@@ -177,9 +177,9 @@ class LanguageManager(models.Manager):
 
         # Parse the string
         if '-' in code:
-            lang, country = code.split('-')
+            lang, country = code.split('-', 1)
         elif '_' in code:
-            lang, country = code.split('_')
+            lang, country = code.split('_', 1)
         else:
             lang = code
             country = None
