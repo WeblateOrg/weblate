@@ -18,27 +18,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateCommand
+from weblate.trans.management.commands import WeblateLangCommand
 from optparse import make_option
 
 
-class Command(WeblateCommand):
+class Command(WeblateLangCommand):
     help = '(re)loads translations from disk'
-    option_list = WeblateCommand.option_list + (
+    option_list = WeblateLangCommand.option_list + (
         make_option(
             '--force',
             action='store_true',
             dest='force',
             default=False,
             help='Force rereading files even when they should be up to date'
-        ),
-        make_option(
-            '--lang',
-            action='store',
-            type='string',
-            dest='lang',
-            default=None,
-            help='Limit only to given languages (comma separated list)'
         ),
     )
 

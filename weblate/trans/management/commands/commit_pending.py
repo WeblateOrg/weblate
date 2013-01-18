@@ -18,13 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateCommand
+from weblate.trans.management.commands import WeblateLangCommand
 from django.utils import timezone
 from datetime import timedelta
 from optparse import make_option
 
 
-class Command(WeblateCommand):
+class Command(WeblateLangCommand):
     help = 'commits pending changes older than given age'
     option_list = WeblateCommand.option_list + (
         make_option(
@@ -34,14 +34,6 @@ class Command(WeblateCommand):
             dest='age',
             default=24,
             help='Age of changes to commit in hours (default is 24 hours)'
-        ),
-        make_option(
-            '--lang',
-            action='store',
-            type='string',
-            dest='lang',
-            default=None,
-            help='Limit only to given languages (comma separated list)'
         ),
     )
 
