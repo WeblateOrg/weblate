@@ -26,6 +26,7 @@ from django.test import TestCase
 from django.conf import settings
 import shutil
 import os
+import git
 from weblate.trans.models import (
     Project, SubProject
 )
@@ -37,9 +38,20 @@ class RepoTestCase(TestCase):
     '''
     def setUp(self):
         if 'test-repos' in settings.GIT_ROOT:
-            if os.path.exists(settings.GIT_ROOT):
-                shutil.rmtree(settings.GIT_ROOT)
-        self.repo_path = 'git://github.com/nijel/weblate-test.git'
+            test_dir = os.path.join(settings.GIT_ROOT, 'test')
+            if os.path.exists(test_dir):
+                shutil.rmtree(test_dir)
+
+        self.repo_path = os.path.join(settings.GIT_ROOT, 'test-repo.git')
+
+        # Clone repo for testing just once
+        if not os.path.exists(self.repo_path):
+            cmd = git.Git()
+            cmd.clone(
+                '--bare',
+                'git://github.com/nijel/weblate-test.git',
+                self.repo_path
+            )
 
     def create_project(self):
         '''
