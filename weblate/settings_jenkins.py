@@ -19,3 +19,9 @@ PROJECT_APPS = (
 )
 
 PYLINT_RCFILE = os.path.join(WEB_ROOT, '..', 'pylint.rc')
+
+# Different root for test repos
+GIT_ROOT = '%s/test-repos/' % WEB_ROOT
+
+# Avoid migrating during testsuite
+SOUTH_TESTS_MIGRATE = False

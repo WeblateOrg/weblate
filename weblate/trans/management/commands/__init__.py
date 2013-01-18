@@ -81,3 +81,16 @@ class WeblateCommand(BaseCommand):
                 result |= found
 
         return result
+
+
+class WeblateLangCommand(WeblateCommand):
+    option_list = WeblateCommand.option_list + (
+        make_option(
+            '--lang',
+            action='store',
+            type='string',
+            dest='lang',
+            default=None,
+            help='Limit only to given languages (comma separated list)'
+        ),
+    )
