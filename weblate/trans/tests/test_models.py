@@ -43,9 +43,16 @@ class RepoTestCase(TestCase):
             if os.path.exists(test_dir):
                 shutil.rmtree(test_dir)
 
-        self.repo_base_path = os.path.join(settings.GIT_ROOT, 'test-repo-base.git')
-        self.repo_path = os.path.join(settings.GIT_ROOT, 'test-repo.git')
-
+        # Path where to clone remote repo for tests
+        self.repo_base_path = os.path.join(
+            settings.GIT_ROOT,
+            'test-repo-base.git'
+        )
+        # Repository on which tests will be performed
+        self.repo_path = os.path.join(
+            settings.GIT_ROOT,
+            'test-repo.git'
+        )
 
         # Clone repo for testing
         if not os.path.exists(self.repo_base_path):
@@ -183,7 +190,6 @@ class SubProjectTest(RepoTestCase):
             'Format of 1 matched files could not be recognized.',
             project.full_clean
         )
-
 
 
 class TranslationTest(RepoTestCase):

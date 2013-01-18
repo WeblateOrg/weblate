@@ -180,7 +180,9 @@ class EditTest(ViewTestCase):
             'Nazdar svete!'
         )
         # We should stay on current message
-        self.assertRedirects(response, self.translate_url + '?type=all&pos=1&dir=stay')
+        self.assertRedirects(
+            response, self.translate_url + '?type=all&pos=1&dir=stay'
+        )
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertEqual(len(unit.checks()), 2)
