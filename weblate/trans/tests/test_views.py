@@ -22,16 +22,10 @@
 Tests for translation views.
 """
 
-from django.conf import settings
 from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
-import shutil
-import os
-from weblate.trans.models import (
-    Project, SubProject
-)
 from weblate.trans.tests.test_models import RepoTestCase
 
 
