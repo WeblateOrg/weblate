@@ -39,6 +39,7 @@ class RepoTestCase(TestCase):
         if 'test-repos' in settings.GIT_ROOT:
             if os.path.exists(settings.GIT_ROOT):
                 shutil.rmtree(settings.GIT_ROOT)
+        self.repo_path = 'git://github.com/nijel/weblate-test.git'
 
     def create_project(self):
         '''
@@ -59,7 +60,7 @@ class RepoTestCase(TestCase):
             name='Test',
             slug='test',
             project=project,
-            repo='git://github.com/nijel/weblate-test.git',
+            repo=self.repo_path,
             filemask=mask,
             template=template,
             file_format=file_format,
