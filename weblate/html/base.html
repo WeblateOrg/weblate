@@ -1,0 +1,78 @@
+{% load i18n %}
+{% load static %}
+{% load url from future %}
+{% load translations %}
+{% if not request.is_ajax %}
+<!DOCTYPE html>
+
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+ <head>
+  <meta name="author" content="Michal Čihař" />
+  <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
+
+  <title>{% include "title.html" %}</title>
+{% if description %}
+  <meta name="description" content="{{ description }}" />
+{% endif %}
+  
+{% include 'meta-header.html' %}
+
+{% block extra_meta %}
+{% endblock %}
+
+  <script type="text/javascript">
+{% if target_language %}
+  var target_language = '{{ target_language }}';
+{% endif %}
+{% if update_lock %}
+  var update_lock = true;
+{% else %}
+  var update_lock = false;
+{% endif %}
+  </script>
+
+ </head>
+
+ <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+ <header>
+    <h1 class="ui-state-default"><a href="{% url 'home' %}">{% include "title.html" %}</a></h1>
+
+<nav>
+<ul id="menu">
+{% if user.is_authenticated %}
+<li><a href="{% url 'profile' %}">{% blocktrans with user.get_profile.get_user_display as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
+<li><a href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
+{% else %}
+{% if registration_open %}
+<li><a href="{% url 'weblate_register' %}">{% trans "Register" %}</a></li>
+{% endif %}
+<li><a href="{% url 'auth_login' %}?next={{ current_url }}">{% trans "Login" %}</a></li>
+{% endif %}
+</ul>
+
+<ul id="breadcrumbs">
+<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+{% block breadcrumbs %}
+{% endblock %}
+</ul>
+</nav>
+</header>
+
+<div class="content">
+{% if messages %}
+{% for message in messages %}
+{% show_message message.tags message %}
+{% endfor %}
+{% endif %}
+
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+{% if not request.is_ajax %}
+</div>
+{% include 'footer.html' %}
+ </body>
+</html>
+{% endif %}

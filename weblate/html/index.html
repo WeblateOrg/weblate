@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block content %}
+
+{% if not user.is_authenticated %}
+<p>
+{% blocktrans %}This site runs <a href="{{ weblate_url }}">Weblate</a> for translating the software projects listed below. You need to be logged in for translating, otherwise you can only make suggestions.{% endblocktrans %}
+</p>
+{% endif %}
+
+<h2>{% trans "Translations" %}</h2>
+
+<div class="tabs" id="index-tabs">
+<ul>
+{% if usertranslations %}
+<li><a href="#your">{% trans "Your translations" %}</a></li>
+{% endif %}
+<li><a href="#projects">{% trans "Projects" %}</a></li>
+<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
+</ul>
+
+{% if usertranslations %}
+<div id="your">
+{% with usertranslations as translations and 2 as show_language %}
+{% include "list-translations.html" %}
+{% endwith %}
+</div>
+{% endif %}
+
+<div id="projects">
+<table class="sort">
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th colspan="2">{% trans "Translated" %}</th>
+</tr>
+<tbody>
+{% for prj in projects %}
+{% with prj.get_translated_percent as percent %}
+<tr>
+<th><a href="{{ prj.get_absolute_url }}">{{ prj }}</a></th>
+<td class="progress"><div class="progress" value="{{ percent|floatformat:0 }}"></div></td>
+<td class="percent">{{ percent }}%</td>
+</tr>
+{% endwith %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<h2>{% trans "Summaries" %}</h2>
+
+<div class="tabs" id="main-tabs">
+
+<ul>
+<li><a href="#changes">{% trans "Recent changes" %}</a></li>
+<li><a href="#translators">{% trans "Most active translators" %}</a></li>
+<li><a href="#suggesters">{% trans "Most active suggesters" %}</a></li>
+<li><a href="#others">{% trans "Others" %}</a></li>
+</ul>
+
+<div id="changes">
+{% include "last-changes.html" %}
+</div>
+
+<div id="translators">
+<table>
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Translated" %}</th>
+</tr>
+<tbody>
+{% for u in top_translations %}
+<tr>
+<td>{{ u.get_user_display }}</td>
+<td class="percent">{{ u.translated }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<div id="suggesters">
+
+<table>
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Suggested" %}</th>
+</tr>
+<tbody>
+{% for u in top_suggestions %}
+<tr>
+<td>{{ u.get_user_display }}</td>
+<td class="percent">{{ u.suggested }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<div id="others">
+<ul>
+<li><a href="{% url 'languages' %}">{% trans "Languages summary" %}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.data_root' %}">{% trans "Data export" %}</a></li>
+<li><a href="{% url 'weblate.trans.widgets.widgets_root' %}">{% trans "Widgets" %}</a></li>
+</ul>
+</div>
+
+
+{% endblock %}
+

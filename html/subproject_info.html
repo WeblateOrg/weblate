@@ -1,6 +1,0 @@
-{% load i18n %}
-
-{% with object.project as object %}
-{% include "project_info.html" %}
-{% endwith %}
-<p>{% trans "Git repository:" %} <code>{{ object.repo }}</code> ({% blocktrans with object.branch as branch %}{{ branch }} branch{% endblocktrans %})</p>

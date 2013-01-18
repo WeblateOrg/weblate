@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Script to compact all git repos
+
+cd weblate/repos
+for d in */* ; do
+    cd $d
+    git gc
+    cd ../..
+done

@@ -4,9 +4,11 @@ About Weblate
 Project goals
 -------------
 
-Minimalistic web based translation with direct commit to git on each
-translation made. There is no plan in heavy conflict resolution as these
-should be primarily handled on git side.
+Web based translation with tight git intergration supporting wide range of file
+formats and makes it easy for translators to contribute.
+
+There is no plan in heavy conflict resolution as these should be primarily
+handled on git side.
 
 Project name
 ------------

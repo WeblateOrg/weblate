@@ -1,0 +1,17 @@
+{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
+
+{% blocktrans with site|site_title as site_title %}there has been a new comment on {{ subproject }} at {{ site_title }}.{% endblocktrans %}
+
+{% trans "Source string:" %}
+
+{{ unit.source }}
+
+{% trans "Comment:" %}
+
+{{ comment.comment }}
+
+{% trans "You can edit this string at:" %}
+
+http://{{ current_site }}{{ unit.get_absolute_url }}
+
+{% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

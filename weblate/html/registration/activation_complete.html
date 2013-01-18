@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block content %}
+
+<p>
+    {% blocktrans %}Thank you. Your account is now activated.{% endblocktrans %}
+</p>
+<p>
+    {% url 'profile' as profile_url %}
+    {% blocktrans %}You might want to <a href="{{ profile_url }}">adjust your profile</a> now.{% endblocktrans %}
+</p>
+
+{% endblock %}

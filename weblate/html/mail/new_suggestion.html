@@ -1,0 +1,59 @@
+{% extends "mail/base.html" %}
+
+{% load url from future %}
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans with site|site_title as site_title %}there is a new suggestion to evaluate on {{ translation }} at {{ site_title }}.{% endblocktrans %}
+<p>
+
+<table>
+<tr>
+
+<th>
+{% trans "Source string:" %}
+</th>
+
+<td>
+{{ unit.source|fmttranslation }}
+</td>
+</tr>
+
+<tr>
+<th>
+{% trans "Suggestion:" %}
+</th>
+
+<td>
+{{ suggestion.target|fmttranslation:unit.translation.language }}
+</td>
+</tr>
+
+{% if unit.translated %}
+<tr>
+<th>
+{% trans "Translation change:" %}
+</th>
+
+<td>
+{{ suggestion.target|fmttranslationdiff:unit }}
+</td>
+</tr>
+{% endif %}
+</table>
+
+<p>
+{% trans "You can review it at:" %}
+</p>
+
+<p>
+<a href="http://{{ current_site }}{{ suggestion.get_review_url }}">http://{{ current_site }}{{ suggestion.get_review_url }}</a>
+</p>
+
+{% include "mail/footer.html" %}
+{% endblock %}

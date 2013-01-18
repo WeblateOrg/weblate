@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load static %}
+{% load url from future %}
+<!DOCTYPE html>
+
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+ <head>
+  <meta name="author" content="Michal Čihař" />
+  <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
+
+  <title>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</title>
+  <meta name="description" content="{% blocktrans %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
+  <link rel="image_src" type="image/png" href="{% get_media_prefix %}weblate-128.png"/>
+
+{% include 'meta-header.html' %}
+  
+ </head>
+
+ <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
+
+<img class="engage-icon" src="{% get_media_prefix %}weblate-128.png" width="128" height="128" />
+
+<div class="engage content ui-widget-content ui-corner-all">
+
+<h1>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</h1>
+
+<p>
+{% blocktrans %}Hi, and thank you for your interest!{% endblocktrans %}
+</p>
+<p>
+{% blocktrans %}{{ project }} is being translated using <a href="{{ weblate_url }}">Weblate</a>, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
+</p>
+<p>
+{{ status_text }}
+</p>
+<p>
+{% url 'weblate_register' as reg_url %}
+{% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to <a href="{{ reg_url }}">register on this server</a>.{% endblocktrans %}
+</p>
+<p>
+{% blocktrans %}Once you have activated your account just proceed to the <a href="{{ url }}">translation section</a>.{% endblocktrans %}
+</p>
+
+</div>
+{% include 'footer.html' %}
+ </body>
+</html>
+
+

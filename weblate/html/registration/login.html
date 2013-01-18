@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block content %}
+
+{% if form.errors %}
+<div class="ui-widget">
+    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
+        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
+        {% trans "This username/password combination was not found. Please try again." %}
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td>{{ form.username.label_tag }}</td>
+    <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <td>{{ form.password.label_tag }}</td>
+    <td>{{ form.password }}</td>
+</tr>
+</table>
+
+<input type="submit" value="{% trans "Login" %}" class="button" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% if registration_open %}
+<p>
+{% url 'registration.views.register' as register_url %}
+{% blocktrans %}Do not have an account yet? You can <a href="{{ register_url }}">register</a>.{% endblocktrans %}
+</p>
+{% endif %}
+
+<p>
+{% url 'auth_password_reset' as reset_url %}
+{% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
+</p>
+
+{% endblock %}

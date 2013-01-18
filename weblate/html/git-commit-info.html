@@ -1,0 +1,6 @@
+{% load i18n %}
+{% load translations %}
+<span class="git-details">
+{% blocktrans with commit.hexsha as hash %}Commit {{ hash }}{% endblocktrans %}<br />
+{% blocktrans with commit.author.name as author and commit.authored_date|gitdate as date %}Authored by {{ author }} on {{ date }}{% endblocktrans %}
+</span>

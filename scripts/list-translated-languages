@@ -1,0 +1,51 @@
+#!/usr/bin/python
+
+import json
+import urllib2
+import imp
+
+URL = 'http://l10n.cihar.com/exports/stats/weblate/master/'
+THRESHOLD = 20
+
+def main():
+    # load data
+    fp = urllib2.urlopen(URL)
+    data = fp.read()
+    # parse data
+    data = json.loads(data)
+
+    # select languages
+    languages = []
+    for lang in data:
+        if lang['translated_percent'] > THRESHOLD:
+            languages.append(lang['code'])
+    languages.sort()
+    print 'Found languages:'
+    print '\n'.join(languages)
+
+    # prepare for checking
+    languages = set(languages)
+    # we always want english language
+    languages.add('en')                     
+    # load settings
+    extra = set()
+    settings = imp.load_source('settings', './weblate/settings_example.py')
+    for lang in settings.LANGUAGES:
+        if lang[0] in languages:
+            languages.remove(lang[0])
+        else:
+            extra.add(lang[0])
+    # Print results
+    if len(extra) > 0:
+        print 'Extra languages:'
+        print '\n'.join(extra)
+    if len(languages) > 0:
+        print 'Missing languages:'
+        print '\n'.join(languages)
+                                                                                                                                                                                                                                                                                                                                    
+
+
+
+
+if __name__ == "__main__":
+    main()

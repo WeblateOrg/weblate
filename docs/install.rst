@@ -8,30 +8,221 @@ Installation instructions
 Requirements
 ------------
 
-Django
+Django (>= 1.4)
     https://www.djangoproject.com/
-Translate-toolkit
-    http://translate.sourceforge.net/wiki/toolkit/index
+Translate-toolkit (>= 1.9.0)
+    http://toolkit.translatehouse.org/
 GitPython (>= 0.3)
     https://github.com/gitpython-developers/GitPython
-Django-registration
+Git (>= 1.0)
+    http://git-scm.com/
+Django-registration (>= 0.8)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
     http://bitbucket.org/mchaput/whoosh/
+PyCairo
+    http://cairographics.org/pycairo/
+PyGtk
+    http://www.pygtk.org/
+south
+    http://south.aeracode.org/
+Database backend
+    Any database supported in Django will work, check their documentation for more details.
+
+.. _installation:
 
 Installation
 ------------
 
-Install all required components (see above), adjust :file:`settings.py` and
-then run :program:`./manage.py syncdb` to create database structure. Now you
-should be able to create translation projects using admin interface. You
-probably also want to run :program:`./manage.py setuplang` to get default list
-of languages and :program:`./manage.py setupgroups` to initialize default groups.
+Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
+adjust it to match your setup. You will probably want to adjust following
+options:
+
+``ADMINS``
+
+    List of site administrators to receive notifications when something goes
+    wrong, for example notifications on failed merge or Django errors.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#admins
+
+``DATABASES``
+
+    Connectivity to database server, please check Django's documentation for more
+    details.
+
+    .. note::
+
+        When using MySQL, don't forget to create database with UTF-8 encoding:
+
+        .. code-block:: sql
+
+            CREATE DATABASE <dbname> CHARACTER SET utf8;
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#databases, https://docs.djangoproject.com/en/1.4/ref/databases/
+
+``DEBUG``
+
+    Disable this for production server. With debug mode enabled, Django will
+    show backtraces in case of error to users, when you disable it, errors will
+    go by email to ``ADMINS`` (see above).
+
+    Debug mode also slows down Weblate as Django stores much more information
+    internally in this case.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#debug
+
+``DEFAULT_FROM_EMAIL``
+
+    Email sender address for outgoing email, for example registration emails.
+
+    .. seealso:: `DEFAULT_FROM_EMAIL documentation`_
+
+``SERVER_EMAIL``
+
+    Email used as sender address for sending emails to administrator, for
+    example notifications on failed merge.
+
+    .. seealso:: `SERVER_EMAIL documentation`_
+
+After your configuration is ready, you can run :program:`./manage.py syncdb` and 
+:program:`./manage.py migrate` to create database structure. Now you should be
+able to create translation projects using admin interface.
+
+In case you want to run installation non interactively, you can use 
+:program:`./manage.py syncdb --noinput` and then create admin user using 
+:djadmin:`createadmin` command.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
 default site name to match your domain.
 
-.. seealso:: :ref:`privileges`
+.. note::
+
+    If you are running version from Git, you should also regenerate locale
+    files every time you are upgrading. You can do this by invoking script
+    :file:`./scripts/generate-locales`.
+
+.. seealso:: :ref:`config`, :ref:`privileges`, :ref:`faq-site`
+
+Production setup
+----------------
+
+For production setup you should do following adjustments:
+
+.. _production-debug:
+
+Disable debug mode
+++++++++++++++++++
+
+Disable Django's debug mode by:
+
+.. code-block:: python
+
+    DEBUG = False
+
+With debug mode Django stores all executed queries and shows users backtrackes
+of errors what is not desired in production setup.
+
+.. seealso:: :ref:`installation`
+
+.. _production-admins:
+
+Properly configure admins
++++++++++++++++++++++++++
+
+Set correct admin addresses to ``ADMINS`` setting for defining who will receive
+mail in case something goes wrong on the server, for example:
+
+.. code-block:: python
+
+    ADMINS = (
+        ('Your Name', 'your_email@example.com'),
+    )
+
+.. seealso:: :ref:`installation`
+
+.. _production-site:
+
+Set correct site name
++++++++++++++++++++++
+
+Sdjust site name in admin interface, otherwise links in RSS or registration
+emails will not work.
+
+.. seealso:: :ref:`faq-site`
+
+.. _production-indexing:
+
+Enable indexing offloading
+++++++++++++++++++++++++++
+
+Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
+performance.
+
+.. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`
+
+.. _production-database:
+
+Use powerful database engine
+++++++++++++++++++++++++++++
+
+Use powerful database engine (SQLite is usually not good enough for production
+environment), for example setup for MySQL:
+
+.. code-block:: python
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'weblate',
+            'USER': 'weblate',
+            'PASSWORD': 'weblate',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
+    }
+
+.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/1.4/ref/databases/>`_
+
+.. _production-cache:
+
+Enable caching
+++++++++++++++
+
+If possible, use memcache from Django by adjusting ``CACHES`` config variable,
+for example:
+
+.. code-block:: python
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
+
+.. seealso:: `Django’s cache framework <https://docs.djangoproject.com/en/1.4/topics/cache/>`_
+
+.. _production-email:
+
+Configure email addresses
++++++++++++++++++++++++++
+
+Weblate needs to send out emails on several occasions and these emails should
+have correct sender address, please configure ``SERVER_EMAIL`` and
+``DEFAULT_FROM_EMAIL`` to match your environment, for example:
+
+.. code-block:: python
+
+    SERVER_EMAIL = 'admin@example.org'
+    DEFAULT_FROM_EMAIL = 'weblate@example.org'
+
+.. seealso:: 
+    :ref:`installation`, 
+    `DEFAULT_FROM_EMAIL documentation`_,
+    `SERVER_EMAIL documentation`_
+
+.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
+.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
 .. _server:
 
@@ -53,7 +244,7 @@ use that for following paths:
 Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
 as :file:`favicon.ico`.
 
-.. seealso:: https://docs.djangoproject.com/en/1.3/howto/deployment/
+.. seealso:: https://docs.djangoproject.com/en/1.4/howto/deployment/
 
 Sample configuration for Lighttpd
 +++++++++++++++++++++++++++++++++
@@ -70,6 +261,21 @@ Following configuration runs Weblate as WSGI, you need to have enabled
 mod_wsgi (available as :file:`examples/apache.conf`):
 
 .. literalinclude:: ../examples/apache.conf
+
+Running Weblate under path
+++++++++++++++++++++++++++
+
+Minimalistic configuration to serve Weblate under /weblate (you will need to
+include portions of above full configuration to allow access to the files). Again
+using mod_wsgi (also available as :file:`examples/apache-path.conf`):
+
+.. literalinclude:: ../examples/apache-path.conf
+
+Additionally you will have to adjust :file:`weblate/settings.py`::
+
+    URL_PREFIX = '/weblate'
+
+.. note:: This is supported since Weblate 1.3.
 
 .. _appliance:
 
@@ -89,19 +295,124 @@ weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
 admin    admin    Weblate Weblate/Django admin user
 ======== ======== ======= ==================================================
 
-The appliance is built using SUSE Studio and is based on openSUSE 12.1.
+The appliance is built using SUSE Studio and is based on openSUSE 12.2.
+
+You should also adjust some settings to match your environment, namely:
+
+* :ref:`production-debug`
+* :ref:`production-site`
+* :ref:`production-email`
 
 Upgrading
 ---------
+
+.. _generic-upgrade-instructions:
+
+Generic upgrade instructions
+++++++++++++++++++++++++++++
+
+.. versionchanged:: 1.2
+    Since version 1.2 the migration is done using South module, to upgrade to 1.2, 
+    please see :ref:`version-specific-instructions`.
+
+Before upgrading, please check current :ref:`requirements` as they might have
+changed.
+
+To upgrade database structure, you should run following commands:
+
+.. code-block:: sh
+
+    ./manage.py syncdb
+    ./manage.py migrate
+
+To upgrade default set of privileges definitions (optional), run:
+
+.. code-block:: sh
+
+    ./manage.py setupgroups
+
+To upgrade default set of language definitions (optional), run:
+
+.. code-block:: sh
+
+    ./manage.py setuplang
+
+.. _version-specific-instructions:
+
+Version specific instructions
++++++++++++++++++++++++++++++
+
+Upgrade from 0.5 to 0.6
+~~~~~~~~~~~~~~~~~~~~~~~
 
 On upgrade to version 0.6 you should run :program:`./manage.py syncdb` and
 :program:`./manage.py setupgroups --move` to setup access control as described
 in installation section.
 
+Upgrade from 0.6 to 0.7
+~~~~~~~~~~~~~~~~~~~~~~~
+
 On upgrade to version 0.7 you should run :program:`./manage.py syncdb` to
 setup new tables and :program:`./manage.py rebuild_index` to build index for
 fulltext search.
 
+Upgrade from 0.7 to 0.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
 On upgrade to version 0.8 you should run :program:`./manage.py syncdb` to setup
 new tables, :program:`./manage.py setupgroups` to update privileges setup and
 :program:`./manage.py rebuild_index` to rebuild index for fulltext search.
+
+Upgrade from 0.8 to 0.9
+~~~~~~~~~~~~~~~~~~~~~~~
+
+On upgrade to version 0.9 file structure has changed. You need to move
+:file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
+:program:`./manage.py syncdb`, :program:`./manage.py setupgroups` and
+:program:`./manage.py setuplang` is recommended to get latest updates of 
+privileges and language definitions.
+
+Upgrade from 0.9 to 1.0
+~~~~~~~~~~~~~~~~~~~~~~~
+
+On upgrade to version 1.0 one field has been added to database, you need to
+invoke following SQL command to adjust it:
+
+.. code-block:: sql
+
+    ALTER TABLE `trans_subproject` ADD `template` VARCHAR(200);
+
+Upgrade from 1.0 (1.1) to 1.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On upgrade to version 1.2, the migration procedure has changed. It now uses
+South for migrating database. To switch to this new migration schema, you need
+to run following commands:
+
+.. code-block:: sh
+
+    ./manage.py syncdb
+    ./manage.py migrate weblate.trans 0001 --fake
+    ./manage.py migrate weblate.accounts 0001 --fake
+    ./manage.py migrate weblate.lang 0001 --fake
+
+Also please note that there are several new requirements and version 0.8 of
+django-registration is now being required, see :ref:`requirements` for more
+details.
+
+Once you have done this, you can use :ref:`generic-upgrade-instructions`.
+
+Upgrade from 1.2 to 1.3
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Since 1.3, :file:`settings.py` is not shipped with Weblate, but only example
+settings as :file:`settings_example.py` it is recommended to use it as new base
+for your setup.
+
+Migrating from Pootle
+---------------------
+
+As Weblate was originally written as replacement from Pootle, it is supported
+to migrate user accounts from Pootle. All you need to do is to copy
+``auth_user`` table from Pootle, user profiles will be automatically created
+for users as they log in and they will be asked to update their settings.

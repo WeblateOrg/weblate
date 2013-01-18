@@ -1,0 +1,10 @@
+{% load translations %}
+{% for comment in comments %}
+<tr>
+<td>
+<strong>{{ comment.get_user_display }}</strong><br />
+{{ comment.timestamp|naturaltime }}
+</td>
+<td dir="auto">{{ comment.comment }}</td>
+</tr>
+{% endfor %}

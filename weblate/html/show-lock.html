@@ -1,0 +1,7 @@
+{% load translations %}
+{% if object.is_user_locked and object.lock_user != request.user %}
+{% show_message "warning" object.get_lock_display %}
+{% endif %}
+{% if object.subproject.locked or object.locked %}
+{% show_message "warning" "This translation is currently locked for updates!" %}
+{% endif %}

@@ -1,5 +1,5 @@
 Name:           weblate
-Version:        0.9
+Version: 1.4
 Release:        1
 License:        GPL-3+
 Summary:        Web based translation
@@ -13,10 +13,12 @@ Url:            http://weblate.org/
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       python-django >= 1.3
-Requires:       python-django-registration
-Requires:       python-translate-toolkit
+Requires:       python-django-registration >= 0.8
+Requires:       translate-toolkit
 Requires:       python-GitPython >= 0.3
 Requires:       python-whoosh
+Requires:       python-cairo
+Requires:       python-South
 %py_requires
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -30,7 +32,7 @@ Vendor:         Michal Čihař <mcihar@suse.com>
 %description
 Weblate is web based translation tool with tight Git integration. It features
 simple and clean user interface, propagation of translations across subprojects
-or automatic linking to source files. 
+or automatic linking to source files.
 
 List of features includes:
 
@@ -41,7 +43,7 @@ List of features includes:
 * Upload and automatic merging of po files
 * Links to source files for context
 * Allows to use machine translation services
-* Message consistency checks
+* Message quality checks
 * Tunable access control
 * Wide range of supported translation formats (Getext, Qt, Java, Windows, Symbian and more)
 
@@ -51,10 +53,13 @@ List of features includes:
 
 %build
 make -C docs html
-sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}"@g' settings.py 
-sed -i 's@^WHOOSH_INDEX = .*@WHOOSH_INDEX = "%{WLDATADIR}"@g' settings.py
+cp weblate/settings_example.py weblate/settings.py
+sed -i 's@^WEB_ROOT = .*@WEB_ROOT = "%{WLDIR}/weblate"@g' weblate/settings.py
+sed -i 's@^WHOOSH_INDEX = .*@WHOOSH_INDEX = "%{WLDATADIR}/whoosh-index"@g' weblate/settings.py
+sed -i 's@^GIT_ROOT = .*@GIT_ROOT = "%{WLDATADIR}/repos"@g' weblate/settings.py
+sed -i "s@'ENGINE': 'django.db.backends.sqlite3'@'ENGINE': 'django.db.backends.mysql'@" weblate/settings.py
+sed -i "s@'NAME': 'weblate.db'@'NAME': 'weblate'@" weblate/settings.py
 sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' examples/apache.conf
-sed -i 's@weblate-path@%{WLDIR}@g' examples/django.wsgi
 
 %install
 install -d %{buildroot}/%{WLDIR}
@@ -74,8 +79,8 @@ rm -f %{buildroot}/%{WLDIR}/README.rst \
 %py_compile %{buildroot}/%{WLDIR}
 
 # Move configuration to etc
-mv %{buildroot}/%{WLDIR}/settings.py %{buildroot}/%{WLETCDIR}/
-ln -s %{WLETCDIR}/settings.py %{buildroot}/%{WLDIR}/settings.py
+mv %{buildroot}/%{WLDIR}/weblate/settings.py %{buildroot}/%{WLETCDIR}/
+ln -s %{WLETCDIR}/settings.py %{buildroot}/%{WLDIR}/weblate/settings.py
 
 # Apache config
 install -d %{buildroot}/%{_sysconfdir}/apache2/vhosts.d/
@@ -83,6 +88,8 @@ install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d
 
 # Whoosh index dir
 install -d %{buildroot}/%{WLDATADIR}
+install -d %{buildroot}/%{WLDATADIR}/whoosh-index
+install -d %{buildroot}/%{WLDATADIR}/repos
 
 %clean
 rm -rf %{buildroot}
@@ -95,5 +102,7 @@ rm -rf %{buildroot}
 %config(noreplace) /%{_sysconfdir}/apache2
 %{WLDIR}
 %attr(0755,wwwrun,www) %{WLDATADIR}
+%attr(0755,wwwrun,www) %{WLDATADIR}/whoosh-index
+%attr(0755,wwwrun,www) %{WLDATADIR}/repos
 
 %changelog

@@ -11,12 +11,13 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-#import sys, os
+import sys, os
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
 
 # -- General configuration -----------------------------------------------------
 
@@ -25,7 +26,7 @@
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = []
+extensions = ['djangodocs']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -41,14 +42,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Weblate'
-copyright = u'2012, Michal Čihař'
+copyright = u'2012 - 2013, Michal Čihař'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '0.9'
+version = '1.4'
 # The full version, including alpha/beta/rc tags.
 release = version
 

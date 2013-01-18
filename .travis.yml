@@ -1,0 +1,50 @@
+language: python
+python:
+  - "2.7"
+env:
+  - DJANGO_VERSION=1.4.2
+#  - DJANGO_VERSION=1.5
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install git libcairo2-dev libgtk2.0-dev libglib2.0-dev libtool libpango1.0-dev libatk1.0-dev libffi-dev
+# commands to install dependencies
+install: 
+  - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors  importlib ; fi
+# Environment setup
+  - export VIRT_ROOT=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION
+  - export PKG_CONFIG_PATH=$VIRT_ROOT/lib/pkgconfig
+# PyCairo
+  - wget http://www.cairographics.org/releases/py2cairo-1.10.0.tar.bz2
+  - tar xf py2cairo-1.10.0.tar.bz2
+  - cd py2cairo-1.10.0
+  - ./waf configure --prefix=$VIRT_ROOT
+  - ./waf build
+  - ./waf install
+  - cd ..
+# PyGobject
+  - wget http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.28/pygobject-2.28.6.tar.bz2
+  - tar xf pygobject-2.28.6.tar.bz2
+  - cd pygobject-2.28.6
+  - ./configure --prefix=$VIRT_ROOT --disable-introspection
+  - make
+  - make install
+  - cd ..
+# PyGtk
+  - wget http://ftp.gnome.org/pub/GNOME/sources/pygtk/2.24/pygtk-2.24.0.tar.bz2
+  - tar xf pygtk-2.24.0.tar.bz2
+  - cd pygtk-2.24.0
+  - ./configure --prefix=$VIRT_ROOT
+  - make
+  - make install
+  - cd ..
+# generate configuration
+before_script:
+  - cp weblate/settings_example.py weblate/settings.py
+# commands to run tests
+script: 
+  - ./scripts/generate-locales
+  - ./manage.py validate
+  - ./manage.py syncdb --noinput
+  - ./manage.py migrate
+  - ./manage.py test trans lang accounts

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block content %}
+
+<p>{% blocktrans %}Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration.{% endblocktrans %}</p>
+
+<p>
+{% url 'contact' as contact_url %}
+{% blocktrans %}If you don't receive it shortly, please check your spam folder. If it's not there, please <a href="{{ contact_url }}?subject=Lost activation code">contact us</a>.{% endblocktrans %}
+</p>
+
+{% endblock %}

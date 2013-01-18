@@ -1,0 +1,66 @@
+{% load i18n %}
+{% load url from future %}
+
+{% with object.git_needs_commit as needs_commit %}
+{% if perms.trans.commit_translation or perms.trans.update_translation %}
+
+<ul class="buttons">
+<li><a href="{{ object.get_commit_url }}" title="{% trans "Commit pending changes" %}"{% if not needs_commit %} class="disabled"{% endif %}>{% trans "Commit" %}</a></li>
+<li><a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}"{% if not perms.trans.update_translation %} class="disabled"{% endif %}>{% trans "Pull" %}</a></li>
+<li><a href="{{ object.get_push_url }}" title="{% trans "Push changes to remote repository" %}"{% if not perms.trans.push_translation or not object.can_push %} class="disabled"{% endif %}>{% trans "Push" %}</a></li>
+{% if perms.trans.reset_translation %}
+<li><a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="confirm-reset">{% trans "Reset" %}</a></li>
+{% endif %}
+{% if perms.trans.lock_subproject and object.is_git_lockable %}
+{% if object.is_git_locked %}
+<li><a href="{{ object.get_unlock_url }}" title="{% trans "Allow changes in the repository" %}">{% trans "Unlock" %}</a></li>
+{% else %}
+<li><a href="{{ object.get_lock_url }}" title="{% trans "Prevent any changes in the repository" %}">{% trans "Lock" %}</a></li>
+{% endif %}
+{% endif %}
+</ul>
+
+{% if needs_commit %}
+<p>{% trans "There are some not commited changes!" %}</p>
+{% endif %}
+{% if object.git_needs_merge %}
+<p>{% trans "Remote Git repository needs to be merged!" %}</p>
+{% endif %}
+{% if object.git_needs_push %}
+<p>{% trans "There are some new commits in local Git repository!" %}</p>
+{% endif %}
+
+
+{% if object.subproject_set %}
+{% else %}
+{% with object.get_last_remote_commit as commit %}
+<p>
+{% trans "Last remote commit:" %}
+<span class="git-commit">
+{{ commit.hexsha|slice:":7" }}
+{% include "git-commit-info.html" %}
+</span>
+</p>
+{% endwith %}
+{% endif %}
+
+<div class="details-accordion">
+<h3><a href="#">{% trans "Details" %}</a></h3>
+<div>
+{% if object.subproject_set %}
+{% for sp in object.subproject_set.all %}
+<h4>{{ sp }}</h3>
+<pre>
+{{ sp.git_repo.git.status }}
+</pre>
+{% endfor %}
+{% else %}
+<pre>
+{{ object.git_repo.git.status }}
+</pre>
+{% endif %}
+</div>
+</div>
+
+{% endif %}
+{% endwith %}

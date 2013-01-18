@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+
+
+<h2>{% trans "Glossary" %}</h2>
+
+<span id="navi-toolbar" class="ui-widget-header ui-corner-all">
+<span id="navi">
+<a id="button-first" {% if words.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;letter={{ letter }}">{% trans "First" %}</a>
+<a id="button-prev" {% if not words.has_previous %}class="button-disabled"{% endif %} href="?page={{ words.previous_page_number }}&amp;letter={{ letter }}">{% trans "Previous" %}</a>
+<a id="button-pos">{% blocktrans with words.number as position and words.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a id="button-next" {% if not words.has_next %}class="button-disabled"{% endif %} href="?page={{ words.next_page_number }}&amp;letter={{ letter }}">{% trans "Next" %}</a>
+<a id="button-end" {% if words.paginator.num_pages == words.number %}class="button-disabled"{% endif %} href="?page={{ words.paginator.num_pages }}&amp;letter={{ letter }}">{% trans "Last" %}</a>
+</span>
+<form class="autosubmit" id="letter-form">{{ letterform.as_p }}</form>
+</span>
+
+{% if words.object_list %}
+<table>
+<thead>
+<tr>
+<th>{% trans "Source" %}</th>
+<th>{% trans "Translation" %}</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+{% for word in words.object_list %}
+<tr>
+<td class="translatetext">{{ word.source }}</td>
+<td class="translatetext">{{ word.target }}</td>
+<td>
+{% if perms.trans.change_dictionary %}
+<form action="{% url 'weblate.trans.views.edit_dictionary' project=project.slug lang=language.code %}" method="get">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ word.id }}" />
+<input type="submit" class="button" value="{% trans "Edit" %}" />
+</form>
+{% endif %}
+</td>
+<td>
+{% if perms.trans.delete_dictionary %}
+<form action="{% url 'weblate.trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{ word.id }}" />
+<input type="submit" class="button" value="{% trans "Delete" %}" />
+</form>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>{% trans "No words found!" %}</p>
+{% endif %}
+
+<h2>{% trans "Tools" %}</h2>
+
+<div class="tabs" id="dictionary-tabs">
+<ul>
+{% if perms.trans.add_dictionary %}
+<li><a href="#add">{% trans "Add new word" %}</a></li>
+{% endif %}
+{% if perms.trans.upload_dictionary %}
+<li><a href="#import">{% trans "Import glossary" %}</a></li>
+{% endif %}
+<li><a href="#export">{% trans "Export glossary" %}</a></li>
+</ul>
+
+{% if perms.trans.add_dictionary %}
+<div id="add">
+
+<form method="POST">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" value="{% trans "Add" %}" />
+</form>
+
+</div>
+{% endif %}
+
+{% if perms.trans.upload_dictionary %}
+<div id="import">
+
+<p>{% trans "You can upload any format which is understood by Translate Toolkit (including TBX, CSV or Gettext PO files)." %}</p>
+
+<form action="{% url 'weblate.trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<table>
+{{ uploadform.as_table }}
+</table>
+<input type="submit" value="{% trans "Import" %}" />
+</form>
+
+</div>
+{% endif %}
+
+<div id="export">
+
+<p>{% trans "You can download glossary in following formats:" %}</p>
+
+<ul>
+<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
+</ul>
+
+{% endblock %}

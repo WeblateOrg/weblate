@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load translations %}
+
+{% if last_changes_rss %}
+<a class="rss ui-state-default ui-corner-all" href="{{ last_changes_rss }}">
+<span class="ui-icon ui-icon-signal-diag"></span>
+</a>
+{% endif %}
+{% if last_changes %}
+<table>
+<thead>
+<tr>
+<th>{% trans "When" %}</th>
+<th>{% trans "User" %}</th>
+<th>{% trans "Action" %}</th>
+<th>{% trans "Translation" %}</th>
+</tr>
+<tbody>
+{% for c in last_changes %}
+<tr>
+<td>{{ c.timestamp|naturaltime }}</td>
+<td>{{ c.get_user_display }}</td>
+<td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
+<td><a href="{{ c.translation.get_absolute_url }}">{{ c.translation }}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>{% trans "No recent activity has been recorded." %}</p>
+{% endif %}

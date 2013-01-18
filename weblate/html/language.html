@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'weblate.trans.views.show_languages' %}">{% trans "languages" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<h2>{% trans "Projects" %}</h2>
+
+{% with object.translation_set.enabled as translations %}
+{% include "list-translations.html" %}
+{% endwith %}
+
+<h2>{% trans "Tools" %}</h2>
+
+<div class="tabs" id="main-tabs">
+
+<ul>
+<li><a href="#changes">{% trans "Recent changes" %}</a></li>
+<li><a href="#dicts">{% trans "Glossaries" %}</a></li>
+</ul>
+
+<div id="changes">
+{% include "last-changes.html" %}
+</div>
+
+<div id="dicts">
+<ul>
+{% for dict in dicts %}
+<li><a href="{% url 'weblate.trans.views.show_dictionary' lang=object.code project=dict.slug %}">{{ dict }}</a></li>
+{% endfor %}
+</ul>
+</div>
+
+</div>
+
+{% endblock %}
+

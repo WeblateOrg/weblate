@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load static %}
+{% load translations %}
+
+{% block extra_meta %}
+<link rel="canonical" href="{{ unit.get_absolute_url }}" />
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{{ unit.translation.subproject.project.get_absolute_url }}">{{ unit.translation.subproject.project }}</a></li>
+<li><a href="{{ unit.translation.subproject.get_absolute_url }}">{{ unit.translation.subproject.name }}</a></li>
+<li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
+<li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% with unit.translation as object %}
+{% include "show-lock.html" %}
+{% endwith %}
+
+<h2>{% trans "Translate" %}</h2>
+
+<span id="navi-toolbar" class="ui-widget-header ui-corner-all">
+<span id="navi">
+<a id="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
+<a id="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
+<a id="button-pos">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a id="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
+<a id="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
+</span>
+
+{% if filter_name %}
+{% blocktrans %}Current filter: {{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
+{% endif %}
+</span>
+
+<form action="{{ unit.translation.get_translate_url }}" method="post">
+<a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
+<a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
+{% csrf_token %}
+{% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
+<input type="hidden" name="type" value="{{ type }}" />
+<input type="hidden" name="pos" value="{{ unit.position }}" />
+<input type="hidden" name="q" value="{{ search_query }}" />
+<input type="hidden" name="search" value="{{ search_type }}" />
+<input type="hidden" name="src" value="{{ search_source }}" />
+<input type="hidden" name="tgt" value="{{ search_target }}" />
+<input type="hidden" name="ctx" value="{{ search_context }}" />
+<table class="translator">
+{% if secondary %}
+{% for unit in secondary %}
+<tr>
+<th class="source">{{ unit.translation.language }}</th>
+<td class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</td>
+</tr>
+{% endfor %}
+{% endif %}
+<tr>
+<th class="source">{% trans "Source" %}</th>
+<td class="translatetext">{{ unit.source|fmttranslation }}</td>
+</tr>
+{% if unit.previous_source %}
+<tr>
+<th>{% trans "Source change" %}</th>
+<td>{{ unit.previous_source|fmtsourcediff:unit }}</td>
+</tr>
+{% endif %}
+{% if unit.context %}
+<tr>
+<th>{% trans "Context" %}</th>
+<td>{{ unit.context }}</td>
+</tr>
+{% endif %}
+<tr>
+<td></td>
+<td class="toolbar">
+<a href="#" id="copy-text">{% trans "Copy" %}</a>
+<img src="{% get_media_prefix %}loading.gif" id="loading" style="display: none" />
+{% if unit.translation.language.direction == "rtl" %}
+<div id="toggle-direction" title="{% trans "Toggle text direction" %}">
+<input type="radio" id="direction-rtl" name="direction" value="rtl" checked="checked" /><label for="direction-rtl">RTL</label>
+<input type="radio" id="direction-ltr" name="direction" value="ltr" /><label for="direction-ltr">LTR</label>
+</div>
+{% endif %}
+</td>
+</tr>
+<tr>
+<th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>
+<td class="translator">
+{{ form.checksum }}
+{{ form.target }}
+<br />
+{{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
+<span id="specialchars">{% trans "Special characters:" %}
+<a class="specialchar" title="{% trans "Insert tab character" %}">→</a>
+<a class="specialchar" title="{% trans "Insert new line" %}">↵</a>
+<a class="specialchar" title="{% trans "Insert horizontal elipsis" %}">…</a>
+</span>
+</td></tr>
+{% with unit.active_checks as checks %}
+{% if checks %}
+<tr>
+<th>{% trans "Failing checks" %}</th>
+<td>
+{% include "list-checks.html" %}
+</td>
+</tr>
+{% endif %}
+{% endwith %}
+{% with unit.suggestions as suggestions %}
+{% if suggestions %}
+<tr>
+<th>{% trans "Suggestions" %}</th>
+<td id="suggestions">
+<table>
+{% for suggestion in suggestions %}
+<tr><td class="translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</td></tr>
+<tr><td>
+{% if suggestion.user %}
+{% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
+{% else %}
+{% trans "Suggested by anonymous user" %}
+{% endif %}
+{% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
+<div class="suggestionactions">
+{% if perms.trans.accept_suggestion %}
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">{% trans "Accept" %}</a>
+{% endif %}
+{% if perms.trans.delete_suggestion %}
+<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">{% trans "Delete" %}</a>
+{% endif %}
+</div>
+{% endif %}
+</td>
+{% endfor %}
+</table>
+</td>
+</tr>
+{% endif %}
+{% endwith %}
+{% include "unit-details.html" %}
+{% if unit.flags %}
+<tr>
+<th>{% trans "Flags" %}</th>
+<td>{{ unit.flags }}</td>
+</tr>
+{% endif %}
+<tr><td></td><td>
+{% if perms.trans.save_translation %}
+<input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
+{% else %}
+{% url 'django.contrib.auth.views.login' as login_url %}
+{% with unit.translation.get_translate_url as translate_url %}
+{% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
+{% endwith %}
+{% endif %}
+<input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
+</td></tr>
+
+</table>
+</form>
+
+<h2>{% trans "Translation context" %}</h2>
+
+<div id="translate-tabs">
+    <ul>
+        <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
+        <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
+        <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
+        <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
+        <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">{% trans "Comments" %}</a></li>
+        <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
+        <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">{% trans "Source" %}</a></li>
+        <li><a href="#tab-project" title="{% trans "Information about project" %}">{% trans "Project" %}</a></li>
+    </ul>
+    <div id="tab-nearby">
+    <table>
+    <thead>
+    <tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
+    </thead>
+    <tbody>
+    {% for item in unit.nearby %}
+    <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
+    <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
+    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
+    <td class="translatetext" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
+    <td>{% include "unit-state.html" %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    <div id="tab-changes">
+    {% include "last-changes.html" %}
+    </div>
+    <div id="tab-comments">
+    <p>{% trans "You can share comments about this translation with other translators." %}</p>
+    <table>
+    {% with unit.get_comments as comments %}
+    {% include "list-comments.html" %}
+    {% endwith %}
+    <tr>
+    <th>{% trans "New comment" %}</th>
+    <td>
+    {% if perms.trans.add_comment %}
+    <form method="post" action="{% url 'weblate.trans.views.comment' pk=unit.id %}">
+    {% csrf_token %}
+    {{ comment_form.comment }}
+    <br />
+    <input class="button" type="submit" value="{% trans "Add" %}" />
+    </form>
+    {% else %}
+    {% trans "You are not allowed to add comments." %}
+    {% endif %}
+    </td>
+    </tr>
+    </table>
+    </div>
+    <div id="tab-source">
+
+    {% with unit.active_source_checks as checks %}
+    {% if checks %}
+    <h4>{% trans "Failing checks" %}</h4>
+    {% include "list-checks.html" %}
+    {% endif %}
+    {% endwith %}
+
+    <h4>{% trans "User comments" %}</h4>
+    <p>{% trans "You can share comments about source string for this translation with other translators and developers." %}</p>
+    <table>
+    {% with unit.get_source_comments as comments %}
+    {% include "list-comments.html" %}
+    {% endwith %}
+    <tr>
+    <th>{% trans "New comment" %}</th>
+    <td>
+    {% if perms.trans.add_comment %}
+    <form method="post" action="{% url 'weblate.trans.views.comment' pk=unit.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="source" />
+    {{ comment_form.comment }}
+    <br />
+    <input class="button" type="submit" value="{% trans "Add" %}" />
+    </form>
+    {% else %}
+    {% trans "You are not allowed to add comments." %}
+    {% endif %}
+    </td>
+    </tr>
+    </table>
+    </div>
+    <div id="tab-project">
+    {% include "translation_info.html" %}
+    </div>
+</div>
+
+{% endblock %}
