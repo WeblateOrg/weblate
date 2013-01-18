@@ -79,7 +79,8 @@ class RepoTestCase(TestCase):
             web='http://weblate.org/'
         )
 
-    def create_subproject(self, file_format='auto', mask='po/*.po', template=''):
+    def create_subproject(self, file_format='auto', mask='po/*.po',
+                          template=''):
         '''
         Creates test subproject.
         '''
