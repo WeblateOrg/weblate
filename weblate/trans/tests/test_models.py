@@ -129,3 +129,15 @@ class SubProjectTest(RepoTestCase):
         )
         self.assertTrue(second.is_repo_link())
         self.assertEqual(second.translation_set.count(), 2)
+
+
+class TranslationTest(RepoTestCase):
+    '''
+    Translation testing.
+    '''
+    def test_basic(self):
+        project = self.create_subproject()
+        translation = project.translation_set.get(language_code='cs')
+        self.assertEqual(translation.translated, 0)
+        self.assertEqual(translation.total, 4)
+        self.assertEqual(translation.fuzzy, 0)
