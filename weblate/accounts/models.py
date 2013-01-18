@@ -46,11 +46,15 @@ import logging
 logger = logging.getLogger('weblate')
 
 
-def send_notification_email(language, email, notification, translation_obj, context={}, headers={}, from_email=None):
+def send_notification_email(language, email, notification, translation_obj, context=None, headers=None, from_email=None):
     '''
     Renders and sends notification email.
     '''
     cur_language = translation.get_language()
+    if context is None:
+        context = {}
+    if headers is None:
+        headers = {}
     try:
         logger.info('sending notification %s on %s to %s', notification, translation_obj.__unicode__(), email)
 
