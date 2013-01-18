@@ -33,7 +33,7 @@ from weblate.accounts.models import Profile
 
 class ViewTestCase(RepoTestCase):
     def setUp(self):
-        super(RepoTestCase, self).setUp()
+        super(ViewTestCase, self).setUp()
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
         # Create user
