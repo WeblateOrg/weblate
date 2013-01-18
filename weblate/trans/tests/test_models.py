@@ -73,6 +73,7 @@ class RepoTestCase(TestCase):
             slug='test',
             project=project,
             repo=self.repo_path,
+            push=self.repo_path,
             filemask=mask,
             template=template,
             file_format=file_format,
