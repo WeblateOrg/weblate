@@ -84,6 +84,16 @@ class BasicViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
+    def test_view_translation(self):
+        response = self.client.get(
+            reverse('translation', kwargs={
+                'project': self.subproject.project.slug,
+                'subproject': self.subproject.slug,
+                'lang': 'cs',
+            })
+        )
+        self.assertContains(response, 'Test/Test')
+
 
 class FeedViewTest(ViewTestCase):
     def test_view_rss(self):
@@ -105,6 +115,16 @@ class FeedViewTest(ViewTestCase):
             reverse('rss-subproject', kwargs={
                 'project': self.subproject.project.slug,
                 'subproject': self.subproject.slug,
+            })
+        )
+        self.assertContains(response, 'Test/Test')
+
+    def test_view_rss_translation(self):
+        response = self.client.get(
+            reverse('rss-translation', kwargs={
+                'project': self.subproject.project.slug,
+                'subproject': self.subproject.slug,
+                'lang': 'cs',
             })
         )
         self.assertContains(response, 'Test/Test')
