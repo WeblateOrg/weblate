@@ -360,7 +360,10 @@ def set_lang(sender, **kwargs):
     # Get or create profile
     profile, newprofile = Profile.objects.get_or_create(user=user)
     if newprofile:
-        messages.info(request, gettext('Your profile has been migrated, you might want to adjust preferences.'))
+        messages.info(
+            request,
+            gettext('Your profile has been migrated, you might want to adjust preferences.')
+        )
 
     # Set language for session based on preferences
     lang_code = profile.language
