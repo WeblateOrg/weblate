@@ -28,6 +28,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.utils import simplejson
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.accounts.models import Profile
 
 
 class ViewTestCase(RepoTestCase):
@@ -40,8 +41,11 @@ class ViewTestCase(RepoTestCase):
             username='testuser',
             password='testpassword'
         )
+        # Create profile for him
+        Profile.objects.create(user=self.user)
         # Create project to have some test base
         self.subproject = self.create_subproject()
+        self.client.login(username='testuser', password='testpassword')
 
     def get_request(self, *args, **kwargs):
         '''
