@@ -190,6 +190,8 @@ class EditTest(ViewTestCase):
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
+        # We should get to second message
+        self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
         self.assertTrue(self.translation.git_needs_commit())
         self.assertTrue(self.subproject.git_needs_commit())
         self.assertTrue(self.subproject.project.git_needs_commit())
