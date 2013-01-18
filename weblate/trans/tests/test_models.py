@@ -24,6 +24,7 @@ Tests for translation models.
 
 from django.test import TestCase
 from django.conf import settings
+from django.core.exceptions import ValidationError
 import shutil
 import os
 import git
@@ -115,6 +116,18 @@ class ProjectTest(RepoTestCase):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
 
+    def test_validation(self):
+        project = self.create_project()
+        # Correct project
+        project.full_clean()
+        # Invalid commit message
+        project.commit_message = '%(foo)s'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Bad format string',
+            project.full_clean
+        )
+
 
 class SubProjectTest(RepoTestCase):
     '''
@@ -151,6 +164,26 @@ class SubProjectTest(RepoTestCase):
         )
         self.assertTrue(second.is_repo_link())
         self.assertEqual(second.translation_set.count(), 2)
+
+    def test_validation(self):
+        project = self.create_subproject()
+        # Correct project
+        project.full_clean()
+        # Invalid mask
+        project.filemask = 'foo/*.po'
+        self.assertRaisesMessage(
+            ValidationError,
+            'The mask did not match any files!',
+            project.full_clean
+        )
+        # Unknown file format
+        project.filemask = 'iphone/*.lproj/Localizable.strings'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Format of 1 matched files could not be recognized.',
+            project.full_clean
+        )
+
 
 
 class TranslationTest(RepoTestCase):
