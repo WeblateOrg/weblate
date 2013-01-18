@@ -26,7 +26,7 @@ from optparse import make_option
 
 class Command(WeblateLangCommand):
     help = 'commits pending changes older than given age'
-    option_list = WeblateCommand.option_list + (
+    option_list = WeblateLangCommand.option_list + (
         make_option(
             '--age',
             action='store',
