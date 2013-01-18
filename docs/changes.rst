@@ -4,7 +4,7 @@ Changes
 weblate 1.4
 -----------
 
-Relased on ? 2013.
+Released on ? 2013.
 
 * Fixed deleting of checks/comments on unit deletion.
 * Added option to disable automatic propagation of translations.
@@ -29,7 +29,7 @@ Relased on ? 2013.
 weblate 1.3
 -----------
 
-Relased on November 16th 2012.
+Released on November 16th 2012.
 
 * Compatibility with PostgreSQL database backend.
 * Removes languages removed in upstream git repository.
@@ -53,7 +53,7 @@ Relased on November 16th 2012.
 weblate 1.2
 -----------
 
-Relased on August 14th 2012.
+Released on August 14th 2012.
 
 * Weblate now uses South for database migration, please check upgrade instructions if you are upgrading.
 * Fixed minor issues with linked git repos.
@@ -81,7 +81,7 @@ Relased on August 14th 2012.
 weblate 1.1
 -----------
 
-Relased on July 4th 2012.
+Released on July 4th 2012.
 
 * Improved several translations.
 * Better validation while creating subproject.
@@ -92,7 +92,7 @@ Relased on July 4th 2012.
 weblate 1.0
 -----------
 
-Relased on May 10th 2012.
+Released on May 10th 2012.
 
 * Improved validation while adding/saving subproject.
 * Experimental support for Android resource files (needs patched ttkit).
@@ -103,7 +103,7 @@ Relased on May 10th 2012.
 weblate 0.9
 -----------
 
-Relased on April 18th 2012.
+Released on April 18th 2012.
 
 * Fixed import of unknown languages.
 * Improved listing of nearby messages.
@@ -124,7 +124,7 @@ Relased on April 18th 2012.
 weblate 0.8
 -----------
 
-Relased on April 3rd 2012.
+Released on April 3rd 2012.
 
 * Replaced own full text search with Whoosh.
 * Various fixes and improvements to checks.
@@ -146,7 +146,7 @@ Relased on April 3rd 2012.
 weblate 0.7
 -----------
 
-Relased on February 16th 2012.
+Released on February 16th 2012.
 
 * Direct support for GitHub notifications.
 * Added support for cleaning up orphaned checks and translations.
@@ -157,7 +157,7 @@ Relased on February 16th 2012.
 weblate 0.6
 -----------
 
-Relased on February 14th 2012.
+Released on February 14th 2012.
 
 * Added various checks for translated messages.
 * Tunable access control.
@@ -168,7 +168,7 @@ Relased on February 14th 2012.
 weblate 0.5
 -----------
 
-Relased on February 12th 2012.
+Released on February 12th 2012.
 
 * Support for machine translation using following online services:
     * Apertium 
@@ -184,7 +184,7 @@ Relased on February 12th 2012.
 weblate 0.4
 -----------
 
-Relased on February 8th 2012.
+Released on February 8th 2012.
 
 * Added usage guide to documentation.
 * Fixed API hooks not to require CSRF protection.
@@ -192,7 +192,7 @@ Relased on February 8th 2012.
 weblate 0.3
 -----------
 
-Relased on February 8th 2012.
+Released on February 8th 2012.
 
 * Better display of source for plural translations.
 * New documentation in Sphinx format.
@@ -203,7 +203,7 @@ Relased on February 8th 2012.
 weblate 0.2
 -----------
 
-Relased on February 7th 2012.
+Released on February 7th 2012.
 
 * Improved validation of several forms.
 * Warn users on profile upgrade.
@@ -214,6 +214,6 @@ Relased on February 7th 2012.
 weblate 0.1
 -----------
 
-Relased on February 6th 2012.
+Released on February 6th 2012.
 
 * Initial release.
