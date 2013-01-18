@@ -66,3 +66,20 @@ class BasicViewTest(ViewTestCase):
             reverse('home')
         )
         self.assertContains(response, 'Test/Test')
+
+    def test_view_project(self):
+        response = self.client.get(
+            reverse('project', kwargs={
+                'project': self.subproject.project.slug
+            })
+        )
+        self.assertContains(response, 'Test/Test')
+
+    def test_view_subproject(self):
+        response = self.client.get(
+            reverse('subproject', kwargs={
+                'project': self.subproject.project.slug,
+                'subproject': self.subproject.slug,
+            })
+        )
+        self.assertContains(response, 'Test/Test')

@@ -120,7 +120,7 @@ admin.site.index_template = 'admin/custom-index.html'
 urlpatterns = patterns('',
     url(r'^$', 'weblate.trans.views.home', name='home'),
     url(r'^projects/$', RedirectView.as_view(url='/')),
-    url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project'),
+    url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.show_project', name='project'),
     url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.show_engage', name='engage'),
     url(r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_engage', name='engage-lang'),
 
@@ -131,7 +131,7 @@ urlpatterns = patterns('',
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'weblate.trans.views.edit_dictionary'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.download_dictionary'),
 
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.show_subproject'),
+    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.show_subproject', name='subproject'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/$', 'weblate.trans.views.show_source'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/review/$', 'weblate.trans.views.review_source'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.show_translation'),
