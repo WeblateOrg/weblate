@@ -26,6 +26,7 @@ from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
+from django.utils import simplejson
 from weblate.trans.tests.test_models import RepoTestCase
 
 
@@ -89,7 +90,7 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, 'Test/Test')
 
 
-class FeedViewTest(ViewTestCase):
+class ExportsViewTest(ViewTestCase):
     def test_view_rss(self):
         response = self.client.get(
             reverse('rss')
@@ -122,3 +123,13 @@ class FeedViewTest(ViewTestCase):
             })
         )
         self.assertContains(response, 'Test/Test')
+
+    def test_export_stats(self):
+        response = self.client.get(
+            reverse('export-stats', kwargs={
+                'project': self.subproject.project.slug,
+                'subproject': self.subproject.slug,
+            })
+        )
+        parsed = simplejson.loads(response.content)
+        self.assertEqual(parsed[0]['name'], 'Czech')

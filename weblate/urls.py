@@ -177,7 +177,7 @@ urlpatterns = patterns('',
     url(r'^hooks/update/(?P<project>[^/]*)/$', 'weblate.trans.api.update_project'),
     url(r'^hooks/github/$', 'weblate.trans.api.github_hook'),
 
-    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats'),
+    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats', name='export-stats'),
 
     url(r'^exports/rss/$', ChangesFeed(), name='rss'),
     url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name='rss-language'),
