@@ -27,7 +27,7 @@ from django.conf import settings
 import shutil
 import os
 from weblate.trans.models import (
-    Project,
+    Project, SubProject
 )
 
 
@@ -50,6 +50,19 @@ class RepoTestCase(TestCase):
             web='http://weblate.org/'
         )
 
+    def create_subproject(self):
+        '''
+        Creates test subproject.
+        '''
+        project = self.create_project()
+        return SubProject.objects.create(
+            name='Test',
+            slug='test',
+            project=project,
+            repo='git://github.com/nijel/weblate-test.git',
+            filemask='po/*.po',
+        )
+
 
 class ProjectTest(RepoTestCase):
     '''
@@ -57,4 +70,13 @@ class ProjectTest(RepoTestCase):
     '''
     def test_create(self):
         project = self.create_project()
+        self.assertTrue(os.path.exists(project.get_path()))
+
+
+class SubProjectTest(RepoTestCase):
+    '''
+    SubProject object testing.
+    '''
+    def test_create(self):
+        project = self.create_subproject()
         self.assertTrue(os.path.exists(project.get_path()))
