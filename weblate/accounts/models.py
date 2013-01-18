@@ -399,7 +399,8 @@ def store_user_details(sender, user, request, **kwargs):
     user.first_name = request.POST['first_name']
     user.last_name = request.POST['last_name']
     user.save()
-    profile, newprofile = Profile.objects.get_or_create(user=user)
+    # Ensure user has profile
+    Profile.objects.get_or_create(user=user)
 
 
 @receiver(post_save, sender=User)

@@ -331,9 +331,6 @@ class LanguageManager(models.Manager):
 
 def setup_lang(sender=None, **kwargs):
     '''
-    Check required versions.
-    '''
-    '''
     Hook for creating basic set of languages on syncdb.
     '''
     if ('app' in kwargs and kwargs['app'] == 'lang') or (sender is not None and sender.__name__ == 'weblate.lang.models'):
