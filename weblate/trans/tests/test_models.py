@@ -50,7 +50,7 @@ class RepoTestCase(TestCase):
             web='http://weblate.org/'
         )
 
-    def create_subproject(self, mask='po/*.po', template=''):
+    def create_subproject(self, file_format='auto', mask='po/*.po', template=''):
         '''
         Creates test subproject.
         '''
@@ -60,23 +60,27 @@ class RepoTestCase(TestCase):
             slug='test',
             project=project,
             repo='git://github.com/nijel/weblate-test.git',
-            filemask='po/*.po',
-            template='',
+            filemask=mask,
+            template=template,
+            file_format=file_format,
         )
 
     def create_iphone(self):
         return self.create_subproject(
+            'strings',
             'iphone/*.lproj/Localizable.strings',
         )
 
     def create_java(self):
         return self.create_subproject(
+            'properties',
             'java/swing_messages_*.properties',
             'java/swing_messages.properties',
         )
 
     def create_xliff(self):
         return self.create_subproject(
+            'xliff',
             'xliff/*/DPH.xlf',
         )
 
