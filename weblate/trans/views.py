@@ -1321,10 +1321,11 @@ def translate(request, project, subproject, lang):
                     # Invalidate counts cache
                     unit.translation.invalidate_cache('suggestions')
                     # Invite user to become translator if there is nobody else
-                    recent_changes = Change.objects.filter(
-                        action=Change.ACTION_CHANGE,
+                    recent_changes = Change.objects.content().filter(
                         translation=unit.translation,
-                    ).exclude(user=None).order_by('-timestamp')
+                    ).exclude(
+                        user=None
+                    ).order_by('-timestamp')
                     if recent_changes.count() == 0 or True:
                         messages.info(
                             request,
