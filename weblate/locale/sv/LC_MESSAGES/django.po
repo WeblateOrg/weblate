@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-01-18 15:13+0100\n"
-"PO-Revision-Date: 2013-01-19 22:39+0200\n"
+"PO-Revision-Date: 2013-01-21 00:33+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -237,20 +237,19 @@ msgstr "Automatisk översättning"
 
 #: accounts/models.py:177
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "Meddelande vid ny sträng att översätta"
 
 #: accounts/models.py:181
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "Meddelande vid nytt förslag"
 
 #: accounts/models.py:185
 msgid "Notification on new contributor"
 msgstr ""
 
 #: accounts/models.py:189
-#, fuzzy
 msgid "Notification on new comment"
-msgstr "Automatisk översättning"
+msgstr "Meddelande vid ny kommentar"
 
 #: accounts/models.py:193
 #, fuzzy
@@ -1287,7 +1286,7 @@ msgstr "Låst av:"
 
 #: html/translation.html:115
 msgid "Lock expires:"
-msgstr ""
+msgstr "Lås upphör:"
 
 #: html/translation.html:117
 msgid "Translation is currently not locked."
@@ -3214,12 +3213,12 @@ msgstr ""
 
 #: trans/views.py:396
 msgid "No words to import found in file."
-msgstr ""
+msgstr "Inga ord att importera hittades i filen."
 
 #: trans/views.py:401
 #, python-format
 msgid "Imported %d words from file."
-msgstr ""
+msgstr "Importerade %d ord från fil."
 
 #: trans/views.py:406 trans/views.py:1873
 #, python-format
@@ -3238,6 +3237,10 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
+"<a href=\"%(url)s\">Översättningsprojektet för %(project)s</a> har för "
+"närvarande %(total)s strängar för översättning och <a href=\"%"
+"(url)s\">översätts till %(languages)s språk</a>. Totalt är dessa "
+"översättningar %(percent)s%% klara."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
 #: trans/views.py:582
@@ -3247,6 +3250,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
+"<a href=\"%(url)s\">Översättningsprojektet för %(project)s</a> till svenska "
+"har för närvarande %(total)s strängar för översättning och är %(percent)s%% "
+"klart."
 
 #: trans/views.py:677
 msgid "Automatic translation completed."
@@ -3410,6 +3416,8 @@ msgid ""
 "translation\n"
 "%(percent)d%% done"
 msgstr ""
+"översättning\n"
+"%(percent)d%% klar"
 
 #. Translators: text in the engagement widget, please use your language name instead of English
 #: trans/widgets.py:125
@@ -3418,6 +3426,8 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
+"Svensk översättning\n"
+"%(percent)d%% klar"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
@@ -3488,59 +3498,59 @@ msgstr[0] "en timma sedan"
 msgstr[1] "%(count)s timmar sedan"
 
 #: trans/templatetags/translations.py:315
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "en timma från nu"
-msgstr[1] "%(count)s timmar från nu"
+msgstr[0] "om ett år"
+msgstr[1] "om %(count)s år"
 
 #: trans/templatetags/translations.py:320
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "en minut från nu"
-msgstr[1] "%(count)s minuter från nu"
+msgstr[0] "om en månad"
+msgstr[1] "om %(count)s månader"
 
 #: trans/templatetags/translations.py:325
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "en sekund från nu"
-msgstr[1] "%(count)s sekunder från nu"
+msgstr[0] "om en vecka"
+msgstr[1] "om %(count)s veckor"
 
 #: trans/templatetags/translations.py:329
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
 msgstr[0] "i morgon"
-msgstr[1] "%(count)s dagar från nu"
+msgstr[1] "om %(count)s dagar"
 
 #: trans/templatetags/translations.py:335
 #, python-format
 msgid "a second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "en sekund från nu"
-msgstr[1] "%(count)s sekunder från nu"
+msgstr[0] "om en sekund"
+msgstr[1] "om %(count)s sekunder"
 
 #: trans/templatetags/translations.py:340
 #, python-format
 msgid "a minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "en minut från nu"
-msgstr[1] "%(count)s minuter från nu"
+msgstr[0] "om en minut"
+msgstr[1] "om %(count)s minuter"
 
 #: trans/templatetags/translations.py:345
 #, python-format
 msgid "an hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "en timma från nu"
-msgstr[1] "%(count)s timmar från nu"
+msgstr[0] "om en timme"
+msgstr[1] "om %(count)s timmar"
 
 #, fuzzy
 #~| msgid "a second ago"
