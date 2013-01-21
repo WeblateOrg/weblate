@@ -37,8 +37,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             'strins',
             'string',
-            'python-format',
-            Language('cs'),
             Unit('python_no_format'),
             0,
             False
@@ -48,8 +46,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%s string',
             u'%s string',
-            'python-format',
-            Language('cs'),
             Unit('python_format'),
             0,
             False
@@ -59,8 +55,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%d%% string',
             u'%d%% string',
-            'python-format',
-            Language('cs'),
             Unit('python_percent_format'),
             0,
             False
@@ -70,8 +64,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%(name)s string',
             u'%(name)s string',
-            'python-format',
-            Language('cs'),
             Unit('python_named_format'),
             0,
             False
@@ -81,8 +73,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%s string',
             u'string',
-            'python-format',
-            Language('cs'),
             Unit('python_missing_format'),
             0,
             False
@@ -92,8 +82,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%(name)s string',
             u'string',
-            'python-format',
-            Language('cs'),
             Unit('python_missing_named_format'),
             0,
             False
@@ -103,8 +91,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%(name)s string',
             u'string',
-            'python-format',
-            Language('cs'),
             Unit('python_missing_named_format'),
             0,
             True
@@ -114,8 +100,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%s string',
             u'%c string',
-            'python-format',
-            Language('cs'),
             Unit('python_wrong_format'),
             0,
             False
@@ -125,8 +109,6 @@ class PythonFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%(name)s string',
             u'%(jmeno)s string',
-            'python-format',
-            Language('cs'),
             Unit('python_wrong_named_format'),
             0,
             False
@@ -141,8 +123,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             'strins',
             'string',
-            'php-format',
-            Language('cs'),
             Unit('php_no_format'),
             0,
             False
@@ -152,8 +132,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%s string',
             u'%s string',
-            'php-format',
-            Language('cs'),
             Unit('php_format'),
             0,
             False
@@ -163,8 +141,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%1$s string',
             u'%1$s string',
-            'php-format',
-            Language('cs'),
             Unit('php_named_format'),
             0,
             False
@@ -174,8 +150,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%s string',
             u'string',
-            'php-format',
-            Language('cs'),
             Unit('php_missing_format'),
             0,
             False
@@ -185,8 +159,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%1$s string',
             u'string',
-            'php-format',
-            Language('cs'),
             Unit('php_missing_named_format'),
             0,
             False
@@ -196,8 +168,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%1$s string',
             u'string',
-            'php-format',
-            Language('cs'),
             Unit('php_missing_named_format'),
             0,
             True
@@ -207,8 +177,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%s string',
             u'%c string',
-            'php-format',
-            Language('cs'),
             Unit('php_wrong_format'),
             0,
             False
@@ -218,8 +186,6 @@ class PHPFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%1$s string',
             u'%s string',
-            'php-format',
-            Language('cs'),
             Unit('php_wrong_named_format'),
             0,
             False
@@ -234,8 +200,6 @@ class CFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             'strins',
             'string',
-            'c-format',
-            Language('cs'),
             Unit('c_no_format'),
             0,
             False
@@ -245,8 +209,6 @@ class CFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%s string',
             u'%s string',
-            'c-format',
-            Language('cs'),
             Unit('c_format'),
             0,
             False
@@ -256,8 +218,6 @@ class CFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%10s string',
             u'%10s string',
-            'c-format',
-            Language('cs'),
             Unit('c_named_format'),
             0,
             False
@@ -267,8 +227,6 @@ class CFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%s string',
             u'string',
-            'c-format',
-            Language('cs'),
             Unit('c_missing_format'),
             0,
             False
@@ -278,8 +236,6 @@ class CFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%10s string',
             u'string',
-            'c-format',
-            Language('cs'),
             Unit('c_missing_named_format'),
             0,
             False
@@ -289,8 +245,6 @@ class CFormatCheckTest(TestCase):
         self.assertFalse(self.check.check_format(
             u'%10s string',
             u'string',
-            'c-format',
-            Language('cs'),
             Unit('c_missing_named_format'),
             0,
             True
@@ -300,8 +254,6 @@ class CFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%s string',
             u'%c string',
-            'c-format',
-            Language('cs'),
             Unit('c_wrong_format'),
             0,
             False
@@ -311,8 +263,6 @@ class CFormatCheckTest(TestCase):
         self.assertTrue(self.check.check_format(
             u'%10s string',
             u'%20s string',
-            'c-format',
-            Language('cs'),
             Unit('c_wrong_named_format'),
             0,
             False
