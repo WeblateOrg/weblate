@@ -153,7 +153,10 @@ def widgets(request, project):
     if lang is None:
         engage_base = reverse('engage', kwargs={'project': obj.slug})
     else:
-        engage_base = reverse('engage-lang', kwargs={'project': obj.slug, 'lang': lang.code})
+        engage_base = reverse(
+            'engage-lang',
+            kwargs={'project': obj.slug, 'lang': lang.code}
+        )
     engage_url = 'http://%s%s' % (
         site.domain,
         engage_base,
@@ -169,9 +172,24 @@ def widgets(request, project):
         color_list = []
         for color in widget['colors']:
             if lang is None:
-                color_url = reverse('widget-image', kwargs={'project': obj.slug, 'widget': widget_name, 'color': color})
+                color_url = reverse(
+                    'widget-image',
+                    kwargs={
+                        'project': obj.slug,
+                        'widget': widget_name,
+                        'color': color,
+                    }
+                )
             else:
-                color_url = reverse('widget-image-lang', kwargs={'project': obj.slug, 'widget': widget_name, 'color': color, 'lang': lang.code})
+                color_url = reverse(
+                    'widget-image-lang',
+                    kwargs={
+                        'project': obj.slug,
+                        'widget': widget_name,
+                        'color': color,
+                        'lang': lang.code
+                    }
+                )
             color_list.append({
                 'name': color,
                 'url': 'http://%s%s' % (
@@ -256,16 +274,31 @@ def render(request, project, widget='287x66', color=None, lang=None):
         ctx.new_path()
         ctx.set_source_rgb (*widget_data['colors'][color]['bar'])
         if widget_data['progress']['horizontal']:
-            ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'] / 100.0 * percent, widget_data['progress']['height'])
+            ctx.rectangle(
+                widget_data['progress']['x'],
+                widget_data['progress']['y'],
+                widget_data['progress']['width'] / 100.0 * percent,
+                widget_data['progress']['height']
+            )
         else:
             diff = widget_data['progress']['height'] / 100.0 * (100 - percent)
-            ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'] + diff, widget_data['progress']['width'], widget_data['progress']['height'] - diff)
+            ctx.rectangle(
+                widget_data['progress']['x'],
+                widget_data['progress']['y'] + diff,
+                widget_data['progress']['width'],
+                widget_data['progress']['height'] - diff
+            )
         ctx.fill()
 
         # Progress border
         ctx.new_path()
         ctx.set_source_rgb (*widget_data['colors'][color]['border'])
-        ctx.rectangle(widget_data['progress']['x'], widget_data['progress']['y'], widget_data['progress']['width'], widget_data['progress']['height'])
+        ctx.rectangle(
+            widget_data['progress']['x'],
+            widget_data['progress']['y'],
+            widget_data['progress']['width'],
+            widget_data['progress']['height']
+        )
         ctx.stroke()
 
     # Text rendering
@@ -303,7 +336,13 @@ def render(request, project, widget='287x66', color=None, lang=None):
         width = surface.get_width()
         while extent[1][2] + line['pos'][0] > width and font_size > 4:
             font_size -= 1
-            layout = render_text(pangocairo_context, line, text, params, font_size)
+            layout = render_text(
+                pangocairo_context,
+                line,
+                text,
+                params,
+                font_size
+            )
             extent = layout.get_pixel_extents()
 
         # Set position
