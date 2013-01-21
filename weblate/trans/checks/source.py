@@ -19,7 +19,6 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from django.core.cache import cache
 from xml.etree import cElementTree
 import weblate
 from weblate.trans.checks.base import SourceCheck
