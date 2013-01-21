@@ -25,6 +25,7 @@ from django.core.cache import cache
 from xml.etree import cElementTree
 import weblate
 import re
+from weblate.trans.checks.base import TargetCheck
 
 
 class BeginNewlineCheck(TargetCheck):
