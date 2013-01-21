@@ -22,7 +22,8 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.checks.base import TargetCheck
 import re
 
-PYTHON_PRINTF_MATCH = re.compile('''
+PYTHON_PRINTF_MATCH = re.compile(
+    '''
     %(                          # initial %
           (?:\((?P<key>\w+)\))?    # Python style variables, like %(var)s
     (?P<fullvar>
@@ -36,7 +37,8 @@ PYTHON_PRINTF_MATCH = re.compile('''
 )
 
 
-PHP_PRINTF_MATCH = re.compile('''
+PHP_PRINTF_MATCH = re.compile(
+    '''
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
@@ -50,7 +52,8 @@ PHP_PRINTF_MATCH = re.compile('''
 )
 
 
-C_PRINTF_MATCH = re.compile('''
+C_PRINTF_MATCH = re.compile(
+    '''
     %(                          # initial %
     (?P<fullvar>
         [+#-]*                  # flags
