@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-22 00:11+0100\n"
+"POT-Creation-Date: 2013-01-22 00:18+0100\n"
 "PO-Revision-Date: 2013-01-19 13:24+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -1029,7 +1029,7 @@ msgstr "Aucun message source correspondant n'a été trouvé !"
 msgid "Strings to check"
 msgstr "Chaînes à vérifier"
 
-#: html/subproject.html:31 trans/models.py:273
+#: html/subproject.html:31 trans/models.py:279
 msgid "New language"
 msgstr "Nouvelle langue"
 
@@ -2744,98 +2744,98 @@ msgstr "N'importe laquelle"
 msgid "Whole project"
 msgstr "Ensemble du projet"
 
-#: trans/models.py:119
+#: trans/models.py:125
 msgid "Automatic detection"
 msgstr "Détection automatique"
 
-#: trans/models.py:123
+#: trans/models.py:129
 msgid "Gettext PO file"
 msgstr "Fichier PO Gettext"
 
-#: trans/models.py:128
+#: trans/models.py:134
 msgid "Qt Linguist Translation File"
 msgstr "Fichier de traduction Qt Linguist"
 
-#: trans/models.py:132
+#: trans/models.py:138
 msgid "XLIFF Translation File"
 msgstr "Fichier de traduction XLIFF"
 
-#: trans/models.py:136
+#: trans/models.py:142
 msgid "OS X Strings"
 msgstr "Chaînes OS X"
 
-#: trans/models.py:141
+#: trans/models.py:147
 msgid "Java Properties"
 msgstr "Propriétés Java"
 
-#: trans/models.py:149
+#: trans/models.py:155
 msgid "Java Properties (UTF-8)"
 msgstr "Propriétés Java (UTF-8)"
 
-#: trans/models.py:154
+#: trans/models.py:160
 msgid "PHP strings"
 msgstr "Chaînes PHP"
 
-#: trans/models.py:158
+#: trans/models.py:164
 msgid "Android String Resource"
 msgstr "Ressource chaîne Android"
 
-#: trans/models.py:195 trans/models.py:212
+#: trans/models.py:201 trans/models.py:218
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Mauvaise chaîne de format (%s)"
 
-#: trans/models.py:218
+#: trans/models.py:224
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
 "Le masque de fichier ne contient pas le symbole * pour tenir la place de la "
 "langue !"
 
-#: trans/models.py:243
+#: trans/models.py:249
 msgid "Can not link to linked repository!"
 msgstr "Impossible d'établir un lien vers un dépôt lié !"
 
-#: trans/models.py:245
+#: trans/models.py:251
 msgid "Invalid link to repository!"
 msgstr "Lien vers le dépôt invalide !"
 
-#: trans/models.py:249
+#: trans/models.py:255
 msgid "Use contact form"
 msgstr "Utilisez le formulaire de contact"
 
-#: trans/models.py:250
+#: trans/models.py:256
 msgid "Point to translation instructions URL"
 msgstr "Pointer vers l'URL des directives de traduction"
 
-#: trans/models.py:253
+#: trans/models.py:259
 msgid "Merge"
 msgstr "Fusionner"
 
-#: trans/models.py:254
+#: trans/models.py:260
 msgid "Rebase"
 msgstr "Refonder"
 
-#: trans/models.py:262
+#: trans/models.py:268
 msgid "Project website"
 msgstr "Site web du projet"
 
-#: trans/models.py:266
+#: trans/models.py:272
 msgid "Email conference for translators"
 msgstr "Liste de discussion pour les traducteurs"
 
-#: trans/models.py:270
+#: trans/models.py:276
 msgid "URL with instructions for translators"
 msgstr "URL avec les directives pour les traducteurs"
 
-#: trans/models.py:277
+#: trans/models.py:284
 msgid "How to handle requests for creating new languages."
 msgstr "Comment traiter les requêtes de création de nouvelles langues."
 
-#: trans/models.py:280
+#: trans/models.py:288
 msgid "Merge style"
 msgstr "Fusionner le style"
 
-#: trans/models.py:284
+#: trans/models.py:293
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -2843,7 +2843,7 @@ msgstr ""
 "Définir si Weblate doit fusionner le dépôt amont ou refonder les changements "
 "sur le dépôt amont."
 
-#: trans/models.py:289
+#: trans/models.py:301
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -2851,23 +2851,29 @@ msgstr ""
 "Vous pouvez utiliser des chaines de format pour différentes informations, "
 "veuillez consulter la documentation pour plus de détails."
 
-#: trans/models.py:303
+#: trans/models.py:318
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Le dépôt doit être poussé en amont à chaque commit."
 
-#: trans/models.py:308
+#: trans/models.py:325
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Si le champs Translation-Team dans les entêtes de fichiers doit être mis à "
 "jour par Weblate."
 
-#: trans/models.py:341
+#: trans/models.py:333
+msgid ""
+"Whether to enable ACL for this project, please check documentation before "
+"enabling this."
+msgstr ""
+
+#: trans/models.py:363
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "Vous n'êtes pas autorisé à accéder au projet %s."
 
-#: trans/models.py:347
+#: trans/models.py:370
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -2875,15 +2881,15 @@ msgstr ""
 "Veuillez remplir l'URL des instructions ou utiliser une option différente "
 "pour ajouter une nouvelle langue."
 
-#: trans/models.py:569
+#: trans/models.py:594
 msgid "Name to display"
 msgstr "Nom à afficher"
 
-#: trans/models.py:573
+#: trans/models.py:598
 msgid "Name used in URLs"
 msgstr "Nom utilisé dans les URLs"
 
-#: trans/models.py:578
+#: trans/models.py:604
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
@@ -2891,11 +2897,11 @@ msgstr ""
 "URL du dépôt Git, utilisez weblate://projet/sousprojet pour le partager avec "
 "un autre sous-projet."
 
-#: trans/models.py:583
+#: trans/models.py:611
 msgid "URL of push Git repository"
 msgstr "URL du dépôt Git pour l'envoi"
 
-#: trans/models.py:587
+#: trans/models.py:616
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2905,7 +2911,7 @@ msgstr ""
 "comme paramètres fictifs pour le nom de la branche, du fichier et le numéro "
 "de ligne."
 
-#: trans/models.py:592
+#: trans/models.py:624
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -2913,11 +2919,11 @@ msgstr ""
 "Adresse courriel à qui les erreurs dans la chaîne source seront rapportées, "
 "laisser vide si aucun courriel."
 
-#: trans/models.py:597
+#: trans/models.py:631
 msgid "Git branch to translate"
 msgstr "Branche Git à traduire"
 
-#: trans/models.py:603
+#: trans/models.py:638
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -2925,7 +2931,7 @@ msgstr ""
 "Chemin des fichiers à traduire, utilisez * à la place du code de langue, par "
 "exemple : po/*.po ou locale/*/LC_MESSAGES/django.po."
 
-#: trans/models.py:608
+#: trans/models.py:646
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -2935,17 +2941,17 @@ msgstr ""
 "traductions qui ne conservent que le message traduit, tel que les chaînes de "
 "ressources Android."
 
-#: trans/models.py:614
+#: trans/models.py:656
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "La détection automatique peut échouer pour certain formats et est légèrement "
 "plus lente."
 
-#: trans/models.py:618
+#: trans/models.py:663
 msgid "Whether subproject is locked for translation updates."
 msgstr "Le sous-projet est-il bloqué pour les mises à jour de traduction."
 
-#: trans/models.py:622
+#: trans/models.py:669
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -2953,45 +2959,45 @@ msgstr ""
 "Si les mises à jour de traduction dans les autres sous-projets déclencheront "
 "des traductions automatiques dans ce projet"
 
-#: trans/models.py:820
+#: trans/models.py:869
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Impossible de récupérer les modifications sur le dépôt git : %s"
 
-#: trans/models.py:907
+#: trans/models.py:956
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "L'envoi des modifications est désactivé pour %s."
 
-#: trans/models.py:944
+#: trans/models.py:993
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "L'envoi des modifications à la branche distante sur %s a échoué."
 
-#: trans/models.py:973
+#: trans/models.py:1022
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Échec de réinitialisation vers la branche distance sur %s."
 
-#: trans/models.py:1060
+#: trans/models.py:1109
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Échec de la fusion de la branche distante dans %s."
 
-#: trans/models.py:1094
+#: trans/models.py:1143
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Échec de la refonte de notre branche sur la branche distance %s."
 
-#: trans/models.py:1211
+#: trans/models.py:1260
 msgid "Push URL is not used when repository is linked!"
 msgstr "Le URL pour pousser n'est pas utilisé quand le dépôt est lié !"
 
-#: trans/models.py:1217
+#: trans/models.py:1266
 msgid "The mask did not match any files!"
 msgstr "Le masque ne correspond à aucun fichier !"
 
-#: trans/models.py:1223
+#: trans/models.py:1272
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2999,25 +3005,25 @@ msgstr ""
 "Il y a plusieurs fichiers pour un même langage, veuillez ajuster le masque "
 "et utiliser des sous-projets pour traduire différentes ressources."
 
-#: trans/models.py:1242
+#: trans/models.py:1293
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Le format de %d fichiers correspondants n'a pu être reconnu."
 
-#: trans/models.py:1247
+#: trans/models.py:1298
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Échec d'analyse de %d fichiers correspondants !"
 
-#: trans/models.py:1257
+#: trans/models.py:1308
 msgid "Format of translation template could not be recognized."
 msgstr "Le format du modèle de traduction n'a pu être reconnu."
 
-#: trans/models.py:1260
+#: trans/models.py:1311
 msgid "Failed to parse translation template."
 msgstr "Échec d'analyse du modèle de traduction."
 
-#: trans/models.py:1449
+#: trans/models.py:1502
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3026,91 +3032,91 @@ msgstr ""
 "Le fichier %s n'a pas été trouvé dans le dépôt ! Pour ajouter de nouvelles "
 "traductions, ajoutez un fichier de langue dans le dépôt."
 
-#: trans/models.py:1453
+#: trans/models.py:1511
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Le format de %s n'est pas reconnu."
 
-#: trans/models.py:1456
+#: trans/models.py:1516
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 
-#: trans/models.py:1480
+#: trans/models.py:1540
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Cette traduction est verrouillée par %(user)s !"
 
-#: trans/models.py:2194 trans/models.py:2221
+#: trans/models.py:2254 trans/models.py:2281
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models.py:2199 trans/models.py:2252
+#: trans/models.py:2259 trans/models.py:2312
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Chaînes ayant au moins une vérification en échec (%d)"
 
-#: trans/models.py:2213 trans/models.py:2269
+#: trans/models.py:2273 trans/models.py:2329
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Chaînes avec commentaires (%d)"
 
-#: trans/models.py:2228
+#: trans/models.py:2288
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models.py:2236
+#: trans/models.py:2296
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models.py:2244
+#: trans/models.py:2304
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
 
-#: trans/models.py:2585
+#: trans/models.py:2645
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Impossible de stocker le message dans la base de données, un verrou a "
 "expiré !"
 
-#: trans/models.py:2591
+#: trans/models.py:2651
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Le message n'a pas été trouvé dans le stock, il est probablement corrompu."
 
-#: trans/models.py:2720
+#: trans/models.py:2780
 #, python-format
 msgid "unit ID %s"
 msgstr "identification d'unité %s"
 
-#: trans/models.py:3046
+#: trans/models.py:3106
 msgid "Resource update"
 msgstr "Mise à jour de la ressource"
 
-#: trans/models.py:3047
+#: trans/models.py:3107
 msgid "Translation completed"
 msgstr "Traduction complétée"
 
-#: trans/models.py:3048
+#: trans/models.py:3108
 msgid "Translation changed"
 msgstr "Traduction modifiée"
 
-#: trans/models.py:3049
+#: trans/models.py:3109
 msgid "New translation"
 msgstr "Nouvelle traduction"
 
-#: trans/models.py:3050
+#: trans/models.py:3110
 msgid "Comment added"
 msgstr "Commentaire ajouté"
 
-#: trans/models.py:3051
+#: trans/models.py:3111
 msgid "Suggestion added"
 msgstr "Suggestion ajoutée"
 
-#: trans/models.py:3069
+#: trans/models.py:3129
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"

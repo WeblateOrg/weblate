@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-22 00:11+0100\n"
+"POT-Creation-Date: 2013-01-22 00:18+0100\n"
 "PO-Revision-Date: 2013-01-21 01:28+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -1023,7 +1023,7 @@ msgstr "Geen gelijkende brontekenreeksen gevonden!"
 msgid "Strings to check"
 msgstr "Te controleren tekenreeksen"
 
-#: html/subproject.html:31 trans/models.py:273
+#: html/subproject.html:31 trans/models.py:279
 msgid "New language"
 msgstr "Nieuwe taal"
 
@@ -2698,150 +2698,156 @@ msgstr ""
 msgid "Whole project"
 msgstr "Volledig project"
 
-#: trans/models.py:119
+#: trans/models.py:125
 msgid "Automatic detection"
 msgstr "Automatische herkenning"
 
-#: trans/models.py:123
+#: trans/models.py:129
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/models.py:128
+#: trans/models.py:134
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist vertaalbestand"
 
-#: trans/models.py:132
+#: trans/models.py:138
 msgid "XLIFF Translation File"
 msgstr "XLIFF vertaalbestand"
 
-#: trans/models.py:136
+#: trans/models.py:142
 msgid "OS X Strings"
 msgstr "OS X tekenreeksen"
 
-#: trans/models.py:141
+#: trans/models.py:147
 msgid "Java Properties"
 msgstr ""
 
-#: trans/models.py:149
+#: trans/models.py:155
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/models.py:154
+#: trans/models.py:160
 msgid "PHP strings"
 msgstr "PHP tekenreeksen"
 
-#: trans/models.py:158
+#: trans/models.py:164
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/models.py:195 trans/models.py:212
+#: trans/models.py:201 trans/models.py:218
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Verkeerd patroon (%s)"
 
-#: trans/models.py:218
+#: trans/models.py:224
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
 
-#: trans/models.py:243
+#: trans/models.py:249
 msgid "Can not link to linked repository!"
 msgstr "Kan geen koppeling maken met het gekoppelde repository!"
 
-#: trans/models.py:245
+#: trans/models.py:251
 msgid "Invalid link to repository!"
 msgstr "Ongeldige link naar repository!"
 
-#: trans/models.py:249
+#: trans/models.py:255
 msgid "Use contact form"
 msgstr "Gebruik het contactformulier"
 
-#: trans/models.py:250
+#: trans/models.py:256
 #, fuzzy
 msgid "Point to translation instructions URL"
 msgstr "Niet-vertaalde tekenreeksen"
 
-#: trans/models.py:253
+#: trans/models.py:259
 msgid "Merge"
 msgstr ""
 
-#: trans/models.py:254
+#: trans/models.py:260
 msgid "Rebase"
 msgstr ""
 
-#: trans/models.py:262
+#: trans/models.py:268
 #, fuzzy
 msgid "Project website"
 msgstr "Project website :"
 
-#: trans/models.py:266
+#: trans/models.py:272
 #, fuzzy
 msgid "Email conference for translators"
 msgstr "Mailinglist voor vertalers :"
 
-#: trans/models.py:270
+#: trans/models.py:276
 #, fuzzy
 msgid "URL with instructions for translators"
 msgstr "Richtlijnen voor vertalers :"
 
-#: trans/models.py:277
+#: trans/models.py:284
 msgid "How to handle requests for creating new languages."
 msgstr ""
 
-#: trans/models.py:280
+#: trans/models.py:288
 msgid "Merge style"
 msgstr ""
 
-#: trans/models.py:284
+#: trans/models.py:293
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 
-#: trans/models.py:289
+#: trans/models.py:301
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models.py:303
+#: trans/models.py:318
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models.py:308
+#: trans/models.py:325
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 
-#: trans/models.py:341
+#: trans/models.py:333
+msgid ""
+"Whether to enable ACL for this project, please check documentation before "
+"enabling this."
+msgstr ""
+
+#: trans/models.py:363
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr ""
 
-#: trans/models.py:347
+#: trans/models.py:370
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:569
+#: trans/models.py:594
 msgid "Name to display"
 msgstr "Weer te geven naam"
 
-#: trans/models.py:573
+#: trans/models.py:598
 msgid "Name used in URLs"
 msgstr "Naam gebruikt in URL's"
 
-#: trans/models.py:578
+#: trans/models.py:604
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
 
-#: trans/models.py:583
+#: trans/models.py:611
 msgid "URL of push Git repository"
 msgstr "URL van push Git repository"
 
-#: trans/models.py:587
+#: trans/models.py:616
 #, fuzzy, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -2850,17 +2856,17 @@ msgstr ""
 "Link naar repository browser, gebruik %(branch)s voor tak, %(file)s en "
 "%(line)s als bestandsnaam en regel parameters"
 
-#: trans/models.py:592
+#: trans/models.py:624
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
 
-#: trans/models.py:597
+#: trans/models.py:631
 msgid "Git branch to translate"
 msgstr "Git tak om te vertalen"
 
-#: trans/models.py:603
+#: trans/models.py:638
 #, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
@@ -2869,7 +2875,7 @@ msgstr ""
 "Pad van te vertalen bestanden, gebruik * in plaats van de taalcode, "
 "bijvoorbeeld : po/*.po of locale/*/LC_MESSAGES/django.po"
 
-#: trans/models.py:608
+#: trans/models.py:646
 #, fuzzy
 msgid ""
 "Filename of translations template, this is recommended to use for "
@@ -2880,178 +2886,178 @@ msgstr ""
 "vertalingen die enkel de vertaalde tekenreeks opslaan, zoals Android "
 "hulpbrontekenreeksen"
 
-#: trans/models.py:614
+#: trans/models.py:656
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: trans/models.py:618
+#: trans/models.py:663
 #, fuzzy
 msgid "Whether subproject is locked for translation updates."
 msgstr "Automatische vertaling"
 
-#: trans/models.py:622
+#: trans/models.py:669
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
 
-#: trans/models.py:820
+#: trans/models.py:869
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Ophalen van git repository is mislukt: %s"
 
-#: trans/models.py:907
+#: trans/models.py:956
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: trans/models.py:944
+#: trans/models.py:993
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models.py:973
+#: trans/models.py:1022
 #, fuzzy, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models.py:1060
+#: trans/models.py:1109
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe tak met %s is mislukt."
 
-#: trans/models.py:1094
+#: trans/models.py:1143
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models.py:1211
+#: trans/models.py:1260
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models.py:1217
+#: trans/models.py:1266
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models.py:1223
+#: trans/models.py:1272
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:1242
+#: trans/models.py:1293
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:1247
+#: trans/models.py:1298
 #, fuzzy, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Het formulier kon niet verwerkt worden!"
 
-#: trans/models.py:1257
+#: trans/models.py:1308
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:1260
+#: trans/models.py:1311
 #, fuzzy
 msgid "Failed to parse translation template."
 msgstr "Vertaling mislukt"
 
-#: trans/models.py:1449
+#: trans/models.py:1502
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:1453
+#: trans/models.py:1511
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:1456
+#: trans/models.py:1516
 #, fuzzy, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Het formulier kon niet verwerkt worden!"
 
-#: trans/models.py:1480
+#: trans/models.py:1540
 #, fuzzy, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Automatische vertaling"
 
-#: trans/models.py:2194 trans/models.py:2221
+#: trans/models.py:2254 trans/models.py:2281
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: trans/models.py:2199 trans/models.py:2252
+#: trans/models.py:2259 trans/models.py:2312
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:2213 trans/models.py:2269
+#: trans/models.py:2273 trans/models.py:2329
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:2228
+#: trans/models.py:2288
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Niet vertaalde tekenreeksen (%d)"
 
-#: trans/models.py:2236
+#: trans/models.py:2296
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Vage tekenreeksen (%d)"
 
-#: trans/models.py:2244
+#: trans/models.py:2304
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:2585
+#: trans/models.py:2645
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2591
+#: trans/models.py:2651
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2720
+#: trans/models.py:2780
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:3046
+#: trans/models.py:3106
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:3047
+#: trans/models.py:3107
 #, fuzzy
 msgid "Translation completed"
 msgstr "Vertaalcontext"
 
-#: trans/models.py:3048
+#: trans/models.py:3108
 #, fuzzy
 msgid "Translation changed"
 msgstr "Vertaalcontext"
 
-#: trans/models.py:3049
+#: trans/models.py:3109
 #, fuzzy
 msgid "New translation"
 msgstr "Vertaling"
 
-#: trans/models.py:3050
+#: trans/models.py:3110
 #, fuzzy
 msgid "Comment added"
 msgstr "Opmerkingen"
 
-#: trans/models.py:3051
+#: trans/models.py:3111
 #, fuzzy
 msgid "Suggestion added"
 msgstr "Gedane voorstellen"
 
-#: trans/models.py:3069
+#: trans/models.py:3129
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
