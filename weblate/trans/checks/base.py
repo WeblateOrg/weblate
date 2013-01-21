@@ -19,6 +19,7 @@
 #
 
 from django.core.cache import cache
+import weblate
 
 
 class Check(object):
