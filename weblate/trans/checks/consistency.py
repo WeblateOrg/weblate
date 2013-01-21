@@ -19,9 +19,6 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from xml.etree import cElementTree
-import weblate
-import re
 from weblate.trans.checks.base import TargetCheck
 
 

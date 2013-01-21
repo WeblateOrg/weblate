@@ -19,13 +19,10 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from xml.etree import cElementTree
-import weblate
 from weblate.trans.checks.base import TargetCheck
 from weblate.trans.checks.format import (
     PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH
 )
-import re
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
