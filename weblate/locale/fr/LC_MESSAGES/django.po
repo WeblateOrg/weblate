@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-18 15:13+0100\n"
+"POT-Creation-Date: 2013-01-22 00:11+0100\n"
 "PO-Revision-Date: 2013-01-19 13:24+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -213,47 +213,47 @@ msgstr "Chaînes floues"
 msgid "Translated strings"
 msgstr "Chaînes traduites"
 
-#: accounts/models.py:149
+#: accounts/models.py:186
 msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-#: accounts/models.py:155 html/index.html:21 trans/views.py:283
+#: accounts/models.py:192 html/index.html:21 trans/views.py:283
 msgid "Languages"
 msgstr "Langues"
 
-#: accounts/models.py:160
+#: accounts/models.py:197
 msgid "Secondary languages"
 msgstr "Langues secondaires"
 
-#: accounts/models.py:169
+#: accounts/models.py:206
 msgid "Subscribed projects"
 msgstr "Projets abonnés"
 
-#: accounts/models.py:173
+#: accounts/models.py:210
 msgid "Notification on any translation"
 msgstr "Aviser pour toute traduction"
 
-#: accounts/models.py:177
+#: accounts/models.py:214
 msgid "Notification on new string to translate"
 msgstr "Aviser pour une nouvelle chaîne à traduire"
 
-#: accounts/models.py:181
+#: accounts/models.py:218
 msgid "Notification on new suggestion"
 msgstr "Aviser pour une nouvelle suggestion"
 
-#: accounts/models.py:185
+#: accounts/models.py:222
 msgid "Notification on new contributor"
 msgstr "Aviser pour un nouveau contributeur"
 
-#: accounts/models.py:189
+#: accounts/models.py:226
 msgid "Notification on new comment"
 msgstr "Avis lors d'un nouveau commentaire"
 
-#: accounts/models.py:193
+#: accounts/models.py:230
 msgid "Notification on merge failure"
 msgstr "Aviser lors de l'échec d'une fusion"
 
-#: accounts/models.py:320
+#: accounts/models.py:365
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Votre profil a été migré, vous pourriez vouloir ajuster les préférences."
@@ -302,7 +302,7 @@ msgstr ""
 msgid "about"
 msgstr "à propos"
 
-#: html/about.html:11 html/footer.html:7 trans/views.py:1948
+#: html/about.html:11 html/footer.html:7 trans/views.py:1949
 msgid "About Weblate"
 msgstr "À propos de Weblate"
 
@@ -1714,15 +1714,12 @@ msgstr "Nouveau commentaire pour %(subproject)s"
 
 #: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
 #, python-format
-#| msgid ""
-#| "%(username)s has just made his first contribution on %(translation)s at "
-#| "%(site_title)s."
 msgid ""
 "%(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"%(username)s vient de faire sa première contribution à %(translation)s sur %"
-"(site_title)s."
+"%(username)s vient de faire sa première contribution à %(translation)s sur "
+"%(site_title)s."
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -1744,13 +1741,11 @@ msgstr "Nouveau message à traduire pour %(translation)s"
 
 #: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
 #, python-format
-#| msgid ""
-#| "there is a new suggestion evaluate on %(translation)s at %(site_title)s."
 msgid ""
 "there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
 msgstr ""
-"il y a une nouvelle évaluation de la suggestion pour %(translation)s à %"
-"(site_title)s."
+"il y a une nouvelle évaluation de la suggestion pour %(translation)s à "
+"%(site_title)s."
 
 #: html/mail/new_suggestion.html:29 html/mail/new_suggestion.txt:9
 msgid "Suggestion:"
@@ -2576,15 +2571,15 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zoulou"
 
-#: lang/models.py:378
+#: lang/models.py:375
 msgid "Singular"
 msgstr "Singulier"
 
-#: lang/models.py:380
+#: lang/models.py:377
 msgid "Plural"
 msgstr "Pluriel"
 
-#: lang/models.py:381
+#: lang/models.py:378
 #, python-format
 msgid "Plural form %d"
 msgstr "Forme plurielle %d"
@@ -2625,203 +2620,6 @@ msgstr "Échec de la génération de clé !"
 #: trans/admin_views.py:146
 msgid "Created new SSH key."
 msgstr "Nouvelle clé SSH créée."
-
-#: trans/checks.py:286
-msgid "Not translated"
-msgstr "Non traduit"
-
-#: trans/checks.py:287
-msgid "Source and translated strings are same"
-msgstr "La chaîne source est identique à la chaîne traduite"
-
-#: trans/checks.py:335
-msgid "Starting newline"
-msgstr "Nouvelle ligne au début"
-
-#: trans/checks.py:336
-msgid "Source and translation do not both start with a newline"
-msgstr ""
-"Les messages source et traduit ne débutent pas tous les deux par un saut de "
-"ligne"
-
-#: trans/checks.py:347
-msgid "Trailing newline"
-msgstr "Saut de ligne à la fin"
-
-#: trans/checks.py:348
-msgid "Source and translation do not both end with a newline"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par un saut "
-"de ligne"
-
-#: trans/checks.py:359
-msgid "Starting spaces"
-msgstr "Espaces au début"
-
-#: trans/checks.py:360
-msgid "Source and translation do not both start with same number of spaces"
-msgstr ""
-"Les messages source et traduit ne débutent pas tous les deux par un même "
-"nombre d'espaces"
-
-#: trans/checks.py:380
-msgid "Trailing space"
-msgstr "Espace à la fin"
-
-#: trans/checks.py:381
-msgid "Source and translation do not both end with a space"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par un "
-"espace"
-
-#: trans/checks.py:406
-msgid "Trailing stop"
-msgstr "Point à la fin"
-
-#: trans/checks.py:407
-msgid "Source and translation do not both end with a full stop"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par un point"
-
-#: trans/checks.py:428
-msgid "Trailing colon"
-msgstr "Deux-points à la fin"
-
-#: trans/checks.py:429
-msgid ""
-"Source and translation do not both end with a colon or colon is not "
-"correctly spaced"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par deux "
-"points, ou ils ne sont pas entourés correctement d'espaces"
-
-#: trans/checks.py:453
-msgid "Trailing question"
-msgstr "Point d'interrogation à la fin"
-
-#: trans/checks.py:454
-msgid ""
-"Source and translation do not both end with a question mark or it is not "
-"correctly spaced"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par un "
-"point d'interrogation, ou celui-ci n'est pas correctement entouré d'espaces"
-
-#: trans/checks.py:477
-msgid "Trailing exclamation"
-msgstr "Point d'exclamation à la fin"
-
-#: trans/checks.py:478
-msgid ""
-"Source and translation do not both end with an exclamation mark or it is not "
-"correctly spaced"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par un "
-"point d'exclamation, ou celui-ci n'est pas correctement entouré d'espaces"
-
-#: trans/checks.py:507
-msgid "Trailing ellipsis"
-msgstr "Ellipse à la fin"
-
-#: trans/checks.py:508
-msgid "Source and translation do not both end with an ellipsis"
-msgstr ""
-"Les messages source et traduit ne se terminent pas tous les deux par une "
-"ellipse"
-
-#: trans/checks.py:581
-msgid "Python format"
-msgstr "Format Python"
-
-#: trans/checks.py:582 trans/checks.py:593 trans/checks.py:604
-msgid "Format string does not match source"
-msgstr "La chaîne de format ne correspond pas à celui de la source"
-
-#: trans/checks.py:592
-msgid "PHP format"
-msgstr "Format PHP"
-
-#: trans/checks.py:603
-msgid "C format"
-msgstr "Format C"
-
-#: trans/checks.py:614
-msgid "Missing plurals"
-msgstr "Pluriels manquants"
-
-#: trans/checks.py:615
-msgid "Some plural forms are not translated"
-msgstr "Certaines des formes plurielles n'ont pas été traduites"
-
-#: trans/checks.py:633
-msgid "Inconsistent"
-msgstr "Incohérent"
-
-#: trans/checks.py:634
-msgid "This message has more than one translation in this project"
-msgstr "Ce message a plus d'une traduction dans ce projet"
-
-#: trans/checks.py:663
-msgid "Invalid text direction"
-msgstr "Direction du texte invalide"
-
-#: trans/checks.py:664
-msgid "Text direction can be either LTR or RTL"
-msgstr ""
-"La direction du texte peut être soit LTR (gauche à droite), soit RTL (doite "
-"à gauche)"
-
-#: trans/checks.py:693
-msgid "Mismatched \\n"
-msgstr "Pas de correspondance \\n"
-
-#: trans/checks.py:694
-msgid "Number of \\n in translation does not match source"
-msgstr "Le nombre de \\n dans la traduction ne correspond pas à la source"
-
-#: trans/checks.py:702
-msgid "Mismatched BBcode"
-msgstr "BBcode sans correspondance"
-
-#: trans/checks.py:703
-msgid "BBcode in translation does not match source"
-msgstr "Les BBcodes dans la traduction ne correspondent pas à la source"
-
-#: trans/checks.py:731
-msgid "Zero-width space"
-msgstr "Espace de largeur nulle"
-
-#: trans/checks.py:732
-msgid "Translation contains extra zero-width space character"
-msgstr "La traduction contient un caractère d'espacement de largeur nulle"
-
-#: trans/checks.py:743
-msgid "XML tags mismatch"
-msgstr "Disparité des balises XML"
-
-#: trans/checks.py:744
-msgid "XML tags in translation do not match source"
-msgstr "Les balises XML dans la traduction ne correspondent pas à la source"
-
-#: trans/checks.py:800
-msgid "Optional plural"
-msgstr "Pluriel facultatif"
-
-#: trans/checks.py:801
-msgid "The string is optionally used as plural, but not using plural forms"
-msgstr ""
-"Cette chaîne est utilisée de manière facultative comme un pluriel, sans "
-"utiliser les formes plurielles"
-
-#: trans/checks.py:814
-msgid "Ellipsis"
-msgstr "Points de suspension"
-
-#: trans/checks.py:815
-msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr ""
-"Cette chaîne utilise trois points (...) au lieu d'un caractère de points de "
-"suspension (…)"
 
 #: trans/feeds.py:34 trans/feeds.py:70
 #, python-format
@@ -3240,7 +3038,6 @@ msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 
 #: trans/models.py:1480
 #, python-format
-#| msgid "This translation is locked by %(user)s for translation!"
 msgid "This translation is locked by %(user)s!"
 msgstr "Cette traduction est verrouillée par %(user)s !"
 
@@ -3344,7 +3141,7 @@ msgstr "Aucun mot à importer trouvé dans le fichier."
 msgid "Imported %d words from file."
 msgstr "%d mots importés depuis le fichier."
 
-#: trans/views.py:406 trans/views.py:1873
+#: trans/views.py:406 trans/views.py:1874
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Échec de fusion du fichier : %s"
@@ -3452,7 +3249,7 @@ msgstr "Chaînes avec suggestions"
 msgid "Your suggestion is empty!"
 msgstr "Votre suggestion est vide !"
 
-#: trans/views.py:1331
+#: trans/views.py:1332
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -3462,65 +3259,65 @@ msgstr ""
 "vous impliquer en tant que traducteur, sinon votre suggestion pourrait "
 "demeurer non évaluée."
 
-#: trans/views.py:1349
+#: trans/views.py:1350
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 "Vous devez vous connecter afin de pouvoir sauvegarder les traductions !"
 
-#: trans/views.py:1355 trans/views.py:1412
+#: trans/views.py:1356 trans/views.py:1413
 msgid "You don't have privileges to save translations!"
 msgstr ""
 "Vous n'avez pas les autorisations requises pour sauvegarder des traductions !"
 
-#: trans/views.py:1377
+#: trans/views.py:1378
 msgid "Some checks have failed on your translation!"
 msgstr "Certaines vérifications de votre traduction ont échoué !"
 
-#: trans/views.py:1403 trans/views.py:1463
+#: trans/views.py:1404 trans/views.py:1464
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Le message que vous vouliez traduire n'est plus disponible !"
 
-#: trans/views.py:1438
+#: trans/views.py:1439
 msgid "Can not merge different messages!"
 msgstr "Impossible de fusionner des messages différents !"
 
-#: trans/views.py:1470
+#: trans/views.py:1471
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions !"
 
-#: trans/views.py:1481
+#: trans/views.py:1482
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Vous n'avez pas l'autorisation d'accepter les suggestions !"
 
-#: trans/views.py:1491
+#: trans/views.py:1492
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Vous n'avez pas l'autorisation de supprimer les suggestions !"
 
-#: trans/views.py:1516
+#: trans/views.py:1517
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
-#: trans/views.py:1593
+#: trans/views.py:1594
 msgid "You have reached end of translating."
 msgstr "Vous avez terminé la traduction."
 
-#: trans/views.py:1694
+#: trans/views.py:1695
 msgid "Posted new comment"
 msgstr "Nouveau commentaire envoyé"
 
-#: trans/views.py:1718
+#: trans/views.py:1719
 msgid "Failed to add comment!"
 msgstr "Échec lors de l'ajout du commentaire !"
 
-#: trans/views.py:1869
+#: trans/views.py:1870
 msgid "File content successfully merged into translation."
 msgstr "Le contenu du fichier a été fusionné avec succès à la traduction."
 
-#: trans/views.py:1871
+#: trans/views.py:1872
 msgid "There were no new strings in uploaded file."
 msgstr "Le fichier téléversé ne comportait pas de nouvelles chaînes."
 
-#: trans/views.py:1886
+#: trans/views.py:1887
 msgid "Page Not Found"
 msgstr "Page introuvable"
 
@@ -3563,6 +3360,204 @@ msgid ""
 msgstr ""
 "Traduction en anglais\n"
 "faite à %(percent)d%%"
+
+#: trans/checks/chars.py:30
+msgid "Starting newline"
+msgstr "Nouvelle ligne au début"
+
+#: trans/checks/chars.py:31
+msgid "Source and translation do not both start with a newline"
+msgstr ""
+"Les messages source et traduit ne débutent pas tous les deux par un saut de "
+"ligne"
+
+#: trans/checks/chars.py:42
+msgid "Trailing newline"
+msgstr "Saut de ligne à la fin"
+
+#: trans/checks/chars.py:43
+msgid "Source and translation do not both end with a newline"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par un saut "
+"de ligne"
+
+#: trans/checks/chars.py:54
+msgid "Starting spaces"
+msgstr "Espaces au début"
+
+#: trans/checks/chars.py:56
+msgid "Source and translation do not both start with same number of spaces"
+msgstr ""
+"Les messages source et traduit ne débutent pas tous les deux par un même "
+"nombre d'espaces"
+
+#: trans/checks/chars.py:77
+msgid "Trailing space"
+msgstr "Espace à la fin"
+
+#: trans/checks/chars.py:78
+msgid "Source and translation do not both end with a space"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par un "
+"espace"
+
+#: trans/checks/chars.py:103
+msgid "Trailing stop"
+msgstr "Point à la fin"
+
+#: trans/checks/chars.py:104
+msgid "Source and translation do not both end with a full stop"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par un point"
+
+#: trans/checks/chars.py:125
+msgid "Trailing colon"
+msgstr "Deux-points à la fin"
+
+#: trans/checks/chars.py:127
+msgid ""
+"Source and translation do not both end with a colon or colon is not "
+"correctly spaced"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par deux "
+"points, ou ils ne sont pas entourés correctement d'espaces"
+
+#: trans/checks/chars.py:158
+msgid "Trailing question"
+msgstr "Point d'interrogation à la fin"
+
+#: trans/checks/chars.py:160
+msgid ""
+"Source and translation do not both end with a question mark or it is not "
+"correctly spaced"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par un "
+"point d'interrogation, ou celui-ci n'est pas correctement entouré d'espaces"
+
+#: trans/checks/chars.py:185
+msgid "Trailing exclamation"
+msgstr "Point d'exclamation à la fin"
+
+#: trans/checks/chars.py:187
+msgid ""
+"Source and translation do not both end with an exclamation mark or it is not "
+"correctly spaced"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par un "
+"point d'exclamation, ou celui-ci n'est pas correctement entouré d'espaces"
+
+#: trans/checks/chars.py:218
+msgid "Trailing ellipsis"
+msgstr "Ellipse à la fin"
+
+#: trans/checks/chars.py:219
+msgid "Source and translation do not both end with an ellipsis"
+msgstr ""
+"Les messages source et traduit ne se terminent pas tous les deux par une "
+"ellipse"
+
+#: trans/checks/chars.py:231
+msgid "Mismatched \\n"
+msgstr "Pas de correspondance \\n"
+
+#: trans/checks/chars.py:232
+msgid "Number of \\n in translation does not match source"
+msgstr "Le nombre de \\n dans la traduction ne correspond pas à la source"
+
+#: trans/checks/chars.py:240
+msgid "Zero-width space"
+msgstr "Espace de largeur nulle"
+
+#: trans/checks/chars.py:241
+msgid "Translation contains extra zero-width space character"
+msgstr "La traduction contient un caractère d'espacement de largeur nulle"
+
+#: trans/checks/consistency.py:30
+msgid "Missing plurals"
+msgstr "Pluriels manquants"
+
+#: trans/checks/consistency.py:31
+msgid "Some plural forms are not translated"
+msgstr "Certaines des formes plurielles n'ont pas été traduites"
+
+#: trans/checks/consistency.py:49
+msgid "Inconsistent"
+msgstr "Incohérent"
+
+#: trans/checks/consistency.py:51
+msgid "This message has more than one translation in this project"
+msgstr "Ce message a plus d'une traduction dans ce projet"
+
+#: trans/checks/consistency.py:82
+msgid "Invalid text direction"
+msgstr "Direction du texte invalide"
+
+#: trans/checks/consistency.py:83
+msgid "Text direction can be either LTR or RTL"
+msgstr ""
+"La direction du texte peut être soit LTR (gauche à droite), soit RTL (doite "
+"à gauche)"
+
+#: trans/checks/format.py:163
+msgid "Python format"
+msgstr "Format Python"
+
+#: trans/checks/format.py:164 trans/checks/format.py:175
+#: trans/checks/format.py:186
+msgid "Format string does not match source"
+msgstr "La chaîne de format ne correspond pas à celui de la source"
+
+#: trans/checks/format.py:174
+msgid "PHP format"
+msgstr "Format PHP"
+
+#: trans/checks/format.py:185
+msgid "C format"
+msgstr "Format C"
+
+#: trans/checks/markup.py:40
+msgid "Mismatched BBcode"
+msgstr "BBcode sans correspondance"
+
+#: trans/checks/markup.py:41
+msgid "BBcode in translation does not match source"
+msgstr "Les BBcodes dans la traduction ne correspondent pas à la source"
+
+#: trans/checks/markup.py:69
+msgid "XML tags mismatch"
+msgstr "Disparité des balises XML"
+
+#: trans/checks/markup.py:70
+msgid "XML tags in translation do not match source"
+msgstr "Les balises XML dans la traduction ne correspondent pas à la source"
+
+#: trans/checks/same.py:113
+msgid "Not translated"
+msgstr "Non traduit"
+
+#: trans/checks/same.py:114
+msgid "Source and translated strings are same"
+msgstr "La chaîne source est identique à la chaîne traduite"
+
+#: trans/checks/source.py:34
+msgid "Optional plural"
+msgstr "Pluriel facultatif"
+
+#: trans/checks/source.py:36
+msgid "The string is optionally used as plural, but not using plural forms"
+msgstr ""
+"Cette chaîne est utilisée de manière facultative comme un pluriel, sans "
+"utiliser les formes plurielles"
+
+#: trans/checks/source.py:50
+msgid "Ellipsis"
+msgstr "Points de suspension"
+
+#: trans/checks/source.py:52
+msgid "The string uses three dots (...) instead of an ellipsis character (…)"
+msgstr ""
+"Cette chaîne utilise trois points (...) au lieu d'un caractère de points de "
+"suspension (…)"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"

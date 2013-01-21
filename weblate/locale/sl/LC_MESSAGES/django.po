@@ -7,16 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-18 15:13+0100\n"
+"POT-Creation-Date: 2013-01-22 00:11+0100\n"
 "PO-Revision-Date: 2013-01-18 15:18+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
-"n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
 #: urls.py:223 urls.py:230 urls.py:237 urls.py:244
@@ -211,47 +212,47 @@ msgstr "Neurejeni nizi"
 msgid "Translated strings"
 msgstr "Prevedeni nizi"
 
-#: accounts/models.py:149
+#: accounts/models.py:186
 msgid "Interface Language"
 msgstr "Jezik vmesnika"
 
-#: accounts/models.py:155 html/index.html:21 trans/views.py:283
+#: accounts/models.py:192 html/index.html:21 trans/views.py:283
 msgid "Languages"
 msgstr "Jeziki"
 
-#: accounts/models.py:160
+#: accounts/models.py:197
 msgid "Secondary languages"
 msgstr "Dodatni jeziki"
 
-#: accounts/models.py:169
+#: accounts/models.py:206
 msgid "Subscribed projects"
 msgstr "Naročeni projekti"
 
-#: accounts/models.py:173
+#: accounts/models.py:210
 msgid "Notification on any translation"
 msgstr "Obvestilo ob vsakem prevodu"
 
-#: accounts/models.py:177
+#: accounts/models.py:214
 msgid "Notification on new string to translate"
 msgstr "Obvestilo, ko je na voljo nov niz za prevajanje"
 
-#: accounts/models.py:181
+#: accounts/models.py:218
 msgid "Notification on new suggestion"
 msgstr "Obvestilo ob novem predlogu"
 
-#: accounts/models.py:185
+#: accounts/models.py:222
 msgid "Notification on new contributor"
 msgstr "Obvestilo ob novem sodelavcu"
 
-#: accounts/models.py:189
+#: accounts/models.py:226
 msgid "Notification on new comment"
 msgstr "Obvestilo ob novi pripombi"
 
-#: accounts/models.py:193
+#: accounts/models.py:230
 msgid "Notification on merge failure"
 msgstr "Obvestilo ob konfliktu pri združevanju"
 
-#: accounts/models.py:320
+#: accounts/models.py:365
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Vaš profil smo preselili; morda boste želeli urediti nastavitve."
 
@@ -296,7 +297,7 @@ msgstr ""
 msgid "about"
 msgstr "o aplikaciji"
 
-#: html/about.html:11 html/footer.html:7 trans/views.py:1948
+#: html/about.html:11 html/footer.html:7 trans/views.py:1949
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -1700,15 +1701,12 @@ msgstr "Nova pripomba k %(subproject)s"
 
 #: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
 #, python-format
-#| msgid ""
-#| "%(username)s has just made his first contribution on %(translation)s at "
-#| "%(site_title)s."
 msgid ""
 "%(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"%(username)s je pravkar naredil prvi prevod v %(translation)s na %"
-"(site_title)s."
+"%(username)s je pravkar naredil prvi prevod v %(translation)s na "
+"%(site_title)s."
 
 #: html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -2560,15 +2558,15 @@ msgstr "jorubščina"
 msgid "Zulu"
 msgstr "zulujščina"
 
-#: lang/models.py:378
+#: lang/models.py:375
 msgid "Singular"
 msgstr "Ednina"
 
-#: lang/models.py:380
+#: lang/models.py:377
 msgid "Plural"
 msgstr "Množina"
 
-#: lang/models.py:381
+#: lang/models.py:378
 #, python-format
 msgid "Plural form %d"
 msgstr "Množinska oblika %d"
@@ -2609,188 +2607,6 @@ msgstr "Nisem uspel ustvariti ključa!"
 #: trans/admin_views.py:146
 msgid "Created new SSH key."
 msgstr "Ustvaril sem nov ključ SSH."
-
-#: trans/checks.py:286
-msgid "Not translated"
-msgstr "Ni prevedeno"
-
-#: trans/checks.py:287
-msgid "Source and translated strings are same"
-msgstr "Izvirni in prevedeni niz sta enaka"
-
-#: trans/checks.py:335
-msgid "Starting newline"
-msgstr "Začetna nova vrstica"
-
-#: trans/checks.py:336
-msgid "Source and translation do not both start with a newline"
-msgstr "Izvirnik in prevod se ne začneta z novo vrstico"
-
-#: trans/checks.py:347
-msgid "Trailing newline"
-msgstr "Končna nova vrstica"
-
-#: trans/checks.py:348
-msgid "Source and translation do not both end with a newline"
-msgstr "Izvirnik in prevod se ne končata z novo vrstico"
-
-#: trans/checks.py:359
-msgid "Starting spaces"
-msgstr "Začetni presledki"
-
-#: trans/checks.py:360
-msgid "Source and translation do not both start with same number of spaces"
-msgstr "Izvirnik in prevod se ne začneta z enakim številom presledkov"
-
-#: trans/checks.py:380
-msgid "Trailing space"
-msgstr "Končni presledek"
-
-#: trans/checks.py:381
-msgid "Source and translation do not both end with a space"
-msgstr "Izvirnik in prevod se ne končata s presledkom"
-
-#: trans/checks.py:406
-msgid "Trailing stop"
-msgstr "Končna pika"
-
-#: trans/checks.py:407
-msgid "Source and translation do not both end with a full stop"
-msgstr "Izvirnik in prevod se ne končata s piko"
-
-#: trans/checks.py:428
-msgid "Trailing colon"
-msgstr "Končno dvopičje"
-
-#: trans/checks.py:429
-msgid ""
-"Source and translation do not both end with a colon or colon is not "
-"correctly spaced"
-msgstr ""
-"Izvirnik in prevod se ne končata z dvopičjem ali pa dvopičje ni pravilno "
-"obdano s presledki"
-
-#: trans/checks.py:453
-msgid "Trailing question"
-msgstr "Končni vprašaj"
-
-#: trans/checks.py:454
-msgid ""
-"Source and translation do not both end with a question mark or it is not "
-"correctly spaced"
-msgstr ""
-"Izvirnik in prevod se ne končata z vprašajem ali pa ni pravilno obdan s "
-"presledki"
-
-#: trans/checks.py:477
-msgid "Trailing exclamation"
-msgstr "Končni klicaj"
-
-#: trans/checks.py:478
-msgid ""
-"Source and translation do not both end with an exclamation mark or it is not "
-"correctly spaced"
-msgstr ""
-"Izvirnik in prevod se ne končata s klicajem ali pa ni pravilno obdan s "
-"presledki"
-
-#: trans/checks.py:507
-msgid "Trailing ellipsis"
-msgstr "Končno tripičje"
-
-#: trans/checks.py:508
-msgid "Source and translation do not both end with an ellipsis"
-msgstr "Izvirnik in prevod se ne končata s tripičjem"
-
-#: trans/checks.py:581
-msgid "Python format"
-msgstr "Oblika Python"
-
-#: trans/checks.py:582 trans/checks.py:593 trans/checks.py:604
-msgid "Format string does not match source"
-msgstr "Oblika niza se ne ujema z izvirnikom"
-
-#: trans/checks.py:592
-msgid "PHP format"
-msgstr "Oblika PHP"
-
-#: trans/checks.py:603
-msgid "C format"
-msgstr "Oblika C"
-
-#: trans/checks.py:614
-msgid "Missing plurals"
-msgstr "Manjkajoča množina"
-
-#: trans/checks.py:615
-msgid "Some plural forms are not translated"
-msgstr "Nekatere množinske oblike niso prevedene"
-
-#: trans/checks.py:633
-msgid "Inconsistent"
-msgstr "Neskladno"
-
-#: trans/checks.py:634
-msgid "This message has more than one translation in this project"
-msgstr "Sporočilo ima v tem projektu več kot en prevod"
-
-#: trans/checks.py:663
-msgid "Invalid text direction"
-msgstr "Neveljavna smer besedila"
-
-#: trans/checks.py:664
-msgid "Text direction can be either LTR or RTL"
-msgstr "Smer besedila je lahko samo LTR ali RTL"
-
-#: trans/checks.py:693
-msgid "Mismatched \\n"
-msgstr "Neujemanje \\n"
-
-#: trans/checks.py:694
-msgid "Number of \\n in translation does not match source"
-msgstr "Število \\n v prevodu se ne ujema z izvirnikom"
-
-#: trans/checks.py:702
-msgid "Mismatched BBcode"
-msgstr "Razlika v BBcode"
-
-#: trans/checks.py:703
-msgid "BBcode in translation does not match source"
-msgstr "BBcode v prevodu se ne ujema z izvirnikom"
-
-#: trans/checks.py:731
-msgid "Zero-width space"
-msgstr "Presledki ničelne širine"
-
-#: trans/checks.py:732
-msgid "Translation contains extra zero-width space character"
-msgstr "Prevod vsebuje dodatne presledke ničelne širine"
-
-#: trans/checks.py:743
-msgid "XML tags mismatch"
-msgstr "Razlika v XML oznakah"
-
-#: trans/checks.py:744
-msgid "XML tags in translation do not match source"
-msgstr "XML oznake v prevodu se ne ujemajo z izvirnikom"
-
-#: trans/checks.py:800
-msgid "Optional plural"
-msgstr "Množina po izbiri"
-
-#: trans/checks.py:801
-msgid "The string is optionally used as plural, but not using plural forms"
-msgstr ""
-"Niz se v nekaterih primerih uporablja za množino, a ne uporablja množinskih "
-"oblik"
-
-#: trans/checks.py:814
-msgid "Ellipsis"
-msgstr "Tripičje"
-
-#: trans/checks.py:815
-msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr "Niz uporablja tri pike (...) namesto znaka za tripičje (…)"
 
 #: trans/feeds.py:34 trans/feeds.py:70
 #, python-format
@@ -3304,7 +3120,7 @@ msgstr "V datoteki nisem našel nobene besede za uvoz."
 msgid "Imported %d words from file."
 msgstr "Iz datoteke sem uvozil %d besed."
 
-#: trans/views.py:406 trans/views.py:1873
+#: trans/views.py:406 trans/views.py:1874
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Združitev vsebine datoteke je spodletelo: %s"
@@ -3407,7 +3223,7 @@ msgstr "Nizi s predlogi"
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views.py:1331
+#: trans/views.py:1332
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -3416,63 +3232,63 @@ msgstr ""
 "Na tem prevodu trenutno ni aktivnega prevajalca. Prosimo, razmislite o tem, "
 "da bi postali prevajalec, sicer bo vaš predlog ostal nepregledan."
 
-#: trans/views.py:1349
+#: trans/views.py:1350
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views.py:1355 trans/views.py:1412
+#: trans/views.py:1356 trans/views.py:1413
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views.py:1377
+#: trans/views.py:1378
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views.py:1403 trans/views.py:1463
+#: trans/views.py:1404 trans/views.py:1464
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
 
-#: trans/views.py:1438
+#: trans/views.py:1439
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različnih sporočil!"
 
-#: trans/views.py:1470
+#: trans/views.py:1471
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views.py:1481
+#: trans/views.py:1482
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views.py:1491
+#: trans/views.py:1492
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views.py:1516
+#: trans/views.py:1517
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views.py:1593
+#: trans/views.py:1594
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views.py:1694
+#: trans/views.py:1695
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views.py:1718
+#: trans/views.py:1719
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 
-#: trans/views.py:1869
+#: trans/views.py:1870
 msgid "File content successfully merged into translation."
 msgstr "Vsebino datoteke sem uspešno združil s prevodom."
 
-#: trans/views.py:1871
+#: trans/views.py:1872
 msgid "There were no new strings in uploaded file."
 msgstr "V naloženi datoteki ni bilo novih nizov."
 
-#: trans/views.py:1886
+#: trans/views.py:1887
 msgid "Page Not Found"
 msgstr "Strani ni mogoče najti"
 
@@ -3515,6 +3331,189 @@ msgid ""
 msgstr ""
 "Slovenščina\n"
 "%(percent)d%% končana"
+
+#: trans/checks/chars.py:30
+msgid "Starting newline"
+msgstr "Začetna nova vrstica"
+
+#: trans/checks/chars.py:31
+msgid "Source and translation do not both start with a newline"
+msgstr "Izvirnik in prevod se ne začneta z novo vrstico"
+
+#: trans/checks/chars.py:42
+msgid "Trailing newline"
+msgstr "Končna nova vrstica"
+
+#: trans/checks/chars.py:43
+msgid "Source and translation do not both end with a newline"
+msgstr "Izvirnik in prevod se ne končata z novo vrstico"
+
+#: trans/checks/chars.py:54
+msgid "Starting spaces"
+msgstr "Začetni presledki"
+
+#: trans/checks/chars.py:56
+msgid "Source and translation do not both start with same number of spaces"
+msgstr "Izvirnik in prevod se ne začneta z enakim številom presledkov"
+
+#: trans/checks/chars.py:77
+msgid "Trailing space"
+msgstr "Končni presledek"
+
+#: trans/checks/chars.py:78
+msgid "Source and translation do not both end with a space"
+msgstr "Izvirnik in prevod se ne končata s presledkom"
+
+#: trans/checks/chars.py:103
+msgid "Trailing stop"
+msgstr "Končna pika"
+
+#: trans/checks/chars.py:104
+msgid "Source and translation do not both end with a full stop"
+msgstr "Izvirnik in prevod se ne končata s piko"
+
+#: trans/checks/chars.py:125
+msgid "Trailing colon"
+msgstr "Končno dvopičje"
+
+#: trans/checks/chars.py:127
+msgid ""
+"Source and translation do not both end with a colon or colon is not "
+"correctly spaced"
+msgstr ""
+"Izvirnik in prevod se ne končata z dvopičjem ali pa dvopičje ni pravilno "
+"obdano s presledki"
+
+#: trans/checks/chars.py:158
+msgid "Trailing question"
+msgstr "Končni vprašaj"
+
+#: trans/checks/chars.py:160
+msgid ""
+"Source and translation do not both end with a question mark or it is not "
+"correctly spaced"
+msgstr ""
+"Izvirnik in prevod se ne končata z vprašajem ali pa ni pravilno obdan s "
+"presledki"
+
+#: trans/checks/chars.py:185
+msgid "Trailing exclamation"
+msgstr "Končni klicaj"
+
+#: trans/checks/chars.py:187
+msgid ""
+"Source and translation do not both end with an exclamation mark or it is not "
+"correctly spaced"
+msgstr ""
+"Izvirnik in prevod se ne končata s klicajem ali pa ni pravilno obdan s "
+"presledki"
+
+#: trans/checks/chars.py:218
+msgid "Trailing ellipsis"
+msgstr "Končno tripičje"
+
+#: trans/checks/chars.py:219
+msgid "Source and translation do not both end with an ellipsis"
+msgstr "Izvirnik in prevod se ne končata s tripičjem"
+
+#: trans/checks/chars.py:231
+msgid "Mismatched \\n"
+msgstr "Neujemanje \\n"
+
+#: trans/checks/chars.py:232
+msgid "Number of \\n in translation does not match source"
+msgstr "Število \\n v prevodu se ne ujema z izvirnikom"
+
+#: trans/checks/chars.py:240
+msgid "Zero-width space"
+msgstr "Presledki ničelne širine"
+
+#: trans/checks/chars.py:241
+msgid "Translation contains extra zero-width space character"
+msgstr "Prevod vsebuje dodatne presledke ničelne širine"
+
+#: trans/checks/consistency.py:30
+msgid "Missing plurals"
+msgstr "Manjkajoča množina"
+
+#: trans/checks/consistency.py:31
+msgid "Some plural forms are not translated"
+msgstr "Nekatere množinske oblike niso prevedene"
+
+#: trans/checks/consistency.py:49
+msgid "Inconsistent"
+msgstr "Neskladno"
+
+#: trans/checks/consistency.py:51
+msgid "This message has more than one translation in this project"
+msgstr "Sporočilo ima v tem projektu več kot en prevod"
+
+#: trans/checks/consistency.py:82
+msgid "Invalid text direction"
+msgstr "Neveljavna smer besedila"
+
+#: trans/checks/consistency.py:83
+msgid "Text direction can be either LTR or RTL"
+msgstr "Smer besedila je lahko samo LTR ali RTL"
+
+#: trans/checks/format.py:163
+msgid "Python format"
+msgstr "Oblika Python"
+
+#: trans/checks/format.py:164 trans/checks/format.py:175
+#: trans/checks/format.py:186
+msgid "Format string does not match source"
+msgstr "Oblika niza se ne ujema z izvirnikom"
+
+#: trans/checks/format.py:174
+msgid "PHP format"
+msgstr "Oblika PHP"
+
+#: trans/checks/format.py:185
+msgid "C format"
+msgstr "Oblika C"
+
+#: trans/checks/markup.py:40
+msgid "Mismatched BBcode"
+msgstr "Razlika v BBcode"
+
+#: trans/checks/markup.py:41
+msgid "BBcode in translation does not match source"
+msgstr "BBcode v prevodu se ne ujema z izvirnikom"
+
+#: trans/checks/markup.py:69
+msgid "XML tags mismatch"
+msgstr "Razlika v XML oznakah"
+
+#: trans/checks/markup.py:70
+msgid "XML tags in translation do not match source"
+msgstr "XML oznake v prevodu se ne ujemajo z izvirnikom"
+
+#: trans/checks/same.py:113
+msgid "Not translated"
+msgstr "Ni prevedeno"
+
+#: trans/checks/same.py:114
+msgid "Source and translated strings are same"
+msgstr "Izvirni in prevedeni niz sta enaka"
+
+#: trans/checks/source.py:34
+msgid "Optional plural"
+msgstr "Množina po izbiri"
+
+#: trans/checks/source.py:36
+msgid "The string is optionally used as plural, but not using plural forms"
+msgstr ""
+"Niz se v nekaterih primerih uporablja za množino, a ne uporablja množinskih "
+"oblik"
+
+#: trans/checks/source.py:50
+msgid "Ellipsis"
+msgstr "Tripičje"
+
+#: trans/checks/source.py:52
+msgid "The string uses three dots (...) instead of an ellipsis character (…)"
+msgstr "Niz uporablja tri pike (...) namesto znaka za tripičje (…)"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
