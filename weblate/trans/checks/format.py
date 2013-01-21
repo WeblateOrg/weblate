@@ -84,8 +84,6 @@ class BaseFormatCheck(TargetCheck):
             return self.check_format(
                 sources[1],
                 targets[0],
-                flags,
-                language,
                 unit,
                 1,
                 False
@@ -94,8 +92,6 @@ class BaseFormatCheck(TargetCheck):
         singular_check = self.check_format(
             sources[0],
             targets[0],
-            flags,
-            language,
             unit,
             0,
             len(sources) > 1
@@ -106,8 +102,6 @@ class BaseFormatCheck(TargetCheck):
             plural_check = self.check_format(
                 sources[1],
                 targets[0],
-                flags,
-                language,
                 unit,
                 1,
                 True
@@ -122,8 +116,6 @@ class BaseFormatCheck(TargetCheck):
             plural_check = self.check_format(
                 sources[1],
                 target,
-                flags,
-                language,
                 unit,
                 1,
                 False
@@ -133,7 +125,7 @@ class BaseFormatCheck(TargetCheck):
         # Check did not fire
         return False
 
-    def check_format(self, source, target, flags, language, unit, cache_slot, ignore_missing):
+    def check_format(self, source, target, unit, cache_slot, ignore_missing):
         '''
         Generic checker for format strings.
         '''
