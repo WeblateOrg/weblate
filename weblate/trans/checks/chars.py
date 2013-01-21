@@ -226,4 +226,3 @@ class ZeroWidthSpaceCheck(TargetCheck):
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         return (u'\u200b' in target) != (u'\u200b' in source)
-

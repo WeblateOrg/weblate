@@ -61,7 +61,6 @@ class BBCodeCheck(TargetCheck):
         return (src_tags != tgt_tags)
 
 
-
 class XMLTagsCheck(TargetCheck):
     '''
     Check whether XML in target matches source.

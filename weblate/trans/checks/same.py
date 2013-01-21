@@ -104,6 +104,7 @@ SAME_BLACKLIST = frozenset((
     'zip',
 ))
 
+
 class SameCheck(TargetCheck):
     '''
     Check for not translated entries.
