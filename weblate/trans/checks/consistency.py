@@ -47,7 +47,9 @@ class ConsistencyCheck(TargetCheck):
     '''
     check_id = 'inconsistent'
     name = _('Inconsistent')
-    description = _('This message has more than one translation in this project')
+    description = _(
+        'This message has more than one translation in this project'
+    )
 
     def check(self, sources, targets, flags, language, unit):
         from weblate.trans.models import Unit

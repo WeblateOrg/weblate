@@ -52,7 +52,9 @@ class BeginSpaceCheck(TargetCheck):
     '''
     check_id = 'begin_space'
     name = _('Starting spaces')
-    description = _('Source and translation do not both start with same number of spaces')
+    description = _(
+        'Source and translation do not both start with same number of spaces'
+    )
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
@@ -121,7 +123,10 @@ class EndColonCheck(TargetCheck):
     '''
     check_id = 'end_colon'
     name = _('Trailing colon')
-    description = _('Source and translation do not both end with a colon or colon is not correctly spaced')
+    description = _(
+        'Source and translation do not both end with a colon ' +
+        'or colon is not correctly spaced'
+    )
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         if self.is_language(language, ['fr', 'br']):
@@ -151,7 +156,10 @@ class EndQuestionCheck(TargetCheck):
     '''
     check_id = 'end_question'
     name = _('Trailing question')
-    description = _('Source and translation do not both end with a question mark or it is not correctly spaced')
+    description = _(
+        'Source and translation do not both end with a question mark ' +
+        'or it is not correctly spaced'
+    )
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         if self.is_language(language, ['fr', 'br']):
@@ -175,7 +183,10 @@ class EndExclamationCheck(TargetCheck):
     '''
     check_id = 'end_exclamation'
     name = _('Trailing exclamation')
-    description = _('Source and translation do not both end with an exclamation mark or it is not correctly spaced')
+    description = _(
+        'Source and translation do not both end with an exclamation mark ' +
+        'or it is not correctly spaced'
+    )
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         if len(source) == 0:
