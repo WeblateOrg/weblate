@@ -69,6 +69,12 @@ from distutils.version import LooseVersion
 
 logger = logging.getLogger('weblate')
 
+DEFAULT_COMMIT_MESSAGE = (
+    'Translated using Weblate (%(language_name)s)\n\n'
+    'Currently translated at %(translated_percent)s%% '
+    '(%(translated)s of %(total)s strings)'
+)
+
 
 class FileFormat(object):
     '''
@@ -274,21 +280,29 @@ class Project(models.Model):
         max_length=10,
         choices=NEW_LANG_CHOICES,
         default='contact',
-        help_text=ugettext_lazy('How to handle requests for creating new languages.'),
+        help_text=ugettext_lazy(
+            'How to handle requests for creating new languages.'
+        ),
     )
     merge_style = models.CharField(
         ugettext_lazy('Merge style'),
         max_length=10,
         choices=MERGE_CHOICES,
         default='merge',
-        help_text=ugettext_lazy('Define whether Weblate should merge upstream repository or rebase changes onto it.'),
+        help_text=ugettext_lazy(
+            'Define whether Weblate should merge upstream repository '
+            'or rebase changes onto it.'
+        ),
     )
 
     # VCS config
     commit_message = models.TextField(
-        help_text=ugettext_lazy('You can use format strings for various information, please check documentation for more details.'),
+        help_text=ugettext_lazy(
+            'You can use format strings for various information, '
+            'please check documentation for more details.'
+        ),
         validators=[validate_commit_message],
-        default='Translated using Weblate (%(language_name)s)\n\nCurrently translated at %(translated_percent)s%% (%(translated)s of %(total)s strings)'
+        default=DEFAULT_COMMIT_MESSAGE,
     )
     committer_name = models.CharField(
         max_length=200,
@@ -300,17 +314,25 @@ class Project(models.Model):
 
     push_on_commit = models.BooleanField(
         default=False,
-        help_text=ugettext_lazy('Whether the repository should be pushed upstream on every commit.'),
+        help_text=ugettext_lazy(
+            'Whether the repository should be pushed upstream on every commit.'
+        ),
     )
 
     set_translation_team = models.BooleanField(
         default=True,
-        help_text=ugettext_lazy('Whether the Translation-Team in file headers should be updated by Weblate.'),
+        help_text=ugettext_lazy(
+            'Whether the Translation-Team in file headers should be '
+            'updated by Weblate.'
+        ),
     )
 
     enable_acl = models.BooleanField(
         default=False,
-        help_text='Whether to enable ACL for this project, please check documentation before enabling this.'
+        help_text=ugettext_lazy(
+            'Whether to enable ACL for this project, please check '
+            'documentation before enabling this.'
+        )
     )
 
     objects = ProjectManager()
@@ -344,7 +366,10 @@ class Project(models.Model):
 
     def clean(self):
         if self.new_lang == 'url' and self.instructions == '':
-            raise ValidationError(_('Please either fill in instructions URL or use different option for adding new language.'))
+            raise ValidationError(_(
+                'Please either fill in instructions URL '
+                'or use different option for adding new language.'
+            ))
 
     @models.permalink
     def get_absolute_url(self):
@@ -575,7 +600,10 @@ class SubProject(models.Model):
     project = models.ForeignKey(Project)
     repo = models.CharField(
         max_length=200,
-        help_text=ugettext_lazy('URL of Git repository, use weblate://project/subproject for sharing with other subproject.'),
+        help_text=ugettext_lazy(
+            'URL of Git repository, use weblate://project/subproject '
+            'for sharing with other subproject.'
+        ),
         validators=[validate_repo],
     )
     push = models.CharField(
@@ -584,12 +612,18 @@ class SubProject(models.Model):
         blank=True
     )
     repoweb = models.URLField(
-        help_text=ugettext_lazy('Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.'),
+        help_text=ugettext_lazy(
+            'Link to repository browser, use %(branch)s for branch, '
+            '%(file)s and %(line)s as filename and line placeholders.'
+        ),
         validators=[validate_repoweb],
         blank=True,
     )
     report_source_bugs = models.EmailField(
-        help_text=ugettext_lazy('Email address where errors in source string will be reported, keep empty for no emails.'),
+        help_text=ugettext_lazy(
+            'Email address where errors in source string will be reported, '
+            'keep empty for no emails.'
+        ),
         blank=True,
     )
     branch = models.CharField(
@@ -600,26 +634,41 @@ class SubProject(models.Model):
     filemask = models.CharField(
         max_length=200,
         validators=[validate_filemask],
-        help_text=ugettext_lazy('Path of files to translate, use * instead of language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po.')
+        help_text=ugettext_lazy(
+            'Path of files to translate, use * instead of language code, '
+            'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
+        )
     )
     template = models.CharField(
         max_length=200,
         blank=True,
-        help_text=ugettext_lazy('Filename of translations template, this is recommended to use for translations which store only translated string like Android resource strings.')
+        help_text=ugettext_lazy(
+            'Filename of translations template, this is recommended to use '
+            'for translations which store only translated string like '
+            'Android resource strings.'
+        )
     )
     file_format = models.CharField(
         max_length=50,
         default='auto',
         choices=FILE_FORMAT_CHOICES,
-        help_text=ugettext_lazy('Automatic detection might fail for some formats and is slightly slower.'),
+        help_text=ugettext_lazy(
+            'Automatic detection might fail for some formats '
+            'and is slightly slower.'
+        ),
     )
     locked = models.BooleanField(
         default=False,
-        help_text=ugettext_lazy('Whether subproject is locked for translation updates.')
+        help_text=ugettext_lazy(
+            'Whether subproject is locked for translation updates.'
+        )
     )
     allow_translation_propagation = models.BooleanField(
         default=True,
-        help_text=ugettext_lazy('Whether translation updates in other subproject will cause automatic translation in this project')
+        help_text=ugettext_lazy(
+            'Whether translation updates in other subproject '
+            'will cause automatic translation in this project'
+        )
     )
 
     objects = SubProjectManager()
@@ -1219,9 +1268,11 @@ class SubProject(models.Model):
             for match in matches:
                 code = self.get_lang_code(match)
                 if code in langs:
-                    raise ValidationError(
-                        _('There are more files for single language, please adjust the mask and use subprojects for translating different resources.')
-                    )
+                    raise ValidationError(_(
+                        'There are more files for single language, please '
+                        'adjust the mask and use subprojects for translating '
+                        'different resources.'
+                    ))
                 langs[code] = match
 
             # Try parsing files
@@ -1446,11 +1497,20 @@ class Translation(models.Model):
         Validates that filename exists and can be opened using ttkit.
         '''
         if not os.path.exists(self.get_filename()):
-            raise ValidationError(_('Filename %s not found in repository! To add new translation, add language file into repository.') % self.filename)
+            raise ValidationError(
+                _(
+                    'Filename %s not found in repository! To add new '
+                    'translation, add language file into repository.'
+                ) %
+                self.filename
+            )
         try:
             self.get_store()
         except ValueError:
-            raise ValidationError(_('Format of %s could not be recognized.') % self.filename)
+            raise ValidationError(
+                _('Format of %s could not be recognized.') %
+                self.filename
+            )
         except Exception as e:
             raise ValidationError(
                 _('Failed to parse file %(file)s: %(error)s') % {
