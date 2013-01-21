@@ -20,7 +20,6 @@
 
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
-from django.conf import settings
 from django.core.cache import cache
 from xml.etree import cElementTree
 import weblate

@@ -70,6 +70,7 @@ from weblate.trans.checks.source import EllipsisCheck
 
 
 # Initialize checks list
+from django.conf import settings
 CHECKS = {}
 for path in getattr(settings, 'CHECK_LIST', DEFAULT_CHECK_LIST):
     i = path.rfind('.')
