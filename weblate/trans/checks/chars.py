@@ -124,7 +124,7 @@ class EndColonCheck(TargetCheck):
     check_id = 'end_colon'
     name = _('Trailing colon')
     description = _(
-        'Source and translation do not both end with a colon ' +
+        'Source and translation do not both end with a colon '
         'or colon is not correctly spaced'
     )
 
@@ -157,7 +157,7 @@ class EndQuestionCheck(TargetCheck):
     check_id = 'end_question'
     name = _('Trailing question')
     description = _(
-        'Source and translation do not both end with a question mark ' +
+        'Source and translation do not both end with a question mark '
         'or it is not correctly spaced'
     )
 
@@ -184,7 +184,7 @@ class EndExclamationCheck(TargetCheck):
     check_id = 'end_exclamation'
     name = _('Trailing exclamation')
     description = _(
-        'Source and translation do not both end with an exclamation mark ' +
+        'Source and translation do not both end with an exclamation mark '
         'or it is not correctly spaced'
     )
 

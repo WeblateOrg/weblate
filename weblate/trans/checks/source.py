@@ -49,7 +49,7 @@ class EllipsisCheck(SourceCheck):
     check_id = 'ellipsis'
     name = _('Ellipsis')
     description = _(
-        u'The string uses three dots (...) ' +
+        u'The string uses three dots (...) '
         u'instead of an ellipsis character (…)'
     )
 
