@@ -26,7 +26,7 @@ from django.test import TestCase
 from weblate.trans.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck,
 )
-from weblate.trans.tests.test_checks import Language, Unit
+from weblate.trans.tests.test_checks import Unit
 
 
 class PythonFormatCheckTest(TestCase):
