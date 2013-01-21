@@ -81,19 +81,54 @@ class BaseFormatCheck(TargetCheck):
             return False
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
-            return self.check_format(sources[1], targets[0], flags, language, unit, 1, False)
+            return self.check_format(
+                sources[1],
+                targets[0],
+                flags,
+                language,
+                unit,
+                1,
+                False
+            )
         # Check singular
-        if self.check_format(sources[0], targets[0], flags, language, unit, 0, len(sources) > 1):
+        singular_check = self.check_format(
+            sources[0],
+            targets[0],
+            flags,
+            language,
+            unit,
+            0,
+            len(sources) > 1
+        )
+        if singular_check:
             if len(sources) == 1:
                 return True
-            if self.check_format(sources[1], targets[0], flags, language, unit, 1, True):
+            plural_check = self.check_format(
+                sources[1],
+                targets[0],
+                flags,
+                language,
+                unit,
+                1,
+                True
+            )
+            if plural_check:
                 return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
         # Check plurals against plural from source
         for target in targets[1:]:
-            if self.check_format(sources[1], target, flags, language, unit, 1, False):
+            plural_check = self.check_format(
+                sources[1],
+                target,
+                flags,
+                language,
+                unit,
+                1,
+                False
+            )
+            if plural_check:
                 return True
         # Check did not fire
         return False
