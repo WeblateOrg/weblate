@@ -62,7 +62,8 @@ from weblate.trans.filelock import FileLock, FileLockException
 from weblate.trans.util import (
     is_plural, split_plural, join_plural,
     get_source, get_target,
-    is_translated, get_user_display
+    is_translated, get_user_display,
+    is_repo_link, get_linked_repo,
 )
 
 from django.db.models.signals import post_syncdb
@@ -108,23 +109,6 @@ def validate_filemask(val):
         raise ValidationError(
             _('File mask does not contain * as a language placeholder!')
         )
-
-
-def is_repo_link(val):
-    '''
-    Checks whethere repository is just a link for other one.
-    '''
-    return val.startswith('weblate://')
-
-
-def get_linked_repo(val):
-    '''
-    Returns subproject for linked repo.
-    '''
-    if not is_repo_link(val):
-        return None
-    project, subproject = val[10:].split('/', 1)
-    return SubProject.objects.get(slug=subproject, project__slug=project)
 
 
 def validate_repo(val):
