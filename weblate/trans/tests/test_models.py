@@ -59,7 +59,6 @@ class RepoTestCase(TestCase):
         cmd = git.Git()
 
         # Clone repo for testing
-        shutil.rmtree(self.base_repo_path)
         if not os.path.exists(self.base_repo_path):
             cmd.clone(
                 '--bare',
@@ -78,6 +77,7 @@ class RepoTestCase(TestCase):
             'git://github.com/nijel/weblate-test.git',
             self.repo_path
         )
+        self.repo_path = 'git://github.com/nijel/weblate-test.git'
 
     def create_project(self):
         '''
