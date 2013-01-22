@@ -24,7 +24,7 @@ Tests for user handling.
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.core.management import call_command
 
@@ -82,3 +82,7 @@ class CommandTest(TestCase):
         user = User.objects.get(username='admin')
         self.asserEqual(user.first_name, 'Weblate')
         self.asserEqual(user.last_name, 'Admin')
+
+    def test_setupgroups(self):
+        call_command('setupgroups')
+        group = Group.objects.get(name='Users')
