@@ -576,10 +576,20 @@ def show_engage(request, project, lang=None):
 
     # Render text
     if language is None:
-        status_text = _('<a href="%(url)s">Translation project for %(project)s</a> currently contains %(total)s strings for translation and is <a href="%(url)s">being translated into %(languages)s languages</a>. Overall, these translations are %(percent)s%% complete.')
+        status_text = _(
+            '<a href="%(url)s">Translation project for %(project)s</a> '
+            'currently contains %(total)s strings for translation and is '
+            '<a href="%(url)s">being translated into %(languages)s languages'
+            '</a>. Overall, these translations are %(percent)s%% complete.'
+        )
     else:
-        # Translators: line of text in engagement widget, please use your language name instead of English
-        status_text = _('<a href="%(url)s">Translation project for %(project)s</a> into English currently contains %(total)s strings for translation and is %(percent)s%% complete.')
+        # Translators: line of text in engagement widget, please use your
+        # language name instead of English
+        status_text = _(
+            '<a href="%(url)s">Translation project for %(project)s</a> into '
+            'English currently contains %(total)s strings for translation and '
+            'is %(percent)s%% complete.'
+        )
         if 'English' in status_text:
             status_text = status_text.replace('English', language.name)
 
@@ -591,26 +601,43 @@ def show_engage(request, project, lang=None):
 def show_project(request, project):
     obj = get_object_or_404(Project, slug=project)
     obj.check_acl(request)
-    dicts = Dictionary.objects.filter(project=obj).values_list('language', flat=True).distinct()
-    last_changes = Change.objects.filter(translation__subproject__project=obj).order_by('-timestamp')[:10]
+
+    dicts = Dictionary.objects.filter(
+        project=obj
+    ).values_list(
+        'language', flat=True
+    ).distinct()
+
+    last_changes = Change.objects.filter(
+        translation__subproject__project=obj
+    ).order_by('-timestamp')[:10]
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
         'dicts': Language.objects.filter(id__in=dicts),
         'last_changes': last_changes,
-        'last_changes_rss': reverse('rss-project', kwargs={'project': obj.slug}),
+        'last_changes_rss': reverse(
+            'rss-project',
+            kwargs={'project': obj.slug}
+        ),
     }))
 
 
 def show_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
     obj.check_acl(request)
-    last_changes = Change.objects.filter(translation__subproject=obj).order_by('-timestamp')[:10]
+
+    last_changes = Change.objects.filter(
+        translation__subproject=obj
+    ).order_by('-timestamp')[:10]
 
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
-        'last_changes_rss': reverse('rss-subproject', kwargs={'subproject': obj.slug, 'project': obj.project.slug}),
+        'last_changes_rss': reverse(
+            'rss-subproject',
+            kwargs={'subproject': obj.slug, 'project': obj.project.slug}
+        ),
     }))
 
 
@@ -780,7 +807,9 @@ def show_translation(request, project, subproject, lang):
         review_form = None
     else:
         review_form = ReviewForm(
-            initial={'date': datetime.date.today() - datetime.timedelta(days=31)}
+            initial={
+                'date': datetime.date.today() - datetime.timedelta(days=31)
+            }
         )
 
     return render_to_response('translation.html', RequestContext(request, {
