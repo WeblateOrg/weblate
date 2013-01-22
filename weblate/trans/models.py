@@ -2392,7 +2392,14 @@ class Unit(models.Model):
             previous_source = ''
 
         # Check if we actually need to change anything
-        if not force and location == self.location and flags == self.flags and same_content and same_fuzzy and translated == self.translated and comment == self.comment and pos == self.position and previous_source == self.previous_source:
+        if (not force and
+                location == self.location and
+                flags == self.flags and
+                same_content and same_fuzzy and
+                translated == self.translated and
+                comment == self.comment and
+                pos == self.position and
+                previous_source == self.previous_source):
             return
 
         # Store updated values
