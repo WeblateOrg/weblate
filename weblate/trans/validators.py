@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 
 def validate_repoweb(val):
