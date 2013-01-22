@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from weblate.trans.tests.test_diff import *
 from weblate.trans.tests.test_format_checks import *
 from weblate.trans.tests.test_chars_checks import *
 from weblate.trans.tests.test_same_checks import *
