@@ -59,6 +59,7 @@ class RepoTestCase(TestCase):
         cmd = git.Git()
 
         # Clone repo for testing
+        shutil.rmtree(self.base_repo_path)
         if not os.path.exists(self.base_repo_path):
             cmd.clone(
                 '--bare',
