@@ -94,6 +94,17 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, 'Test/Test')
 
 
+class BasicResourceViewTest(BasicViewTest):
+    def create_subproject(self, file_format='aresource',
+                          mask='android/values-*/strings.xml',
+                          template='android/values/strings.xml'):
+        return super(BasicResourceViewTest, self).create_subproject(
+            file_format,
+            mask,
+            template,
+        )
+
+
 class ExportsViewTest(ViewTestCase):
     def test_view_rss(self):
         response = self.client.get(
@@ -137,6 +148,17 @@ class ExportsViewTest(ViewTestCase):
         )
         parsed = simplejson.loads(response.content)
         self.assertEqual(parsed[0]['name'], 'Czech')
+
+
+class ExportsResourceViewTest(ExportsViewTest):
+    def create_subproject(self, file_format='aresource',
+                          mask='android/values-*/strings.xml',
+                          template='android/values/strings.xml'):
+        return super(ExportsResourceViewTest, self).create_subproject(
+            file_format,
+            mask,
+            template,
+        )
 
 
 class EditTest(ViewTestCase):
@@ -213,3 +235,14 @@ class EditTest(ViewTestCase):
         self.assertFalse(self.translation.git_needs_push())
         self.assertFalse(self.subproject.git_needs_push())
         self.assertFalse(self.subproject.project.git_needs_push())
+
+
+class EditResourceTest(EditTest):
+    def create_subproject(self, file_format='aresource',
+                          mask='android/values-*/strings.xml',
+                          template='android/values/strings.xml'):
+        return super(EditResourceTest, self).create_subproject(
+            file_format,
+            mask,
+            template,
+        )
