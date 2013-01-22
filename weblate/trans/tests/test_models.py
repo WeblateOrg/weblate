@@ -44,11 +44,6 @@ class RepoTestCase(TestCase):
             if os.path.exists(test_dir):
                 shutil.rmtree(test_dir)
 
-        # Path where to clone remote repo for tests
-        self.base_repo_path = os.path.join(
-            settings.GIT_ROOT,
-            'test-base-repo.git'
-        )
         # Repository on which tests will be performed
         self.repo_path = os.path.join(
             settings.GIT_ROOT,
@@ -58,14 +53,6 @@ class RepoTestCase(TestCase):
         # Git command wrapper
         cmd = git.Git()
 
-        # Clone repo for testing
-        if not os.path.exists(self.base_repo_path):
-            cmd.clone(
-                '--bare',
-                'git://github.com/nijel/weblate-test.git',
-                self.base_repo_path
-            )
-
         # Remove possibly existing directory
         if os.path.exists(self.repo_path):
             shutil.rmtree(self.repo_path)
@@ -73,11 +60,9 @@ class RepoTestCase(TestCase):
         # Clone copy for the test
         cmd.clone(
             '--bare',
-            '--reference', self.base_repo_path,
             'git://github.com/nijel/weblate-test.git',
             self.repo_path
         )
-        self.repo_path = 'git://github.com/nijel/weblate-test.git'
 
     def create_project(self):
         '''
