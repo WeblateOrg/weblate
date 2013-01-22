@@ -204,14 +204,3 @@ def is_repo_link(val):
     Checks whethere repository is just a link for other one.
     '''
     return val.startswith('weblate://')
-
-
-def get_linked_repo(val):
-    '''
-    Returns subproject for linked repo.
-    '''
-    if not is_repo_link(val):
-        return None
-    project, subproject = val[10:].split('/', 1)
-    from weblate.trans.models import SubProject
-    return SubProject.objects.get(slug=subproject, project__slug=project)

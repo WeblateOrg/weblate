@@ -119,6 +119,15 @@ class SubProjectManager(models.Manager):
             return self.all()
         return self.filter(project__in=projects)
 
+    def get_linked(self, val):
+        '''
+        Returns subproject for linked repo.
+        '''
+        if not is_repo_link(val):
+            return None
+        project, subproject = val[10:].split('/', 1)
+        return self.get(slug=subproject, project__slug=project)
+
 
 class TranslationManager(models.Manager):
     def update_from_blob(self, subproject, code, path, force=False, request=None):

@@ -62,7 +62,7 @@ from weblate.trans.util import (
     is_plural, split_plural, join_plural,
     get_source, get_target,
     is_translated, get_user_display,
-    is_repo_link, get_linked_repo,
+    is_repo_link,
 )
 from weblate.trans.validators import (
     validate_repoweb,
@@ -639,7 +639,7 @@ class SubProject(models.Model):
         '''
         Returns subproject for linked repo.
         '''
-        return get_linked_repo(self.repo)
+        return SubProject.get_linked(self.repo)
 
     @property
     def git_repo(self):
