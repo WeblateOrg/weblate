@@ -80,7 +80,6 @@ class RepoTestCase(TestCase):
             'git://github.com/nijel/weblate-test.git',
             self.repo_path
         )
-        import os
         os.system('cd %s; git log' % self.repo_path)
 
     def create_project(self):
