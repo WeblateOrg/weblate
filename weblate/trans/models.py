@@ -639,7 +639,7 @@ class SubProject(models.Model):
         '''
         Returns subproject for linked repo.
         '''
-        return SubProject.get_linked(self.repo)
+        return SubProject.objects.get_linked(self.repo)
 
     @property
     def git_repo(self):
