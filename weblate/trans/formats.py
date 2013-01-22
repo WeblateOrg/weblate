@@ -22,6 +22,7 @@ File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
 from translate.storage import factory
+import __builtin__
 
 
 class FileFormat(object):
