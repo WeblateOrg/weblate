@@ -60,6 +60,7 @@ class RepoTestCase(TestCase):
 
         # Clone repo for testing
         if not os.path.exists(self.base_repo_path):
+            print 'CLONE BASE %s' % self.base_repo_path
             cmd.clone(
                 '--bare',
                 'git://github.com/nijel/weblate-test.git',
@@ -68,9 +69,11 @@ class RepoTestCase(TestCase):
 
         # Remove possibly existing directory
         if os.path.exists(self.repo_path):
+            print 'RM %s' % self.repo_path
             shutil.rmtree(self.repo_path)
 
         # Clone copy for the test
+        print 'CLONE %s' % self.repo_path
         cmd.clone(
             '--bare',
             '--reference', self.base_repo_path,
