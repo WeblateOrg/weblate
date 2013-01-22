@@ -41,7 +41,6 @@ import os.path
 import logging
 import git
 import traceback
-import importlib
 from translate.storage.lisa import LISAfile
 from translate.storage import poheader
 from datetime import datetime, timedelta
