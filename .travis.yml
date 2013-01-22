@@ -47,4 +47,4 @@ script:
   - ./manage.py validate
   - ./manage.py syncdb --noinput
   - ./manage.py migrate
-  - ./manage.py test trans lang accounts
+  - ./manage.py test --settings weblate.settings_test trans lang accounts
