@@ -51,6 +51,7 @@ import weblate
 from weblate.lang.models import Language
 from weblate.trans.formats import (
     FILE_FORMAT_CHOICES,
+    FILE_FORMATS,
     ttkit
 )
 from weblate.trans.checks import CHECKS
