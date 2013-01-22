@@ -102,6 +102,13 @@ class RepoTestCase(TestCase):
             'iphone/*.lproj/Localizable.strings',
         )
 
+    def create_android(self):
+        return self.create_subproject(
+            'aresource',
+            'android/values-*/strings.xml',
+            'android/values/strings.xml',
+        )
+
     def create_java(self):
         return self.create_subproject(
             'properties',
@@ -148,6 +155,11 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_iphone(self):
         project = self.create_iphone()
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual(project.translation_set.count(), 1)
+
+    def test_create_android(self):
+        project = self.create_android()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
