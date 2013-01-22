@@ -52,9 +52,16 @@ class FileFormat(object):
         if '.' in module_name:
             module = importlib.import_module(module_name)
         else:
-            module = importlib.import_module(
-                'translate.storage.%s' % module_name
-            )
+            try:
+                module = importlib.import_module(
+                    'translate.storage.%s' % module_name
+                )
+            except ImportError:
+                # Fallback to bultin ttkit copy
+                # (only valid for aresource)
+                module = importlib.import_module(
+                    'ttkit.%s' % module_name
+                )
 
         # Get the class
         storeclass = getattr(module, class_name)
