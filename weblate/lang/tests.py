@@ -24,6 +24,7 @@ Tests for language manipulations.
 
 from django.test import TestCase
 from weblate.lang.models import Language
+from django.core.management import call_command
 
 
 class LanguagesTest(TestCase):
@@ -62,3 +63,12 @@ class LanguagesTest(TestCase):
             lang.get_plural_form(),
             'nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'
         )
+
+
+class CommandTest(TestCase):
+    '''
+    Tests for management commands.
+    '''
+    def test_setuplang(self):
+        call_command('setuplang')
+        self.assertTrue(Language.objects.exists())
