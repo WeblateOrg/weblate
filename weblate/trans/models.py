@@ -65,6 +65,12 @@ from weblate.trans.util import (
     is_translated, get_user_display,
     is_repo_link, get_linked_repo,
 )
+from weblate.trans.validators import (
+    validate_repoweb,
+    validate_commit_message,
+    validate_filemask,
+    validate_repo,
+)
 
 from django.db.models.signals import post_syncdb
 from south.signals import post_migrate
@@ -78,47 +84,6 @@ DEFAULT_COMMIT_MESSAGE = (
     'Currently translated at %(translated_percent)s%% '
     '(%(translated)s of %(total)s strings)'
 )
-
-
-def validate_repoweb(val):
-    try:
-        val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
-    except Exception as e:
-        raise ValidationError(_('Bad format string (%s)') % str(e))
-
-
-def validate_commit_message(val):
-    try:
-        val % {
-            'language': 'cs',
-            'language_name': 'Czech',
-            'project': 'Weblate',
-            'subproject': 'master',
-            'total': 200,
-            'fuzzy': 20,
-            'fuzzy_percent': 10.0,
-            'translated': 40,
-            'translated_percent': 20.0,
-        }
-    except Exception as e:
-        raise ValidationError(_('Bad format string (%s)') % str(e))
-
-
-def validate_filemask(val):
-    if not '*' in val:
-        raise ValidationError(
-            _('File mask does not contain * as a language placeholder!')
-        )
-
-
-def validate_repo(val):
-    try:
-        repo = get_linked_repo(val)
-        if repo is not None and repo.is_repo_link():
-            raise ValidationError(_('Can not link to linked repository!'))
-    except SubProject.DoesNotExist:
-        raise ValidationError(_('Invalid link to repository!'))
-
 
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
