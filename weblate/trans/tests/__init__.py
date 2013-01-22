@@ -19,5 +19,6 @@
 #
 from weblate.trans.tests.test_checks import *
 from weblate.trans.tests.test_format_checks import *
+from weblate.trans.tests.test_chars_checks import *
 from weblate.trans.tests.test_models import *
 from weblate.trans.tests.test_views import *
