@@ -52,17 +52,9 @@ def diff(old, new):
         )
 
 
-def stringDiff(old, new):
-    """
-    Returns the difference between the old and new strings when split on
-    whitespace. Considers punctuation a part of the word
-    """
-    return diff(old.split(), new.split())
-
-
 def htmlDiff(old, new):
     """
-    Returns the difference between two strings (as in stringDiff) in
+    Returns the difference between two strings in
     HTML format.
 
     >>> htmlDiff('First string', 'Second string')
