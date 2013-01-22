@@ -26,6 +26,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import mail
+from django.core.management import call_command
 
 
 class RegistrationTest(TestCase):
@@ -70,3 +71,14 @@ class RegistrationTest(TestCase):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First')
         self.assertEqual(user.last_name, 'Last')
+
+
+class CommandTest(TestCase):
+    '''
+    Tests for management commands.
+    '''
+    def test_createadmin(self):
+        call_command('createadmin')
+        user = User.objects.get(username='admin')
+        self.asserEqual(user.first_name, 'Weblate')
+        self.asserEqual(user.last_name, 'Admin')
