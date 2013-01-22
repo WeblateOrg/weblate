@@ -25,6 +25,7 @@ from django.db.models import Q
 import itertools
 
 from weblate.lang.models import Language
+from weblate.trans.formats import ttkit
 
 from whoosh import qparser
 
@@ -467,8 +468,6 @@ class DictionaryManager(models.Manager):
         '''
         Handles dictionary update.
         '''
-        from weblate.trans.models import ttkit
-
         ret = 0
 
         # Load file using ttkit
