@@ -280,7 +280,7 @@ class Project(models.Model):
         if self.enable_acl:
             content_type = ContentType.objects.get(
                 app_label='trans',
-                model='Project'
+                model='project'
             )
 
             perm_code = 'weblate_acl_%s' % self.slug
