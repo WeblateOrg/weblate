@@ -21,6 +21,10 @@ from django.core.exceptions import ValidationError
 
 
 def validate_repoweb(val):
+    '''
+    Validates whether URL for repository browser is valid and
+    can be filled in using format string.
+    '''
     try:
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
     except Exception as e:
@@ -28,6 +32,9 @@ def validate_repoweb(val):
 
 
 def validate_commit_message(val):
+    '''
+    Validates that commit message is a valid format string.
+    '''
     try:
         val % {
             'language': 'cs',
@@ -45,6 +52,9 @@ def validate_commit_message(val):
 
 
 def validate_filemask(val):
+    '''
+    Validates file mask that it contains *.
+    '''
     if not '*' in val:
         raise ValidationError(
             _('File mask does not contain * as a language placeholder!')
@@ -52,6 +62,9 @@ def validate_filemask(val):
 
 
 def validate_repo(val):
+    '''
+    Validates Git URL, and special weblate:// links.
+    '''
     try:
         repo = get_linked_repo(val)
         if repo is not None and repo.is_repo_link():
