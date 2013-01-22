@@ -43,13 +43,16 @@ import git
 import traceback
 import importlib
 import __builtin__
-from translate.storage import factory
 from translate.storage.lisa import LISAfile
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
 import weblate
 from weblate.lang.models import Language
+from weblate.trans.formats import (
+    FILE_FORMAT_CHOICES,
+    ttkit
+)
 from weblate.trans.checks import CHECKS
 from weblate.trans.managers import (
     TranslationManager, UnitManager, DictionaryManager, ChangeManager,
@@ -74,124 +77,6 @@ DEFAULT_COMMIT_MESSAGE = (
     'Currently translated at %(translated_percent)s%% '
     '(%(translated)s of %(total)s strings)'
 )
-
-
-class FileFormat(object):
-    '''
-    Simple object defining file format loader.
-    '''
-    def __init__(self, name, loader, monolingual=None, mark_fuzzy=False, fixups=None):
-        self.name = name
-        self.loader = loader
-        self.monolingual = monolingual
-        self.mark_fuzzy = mark_fuzzy
-        self.fixups = fixups
-
-    def load(self, storefile):
-        '''
-        Loads file using defined loader.
-        '''
-        loader = self.loader
-
-        # If loader is callable call it directly
-        if callable(loader):
-            return loader(storefile)
-
-        # Tuple style loader, import from translate toolkit
-        module_name, class_name = loader
-        if '.' in module_name:
-            module = importlib.import_module(module_name)
-        else:
-            module = importlib.import_module(
-                'translate.storage.%s' % module_name
-            )
-
-        # Get the class
-        storeclass = getattr(module, class_name)
-
-        # Parse file
-        store = storeclass.parsefile(storefile)
-
-        # Apply possible fixups
-        if self.fixups is not None:
-            for fix in self.fixups:
-                setattr(store, fix, self.fixups[fix])
-
-        return store
-
-
-FILE_FORMATS = {
-    'auto': FileFormat(
-        ugettext_lazy('Automatic detection'),
-        factory.getobject,
-    ),
-    'po': FileFormat(
-        ugettext_lazy('Gettext PO file'),
-        ('po', 'pofile'),
-        False,
-    ),
-    'ts': FileFormat(
-        ugettext_lazy('Qt Linguist Translation File'),
-        ('ts2', 'tsfile'),
-    ),
-    'xliff': FileFormat(
-        ugettext_lazy('XLIFF Translation File'),
-        ('xliff', 'xlifffile'),
-    ),
-    'strings': FileFormat(
-        ugettext_lazy('OS X Strings'),
-        ('properties', 'stringsfile'),
-        False,
-    ),
-    'properties': FileFormat(
-        ugettext_lazy('Java Properties'),
-        ('properties', 'javafile'),
-        True,
-        # Java properties need to be iso-8859-1, but
-        # ttkit converts them to utf-8
-        fixups={'encoding': 'iso-8859-1'},
-    ),
-    'properties-utf8': FileFormat(
-        ugettext_lazy('Java Properties (UTF-8)'),
-        ('properties', 'javautf8file'),
-        True,
-    ),
-    'php': FileFormat(
-        ugettext_lazy('PHP strings'),
-        ('php', 'phpfile'),
-    ),
-    'aresource': FileFormat(
-        ugettext_lazy('Android String Resource'),
-        ('aresource', 'AndroidResourceFile'),
-        True,
-        mark_fuzzy=True,
-    )
-}
-
-FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
-
-
-def ttkit(storefile, file_format='auto'):
-    '''
-    Returns translate-toolkit storage for a path.
-    '''
-
-    # Workaround for _ created by interactive interpreter and
-    # later used instead of gettext by ttkit
-    if '_' in __builtin__.__dict__ and not callable(__builtin__.__dict__['_']):
-        del __builtin__.__dict__['_']
-
-    # Add missing mode attribute to Django file wrapper
-    if not isinstance(storefile, basestring):
-        storefile.mode = 'r'
-
-    if not file_format in FILE_FORMATS:
-        raise Exception('Not supported file format: %s' % file_format)
-
-    # Get loader
-    format_obj = FILE_FORMATS[file_format]
-
-    return format_obj.load(storefile)
 
 
 def validate_repoweb(val):
