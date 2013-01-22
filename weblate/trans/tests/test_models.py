@@ -24,6 +24,7 @@ Tests for translation models.
 
 from django.test import TestCase
 from django.conf import settings
+from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
 import shutil
 import os
@@ -150,6 +151,36 @@ class ProjectTest(RepoTestCase):
             'Bad format string',
             project.full_clean
         )
+
+    def test_acl(self):
+        '''
+        Test for ACL handling.
+        '''
+        # Create user to verify ACL
+        user = User.objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+
+        # Create project
+        project = self.create_project()
+
+        # Enable ACL
+        project.enable_acl = True
+        project.save()
+
+        # Check user does not have access
+        self.assertFalse(project.has_acl(user))
+
+        # Add ACL
+        permission = Permission.objects.get(codename='weblate_acl_test')
+        user.user_permissions.add(permission)
+
+        # Need to fetch user again to clear permission cache
+        user = User.objects.get(username='testuser')
+
+        # We now should have access
+        self.assertTrue(project.has_acl(user))
 
 
 class SubProjectTest(RepoTestCase):
