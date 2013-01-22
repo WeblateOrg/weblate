@@ -248,7 +248,7 @@ class Project(models.Model):
         return True
 
     def is_git_locked(self):
-        return max([sp.locked for sp in self.subproject_set.all()])
+        return max([subproject.locked for subproject in self.subproject_set.all()])
 
     @models.permalink
     def get_lock_url(self):
@@ -883,8 +883,8 @@ class SubProject(models.Model):
             translation.commit_pending(skip_push=skip_push)
 
         # Process linked projects
-        for sp in self.get_linked_childs():
-            sp.commit_pending(True, skip_push=skip_push)
+        for subproject in self.get_linked_childs():
+            subproject.commit_pending(True, skip_push=skip_push)
 
     def notify_merge_failure(self, error, status):
         '''
@@ -1041,12 +1041,12 @@ class SubProject(models.Model):
                 todelete.delete()
 
         # Process linked repos
-        for sp in self.get_linked_childs():
+        for subproject in self.get_linked_childs():
             logger.info(
                 'updating linked project %s',
-                sp
+                subproject
             )
-            sp.create_translations(force, langs, request=request)
+            subproject.create_translations(force, langs, request=request)
 
         logger.info('updating of %s completed', self)
 
