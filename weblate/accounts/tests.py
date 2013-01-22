@@ -80,8 +80,8 @@ class CommandTest(TestCase):
     def test_createadmin(self):
         call_command('createadmin')
         user = User.objects.get(username='admin')
-        self.asserEqual(user.first_name, 'Weblate')
-        self.asserEqual(user.last_name, 'Admin')
+        self.assertEqual(user.first_name, 'Weblate')
+        self.assertEqual(user.last_name, 'Admin')
 
     def test_setupgroups(self):
         call_command('setupgroups')
