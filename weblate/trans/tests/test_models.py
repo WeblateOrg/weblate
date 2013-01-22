@@ -239,8 +239,8 @@ class TranslationTest(RepoTestCase):
         translation = project.translation_set.get(language_code='cs')
         for unit in translation.unit_set.all():
             print unit, unit.translated, unit.fuzzy
-            print unit.source
-            print unit.target
+            print repr(unit.source)
+            print repr(unit.target)
             print
         self.assertEqual(translation.translated, 0)
         self.assertEqual(translation.total, 4)
