@@ -32,7 +32,7 @@ from weblate.trans.checks.chars import (
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
 )
-from weblate.trans.tests.test_checks import Unit, Language
+from weblate.trans.tests.test_checks import Language
 
 
 class BeginNewlineCheckTest(TestCase):

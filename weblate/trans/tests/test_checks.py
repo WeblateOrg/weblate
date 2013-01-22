@@ -22,8 +22,6 @@
 Helpers for quality checks tests.
 """
 
-from django.test import TestCase
-
 
 class Language(object):
     '''
