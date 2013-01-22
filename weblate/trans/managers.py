@@ -29,7 +29,8 @@ from weblate.lang.models import Language
 from whoosh import qparser
 
 from weblate.trans.util import (
-    msg_checksum, get_source, get_target, get_context
+    msg_checksum, get_source, get_target, get_context,
+    is_repo_link,
 )
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
