@@ -164,7 +164,7 @@ def widgets(request, project):
     engage_url_track = '%s?utm_source=widget' % engage_url
     widget_base_url = 'http://%s%s' % (
         site.domain,
-        reverse('weblate.trans.widgets.widgets', kwargs={'project': obj.slug}),
+        reverse('widgets', kwargs={'project': obj.slug}),
     )
     widget_list = []
     for widget_name in WIDGETS:
