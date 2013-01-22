@@ -52,15 +52,15 @@ def diff(old, new):
         )
 
 
-def htmlDiff(old, new):
+def html_diff(old, new):
     """
     Returns the difference between two strings in
     HTML format.
 
-    >>> htmlDiff('First string', 'Second string')
+    >>> html_diff('First string', 'Second string')
     '<del>First</del><ins>Second</ins> string'
 
-    >>> htmlDiff('First string', 'Second string new')
+    >>> html_diff('First string', 'Second string new')
     '<del>First</del><ins>Second</ins> string<ins> new</ins>'
 
     """

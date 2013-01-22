@@ -36,7 +36,7 @@ from datetime import date, datetime
 import weblate
 import weblate.trans
 
-from weblate.trans.simplediff import htmlDiff
+from weblate.trans.simplediff import html_diff
 from weblate.trans.util import (
     split_plural, gravatar_for_email, get_user_display
 )
@@ -98,7 +98,7 @@ def fmttranslation(value, language=None, diff=None):
         # Format diff if there is any
         if diff is not None:
             diffvalue = escape(force_unicode(diff[idx]))
-            value = htmlDiff(diffvalue, value)
+            value = html_diff(diffvalue, value)
 
         # Normalize newlines
         value = NEWLINES_RE.sub('\n', value)
