@@ -1675,7 +1675,6 @@ def translate(request, project, subproject, lang):
             'secondary': secondary,
             'search_query': search_query,
             'search_url': search_url,
-            'search_query': search_query,
             'search_source': bool2str(search_source),
             'search_type': search_type,
             'search_target': bool2str(search_target),
