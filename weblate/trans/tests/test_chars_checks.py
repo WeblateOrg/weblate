@@ -57,6 +57,7 @@ class BeginSpaceCheckTest(CheckTestCase):
         super(BeginSpaceCheckTest, self).setUp()
         self.check = BeginSpaceCheck()
         self.test_good_matching = ('   string', '   string', '')
+        self.test_good_ignore = ('.', ' ', '')
         self.test_failure_1 = ('  string', '    string', '')
         self.test_failure_2 = ('    string', '  string', '')
 
@@ -66,6 +67,7 @@ class EndSpaceCheckTest(CheckTestCase):
         super(EndSpaceCheckTest, self).setUp()
         self.check = EndSpaceCheck()
         self.test_good_matching = ('string  ', 'string  ', '')
+        self.test_good_ignore = ('.', ' ', '')
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
 
@@ -75,6 +77,7 @@ class EndStopCheckTest(CheckTestCase):
         super(EndStopCheckTest, self).setUp()
         self.check = EndStopCheck()
         self.test_good_matching = ('string.', 'string.', '')
+        self.test_good_ignore = ('.', ' ', '')
         self.test_failure_1 = ('string.', 'string', '')
         self.test_failure_2 = ('string', 'string.', '')
 
