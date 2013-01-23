@@ -131,12 +131,12 @@ class SameCheck(TargetCheck):
         return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
-        # Ignore strings which don't contain any string to translate
-        if self.is_format_only(source, flags):
+        # One letter things are usually labels or decimal/thousand separators
+        if len(source) <= 1 and len(target) <= 1:
             return False
 
-        # One letter things are usually labels or decimal/thousand separators
-        if len(source) == 1 and len(target) == 1:
+        # Ignore strings which don't contain any string to translate
+        if self.is_format_only(source, flags):
             return False
 
         # English variants will have most things not translated
