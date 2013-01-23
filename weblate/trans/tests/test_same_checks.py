@@ -26,32 +26,17 @@ from django.test import TestCase
 from weblate.trans.checks.same import (
     SameCheck,
 )
-from weblate.trans.tests.test_checks import Language
+from weblate.trans.tests.test_checks import Language, CheckTestCase
 
 
-class SameCheckTest(TestCase):
+class SameCheckTest(CheckTestCase):
     def setUp(self):
+        super(SameCheckTest, self).setUp()
         self.check = SameCheck()
-
-    def test_not_same(self):
-        self.assertFalse(self.check.check_single(
-            'source',
-            'translation',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_same(self):
-        self.assertTrue(self.check.check_single(
-            'source',
-            'source',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_none = ('%(source)s', '%(source)s', 'python-format')
+        self.test_good_matching = ('source', 'translation', '')
+        self.test_good_ignore = ('alarm', 'alarm', '')
+        self.test_failure_1 = ('string', 'string', '')
 
     def test_same_english(self):
         self.assertFalse(self.check.check_single(
@@ -59,16 +44,6 @@ class SameCheckTest(TestCase):
             'source',
             '',
             Language('en'),
-            None,
-            0
-        ))
-
-    def test_same_format(self):
-        self.assertFalse(self.check.check_single(
-            '%(source)s',
-            '%(source)s',
-            'python-format',
-            Language('cs'),
             None,
             0
         ))

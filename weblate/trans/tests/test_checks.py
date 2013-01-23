@@ -55,6 +55,7 @@ class CheckTestCase(TestCase):
         self.test_empty = ('', '', '')
         self.test_good_matching = None
         self.test_good_none = ('string', 'string', '')
+        self.test_good_ignore = None
         self.test_failure_1 = None
         self.test_failure_2 = None
         self.test_failure_3 = None
@@ -82,6 +83,9 @@ class CheckTestCase(TestCase):
 
     def test_single_good_none(self):
         self.do_test(False, self.test_good_none)
+
+    def test_single_good_ignore(self):
+        self.do_test(False, self.test_good_ignore)
 
     def test_single_empty(self):
         self.do_test(False, self.test_empty)
