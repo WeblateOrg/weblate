@@ -68,7 +68,7 @@ class CheckTestCase(TestCase):
             self.check.check_single(
                 data[0],
                 data[1],
-                data[1],
+                data[2],
                 Language(),
                 Unit(),
                 0
