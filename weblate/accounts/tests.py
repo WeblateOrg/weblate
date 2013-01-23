@@ -86,3 +86,8 @@ class CommandTest(TestCase):
     def test_setupgroups(self):
         call_command('setupgroups')
         group = Group.objects.get(name='Users')
+        self.assertTrue(
+            group.permissions.filter(
+                codename='save_translation'
+            ).exists()
+        )
