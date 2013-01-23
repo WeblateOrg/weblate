@@ -70,7 +70,7 @@ cp -a . %{buildroot}/%{WLDIR}
 
 # We ship this separately
 rm -rf %{buildroot}/%{WLDIR}/docs
-rm -f %{buildroot}/%{WLDIR}/README.rst \
+rm -f %{buildroot}/%{WLDIR}/README.md \
     %{buildroot}/%{WLDIR}/ChangeLog \
     %{buildroot}/%{WLDIR}/COPYING \
     %{buildroot}/%{WLDIR}/INSTALL
