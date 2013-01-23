@@ -53,7 +53,7 @@ class CheckTestCase(TestCase):
     def setUp(self):
         self.check = Check()
         self.test_empty = ('', '', '')
-        self.test_good_matching = None
+        self.test_good_matching = ('string', 'string', '')
         self.test_good_none = ('string', 'string', '')
         self.test_good_ignore = None
         self.test_failure_1 = None
@@ -98,3 +98,51 @@ class CheckTestCase(TestCase):
 
     def test_single_failure_3(self):
         self.do_test(True, self.test_failure_3)
+
+    def test_check_good_matching_singular(self):
+        self.assertFalse(
+            self.check.check(
+                [self.test_good_matching[0]],
+                [self.test_good_matching[1]],
+                self.test_good_matching[2],
+                Language(),
+                Unit()
+            )
+        )
+
+    def test_check_good_matching_plural(self):
+        self.assertFalse(
+            self.check.check(
+                [self.test_good_matching[0]] * 2,
+                [self.test_good_matching[1]] * 3,
+                self.test_good_matching[2],
+                Language(),
+                Unit()
+            )
+        )
+
+    def test_check_failure_1_singular(self):
+        if self.test_failure_1 is None:
+            return
+        self.assertTrue(
+            self.check.check(
+                [self.test_failure_1[0]],
+                [self.test_failure_1[1]],
+                self.test_failure_1[2],
+                Language(),
+                Unit()
+            )
+        )
+
+    def test_check_failure_1_plural(self):
+        if self.test_failure_1 is None:
+            return
+        self.assertTrue(
+            self.check.check(
+                [self.test_failure_1[0]] * 2,
+                [self.test_failure_1[1]] * 3,
+                self.test_failure_1[2],
+                Language(),
+                Unit()
+            )
+        )
