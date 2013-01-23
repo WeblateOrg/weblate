@@ -57,6 +57,7 @@ class CheckTestCase(TestCase):
         self.test_good_none = ('string', 'string', '')
         self.test_failure_1 = None
         self.test_failure_2 = None
+        self.test_failure_3 = None
 
     def do_test(self, expected, data):
         '''
@@ -90,3 +91,6 @@ class CheckTestCase(TestCase):
 
     def test_single_failure_2(self):
         self.do_test(True, self.test_failure_2)
+
+    def test_single_failure_3(self):
+        self.do_test(True, self.test_failure_3)

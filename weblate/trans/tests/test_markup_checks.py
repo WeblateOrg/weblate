@@ -27,128 +27,23 @@ from weblate.trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
 )
-from weblate.trans.tests.test_checks import Unit, Language
+from weblate.trans.tests.test_checks import CheckTestCase
 
 
-class BBCodeCheckTest(TestCase):
+class BBCodeCheckTest(CheckTestCase):
     def setUp(self):
+        super(BBCodeCheckTest, self).setUp()
         self.check = BBCodeCheck()
-
-    def test_none(self):
-        self.assertFalse(self.check.check_single(
-            u'string',
-            u'string',
-            '',
-            Language('cs'),
-            Unit('bbcode_none'),
-            0
-        ))
-
-    def test_matching(self):
-        self.assertFalse(self.check.check_single(
-            u'[a]string[/a]',
-            u'[a]string[/a]',
-            '',
-            Language('cs'),
-            Unit('bbcode_matching'),
-            0
-        ))
-
-    def test_not_matching_1(self):
-        self.assertTrue(self.check.check_single(
-            u'[a]string[/a]',
-            u'[b]string[/b]',
-            '',
-            Language('cs'),
-            Unit('bbcode_not_matching_1'),
-            0
-        ))
-
-    def test_not_matching_2(self):
-        self.assertTrue(self.check.check_single(
-            u'[a]string[/a]',
-            u'[a]string[/b]',
-            '',
-            Language('cs'),
-            Unit('bbcode_not_matching_2'),
-            0
-        ))
+        self.test_good_matching = ('[a]string[/a]', '[a]string[/a]', '')
+        self.test_failure_1 = ('[a]string[/a]', '[b]string[/b]', '')
+        self.test_failure_2 = ('[a]string[/a]', 'string', '')
 
 
-class XMLTagsCheckTest(TestCase):
+class XMLTagsCheckTest(CheckTestCase):
     def setUp(self):
+        super(XMLTagsCheckTest, self).setUp()
         self.check = XMLTagsCheck()
-
-    def test_none(self):
-        self.assertFalse(self.check.check_single(
-            u'string',
-            u'string',
-            '',
-            Language('cs'),
-            Unit('xml_none'),
-            0
-        ))
-        self.assertFalse(self.check.check_single(
-            u'string',
-            u'string',
-            '',
-            Language('de'),
-            Unit('xml_none'),
-            0
-        ))
-
-    def test_invalid(self):
-        self.assertFalse(self.check.check_single(
-            u'string</a>',
-            u'string</a>',
-            '',
-            Language('cs'),
-            Unit('xml_invalid'),
-            0
-        ))
-        self.assertFalse(self.check.check_single(
-            u'string</a>',
-            u'string</a>',
-            '',
-            Language('de'),
-            Unit('xml_invalid'),
-            0
-        ))
-
-    def test_matching(self):
-        self.assertFalse(self.check.check_single(
-            u'<a>string</a>',
-            u'<a>string</a>',
-            '',
-            Language('cs'),
-            Unit('xml_matching'),
-            0
-        ))
-        self.assertFalse(self.check.check_single(
-            u'<a>string</a>',
-            u'<a>string</a>',
-            '',
-            Language('de'),
-            Unit('xml_matching'),
-            0
-        ))
-
-    def test_not_matching_1(self):
-        self.assertTrue(self.check.check_single(
-            u'<a>string</a>',
-            u'<b>string</b>',
-            '',
-            Language('cs'),
-            Unit('xml_not_matching_1'),
-            0
-        ))
-
-    def test_not_matching_2(self):
-        self.assertTrue(self.check.check_single(
-            u'<a>string</a>',
-            u'<a>string</b>',
-            '',
-            Language('cs'),
-            Unit('xml_not_matching_2'),
-            0
-        ))
+        self.test_good_matching = ('<a>string</a>', '<a>string</a>', '')
+        self.test_failure_1 = ('<a>string</a>', '<b>string</b>', '')
+        self.test_failure_2 = ('<a>string</a>', 'string', '')
+        self.test_failure_3 = ('<a>string</a>', '<b>string</a>', '')
