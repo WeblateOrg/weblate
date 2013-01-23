@@ -81,6 +81,8 @@ class EndStopCheckTest(CheckTestCase):
         self.test_failure_1 = ('string.', 'string', '')
         self.test_failure_2 = ('string', 'string.', '')
 
+    def test_japanese(self):
+        self.do_test(False, ('Text:', u'Text。', ''), 'ja')
 
 class EndColonCheckTest(CheckTestCase):
     def setUp(self):
@@ -89,6 +91,15 @@ class EndColonCheckTest(CheckTestCase):
         self.test_good_matching = ('string:', 'string:', '')
         self.test_failure_1 = ('string:', 'string', '')
         self.test_failure_2 = ('string', 'string:', '')
+
+    def test_japanese(self):
+        self.do_test(False, ('Text:', u'Texte。', ''), 'ja')
+
+    def test_french(self):
+        self.do_test(False, ('Text:', u'Texte : ', ''), 'fr')
+
+    def test_french_wrong(self):
+        self.do_test(True, ('Text:', u'Texte:', ''), 'fr')
 
 
 class EndQuestionCheckTest(CheckTestCase):
@@ -99,6 +110,12 @@ class EndQuestionCheckTest(CheckTestCase):
         self.test_failure_1 = ('string?', 'string', '')
         self.test_failure_2 = ('string', 'string?', '')
 
+    def test_french(self):
+        self.do_test(False, ('Text?', u'Texte ?', ''), 'fr')
+
+    def test_french_wrong(self):
+        self.do_test(True, ('Text?', u'Texte?', ''), 'fr')
+
 
 class EndExclamationCheckTest(CheckTestCase):
     def setUp(self):
@@ -107,6 +124,12 @@ class EndExclamationCheckTest(CheckTestCase):
         self.test_good_matching = ('string!', 'string!', '')
         self.test_failure_1 = ('string!', 'string', '')
         self.test_failure_2 = ('string', 'string!', '')
+
+    def test_french(self):
+        self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
+
+    def test_french_wrong(self):
+        self.do_test(True, ('Text!', u'Texte!', ''), 'fr')
 
 
 class EndEllipsisCheckTest(CheckTestCase):

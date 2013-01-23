@@ -59,7 +59,7 @@ class CheckTestCase(TestCase):
         self.test_failure_2 = None
         self.test_failure_3 = None
 
-    def do_test(self, expected, data):
+    def do_test(self, expected, data, lang='cs'):
         '''
         Performs single check if we have data to test.
         '''
@@ -70,7 +70,7 @@ class CheckTestCase(TestCase):
                 data[0],
                 data[1],
                 data[2],
-                Language(),
+                Language(lang),
                 Unit(),
                 0
             ),
