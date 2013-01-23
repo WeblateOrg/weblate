@@ -97,7 +97,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc docs/_build/html
-%doc README.rst
+%doc README.md
 %config(noreplace) /%{_sysconfdir}/weblate
 %config(noreplace) /%{_sysconfdir}/apache2
 %{WLDIR}
