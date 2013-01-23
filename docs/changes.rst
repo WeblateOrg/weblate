@@ -25,6 +25,7 @@ Released on ? 2013.
 * Added support for substring search.
 * Various quality checks improvements.
 * Support for per project ACL.
+* Basic unit tests coverage.
 
 weblate 1.3
 -----------
