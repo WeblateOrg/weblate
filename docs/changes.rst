@@ -4,7 +4,7 @@ Changes
 weblate 1.4
 -----------
 
-Released on ? 2013.
+Released on January 23rd 2013.
 
 * Fixed deleting of checks/comments on unit deletion.
 * Added option to disable automatic propagation of translations.
