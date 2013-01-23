@@ -53,12 +53,15 @@ class CheckTestCase(TestCase):
     def setUp(self):
         self.check = Check()
         self.test_empty = ('', '', '')
-        self.test_good_1 = ('', '', '')
-        self.test_good_2 = ('string', 'string', '')
+        self.test_good_matching = None
+        self.test_good_none = ('string', 'string', '')
         self.test_failure_1 = None
         self.test_failure_2 = None
 
     def do_test(self, expected, data):
+        '''
+        Performs single check if we have data to test.
+        '''
         if data is None:
             return
         self.assertEqual(
@@ -73,11 +76,11 @@ class CheckTestCase(TestCase):
             expected
         )
 
-    def test_single_good_1(self):
-        self.do_test(False, self.test_good_1)
+    def test_single_good_matching(self):
+        self.do_test(False, self.test_good_matching)
 
-    def test_single_good_2(self):
-        self.do_test(False, self.test_good_2)
+    def test_single_good_none(self):
+        self.do_test(False, self.test_good_none)
 
     def test_single_empty(self):
         self.do_test(False, self.test_empty)
