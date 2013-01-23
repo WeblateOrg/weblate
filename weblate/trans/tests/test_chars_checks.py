@@ -71,6 +71,9 @@ class EndSpaceCheckTest(CheckTestCase):
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
 
+    def test_french(self):
+        self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
+
 
 class EndStopCheckTest(CheckTestCase):
     def setUp(self):
@@ -95,8 +98,14 @@ class EndColonCheckTest(CheckTestCase):
     def test_japanese(self):
         self.do_test(False, ('Text:', u'Texte。', ''), 'ja')
 
+    def test_japanese_ignore(self):
+        self.do_test(False, ('Text', u'Texte', ''), 'ja')
+
     def test_french(self):
         self.do_test(False, ('Text:', u'Texte : ', ''), 'fr')
+
+    def test_french_ignore(self):
+        self.do_test(False, ('Text', u'Texte', ''), 'fr')
 
     def test_french_wrong(self):
         self.do_test(True, ('Text:', u'Texte:', ''), 'fr')
@@ -113,6 +122,9 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_french(self):
         self.do_test(False, ('Text?', u'Texte ?', ''), 'fr')
 
+    def test_french_ignore(self):
+        self.do_test(False, ('Text', u'Texte', ''), 'fr')
+
     def test_french_wrong(self):
         self.do_test(True, ('Text?', u'Texte?', ''), 'fr')
 
@@ -127,6 +139,9 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def test_french(self):
         self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
+
+    def test_french_ignore(self):
+        self.do_test(False, ('Text', u'Texte', ''), 'fr')
 
     def test_french_wrong(self):
         self.do_test(True, ('Text!', u'Texte!', ''), 'fr')
