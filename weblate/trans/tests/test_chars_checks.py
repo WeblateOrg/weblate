@@ -38,7 +38,6 @@ from weblate.trans.tests.test_checks import CheckTestCase
 class BeginNewlineCheckTest(CheckTestCase):
     def setUp(self):
         super(BeginNewlineCheckTest, self).setUp()
-        super(BeginNewlineCheckTest, self).setUp()
         self.check = BeginNewlineCheck()
         self.test_good_matching = ('\nstring', '\nstring', '')
         self.test_failure_1 = ('\nstring', ' \nstring', '')
@@ -47,7 +46,6 @@ class BeginNewlineCheckTest(CheckTestCase):
 
 class EndNewlineCheckTest(CheckTestCase):
     def setUp(self):
-        super(EndNewlineCheckTest, self).setUp()
         super(EndNewlineCheckTest, self).setUp()
         self.check = EndNewlineCheck()
         self.test_good_matching = ('string\n', 'string\n', '')
