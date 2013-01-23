@@ -24,7 +24,6 @@ Helpers for quality checks tests.
 
 from django.test import TestCase
 import uuid
-import unittest
 from weblate.trans.checks.base import Check
 
 
