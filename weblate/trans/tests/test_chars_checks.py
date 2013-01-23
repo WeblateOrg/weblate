@@ -32,459 +32,105 @@ from weblate.trans.checks.chars import (
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
 )
-from weblate.trans.tests.test_checks import Language
+from weblate.trans.tests.test_checks import Language, CheckTestCase
 
 
-class BeginNewlineCheckTest(TestCase):
+class BeginNewlineCheckTest(CheckTestCase):
     def setUp(self):
+        super(BeginNewlineCheckTest, self).setUp()
+        super(BeginNewlineCheckTest, self).setUp()
         self.check = BeginNewlineCheck()
-
-    def test_newline(self):
-        self.assertFalse(self.check.check_single(
-            '\nstring',
-            '\nstring',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_newline_1(self):
-        self.assertTrue(self.check.check_single(
-            '\nstring',
-            ' \nstring',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_newline_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            '\nstring',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('\nstring', '\nstring', '')
+        self.test_failure_1 = ('\nstring', ' \nstring', '')
+        self.test_failure_2 = ('string', '\nstring', '')
 
 
-class EndNewlineCheckTest(TestCase):
+class EndNewlineCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndNewlineCheckTest, self).setUp()
+        super(EndNewlineCheckTest, self).setUp()
         self.check = EndNewlineCheck()
-
-    def test_newline(self):
-        self.assertFalse(self.check.check_single(
-            'string\n',
-            'string\n',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_newline_1(self):
-        self.assertTrue(self.check.check_single(
-            'string\n',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_newline_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            'string\n',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string\n', 'string\n', '')
+        self.test_failure_1 = ('string\n', 'string', '')
+        self.test_failure_2 = ('string', 'string\n', '')
 
 
-class BeginSpaceCheckTest(TestCase):
+class BeginSpaceCheckTest(CheckTestCase):
     def setUp(self):
+        super(BeginSpaceCheckTest, self).setUp()
         self.check = BeginSpaceCheck()
-
-    def test_whitespace(self):
-        self.assertFalse(self.check.check_single(
-            '   string',
-            '   string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_whitespace_1(self):
-        self.assertTrue(self.check.check_single(
-            '  string',
-            '    string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_whitespace_2(self):
-        self.assertTrue(self.check.check_single(
-            '    string',
-            '  string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('   string', '   string', '')
+        self.test_failure_1 = ('  string', '    string', '')
+        self.test_failure_2 = ('    string', '  string', '')
 
 
-class EndSpaceCheckTest(TestCase):
+class EndSpaceCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndSpaceCheckTest, self).setUp()
         self.check = EndSpaceCheck()
-
-    def test_whitespace(self):
-        self.assertFalse(self.check.check_single(
-            'string  ',
-            'string  ',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_whitespace_1(self):
-        self.assertTrue(self.check.check_single(
-            'string  ',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_no_whitespace_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            'string ',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string  ', 'string  ', '')
+        self.test_failure_1 = ('string  ', 'string', '')
+        self.test_failure_2 = ('string', 'string ', '')
 
 
-class EndStopCheckTest(TestCase):
+class EndStopCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndStopCheckTest, self).setUp()
         self.check = EndStopCheck()
-
-    def test_no_stop(self):
-        self.assertFalse(self.check.check_single(
-            'string',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_stop(self):
-        self.assertFalse(self.check.check_single(
-            'string.',
-            'string.',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_stop_1(self):
-        self.assertTrue(self.check.check_single(
-            'string.',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_stop_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            'string.',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string.', 'string.', '')
+        self.test_failure_1 = ('string.', 'string', '')
+        self.test_failure_2 = ('string', 'string.', '')
 
 
-class EndColonCheckTest(TestCase):
+class EndColonCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndColonCheckTest, self).setUp()
         self.check = EndColonCheck()
-
-    def test_no_colon(self):
-        self.assertFalse(self.check.check_single(
-            'string',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_colon(self):
-        self.assertFalse(self.check.check_single(
-            'string:',
-            'string:',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_colon_1(self):
-        self.assertTrue(self.check.check_single(
-            'string:',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_colon_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            'string:',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string:', 'string:', '')
+        self.test_failure_1 = ('string:', 'string', '')
+        self.test_failure_2 = ('string', 'string:', '')
 
 
-class EndQuestionCheckTest(TestCase):
+class EndQuestionCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndQuestionCheckTest, self).setUp()
         self.check = EndQuestionCheck()
-
-    def test_no_question(self):
-        self.assertFalse(self.check.check_single(
-            'string',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_question(self):
-        self.assertFalse(self.check.check_single(
-            'string?',
-            'string?',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_question_1(self):
-        self.assertTrue(self.check.check_single(
-            'string?',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_question_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            'string?',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string?', 'string?', '')
+        self.test_failure_1 = ('string?', 'string', '')
+        self.test_failure_2 = ('string', 'string?', '')
 
 
-class EndExclamationCheckTest(TestCase):
+class EndExclamationCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndExclamationCheckTest, self).setUp()
         self.check = EndExclamationCheck()
-
-    def test_no_exclamation(self):
-        self.assertFalse(self.check.check_single(
-            'string',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_exclamation(self):
-        self.assertFalse(self.check.check_single(
-            'string!',
-            'string!',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_exclamation_1(self):
-        self.assertTrue(self.check.check_single(
-            'string!',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_exclamation_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            'string!',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string!', 'string!', '')
+        self.test_failure_1 = ('string!', 'string', '')
+        self.test_failure_2 = ('string', 'string!', '')
 
 
-class EndEllipsisCheckTest(TestCase):
+class EndEllipsisCheckTest(CheckTestCase):
     def setUp(self):
+        super(EndEllipsisCheckTest, self).setUp()
         self.check = EndEllipsisCheck()
-
-    def test_no_ellipsis(self):
-        self.assertFalse(self.check.check_single(
-            'string',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_ellipsis(self):
-        self.assertFalse(self.check.check_single(
-            u'string…',
-            u'string…',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_ellipsis_1(self):
-        self.assertTrue(self.check.check_single(
-            u'string…',
-            'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_missing_ellipsis_2(self):
-        self.assertTrue(self.check.check_single(
-            'string',
-            u'string…',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = (u'string…', u'string…', '')
+        self.test_failure_1 = (u'string…', 'string...', '')
+        self.test_failure_2 = ('string...', u'string…', '')
 
 
-class NewlineCountingCheckTest(TestCase):
+class NewlineCountingCheckTest(CheckTestCase):
     def setUp(self):
+        super(NewlineCountingCheckTest, self).setUp()
         self.check = NewlineCountingCheck()
-
-    def test_none(self):
-        self.assertFalse(self.check.check_single(
-            u'string',
-            u'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_matching(self):
-        self.assertFalse(self.check.check_single(
-            u'string\\nstring',
-            u'string\\nstring',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_not_matching_1(self):
-        self.assertTrue(self.check.check_single(
-            u'string\\n\\nstring',
-            u'string\\nstring',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_not_matching_2(self):
-        self.assertTrue(self.check.check_single(
-            u'string\\nstring',
-            u'string\\n\\nstring',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = ('string\\nstring', 'string\\nstring', '')
+        self.test_failure_1 = ('string\\nstring', 'string\\n\\nstring', '')
+        self.test_failure_2 = ('string\\n\\nstring', 'string\\nstring', '')
 
 
-class ZeroWidthSpaceCheckTest(TestCase):
+class ZeroWidthSpaceCheckTest(CheckTestCase):
     def setUp(self):
+        super(ZeroWidthSpaceCheckTest, self).setUp()
         self.check = ZeroWidthSpaceCheck()
-
-    def test_none(self):
-        self.assertFalse(self.check.check_single(
-            u'string',
-            u'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_matching(self):
-        self.assertFalse(self.check.check_single(
-            u'str\u200bing',
-            u'str\u200bing',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_not_matching_1(self):
-        self.assertTrue(self.check.check_single(
-            u'str\u200bing',
-            u'string',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
-
-    def test_not_matching_2(self):
-        self.assertTrue(self.check.check_single(
-            u'string',
-            u'str\u200bing',
-            '',
-            Language('cs'),
-            None,
-            0
-        ))
+        self.test_good_1 = (u'str\u200bing', u'str\u200bing', '')
+        self.test_failure_1 = (u'str\u200bing', 'string', '')
+        self.test_failure_2 = ('string', u'str\u200bing', '')

@@ -19,6 +19,7 @@
 #
 
 from weblate.trans.tests.test_diff import *
+from weblate.trans.tests.test_checks import *
 from weblate.trans.tests.test_format_checks import *
 from weblate.trans.tests.test_chars_checks import *
 from weblate.trans.tests.test_same_checks import *
