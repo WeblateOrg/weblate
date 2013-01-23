@@ -22,7 +22,6 @@
 Tests for quality checks.
 """
 
-from django.test import TestCase
 from weblate.trans.checks.chars import (
     BeginNewlineCheck, EndNewlineCheck,
     BeginSpaceCheck, EndSpaceCheck,

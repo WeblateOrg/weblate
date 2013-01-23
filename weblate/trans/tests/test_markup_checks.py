@@ -22,7 +22,6 @@
 Tests for quality checks.
 """
 
-from django.test import TestCase
 from weblate.trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
