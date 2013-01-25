@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-01-22 00:18+0100\n"
-"PO-Revision-Date: 2013-01-21 01:28+0200\n"
+"PO-Revision-Date: 2013-01-25 14:00+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Weblate 1.4-dev\n"
+"X-Generator: Weblate 1.4\n"
 
 #: urls.py:223 urls.py:230 urls.py:237 urls.py:244
 msgid "User registration"
@@ -299,7 +299,7 @@ msgstr ""
 
 #: html/about.html:6
 msgid "about"
-msgstr ""
+msgstr "over"
 
 #: html/about.html:11 html/footer.html:7 trans/views.py:1949
 msgid "About Weblate"
@@ -1695,9 +1695,9 @@ msgstr ""
 "%(site_title)s."
 
 #: html/mail/new_contributor_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Automatische vertaling"
+msgstr "Nieuwe medewerker voor %(translation)s"
 
 #: html/mail/new_string.html:12 html/mail/new_string.txt:3
 #, python-format
@@ -2756,9 +2756,8 @@ msgid "Use contact form"
 msgstr "Gebruik het contactformulier"
 
 #: trans/models.py:256
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "Niet-vertaalde tekenreeksen"
+msgstr "Verwijzen naar URL met vertaalinstructies"
 
 #: trans/models.py:259
 msgid "Merge"
@@ -2769,19 +2768,16 @@ msgid "Rebase"
 msgstr ""
 
 #: trans/models.py:268
-#, fuzzy
 msgid "Project website"
-msgstr "Project website :"
+msgstr "Project website"
 
 #: trans/models.py:272
-#, fuzzy
 msgid "Email conference for translators"
-msgstr "Mailinglist voor vertalers :"
+msgstr "Mailinglist voor vertalers"
 
 #: trans/models.py:276
-#, fuzzy
 msgid "URL with instructions for translators"
-msgstr "Richtlijnen voor vertalers :"
+msgstr "URL met richtlijnen voor vertalers"
 
 #: trans/models.py:284
 msgid "How to handle requests for creating new languages."
@@ -2848,13 +2844,13 @@ msgid "URL of push Git repository"
 msgstr "URL van push Git repository"
 
 #: trans/models.py:616
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
-"Link naar repository browser, gebruik %(branch)s voor tak, %(file)s en "
-"%(line)s als bestandsnaam en regel parameters"
+"Link naar repository browser, gebruik %(branch)s, %(file)s en %(line)s als "
+"plaatsvervangers voor tak, bestandsnaam en regelnummer."
 
 #: trans/models.py:624
 msgid ""
@@ -2867,16 +2863,14 @@ msgid "Git branch to translate"
 msgstr "Git tak om te vertalen"
 
 #: trans/models.py:638
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 "Pad van te vertalen bestanden, gebruik * in plaats van de taalcode, "
-"bijvoorbeeld : po/*.po of locale/*/LC_MESSAGES/django.po"
+"bijvoorbeeld : po/*.po of locale/*/LC_MESSAGES/django.po."
 
 #: trans/models.py:646
-#, fuzzy
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -2884,16 +2878,15 @@ msgid ""
 msgstr ""
 "Bestandsnaam van template voor vertalingen, dit is aangewezen voor "
 "vertalingen die enkel de vertaalde tekenreeks opslaan, zoals Android "
-"hulpbrontekenreeksen"
+"hulpbrontekenreeksen."
 
 #: trans/models.py:656
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
 #: trans/models.py:663
-#, fuzzy
 msgid "Whether subproject is locked for translation updates."
-msgstr "Automatische vertaling"
+msgstr "Of het subproject geblokkeerd is voor vertaalaanpassingen."
 
 #: trans/models.py:669
 msgid ""
@@ -2917,9 +2910,9 @@ msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
 #: trans/models.py:1022
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "Push naar externe tak op %s is mislukt."
+msgstr "Herinstellen van externe tak op %s is mislukt."
 
 #: trans/models.py:1109
 #, python-format
@@ -2951,18 +2944,17 @@ msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
 #: trans/models.py:1298
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse %d matched files!"
-msgstr "Het formulier kon niet verwerkt worden!"
+msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
 
 #: trans/models.py:1308
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
 #: trans/models.py:1311
-#, fuzzy
 msgid "Failed to parse translation template."
-msgstr "Vertaling mislukt"
+msgstr "Verwerken van vertaaltemplate is mislukt."
 
 #: trans/models.py:1502
 #, python-format
@@ -2977,28 +2969,28 @@ msgid "Format of %s could not be recognized."
 msgstr ""
 
 #: trans/models.py:1516
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Het formulier kon niet verwerkt worden!"
+msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
 
 #: trans/models.py:1540
-#, fuzzy, python-format
+#, python-format
 msgid "This translation is locked by %(user)s!"
-msgstr "Automatische vertaling"
+msgstr "Deze vertaling is geblokeerd door %(user)s!"
 
 #: trans/models.py:2254 trans/models.py:2281
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
 #: trans/models.py:2259 trans/models.py:2312
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with any failing checks (%d)"
-msgstr "Tekenreeksen met suggesties (%d)"
+msgstr "Tekenreeksen met gefaalde controles (%d)"
 
 #: trans/models.py:2273 trans/models.py:2329
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with comments (%d)"
-msgstr "Tekenreeksen met suggesties (%d)"
+msgstr "Tekenreeksen met opmerkingen (%d)"
 
 #: trans/models.py:2288
 #, python-format
@@ -3033,29 +3025,24 @@ msgid "Resource update"
 msgstr ""
 
 #: trans/models.py:3107
-#, fuzzy
 msgid "Translation completed"
-msgstr "Vertaalcontext"
+msgstr "Vertaling afgewerkt"
 
 #: trans/models.py:3108
-#, fuzzy
 msgid "Translation changed"
-msgstr "Vertaalcontext"
+msgstr "Vertaling aangepast"
 
 #: trans/models.py:3109
-#, fuzzy
 msgid "New translation"
-msgstr "Vertaling"
+msgstr "Nieuwe vertaling"
 
 #: trans/models.py:3110
-#, fuzzy
 msgid "Comment added"
-msgstr "Opmerkingen"
+msgstr "Opmerking toegevoegd"
 
 #: trans/models.py:3111
-#, fuzzy
 msgid "Suggestion added"
-msgstr "Gedane voorstellen"
+msgstr "Suggestie toegevoegd"
 
 #: trans/models.py:3129
 #, python-format
@@ -3098,42 +3085,43 @@ msgid "Failed to process form!"
 msgstr "Het formulier kon niet verwerkt worden!"
 
 #: trans/views.py:579
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
 "contains %(total)s strings for translation and is <a href=\"%(url)s\">being "
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"Het vertaalproject van %(name)s bevat momenteel %(total)s te vertalen "
-"tekenreeksen en <a href=\"%(url)s\">wordt vertaald in %(languages)s talen</"
-"a>. Alles samen zijn de vertalingen %(percent)s%% volledig."
+"Het <a href=\"%(url)s\">vertaalproject van %(project)s</a> bevat momenteel %"
+"(total)s te vertalen tekenreeksen en <a href=\"%(url)s\">wordt vertaald in %"
+"(languages)s talen</a>. Alles samen zijn de vertalingen %(percent)s%% "
+"volledig."
 
 #. Translators: line of text in engagement widget, please use your language name instead of English
 #: trans/views.py:582
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"Het vertaalproject van %(name)s bevat momenteel %(total)s te vertalen "
-"tekenreeksen en <a href=\"%(url)s\">wordt vertaald in %(languages)s talen</"
-"a>. Alles samen zijn de vertalingen %(percent)s%% volledig."
+"Het <a href=\"%(url)s\">vertaalproject van %(project)s</a> naar Nederlands "
+"bevat momenteel %(total)s te vertalen tekenreeksen en is %(percent)s%% "
+"volledig."
 
 #: trans/views.py:677
 msgid "Automatic translation completed."
 msgstr "Automatische vertaling is klaar."
 
 #: trans/views.py:721
-#, fuzzy, python-format
+#, python-format
 msgid "Review source strings in %s"
-msgstr "Zoeken in brontekenreeksen"
+msgstr "Beoordeling bron tekenreeksen in %s"
 
 #: trans/views.py:741
-#, fuzzy, python-format
+#, python-format
 msgid "Source strings in %s"
-msgstr "Zoeken in brontekenreeksen"
+msgstr "Brontekenreeksen in %s"
 
 #: trans/views.py:811 trans/views.py:823 trans/views.py:841
 msgid "All pending translations were committed."
@@ -3150,16 +3138,15 @@ msgstr "Alle repositories werden gepushed."
 #: trans/views.py:937 trans/views.py:949 trans/views.py:967
 #, fuzzy
 msgid "All repositories have been reset."
-msgstr "Alle repositories werden gepushed."
+msgstr "Alle archieven zijn gereset."
 
 #: trans/views.py:986
 msgid "Translation is now locked for you."
 msgstr ""
 
 #: trans/views.py:1023
-#, fuzzy
 msgid "Translation is now open for translation updates."
-msgstr "Automatische vertaling"
+msgstr "Vertaling is nu open voor vertaalupdates."
 
 #: trans/views.py:1042
 msgid "Subproject is now locked for translation updates!"
@@ -3246,9 +3233,8 @@ msgid "Posted new comment"
 msgstr ""
 
 #: trans/views.py:1719
-#, fuzzy
 msgid "Failed to add comment!"
-msgstr "Het formulier kon niet verwerkt worden!"
+msgstr "Opmerking toevoegen is mislukt!"
 
 #: trans/views.py:1870
 msgid "File content successfully merged into translation."
@@ -3486,36 +3472,36 @@ msgid "New line"
 msgstr "Nieuwe regel"
 
 #: trans/templatetags/translations.py:242
-#, fuzzy, python-format
+#, python-format
 msgid "Avatar for %s"
-msgstr "Zoeken naar \"%s\""
+msgstr "Avatar voor %s"
 
 #: trans/templatetags/translations.py:278
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] "een uur geleden"
-msgstr[1] "%(count)s uur geleden"
+msgstr[0] "een jaar geleden"
+msgstr[1] "%(count)s jaren geleden"
 
 #: trans/templatetags/translations.py:283
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] "een minuut geleden"
-msgstr[1] "%(count)s minuten geleden"
+msgstr[0] "een maand geleden"
+msgstr[1] "%(count)s maanden geleden"
 
 #: trans/templatetags/translations.py:288
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] "een seconde geleden"
-msgstr[1] "%(count)s seconden geleden"
+msgstr[0] "een week geleden"
+msgstr[1] "%(count)s weken geleden"
 
 #: trans/templatetags/translations.py:292
 #, python-format
@@ -3551,31 +3537,31 @@ msgstr[0] "een uur geleden"
 msgstr[1] "%(count)s uur geleden"
 
 #: trans/templatetags/translations.py:315
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "een uur geleden"
-msgstr[1] "%(count)s uur van nu"
+msgstr[0] "over een jaar"
+msgstr[1] "over %(count)s jaren"
 
 #: trans/templatetags/translations.py:320
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "een minuut van nu"
-msgstr[1] "%(count)s minuten van nu"
+msgstr[0] "over een maand"
+msgstr[1] "over %(count)s maanden"
 
 #: trans/templatetags/translations.py:325
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "een seconde van nu"
-msgstr[1] "%(count)s seconden van nu"
+msgstr[0] "over een week"
+msgstr[1] "over %(count)s weken"
 
 #: trans/templatetags/translations.py:329
 #, python-format
