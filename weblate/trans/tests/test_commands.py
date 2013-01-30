@@ -36,9 +36,13 @@ class ImportTest(RepoTestCase):
             'master',
             '**/*.po',
         )
+        # We should have loaded two subprojects
         self.assertEqual(project.subproject_set.count(), 2)
 
     def test_import_missing_project(self):
+        '''
+        Test of correct handling of missing project.
+        '''
         self.assertRaises(
             SystemExit,
             call_command,
@@ -50,6 +54,9 @@ class ImportTest(RepoTestCase):
         )
 
     def test_import_missing_wildcard(self):
+        '''
+        Test of correct handling of missing wildcard.
+        '''
         project = self.create_project()
         self.assertRaises(
             SystemExit,
@@ -62,6 +69,10 @@ class ImportTest(RepoTestCase):
         )
 
 class WeblateCommandTest(RepoTestCase):
+    '''
+    Base class for handling tests of WeblateCommand
+    based commands.
+    '''
     command_name = None
 
     def do_test(self, *args, **kwargs):
