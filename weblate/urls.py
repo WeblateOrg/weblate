@@ -192,7 +192,7 @@ urlpatterns = patterns('',
     url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]*)\.png$', 'weblate.trans.widgets.render', name='widget-image-lang'),
     url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'weblate.trans.widgets.render', name='widget-image'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets', name='widgets'),
-    url(r'^widgets/$', 'weblate.trans.widgets.widgets_root'),
+    url(r'^widgets/$', 'weblate.trans.widgets.widgets_root', name='widgets_root'),
 
     url(r'^data/$', 'weblate.trans.views.data_root'),
     url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.data_project'),

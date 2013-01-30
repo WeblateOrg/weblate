@@ -246,3 +246,32 @@ class EditResourceTest(EditTest):
             mask,
             template,
         )
+
+
+class WidgetsTest(ViewTestCase):
+    def test_view_widgets_root(self):
+        response = self.client.get(
+            reverse('widgets_root')
+        )
+        self.assertContains(response, 'Test')
+
+    def test_view_widgets(self):
+        response = self.client.get(
+            reverse('widgets', kwargs={'project': self.subproject.project.slug})
+        )
+        self.assertContains(response, 'Test')
+
+    def test_view_engage(self):
+        response = self.client.get(
+            reverse('engage', kwargs={'project': self.subproject.project.slug})
+        )
+        self.assertContains(response, 'Test')
+
+    def test_view_engage_lang(self):
+        response = self.client.get(
+            reverse(
+                'engage-lang',
+                kwargs={'project': self.subproject.project.slug, 'lang': 'cs'}
+            )
+        )
+        self.assertContains(response, 'Test')
