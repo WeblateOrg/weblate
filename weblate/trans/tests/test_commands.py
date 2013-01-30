@@ -18,14 +18,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.tests.test_diff import *
-from weblate.trans.tests.test_checks import *
-from weblate.trans.tests.test_format_checks import *
-from weblate.trans.tests.test_source_checks import *
-from weblate.trans.tests.test_chars_checks import *
-from weblate.trans.tests.test_same_checks import *
-from weblate.trans.tests.test_consistency_checks import *
-from weblate.trans.tests.test_markup_checks import *
-from weblate.trans.tests.test_models import *
-from weblate.trans.tests.test_views import *
-from weblate.trans.tests.test_commands import *
+"""
+Tests for management commands.
+"""
+
+from weblate.trans.tests.test_models import RepoTestCase
+from django.core.management import call_command
+
+
+class ImportTest(RepoTestCase):
+    def test_import(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+        )
+        self.assertEqual(project.subproject_set.count(), 2)
