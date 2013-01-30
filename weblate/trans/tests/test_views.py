@@ -262,6 +262,13 @@ class WidgetsTest(ViewTestCase):
         )
         self.assertContains(response, 'Test')
 
+    def test_view_widgets_lang(self):
+        response = self.client.get(
+            reverse('widgets', kwargs={'project': self.subproject.project.slug}),
+            lang='cs'
+        )
+        self.assertContains(response, 'Test')
+
     def test_view_engage(self):
         response = self.client.get(
             reverse('engage', kwargs={'project': self.subproject.project.slug})
