@@ -77,7 +77,7 @@ class CheckGitTest(RepoTestCase):
     command_name = 'checkgit'
 
     def do_test(self, *args, **kwargs):
-        resource = self.create_subproject()
+        self.create_subproject()
         call_command(
             self.command_name,
             *args,
