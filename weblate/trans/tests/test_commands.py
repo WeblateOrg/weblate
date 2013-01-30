@@ -106,5 +106,9 @@ class LoadTest(WeblateCommandTest):
     command_name = 'loadpo'
 
 
-class UpdateTest(WeblateCommandTest):
+class UpdateChecksTest(WeblateCommandTest):
     command_name = 'updatechecks'
+
+
+class UpdateGitTest(WeblateCommandTest):
+    command_name = 'updategit'
