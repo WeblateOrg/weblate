@@ -122,6 +122,10 @@ class CommitPendingTest(CheckGitTest):
     command_name = 'commit_pending'
 
 
+class CommitGitTest(CheckGitTest):
+    command_name = 'commitgit'
+
+
 class LoadTest(CheckGitTest):
     command_name = 'loadpo'
 
