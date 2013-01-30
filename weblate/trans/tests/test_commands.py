@@ -83,3 +83,26 @@ class LoadTest(RepoTestCase):
             'loadpo',
             'test/test',
         )
+
+
+class UpdateTest(RepoTestCase):
+    def test_all(self):
+        resource = self.create_subproject()
+        call_command(
+            'updatechecks',
+            all=True,
+        )
+
+    def test_project(self):
+        resource = self.create_subproject()
+        call_command(
+            'updatechecks',
+            'test',
+        )
+
+    def test_subproject(self):
+        resource = self.create_subproject()
+        call_command(
+            'updatechecks',
+            'test/test',
+        )
