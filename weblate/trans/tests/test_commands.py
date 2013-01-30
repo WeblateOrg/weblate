@@ -118,6 +118,10 @@ class CheckGitTest(RepoTestCase):
         )
 
 
+class CommitPendingTest(CheckGitTest):
+    command_name = 'commit_pending'
+
+
 class LoadTest(CheckGitTest):
     command_name = 'loadpo'
 
