@@ -68,12 +68,12 @@ class ImportTest(RepoTestCase):
             '*/*.po',
         )
 
-class WeblateCommandTest(RepoTestCase):
+class CheckGitTest(RepoTestCase):
     '''
     Base class for handling tests of WeblateCommand
     based commands.
     '''
-    command_name = None
+    command_name = 'checkgit'
 
     def do_test(self, *args, **kwargs):
         resource = self.create_subproject()
@@ -113,13 +113,13 @@ class WeblateCommandTest(RepoTestCase):
         )
 
 
-class LoadTest(WeblateCommandTest):
+class LoadTest(CheckGitTest):
     command_name = 'loadpo'
 
 
-class UpdateChecksTest(WeblateCommandTest):
+class UpdateChecksTest(CheckGitTest):
     command_name = 'updatechecks'
 
 
-class UpdateGitTest(WeblateCommandTest):
+class UpdateGitTest(CheckGitTest):
     command_name = 'updategit'
