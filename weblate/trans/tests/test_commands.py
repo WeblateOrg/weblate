@@ -87,6 +87,20 @@ class WeblateCommandTest(RepoTestCase):
             'test/test',
         )
 
+    def test_nonexisting_project(self):
+        self.assertRaises(
+            SystemExit,
+            self.do_test,
+            'notest',
+        )
+
+    def test_nonexisting_subproject(self):
+        self.assertRaises(
+            SystemExit,
+            self.do_test,
+            'test/notest',
+        )
+
 
 class LoadTest(WeblateCommandTest):
     command_name = 'loadpo'
