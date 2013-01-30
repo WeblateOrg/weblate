@@ -61,48 +61,36 @@ class ImportTest(RepoTestCase):
             '*/*.po',
         )
 
+class WeblateCommandTest(RepoTestCase):
+    command_name = None
 
-class LoadTest(RepoTestCase):
-    def test_all(self):
+    def do_test(self, *args, **kwargs):
         resource = self.create_subproject()
         call_command(
-            'loadpo',
+            self.command_name,
+            *args,
+            **kwargs
+        )
+
+    def test_all(self):
+        self.do_test(
             all=True,
         )
 
     def test_project(self):
-        resource = self.create_subproject()
-        call_command(
-            'loadpo',
+        self.do_test(
             'test',
         )
 
     def test_subproject(self):
-        resource = self.create_subproject()
-        call_command(
-            'loadpo',
+        self.do_test(
             'test/test',
         )
 
 
-class UpdateTest(RepoTestCase):
-    def test_all(self):
-        resource = self.create_subproject()
-        call_command(
-            'updatechecks',
-            all=True,
-        )
+class LoadTest(WeblateCommandTest):
+    command_name = 'loadpo'
 
-    def test_project(self):
-        resource = self.create_subproject()
-        call_command(
-            'updatechecks',
-            'test',
-        )
 
-    def test_subproject(self):
-        resource = self.create_subproject()
-        call_command(
-            'updatechecks',
-            'test/test',
-        )
+class UpdateTest(WeblateCommandTest):
+    command_name = 'updatechecks'
