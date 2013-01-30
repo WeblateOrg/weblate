@@ -70,13 +70,8 @@ class RepoTestCase(TestCase):
         if os.path.exists(self.repo_path):
             shutil.rmtree(self.repo_path)
 
-        # Clone copy for the test
-        cmd.clone(
-            '--bare',
-            '--reference', self.base_repo_path,
-            'git://github.com/nijel/weblate-test.git',
-            self.repo_path
-        )
+        # Create repository copy for the test
+        shutil.copytree(self.repo_base_path, self.repo_path)
 
     def create_project(self):
         '''
