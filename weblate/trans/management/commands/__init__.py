@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
 from weblate.trans.models import Unit, SubProject
 
@@ -54,8 +54,8 @@ class WeblateCommand(BaseCommand):
             result = SubProject.objects.all()
         elif len(args) == 0:
             # no argumets to filter projects
-            print 'WARNING: Nothing to process!'
             print 'Please specify either --all or <project/subproject>'
+            raise CommandError('Nothing to process!')
             result = SubProject.objects.none()
         else:
             # start with none and add found
@@ -75,7 +75,8 @@ class WeblateCommand(BaseCommand):
 
                 # warn on no match
                 if found.count() == 0:
-                    print 'WARNING: "%s" did not match any subproject' % arg
+                    print '"%s" did not match any subproject' % arg
+                    raise CommandError('Nothing to process!')
 
                 # merge results
                 result |= found
