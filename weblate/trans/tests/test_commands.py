@@ -68,6 +68,7 @@ class ImportTest(RepoTestCase):
             '*/*.po',
         )
 
+
 class CheckGitTest(RepoTestCase):
     '''
     Base class for handling tests of WeblateCommand
@@ -123,3 +124,7 @@ class UpdateChecksTest(CheckGitTest):
 
 class UpdateGitTest(CheckGitTest):
     command_name = 'updategit'
+
+
+class RebuildIndexTest(CheckGitTest):
+    command_name = 'rebuild_index'
