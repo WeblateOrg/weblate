@@ -58,7 +58,7 @@ class ImportTest(RepoTestCase):
         '''
         Test of correct handling of missing wildcard.
         '''
-        project = self.create_project()
+        self.create_project()
         self.assertRaises(
             SystemExit,
             call_command,
