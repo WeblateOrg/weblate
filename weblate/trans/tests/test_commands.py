@@ -24,6 +24,7 @@ Tests for management commands.
 
 from weblate.trans.tests.test_models import RepoTestCase
 from django.core.management import call_command
+from weblate.trans.search import FULLTEXT_INDEX
 
 
 class ImportTest(RepoTestCase):
@@ -131,3 +132,16 @@ class UpdateGitTest(CheckGitTest):
 
 class RebuildIndexTest(CheckGitTest):
     command_name = 'rebuild_index'
+
+    def setUp(self):
+        super(RebuildIndexTest, self).setUp()
+        # Flush possible caches
+        FULLTEXT_INDEX._source_writer.commit()
+        for lang in FULLTEXT_INDEX._target_writer:
+            FULLTEXT_INDEX._target_writer[lang].commit()
+
+    def test_all_clean(self):
+        self.do_test(
+            all=True,
+            clean=True,
+        )
