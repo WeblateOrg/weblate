@@ -70,6 +70,18 @@ class ImportTest(RepoTestCase):
         )
 
 
+class PeriodicTest(RepoTestCase):
+    def test_cleanup(self):
+        call_command(
+            'cleanuptrans'
+        )
+
+    def test_update_index(self):
+        call_command(
+            'update_index'
+        )
+
+
 class CheckGitTest(RepoTestCase):
     '''
     Base class for handling tests of WeblateCommand
