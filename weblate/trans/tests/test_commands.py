@@ -60,3 +60,26 @@ class ImportTest(RepoTestCase):
             'master',
             '*/*.po',
         )
+
+
+class LoadTest(RepoTestCase):
+    def test_all(self):
+        resource = self.create_subproject()
+        call_command(
+            'loadpo',
+            all=True,
+        )
+
+    def test_project(self):
+        resource = self.create_subproject()
+        call_command(
+            'loadpo',
+            'test',
+        )
+
+    def test_subproject(self):
+        resource = self.create_subproject()
+        call_command(
+            'loadpo',
+            'test/test',
+        )
