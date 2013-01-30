@@ -76,8 +76,11 @@ class CheckGitTest(RepoTestCase):
     '''
     command_name = 'checkgit'
 
-    def do_test(self, *args, **kwargs):
+    def setUp(self):
+        super(CheckGitTest, self).setUp()
         self.create_subproject()
+
+    def do_test(self, *args, **kwargs):
         call_command(
             self.command_name,
             *args,
