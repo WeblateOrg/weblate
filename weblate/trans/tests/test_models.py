@@ -71,7 +71,7 @@ class RepoTestCase(TestCase):
             shutil.rmtree(self.repo_path)
 
         # Create repository copy for the test
-        shutil.copytree(self.repo_base_path, self.repo_path)
+        shutil.copytree(self.base_repo_path, self.repo_path)
 
     def create_project(self):
         '''
