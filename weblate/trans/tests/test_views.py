@@ -29,6 +29,7 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.utils import simplejson
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
+from weblate.trans.widgets import WIDGETS
 
 
 class ViewTestCase(RepoTestCase):
@@ -275,3 +276,36 @@ class WidgetsTest(ViewTestCase):
             )
         )
         self.assertContains(response, 'Test')
+
+    def test_view_widget_image(self):
+        for widget in WIDGETS:
+            for color in WIDGETS[widget]['colors']:
+                response = self.client.get(
+                    reverse(
+                        'widget-image',
+                        kwargs={
+                            'project': self.subproject.project.slug,
+                            'widget': widget,
+                            'color': color,
+                        }
+                    )
+                )
+                # This is pretty stupid test for PNG image
+                self.assertContains(response, 'PNG')
+
+    def test_view_widget_image_lang(self):
+        for widget in WIDGETS:
+            for color in WIDGETS[widget]['colors']:
+                response = self.client.get(
+                    reverse(
+                        'widget-image-lang',
+                        kwargs={
+                            'project': self.subproject.project.slug,
+                            'widget': widget,
+                            'color': color,
+                            'lang': 'cs',
+                        }
+                    )
+                )
+                # This is pretty stupid test for PNG image
+                self.assertContains(response, 'PNG')
