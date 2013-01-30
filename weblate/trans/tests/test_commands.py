@@ -37,3 +37,26 @@ class ImportTest(RepoTestCase):
             '**/*.po',
         )
         self.assertEqual(project.subproject_set.count(), 2)
+
+    def test_import_missing_project(self):
+        self.assertRaises(
+            SystemExit,
+            call_command,
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+        )
+
+    def test_import_missing_wildcard(self):
+        project = self.create_project()
+        self.assertRaises(
+            SystemExit,
+            call_command,
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '*/*.po',
+        )
