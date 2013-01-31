@@ -51,6 +51,11 @@
 {% with request.user as user %}
 {% include 'user-activity.html' %}
 {% endwith %}
+<p>
+{% url 'user_page' user=request.user.username as user_page%}
+{% trans "Your public profile:" %}
+<a href="{{ user_page }}">{{ user_page }}</a>
+</p>
 </div>
 <div id="avatar">
 <p>{% gravatar request.user 128 %}</p>
