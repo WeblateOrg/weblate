@@ -61,7 +61,7 @@ def gravatar_for_email(email, size=80):
     return escape(url)
 
 
-def get_user_display(user, icon=True):
+def get_user_display(user, icon=True, link=False):
     '''
     Nicely formats user for display.
     '''
@@ -70,6 +70,7 @@ def get_user_display(user, icon=True):
         # None user, probably remotely triggered action
         full_name = _('None')
         email = 'noreply@weblate.org'
+        profile = None
     else:
         # Get full name
         full_name = user.get_full_name()
@@ -79,18 +80,28 @@ def get_user_display(user, icon=True):
             full_name = user.username
 
         email = user.email
+        profile = user.get_profile()
 
-    # No icon requested
-    if not icon:
-        return full_name
+    # Escape HTML
+    full_name = escape(full_name)
 
-    # Get gravatar image
-    gravatar = gravatar_for_email(email, size=32)
+    # Icon requested?
+    if icon:
+        # Get gravatar image
+        gravatar = gravatar_for_email(email, size=32)
 
-    return mark_safe('<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
-        'name': escape(full_name),
-        'gravatar': gravatar
-    })
+        full_name = '<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
+            'name': full_name,
+            'gravatar': gravatar
+        }
+
+    if link and profile is not None:
+        return mark_safe('<a href="%(link)s">%(name)s</a>' % {
+            'name': full_name,
+            'link': profile.get_absolute_url(),
+        })
+    else:
+        return mark_safe(full_name)
 
 
 def is_plural(text):

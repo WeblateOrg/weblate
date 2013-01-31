@@ -2859,7 +2859,7 @@ class Suggestion(models.Model):
         return self.get_matching_unit().get_absolute_url()
 
     def get_user_display(self):
-        return get_user_display(self.user)
+        return get_user_display(self.user, link=True)
 
 
 class Comment(models.Model):
@@ -2874,7 +2874,7 @@ class Comment(models.Model):
         ordering = ['timestamp']
 
     def get_user_display(self):
-        return get_user_display(self.user)
+        return get_user_display(self.user, link=True)
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
@@ -2974,7 +2974,7 @@ class Change(models.Model):
         }
 
     def get_user_display(self, icon=True):
-        return get_user_display(self.user, icon)
+        return get_user_display(self.user, icon, link=True)
 
     def get_absolute_url(self):
         '''
