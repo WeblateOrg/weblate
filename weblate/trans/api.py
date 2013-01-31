@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
+from weblate.trans import appsettings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import (
     HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
@@ -40,7 +40,7 @@ def update_subproject(request, project, subproject):
     '''
     API hook for updating git repos.
     '''
-    if not settings.ENABLE_HOOKS:
+    if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
     thread = threading.Thread(target=obj.do_update)
@@ -53,7 +53,7 @@ def update_project(request, project):
     '''
     API hook for updating git repos.
     '''
-    if not settings.ENABLE_HOOKS:
+    if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(Project, slug=project)
     thread = threading.Thread(target=obj.do_update)
@@ -66,7 +66,7 @@ def github_hook(request):
     '''
     API to handle commit hooks from Github.
     '''
-    if not settings.ENABLE_HOOKS:
+    if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])

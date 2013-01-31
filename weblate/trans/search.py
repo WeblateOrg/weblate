@@ -26,7 +26,7 @@ import whoosh
 import os
 from whoosh.fields import Schema, TEXT, ID
 from django.db.models.signals import post_syncdb
-from django.conf import settings
+from weblate.trans import appsettings
 from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 
@@ -44,7 +44,7 @@ SOURCE_SCHEMA = Schema(
 
 def create_source_index():
     return create_in(
-        settings.WHOOSH_INDEX,
+        appsettings.WHOOSH_INDEX,
         schema=SOURCE_SCHEMA,
         indexname='source'
     )
@@ -52,15 +52,15 @@ def create_source_index():
 
 def create_target_index(lang):
     return create_in(
-        settings.WHOOSH_INDEX,
+        appsettings.WHOOSH_INDEX,
         schema=TARGET_SCHEMA,
         indexname='target-%s' % lang
     )
 
 
 def create_index(sender=None, **kwargs):
-    if not os.path.exists(settings.WHOOSH_INDEX):
-        os.mkdir(settings.WHOOSH_INDEX)
+    if not os.path.exists(appsettings.WHOOSH_INDEX):
+        os.mkdir(appsettings.WHOOSH_INDEX)
         create_source_index()
 
 post_syncdb.connect(create_index)
@@ -83,7 +83,7 @@ class Index(object):
         if self._source is None:
             try:
                 self._source = open_dir(
-                    settings.WHOOSH_INDEX,
+                    appsettings.WHOOSH_INDEX,
                     indexname='source'
                 )
             except whoosh.index.EmptyIndexError:
@@ -100,7 +100,7 @@ class Index(object):
         if not lang in self._target:
             try:
                 self._target[lang] = open_dir(
-                    settings.WHOOSH_INDEX,
+                    appsettings.WHOOSH_INDEX,
                     indexname='target-%s' % lang
                 )
             except whoosh.index.EmptyIndexError:

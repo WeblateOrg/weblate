@@ -20,7 +20,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.conf import settings
+from weblate.trans import appsettings
 from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
@@ -263,7 +263,7 @@ class Project(models.Model):
         })
 
     def get_path(self):
-        return os.path.join(settings.GIT_ROOT, self.slug)
+        return os.path.join(appsettings.GIT_ROOT, self.slug)
 
     def __unicode__(self):
         return self.name
@@ -1438,9 +1438,9 @@ class Translation(models.Model):
         Sets lock timestamp.
         '''
         if explicit:
-            seconds = settings.LOCK_TIME
+            seconds = appsettings.LOCK_TIME
         else:
-            seconds = settings.AUTO_LOCK_TIME
+            seconds = appsettings.AUTO_LOCK_TIME
 
         new_lock_time = datetime.now() + timedelta(seconds=seconds)
 
@@ -1459,7 +1459,7 @@ class Translation(models.Model):
             return
 
         # Auto lock if we should
-        if settings.AUTO_LOCK:
+        if appsettings.AUTO_LOCK:
             self.create_lock(request.user)
             return
 
@@ -1949,7 +1949,7 @@ class Translation(models.Model):
             return False
 
         # Can we delay commit?
-        if not force_commit and settings.LAZY_COMMITS:
+        if not force_commit and appsettings.LAZY_COMMITS:
             logger.info(
                 'Delaying commiting %s in %s as %s',
                 self.filename,
@@ -2807,8 +2807,8 @@ class Unit(models.Model):
         '''
         return Unit.objects.filter(
             translation=self.translation,
-            position__gte=self.position - settings.NEARBY_MESSAGES,
-            position__lte=self.position + settings.NEARBY_MESSAGES,
+            position__gte=self.position - appsettings.NEARBY_MESSAGES,
+            position__lte=self.position + appsettings.NEARBY_MESSAGES,
         )
 
 

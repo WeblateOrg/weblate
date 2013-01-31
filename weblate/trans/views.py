@@ -20,7 +20,7 @@
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
-from django.conf import settings
+from weblate.trans import appsettings
 from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext as _
 import django.utils.translation
@@ -1927,9 +1927,9 @@ def js_config(request):
     support.
     '''
     # Apertium support
-    if settings.MT_APERTIUM_KEY is not None and settings.MT_APERTIUM_KEY != '':
+    if appsettings.MT_APERTIUM_KEY is not None and appsettings.MT_APERTIUM_KEY != '':
         try:
-            listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % settings.MT_APERTIUM_KEY)
+            listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % appsettings.MT_APERTIUM_KEY)
             pairs = listpairs.read()
             parsed = json.loads(pairs)
             apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
@@ -1940,9 +1940,9 @@ def js_config(request):
         apertium_langs = None
 
     # Microsoft translator support
-    if settings.MT_MICROSOFT_KEY is not None and settings.MT_MICROSOFT_KEY != '':
+    if appsettings.MT_MICROSOFT_KEY is not None and appsettings.MT_MICROSOFT_KEY != '':
         try:
-            listpairs = urllib2.urlopen('http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate?appID=%s' % settings.MT_MICROSOFT_KEY)
+            listpairs = urllib2.urlopen('http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate?appID=%s' % appsettings.MT_MICROSOFT_KEY)
             data = listpairs.read()
             parsed = ElementTree.fromstring(data)
             microsoft_langs = [p.text for p in parsed.getchildren()]

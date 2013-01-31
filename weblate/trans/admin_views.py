@@ -26,6 +26,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.conf import settings
+from weblate.trans import appsettings
 import weblate
 
 import os
@@ -75,7 +76,7 @@ def performance(request):
     checks.append((
         # Translators: Indexing is postponed to cron job
         _('Indexing offloading'),
-        settings.OFFLOAD_INDEXING,
+        appsettings.OFFLOAD_INDEXING,
         'production-indexing',
     ))
     # Check for sane caching

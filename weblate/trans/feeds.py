@@ -21,7 +21,7 @@
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
-from django.conf import settings
+from weblate.trans import appsettings
 from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Change, Translation, SubProject, Project
@@ -31,10 +31,10 @@ from weblate.lang.models import Language
 class ChangesFeed(Feed):
 
     def title(self):
-        return _('Recent changes in %s') % settings.SITE_TITLE
+        return _('Recent changes in %s') % appsettings.SITE_TITLE
 
     def description(self):
-        return _('All recent changes made using Weblate in %s.') % settings.SITE_TITLE
+        return _('All recent changes made using Weblate in %s.') % appsettings.SITE_TITLE
 
     def link(self):
         return reverse('home')

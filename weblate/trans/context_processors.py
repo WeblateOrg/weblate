@@ -20,6 +20,7 @@
 
 import weblate
 from django.conf import settings
+from weblate.trans import appsettings
 from datetime import datetime
 
 URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
@@ -36,7 +37,7 @@ def weblate_url(request):
 
 
 def title(request):
-    return {'site_title': settings.SITE_TITLE}
+    return {'site_title': appsettings.SITE_TITLE}
 
 
 def date(request):
@@ -55,8 +56,8 @@ def url(request):
 
 def mt(request):
     return {
-        'apertium_api_key': settings.MT_APERTIUM_KEY,
-        'microsoft_api_key': settings.MT_MICROSOFT_KEY,
+        'apertium_api_key': appsettings.MT_APERTIUM_KEY,
+        'microsoft_api_key': appsettings.MT_MICROSOFT_KEY,
     }
 
 

@@ -269,7 +269,8 @@ LOGGING = {
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
 MT_APERTIUM_KEY = None
 
-# Microsoft Translator service, register at http://www.bing.com/developers/createapp.aspx
+# Microsoft Translator service, register at
+# http://www.bing.com/developers/createapp.aspx
 MT_MICROSOFT_KEY = None
 
 # Path where git repositories are stored, it needs to be writable
@@ -324,7 +325,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
 CHECK_LIST = (
-    'weblate.trans.checks.same.SameCheck',
+   'weblate.trans.checks.same.SameCheck',
     'weblate.trans.checks.chars.BeginNewlineCheck',
     'weblate.trans.checks.chars.EndNewlineCheck',
     'weblate.trans.checks.chars.BeginSpaceCheck',

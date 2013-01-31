@@ -19,7 +19,7 @@
 #
 
 from django.db import models
-from django.conf import settings
+from weblate.trans import appsettings
 from django.core.cache import cache
 from django.db.models import Q
 import itertools
@@ -350,7 +350,7 @@ class UnitManager(models.Manager):
         '''
         Updates/Adds to all indices given unit.
         '''
-        if settings.OFFLOAD_INDEXING:
+        if appsettings.OFFLOAD_INDEXING:
             from weblate.trans.models import IndexUpdate
             IndexUpdate.objects.get_or_create(unit=unit, source=source)
             return
@@ -388,7 +388,7 @@ class UnitManager(models.Manager):
         '''
         ret = set()
         if source or context:
-            with FULLTEXT_INDEX.source_searcher(not settings.OFFLOAD_INDEXING) as searcher:
+            with FULLTEXT_INDEX.source_searcher(not appsettings.OFFLOAD_INDEXING) as searcher:
                 if source:
                     results = self.__search(
                         searcher,
@@ -408,7 +408,7 @@ class UnitManager(models.Manager):
 
         if translation:
             sample = self.all()[0]
-            with FULLTEXT_INDEX.target_searcher(sample.translation.language.code, not settings.OFFLOAD_INDEXING) as searcher:
+            with FULLTEXT_INDEX.target_searcher(sample.translation.language.code, not appsettings.OFFLOAD_INDEXING) as searcher:
                 results = self.__search(
                     searcher,
                     'target',
@@ -427,12 +427,12 @@ class UnitManager(models.Manager):
         Finds similar units to current unit.
         '''
         ret = set([unit.checksum])
-        with FULLTEXT_INDEX.source_searcher(not settings.OFFLOAD_INDEXING) as searcher:
+        with FULLTEXT_INDEX.source_searcher(not appsettings.OFFLOAD_INDEXING) as searcher:
             # Extract up to 10 terms from the source
             terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms=10) if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
             # Try to find at least configured number of similar strings, remove up to 4 words
-            while len(ret) < settings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
+            while len(ret) < appsettings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
                     results = self.search(
                         ' '.join(search),

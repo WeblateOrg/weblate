@@ -27,7 +27,7 @@ from django.utils.translation import ugettext as _, ungettext
 from django.utils.formats import date_format
 from django.utils import timezone
 from django import template
-from django.conf import settings
+from weblate.trans import appsettings
 
 import re
 
@@ -153,7 +153,7 @@ def site_title(value):
     '''
     Returns site title
     '''
-    return settings.SITE_TITLE
+    return appsettings.SITE_TITLE
 
 
 @register.simple_tag
