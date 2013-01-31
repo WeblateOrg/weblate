@@ -37,7 +37,7 @@ from django.core.mail import mail_admins
 from south.signals import post_migrate
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project
+from weblate.trans.models import Project, Change
 from weblate.trans.util import get_user_display
 import weblate
 
@@ -248,6 +248,17 @@ class Profile(models.Model):
             'user': self.user.username
         })
 
+    def get_last_change(self):
+        '''
+        Returns date of last change user has done in Weblate.
+        '''
+        try:
+            change = Change.objects.filter(
+                user=self.user
+            )
+            return change[0].timestamp
+        except IndexError:
+            return None
 
     def notify_user(self, notification, translation_obj,
                     context=None, headers=None):

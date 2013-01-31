@@ -32,6 +32,7 @@ from registration.views import activate, register
 from weblate.accounts.forms import RegistrationForm
 from weblate.trans.feeds import TranslationChangesFeed, SubProjectChangesFeed, ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 from weblate.trans.models import Project, SubProject, Translation
+from weblate.accounts.models import Profile
 
 admin.autodiscover()
 
@@ -53,6 +54,11 @@ subproject_dict = {
 
 translation_dict = {
     'queryset': Translation.objects.all_acl(None),
+    'date_field': 'get_last_change',
+}
+
+user_dict = {
+    'queryset': Profile.objects.all(),
     'date_field': 'get_last_change',
 }
 
@@ -112,6 +118,7 @@ sitemaps = {
     'engagelang': EngageLangSitemap(),
     'subproject': GenericSitemap(subproject_dict, priority=0.6),
     'translation': GenericSitemap(translation_dict, priority=0.2),
+    'user': GenericSitemap(user_dict, priority=0.1),
     'pages': PagesSitemap(),
 }
 
