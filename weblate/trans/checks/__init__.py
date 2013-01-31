@@ -18,32 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-DEFAULT_CHECK_LIST = (
-    'weblate.trans.checks.same.SameCheck',
-    'weblate.trans.checks.chars.BeginNewlineCheck',
-    'weblate.trans.checks.chars.EndNewlineCheck',
-    'weblate.trans.checks.chars.BeginSpaceCheck',
-    'weblate.trans.checks.chars.EndSpaceCheck',
-    'weblate.trans.checks.chars.EndStopCheck',
-    'weblate.trans.checks.chars.EndColonCheck',
-    'weblate.trans.checks.chars.EndQuestionCheck',
-    'weblate.trans.checks.chars.EndExclamationCheck',
-    'weblate.trans.checks.chars.EndEllipsisCheck',
-    'weblate.trans.checks.format.PythonFormatCheck',
-    'weblate.trans.checks.format.PHPFormatCheck',
-    'weblate.trans.checks.format.CFormatCheck',
-    'weblate.trans.checks.consistency.PluralsCheck',
-    'weblate.trans.checks.consistency.ConsistencyCheck',
-    'weblate.trans.checks.consistency.DirectionCheck',
-    'weblate.trans.checks.chars.NewlineCountingCheck',
-    'weblate.trans.checks.markup.BBCodeCheck',
-    'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
-    'weblate.trans.checks.markup.XMLTagsCheck',
-    'weblate.trans.checks.source.OptionalPluralCheck',
-    'weblate.trans.checks.source.EllipsisCheck',
-)
-
-
 # Compatibility imports
 from weblate.trans.checks.same import SameCheck
 from weblate.trans.checks.chars import BeginNewlineCheck
@@ -70,10 +44,10 @@ from weblate.trans.checks.source import EllipsisCheck
 
 
 # Initialize checks list
-from django.conf import settings
+from weblate.trans import appsettings
 from django.core.exceptions import ImproperlyConfigured
 CHECKS = {}
-for path in getattr(settings, 'CHECK_LIST', DEFAULT_CHECK_LIST):
+for path in appsettings.CHECK_LIST:
     i = path.rfind('.')
     module, attr = path[:i], path[i + 1:]
     try:
