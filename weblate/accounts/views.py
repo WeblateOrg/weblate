@@ -31,6 +31,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from weblate.accounts.models import set_lang
+from weblate.trans.models import Change
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )
@@ -161,6 +162,7 @@ def user_page(request, user):
             {
                 'page_profile': profile,
                 'page_user': user,
+                'last_changes': Change.objects.filter(user=user)[:10],
             }
         )
     )
