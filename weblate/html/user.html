@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 {% load url from future %}
 
 {% block breadcrumbs %}
@@ -9,6 +10,8 @@
 {% block content %}
 
 <h2>{{ page_profile.get_user_name }}</h2>
+
+{% gravatar page_user 160 %}
 
 <h3>{% trans "Activity" %}</h3>
 
