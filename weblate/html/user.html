@@ -13,6 +13,17 @@
 
 {% gravatar page_user 160 %}
 
+
+{% if user_projects %}
+<h3>{% trans "Projects" %}</h3>
+
+<ul>
+{% for project in user_projects %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
 <h3>{% trans "Activity" %}</h3>
 
 {% with page_profile as profile and page_user as user %}
