@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+<li><a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ page_profile.get_user_name }}</h2>
+
+{% endblock %}

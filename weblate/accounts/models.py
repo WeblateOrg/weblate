@@ -239,6 +239,16 @@ class Profile(models.Model):
     def get_user_display(self):
         return get_user_display(self.user)
 
+    def get_user_name(self):
+        return get_user_display(self.user, False)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('user_page', (), {
+            'user': self.user.username
+        })
+
+
     def notify_user(self, notification, translation_obj,
                     context=None, headers=None):
         '''

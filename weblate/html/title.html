@@ -4,6 +4,10 @@
 {% if object %}
 {{ object }} @ {{ site_title }}
 {% else %}
+{% if page_profile %}
+{{ page_profile.get_user_name }} @ {{ site_title }}
+{% else %}
 {{ site_title }}
+{% endif %}
 {% endif %}
 {% endif %}

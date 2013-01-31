@@ -297,6 +297,9 @@ urlpatterns = patterns('',
     url(r'^contact/', 'weblate.accounts.views.contact', name='contact'),
     url(r'^about/$', 'weblate.trans.views.about', name='about'),
 
+    # user pages
+    url(r'^user/(?P<user>[^/]+)/', 'weblate.accounts.views.user_page', name='user_page'),
+
     # the sitemap
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     (r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),

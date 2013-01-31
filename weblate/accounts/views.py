@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.conf import settings
 from django.contrib import messages
@@ -28,6 +28,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from weblate.accounts.models import set_lang
 from weblate.accounts.forms import (
@@ -145,3 +146,21 @@ def contact(request):
         'form': form,
         'title': _('Contact'),
     }))
+
+
+def user_page(request, user):
+    '''
+    User details page.
+    '''
+    user = get_object_or_404(User, username=user)
+    profile = user.get_profile()
+    return render_to_response(
+        'user.html',
+        RequestContext(
+            request,
+            {
+                'page_profile': profile,
+                'page_user': user,
+            }
+        )
+    )
