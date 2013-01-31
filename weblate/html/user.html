@@ -10,6 +10,12 @@
 
 <h2>{{ page_profile.get_user_name }}</h2>
 
+<h3>{% trans "Activity" %}</h3>
+
+{% with page_profile as profile and page_user as user %}
+{% include 'user-activity.html' %}
+{% endwith %}
+
 <h3>{% trans "Recent contributions" %}</h3>
 {% include "last-changes.html" %}
 

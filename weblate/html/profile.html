@@ -48,24 +48,9 @@
 {% blocktrans %}You can change password on <a href="{{ pw_url }}">separate page</a>.{% endblocktrans %}
 </div>
 <div id="info">
-<table>
-<tr>
-<th>{% trans "Suggestions made" %}</th>
-<td>{{ profile.suggested }}</td>
-</tr>
-<tr>
-<th>{% trans "Translations made" %}</th>
-<td>{{ profile.translated }}</td>
-</tr>
-<tr>
-<th>{% trans "Last login" %}</th>
-<td>{{ request.user.last_login|date:"DATETIME_FORMAT" }}</td>
-</tr>
-<tr>
-<th>{% trans "Registration date" %}</th>
-<td>{{ request.user.date_joined|date:"DATETIME_FORMAT" }}</td>
-</tr>
-</table>
+{% with request.user as user %}
+{% include 'user-activity.html' %}
+{% endwith %}
 </div>
 <div id="avatar">
 <p>{% gravatar request.user 128 %}</p>
