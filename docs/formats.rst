@@ -16,7 +16,7 @@ Most widely used format in translating free software. This was first format
 supported by Weblate and still has best support.
 
 Weblate supports contextual information stored in the file, adjusting it's
-headers or 
+headers or linking to corresponding source files.
 
 .. seealso:: https://en.wikipedia.org/wiki/Gettext
 
