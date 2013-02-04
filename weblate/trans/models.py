@@ -773,6 +773,10 @@ class SubProject(models.Model):
         # create translation objects for all files
         self.create_translations(request=request)
 
+        # Push after possible merge
+        if self.git_needs_push() and self.subproject.project.push_on_commit:
+            self.subproject.do_push(force_commit=False)
+
         return ret
 
     def do_push(self, request=None, force_commit=True):
