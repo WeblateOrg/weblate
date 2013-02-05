@@ -57,7 +57,7 @@ def performance(request):
     # Check for domain configuration
     checks.append((
         _('Site domain'),
-        Site.objects.get_current() != 'example.net',
+        Site.objects.get_current() not in ('example.net', 'example.com'),
         'production-site',
     ))
     # Check database being used
