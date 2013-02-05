@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-01-22 00:18+0100\n"
+"POT-Creation-Date: 2013-02-05 11:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: urls.py:223 urls.py:230 urls.py:237 urls.py:244
+#: urls.py:230 urls.py:237 urls.py:244 urls.py:251
 msgid "User registration"
 msgstr ""
 
-#: urls.py:252
+#: urls.py:259
 msgid "Account activation"
 msgstr ""
 
-#: urls.py:261 html/base.html:49 html/registration/login.html:30
+#: urls.py:268 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr ""
 
-#: urls.py:268
+#: urls.py:275
 msgid "Logged out"
 msgstr ""
 
-#: urls.py:273
+#: urls.py:280
 msgid "Change password"
 msgstr ""
 
-#: urls.py:277
+#: urls.py:284
 msgid "Password changed"
 msgstr ""
 
-#: urls.py:281 urls.py:285 urls.py:289 urls.py:293
+#: urls.py:288 urls.py:292 urls.py:296 urls.py:300
 msgid "Password reset"
 msgstr ""
 
@@ -197,11 +197,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: accounts/i18n.py:58 html/list-translations.html:62 trans/views.py:1226
+#: accounts/i18n.py:58 html/list-translations.html:62 trans/views.py:1255
 msgid "Strings with any failing checks"
 msgstr ""
 
-#: accounts/i18n.py:59 html/list-translations.html:63 trans/views.py:1220
+#: accounts/i18n.py:59 html/list-translations.html:63 trans/views.py:1249
 msgid "Fuzzy strings"
 msgstr ""
 
@@ -249,23 +249,23 @@ msgstr ""
 msgid "Notification on merge failure"
 msgstr ""
 
-#: accounts/models.py:365
+#: accounts/models.py:386
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 
-#: accounts/views.py:89
+#: accounts/views.py:91
 msgid "Your profile has been updated."
 msgstr ""
 
-#: accounts/views.py:108
+#: accounts/views.py:110
 msgid "User profile"
 msgstr ""
 
-#: accounts/views.py:132
+#: accounts/views.py:134
 msgid "Message has been sent to administrator."
 msgstr ""
 
-#: accounts/views.py:146
+#: accounts/views.py:148
 msgid "Contact"
 msgstr ""
 
@@ -292,7 +292,7 @@ msgstr ""
 msgid "about"
 msgstr ""
 
-#: html/about.html:11 html/footer.html:7 trans/views.py:1949
+#: html/about.html:11 html/footer.html:7 trans/views.py:1977
 msgid "About Weblate"
 msgstr ""
 
@@ -310,57 +310,69 @@ msgid ""
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
 
-#: html/about.html:17
+#: html/about.html:20
+msgid ""
+"This Weblate instance hosts translations for various free software projects."
+msgstr ""
+
+#: html/about.html:21 html/index.html:54
+#, python-format
+msgid ""
+"We can host your project as well, if you are interested, please <a href="
+"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
+msgstr ""
+
+#: html/about.html:25
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially:"
 msgstr ""
 
-#: html/about.html:20
+#: html/about.html:28
 msgid "Flattr Weblate!"
 msgstr ""
 
-#: html/about.html:21
+#: html/about.html:29
 msgid "Donate to Weblate!"
 msgstr ""
 
-#: html/about.html:24
+#: html/about.html:32
 msgid "Versions"
 msgstr ""
 
-#: html/about.html:26
+#: html/about.html:34
 msgid "This site is built using following projects:"
 msgstr ""
 
-#: html/about.html:40 html/data.html:50
+#: html/about.html:48 html/data.html:50
 msgid "Statistics"
 msgstr ""
 
-#: html/about.html:44
+#: html/about.html:52
 msgid "Strings to translate"
 msgstr ""
 
-#: html/about.html:48
+#: html/about.html:56
 msgid "Used languages"
 msgstr ""
 
-#: html/about.html:52
+#: html/about.html:60
 msgid "Registered users"
 msgstr ""
 
-#: html/about.html:56 html/profile.html:53
+#: html/about.html:64 html/user-activity.html:4
 msgid "Suggestions made"
 msgstr ""
 
-#: html/about.html:60 html/profile.html:57
+#: html/about.html:68 html/user-activity.html:8
 msgid "Translations made"
 msgstr ""
 
-#: html/about.html:64
+#: html/about.html:72
 msgid "Failing checks found"
 msgstr ""
 
-#: html/about.html:68
+#: html/about.html:76
 msgid "Ignored checks"
 msgstr ""
 
@@ -450,7 +462,7 @@ msgstr ""
 msgid "data"
 msgstr ""
 
-#: html/data-root.html:11 html/data.html:12 html/index.html:110
+#: html/data-root.html:11 html/data.html:12 html/index.html:114
 msgid "Data export"
 msgstr ""
 
@@ -616,7 +628,7 @@ msgstr ""
 msgid "Change word"
 msgstr ""
 
-#: html/edit_dictionary.html:21 html/profile.html:76 html/translate.html:153
+#: html/edit_dictionary.html:21 html/profile.html:66 html/translate.html:153
 msgid "Save"
 msgstr ""
 
@@ -698,7 +710,7 @@ msgstr ""
 msgid "Your translations"
 msgstr ""
 
-#: html/index.html:20 html/language.html:12
+#: html/index.html:20 html/language.html:12 html/user.html:18
 msgid "Projects"
 msgstr ""
 
@@ -706,50 +718,50 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
-#: html/index.html:38 html/index.html.py:74 html/languages.html:15
+#: html/index.html:38 html/index.html.py:78 html/languages.html:15
 #: html/list-translations.html:8 html/project.html:21
 msgid "Translated"
 msgstr ""
 
-#: html/index.html:54
+#: html/index.html:58
 msgid "Summaries"
 msgstr ""
 
-#: html/index.html:59 html/language.html:23 html/project.html:40
+#: html/index.html:63 html/language.html:23 html/project.html:40
 #: html/subproject.html:30 html/translation.html:35
 #: html/translation.html.py:82
 msgid "Recent changes"
 msgstr ""
 
-#: html/index.html:60
+#: html/index.html:64
 msgid "Most active translators"
 msgstr ""
 
-#: html/index.html:61
+#: html/index.html:65
 msgid "Most active suggesters"
 msgstr ""
 
-#: html/index.html:62
+#: html/index.html:66
 msgid "Others"
 msgstr ""
 
-#: html/index.html:73 html/index.html.py:92 html/last-changes.html:14
+#: html/index.html:77 html/index.html.py:96 html/last-changes.html:14
 msgid "User"
 msgstr ""
 
-#: html/index.html:93
+#: html/index.html:97
 msgid "Suggested"
 msgstr ""
 
-#: html/index.html:108
+#: html/index.html:112
 msgid "Languages summary"
 msgstr ""
 
-#: html/index.html:109
+#: html/index.html:113
 msgid "Checks overview"
 msgstr ""
 
-#: html/index.html:111
+#: html/index.html:115
 msgid "Widgets"
 msgstr ""
 
@@ -862,15 +874,11 @@ msgstr ""
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 
-#: html/profile.html:61
-msgid "Last login"
+#: html/profile.html:56
+msgid "Your public profile:"
 msgstr ""
 
-#: html/profile.html:65
-msgid "Registration date"
-msgstr ""
-
-#: html/profile.html:72
+#: html/profile.html:62
 msgid "Change your avatar at gravatar.com"
 msgstr ""
 
@@ -971,7 +979,7 @@ msgstr ""
 msgid "Strings to check"
 msgstr ""
 
-#: html/subproject.html:31 trans/models.py:279
+#: html/subproject.html:31 trans/models.py:112
 msgid "New language"
 msgstr ""
 
@@ -1260,6 +1268,22 @@ msgstr ""
 
 #: html/unit-state.html:5
 msgid "Message is translated"
+msgstr ""
+
+#: html/user-activity.html:12
+msgid "Last login"
+msgstr ""
+
+#: html/user-activity.html:16
+msgid "Registration date"
+msgstr ""
+
+#: html/user.html:27
+msgid "Activity"
+msgstr ""
+
+#: html/user.html:33
+msgid "Recent contributions"
 msgstr ""
 
 #: html/widgets-root.html:6 html/widgets.html:7
@@ -2419,40 +2443,40 @@ msgstr ""
 msgid "Plural form %d"
 msgstr ""
 
-#: trans/admin_views.py:52
+#: trans/admin_views.py:53
 msgid "Debug mode"
 msgstr ""
 
-#: trans/admin_views.py:58
+#: trans/admin_views.py:59
 msgid "Site domain"
 msgstr ""
 
-#: trans/admin_views.py:64
+#: trans/admin_views.py:65
 msgid "Database backend"
 msgstr ""
 
-#: trans/admin_views.py:70
+#: trans/admin_views.py:71
 msgid "Site administrator"
 msgstr ""
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:77
+#: trans/admin_views.py:78
 msgid "Indexing offloading"
 msgstr ""
 
-#: trans/admin_views.py:93
+#: trans/admin_views.py:94
 msgid "Django caching"
 msgstr ""
 
-#: trans/admin_views.py:104
+#: trans/admin_views.py:105
 msgid "Email addresses"
 msgstr ""
 
-#: trans/admin_views.py:144 trans/admin_views.py:148
+#: trans/admin_views.py:145 trans/admin_views.py:149
 msgid "Failed to generate key!"
 msgstr ""
 
-#: trans/admin_views.py:146
+#: trans/admin_views.py:147
 msgid "Created new SSH key."
 msgstr ""
 
@@ -2464,6 +2488,42 @@ msgstr ""
 #: trans/feeds.py:37 trans/feeds.py:73
 #, python-format
 msgid "All recent changes made using Weblate in %s."
+msgstr ""
+
+#: trans/formats.py:82
+msgid "Automatic detection"
+msgstr ""
+
+#: trans/formats.py:86
+msgid "Gettext PO file"
+msgstr ""
+
+#: trans/formats.py:91
+msgid "Qt Linguist Translation File"
+msgstr ""
+
+#: trans/formats.py:95
+msgid "XLIFF Translation File"
+msgstr ""
+
+#: trans/formats.py:99
+msgid "OS X Strings"
+msgstr ""
+
+#: trans/formats.py:104
+msgid "Java Properties"
+msgstr ""
+
+#: trans/formats.py:112
+msgid "Java Properties (UTF-8)"
+msgstr ""
+
+#: trans/formats.py:117
+msgid "PHP strings"
+msgstr ""
+
+#: trans/formats.py:121
+msgid "Android String Resource"
 msgstr ""
 
 #: trans/forms.py:88
@@ -2577,352 +2637,316 @@ msgstr ""
 msgid "Whole project"
 msgstr ""
 
-#: trans/models.py:125
-msgid "Automatic detection"
-msgstr ""
-
-#: trans/models.py:129
-msgid "Gettext PO file"
-msgstr ""
-
-#: trans/models.py:134
-msgid "Qt Linguist Translation File"
-msgstr ""
-
-#: trans/models.py:138
-msgid "XLIFF Translation File"
-msgstr ""
-
-#: trans/models.py:142
-msgid "OS X Strings"
-msgstr ""
-
-#: trans/models.py:147
-msgid "Java Properties"
-msgstr ""
-
-#: trans/models.py:155
-msgid "Java Properties (UTF-8)"
-msgstr ""
-
-#: trans/models.py:160
-msgid "PHP strings"
-msgstr ""
-
-#: trans/models.py:164
-msgid "Android String Resource"
-msgstr ""
-
-#: trans/models.py:201 trans/models.py:218
-#, python-format
-msgid "Bad format string (%s)"
-msgstr ""
-
-#: trans/models.py:224
-msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
-
-#: trans/models.py:249
-msgid "Can not link to linked repository!"
-msgstr ""
-
-#: trans/models.py:251
-msgid "Invalid link to repository!"
-msgstr ""
-
-#: trans/models.py:255
+#: trans/models.py:88
 msgid "Use contact form"
 msgstr ""
 
-#: trans/models.py:256
+#: trans/models.py:89
 msgid "Point to translation instructions URL"
 msgstr ""
 
-#: trans/models.py:259
+#: trans/models.py:92
 msgid "Merge"
 msgstr ""
 
-#: trans/models.py:260
+#: trans/models.py:93
 msgid "Rebase"
 msgstr ""
 
-#: trans/models.py:268
+#: trans/models.py:101
 msgid "Project website"
 msgstr ""
 
-#: trans/models.py:272
+#: trans/models.py:105
 msgid "Email conference for translators"
 msgstr ""
 
-#: trans/models.py:276
+#: trans/models.py:109
 msgid "URL with instructions for translators"
 msgstr ""
 
-#: trans/models.py:284
+#: trans/models.py:117
 msgid "How to handle requests for creating new languages."
 msgstr ""
 
-#: trans/models.py:288
+#: trans/models.py:121
 msgid "Merge style"
 msgstr ""
 
-#: trans/models.py:293
+#: trans/models.py:126
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 
-#: trans/models.py:301
+#: trans/models.py:134
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models.py:318
+#: trans/models.py:151
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models.py:325
+#: trans/models.py:158
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 
-#: trans/models.py:333
+#: trans/models.py:166
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
 
-#: trans/models.py:363
+#: trans/models.py:196
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr ""
 
-#: trans/models.py:370
+#: trans/models.py:203
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models.py:594
+#: trans/models.py:427
 msgid "Name to display"
 msgstr ""
 
-#: trans/models.py:598
+#: trans/models.py:431
 msgid "Name used in URLs"
 msgstr ""
 
-#: trans/models.py:604
+#: trans/models.py:437
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
 
-#: trans/models.py:611
+#: trans/models.py:444
 msgid "URL of push Git repository"
 msgstr ""
 
-#: trans/models.py:616
+#: trans/models.py:449
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
 
-#: trans/models.py:624
+#: trans/models.py:457
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
 
-#: trans/models.py:631
+#: trans/models.py:464
 msgid "Git branch to translate"
 msgstr ""
 
-#: trans/models.py:638
+#: trans/models.py:471
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 
-#: trans/models.py:646
+#: trans/models.py:479
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
 "strings."
 msgstr ""
 
-#: trans/models.py:656
+#: trans/models.py:489
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: trans/models.py:663
+#: trans/models.py:496
 msgid "Whether subproject is locked for translation updates."
 msgstr ""
 
-#: trans/models.py:669
+#: trans/models.py:502
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
 
-#: trans/models.py:869
+#: trans/models.py:702
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models.py:956
+#: trans/models.py:793
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models.py:993
+#: trans/models.py:830
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:1022
+#: trans/models.py:859
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models.py:1109
+#: trans/models.py:946
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models.py:1143
+#: trans/models.py:980
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: trans/models.py:1260
+#: trans/models.py:1097
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models.py:1266
+#: trans/models.py:1103
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models.py:1272
+#: trans/models.py:1109
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:1293
+#: trans/models.py:1130
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:1298
+#: trans/models.py:1135
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models.py:1308
+#: trans/models.py:1145
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:1311
+#: trans/models.py:1148
 msgid "Failed to parse translation template."
 msgstr ""
 
-#: trans/models.py:1502
+#: trans/models.py:1339
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:1511
+#: trans/models.py:1348
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:1516
+#: trans/models.py:1353
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models.py:1540
+#: trans/models.py:1377
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr ""
 
-#: trans/models.py:2254 trans/models.py:2281
+#: trans/models.py:2091 trans/models.py:2118
 msgid "All strings"
 msgstr ""
 
-#: trans/models.py:2259 trans/models.py:2312
+#: trans/models.py:2096 trans/models.py:2149
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr ""
 
-#: trans/models.py:2273 trans/models.py:2329
+#: trans/models.py:2110 trans/models.py:2166
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr ""
 
-#: trans/models.py:2288
+#: trans/models.py:2125
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr ""
 
-#: trans/models.py:2296
+#: trans/models.py:2133
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models.py:2304
+#: trans/models.py:2141
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/models.py:2645
+#: trans/models.py:2489
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2651
+#: trans/models.py:2495
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2780
+#: trans/models.py:2624
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:3106
+#: trans/models.py:2950
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:3107
+#: trans/models.py:2951
 msgid "Translation completed"
 msgstr ""
 
-#: trans/models.py:3108
+#: trans/models.py:2952
 msgid "Translation changed"
 msgstr ""
 
-#: trans/models.py:3109
+#: trans/models.py:2953
 msgid "New translation"
 msgstr ""
 
-#: trans/models.py:3110
+#: trans/models.py:2954
 msgid "Comment added"
 msgstr ""
 
-#: trans/models.py:3111
+#: trans/models.py:2955
 msgid "Suggestion added"
 msgstr ""
 
-#: trans/models.py:3129
+#: trans/models.py:2973
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
 #: trans/util.py:71
 msgid "None"
+msgstr ""
+
+#: trans/validators.py:32 trans/validators.py:52
+#, python-format
+msgid "Bad format string (%s)"
+msgstr ""
+
+#: trans/validators.py:61
+msgid "File mask does not contain * as a language placeholder!"
+msgstr ""
+
+#: trans/validators.py:73
+msgid "Can not link to linked repository!"
+msgstr ""
+
+#: trans/validators.py:75
+msgid "Invalid link to repository!"
 msgstr ""
 
 #: trans/views.py:91
@@ -2947,16 +2971,16 @@ msgstr ""
 msgid "Imported %d words from file."
 msgstr ""
 
-#: trans/views.py:406 trans/views.py:1874
+#: trans/views.py:406 trans/views.py:1902
 #, python-format
 msgid "File content merge failed: %s"
 msgstr ""
 
-#: trans/views.py:409 trans/views.py:411 trans/views.py:679
+#: trans/views.py:409 trans/views.py:411 trans/views.py:706
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views.py:579
+#: trans/views.py:580
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -2965,8 +2989,7 @@ msgid ""
 "%(percent)s%% complete."
 msgstr ""
 
-#. Translators: line of text in engagement widget, please use your language name instead of English
-#: trans/views.py:582
+#: trans/views.py:589
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -2974,141 +2997,141 @@ msgid ""
 "complete."
 msgstr ""
 
-#: trans/views.py:677
+#: trans/views.py:704
 msgid "Automatic translation completed."
 msgstr ""
 
-#: trans/views.py:721
+#: trans/views.py:748
 #, python-format
 msgid "Review source strings in %s"
 msgstr ""
 
-#: trans/views.py:741
+#: trans/views.py:768
 #, python-format
 msgid "Source strings in %s"
 msgstr ""
 
-#: trans/views.py:811 trans/views.py:823 trans/views.py:841
+#: trans/views.py:840 trans/views.py:852 trans/views.py:870
 msgid "All pending translations were committed."
 msgstr ""
 
-#: trans/views.py:853 trans/views.py:865 trans/views.py:883
+#: trans/views.py:882 trans/views.py:894 trans/views.py:912
 msgid "All repositories were updated."
 msgstr ""
 
-#: trans/views.py:895 trans/views.py:907 trans/views.py:925
+#: trans/views.py:924 trans/views.py:936 trans/views.py:954
 msgid "All repositories were pushed."
 msgstr ""
 
-#: trans/views.py:937 trans/views.py:949 trans/views.py:967
+#: trans/views.py:966 trans/views.py:978 trans/views.py:996
 msgid "All repositories have been reset."
 msgstr ""
 
-#: trans/views.py:986
+#: trans/views.py:1015
 msgid "Translation is now locked for you."
 msgstr ""
 
-#: trans/views.py:1023
+#: trans/views.py:1052
 msgid "Translation is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:1042
+#: trans/views.py:1071
 msgid "Subproject is now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:1059
+#: trans/views.py:1088
 msgid "Subproject is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:1079
+#: trans/views.py:1108
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 
-#: trans/views.py:1095
+#: trans/views.py:1124
 msgid "Project is now open for translation updates."
 msgstr ""
 
-#: trans/views.py:1216
+#: trans/views.py:1245
 #, python-format
 msgid "Search for \"%s\""
 msgstr ""
 
-#: trans/views.py:1222
+#: trans/views.py:1251
 msgid "Untranslated strings"
 msgstr ""
 
-#: trans/views.py:1224
+#: trans/views.py:1253
 msgid "Strings with suggestions"
 msgstr ""
 
-#: trans/views.py:1297
+#: trans/views.py:1326
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views.py:1332
+#: trans/views.py:1361
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views.py:1350
+#: trans/views.py:1379
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 
-#: trans/views.py:1356 trans/views.py:1413
+#: trans/views.py:1385 trans/views.py:1442
 msgid "You don't have privileges to save translations!"
 msgstr ""
 
-#: trans/views.py:1378
+#: trans/views.py:1407
 msgid "Some checks have failed on your translation!"
 msgstr ""
 
-#: trans/views.py:1404 trans/views.py:1464
+#: trans/views.py:1433 trans/views.py:1493
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/views.py:1439
+#: trans/views.py:1468
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views.py:1471
+#: trans/views.py:1500
 msgid "You need to log in to be able to manage suggestions!"
 msgstr ""
 
-#: trans/views.py:1482
+#: trans/views.py:1511
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: trans/views.py:1492
+#: trans/views.py:1521
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: trans/views.py:1517
+#: trans/views.py:1546
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: trans/views.py:1594
+#: trans/views.py:1623
 msgid "You have reached end of translating."
 msgstr ""
 
-#: trans/views.py:1695
+#: trans/views.py:1723
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views.py:1719
+#: trans/views.py:1747
 msgid "Failed to add comment!"
 msgstr ""
 
-#: trans/views.py:1870
+#: trans/views.py:1898
 msgid "File content successfully merged into translation."
 msgstr ""
 
-#: trans/views.py:1872
+#: trans/views.py:1900
 msgid "There were no new strings in uploaded file."
 msgstr ""
 
-#: trans/views.py:1887
+#: trans/views.py:1915
 msgid "Page Not Found"
 msgstr ""
 
