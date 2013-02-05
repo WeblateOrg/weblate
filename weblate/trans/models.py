@@ -775,11 +775,11 @@ class SubProject(models.Model):
 
         # Push after possible merge
         if self.git_needs_push() and self.subproject.project.push_on_commit:
-            self.subproject.do_push(force_commit=False)
+            self.subproject.do_push(force_commit=False, do_update=False)
 
         return ret
 
-    def do_push(self, request=None, force_commit=True):
+    def do_push(self, request=None, force_commit=True, do_update=True):
         '''
         Wrapper for pushing changes to remote repo.
         '''
@@ -802,12 +802,13 @@ class SubProject(models.Model):
         if not self.git_needs_push():
             return False
 
-        # Update the repo
-        self.do_update(request)
+        if do_update:
+            # Update the repo
+            self.do_update(request)
 
-        # Were all changes merged?
-        if self.git_needs_merge():
-            return False
+            # Were all changes merged?
+            if self.git_needs_merge():
+                return False
 
         # Do actual push
         try:
