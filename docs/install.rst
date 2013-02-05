@@ -29,6 +29,45 @@ south
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
+Requirements on Debian or Ubuntu
+++++++++++++++++++++++++++++++++
+
+On Debian or Ubuntu, all requirements are already packaged, to install them you can use apt-get:
+
+.. code-block:: sh
+
+    apt-get install python-django translate-toolkit python-git python-django-registration \
+        python-whoosh python-cairo python-gtk2 python-django-south
+
+    # Optional for database backend
+
+    apt-get install python-mysqldb   # For MySQL
+    apt-get install python-psycopg2  # For PostgreSQL
+
+Requirements on openSUSE
+++++++++++++++++++++++++
+
+All requirements are available either directly in openSUSE or in
+``devel:languages:python`` repository:
+
+.. code-block:: sh
+
+    zypper install python-django python-django-registration translate-toolkit python-GitPython \
+        python-whoosh python-cairo python-South python-gtk
+
+Requirements using pip installer
+++++++++++++++++++++++++++++++++
+
+Most requirements can be also installed using pip installer:
+
+.. code-block:: sh
+
+    pip install Django GitPython south django-registration whoosh translate-toolkit lxml
+
+However you need to get PyCairo and PyGtk for your platform elsewhere as they
+do not support this easy installation method. Check their website for options
+for getting appropriate binaries.
+
 .. _installation:
 
 Installation
