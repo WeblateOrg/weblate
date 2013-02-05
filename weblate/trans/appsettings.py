@@ -71,7 +71,7 @@ LOCK_TIME = get('LOCK_TIME', 15 * 60)
 WHOOSH_INDEX = get('WHOOSH_INDEX', os.path.join(WEB_ROOT, 'whoosh-index'))
 
 # List of quality checks
-CHECK_LIST = (
+CHECK_LIST = get('CHECK_LIST', (
     'weblate.trans.checks.same.SameCheck',
     'weblate.trans.checks.chars.BeginNewlineCheck',
     'weblate.trans.checks.chars.EndNewlineCheck',
@@ -94,4 +94,4 @@ CHECK_LIST = (
     'weblate.trans.checks.markup.XMLTagsCheck',
     'weblate.trans.checks.source.OptionalPluralCheck',
     'weblate.trans.checks.source.EllipsisCheck',
-)
+))
