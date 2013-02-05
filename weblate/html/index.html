@@ -49,6 +49,10 @@
 {% endfor %}
 </tbody>
 </table>
+
+{% if offer_hosting %}
+<p>{% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}</p>
+{% endif %}
 </div>
 
 <h2>{% trans "Summaries" %}</h2>

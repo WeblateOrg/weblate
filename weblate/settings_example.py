@@ -279,6 +279,9 @@ GIT_ROOT = '%s/repos/' % WEB_ROOT
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
+# Whether to offer hosting
+OFFER_HOSTING = False
+
 # URL of login
 LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
 

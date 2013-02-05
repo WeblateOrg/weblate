@@ -37,7 +37,10 @@ def weblate_url(request):
 
 
 def title(request):
-    return {'site_title': appsettings.SITE_TITLE}
+    return {
+        'site_title': appsettings.SITE_TITLE,
+        'offer_hosting': appsettings.OFFER_HOSTING,
+    }
 
 
 def date(request):

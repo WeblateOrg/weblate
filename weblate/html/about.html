@@ -14,6 +14,14 @@
 
 <p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</p>
 
+
+{% if offer_hosting %}
+<p>
+{% trans "This Weblate instance hosts translations for various free software projects." %}
+{% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}
+</p>
+{% endif %}
+
 <p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially:{% endblocktrans %}</p>
 
 <p>

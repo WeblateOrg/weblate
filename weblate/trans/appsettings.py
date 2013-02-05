@@ -47,6 +47,9 @@ GIT_ROOT = get('GIT_ROOT', '%s/repos/' % WEB_ROOT)
 # Title of site to use
 SITE_TITLE = get('SITE_TITLE', 'Weblate')
 
+# Whether to offer hosting
+OFFER_HOSTING = get('OFFER_HOSTING', False)
+
 # Enable remote hooks
 ENABLE_HOOKS = get('ENABLE_HOOKS', True)
 
