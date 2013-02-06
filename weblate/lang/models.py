@@ -30,15 +30,15 @@ EXTRALANGS = [
     ('ur', 'Urdu', 2, '(n != 1)'),
     ('uz@latin', 'Uzbek (latin)', 1, '0'),
     ('uz', 'Uzbek', 1, '0'),
-    ('sr@latin', 'Serbian (latin)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
-    ('sr_RS@latin', 'Serbian (latin)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
-    ('sr@cyrillic', 'Serbian (cyrillic)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
-    ('sr_RS@cyrillic', 'Serbian (cyrillic)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
-    ('be@latin', 'Belarusian (latin)', 3, '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'),
-    ('en_US', 'English (United States)', 2, '(n != 1)'),
-    ('nb_NO', 'Norwegian Bokmål', 2, '(n != 1)'),
-    ('pt_PT', 'Portuguese (Portugal)', 2, '(n > 1)'),
-    ('ckb', 'Kurdish Sorani', 2, '(n != 1)'),
+    ('sr@latin', 'Serbian (latin)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    ('sr_RS@latin', 'Serbian (latin)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    ('sr@cyrillic', 'Serbian (cyrillic)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    ('sr_RS@cyrillic', 'Serbian (cyrillic)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    ('be@latin', 'Belarusian (latin)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    ('en_US', 'English (United States)', 2, 'n != 1'),
+    ('nb_NO', 'Norwegian Bokmål', 2, 'n != 1'),
+    ('pt_PT', 'Portuguese (Portugal)', 2, 'n > 1'),
+    ('ckb', 'Kurdish Sorani', 2, 'n != 1'),
 ]
 
 # List of defaul languages - the ones, where using
@@ -289,12 +289,16 @@ class LanguageManager(models.Manager):
                 lang.nplurals = int(parts[0][9:])
                 lang.pluralequation = parts[1][8:]
 
+            # Strip not needed parenthesis
+            if lang.pluralequation[0] == '(' and lang.pluralequation[-1] == ')':
+                lang.pluralequation = lang.pluralequation[1:-1]
+
             # Fixes for broken plurals
             if code in ['kk', 'fa']:
                 # Kazakh and Persian should have plurals, ttkit says it does
                 # not have
                 lang.nplurals = 2
-                lang.pluralequation = '(n != 1)'
+                lang.pluralequation = 'n != 1'
 
             if code in RTL_LANGS:
                 lang.direction = 'rtl'
