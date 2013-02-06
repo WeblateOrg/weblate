@@ -27,19 +27,20 @@ def html_diff(old, new):
     '''
     diff = SequenceMatcher(None, old, new)
     result = []
-    for tag, i1, i2, j1, j2 in diff.get_opcodes():
+    for tag, oldpos1, oldpos2, newpos1, newpos2 in diff.get_opcodes():
         if tag == 'replace':
             result.append(
-                '<del>%s</del><ins>%s</ins>' % (old[i1:i2], new[j1:j2])
+                '<del>%s</del><ins>%s</ins>' %
+                (old[oldpos1:oldpos2], new[newpos1:newpos2])
             )
         elif tag == 'delete':
             result.append(
-                '<del>%s</del>' % old[i1:i2]
+                '<del>%s</del>' % old[oldpos1:oldpos2]
             )
         elif tag == 'insert':
             result.append(
-                '<ins>%s</ins>' % new[j1:j2]
+                '<ins>%s</ins>' % new[newpos1:newpos2]
             )
         elif tag == 'equal':
-            result.append(new[j1:j2])
+            result.append(new[newpos1:newpos2])
     return ''.join(result)
