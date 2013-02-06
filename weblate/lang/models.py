@@ -202,8 +202,6 @@ ONE_OTHER_ZERO_PLURALS = (
 )
 
 
-
-
 def get_plural_type(code, pluralequation):
     '''
     Gets correct plural type for language.
