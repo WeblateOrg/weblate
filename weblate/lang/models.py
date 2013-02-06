@@ -384,6 +384,12 @@ class LanguageManager(models.Manager):
             else:
                 lang.direction = 'ltr'
 
+            # Get plural type
+            self.plural_tupe = get_plural_type(
+                self.code,
+                self.pluralequation
+            )
+
             # Save language
             lang.save()
 
