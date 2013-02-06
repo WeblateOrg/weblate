@@ -19,7 +19,7 @@
 #
 
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, pgettext_lazy
 from django.db.models import Sum
 from translate.lang import data
 from south.signals import post_migrate
@@ -445,6 +445,60 @@ PLURAL_ONE_FEW_MANY_OTHER = 8
 PLURAL_TWO_OTHER = 9
 PLURAL_UNKNOWN = 666
 
+# Plural names mapping
+PLURAL_NAMES = {
+    PLURAL_NONE: ('',),
+    PLURAL_ONE_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Plural'),
+    ),
+    PLURAL_ONE_FEW_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ARABIC: (
+        pgettext_lazy('Plural form description', 'Zero'),
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'uFew'),
+        pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_THREE_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Three'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_FEW_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_OTHER_ZERO: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Other'),
+        pgettext_lazy('Plural form description', 'Zero'),
+    ),
+    PLURAL_ONE_FEW_MANY_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_TWO_OTHER: (
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+}
+
 
 class Language(models.Model):
     PLURAL_CHOICES = (
@@ -494,10 +548,15 @@ class Language(models.Model):
         '''
         Returns label for plural form.
         '''
-        if self.plural_type == PLURAL_UNKNOWN:
+        try:
+            return unicode(PLURAL_NAMES[self.plural_type][idx])
+        except:
             if idx == 0:
                 return _('Singular')
+            elif idx == 0:
+                return _('Plural')
             return _('Plural form %d') % idx
+
 
     @models.permalink
     def get_absolute_url(self):
