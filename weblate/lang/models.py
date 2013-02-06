@@ -161,6 +161,85 @@ RTL_LANGS = set((
     'yi',
 ))
 
+ONE_OTHER_PLURALS = (
+    'n==1 || n%10==1 ? 0 : 1',
+    'n != 1',
+    'n > 1',
+    'n > 1',
+)
+
+TWO_OTHER_PLURALS = (
+    '(n==2) ? 1 : 0',
+)
+
+ONE_FEW_OTHER_PLURALS = (
+    'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+    'n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    'n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2',
+    'n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2',
+)
+
+ONE_TWO_OTHER_PLURALS = (
+    'n==1 ? 0 : n==2 ? 1 : 2',
+)
+
+ONE_TWO_THREE_OTHER_PLURALS = (
+    '(n==1) ? 0 : (n==2) ? 1 : (n == 3) ? 2 : 3',
+)
+
+ONE_TWO_FEW_OTHER_PLURALS = (
+    '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3',
+    'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3',
+)
+
+ONE_FEW_MANY_OTHER_PLURALS = (
+    'n==1 ? 0 : n==0 || ( n%100>1 && n%100<11) ? 1 : (n%100>10 && n%100<20 ) ? 2 : 3'
+)
+
+ONE_OTHER_ZERO_PLURALS = (
+    'n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2'
+)
+
+
+
+
+def get_plural_type(code, pluralequation):
+    '''
+    Gets correct plural type for language.
+    '''
+    # Remove not needed parenthesis
+    if pluralequation[0] == '(' and pluralequation[-1] == ')':
+        pluralequation = pluralequation[1:-1]
+
+    # Get base language code
+    base_code = code.replace('_', '-').split('-')[0]
+
+    # Detect plural type
+    if pluralequation == '0':
+        return Language.PLURAL_NONE
+    elif pluralequation in ONE_OTHER_PLURALS:
+        return Language.PLURAL_ONE_OTHER
+    elif pluralequation in ONE_FEW_OTHER_PLURALS:
+        return Language.PLURAL_ONE_FEW_OTHER
+    elif pluralequation in ONE_TWO_OTHER_PLURALS:
+        return Language.PLURAL_ONE_TWO_OTHER
+    elif pluralequation in ONE_TWO_FEW_OTHER_PLURALS:
+        return Language.PLURAL_ONE_TWO_FEW_OTHER
+    elif pluralequation in ONE_TWO_THREE_OTHER_PLURALS:
+        return Language.PLURAL_ONE_TWO_THREE_OTHER
+    elif pluralequation in ONE_OTHER_ZERO_PLURALS:
+        return Language.PLURAL_ONE_OTHER_ZERO
+    elif pluralequation in ONE_FEW_MANY_OTHER_PLURALS:
+        return Language.PLURAL_ONE_FEW_MANY_OTHER
+    elif pluralequation in TWO_OTHER_PLURALS:
+        return Language.PLURAL_TWO_OTHER
+    elif base_code in ('ar'):
+        return Language.PLURAL_ARABIC
+
+    raise Exception('%s: %s' % (code, pluralequation))
+
+
 
 class LanguageManager(models.Manager):
     def auto_get_or_create(self, code):
@@ -348,13 +427,27 @@ post_syncdb.connect(setup_lang)
 
 class Language(models.Model):
     PLURAL_NONE = 0
-    PLURAL_CLASSIC = 1
-    PLURAL_SLAVIC = 2
+    PLURAL_ONE_OTHER = 1
+    PLURAL_ONE_FEW_OTHER = 2
+    PLURAL_ARABIC = 3
+    PLURAL_ONE_TWO_OTHER = 4
+    PLURAL_ONE_TWO_THREE_OTHER = 5
+    PLURAL_ONE_TWO_FEW_OTHER = 6
+    PLURAL_ONE_OTHER_ZERO = 7
+    PLURAL_ONE_FEW_MANY_OTHER = 8
+    PLURAL_TWO_OTHER = 9
 
     PLURAL_CHOICES = (
         (PLURAL_NONE, 'None'),
-        (PLURAL_CLASSIC, 'Classic plural'),
-        (PLURAL_SLAVIC, 'Slavic languages'),
+        (PLURAL_ONE_OTHER, 'One/other (classic plural)'),
+        (PLURAL_ONE_FEW_OTHER, 'One/few/other (Slavic languages)'),
+        (PLURAL_ARABIC, 'Arabic languages'),
+        (PLURAL_ONE_TWO_OTHER, 'One/two/other'),
+        (PLURAL_ONE_TWO_FEW_OTHER, 'One/two/few/other'),
+        (PLURAL_ONE_TWO_THREE_OTHER, 'One/two/three/other'),
+        (PLURAL_ONE_OTHER_ZERO, 'One/other/zero'),
+        (PLURAL_ONE_FEW_MANY_OTHER, 'One/few/many/other'),
+        (PLURAL_TWO_OTHER, 'Two/other'),
     )
     code = models.SlugField(unique=True)
     name = models.CharField(max_length=100)
@@ -367,7 +460,7 @@ class Language(models.Model):
     )
     plural_type = models.IntegerField(
         choices=PLURAL_CHOICES,
-        default=PLURAL_CLASSIC
+        default=PLURAL_ONE_OTHER
     )
 
     objects = LanguageManager()
