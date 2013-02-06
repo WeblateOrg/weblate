@@ -1,72 +1,45 @@
-# Simple Diff for Python v 0.1
-# (C) Paul Butler 2008 <http://www.paulbutler.org/>
-# May be used and distributed under the zlib/libpng license
-# <http://www.opensource.org/licenses/zlib-license.php>
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2013 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <http://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
-
-def diff(old, new):
-    """
-    Find the differences between two lists. Returns a list of pairs, where
-    the first value is in ['+','-','='] and represents an insertion, deletion,
-    or no change for that list. The second value of the pair is the list of
-    elements.
-    """
-    ohash = {}
-
-    # Build a hash map with elements from old as keys, and
-    # a list of indexes as values
-    for i, val in enumerate(old):
-        ohash.setdefault(val, []).append(i)
-
-    # Find the largest substring common to old and new
-    last_row = [0] * len(old)
-    sub_start_old = sub_start_new = sub_length = 0
-
-    for j, val in enumerate(new):
-        this_row = [0] * len(old)
-        for k in ohash.setdefault(val, []):
-            this_row[k] = (k and last_row[k - 1]) + 1
-            if(this_row[k] > sub_length):
-                sub_length = this_row[k]
-                sub_start_old = k - sub_length + 1
-                sub_start_new = j - sub_length + 1
-        last_row = this_row
-
-    if sub_length == 0:
-        # If no common substring is found, assume that an insert and
-        # delete has taken place...
-        return (old and [('-', old)] or []) + (new and [('+', new)] or [])
-    else:
-        # ...otherwise, the common substring is considered to have no change,
-        # and we recurse on the text before and after the substring
-        return (
-            diff(
-                old[:sub_start_old],
-                new[:sub_start_new]
-            ) +
-            [('=', new[sub_start_new:sub_start_new + sub_length])] +
-            diff(
-                old[sub_start_old + sub_length:],
-                new[sub_start_new + sub_length:]
-            )
-        )
+from difflib import SequenceMatcher
 
 
 def html_diff(old, new):
-    """
-    Returns the difference between two strings in
-    HTML format.
-
-    >>> html_diff('First string', 'Second string')
-    '<del>First</del><ins>Second</ins> string'
-
-    >>> html_diff('First string', 'Second string new')
-    '<del>First</del><ins>Second</ins> string<ins> new</ins>'
-
-    """
-    con = {
-        '=': (lambda x: x),
-        '+': (lambda x: "<ins>" + x + "</ins>"),
-        '-': (lambda x: "<del>" + x + "</del>")
-    }
-    return "".join([(con[a])("".join(b)) for a, b in diff(old, new)])
+    '''
+    Generates HTML formatted diff of two strings.
+    '''
+    diff = SequenceMatcher(None, old, new)
+    result = []
+    for tag, i1, i2, j1, j2 in diff.get_opcodes():
+        if tag == 'replace':
+            result.append(
+                '<del>%s</del><ins>%s</ins>' % (old[i1:i2], new[j1:j2])
+            )
+        elif tag == 'delete':
+            result.append(
+                '<del>%s</del>' % old[i1:i2]
+            )
+        elif tag == 'insert':
+            result.append(
+                '<ins>%s</ins>' % new[j1:j2]
+            )
+        elif tag == 'equal':
+            result.append(new[j1:j2])
+    return ''.join(result)
