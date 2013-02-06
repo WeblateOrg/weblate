@@ -461,7 +461,7 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Zero'),
         pgettext_lazy('Plural form description', 'One'),
         pgettext_lazy('Plural form description', 'Two'),
-        pgettext_lazy('Plural form description', 'uFew'),
+        pgettext_lazy('Plural form description', 'Few'),
         pgettext_lazy('Plural form description', 'Many'),
         pgettext_lazy('Plural form description', 'Other'),
     ),

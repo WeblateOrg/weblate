@@ -7,6 +7,7 @@ weblate 1.5
 Released on ? 2013.
 
 * Added public user pages.
+* Better naming of plural forms.
 
 weblate 1.4
 -----------
