@@ -279,20 +279,22 @@ class LanguageManager(models.Manager):
                 # Standard ttkit language name
                 lang.name = props[0].split(';')[0]
 
+            # Read values
+            lang.nplurals = props[1]
+            lang.pluralequation = props[2].strip(';')
+
+            # Split out plural equation when it is as whole
+            if 'nplurals=' in lang.pluralequation:
+                parts = lang.pluralequation.split(';')
+                lang.nplurals = int(parts[0][9:])
+                lang.pluralequation = parts[1][8:]
+
             # Fixes for broken plurals
-            if code == 'gd' and props[2] == 'nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3':
-                # Workaround bug in data
-                lang.nplurals = 4
-                lang.pluralequation = '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'
-            elif code in ['kk', 'fa']:
+            if code in ['kk', 'fa']:
                 # Kazakh and Persian should have plurals, ttkit says it does
                 # not have
                 lang.nplurals = 2
                 lang.pluralequation = '(n != 1)'
-            else:
-                # Standard plurals
-                lang.nplurals = props[1]
-                lang.pluralequation = props[2]
 
             if code in RTL_LANGS:
                 lang.direction = 'rtl'
