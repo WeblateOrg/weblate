@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-05 11:36+0100\n"
+"POT-Creation-Date: 2013-02-06 15:02+0100\n"
 "PO-Revision-Date: 2013-02-05 14:32+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -332,9 +332,6 @@ msgstr ""
 
 #: html/about.html:21 html/index.html:54
 #, python-format
-#| msgid ""
-#| "Should your language be missing, please <a href=\"%(contact_url)s?"
-#| "subject=New+language+request+for+%(object)s\">contact us</a>."
 msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
@@ -1358,7 +1355,6 @@ msgid "Activity"
 msgstr ""
 
 #: html/user.html:33
-#| msgid "Recent edits"
 msgid "Recent contributions"
 msgstr "Recente bijdragen"
 
@@ -2555,15 +2551,67 @@ msgstr "Yoruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: lang/models.py:375
-msgid "Singular"
-msgstr "Enkelvoud"
+#: lang/models.py:452 lang/models.py:456 lang/models.py:462 lang/models.py:469
+#: lang/models.py:474 lang/models.py:480 lang/models.py:486 lang/models.py:491
+msgctxt "Plural form description"
+msgid "One"
+msgstr ""
 
-#: lang/models.py:377
+#: lang/models.py:453
+#, fuzzy
+#| msgid "Plural"
+msgctxt "Plural form description"
 msgid "Plural"
 msgstr "Meervoud"
 
-#: lang/models.py:378
+#: lang/models.py:457 lang/models.py:482 lang/models.py:492
+msgctxt "Plural form description"
+msgid "Few"
+msgstr ""
+
+#: lang/models.py:458 lang/models.py:466 lang/models.py:471 lang/models.py:477
+#: lang/models.py:483 lang/models.py:487 lang/models.py:494 lang/models.py:498
+#, fuzzy
+#| msgid "Others"
+msgctxt "Plural form description"
+msgid "Other"
+msgstr "Andere"
+
+#: lang/models.py:461 lang/models.py:488
+msgctxt "Plural form description"
+msgid "Zero"
+msgstr ""
+
+#: lang/models.py:463 lang/models.py:470 lang/models.py:475 lang/models.py:481
+#: lang/models.py:497
+msgctxt "Plural form description"
+msgid "Two"
+msgstr ""
+
+#: lang/models.py:464
+msgctxt "Plural form description"
+msgid "uFew"
+msgstr ""
+
+#: lang/models.py:465 lang/models.py:493
+msgctxt "Plural form description"
+msgid "Many"
+msgstr ""
+
+#: lang/models.py:476
+msgctxt "Plural form description"
+msgid "Three"
+msgstr ""
+
+#: lang/models.py:555
+msgid "Singular"
+msgstr "Enkelvoud"
+
+#: lang/models.py:557
+msgid "Plural"
+msgstr "Meervoud"
+
+#: lang/models.py:558
 #, python-format
 msgid "Plural form %d"
 msgstr "Meervoud vorm %d"
@@ -2917,147 +2965,147 @@ msgstr "Ophalen van git repository is mislukt: %s"
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: trans/models.py:830
+#: trans/models.py:831
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models.py:859
+#: trans/models.py:860
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Herinstellen van externe tak op %s is mislukt."
 
-#: trans/models.py:946
+#: trans/models.py:947
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe tak met %s is mislukt."
 
-#: trans/models.py:980
+#: trans/models.py:981
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Mislukt onze branche te rebasen op externe branch %s."
 
-#: trans/models.py:1097
+#: trans/models.py:1098
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models.py:1103
+#: trans/models.py:1104
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models.py:1109
+#: trans/models.py:1110
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models.py:1130
+#: trans/models.py:1131
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models.py:1135
+#: trans/models.py:1136
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
 
-#: trans/models.py:1145
+#: trans/models.py:1146
 msgid "Format of translation template could not be recognized."
 msgstr ""
 
-#: trans/models.py:1148
+#: trans/models.py:1149
 msgid "Failed to parse translation template."
 msgstr "Verwerken van vertaaltemplate is mislukt."
 
-#: trans/models.py:1339
+#: trans/models.py:1340
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models.py:1348
+#: trans/models.py:1349
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models.py:1353
+#: trans/models.py:1354
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
 
-#: trans/models.py:1377
+#: trans/models.py:1378
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Deze vertaling is geblokeerd door %(user)s!"
 
-#: trans/models.py:2091 trans/models.py:2118
+#: trans/models.py:2092 trans/models.py:2119
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: trans/models.py:2096 trans/models.py:2149
+#: trans/models.py:2097 trans/models.py:2150
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Tekenreeksen met gefaalde controles (%d)"
 
-#: trans/models.py:2110 trans/models.py:2166
+#: trans/models.py:2111 trans/models.py:2167
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Tekenreeksen met opmerkingen (%d)"
 
-#: trans/models.py:2125
+#: trans/models.py:2126
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Niet vertaalde tekenreeksen (%d)"
 
-#: trans/models.py:2133
+#: trans/models.py:2134
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Vage tekenreeksen (%d)"
 
-#: trans/models.py:2141
+#: trans/models.py:2142
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models.py:2489
+#: trans/models.py:2490
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models.py:2495
+#: trans/models.py:2496
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models.py:2624
+#: trans/models.py:2625
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models.py:2950
+#: trans/models.py:2951
 msgid "Resource update"
 msgstr ""
 
-#: trans/models.py:2951
+#: trans/models.py:2952
 msgid "Translation completed"
 msgstr "Vertaling afgewerkt"
 
-#: trans/models.py:2952
+#: trans/models.py:2953
 msgid "Translation changed"
 msgstr "Vertaling aangepast"
 
-#: trans/models.py:2953
+#: trans/models.py:2954
 msgid "New translation"
 msgstr "Nieuwe vertaling"
 
-#: trans/models.py:2954
+#: trans/models.py:2955
 msgid "Comment added"
 msgstr "Opmerking toegevoegd"
 
-#: trans/models.py:2955
+#: trans/models.py:2956
 msgid "Suggestion added"
 msgstr "Suggestie toegevoegd"
 
-#: trans/models.py:2973
+#: trans/models.py:2974
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""

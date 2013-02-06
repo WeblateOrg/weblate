@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-05 11:36+0100\n"
+"POT-Creation-Date: 2013-02-06 15:02+0100\n"
 "PO-Revision-Date: 2013-02-05 18:40+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -331,10 +331,6 @@ msgstr ""
 
 #: html/about.html:21 html/index.html:54
 #, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder. If it's "
-#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-#| "\">contact us</a>."
 msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
@@ -1358,7 +1354,6 @@ msgid "Activity"
 msgstr "Etkinlik"
 
 #: html/user.html:33
-#| msgid "Recent edits"
 msgid "Recent contributions"
 msgstr "Son katkılar"
 
@@ -2576,15 +2571,67 @@ msgstr "Yoruba dili"
 msgid "Zulu"
 msgstr "Zulu dili"
 
-#: lang/models.py:375
-msgid "Singular"
-msgstr "Tekil"
+#: lang/models.py:452 lang/models.py:456 lang/models.py:462 lang/models.py:469
+#: lang/models.py:474 lang/models.py:480 lang/models.py:486 lang/models.py:491
+msgctxt "Plural form description"
+msgid "One"
+msgstr ""
 
-#: lang/models.py:377
+#: lang/models.py:453
+#, fuzzy
+#| msgid "Plural"
+msgctxt "Plural form description"
 msgid "Plural"
 msgstr "Çoğul"
 
-#: lang/models.py:378
+#: lang/models.py:457 lang/models.py:482 lang/models.py:492
+msgctxt "Plural form description"
+msgid "Few"
+msgstr ""
+
+#: lang/models.py:458 lang/models.py:466 lang/models.py:471 lang/models.py:477
+#: lang/models.py:483 lang/models.py:487 lang/models.py:494 lang/models.py:498
+#, fuzzy
+#| msgid "Others"
+msgctxt "Plural form description"
+msgid "Other"
+msgstr "Diğerleri"
+
+#: lang/models.py:461 lang/models.py:488
+msgctxt "Plural form description"
+msgid "Zero"
+msgstr ""
+
+#: lang/models.py:463 lang/models.py:470 lang/models.py:475 lang/models.py:481
+#: lang/models.py:497
+msgctxt "Plural form description"
+msgid "Two"
+msgstr ""
+
+#: lang/models.py:464
+msgctxt "Plural form description"
+msgid "uFew"
+msgstr ""
+
+#: lang/models.py:465 lang/models.py:493
+msgctxt "Plural form description"
+msgid "Many"
+msgstr ""
+
+#: lang/models.py:476
+msgctxt "Plural form description"
+msgid "Three"
+msgstr ""
+
+#: lang/models.py:555
+msgid "Singular"
+msgstr "Tekil"
+
+#: lang/models.py:557
+msgid "Plural"
+msgstr "Çoğul"
+
+#: lang/models.py:558
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
@@ -2952,35 +2999,35 @@ msgstr "Git havuzunu getirme başarısız: %s"
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models.py:830
+#: trans/models.py:831
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:859
+#: trans/models.py:860
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models.py:946
+#: trans/models.py:947
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models.py:980
+#: trans/models.py:981
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models.py:1097
+#: trans/models.py:1098
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: trans/models.py:1103
+#: trans/models.py:1104
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models.py:1109
+#: trans/models.py:1110
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -2988,25 +3035,25 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models.py:1130
+#: trans/models.py:1131
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:1135
+#: trans/models.py:1136
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:1145
+#: trans/models.py:1146
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models.py:1148
+#: trans/models.py:1149
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:1339
+#: trans/models.py:1340
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3015,89 +3062,89 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models.py:1348
+#: trans/models.py:1349
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models.py:1353
+#: trans/models.py:1354
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1377
+#: trans/models.py:1378
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
 
-#: trans/models.py:2091 trans/models.py:2118
+#: trans/models.py:2092 trans/models.py:2119
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:2096 trans/models.py:2149
+#: trans/models.py:2097 trans/models.py:2150
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:2110 trans/models.py:2166
+#: trans/models.py:2111 trans/models.py:2167
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models.py:2125
+#: trans/models.py:2126
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:2133
+#: trans/models.py:2134
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:2141
+#: trans/models.py:2142
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:2489
+#: trans/models.py:2490
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models.py:2495
+#: trans/models.py:2496
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2624
+#: trans/models.py:2625
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
 
-#: trans/models.py:2950
+#: trans/models.py:2951
 msgid "Resource update"
 msgstr "Kaynak Güncellemesi"
 
-#: trans/models.py:2951
+#: trans/models.py:2952
 msgid "Translation completed"
 msgstr "Çeviri Tamamlandı"
 
-#: trans/models.py:2952
+#: trans/models.py:2953
 msgid "Translation changed"
 msgstr "Çeviri Değiştirildi"
 
-#: trans/models.py:2953
+#: trans/models.py:2954
 msgid "New translation"
 msgstr "Yeni çeviri"
 
-#: trans/models.py:2954
+#: trans/models.py:2955
 msgid "Comment added"
 msgstr "Yorum Eklendi"
 
-#: trans/models.py:2955
+#: trans/models.py:2956
 msgid "Suggestion added"
 msgstr "Öneri Eklendi"
 
-#: trans/models.py:2973
+#: trans/models.py:2974
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
