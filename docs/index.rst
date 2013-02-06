@@ -22,6 +22,7 @@ Contents:
     config
     management
     changes
+    contributing
     license
 
 
