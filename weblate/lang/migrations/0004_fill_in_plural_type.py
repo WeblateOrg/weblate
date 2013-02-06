@@ -29,7 +29,7 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         for lang in orm.Language.objects.all():
-            lang.plural_tupe = get_plural_type(
+            lang.plural_type = get_plural_type(
                 lang.code,
                 lang.pluralequation
             )
