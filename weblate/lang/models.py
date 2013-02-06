@@ -24,6 +24,9 @@ from django.db.models import Sum
 from translate.lang import data
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
+import logging
+
+logger = logging.getLogger('weblate')
 
 # Extra languages not included in ttkit
 EXTRALANGS = [
@@ -235,8 +238,9 @@ def get_plural_type(code, pluralequation):
     elif base_code in ('ar'):
         return Language.PLURAL_ARABIC
 
-    raise Exception('%s: %s' % (code, pluralequation))
+    logger.error('Can not guess type of plural for %s: %s', code, pluralequation)
 
+    return Language.PLURAL_UNKNOWN
 
 
 class LanguageManager(models.Manager):
@@ -440,6 +444,7 @@ class Language(models.Model):
     PLURAL_ONE_OTHER_ZERO = 7
     PLURAL_ONE_FEW_MANY_OTHER = 8
     PLURAL_TWO_OTHER = 9
+    PLURAL_UNKNOWN = 666
 
     PLURAL_CHOICES = (
         (PLURAL_NONE, 'None'),
@@ -452,6 +457,7 @@ class Language(models.Model):
         (PLURAL_ONE_OTHER_ZERO, 'One/other/zero'),
         (PLURAL_ONE_FEW_MANY_OTHER, 'One/few/many/other'),
         (PLURAL_TWO_OTHER, 'Two/other'),
+        (PLURAL_UNKNOWN, 'Unknown'),
     )
     code = models.SlugField(unique=True)
     name = models.CharField(max_length=100)
