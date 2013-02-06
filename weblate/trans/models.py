@@ -248,7 +248,9 @@ class Project(models.Model):
         return True
 
     def is_git_locked(self):
-        return max([subproject.locked for subproject in self.subproject_set.all()])
+        return max(
+            [subproject.locked for subproject in self.subproject_set.all()]
+        )
 
     @models.permalink
     def get_lock_url(self):
@@ -1310,9 +1312,9 @@ class Translation(models.Model):
             ('overwrite_translation', "Can overwrite with translation upload"),
             ('author_translation', "Can define author of translation upload"),
             ('commit_translation', "Can force commiting of translation"),
-            ('update_translation', "Can update translation from git"),
-            ('push_translation', "Can push translations to remote git"),
-            ('reset_translation', "Can reset translations to match remote git"),
+            ('update_translation', "Can update translation from"),
+            ('push_translation', "Can push translations to remote"),
+            ('reset_translation', "Can reset translations to match remote"),
             ('automatic_translation', "Can do automatic translation"),
             ('lock_translation', "Can lock whole translation project"),
         )
@@ -3136,7 +3138,10 @@ def check_versions(sender, **kwargs):
             failure |= check_version(*version)
 
         if failure:
-            raise Exception('Some of required modules are missing or too old! Check above output for details.')
+            raise Exception(
+                'Some of required modules are missing or too old! '
+                'Check above output for details.'
+            )
 
 post_syncdb.connect(check_versions)
 post_migrate.connect(check_versions)
