@@ -341,6 +341,15 @@ post_syncdb.connect(setup_lang)
 
 
 class Language(models.Model):
+    PLURAL_NONE = 0
+    PLURAL_CLASSIC = 1
+    PLURAL_SLAVIC = 2
+
+    PLURAL_CHOICES = (
+        (PLURAL_NONE, 'None'),
+        (PLURAL_CLASSIC, 'Classic plural'),
+        (PLURAL_SLAVIC, 'Slavic languages'),
+    )
     code = models.SlugField(unique=True)
     name = models.CharField(max_length=100)
     nplurals = models.SmallIntegerField(default=0)
@@ -349,6 +358,10 @@ class Language(models.Model):
         max_length=3,
         default='ltr',
         choices=(('ltr', 'ltr'), ('rtl', 'rtl')),
+    )
+    plural_type = models.IntegerField(
+        choices=PLURAL_CHOICES,
+        default=PLURAL_CLASSIC
     )
 
     objects = LanguageManager()
