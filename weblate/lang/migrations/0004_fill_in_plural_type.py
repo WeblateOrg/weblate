@@ -29,10 +29,18 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         for lang in orm.Language.objects.all():
+            # Cleanup plural equation
+            if lang.pluralequation[-1] == ';':
+                lang.pluralequation = lang.pluralequation[:-1]
+            if lang.pluralequation[0] == '(' and lang.pluralequation[-1] == ')':
+                lang.pluralequation = lang.pluralequation[1:-1]
+
+            # Add plural type
             lang.plural_type = get_plural_type(
                 lang.code,
                 lang.pluralequation
             )
+
             lang.save()
 
     def backwards(self, orm):
