@@ -210,6 +210,8 @@ def get_plural_type(code, pluralequation):
     Gets correct plural type for language.
     '''
     # Remove not needed parenthesis
+    if pluralequation[-1] == ';':
+        pluralequation = pluralequation[:-1]
     if pluralequation[0] == '(' and pluralequation[-1] == ')':
         pluralequation = pluralequation[1:-1]
 
