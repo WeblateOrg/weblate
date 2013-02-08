@@ -777,7 +777,7 @@ class SubProject(models.Model):
 
         # Push after possible merge
         if self.git_needs_push() and self.project.push_on_commit:
-            self.subproject.do_push(force_commit=False, do_update=False)
+            self.do_push(force_commit=False, do_update=False)
 
         return ret
 
