@@ -39,7 +39,7 @@ GRAVATAR_URL_PREFIX = getattr(
 GRAVATAR_DEFAULT_IMAGE = getattr(
     settings,
     'GRAVATAR_DEFAULT_IMAGE',
-    'mm'
+    'identicon'
 )
 
 PLURAL_SEPARATOR = '\x00\x00'
