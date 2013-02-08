@@ -33,7 +33,7 @@ function text_change(e) {
 }
 
 function mt_set(txt) {
-    $('#id_target').val(txt);
+    $('#id_target').val(txt).change();
     $('#id_fuzzy').attr('checked', true);
 }
 
