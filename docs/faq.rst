@@ -19,6 +19,7 @@ without interaction unless some merge conflict occurs.
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
    Weblate push changes to your repo whenever they are commited at Weblate.
+4. Optionally setup cron job for :djadmin:`commit_pending`.
 
 How to fix merge conflicts in translations?
 -------------------------------------------
