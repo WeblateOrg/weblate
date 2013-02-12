@@ -94,6 +94,17 @@ installation).
 
 .. seealso:: https://docs.djangoproject.com/en/dev/ref/contrib/sites/
 
+Usage
++++++
+
+How do I review others translations?
+------------------------------------
+
+- You can subscribe to any changes made in :ref:`subscriptions` and then check
+  other contributions in email.
+- There is review tool available at bottom of translation view, where you can
+  choose to browse translations made by others since given date.
+
 Troubleshooting
 +++++++++++++++
 

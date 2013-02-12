@@ -37,6 +37,9 @@ Czech language is shown as secondary:
 
 .. image:: _static/secondary-language.png
 
+
+.. _subscriptions:
+
 Subscriptions
 +++++++++++++
 
