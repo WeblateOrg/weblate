@@ -28,6 +28,8 @@ Languages
 Choose here which languages you prefer to translate. These will be offered to
 you on main page to have easier access to translations.
 
+.. image:: _static/your-translations.png
+
 Secondary languages
 +++++++++++++++++++
 
@@ -36,6 +38,18 @@ together with source language. Example can be seen on following image, where
 Czech language is shown as secondary:
 
 .. image:: _static/secondary-language.png
+
+
+.. _subscriptions:
+
+Subscriptions
++++++++++++++
+
+You can subscribe to various notificatiosn on :guilabel:`Subscriptions` tab.
+You will receive notifications for selected events on chosen projects for
+languages you have indicated for translation (see above).
+
+.. image:: _static/profile-subscriptions.png
 
 Projects structure
 ------------------
@@ -46,6 +60,19 @@ Whenever translation is made in single subproject, it is automatically
 propagated to others within same project (this is especially useful when
 translating more version of same project).
 
+Export and import
+-----------------
+
+Weblate supports both export and import of translation files. This allows you
+to work offline and then merge changes back. Your changes will be merged within
+existing translation (even if it has been changed meanwhile).
+
+.. note::
+
+    This ability might be limited by :ref:`privileges`.
+
+.. image:: _static/export-import.png
+
 Translation links
 -----------------
 
@@ -54,6 +81,8 @@ translation. These are results of various checks, like untranslated or fuzzy
 strings. Should no other checks fire, there will be still link to all
 translations. Alternatively you can use search field to find translation you
 need to fix.
+
+.. image:: _static/strings-to-check.png
 
 Translating
 -----------
@@ -91,18 +120,18 @@ All locations
     In case message appears in multiple places (eg. multiple subprojects),
     this tab shows all of them and for inconsistent translations (see
     :ref:`check-inconsistent`) you can choose which one to use.
-Dictionary
-    Displays words from project dictionary which are used in current message.
+Glossary
+    Displays words from project glossary which are used in current message.
 Recent edits
     List of people who have changed this message recently using Weblate.
 Project
     Project information like instructions for translators or information about
     Git repository.
 
-Dictionary
-----------
+Glossary
+--------
 
-Each project can have assigned dictionary for any language. This could be used
+Each project can have assigned glossary for any language. This could be used
 for storing terminology for given project, so that translations are consistent.
 You can display terms from currently translated string in bottom tabs.
 

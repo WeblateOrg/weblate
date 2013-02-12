@@ -19,6 +19,7 @@ without interaction unless some merge conflict occurs.
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
    Weblate push changes to your repo whenever they are commited at Weblate.
+4. Optionally setup cron job for :djadmin:`commit_pending`.
 
 How to fix merge conflicts in translations?
 -------------------------------------------
@@ -29,6 +30,22 @@ Once you push changes back, Weblate will be able to use merged version without
 any other special actions.
 
 .. seealso:: :ref:`git-export`
+
+How do I translate several branches at once?
+--------------------------------------------
+
+Weblate supports pushing translation changes withing one :ref:`project`. For
+every :ref:`subproject` which has it enabled (the default behavior), the change
+made is automatically propagated to others. This way the translations are kept
+synchronized even if the branches themselves have already diverged quite a lot
+and it is not possible to simply merge translation changes between them.
+
+Once you merge changes from Weblate, you might have to merge these branches
+(depending on your development workflow) discarding differences:
+
+.. code-block:: sh
+
+    git merge -s ours origin/maintenance
 
 .. _git-export:
 
@@ -77,6 +94,23 @@ installation).
 
 .. seealso:: https://docs.djangoproject.com/en/dev/ref/contrib/sites/
 
+Usage
++++++
+
+How do I review others translations?
+------------------------------------
+
+- You can subscribe to any changes made in :ref:`subscriptions` and then check
+  other contributions in email.
+- There is review tool available at bottom of translation view, where you can
+  choose to browse translations made by others since given date.
+
+How do I provide feedback on source string?
+-------------------------------------------
+
+On context tabs below translation, you can use :guilabel:`Source` tab to
+provide feedback on source string or discuss it with other translators.
+
 Troubleshooting
 +++++++++++++++
 
@@ -90,12 +124,18 @@ The easiest way to do this is to run:
 
 .. code-block:: sh
 
-    cd repos
+    # Go to GIT_ROOT directory
+    cd weblate/repos
+    # Compress all Git repositories
     for d in */* ; do
         pushd $d
         git gc
         popd
     done
+
+.. seealso::
+
+    :setting:`GIT_ROOT`
 
 .. _faq-ft-slow:
 
@@ -146,6 +186,16 @@ Does Weblate support other VCS than Git?
 
 Not currently. Weblate requires distributed VCS and could be probably adjusted
 to work with anything else than Git, but somebody has to implement this support.
+
+How does Weblate credit translators?
+------------------------------------
+
+Every change made in Weblate is commited into VCS under translators name. This
+way every single change has proper authorship and you can track it down using
+standard VCS tools you use for code.
+
+Additionally, when translation file format supports it, the file headers are
+updated to include translator name.
 
 Why does Weblate force to have show all po files in single tree?
 ----------------------------------------------------------------
