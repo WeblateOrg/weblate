@@ -37,6 +37,13 @@ Czech language is shown as secondary:
 
 .. image:: _static/secondary-language.png
 
+Subscriptions
++++++++++++++
+
+You can subscribe to various notificatiosn on :guilabel:`Subscriptions` tab.
+You will receive notifications for selected events on chosen projects for
+languages you have indicated for translation (see above).
+
 Projects structure
 ------------------
 
