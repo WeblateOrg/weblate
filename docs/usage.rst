@@ -98,18 +98,18 @@ All locations
     In case message appears in multiple places (eg. multiple subprojects),
     this tab shows all of them and for inconsistent translations (see
     :ref:`check-inconsistent`) you can choose which one to use.
-Dictionary
-    Displays words from project dictionary which are used in current message.
+Glossary
+    Displays words from project glossary which are used in current message.
 Recent edits
     List of people who have changed this message recently using Weblate.
 Project
     Project information like instructions for translators or information about
     Git repository.
 
-Dictionary
-----------
+Glossary
+--------
 
-Each project can have assigned dictionary for any language. This could be used
+Each project can have assigned glossary for any language. This could be used
 for storing terminology for given project, so that translations are consistent.
 You can display terms from currently translated string in bottom tabs.
 
