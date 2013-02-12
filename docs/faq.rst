@@ -147,6 +147,16 @@ Does Weblate support other VCS than Git?
 Not currently. Weblate requires distributed VCS and could be probably adjusted
 to work with anything else than Git, but somebody has to implement this support.
 
+How does Weblate credit translators?
+------------------------------------
+
+Every change made in Weblate is commited into VCS under translators name. This
+way every single change has proper authorship and you can track it down using
+standard VCS tools you use for code.
+
+Additionally, when translation file format supports it, the file headers are
+updated to include translator name.
+
 Why does Weblate force to have show all po files in single tree?
 ----------------------------------------------------------------
 
