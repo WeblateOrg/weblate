@@ -31,6 +31,22 @@ any other special actions.
 
 .. seealso:: :ref:`git-export`
 
+How do I translate several branches at once?
+--------------------------------------------
+
+Weblate supports pushing translation changes withing one :ref:`project`. For
+every :ref:`subproject` which has it enabled (the default behavior), the change
+made is automatically propagated to others. This way the translations are kept
+synchronized even if the branches themselves have already diverged quite a lot
+and it is not possible to simply merge translation changes between them.
+
+Once you merge changes from Weblate, you might have to merge these branches
+(depending on your development workflow) discarding differences:
+
+.. code-block:: sh
+
+    git merge -s ours origin/maintenance
+
 .. _git-export:
 
 How to export Git repository weblate uses?
