@@ -28,6 +28,8 @@ Languages
 Choose here which languages you prefer to translate. These will be offered to
 you on main page to have easier access to translations.
 
+.. image:: _static/your-translations.png
+
 Secondary languages
 +++++++++++++++++++
 
@@ -46,6 +48,8 @@ Subscriptions
 You can subscribe to various notificatiosn on :guilabel:`Subscriptions` tab.
 You will receive notifications for selected events on chosen projects for
 languages you have indicated for translation (see above).
+
+.. image:: _static/profile-subscriptions.png
 
 Projects structure
 ------------------
@@ -67,6 +71,8 @@ existing translation (even if it has been changed meanwhile).
 
     This ability might be limited by :ref:`privileges`.
 
+.. image:: _static/export-import.png
+
 Translation links
 -----------------
 
@@ -75,6 +81,8 @@ translation. These are results of various checks, like untranslated or fuzzy
 strings. Should no other checks fire, there will be still link to all
 translations. Alternatively you can use search field to find translation you
 need to fix.
+
+.. image:: _static/strings-to-check.png
 
 Translating
 -----------
