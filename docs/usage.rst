@@ -53,6 +53,17 @@ Whenever translation is made in single subproject, it is automatically
 propagated to others within same project (this is especially useful when
 translating more version of same project).
 
+Export and import
+-----------------
+
+Weblate supports both export and import of translation files. This allows you
+to work offline and then merge changes back. Your changes will be merged within
+existing translation (even if it has been changed meanwhile).
+
+.. note::
+
+    This ability might be limited by :ref:`privileges`.
+
 Translation links
 -----------------
 
