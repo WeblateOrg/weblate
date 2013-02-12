@@ -118,12 +118,18 @@ The easiest way to do this is to run:
 
 .. code-block:: sh
 
-    cd repos
+    # Go to GIT_ROOT directory
+    cd weblate/repos
+    # Compress all Git repositories
     for d in */* ; do
         pushd $d
         git gc
         popd
     done
+
+.. seealso::
+
+    :setting:`GIT_ROOT`
 
 .. _faq-ft-slow:
 
