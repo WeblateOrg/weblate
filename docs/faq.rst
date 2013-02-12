@@ -105,6 +105,12 @@ How do I review others translations?
 - There is review tool available at bottom of translation view, where you can
   choose to browse translations made by others since given date.
 
+How do I provide feedback on source string?
+-------------------------------------------
+
+On context tabs below translation, you can use :guilabel:`Source` tab to
+provide feedback on source string or discuss it with other translators.
+
 Troubleshooting
 +++++++++++++++
 
