@@ -111,6 +111,16 @@ How do I provide feedback on source string?
 On context tabs below translation, you can use :guilabel:`Source` tab to
 provide feedback on source string or discuss it with other translators.
 
+Where do language definition come from and how can I add own?
+-------------------------------------------------------------
+
+Basic set of langauge definitions is included within Weblate and
+Translate-toolkit. This covers more than 150 languages and includes information
+about used plural forms or text direction.
+
+You are free to define own language in administrative interface, you just need
+to provide information about it.
+
 Troubleshooting
 +++++++++++++++
 
