@@ -60,6 +60,43 @@ def update_project(request, project):
     thread.start()
     return HttpResponse('update triggered')
 
+@csrf_exempt
+def git_service_hook(request, service):
+    '''
+    Shared code between Git service hooks.
+
+    Currently used for bitbucket_hook and github_hook, but should be usable for
+    hook from other Git services (Google Code, custom coded sites, etc.) too.
+    '''
+    if not appsettings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    try:
+        data = json.loads(request.POST['payload'])
+    except (ValueError, KeyError):
+        return HttpResponseBadRequest('could not parse json!')
+    # Send the request data to the service handler.
+    try:
+        hook_helper = service + '_hook_helper'
+        service_data = hook_helper(data)
+    except NameError:
+        logger.error('tried to call %s, but no such function exists',
+                     hook_helper)
+        return HttpResponseBadRequest('could not find hook handler!')
+    service_long_name = service_data['service_long name']
+    repo = service_data['repo']
+    branch = service_data['branch']
+    logger.info(
+        'received %s notification on repository %s, branch %s',
+        service_long_name, repo, branch
+    )
+    for obj in SubProject.objects.filter(repo=repo, branch=branch):
+        logger.info('%s notification will update %s', obj)
+        thread = threading.Thread(target=obj.do_update)
+        thread.start()
+
+    return HttpResponse('update triggered')
 
 @csrf_exempt
 def bitbucket_hook(request):
