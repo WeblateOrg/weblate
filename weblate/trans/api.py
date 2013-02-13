@@ -76,7 +76,7 @@ def bitbucket_hook(request):
         return HttpResponseBadRequest('could not parse json!')
     try:
         repo = 'https://bitbucket.org/%s/%s.git' % (
-            data['repository']['owner']['name'],
+            data['repository']['owner'],
             data['repository']['name'],
         )
         branch = data['ref'].split('/')[-1]
