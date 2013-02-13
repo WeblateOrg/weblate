@@ -183,7 +183,7 @@ urlpatterns = patterns('',
     url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.update_subproject'),
     url(r'^hooks/update/(?P<project>[^/]*)/$', 'weblate.trans.api.update_project'),
     url(r'^hooks/github/$', 'weblate.trans.api.github_hook'),
-    url(r'^hooks/bitbucket/$', 'weblate.trans.api.bitbucket_hook'),
+    url(r'^hooks/bitbucket/$', 'weblate.trans.api.git_service_hook', service='bitbucket'),
 
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats', name='export-stats'),
 

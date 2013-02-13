@@ -31,6 +31,7 @@ from weblate.trans.models import Project, SubProject
 import json
 import logging
 import threading
+import urllib2
 
 logger = logging.getLogger('weblate')
 
@@ -99,37 +100,35 @@ def git_service_hook(request, service):
     return HttpResponse('update triggered')
 
 @csrf_exempt
-def bitbucket_hook(request):
+def bitbucket_hook_helper(data):
     '''
     API to handle commit hooks from Bitbucket.
     '''
-    if not appsettings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
-    if request.method != 'POST':
-        return HttpResponseNotAllowed(['POST'])
-    try:
-        data = json.loads(request.POST['payload'])
-    except (ValueError, KeyError):
-        return HttpResponseBadRequest('could not parse json!')
     try:
         repo = 'https://bitbucket.org/%s/%s.git' % (
             data['repository']['owner'],
-            data['repository']['name'],
+            data['repository']['slug'],
         )
-        branch = data['ref'].split('/')[-1]
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
-    logger.info(
-        'received Bitbucket notification on repository %s, branch %s',
-        repo,
-        branch
-    )
-    for obj in SubProject.objects.filter(repo=repo, branch=branch):
-        logger.info('Bitbucket notification will update %s', obj)
-        thread = threading.Thread(target=obj.do_update)
-        thread.start()
+    try:
+        # Call Bitbucket's API to get branch data, since they won't ship that
+        # in their brokers' post data...
+        bb_api_call = urllib2.urlopen('https://api.bitbucket.org/1.0/' +\
+                                      'repositories/%s/%s/changesets/%s' % (
+                                         data['repository']['owner'],
+                                         data['repository']['slug'],
+                                         data['commits']['node'],
+                                     ))
+        changeset = json.loads(bb_api_call.response.read())
 
-    return HttpResponse('update triggered')
+    return_data = {
+        'service_long_name': 'Bitbucket',
+        'repo': repo,
+        'branch': changeset['branch'],
+    }
+
+    return return_data
 
 
 @csrf_exempt
