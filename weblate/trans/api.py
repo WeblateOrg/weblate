@@ -61,6 +61,7 @@ def update_project(request, project):
     thread.start()
     return HttpResponse('update triggered')
 
+
 @csrf_exempt
 def git_service_hook(request, service):
     '''
@@ -99,6 +100,7 @@ def git_service_hook(request, service):
 
     return HttpResponse('update triggered')
 
+
 @csrf_exempt
 def bitbucket_hook_helper(data):
     '''
@@ -114,12 +116,12 @@ def bitbucket_hook_helper(data):
     try:
         # Call Bitbucket's API to get branch data, since they won't ship that
         # in their brokers' post data...
-        bb_api_call = urllib2.urlopen('https://api.bitbucket.org/1.0/' +\
+        bb_api_call = urllib2.urlopen('https://api.bitbucket.org/1.0/' +
                                       'repositories/%s/%s/changesets/%s' % (
-                                         data['repository']['owner'],
-                                         data['repository']['slug'],
-                                         data['commits']['node'],
-                                     ))
+                                          data['repository']['owner'],
+                                          data['repository']['slug'],
+                                          data['commits']['node'],
+                                      ))
         changeset = json.loads(bb_api_call.response.read())
 
     return_data = {
