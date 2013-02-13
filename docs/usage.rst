@@ -143,6 +143,15 @@ However if you are logged in you can still decide to make only a suggestion
 instead of saving translation, for example in case you are unsure about the
 translation and you want somebody else to review it.
 
+Promotion
+---------
+
+Weblate provides you widgets to share on your website or other sources to
+promote translation project. It also has nice welcome page for new contributors
+to give them basic information about the translation.
+
+.. image:: _static/promote.png
+
 .. _machine-translation:
 
 Machine translation
