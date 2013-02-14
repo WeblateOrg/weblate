@@ -85,6 +85,8 @@ def git_service_hook(request, service):
         logger.error('tried to call %s, but no such function exists',
                      hook_helper)
         return HttpResponseBadRequest('could not find hook handler!')
+    except KeyError:
+        return HttpResponseBadRequest('could not parse json!')
     service_long_name = service_data['service_long name']
     repo = service_data['repo']
     branch = service_data['branch']
@@ -105,14 +107,11 @@ def bitbucket_hook_helper(data):
     '''
     API to handle commit hooks from Bitbucket.
     '''
-    try:
-        repo = 'https://bitbucket.org/%s/%s.git' % (
-            data['repository']['owner'],
-            data['repository']['slug'],
-        )
-        branch = data['commits'][-1]['branch']
-    except KeyError:
-        return HttpResponseBadRequest('could not parse json!')
+    repo = 'https://bitbucket.org/%s/%s.git' % (
+        data['repository']['owner'],
+        data['repository']['slug'],
+    )
+    branch = data['commits'][-1]['branch']
 
     return_data = {
         'service_long_name': 'Bitbucket',
@@ -128,14 +127,11 @@ def github_hook_helper(data):
     '''
     API to handle commit hooks from Github.
     '''
-    try:
-        repo = 'git://github.com/%s/%s.git' % (
-            data['repository']['owner']['name'],
-            data['repository']['name'],
-        )
-        branch = data['ref'].split('/')[-1]
-    except KeyError:
-        return HttpResponseBadRequest('could not parse json!')
+    repo = 'git://github.com/%s/%s.git' % (
+        data['repository']['owner']['name'],
+        data['repository']['name'],
+    )
+    branch = data['ref'].split('/')[-1]
 
     return_data = {
         'service_long_name': 'GitHub',
