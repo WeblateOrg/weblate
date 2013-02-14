@@ -31,7 +31,6 @@ from weblate.trans.models import Project, SubProject
 import json
 import logging
 import threading
-import urllib2
 
 logger = logging.getLogger('weblate')
 
@@ -111,23 +110,14 @@ def bitbucket_hook_helper(data):
             data['repository']['owner'],
             data['repository']['slug'],
         )
+        branch = data['commits'][-1]['branch']
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
-    try:
-        # Call Bitbucket's API to get branch data, since they won't ship that
-        # in their brokers' post data...
-        bb_api_call = urllib2.urlopen('https://api.bitbucket.org/1.0/' +
-                                      'repositories/%s/%s/changesets/%s' % (
-                                          data['repository']['owner'],
-                                          data['repository']['slug'],
-                                          data['commits']['node'],
-                                      ))
-        changeset = json.loads(bb_api_call.response.read())
 
     return_data = {
         'service_long_name': 'Bitbucket',
         'repo': repo,
-        'branch': changeset['branch'],
+        'branch': branch,
     }
 
     return return_data
