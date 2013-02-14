@@ -32,11 +32,17 @@ class ProjectAdmin(admin.ModelAdmin):
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
+        '''
+        Updates selected resources from git.
+        '''
         for project in queryset:
             project.do_update()
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
+        '''
+        Recalculates checks for selected resources.
+        '''
         cnt = 0
         units = Unit.objects.filter(
             translation__subproject__project__in=queryset
@@ -47,6 +53,9 @@ class ProjectAdmin(admin.ModelAdmin):
         self.message_user(request, "Updated checks for %d units." % cnt)
 
     def force_commit(self, request, queryset):
+        '''
+        Commits pending changes for selected resources.
+        '''
         for project in queryset:
             project.commit_pending()
         self.message_user(
@@ -65,11 +74,17 @@ class SubProjectAdmin(admin.ModelAdmin):
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
+        '''
+        Updates selected resources from git.
+        '''
         for project in queryset:
             project.do_update()
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
+        '''
+        Recalculates checks for selected resources.
+        '''
         cnt = 0
         units = Unit.objects.filter(
             translation__subproject__in=queryset
@@ -83,6 +98,9 @@ class SubProjectAdmin(admin.ModelAdmin):
         )
 
     def force_commit(self, request, queryset):
+        '''
+        Commits pending changes for selected resources.
+        '''
         for project in queryset:
             project.commit_pending()
         self.message_user(
@@ -105,6 +123,9 @@ class TranslationAdmin(admin.ModelAdmin):
     actions = ['enable_translation', 'disable_translation']
 
     def enable_translation(self, request, queryset):
+        '''
+        Mass enabling of translations.
+        '''
         queryset.update(enabled=True)
         self.message_user(
             request,
@@ -112,6 +133,9 @@ class TranslationAdmin(admin.ModelAdmin):
         )
 
     def disable_translation(self, request, queryset):
+        '''
+        Mass disabling of translations.
+        '''
         queryset.update(enabled=False)
         self.message_user(
             request,

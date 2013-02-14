@@ -41,6 +41,9 @@ class PluralTextarea(forms.Textarea):
     Text area extension which possibly handles plurals.
     '''
     def render(self, name, value, attrs=None):
+        '''
+        Renders all textareas with correct plural labels.
+        '''
         lang, value = value
 
         # Need to add extra class
@@ -94,6 +97,10 @@ class PluralTextarea(forms.Textarea):
         return mark_safe('<br />'.join(ret) + pluralmsg)
 
     def value_from_datadict(self, data, files, name):
+        '''
+        Retuns processed plurals - either list of plural strings or single
+        string if no plurals are in use.
+        '''
         ret = [data.get(name, None)]
         for idx in range(1, 10):
             fieldname = '%s_%d' % (name, idx)
@@ -120,11 +127,16 @@ class PluralField(forms.CharField):
         )
 
     def to_python(self, value):
-        # We can get list from PluralTextarea
+        '''
+        Returns list or string as returned by PluralTextarea.
+        '''
         return value
 
 
 class TranslationForm(forms.Form):
+    '''
+    Form used for translation of single string.
+    '''
     checksum = forms.CharField(widget=forms.HiddenInput)
     target = PluralField(required=False)
     fuzzy = forms.BooleanField(
@@ -149,6 +161,9 @@ class AntispamForm(forms.Form):
 
 
 class SimpleUploadForm(forms.Form):
+    '''
+    Base form for uploading a file.
+    '''
     file = forms.FileField(label=_('File'))
     merge_header = forms.BooleanField(
         label=_('Merge file header'),
@@ -159,6 +174,9 @@ class SimpleUploadForm(forms.Form):
 
 
 class UploadForm(SimpleUploadForm):
+    '''
+    Upload form with option to overwrite current messages.
+    '''
     overwrite = forms.BooleanField(
         label=_('Overwrite existing translations'),
         required=False
@@ -166,6 +184,9 @@ class UploadForm(SimpleUploadForm):
 
 
 class ExtraUploadForm(UploadForm):
+    '''
+    Advanced upload form for users who can override authorship.
+    '''
     author_name = forms.CharField(
         label=_('Author name'),
         required=False,
@@ -179,6 +200,9 @@ class ExtraUploadForm(UploadForm):
 
 
 class SearchForm(forms.Form):
+    '''
+    Text searching form.
+    '''
     q = forms.CharField(label=_('Query'))
     search = forms.ChoiceField(
         label=_('Search type'),
@@ -208,11 +232,17 @@ class SearchForm(forms.Form):
 
 
 class MergeForm(forms.Form):
+    '''
+    Simple form for merging translation of two units.
+    '''
     checksum = forms.CharField()
     merge = forms.IntegerField()
 
 
 class AutoForm(forms.Form):
+    '''
+    Automatic translation form.
+    '''
     overwrite = forms.BooleanField(
         label=_('Overwrite strings'),
         required=False,
@@ -230,8 +260,10 @@ class AutoForm(forms.Form):
     )
 
     def __init__(self, obj, *args, **kwargs):
-        # Dynamically generate choices for other subproject
-        # in same project
+        '''
+        Dynamically generate choices for other subproject
+        in same project
+        '''
         project = obj.subproject.project
         other_subprojects = project.subproject_set.exclude(
             id=obj.subproject.id
@@ -244,11 +276,17 @@ class AutoForm(forms.Form):
 
 
 class WordForm(forms.Form):
+    '''
+    Form for adding word to a glossary.
+    '''
     source = forms.CharField(label=_('Source'))
     target = forms.CharField(label=_('Translation'))
 
 
 class DictUploadForm(forms.Form):
+    '''
+    Uploading file to a dictionary.
+    '''
     file = forms.FileField(label=_('File'))
     overwrite = forms.BooleanField(
         label = _('Overwrite existing'),
@@ -257,6 +295,9 @@ class DictUploadForm(forms.Form):
 
 
 class ReviewForm(forms.Form):
+    '''
+    Translation review form.
+    '''
     date = forms.DateField(label=_('Starting date'))
     type = forms.CharField(widget=forms.HiddenInput, initial='review')
 
@@ -267,6 +308,9 @@ class ReviewForm(forms.Form):
 
 
 class LetterForm(forms.Form):
+    '''
+    Form for choosing starting letter in a glossary.
+    '''
     letter = forms.ChoiceField(
         label=_('Starting letter'),
         choices=[('', _('Any'))] + [(chr(97 + x), chr(65 + x)) for x in range(26)],
@@ -275,18 +319,26 @@ class LetterForm(forms.Form):
 
 
 class CommentForm(forms.Form):
+    '''
+    Simple commenting form.
+    '''
     comment = forms.CharField(widget=forms.Textarea(attrs={'dir': 'auto'}))
 
 
 class EnageLanguageForm(forms.Form):
+    '''
+    Form to choose language for engagement widgets.
+    '''
     lang = forms.ChoiceField(
         required=False,
         choices=[('', _('Whole project'))],
     )
 
     def __init__(self, project, *args, **kwargs):
-        # Dynamically generate choices for used languages
-        # in project
+        '''
+        Dynamically generate choices for used languages
+        in project
+        '''
         choices = [(l.code, l.__unicode__()) for l in project.get_languages()]
 
         super(EnageLanguageForm, self).__init__(*args, **kwargs)

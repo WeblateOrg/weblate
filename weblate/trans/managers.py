@@ -150,6 +150,9 @@ class TranslationManager(models.Manager):
         return translation
 
     def enabled(self):
+        '''
+        Filters enabled translations.
+        '''
         return self.filter(enabled=True)
 
     def all_acl(self, user):
