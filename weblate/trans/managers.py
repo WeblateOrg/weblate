@@ -37,7 +37,7 @@ from weblate.trans.util import (
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 
 # Set of ignored words
-IGNORE_WORDS = set([
+IGNORE_WORDS = frozenset([
     'a',
     'an',
     'and',
@@ -76,7 +76,7 @@ IGNORE_WORDS = set([
 ])
 
 # Set of words to ignore in similar lookup
-IGNORE_SIMILAR = set([
+IGNORE_SIMILAR = frozenset([
     'also',
     'class',
     'href',
