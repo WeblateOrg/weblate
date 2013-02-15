@@ -34,6 +34,7 @@
 {% endif %}
 <li><a href="#share">{% trans "Share" %}</a></li>
 <li><a href="#source">{% trans "Source" %}</a></li>
+<li><a href="{% url 'view_activity_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
 </ul>
 
 <div id="new-lang">
