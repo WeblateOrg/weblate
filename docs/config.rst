@@ -50,6 +50,14 @@ Time in seconds for how long the automatic lock for translation will be active.
 
 .. seealso:: :ref:`locking`
 
+.. setting:: BACKGROUND_HOOKS
+
+BACKGROUND_HOOKS
+----------------
+
+Whether to run hooks in background. This is generally recommended unless you
+are debugging.
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST

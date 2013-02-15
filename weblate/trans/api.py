@@ -43,8 +43,11 @@ def update_subproject(request, project, subproject):
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    thread = threading.Thread(target=obj.do_update)
-    thread.start()
+    if appsettings.BACKGROUND_HOOKS:
+        thread = threading.Thread(target=obj.do_update)
+        thread.start()
+    else:
+        obj.do_update()
     return HttpResponse('update triggered')
 
 
@@ -56,8 +59,11 @@ def update_project(request, project):
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_object_or_404(Project, slug=project)
-    thread = threading.Thread(target=obj.do_update)
-    thread.start()
+    if appsettings.BACKGROUND_HOOKS:
+        thread = threading.Thread(target=obj.do_update)
+        thread.start()
+    else:
+        obj.do_update()
     return HttpResponse('update triggered')
 
 
@@ -96,8 +102,11 @@ def git_service_hook(request, service):
     )
     for obj in SubProject.objects.filter(repo=repo, branch=branch):
         logger.info('%s notification will update %s', obj)
-        thread = threading.Thread(target=obj.do_update)
-        thread.start()
+        if appsettings.BACKGROUND_HOOKS:
+            thread = threading.Thread(target=obj.do_update)
+            thread.start()
+        else:
+            obj.do_update()
 
     return HttpResponse('update triggered')
 

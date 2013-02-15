@@ -53,6 +53,9 @@ OFFER_HOSTING = get('OFFER_HOSTING', False)
 # Enable remote hooks
 ENABLE_HOOKS = get('ENABLE_HOOKS', True)
 
+# Whether to run hooks in background
+BACKGROUND_HOOKS = get('BACKGROUND_HOOKS', True)
+
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = get('NEARBY_MESSAGES', 5)
 
