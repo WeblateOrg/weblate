@@ -2,7 +2,7 @@ Name:           weblate
 Version: 1.5
 Release:        1
 License:        GPL-3+
-Summary:        Web based translation
+Summary:        Web-based translation tool
 Group:          Productivity/Networking/Web/Frontends
 Source:         %{name}-%{version}.tar.bz2
 BuildRequires:  bitstream-vera
@@ -32,9 +32,9 @@ Vendor:         Michal Čihař <mcihar@suse.com>
 %define WLETCDIR /%{_sysconfdir}/weblate
 
 %description
-Weblate is web based translation tool with tight Git integration. It features
-simple and clean user interface, propagation of translations across subprojects
-or automatic linking to source files.
+Weblate is a free web-based translation tool with tight Git integration. It
+features simple and clean user interface, propagation of translations across
+subprojects, quality checks and automatic linking to source files.
 
 List of features includes:
 
