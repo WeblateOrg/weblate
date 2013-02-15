@@ -61,6 +61,7 @@ class OptionalPluralCheckTest(TestCase):
             )
         )
 
+
 class EllipsisCheckTest(TestCase):
     def setUp(self):
         self.check = EllipsisCheck()
@@ -91,4 +92,3 @@ class EllipsisCheckTest(TestCase):
                 Unit(),
             )
         )
-

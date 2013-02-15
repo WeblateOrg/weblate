@@ -87,6 +87,7 @@ class EndStopCheckTest(CheckTestCase):
     def test_japanese(self):
         self.do_test(False, ('Text:', u'Text。', ''), 'ja')
 
+
 class EndColonCheckTest(CheckTestCase):
     def setUp(self):
         super(EndColonCheckTest, self).setUp()
