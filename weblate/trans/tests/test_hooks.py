@@ -70,6 +70,46 @@ GITHUB_PAYLOAD = '''
 }
 '''
 
+BITBUCKET_PAYLOAD = '''
+{
+    "canon_url": "https://bitbucket.org",
+    "commits": [
+        {
+            "author": "marcus",
+            "branch": "master",
+            "files": [
+                {
+                    "file": "somefile.py",
+                    "type": "modified"
+                }
+            ],
+            "message": "Added some more things to somefile.py\\n",
+            "node": "620ade18607a",
+            "parents": [
+                "702c70160afc"
+            ],
+            "raw_author": "Marcus Bertrand <marcus@somedomain.com>",
+            "raw_node": "620ade18607ac42d872b568bb92acaa9a28620e9",
+            "revision": null,
+            "size": -1,
+            "timestamp": "2012-05-30 05:58:56",
+            "utctimestamp": "2012-05-30 03:58:56+00:00"
+        }
+    ],
+    "repository": {
+        "absolute_url": "/marcus/project-x/",
+        "fork": false,
+        "is_private": true,
+        "name": "Project X",
+        "owner": "marcus",
+        "scm": "git",
+        "slug": "project-x",
+        "website": "https://atlassian.com/"
+    },
+    "user": "marcus"
+}
+'''
+
 
 class HooksViewTest(ViewTestCase):
     def test_view_hook_project(self):
@@ -96,5 +136,13 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
+        )
+        self.assertContains(response, 'update triggered')
+
+    def test_view_hook_bitbucket(self):
+        appsettings.BACKGROUND_HOOKS = False
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD}
         )
         self.assertContains(response, 'update triggered')
