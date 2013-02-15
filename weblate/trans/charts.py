@@ -26,7 +26,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
 from cStringIO import StringIO
-from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 import cairo
 import pycha.bar
@@ -52,7 +51,9 @@ def render_activity(ticks, line, maximum):
                 'ticks': ticks,
             },
             'y': {
-                'ticks': [{'v': 0, 'label': 0}, {'v': maximum, 'label': maximum}],
+                'ticks': [
+                    {'v': 0, 'label': 0}, {'v': maximum, 'label': maximum}
+                ],
             }
         },
         'background': {
@@ -141,7 +142,7 @@ def monthly_activity(request, project=None, subproject=None, lang=None):
     line = [(i, l[1]) for i, l in enumerate(changes_counts)]
     maximum = max([l[1] for l in changes_counts])
     ticks = [{'v': i, 'label': l[0].day}
-        for i, l in enumerate(changes_counts)]
+            for i, l in enumerate(changes_counts)]
 
     # Render chart
     return render_activity(ticks, line, maximum)
@@ -170,7 +171,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
     line = [(i, l[1]) for i, l in enumerate(changes_counts)]
     maximum = max([l[1] for l in changes_counts])
     ticks = [{'v': i, 'label': l[0].isocalendar()[1]}
-        for i, l in enumerate(changes_counts)]
+            for i, l in enumerate(changes_counts)]
 
     # Render chart
     return render_activity(ticks, line, maximum)
