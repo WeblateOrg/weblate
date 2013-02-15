@@ -160,16 +160,25 @@ def user_page(request, user):
     '''
     user = get_object_or_404(User, username=user)
     profile = user.get_profile()
+
+    # Projects user is allowed to see
     acl_projects = Project.objects.all_acl(request.user)
+
+    # Filter all user activity
     all_changes = Change.objects.filter(
         user=user,
         translation__subproject__project__in=acl_projects,
     )
+
+    # Last user activity
     last_changes = all_changes[:10]
+
+    # Filter where project is active
     user_projects_ids = list(all_changes.values_list(
         'translation__subproject__project', flat=True
     ).distinct())
-    user_projects = Project.objects.filter(id__in = user_projects_ids)
+    user_projects = Project.objects.filter(id__in=user_projects_ids)
+
     return render_to_response(
         'user.html',
         RequestContext(
