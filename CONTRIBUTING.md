@@ -10,4 +10,4 @@ Examples of contributions include:
 
 You can find more information on our website:
 
-http://weblate.org/en/#contribute
+http://weblate.org/en/contribute/
