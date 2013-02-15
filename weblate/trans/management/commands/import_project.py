@@ -64,13 +64,15 @@ class Command(BaseCommand):
             project = Project.objects.get(slug=prjname)
         except Project.DoesNotExist:
             raise CommandError(
-                'Project %s does not exist, you need to create it first!' % prjname
+                'Project %s does not exist, you need to create it first!' %
+                prjname
             )
 
         # Do we have correct mask?
         if not '**' in filemask:
             raise CommandError(
-                'You need to specify double wildcard for subproject part of the match!'
+                'You need to specify double wildcard '
+                'for subproject part of the match!'
             )
 
         # Create temporary working dir
