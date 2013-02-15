@@ -58,7 +58,7 @@ def mail_admins_sender(subject, message, sender, fail_silently=False,
 
 
 @login_required
-def profile(request):
+def user_profile(request):
 
     user_profile = request.user.get_profile()
 

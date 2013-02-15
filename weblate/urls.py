@@ -300,7 +300,7 @@ urlpatterns = patterns('',
         auth_views.password_reset_done,
         {'extra_context': {'title': _('Password reset')}},
         name='auth_password_reset_done'),
-    url(r'^accounts/profile/', 'weblate.accounts.views.profile', name='profile'),
+    url(r'^accounts/profile/', 'weblate.accounts.views.user_profile', name='profile'),
 
     url(r'^contact/', 'weblate.accounts.views.contact', name='contact'),
     url(r'^about/$', 'weblate.trans.views.about', name='about'),
