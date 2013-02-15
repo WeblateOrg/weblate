@@ -147,6 +147,16 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'weblate.trans.views.upload_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$', 'weblate.trans.views.auto_translation'),
 
+    url(r'^activity/month/$', 'weblate.trans.charts.monthly_activity', name='monthly_activity'),
+    url(r'^activity/month/(?P<project>[^/]*)/$', 'weblate.trans.charts.monthly_activity', name='monthly_activity_project'),
+    url(r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.charts.monthly_activity', name='monthly_activity_subproject'),
+    url(r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.charts.monthly_activity', name='monthly_activity_translation'),
+
+    url(r'^activity/year/$', 'weblate.trans.charts.yearly_activity', name='yearly_activity'),
+    url(r'^activity/year/(?P<project>[^/]*)/$', 'weblate.trans.charts.yearly_activity', name='yearly_activity_project'),
+    url(r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.charts.yearly_activity', name='yearly_activity_subproject'),
+    url(r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.charts.yearly_activity', name='yearly_activity_translation'),
+
     url(r'^commit/(?P<project>[^/]*)/$', 'weblate.trans.views.commit_project'),
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.commit_subproject'),
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.commit_translation'),
