@@ -382,7 +382,7 @@ class UnitManager(models.Manager):
         parser = qparser.QueryParser(field, schema)
         parsed = parser.parse(query)
         return [searcher.stored_fields(d)['checksum']
-                    for d in searcher.docs_for_query(parsed)]
+                for d in searcher.docs_for_query(parsed)]
 
     def search(self, query, source=True, context=True, translation=True, checksums=False):
         '''
@@ -391,8 +391,13 @@ class UnitManager(models.Manager):
         Returns queryset unless checksums is set.
         '''
         ret = set()
+
+        # Search in source or context
         if source or context:
-            with FULLTEXT_INDEX.source_searcher(not appsettings.OFFLOAD_INDEXING) as searcher:
+            index = FULLTEXT_INDEX.source_searcher(
+                not appsettings.OFFLOAD_INDEXING
+            )
+            with index as searcher:
                 if source:
                     results = self.__search(
                         searcher,
@@ -410,9 +415,14 @@ class UnitManager(models.Manager):
                     )
                     ret = ret.union(results)
 
+        # Search in target
         if translation:
             sample = self.all()[0]
-            with FULLTEXT_INDEX.target_searcher(sample.translation.language.code, not appsettings.OFFLOAD_INDEXING) as searcher:
+            index = FULLTEXT_INDEX.target_searcher(
+                sample.translation.language.code,
+                not appsettings.OFFLOAD_INDEXING
+            )
+            with index as searcher:
                 results = self.__search(
                     searcher,
                     'target',
@@ -431,11 +441,20 @@ class UnitManager(models.Manager):
         Finds similar units to current unit.
         '''
         ret = set([unit.checksum])
-        with FULLTEXT_INDEX.source_searcher(not appsettings.OFFLOAD_INDEXING) as searcher:
+        index = FULLTEXT_INDEX.source_searcher(
+            not appsettings.OFFLOAD_INDEXING
+        )
+        with index as searcher:
             # Extract up to 10 terms from the source
-            terms = [kw for kw, score in searcher.key_terms_from_text('source', unit.source, numterms=10) if not kw in IGNORE_SIMILAR]
+            key_terms = searcher.key_terms_from_text(
+                'source',
+                unit.source,
+                numterms=10
+            )
+            terms = [kw for kw, score in key_terms if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
-            # Try to find at least configured number of similar strings, remove up to 4 words
+            # Try to find at least configured number of similar strings,
+            # remove up to 4 words
             while len(ret) < appsettings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
                 for search in itertools.combinations(terms, cnt):
                     results = self.search(
