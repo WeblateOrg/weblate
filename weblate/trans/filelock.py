@@ -28,6 +28,7 @@ class FileLock(object):
         self.file_name = file_name
         self.timeout = timeout
         self.delay = delay
+        self.handle = None
 
     def acquire(self):
         """
