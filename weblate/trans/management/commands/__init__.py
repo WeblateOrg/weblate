@@ -56,7 +56,6 @@ class WeblateCommand(BaseCommand):
             # no argumets to filter projects
             print 'Please specify either --all or <project/subproject>'
             raise CommandError('Nothing to process!')
-            result = SubProject.objects.none()
         else:
             # start with none and add found
             result = SubProject.objects.none()
