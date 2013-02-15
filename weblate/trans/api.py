@@ -85,9 +85,15 @@ def git_service_hook(request, service):
 
     # Check if we got payload
     try:
-        data = json.loads(request.POST['payload'])
+        payload = request.POST['payload']
+    except KeyError:
+        return HttpResponseBadRequest('missing payload!')
+
+    # Check if we got payload
+    try:
+        data = json.loads(payload)
     except (ValueError, KeyError):
-        return HttpResponseBadRequest('could not parse json!')
+        return HttpResponseBadRequest('could not parse json payload!')
 
     # Get service helper
     if service == 'github':
@@ -102,7 +108,7 @@ def git_service_hook(request, service):
     try:
         service_data = hook_helper(data)
     except KeyError:
-        return HttpResponseBadRequest('could not parse json!')
+        return HttpResponseBadRequest('invalid data in json payload!')
 
     # Log data
     service_long_name = service_data['service_long_name']
