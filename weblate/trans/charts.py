@@ -142,7 +142,7 @@ def monthly_activity(request, project=None, subproject=None, lang=None):
     line = [(i, l[1]) for i, l in enumerate(changes_counts)]
     maximum = max([l[1] for l in changes_counts])
     ticks = [{'v': i, 'label': l[0].day}
-            for i, l in enumerate(changes_counts)]
+                for i, l in enumerate(changes_counts)]
 
     # Render chart
     return render_activity(ticks, line, maximum)
@@ -171,7 +171,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
     line = [(i, l[1]) for i, l in enumerate(changes_counts)]
     maximum = max([l[1] for l in changes_counts])
     ticks = [{'v': i, 'label': l[0].isocalendar()[1]}
-            for i, l in enumerate(changes_counts)]
+                for i, l in enumerate(changes_counts)]
 
     # Render chart
     return render_activity(ticks, line, maximum)

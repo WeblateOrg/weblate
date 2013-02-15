@@ -382,7 +382,7 @@ class UnitManager(models.Manager):
         parser = qparser.QueryParser(field, schema)
         parsed = parser.parse(query)
         return [searcher.stored_fields(d)['checksum']
-                for d in searcher.docs_for_query(parsed)]
+                    for d in searcher.docs_for_query(parsed)]
 
     def search(self, query, source=True, context=True, translation=True, checksums=False):
         '''
