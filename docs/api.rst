@@ -23,7 +23,7 @@ repository has been updated.
 
 .. describe:: POST /hooks/github/
 
-    Special hook for handling Github notifications and automatically updating
+    Special hook for handling GitHub notifications and automatically updating
     matching subprojects.
 
     .. note::
