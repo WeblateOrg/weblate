@@ -62,7 +62,9 @@ def fmt_whitespace(value):
     # Highlight tabs
     value = value.replace(
         '\t',
-        u'<span class="hlspace space-tab" title="%s">→</span>' % _('Tab character')
+        u'<span class="hlspace space-tab" title="%s">→</span>' % (
+            _('Tab character')
+        )
     )
     return value
 
@@ -111,12 +113,16 @@ def fmttranslation(value, language=None, diff=None):
 
         # Show label for plural (if there are any)
         if len(plurals) > 1:
-            value = '<span class="pluraltxt">%s</span><br />' % language.get_plural_label(idx)
+            value = '<span class="pluraltxt">%s</span><br />' % (
+                language.get_plural_label(idx)
+            )
         else:
             value = ''
 
         # Join paragraphs
-        newline = u'<span class="hlspace" title="%s">↵</span><br />' % _('New line')
+        newline = u'<span class="hlspace" title="%s">↵</span><br />' % (
+            _('New line')
+        )
         value += newline.join(paras)
 
         parts.append(value)
@@ -332,7 +338,9 @@ def naturaltime(value):
             return _('now')
         elif delta.seconds < 60:
             return ungettext(
-                'a second from now', '%(count)s seconds from now', delta.seconds
+                'a second from now',
+                '%(count)s seconds from now',
+                delta.seconds
             ) % {'count': delta.seconds}
         elif delta.seconds // 60 < 60:
             count = delta.seconds // 60
