@@ -75,10 +75,15 @@ def git_service_hook(request, service):
     Currently used for bitbucket_hook and github_hook, but should be usable for
     hook from other Git services (Google Code, custom coded sites, etc.) too.
     '''
+    # Check for enabled hooks
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
+
+    # We support only post methods
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
+
+    # Check if we got payload
     try:
         data = json.loads(request.POST['payload'])
     except (ValueError, KeyError):
@@ -107,6 +112,8 @@ def git_service_hook(request, service):
         'received %s notification on repository %s, branch %s',
         service_long_name, repo, branch
     )
+
+    # Trigger updates
     for obj in SubProject.objects.filter(repo=repo, branch=branch):
         logger.info('%s notification will update %s', obj)
         if appsettings.BACKGROUND_HOOKS:
