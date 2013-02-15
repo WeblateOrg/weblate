@@ -18,6 +18,7 @@ Requires:       translate-toolkit
 Requires:       python-GitPython >= 0.3
 Requires:       python-whoosh
 Requires:       python-cairo
+Requires:       python-pycha
 Requires:       python-South
 Requires:       python-gtk
 %py_requires
