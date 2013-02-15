@@ -133,7 +133,11 @@ def git_service_hook(request, service):
 
     # Trigger updates
     for obj in SubProject.objects.filter(repo__in=repos, branch=branch):
-        logger.info('%s notification will update %s', obj)
+        logger.info(
+            '%s notification will update %s',
+            service_long_name,
+            obj
+        )
         if appsettings.BACKGROUND_HOOKS:
             thread = threading.Thread(target=obj.do_update)
             thread.start()
