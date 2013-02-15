@@ -9,6 +9,7 @@ Released on ? 2013.
 * Added public user pages.
 * Better naming of plural forms.
 * Added support for TBX export of glossary.
+* Added support for Bitbucket notifications.
 
 weblate 1.4
 -----------
