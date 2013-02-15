@@ -25,10 +25,12 @@ Tests for notification hooks.
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans import appsettings
 
 
 class HooksViewTest(ViewTestCase):
     def test_view_hook_project(self):
+        appsettings.BACKGROUND_HOOKS = False
         response = self.client.get(
             reverse('hook-project', kwargs={
                 'project': self.subproject.project.slug
@@ -37,6 +39,7 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, 'update triggered')
 
     def test_view_hook_subproject(self):
+        appsettings.BACKGROUND_HOOKS = False
         response = self.client.get(
             reverse('hook-subproject', kwargs={
                 'project': self.subproject.project.slug,
