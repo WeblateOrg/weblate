@@ -140,6 +140,7 @@ DEFAULT_LANGS = (
     'zu_ZA',
 )
 
+# List of RTL languages
 RTL_LANGS = set((
     'ar',
     'arc',
@@ -154,6 +155,10 @@ RTL_LANGS = set((
     'ur',
     'yi',
 ))
+
+
+# Following variables are used to map Gettext plural equations
+# to one/few/may/other like rules
 
 ONE_OTHER_PLURALS = (
     'n==1 || n%10==1 ? 0 : 1',
