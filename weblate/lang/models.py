@@ -66,7 +66,9 @@ def get_plural_type(code, pluralequation):
     elif base_code in ('ar'):
         return PLURAL_ARABIC
 
-    logger.error('Can not guess type of plural for %s: %s', code, pluralequation)
+    logger.error(
+        'Can not guess type of plural for %s: %s', code, pluralequation
+    )
 
     return PLURAL_UNKNOWN
 

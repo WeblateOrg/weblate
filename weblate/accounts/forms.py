@@ -141,7 +141,9 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         Password validation, requires length of six chars.
         '''
         if len(self.cleaned_data['password1']) < 6:
-            raise forms.ValidationError(_(u'Password needs to have at least six characters.'))
+            raise forms.ValidationError(
+                _(u'Password needs to have at least six characters.')
+            )
         return self.cleaned_data['password1']
 
     def clean_username(self):
@@ -149,5 +151,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         Username validation, requires length of five chars.
         '''
         if len(self.cleaned_data['username']) < 5:
-            raise forms.ValidationError(_(u'Username needs to have at least five characters.'))
+            raise forms.ValidationError(
+                _(u'Username needs to have at least five characters.')
+            )
         return super(RegistrationForm, self).clean_username()
