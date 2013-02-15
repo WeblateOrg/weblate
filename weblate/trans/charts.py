@@ -23,9 +23,11 @@ Charting library for Weblate.
 
 from weblate.trans.models import Change, Project, SubProject, Translation
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template import RequestContext
 from django.http import HttpResponse
 from cStringIO import StringIO
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 import cairo
 import pycha.bar
 
@@ -36,7 +38,7 @@ def render_activity(ticks, line):
     '''
 
     # Prepare cairo surface
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 800, 400)
+    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 800, 100)
 
     # Data set
     data = (
@@ -50,7 +52,7 @@ def render_activity(ticks, line):
                 'ticks': ticks,
             },
             'y': {
-                'tickCount': 4,
+                'tickCount': 1,
             }
         },
         'background': {
@@ -169,3 +171,68 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
 
     # Render chart
     return render_activity(ticks, line)
+
+
+def view_activity(request, project=None, subproject=None, lang=None):
+    '''
+    Show html with activity charts.
+    '''
+
+    # Process parameters
+    project, subproject, translation = get_translation(
+        project,
+        subproject,
+        lang
+    )
+
+    if translation is not None:
+        kwargs = {
+            'project': project.slug,
+            'subproject': subproject.slug,
+            'lang': translation.language.code,
+        }
+        monthly_url = reverse(
+            'monthly_activity_translation',
+            kwargs=kwargs
+        )
+        yearly_url = reverse(
+            'yearly_activity_translation',
+            kwargs=kwargs
+        )
+    elif subproject is not None:
+        kwargs = {
+            'project': project.slug,
+            'subproject': subproject.slug,
+        }
+        monthly_url = reverse(
+            'monthly_activity_subproject',
+            kwargs=kwargs
+        )
+        yearly_url = reverse(
+            'yearly_activity_subproject',
+            kwargs=kwargs
+        )
+    elif project is not None:
+        kwargs = {
+            'project': project.slug,
+        }
+        monthly_url = reverse(
+            'monthly_activity_project',
+            kwargs=kwargs
+        )
+        yearly_url = reverse(
+            'yearly_activity_project',
+            kwargs=kwargs
+        )
+    else:
+        monthly_url = reverse(
+            'monthly_activity',
+        )
+        yearly_url = reverse(
+            'yearly_activity',
+        )
+
+    return render_to_response('js/activity.html', RequestContext(request, {
+        'yearly_url': yearly_url,
+        'monthly_url': monthly_url,
+    }))
