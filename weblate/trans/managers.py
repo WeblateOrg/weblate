@@ -22,7 +22,6 @@ from django.db import models
 from weblate.trans import appsettings
 from django.core.cache import cache
 from django.db.models import Q, Count
-from django.db import connection
 from django.utils import timezone
 import itertools
 
