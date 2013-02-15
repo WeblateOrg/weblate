@@ -32,7 +32,7 @@ import cairo
 import pycha.bar
 
 
-def render_activity(ticks, line):
+def render_activity(ticks, line, maximum):
     '''
     Helper for rendering activity charts.
     '''
@@ -52,7 +52,7 @@ def render_activity(ticks, line):
                 'ticks': ticks,
             },
             'y': {
-                'tickCount': 1,
+                'ticks': [{'v': 0, 'label': 0}, {'v': maximum, 'label': maximum}],
             }
         },
         'background': {
@@ -139,10 +139,12 @@ def monthly_activity(request, project=None, subproject=None, lang=None):
 
     # Preprocess data for chart
     line = [(i, l[1]) for i, l in enumerate(changes_counts)]
-    ticks = [dict(v=i, label=l[0].day) for i, l in enumerate(changes_counts)]
+    maximum = max([l[1] for l in changes_counts])
+    ticks = [{'v': i, 'label': l[0].day}
+        for i, l in enumerate(changes_counts)]
 
     # Render chart
-    return render_activity(ticks, line)
+    return render_activity(ticks, line, maximum)
 
 
 def yearly_activity(request, project=None, subproject=None, lang=None):
@@ -166,11 +168,12 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
 
     # Preprocess data for chart
     line = [(i, l[1]) for i, l in enumerate(changes_counts)]
+    maximum = max([l[1] for l in changes_counts])
     ticks = [{'v': i, 'label': l[0].isocalendar()[1]}
         for i, l in enumerate(changes_counts)]
 
     # Render chart
-    return render_activity(ticks, line)
+    return render_activity(ticks, line, maximum)
 
 
 def view_activity(request, project=None, subproject=None, lang=None):
