@@ -21,7 +21,9 @@
 from django.db import models
 from weblate.trans import appsettings
 from django.core.cache import cache
-from django.db.models import Q
+from django.db.models import Q, Count
+from django.db import connection
+from django.utils import timezone
 import itertools
 
 from weblate.lang.models import Language
@@ -516,3 +518,48 @@ class ChangeManager(models.Manager):
             action__in=(Change.ACTION_CHANGE, Change.ACTION_NEW),
             user__isnull=False,
         )
+
+    def base_stats(self, days, step, project=None, subproject=None, translation=None):
+        '''
+        Core of daily/weekly/monthly stats calculation.
+        '''
+
+        # Get range (actually start)
+        dtend = timezone.now().date()
+        dtstart = dtend - timezone.timedelta(days=days)
+
+        # Base for filtering
+        base = self.all()
+
+        # Filter by translation/project
+        if project is not None:
+            base = base.filter(translation__subproject__project=project)
+        elif subproject is not None:
+            base = base.filter(translation__subproject=subproject)
+        elif translation is not None:
+            base = base.filter(translation=translation)
+
+        # Count number of changes
+        result = []
+        for day in xrange(0, days, step):
+            int_start = dtstart
+            int_end = int_start + timezone.timedelta(days = step)
+
+            count = base.filter(timestamp__range=(int_start, int_end)).aggregate(Count('id'))
+            dtstart = int_end
+
+            result.append((int_start, count['id__count']))
+
+        return result
+
+    def month_stats(self, project=None, subproject=None, translation=None):
+        '''
+        Reports daily stats for changes.
+        '''
+        return self.base_stats(30, 1, project, subproject, translation)
+
+    def year_stats(self, project=None, subproject=None, translation=None):
+        '''
+        Reports monthly stats for changes.
+        '''
+        return self.base_stats(365, 7, project, subproject, translation)
