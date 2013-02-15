@@ -26,24 +26,12 @@ repository has been updated.
     Special hook for handling GitHub notifications and automatically updating
     matching subprojects.
 
-    .. note::
-
-        The GitHub notification relies on Git repository urls you use to be in form
-        ``git:/github.com/owner/repo.git``, otherwise automatic detection of used
-        repository will fail.
-
     .. seealso:: http://help.github.com/post-receive-hooks/ :setting:`ENABLE_HOOKS`
 
 .. describe:: POST /hooks/bitbucket/
 
     Special hook for handling Bitbucket notifications and automatically
     updating matching subprojects.
-
-    .. note::
-
-        The Bitbucket notification relies on Git repository urls you use to be in form
-        ``https://bitbucket.org/owner/repo.git``, otherwise automatic detection of used
-        repository will fail.
 
     .. seealso:: https://confluence.atlassian.com/display/BITBUCKET/POST+Service+Management https://confluence.atlassian.com/display/BITBUCKET/Writing+Brokers+for+Bitbucket :setting:`ENABLE_HOOKS`
 
