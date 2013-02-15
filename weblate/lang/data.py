@@ -21,18 +21,78 @@
 
 # Extra languages not included in ttkit
 EXTRALANGS = (
-    ('ur', 'Urdu', 2, '(n != 1)'),
-    ('uz@latin', 'Uzbek (latin)', 1, '0'),
-    ('uz', 'Uzbek', 1, '0'),
-    ('sr@latin', 'Serbian (latin)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
-    ('sr_RS@latin', 'Serbian (latin)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
-    ('sr@cyrillic', 'Serbian (cyrillic)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
-    ('sr_RS@cyrillic', 'Serbian (cyrillic)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
-    ('be@latin', 'Belarusian (latin)', 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
-    ('en_US', 'English (United States)', 2, 'n != 1'),
-    ('nb_NO', 'Norwegian Bokmål', 2, 'n != 1'),
-    ('pt_PT', 'Portuguese (Portugal)', 2, 'n > 1'),
-    ('ckb', 'Kurdish Sorani', 2, 'n != 1'),
+    (
+        'ur',
+        'Urdu',
+        2,
+        '(n != 1)',
+    ),
+    (
+        'uz@latin',
+        'Uzbek (latin)',
+        1,
+        '0',
+    ),
+    (
+        'uz',
+        'Uzbek',
+        1,
+        '0',
+    ),
+    (
+        'sr@latin',
+        'Serbian (latin)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'sr_RS@latin',
+        'Serbian (latin)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'sr@cyrillic',
+        'Serbian (cyrillic)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'sr_RS@cyrillic',
+        'Serbian (cyrillic)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'be@latin',
+        'Belarusian (latin)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'en_US',
+        'English (United States)',
+        2,
+        'n != 1',
+    ),
+    (
+        'nb_NO',
+        'Norwegian Bokmål',
+        2,
+        'n != 1',
+    ),
+    (
+        'pt_PT',
+        'Portuguese (Portugal)',
+        2,
+        'n > 1',
+    ),
+    (
+        'ckb',
+        'Kurdish Sorani',
+        2,
+        'n != 1',
+    ),
 )
 
 # List of defaul languages - the ones, where using
