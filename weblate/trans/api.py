@@ -83,14 +83,19 @@ def git_service_hook(request, service):
         data = json.loads(request.POST['payload'])
     except (ValueError, KeyError):
         return HttpResponseBadRequest('could not parse json!')
+
+    # Get service helper
+    if service == 'github':
+        hook_helper = github_hook_helper
+    elif service == 'bitbucket':
+        hook_helper = bitbucket_hook_helper
+    else:
+        logger.error('service %s, not supported', service)
+        return HttpResponseBadRequest('invalid service')
+
     # Send the request data to the service handler.
     try:
-        hook_helper = service + '_hook_helper'
         service_data = hook_helper(data)
-    except NameError:
-        logger.error('tried to call %s, but no such function exists',
-                     hook_helper)
-        return HttpResponseBadRequest('could not find hook handler!')
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
 
