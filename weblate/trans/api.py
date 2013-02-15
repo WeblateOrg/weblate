@@ -93,7 +93,9 @@ def git_service_hook(request, service):
         return HttpResponseBadRequest('could not find hook handler!')
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
-    service_long_name = service_data['service_long name']
+
+    # Log data
+    service_long_name = service_data['service_long_name']
     repo = service_data['repo']
     branch = service_data['branch']
     logger.info(
