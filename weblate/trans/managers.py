@@ -22,7 +22,6 @@ from django.db import models
 from weblate.trans import appsettings
 from django.core.cache import cache
 from django.db.models import Q, Count
-from django.db import connection
 from django.utils import timezone
 import itertools
 
@@ -382,8 +381,8 @@ class UnitManager(models.Manager):
         '''
         parser = qparser.QueryParser(field, schema)
         parsed = parser.parse(query)
-        return [searcher.stored_fields(d)['checksum'] for d in searcher.docs_for_query(parsed)]
-
+        return [searcher.stored_fields(d)['checksum']
+                for d in searcher.docs_for_query(parsed)]
 
     def search(self, query, source=True, context=True, translation=True, checksums=False):
         '''
@@ -490,9 +489,9 @@ class DictionaryManager(models.Manager):
 
             # Get object
             word, created = self.get_or_create(
-                project = project,
-                language = language,
-                source = unit.source
+                project=project,
+                language=language,
+                source=unit.source
             )
 
             # Should we write translation
@@ -519,7 +518,8 @@ class ChangeManager(models.Manager):
             user__isnull=False,
         )
 
-    def base_stats(self, days, step, project=None, subproject=None, translation=None):
+    def base_stats(self, days, step,
+                project=None, subproject=None, translation=None):
         '''
         Core of daily/weekly/monthly stats calculation.
         '''
@@ -542,13 +542,19 @@ class ChangeManager(models.Manager):
         # Count number of changes
         result = []
         for day in xrange(0, days, step):
+            # Calculate interval
             int_start = dtstart
-            int_end = int_start + timezone.timedelta(days = step)
+            int_end = int_start + timezone.timedelta(days=step)
 
-            count = base.filter(timestamp__range=(int_start, int_end)).aggregate(Count('id'))
-            dtstart = int_end
+            # Count changes
+            int_base = base.filter(timestamp__range=(int_start, int_end))
+            count = int_base.aggregate(Count('id'))
 
+            # Append to result
             result.append((int_start, count['id__count']))
+
+            # Advance to next interval
+            dtstart = int_end
 
         return result
 
