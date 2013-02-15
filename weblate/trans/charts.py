@@ -106,8 +106,8 @@ def get_translation(project=None, subproject=None, lang=None):
             # Subproject defined?
             subproject = get_object_or_404(
                 SubProject,
-                project__slug=project.slug,
-                slug=project
+                project__slug=project,
+                slug=subproject
             )
             project = subproject.project
         elif project is not None:
