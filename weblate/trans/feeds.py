@@ -29,12 +29,17 @@ from weblate.lang.models import Language
 
 
 class ChangesFeed(Feed):
+    '''
+    Generic RSS feed for Weblate changes.
+    '''
 
     def title(self):
         return _('Recent changes in %s') % appsettings.SITE_TITLE
 
     def description(self):
-        return _('All recent changes made using Weblate in %s.') % appsettings.SITE_TITLE
+        return _('All recent changes made using Weblate in %s.') % (
+            appsettings.SITE_TITLE
+        )
 
     def link(self):
         return reverse('home')
@@ -56,6 +61,9 @@ class ChangesFeed(Feed):
 
 
 class TranslationChangesFeed(ChangesFeed):
+    '''
+    RSS feed for changes in translation.
+    '''
 
     def get_object(self, request, project, subproject, lang):
         return get_object_or_404(
@@ -76,31 +84,52 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return Change.objects.filter(translation=obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(
+            translation=obj
+        ).order_by('-timestamp')[:10]
 
 
 class SubProjectChangesFeed(TranslationChangesFeed):
+    '''
+    RSS feed for changes in subproject.
+    '''
 
     def get_object(self, request, project, subproject):
-        return get_object_or_404(SubProject, slug=subproject, project__slug=project)
+        return get_object_or_404(
+            SubProject,
+            slug=subproject,
+            project__slug=project
+        )
 
     def items(self, obj):
-        return Change.objects.filter(translation__subproject=obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(
+            translation__subproject=obj
+        ).order_by('-timestamp')[:10]
 
 
 class ProjectChangesFeed(TranslationChangesFeed):
+    '''
+    RSS feed for changes in project.
+    '''
 
     def get_object(self, request, project):
         return get_object_or_404(Project, slug=project)
 
     def items(self, obj):
-        return Change.objects.filter(translation__subproject__project=obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(
+            translation__subproject__project=obj
+        ).order_by('-timestamp')[:10]
 
 
 class LanguageChangesFeed(TranslationChangesFeed):
+    '''
+    RSS feed for changes in language.
+    '''
 
     def get_object(self, request, lang):
         return get_object_or_404(Language, code=lang)
 
     def items(self, obj):
-        return Change.objects.filter(translation__language=obj).order_by('-timestamp')[:10]
+        return Change.objects.filter(
+            translation__language=obj
+        ).order_by('-timestamp')[:10]
