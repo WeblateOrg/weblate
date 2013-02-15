@@ -35,6 +35,18 @@ import threading
 logger = logging.getLogger('weblate')
 
 
+BITBUCKET_REPOS = (
+    'git@bitbucket.org:%(owner)s/%(slug)s.git',
+    'https://bitbucket.org/%(owner)s/%(slug)s.git',
+)
+
+GITHUB_REPOS = (
+    'https://github.com/%(owner)s/%(slug)s.git',
+    'git://github.com/%(owner)s/%(slug)s.git',
+    'git@github.com:%(owner)s/%(slug)s.git',
+)
+
+
 @csrf_exempt
 def update_subproject(request, project, subproject):
     '''
@@ -112,15 +124,15 @@ def git_service_hook(request, service):
 
     # Log data
     service_long_name = service_data['service_long_name']
-    repo = service_data['repo']
+    repos = service_data['repos']
     branch = service_data['branch']
     logger.info(
         'received %s notification on repository %s, branch %s',
-        service_long_name, repo, branch
+        service_long_name, repos[0], branch
     )
 
     # Trigger updates
-    for obj in SubProject.objects.filter(repo=repo, branch=branch):
+    for obj in SubProject.objects.filter(repo__in=repos, branch=branch):
         logger.info('%s notification will update %s', obj)
         if appsettings.BACKGROUND_HOOKS:
             thread = threading.Thread(target=obj.do_update)
@@ -136,15 +148,15 @@ def bitbucket_hook_helper(data):
     '''
     API to handle commit hooks from Bitbucket.
     '''
-    repo = 'https://bitbucket.org/%s/%s.git' % (
-        data['repository']['owner'],
-        data['repository']['slug'],
-    )
+    owner = data['repository']['owner']
+    slug = data['repository']['slug']
+
+    repos = [repo % {'owner': owner, 'slug': slug} for repo in BITBUCKET_REPOS]
     branch = data['commits'][-1]['branch']
 
     return_data = {
         'service_long_name': 'Bitbucket',
-        'repo': repo,
+        'repos': repos,
         'branch': branch,
     }
 
@@ -156,15 +168,15 @@ def github_hook_helper(data):
     '''
     API to handle commit hooks from Github.
     '''
-    repo = 'git://github.com/%s/%s.git' % (
-        data['repository']['owner']['name'],
-        data['repository']['name'],
-    )
+    owner = data['repository']['owner']['name']
+    slug = data['repository']['name']
+
+    repos = [repo % {'owner': owner, 'slug': slug} for repo in GITHUB_REPOS]
     branch = data['ref'].split('/')[-1]
 
     return_data = {
         'service_long_name': 'GitHub',
-        'repo': repo,
+        'repos': repos,
         'branch': branch,
     }
 
