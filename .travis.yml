@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get install git libcairo2-dev libgtk2.0-dev libglib2.0-dev libtool libpango1.0-dev libatk1.0-dev libffi-dev
 # commands to install dependencies
 install: 
-  - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml
+  - pip install --use-mirrors Django==$DJANGO_VERSION GitPython south django-registration whoosh translate-toolkit lxml pycha
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors  importlib ; fi
 # Environment setup
   - export VIRT_ROOT=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION
