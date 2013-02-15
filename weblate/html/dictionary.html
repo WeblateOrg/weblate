@@ -116,6 +116,7 @@
 <ul>
 <li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
 <li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
+<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
 
 {% endblock %}
