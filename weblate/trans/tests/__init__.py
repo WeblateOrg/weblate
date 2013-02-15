@@ -29,3 +29,4 @@ from weblate.trans.tests.test_markup_checks import *
 from weblate.trans.tests.test_models import *
 from weblate.trans.tests.test_views import *
 from weblate.trans.tests.test_commands import *
+from weblate.trans.tests.test_exports import *
