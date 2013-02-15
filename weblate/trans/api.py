@@ -148,39 +148,39 @@ def bitbucket_hook_helper(data):
     '''
     API to handle commit hooks from Bitbucket.
     '''
+    # Parse owner, branch and repository name
     owner = data['repository']['owner']
     slug = data['repository']['slug']
-
-    repos = [repo % {'owner': owner, 'slug': slug} for repo in BITBUCKET_REPOS]
     branch = data['commits'][-1]['branch']
 
-    return_data = {
+    # Construct possible repository URLs
+    repos = [repo % {'owner': owner, 'slug': slug} for repo in BITBUCKET_REPOS]
+
+    return {
         'service_long_name': 'Bitbucket',
         'repos': repos,
         'branch': branch,
     }
 
-    return return_data
-
 
 @csrf_exempt
 def github_hook_helper(data):
     '''
-    API to handle commit hooks from Github.
+    API to handle commit hooks from GitHub.
     '''
+    # Parse owner, branch and repository name
     owner = data['repository']['owner']['name']
     slug = data['repository']['name']
-
-    repos = [repo % {'owner': owner, 'slug': slug} for repo in GITHUB_REPOS]
     branch = data['ref'].split('/')[-1]
 
-    return_data = {
+    # Construct possible repository URLs
+    repos = [repo % {'owner': owner, 'slug': slug} for repo in GITHUB_REPOS]
+
+    return {
         'service_long_name': 'GitHub',
         'repos': repos,
         'branch': branch,
     }
-
-    return return_data
 
 
 def dt_handler(obj):
