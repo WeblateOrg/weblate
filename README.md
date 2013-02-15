@@ -1,8 +1,8 @@
 # Weblate [![build status](https://secure.travis-ci.org/nijel/weblate.png)](https://travis-ci.org/nijel/weblate)
 
-Weblate is web based translation tool with tight Git integration. It features
-simple and clean user interface, propagation of translations across subprojects
-or automatic linking to source files.
+Weblate is a free web-based translation tool with tight Git integration. It
+features simple and clean user interface, propagation of translations across
+subprojects, quality checks and automatic linking to source files.
 
 Weblate has it's website at http://weblate.org/.
 
