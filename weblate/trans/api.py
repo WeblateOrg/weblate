@@ -62,9 +62,12 @@ def update_project(request, project):
 
 
 @csrf_exempt
-def github_hook(request):
+def git_service_hook(request, service):
     '''
-    API to handle commit hooks from Github.
+    Shared code between Git service hooks.
+
+    Currently used for bitbucket_hook and github_hook, but should be usable for
+    hook from other Git services (Google Code, custom coded sites, etc.) too.
     '''
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
@@ -74,25 +77,69 @@ def github_hook(request):
         data = json.loads(request.POST['payload'])
     except (ValueError, KeyError):
         return HttpResponseBadRequest('could not parse json!')
+    # Send the request data to the service handler.
     try:
-        repo = 'git://github.com/%s/%s.git' % (
-            data['repository']['owner']['name'],
-            data['repository']['name'],
-        )
-        branch = data['ref'].split('/')[-1]
+        hook_helper = service + '_hook_helper'
+        service_data = hook_helper(data)
+    except NameError:
+        logger.error('tried to call %s, but no such function exists',
+                     hook_helper)
+        return HttpResponseBadRequest('could not find hook handler!')
     except KeyError:
         return HttpResponseBadRequest('could not parse json!')
+    service_long_name = service_data['service_long name']
+    repo = service_data['repo']
+    branch = service_data['branch']
     logger.info(
-        'received GitHub notification on repository %s, branch %s',
-        repo,
-        branch
+        'received %s notification on repository %s, branch %s',
+        service_long_name, repo, branch
     )
     for obj in SubProject.objects.filter(repo=repo, branch=branch):
-        logger.info('GitHub notification will update %s', obj)
+        logger.info('%s notification will update %s', obj)
         thread = threading.Thread(target=obj.do_update)
         thread.start()
 
     return HttpResponse('update triggered')
+
+
+@csrf_exempt
+def bitbucket_hook_helper(data):
+    '''
+    API to handle commit hooks from Bitbucket.
+    '''
+    repo = 'https://bitbucket.org/%s/%s.git' % (
+        data['repository']['owner'],
+        data['repository']['slug'],
+    )
+    branch = data['commits'][-1]['branch']
+
+    return_data = {
+        'service_long_name': 'Bitbucket',
+        'repo': repo,
+        'branch': branch,
+    }
+
+    return return_data
+
+
+@csrf_exempt
+def github_hook_helper(data):
+    '''
+    API to handle commit hooks from Github.
+    '''
+    repo = 'git://github.com/%s/%s.git' % (
+        data['repository']['owner']['name'],
+        data['repository']['name'],
+    )
+    branch = data['ref'].split('/')[-1]
+
+    return_data = {
+        'service_long_name': 'GitHub',
+        'repo': repo,
+        'branch': branch,
+    }
+
+    return return_data
 
 
 def dt_handler(obj):
