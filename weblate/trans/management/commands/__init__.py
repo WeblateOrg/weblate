@@ -82,6 +82,14 @@ class WeblateCommand(BaseCommand):
 
         return result
 
+    def handle(self, *args, **options):
+        """
+        The actual logic of the command. Subclasses must implement
+        this method.
+
+        """
+        raise NotImplementedError()
+
 
 class WeblateLangCommand(WeblateCommand):
     option_list = WeblateCommand.option_list + (
@@ -94,3 +102,11 @@ class WeblateLangCommand(WeblateCommand):
             help='Limit only to given languages (comma separated list)'
         ),
     )
+
+    def handle(self, *args, **options):
+        """
+        The actual logic of the command. Subclasses must implement
+        this method.
+
+        """
+        raise NotImplementedError()
