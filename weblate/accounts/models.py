@@ -449,7 +449,7 @@ def move_users():
 
 @receiver(post_syncdb)
 @receiver(post_migrate)
-def sync_create_groups(sender, **kwargs):
+def sync_create_groups(sender, app, **kwargs):
     '''
     Create groups on syncdb.
     '''
