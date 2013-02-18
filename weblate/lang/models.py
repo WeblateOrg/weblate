@@ -194,26 +194,10 @@ class LanguageManager(models.Manager):
             lang.name = props[0].split(';')[0]
             lang.fixup_name()
 
-            # Read values
+            # Set number of plurals and equation
             lang.nplurals = props[1]
             lang.pluralequation = props[2].strip(';')
-
-            # Split out plural equation when it is as whole
-            if 'nplurals=' in lang.pluralequation:
-                parts = lang.pluralequation.split(';')
-                lang.nplurals = int(parts[0][9:])
-                lang.pluralequation = parts[1][8:]
-
-            # Strip not needed parenthesis
-            if lang.pluralequation[0] == '(' and lang.pluralequation[-1] == ')':
-                lang.pluralequation = lang.pluralequation[1:-1]
-
-            # Fixes for broken plurals
-            if code in ['kk', 'fa']:
-                # Kazakh and Persian should have plurals, ttkit says it does
-                # not have
-                lang.nplurals = 2
-                lang.pluralequation = 'n != 1'
+            lang.fixup_plurals()
 
             # Set language direction
             lang.set_direction()
@@ -436,3 +420,26 @@ class Language(models.Model):
             self.direction = 'rtl'
         else:
             self.direction = 'ltr'
+
+    def fixup_plurals(self):
+        '''
+        Fixes plurals to be in consistent form and to
+        correct some mistakes in ttkit.
+        '''
+
+        # Split out plural equation when it is as whole
+        if 'nplurals=' in self.pluralequation:
+            parts = self.pluralequation.split(';')
+            self.nplurals = int(parts[0][9:])
+            self.pluralequation = parts[1][8:]
+
+        # Strip not needed parenthesis
+        if self.pluralequation[0] == '(' and self.pluralequation[-1] == ')':
+            self.pluralequation = self.pluralequation[1:-1]
+
+        # Fixes for broken plurals
+        if self.code in ['kk', 'fa']:
+            # Kazakh and Persian should have plurals, ttkit says it does
+            # not have
+            self.nplurals = 2
+            self.pluralequation = 'n != 1'
