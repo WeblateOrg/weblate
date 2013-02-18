@@ -19,58 +19,33 @@
 #
 
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.decorators.cache import cache_page
-from weblate.trans import appsettings
-from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext as _
 import django.utils.translation
 from django.template import RequestContext, loader
 from django.http import (
-    HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
+    HttpResponseNotFound, Http404
 )
 from django.contrib import messages
-from django.contrib.auth.decorators import (
-    login_required, permission_required, user_passes_test
-)
-from django.contrib.auth.models import AnonymousUser
-from django.db.models import Q, Count, Sum
+from django.db.models import Count, Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
 
 from weblate.trans.models import (
-    Project, SubProject, Translation, Unit, Suggestion, Check,
-    Dictionary, Change, Comment, get_versions
+    Project, SubProject, Translation, Unit, Check,
+    Dictionary, Change, get_versions
 )
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import (
-    TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
-    MergeForm, AutoForm, WordForm, DictUploadForm, ReviewForm, LetterForm,
-    AntispamForm, CommentForm
+    UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
+    AutoForm, ReviewForm,
 )
-from weblate.trans.util import join_plural
-from weblate.accounts.models import Profile, send_notification_email
+from weblate.accounts.models import Profile
 import weblate
 
-from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import datetime
-import logging
-import os.path
-import json
-import csv
-from xml.etree import ElementTree
-import urllib2
-
-
-# See https://code.djangoproject.com/ticket/6027
-class FixedFileWrapper(FileWrapper):
-    def __iter__(self):
-        self.filelike.seek(0)
-        return self
-
-logger = logging.getLogger('weblate')
 
 
 def home(request):

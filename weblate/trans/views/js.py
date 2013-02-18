@@ -21,37 +21,26 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
 from weblate.trans import appsettings
-from django.utils.translation import ugettext as _
-import django.utils.translation
-from django.template import RequestContext, loader
-from django.http import (
-    HttpResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
-)
-from django.contrib import messages
+from django.template import RequestContext
+from django.http import HttpResponse
 from django.contrib.auth.decorators import (
     login_required, permission_required, user_passes_test
 )
 from django.db.models import Q
-from django.core.urlresolvers import reverse
-from django.contrib.sites.models import Site
-from django.utils.safestring import mark_safe
 
 from weblate.trans.models import (
-    Project, SubProject, Translation, Unit, Suggestion, Check,
-    Dictionary, Change, Comment, get_versions
+    Project, SubProject, Translation, Unit, Check,
+    Dictionary
 )
-from weblate.lang.models import Language
-import weblate
 from weblate.trans.views.translate import parse_search_url
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
-import datetime
 import logging
-import os.path
 import json
-import csv
 from xml.etree import ElementTree
 import urllib2
+
+logger = logging.getLogger('weblate')
 
 
 def get_string(request, checksum):

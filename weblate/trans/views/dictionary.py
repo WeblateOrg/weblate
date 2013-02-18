@@ -21,23 +21,16 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
-from django.http import (
-    HttpResponse, HttpResponseRedirect
-)
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth.decorators import (
-    login_required, permission_required, user_passes_test
-)
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
-from weblate.trans.models import (
-    Project, SubProject, Translation, Unit, Suggestion, Check,
-    Dictionary, Change, Comment, get_versions
-)
+from weblate.trans.models import Project, Translation, Dictionary
 from weblate.lang.models import Language
-from weblate.trans.forms import WordForm, DictUploadForm
+from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 import weblate
 
 import csv
