@@ -30,6 +30,7 @@ from django.core.urlresolvers import reverse
 import cairo
 import pango
 import pangocairo
+import math
 
 
 def render_activity(activity):
@@ -64,9 +65,29 @@ def render_activity(activity):
     pangocairo_context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
     font = pango.FontDescription('Sans 8')
 
+    # Rotate context for vertical text
+    ctx.rotate(-math.pi / 2)
+
+    # Create Y axis label
+    layout = pangocairo_context.create_layout()
+    layout.set_width(80)
+    layout.set_alignment(pango.ALIGN_RIGHT)
+    layout.set_font_description(font)
+    layout.set_text(str(maximum))
+
+    # Render Y axis label
+    ctx.move_to(-5, 0)
+    ctx.set_source_rgb(0, 0, 0)
+    pangocairo_context.update_layout(layout)
+    pangocairo_context.show_layout(layout)
+
+    # Rotate context back
+    ctx.rotate(math.pi / 2)
+
     # Counter for rendering ticks
     last = -40
 
+    # Render activity itself
     for offset, value in enumerate(activity):
         # Calculate position
         current = offset * step
