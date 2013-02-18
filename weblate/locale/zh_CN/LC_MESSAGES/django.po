@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-15 15:43+0100\n"
+"POT-Creation-Date: 2013-02-18 12:04+0100\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:246 urls.py:253 urls.py:260 urls.py:267
+#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
 msgid "User registration"
 msgstr "注册用户"
 
-#: urls.py:275
+#: urls.py:286
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: urls.py:284 html/base.html:49 html/registration/login.html:30
+#: urls.py:295 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
 
-#: urls.py:291
+#: urls.py:302
 msgid "Logged out"
 msgstr "已退出"
 
-#: urls.py:296
+#: urls.py:307
 msgid "Change password"
 msgstr "修改密码"
 
-#: urls.py:300
+#: urls.py:311
 msgid "Password changed"
 msgstr "密码已修改"
 
-#: urls.py:304 urls.py:308 urls.py:312 urls.py:316
+#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -776,8 +776,8 @@ msgstr "最活跃的翻译者"
 msgid "Most active suggesters"
 msgstr "最活跃的建议者"
 
-#: html/index.html:67 html/project.html:46 html/subproject.html:37
-#: html/translation.html:46 html/user.html:27
+#: html/index.html:67 html/language.html:25 html/project.html:46
+#: html/subproject.html:37 html/translation.html:46 html/user.html:27
 msgid "Activity"
 msgstr ""
 
@@ -1331,7 +1331,15 @@ msgstr "上次登录"
 msgid "Registration date"
 msgstr "注册日期"
 
-#: html/user.html:33
+#: html/user.html:33 html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr ""
+
+#: html/user.html:36 html/js/activity.html:5
+msgid "Activity in last year"
+msgstr ""
+
+#: html/user.html:39
 #, fuzzy
 #| msgid "Recent edits"
 msgid "Recent contributions"
@@ -1488,14 +1496,6 @@ msgid ""
 msgstr ""
 "您可以在 <a href=\"%(ssh_docs)s\">Weblate 手册</a>中找到关于如何设置 SSH 密钥"
 "的更多信息。"
-
-#: html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr ""
-
-#: html/js/activity.html:5
-msgid "Activity in last year"
-msgstr ""
 
 #: html/js/dictionary.html:19
 #, fuzzy
@@ -2669,12 +2669,12 @@ msgstr "生成密钥失败！"
 msgid "Created new SSH key."
 msgstr "已创建 SSH 密钥。"
 
-#: trans/feeds.py:34 trans/feeds.py:70
+#: trans/feeds.py:37 trans/feeds.py:78
 #, python-format
 msgid "Recent changes in %s"
 msgstr "%s 的最近变化"
 
-#: trans/feeds.py:37 trans/feeds.py:73
+#: trans/feeds.py:40 trans/feeds.py:81
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "所有最近通过 Weblate 对 %s 作出的修改。"

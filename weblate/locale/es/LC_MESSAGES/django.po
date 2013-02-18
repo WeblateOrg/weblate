@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-15 15:43+0100\n"
+"POT-Creation-Date: 2013-02-18 12:04+0100\n"
 "PO-Revision-Date: 2013-02-17 17:36+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: urls.py:246 urls.py:253 urls.py:260 urls.py:267
+#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
 msgid "User registration"
 msgstr "Registro de usuarios"
 
-#: urls.py:275
+#: urls.py:286
 msgid "Account activation"
 msgstr "Activación de cuenta"
 
-#: urls.py:284 html/base.html:49 html/registration/login.html:30
+#: urls.py:295 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: urls.py:291
+#: urls.py:302
 msgid "Logged out"
 msgstr "Sesión finalizada"
 
-#: urls.py:296
+#: urls.py:307
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
-#: urls.py:300
+#: urls.py:311
 msgid "Password changed"
 msgstr "Contraseña modificada"
 
-#: urls.py:304 urls.py:308 urls.py:312 urls.py:316
+#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
 msgid "Password reset"
 msgstr "Reinicializar contraseña"
 
@@ -424,8 +424,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Encontrará más información sobre esta comprobación en la <a href=\"%"
-"(link)s\">documentación</a>."
+"Encontrará más información sobre esta comprobación en la <a href=\"%(link)s"
+"\">documentación</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
 #: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
@@ -794,8 +794,8 @@ msgstr "Traductores más activos"
 msgid "Most active suggesters"
 msgstr "Usuarios con más sugerencias"
 
-#: html/index.html:67 html/project.html:46 html/subproject.html:37
-#: html/translation.html:46 html/user.html:27
+#: html/index.html:67 html/language.html:25 html/project.html:46
+#: html/subproject.html:37 html/translation.html:46 html/user.html:27
 msgid "Activity"
 msgstr "Actividad"
 
@@ -1365,7 +1365,15 @@ msgstr "Última sesión"
 msgid "Registration date"
 msgstr "Fecha de registro"
 
-#: html/user.html:33
+#: html/user.html:33 html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Actividad en los últimos 30 días"
+
+#: html/user.html:36 html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Actividad en el año pasado"
+
+#: html/user.html:39
 msgid "Recent contributions"
 msgstr "Contribuciones recientes"
 
@@ -1530,14 +1538,6 @@ msgid ""
 msgstr ""
 "Puede encontrar más información sobre la configuración de claves SSH en <a "
 "href=\"%(ssh_docs)s\">el manual de Weblate</a>."
-
-#: html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Actividad en los últimos 30 días"
-
-#: html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Actividad en el año pasado"
 
 #: html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -2678,12 +2678,12 @@ msgstr "¡No se pudo generar la llave!"
 msgid "Created new SSH key."
 msgstr "Se creó una nueva llave SSH."
 
-#: trans/feeds.py:34 trans/feeds.py:70
+#: trans/feeds.py:37 trans/feeds.py:78
 #, python-format
 msgid "Recent changes in %s"
 msgstr "Cambios recientes en %s"
 
-#: trans/feeds.py:37 trans/feeds.py:73
+#: trans/feeds.py:40 trans/feeds.py:81
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "Todos los cambios recientes hechos utilizando Weblate en %s."

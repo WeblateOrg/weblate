@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-15 15:43+0100\n"
+"POT-Creation-Date: 2013-02-18 12:04+0100\n"
 "PO-Revision-Date: 2013-02-15 17:42+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: urls.py:246 urls.py:253 urls.py:260 urls.py:267
+#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: urls.py:275
+#: urls.py:286
 msgid "Account activation"
 msgstr "Hesap etkinleştirme"
 
-#: urls.py:284 html/base.html:49 html/registration/login.html:30
+#: urls.py:295 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Oturum aç"
 
-#: urls.py:291
+#: urls.py:302
 msgid "Logged out"
 msgstr "Oturum kapandı"
 
-#: urls.py:296
+#: urls.py:307
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: urls.py:300
+#: urls.py:311
 msgid "Password changed"
 msgstr "Parola değiştirildi"
 
-#: urls.py:304 urls.py:308 urls.py:312 urls.py:316
+#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -795,8 +795,8 @@ msgstr "En aktif çevirmenler"
 msgid "Most active suggesters"
 msgstr "En aktif öneride bulunanlar"
 
-#: html/index.html:67 html/project.html:46 html/subproject.html:37
-#: html/translation.html:46 html/user.html:27
+#: html/index.html:67 html/language.html:25 html/project.html:46
+#: html/subproject.html:37 html/translation.html:46 html/user.html:27
 msgid "Activity"
 msgstr "Etkinlik"
 
@@ -1358,7 +1358,15 @@ msgstr "Son oturum açma"
 msgid "Registration date"
 msgstr "Kayıt olma tarihi"
 
-#: html/user.html:33
+#: html/user.html:33 html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Son 30 günlük etkinlik"
+
+#: html/user.html:36 html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Geçen yıldaki etkinlik"
+
+#: html/user.html:39
 msgid "Recent contributions"
 msgstr "Son katkılar"
 
@@ -1523,14 +1531,6 @@ msgid ""
 msgstr ""
 "<a href=\"%(ssh_docs)s\">Weblate kılavuzu</a> içinde SSH anahtarlarını "
 "ayarlanması hakkında daha fazla bilgi bulabilirsiniz."
-
-#: html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Son 30 günlük etkinlik"
-
-#: html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Geçen yıldaki etkinlik"
 
 #: html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -2673,12 +2673,12 @@ msgstr "Anahtar üretme başarısız!"
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/feeds.py:34 trans/feeds.py:70
+#: trans/feeds.py:37 trans/feeds.py:78
 #, python-format
 msgid "Recent changes in %s"
 msgstr "%s içindeki son değişiklikler"
 
-#: trans/feeds.py:37 trans/feeds.py:73
+#: trans/feeds.py:40 trans/feeds.py:81
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."

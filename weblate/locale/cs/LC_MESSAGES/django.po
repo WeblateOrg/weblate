@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-15 15:43+0100\n"
+"POT-Creation-Date: 2013-02-18 12:04+0100\n"
 "PO-Revision-Date: 2013-02-15 15:53+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: urls.py:246 urls.py:253 urls.py:260 urls.py:267
+#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: urls.py:275
+#: urls.py:286
 msgid "Account activation"
 msgstr "Aktivace účtu"
 
-#: urls.py:284 html/base.html:49 html/registration/login.html:30
+#: urls.py:295 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Přihlásit"
 
-#: urls.py:291
+#: urls.py:302
 msgid "Logged out"
 msgstr "Odhlášen"
 
-#: urls.py:296
+#: urls.py:307
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: urls.py:300
+#: urls.py:311
 msgid "Password changed"
 msgstr "Heslo bylo změněno"
 
-#: urls.py:304 urls.py:308 urls.py:312 urls.py:316
+#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -790,8 +790,8 @@ msgstr "Nejaktivnější překladatelé"
 msgid "Most active suggesters"
 msgstr "Nejaktivnější navrhovatelé"
 
-#: html/index.html:67 html/project.html:46 html/subproject.html:37
-#: html/translation.html:46 html/user.html:27
+#: html/index.html:67 html/language.html:25 html/project.html:46
+#: html/subproject.html:37 html/translation.html:46 html/user.html:27
 msgid "Activity"
 msgstr "Aktivita"
 
@@ -1359,7 +1359,15 @@ msgstr "Poslední přihlášení"
 msgid "Registration date"
 msgstr "Datum registrace"
 
-#: html/user.html:33
+#: html/user.html:33 html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Aktivita za posledních 30 dní"
+
+#: html/user.html:36 html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Aktivita za poslední rok"
+
+#: html/user.html:39
 msgid "Recent contributions"
 msgstr "Nedávné příspěvky"
 
@@ -1521,14 +1529,6 @@ msgid ""
 msgstr ""
 "Další informace o používání SSH klíčů naleznete v <a href=\"%(ssh_docs)s"
 "\">příručce Weblate</a>."
-
-#: html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Aktivita za posledních 30 dní"
-
-#: html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Aktivita za poslední rok"
 
 #: html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -2666,12 +2666,12 @@ msgstr "Nepodařilo se vytvořit klíč!"
 msgid "Created new SSH key."
 msgstr "Byl vytvořen nový SSH klíč."
 
-#: trans/feeds.py:34 trans/feeds.py:70
+#: trans/feeds.py:37 trans/feeds.py:78
 #, python-format
 msgid "Recent changes in %s"
 msgstr "Nedávné změny v %s"
 
-#: trans/feeds.py:37 trans/feeds.py:73
+#: trans/feeds.py:40 trans/feeds.py:81
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "Seznam nedávných změn provedených za pomocí Weblate v %s."

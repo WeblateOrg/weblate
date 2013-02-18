@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-15 15:43+0100\n"
+"POT-Creation-Date: 2013-02-18 12:04+0100\n"
 "PO-Revision-Date: 2013-02-07 00:55+0200\n"
 "Last-Translator: Morten Henrichsen <github@mhex.dk>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: urls.py:246 urls.py:253 urls.py:260 urls.py:267
+#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
 msgid "User registration"
 msgstr "Bruger-registrering"
 
-#: urls.py:275
+#: urls.py:286
 msgid "Account activation"
 msgstr "Aktivering af konto"
 
-#: urls.py:284 html/base.html:49 html/registration/login.html:30
+#: urls.py:295 html/base.html:49 html/registration/login.html:30
 msgid "Login"
 msgstr "Logind"
 
-#: urls.py:291
+#: urls.py:302
 msgid "Logged out"
 msgstr "Logget ud"
 
-#: urls.py:296
+#: urls.py:307
 msgid "Change password"
 msgstr "Skift adgangskode"
 
-#: urls.py:300
+#: urls.py:311
 msgid "Password changed"
 msgstr "Adgangskode er ændret"
 
-#: urls.py:304 urls.py:308 urls.py:312 urls.py:316
+#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
 msgid "Password reset"
 msgstr "Nulstiling af adgangskode"
 
@@ -795,8 +795,8 @@ msgstr "Mest aktive oversættere"
 msgid "Most active suggesters"
 msgstr "Mest aktive forslagsstillere"
 
-#: html/index.html:67 html/project.html:46 html/subproject.html:37
-#: html/translation.html:46 html/user.html:27
+#: html/index.html:67 html/language.html:25 html/project.html:46
+#: html/subproject.html:37 html/translation.html:46 html/user.html:27
 msgid "Activity"
 msgstr "Aktivitet"
 
@@ -1361,7 +1361,15 @@ msgstr "Seneste logind"
 msgid "Registration date"
 msgstr "Tilmeldingsdato"
 
-#: html/user.html:33
+#: html/user.html:33 html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr ""
+
+#: html/user.html:36 html/js/activity.html:5
+msgid "Activity in last year"
+msgstr ""
+
+#: html/user.html:39
 msgid "Recent contributions"
 msgstr "Seneste bidrag"
 
@@ -1526,14 +1534,6 @@ msgid ""
 msgstr ""
 "Du finder mere information om opsætning af SSH-nøgler i <a href="
 "\"%(ssh_docs)s\">Weblate-manualen</a>."
-
-#: html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr ""
-
-#: html/js/activity.html:5
-msgid "Activity in last year"
-msgstr ""
 
 #: html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -2681,12 +2681,12 @@ msgstr "Mislykkedes med at oprette nøgle!"
 msgid "Created new SSH key."
 msgstr "Oprettede ny SSH-nøgle."
 
-#: trans/feeds.py:34 trans/feeds.py:70
+#: trans/feeds.py:37 trans/feeds.py:78
 #, python-format
 msgid "Recent changes in %s"
 msgstr "Seneste ændringer i %s"
 
-#: trans/feeds.py:37 trans/feeds.py:73
+#: trans/feeds.py:40 trans/feeds.py:81
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alle de seneste ændringer foretage med Weblate i %s."
