@@ -3126,11 +3126,13 @@ def check_version(name, url, version, expected):
     return False
 
 
-def check_versions(sender, **kwargs):
+@receiver(post_syncdb)
+@receiver(post_migrate)
+def check_versions(sender, app, **kwargs):
     '''
     Check required versions.
     '''
-    if ('app' in kwargs and kwargs['app'] == 'trans') or (sender is not None and sender.__name__ == 'weblate.trans.models'):
+    if app == 'trans' or getattr(app, '__name__', '') == 'weblate.trans.models':
         versions = get_versions()
         failure = False
 
@@ -3142,6 +3144,3 @@ def check_versions(sender, **kwargs):
                 'Some of required modules are missing or too old! '
                 'Check above output for details.'
             )
-
-post_syncdb.connect(check_versions)
-post_migrate.connect(check_versions)

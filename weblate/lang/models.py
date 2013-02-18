@@ -26,6 +26,7 @@ from weblate.lang import data
 
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
+from django.dispatch import receiver
 import logging
 
 logger = logging.getLogger('weblate')
@@ -238,15 +239,15 @@ class LanguageManager(models.Manager):
         return self.filter(translation__total__gt=0).distinct()
 
 
-def setup_lang(sender=None, **kwargs):
+@receiver(post_syncdb)
+@receiver(post_migrate)
+def setup_lang(sender, app, **kwargs):
     '''
-    Hook for creating basic set of languages on syncdb.
+    Hook for creating basic set of languages on database migration.
     '''
-    if ('app' in kwargs and kwargs['app'] == 'lang') or (sender is not None and sender.__name__ == 'weblate.lang.models'):
+    if app == 'lang' or getattr(app, '__name__', '') == 'weblate.lang.models':
         Language.objects.setup(False)
 
-post_migrate.connect(setup_lang)
-post_syncdb.connect(setup_lang)
 
 # Plural names mapping
 PLURAL_NAMES = {
