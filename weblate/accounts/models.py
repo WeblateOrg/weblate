@@ -453,7 +453,7 @@ def sync_create_groups(sender, **kwargs):
     '''
     Create groups on syncdb.
     '''
-    if ('app' in kwargs and kwargs['app'] == 'accounts') or (sender is not None and sender.__name__ == 'weblate.accounts.models'):
+    if app == 'accounts' or getattr(app, '__name__', '') == 'weblate.accounts.models':
         create_groups(False)
 
 
