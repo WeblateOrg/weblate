@@ -30,6 +30,19 @@ import logging
 
 logger = logging.getLogger('weblate')
 
+# Plural types definition
+PLURAL_NONE = 0
+PLURAL_ONE_OTHER = 1
+PLURAL_ONE_FEW_OTHER = 2
+PLURAL_ARABIC = 3
+PLURAL_ONE_TWO_OTHER = 4
+PLURAL_ONE_TWO_THREE_OTHER = 5
+PLURAL_ONE_TWO_FEW_OTHER = 6
+PLURAL_ONE_OTHER_ZERO = 7
+PLURAL_ONE_FEW_MANY_OTHER = 8
+PLURAL_TWO_OTHER = 9
+PLURAL_UNKNOWN = 666
+
 
 def get_plural_type(code, pluralequation):
     '''
@@ -246,19 +259,6 @@ def setup_lang(sender=None, **kwargs):
 
 post_migrate.connect(setup_lang)
 post_syncdb.connect(setup_lang)
-
-# Plural types definition
-PLURAL_NONE = 0
-PLURAL_ONE_OTHER = 1
-PLURAL_ONE_FEW_OTHER = 2
-PLURAL_ARABIC = 3
-PLURAL_ONE_TWO_OTHER = 4
-PLURAL_ONE_TWO_THREE_OTHER = 5
-PLURAL_ONE_TWO_FEW_OTHER = 6
-PLURAL_ONE_OTHER_ZERO = 7
-PLURAL_ONE_FEW_MANY_OTHER = 8
-PLURAL_TWO_OTHER = 9
-PLURAL_UNKNOWN = 666
 
 # Plural names mapping
 PLURAL_NAMES = {
