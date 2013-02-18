@@ -44,7 +44,10 @@ class Command(BaseCommand):
                     writer)
 
         for lang in languages:
-            with FULLTEXT_INDEX.target_writer(lang=lang.code, buffered=False) as writer:
+            index = FULLTEXT_INDEX.target_writer(
+                lang=lang.code, buffered=False
+            )
+            with index as writer:
                 units = base.filter(
                     unit__translation__language=lang
                 ).exclude(

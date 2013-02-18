@@ -63,7 +63,10 @@ class Command(WeblateCommand):
 
         # Update per language indices
         for lang in languages:
-            with FULLTEXT_INDEX.target_writer(lang=lang.code, buffered=False) as writer:
+            index = FULLTEXT_INDEX.target_writer(
+                lang=lang.code, buffered=False
+            )
+            with index as writer:
 
                 language_units = units.filter(
                     translation__language=lang
