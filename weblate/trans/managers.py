@@ -538,8 +538,8 @@ class ChangeManager(models.Manager):
         )
 
     def base_stats(self, days, step,
-                project=None, subproject=None, translation=None,
-                language=None, user=None):
+                    project=None, subproject=None, translation=None,
+                    language=None, user=None):
         '''
         Core of daily/weekly/monthly stats calculation.
         '''
@@ -587,8 +587,8 @@ class ChangeManager(models.Manager):
         return result
 
     def month_stats(self,
-                project=None, subproject=None, translation=None,
-                language=None, user=None):
+                    project=None, subproject=None, translation=None,
+                    language=None, user=None):
         '''
         Reports daily stats for changes.
         '''
@@ -603,8 +603,8 @@ class ChangeManager(models.Manager):
         )
 
     def year_stats(self,
-                project=None, subproject=None, translation=None,
-                language=None, user=None):
+                    project=None, subproject=None, translation=None,
+                    language=None, user=None):
         '''
         Reports monthly stats for changes.
         '''
