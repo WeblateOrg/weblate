@@ -31,6 +31,9 @@ import weblate
 
 import os
 
+# List of default domain names on which warn user
+DEFAULT_DOMAINS = ('example.net', 'example.com')
+
 
 @staff_member_required
 def report(request):
@@ -57,7 +60,7 @@ def performance(request):
     # Check for domain configuration
     checks.append((
         _('Site domain'),
-        Site.objects.get_current().domain not in ('example.net', 'example.com'),
+        Site.objects.get_current().domain not in DEFAULT_DOMAINS,
         'production-site',
     ))
     # Check database being used
