@@ -32,7 +32,7 @@ from weblate.trans.models import (
     Project, SubProject, Translation, Unit, Check,
     Dictionary
 )
-from weblate.trans.views.translate import parse_search_url
+from weblate.trans.views.edit import parse_search_url
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import logging
