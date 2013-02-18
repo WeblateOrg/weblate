@@ -22,6 +22,7 @@ Charting library for Weblate.
 '''
 
 from weblate.trans.models import Change, Project, SubProject, Translation
+from weblate.lang.models import Language
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
@@ -203,6 +204,41 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
     return render_activity(activity)
 
 
+def monthly_language_activity(request, lang):
+    '''
+    Show monthly activity chart.
+    '''
+
+    # Process parameters
+    language = get_object_or_404(Language, code=lang)
+
+    # Get actual stats
+    activity = Change.objects.month_stats(
+        language=language
+    )
+
+    # Render chart
+    return render_activity(activity)
+
+
+def yearly_language_activity(request, lang):
+    '''
+    Show yearly activity chart.
+    '''
+
+    # Process parameters
+    language = get_object_or_404(Language, code=lang)
+
+
+    # Get actual stats
+    activity = Change.objects.year_stats(
+        language=language
+    )
+
+    # Render chart
+    return render_activity(activity)
+
+
 def view_activity(request, project=None, subproject=None, lang=None):
     '''
     Show html with activity charts.
@@ -261,6 +297,29 @@ def view_activity(request, project=None, subproject=None, lang=None):
         yearly_url = reverse(
             'yearly_activity',
         )
+
+    return render_to_response('js/activity.html', RequestContext(request, {
+        'yearly_url': yearly_url,
+        'monthly_url': monthly_url,
+    }))
+
+
+def view_language_activity(request, lang):
+    '''
+    Show html with activity charts.
+    '''
+
+    # Process parameters
+    language = get_object_or_404(Language, code=lang)
+
+    monthly_url = reverse(
+        'monthly_language_activity',
+        kwargs={'lang': lang},
+    )
+    yearly_url = reverse(
+        'yearly_language_activity',
+        kwargs={'lang': lang},
+    )
 
     return render_to_response('js/activity.html', RequestContext(request, {
         'yearly_url': yearly_url,
