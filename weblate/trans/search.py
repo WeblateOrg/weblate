@@ -29,6 +29,7 @@ from django.db.models.signals import post_syncdb
 from weblate.trans import appsettings
 from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
+from django.dispatch import receiver
 
 TARGET_SCHEMA = Schema(
     checksum=ID(stored=True, unique=True),
@@ -58,12 +59,11 @@ def create_target_index(lang):
     )
 
 
+@receiver(post_syncdb)
 def create_index(sender=None, **kwargs):
     if not os.path.exists(appsettings.WHOOSH_INDEX):
         os.mkdir(appsettings.WHOOSH_INDEX)
         create_source_index()
-
-post_syncdb.connect(create_index)
 
 
 class Index(object):
