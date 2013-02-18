@@ -133,7 +133,8 @@ class SubProjectManager(models.Manager):
 
 
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, force=False, request=None):
+    def update_from_blob(self, subproject, code, path, force=False,
+                            request=None):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -384,7 +385,8 @@ class UnitManager(models.Manager):
         return [searcher.stored_fields(d)['checksum']
                 for d in searcher.docs_for_query(parsed)]
 
-    def search(self, query, source=True, context=True, translation=True, checksums=False):
+    def search(self, query, source=True, context=True, translation=True,
+                checksums=False):
         '''
         Performs full text search on defined set of fields.
 
@@ -468,7 +470,8 @@ class UnitManager(models.Manager):
                 cnt -= 1
 
         return self.filter(
-            translation__subproject__project=unit.translation.subproject.project,
+            translation__subproject__project=\
+                unit.translation.subproject.project,
             translation__language=unit.translation.language,
             checksum__in=ret
         ).exclude(
@@ -481,7 +484,8 @@ class UnitManager(models.Manager):
         '''
         return self.filter(
             checksum=unit.checksum,
-            translation__subproject__project=unit.translation.subproject.project,
+            translation__subproject__project=\
+                unit.translation.subproject.project,
             translation__language=unit.translation.language
         )
 
