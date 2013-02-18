@@ -97,7 +97,12 @@ def render_activity(activity):
         # Render bar
         ctx.new_path()
         ctx.set_source_rgb(0, 67.0 / 255, 118.0 / 255)
-        ctx.rectangle(20 + current, 84, width, - 1.0 - value[1] * 78.0 / maximum)
+        ctx.rectangle(
+            20 + current,
+            84,
+            width,
+            - 1.0 - value[1] * 78.0 / maximum
+        )
         ctx.fill()
 
         # Skip axis labels if they are too frequent
@@ -119,10 +124,9 @@ def render_activity(activity):
     # Render surface to PNG
     out = StringIO()
     surface.write_to_png(out)
-    data = out.getvalue()
 
     # Return response
-    return HttpResponse(content_type='image/png', content=data)
+    return HttpResponse(content_type='image/png', content=out.getvalue())
 
 
 def get_translation(project=None, subproject=None, lang=None):
@@ -230,7 +234,6 @@ def yearly_language_activity(request, lang):
     # Process parameters
     language = get_object_or_404(Language, code=lang)
 
-
     # Get actual stats
     activity = Change.objects.year_stats(
         language=language
@@ -264,7 +267,6 @@ def yearly_user_activity(request, user):
 
     # Process parameters
     user = get_object_or_404(User, username=user)
-
 
     # Get actual stats
     activity = Change.objects.year_stats(
@@ -350,11 +352,11 @@ def view_language_activity(request, lang):
 
     monthly_url = reverse(
         'monthly_language_activity',
-        kwargs={'lang': lang},
+        kwargs={'lang': language.code},
     )
     yearly_url = reverse(
         'yearly_language_activity',
-        kwargs={'lang': lang},
+        kwargs={'lang': language.code},
     )
 
     return render_to_response('js/activity.html', RequestContext(request, {
