@@ -76,7 +76,9 @@ def user_profile(request):
             request.POST,
             instance=request.user
         )
-        if form.is_valid() and userform.is_valid() and subscriptionform.is_valid():
+        if (form.is_valid()
+                and userform.is_valid()
+                and subscriptionform.is_valid()):
             # Save changes
             form.save()
             subscriptionform.save()
