@@ -206,12 +206,12 @@ urlpatterns = patterns('',
     url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$', 'weblate.trans.views.basic.show_check_project', name='show_check_project'),
     url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.basic.show_check_subproject', name='show_check_subproject'),
 
-    url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.update_subproject', name='hook-subproject'),
-    url(r'^hooks/update/(?P<project>[^/]*)/$', 'weblate.trans.api.update_project', name='hook-project'),
-    url(r'^hooks/github/$', 'weblate.trans.api.git_service_hook', {'service': 'github'}, name='hook-github'),
-    url(r'^hooks/bitbucket/$', 'weblate.trans.api.git_service_hook', {'service': 'bitbucket'}, name='hook-bitbucket'),
+    url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.api.update_subproject', name='hook-subproject'),
+    url(r'^hooks/update/(?P<project>[^/]*)/$', 'weblate.trans.views.api.update_project', name='hook-project'),
+    url(r'^hooks/github/$', 'weblate.trans.views.api.git_service_hook', {'service': 'github'}, name='hook-github'),
+    url(r'^hooks/bitbucket/$', 'weblate.trans.views.api.git_service_hook', {'service': 'bitbucket'}, name='hook-bitbucket'),
 
-    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.api.export_stats', name='export_stats'),
+    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.api.export_stats', name='export_stats'),
 
     url(r'^exports/rss/$', ChangesFeed(), name='rss'),
     url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name='rss-language'),

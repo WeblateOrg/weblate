@@ -64,8 +64,8 @@
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>http://{{ site_domain }}{% url 'weblate.trans.api.export_stats' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="http://{{ site_domain }}{% url 'weblate.trans.api.export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
+<td>http://{{ site_domain }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}</td>
+<td><a href="http://{{ site_domain }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
