@@ -14,7 +14,7 @@
 
 <p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</p>
 
-<form method="post" action="{% url 'weblate.accounts.views.contact' %}">
+<form method="post" action="{% url 'contact' %}">
 {% csrf_token %}
 <table id="contact-table">
 {{ form.as_table }}
