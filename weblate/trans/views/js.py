@@ -119,8 +119,8 @@ def get_dictionary(request, unit_id):
 
     # Grab all words in the dictionary
     dictionary = Dictionary.objects.filter(
-        project = unit.translation.subproject.project,
-        language = unit.translation.language
+        project=unit.translation.subproject.project,
+        language=unit.translation.language
     )
 
     if len(words) == 0:
@@ -177,7 +177,13 @@ def git_status_subproject(request, project, subproject):
 
 @user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
 def git_status_translation(request, project, subproject, lang):
-    obj = get_object_or_404(Translation, language__code=lang, subproject__slug=subproject, subproject__project__slug=project, enabled=True)
+    obj = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
     obj.check_acl(request)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
@@ -224,8 +230,14 @@ def js_config(request):
     else:
         microsoft_langs = None
 
-    return render_to_response('js/config.js', RequestContext(request, {
-            'apertium_langs': apertium_langs,
-            'microsoft_langs': microsoft_langs,
-        }),
-        mimetype = 'application/javascript')
+    return render_to_response(
+        'js/config.js',
+        RequestContext(
+            request,
+            {
+                'apertium_langs': apertium_langs,
+                'microsoft_langs': microsoft_langs,
+            }
+        ),
+        mimetype = 'application/javascript'
+    )

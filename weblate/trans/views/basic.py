@@ -503,14 +503,14 @@ def not_found(request):
             'request_path': request.path,
             'title': _('Page Not Found'),
             'projects': Project.objects.all_acl(request.user),
-        }
-    )))
+        }))
+    )
 
 
 def about(request):
     context = {}
     versions = get_versions()
-    totals =  Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
+    totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
     for project in SubProject.objects.iterator():
         try:
@@ -552,4 +552,3 @@ def data_project(request, project):
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
     }))
-
