@@ -43,6 +43,18 @@ PLURAL_ONE_FEW_MANY_OTHER = 8
 PLURAL_TWO_OTHER = 9
 PLURAL_UNKNOWN = 666
 
+# Plural equation - type mappings
+PLURAL_MAPPINGS = (
+    (data.ONE_OTHER_PLURALS, PLURAL_ONE_OTHER),
+    (data.ONE_FEW_OTHER_PLURALS, PLURAL_ONE_FEW_OTHER),
+    (data.ONE_TWO_OTHER_PLURALS, PLURAL_ONE_TWO_OTHER),
+    (data.ONE_TWO_FEW_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_OTHER),
+    (data.ONE_TWO_THREE_OTHER_PLURALS, PLURAL_ONE_TWO_THREE_OTHER),
+    (data.ONE_OTHER_ZERO_PLURALS, PLURAL_ONE_OTHER_ZERO),
+    (data.ONE_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_FEW_MANY_OTHER),
+    (data.TWO_OTHER_PLURALS, PLURAL_TWO_OTHER),
+)
+
 
 def get_plural_type(code, pluralequation):
     '''
@@ -57,28 +69,20 @@ def get_plural_type(code, pluralequation):
     # Get base language code
     base_code = code.replace('_', '-').split('-')[0]
 
-    # Detect plural type
+    # No plural
     if pluralequation == '0':
         return PLURAL_NONE
-    elif pluralequation in data.ONE_OTHER_PLURALS:
-        return PLURAL_ONE_OTHER
-    elif pluralequation in data.ONE_FEW_OTHER_PLURALS:
-        return PLURAL_ONE_FEW_OTHER
-    elif pluralequation in data.ONE_TWO_OTHER_PLURALS:
-        return PLURAL_ONE_TWO_OTHER
-    elif pluralequation in data.ONE_TWO_FEW_OTHER_PLURALS:
-        return PLURAL_ONE_TWO_FEW_OTHER
-    elif pluralequation in data.ONE_TWO_THREE_OTHER_PLURALS:
-        return PLURAL_ONE_TWO_THREE_OTHER
-    elif pluralequation in data.ONE_OTHER_ZERO_PLURALS:
-        return PLURAL_ONE_OTHER_ZERO
-    elif pluralequation in data.ONE_FEW_MANY_OTHER_PLURALS:
-        return PLURAL_ONE_FEW_MANY_OTHER
-    elif pluralequation in data.TWO_OTHER_PLURALS:
-        return PLURAL_TWO_OTHER
-    elif base_code in ('ar'):
+
+    # Standard plural equations
+    for mapping in PLURAL_MAPPINGS:
+        if pluralequation in mapping[0]:
+            return mapping[1]
+
+    # Arabic special case
+    if base_code in ('ar'):
         return PLURAL_ARABIC
 
+    # Log error in case of uknown mapping
     logger.error(
         'Can not guess type of plural for %s: %s', code, pluralequation
     )
