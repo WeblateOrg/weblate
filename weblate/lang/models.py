@@ -403,6 +403,10 @@ class Language(models.Model):
         return round(translated * 100.0 / total, 1)
 
     def get_html(self):
+        '''
+        Returns html attributes for markup in this language, includes
+        language and direction.
+        '''
         return 'lang="%s" dir="%s"' % (self.code, self.direction)
 
     def fixup_name(self):
