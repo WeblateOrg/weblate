@@ -20,6 +20,7 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from weblate.trans.models import SubProject, Project
+from weblate.trans.util import is_repo_link
 from glob import glob
 import tempfile
 import git
@@ -118,8 +119,20 @@ class Command(BaseCommand):
                 'for subproject part of the match!'
             )
 
-        names, sharedrepo = self.import_initial(project, repo, branch,
-                                                filemask)
+        if is_repo_link(repo):
+            sharedrepo = repo
+            master_sub_project = repo.rsplit('/', 1)[-1]
+            try:
+                sub_project = SubProject.objects.get(project=project,
+                                                     slug=master_sub_project)
+            except SubProject.DoesNotExist:
+                raise CommandError('SubProject %s does not exist, '
+                                   'you need to create it first!' % repo)
+            names = self.get_matching_subprojects(sub_project.get_path(),
+                                                  filemask)
+        else:
+            names, sharedrepo = self.import_initial(project, repo, branch,
+                                                    filemask)
 
         # Create remaining subprojects sharing git repository
         for name in names:

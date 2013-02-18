@@ -40,6 +40,23 @@ class ImportTest(RepoTestCase):
         # We should have loaded two subprojects
         self.assertEqual(project.subproject_set.count(), 2)
 
+    def test_import_against_existing(self):
+        '''
+        Test importing with a weblate:// URL
+        '''
+        android = self.create_android()
+        project = android.project
+        self.assertEqual(project.subproject_set.count(), 1)
+        call_command(
+            'import_project',
+            project.slug,
+            'weblate://%s/%s' % (project.slug, android.slug),
+            'master',
+            '**/*.po',
+        )
+        # We should have loaded two subprojects
+        self.assertEqual(project.subproject_set.count(), 3)
+
     def test_import_missing_project(self):
         '''
         Test of correct handling of missing project.
