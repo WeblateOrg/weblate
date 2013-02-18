@@ -203,7 +203,7 @@ def download_dictionary(request, project, lang):
                 add=True,
                 language=lang.code,
                 x_generator='Weblate %s' % weblate.VERSION,
-                project_id_version='%s dictionary for %s' % (lang.name, prj.name),
+                project_id_version='%s (%s)' % (lang.name, prj.name),
                 language_team='%s <http://%s%s>' % (
                     lang.name,
                     site.domain,
