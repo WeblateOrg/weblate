@@ -173,22 +173,9 @@ class LanguageManager(models.Manager):
             if not update and not created:
                 continue
 
-            # Fixups (mostly shortening) of langauge names
-            if code == 'ia':
-                lang.name = 'Interlingua'
-            elif code == 'el':
-                lang.name = 'Greek'
-            elif code == 'st':
-                lang.name = 'Sotho'
-            elif code == 'oc':
-                lang.name = 'Occitan'
-            elif code == 'nb':
-                lang.name = 'Norwegian Bokmål'
-            elif code == 'pa':
-                lang.name = 'Punjabi'
-            else:
-                # Standard ttkit language name
-                lang.name = props[0].split(';')[0]
+            # Set language name
+            lang.name = props[0].split(';')[0]
+            lang.fixup_name()
 
             # Read values
             lang.nplurals = props[1]
@@ -211,10 +198,8 @@ class LanguageManager(models.Manager):
                 lang.nplurals = 2
                 lang.pluralequation = 'n != 1'
 
-            if code in data.RTL_LANGS:
-                lang.direction = 'rtl'
-            else:
-                lang.direction = 'ltr'
+            # Set language direction
+            lang.set_direction()
 
             # Get plural type
             lang.plural_tupe = get_plural_type(
@@ -416,4 +401,35 @@ class Language(models.Model):
         return round(translated * 100.0 / total, 1)
 
     def get_html(self):
+        '''
+        Returns html attributes for markup in this language, includes
+        language and direction.
+        '''
         return 'lang="%s" dir="%s"' % (self.code, self.direction)
+
+    def fixup_name(self):
+        '''
+        Fixes name, in most cases when wrong one is provided by ttkit.
+        '''
+        # Fixups (mostly shortening) of langauge names
+        if self.code == 'ia':
+            self.name = 'Interlingua'
+        elif self.code == 'el':
+            self.name = 'Greek'
+        elif self.code == 'st':
+            self.name = 'Sotho'
+        elif self.code == 'oc':
+            self.name = 'Occitan'
+        elif self.code == 'nb':
+            self.name = 'Norwegian Bokmål'
+        elif self.code == 'pa':
+            self.name = 'Punjabi'
+
+    def set_direction(self):
+        '''
+        Sets default direction for language.
+        '''
+        if self.code in data.RTL_LANGS:
+            self.direction = 'rtl'
+        else:
+            self.direction = 'ltr'
