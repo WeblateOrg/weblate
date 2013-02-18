@@ -88,12 +88,14 @@ def git_service_hook(request, service):
     hook from other Git services (Google Code, custom coded sites, etc.) too.
     '''
     # Check for enabled hooks
-    if not appsettings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
+    if appsettings.ENABLE_HOOKS:
+        allowed_methods = ('POST',)
+    else:
+        allowed_methods = ()
 
     # We support only post methods
-    if request.method != 'POST':
-        return HttpResponseNotAllowed(['POST'])
+    if request.method not in allowed_methods:
+        return HttpResponseNotAllowed(allowed_methods)
 
     # Check if we got payload
     try:
