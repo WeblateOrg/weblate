@@ -42,6 +42,7 @@ from weblate.trans.models import (
 )
 from weblate.lang.models import Language
 import weblate
+from weblate.trans.views.translate import parse_search_url
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import datetime
