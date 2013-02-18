@@ -69,12 +69,28 @@ class Command(BaseCommand):
 
         return workdir
 
-    def get_matching_files(self, workdir, filemask):
+    def get_matching_files(self, repo, filemask):
         '''
         Returns relative path of matched files.
         '''
-        matches = glob(os.path.join(workdir, filemask))
-        return [f.replace(workdir, '').strip('/') for f in matches]
+        matches = glob(os.path.join(repo, filemask))
+        return [f.replace(repo, '').strip('/') for f in matches]
+
+    def get_matching_subprojects(self, repo, filemask):
+        '''
+        Scan the master repository for names matching our mask
+        '''
+        # Find matching files
+        matches = self.get_matching_files(repo, filemask)
+        logger.info('Found %d matching files', len(matches))
+
+        # Parse subproject names out of them
+        names = set()
+        maskre = self.get_match_regexp(filemask)
+        for match in matches:
+            names.add(self.get_name(maskre, match))
+        logger.info('Found %d subprojects', len(names))
+        return names
 
     def handle(self, *args, **options):
         '''
@@ -85,8 +101,6 @@ class Command(BaseCommand):
 
         # Read params
         prjname, repo, branch, filemask = args
-
-        maskre = self.get_match_regexp(filemask)
 
         # Try to get project
         try:
@@ -104,18 +118,28 @@ class Command(BaseCommand):
                 'for subproject part of the match!'
             )
 
+        names, sharedrepo = self.import_initial(project, repo, branch,
+                                                filemask)
+
+        # Create remaining subprojects sharing git repository
+        for name in names:
+            logger.info('Creating subproject %s', name)
+            SubProject.objects.create(
+                name=name,
+                slug=name,
+                project=project,
+                repo=sharedrepo,
+                branch=branch,
+                filemask=filemask.replace('**', name)
+            )
+
+    def import_initial(self, project, repo, branch, filemask):
+        '''
+        Import the first repository of a project
+        '''
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
-
-        # Find matching files
-        matches = self.get_matching_files(workdir, filemask)
-        logger.info('Found %d matching files', len(matches))
-
-        # Parse subproject names out of them
-        names = set()
-        for match in matches:
-            names.add(self.get_name(maskre, match))
-        logger.info('Found %d subprojects', len(names))
+        names = self.get_matching_subprojects(workdir, filemask)
 
         # Create first subproject (this one will get full git repo)
         name = names.pop()
@@ -138,14 +162,4 @@ class Command(BaseCommand):
 
         sharedrepo = 'weblate://%s/%s' % (project.slug, name)
 
-        # Create remaining subprojects sharing git repository
-        for name in names:
-            logger.info('Creating subproject %s', name)
-            SubProject.objects.create(
-                name=name,
-                slug=name,
-                project=project,
-                repo=sharedrepo,
-                branch=branch,
-                filemask=filemask.replace('**', name)
-            )
+        return names, sharedrepo
