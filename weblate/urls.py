@@ -220,13 +220,13 @@ urlpatterns = patterns('',
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name='rss-translation'),
 
     # Not promoted, compatibility only:
-    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.widgets.render', name='widgets-compat-render-color'),
-    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.widgets.render', name='widgets-compat-render'),
+    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.views.widgets.render', name='widgets-compat-render-color'),
+    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.views.widgets.render', name='widgets-compat-render'),
 
-    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)\.png$', 'weblate.trans.widgets.render', name='widget-image-lang'),
-    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'weblate.trans.widgets.render', name='widget-image'),
-    url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.widgets.widgets', name='widgets'),
-    url(r'^widgets/$', 'weblate.trans.widgets.widgets_root', name='widgets_root'),
+    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)\.png$', 'weblate.trans.views.widgets.render', name='widget-image-lang'),
+    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'weblate.trans.views.widgets.render', name='widget-image'),
+    url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.views.widgets.widgets', name='widgets'),
+    url(r'^widgets/$', 'weblate.trans.views.widgets.widgets_root', name='widgets_root'),
 
     url(r'^data/$', 'weblate.trans.views.basic.data_root', name='data_root'),
     url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.basic.data_project', name='data_project'),

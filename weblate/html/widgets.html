@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'weblate.trans.widgets.widgets' project=object.slug %}">{% trans "widgets" %}</a></li>
+<li><a href="{% url 'widgets' project=object.slug %}">{% trans "widgets" %}</a></li>
 {% endblock %}
 
 {% block extra_meta %}
