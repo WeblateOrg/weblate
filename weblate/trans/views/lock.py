@@ -45,6 +45,7 @@ def lock_translation(request, project, subproject, lang):
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
+
 @login_required
 def update_lock(request, project, subproject, lang):
     obj = get_object_or_404(
@@ -153,4 +154,3 @@ def unlock_project(request, project):
     messages.info(request, _('Project is now open for translation updates.'))
 
     return HttpResponseRedirect(obj.get_absolute_url())
-
