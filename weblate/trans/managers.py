@@ -539,7 +539,7 @@ class ChangeManager(models.Manager):
 
     def base_stats(self, days, step,
                 project=None, subproject=None, translation=None,
-                language=None):
+                language=None, user=None):
         '''
         Core of daily/weekly/monthly stats calculation.
         '''
@@ -563,6 +563,10 @@ class ChangeManager(models.Manager):
         if language is not None:
             base = base.filter(translation__language=language)
 
+        # Filter by language
+        if user is not None:
+            base = base.filter(user=user)
+
         # Count number of changes
         result = []
         for day in xrange(0, days, step):
@@ -584,7 +588,7 @@ class ChangeManager(models.Manager):
 
     def month_stats(self,
                 project=None, subproject=None, translation=None,
-                language=None):
+                language=None, user=None):
         '''
         Reports daily stats for changes.
         '''
@@ -594,12 +598,13 @@ class ChangeManager(models.Manager):
             project,
             subproject,
             translation,
-            language
+            language,
+            user
         )
 
     def year_stats(self,
                 project=None, subproject=None, translation=None,
-                language=None):
+                language=None, user=None):
         '''
         Reports monthly stats for changes.
         '''
@@ -609,5 +614,6 @@ class ChangeManager(models.Manager):
             project,
             subproject,
             translation,
-            language
+            language,
+            user
         )

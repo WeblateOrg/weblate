@@ -26,6 +26,7 @@ from weblate.lang.models import Language
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 from cStringIO import StringIO
 from django.core.urlresolvers import reverse
 import cairo
@@ -233,6 +234,41 @@ def yearly_language_activity(request, lang):
     # Get actual stats
     activity = Change.objects.year_stats(
         language=language
+    )
+
+    # Render chart
+    return render_activity(activity)
+
+
+def monthly_user_activity(request, user):
+    '''
+    Show monthly activity chart.
+    '''
+
+    # Process parameters
+    user = get_object_or_404(User, username=user)
+
+    # Get actual stats
+    activity = Change.objects.month_stats(
+        user=user
+    )
+
+    # Render chart
+    return render_activity(activity)
+
+
+def yearly_user_activity(request, user):
+    '''
+    Show yearly activity chart.
+    '''
+
+    # Process parameters
+    user = get_object_or_404(User, username=user)
+
+
+    # Get actual stats
+    activity = Change.objects.year_stats(
+        user=user
     )
 
     # Render chart

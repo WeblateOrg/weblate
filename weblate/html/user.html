@@ -30,6 +30,12 @@
 {% include 'user-activity.html' %}
 {% endwith %}
 
+<h3>{% trans "Activity in last 30 days" %}</h3>
+<img src="{% url 'monthly_user_activity' user=page_user.username %}">
+
+<h3>{% trans "Activity in last year" %}</h3>
+<img src="{% url 'yearly_user_activity' user=page_user.username %}">
+
 <h3>{% trans "Recent contributions" %}</h3>
 {% include "last-changes.html" %}
 
