@@ -38,7 +38,7 @@ from weblate.accounts.forms import (
 
 
 def mail_admins_sender(subject, message, sender, fail_silently=False,
-            connection=None, html_message=None):
+                       connection=None, html_message=None):
     '''
     Sends a message to the admins, as defined by the ADMINS setting.
     '''
