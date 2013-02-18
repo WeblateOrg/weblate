@@ -292,7 +292,7 @@ def render(request, project, widget='287x66', color=None, lang=None):
 
         # Progress border
         ctx.new_path()
-        ctx.set_source_rgb (*widget_data['colors'][color]['border'])
+        ctx.set_source_rgb(*widget_data['colors'][color]['border'])
         ctx.rectangle(
             widget_data['progress']['x'],
             widget_data['progress']['y'],
@@ -303,7 +303,7 @@ def render(request, project, widget='287x66', color=None, lang=None):
 
     # Text rendering
     # Set text color
-    ctx.set_source_rgb (*widget_data['colors'][color]['text'])
+    ctx.set_source_rgb(*widget_data['colors'][color]['text'])
 
     # Create pango context
     pangocairo_context = pangocairo.CairoContext(ctx)
