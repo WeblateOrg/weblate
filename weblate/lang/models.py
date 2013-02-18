@@ -372,7 +372,6 @@ class Language(models.Model):
                 return _('Plural')
             return _('Plural form %d') % idx
 
-
     @models.permalink
     def get_absolute_url(self):
         return ('weblate.trans.views.show_language', (), {
