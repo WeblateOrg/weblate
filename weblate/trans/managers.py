@@ -134,7 +134,7 @@ class SubProjectManager(models.Manager):
 
 class TranslationManager(models.Manager):
     def update_from_blob(self, subproject, code, path, force=False,
-                            request=None):
+                         request=None):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -386,7 +386,7 @@ class UnitManager(models.Manager):
                 for d in searcher.docs_for_query(parsed)]
 
     def search(self, query, source=True, context=True, translation=True,
-                checksums=False):
+               checksums=False):
         '''
         Performs full text search on defined set of fields.
 
@@ -470,7 +470,7 @@ class UnitManager(models.Manager):
                 cnt -= 1
 
         return self.filter(
-            translation__subproject__project=\
+            translation__subproject__project=
                 unit.translation.subproject.project,
             translation__language=unit.translation.language,
             checksum__in=ret
@@ -484,7 +484,7 @@ class UnitManager(models.Manager):
         '''
         return self.filter(
             checksum=unit.checksum,
-            translation__subproject__project=\
+            translation__subproject__project=
                 unit.translation.subproject.project,
             translation__language=unit.translation.language
         )
@@ -542,8 +542,8 @@ class ChangeManager(models.Manager):
         )
 
     def base_stats(self, days, step,
-                    project=None, subproject=None, translation=None,
-                    language=None, user=None):
+                   project=None, subproject=None, translation=None,
+                   language=None, user=None):
         '''
         Core of daily/weekly/monthly stats calculation.
         '''
@@ -607,8 +607,8 @@ class ChangeManager(models.Manager):
         )
 
     def year_stats(self,
-                    project=None, subproject=None, translation=None,
-                    language=None, user=None):
+                   project=None, subproject=None, translation=None,
+                   language=None, user=None):
         '''
         Reports monthly stats for changes.
         '''

@@ -31,7 +31,7 @@ class FileFormat(object):
     Simple object defining file format loader.
     '''
     def __init__(self, name, loader, monolingual=None, mark_fuzzy=False,
-                    fixups=None):
+                 fixups=None):
         self.name = name
         self.loader = loader
         self.monolingual = monolingual
