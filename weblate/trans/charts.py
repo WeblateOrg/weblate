@@ -28,53 +28,91 @@ from django.http import HttpResponse
 from cStringIO import StringIO
 from django.core.urlresolvers import reverse
 import cairo
-import pycha.bar
+import pango
+import pangocairo
+import math
 
 
-def render_activity(ticks, line, maximum):
+def render_activity(activity):
     '''
     Helper for rendering activity charts.
     '''
+    # Preprocess data for chart
+    maximum = max([l[1] for l in activity] + [1])
+    step = 780.0 / len(activity)
+    width = step / 2
 
-    # Prepare cairo surface
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 800, 100)
+    # Prepare cairo surface and context
+    surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 800, 100)
+    ctx = cairo.Context(surface)
 
-    # Data set
-    data = (
-        ('lines', line),
-    )
+    # Render background
+    ctx.set_source_rgb(1, 1, 1)
+    ctx.rectangle(0, 0, 800, 100)
+    ctx.fill()
 
-    # Chart options
-    options = {
-        'axis': {
-            'x': {
-                'ticks': ticks,
-            },
-            'y': {
-                'ticks': [
-                    {'v': 0, 'label': 0}, {'v': maximum, 'label': maximum}
-                ],
-            }
-        },
-        'background': {
-            'color': '#eeeeff',
-            'lineColor': '#444444'
-        },
-        'colorScheme': {
-            'name': 'gradient',
-            'args': {
-                'initialColor': '#004276',
-            },
-        },
-        'legend': {
-            'hide': True,
-        },
-    }
+    # Render axises
+    ctx.new_path()
+    ctx.set_line_width(1)
+    ctx.set_source_rgb(0, 0, 0)
+    ctx.move_to(15, 5)
+    ctx.line_to(15, 85)
+    ctx.line_to(795, 85)
+    ctx.stroke()
 
-    # Render chart into surface
-    chart = pycha.bar.VerticalBarChart(surface, options)
-    chart.addDataset(data)
-    chart.render()
+    # Context for text rendering
+    pangocairo_context = pangocairo.CairoContext(ctx)
+    pangocairo_context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
+    font = pango.FontDescription('Sans 8')
+
+    # Rotate context for vertical text
+    ctx.rotate(-math.pi / 2)
+
+    # Create Y axis label
+    layout = pangocairo_context.create_layout()
+    layout.set_width(80)
+    layout.set_alignment(pango.ALIGN_RIGHT)
+    layout.set_font_description(font)
+    layout.set_text(str(maximum))
+
+    # Render Y axis label
+    ctx.move_to(-5, 0)
+    ctx.set_source_rgb(0, 0, 0)
+    pangocairo_context.update_layout(layout)
+    pangocairo_context.show_layout(layout)
+
+    # Rotate context back
+    ctx.rotate(math.pi / 2)
+
+    # Counter for rendering ticks
+    last = -40
+
+    # Render activity itself
+    for offset, value in enumerate(activity):
+        # Calculate position
+        current = offset * step
+
+        # Render bar
+        ctx.new_path()
+        ctx.set_source_rgb(0, 67.0 / 255, 118.0 / 255)
+        ctx.rectangle(20 + current, 84, width, - 1.0 - value[1] * 78.0 / maximum)
+        ctx.fill()
+
+        # Skip axis labels if they are too frequent
+        if current < last + 40:
+            continue
+        last = current
+
+        # Create text
+        layout = pangocairo_context.create_layout()
+        layout.set_font_description(font)
+        layout.set_text(value[0].strftime('%m/%d'))
+
+        # Render text
+        ctx.move_to(15 + current, 86)
+        ctx.set_source_rgb(0, 0, 0)
+        pangocairo_context.update_layout(layout)
+        pangocairo_context.show_layout(layout)
 
     # Render surface to PNG
     out = StringIO()
@@ -132,20 +170,14 @@ def monthly_activity(request, project=None, subproject=None, lang=None):
     )
 
     # Get actual stats
-    changes_counts = Change.objects.month_stats(
+    activity = Change.objects.month_stats(
         project,
         subproject,
         translation
     )
 
-    # Preprocess data for chart
-    line = [(i, l[1]) for i, l in enumerate(changes_counts)]
-    maximum = max([l[1] for l in changes_counts])
-    ticks = [{'v': i, 'label': l[0].day}
-                for i, l in enumerate(changes_counts)]
-
     # Render chart
-    return render_activity(ticks, line, maximum)
+    return render_activity(activity)
 
 
 def yearly_activity(request, project=None, subproject=None, lang=None):
@@ -161,20 +193,14 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
     )
 
     # Get actual stats
-    changes_counts = Change.objects.year_stats(
+    activity = Change.objects.year_stats(
         project,
         subproject,
         translation
     )
 
-    # Preprocess data for chart
-    line = [(i, l[1]) for i, l in enumerate(changes_counts)]
-    maximum = max([l[1] for l in changes_counts])
-    ticks = [{'v': i, 'label': l[0].isocalendar()[1]}
-                for i, l in enumerate(changes_counts)]
-
     # Render chart
-    return render_activity(ticks, line, maximum)
+    return render_activity(activity)
 
 
 def view_activity(request, project=None, subproject=None, lang=None):

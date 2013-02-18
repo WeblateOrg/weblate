@@ -22,8 +22,6 @@ Whoosh
     http://bitbucket.org/mchaput/whoosh/
 PyCairo
     http://cairographics.org/pycairo/
-PyCha
-    https://bitbucket.org/lgs/pycha/
 PyGtk
     http://www.pygtk.org/
 south
@@ -39,7 +37,7 @@ On Debian or Ubuntu, all requirements are already packaged, to install them you 
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git python-django-registration \
-        python-whoosh python-cairo python-gtk2 python-django-south python-pycha
+        python-whoosh python-cairo python-gtk2 python-django-south
 
     # Optional for database backend
 
@@ -55,7 +53,7 @@ All requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-django python-django-registration translate-toolkit python-GitPython \
-        python-whoosh python-cairo python-South python-gtk python-pycha
+        python-whoosh python-cairo python-South python-gtk
 
 Requirements using pip installer
 ++++++++++++++++++++++++++++++++

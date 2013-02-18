@@ -3100,16 +3100,6 @@ def get_versions():
         '1.2',
     ))
 
-    name = 'PyCha'
-    url = 'https://bitbucket.org/lgs/pycha/'
-    mod = get_version_module('pycha', name, url)
-    result.append((
-        name,
-        url,
-        mod.version,
-        '0.6.0',
-    ))
-
     name = 'South'
     url = 'http://south.aeracode.org/'
     mod = get_version_module('south', name, url)
