@@ -383,7 +383,10 @@ def set_lang(sender, **kwargs):
     if newprofile:
         messages.info(
             request,
-            gettext('Your profile has been migrated, you might want to adjust preferences.')
+            gettext(
+                'Your profile has been migrated, '
+                'you might want to adjust preferences.'
+            )
         )
 
     # Set language for session based on preferences
