@@ -22,9 +22,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext as _
 import django.utils.translation
 from django.template import RequestContext, loader
-from django.http import (
-    HttpResponseNotFound, Http404
-)
+from django.http import HttpResponseNotFound, Http404
 from django.contrib import messages
 from django.db.models import Count, Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
