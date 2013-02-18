@@ -10,7 +10,7 @@ Released on ? 2013.
 * Better naming of plural forms.
 * Added support for TBX export of glossary.
 * Added support for Bitbucket notifications.
-* Activity charts are now available for each translation.
+* Activity charts are now available for each translation, language or user.
 
 weblate 1.4
 -----------
