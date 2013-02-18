@@ -72,6 +72,7 @@ from weblate.trans.validators import (
 )
 
 from django.db.models.signals import post_syncdb
+from django.dispatch import receiver
 from south.signals import post_migrate
 
 from distutils.version import LooseVersion
