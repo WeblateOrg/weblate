@@ -207,7 +207,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('weblate.trans.views.show_project', (), {
+        return ('project', (), {
             'project': self.slug
         })
 
@@ -223,25 +223,25 @@ class Project(models.Model):
 
     @models.permalink
     def get_commit_url(self):
-        return ('weblate.trans.views.commit_project', (), {
+        return ('commit_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_update_url(self):
-        return ('weblate.trans.views.update_project', (), {
+        return ('update_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_push_url(self):
-        return ('weblate.trans.views.push_project', (), {
+        return ('push_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_reset_url(self):
-        return ('weblate.trans.views.reset_project', (), {
+        return ('reset_project', (), {
             'project': self.slug
         })
 
@@ -255,13 +255,13 @@ class Project(models.Model):
 
     @models.permalink
     def get_lock_url(self):
-        return ('weblate.trans.views.lock_project', (), {
+        return ('lock_project', (), {
             'project': self.slug
         })
 
     @models.permalink
     def get_unlock_url(self):
-        return ('weblate.trans.views.unlock_project', (), {
+        return ('unlock_project', (), {
             'project': self.slug
         })
 
@@ -530,7 +530,7 @@ class SubProject(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('weblate.trans.views.show_subproject', (), {
+        return ('subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -547,28 +547,28 @@ class SubProject(models.Model):
 
     @models.permalink
     def get_commit_url(self):
-        return ('weblate.trans.views.commit_subproject', (), {
+        return ('commit_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_update_url(self):
-        return ('weblate.trans.views.update_subproject', (), {
+        return ('update_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_push_url(self):
-        return ('weblate.trans.views.push_subproject', (), {
+        return ('push_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_reset_url(self):
-        return ('weblate.trans.views.reset_subproject', (), {
+        return ('reset_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -581,14 +581,14 @@ class SubProject(models.Model):
 
     @models.permalink
     def get_lock_url(self):
-        return ('weblate.trans.views.lock_subproject', (), {
+        return ('lock_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
 
     @models.permalink
     def get_unlock_url(self):
-        return ('weblate.trans.views.unlock_subproject', (), {
+        return ('unlock_subproject', (), {
             'project': self.project.slug,
             'subproject': self.slug
         })
@@ -1476,7 +1476,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('weblate.trans.views.show_translation', (), {
+        return ('translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1500,7 +1500,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_commit_url(self):
-        return ('weblate.trans.views.commit_translation', (), {
+        return ('commit_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1508,7 +1508,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_update_url(self):
-        return ('weblate.trans.views.update_translation', (), {
+        return ('update_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1516,7 +1516,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_push_url(self):
-        return ('weblate.trans.views.push_translation', (), {
+        return ('push_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1524,7 +1524,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_reset_url(self):
-        return ('weblate.trans.views.reset_translation', (), {
+        return ('reset_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1535,7 +1535,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_lock_url(self):
-        return ('weblate.trans.views.lock_translation', (), {
+        return ('lock_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1543,7 +1543,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_unlock_url(self):
-        return ('weblate.trans.views.unlock_translation', (), {
+        return ('unlock_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1551,7 +1551,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_download_url(self):
-        return ('weblate.trans.views.download_translation', (), {
+        return ('download_translation', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1559,7 +1559,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_translate_url(self):
-        return ('weblate.trans.views.translate', (), {
+        return ('translate', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
@@ -1567,7 +1567,7 @@ class Translation(models.Model):
 
     @models.permalink
     def get_source_review_url(self):
-        return ('weblate.trans.views.review_source', (), {
+        return ('review_source', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
         })

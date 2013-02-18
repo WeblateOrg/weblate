@@ -39,7 +39,7 @@
 <li><a href="#auto">{% trans "Automatic translation" %}</a></li>
 {% endif %}
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<li><a href="{% url 'weblate.trans.views.git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
+<li><a href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
 <li><a href="#share">{% trans "Share" %}</a></li>
@@ -68,7 +68,7 @@
 <p>{% trans "Uploaded file will be merged with current translation." %}</p>
 {% endif %}
 
-<form action="{% url 'weblate.trans.views.upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
 {{ form.as_table }}
@@ -99,7 +99,7 @@
 {% if autoform %}
 <div id="auto">
 <p>{% trans "Automatic translation takes existing translations in this project and applies it to the current subproject. It can be used to push translations to a different branch, to fix inconsistent translations or to translate new subproject using translation memory." %}</p>
-<form action="{% url 'weblate.trans.views.auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
 {{ autoform.as_table }}
@@ -119,16 +119,16 @@
 {% endif %}
 {% if perms.trans.lock_translation %}
 {% if object.lock_user == request.user %}
-<a class="button" href="{% url 'weblate.trans.views.unlock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Unlock" %}</a>
+<a class="button" href="{% url 'unlock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Unlock" %}</a>
 {% elif not object.is_user_locked %}
-<a class="button" href="{% url 'weblate.trans.views.lock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Lock" %}</a>
+<a class="button" href="{% url 'lock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Lock" %}</a>
 {% endif %}
 {% endif %}
 </div>
 
 <div id="share">
-{% url 'weblate.trans.widgets.widgets' project=object.subproject.project.slug as widgets_url %}
-{% url 'weblate.trans.views.data_project' project=object.subproject.project.slug as data_url %}
+{% url 'widgets' project=object.subproject.project.slug as widgets_url %}
+{% url 'data_project' project=object.subproject.project.slug as data_url %}
 {% include 'share.html' %}
 </div>
 

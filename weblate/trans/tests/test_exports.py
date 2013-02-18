@@ -63,7 +63,7 @@ class ExportsViewTest(ViewTestCase):
 
     def test_export_stats(self):
         response = self.client.get(
-            reverse('export-stats', kwargs={
+            reverse('export_stats', kwargs={
                 'project': self.subproject.project.slug,
                 'subproject': self.subproject.slug,
             })

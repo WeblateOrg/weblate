@@ -4,8 +4,8 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
+<li><a href="{% url 'show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
+<li><a href="{% url 'show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -42,7 +42,7 @@
 <td class="translatetext">{{ word.target }}</td>
 <td>
 {% if perms.trans.change_dictionary %}
-<form action="{% url 'weblate.trans.views.edit_dictionary' project=project.slug lang=language.code %}" method="get">
+<form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
 <input type="submit" class="button" value="{% trans "Edit" %}" />
@@ -51,7 +51,7 @@
 </td>
 <td>
 {% if perms.trans.delete_dictionary %}
-<form action="{% url 'weblate.trans.views.delete_dictionary' project=project.slug lang=language.code %}" method="post">
+<form action="{% url 'delete_dictionary' project=project.slug lang=language.code %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
 <input type="submit" class="button" value="{% trans "Delete" %}" />
@@ -98,7 +98,7 @@
 
 <p>{% trans "You can upload any format which is understood by Translate Toolkit (including TBX, CSV or Gettext PO files)." %}</p>
 
-<form action="{% url 'weblate.trans.views.upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <table>
 {{ uploadform.as_table }}
@@ -114,9 +114,9 @@
 <p>{% trans "You can download glossary in following formats:" %}</p>
 
 <ul>
-<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
-<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
-<li><a href="{% url 'weblate.trans.views.download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
 
 {% endblock %}

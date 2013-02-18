@@ -206,7 +206,7 @@
     <th>{% trans "New comment" %}</th>
     <td>
     {% if perms.trans.add_comment %}
-    <form method="post" action="{% url 'weblate.trans.views.comment' pk=unit.id %}">
+    <form method="post" action="{% url 'comment' pk=unit.id %}">
     {% csrf_token %}
     {{ comment_form.comment }}
     <br />
@@ -238,7 +238,7 @@
     <th>{% trans "New comment" %}</th>
     <td>
     {% if perms.trans.add_comment %}
-    <form method="post" action="{% url 'weblate.trans.views.comment' pk=unit.id %}">
+    <form method="post" action="{% url 'comment' pk=unit.id %}">
     {% csrf_token %}
     <input type="hidden" name="type" value="source" />
     {{ comment_form.comment }}

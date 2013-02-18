@@ -4,8 +4,8 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'weblate.trans.views.show_checks' %}">{% trans "checks" %}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_check' name=check.check_id %}">{{ check.name }}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "checks" %}</a></li>
+<li><a href="{% url 'show_check' name=check.check_id %}">{{ check.name }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -29,8 +29,8 @@
 <tbody>
 {% for obj in checks %}
 <tr>
-<th><a href="{% url 'weblate.trans.views.show_project' project=obj.project__slug %}">{% project_name obj.project__slug %}</a></th>
-<td><a href="{% url 'weblate.trans.views.show_check_project' name=check.check_id project=obj.project__slug %}">{{ obj.count }}</a></td>
+<th><a href="{% url 'project' project=obj.project__slug %}">{% project_name obj.project__slug %}</a></th>
+<td><a href="{% url 'show_check_project' name=check.check_id project=obj.project__slug %}">{{ obj.count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>

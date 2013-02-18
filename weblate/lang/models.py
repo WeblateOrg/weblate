@@ -363,7 +363,7 @@ class Language(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('weblate.trans.views.show_language', (), {
+        return ('show_language', (), {
             'lang': self.code
         })
 

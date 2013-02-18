@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
+<li><a href="{% url 'show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
 <tbody>
 {% for dict in dicts %}
 <tr>
-<th><a href="{% url 'weblate.trans.views.show_dictionary' project=project.slug lang=dict.code %}">{{ dict }}</a></th>
+<th><a href="{% url 'show_dictionary' project=project.slug lang=dict.code %}">{{ dict }}</a></th>
 <td class="number">{% dictionary_count dict project %}</td>
 </tr>
 {% endfor %}

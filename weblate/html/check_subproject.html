@@ -4,10 +4,10 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'weblate.trans.views.show_checks' %}">{% trans "checks" %}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_check' name=check.check_id %}">{{ check.name }}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_check_project' name=check.check_id project=subproject.project.slug %}">{{ subproject.project }}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_check_subproject' name=check.check_id project=subproject.project.slug subproject=subproject.slug %}">{{ subproject.name }}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "checks" %}</a></li>
+<li><a href="{% url 'show_check' name=check.check_id %}">{{ check.name }}</a></li>
+<li><a href="{% url 'show_check_project' name=check.check_id project=subproject.project.slug %}">{{ subproject.project }}</a></li>
+<li><a href="{% url 'show_check_subproject' name=check.check_id project=subproject.project.slug subproject=subproject.slug %}">{{ subproject.name }}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -30,14 +30,14 @@
 <tbody>
 {% for obj in checks %}
 <tr>
-<th><a href="{% url 'weblate.trans.views.show_translation' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}">{% language_name obj.translation__language__code %}</a></th>
-<td><a href="{% url 'weblate.trans.views.translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}?type={{ check.check_id }}">{{ obj.count }}</a></td>
+<th><a href="{% url 'translation' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}">{% language_name obj.translation__language__code %}</a></th>
+<td><a href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}?type={{ check.check_id }}">{{ obj.count }}</a></td>
 </tr>
 {% endfor %}
 {% for count in source_checks %}
 <tr>
-<th><a href="{% url 'weblate.trans.views.show_source' project=subproject.project.slug subproject=subproject.slug %}">{% trans "Source" %}</a></th>
-<td><a href="{% url 'weblate.trans.views.review_source' project=subproject.project.slug subproject=subproject.slug %}?type={{ check.check_id }}">{{ count }}</a></td>
+<th><a href="{% url 'show_source' project=subproject.project.slug subproject=subproject.slug %}">{% trans "Source" %}</a></th>
+<td><a href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}?type={{ check.check_id }}">{{ count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>

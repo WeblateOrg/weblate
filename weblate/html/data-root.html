@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'weblate.trans.views.data_root' %}">{% trans "data" %}</a></li>
+<li><a href="{% url 'data_root' %}">{% trans "data" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -43,7 +43,7 @@
 
 <ul>
 {% for project in projects %}
-<li><a href="{% url 'weblate.trans.views.data_project' project=project.slug %}">{{ project.name }}</a></li>
+<li><a href="{% url 'data_project' project=project.slug %}">{{ project.name }}</a></li>
 {% endfor %}
 </ul>
 

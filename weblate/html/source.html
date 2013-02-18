@@ -5,7 +5,7 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'weblate.trans.views.show_source' project=object.project.slug subproject=object.slug %}">{% trans "source" %}</a></li>
+<li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "source" %}</a></li>
 {% endblock %}
 
 {% block content %}

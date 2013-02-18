@@ -40,7 +40,7 @@
 <li><a href="#changes">{% trans "Recent changes" %}</a></li>
 <li><a href="#dicts">{% trans "Glossaries" %}</a></li>
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<li><a href="{% url 'weblate.trans.views.git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
+<li><a href="{% url 'git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#share">{% trans "Share" %}</a></li>
 <li><a href="{% url 'view_activity_project' project=object.slug %}">{% trans "Activity" %}</a></li>
@@ -49,9 +49,9 @@
 <div id="dicts">
 <ul>
 {% for dict in dicts %}
-<li><a href="{% url 'weblate.trans.views.show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
+<li><a href="{% url 'show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
 {% endfor %}
-<li><a href="{% url 'weblate.trans.views.show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a></li>
+<li><a href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a></li>
 </ul>
 </div>
 
@@ -60,8 +60,8 @@
 </div>
 
 <div id="share">
-{% url 'weblate.trans.widgets.widgets' project=object.slug as widgets_url %}
-{% url 'weblate.trans.views.data_project' project=object.slug as data_url %}
+{% url 'widgets' project=object.slug as widgets_url %}
+{% url 'data_project' project=object.slug as data_url %}
 {% include 'share.html' %}
 </div>
 

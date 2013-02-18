@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'weblate.trans.views.show_languages' %}">{% trans "languages" %}</a></li>
+<li><a href="{% url 'languages' %}">{% trans "languages" %}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
 {% endblock %}
 
@@ -32,7 +32,7 @@
 <div id="dicts">
 <ul>
 {% for dict in dicts %}
-<li><a href="{% url 'weblate.trans.views.show_dictionary' lang=object.code project=dict.slug %}">{{ dict }}</a></li>
+<li><a href="{% url 'show_dictionary' lang=object.code project=dict.slug %}">{{ dict }}</a></li>
 {% endfor %}
 </ul>
 </div>

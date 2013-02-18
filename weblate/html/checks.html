@@ -4,7 +4,7 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'weblate.trans.views.show_checks' %}">{% trans "checks" %}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "checks" %}</a></li>
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
 {% for check in checks %}
 <tr>
 <th><abbr title="{% check_description check.check %}">{% check_name check.check %}</abbr></th>
-<td><a href="{% url 'weblate.trans.views.show_check' name=check.check %}">{{ check.count }}</a></td>
+<td><a href="{% url 'show_check' name=check.check %}">{{ check.count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>
