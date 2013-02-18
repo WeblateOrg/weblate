@@ -198,10 +198,8 @@ class LanguageManager(models.Manager):
                 lang.nplurals = 2
                 lang.pluralequation = 'n != 1'
 
-            if code in data.RTL_LANGS:
-                lang.direction = 'rtl'
-            else:
-                lang.direction = 'ltr'
+            # Set language direction
+            lang.set_direction()
 
             # Get plural type
             lang.plural_tupe = get_plural_type(
@@ -426,3 +424,12 @@ class Language(models.Model):
             self.name = 'Norwegian Bokmål'
         elif self.code == 'pa':
             self.name = 'Punjabi'
+
+    def set_direction(self):
+        '''
+        Sets default direction for language.
+        '''
+        if self.code in data.RTL_LANGS:
+            self.direction = 'rtl'
+        else:
+            self.direction = 'ltr'
