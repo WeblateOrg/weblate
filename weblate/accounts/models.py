@@ -29,7 +29,7 @@ from django.contrib.auth.models import Group, Permission, User
 from django.db.models.signals import post_syncdb
 from registration.signals import user_registered
 from django.contrib.sites.models import Site
-from django.utils import translation
+from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import mail_admins
@@ -51,7 +51,7 @@ def send_notification_email(language, email, notification, translation_obj,
     '''
     Renders and sends notification email.
     '''
-    cur_language = translation.get_language()
+    cur_language = django_translation.get_language()
     if context is None:
         context = {}
     if headers is None:
@@ -65,7 +65,7 @@ def send_notification_email(language, email, notification, translation_obj,
         )
 
         # Load user language
-        translation.activate(language)
+        django_translation.activate(language)
 
         # Template names
         subject_template = 'mail/%s_subject.txt' % notification
@@ -118,7 +118,7 @@ def send_notification_email(language, email, notification, translation_obj,
             # Send it out
             email.send(fail_silently=False)
     finally:
-        translation.activate(cur_language)
+        django_translation.activate(cur_language)
 
 
 class ProfileManager(models.Manager):
