@@ -52,6 +52,8 @@ class DictionaryTest(ViewTestCase):
         }
         upload_url = reverse('upload_dictionary', kwargs=url_kwargs)
         show_url = reverse('show_dictionary', kwargs=url_kwargs)
+
+        # Import file
         with open(TEST_TBX) as handle:
             response = self.client.post(upload_url, {'file': handle})
 
@@ -64,3 +66,30 @@ class DictionaryTest(ViewTestCase):
         # Check they are shown
         response = self.client.get(show_url)
         self.assertContains(response, u'podpůrná vrstva')
+
+    def test_add(self):
+        '''
+        Test for manually adding words to glossary.
+        '''
+        url_kwargs = {
+            'lang': 'cs',
+            'project': self.subproject.project.slug,
+        }
+        show_url = reverse('show_dictionary', kwargs=url_kwargs)
+
+        # Add word
+        response = self.client.post(
+            show_url,
+            {'source': 'source', 'target': u'překlad'}
+        )
+
+        # Check correct response
+        self.assertRedirects(response, show_url)
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 1)
+
+        # Check they are shown
+        response = self.client.get(show_url)
+        self.assertContains(response, u'překlad')
+
