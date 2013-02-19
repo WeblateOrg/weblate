@@ -159,14 +159,54 @@ class UnitManager(models.Manager):
         # Return result
         return dbunit, force
 
+    def filter_checks(self, rqtype, translation):
+        '''
+        Filtering for checks.
+        '''
+        from weblate.trans.checks import CHECKS
+        from weblate.trans.models import Check
+
+        # Filter checks for current project
+        checks = Check.objects.filter(
+            project=translation.subproject.project,
+            ignore=False
+        )
+
+        filter_translated = True
+
+        # Filter by language
+        if rqtype == 'allchecks':
+            checks = checks.filter(language=translation.language)
+        elif rqtype == 'sourcechecks':
+            checks = checks.filter(language=None)
+            filter_translated = False
+        elif CHECKS[rqtype].source and CHECKS[rqtype].target:
+            checks = checks.filter(
+                Q(language=translation.language) | Q(language=None)
+            )
+            filter_translated = False
+        elif CHECKS[rqtype].source:
+            checks = checks.filter(language=None)
+            filter_translated = False
+        elif CHECKS[rqtype].target:
+            checks = checks.filter(language=translation.language)
+
+        # Filter by check type
+        if not rqtype in ['allchecks', 'sourcechecks']:
+            checks = checks.filter(check=rqtype)
+
+        checks = checks.values_list('checksum', flat=True)
+        ret = self.filter(checksum__in=checks)
+        if filter_translated:
+            ret = ret.filter(translated=True)
+        return ret
+
     def filter_type(self, rqtype, translation):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        from weblate.trans.models import Suggestion, Check, Comment
+        from weblate.trans.models import Suggestion, Comment
         from weblate.trans.checks import CHECKS
-
-        filter_translated = True
 
         if rqtype == 'all':
             return self.all()
@@ -196,39 +236,7 @@ class UnitManager(models.Manager):
             coms = coms.values_list('checksum', flat=True)
             return self.filter(checksum__in=coms)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
-
-            # Filter checks for current project
-            checks = Check.objects.filter(
-                project=translation.subproject.project,
-                ignore=False
-            )
-
-            # Filter by language
-            if rqtype == 'allchecks':
-                checks = checks.filter(language=translation.language)
-            elif rqtype == 'sourcechecks':
-                checks = checks.filter(language=None)
-                filter_translated = False
-            elif CHECKS[rqtype].source and CHECKS[rqtype].target:
-                checks = checks.filter(
-                    Q(language=translation.language) | Q(language=None)
-                )
-                filter_translated = False
-            elif CHECKS[rqtype].source:
-                checks = checks.filter(language=None)
-                filter_translated = False
-            elif CHECKS[rqtype].target:
-                checks = checks.filter(language=translation.language)
-
-            # Filter by check type
-            if not rqtype in ['allchecks', 'sourcechecks']:
-                checks = checks.filter(check=rqtype)
-
-            checks = checks.values_list('checksum', flat=True)
-            ret = self.filter(checksum__in=checks)
-            if filter_translated:
-                ret = ret.filter(translated=True)
-            return ret
+            return self.filter_checks(rqtype, translation)
         else:
             return self.all()
 
