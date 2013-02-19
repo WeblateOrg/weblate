@@ -190,7 +190,7 @@ class SubProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_subproject()
         self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 2)
+        self.assertEqual(project.translation_set.count(), 3)
 
     def test_create_iphone(self):
         project = self.create_iphone()
@@ -222,7 +222,7 @@ class SubProjectTest(RepoTestCase):
             filemask='po/*.po',
         )
         self.assertTrue(second.is_repo_link())
-        self.assertEqual(second.translation_set.count(), 2)
+        self.assertEqual(second.translation_set.count(), 3)
 
     def test_validation(self):
         project = self.create_subproject()
