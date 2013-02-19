@@ -87,11 +87,15 @@ class PluralTextarea(forms.Textarea):
             ))
 
         # Show plural equation for more strings
-        pluralmsg = '<br /><span class="plural"><abbr title="%s">%s</abbr>: %s</span>' % (
-            ugettext('This equation identifies which plural form will be used based on given count (n).'),
+        pluralinfo = '<abbr title="%s">%s</abbr>: %s' % (
+            ugettext(
+                'This equation identifies which plural form '
+                'will be used based on given count (n).'
+            ),
             ugettext('Plural equation'),
             lang.pluralequation
         )
+        pluralmsg = '<br /><span class="plural">%s</span>' % pluralinfo
 
         # Join output
         return mark_safe('<br />'.join(ret) + pluralmsg)
@@ -272,7 +276,8 @@ class AutoForm(forms.Form):
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
-        self.fields['subproject'].choices = [('', _('All subprojects'))] + choices
+        self.fields['subproject'].choices = \
+            [('', _('All subprojects'))] + choices
 
 
 class WordForm(forms.Form):
@@ -287,10 +292,12 @@ class DictUploadForm(forms.Form):
     '''
     Uploading file to a dictionary.
     '''
-    file = forms.FileField(label=_('File'))
+    file = forms.FileField(
+        label=_('File')
+    )
     overwrite = forms.BooleanField(
-        label = _('Overwrite existing'),
-        required = False
+        label=_('Overwrite existing'),
+        required=False
     )
 
 
@@ -311,9 +318,10 @@ class LetterForm(forms.Form):
     '''
     Form for choosing starting letter in a glossary.
     '''
+    LETTER_CHOICES =  [(chr(97 + x), chr(65 + x)) for x in range(26)]
     letter = forms.ChoiceField(
         label=_('Starting letter'),
-        choices=[('', _('Any'))] + [(chr(97 + x), chr(65 + x)) for x in range(26)],
+        choices=[('', _('Any'))] + LETTER_CHOICES,
         required=False
     )
 
