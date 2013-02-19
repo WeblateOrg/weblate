@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-19 11:18+0100\n"
+"POT-Creation-Date: 2013-02-19 14:41+0100\n"
 "PO-Revision-Date: 2013-02-15 17:42+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -201,11 +201,13 @@ msgstr "Tamam"
 msgid "Cancel"
 msgstr "İptal"
 
-#: accounts/i18n.py:61 html/list-translations.html:62 trans/views/edit.py:137
+#: accounts/i18n.py:61 html/list-translations.html:62
+#: trans/views/helper.py:192
 msgid "Strings with any failing checks"
 msgstr "Herhangi bir başarısız kontrolü olan satır"
 
-#: accounts/i18n.py:62 html/list-translations.html:63 trans/views/edit.py:131
+#: accounts/i18n.py:62 html/list-translations.html:63
+#: trans/views/helper.py:186
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
 
@@ -217,7 +219,7 @@ msgstr "Çevrilmiş satır"
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:192 html/index.html:21 trans/views/basic.py:257
+#: accounts/models.py:192 html/index.html:21 trans/views/basic.py:101
 msgid "Languages"
 msgstr "Diller"
 
@@ -298,7 +300,7 @@ msgstr ""
 msgid "about"
 msgstr "hakkında"
 
-#: html/about.html:11 html/footer.html:7 trans/views/basic.py:519
+#: html/about.html:11 html/footer.html:7 trans/views/basic.py:351
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -1019,7 +1021,7 @@ msgid "Strings to review"
 msgstr "Gözden geçirmek için satırlar"
 
 #: html/source-review.html:33 html/translate.html:106
-#: html/translate.html.py:226 trans/views/basic.py:105
+#: html/translate.html.py:226 trans/views/checks.py:43
 msgid "Failing checks"
 msgstr "Başarısız kontrolleri"
 
@@ -2232,355 +2234,355 @@ msgstr "Yunanca"
 msgid "Gujarati"
 msgstr "Gucerat dili"
 
-#: lang/i18n.py:85
+#: lang/i18n.py:88
 msgid "Gun"
 msgstr "Gun dili"
 
-#: lang/i18n.py:86
+#: lang/i18n.py:89
 msgid "Hausa"
 msgstr "Hausa dili"
 
-#: lang/i18n.py:87
+#: lang/i18n.py:90
 msgid "Hebrew"
 msgstr "İbranice"
 
-#: lang/i18n.py:88
+#: lang/i18n.py:91
 msgid "Hindi"
 msgstr "Hinduca"
 
-#: lang/i18n.py:89
+#: lang/i18n.py:92
 msgid "Hungarian"
 msgstr "Macarca"
 
-#: lang/i18n.py:90
+#: lang/i18n.py:93
 msgid "Icelandic"
 msgstr "İzlanda dili"
 
-#: lang/i18n.py:91
+#: lang/i18n.py:94
 msgid "Indonesian"
 msgstr "Endonezce"
 
-#: lang/i18n.py:92
+#: lang/i18n.py:95
 msgid "Interlingua"
 msgstr "Arayüz dili"
 
-#: lang/i18n.py:93
+#: lang/i18n.py:96
 msgid "Irish"
 msgstr "İrlandaca"
 
-#: lang/i18n.py:94
+#: lang/i18n.py:97
 msgid "Italian"
 msgstr "İtalyanca"
 
-#: lang/i18n.py:95
+#: lang/i18n.py:98
 msgid "Japanese"
 msgstr "Japonca"
 
-#: lang/i18n.py:96
+#: lang/i18n.py:99
 msgid "Javanese"
 msgstr "Cavaca"
 
-#: lang/i18n.py:97
+#: lang/i18n.py:100
 msgid "Kannada"
 msgstr "Kannada dili"
 
-#: lang/i18n.py:98
+#: lang/i18n.py:101
 msgid "Kashubian"
 msgstr "Kaşubyan"
 
-#: lang/i18n.py:99
+#: lang/i18n.py:102
 msgid "Kazakh"
 msgstr "Kazakça"
 
-#: lang/i18n.py:100
+#: lang/i18n.py:103
 msgid "Kirghiz"
 msgstr "Kırgızca"
 
-#: lang/i18n.py:101
+#: lang/i18n.py:104
 msgid "Korean"
 msgstr "Korece"
 
-#: lang/i18n.py:102
+#: lang/i18n.py:105
 msgid "Kurdish"
 msgstr "Kürtçe"
 
-#: lang/i18n.py:103
+#: lang/i18n.py:106
 msgid "Kurdish Sorani"
 msgstr "Sorani Kürtçe"
 
-#: lang/i18n.py:104
+#: lang/i18n.py:107
 msgid "Lao"
 msgstr "Laoca"
 
-#: lang/i18n.py:105
+#: lang/i18n.py:108
 msgid "Latvian"
 msgstr "Letonca"
 
-#: lang/i18n.py:106
+#: lang/i18n.py:109
 msgid "Lingala"
 msgstr "Bantu dili"
 
-#: lang/i18n.py:107
+#: lang/i18n.py:110
 msgid "Lithuanian"
 msgstr "Litvanca"
 
-#: lang/i18n.py:108
+#: lang/i18n.py:111
 msgid "Luxembourgish"
 msgstr "Lüksemburgca"
 
-#: lang/i18n.py:109
+#: lang/i18n.py:112
 msgid "Macedonian"
 msgstr "Makedonca"
 
-#: lang/i18n.py:110
+#: lang/i18n.py:113
 msgid "Maithili"
 msgstr "Hindu-Aryan dili"
 
-#: lang/i18n.py:111
+#: lang/i18n.py:114
 msgid "Malagasy"
 msgstr "Malgaşça"
 
-#: lang/i18n.py:112
+#: lang/i18n.py:115
 msgid "Malay"
 msgstr "Malayca"
 
-#: lang/i18n.py:113
+#: lang/i18n.py:116
 msgid "Malayalam"
 msgstr "Malayamca"
 
-#: lang/i18n.py:114
+#: lang/i18n.py:117
 msgid "Maltese"
 msgstr "Malta dili"
 
-#: lang/i18n.py:115
+#: lang/i18n.py:118
 msgid "Maori"
 msgstr "Maori dili"
 
-#: lang/i18n.py:116
+#: lang/i18n.py:119
 msgid "Mapudungun"
 msgstr "Araukanca"
 
-#: lang/i18n.py:117
+#: lang/i18n.py:120
 msgid "Marathi"
 msgstr "Marathi Hint dili"
 
-#: lang/i18n.py:118
+#: lang/i18n.py:121
 msgid "Mongolian"
 msgstr "Moğolca"
 
-#: lang/i18n.py:119
+#: lang/i18n.py:122
 msgid "Morisyen"
 msgstr "Morisyen dili"
 
-#: lang/i18n.py:120
+#: lang/i18n.py:123
 msgid "Nahuatl languages"
 msgstr "Nahuatl dili"
 
-#: lang/i18n.py:121
+#: lang/i18n.py:124
 msgid "Neapolitan"
 msgstr "Napoli dili"
 
-#: lang/i18n.py:122
+#: lang/i18n.py:125
 msgid "Nepali"
 msgstr "Nepalce"
 
-#: lang/i18n.py:123
+#: lang/i18n.py:126
 msgid "Norwegian Bokmål"
 msgstr "Bokmål Norveççe"
 
-#: lang/i18n.py:124
+#: lang/i18n.py:127
 msgid "Norwegian Nynorsk"
 msgstr "Nynorsk Norveçce"
 
-#: lang/i18n.py:125
+#: lang/i18n.py:128
 msgid "Occitan"
 msgstr "Oksitanca"
 
-#: lang/i18n.py:126
+#: lang/i18n.py:129
 msgid "Oriya"
 msgstr "Oriya dili"
 
-#: lang/i18n.py:127
+#: lang/i18n.py:130
 msgid "Papiamento"
 msgstr "Creole dili"
 
-#: lang/i18n.py:128
+#: lang/i18n.py:131
 msgid "Pedi"
 msgstr "Pedi dili"
 
-#: lang/i18n.py:129
+#: lang/i18n.py:132
 msgid "Persian"
 msgstr "Farsça"
 
-#: lang/i18n.py:130
+#: lang/i18n.py:133
 msgid "Piemontese"
 msgstr "Piedmont dili"
 
-#: lang/i18n.py:131
+#: lang/i18n.py:134
 msgid "Polish"
 msgstr "Lehçe"
 
-#: lang/i18n.py:132
+#: lang/i18n.py:138
 msgid "Portuguese"
 msgstr "Portekizce"
 
-#: lang/i18n.py:133
+#: lang/i18n.py:139
 msgid "Portuguese (Brazil)"
 msgstr "Portekizce (Brezilya)"
 
-#: lang/i18n.py:134
+#: lang/i18n.py:140
 msgid "Portuguese (Portugal)"
 msgstr "Portekizce (Portekiz)"
 
-#: lang/i18n.py:135
+#: lang/i18n.py:141
 msgid "Punjabi"
 msgstr "Pencapça"
 
-#: lang/i18n.py:136
+#: lang/i18n.py:142
 msgid "Pushto"
 msgstr "Peştuca"
 
-#: lang/i18n.py:137
+#: lang/i18n.py:143
 msgid "Romanian"
 msgstr "Romence"
 
-#: lang/i18n.py:138
+#: lang/i18n.py:144
 msgid "Romansh"
 msgstr "Romanş"
 
-#: lang/i18n.py:139
+#: lang/i18n.py:145
 msgid "Russian"
 msgstr "Rusça"
 
-#: lang/i18n.py:140
+#: lang/i18n.py:146
 msgid "Scots"
 msgstr "İskoç İngilizcesi"
 
-#: lang/i18n.py:141
+#: lang/i18n.py:147
 msgid "Serbian"
 msgstr "Sırpça"
 
-#: lang/i18n.py:142
+#: lang/i18n.py:148
 msgid "Serbian (cyrillic)"
 msgstr "Sırpça (kiril)"
 
-#: lang/i18n.py:143
+#: lang/i18n.py:149
 msgid "Serbian (latin)"
 msgstr "Sırpça (latin)"
 
-#: lang/i18n.py:144
+#: lang/i18n.py:150
 msgid "Sinhala"
 msgstr "Sinhalese dili"
 
-#: lang/i18n.py:145
+#: lang/i18n.py:151
 msgid "Slovak"
 msgstr "Slovakça"
 
-#: lang/i18n.py:146
+#: lang/i18n.py:152
 msgid "Slovenian"
 msgstr "Slovence"
 
-#: lang/i18n.py:147
+#: lang/i18n.py:153
 msgid "Somali"
 msgstr "Somalice"
 
-#: lang/i18n.py:148
+#: lang/i18n.py:154
 msgid "Songhai languages"
 msgstr "Songhai dilleri"
 
-#: lang/i18n.py:149
+#: lang/i18n.py:155
 msgid "Sotho"
 msgstr "Sotho dili"
 
-#: lang/i18n.py:150
+#: lang/i18n.py:156
 msgid "Spanish"
 msgstr "İspanyolca"
 
-#: lang/i18n.py:151
+#: lang/i18n.py:157
 msgid "Sundanese"
 msgstr "Sundanese dili"
 
-#: lang/i18n.py:152
+#: lang/i18n.py:158
 msgid "Swahili"
 msgstr "Svahili dili"
 
-#: lang/i18n.py:153
+#: lang/i18n.py:159
 msgid "Swedish"
 msgstr "İsveççe"
 
-#: lang/i18n.py:154
+#: lang/i18n.py:160
 msgid "Tajik"
 msgstr "Tacikçe"
 
-#: lang/i18n.py:155
+#: lang/i18n.py:161
 msgid "Tamil"
 msgstr "Tamilce"
 
-#: lang/i18n.py:156
+#: lang/i18n.py:162
 msgid "Tatar"
 msgstr "Tatarca"
 
-#: lang/i18n.py:157
+#: lang/i18n.py:163
 msgid "Telugu"
 msgstr "Telugu dili"
 
-#: lang/i18n.py:158
+#: lang/i18n.py:164
 msgid "Thai"
 msgstr "Tayca"
 
-#: lang/i18n.py:159
+#: lang/i18n.py:165
 msgid "Tibetan"
 msgstr "Tibet dili"
 
-#: lang/i18n.py:160
+#: lang/i18n.py:166
 msgid "Tigrinya"
 msgstr "Tigrinya dili"
 
-#: lang/i18n.py:161
+#: lang/i18n.py:167
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: lang/i18n.py:162
+#: lang/i18n.py:168
 msgid "Turkmen"
 msgstr "Türkmence"
 
-#: lang/i18n.py:163
+#: lang/i18n.py:169
 msgid "Uighur"
 msgstr "Uygurca"
 
-#: lang/i18n.py:164
+#: lang/i18n.py:170
 msgid "Ukrainian"
 msgstr "Ukraynaca"
 
-#: lang/i18n.py:165
+#: lang/i18n.py:171
 msgid "Urdu"
 msgstr "Urduca"
 
-#: lang/i18n.py:166
+#: lang/i18n.py:172
 msgid "Uzbek"
 msgstr "Özbekçe"
 
-#: lang/i18n.py:167
+#: lang/i18n.py:173
 msgid "Uzbek (latin)"
 msgstr "Özbekçe (latin)"
 
-#: lang/i18n.py:168
+#: lang/i18n.py:174
 msgid "Vietnamese"
 msgstr "Vietnamca"
 
-#: lang/i18n.py:169
+#: lang/i18n.py:175
 msgid "Walloon"
 msgstr "Valonca"
 
-#: lang/i18n.py:170
+#: lang/i18n.py:176
 msgid "Welsh"
 msgstr "Galce"
 
-#: lang/i18n.py:171
+#: lang/i18n.py:177
 msgid "Yoruba"
 msgstr "Yoruba dili"
 
-#: lang/i18n.py:172
+#: lang/i18n.py:178
 msgid "Zulu"
 msgstr "Zulu dili"
 
@@ -2812,22 +2814,40 @@ msgid "All subprojects"
 msgstr "Tüm alt projeler"
 
 #: trans/forms.py:299
+msgid "Conflict handling"
+msgstr ""
+
+#: trans/forms.py:300
+msgid "Imported word is already existing in the glossary"
+msgstr ""
+
+#: trans/forms.py:302
+msgid "Keep current"
+msgstr ""
+
+#: trans/forms.py:303
 msgid "Overwrite existing"
 msgstr "Mevcut olanın üzerine yaz"
 
-#: trans/forms.py:308
+#: trans/forms.py:304
+#, fuzzy
+#| msgid "Use this translation"
+msgid "Add as other translation"
+msgstr "Bu çeviriyi kullan"
+
+#: trans/forms.py:314
 msgid "Starting date"
 msgstr "Başlangıç tarihi"
 
-#: trans/forms.py:323
+#: trans/forms.py:329
 msgid "Starting letter"
 msgstr "Başlangıç harfi"
 
-#: trans/forms.py:324
+#: trans/forms.py:330
 msgid "Any"
 msgstr "Herhangi"
 
-#: trans/forms.py:342
+#: trans/forms.py:348
 msgid "Whole project"
 msgstr "Bütün projeler"
 
@@ -2989,45 +3009,45 @@ msgstr ""
 "Diğer alt projedeki çeviri güncellemeleri bu projede otomatik çeviriye neden "
 "olacaksa"
 
-#: trans/models.py:709
+#: trans/models.py:713
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models.py:800
+#: trans/models.py:804
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models.py:838
+#: trans/models.py:842
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models.py:867
+#: trans/models.py:871
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models.py:954
+#: trans/models.py:958
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models.py:988
+#: trans/models.py:992
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models.py:1102
+#: trans/models.py:1106
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: trans/models.py:1108
+#: trans/models.py:1112
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models.py:1114
+#: trans/models.py:1118
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -3035,25 +3055,25 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models.py:1135
+#: trans/models.py:1139
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models.py:1140
+#: trans/models.py:1144
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models.py:1150
+#: trans/models.py:1154
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models.py:1153
+#: trans/models.py:1157
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models.py:1352
+#: trans/models.py:1356
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -3062,89 +3082,89 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models.py:1361
+#: trans/models.py:1365
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models.py:1366
+#: trans/models.py:1370
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models.py:1390
+#: trans/models.py:1394
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
 
-#: trans/models.py:2104 trans/models.py:2137
+#: trans/models.py:2108 trans/models.py:2141
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models.py:2111 trans/models.py:2168
+#: trans/models.py:2115 trans/models.py:2172
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models.py:2128 trans/models.py:2185
+#: trans/models.py:2132 trans/models.py:2189
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models.py:2144
+#: trans/models.py:2148
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models.py:2152
+#: trans/models.py:2156
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models.py:2160
+#: trans/models.py:2164
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models.py:2513
+#: trans/models.py:2517
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models.py:2525
+#: trans/models.py:2529
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models.py:2662
+#: trans/models.py:2666
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
 
-#: trans/models.py:2989
+#: trans/models.py:2993
 msgid "Resource update"
 msgstr "Kaynak Güncellemesi"
 
-#: trans/models.py:2990
+#: trans/models.py:2994
 msgid "Translation completed"
 msgstr "Çeviri Tamamlandı"
 
-#: trans/models.py:2991
+#: trans/models.py:2995
 msgid "Translation changed"
 msgstr "Çeviri Değiştirildi"
 
-#: trans/models.py:2992
+#: trans/models.py:2996
 msgid "New translation"
 msgstr "Yeni çeviri"
 
-#: trans/models.py:2993
+#: trans/models.py:2997
 msgid "Comment added"
 msgstr "Yorum Eklendi"
 
-#: trans/models.py:2994
+#: trans/models.py:2998
 msgid "Suggestion added"
 msgstr "Öneri Eklendi"
 
-#: trans/models.py:3012
+#: trans/models.py:3016
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -3294,20 +3314,20 @@ msgstr "Geçersiz metin yönü"
 msgid "Text direction can be either LTR or RTL"
 msgstr "Metin yönü ya LTR ya da RTL olabilir"
 
-#: trans/checks/format.py:163
+#: trans/checks/format.py:170
 msgid "Python format"
 msgstr "Python biçimi"
 
-#: trans/checks/format.py:164 trans/checks/format.py:175
-#: trans/checks/format.py:186
+#: trans/checks/format.py:171 trans/checks/format.py:182
+#: trans/checks/format.py:193
 msgid "Format string does not match source"
 msgstr "Değişken dizgisi kaynakla eşleşmiyor"
 
-#: trans/checks/format.py:174
+#: trans/checks/format.py:181
 msgid "PHP format"
 msgstr "PHP biçimi"
 
-#: trans/checks/format.py:185
+#: trans/checks/format.py:192
 msgid "C format"
 msgstr "C biçimi"
 
@@ -3455,11 +3475,11 @@ msgid "an hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "şu andan %(count)s saat sonra"
 
-#: trans/views/basic.py:65
+#: trans/views/basic.py:67
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı girin."
 
-#: trans/views/basic.py:309
+#: trans/views/basic.py:152
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -3471,7 +3491,7 @@ msgstr ""
 "%(total)s satır içeriyor ve <a href=\"%(url)s\"> %(languages)s dile "
 "çevrilmektedir</a>. Toplamda, bu çeviriler %%%(percent)s tamamlandı."
 
-#: trans/views/basic.py:318
+#: trans/views/basic.py:161
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -3481,17 +3501,17 @@ msgstr ""
 "Türkçe dilinde <a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri "
 "için şu anda %(total)s satır içeriyor ve %%%(percent)s tamamlandı."
 
-#: trans/views/basic.py:410
+#: trans/views/basic.py:250
 #, python-format
 msgid "Review source strings in %s"
 msgstr "%s içindeki kaynak satırları gözden geçir"
 
-#: trans/views/basic.py:430
+#: trans/views/basic.py:269
 #, python-format
 msgid "Source strings in %s"
 msgstr "%s içindeki kaynak satır"
 
-#: trans/views/basic.py:503
+#: trans/views/basic.py:335
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
@@ -3499,48 +3519,35 @@ msgstr "Sayfa Bulunamadı"
 msgid "Dictionaries"
 msgstr "Sözlükler"
 
-#: trans/views/dictionary.py:82 trans/views/dictionary.py:304
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:299
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s için %(language)s sözlüğü"
 
-#: trans/views/dictionary.py:131
+#: trans/views/dictionary.py:128
 msgid "No words to import found in file."
 msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 
-#: trans/views/dictionary.py:136
+#: trans/views/dictionary.py:133
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Dosyadan %d kelime içe aktarıldı."
 
-#: trans/views/dictionary.py:141 trans/views/edit.py:785
+#: trans/views/dictionary.py:138 trans/views/edit.py:689
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
-#: trans/views/dictionary.py:144 trans/views/dictionary.py:146
-#: trans/views/edit.py:633
+#: trans/views/dictionary.py:141 trans/views/dictionary.py:143
+#: trans/views/edit.py:551
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
-#: trans/views/edit.py:127
-#, python-format
-msgid "Search for \"%s\""
-msgstr "\"%s\" için aranıyor"
-
-#: trans/views/edit.py:133
-msgid "Untranslated strings"
-msgstr "Çevrilmemiş satır"
-
-#: trans/views/edit.py:135
-msgid "Strings with suggestions"
-msgstr "Önerileri olan satır"
-
-#: trans/views/edit.py:208
+#: trans/views/edit.py:113
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views/edit.py:243
+#: trans/views/edit.py:148
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -3549,108 +3556,121 @@ msgstr ""
 "Şu anda bu çeviri için aktif bir çevirmen yok, lütfen çevirmen olmayı "
 "düşünün aksi halde öneriniz gözden geçirilmeden kalabilir."
 
-#: trans/views/edit.py:261
+#: trans/views/edit.py:166
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views/edit.py:267 trans/views/edit.py:324
+#: trans/views/edit.py:172 trans/views/edit.py:229
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views/edit.py:289
+#: trans/views/edit.py:194
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views/edit.py:315 trans/views/edit.py:375
+#: trans/views/edit.py:220 trans/views/edit.py:280
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views/edit.py:350
+#: trans/views/edit.py:255
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views/edit.py:382
+#: trans/views/edit.py:287
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views/edit.py:393
+#: trans/views/edit.py:298
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views/edit.py:403
+#: trans/views/edit.py:308
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views/edit.py:428
+#: trans/views/edit.py:333
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views/edit.py:505
+#: trans/views/edit.py:428
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views/edit.py:631
+#: trans/views/edit.py:549
 msgid "Automatic translation completed."
 msgstr "Otomatik çeviri tamamlandı."
 
-#: trans/views/edit.py:718
+#: trans/views/edit.py:629
 msgid "Posted new comment"
 msgstr "Gönderilen yeni yorum"
 
-#: trans/views/edit.py:742
+#: trans/views/edit.py:653
 msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
-#: trans/views/edit.py:781
+#: trans/views/edit.py:685
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views/edit.py:783
+#: trans/views/edit.py:687
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
 
-#: trans/views/git.py:37 trans/views/git.py:49 trans/views/git.py:67
+#: trans/views/git.py:36 trans/views/git.py:47 trans/views/git.py:58
 msgid "All pending translations were committed."
 msgstr "Tüm bekleyen çeviriler işlendi."
 
-#: trans/views/git.py:79 trans/views/git.py:91 trans/views/git.py:109
+#: trans/views/git.py:69 trans/views/git.py:80 trans/views/git.py:91
 msgid "All repositories were updated."
 msgstr "Tüm havuzlar güncellendi."
 
-#: trans/views/git.py:121 trans/views/git.py:133 trans/views/git.py:151
+#: trans/views/git.py:102 trans/views/git.py:113 trans/views/git.py:124
 msgid "All repositories were pushed."
 msgstr "Tüm havuzlar yollandı."
 
-#: trans/views/git.py:163 trans/views/git.py:175 trans/views/git.py:193
+#: trans/views/git.py:135 trans/views/git.py:146 trans/views/git.py:157
 msgid "All repositories have been reset."
 msgstr "Tüm havuzlar sıfırlandı."
 
-#: trans/views/lock.py:44
+#: trans/views/helper.py:184
+#, python-format
+msgid "Search for \"%s\""
+msgstr "\"%s\" için aranıyor"
+
+#: trans/views/helper.py:188
+msgid "Untranslated strings"
+msgstr "Çevrilmemiş satır"
+
+#: trans/views/helper.py:190
+msgid "Strings with suggestions"
+msgstr "Önerileri olan satır"
+
+#: trans/views/lock.py:38
 msgid "Translation is now locked for you."
 msgstr "Çeviri artık sizin için kilitli."
 
-#: trans/views/lock.py:82
+#: trans/views/lock.py:62
 msgid "Translation is now open for translation updates."
 msgstr "Çeviri artık çeviri güncellemeleri için açık."
 
-#: trans/views/lock.py:101
+#: trans/views/lock.py:80
 msgid "Subproject is now locked for translation updates!"
 msgstr "Alt proje artık çeviri güncellemeleri için kilitli!"
 
-#: trans/views/lock.py:118
+#: trans/views/lock.py:96
 msgid "Subproject is now open for translation updates."
 msgstr "Alt proje artık çeviri güncellemeleri için açık."
 
-#: trans/views/lock.py:138
+#: trans/views/lock.py:115
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Tüm alt projeler artık çeviri güncellemeleri için kilitli!"
 
-#: trans/views/lock.py:154
+#: trans/views/lock.py:130
 msgid "Project is now open for translation updates."
 msgstr "Proje artık çeviri güncellemeleri için açık."
 
 #. Translators: text in the engagement widget
-#: trans/views/widgets.py:81
+#: trans/views/widgets.py:82
 #, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
@@ -3660,7 +3680,7 @@ msgstr ""
 "%%%(percent)d tamamlandı, geliştirmemize yardım edin!"
 
 #. Translators: text in the engagement widget, please use your language name instead of English
-#: trans/views/widgets.py:83
+#: trans/views/widgets.py:84
 #, python-format
 msgid ""
 "translating %(count)d strings into English\n"
@@ -3670,7 +3690,7 @@ msgstr ""
 "%%%(percent)d tamamlandı, geliştirmemize yardım edin!"
 
 #. Translators: text in the engagement widget
-#: trans/views/widgets.py:123
+#: trans/views/widgets.py:124
 #, python-format
 msgid ""
 "translation\n"
@@ -3680,7 +3700,7 @@ msgstr ""
 "%%%(percent)d bitti"
 
 #. Translators: text in the engagement widget, please use your language name instead of English
-#: trans/views/widgets.py:125
+#: trans/views/widgets.py:126
 #, python-format
 msgid ""
 "English translation\n"
