@@ -26,6 +26,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from django.core import mail
+from django.conf import settings
 from django.core.management import call_command
 
 
@@ -90,4 +91,38 @@ class CommandTest(TestCase):
             group.permissions.filter(
                 codename='save_translation'
             ).exists()
+        )
+
+
+class ViewTest(TestCase):
+    '''
+    Test for views.
+    '''
+    def test_contact(self):
+        '''
+        Test for contact form.
+        '''
+        # Hack to allow sending of mails
+        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
+        # Basic get
+        response = self.client.get(reverse('contact'))
+        self.assertContains(response, 'id="contact-table"')
+
+        # Sending message
+        response = self.client.post(
+            reverse('contact'),
+            {
+                'name': 'Test',
+                'email': 'noreply@weblate.org',
+                'subject': 'Message from dark side',
+                'message': 'Hi\n\nThis app looks really cool!',
+            }
+        )
+        self.assertRedirects(response, reverse('home'))
+
+        # Verify message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Message from dark side'
         )
