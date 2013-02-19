@@ -36,64 +36,7 @@ from weblate.trans.util import (
 )
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
-
-# Set of ignored words
-IGNORE_WORDS = frozenset([
-    'a',
-    'an',
-    'and',
-    'are',
-    'as',
-    'at',
-    'be',
-    'but',
-    'by',
-    'for',
-    'if',
-    'in',
-    'into',
-    'is',
-    'it',
-    'no',
-    'not',
-    'of',
-    'on',
-    'or',
-    's',
-    'such',
-    't',
-    'that',
-    'the',
-    'their',
-    'then',
-    'there',
-    'these',
-    'they',
-    'this',
-    'to',
-    'was',
-    'will',
-    'with',
-])
-
-# Set of words to ignore in similar lookup
-IGNORE_SIMILAR = frozenset([
-    'also',
-    'class',
-    'href',
-    'http',
-    'me',
-    'most',
-    'net',
-    'per',
-    'span',
-    'their',
-    'theirs',
-    'you',
-    'your',
-    'yours',
-    'www',
-]) | IGNORE_WORDS
+from weblate.trans.data import IGNORE_WORDS, IGNORE_SIMILAR
 
 
 class ProjectManager(models.Manager):
