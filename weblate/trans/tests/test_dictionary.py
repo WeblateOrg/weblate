@@ -42,20 +42,30 @@ class DictionaryTest(ViewTestCase):
     Testing of dictionary manipulations.
     '''
 
+    def get_kwargs(self):
+        return {
+            'lang': 'cs',
+            'project': self.subproject.project.slug,
+        }
+
+    def get_url(self, url):
+        return reverse(url, kwargs=self.get_kwargs())
+
+    def import_tbx(self):
+        with open(TEST_TBX) as handle:
+            return self.client.post(
+                self.get_url('upload_dictionary'),
+                {'file': handle}
+            )
+
     def test_import(self):
         '''
         Test for importing of TBX into glossary.
         '''
-        url_kwargs = {
-            'lang': 'cs',
-            'project': self.subproject.project.slug,
-        }
-        upload_url = reverse('upload_dictionary', kwargs=url_kwargs)
-        show_url = reverse('show_dictionary', kwargs=url_kwargs)
+        show_url = self.get_url('show_dictionary')
 
         # Import file
-        with open(TEST_TBX) as handle:
-            response = self.client.post(upload_url, {'file': handle})
+        response = self.import_tbx()
 
         # Check correct response
         self.assertRedirects(response, show_url)
@@ -71,11 +81,7 @@ class DictionaryTest(ViewTestCase):
         '''
         Test for manually adding words to glossary.
         '''
-        url_kwargs = {
-            'lang': 'cs',
-            'project': self.subproject.project.slug,
-        }
-        show_url = reverse('show_dictionary', kwargs=url_kwargs)
+        show_url = self.get_url('show_dictionary')
 
         # Add word
         response = self.client.post(
@@ -93,3 +99,36 @@ class DictionaryTest(ViewTestCase):
         response = self.client.get(show_url)
         self.assertContains(response, u'překlad')
 
+    def test_download(self):
+        '''
+        Test for downloading files.
+        '''
+        # Import test data
+        self.import_tbx()
+
+        download_url = self.get_url('download_dictionary')
+
+        # CSV download
+        response = self.client.get(download_url + '?format=csv')
+        self.assertContains(
+            response,
+            u'addon,doplněk'
+        )
+
+        # TBX download
+        response = self.client.get(download_url + '?format=tbx')
+        self.assertContains(
+            response,
+            u'<term>website</term>'
+        )
+        self.assertContains(
+            response,
+            u'<term>webové stránky</term>'
+        )
+
+        # PO download
+        response = self.client.get(download_url + '?format=po')
+        self.assertContains(
+            response,
+            u'msgid "wizard"\nmsgstr "průvodce"'
+        )
