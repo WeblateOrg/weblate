@@ -412,9 +412,9 @@ class UnitManager(models.Manager):
                     ret = ret.union(results)
                 cnt -= 1
 
+        project = unit.translation.subproject.project
         return self.filter(
-            translation__subproject__project=
-                unit.translation.subproject.project,
+            translation__subproject__project=project,
             translation__language=unit.translation.language,
             checksum__in=ret
         ).exclude(
@@ -425,10 +425,10 @@ class UnitManager(models.Manager):
         '''
         Units with same source withing same project.
         '''
+        project = unit.translation.subproject.project
         return self.filter(
             checksum=unit.checksum,
-            translation__subproject__project=
-                unit.translation.subproject.project,
+            translation__subproject__project=project,
             translation__language=unit.translation.language
         )
 
