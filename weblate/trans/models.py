@@ -1933,7 +1933,8 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, author, timestamp, force_commit=False, sync=False, skip_push=False):
+    def git_commit(self, author, timestamp, force_commit=False, sync=False,
+                   skip_push=False):
         '''
         Wrapper for commiting translation to git.
 
@@ -2044,7 +2045,10 @@ class Translation(models.Model):
                 author = self.get_author_name(request.user)
                 # Update po file header
                 if hasattr(store, 'updateheader'):
-                    po_revision_date = datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
+                    po_revision_date = (
+                        datetime.now().strftime('%Y-%m-%d %H:%M')
+                        + poheader.tzstring()
+                    )
 
                     # Update genric headers
                     store.updateheader(
@@ -2089,7 +2093,10 @@ class Translation(models.Model):
         # All checks
         sourcechecks = self.unit_set.count_type('sourcechecks', self)
         if sourcechecks > 0:
-            result.append(('sourcechecks', _('Strings with any failing checks (%d)') % sourcechecks))
+            result.append((
+                'sourcechecks',
+                _('Strings with any failing checks (%d)') % sourcechecks
+            ))
 
         # Process specific checks
         for check in CHECKS:
@@ -2103,7 +2110,10 @@ class Translation(models.Model):
         # Grab comments
         sourcecomments = self.unit_set.count_type('sourcecomments', self)
         if sourcecomments > 0:
-            result.append(('sourcecomments', _('Strings with comments (%d)') % sourcecomments))
+            result.append((
+                'sourcecomments',
+                _('Strings with comments (%d)') % sourcecomments
+            ))
 
         return result
 
@@ -2164,7 +2174,8 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, author, store2, overwrite, mergefuzzy=False, merge_header=True):
+    def merge_store(self, author, store2, overwrite, mergefuzzy=False,
+                    merge_header=True):
         '''
         Merges ttkit store into current translation.
         '''
@@ -2216,7 +2227,8 @@ class Translation(models.Model):
 
         return ret
 
-    def merge_upload(self, request, fileobj, overwrite, author=None, mergefuzzy=False, merge_header=True):
+    def merge_upload(self, request, fileobj, overwrite, author=None,
+                     mergefuzzy=False, merge_header=True):
         '''
         Top level handler for file uploads.
         '''
@@ -2482,13 +2494,25 @@ class Unit(models.Model):
             (saved, pounit) = self.translation.update_unit(self, request)
         except FileLockException:
             logger.error('failed to lock backend for %s!', self)
-            messages.error(request, _('Failed to store message in the backend, lock timeout occurred!'))
+            messages.error(
+                request,
+                _(
+                    'Failed to store message in the backend, '
+                    'lock timeout occurred!'
+                )
+            )
             return False
 
         # Handle situation when backend did not find the message
         if pounit is None:
             logger.error('message %s disappeared!', self)
-            messages.error(request, _('Message not found in backend storage, it is probably corrupted.'))
+            messages.error(
+                request,
+                _(
+                    'Message not found in backend storage, '
+                    'it is probably corrupted.'
+                )
+            )
             # Try reloading from backend
             self.translation.update_from_blob(True)
             return False
@@ -2543,7 +2567,9 @@ class Unit(models.Model):
                 request.user
             )
             for subscription in subscriptions:
-                subscription.notify_new_contributor(self.translation, request.user)
+                subscription.notify_new_contributor(
+                    self.translation, request.user
+                )
 
         # Generate Change object for this change
         if gen_change:
@@ -2581,7 +2607,10 @@ class Unit(models.Model):
         '''
         # Warn if request is not coming from backend
         if not 'backend' in kwargs:
-            logger.error('Unit.save called without backend sync: %s', ''.join(traceback.format_stack()))
+            logger.error(
+                'Unit.save called without backend sync: %s',
+                ''.join(traceback.format_stack())
+            )
         else:
             del kwargs['backend']
 
@@ -2718,9 +2747,10 @@ class Unit(models.Model):
 
         if self.fuzzy or not self.translated:
             # Check whether there is any message with same source
+            project = self.translation.subproject.project
             same_source = Unit.objects.filter(
                 translation__language=self.translation.language,
-                translation__subproject__project=self.translation.subproject.project,
+                translation__subproject__project=project,
                 checksum=self.checksum,
                 fuzzy=False,
             ).exclude(
