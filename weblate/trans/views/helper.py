@@ -96,12 +96,18 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
 
 
 def bool2str(val):
+    '''
+    Returns string to use in URL for boolean value.
+    '''
     if val:
         return 'on'
     return ''
 
 
 def parse_search_url(request):
+    '''
+    Parses search URL into easier to process form.
+    '''
     # Check where we are
     rqtype = request.REQUEST.get('type', 'all')
     direction = request.REQUEST.get('dir', 'forward')
