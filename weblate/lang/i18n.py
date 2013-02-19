@@ -82,6 +82,8 @@ def fake():
     _("German")
     _("Greek")
     _("Gujarati")
+
+def fake2():
     _("Gun")
     _("Hausa")
     _("Hebrew")
@@ -129,6 +131,8 @@ def fake():
     _("Persian")
     _("Piemontese")
     _("Polish")
+
+def fake3():
     _("Portuguese")
     _("Portuguese (Brazil)")
     _("Portuguese (Portugal)")
