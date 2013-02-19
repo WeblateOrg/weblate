@@ -150,6 +150,67 @@ def upload_dictionary(request, project, lang):
     ))
 
 
+def download_dictionary_ttkit(export_format, prj, lang, words):
+    '''
+    Translate-toolkit builder for dictionary downloads.
+    '''
+    # Use translate-toolkit for other formats
+    if export_format == 'po':
+        # Construct store
+        from translate.storage.po import pofile
+        store = pofile()
+
+        # Export parameters
+        mimetype = 'text/x-po'
+        extension = 'po'
+        has_lang = False
+
+        # Set po file header
+        site = Site.objects.get_current()
+        store.updateheader(
+            add=True,
+            language=lang.code,
+            x_generator='Weblate %s' % weblate.VERSION,
+            project_id_version='%s (%s)' % (lang.name, prj.name),
+            language_team='%s <http://%s%s>' % (
+                lang.name,
+                site.domain,
+                reverse(
+                    'show_dictionary',
+                    kwargs={'project': prj.slug, 'lang': lang.code}
+                ),
+            )
+        )
+    else:
+        # Construct store
+        from translate.storage.tbx import tbxfile
+        store = tbxfile()
+
+        # Export parameters
+        mimetype = 'application/x-tbx'
+        extension = 'tbx'
+        has_lang = True
+
+    # Setup response and headers
+    response = HttpResponse(mimetype='%s; charset=utf-8' % mimetype)
+    filename = 'glossary-%s-%s.%s' % (prj.slug, lang.code, extension)
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    # Add words
+    for word in words.iterator():
+        unit = store.UnitClass(word.source)
+        if has_lang:
+            unit.settarget(word.target, lang.code)
+        else:
+            unit.target = word.target
+        store.addunit(unit)
+
+    # Save to response
+    store.savefile(response)
+
+    return response
+
+
 def download_dictionary(request, project, lang):
     '''
     Exports dictionary into various formats.
@@ -171,76 +232,23 @@ def download_dictionary(request, project, lang):
         language=lang
     ).order_by('source')
 
-    if export_format == 'csv':
-        # Manually create CSV file
-        response = HttpResponse(mimetype='text/csv; charset=utf-8')
-        filename = 'dictionary-%s-%s.csv' % (prj.slug, lang.code)
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    # Translate toolkit based export
+    if export_format in ('po', 'tbx'):
+        return download_dictionary_ttkit(export_format, prj, lang, words)
 
-        writer = csv.writer(response)
+    # Manually create CSV file
+    response = HttpResponse(mimetype='text/csv; charset=utf-8')
+    filename = 'dictionary-%s-%s.csv' % (prj.slug, lang.code)
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
-        for word in words.iterator():
-            writer.writerow((
-                word.source.encode('utf8'), word.target.encode('utf8')
-            ))
+    writer = csv.writer(response)
 
-        return response
-    elif export_format in ('po', 'tbx'):
-        # Use translate-toolkit for other formats
-        if export_format == 'po':
-            # Construct store
-            from translate.storage.po import pofile
-            store = pofile()
+    for word in words.iterator():
+        writer.writerow((
+            word.source.encode('utf8'), word.target.encode('utf8')
+        ))
 
-            # Export parameters
-            mimetype = 'text/x-po'
-            extension = 'po'
-            has_lang = False
-
-            # Set po file header
-            site = Site.objects.get_current()
-            store.updateheader(
-                add=True,
-                language=lang.code,
-                x_generator='Weblate %s' % weblate.VERSION,
-                project_id_version='%s (%s)' % (lang.name, prj.name),
-                language_team='%s <http://%s%s>' % (
-                    lang.name,
-                    site.domain,
-                    reverse(
-                        'show_dictionary',
-                        kwargs={'project': prj.slug, 'lang': lang.code}
-                    ),
-                )
-            )
-        else:
-            # Construct store
-            from translate.storage.tbx import tbxfile
-            store = tbxfile()
-
-            # Export parameters
-            mimetype = 'application/x-tbx'
-            extension = 'tbx'
-            has_lang = True
-
-        # Setup response and headers
-        response = HttpResponse(mimetype='%s; charset=utf-8' % mimetype)
-        filename = 'glossary-%s-%s.%s' % (prj.slug, lang.code, extension)
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
-        # Add words
-        for word in words.iterator():
-            unit = store.UnitClass(word.source)
-            if has_lang:
-                unit.settarget(word.target, lang.code)
-            else:
-                unit.target = word.target
-            store.addunit(unit)
-
-        # Save to response
-        store.savefile(response)
-
-        return response
+    return response
 
 
 def show_dictionary(request, project, lang):
