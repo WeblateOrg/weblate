@@ -42,7 +42,9 @@ from weblate.trans.forms import (
     AutoForm, ReviewForm,
 )
 from weblate.accounts.models import Profile
-from weblate.trans.views.helper import get_project, get_subproject, get_translation
+from weblate.trans.views.helper import (
+    get_project, get_subproject, get_translation
+)
 import weblate
 
 import datetime

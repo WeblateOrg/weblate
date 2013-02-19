@@ -24,6 +24,7 @@ Helper methods for views.
 from weblate.trans.models import Project, SubProject, Translation
 from django.shortcuts import get_object_or_404
 
+
 def get_translation(request, project, subproject, lang, skip_acl=False):
     '''
     Returns translation matching parameters.
