@@ -158,10 +158,11 @@ class Command(BaseCommand):
         for match in matches:
             name = options['name_template'] % match
             slug = slugify(name)
-            if SubProject.objects.filter(
-                    Q(name=name) | Q(slug=slug),
-                    project=project
-                ).exists():
+            subprojects = SubProject.objects.filter(
+                Q(name=name) | Q(slug=slug),
+                project=project
+            )
+            if subprojects.exists():
                 logger.warn('Subproject %s already exists, skipping', name)
                 continue
 
