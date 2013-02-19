@@ -246,5 +246,5 @@ def js_config(request):
                 'microsoft_langs': microsoft_langs,
             }
         ),
-        mimetype = 'application/javascript'
+        mimetype='application/javascript'
     )
