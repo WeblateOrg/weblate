@@ -349,11 +349,17 @@ def translate(request, project, subproject, lang):
         )
         # Review
         if search_options.direction == 'stay':
-            units = allunits.filter(position=search_options.pos)
+            units = allunits.filter(
+                position=search_options.pos
+            )
         elif search_options.direction == 'back':
-            units = allunits.filter(position__lt=search_options.pos).order_by('-position')
+            units = allunits.filter(
+                position__lt=search_options.pos
+            ).order_by('-position')
         else:
-            units = allunits.filter(position__gt=search_options.pos)
+            units = allunits.filter(
+                position__gt=search_options.pos
+            )
     elif search_options.query != '':
         # Apply search conditions
         if search_options.type == 'exact':
@@ -382,11 +388,17 @@ def translate(request, project, subproject, lang):
                 search_options.target
             )
         if search_options.direction == 'stay':
-            units = obj.unit_set.filter(position=search_options.pos)
+            units = obj.unit_set.filter(
+                position=search_options.pos
+            )
         elif search_options.direction == 'back':
-            units = allunits.filter(position__lt=search_options.pos).order_by('-position')
+            units = allunits.filter(
+                position__lt=search_options.pos
+            ).order_by('-position')
         else:
-            units = allunits.filter(position__gt=search_options.pos)
+            units = allunits.filter(
+                position__gt=search_options.pos
+            )
     elif 'checksum' in request.GET:
         allunits = obj.unit_set.filter(checksum=request.GET['checksum'])
         units = allunits
@@ -394,11 +406,17 @@ def translate(request, project, subproject, lang):
         allunits = obj.unit_set.filter_type(search_options.rqtype, obj)
         # What unit set is about to show
         if search_options.direction == 'stay':
-            units = obj.unit_set.filter(position=search_options.pos)
+            units = obj.unit_set.filter(
+                position=search_options.pos
+            )
         elif search_options.direction == 'back':
-            units = allunits.filter(position__lt=search_options.pos).order_by('-position')
+            units = allunits.filter(
+                position__lt=search_options.pos
+            ).order_by('-position')
         else:
-            units = allunits.filter(position__gt=search_options.pos)
+            units = allunits.filter(
+                position__gt=search_options.pos
+            )
 
 
     # If we failed to get unit above or on no POST
@@ -451,7 +469,9 @@ def translate(request, project, subproject, lang):
             'last_changes': unit.change_set.all()[:10],
             'total': total,
             'type': search_options.rqtype,
-            'filter_name': get_filter_name(search_options.rqtype, search_options.query),
+            'filter_name': get_filter_name(
+                search_options.rqtype, search_options.query
+            ),
             'filter_count': filter_count,
             'filter_pos': filter_count + 1 - units.count(),
             'form': form,
