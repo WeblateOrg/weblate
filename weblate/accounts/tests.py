@@ -24,10 +24,13 @@ Tests for user handling.
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.test.client import RequestFactory
+from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.conf import settings
 from django.core.management import call_command
+from weblate.accounts.models import Profile
 
 
 class RegistrationTest(TestCase):
@@ -127,3 +130,27 @@ class ViewTest(TestCase):
             mail.outbox[0].subject,
             '[Weblate] Message from dark side'
         )
+
+    def test_user(self):
+        '''
+        Test user pages.
+        '''
+        # Setup user
+        user = User.objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+        Profile.objects.get_or_create(user=user)
+
+        # Login as user
+        self.client.login(username='testuser', password='testpassword')
+
+        # Get public profile
+        response = self.client.get(
+            reverse('user_page', kwargs={'user': user.username})
+        )
+        self.assertContains(response, 'src="/activity')
+
+        # Get profile page
+        response = self.client.get(reverse('profile'))
+        self.assertContains(response, 'id="subscriptions"')
