@@ -533,12 +533,12 @@ class ChangeManager(models.Manager):
         base = self.all()
 
         # Filter by translation/project
-        if project is not None:
-            base = base.filter(translation__subproject__project=project)
+        if translation is not None:
+            base = base.filter(translation=translation)
         elif subproject is not None:
             base = base.filter(translation__subproject=subproject)
-        elif translation is not None:
-            base = base.filter(translation=translation)
+        elif project is not None:
+            base = base.filter(translation__subproject__project=project)
 
         # Filter by language
         if language is not None:
