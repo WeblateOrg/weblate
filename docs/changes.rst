@@ -11,6 +11,7 @@ Released on ? 2013.
 * Added support for TBX export of glossary.
 * Added support for Bitbucket notifications.
 * Activity charts are now available for each translation, language or user.
+* Extended options of import_project admin command.
 
 weblate 1.4
 -----------
