@@ -172,8 +172,6 @@ def get_filter_name(rqtype, search_query):
     '''
     if search_query != '':
         return _('Search for "%s"') % search_query
-    if rqtype == 'all':
-        return None
     elif rqtype == 'fuzzy':
         return _('Fuzzy strings')
     elif rqtype == 'untranslated':
