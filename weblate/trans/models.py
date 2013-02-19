@@ -1006,14 +1006,11 @@ class SubProject(models.Model):
         '''
         Iterator over translations in filesystem.
         '''
-        tree = self.git_repo.tree()
-
         # Glob files
         for filename in self.get_mask_matches():
             yield (
                 self.get_lang_code(filename),
                 filename,
-                tree[filename].hexsha
             )
 
     def create_translations(self, force=False, langs=None, request=None):
@@ -1021,7 +1018,7 @@ class SubProject(models.Model):
         Loads translations from git.
         '''
         translations = []
-        for code, path, blob_hash in self.get_translation_blobs():
+        for code, path in self.get_translation_blobs():
             if langs is not None and code not in langs:
                 logger.info('skipping %s', path)
                 continue
