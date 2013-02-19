@@ -19,6 +19,9 @@
 #
 
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Q
+# In Django 1.5, this should come from django.utils.text
+from django.template.defaultfilters import slugify
 from weblate.trans.models import SubProject, Project
 from weblate.trans.util import is_repo_link
 from glob import glob
@@ -137,9 +140,9 @@ class Command(BaseCommand):
 
         # Create remaining subprojects sharing git repository
         for name in names:
-            slug = name
-            if SubProject.objects.filter(project=project, name=name,
-                                         slug=slug).exists():
+            slug = slugify(name)
+            if SubProject.objects.filter(Q(name=name) | Q(slug=slug),
+                                         project=project).exists():
                 logger.warn('Subproject %s already exists, skipping', name)
                 continue
 
@@ -163,12 +166,13 @@ class Command(BaseCommand):
 
         # Create first subproject (this one will get full git repo)
         name = names.pop()
+        slug = slugify(name)
 
-        if SubProject.objects.filter(project=project, name=name).exists():
+        if SubProject.objects.filter(project=project, slug=slug).exists():
             logger.warn('Subproject %s already exists, skipping and using it '
                         'as main subproject', name)
             shutil.rmtree(workdir)
-            return names, 'weblate://%s/%s' % (project.slug, name)
+            return names, 'weblate://%s/%s' % (project.slug, slug)
 
         logger.info('Creating subproject %s as main subproject', name)
 
@@ -180,13 +184,13 @@ class Command(BaseCommand):
 
         SubProject.objects.create(
             name=name,
-            slug=name,
+            slug=slug,
             project=project,
             repo=repo,
             branch=branch,
             filemask=filemask.replace('**', name)
         )
 
-        sharedrepo = 'weblate://%s/%s' % (project.slug, name)
+        sharedrepo = 'weblate://%s/%s' % (project.slug, slug)
 
         return names, sharedrepo
