@@ -92,6 +92,7 @@ class CommandTest(TestCase):
                 codename='save_translation'
             ).exists()
         )
+        call_command('setupgroups', move=True)
 
 
 class ViewTest(TestCase):
