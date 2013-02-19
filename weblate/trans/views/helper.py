@@ -25,7 +25,7 @@ from weblate.trans.models import Project, SubProject, Translation
 from django.shortcuts import get_object_or_404
 
 
-def get_translation(request, project=None, subproject=None, lang=None):
+def get_project_translation(request, project=None, subproject=None, lang=None):
     '''
     Returns project, subproject, translation tuple for given parameters.
     '''

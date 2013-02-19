@@ -23,7 +23,7 @@ Charting library for Weblate.
 
 from weblate.trans.models import Change
 from weblate.lang.models import Language
-from weblate.trans.views.helper import get_translation
+from weblate.trans.views.helper import get_project_translation
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
@@ -136,7 +136,7 @@ def monthly_activity(request, project=None, subproject=None, lang=None):
     '''
 
     # Process parameters
-    project, subproject, translation = get_translation(
+    project, subproject, translation = get_project_translation(
         request,
         project,
         subproject,
@@ -160,7 +160,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
     '''
 
     # Process parameters
-    project, subproject, translation = get_translation(
+    project, subproject, translation = get_project_translation(
         request,
         project,
         subproject,
@@ -252,7 +252,7 @@ def view_activity(request, project=None, subproject=None, lang=None):
     '''
 
     # Process parameters
-    project, subproject, translation = get_translation(
+    project, subproject, translation = get_project_translation(
         request,
         project,
         subproject,
