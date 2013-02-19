@@ -38,26 +38,24 @@ class LanguagesTest(TestCase):
     )
 
     def test_auto_create(self):
-        """
+        '''
         Tests that auto create correctly handles languages
-        """
-        for original, expected, direction in self.TEST_LANGUAGES:
-            self.assertEqual(
-                Language.objects.auto_get_or_create(original).code,
-                expected
-            )
-
-    def test_rtl(self):
-        '''
-        Test for detecting RTL languages.
         '''
         for original, expected, direction in self.TEST_LANGUAGES:
+            # Create language
             lang = Language.objects.auto_get_or_create(original)
+            # Check language code
+            self.assertEqual(lang.code, expected)
+            # Check direction
             self.assertEqual(lang.direction, direction)
+            # Check whether html contains both language code and direction
             self.assertIn(direction, lang.get_html())
             self.assertIn(expected, lang.get_html())
 
     def test_plurals(self):
+        '''
+        Test whether plural form is correctly calculated.
+        '''
         lang = Language.objects.get(code='cs')
         self.assertEqual(
             lang.get_plural_form(),
