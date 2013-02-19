@@ -61,25 +61,25 @@ import_project <project> <gitrepo> <branch> <filemask>
 
 .. django-admin:: import_project
 
-Imports subprojects into project based on filemask.
+Batch imports subprojects into project based on filemask.
 
-The `<project>` defines into which project subprojects should be imported
-(needs to exists).
+`<project>` names an existing project, into which the subprojects should
+be imported.
 
-The `<gitrepo>` defines URL of Git repository to use, `<branch>` which
-branch to use.
-An existing git repository can be used, with a
-`weblate://<project>/<subproject>` URL.
+The `<gitrepo>` defines URL of Git repository to use, and `<branch>` the
+git branch.
+To import additional translation subprojects, from an existing weblate subproject,
+use a `weblate://<project>/<subproject>` URL for the `<gitrepo>`.
 
-List of subprojects to create are automatically obtained from `<filemask>`
-- it has to contains one double wildcard (`**`), which is replacement for
-subproject.
+The repository is searched for directories matching a double wildcard
+(`**`) in the `<filemask>`.
+Each of these is then added as a subproject, named after the matched
+directory.
+Existing subprojects will be skipped.
 
 To customise the subproject's name, use the `--name-template` option.
 Its parameter is a python formatting string, which will expect the
 match from `<filemask>`.
-
-Existing subprojects will be skipped.
 
 For example:
 
