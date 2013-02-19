@@ -77,11 +77,13 @@ class DictionaryTest(ViewTestCase):
         response = self.client.get(show_url)
         self.assertContains(response, u'podpůrná vrstva')
 
-    def test_add(self):
+    def test_edit(self):
         '''
         Test for manually adding words to glossary.
         '''
         show_url = self.get_url('show_dictionary')
+        edit_url = self.get_url('edit_dictionary')
+        delete_url = self.get_url('delete_dictionary')
 
         # Add word
         response = self.client.post(
@@ -92,12 +94,37 @@ class DictionaryTest(ViewTestCase):
         # Check correct response
         self.assertRedirects(response, show_url)
 
-        # Check number of imported objects
+        # Check number of objects
         self.assertEquals(Dictionary.objects.count(), 1)
+
+        dict_id = Dictionary.objects.all()[0].id
+        dict_id_url = '?id=%d' % dict_id
 
         # Check they are shown
         response = self.client.get(show_url)
         self.assertContains(response, u'překlad')
+
+        # Edit page
+        response = self.client.get(edit_url + dict_id_url)
+        self.assertContains(response, u'překlad')
+
+        # Edit translation
+        response = self.client.post(
+            edit_url + dict_id_url,
+            {'source': 'src', 'target': u'přkld'}
+        )
+        self.assertRedirects(response, show_url)
+
+        # Check they are shown
+        response = self.client.get(show_url)
+        self.assertContains(response, u'přkld')
+
+        # Test deleting
+        response = self.client.post(delete_url, {'id': dict_id})
+        self.assertRedirects(response, show_url)
+
+        # Check number of objects
+        self.assertEquals(Dictionary.objects.count(), 0)
 
     def test_download(self):
         '''
