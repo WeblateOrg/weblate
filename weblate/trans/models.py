@@ -71,8 +71,6 @@ from weblate.trans.validators import (
     validate_repo,
 )
 
-from django.dispatch import receiver
-
 logger = logging.getLogger('weblate')
 
 DEFAULT_COMMIT_MESSAGE = (
