@@ -33,3 +33,4 @@ from weblate.trans.tests.test_exports import *
 from weblate.trans.tests.test_hooks import *
 from weblate.trans.tests.test_dictionary import *
 from weblate.trans.tests.test_charts import *
+from weblate.trans.tests.test_check_views import *
