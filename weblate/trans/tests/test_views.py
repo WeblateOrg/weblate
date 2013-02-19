@@ -28,7 +28,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
-from weblate.trans.views.widgets import WIDGETS
 
 
 class ViewTestCase(RepoTestCase):
@@ -45,7 +44,26 @@ class ViewTestCase(RepoTestCase):
         Profile.objects.create(user=self.user)
         # Create project to have some test base
         self.subproject = self.create_subproject()
+        self.project = self.subproject.project
+        # Login
         self.client.login(username='testuser', password='testpassword')
+        # Prepopulate kwargs
+        self.kw_project = {
+            'project': self.project.slug
+        }
+        self.kw_subproject = {
+            'project': self.project.slug,
+            'subproject': self.subproject.slug,
+        }
+        self.kw_translation = {
+            'project': self.project.slug,
+            'subproject': self.subproject.slug,
+            'lang': 'cs',
+        }
+        self.kw_lang_project = {
+            'project': self.project.slug,
+            'lang': 'cs',
+        }
 
     def get_request(self, *args, **kwargs):
         '''
@@ -68,28 +86,19 @@ class BasicViewTest(ViewTestCase):
 
     def test_view_project(self):
         response = self.client.get(
-            reverse('project', kwargs={
-                'project': self.subproject.project.slug
-            })
+            reverse('project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_view_subproject(self):
         response = self.client.get(
-            reverse('subproject', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
+            reverse('subproject', kwargs=self.kw_subproject)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_view_translation(self):
         response = self.client.get(
-            reverse('translation', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-                'lang': 'cs',
-            })
+            reverse('translation', kwargs=self.kw_translation)
         )
         self.assertContains(response, 'Test/Test')
 
@@ -190,78 +199,3 @@ class EditResourceTest(EditTest):
             mask,
             template,
         )
-
-
-class WidgetsTest(ViewTestCase):
-    def test_view_widgets_root(self):
-        response = self.client.get(
-            reverse('widgets_root')
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_widgets(self):
-        response = self.client.get(
-            reverse(
-                'widgets',
-                kwargs={'project': self.subproject.project.slug}
-            )
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_widgets_lang(self):
-        response = self.client.get(
-            reverse(
-                'widgets',
-                kwargs={'project': self.subproject.project.slug}
-            ),
-            lang='cs'
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_engage(self):
-        response = self.client.get(
-            reverse('engage', kwargs={'project': self.subproject.project.slug})
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_engage_lang(self):
-        response = self.client.get(
-            reverse(
-                'engage-lang',
-                kwargs={'project': self.subproject.project.slug, 'lang': 'cs'}
-            )
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_widget_image(self):
-        for widget in WIDGETS:
-            for color in WIDGETS[widget]['colors']:
-                response = self.client.get(
-                    reverse(
-                        'widget-image',
-                        kwargs={
-                            'project': self.subproject.project.slug,
-                            'widget': widget,
-                            'color': color,
-                        }
-                    )
-                )
-                # This is pretty stupid test for PNG image
-                self.assertContains(response, 'PNG')
-
-    def test_view_widget_image_lang(self):
-        for widget in WIDGETS:
-            for color in WIDGETS[widget]['colors']:
-                response = self.client.get(
-                    reverse(
-                        'widget-image-lang',
-                        kwargs={
-                            'project': self.subproject.project.slug,
-                            'widget': widget,
-                            'color': color,
-                            'lang': 'cs',
-                        }
-                    )
-                )
-                # This is pretty stupid test for PNG image
-                self.assertContains(response, 'PNG')
