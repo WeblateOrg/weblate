@@ -153,7 +153,10 @@ def ignore_check(request, check_id):
     return HttpResponse('ok')
 
 
-@any_permission_required('trans.commit_translation', 'trans.update_translation')
+@any_permission_required(
+    'trans.commit_translation',
+    'trans.update_translation'
+)
 def git_status_project(request, project):
     obj = get_object_or_404(Project, slug=project)
     obj.check_acl(request)
@@ -163,7 +166,10 @@ def git_status_project(request, project):
     }))
 
 
-@any_permission_required('trans.commit_translation', 'trans.update_translation')
+@any_permission_required(
+    'trans.commit_translation',
+    'trans.update_translation'
+)
 def git_status_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
     obj.check_acl(request)
@@ -173,7 +179,10 @@ def git_status_subproject(request, project, subproject):
     }))
 
 
-@any_permission_required('trans.commit_translation', 'trans.update_translation')
+@any_permission_required(
+    'trans.commit_translation',
+    'trans.update_translation'
+)
 def git_status_translation(request, project, subproject, lang):
     obj = get_object_or_404(
         Translation,
