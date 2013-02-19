@@ -210,7 +210,7 @@ class SubProjectTest(RepoTestCase):
     def test_link(self):
         project = self.create_iphone()
         second = SubProject.objects.create(
-            name='Test',
+            name='Test2',
             slug='test2',
             project=project.project,
             repo='weblate://test/test',
