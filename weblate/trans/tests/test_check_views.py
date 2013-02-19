@@ -59,6 +59,22 @@ class ChecksViewTest(ViewTestCase):
 
         response = self.client.get(
             reverse(
+                'show_check_project',
+                kwargs={'name': 'ellipsis', 'project': self.project.slug}
+            )
+        )
+        self.assertContains(response, u'…')
+
+        response = self.client.get(
+            reverse(
+                'show_check_project',
+                kwargs={'name': 'non-existing', 'project': self.project.slug}
+            )
+        )
+        self.assertEquals(response.status_code, 404)
+
+        response = self.client.get(
+            reverse(
                 'show_check_subproject',
                 kwargs={
                     'name': 'same',
@@ -68,3 +84,27 @@ class ChecksViewTest(ViewTestCase):
             )
         )
         self.assertContains(response, '/same/')
+
+        response = self.client.get(
+            reverse(
+                'show_check_subproject',
+                kwargs={
+                    'name': 'ellipsis',
+                    'project': self.project.slug,
+                    'subproject': self.subproject.slug,
+                }
+            )
+        )
+        self.assertContains(response, u'…')
+
+        response = self.client.get(
+            reverse(
+                'show_check_subproject',
+                kwargs={
+                    'name': 'non-existing',
+                    'project': self.project.slug,
+                    'subproject': self.subproject.slug,
+                }
+            )
+        )
+        self.assertEquals(response.status_code, 404)
