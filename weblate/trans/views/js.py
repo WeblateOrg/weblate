@@ -23,9 +23,7 @@ from django.views.decorators.cache import cache_page
 from weblate.trans import appsettings
 from django.template import RequestContext
 from django.http import HttpResponse
-from django.contrib.auth.decorators import (
-    login_required, permission_required, user_passes_test
-)
+from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
 from weblate.trans.models import (
@@ -33,6 +31,7 @@ from weblate.trans.models import (
     Dictionary
 )
 from weblate.trans.views.edit import parse_search_url
+from weblate.trans.decorators import any_permission_required
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import logging
@@ -140,7 +139,6 @@ def get_dictionary(request, unit_id):
     }))
 
 
-@login_required
 @permission_required('trans.ignore_check')
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
@@ -155,7 +153,7 @@ def ignore_check(request, check_id):
     return HttpResponse('ok')
 
 
-@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+@any_permission_required('trans.commit_translation', 'trans.update_translation')
 def git_status_project(request, project):
     obj = get_object_or_404(Project, slug=project)
     obj.check_acl(request)
@@ -165,7 +163,7 @@ def git_status_project(request, project):
     }))
 
 
-@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+@any_permission_required('trans.commit_translation', 'trans.update_translation')
 def git_status_subproject(request, project, subproject):
     obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
     obj.check_acl(request)
@@ -175,7 +173,7 @@ def git_status_subproject(request, project, subproject):
     }))
 
 
-@user_passes_test(lambda u: u.has_perm('trans.commit_translation') or u.has_perm('trans.update_translation'))
+@any_permission_required('trans.commit_translation', 'trans.update_translation')
 def git_status_translation(request, project, subproject, lang):
     obj = get_object_or_404(
         Translation,
