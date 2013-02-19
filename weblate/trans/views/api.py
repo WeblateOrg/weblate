@@ -23,10 +23,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import (
     HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 )
-from django.shortcuts import get_object_or_404
 from django.contrib.sites.models import Site
 
-from weblate.trans.models import Project, SubProject
+from weblate.trans.models import SubProject
+from weblate.trans.views.helper import get_project, get_subproject
 
 import json
 import logging
@@ -54,7 +54,7 @@ def update_subproject(request, project, subproject):
     '''
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
+    obj = get_subproject(request, project, subproject, True)
     if appsettings.BACKGROUND_HOOKS:
         thread = threading.Thread(target=obj.do_update)
         thread.start()
@@ -70,7 +70,7 @@ def update_project(request, project):
     '''
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
-    obj = get_object_or_404(Project, slug=project)
+    obj = get_project(request, project, True)
     if appsettings.BACKGROUND_HOOKS:
         thread = threading.Thread(target=obj.do_update)
         thread.start()
@@ -203,11 +203,7 @@ def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
-    subprj = get_object_or_404(
-        SubProject,
-        slug=subproject,
-        project__slug=project
-    )
+    subprj = get_subproject(request, project, subproject)
     response = []
     site = Site.objects.get_current()
     for trans in subprj.translation_set.all():
