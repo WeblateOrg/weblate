@@ -24,8 +24,6 @@ Tests for user handling.
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.test.client import RequestFactory
-from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.conf import settings
