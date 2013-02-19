@@ -318,7 +318,7 @@ class LetterForm(forms.Form):
     '''
     Form for choosing starting letter in a glossary.
     '''
-    LETTER_CHOICES =  [(chr(97 + x), chr(65 + x)) for x in range(26)]
+    LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
     letter = forms.ChoiceField(
         label=_('Starting letter'),
         choices=[('', _('Any'))] + LETTER_CHOICES,
