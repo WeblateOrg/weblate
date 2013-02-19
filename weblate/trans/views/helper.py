@@ -24,6 +24,45 @@ Helper methods for views.
 from weblate.trans.models import Project, SubProject, Translation
 from django.shortcuts import get_object_or_404
 
+def get_translation(request, project, subproject, lang):
+    '''
+    Returns translation matching parameters.
+    '''
+    translation = get_object_or_404(
+        Translation,
+        language__code=lang,
+        subproject__slug=subproject,
+        subproject__project__slug=project,
+        enabled=True
+    )
+    translation.check_acl(request)
+    return translation
+
+
+def get_subproject(request, project, subproject):
+    '''
+    Returns subproject matching parameters.
+    '''
+    subproject = get_object_or_404(
+        SubProject,
+        project__slug=project,
+        slug=subproject
+    )
+    subproject.check_acl(request)
+    return subproject
+
+
+def get_project(request, project):
+    '''
+    Returns project matching parameters.
+    '''
+    project = get_object_or_404(
+        Project,
+        slug=project,
+    )
+    project.check_acl(request)
+    return project
+
 
 def get_project_translation(request, project=None, subproject=None, lang=None):
     '''
@@ -32,31 +71,18 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
 
     if lang is not None:
         # Language defined? We can get all
-        translation = get_object_or_404(
-            Translation,
-            language__code=lang,
-            subproject__slug=subproject,
-            subproject__project__slug=project,
-            enabled=True
-        )
-        translation.check_acl(request)
+        translation = get_translation(request, project, subproject, lang)
         subproject = translation.subproject
         project = subproject.project
     else:
         translation = None
         if subproject is not None:
             # Subproject defined?
-            subproject = get_object_or_404(
-                SubProject,
-                project__slug=project,
-                slug=subproject
-            )
-            subproject.check_acl(request)
+            subproject = get_subproject(request, project, subproject)
             project = subproject.project
         elif project is not None:
             # Only project defined?
-            project = get_object_or_404(Project, slug=project)
-            project.check_acl(request)
+            project = get_project(request, project)
 
     # Return tuple
     return project, subproject, translation
