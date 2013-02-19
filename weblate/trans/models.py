@@ -1238,7 +1238,7 @@ class SubProject(models.Model):
         Returns true if subproject is using template for translation
         '''
         return (
-            self.get_file_format().monolingual != False
+            not self.get_file_format().monolingual
             and self.template != ''
             and not self.template is None
         )
