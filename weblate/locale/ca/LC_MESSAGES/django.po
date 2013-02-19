@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-02-19 16:47+0100\n"
-"PO-Revision-Date: 2013-02-17 10:26+0200\n"
+"PO-Revision-Date: 2013-02-19 18:17+0200\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Catalan <http://l10n.cihar.com/projects/weblate/master/ca/>\n"
 "Language: ca\n"
@@ -191,6 +191,8 @@ msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
 msgstr ""
+"El servidor va tenir un problema seriós en respondre a la vostra "
+"sol·licitud. Hem enviat micos entrenats per resoldre el problema."
 
 #: html/about.html:6
 msgid "about"
@@ -201,7 +203,6 @@ msgid "About Weblate"
 msgstr "Quant al Weblate"
 
 #: html/about.html:13
-#, fuzzy
 #| msgid ""
 #| "Weblate is a web based translation tool with tight Git integration. It "
 #| "features simple and clean user interface, propagation of translations "
@@ -214,8 +215,8 @@ msgid ""
 msgstr ""
 "El Weblate és una eina de traducció web amb integració amb el Git. Les seves "
 "funcionalitats són una interfície clara i simple, propagació de traduccions "
-"entre subprojectes, comprovació de consistències i enllaç automàtic als "
-"fitxers font."
+"entre subprojectes, comprovació de qualitat i vinculació automàtica amb els "
+"fitxers originals."
 
 #: html/about.html:15 html/contact.html:15
 #, python-format
@@ -223,11 +224,15 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
+"Si esteu buscant assistència per Weblate o voleu informar d’un error, "
+"visiteu el seu lloc web en <a href=\"%(weblate_url)s\">weblate.org</a>."
 
 #: html/about.html:20
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
+"Aquesta instal·lació de Weblate alberga les traduccions per a diversos "
+"projectes de programari lliure."
 
 #: html/about.html:21 html/index.html:54
 #, python-format
@@ -235,6 +240,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
+"Podem albergar el vostre projecte també, si esteu interessat, <a href=\"%"
+"(contact_url)s?subject=Project hosting\">feu contacte</a>."
 
 #: html/about.html:25
 msgid ""
@@ -286,11 +293,11 @@ msgstr "Traduccions fetes"
 
 #: html/about.html:72
 msgid "Failing checks found"
-msgstr ""
+msgstr "S’han trobat comprovacions fallides"
 
 #: html/about.html:76
 msgid "Ignored checks"
-msgstr ""
+msgstr "Comprovacions ignorades"
 
 #: html/base.html:43
 #, python-format
@@ -321,6 +328,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
+"Hi ha més informació sobre aquesta comprovació disponible en la <a href=\"%"
+"(link)s\">documentació</a>."
 
 #: html/check.html:26 html/check_project.html:26 html/data.html:28
 #: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
@@ -335,7 +344,7 @@ msgstr "Errades"
 
 #: html/check.html:40 html/check_project.html:40 html/check_subproject.html:47
 msgid "There are no matching failed checks!"
-msgstr ""
+msgstr "No hi ha comprovacions fallides que coincideixin."
 
 #: html/check_subproject.html:27 html/dictionary.html:33
 #: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
@@ -357,14 +366,13 @@ msgid "Check"
 msgstr "Comprova"
 
 #: html/contact.html:6
-#, fuzzy
 #| msgid "Contact"
 msgid "contact"
-msgstr "Contacte"
+msgstr "contacte"
 
 #: html/contact.html:11
 msgid "You can contact maintainers of this server here."
-msgstr ""
+msgstr "Podeu contactar als mantenedores d’aquest servidor aquí."
 
 #: html/contact.html:13
 msgid ""
@@ -387,6 +395,8 @@ msgstr "Exportació de les dades"
 #: html/data-root.html:14 html/data.html:15
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
+"Podeu recuperar dades diverses de Weblate en un format llegible per "
+"màquines."
 
 #: html/data-root.html:17 html/data.html:18
 msgid "RSS feeds"
@@ -397,6 +407,8 @@ msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
+"Per seguir el progrés de la traducció, podeu usar canals RSS que inclouen "
+"tots els canvis importants en la traducció."
 
 #: html/data-root.html:21 html/data.html:22
 #, python-format
@@ -404,6 +416,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
+"Hi ha més informació sobre els canals RSS exportats en <a href=\"%"
+"(rss_docs)s\">la documentació</a>."
 
 #: html/data-root.html:27 html/data.html:29 html/data.html.py:60
 msgid "URL"
@@ -419,13 +433,15 @@ msgstr "RSS"
 
 #: html/data-root.html:38
 msgid "Per project data"
-msgstr ""
+msgstr "Per dada de projecte"
 
 #: html/data-root.html:41
 msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
+"Hi ha més dades exportades per projecte, consulteu els següents enllaços per "
+"a més informació."
 
 #: html/data.html:48
 msgid ""
@@ -521,6 +537,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
+"Podeu pujar qualsevol format acceptat per Translate Toolkit (incloent TBX, "
+"CSV o fitxers Gettext PO)."
 
 #: html/dictionary.html:106
 msgid "Import"
@@ -540,7 +558,7 @@ msgstr "Gettext (PO)"
 
 #: html/dictionary.html:119
 msgid "TermBase eXchange (TBX)"
-msgstr ""
+msgstr "TermBase eXchange (TBX)"
 
 #: html/edit_dictionary.html:7
 msgid "dictionaries"
@@ -557,7 +575,7 @@ msgstr "Desa"
 #: html/engage.html:11 html/engage.html.py:25
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "Involucri’s en  %(project)s!"
 
 #: html/engage.html:12
 #, python-format
