@@ -104,66 +104,56 @@ def bool2str(val):
     return ''
 
 
-def parse_search_url(request):
+class SearchOptions(object):
     '''
-    Parses search URL into easier to process form.
+    Wrapper to search options supplied by user.
     '''
-    # Check where we are
-    rqtype = request.REQUEST.get('type', 'all')
-    direction = request.REQUEST.get('dir', 'forward')
-    pos = request.REQUEST.get('pos', '-1')
-    try:
-        pos = int(pos)
-    except:
-        pos = -1
+    def __init__(self, request):
+        # Check where we are
+        self.rqtype = request.REQUEST.get('type', 'all')
+        self.direction = request.REQUEST.get('dir', 'forward')
+        pos = request.REQUEST.get('pos', '-1')
+        try:
+            self.pos = int(pos)
+        except:
+            self.pos = -1
 
-    # Pre-process search form
-    if request.method == 'POST':
-        search_form = SearchForm(request.POST)
-    else:
-        search_form = SearchForm(request.GET)
-    if search_form.is_valid():
-        search_query = search_form.cleaned_data['q']
-        search_type = search_form.cleaned_data['search']
-        if search_type == '':
-            search_type = 'ftx'
-        search_source = search_form.cleaned_data['src']
-        search_target = search_form.cleaned_data['tgt']
-        search_context = search_form.cleaned_data['ctx']
-        # Sane defaults
-        if not search_context and not search_source and not search_target:
-            search_source = True
-            search_target = True
+        # Pre-process search form
+        if request.method == 'POST':
+            search_form = SearchForm(request.POST)
+        else:
+            search_form = SearchForm(request.GET)
 
-        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&search=%s' % (
-            search_query,
-            bool2str(search_source),
-            bool2str(search_target),
-            bool2str(search_context),
-            search_type,
-        )
-    else:
-        search_query = ''
-        search_type = 'ftx'
-        search_source = True
-        search_target = True
-        search_context = False
-        search_url = ''
+        if search_form.is_valid():
+            self.query = search_form.cleaned_data['q']
+            self.type = search_form.cleaned_data['search']
+            if self.type == '':
+                self.type = 'ftx'
+            self.source = search_form.cleaned_data['src']
+            self.target = search_form.cleaned_data['tgt']
+            self.context = search_form.cleaned_data['ctx']
+            # Sane defaults
+            if not self.context and not self.source and not self.target:
+                self.source = True
+                self.target = True
 
-    if 'date' in request.REQUEST:
-        search_url += '&date=%s' % request.REQUEST['date']
+            self.url = '&q=%s&src=%s&tgt=%s&ctx=%s&search=%s' % (
+                self.query,
+                bool2str(self.source),
+                bool2str(self.target),
+                bool2str(self.context),
+                self.type,
+            )
+        else:
+            self.query = ''
+            self.type = 'ftx'
+            self.source = True
+            self.target = True
+            self.context = False
+            self.url = ''
 
-    return (
-        rqtype,
-        direction,
-        pos,
-        search_query,
-        search_type,
-        search_source,
-        search_target,
-        search_context,
-        search_url
-    )
+        if 'date' in request.REQUEST:
+            self.url += '&date=%s' % request.REQUEST['date']
 
 
 def get_filter_name(rqtype, search_query):

@@ -35,7 +35,7 @@ from weblate.trans.forms import (
     AntispamForm, CommentForm
 )
 from weblate.trans.views.helper import (
-    get_translation, parse_search_url, bool2str, get_filter_name
+    get_translation, SearchOptions, bool2str, get_filter_name
 )
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile, send_notification_email
@@ -70,7 +70,7 @@ def translate(request, project, subproject, lang):
     secondary = None
     unit = None
 
-    rqtype, direction, pos, search_query, search_type, search_source, search_target, search_context, search_url = parse_search_url(request)
+    search_options = SearchOptions(request)
 
     # Any form submitted?
     if request.method == 'POST':
@@ -82,9 +82,9 @@ def translate(request, project, subproject, lang):
                 # Silently redirect to next entry
                 return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
                     obj.get_translate_url(),
-                    rqtype,
-                    pos,
-                    search_url
+                    search_options.rqtype,
+                    search_options.pos,
+                    search_options.url
                 ))
 
         form = TranslationForm(request.POST)
@@ -115,9 +115,9 @@ def translate(request, project, subproject, lang):
                         return HttpResponseRedirect(
                             '%s?type=%s&pos=%d&dir=stay%s' % (
                                 obj.get_translate_url(),
-                                rqtype,
-                                pos,
-                                search_url
+                                search_options.rqtype,
+                                search_options.pos,
+                                search_options.url
                             )
                         )
                     # Create the suggestion
@@ -197,18 +197,18 @@ def translate(request, project, subproject, lang):
                             return HttpResponseRedirect(
                                 '%s?type=%s&pos=%d&dir=stay%s' % (
                                     obj.get_translate_url(),
-                                    rqtype,
-                                    pos,
-                                    search_url
+                                    search_options.rqtype,
+                                    search_options.pos,
+                                    search_options.url
                                 )
                             )
 
                 # Redirect to next entry
                 return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
                     obj.get_translate_url(),
-                    rqtype,
-                    pos,
-                    search_url
+                    search_options.rqtype,
+                    search_options.pos,
+                    search_options.url
                 ))
             except Unit.DoesNotExist:
                 logger.error(
@@ -266,9 +266,9 @@ def translate(request, project, subproject, lang):
                         # Redirect to next entry
                         return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
                             obj.get_translate_url(),
-                            rqtype,
-                            pos,
-                            search_url
+                            search_options.rqtype,
+                            search_options.pos,
+                            search_options.url
                         ))
             except Unit.DoesNotExist:
                 logger.error(
@@ -287,9 +287,9 @@ def translate(request, project, subproject, lang):
             messages.error(request, _('You need to log in to be able to manage suggestions!'))
             return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                 obj.get_translate_url(),
-                rqtype,
-                pos,
-                search_url
+                search_options.rqtype,
+                search_options.pos,
+                search_options.url
             ))
 
         # Parse suggestion ID
@@ -298,9 +298,9 @@ def translate(request, project, subproject, lang):
                 messages.error(request, _('You do not have privilege to accept suggestions!'))
                 return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                     obj.get_translate_url(),
-                    rqtype,
-                    pos,
-                    search_url
+                    search_options.rqtype,
+                    search_options.pos,
+                    search_options.url
                 ))
             sugid = request.GET['accept']
         else:
@@ -308,9 +308,9 @@ def translate(request, project, subproject, lang):
                 messages.error(request, _('You do not have privilege to delete suggestions!'))
                 return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
                     obj.get_translate_url(),
-                    rqtype,
-                    pos,
-                    search_url
+                    search_options.rqtype,
+                    search_options.pos,
+                    search_options.url
                 ))
             sugid = request.GET['delete']
         try:
@@ -335,9 +335,9 @@ def translate(request, project, subproject, lang):
         # Redirect to same entry for possible editing
         return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
             obj.get_translate_url(),
-            rqtype,
-            pos,
-            search_url
+            search_options.rqtype,
+            search_options.pos,
+            search_options.url
         ))
 
     reviewform = ReviewForm(request.GET)
@@ -348,57 +348,57 @@ def translate(request, project, subproject, lang):
             request.user
         )
         # Review
-        if direction == 'stay':
-            units = allunits.filter(position=pos)
-        elif direction == 'back':
-            units = allunits.filter(position__lt=pos).order_by('-position')
+        if search_options.direction == 'stay':
+            units = allunits.filter(position=search_options.pos)
+        elif search_options.direction == 'back':
+            units = allunits.filter(position__lt=search_options.pos).order_by('-position')
         else:
-            units = allunits.filter(position__gt=pos)
-    elif search_query != '':
+            units = allunits.filter(position__gt=search_options.pos)
+    elif search_options.query != '':
         # Apply search conditions
-        if search_type == 'exact':
+        if search_options.type == 'exact':
             query = Q()
-            if search_source:
-                query |= Q(source=search_query)
-            if search_target:
-                query |= Q(target=search_query)
-            if search_context:
-                query |= Q(context=search_query)
+            if search_options.source:
+                query |= Q(source=search_options.query)
+            if search_options.target:
+                query |= Q(target=search_options.query)
+            if search_options.context:
+                query |= Q(context=search_options.query)
             allunits = obj.unit_set.filter(query)
-        elif search_type == 'substring':
+        elif search_options.type == 'substring':
             query = Q()
-            if search_source:
-                query |= Q(source__icontains=search_query)
-            if search_target:
-                query |= Q(target__icontains=search_query)
-            if search_context:
-                query |= Q(context__icontains=search_query)
+            if search_options.source:
+                query |= Q(source__icontains=search_options.query)
+            if search_options.target:
+                query |= Q(target__icontains=search_options.query)
+            if search_options.context:
+                query |= Q(context__icontains=search_options.query)
             allunits = obj.unit_set.filter(query)
         else:
             allunits = obj.unit_set.search(
-                search_query,
-                search_source,
-                search_context,
-                search_target
+                search_options.query,
+                search_options.source,
+                search_options.context,
+                search_options.target
             )
-        if direction == 'stay':
-            units = obj.unit_set.filter(position=pos)
-        elif direction == 'back':
-            units = allunits.filter(position__lt=pos).order_by('-position')
+        if search_options.direction == 'stay':
+            units = obj.unit_set.filter(position=search_options.pos)
+        elif search_options.direction == 'back':
+            units = allunits.filter(position__lt=search_options.pos).order_by('-position')
         else:
-            units = allunits.filter(position__gt=pos)
+            units = allunits.filter(position__gt=search_options.pos)
     elif 'checksum' in request.GET:
         allunits = obj.unit_set.filter(checksum=request.GET['checksum'])
         units = allunits
     else:
-        allunits = obj.unit_set.filter_type(rqtype, obj)
+        allunits = obj.unit_set.filter_type(search_options.rqtype, obj)
         # What unit set is about to show
-        if direction == 'stay':
-            units = obj.unit_set.filter(position=pos)
-        elif direction == 'back':
-            units = allunits.filter(position__lt=pos).order_by('-position')
+        if search_options.direction == 'stay':
+            units = obj.unit_set.filter(position=search_options.pos)
+        elif search_options.direction == 'back':
+            units = allunits.filter(position__lt=search_options.pos).order_by('-position')
         else:
-            units = allunits.filter(position__gt=pos)
+            units = allunits.filter(position__gt=search_options.pos)
 
 
     # If we failed to get unit above or on no POST
@@ -450,8 +450,8 @@ def translate(request, project, subproject, lang):
             'unit': unit,
             'last_changes': unit.change_set.all()[:10],
             'total': total,
-            'type': rqtype,
-            'filter_name': get_filter_name(rqtype, search_query),
+            'type': search_options.rqtype,
+            'filter_name': get_filter_name(search_options.rqtype, search_options.query),
             'filter_count': filter_count,
             'filter_pos': filter_count + 1 - units.count(),
             'form': form,
@@ -460,12 +460,12 @@ def translate(request, project, subproject, lang):
             'target_language': obj.language.code.replace('_', '-').lower(),
             'update_lock': own_lock,
             'secondary': secondary,
-            'search_query': search_query,
-            'search_url': search_url,
-            'search_source': bool2str(search_source),
-            'search_type': search_type,
-            'search_target': bool2str(search_target),
-            'search_context': bool2str(search_context),
+            'search_query': search_options.query,
+            'search_url': search_options.url,
+            'search_source': bool2str(search_options.source),
+            'search_type': search_options.type,
+            'search_target': bool2str(search_options.target),
+            'search_context': bool2str(search_options.context),
             'locked': locked,
             'user_locked': user_locked,
             'project_locked': project_locked,

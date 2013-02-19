@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
 from weblate.trans.models import Unit, Check, Dictionary
-from weblate.trans.views.helper import parse_search_url
+from weblate.trans.views.helper import SearchOptions
 from weblate.trans.decorators import any_permission_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
@@ -88,13 +88,13 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
-    rqtype, direction, pos, search_query, search_type, search_source, search_target, search_context, search_url = parse_search_url(request)
+    search_options = SearchOptions(request)
 
     return render_to_response('js/other.html', RequestContext(request, {
         'other': other,
         'unit': unit,
-        'type': rqtype,
-        'search_url': search_url,
+        'type': search_options.rqtype,
+        'search_url': search_options.url,
     }))
 
 
