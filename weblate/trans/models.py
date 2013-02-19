@@ -90,8 +90,8 @@ MERGE_CHOICES = (
 
 
 class Project(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(db_index=True)
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(db_index=True, unique=True)
     web = models.URLField(
         help_text=ugettext_lazy('Project website'),
     )
@@ -505,6 +505,10 @@ class SubProject(models.Model):
 
     class Meta:
         ordering = ['project__name', 'name']
+        unique_together = (
+            ('project', 'name'),
+            ('project', 'slug'),
+        )
         permissions = (
             ('lock_subproject', "Can lock translation for translating"),
         )

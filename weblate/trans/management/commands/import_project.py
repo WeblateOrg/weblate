@@ -19,13 +19,19 @@
 #
 
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Q
+# In Django 1.5, this should come from django.utils.text
+from django.template.defaultfilters import slugify
 from weblate.trans.models import SubProject, Project
+from weblate.trans.util import is_repo_link
 from glob import glob
+from optparse import make_option
 import tempfile
 import git
 import logging
 import os
 import re
+import shutil
 import fnmatch
 
 logger = logging.getLogger('weblate')
@@ -34,6 +40,12 @@ logger = logging.getLogger('weblate')
 class Command(BaseCommand):
     help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
+    option_list = BaseCommand.option_list + (
+        make_option('--name-template',
+                    default='%s',
+                    help='Python formatting string, transforming the filemask '
+                         'match to a project name'),
+    )
 
     def get_name(self, maskre, path):
         matches = maskre.match(path)
@@ -69,12 +81,28 @@ class Command(BaseCommand):
 
         return workdir
 
-    def get_matching_files(self, workdir, filemask):
+    def get_matching_files(self, repo, filemask):
         '''
         Returns relative path of matched files.
         '''
-        matches = glob(os.path.join(workdir, filemask))
-        return [f.replace(workdir, '').strip('/') for f in matches]
+        matches = glob(os.path.join(repo, filemask))
+        return [f.replace(repo, '').strip('/') for f in matches]
+
+    def get_matching_subprojects(self, repo, filemask):
+        '''
+        Scan the master repository for names matching our mask
+        '''
+        # Find matching files
+        matches = self.get_matching_files(repo, filemask)
+        logger.info('Found %d matching files', len(matches))
+
+        # Parse subproject names out of them
+        names = set()
+        maskre = self.get_match_regexp(filemask)
+        for match in matches:
+            names.add(self.get_name(maskre, match))
+        logger.info('Found %d subprojects', len(names))
+        return names
 
     def handle(self, *args, **options):
         '''
@@ -85,8 +113,6 @@ class Command(BaseCommand):
 
         # Read params
         prjname, repo, branch, filemask = args
-
-        maskre = self.get_match_regexp(filemask)
 
         # Try to get project
         try:
@@ -104,21 +130,59 @@ class Command(BaseCommand):
                 'for subproject part of the match!'
             )
 
+        if is_repo_link(repo):
+            sharedrepo = repo
+            master_sub_project = repo.rsplit('/', 1)[-1]
+            try:
+                sub_project = SubProject.objects.get(project=project,
+                                                     slug=master_sub_project)
+            except SubProject.DoesNotExist:
+                raise CommandError('SubProject %s does not exist, '
+                                   'you need to create it first!' % repo)
+            matches = self.get_matching_subprojects(sub_project.get_path(),
+                                                    filemask)
+        else:
+            matches, sharedrepo = self.import_initial(
+                    project, repo, branch, filemask, options['name_template'])
+
+        # Create remaining subprojects sharing git repository
+        for match in matches:
+            name = options['name_template'] % match
+            slug = slugify(name)
+            if SubProject.objects.filter(Q(name=name) | Q(slug=slug),
+                                         project=project).exists():
+                logger.warn('Subproject %s already exists, skipping', name)
+                continue
+
+            logger.info('Creating subproject %s', name)
+            SubProject.objects.create(
+                name=name,
+                slug=slug,
+                project=project,
+                repo=sharedrepo,
+                branch=branch,
+                filemask=filemask.replace('**', match)
+            )
+
+    def import_initial(self, project, repo, branch, filemask, name_template):
+        '''
+        Import the first repository of a project
+        '''
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
-
-        # Find matching files
-        matches = self.get_matching_files(workdir, filemask)
-        logger.info('Found %d matching files', len(matches))
-
-        # Parse subproject names out of them
-        names = set()
-        for match in matches:
-            names.add(self.get_name(maskre, match))
-        logger.info('Found %d subprojects', len(names))
+        matches = self.get_matching_subprojects(workdir, filemask)
 
         # Create first subproject (this one will get full git repo)
-        name = names.pop()
+        match = matches.pop()
+        name = name_template % match
+        slug = slugify(name)
+
+        if SubProject.objects.filter(project=project, slug=slug).exists():
+            logger.warn('Subproject %s already exists, skipping and using it '
+                        'as main subproject', name)
+            shutil.rmtree(workdir)
+            return matches, 'weblate://%s/%s' % (project.slug, slug)
+
         logger.info('Creating subproject %s as main subproject', name)
 
         # Rename gitrepository to new name
@@ -129,23 +193,13 @@ class Command(BaseCommand):
 
         SubProject.objects.create(
             name=name,
-            slug=name,
+            slug=slug,
             project=project,
             repo=repo,
             branch=branch,
-            filemask=filemask.replace('**', name)
+            filemask=filemask.replace('**', match)
         )
 
-        sharedrepo = 'weblate://%s/%s' % (project.slug, name)
+        sharedrepo = 'weblate://%s/%s' % (project.slug, slug)
 
-        # Create remaining subprojects sharing git repository
-        for name in names:
-            logger.info('Creating subproject %s', name)
-            SubProject.objects.create(
-                name=name,
-                slug=name,
-                project=project,
-                repo=sharedrepo,
-                branch=branch,
-                filemask=filemask.replace('**', name)
-            )
+        return matches, sharedrepo

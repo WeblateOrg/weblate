@@ -73,6 +73,11 @@ class RepoTestCase(TestCase):
         # Create repository copy for the test
         shutil.copytree(self.base_repo_path, self.repo_path)
 
+        # Remove possibly existing project directory
+        test_repo_path = os.path.join(settings.GIT_ROOT, 'test')
+        if os.path.exists(test_repo_path):
+            shutil.rmtree(test_repo_path)
+
     def create_project(self):
         '''
         Creates test project.
