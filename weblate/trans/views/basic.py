@@ -32,8 +32,9 @@ from django.utils.safestring import mark_safe
 
 from weblate.trans.models import (
     Project, SubProject, Translation, Unit, Check,
-    Dictionary, Change, get_versions
+    Dictionary, Change,
 )
+from weblate.trans.requirements import get_versions
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import (

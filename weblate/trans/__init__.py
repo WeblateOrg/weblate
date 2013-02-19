@@ -19,6 +19,7 @@
 #
 
 from south.signals import post_migrate
+from django.db.models.signals import post_syncdb
 from django.dispatch import receiver
 
 
@@ -32,3 +33,25 @@ def create_permissions_compat(app, **kwargs):
     from django.db.models import get_app
     from django.contrib.auth.management import create_permissions
     create_permissions(get_app(app), (), 0)
+
+
+@receiver(post_syncdb)
+@receiver(post_migrate)
+def check_versions(sender, app, **kwargs):
+    '''
+    Check required versions.
+    '''
+    appname = 'weblate.trans.models'
+    if app == 'trans' or getattr(app, '__name__', '') == appname:
+        from weblate.trans.requirements import get_versions, check_version
+        versions = get_versions()
+        failure = False
+
+        for version in versions:
+            failure |= check_version(*version)
+
+        if failure:
+            raise Exception(
+                'Some of required modules are missing or too old! '
+                'Check above output for details.'
+            )
