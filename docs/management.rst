@@ -68,10 +68,18 @@ The `<project>` defines into which project subprojects should be imported
 
 The `<gitrepo>` defines URL of Git repository to use, `<branch>` which
 branch to use.
+An existing git repository can be used, with a
+`weblate://<project>/<subproject>` URL.
 
 List of subprojects to create are automatically obtained from `<filemask>`
 - it has to contains one double wildcard (`**`), which is replacement for
 subproject.
+
+To customise the subproject's name, use the `--name-template` option.
+Its parameter is a python formatting string, which will expect the
+match from `<filemask>`.
+
+Existing subprojects will be skipped.
 
 For example:
 
