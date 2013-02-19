@@ -129,7 +129,7 @@ def render_activity(activity):
     return HttpResponse(content_type='image/png', content=out.getvalue())
 
 
-def get_translation(project=None, subproject=None, lang=None):
+def get_translation(request, project=None, subproject=None, lang=None):
     '''
     Returns project, subproject, translation tuple for given parameters.
     '''
@@ -143,6 +143,7 @@ def get_translation(project=None, subproject=None, lang=None):
             subproject__project__slug=project,
             enabled=True
         )
+        translation.check_acl(request)
         subproject = translation.subproject
         project = subproject.project
     else:
@@ -154,10 +155,12 @@ def get_translation(project=None, subproject=None, lang=None):
                 project__slug=project,
                 slug=subproject
             )
+            subproject.check_acl(request)
             project = subproject.project
         elif project is not None:
             # Only project defined?
             project = get_object_or_404(Project, slug=project)
+            project.check_acl(request)
 
     # Return tuple
     return project, subproject, translation
@@ -170,6 +173,7 @@ def monthly_activity(request, project=None, subproject=None, lang=None):
 
     # Process parameters
     project, subproject, translation = get_translation(
+        request,
         project,
         subproject,
         lang
@@ -193,6 +197,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None):
 
     # Process parameters
     project, subproject, translation = get_translation(
+        request,
         project,
         subproject,
         lang
@@ -284,6 +289,7 @@ def view_activity(request, project=None, subproject=None, lang=None):
 
     # Process parameters
     project, subproject, translation = get_translation(
+        request,
         project,
         subproject,
         lang
