@@ -28,7 +28,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
-from weblate.trans.widgets import WIDGETS
+from weblate.trans.views.widgets import WIDGETS
 
 
 class ViewTestCase(RepoTestCase):
