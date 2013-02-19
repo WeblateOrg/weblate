@@ -29,14 +29,13 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
 from weblate.trans.models import SubProject, Unit, Suggestion, Change, Comment
-from weblate.trans.checks import CHECKS
 from weblate.trans.forms import (
     TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm,
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm
 )
 from weblate.trans.views.helper import (
-    get_translation, parse_search_url, bool2str
+    get_translation, parse_search_url, bool2str, get_filter_name
 )
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile, send_notification_email
@@ -52,28 +51,6 @@ class FixedFileWrapper(FileWrapper):
     def __iter__(self):
         self.filelike.seek(0)
         return self
-
-
-def get_filter_name(rqtype, search_query):
-    '''
-    Returns name of current filter.
-    '''
-    if search_query != '':
-        return _('Search for "%s"') % search_query
-    if rqtype == 'all':
-        return None
-    elif rqtype == 'fuzzy':
-        return _('Fuzzy strings')
-    elif rqtype == 'untranslated':
-        return _('Untranslated strings')
-    elif rqtype == 'suggestions':
-        return _('Strings with suggestions')
-    elif rqtype == 'allchecks':
-        return _('Strings with any failing checks')
-    elif rqtype in CHECKS:
-        return CHECKS[rqtype].name
-    else:
-        return None
 
 
 def translate(request, project, subproject, lang):

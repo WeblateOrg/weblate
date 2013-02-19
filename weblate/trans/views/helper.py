@@ -23,6 +23,8 @@ Helper methods for views.
 
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.trans.forms import SearchForm
+from weblate.trans.checks import CHECKS
+from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 
 
@@ -156,3 +158,25 @@ def parse_search_url(request):
         search_context,
         search_url
     )
+
+
+def get_filter_name(rqtype, search_query):
+    '''
+    Returns name of current filter.
+    '''
+    if search_query != '':
+        return _('Search for "%s"') % search_query
+    if rqtype == 'all':
+        return None
+    elif rqtype == 'fuzzy':
+        return _('Fuzzy strings')
+    elif rqtype == 'untranslated':
+        return _('Untranslated strings')
+    elif rqtype == 'suggestions':
+        return _('Strings with suggestions')
+    elif rqtype == 'allchecks':
+        return _('Strings with any failing checks')
+    elif rqtype in CHECKS:
+        return CHECKS[rqtype].name
+    else:
+        return None
