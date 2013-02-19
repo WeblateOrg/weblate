@@ -90,7 +90,10 @@ class ChartsTest(ViewTestCase):
         self.assertContains(response, 'PNG')
 
         response = self.client.get(
-            reverse('monthly_user_activity', kwargs={'user': self.user.username})
+            reverse(
+                'monthly_user_activity',
+                kwargs={'user': self.user.username}
+            )
         )
         self.assertContains(response, 'PNG')
 
@@ -124,7 +127,10 @@ class ChartsTest(ViewTestCase):
         self.assertContains(response, 'PNG')
 
         response = self.client.get(
-            reverse('yearly_user_activity', kwargs={'user': self.user.username})
+            reverse(
+                'yearly_user_activity',
+                kwargs={'user': self.user.username}
+            )
         )
         self.assertContains(response, 'PNG')
 
