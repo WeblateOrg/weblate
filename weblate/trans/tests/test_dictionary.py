@@ -51,11 +51,13 @@ class DictionaryTest(ViewTestCase):
     def get_url(self, url):
         return reverse(url, kwargs=self.get_kwargs())
 
-    def import_tbx(self):
+    def import_tbx(self, **kwargs):
         with open(TEST_TBX) as handle:
+            params = {'file': handle}
+            params.update(kwargs)
             return self.client.post(
                 self.get_url('upload_dictionary'),
-                {'file': handle}
+                params
             )
 
     def test_import(self):
@@ -74,6 +76,21 @@ class DictionaryTest(ViewTestCase):
         self.assertEquals(Dictionary.objects.count(), 164)
 
         # Check they are shown
+        response = self.client.get(show_url)
+        self.assertContains(response, u'podpůrná vrstva')
+
+        # Change single word
+        word = Dictionary.objects.get(target=u'podpůrná vrstva')
+        word.target = u'zkouška sirén'
+        word.save()
+
+        # Import file again with orverwriting
+        response = self.import_tbx(overwrite='yes')
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 164)
+
+        # Check entry got overwritten
         response = self.client.get(show_url)
         self.assertContains(response, u'podpůrná vrstva')
 
