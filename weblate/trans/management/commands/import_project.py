@@ -25,6 +25,7 @@ from django.template.defaultfilters import slugify
 from weblate.trans.models import SubProject, Project
 from weblate.trans.util import is_repo_link
 from glob import glob
+from optparse import make_option
 import tempfile
 import git
 import logging
@@ -39,6 +40,12 @@ logger = logging.getLogger('weblate')
 class Command(BaseCommand):
     help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
+    option_list = BaseCommand.option_list + (
+        make_option('--name-template',
+                    default='%s',
+                    help='Python formatting string, transforming the filemask '
+                         'match to a project name'),
+    )
 
     def get_name(self, maskre, path):
         matches = maskre.match(path)
@@ -132,14 +139,15 @@ class Command(BaseCommand):
             except SubProject.DoesNotExist:
                 raise CommandError('SubProject %s does not exist, '
                                    'you need to create it first!' % repo)
-            names = self.get_matching_subprojects(sub_project.get_path(),
-                                                  filemask)
-        else:
-            names, sharedrepo = self.import_initial(project, repo, branch,
+            matches = self.get_matching_subprojects(sub_project.get_path(),
                                                     filemask)
+        else:
+            matches, sharedrepo = self.import_initial(
+                    project, repo, branch, filemask, options['name_template'])
 
         # Create remaining subprojects sharing git repository
-        for name in names:
+        for match in matches:
+            name = options['name_template'] % match
             slug = slugify(name)
             if SubProject.objects.filter(Q(name=name) | Q(slug=slug),
                                          project=project).exists():
@@ -153,26 +161,27 @@ class Command(BaseCommand):
                 project=project,
                 repo=sharedrepo,
                 branch=branch,
-                filemask=filemask.replace('**', name)
+                filemask=filemask.replace('**', match)
             )
 
-    def import_initial(self, project, repo, branch, filemask):
+    def import_initial(self, project, repo, branch, filemask, name_template):
         '''
         Import the first repository of a project
         '''
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
-        names = self.get_matching_subprojects(workdir, filemask)
+        matches = self.get_matching_subprojects(workdir, filemask)
 
         # Create first subproject (this one will get full git repo)
-        name = names.pop()
+        match = matches.pop()
+        name = name_template % match
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
             logger.warn('Subproject %s already exists, skipping and using it '
                         'as main subproject', name)
             shutil.rmtree(workdir)
-            return names, 'weblate://%s/%s' % (project.slug, slug)
+            return matches, 'weblate://%s/%s' % (project.slug, slug)
 
         logger.info('Creating subproject %s as main subproject', name)
 
@@ -188,9 +197,9 @@ class Command(BaseCommand):
             project=project,
             repo=repo,
             branch=branch,
-            filemask=filemask.replace('**', name)
+            filemask=filemask.replace('**', match)
         )
 
         sharedrepo = 'weblate://%s/%s' % (project.slug, slug)
 
-        return names, sharedrepo
+        return matches, sharedrepo
