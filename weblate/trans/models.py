@@ -509,6 +509,16 @@ class SubProject(models.Model):
             ('lock_subproject', "Can lock translation for translating"),
         )
 
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(SubProject, self).__init__(*args, **kwargs)
+        self._lock = None
+        self._git_repo = None
+        self._file_format = None
+        self._template_store = None
+
     def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
@@ -612,12 +622,12 @@ class SubProject(models.Model):
         '''
         Returns lock object for current translation instance.
         '''
-        if not hasattr(self, '__lock__'):
-            self.__lock__ = FileLock(
+        if self._lock is None:
+            self._lock = FileLock(
                 self.get_git_lock_path(),
                 timeout=20
             )
-        return self.__lock__
+        return self._lock
 
     def can_push(self):
         '''
@@ -643,7 +653,7 @@ class SubProject(models.Model):
         '''
         Gets Git repository object.
         '''
-        if not hasattr(self, '_git_repo'):
+        if self._git_repo is None:
             path = self.get_path()
             try:
                 self._git_repo = git.Repo(path)
@@ -1229,7 +1239,7 @@ class SubProject(models.Model):
         '''
         Returns file format object.
         '''
-        if not hasattr(self, '_file_format'):
+        if self._file_format is None:
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
@@ -1258,13 +1268,13 @@ class SubProject(models.Model):
         if not self.has_template():
             return None
 
-        if not hasattr(self, 'store_cache'):
-            self.store_cache = ttkit(
+        if self._template_store is None:
+            self._template_store = ttkit(
                 self.get_template_filename(),
                 self.file_format
             )
 
-        return self.store_cache
+        return self._template_store
 
     def get_last_change(self):
         '''
@@ -1311,6 +1321,13 @@ class Translation(models.Model):
             ('automatic_translation', "Can do automatic translation"),
             ('lock_translation', "Can lock whole translation project"),
         )
+
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Translation, self).__init__(*args, **kwargs)
+        self._store = None
 
     def has_acl(self, user):
         '''
@@ -1580,12 +1597,12 @@ class Translation(models.Model):
         '''
         Returns ttkit storage object for a translation.
         '''
-        if not hasattr(self, 'store_cache'):
-            self.store_cache = ttkit(
+        if self._store is None:
+            self._store = ttkit(
                 self.get_filename(),
                 self.subproject.file_format
             )
-        return self.store_cache
+        return self._store
 
     def check_sync(self):
         '''
