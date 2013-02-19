@@ -47,6 +47,35 @@ class Command(BaseCommand):
         match = match.replace('.*.*', '(.*.*)')
         return re.compile(match)
 
+    def checkout_tmp(self, project, repo, branch):
+        '''
+        Checkouts project to temporary location.
+        '''
+        # Create temporary working dir
+        workdir = tempfile.mkdtemp(dir=project.get_path())
+        os.chmod(workdir, 0755)
+
+        # Initialize git repository
+        logger.info('Initializing git repository...')
+        gitrepo = git.Repo.init(workdir)
+        gitrepo.git.remote('add', 'origin', repo)
+
+        logger.info('Fetching remote git repository...')
+        gitrepo.git.remote('update', 'origin')
+        gitrepo.git.branch('--track', branch, 'origin/%s' % branch)
+
+        logger.info('Updating working copy in git repository...')
+        gitrepo.git.checkout(branch)
+
+        return workdir
+
+    def get_matching_files(self, workdir, filemask):
+        '''
+        Returns relative path of matched files.
+        '''
+        matches = glob(os.path.join(workdir, filemask))
+        return [f.replace(workdir, '').strip('/') for f in matches]
+
     def handle(self, *args, **options):
         '''
         Automatic import of project.
@@ -75,25 +104,11 @@ class Command(BaseCommand):
                 'for subproject part of the match!'
             )
 
-        # Create temporary working dir
-        workdir = tempfile.mkdtemp(dir=project.get_path())
-        os.chmod(workdir, 0755)
-
-        # Initialize git repository
-        logger.info('Initializing git repository...')
-        gitrepo = git.Repo.init(workdir)
-        gitrepo.git.remote('add', 'origin', repo)
-
-        logger.info('Fetching remote git repository...')
-        gitrepo.git.remote('update', 'origin')
-        gitrepo.git.branch('--track', branch, 'origin/%s' % branch)
-
-        logger.info('Updating working copy in git repository...')
-        gitrepo.git.checkout(branch)
+        # Checkout git to temporary dir
+        workdir = self.checkout_tmp(project, repo, branch)
 
         # Find matching files
-        matches = glob(os.path.join(workdir, filemask))
-        matches = [f.replace(workdir, '').strip('/') for f in matches]
+        matches = self.get_matching_files(workdir, filemask)
         logger.info('Found %d matching files', len(matches))
 
         # Parse subproject names out of them
