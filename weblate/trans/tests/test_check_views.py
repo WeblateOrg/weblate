@@ -45,6 +45,11 @@ class ChecksViewTest(ViewTestCase):
         self.assertContains(response, u'…')
 
         response = self.client.get(
+            reverse('show_check', kwargs={'name': 'not-existing'})
+        )
+        self.assertEquals(response.status_code, 404)
+
+        response = self.client.get(
             reverse(
                 'show_check_project',
                 kwargs={'name': 'same', 'project': self.project.slug}
