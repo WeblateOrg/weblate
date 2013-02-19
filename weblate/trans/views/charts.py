@@ -21,8 +21,9 @@
 Charting library for Weblate.
 '''
 
-from weblate.trans.models import Change, Project, SubProject, Translation
+from weblate.trans.models import Change
 from weblate.lang.models import Language
+from weblate.trans.views.helper import get_translation
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
@@ -127,43 +128,6 @@ def render_activity(activity):
 
     # Return response
     return HttpResponse(content_type='image/png', content=out.getvalue())
-
-
-def get_translation(request, project=None, subproject=None, lang=None):
-    '''
-    Returns project, subproject, translation tuple for given parameters.
-    '''
-
-    if lang is not None:
-        # Language defined? We can get all
-        translation = get_object_or_404(
-            Translation,
-            language__code=lang,
-            subproject__slug=subproject,
-            subproject__project__slug=project,
-            enabled=True
-        )
-        translation.check_acl(request)
-        subproject = translation.subproject
-        project = subproject.project
-    else:
-        translation = None
-        if subproject is not None:
-            # Subproject defined?
-            subproject = get_object_or_404(
-                SubProject,
-                project__slug=project,
-                slug=subproject
-            )
-            subproject.check_acl(request)
-            project = subproject.project
-        elif project is not None:
-            # Only project defined?
-            project = get_object_or_404(Project, slug=project)
-            project.check_acl(request)
-
-    # Return tuple
-    return project, subproject, translation
 
 
 def monthly_activity(request, project=None, subproject=None, lang=None):
