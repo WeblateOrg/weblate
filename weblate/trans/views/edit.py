@@ -28,16 +28,14 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
-from weblate.trans.models import (
-    SubProject, Translation, Unit, Suggestion,
-    Change, Comment
-)
+from weblate.trans.models import SubProject, Unit, Suggestion, Change, Comment
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import (
     TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm
 )
+from weblate.trans.views.helper import get_translation
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile, send_notification_email
 
@@ -142,14 +140,7 @@ def get_filter_name(rqtype, search_query):
 
 
 def translate(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     # Check locks
     project_locked, user_locked, own_lock = obj.is_locked(request, True)
@@ -571,14 +562,7 @@ def translate(request, project, subproject, lang):
 @login_required
 @permission_required('trans.automatic_translation')
 def auto_translation(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
     obj.commit_pending()
     autoform = AutoForm(obj, request.POST)
     change = None
@@ -636,14 +620,7 @@ def auto_translation(request, project, subproject, lang):
 
 
 def download_translation(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     # Retrieve ttkit store to get extension and mime type
     store = obj.get_store()
@@ -750,14 +727,7 @@ def upload_translation(request, project, subproject, lang):
     '''
     Handling of translation uploads.
     '''
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     if not obj.is_locked(request) and request.method == 'POST':
         if request.user.has_perm('trans.author_translation'):

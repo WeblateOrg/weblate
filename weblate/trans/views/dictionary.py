@@ -28,17 +28,17 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
-from weblate.trans.models import Project, Translation, Dictionary
+from weblate.trans.models import Translation, Dictionary
 from weblate.lang.models import Language
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
+from weblate.trans.views.helper import get_project
 import weblate
 
 import csv
 
 
 def show_dictionaries(request, project):
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
     dicts = Translation.objects.filter(
         subproject__project=obj
     ).values_list('language', flat=True).distinct()
@@ -53,8 +53,7 @@ def show_dictionaries(request, project):
 @login_required
 @permission_required('trans.change_dictionary')
 def edit_dictionary(request, project, lang):
-    prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request)
+    prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
         Dictionary,
@@ -90,8 +89,7 @@ def edit_dictionary(request, project, lang):
 @login_required
 @permission_required('trans.delete_dictionary')
 def delete_dictionary(request, project, lang):
-    prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request)
+    prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
         Dictionary,
@@ -111,8 +109,7 @@ def delete_dictionary(request, project, lang):
 @login_required
 @permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
-    prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request)
+    prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
     if request.method == 'POST':
@@ -215,8 +212,7 @@ def download_dictionary(request, project, lang):
     '''
     Exports dictionary into various formats.
     '''
-    prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request)
+    prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
     # Parse parameters
@@ -252,8 +248,7 @@ def download_dictionary(request, project, lang):
 
 
 def show_dictionary(request, project, lang):
-    prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request)
+    prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
     if (request.method == 'POST'

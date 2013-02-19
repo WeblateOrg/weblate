@@ -18,26 +18,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 
-from weblate.trans.models import Project, SubProject, Translation
+from weblate.trans.views.helper import get_project, get_subproject, get_translation
 
 
 @login_required
 @permission_required('trans.lock_translation')
 def lock_translation(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     if not obj.is_user_locked(request):
         obj.create_lock(request.user, True)
@@ -48,14 +40,7 @@ def lock_translation(request, project, subproject, lang):
 
 @login_required
 def update_lock(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     if not obj.is_user_locked(request):
         obj.update_lock_time()
@@ -66,14 +51,7 @@ def update_lock(request, project, subproject, lang):
 @login_required
 @permission_required('trans.lock_translation')
 def unlock_translation(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     if not obj.is_user_locked(request):
         obj.create_lock(None)
@@ -88,8 +66,7 @@ def unlock_translation(request, project, subproject, lang):
 @login_required
 @permission_required('trans.lock_subproject')
 def lock_subproject(request, project, subproject):
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request)
+    obj = get_subproject(request, subproject, project)
 
     obj.commit_pending()
 
@@ -107,8 +84,7 @@ def lock_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.lock_subproject')
 def unlock_subproject(request, project, subproject):
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request)
+    obj = get_subproject(request, subproject, project)
 
     obj.locked = False
     obj.save()
@@ -124,8 +100,7 @@ def unlock_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.lock_subproject')
 def lock_project(request, project):
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
 
     obj.commit_pending()
 
@@ -144,8 +119,7 @@ def lock_project(request, project):
 @login_required
 @permission_required('trans.lock_subproject')
 def unlock_project(request, project):
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
 
     for subproject in obj.subproject_set.all():
         subproject.locked = False

@@ -42,6 +42,7 @@ from weblate.trans.forms import (
     AutoForm, ReviewForm,
 )
 from weblate.accounts.models import Profile
+from weblate.trans.views.helper import get_project, get_subproject, get_translation
 import weblate
 
 import datetime
@@ -130,8 +131,7 @@ def show_check_project(request, name, project):
     '''
     Show checks failing in a project.
     '''
-    prj = get_object_or_404(Project, slug=project)
-    prj.check_acl(request)
+    prj = get_project(request, project)
     try:
         check = CHECKS[name]
     except KeyError:
@@ -188,12 +188,7 @@ def show_check_subproject(request, name, project, subproject):
     '''
     Show checks failing in a subproject.
     '''
-    subprj = get_object_or_404(
-        SubProject,
-        slug=subproject,
-        project__slug=project
-    )
-    subprj.check_acl(request)
+    subprj = get_subproject(request, subproject, project)
     try:
         check = CHECKS[name]
     except KeyError:
@@ -277,8 +272,7 @@ def show_language(request, lang):
 
 def show_engage(request, project, lang=None):
     # Get project object
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
 
     # Handle language parameter
     language = None
@@ -328,8 +322,7 @@ def show_engage(request, project, lang=None):
 
 
 def show_project(request, project):
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
 
     dicts = Dictionary.objects.filter(
         project=obj
@@ -353,8 +346,7 @@ def show_project(request, project):
 
 
 def show_subproject(request, project, subproject):
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request)
+    obj = get_subproject(request, subproject, project)
 
     last_changes = Change.objects.filter(
         translation__subproject=obj
@@ -374,8 +366,7 @@ def review_source(request, project, subproject):
     '''
     Listing of source strings to review.
     '''
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request)
+    obj = get_subproject(request, subproject, project)
 
     if not obj.translation_set.exists():
         raise Http404('No translation exists in this subproject.')
@@ -415,8 +406,7 @@ def show_source(request, project, subproject):
     '''
     Show source strings summary and checks.
     '''
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request)
+    obj = get_subproject(request, subproject, project)
     if not obj.translation_set.exists():
         raise Http404('No translation exists in this subproject.')
 
@@ -432,14 +422,7 @@ def show_source(request, project, subproject):
 
 
 def show_translation(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
     last_changes = Change.objects.filter(
         translation=obj
     ).order_by('-timestamp')[:10]
@@ -542,8 +525,7 @@ def data_root(request):
 
 
 def data_project(request, project):
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
     site = Site.objects.get_current()
     return render_to_response('data.html', RequestContext(request, {
         'object': obj,

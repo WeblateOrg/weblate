@@ -21,7 +21,7 @@
 from weblate.trans import appsettings
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response
 from django.utils.translation import ugettext_lazy
 import django.utils.translation
 from django.contrib.sites.models import Site
@@ -31,6 +31,7 @@ from django.views.decorators.cache import cache_page
 from weblate.trans.models import Project
 from weblate.lang.models import Language
 from weblate.trans.forms import EnageLanguageForm
+from weblate.trans.views.helper import get_project
 
 import cairo
 import pango
@@ -139,8 +140,7 @@ def widgets_root(request):
 
 
 def widgets(request, project):
-
-    obj = get_object_or_404(Project, slug=project)
+    obj = get_project(request, project)
 
     # Parse possible language selection
     form = EnageLanguageForm(obj, request.GET)
@@ -230,7 +230,7 @@ def render_text(pangocairo_context, line, text, params, font_size):
 
 @cache_page(3600)
 def render(request, project, widget='287x66', color=None, lang=None):
-    obj = get_object_or_404(Project, slug=project)
+    obj = get_project(request, project)
 
     # Handle language parameter
     if lang is not None:

@@ -26,12 +26,10 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
-from weblate.trans.models import (
-    Project, SubProject, Translation, Unit, Check,
-    Dictionary
-)
+from weblate.trans.models import Unit, Check, Dictionary
 from weblate.trans.views.edit import parse_search_url
 from weblate.trans.decorators import any_permission_required
+from weblate.trans.views.helper import get_project, get_subproject, get_translation
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import logging
@@ -158,8 +156,7 @@ def ignore_check(request, check_id):
     'trans.update_translation'
 )
 def git_status_project(request, project):
-    obj = get_object_or_404(Project, slug=project)
-    obj.check_acl(request)
+    obj = get_project(request, project)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
@@ -171,8 +168,7 @@ def git_status_project(request, project):
     'trans.update_translation'
 )
 def git_status_subproject(request, project, subproject):
-    obj = get_object_or_404(SubProject, slug=subproject, project__slug=project)
-    obj.check_acl(request)
+    obj = get_subproject(request, subproject, project)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
@@ -184,14 +180,7 @@ def git_status_subproject(request, project, subproject):
     'trans.update_translation'
 )
 def git_status_translation(request, project, subproject, lang):
-    obj = get_object_or_404(
-        Translation,
-        language__code=lang,
-        subproject__slug=subproject,
-        subproject__project__slug=project,
-        enabled=True
-    )
-    obj.check_acl(request)
+    obj = get_translation(request, project, subproject, lang)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,
