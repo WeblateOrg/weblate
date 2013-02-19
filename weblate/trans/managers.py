@@ -550,34 +550,14 @@ class ChangeManager(models.Manager):
 
         return self.count_stats(days, step, dtstart, base)
 
-    def month_stats(self,
-                    project=None, subproject=None, translation=None,
-                    language=None, user=None):
+    def month_stats(self, *args, **kwargs):
         '''
         Reports daily stats for changes.
         '''
-        return self.base_stats(
-            30,
-            1,
-            project,
-            subproject,
-            translation,
-            language,
-            user
-        )
+        return self.base_stats(30, 1, *args, **kwargs)
 
-    def year_stats(self,
-                   project=None, subproject=None, translation=None,
-                   language=None, user=None):
+    def year_stats(self, *args, **kwargs):
         '''
         Reports monthly stats for changes.
         '''
-        return self.base_stats(
-            365,
-            7,
-            project,
-            subproject,
-            translation,
-            language,
-            user
-        )
+        return self.base_stats(365, 7, *args, **kwargs)
