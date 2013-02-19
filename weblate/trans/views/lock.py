@@ -68,7 +68,7 @@ def unlock_translation(request, project, subproject, lang):
 @login_required
 @permission_required('trans.lock_subproject')
 def lock_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     obj.commit_pending()
 
@@ -86,7 +86,7 @@ def lock_subproject(request, project, subproject):
 @login_required
 @permission_required('trans.lock_subproject')
 def unlock_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     obj.locked = False
     obj.save()

@@ -125,7 +125,7 @@ def show_check_subproject(request, name, project, subproject):
     '''
     Show checks failing in a subproject.
     '''
-    subprj = get_subproject(request, subproject, project)
+    subprj = get_subproject(request, project, subproject)
     try:
         check = CHECKS[name]
     except KeyError:

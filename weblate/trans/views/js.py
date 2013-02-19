@@ -170,7 +170,7 @@ def git_status_project(request, project):
     'trans.update_translation'
 )
 def git_status_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     return render_to_response('js/git-status.html', RequestContext(request, {
         'object': obj,

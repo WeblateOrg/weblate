@@ -195,7 +195,7 @@ def show_project(request, project):
 
 
 def show_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     last_changes = Change.objects.filter(
         translation__subproject=obj
@@ -215,7 +215,7 @@ def review_source(request, project, subproject):
     '''
     Listing of source strings to review.
     '''
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     if not obj.translation_set.exists():
         raise Http404('No translation exists in this subproject.')
@@ -255,7 +255,7 @@ def show_source(request, project, subproject):
     '''
     Show source strings summary and checks.
     '''
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
     if not obj.translation_set.exists():
         raise Http404('No translation exists in this subproject.')
 

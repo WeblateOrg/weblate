@@ -41,7 +41,7 @@ def commit_project(request, project):
 @login_required
 @permission_required('trans.commit_translation')
 def commit_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
     obj.commit_pending()
 
     messages.info(request, _('All pending translations were committed.'))
@@ -74,7 +74,7 @@ def update_project(request, project):
 @login_required
 @permission_required('trans.update_translation')
 def update_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
@@ -107,7 +107,7 @@ def push_project(request, project):
 @login_required
 @permission_required('trans.push_translation')
 def push_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
@@ -140,7 +140,7 @@ def reset_project(request, project):
 @login_required
 @permission_required('trans.reset_translation')
 def reset_subproject(request, project, subproject):
-    obj = get_subproject(request, subproject, project)
+    obj = get_subproject(request, project, subproject)
 
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
