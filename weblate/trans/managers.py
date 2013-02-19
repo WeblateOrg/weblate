@@ -208,9 +208,7 @@ class UnitManager(models.Manager):
         from weblate.trans.models import Suggestion, Comment
         from weblate.trans.checks import CHECKS
 
-        if rqtype == 'all':
-            return self.all()
-        elif rqtype == 'fuzzy':
+        if rqtype == 'fuzzy':
             return self.filter(fuzzy=True)
         elif rqtype == 'untranslated':
             return self.filter(translated=False)
@@ -238,6 +236,7 @@ class UnitManager(models.Manager):
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation)
         else:
+            # Catch anything not matching including 'all'
             return self.all()
 
     def count_type(self, rqtype, translation):
