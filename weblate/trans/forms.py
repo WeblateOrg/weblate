@@ -295,8 +295,14 @@ class DictUploadForm(forms.Form):
     file = forms.FileField(
         label=_('File')
     )
-    overwrite = forms.BooleanField(
-        label=_('Overwrite existing'),
+    conflict = forms.ChoiceField(
+        label=_('Conflict handling'),
+        help_text=_('How to handle when word is already existing in dictionary'),
+        choices=(
+            ('', _('Keep current')),
+            ('overwrite', _('Overwrite existing')),
+            ('add', _('Add as other translation')),
+        ),
         required=False
     )
 

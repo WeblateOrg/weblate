@@ -85,7 +85,7 @@ class DictionaryTest(ViewTestCase):
         word.save()
 
         # Import file again with orverwriting
-        response = self.import_tbx(overwrite='yes')
+        response = self.import_tbx(conflict='overwrite')
 
         # Check number of imported objects
         self.assertEquals(Dictionary.objects.count(), 164)
@@ -93,6 +93,17 @@ class DictionaryTest(ViewTestCase):
         # Check entry got overwritten
         response = self.client.get(show_url)
         self.assertContains(response, u'podpůrná vrstva')
+
+        # Change single word
+        word = Dictionary.objects.get(target=u'podpůrná vrstva')
+        word.target = u'zkouška sirén'
+        word.save()
+
+        # Import file again with adding
+        response = self.import_tbx(conflict='add')
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 165)
 
     def test_edit(self):
         '''

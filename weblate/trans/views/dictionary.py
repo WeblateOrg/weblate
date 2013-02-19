@@ -120,7 +120,7 @@ def upload_dictionary(request, project, lang):
                     prj,
                     lang,
                     request.FILES['file'],
-                    form.cleaned_data['overwrite']
+                    form.cleaned_data['conflict']
                 )
                 if count == 0:
                     messages.warning(
