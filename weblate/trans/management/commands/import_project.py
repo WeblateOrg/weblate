@@ -41,10 +41,12 @@ class Command(BaseCommand):
     help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
     option_list = BaseCommand.option_list + (
-        make_option('--name-template',
-                    default='%s',
-                    help='Python formatting string, transforming the filemask '
-                         'match to a project name'),
+        make_option(
+            '--name-template',
+            default='%s',
+            help='Python formatting string, transforming the filemask '
+                 'match to a project name'
+        ),
     )
 
     def get_name(self, maskre, path):
@@ -134,23 +136,32 @@ class Command(BaseCommand):
             sharedrepo = repo
             master_sub_project = repo.rsplit('/', 1)[-1]
             try:
-                sub_project = SubProject.objects.get(project=project,
-                                                     slug=master_sub_project)
+                sub_project = SubProject.objects.get(
+                    project=project,
+                    slug=master_sub_project
+                )
             except SubProject.DoesNotExist:
-                raise CommandError('SubProject %s does not exist, '
-                                   'you need to create it first!' % repo)
-            matches = self.get_matching_subprojects(sub_project.get_path(),
-                                                    filemask)
+                raise CommandError(
+                    'SubProject %s does not exist, '
+                    'you need to create it first!' % repo
+                )
+            matches = self.get_matching_subprojects(
+                sub_project.get_path(),
+                filemask
+            )
         else:
             matches, sharedrepo = self.import_initial(
-                    project, repo, branch, filemask, options['name_template'])
+                project, repo, branch, filemask, options['name_template']
+            )
 
         # Create remaining subprojects sharing git repository
         for match in matches:
             name = options['name_template'] % match
             slug = slugify(name)
-            if SubProject.objects.filter(Q(name=name) | Q(slug=slug),
-                                         project=project).exists():
+            if SubProject.objects.filter(
+                    Q(name=name) | Q(slug=slug),
+                    project=project
+                ).exists():
                 logger.warn('Subproject %s already exists, skipping', name)
                 continue
 
