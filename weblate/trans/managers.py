@@ -407,7 +407,9 @@ class UnitManager(models.Manager):
             cnt = len(terms)
             # Try to find at least configured number of similar strings,
             # remove up to 4 words
-            while len(ret) < appsettings.SIMILAR_MESSAGES and cnt > 0 and len(terms) - cnt < 4:
+            while (len(ret) < appsettings.SIMILAR_MESSAGES
+                    and cnt > 0
+                    and len(terms) - cnt < 4):
                 for search in itertools.combinations(terms, cnt):
                     results = self.search(
                         ' '.join(search),
