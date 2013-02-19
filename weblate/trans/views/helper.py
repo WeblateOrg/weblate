@@ -24,7 +24,7 @@ Helper methods for views.
 from weblate.trans.models import Project, SubProject, Translation
 from django.shortcuts import get_object_or_404
 
-def get_translation(request, project, subproject, lang):
+def get_translation(request, project, subproject, lang, skip_acl=False):
     '''
     Returns translation matching parameters.
     '''
@@ -35,11 +35,12 @@ def get_translation(request, project, subproject, lang):
         subproject__project__slug=project,
         enabled=True
     )
-    translation.check_acl(request)
+    if not skip_acl:
+        translation.check_acl(request)
     return translation
 
 
-def get_subproject(request, project, subproject):
+def get_subproject(request, project, subproject, skip_acl=False):
     '''
     Returns subproject matching parameters.
     '''
@@ -48,11 +49,12 @@ def get_subproject(request, project, subproject):
         project__slug=project,
         slug=subproject
     )
-    subproject.check_acl(request)
+    if not skip_acl:
+        subproject.check_acl(request)
     return subproject
 
 
-def get_project(request, project):
+def get_project(request, project, skip_acl=False):
     '''
     Returns project matching parameters.
     '''
@@ -60,7 +62,8 @@ def get_project(request, project):
         Project,
         slug=project,
     )
-    project.check_acl(request)
+    if not skip_acl:
+        project.check_acl(request)
     return project
 
 
