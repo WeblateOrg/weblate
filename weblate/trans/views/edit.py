@@ -31,11 +31,13 @@ from django.db.models import Q
 from weblate.trans.models import SubProject, Unit, Suggestion, Change, Comment
 from weblate.trans.checks import CHECKS
 from weblate.trans.forms import (
-    TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
+    TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm,
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm
 )
-from weblate.trans.views.helper import get_translation
+from weblate.trans.views.helper import (
+    get_translation, parse_search_url, bool2str
+)
 from weblate.trans.util import join_plural
 from weblate.accounts.models import Profile, send_notification_email
 
@@ -50,71 +52,6 @@ class FixedFileWrapper(FileWrapper):
     def __iter__(self):
         self.filelike.seek(0)
         return self
-
-
-def bool2str(val):
-    if val:
-        return 'on'
-    return ''
-
-
-def parse_search_url(request):
-    # Check where we are
-    rqtype = request.REQUEST.get('type', 'all')
-    direction = request.REQUEST.get('dir', 'forward')
-    pos = request.REQUEST.get('pos', '-1')
-    try:
-        pos = int(pos)
-    except:
-        pos = -1
-
-    # Pre-process search form
-    if request.method == 'POST':
-        search_form = SearchForm(request.POST)
-    else:
-        search_form = SearchForm(request.GET)
-    if search_form.is_valid():
-        search_query = search_form.cleaned_data['q']
-        search_type = search_form.cleaned_data['search']
-        if search_type == '':
-            search_type = 'ftx'
-        search_source = search_form.cleaned_data['src']
-        search_target = search_form.cleaned_data['tgt']
-        search_context = search_form.cleaned_data['ctx']
-        # Sane defaults
-        if not search_context and not search_source and not search_target:
-            search_source = True
-            search_target = True
-
-        search_url = '&q=%s&src=%s&tgt=%s&ctx=%s&search=%s' % (
-            search_query,
-            bool2str(search_source),
-            bool2str(search_target),
-            bool2str(search_context),
-            search_type,
-        )
-    else:
-        search_query = ''
-        search_type = 'ftx'
-        search_source = True
-        search_target = True
-        search_context = False
-        search_url = ''
-
-    if 'date' in request.REQUEST:
-        search_url += '&date=%s' % request.REQUEST['date']
-
-    return (
-        rqtype,
-        direction,
-        pos,
-        search_query,
-        search_type,
-        search_source,
-        search_target,
-        search_context,
-        search_url
-    )
 
 
 def get_filter_name(rqtype, search_query):
