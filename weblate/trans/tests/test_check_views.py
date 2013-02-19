@@ -40,6 +40,11 @@ class ChecksViewTest(ViewTestCase):
         self.assertContains(response, '/same/')
 
         response = self.client.get(
+            reverse('show_check', kwargs={'name': 'ellipsis'})
+        )
+        self.assertContains(response, u'…')
+
+        response = self.client.get(
             reverse(
                 'show_check_project',
                 kwargs={'name': 'same', 'project': self.project.slug}
