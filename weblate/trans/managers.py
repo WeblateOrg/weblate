@@ -484,6 +484,31 @@ class ChangeManager(models.Manager):
             user__isnull=False,
         )
 
+    def count_stats(self, days, step, dtstart, base):
+        '''
+        Counts number of changes in given dataset and period groupped by
+        step days.
+        '''
+
+        # Count number of changes
+        result = []
+        for day in xrange(0, days, step):
+            # Calculate interval
+            int_start = dtstart
+            int_end = int_start + timezone.timedelta(days=step)
+
+            # Count changes
+            int_base = base.filter(timestamp__range=(int_start, int_end))
+            count = int_base.aggregate(Count('id'))
+
+            # Append to result
+            result.append((int_start, count['id__count']))
+
+            # Advance to next interval
+            dtstart = int_end
+
+        return result
+
     def base_stats(self, days, step,
                    project=None, subproject=None, translation=None,
                    language=None, user=None):
@@ -514,24 +539,7 @@ class ChangeManager(models.Manager):
         if user is not None:
             base = base.filter(user=user)
 
-        # Count number of changes
-        result = []
-        for day in xrange(0, days, step):
-            # Calculate interval
-            int_start = dtstart
-            int_end = int_start + timezone.timedelta(days=step)
-
-            # Count changes
-            int_base = base.filter(timestamp__range=(int_start, int_end))
-            count = int_base.aggregate(Count('id'))
-
-            # Append to result
-            result.append((int_start, count['id__count']))
-
-            # Advance to next interval
-            dtstart = int_end
-
-        return result
+        return self.count_stats(days, step, dtstart, base)
 
     def month_stats(self,
                     project=None, subproject=None, translation=None,
