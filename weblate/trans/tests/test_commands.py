@@ -40,6 +40,28 @@ class ImportTest(RepoTestCase):
         # We should have loaded two subprojects
         self.assertEqual(project.subproject_set.count(), 2)
 
+    def test_re_import(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+        )
+        # We should have loaded two subprojects
+        self.assertEqual(project.subproject_set.count(), 2)
+
+        # We should load no more subprojects
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+        )
+        self.assertEqual(project.subproject_set.count(), 2)
+
     def test_import_against_existing(self):
         '''
         Test importing with a weblate:// URL

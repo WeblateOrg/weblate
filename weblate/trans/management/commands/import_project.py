@@ -27,6 +27,7 @@ import git
 import logging
 import os
 import re
+import shutil
 import fnmatch
 
 logger = logging.getLogger('weblate')
@@ -136,10 +137,16 @@ class Command(BaseCommand):
 
         # Create remaining subprojects sharing git repository
         for name in names:
+            slug = name
+            if SubProject.objects.filter(project=project, name=name,
+                                         slug=slug).exists():
+                logger.warn('Subproject %s already exists, skipping', name)
+                continue
+
             logger.info('Creating subproject %s', name)
             SubProject.objects.create(
                 name=name,
-                slug=name,
+                slug=slug,
                 project=project,
                 repo=sharedrepo,
                 branch=branch,
@@ -156,6 +163,13 @@ class Command(BaseCommand):
 
         # Create first subproject (this one will get full git repo)
         name = names.pop()
+
+        if SubProject.objects.filter(project=project, name=name).exists():
+            logger.warn('Subproject %s already exists, skipping and using it '
+                        'as main subproject', name)
+            shutil.rmtree(workdir)
+            return names, 'weblate://%s/%s' % (project.slug, name)
+
         logger.info('Creating subproject %s as main subproject', name)
 
         # Rename gitrepository to new name
