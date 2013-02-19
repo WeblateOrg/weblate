@@ -34,6 +34,7 @@ from weblate.trans.tests.test_commands import ImportTest
 from weblate.trans.tests.test_commands import PeriodicTest
 from weblate.trans.tests.test_commands import CheckGitTest
 from weblate.trans.tests.test_consistency_checks import PluralsCheckTest
+from weblate.trans.tests.test_dictionary import DictionaryTest
 from weblate.trans.tests.test_diff import DiffTest
 from weblate.trans.tests.test_exports import ExportsViewTest
 from weblate.trans.tests.test_format_checks import PythonFormatCheckTest
