@@ -61,7 +61,7 @@ from weblate.trans.filelock import FileLock, FileLockException
 from weblate.trans.util import (
     is_plural, split_plural, join_plural,
     get_source, get_target,
-    is_translated, get_user_display,
+    is_translated, is_translatable, get_user_display,
     is_repo_link,
 )
 from weblate.trans.validators import (
@@ -1632,9 +1632,7 @@ class Translation(models.Model):
         if template_store is None:
             for unit in store.units:
                 # We care only about translatable strings
-                # For some reason, blank string does not mean non translatable
-                # unit in some formats (XLIFF), so let's skip those as well
-                if not unit.istranslatable() or unit.isblank():
+                if not is_translatable(unit):
                     continue
                 newunit, is_new = Unit.objects.update_from_unit(
                     self, unit, pos
@@ -1648,9 +1646,7 @@ class Translation(models.Model):
         else:
             for template_unit in template_store.units:
                 # We care only about translatable strings
-                # For some reason, blank string does not mean non translatable
-                # unit in some formats (XLIFF), so let's skip those as well
-                if not template_unit.istranslatable() or template_unit.isblank():
+                if not is_translatable(template_unit):
                     continue
                 unit = store.findid(template_unit.getid())
                 newunit, is_new = Unit.objects.update_from_unit(

@@ -210,6 +210,16 @@ def is_translated(unit):
         return unit.istranslated()
 
 
+def is_translatable(unit):
+    '''
+    Checks whether unit is translatable.
+
+    For some reason, blank string does not mean non translatable
+    unit in some formats (XLIFF), so lets skip those as well.
+    '''
+    return unit.istranslatable() and not unit.isblank()
+
+
 def is_repo_link(val):
     '''
     Checks whethere repository is just a link for other one.
