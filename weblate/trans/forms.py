@@ -297,7 +297,7 @@ class DictUploadForm(forms.Form):
     )
     conflict = forms.ChoiceField(
         label=_('Conflict handling'),
-        help_text=_('How to handle when word is already existing in dictionary'),
+        help_text=_('Imported word is already existing in the glossary'),
         choices=(
             ('', _('Keep current')),
             ('overwrite', _('Overwrite existing')),
