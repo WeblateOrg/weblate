@@ -33,7 +33,7 @@ class ChartsTest(ViewTestCase):
     '''
     def test_activity_html(self):
         '''
-        Test of activity charts.
+        Test of html for activity charts.
         '''
         response = self.client.get(
             reverse('view_activity')
@@ -44,6 +44,89 @@ class ChartsTest(ViewTestCase):
             reverse('view_activity_project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'img src="/activity')
+
+        response = self.client.get(
+            reverse('view_activity_subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'img src="/activity')
+
+        response = self.client.get(
+            reverse('view_activity_translation', kwargs=self.kw_translation)
+        )
+        self.assertContains(response, 'img src="/activity')
+
+        response = self.client.get(
+            reverse('view_language_activity', kwargs={'lang': 'cs'})
+        )
+        self.assertContains(response, 'img src="/activity')
+
+    def test_activity_monthly(self):
+        '''
+        Test of monthly activity charts.
+        '''
+        response = self.client.get(
+            reverse('monthly_activity')
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('monthly_activity_project', kwargs=self.kw_project)
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('monthly_activity_subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('monthly_activity_translation', kwargs=self.kw_translation)
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('monthly_language_activity', kwargs={'lang': 'cs'})
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('monthly_user_activity', kwargs={'user': self.user.username})
+        )
+        self.assertContains(response, 'PNG')
+
+    def test_activity_yearly(self):
+        '''
+        Test of yearly activity charts.
+        '''
+        response = self.client.get(
+            reverse('yearly_activity')
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('yearly_activity_project', kwargs=self.kw_project)
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('yearly_activity_subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('yearly_activity_translation', kwargs=self.kw_translation)
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('yearly_language_activity', kwargs={'lang': 'cs'})
+        )
+        self.assertContains(response, 'PNG')
+
+        response = self.client.get(
+            reverse('yearly_user_activity', kwargs={'user': self.user.username})
+        )
+        self.assertContains(response, 'PNG')
 
 
 class WidgetsTest(ViewTestCase):
