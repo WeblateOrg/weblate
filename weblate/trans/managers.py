@@ -36,7 +36,7 @@ from weblate.trans.util import (
 )
 
 from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
-from weblate.trans.data import IGNORE_WORDS, IGNORE_SIMILAR
+from weblate.trans.data import IGNORE_SIMILAR
 
 
 class ProjectManager(models.Manager):
@@ -404,7 +404,7 @@ class UnitManager(models.Manager):
                 unit.source,
                 numterms=10
             )
-            terms = [kw for kw, score in key_terms if not kw in IGNORE_SIMILAR]
+            terms = [kw[0] for kw in key_terms if not kw in IGNORE_SIMILAR]
             cnt = len(terms)
             # Try to find at least configured number of similar strings,
             # remove up to 4 words
