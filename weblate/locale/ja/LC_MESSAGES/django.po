@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-19 14:41+0100\n"
+"POT-Creation-Date: 2013-02-19 16:40+0100\n"
 "PO-Revision-Date: 2013-01-30 14:34+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Japanese <http://l10n.cihar.com/projects/weblate/master/ja/>\n"
@@ -54,7 +54,7 @@ msgstr "名前 (名)"
 msgid "Last name"
 msgstr "名前 (姓)"
 
-#: accounts/forms.py:100 accounts/forms.py:135 accounts/i18n.py:42
+#: accounts/forms.py:100 accounts/forms.py:135 html/i18n.html:15
 msgid "E-mail"
 msgstr "メールアドレス"
 
@@ -74,7 +74,7 @@ msgstr "メールアドレス"
 msgid "Message"
 msgstr "メッセージ"
 
-#: accounts/forms.py:131 accounts/i18n.py:43
+#: accounts/forms.py:131 html/i18n.html:16
 msgid "Username"
 msgstr "ユーザ名"
 
@@ -86,7 +86,7 @@ msgstr "5 文字以上の文字列を指定してください。"
 msgid "Activation email will be sent here."
 msgstr "有効なメールアドレス。このアドレスに送信されます。"
 
-#: accounts/forms.py:139 accounts/i18n.py:44 html/profile.html:25
+#: accounts/forms.py:139 html/i18n.html:17 html/profile.html:25
 msgid "Password"
 msgstr "パスワード"
 
@@ -109,113 +109,6 @@ msgstr "パスワードは、少なくとも 6 文字必要です。"
 #: accounts/forms.py:166
 msgid "Username needs to have at least five characters."
 msgstr "ユーザ名は、少なくとも 5 文字必要です。"
-
-#: accounts/i18n.py:32
-msgid "This username is already taken. Please choose another."
-msgstr "このユーザ名は既に使用されています。別の名前にしてください。"
-
-#: accounts/i18n.py:33
-msgid "You must type the same password each time"
-msgstr "同じパスワードを入力する必要があります"
-
-#: accounts/i18n.py:35
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"このメールアドレスは既に使用されています。別のメールアドレスにしてください。"
-
-#: accounts/i18n.py:38
-msgid "Old password"
-msgstr "現在のパスワード"
-
-#: accounts/i18n.py:39
-msgid "New password"
-msgstr "新しいパスワード"
-
-#: accounts/i18n.py:40
-msgid "New password confirmation"
-msgstr "新しいパスワード確認"
-
-#: accounts/i18n.py:41
-msgid "The two password fields didn't match."
-msgstr "2 つのパスワード項目が一致しません。"
-
-#: accounts/i18n.py:45
-msgid ""
-"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr ""
-"複数選択するときには Control キーを押したまま選択してください。Mac の場合は "
-"Command キーを使ってください。"
-
-#: accounts/i18n.py:48
-msgid "Translate using Apertium"
-msgstr "Apertium を使って翻訳する"
-
-#: accounts/i18n.py:49
-msgid "Translate using Microsoft Translator"
-msgstr "Microsoft Translator を使って翻訳する"
-
-#: accounts/i18n.py:50
-msgid "Translate using MyMemory"
-msgstr "MyMemory を使って翻訳する"
-
-#: accounts/i18n.py:51
-msgid "Sort this column"
-msgstr "この列をソートする"
-
-#: accounts/i18n.py:52
-msgid "AJAX request to load this content has failed!"
-msgstr "AJAX によるこの項目の読み込みに失敗しました！"
-
-#: accounts/i18n.py:53
-#, fuzzy
-msgid "Loading…"
-msgstr "読み込んでいます…"
-
-#: accounts/i18n.py:54
-msgid "Failed translation"
-msgstr "翻訳の失敗"
-
-#: accounts/i18n.py:55
-msgid "The request for machine translation has failed."
-msgstr "機械翻訳の要求に失敗しました。"
-
-#: accounts/i18n.py:56
-msgid "Error details:"
-msgstr "エラー詳細:"
-
-#: accounts/i18n.py:57
-#, fuzzy
-msgid "Confirm resetting repository"
-msgstr "Git リポジトリの URL"
-
-#: accounts/i18n.py:58
-msgid "Resetting the repository will throw away all local changes!"
-msgstr ""
-
-#: accounts/i18n.py:59
-msgid "Ok"
-msgstr ""
-
-#: accounts/i18n.py:60
-msgid "Cancel"
-msgstr ""
-
-#: accounts/i18n.py:61 html/list-translations.html:62
-#: trans/views/helper.py:192
-msgid "Strings with any failing checks"
-msgstr "失敗したチェックを任意の文字列"
-
-#: accounts/i18n.py:62 html/list-translations.html:63
-#: trans/views/helper.py:186
-msgid "Fuzzy strings"
-msgstr "あいまい"
-
-#: accounts/i18n.py:63 html/list-translations.html:61
-#, fuzzy
-msgid "Translated strings"
-msgstr "未翻訳"
 
 #: accounts/models.py:186
 msgid "Interface Language"
@@ -749,6 +642,656 @@ msgstr ""
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr ""
+
+#: html/i18n.html:8
+msgid "This username is already taken. Please choose another."
+msgstr "このユーザ名は既に使用されています。別の名前にしてください。"
+
+#: html/i18n.html:9
+msgid "You must type the same password each time"
+msgstr "同じパスワードを入力する必要があります"
+
+#: html/i18n.html:10
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"このメールアドレスは既に使用されています。別のメールアドレスにしてください。"
+
+#: html/i18n.html:11
+msgid "Old password"
+msgstr "現在のパスワード"
+
+#: html/i18n.html:12
+msgid "New password"
+msgstr "新しいパスワード"
+
+#: html/i18n.html:13
+msgid "New password confirmation"
+msgstr "新しいパスワード確認"
+
+#: html/i18n.html:14
+msgid "The two password fields didn't match."
+msgstr "2 つのパスワード項目が一致しません。"
+
+#: html/i18n.html:18
+msgid ""
+"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr ""
+"複数選択するときには Control キーを押したまま選択してください。Mac の場合は "
+"Command キーを使ってください。"
+
+#: html/i18n.html:26
+msgid "/; s/, nplu.*/"
+msgstr ""
+
+#: html/i18n.html:29
+msgid "Afrikaans"
+msgstr "アフリカーンス語"
+
+#: html/i18n.html:30
+msgid "Akan"
+msgstr "アカン語"
+
+#: html/i18n.html:31
+msgid "Albanian"
+msgstr "アルバニア語"
+
+#: html/i18n.html:32
+msgid "Amharic"
+msgstr "アムハラ語"
+
+#: html/i18n.html:33
+msgid "Arabic"
+msgstr "アラビア語"
+
+#: html/i18n.html:34
+msgid "Aragonese"
+msgstr "アラゴン語"
+
+#: html/i18n.html:35
+msgid "Armenian"
+msgstr "アルメニア語"
+
+#: html/i18n.html:36
+msgid "Asturian"
+msgstr "アストゥリアス語"
+
+#: html/i18n.html:37
+msgid "Azerbaijani"
+msgstr "アゼルバイジャン語"
+
+#: html/i18n.html:38
+msgid "Basque"
+msgstr "バスク語"
+
+#: html/i18n.html:39
+msgid "Belarusian"
+msgstr "ベラルーシ語"
+
+#: html/i18n.html:40
+msgid "Belarusian (latin)"
+msgstr "ベラルーシ語 (ラテン文字)"
+
+#: html/i18n.html:41
+msgid "Bengali"
+msgstr "ベンガル語"
+
+#: html/i18n.html:42
+msgid "Bengali (India)"
+msgstr "ベンガル語 (インド)"
+
+#: html/i18n.html:43
+msgid "Bosnian"
+msgstr "ボスニア語"
+
+#: html/i18n.html:44
+msgid "Breton"
+msgstr "ブルターニュ語"
+
+#: html/i18n.html:45
+msgid "Bulgarian"
+msgstr "ブルガリア語"
+
+#: html/i18n.html:46
+msgid "Catalan"
+msgstr "カタロニア語"
+
+#: html/i18n.html:47
+msgid "Central Khmer"
+msgstr "中央クメール語"
+
+#: html/i18n.html:48
+msgid "Cornish"
+msgstr "コーンウォール語"
+
+#: html/i18n.html:49
+msgid "Croatian"
+msgstr "クロアチア語"
+
+#: html/i18n.html:50
+msgid "Czech"
+msgstr "チェコ語"
+
+#: html/i18n.html:51
+msgid "Danish"
+msgstr "デンマーク語"
+
+#: html/i18n.html:52
+msgid "Dutch"
+msgstr "オランダ語"
+
+#: html/i18n.html:53
+msgid "Dzongkha"
+msgstr "ゾンカ語"
+
+#: html/i18n.html:54
+msgid "English"
+msgstr "英語"
+
+#: html/i18n.html:55
+msgid "English (South Africa)"
+msgstr "英語 (南アフリカ)"
+
+#: html/i18n.html:56
+msgid "English (United Kingdom)"
+msgstr "英語 (英国)"
+
+#: html/i18n.html:57
+msgid "English (United States)"
+msgstr "英語 (米国)"
+
+#: html/i18n.html:58
+msgid "Esperanto"
+msgstr "エスペラント語"
+
+#: html/i18n.html:59
+msgid "Estonian"
+msgstr "エストニア語"
+
+#: html/i18n.html:60
+msgid "Faroese"
+msgstr "フェロー語"
+
+#: html/i18n.html:61
+msgid "Filipino"
+msgstr "フィリピン語"
+
+#: html/i18n.html:62
+msgid "Finnish"
+msgstr "フィンランド語"
+
+#: html/i18n.html:63
+msgid "French"
+msgstr "フランス語"
+
+#: html/i18n.html:64
+msgid "Frisian"
+msgstr "フリジア語"
+
+#: html/i18n.html:65
+msgid "Friulian"
+msgstr "フリウリ語"
+
+#: html/i18n.html:66
+msgid "Fulah"
+msgstr ""
+
+#: html/i18n.html:67
+msgid "Gaelic"
+msgstr "ゲール語"
+
+#: html/i18n.html:68
+msgid "Galician"
+msgstr "ガリシア語"
+
+#: html/i18n.html:69
+msgid "Georgian"
+msgstr "グルジア語"
+
+#: html/i18n.html:70
+msgid "German"
+msgstr "ドイツ語"
+
+#: html/i18n.html:71
+msgid "Greek"
+msgstr "ギリシャ語"
+
+#: html/i18n.html:72
+msgid "Gujarati"
+msgstr "グジャラート語"
+
+#: html/i18n.html:73
+msgid "Gun"
+msgstr "ガン語"
+
+#: html/i18n.html:74
+msgid "Hausa"
+msgstr "ハウサ語"
+
+#: html/i18n.html:75
+msgid "Hebrew"
+msgstr "ヘブライ語"
+
+#: html/i18n.html:76
+msgid "Hindi"
+msgstr "ヒンディー語"
+
+#: html/i18n.html:77
+msgid "Hungarian"
+msgstr "ハンガリー語"
+
+#: html/i18n.html:78
+msgid "Chinese (Hong Kong)"
+msgstr "中国語 (香港)"
+
+#: html/i18n.html:79
+msgid "Chinese (China)"
+msgstr "中国語 (中国)"
+
+#: html/i18n.html:80
+msgid "Chinese (Taiwan)"
+msgstr "中国語 (台湾)"
+
+#: html/i18n.html:81
+msgid "Icelandic"
+msgstr "アイスランド語"
+
+#: html/i18n.html:82
+msgid "Indonesian"
+msgstr "インドネシア語"
+
+#: html/i18n.html:83
+msgid "Interlingua"
+msgstr "インターリングア語"
+
+#: html/i18n.html:84
+msgid "Irish"
+msgstr "アイルランド語"
+
+#: html/i18n.html:85
+msgid "Italian"
+msgstr "イタリア語"
+
+#: html/i18n.html:86
+msgid "Japanese"
+msgstr "日本語"
+
+#: html/i18n.html:87
+msgid "Javanese"
+msgstr "ジャワ語"
+
+#: html/i18n.html:88
+msgid "Kannada"
+msgstr "カンナダ語"
+
+#: html/i18n.html:89
+msgid "Kashubian"
+msgstr "カシュビアン語"
+
+#: html/i18n.html:90
+msgid "Kazakh"
+msgstr "カザフ語"
+
+#: html/i18n.html:91
+msgid "Kirghiz"
+msgstr "キルギス語"
+
+#: html/i18n.html:92
+msgid "Korean"
+msgstr "朝鮮語"
+
+#: html/i18n.html:93
+msgid "Kurdish"
+msgstr "クルド語"
+
+#: html/i18n.html:94
+msgid "Kurdish Sorani"
+msgstr "クルド語 (ソラニー)"
+
+#: html/i18n.html:95
+msgid "Lao"
+msgstr "ラオ語"
+
+#: html/i18n.html:96
+msgid "Latvian"
+msgstr "ラトヴィア語"
+
+#: html/i18n.html:97
+msgid "Lingala"
+msgstr "リンガラ語"
+
+#: html/i18n.html:98
+msgid "Lithuanian"
+msgstr "リトアニア語"
+
+#: html/i18n.html:99
+msgid "Luxembourgish"
+msgstr "ルクセンブルク語"
+
+#: html/i18n.html:100
+msgid "Macedonian"
+msgstr "マケドニア語"
+
+#: html/i18n.html:101
+msgid "Maithili"
+msgstr "マイティリー語"
+
+#: html/i18n.html:102
+msgid "Malagasy"
+msgstr "マダガスカル語"
+
+#: html/i18n.html:103
+msgid "Malay"
+msgstr "マレー語"
+
+#: html/i18n.html:104
+msgid "Malayalam"
+msgstr "マラヤーラム語"
+
+#: html/i18n.html:105
+msgid "Maltese"
+msgstr "マルタ語"
+
+#: html/i18n.html:106
+msgid "Maori"
+msgstr "マオリ語"
+
+#: html/i18n.html:107
+msgid "Mapudungun"
+msgstr "マプチェ語"
+
+#: html/i18n.html:108
+msgid "Marathi"
+msgstr "マラーティー語"
+
+#: html/i18n.html:109
+msgid "Mongolian"
+msgstr "モンゴル語"
+
+#: html/i18n.html:110
+msgid "Morisyen"
+msgstr "モーリシャス語"
+
+#: html/i18n.html:111
+msgid "Nahuatl languages"
+msgstr "ナワトル語"
+
+#: html/i18n.html:112
+msgid "Neapolitan"
+msgstr "ナポリ語"
+
+#: html/i18n.html:113
+msgid "Nepali"
+msgstr "ネパール語"
+
+#: html/i18n.html:114
+msgid "Norwegian Bokmål"
+msgstr "ノルウェー語 (ブークモール)"
+
+#: html/i18n.html:115
+msgid "Norwegian Nynorsk"
+msgstr "ノルウェー語 (ニーノシュク)"
+
+#: html/i18n.html:116
+msgid "Occitan"
+msgstr "オック語"
+
+#: html/i18n.html:117
+msgid "Oriya"
+msgstr "オリヤー語"
+
+#: html/i18n.html:118
+msgid "Papiamento"
+msgstr "パピアメント語"
+
+#: html/i18n.html:119
+msgid "Pedi"
+msgstr "ペディ語"
+
+#: html/i18n.html:120
+msgid "Persian"
+msgstr "ペルシア語"
+
+#: html/i18n.html:121
+msgid "Piemontese"
+msgstr "ピエモンテ語"
+
+#: html/i18n.html:122
+msgid "Polish"
+msgstr "ポーランド語"
+
+#: html/i18n.html:123
+msgid "Portuguese"
+msgstr "ポルトガル語"
+
+#: html/i18n.html:124
+msgid "Portuguese (Brazil)"
+msgstr "ポルトガル語 (ブラジル)"
+
+#: html/i18n.html:125
+msgid "Portuguese (Portugal)"
+msgstr "ポルトガル語 (ポルトガル)"
+
+#: html/i18n.html:126
+#, fuzzy
+msgid "Punjabi"
+msgstr "パンジャーブ語"
+
+#: html/i18n.html:127
+msgid "Pushto"
+msgstr "パシュトゥ語"
+
+#: html/i18n.html:128
+msgid "Romanian"
+msgstr "ルーマニア語"
+
+#: html/i18n.html:129
+msgid "Romansh"
+msgstr "ロマンシュ語"
+
+#: html/i18n.html:130
+msgid "Russian"
+msgstr "ロシア語"
+
+#: html/i18n.html:131
+msgid "Scots"
+msgstr "スコットランド語"
+
+#: html/i18n.html:132
+msgid "Serbian"
+msgstr "セルビア語"
+
+#: html/i18n.html:133
+msgid "Serbian (cyrillic)"
+msgstr "セルビア語 (キリル文字)"
+
+#: html/i18n.html:134
+msgid "Serbian (latin)"
+msgstr "セルビア語 (ラテン文字)"
+
+#: html/i18n.html:135
+msgid "Sinhala"
+msgstr "シンハラ語"
+
+#: html/i18n.html:136
+msgid "Slovak"
+msgstr "スロバキア語"
+
+#: html/i18n.html:137
+msgid "Slovenian"
+msgstr "スロベニア語"
+
+#: html/i18n.html:138
+msgid "Somali"
+msgstr "ソマリ語"
+
+#: html/i18n.html:139
+msgid "Songhai languages"
+msgstr "ソンガイ語"
+
+#: html/i18n.html:140
+msgid "Sotho"
+msgstr "ソト語"
+
+#: html/i18n.html:141
+msgid "Spanish"
+msgstr "スペイン語"
+
+#: html/i18n.html:142
+msgid "Sundanese"
+msgstr "スンダ語"
+
+#: html/i18n.html:143
+msgid "Swahili"
+msgstr "スワヒリ語"
+
+#: html/i18n.html:144
+msgid "Swedish"
+msgstr "スウェーデン語"
+
+#: html/i18n.html:145
+msgid "Tajik"
+msgstr "タジク語"
+
+#: html/i18n.html:146
+msgid "Tamil"
+msgstr "タミール語"
+
+#: html/i18n.html:147
+msgid "Tatar"
+msgstr "タタール語"
+
+#: html/i18n.html:148
+msgid "Telugu"
+msgstr "テルグ語"
+
+#: html/i18n.html:149
+msgid "Thai"
+msgstr "タイ語"
+
+#: html/i18n.html:150
+msgid "Tibetan"
+msgstr "チベット語"
+
+#: html/i18n.html:151
+msgid "Tigrinya"
+msgstr "ティグリニャ語"
+
+#: html/i18n.html:152
+msgid "Turkish"
+msgstr "トルコ語"
+
+#: html/i18n.html:153
+msgid "Turkmen"
+msgstr "トルクメン語"
+
+#: html/i18n.html:154
+msgid "Uighur"
+msgstr "ウイグル語"
+
+#: html/i18n.html:155
+msgid "Ukrainian"
+msgstr "ウクライナ語"
+
+#: html/i18n.html:156
+msgid "Urdu"
+msgstr "ウルドゥー語"
+
+#: html/i18n.html:157
+msgid "Uzbek"
+msgstr "ウズベク語"
+
+#: html/i18n.html:158
+msgid "Uzbek (latin)"
+msgstr "ウズベク語 (ラテン文字)"
+
+#: html/i18n.html:159
+msgid "Vietnamese"
+msgstr "ベトナム語"
+
+#: html/i18n.html:160
+msgid "Walloon"
+msgstr "ワロン語"
+
+#: html/i18n.html:161
+msgid "Welsh"
+msgstr "ウェールズ語"
+
+#: html/i18n.html:162
+msgid "Yoruba"
+msgstr "ヨルバ語"
+
+#: html/i18n.html:163
+msgid "Zulu"
+msgstr "ズールー語"
+
+#: html/i18n.html:166
+msgid "Translate using Apertium"
+msgstr "Apertium を使って翻訳する"
+
+#: html/i18n.html:167
+msgid "Translate using Microsoft Translator"
+msgstr "Microsoft Translator を使って翻訳する"
+
+#: html/i18n.html:168
+msgid "Translate using MyMemory"
+msgstr "MyMemory を使って翻訳する"
+
+#: html/i18n.html:169
+msgid "Sort this column"
+msgstr "この列をソートする"
+
+#: html/i18n.html:170
+msgid "AJAX request to load this content has failed!"
+msgstr "AJAX によるこの項目の読み込みに失敗しました！"
+
+#: html/i18n.html:171
+#, fuzzy
+msgid "Loading…"
+msgstr "読み込んでいます…"
+
+#: html/i18n.html:172
+msgid "Failed translation"
+msgstr "翻訳の失敗"
+
+#: html/i18n.html:173
+msgid "The request for machine translation has failed."
+msgstr "機械翻訳の要求に失敗しました。"
+
+#: html/i18n.html:174
+msgid "Error details:"
+msgstr "エラー詳細:"
+
+#: html/i18n.html:175
+#, fuzzy
+msgid "Confirm resetting repository"
+msgstr "Git リポジトリの URL"
+
+#: html/i18n.html:176
+msgid "Resetting the repository will throw away all local changes!"
+msgstr ""
+
+#: html/i18n.html:177
+msgid "Ok"
+msgstr ""
+
+#: html/i18n.html:178
+msgid "Cancel"
+msgstr ""
+
+#: html/i18n.html:179 html/list-translations.html:62 trans/views/helper.py:192
+msgid "Strings with any failing checks"
+msgstr "失敗したチェックを任意の文字列"
+
+#: html/i18n.html:180 html/list-translations.html:63 trans/views/helper.py:186
+msgid "Fuzzy strings"
+msgstr "あいまい"
+
+#: html/i18n.html:181 html/list-translations.html:61
+#, fuzzy
+msgid "Translated strings"
+msgstr "未翻訳"
 
 #: html/index.html:9
 #, python-format
@@ -2059,547 +2602,6 @@ msgid ""
 msgstr ""
 "ここで入力されたお名前とメールアドレスは、翻訳された際の Git のコミットとして"
 "も使われます。"
-
-#: lang/i18n.py:36
-msgid "Afrikaans"
-msgstr "アフリカーンス語"
-
-#: lang/i18n.py:37
-msgid "Akan"
-msgstr "アカン語"
-
-#: lang/i18n.py:38
-msgid "Albanian"
-msgstr "アルバニア語"
-
-#: lang/i18n.py:39
-msgid "Amharic"
-msgstr "アムハラ語"
-
-#: lang/i18n.py:40 lang/i18n.py:41
-msgid "Arabic"
-msgstr "アラビア語"
-
-#: lang/i18n.py:42
-msgid "Aragonese"
-msgstr "アラゴン語"
-
-#: lang/i18n.py:43
-msgid "Armenian"
-msgstr "アルメニア語"
-
-#: lang/i18n.py:44
-msgid "Asturian"
-msgstr "アストゥリアス語"
-
-#: lang/i18n.py:45
-msgid "Azerbaijani"
-msgstr "アゼルバイジャン語"
-
-#: lang/i18n.py:46
-msgid "Basque"
-msgstr "バスク語"
-
-#: lang/i18n.py:47
-msgid "Belarusian"
-msgstr "ベラルーシ語"
-
-#: lang/i18n.py:48
-msgid "Belarusian (latin)"
-msgstr "ベラルーシ語 (ラテン文字)"
-
-#: lang/i18n.py:49
-msgid "Bengali"
-msgstr "ベンガル語"
-
-#: lang/i18n.py:50
-msgid "Bengali (India)"
-msgstr "ベンガル語 (インド)"
-
-#: lang/i18n.py:51
-msgid "Bosnian"
-msgstr "ボスニア語"
-
-#: lang/i18n.py:52
-msgid "Breton"
-msgstr "ブルターニュ語"
-
-#: lang/i18n.py:53
-msgid "Bulgarian"
-msgstr "ブルガリア語"
-
-#: lang/i18n.py:54 lang/i18n.py:55
-msgid "Catalan"
-msgstr "カタロニア語"
-
-#: lang/i18n.py:56
-msgid "Central Khmer"
-msgstr "中央クメール語"
-
-#: lang/i18n.py:57
-msgid "Chinese (China)"
-msgstr "中国語 (中国)"
-
-#: lang/i18n.py:58
-msgid "Chinese (Hong Kong)"
-msgstr "中国語 (香港)"
-
-#: lang/i18n.py:59
-msgid "Chinese (Taiwan)"
-msgstr "中国語 (台湾)"
-
-#: lang/i18n.py:60
-msgid "Cornish"
-msgstr "コーンウォール語"
-
-#: lang/i18n.py:61
-msgid "Croatian"
-msgstr "クロアチア語"
-
-#: lang/i18n.py:62
-msgid "Czech"
-msgstr "チェコ語"
-
-#: lang/i18n.py:63
-msgid "Danish"
-msgstr "デンマーク語"
-
-#: lang/i18n.py:64
-msgid "Dutch"
-msgstr "オランダ語"
-
-#: lang/i18n.py:65
-msgid "Dzongkha"
-msgstr "ゾンカ語"
-
-#: lang/i18n.py:66
-msgid "English"
-msgstr "英語"
-
-#: lang/i18n.py:67
-msgid "English (South Africa)"
-msgstr "英語 (南アフリカ)"
-
-#: lang/i18n.py:68
-msgid "English (United Kingdom)"
-msgstr "英語 (英国)"
-
-#: lang/i18n.py:69
-msgid "English (United States)"
-msgstr "英語 (米国)"
-
-#: lang/i18n.py:70
-msgid "Esperanto"
-msgstr "エスペラント語"
-
-#: lang/i18n.py:71
-msgid "Estonian"
-msgstr "エストニア語"
-
-#: lang/i18n.py:72
-msgid "Faroese"
-msgstr "フェロー語"
-
-#: lang/i18n.py:73
-msgid "Filipino"
-msgstr "フィリピン語"
-
-#: lang/i18n.py:74
-msgid "Finnish"
-msgstr "フィンランド語"
-
-#: lang/i18n.py:75
-msgid "French"
-msgstr "フランス語"
-
-#: lang/i18n.py:76
-msgid "Frisian"
-msgstr "フリジア語"
-
-#: lang/i18n.py:77
-msgid "Friulian"
-msgstr "フリウリ語"
-
-#: lang/i18n.py:78
-msgid "Fulah"
-msgstr ""
-
-#: lang/i18n.py:79
-msgid "Gaelic"
-msgstr "ゲール語"
-
-#: lang/i18n.py:80
-msgid "Galician"
-msgstr "ガリシア語"
-
-#: lang/i18n.py:81
-msgid "Georgian"
-msgstr "グルジア語"
-
-#: lang/i18n.py:82
-msgid "German"
-msgstr "ドイツ語"
-
-#: lang/i18n.py:83
-msgid "Greek"
-msgstr "ギリシャ語"
-
-#: lang/i18n.py:84
-msgid "Gujarati"
-msgstr "グジャラート語"
-
-#: lang/i18n.py:88
-msgid "Gun"
-msgstr "ガン語"
-
-#: lang/i18n.py:89
-msgid "Hausa"
-msgstr "ハウサ語"
-
-#: lang/i18n.py:90
-msgid "Hebrew"
-msgstr "ヘブライ語"
-
-#: lang/i18n.py:91
-msgid "Hindi"
-msgstr "ヒンディー語"
-
-#: lang/i18n.py:92
-msgid "Hungarian"
-msgstr "ハンガリー語"
-
-#: lang/i18n.py:93
-msgid "Icelandic"
-msgstr "アイスランド語"
-
-#: lang/i18n.py:94
-msgid "Indonesian"
-msgstr "インドネシア語"
-
-#: lang/i18n.py:95
-msgid "Interlingua"
-msgstr "インターリングア語"
-
-#: lang/i18n.py:96
-msgid "Irish"
-msgstr "アイルランド語"
-
-#: lang/i18n.py:97
-msgid "Italian"
-msgstr "イタリア語"
-
-#: lang/i18n.py:98
-msgid "Japanese"
-msgstr "日本語"
-
-#: lang/i18n.py:99
-msgid "Javanese"
-msgstr "ジャワ語"
-
-#: lang/i18n.py:100
-msgid "Kannada"
-msgstr "カンナダ語"
-
-#: lang/i18n.py:101
-msgid "Kashubian"
-msgstr "カシュビアン語"
-
-#: lang/i18n.py:102
-msgid "Kazakh"
-msgstr "カザフ語"
-
-#: lang/i18n.py:103
-msgid "Kirghiz"
-msgstr "キルギス語"
-
-#: lang/i18n.py:104
-msgid "Korean"
-msgstr "朝鮮語"
-
-#: lang/i18n.py:105
-msgid "Kurdish"
-msgstr "クルド語"
-
-#: lang/i18n.py:106
-msgid "Kurdish Sorani"
-msgstr "クルド語 (ソラニー)"
-
-#: lang/i18n.py:107
-msgid "Lao"
-msgstr "ラオ語"
-
-#: lang/i18n.py:108
-msgid "Latvian"
-msgstr "ラトヴィア語"
-
-#: lang/i18n.py:109
-msgid "Lingala"
-msgstr "リンガラ語"
-
-#: lang/i18n.py:110
-msgid "Lithuanian"
-msgstr "リトアニア語"
-
-#: lang/i18n.py:111
-msgid "Luxembourgish"
-msgstr "ルクセンブルク語"
-
-#: lang/i18n.py:112
-msgid "Macedonian"
-msgstr "マケドニア語"
-
-#: lang/i18n.py:113
-msgid "Maithili"
-msgstr "マイティリー語"
-
-#: lang/i18n.py:114
-msgid "Malagasy"
-msgstr "マダガスカル語"
-
-#: lang/i18n.py:115
-msgid "Malay"
-msgstr "マレー語"
-
-#: lang/i18n.py:116
-msgid "Malayalam"
-msgstr "マラヤーラム語"
-
-#: lang/i18n.py:117
-msgid "Maltese"
-msgstr "マルタ語"
-
-#: lang/i18n.py:118
-msgid "Maori"
-msgstr "マオリ語"
-
-#: lang/i18n.py:119
-msgid "Mapudungun"
-msgstr "マプチェ語"
-
-#: lang/i18n.py:120
-msgid "Marathi"
-msgstr "マラーティー語"
-
-#: lang/i18n.py:121
-msgid "Mongolian"
-msgstr "モンゴル語"
-
-#: lang/i18n.py:122
-msgid "Morisyen"
-msgstr "モーリシャス語"
-
-#: lang/i18n.py:123
-msgid "Nahuatl languages"
-msgstr "ナワトル語"
-
-#: lang/i18n.py:124
-msgid "Neapolitan"
-msgstr "ナポリ語"
-
-#: lang/i18n.py:125
-msgid "Nepali"
-msgstr "ネパール語"
-
-#: lang/i18n.py:126
-msgid "Norwegian Bokmål"
-msgstr "ノルウェー語 (ブークモール)"
-
-#: lang/i18n.py:127
-msgid "Norwegian Nynorsk"
-msgstr "ノルウェー語 (ニーノシュク)"
-
-#: lang/i18n.py:128
-msgid "Occitan"
-msgstr "オック語"
-
-#: lang/i18n.py:129
-msgid "Oriya"
-msgstr "オリヤー語"
-
-#: lang/i18n.py:130
-msgid "Papiamento"
-msgstr "パピアメント語"
-
-#: lang/i18n.py:131
-msgid "Pedi"
-msgstr "ペディ語"
-
-#: lang/i18n.py:132
-msgid "Persian"
-msgstr "ペルシア語"
-
-#: lang/i18n.py:133
-msgid "Piemontese"
-msgstr "ピエモンテ語"
-
-#: lang/i18n.py:134
-msgid "Polish"
-msgstr "ポーランド語"
-
-#: lang/i18n.py:138
-msgid "Portuguese"
-msgstr "ポルトガル語"
-
-#: lang/i18n.py:139
-msgid "Portuguese (Brazil)"
-msgstr "ポルトガル語 (ブラジル)"
-
-#: lang/i18n.py:140
-msgid "Portuguese (Portugal)"
-msgstr "ポルトガル語 (ポルトガル)"
-
-#: lang/i18n.py:141
-#, fuzzy
-msgid "Punjabi"
-msgstr "パンジャーブ語"
-
-#: lang/i18n.py:142
-msgid "Pushto"
-msgstr "パシュトゥ語"
-
-#: lang/i18n.py:143
-msgid "Romanian"
-msgstr "ルーマニア語"
-
-#: lang/i18n.py:144
-msgid "Romansh"
-msgstr "ロマンシュ語"
-
-#: lang/i18n.py:145
-msgid "Russian"
-msgstr "ロシア語"
-
-#: lang/i18n.py:146
-msgid "Scots"
-msgstr "スコットランド語"
-
-#: lang/i18n.py:147
-msgid "Serbian"
-msgstr "セルビア語"
-
-#: lang/i18n.py:148
-msgid "Serbian (cyrillic)"
-msgstr "セルビア語 (キリル文字)"
-
-#: lang/i18n.py:149
-msgid "Serbian (latin)"
-msgstr "セルビア語 (ラテン文字)"
-
-#: lang/i18n.py:150
-msgid "Sinhala"
-msgstr "シンハラ語"
-
-#: lang/i18n.py:151
-msgid "Slovak"
-msgstr "スロバキア語"
-
-#: lang/i18n.py:152
-msgid "Slovenian"
-msgstr "スロベニア語"
-
-#: lang/i18n.py:153
-msgid "Somali"
-msgstr "ソマリ語"
-
-#: lang/i18n.py:154
-msgid "Songhai languages"
-msgstr "ソンガイ語"
-
-#: lang/i18n.py:155
-msgid "Sotho"
-msgstr "ソト語"
-
-#: lang/i18n.py:156
-msgid "Spanish"
-msgstr "スペイン語"
-
-#: lang/i18n.py:157
-msgid "Sundanese"
-msgstr "スンダ語"
-
-#: lang/i18n.py:158
-msgid "Swahili"
-msgstr "スワヒリ語"
-
-#: lang/i18n.py:159
-msgid "Swedish"
-msgstr "スウェーデン語"
-
-#: lang/i18n.py:160
-msgid "Tajik"
-msgstr "タジク語"
-
-#: lang/i18n.py:161
-msgid "Tamil"
-msgstr "タミール語"
-
-#: lang/i18n.py:162
-msgid "Tatar"
-msgstr "タタール語"
-
-#: lang/i18n.py:163
-msgid "Telugu"
-msgstr "テルグ語"
-
-#: lang/i18n.py:164
-msgid "Thai"
-msgstr "タイ語"
-
-#: lang/i18n.py:165
-msgid "Tibetan"
-msgstr "チベット語"
-
-#: lang/i18n.py:166
-msgid "Tigrinya"
-msgstr "ティグリニャ語"
-
-#: lang/i18n.py:167
-msgid "Turkish"
-msgstr "トルコ語"
-
-#: lang/i18n.py:168
-msgid "Turkmen"
-msgstr "トルクメン語"
-
-#: lang/i18n.py:169
-msgid "Uighur"
-msgstr "ウイグル語"
-
-#: lang/i18n.py:170
-msgid "Ukrainian"
-msgstr "ウクライナ語"
-
-#: lang/i18n.py:171
-msgid "Urdu"
-msgstr "ウルドゥー語"
-
-#: lang/i18n.py:172
-msgid "Uzbek"
-msgstr "ウズベク語"
-
-#: lang/i18n.py:173
-msgid "Uzbek (latin)"
-msgstr "ウズベク語 (ラテン文字)"
-
-#: lang/i18n.py:174
-msgid "Vietnamese"
-msgstr "ベトナム語"
-
-#: lang/i18n.py:175
-msgid "Walloon"
-msgstr "ワロン語"
-
-#: lang/i18n.py:176
-msgid "Welsh"
-msgstr "ウェールズ語"
-
-#: lang/i18n.py:177
-msgid "Yoruba"
-msgstr "ヨルバ語"
-
-#: lang/i18n.py:178
-msgid "Zulu"
-msgstr "ズールー語"
 
 #: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
 #: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295

@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-19 14:41+0100\n"
+"POT-Creation-Date: 2013-02-19 16:40+0100\n"
 "PO-Revision-Date: 2013-02-19 15:18+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +56,7 @@ msgstr "Lastno ime"
 msgid "Last name"
 msgstr "Priimek"
 
-#: accounts/forms.py:100 accounts/forms.py:135 accounts/i18n.py:42
+#: accounts/forms.py:100 accounts/forms.py:135 html/i18n.html:15
 msgid "E-mail"
 msgstr "E-pošta"
 
@@ -75,7 +76,7 @@ msgstr "Vaš e-poštni naslov"
 msgid "Message"
 msgstr "Sporočilo"
 
-#: accounts/forms.py:131 accounts/i18n.py:43
+#: accounts/forms.py:131 html/i18n.html:16
 msgid "Username"
 msgstr "Uporabniško ime"
 
@@ -87,7 +88,7 @@ msgstr "Dolgo vsaj pet znakov."
 msgid "Activation email will be sent here."
 msgstr "Aktivacijsko e-pošto bom poslal sem."
 
-#: accounts/forms.py:139 accounts/i18n.py:44 html/profile.html:25
+#: accounts/forms.py:139 html/i18n.html:17 html/profile.html:25
 msgid "Password"
 msgstr "Geslo"
 
@@ -110,108 +111,6 @@ msgstr "Geslo mora imeti vsaj šest znakov."
 #: accounts/forms.py:166
 msgid "Username needs to have at least five characters."
 msgstr "Uporabniško ime mora imeti vsaj pet znakov."
-
-#: accounts/i18n.py:32
-msgid "This username is already taken. Please choose another."
-msgstr "Uporabniško ime je že zasedeno. Prosimo, izberite drugo."
-
-#: accounts/i18n.py:33
-msgid "You must type the same password each time"
-msgstr "Vsakič morate vnesti enako geslo"
-
-#: accounts/i18n.py:35
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"E-poštni naslov je že v uporabi. Prosimo, navedite drug e-poštni naslov."
-
-#: accounts/i18n.py:38
-msgid "Old password"
-msgstr "Staro geslo"
-
-#: accounts/i18n.py:39
-msgid "New password"
-msgstr "Novo geslo"
-
-#: accounts/i18n.py:40
-msgid "New password confirmation"
-msgstr "Potrditev novega gesla"
-
-#: accounts/i18n.py:41
-msgid "The two password fields didn't match."
-msgstr "Polji z geslom se ne ujemata."
-
-#: accounts/i18n.py:45
-msgid ""
-"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr "Držite \"Control\" (ali \"Command\" na Mac-u) za izbiro več kot enega."
-
-#: accounts/i18n.py:48
-msgid "Translate using Apertium"
-msgstr "Prevedi z uporabo Apertium"
-
-#: accounts/i18n.py:49
-msgid "Translate using Microsoft Translator"
-msgstr "Prevedi z uporabo Microsoft Translator"
-
-#: accounts/i18n.py:50
-msgid "Translate using MyMemory"
-msgstr "Prevedi z uporabo MyMemory"
-
-#: accounts/i18n.py:51
-msgid "Sort this column"
-msgstr "Razvrsti stolpec"
-
-#: accounts/i18n.py:52
-msgid "AJAX request to load this content has failed!"
-msgstr "Zahteva Ajax za nalaganje vsebine je spodletela!"
-
-#: accounts/i18n.py:53
-msgid "Loading…"
-msgstr "Nalaganje…"
-
-#: accounts/i18n.py:54
-msgid "Failed translation"
-msgstr "Prevajanje je spodletelo"
-
-#: accounts/i18n.py:55
-msgid "The request for machine translation has failed."
-msgstr "Zahteva po strojnem prevodu je spodletela."
-
-#: accounts/i18n.py:56
-msgid "Error details:"
-msgstr "Podrobnosti napake:"
-
-#: accounts/i18n.py:57
-msgid "Confirm resetting repository"
-msgstr "Potrdite ponastavitev shrambe"
-
-#: accounts/i18n.py:58
-msgid "Resetting the repository will throw away all local changes!"
-msgstr "S ponastavitvijo shrambe boste zavrgli vse lokalne spremembe!"
-
-#: accounts/i18n.py:59
-msgid "Ok"
-msgstr "V redu"
-
-#: accounts/i18n.py:60
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: accounts/i18n.py:61 html/list-translations.html:62
-#: trans/views/helper.py:192
-msgid "Strings with any failing checks"
-msgstr "Nizi s katerim koli spodletelim preverjanjem"
-
-#: accounts/i18n.py:62 html/list-translations.html:63
-#: trans/views/helper.py:186
-msgid "Fuzzy strings"
-msgstr "Neurejeni nizi"
-
-#: accounts/i18n.py:63 html/list-translations.html:61
-msgid "Translated strings"
-msgstr "Prevedeni nizi"
 
 #: accounts/models.py:186
 msgid "Interface Language"
@@ -739,6 +638,650 @@ msgstr "Objava %(hash)s"
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr "Ustvaril %(author)s dne %(date)s"
+
+#: html/i18n.html:8
+msgid "This username is already taken. Please choose another."
+msgstr "Uporabniško ime je že zasedeno. Prosimo, izberite drugo."
+
+#: html/i18n.html:9
+msgid "You must type the same password each time"
+msgstr "Vsakič morate vnesti enako geslo"
+
+#: html/i18n.html:10
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"E-poštni naslov je že v uporabi. Prosimo, navedite drug e-poštni naslov."
+
+#: html/i18n.html:11
+msgid "Old password"
+msgstr "Staro geslo"
+
+#: html/i18n.html:12
+msgid "New password"
+msgstr "Novo geslo"
+
+#: html/i18n.html:13
+msgid "New password confirmation"
+msgstr "Potrditev novega gesla"
+
+#: html/i18n.html:14
+msgid "The two password fields didn't match."
+msgstr "Polji z geslom se ne ujemata."
+
+#: html/i18n.html:18
+msgid ""
+"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr "Držite \"Control\" (ali \"Command\" na Mac-u) za izbiro več kot enega."
+
+#: html/i18n.html:26
+msgid "/; s/, nplu.*/"
+msgstr ""
+
+#: html/i18n.html:29
+msgid "Afrikaans"
+msgstr "afrikanščina"
+
+#: html/i18n.html:30
+msgid "Akan"
+msgstr "akanščina"
+
+#: html/i18n.html:31
+msgid "Albanian"
+msgstr "albanščina"
+
+#: html/i18n.html:32
+msgid "Amharic"
+msgstr "amharščina"
+
+#: html/i18n.html:33
+msgid "Arabic"
+msgstr "arabščina"
+
+#: html/i18n.html:34
+msgid "Aragonese"
+msgstr "aragonščina"
+
+#: html/i18n.html:35
+msgid "Armenian"
+msgstr "armenščina"
+
+#: html/i18n.html:36
+msgid "Asturian"
+msgstr "asturščina"
+
+#: html/i18n.html:37
+msgid "Azerbaijani"
+msgstr "azerbajdžanščina"
+
+#: html/i18n.html:38
+msgid "Basque"
+msgstr "baskovščina"
+
+#: html/i18n.html:39
+msgid "Belarusian"
+msgstr "beloruščina"
+
+#: html/i18n.html:40
+msgid "Belarusian (latin)"
+msgstr "beloruščina (latinica)"
+
+#: html/i18n.html:41
+msgid "Bengali"
+msgstr "bengalščina"
+
+#: html/i18n.html:42
+msgid "Bengali (India)"
+msgstr "bengalščina (Indija)"
+
+#: html/i18n.html:43
+msgid "Bosnian"
+msgstr "bosanščina"
+
+#: html/i18n.html:44
+msgid "Breton"
+msgstr "bretonščina"
+
+#: html/i18n.html:45
+msgid "Bulgarian"
+msgstr "bolgarščina"
+
+#: html/i18n.html:46
+msgid "Catalan"
+msgstr "katalonščina"
+
+#: html/i18n.html:47
+msgid "Central Khmer"
+msgstr "osrednja kmerščina"
+
+#: html/i18n.html:48
+msgid "Cornish"
+msgstr "kornijščina"
+
+#: html/i18n.html:49
+msgid "Croatian"
+msgstr "hrvaščina"
+
+#: html/i18n.html:50
+msgid "Czech"
+msgstr "češčina"
+
+#: html/i18n.html:51
+msgid "Danish"
+msgstr "danščina"
+
+#: html/i18n.html:52
+msgid "Dutch"
+msgstr "nizozemščina"
+
+#: html/i18n.html:53
+msgid "Dzongkha"
+msgstr "dzonka"
+
+#: html/i18n.html:54
+msgid "English"
+msgstr "angleščina"
+
+#: html/i18n.html:55
+msgid "English (South Africa)"
+msgstr "angleščina (Južna Afrika)"
+
+#: html/i18n.html:56
+msgid "English (United Kingdom)"
+msgstr "angleščina (Združeno kraljestvo)"
+
+#: html/i18n.html:57
+msgid "English (United States)"
+msgstr "angleščina (Združene države Amerike)"
+
+#: html/i18n.html:58
+msgid "Esperanto"
+msgstr "esperanto"
+
+#: html/i18n.html:59
+msgid "Estonian"
+msgstr "estonščina"
+
+#: html/i18n.html:60
+msgid "Faroese"
+msgstr "ferščina"
+
+#: html/i18n.html:61
+msgid "Filipino"
+msgstr "filipinščina"
+
+#: html/i18n.html:62
+msgid "Finnish"
+msgstr "finščina"
+
+#: html/i18n.html:63
+msgid "French"
+msgstr "francoščina"
+
+#: html/i18n.html:64
+msgid "Frisian"
+msgstr "frizijščina"
+
+#: html/i18n.html:65
+msgid "Friulian"
+msgstr "furlanščina"
+
+#: html/i18n.html:66
+msgid "Fulah"
+msgstr "fulščina"
+
+#: html/i18n.html:67
+msgid "Gaelic"
+msgstr "gelščina"
+
+#: html/i18n.html:68
+msgid "Galician"
+msgstr "galicijščina"
+
+#: html/i18n.html:69
+msgid "Georgian"
+msgstr "gruzinščina"
+
+#: html/i18n.html:70
+msgid "German"
+msgstr "nemščina"
+
+#: html/i18n.html:71
+msgid "Greek"
+msgstr "grščina"
+
+#: html/i18n.html:72
+msgid "Gujarati"
+msgstr "gudžaratščina"
+
+#: html/i18n.html:73
+msgid "Gun"
+msgstr "fonščina"
+
+#: html/i18n.html:74
+msgid "Hausa"
+msgstr "havščina"
+
+#: html/i18n.html:75
+msgid "Hebrew"
+msgstr "hebrejščina"
+
+#: html/i18n.html:76
+msgid "Hindi"
+msgstr "hindujščina"
+
+#: html/i18n.html:77
+msgid "Hungarian"
+msgstr "madžarščina"
+
+#: html/i18n.html:78
+msgid "Chinese (Hong Kong)"
+msgstr "kitajščina (Hong Kong)"
+
+#: html/i18n.html:79
+msgid "Chinese (China)"
+msgstr "kitajščina (Kitajska)"
+
+#: html/i18n.html:80
+msgid "Chinese (Taiwan)"
+msgstr "kitajščina (Tajvan)"
+
+#: html/i18n.html:81
+msgid "Icelandic"
+msgstr "islandščina"
+
+#: html/i18n.html:82
+msgid "Indonesian"
+msgstr "indonezijščina"
+
+#: html/i18n.html:83
+msgid "Interlingua"
+msgstr "interlingva"
+
+#: html/i18n.html:84
+msgid "Irish"
+msgstr "irščina"
+
+#: html/i18n.html:85
+msgid "Italian"
+msgstr "italijanščina"
+
+#: html/i18n.html:86
+msgid "Japanese"
+msgstr "japonščina"
+
+#: html/i18n.html:87
+msgid "Javanese"
+msgstr "javanščina"
+
+#: html/i18n.html:88
+msgid "Kannada"
+msgstr "kanareščina"
+
+#: html/i18n.html:89
+msgid "Kashubian"
+msgstr "kašubščina"
+
+#: html/i18n.html:90
+msgid "Kazakh"
+msgstr "kazaščina"
+
+#: html/i18n.html:91
+msgid "Kirghiz"
+msgstr "kirgiščina"
+
+#: html/i18n.html:92
+msgid "Korean"
+msgstr "korejščina"
+
+#: html/i18n.html:93
+msgid "Kurdish"
+msgstr "kurdščina"
+
+#: html/i18n.html:94
+msgid "Kurdish Sorani"
+msgstr "kurdski sorani"
+
+#: html/i18n.html:95
+msgid "Lao"
+msgstr "laoščina"
+
+#: html/i18n.html:96
+msgid "Latvian"
+msgstr "latvijščina"
+
+#: html/i18n.html:97
+msgid "Lingala"
+msgstr "lingala"
+
+#: html/i18n.html:98
+msgid "Lithuanian"
+msgstr "litovščina"
+
+#: html/i18n.html:99
+msgid "Luxembourgish"
+msgstr "luksemburščina"
+
+#: html/i18n.html:100
+msgid "Macedonian"
+msgstr "makedonščina"
+
+#: html/i18n.html:101
+msgid "Maithili"
+msgstr "maitili"
+
+#: html/i18n.html:102
+msgid "Malagasy"
+msgstr "malagaščina"
+
+#: html/i18n.html:103
+msgid "Malay"
+msgstr "malajščina"
+
+#: html/i18n.html:104
+msgid "Malayalam"
+msgstr "malajalamščina"
+
+#: html/i18n.html:105
+msgid "Maltese"
+msgstr "malteščina"
+
+#: html/i18n.html:106
+msgid "Maori"
+msgstr "maorščina"
+
+#: html/i18n.html:107
+msgid "Mapudungun"
+msgstr "aravkanščina"
+
+#: html/i18n.html:108
+msgid "Marathi"
+msgstr "maratščina"
+
+#: html/i18n.html:109
+msgid "Mongolian"
+msgstr "mongolščina"
+
+#: html/i18n.html:110
+msgid "Morisyen"
+msgstr "mauricijska kreolščina"
+
+#: html/i18n.html:111
+msgid "Nahuatl languages"
+msgstr "jeziki nahuatl"
+
+#: html/i18n.html:112
+msgid "Neapolitan"
+msgstr "napolitanščina"
+
+#: html/i18n.html:113
+msgid "Nepali"
+msgstr "nepalščina"
+
+#: html/i18n.html:114
+msgid "Norwegian Bokmål"
+msgstr "knjižna norveščina"
+
+#: html/i18n.html:115
+msgid "Norwegian Nynorsk"
+msgstr "novonorveščina"
+
+#: html/i18n.html:116
+msgid "Occitan"
+msgstr "okcitanščina"
+
+#: html/i18n.html:117
+msgid "Oriya"
+msgstr "orijščina"
+
+#: html/i18n.html:118
+msgid "Papiamento"
+msgstr "papiamentu"
+
+#: html/i18n.html:119
+msgid "Pedi"
+msgstr "severna sotščina"
+
+#: html/i18n.html:120
+msgid "Persian"
+msgstr "perzijščina"
+
+#: html/i18n.html:121
+msgid "Piemontese"
+msgstr "piemontščina"
+
+#: html/i18n.html:122
+msgid "Polish"
+msgstr "poljščina"
+
+#: html/i18n.html:123
+msgid "Portuguese"
+msgstr "portugalščina"
+
+#: html/i18n.html:124
+msgid "Portuguese (Brazil)"
+msgstr "portugalščina (Brazilija)"
+
+#: html/i18n.html:125
+msgid "Portuguese (Portugal)"
+msgstr "portugalščina (Portugalska)"
+
+#: html/i18n.html:126
+msgid "Punjabi"
+msgstr "pandžabščina"
+
+#: html/i18n.html:127
+msgid "Pushto"
+msgstr "paštunščina"
+
+#: html/i18n.html:128
+msgid "Romanian"
+msgstr "romunščina"
+
+#: html/i18n.html:129
+msgid "Romansh"
+msgstr "retoromanščina"
+
+#: html/i18n.html:130
+msgid "Russian"
+msgstr "ruščina"
+
+#: html/i18n.html:131
+msgid "Scots"
+msgstr "škotščina"
+
+#: html/i18n.html:132
+msgid "Serbian"
+msgstr "srbščina"
+
+#: html/i18n.html:133
+msgid "Serbian (cyrillic)"
+msgstr "srbščina (cirilica)"
+
+#: html/i18n.html:134
+msgid "Serbian (latin)"
+msgstr "srbščina (latinica)"
+
+#: html/i18n.html:135
+msgid "Sinhala"
+msgstr "singalščina"
+
+#: html/i18n.html:136
+msgid "Slovak"
+msgstr "slovaščina"
+
+#: html/i18n.html:137
+msgid "Slovenian"
+msgstr "slovenščina"
+
+#: html/i18n.html:138
+msgid "Somali"
+msgstr "somalščina"
+
+#: html/i18n.html:139
+msgid "Songhai languages"
+msgstr "songajski jeziki"
+
+#: html/i18n.html:140
+msgid "Sotho"
+msgstr "sotščina"
+
+#: html/i18n.html:141
+msgid "Spanish"
+msgstr "španščina"
+
+#: html/i18n.html:142
+msgid "Sundanese"
+msgstr "sundanščina"
+
+#: html/i18n.html:143
+msgid "Swahili"
+msgstr "svahili"
+
+#: html/i18n.html:144
+msgid "Swedish"
+msgstr "švedščina"
+
+#: html/i18n.html:145
+msgid "Tajik"
+msgstr "tadžiščina"
+
+#: html/i18n.html:146
+msgid "Tamil"
+msgstr "tamilščina"
+
+#: html/i18n.html:147
+msgid "Tatar"
+msgstr "tatarščina"
+
+#: html/i18n.html:148
+msgid "Telugu"
+msgstr "telugijščina"
+
+#: html/i18n.html:149
+msgid "Thai"
+msgstr "tajščina"
+
+#: html/i18n.html:150
+msgid "Tibetan"
+msgstr "tibetanščina"
+
+#: html/i18n.html:151
+msgid "Tigrinya"
+msgstr "tigrajščina"
+
+#: html/i18n.html:152
+msgid "Turkish"
+msgstr "turščina"
+
+#: html/i18n.html:153
+msgid "Turkmen"
+msgstr "turkmenščina"
+
+#: html/i18n.html:154
+msgid "Uighur"
+msgstr "ujgurščina"
+
+#: html/i18n.html:155
+msgid "Ukrainian"
+msgstr "ukrajinščina"
+
+#: html/i18n.html:156
+msgid "Urdu"
+msgstr "urdu"
+
+#: html/i18n.html:157
+msgid "Uzbek"
+msgstr "uzbeščina"
+
+#: html/i18n.html:158
+msgid "Uzbek (latin)"
+msgstr "uzbeščina (latinica)"
+
+#: html/i18n.html:159
+msgid "Vietnamese"
+msgstr "vietnamščina"
+
+#: html/i18n.html:160
+msgid "Walloon"
+msgstr "valonščina"
+
+#: html/i18n.html:161
+msgid "Welsh"
+msgstr "valižanščina"
+
+#: html/i18n.html:162
+msgid "Yoruba"
+msgstr "jorubščina"
+
+#: html/i18n.html:163
+msgid "Zulu"
+msgstr "zulujščina"
+
+#: html/i18n.html:166
+msgid "Translate using Apertium"
+msgstr "Prevedi z uporabo Apertium"
+
+#: html/i18n.html:167
+msgid "Translate using Microsoft Translator"
+msgstr "Prevedi z uporabo Microsoft Translator"
+
+#: html/i18n.html:168
+msgid "Translate using MyMemory"
+msgstr "Prevedi z uporabo MyMemory"
+
+#: html/i18n.html:169
+msgid "Sort this column"
+msgstr "Razvrsti stolpec"
+
+#: html/i18n.html:170
+msgid "AJAX request to load this content has failed!"
+msgstr "Zahteva Ajax za nalaganje vsebine je spodletela!"
+
+#: html/i18n.html:171
+msgid "Loading…"
+msgstr "Nalaganje…"
+
+#: html/i18n.html:172
+msgid "Failed translation"
+msgstr "Prevajanje je spodletelo"
+
+#: html/i18n.html:173
+msgid "The request for machine translation has failed."
+msgstr "Zahteva po strojnem prevodu je spodletela."
+
+#: html/i18n.html:174
+msgid "Error details:"
+msgstr "Podrobnosti napake:"
+
+#: html/i18n.html:175
+msgid "Confirm resetting repository"
+msgstr "Potrdite ponastavitev shrambe"
+
+#: html/i18n.html:176
+msgid "Resetting the repository will throw away all local changes!"
+msgstr "S ponastavitvijo shrambe boste zavrgli vse lokalne spremembe!"
+
+#: html/i18n.html:177
+msgid "Ok"
+msgstr "V redu"
+
+#: html/i18n.html:178
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: html/i18n.html:179 html/list-translations.html:62 trans/views/helper.py:192
+msgid "Strings with any failing checks"
+msgstr "Nizi s katerim koli spodletelim preverjanjem"
+
+#: html/i18n.html:180 html/list-translations.html:63 trans/views/helper.py:186
+msgid "Fuzzy strings"
+msgstr "Neurejeni nizi"
+
+#: html/i18n.html:181 html/list-translations.html:61
+msgid "Translated strings"
+msgstr "Prevedeni nizi"
 
 #: html/index.html:9
 #, python-format
@@ -2060,546 +2603,6 @@ msgstr ""
 "potrditvah Git in da so vaši prispevki licencirani pod enakim dovoljenjem "
 "kot prevedena vsebina."
 
-#: lang/i18n.py:36
-msgid "Afrikaans"
-msgstr "afrikanščina"
-
-#: lang/i18n.py:37
-msgid "Akan"
-msgstr "akanščina"
-
-#: lang/i18n.py:38
-msgid "Albanian"
-msgstr "albanščina"
-
-#: lang/i18n.py:39
-msgid "Amharic"
-msgstr "amharščina"
-
-#: lang/i18n.py:40 lang/i18n.py:41
-msgid "Arabic"
-msgstr "arabščina"
-
-#: lang/i18n.py:42
-msgid "Aragonese"
-msgstr "aragonščina"
-
-#: lang/i18n.py:43
-msgid "Armenian"
-msgstr "armenščina"
-
-#: lang/i18n.py:44
-msgid "Asturian"
-msgstr "asturščina"
-
-#: lang/i18n.py:45
-msgid "Azerbaijani"
-msgstr "azerbajdžanščina"
-
-#: lang/i18n.py:46
-msgid "Basque"
-msgstr "baskovščina"
-
-#: lang/i18n.py:47
-msgid "Belarusian"
-msgstr "beloruščina"
-
-#: lang/i18n.py:48
-msgid "Belarusian (latin)"
-msgstr "beloruščina (latinica)"
-
-#: lang/i18n.py:49
-msgid "Bengali"
-msgstr "bengalščina"
-
-#: lang/i18n.py:50
-msgid "Bengali (India)"
-msgstr "bengalščina (Indija)"
-
-#: lang/i18n.py:51
-msgid "Bosnian"
-msgstr "bosanščina"
-
-#: lang/i18n.py:52
-msgid "Breton"
-msgstr "bretonščina"
-
-#: lang/i18n.py:53
-msgid "Bulgarian"
-msgstr "bolgarščina"
-
-#: lang/i18n.py:54 lang/i18n.py:55
-msgid "Catalan"
-msgstr "katalonščina"
-
-#: lang/i18n.py:56
-msgid "Central Khmer"
-msgstr "osrednja kmerščina"
-
-#: lang/i18n.py:57
-msgid "Chinese (China)"
-msgstr "kitajščina (Kitajska)"
-
-#: lang/i18n.py:58
-msgid "Chinese (Hong Kong)"
-msgstr "kitajščina (Hong Kong)"
-
-#: lang/i18n.py:59
-msgid "Chinese (Taiwan)"
-msgstr "kitajščina (Tajvan)"
-
-#: lang/i18n.py:60
-msgid "Cornish"
-msgstr "kornijščina"
-
-#: lang/i18n.py:61
-msgid "Croatian"
-msgstr "hrvaščina"
-
-#: lang/i18n.py:62
-msgid "Czech"
-msgstr "češčina"
-
-#: lang/i18n.py:63
-msgid "Danish"
-msgstr "danščina"
-
-#: lang/i18n.py:64
-msgid "Dutch"
-msgstr "nizozemščina"
-
-#: lang/i18n.py:65
-msgid "Dzongkha"
-msgstr "dzonka"
-
-#: lang/i18n.py:66
-msgid "English"
-msgstr "angleščina"
-
-#: lang/i18n.py:67
-msgid "English (South Africa)"
-msgstr "angleščina (Južna Afrika)"
-
-#: lang/i18n.py:68
-msgid "English (United Kingdom)"
-msgstr "angleščina (Združeno kraljestvo)"
-
-#: lang/i18n.py:69
-msgid "English (United States)"
-msgstr "angleščina (Združene države Amerike)"
-
-#: lang/i18n.py:70
-msgid "Esperanto"
-msgstr "esperanto"
-
-#: lang/i18n.py:71
-msgid "Estonian"
-msgstr "estonščina"
-
-#: lang/i18n.py:72
-msgid "Faroese"
-msgstr "ferščina"
-
-#: lang/i18n.py:73
-msgid "Filipino"
-msgstr "filipinščina"
-
-#: lang/i18n.py:74
-msgid "Finnish"
-msgstr "finščina"
-
-#: lang/i18n.py:75
-msgid "French"
-msgstr "francoščina"
-
-#: lang/i18n.py:76
-msgid "Frisian"
-msgstr "frizijščina"
-
-#: lang/i18n.py:77
-msgid "Friulian"
-msgstr "furlanščina"
-
-#: lang/i18n.py:78
-msgid "Fulah"
-msgstr "fulščina"
-
-#: lang/i18n.py:79
-msgid "Gaelic"
-msgstr "gelščina"
-
-#: lang/i18n.py:80
-msgid "Galician"
-msgstr "galicijščina"
-
-#: lang/i18n.py:81
-msgid "Georgian"
-msgstr "gruzinščina"
-
-#: lang/i18n.py:82
-msgid "German"
-msgstr "nemščina"
-
-#: lang/i18n.py:83
-msgid "Greek"
-msgstr "grščina"
-
-#: lang/i18n.py:84
-msgid "Gujarati"
-msgstr "gudžaratščina"
-
-#: lang/i18n.py:88
-msgid "Gun"
-msgstr "fonščina"
-
-#: lang/i18n.py:89
-msgid "Hausa"
-msgstr "havščina"
-
-#: lang/i18n.py:90
-msgid "Hebrew"
-msgstr "hebrejščina"
-
-#: lang/i18n.py:91
-msgid "Hindi"
-msgstr "hindujščina"
-
-#: lang/i18n.py:92
-msgid "Hungarian"
-msgstr "madžarščina"
-
-#: lang/i18n.py:93
-msgid "Icelandic"
-msgstr "islandščina"
-
-#: lang/i18n.py:94
-msgid "Indonesian"
-msgstr "indonezijščina"
-
-#: lang/i18n.py:95
-msgid "Interlingua"
-msgstr "interlingva"
-
-#: lang/i18n.py:96
-msgid "Irish"
-msgstr "irščina"
-
-#: lang/i18n.py:97
-msgid "Italian"
-msgstr "italijanščina"
-
-#: lang/i18n.py:98
-msgid "Japanese"
-msgstr "japonščina"
-
-#: lang/i18n.py:99
-msgid "Javanese"
-msgstr "javanščina"
-
-#: lang/i18n.py:100
-msgid "Kannada"
-msgstr "kanareščina"
-
-#: lang/i18n.py:101
-msgid "Kashubian"
-msgstr "kašubščina"
-
-#: lang/i18n.py:102
-msgid "Kazakh"
-msgstr "kazaščina"
-
-#: lang/i18n.py:103
-msgid "Kirghiz"
-msgstr "kirgiščina"
-
-#: lang/i18n.py:104
-msgid "Korean"
-msgstr "korejščina"
-
-#: lang/i18n.py:105
-msgid "Kurdish"
-msgstr "kurdščina"
-
-#: lang/i18n.py:106
-msgid "Kurdish Sorani"
-msgstr "kurdski sorani"
-
-#: lang/i18n.py:107
-msgid "Lao"
-msgstr "laoščina"
-
-#: lang/i18n.py:108
-msgid "Latvian"
-msgstr "latvijščina"
-
-#: lang/i18n.py:109
-msgid "Lingala"
-msgstr "lingala"
-
-#: lang/i18n.py:110
-msgid "Lithuanian"
-msgstr "litovščina"
-
-#: lang/i18n.py:111
-msgid "Luxembourgish"
-msgstr "luksemburščina"
-
-#: lang/i18n.py:112
-msgid "Macedonian"
-msgstr "makedonščina"
-
-#: lang/i18n.py:113
-msgid "Maithili"
-msgstr "maitili"
-
-#: lang/i18n.py:114
-msgid "Malagasy"
-msgstr "malagaščina"
-
-#: lang/i18n.py:115
-msgid "Malay"
-msgstr "malajščina"
-
-#: lang/i18n.py:116
-msgid "Malayalam"
-msgstr "malajalamščina"
-
-#: lang/i18n.py:117
-msgid "Maltese"
-msgstr "malteščina"
-
-#: lang/i18n.py:118
-msgid "Maori"
-msgstr "maorščina"
-
-#: lang/i18n.py:119
-msgid "Mapudungun"
-msgstr "aravkanščina"
-
-#: lang/i18n.py:120
-msgid "Marathi"
-msgstr "maratščina"
-
-#: lang/i18n.py:121
-msgid "Mongolian"
-msgstr "mongolščina"
-
-#: lang/i18n.py:122
-msgid "Morisyen"
-msgstr "mauricijska kreolščina"
-
-#: lang/i18n.py:123
-msgid "Nahuatl languages"
-msgstr "jeziki nahuatl"
-
-#: lang/i18n.py:124
-msgid "Neapolitan"
-msgstr "napolitanščina"
-
-#: lang/i18n.py:125
-msgid "Nepali"
-msgstr "nepalščina"
-
-#: lang/i18n.py:126
-msgid "Norwegian Bokmål"
-msgstr "knjižna norveščina"
-
-#: lang/i18n.py:127
-msgid "Norwegian Nynorsk"
-msgstr "novonorveščina"
-
-#: lang/i18n.py:128
-msgid "Occitan"
-msgstr "okcitanščina"
-
-#: lang/i18n.py:129
-msgid "Oriya"
-msgstr "orijščina"
-
-#: lang/i18n.py:130
-msgid "Papiamento"
-msgstr "papiamentu"
-
-#: lang/i18n.py:131
-msgid "Pedi"
-msgstr "severna sotščina"
-
-#: lang/i18n.py:132
-msgid "Persian"
-msgstr "perzijščina"
-
-#: lang/i18n.py:133
-msgid "Piemontese"
-msgstr "piemontščina"
-
-#: lang/i18n.py:134
-msgid "Polish"
-msgstr "poljščina"
-
-#: lang/i18n.py:138
-msgid "Portuguese"
-msgstr "portugalščina"
-
-#: lang/i18n.py:139
-msgid "Portuguese (Brazil)"
-msgstr "portugalščina (Brazilija)"
-
-#: lang/i18n.py:140
-msgid "Portuguese (Portugal)"
-msgstr "portugalščina (Portugalska)"
-
-#: lang/i18n.py:141
-msgid "Punjabi"
-msgstr "pandžabščina"
-
-#: lang/i18n.py:142
-msgid "Pushto"
-msgstr "paštunščina"
-
-#: lang/i18n.py:143
-msgid "Romanian"
-msgstr "romunščina"
-
-#: lang/i18n.py:144
-msgid "Romansh"
-msgstr "retoromanščina"
-
-#: lang/i18n.py:145
-msgid "Russian"
-msgstr "ruščina"
-
-#: lang/i18n.py:146
-msgid "Scots"
-msgstr "škotščina"
-
-#: lang/i18n.py:147
-msgid "Serbian"
-msgstr "srbščina"
-
-#: lang/i18n.py:148
-msgid "Serbian (cyrillic)"
-msgstr "srbščina (cirilica)"
-
-#: lang/i18n.py:149
-msgid "Serbian (latin)"
-msgstr "srbščina (latinica)"
-
-#: lang/i18n.py:150
-msgid "Sinhala"
-msgstr "singalščina"
-
-#: lang/i18n.py:151
-msgid "Slovak"
-msgstr "slovaščina"
-
-#: lang/i18n.py:152
-msgid "Slovenian"
-msgstr "slovenščina"
-
-#: lang/i18n.py:153
-msgid "Somali"
-msgstr "somalščina"
-
-#: lang/i18n.py:154
-msgid "Songhai languages"
-msgstr "songajski jeziki"
-
-#: lang/i18n.py:155
-msgid "Sotho"
-msgstr "sotščina"
-
-#: lang/i18n.py:156
-msgid "Spanish"
-msgstr "španščina"
-
-#: lang/i18n.py:157
-msgid "Sundanese"
-msgstr "sundanščina"
-
-#: lang/i18n.py:158
-msgid "Swahili"
-msgstr "svahili"
-
-#: lang/i18n.py:159
-msgid "Swedish"
-msgstr "švedščina"
-
-#: lang/i18n.py:160
-msgid "Tajik"
-msgstr "tadžiščina"
-
-#: lang/i18n.py:161
-msgid "Tamil"
-msgstr "tamilščina"
-
-#: lang/i18n.py:162
-msgid "Tatar"
-msgstr "tatarščina"
-
-#: lang/i18n.py:163
-msgid "Telugu"
-msgstr "telugijščina"
-
-#: lang/i18n.py:164
-msgid "Thai"
-msgstr "tajščina"
-
-#: lang/i18n.py:165
-msgid "Tibetan"
-msgstr "tibetanščina"
-
-#: lang/i18n.py:166
-msgid "Tigrinya"
-msgstr "tigrajščina"
-
-#: lang/i18n.py:167
-msgid "Turkish"
-msgstr "turščina"
-
-#: lang/i18n.py:168
-msgid "Turkmen"
-msgstr "turkmenščina"
-
-#: lang/i18n.py:169
-msgid "Uighur"
-msgstr "ujgurščina"
-
-#: lang/i18n.py:170
-msgid "Ukrainian"
-msgstr "ukrajinščina"
-
-#: lang/i18n.py:171
-msgid "Urdu"
-msgstr "urdu"
-
-#: lang/i18n.py:172
-msgid "Uzbek"
-msgstr "uzbeščina"
-
-#: lang/i18n.py:173
-msgid "Uzbek (latin)"
-msgstr "uzbeščina (latinica)"
-
-#: lang/i18n.py:174
-msgid "Vietnamese"
-msgstr "vietnamščina"
-
-#: lang/i18n.py:175
-msgid "Walloon"
-msgstr "valonščina"
-
-#: lang/i18n.py:176
-msgid "Welsh"
-msgstr "valižanščina"
-
-#: lang/i18n.py:177
-msgid "Yoruba"
-msgstr "jorubščina"
-
-#: lang/i18n.py:178
-msgid "Zulu"
-msgstr "zulujščina"
-
 #: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
 #: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
 msgctxt "Plural form description"
@@ -2844,7 +2847,6 @@ msgid "Overwrite existing"
 msgstr "Prepiši obstoječe"
 
 #: trans/forms.py:304
-#| msgid "Use this translation"
 msgid "Add as other translation"
 msgstr "Dodaj kot drug prevod"
 
