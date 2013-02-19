@@ -77,8 +77,10 @@ class BaseFormatCheck(TargetCheck):
         '''
         Checks single unit, handling plurals.
         '''
+        # Verify unit is properly flagged
         if not self.flag in flags:
             return False
+
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
             return self.check_format(
@@ -88,6 +90,7 @@ class BaseFormatCheck(TargetCheck):
                 1,
                 False
             )
+
         # Check singular
         singular_check = self.check_format(
             sources[0],
@@ -96,6 +99,7 @@ class BaseFormatCheck(TargetCheck):
             0,
             len(sources) > 1
         )
+
         if singular_check:
             if len(sources) == 1:
                 return True
@@ -108,9 +112,11 @@ class BaseFormatCheck(TargetCheck):
             )
             if plural_check:
                 return True
+
         # Do we have more to check?
         if len(sources) == 1:
             return False
+
         # Check plurals against plural from source
         for target in targets[1:]:
             plural_check = self.check_format(
@@ -122,6 +128,7 @@ class BaseFormatCheck(TargetCheck):
             )
             if plural_check:
                 return True
+
         # Check did not fire
         return False
 
