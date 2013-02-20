@@ -212,15 +212,16 @@ function load_progress() {
     $('div.progress').each(function f(i, e) {
         var $e = $(e);
         var good = parseFloat($e.attr('value'));
+        var checks = -1;
         if ($e.attr('checks')) {
-            var checks = parseFloat($e.attr('checks'));
+            checks = parseFloat($e.attr('checks'));
             good = good - checks;
         }
         var parts = [{
             value: good,
             barClass: 'good'
         }];
-        if ($e.attr('checks')) {
+        if (checks !== -1) {
             parts.push({
                 value: checks,
                 barClass: 'checks'
