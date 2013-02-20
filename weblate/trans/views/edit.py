@@ -419,7 +419,6 @@ def translate(request, project, subproject, lang):
                 position__gt=search_options.pos
             )
 
-
     # If we failed to get unit above or on no POST
     if unit is None:
         # Grab actual unit
