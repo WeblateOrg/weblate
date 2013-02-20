@@ -34,3 +34,4 @@ from weblate.trans.tests.hooks import *
 from weblate.trans.tests.dictionary import *
 from weblate.trans.tests.charts import *
 from weblate.trans.tests.check_views import *
+from weblate.trans.tests.files import *
