@@ -2191,8 +2191,7 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, author, store2, overwrite, mergefuzzy=False,
-                    merge_header=True):
+    def merge_store(self, author, store2, overwrite, merge_header=True):
         '''
         Merges ttkit store into current translation.
         '''
@@ -2207,10 +2206,9 @@ class Translation(models.Model):
                 if len(unit2.target.strip()) == 0:
                     continue
 
-                # Should we cope with fuzzy ones?
-                if not mergefuzzy:
-                    if unit2.isfuzzy():
-                        continue
+                # Skip fuzzy
+                if unit2.isfuzzy():
+                    continue
 
                 # Optionally merge header
                 if unit2.isheader():
@@ -2245,7 +2243,7 @@ class Translation(models.Model):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     mergefuzzy=False, merge_header=True):
+                     merge_header=True):
         '''
         Top level handler for file uploads.
         '''
@@ -2277,7 +2275,6 @@ class Translation(models.Model):
                 author,
                 store,
                 overwrite,
-                mergefuzzy,
                 merge_header
             )
 
