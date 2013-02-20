@@ -2203,11 +2203,7 @@ class Translation(models.Model):
 
             for unit2 in store2.units:
                 # No translated -> skip
-                if len(unit2.target.strip()) == 0:
-                    continue
-
-                # Skip fuzzy
-                if unit2.isfuzzy():
+                if not is_translated(unit2):
                     continue
 
                 # Optionally merge header
