@@ -2088,9 +2088,10 @@ class Translation(models.Model):
                             )
                         )
                         # Optionally store email for reporting bugs in source
-                        if self.subproject.report_source_bugs != '':
+                        report_source_bugs = self.subproject.report_source_bugs
+                        if report_source_bugs != '':
                             store.updateheader(
-                                report_msgid_bugs_to=self.subproject.report_source_bugs,
+                                report_msgid_bugs_to=report_source_bugs,
                             )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)

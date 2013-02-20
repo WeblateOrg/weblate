@@ -640,10 +640,11 @@ def comment(request, pk):
         for subscription in subscriptions:
             subscription.notify_new_comment(obj, new_comment)
         # Notify upstream
-        if lang is None and obj.translation.subproject.report_source_bugs != '':
+        report_source_bugs = obj.translation.subproject.report_source_bugs
+        if lang is None and report_source_bugs != '':
             send_notification_email(
                 'en',
-                obj.translation.subproject.report_source_bugs,
+                report_source_bugs,
                 'new_comment',
                 obj.translation,
                 {
