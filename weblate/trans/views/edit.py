@@ -464,34 +464,37 @@ def translate(request, project, subproject, lang):
 
     return render_to_response(
         'translate.html',
-        RequestContext(request, {
-            'object': obj,
-            'unit': unit,
-            'last_changes': unit.change_set.all()[:10],
-            'total': total,
-            'type': search_options.rqtype,
-            'filter_name': get_filter_name(
-                search_options.rqtype, search_options.query
-            ),
-            'filter_count': filter_count,
-            'filter_pos': filter_count + 1 - units.count(),
-            'form': form,
-            'antispam': antispam,
-            'comment_form': CommentForm(),
-            'target_language': obj.language.code.replace('_', '-').lower(),
-            'update_lock': own_lock,
-            'secondary': secondary,
-            'search_query': search_options.query,
-            'search_url': search_options.url,
-            'search_source': bool2str(search_options.source),
-            'search_type': search_options.type,
-            'search_target': bool2str(search_options.target),
-            'search_context': bool2str(search_options.context),
-            'locked': locked,
-            'user_locked': user_locked,
-            'project_locked': project_locked,
-        },
-    ))
+        RequestContext(
+            request,
+            {
+                'object': obj,
+                'unit': unit,
+                'last_changes': unit.change_set.all()[:10],
+                'total': total,
+                'type': search_options.rqtype,
+                'filter_name': get_filter_name(
+                    search_options.rqtype, search_options.query
+                ),
+                'filter_count': filter_count,
+                'filter_pos': filter_count + 1 - units.count(),
+                'form': form,
+                'antispam': antispam,
+                'comment_form': CommentForm(),
+                'target_language': obj.language.code.replace('_', '-').lower(),
+                'update_lock': own_lock,
+                'secondary': secondary,
+                'search_query': search_options.query,
+                'search_url': search_options.url,
+                'search_source': bool2str(search_options.source),
+                'search_type': search_options.type,
+                'search_target': bool2str(search_options.target),
+                'search_context': bool2str(search_options.context),
+                'locked': locked,
+                'user_locked': user_locked,
+                'project_locked': project_locked,
+            },
+        )
+    )
 
 
 @login_required
