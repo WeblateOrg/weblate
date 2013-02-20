@@ -295,9 +295,8 @@ class DictUploadForm(forms.Form):
     file = forms.FileField(
         label=_('File')
     )
-    conflict = forms.ChoiceField(
-        label=_('Conflict handling'),
-        help_text=_('Imported word is already existing in the glossary'),
+    method = forms.ChoiceField(
+        label=_('Merge method'),
         choices=(
             ('', _('Keep current')),
             ('overwrite', _('Overwrite existing')),

@@ -85,7 +85,7 @@ class DictionaryTest(ViewTestCase):
         word.save()
 
         # Import file again with orverwriting
-        response = self.import_tbx(conflict='overwrite')
+        response = self.import_tbx(method='overwrite')
 
         # Check number of imported objects
         self.assertEquals(Dictionary.objects.count(), 164)
@@ -100,7 +100,7 @@ class DictionaryTest(ViewTestCase):
         word.save()
 
         # Import file again with adding
-        response = self.import_tbx(conflict='add')
+        response = self.import_tbx(method='add')
 
         # Check number of imported objects
         self.assertEquals(Dictionary.objects.count(), 165)
