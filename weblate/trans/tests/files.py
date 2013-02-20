@@ -185,3 +185,17 @@ class ImportTest(ViewTestCase):
             translation.unit_set.count_type('suggestions', translation),
             1
         )
+
+
+class ExportTest(ViewTestCase):
+    '''
+    Testing of file export.
+    '''
+    def test_export(self):
+        response = self.client.get(
+            reverse(
+                'download_translation',
+                kwargs=self.kw_translation
+            )
+        )
+        self.assertContains(response, 'Weblate Hello World 2012')
