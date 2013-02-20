@@ -169,7 +169,7 @@ function load_table_sorting() {
                 inverse = 1;
             // handle colspan
             if (th.attr('colspan')) {
-                thIndex += parseInt(th.attr('colspan')) - 1;
+                thIndex += parseInt(th.attr('colspan'), 10) - 1;
             }
             // skip empty cells and cells with icon (probably already processed)
             if (th.text() != '' && th.find('span.ui-icon').length == 0) {
