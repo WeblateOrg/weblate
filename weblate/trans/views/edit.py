@@ -705,7 +705,8 @@ def upload_translation(request, project, subproject, lang):
             request.FILES['file'],
             overwrite,
             author,
-            merge_header=form.cleaned_data['merge_header']
+            merge_header=form.cleaned_data['merge_header'],
+            method=form.cleaned_data['method']
         )
         if ret:
             messages.info(request, _('File content successfully merged into translation.'))

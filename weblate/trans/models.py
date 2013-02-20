@@ -2191,7 +2191,7 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, author, store2, overwrite, merge_header=True):
+    def merge_store(self, author, store2, overwrite, merge_header, add_fuzzy):
         '''
         Merges ttkit store into current translation.
         '''
@@ -2234,6 +2234,10 @@ class Translation(models.Model):
                 # Actually update translation
                 unit1.merge(unit2, overwrite=True, comments=False)
 
+                # Handle
+                if add_fuzzy:
+                    unit1.markfuzzy()
+
             # Write to backend and commit
             self.commit_pending(author)
             store1.save()
@@ -2243,7 +2247,7 @@ class Translation(models.Model):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     merge_header=True):
+                     merge_header=True, method=''):
         '''
         Top level handler for file uploads.
         '''
@@ -2269,14 +2273,18 @@ class Translation(models.Model):
 
         ret = False
 
-        # Do actual merge
-        for translation in translations:
-            ret |= translation.merge_store(
-                author,
-                store,
-                overwrite,
-                merge_header
-            )
+        if method in ('', 'fuzzy'):
+            # Do actual merge
+            for translation in translations:
+                ret |= translation.merge_store(
+                    author,
+                    store,
+                    overwrite,
+                    merge_header,
+                    (method == 'fuzzy')
+                )
+        else:
+            # Add as sugestions
 
         return ret
 

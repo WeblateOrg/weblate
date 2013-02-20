@@ -169,6 +169,15 @@ class SimpleUploadForm(forms.Form):
     Base form for uploading a file.
     '''
     file = forms.FileField(label=_('File'))
+    method = forms.ChoiceField(
+        label=_('Merge method'),
+        choices=(
+            ('', _('Add as translation')),
+            ('suggest', _('Add as a suggestion')),
+            ('fuzzy', _('Add as fuzzy translation')),
+        ),
+        required=False
+    )
     merge_header = forms.BooleanField(
         label=_('Merge file header'),
         help_text=_('Merges content of file header into the translation.'),
