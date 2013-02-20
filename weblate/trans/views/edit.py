@@ -126,7 +126,8 @@ def translate(request, project, subproject, lang):
                         checksum=unit.checksum,
                         language=unit.translation.language,
                         project=unit.translation.subproject.project,
-                        user=user)
+                        user=user
+                    )
                     # Record in change
                     Change.objects.create(
                         unit=unit,
