@@ -71,6 +71,24 @@ existing translation (even if it has been changed meanwhile).
 
     This ability might be limited by :ref:`privileges`.
 
+Import method
++++++++++++++
+
+You can choose how imported strings will be merged out of following options:
+
+Add as translation
+    Imported translations are added as translation. This is most usual and
+    default behavior.
+Add as a suggestion
+    Imported translations are added as suggesions, do this when you want to
+    review imported strings.
+Add as fuzzy translation
+    Imported translations are added as fuzzy translations. This can be useful
+    for review as well.
+
+Additionally, when adding as a translation, you can choose whether to overwrite
+already translated strings or not.
+
 .. image:: _static/export-import.png
 
 Translation links
