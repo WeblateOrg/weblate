@@ -92,7 +92,7 @@ function load_translate_apis() {
                     success: process_mt,
                     error: failed_mt,
                     timeout: 10000,
-                    dataType: 'json',
+                    dataType: 'json'
                 });
             });
             return false;
