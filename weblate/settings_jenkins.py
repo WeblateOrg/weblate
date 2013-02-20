@@ -33,7 +33,12 @@ JENKINS_TASKS = (
     'django_jenkins.tasks.run_sloccount',
     'django_jenkins.tasks.with_coverage',
     'django_jenkins.tasks.run_pep8',
+    'django_jenkins.tasks.run_csslint',
     'django_jenkins.tasks.django_tests',
+)
+
+CSSLINT_CHECKED_FILES = (
+    'weblate/media/css/style.css',
 )
 
 PROJECT_APPS = (
