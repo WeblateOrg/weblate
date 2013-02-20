@@ -39,11 +39,11 @@ JENKINS_TASKS = (
 )
 
 CSSLINT_CHECKED_FILES = (
-    os.path.join(WEB_ROOT, 'weblate/media/css/style.css'),
+    os.path.join(WEB_ROOT, 'media/css/style.css'),
 )
 
 JSHINT_CHECKED_FILES = (
-    os.path.join(WEB_ROOT, 'weblate/media/js/loader.js'),
+    os.path.join(WEB_ROOT, 'media/js/loader.js'),
 )
 
 PROJECT_APPS = (
