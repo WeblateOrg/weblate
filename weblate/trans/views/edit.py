@@ -710,10 +710,19 @@ def upload_translation(request, project, subproject, lang):
             method=form.cleaned_data['method']
         )
         if ret:
-            messages.info(request, _('File content successfully merged into translation.'))
+            messages.info(
+                request,
+                _('File content successfully merged into translation.')
+            )
         else:
-            messages.info(request, _('There were no new strings in uploaded file.'))
+            messages.info(
+                request,
+                _('There were no new strings in uploaded file.')
+            )
     except Exception as e:
-        messages.error(request, _('File content merge failed: %s' % unicode(e)))
+        messages.error(
+            request,
+            _('File content merge failed: %s' % unicode(e))
+        )
 
     return HttpResponseRedirect(obj.get_absolute_url())
