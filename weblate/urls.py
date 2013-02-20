@@ -30,7 +30,10 @@ from django.contrib.sitemaps import GenericSitemap, Sitemap
 from registration.views import activate, register
 
 from weblate.accounts.forms import RegistrationForm
-from weblate.trans.feeds import TranslationChangesFeed, SubProjectChangesFeed, ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
+from weblate.trans.feeds import (
+    TranslationChangesFeed, SubProjectChangesFeed,
+    ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
+)
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.accounts.models import Profile
 
@@ -128,9 +131,12 @@ urlpatterns = patterns('',
     url(r'^$', 'weblate.trans.views.basic.home', name='home'),
     url(r'^projects/$', RedirectView.as_view(url='/')),
     url(r'^projects/(?P<project>[^/]*)/$', 'weblate.trans.views.basic.show_project', name='project'),
+
+    # Engagement pages
     url(r'^engage/(?P<project>[^/]*)/$', 'weblate.trans.views.basic.show_engage', name='engage'),
     url(r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.basic.show_engage', name='engage-lang'),
 
+    # Glossary/Dictionary pages
     url(r'^dictionaries/(?P<project>[^/]*)/$', 'weblate.trans.views.dictionary.show_dictionaries', name='show_dictionaries'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.dictionary.show_dictionary', name='show_dictionary'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'weblate.trans.views.dictionary.upload_dictionary', name='upload_dictionary'),
@@ -138,59 +144,69 @@ urlpatterns = patterns('',
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'weblate.trans.views.dictionary.edit_dictionary', name='edit_dictionary'),
     url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.dictionary.download_dictionary', name='download_dictionary'),
 
+    # Subroject pages
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.basic.show_subproject', name='subproject'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/$', 'weblate.trans.views.basic.show_source', name='show_source'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/review/$', 'weblate.trans.views.basic.review_source', name='review_source'),
+
+    # Translation pages
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.basic.show_translation', name='translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'weblate.trans.views.edit.translate', name='translate'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'weblate.trans.views.edit.download_translation', name='download_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'weblate.trans.views.edit.upload_translation', name='upload_translation'),
     url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$', 'weblate.trans.views.edit.auto_translation', name='auto_translation'),
 
+    # Activity HTML
     url(r'^activity/html/$', 'weblate.trans.views.charts.view_activity', name='view_activity'),
     url(r'^activity/html/(?P<project>[^/]*)/$', 'weblate.trans.views.charts.view_activity', name='view_activity_project'),
     url(r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.charts.view_activity', name='view_activity_subproject'),
     url(r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.view_activity', name='view_activity_translation'),
 
+    # Monthly activity
     url(r'^activity/month/$', 'weblate.trans.views.charts.monthly_activity', name='monthly_activity'),
     url(r'^activity/month/(?P<project>[^/]*)/$', 'weblate.trans.views.charts.monthly_activity', name='monthly_activity_project'),
     url(r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.charts.monthly_activity', name='monthly_activity_subproject'),
     url(r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.monthly_activity', name='monthly_activity_translation'),
 
+    # Yearly activity
     url(r'^activity/year/$', 'weblate.trans.views.charts.yearly_activity', name='yearly_activity'),
     url(r'^activity/year/(?P<project>[^/]*)/$', 'weblate.trans.views.charts.yearly_activity', name='yearly_activity_project'),
     url(r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.charts.yearly_activity', name='yearly_activity_subproject'),
     url(r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.yearly_activity', name='yearly_activity_translation'),
 
+    # Per language activity
     url(r'^activity/language/html/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.view_language_activity', name='view_language_activity'),
     url(r'^activity/language/month/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.monthly_language_activity', name='monthly_language_activity'),
     url(r'^activity/language/year/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.yearly_language_activity', name='yearly_language_activity'),
 
-    url(r'^activity/language/html/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.view_language_activity', name='view_language_activity'),
-    url(r'^activity/language/month/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.monthly_language_activity', name='monthly_language_activity'),
-    url(r'^activity/language/year/(?P<lang>[^/]*)/$', 'weblate.trans.views.charts.yearly_language_activity', name='yearly_language_activity'),
-
+    # Per user activity
     url(r'^activity/user/month/(?P<user>[^/]+)/$', 'weblate.trans.views.charts.monthly_user_activity', name='monthly_user_activity'),
     url(r'^activity/user/year/(?P<user>[^/]+)/$', 'weblate.trans.views.charts.yearly_user_activity', name='yearly_user_activity'),
 
+    # Comments
+    url(r'^comment/(?P<pk>[0-9]*)/$', 'weblate.trans.views.edit.comment', name='comment'),
+
+    # Git manipulation - commit
     url(r'^commit/(?P<project>[^/]*)/$', 'weblate.trans.views.git.commit_project', name='commit_project'),
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.git.commit_subproject', name='commit_subproject'),
     url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.git.commit_translation', name='commit_translation'),
 
+    # Git manipulation - update
     url(r'^update/(?P<project>[^/]*)/$', 'weblate.trans.views.git.update_project', name='update_project'),
     url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.git.update_subproject', name='update_subproject'),
     url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.git.update_translation', name='update_translation'),
 
-    url(r'^comment/(?P<pk>[0-9]*)/$', 'weblate.trans.views.edit.comment', name='comment'),
-
+    # Git manipulation - push
     url(r'^push/(?P<project>[^/]*)/$', 'weblate.trans.views.git.push_project', name='push_project'),
     url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.git.push_subproject', name='push_subproject'),
     url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.git.push_translation', name='push_translation'),
 
+    # Git manipulation - reset
     url(r'^reset/(?P<project>[^/]*)/$', 'weblate.trans.views.git.reset_project', name='reset_project'),
     url(r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.git.reset_subproject', name='reset_subproject'),
     url(r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.git.reset_translation', name='reset_translation'),
 
+    # Locking
     url(r'^lock/(?P<project>[^/]*)/$', 'weblate.trans.views.lock.lock_project', name='lock_project'),
     url(r'^unlock/(?P<project>[^/]*)/$', 'weblate.trans.views.lock.unlock_project', name='unlock_project'),
     url(r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.lock.lock_subproject', name='lock_subproject'),
@@ -198,39 +214,47 @@ urlpatterns = patterns('',
     url(r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.lock.lock_translation', name='lock_translation'),
     url(r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.lock.unlock_translation', name='unlock_translation'),
 
+    # Languages browsing
     url(r'^languages/$', 'weblate.trans.views.basic.show_languages', name='languages'),
     url(r'^languages/(?P<lang>[^/]*)/$', 'weblate.trans.views.basic.show_language', name='show_language'),
 
+    # Checks browsing
     url(r'^checks/$', 'weblate.trans.views.checks.show_checks', name='checks'),
     url(r'^checks/(?P<name>[^/]*)/$', 'weblate.trans.views.checks.show_check', name='show_check'),
     url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$', 'weblate.trans.views.checks.show_check_project', name='show_check_project'),
     url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.checks.show_check_subproject', name='show_check_subproject'),
 
+    # Notification hooks
     url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.api.update_subproject', name='hook-subproject'),
     url(r'^hooks/update/(?P<project>[^/]*)/$', 'weblate.trans.views.api.update_project', name='hook-project'),
     url(r'^hooks/github/$', 'weblate.trans.views.api.git_service_hook', {'service': 'github'}, name='hook-github'),
     url(r'^hooks/bitbucket/$', 'weblate.trans.views.api.git_service_hook', {'service': 'bitbucket'}, name='hook-bitbucket'),
 
+    # Stats exports
     url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'weblate.trans.views.api.export_stats', name='export_stats'),
 
+    # RSS exports
     url(r'^exports/rss/$', ChangesFeed(), name='rss'),
     url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name='rss-language'),
     url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed(), name='rss-project'),
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name='rss-subproject'),
     url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name='rss-translation'),
 
-    # Not promoted, compatibility only:
+    # Compatibility URLs for Widgets
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'weblate.trans.views.widgets.render', name='widgets-compat-render-color'),
     url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'weblate.trans.views.widgets.render', name='widgets-compat-render'),
 
+    # Engagement widgets
     url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)\.png$', 'weblate.trans.views.widgets.render', name='widget-image-lang'),
     url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'weblate.trans.views.widgets.render', name='widget-image'),
     url(r'^widgets/(?P<project>[^/]*)/$', 'weblate.trans.views.widgets.widgets', name='widgets'),
     url(r'^widgets/$', 'weblate.trans.views.widgets.widgets_root', name='widgets_root'),
 
+    # Data exports pages
     url(r'^data/$', 'weblate.trans.views.basic.data_root', name='data_root'),
     url(r'^data/(?P<project>[^/]*)/$', 'weblate.trans.views.basic.data_project', name='data_project'),
 
+    # AJAX/JS backends
     url(r'^js/get/(?P<checksum>[^/]*)/$', 'weblate.trans.views.js.get_string', name='js-get'),
     url(r'^js/lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'weblate.trans.views.lock.update_lock', name='js-lock'),
     url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'weblate.trans.views.js.ignore_check', name='js-ignore-check'),
@@ -328,13 +352,14 @@ urlpatterns = patterns('',
         name='auth_password_reset_done'),
     url(r'^accounts/profile/', 'weblate.accounts.views.user_profile', name='profile'),
 
+    # Static pages
     url(r'^contact/', 'weblate.accounts.views.contact', name='contact'),
     url(r'^about/$', 'weblate.trans.views.basic.about', name='about'),
 
-    # user pages
+    # User pages
     url(r'^user/(?P<user>[^/]+)/', 'weblate.accounts.views.user_page', name='user_page'),
 
-    # the sitemap
+    # Sitemap
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     (r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 
