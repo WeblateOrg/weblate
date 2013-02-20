@@ -80,7 +80,7 @@ class PluralTextarea(forms.Textarea):
             )
             # Label for plural
             label = lang.get_plural_label(idx)
-            ret.append('<label class="plural" for="%s">%s</label><br />%s' % (
+            ret.append('<label class="plurallabel" for="%s">%s</label><br />%s' % (
                 attrs['id'],
                 label,
                 textarea
@@ -95,7 +95,7 @@ class PluralTextarea(forms.Textarea):
             ugettext('Plural equation'),
             lang.pluralequation
         )
-        pluralmsg = '<br /><span class="plural">%s</span>' % pluralinfo
+        pluralmsg = '<br /><span class="pluralequation">%s</span>' % pluralinfo
 
         # Join output
         return mark_safe('<br />'.join(ret) + pluralmsg)

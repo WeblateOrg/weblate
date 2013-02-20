@@ -8,16 +8,16 @@ body {
 a {
     color: #004276;
 }
-div.content {
+.content {
     margin: 0.5em;
 }
-#footer{
+footer ul {
     padding:0;
     margin:1em;
     max-width:none;
     clear:both;
 }
-#footer li{
+footer li{
     font-size:smaller;
     list-style:none;
     float:left;
@@ -25,10 +25,10 @@ div.content {
     color:gray;
     border:none;
 }
-body.dir-rtl #footer > li {
+.dir-rtl footer > li {
     float: right;
 }
-#footer a{
+footer a{
     color:#333;
 }
 h1 {
@@ -42,7 +42,7 @@ h1 {
     font-size: smaller;
     list-style: none;
 }
-body.dir-rtl #menu {
+.dir-rtl #menu {
     float: left;
 }
 #menu li {
@@ -83,7 +83,7 @@ tr.current_translation td.translatetext {
 .suggestionactions {
     float: right;
 }
-body.dir-rtl .suggestionactions {
+.dir-rtl .suggestionactions {
     float: left;
 }
 .suggestionactions a {
@@ -118,7 +118,7 @@ textarea.translation {
 #toggle-direction {
     float: right;
 }
-body.dir-rtl #toggle-direction {
+.dir-rtl #toggle-direction {
     float: left;
 }
 #specialchars a {
@@ -133,7 +133,7 @@ body.dir-rtl #toggle-direction {
 #specialchars {
     margin-left: 5em;
 }
-body.dir-rtl #specialchars {
+.dir-rtl #specialchars {
     margin-left: 0;
     margin-left: 5em;
 }
@@ -143,7 +143,7 @@ body.dir-rtl #specialchars {
 .percent, .number {
     text-align: right;
 }
-body.dir-rtl .parent, body.dir-rtl .number {
+.dir-rtl .parent, .dir-rtl .number {
     text-align: left;
 }
 .progress {
@@ -152,14 +152,14 @@ body.dir-rtl .parent, body.dir-rtl .number {
     background: #ddd;
     border: 1px solid #aaa;
 }
-div.legend {
+.legend .progress {
     width: 1em;
     display: inline-block;
     vertical-align: bottom;
 }
-#legend {
+.legend {
     font-size: smaller;
-    color: #777;
+    color: gray;
     margin: 0.5em;
 }
 .progress .fuzzy {
@@ -168,10 +168,10 @@ div.legend {
 .progress .checks {
     background: url("../progress-diagonals.png") repeat scroll 50% 50% #004276;
 }
-span.plural {
+.plurallabel {
     font-size: smaller;
 }
-span.pluraltxt,label.plural {
+.pluraltxt,.pluralequation {
     font-size: smaller;
     font-style: italic;
 }
@@ -213,7 +213,7 @@ ul.buttons li {
     vertical-align: bottom;
     margin-right: -5px;
 }
-body.dir-rtl #button-pos {
+.dir-rtl #button-pos {
     margin-right: 0;
     margin-left: -5px;
 }
@@ -225,7 +225,7 @@ body.dir-rtl #button-pos {
     font-weight: bolder;
 }
 
-div.engage {
+.engage {
     margin-left: 150px;
     max-width: 40em;
     font-size: large;
@@ -237,7 +237,7 @@ img.engage-icon {
     top: 10px;
     left: 10px;
 }
-body.dir-rtl img.engage-icon {
+.dir-rtl img.engage-icon {
     left: 0;
     right: 10px;
 }
@@ -263,10 +263,10 @@ a.rss {
     float: right;
     display: block;
 }
-body.dir-rtl a.rss {
+.dir-rtl a.rss {
     float: right;
 }
-textarea.code-example {
+.code-example {
     display: block;
     width: 100%;
     font-family: monospace !important;
@@ -295,11 +295,11 @@ textarea.code-example {
     margin-top: 0.3em;
     text-align: center;
 }
-img.avatar {
+.avatar {
     width: 1em;
     height: 1em;
 }
-span.git-details {
+.git-details {
     display: none;
 }
 .ui-tooltip {
