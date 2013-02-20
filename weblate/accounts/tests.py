@@ -108,7 +108,7 @@ class ViewTest(TestCase):
         settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
         # Basic get
         response = self.client.get(reverse('contact'))
-        self.assertContains(response, 'id="contact-table"')
+        self.assertContains(response, 'class="contact-table"')
 
         # Sending message
         response = self.client.post(
