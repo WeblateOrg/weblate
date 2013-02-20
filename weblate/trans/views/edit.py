@@ -663,29 +663,55 @@ def upload_translation(request, project, subproject, lang):
     '''
     obj = get_translation(request, project, subproject, lang)
 
-    if not obj.is_locked(request) and request.method == 'POST':
-        if request.user.has_perm('trans.author_translation'):
-            form = ExtraUploadForm(request.POST, request.FILES)
-        elif request.user.has_perm('trans.overwrite_translation'):
-            form = UploadForm(request.POST, request.FILES)
+    # Check method and lock
+    if obj.is_locked(request) or request.method != 'POST':
+        messages.error(request, _('Access denied.'))
+        return HttpResponseRedirect(obj.get_absolute_url())
+
+    # Get correct form handler based on permissions
+    if request.user.has_perm('trans.author_translation'):
+        form = ExtraUploadForm(request.POST, request.FILES)
+    elif request.user.has_perm('trans.overwrite_translation'):
+        form = UploadForm(request.POST, request.FILES)
+    else:
+        form = SimpleUploadForm(request.POST, request.FILES)
+
+    # Check form validity
+    if not form.is_valid():
+        messages.error(request, _('Please fix errors in the form.'))
+        return HttpResponseRedirect(obj.get_absolute_url())
+
+    # Create author name
+    if (request.user.has_perm('trans.author_translation')
+            and form.cleaned_data['author_name'] != ''
+            and form.cleaned_data['author_email'] != ''):
+        author = '%s <%s>' % (
+            form.cleaned_data['author_name'],
+            form.cleaned_data['author_email']
+        )
+    else:
+        author = None
+
+    # Check for overwriting
+    if request.user.has_perm('trans.overwrite_translation'):
+        overwrite = form.cleaned_data['overwrite']
+    else:
+        overwrite = False
+
+    # Do actual import
+    try:
+        ret = obj.merge_upload(
+            request,
+            request.FILES['file'],
+            overwrite,
+            author,
+            merge_header=form.cleaned_data['merge_header']
+        )
+        if ret:
+            messages.info(request, _('File content successfully merged into translation.'))
         else:
-            form = SimpleUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            if request.user.has_perm('trans.author_translation') and form.cleaned_data['author_name'] != '' and form.cleaned_data['author_email'] != '':
-                author = '%s <%s>' % (form.cleaned_data['author_name'], form.cleaned_data['author_email'])
-            else:
-                author = None
-            if request.user.has_perm('trans.overwrite_translation'):
-                overwrite = form.cleaned_data['overwrite']
-            else:
-                overwrite = False
-            try:
-                ret = obj.merge_upload(request, request.FILES['file'], overwrite, author, merge_header=form.cleaned_data['merge_header'])
-                if ret:
-                    messages.info(request, _('File content successfully merged into translation.'))
-                else:
-                    messages.info(request, _('There were no new strings in uploaded file.'))
-            except Exception as e:
-                messages.error(request, _('File content merge failed: %s' % unicode(e)))
+            messages.info(request, _('There were no new strings in uploaded file.'))
+    except Exception as e:
+        messages.error(request, _('File content merge failed: %s' % unicode(e)))
 
     return HttpResponseRedirect(obj.get_absolute_url())
