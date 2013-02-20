@@ -27,7 +27,7 @@ from django.core.management import call_command
 from weblate.trans.search import FULLTEXT_INDEX
 
 
-class ImportTest(RepoTestCase):
+class ImportProjectTest(RepoTestCase):
     def test_import(self):
         project = self.create_project()
         call_command(
