@@ -80,11 +80,13 @@ class PluralTextarea(forms.Textarea):
             )
             # Label for plural
             label = lang.get_plural_label(idx)
-            ret.append('<label class="plurallabel" for="%s">%s</label><br />%s' % (
-                attrs['id'],
-                label,
-                textarea
-            ))
+            ret.append(
+                '<label class="plurallabel" for="%s">%s</label><br />%s' % (
+                    attrs['id'],
+                    label,
+                    textarea
+                )
+            )
 
         # Show plural equation for more strings
         pluralinfo = '<abbr title="%s">%s</abbr>: %s' % (
