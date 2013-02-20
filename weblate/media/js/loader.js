@@ -244,7 +244,6 @@ function load_progress() {
 
 $(function() {
     $('.button').button();
-    $('#menu li a').button();
     $('#breadcrumbs').buttonset();
     load_progress();
     $('.errorlist').addClass('ui-state-error ui-corner-all');
