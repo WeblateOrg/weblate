@@ -23,7 +23,6 @@ Tests for import and export.
 """
 
 from weblate.trans.tests.views import ViewTestCase
-from weblate.trans.models import Translation
 from django.core.urlresolvers import reverse
 import os.path
 
