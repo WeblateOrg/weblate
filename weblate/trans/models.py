@@ -60,7 +60,7 @@ from weblate.trans.managers import (
 from weblate.trans.filelock import FileLock, FileLockException
 from weblate.trans.util import (
     is_plural, split_plural, join_plural,
-    get_source, get_target,
+    msg_checksum, get_source, get_target, get_context,
     is_translated, is_translatable, get_user_display,
     is_repo_link,
 )
@@ -2246,6 +2246,42 @@ class Translation(models.Model):
 
         return ret
 
+    def merge_suggestions(self, request, store):
+        '''
+        Merges contect of ttkit store as a suggestions.
+        '''
+        ret = False
+        for unit in store.units:
+
+            # Skip headers or not translated
+            if unit.isheader() or not is_translated(unit):
+                continue
+
+            # Indicate something new
+            ret = True
+
+            # Calculate unit checksum
+            src = get_source(unit)
+            ctx = get_context(unit)
+            checksum = msg_checksum(src, ctx)
+
+            # Create suggestion objects.
+            # We don't care about duplicates or non existing strings here
+            # this is better handled in cleanup.
+            Suggestion.objects.create(
+                target=get_target(unit),
+                checksum=checksum,
+                language=self.language,
+                project=self.subproject.project,
+                user=request.user
+            )
+
+        # Invalidate cache if we've added something
+        if ret:
+            self.invalidate_cache('suggestions')
+
+        return ret
+
     def merge_upload(self, request, fileobj, overwrite, author=None,
                      merge_header=True, method=''):
         '''
@@ -2285,6 +2321,7 @@ class Translation(models.Model):
                 )
         else:
             # Add as sugestions
+            ret = self.merge_suggestions(request, store)
 
         return ret
 
