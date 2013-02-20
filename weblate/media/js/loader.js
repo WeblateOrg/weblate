@@ -73,7 +73,7 @@ function process_mt(data, textStatus, jqXHR) {
         if (data.responseStatus == 200) {
             mt_set(data.responseData.translatedText);
         } else {
-            failed_mt(null, data.responseDetails, null)
+            failed_mt(null, data.responseDetails, null);
         }
     }
     dec_loading();
