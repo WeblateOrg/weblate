@@ -60,7 +60,7 @@ from weblate.trans.managers import (
 from weblate.trans.filelock import FileLock, FileLockException
 from weblate.trans.util import (
     is_plural, split_plural, join_plural,
-    get_source, get_target,
+    msg_checksum, get_source, get_target, get_context,
     is_translated, is_translatable, get_user_display,
     is_repo_link,
 )
@@ -2191,8 +2191,7 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, author, store2, overwrite, mergefuzzy=False,
-                    merge_header=True):
+    def merge_store(self, author, store2, overwrite, merge_header, add_fuzzy):
         '''
         Merges ttkit store into current translation.
         '''
@@ -2207,10 +2206,9 @@ class Translation(models.Model):
                 if len(unit2.target.strip()) == 0:
                     continue
 
-                # Should we cope with fuzzy ones?
-                if not mergefuzzy:
-                    if unit2.isfuzzy():
-                        continue
+                # Skip fuzzy
+                if unit2.isfuzzy():
+                    continue
 
                 # Optionally merge header
                 if unit2.isheader():
@@ -2236,6 +2234,10 @@ class Translation(models.Model):
                 # Actually update translation
                 unit1.merge(unit2, overwrite=True, comments=False)
 
+                # Handle
+                if add_fuzzy:
+                    unit1.markfuzzy()
+
             # Write to backend and commit
             self.commit_pending(author)
             store1.save()
@@ -2244,8 +2246,44 @@ class Translation(models.Model):
 
         return ret
 
+    def merge_suggestions(self, request, store):
+        '''
+        Merges contect of ttkit store as a suggestions.
+        '''
+        ret = False
+        for unit in store.units:
+
+            # Skip headers or not translated
+            if unit.isheader() or not is_translated(unit):
+                continue
+
+            # Indicate something new
+            ret = True
+
+            # Calculate unit checksum
+            src = get_source(unit)
+            ctx = get_context(unit)
+            checksum = msg_checksum(src, ctx)
+
+            # Create suggestion objects.
+            # We don't care about duplicates or non existing strings here
+            # this is better handled in cleanup.
+            Suggestion.objects.create(
+                target=get_target(unit),
+                checksum=checksum,
+                language=self.language,
+                project=self.subproject.project,
+                user=request.user
+            )
+
+        # Invalidate cache if we've added something
+        if ret:
+            self.invalidate_cache('suggestions')
+
+        return ret
+
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     mergefuzzy=False, merge_header=True):
+                     merge_header=True, method=''):
         '''
         Top level handler for file uploads.
         '''
@@ -2271,15 +2309,19 @@ class Translation(models.Model):
 
         ret = False
 
-        # Do actual merge
-        for translation in translations:
-            ret |= translation.merge_store(
-                author,
-                store,
-                overwrite,
-                mergefuzzy,
-                merge_header
-            )
+        if method in ('', 'fuzzy'):
+            # Do actual merge
+            for translation in translations:
+                ret |= translation.merge_store(
+                    author,
+                    store,
+                    overwrite,
+                    merge_header,
+                    (method == 'fuzzy')
+                )
+        else:
+            # Add as sugestions
+            ret = self.merge_suggestions(request, store)
 
         return ret
 

@@ -443,7 +443,7 @@ class UnitManager(models.Manager):
 
 
 class DictionaryManager(models.Manager):
-    def upload(self, project, language, fileobj, conflict):
+    def upload(self, project, language, fileobj, method):
         '''
         Handles dictionary update.
         '''
@@ -474,14 +474,14 @@ class DictionaryManager(models.Manager):
                 # Same as current -> ignore
                 if unit.target == word.target:
                     continue
-                if conflict == 'add':
+                if method == 'add':
                     # Add word
                     word = self.create(
                         project=project,
                         language=language,
                         source=unit.source
                     )
-                elif conflict != 'overwrite':
+                elif method != 'overwrite':
                     # No overwriting or adding
                     continue
 
