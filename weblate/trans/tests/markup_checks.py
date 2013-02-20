@@ -26,7 +26,7 @@ from weblate.trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
 )
-from weblate.trans.tests.test_checks import CheckTestCase
+from weblate.trans.tests.checks import CheckTestCase
 
 
 class BBCodeCheckTest(CheckTestCase):

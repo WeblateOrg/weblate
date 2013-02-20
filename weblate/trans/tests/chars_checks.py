@@ -31,7 +31,7 @@ from weblate.trans.checks.chars import (
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
 )
-from weblate.trans.tests.test_checks import CheckTestCase
+from weblate.trans.tests.checks import CheckTestCase
 
 
 class BeginNewlineCheckTest(CheckTestCase):

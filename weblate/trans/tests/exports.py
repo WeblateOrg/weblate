@@ -24,7 +24,7 @@ Tests for data exports.
 
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.views import ViewTestCase
 
 
 class ExportsViewTest(ViewTestCase):

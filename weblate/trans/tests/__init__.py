@@ -18,19 +18,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.tests.test_diff import *
-from weblate.trans.tests.test_checks import *
-from weblate.trans.tests.test_format_checks import *
-from weblate.trans.tests.test_source_checks import *
-from weblate.trans.tests.test_chars_checks import *
-from weblate.trans.tests.test_same_checks import *
-from weblate.trans.tests.test_consistency_checks import *
-from weblate.trans.tests.test_markup_checks import *
-from weblate.trans.tests.test_models import *
-from weblate.trans.tests.test_views import *
-from weblate.trans.tests.test_commands import *
-from weblate.trans.tests.test_exports import *
-from weblate.trans.tests.test_hooks import *
-from weblate.trans.tests.test_dictionary import *
-from weblate.trans.tests.test_charts import *
-from weblate.trans.tests.test_check_views import *
+from weblate.trans.tests.diff import *
+from weblate.trans.tests.checks import *
+from weblate.trans.tests.format_checks import *
+from weblate.trans.tests.source_checks import *
+from weblate.trans.tests.chars_checks import *
+from weblate.trans.tests.same_checks import *
+from weblate.trans.tests.consistency_checks import *
+from weblate.trans.tests.markup_checks import *
+from weblate.trans.tests.models import *
+from weblate.trans.tests.views import *
+from weblate.trans.tests.commands import *
+from weblate.trans.tests.exports import *
+from weblate.trans.tests.hooks import *
+from weblate.trans.tests.dictionary import *
+from weblate.trans.tests.charts import *
+from weblate.trans.tests.check_views import *

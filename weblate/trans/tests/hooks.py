@@ -23,7 +23,7 @@ Tests for notification hooks.
 """
 
 from django.core.urlresolvers import reverse
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.views import ViewTestCase
 from weblate.trans import appsettings
 
 GITHUB_PAYLOAD = '''

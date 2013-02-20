@@ -22,7 +22,7 @@
 Tests for check views.
 """
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
 
 

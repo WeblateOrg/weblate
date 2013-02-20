@@ -22,7 +22,7 @@
 Tests for management commands.
 """
 
-from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.models import RepoTestCase
 from django.core.management import call_command
 from weblate.trans.search import FULLTEXT_INDEX
 

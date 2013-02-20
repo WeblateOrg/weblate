@@ -27,7 +27,7 @@ from weblate.trans.checks.source import (
     OptionalPluralCheck,
     EllipsisCheck,
 )
-from weblate.trans.tests.test_checks import Unit
+from weblate.trans.tests.checks import Unit
 
 
 class OptionalPluralCheckTest(TestCase):

@@ -22,40 +22,27 @@
 Tests for quality checks.
 """
 
-from django.test import TestCase
-from weblate.trans.checks.consistency import (
-    PluralsCheck,
+from weblate.trans.checks.same import (
+    SameCheck,
 )
-from weblate.trans.tests.test_checks import Language
+from weblate.trans.tests.checks import Language, CheckTestCase
 
 
-class PluralsCheckTest(TestCase):
+class SameCheckTest(CheckTestCase):
     def setUp(self):
-        self.check = PluralsCheck()
+        super(SameCheckTest, self).setUp()
+        self.check = SameCheck()
+        self.test_good_none = ('%(source)s', '%(source)s', 'python-format')
+        self.test_good_matching = ('source', 'translation', '')
+        self.test_good_ignore = ('alarm', 'alarm', '')
+        self.test_failure_1 = ('string', 'string', '')
 
-    def test_none(self):
-        self.assertFalse(self.check.check(
-            ['string'],
-            ['string'],
+    def test_same_english(self):
+        self.assertFalse(self.check.check_single(
+            'source',
+            'source',
             '',
-            Language('cs'),
-            None
-        ))
-
-    def test_empty(self):
-        self.assertFalse(self.check.check(
-            ['string', 'plural'],
-            ['', ''],
-            '',
-            Language('cs'),
-            None
-        ))
-
-    def test_partial_empty(self):
-        self.assertTrue(self.check.check(
-            ['string', 'plural'],
-            ['string', ''],
-            '',
-            Language('cs'),
-            None
+            Language('en'),
+            None,
+            0
         ))

@@ -26,7 +26,7 @@ from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
-from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.models import RepoTestCase
 from weblate.accounts.models import Profile
 
 
