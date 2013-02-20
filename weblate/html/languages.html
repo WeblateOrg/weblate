@@ -19,7 +19,7 @@
 {% with lang.get_translated_percent as percent %}
 <tr>
 <th><a href="{{ lang.get_absolute_url }}">{{ lang }}</a></th>
-<td class="progress"><div class="progress" value="{{ percent|floatformat:0 }}"></div></td>
+<td><div class="progress" value="{{ percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ percent }}%</td>
 </tr>
 {% endwith %}
