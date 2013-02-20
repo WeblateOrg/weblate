@@ -38,7 +38,7 @@ function mt_set(txt) {
 var loading = 0;
 
 function inc_loading() {
-    if (loading == 0) {
+    if (loading === 0) {
         $('#loading').show();
     }
     loading++;
@@ -46,7 +46,7 @@ function inc_loading() {
 
 function dec_loading() {
     loading--;
-    if (loading == 0) {
+    if (loading === 0) {
         $('#loading').hide();
     }
 }
