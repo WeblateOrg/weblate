@@ -99,6 +99,26 @@ class ImportTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEquals(unit.target, TRANSLATION_PO)
 
+    def test_import_author(self):
+        '''
+        Test importing normally.
+        '''
+        response = self.do_import(
+            author_name='Testing User',
+            author_email='noreply@weblate.org'
+        )
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEquals(translation.translated, 1)
+        self.assertEquals(translation.fuzzy, 0)
+        self.assertEquals(translation.total, 4)
+
+        # Verify unit
+        unit = self.get_unit()
+        self.assertEquals(unit.target, TRANSLATION_PO)
+
     def test_import_overwrite(self):
         '''
         Test importing with overwriting.
