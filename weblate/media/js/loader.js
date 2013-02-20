@@ -69,7 +69,7 @@ function failed_mt(jqXHR, textStatus, errorThrown) {
 function process_mt(data, textStatus, jqXHR) {
     if (typeof(data.responseData) == 'undefined') {
         mt_set(data);
-    } else if (data.responseData != '') {
+    } else if (data.responseData !== '') {
         if (data.responseStatus == 200) {
             mt_set(data.responseData.translatedText);
         } else {
@@ -172,7 +172,7 @@ function load_table_sorting() {
                 thIndex += parseInt(th.attr('colspan'), 10) - 1;
             }
             // skip empty cells and cells with icon (probably already processed)
-            if (th.text() != '' && th.find('span.ui-icon').length == 0) {
+            if (th.text() !== '' && th.find('span.ui-icon').length === 0) {
                 // Store index copy
                 var myIndex = thIndex;
                 // Add icon, title and class
