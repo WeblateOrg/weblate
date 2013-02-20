@@ -303,9 +303,6 @@ $(function() {
             path: '/'
         },
         cache: true,
-        load: function (e, ui) {
-            $(ui.panel).find(".tab-loading").remove();
-        },
         beforeLoad: function (e, ui) {
             var $panel = $(ui.panel);
 
@@ -317,6 +314,7 @@ $(function() {
             });
         },
         load: function (e, ui) {
+            $(ui.panel).find(".tab-loading").remove();
             $('a.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
             $('a.copydict').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
                 var text = $(this).parent().parent().find('.target').text();
