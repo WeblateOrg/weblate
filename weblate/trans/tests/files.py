@@ -46,8 +46,12 @@ class ImportTest(ViewTestCase):
 
     def setUp(self):
         super(ImportTest, self).setUp()
+        # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
+
+        # Store URL for testing
+        self.translation_url = self.get_translation().get_absolute_url()
 
     def get_translation(self):
         return self.subproject.translation_set.get(
@@ -83,6 +87,7 @@ class ImportTest(ViewTestCase):
         Test importing normally.
         '''
         response = self.do_import()
+        self.assertRedirects(response, self.translation_url)
 
         # Verify stats
         translation = self.get_translation()
@@ -102,6 +107,7 @@ class ImportTest(ViewTestCase):
         self.change_unit(TRANSLATION_OURS)
 
         response = self.do_import(overwrite='yes')
+        self.assertRedirects(response, self.translation_url)
 
         # Verify unit
         unit = self.get_unit()
@@ -115,6 +121,7 @@ class ImportTest(ViewTestCase):
         self.change_unit(TRANSLATION_OURS)
 
         response = self.do_import()
+        self.assertRedirects(response, self.translation_url)
 
         # Verify unit
         unit = self.get_unit()
@@ -125,6 +132,7 @@ class ImportTest(ViewTestCase):
         Test importing as fuzzy.
         '''
         response = self.do_import(method='fuzzy')
+        self.assertRedirects(response, self.translation_url)
 
         # Verify unit
         unit = self.get_unit()
@@ -142,6 +150,7 @@ class ImportTest(ViewTestCase):
         Test importing as suggestion.
         '''
         response = self.do_import(method='suggest')
+        self.assertRedirects(response, self.translation_url)
 
         # Verify unit
         unit = self.get_unit()
