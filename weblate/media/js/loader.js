@@ -116,7 +116,7 @@ function load_translate_apis() {
                     success: process_mt,
                     error: failed_mt,
                     dataType: 'jsonp',
-                    jsonp: "oncomplete",
+                    jsonp: "oncomplete"
                 });
             });
             return false;
@@ -129,7 +129,7 @@ function load_translate_apis() {
                 url: "http://mymemory.translated.net/api/get?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language,
                 success: process_mt,
                 error: failed_mt,
-                dataType: 'json',
+                dataType: 'json'
             });
         });
         return false;
@@ -349,7 +349,7 @@ $(function() {
                             click: function() {
                                 window.location = $('.confirm-reset').attr('href');
                                 $(this).dialog("close");
-                            },
+                            }
                         },
                         {
                             text: gettext("Cancel"),
@@ -372,7 +372,7 @@ $(function() {
                 $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
             });
 
-        },
+        }
     });
     $("#id_date").datepicker();
     $("form.autosubmit select").change(function() {
