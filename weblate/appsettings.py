@@ -30,7 +30,7 @@ def get(name, default):
 
 
 # Weblate installation root
-WEB_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+WEB_ROOT = get('WEB_ROOT', os.path.dirname(os.path.abspath(__file__)))
 
 # Machine translation API keys
 
