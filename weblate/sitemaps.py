@@ -92,7 +92,10 @@ class EngageLangSitemap(Sitemap):
 
     def location(self, item):
         from django.core.urlresolvers import reverse
-        return reverse('engage-lang', kwargs={'project': item[0].slug, 'lang': item[1].code})
+        return reverse(
+            'engage-lang',
+            kwargs={'project': item[0].slug, 'lang': item[1].code}
+        )
 
 
 sitemaps = {
@@ -104,4 +107,3 @@ sitemaps = {
     'user': GenericSitemap(user_dict, priority=0.1),
     'pages': PagesSitemap(),
 }
-
