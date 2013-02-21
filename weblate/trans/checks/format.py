@@ -19,7 +19,7 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.checks.base import TargetCheck
+from trans.checks.base import TargetCheck
 import re
 
 PYTHON_PRINTF_MATCH = re.compile(

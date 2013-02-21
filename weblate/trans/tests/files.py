@@ -22,7 +22,7 @@
 Tests for import and export.
 """
 
-from weblate.trans.tests.views import ViewTestCase
+from trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
 import os.path
 

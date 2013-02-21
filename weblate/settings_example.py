@@ -150,7 +150,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'weblate.accounts.middleware.RequireLoginMiddleware',
+    'accounts.middleware.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'weblate.urls'
@@ -174,9 +174,9 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'registration',
     'south',
-    'weblate.trans',
-    'weblate.lang',
-    'weblate.accounts',
+    'trans',
+    'lang',
+    'accounts',
     # Needed for javascript localization
     'weblate',
 )
@@ -192,13 +192,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
-    'weblate.trans.context_processors.version',
-    'weblate.trans.context_processors.weblate_url',
-    'weblate.trans.context_processors.title',
-    'weblate.trans.context_processors.date',
-    'weblate.trans.context_processors.url',
-    'weblate.trans.context_processors.mt',
-    'weblate.trans.context_processors.registration',
+    'trans.context_processors.version',
+    'trans.context_processors.weblate_url',
+    'trans.context_processors.title',
+    'trans.context_processors.date',
+    'trans.context_processors.url',
+    'trans.context_processors.mt',
+    'trans.context_processors.registration',
 )
 
 if DEBUG:
@@ -329,28 +329,28 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
 CHECK_LIST = (
-    'weblate.trans.checks.same.SameCheck',
-    'weblate.trans.checks.chars.BeginNewlineCheck',
-    'weblate.trans.checks.chars.EndNewlineCheck',
-    'weblate.trans.checks.chars.BeginSpaceCheck',
-    'weblate.trans.checks.chars.EndSpaceCheck',
-    'weblate.trans.checks.chars.EndStopCheck',
-    'weblate.trans.checks.chars.EndColonCheck',
-    'weblate.trans.checks.chars.EndQuestionCheck',
-    'weblate.trans.checks.chars.EndExclamationCheck',
-    'weblate.trans.checks.chars.EndEllipsisCheck',
-    'weblate.trans.checks.format.PythonFormatCheck',
-    'weblate.trans.checks.format.PHPFormatCheck',
-    'weblate.trans.checks.format.CFormatCheck',
-    'weblate.trans.checks.consistency.PluralsCheck',
-    'weblate.trans.checks.consistency.ConsistencyCheck',
-    'weblate.trans.checks.consistency.DirectionCheck',
-    'weblate.trans.checks.chars.NewlineCountingCheck',
-    'weblate.trans.checks.markup.BBCodeCheck',
-    'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
-    'weblate.trans.checks.markup.XMLTagsCheck',
-    'weblate.trans.checks.source.OptionalPluralCheck',
-    'weblate.trans.checks.source.EllipsisCheck',
+    'trans.checks.same.SameCheck',
+    'trans.checks.chars.BeginNewlineCheck',
+    'trans.checks.chars.EndNewlineCheck',
+    'trans.checks.chars.BeginSpaceCheck',
+    'trans.checks.chars.EndSpaceCheck',
+    'trans.checks.chars.EndStopCheck',
+    'trans.checks.chars.EndColonCheck',
+    'trans.checks.chars.EndQuestionCheck',
+    'trans.checks.chars.EndExclamationCheck',
+    'trans.checks.chars.EndEllipsisCheck',
+    'trans.checks.format.PythonFormatCheck',
+    'trans.checks.format.PHPFormatCheck',
+    'trans.checks.format.CFormatCheck',
+    'trans.checks.consistency.PluralsCheck',
+    'trans.checks.consistency.ConsistencyCheck',
+    'trans.checks.consistency.DirectionCheck',
+    'trans.checks.chars.NewlineCountingCheck',
+    'trans.checks.markup.BBCodeCheck',
+    'trans.checks.chars.ZeroWidthSpaceCheck',
+    'trans.checks.markup.XMLTagsCheck',
+    'trans.checks.source.OptionalPluralCheck',
+    'trans.checks.source.EllipsisCheck',
 )
 
 # E-mail address that error messages come from.

@@ -30,18 +30,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
 
-from weblate.trans.models import (
+from trans.models import (
     Project, SubProject, Translation, Check,
     Dictionary, Change,
 )
-from weblate.trans.requirements import get_versions
-from weblate.lang.models import Language
-from weblate.trans.forms import (
+from trans.requirements import get_versions
+from lang.models import Language
+from trans.forms import (
     UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
     AutoForm, ReviewForm,
 )
-from weblate.accounts.models import Profile
-from weblate.trans.views.helper import (
+from accounts.models import Profile
+from trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 import weblate

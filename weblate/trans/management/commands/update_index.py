@@ -19,9 +19,9 @@
 #
 
 from django.core.management.base import BaseCommand
-from weblate.trans.models import IndexUpdate, Unit
-from weblate.lang.models import Language
-from weblate.trans.search import FULLTEXT_INDEX
+from trans.models import IndexUpdate, Unit
+from lang.models import Language
+from trans.search import FULLTEXT_INDEX
 
 
 class Command(BaseCommand):

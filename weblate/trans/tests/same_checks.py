@@ -22,10 +22,10 @@
 Tests for quality checks.
 """
 
-from weblate.trans.checks.same import (
+from trans.checks.same import (
     SameCheck,
 )
-from weblate.trans.tests.checks import Language, CheckTestCase
+from trans.tests.checks import Language, CheckTestCase
 
 
 class SameCheckTest(CheckTestCase):

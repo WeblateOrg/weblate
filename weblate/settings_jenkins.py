@@ -47,9 +47,9 @@ JSHINT_CHECKED_FILES = (
 )
 
 PROJECT_APPS = (
-    'weblate.trans',
-    'weblate.lang',
-    'weblate.accounts',
+    'trans',
+    'lang',
+    'accounts',
     'weblate',
 )
 

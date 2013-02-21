@@ -22,8 +22,8 @@
 Tests for charts and widgets.
 """
 
-from weblate.trans.tests.views import ViewTestCase
-from weblate.trans.views.widgets import WIDGETS
+from trans.tests.views import ViewTestCase
+from trans.views.widgets import WIDGETS
 from django.core.urlresolvers import reverse
 
 

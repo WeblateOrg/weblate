@@ -22,7 +22,7 @@ from django.db import models
 from django.utils.translation import ugettext as _, pgettext_lazy
 from django.db.models import Sum
 from translate.lang.data import languages
-from weblate.lang import data
+from lang import data
 
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
@@ -245,7 +245,7 @@ def setup_lang(sender, app, **kwargs):
     '''
     Hook for creating basic set of languages on database migration.
     '''
-    if app == 'lang' or getattr(app, '__name__', '') == 'weblate.lang.models':
+    if app == 'lang' or getattr(app, '__name__', '') == 'lang.models':
         Language.objects.setup(False)
 
 
@@ -371,7 +371,7 @@ class Language(models.Model):
         '''
         Returns status of translations in this language.
         '''
-        from weblate.trans.models import Translation
+        from trans.models import Translation
 
         translations = Translation.objects.filter(
             language=self

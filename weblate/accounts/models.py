@@ -36,9 +36,9 @@ from django.core.mail import mail_admins
 
 from south.signals import post_migrate
 
-from weblate.lang.models import Language
-from weblate.trans.models import Project, Change
-from weblate.trans.util import get_user_display
+from lang.models import Language
+from trans.models import Project, Change
+from trans.util import get_user_display
 import weblate
 
 import logging
@@ -457,7 +457,7 @@ def sync_create_groups(sender, app, **kwargs):
     Create groups on syncdb.
     '''
     if (app == 'accounts'
-            or getattr(app, '__name__', '') == 'weblate.accounts.models'):
+            or getattr(app, '__name__', '') == 'accounts.models'):
         create_groups(False)
 
 

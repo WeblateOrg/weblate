@@ -27,22 +27,22 @@ from django.utils.translation import ugettext as _, ungettext
 from django.utils.formats import date_format
 from django.utils import timezone
 from django import template
-from weblate.trans import appsettings
+from trans import appsettings
 
 import re
 
 from datetime import date, datetime
 
 import weblate
-import weblate.trans
+import trans
 
-from weblate.trans.simplediff import html_diff
-from weblate.trans.util import (
+from trans.simplediff import html_diff
+from trans.util import (
     split_plural, gravatar_for_email, get_user_display
 )
-from weblate.lang.models import Language
-from weblate.trans.models import Project, SubProject, Dictionary
-from weblate.trans.checks import CHECKS
+from lang.models import Language
+from trans.models import Project, SubProject, Dictionary
+from trans.checks import CHECKS
 
 register = template.Library()
 

@@ -21,11 +21,11 @@
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
-from weblate.trans import appsettings
+from trans import appsettings
 from django.core.urlresolvers import reverse
 
-from weblate.trans.models import Change, Translation, SubProject, Project
-from weblate.lang.models import Language
+from trans.models import Change, Translation, SubProject, Project
+from lang.models import Language
 
 
 class ChangesFeed(Feed):

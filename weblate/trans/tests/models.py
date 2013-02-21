@@ -29,7 +29,7 @@ from django.core.exceptions import ValidationError
 import shutil
 import os
 import git
-from weblate.trans.models import (
+from trans.models import (
     Project, SubProject
 )
 

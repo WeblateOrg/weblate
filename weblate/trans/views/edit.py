@@ -28,17 +28,17 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 
-from weblate.trans.models import SubProject, Unit, Suggestion, Change, Comment
-from weblate.trans.forms import (
+from trans.models import SubProject, Unit, Suggestion, Change, Comment
+from trans.forms import (
     TranslationForm, UploadForm, SimpleUploadForm, ExtraUploadForm,
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm
 )
-from weblate.trans.views.helper import (
+from trans.views.helper import (
     get_translation, SearchOptions, bool2str, get_filter_name
 )
-from weblate.trans.util import join_plural
-from weblate.accounts.models import Profile, send_notification_email
+from trans.util import join_plural
+from accounts.models import Profile, send_notification_email
 
 import logging
 import os.path

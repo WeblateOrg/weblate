@@ -24,9 +24,9 @@ from django.template import RequestContext
 from django.http import Http404
 from django.db.models import Count
 
-from weblate.trans.models import Unit, Check
-from weblate.trans.checks import CHECKS
-from weblate.trans.views.helper import (
+from trans.models import Unit, Check
+from trans.checks import CHECKS
+from trans.views.helper import (
     get_project, get_subproject
 )
 

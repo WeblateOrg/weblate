@@ -22,11 +22,11 @@
 Tests for quality checks.
 """
 
-from weblate.trans.checks.markup import (
+from trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
 )
-from weblate.trans.tests.checks import CheckTestCase
+from trans.tests.checks import CheckTestCase
 
 
 class BBCodeCheckTest(CheckTestCase):

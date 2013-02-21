@@ -19,7 +19,7 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.checks.base import TargetCheck
+from trans.checks.base import TargetCheck
 
 
 class PluralsCheck(TargetCheck):
@@ -52,7 +52,7 @@ class ConsistencyCheck(TargetCheck):
     )
 
     def check(self, sources, targets, flags, language, unit):
-        from weblate.trans.models import Unit
+        from trans.models import Unit
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False

@@ -22,8 +22,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
 # In Django 1.5, this should come from django.utils.text
 from django.template.defaultfilters import slugify
-from weblate.trans.models import SubProject, Project
-from weblate.trans.util import is_repo_link
+from trans.models import SubProject, Project
+from trans.util import is_repo_link
 from glob import glob
 from optparse import make_option
 import tempfile

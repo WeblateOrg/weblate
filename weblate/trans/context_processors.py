@@ -20,7 +20,7 @@
 
 import weblate
 from django.conf import settings
-from weblate.trans import appsettings
+from trans import appsettings
 from datetime import datetime
 
 URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'

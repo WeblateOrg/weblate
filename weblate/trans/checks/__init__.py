@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans import appsettings
+from trans import appsettings
 from django.core.exceptions import ImproperlyConfigured
 
 # Initialize checks list

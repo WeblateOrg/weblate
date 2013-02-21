@@ -66,7 +66,7 @@ def validate_repo(val):
     '''
     Validates Git URL, and special weblate:// links.
     '''
-    from weblate.trans.models import SubProject
+    from trans.models import SubProject
     try:
         repo = SubProject.objects.get_linked(val)
         if repo is not None and repo.is_repo_link():

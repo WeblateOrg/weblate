@@ -26,8 +26,8 @@ from django.db import models
 class Migration(SchemaMigration):
 
     depends_on = (
-        ('weblate.lang', '0001_initial'),
-        ('weblate.trans', '0001_initial'),
+        ('lang', '0001_initial'),
+        ('trans', '0001_initial'),
     )
 
     def forwards(self, orm):

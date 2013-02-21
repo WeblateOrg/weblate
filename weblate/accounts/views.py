@@ -30,9 +30,9 @@ from django.utils import translation
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from weblate.accounts.models import set_lang
-from weblate.trans.models import Change, Project
-from weblate.accounts.forms import (
+from accounts.models import set_lang
+from trans.models import Change, Project
+from accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )
 

@@ -19,8 +19,8 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.checks.base import TargetCheck
-from weblate.trans.checks.format import (
+from trans.checks.base import TargetCheck
+from trans.checks.format import (
     PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH
 )
 

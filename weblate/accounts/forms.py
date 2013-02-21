@@ -21,9 +21,9 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.accounts.models import Profile
-from weblate.lang.models import Language
-from weblate.trans.models import Project
+from accounts.models import Profile
+from lang.models import Language
+from trans.models import Project
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -117,7 +117,7 @@ class ContactForm(forms.Form):
 class RegistrationForm(RegistrationFormUniqueEmail):
     '''
     Registration form, please note it does not save first/last name
-    this is done by signal handler in weblate.accounts.models.
+    this is done by signal handler in accounts.models.
     '''
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))

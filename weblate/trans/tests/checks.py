@@ -24,7 +24,7 @@ Helpers for quality checks tests.
 
 from django.test import TestCase
 import uuid
-from weblate.trans.checks.base import Check
+from trans.checks.base import Check
 
 
 class Language(object):

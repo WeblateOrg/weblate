@@ -28,10 +28,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 
-from weblate.trans.models import Translation, Dictionary
-from weblate.lang.models import Language
-from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.trans.views.helper import get_project
+from trans.models import Translation, Dictionary
+from lang.models import Language
+from trans.forms import WordForm, DictUploadForm, LetterForm
+from trans.views.helper import get_project
 import weblate
 
 import csv

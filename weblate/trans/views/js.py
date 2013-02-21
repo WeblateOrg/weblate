@@ -20,16 +20,16 @@
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
-from weblate.trans import appsettings
+from trans import appsettings
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
 
-from weblate.trans.models import Unit, Check, Dictionary
-from weblate.trans.views.helper import SearchOptions
-from weblate.trans.decorators import any_permission_required
-from weblate.trans.views.helper import (
+from trans.models import Unit, Check, Dictionary
+from trans.views.helper import SearchOptions
+from trans.decorators import any_permission_required
+from trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 

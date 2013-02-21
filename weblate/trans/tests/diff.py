@@ -19,7 +19,7 @@
 #
 
 from django.test import TestCase
-from weblate.trans.simplediff import html_diff
+from trans.simplediff import html_diff
 
 
 class DiffTest(TestCase):

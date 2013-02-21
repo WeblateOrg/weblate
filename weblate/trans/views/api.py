@@ -18,15 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans import appsettings
+from trans import appsettings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import (
     HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 )
 from django.contrib.sites.models import Site
 
-from weblate.trans.models import SubProject
-from weblate.trans.views.helper import get_project, get_subproject
+from trans.models import SubProject
+from trans.views.helper import get_project, get_subproject
 
 import json
 import logging

@@ -431,9 +431,9 @@ to run following commands:
 .. code-block:: sh
 
     ./manage.py syncdb
-    ./manage.py migrate weblate.trans 0001 --fake
-    ./manage.py migrate weblate.accounts 0001 --fake
-    ./manage.py migrate weblate.lang 0001 --fake
+    ./manage.py migrate trans 0001 --fake
+    ./manage.py migrate accounts 0001 --fake
+    ./manage.py migrate lang 0001 --fake
 
 Also please note that there are several new requirements and version 0.8 of
 django-registration is now being required, see :ref:`requirements` for more

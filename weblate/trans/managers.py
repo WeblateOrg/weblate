@@ -19,24 +19,24 @@
 #
 
 from django.db import models
-from weblate.trans import appsettings
+from trans import appsettings
 from django.core.cache import cache
 from django.db.models import Q, Count
 from django.utils import timezone
 import itertools
 
-from weblate.lang.models import Language
-from weblate.trans.formats import ttkit
+from lang.models import Language
+from trans.formats import ttkit
 
 from whoosh import qparser
 
-from weblate.trans.util import (
+from trans.util import (
     msg_checksum, get_source, get_target, get_context,
     is_repo_link,
 )
 
-from weblate.trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
-from weblate.trans.data import IGNORE_SIMILAR
+from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
+from trans.data import IGNORE_SIMILAR
 
 
 class ProjectManager(models.Manager):
@@ -58,7 +58,7 @@ class SubProjectManager(models.Manager):
         '''
         Returns list of projects user is allowed to access.
         '''
-        from weblate.trans.models import Project
+        from trans.models import Project
         all_projects = Project.objects.all()
         projects = Project.objects.all_acl(user)
         if projects.count() == all_projects.count():
@@ -104,7 +104,7 @@ class TranslationManager(models.Manager):
         '''
         Returns list of projects user is allowed to access.
         '''
-        from weblate.trans.models import Project
+        from trans.models import Project
         all_projects = Project.objects.all()
         projects = Project.objects.all_acl(user)
         if projects.count() == all_projects.count():
@@ -126,7 +126,7 @@ class UnitManager(models.Manager):
         checksum = msg_checksum(src, ctx)
 
         # Try getting existing unit
-        from weblate.trans.models import Unit
+        from trans.models import Unit
         dbunit = None
         try:
             dbunit = self.get(
@@ -163,8 +163,8 @@ class UnitManager(models.Manager):
         '''
         Filtering for checks.
         '''
-        from weblate.trans.checks import CHECKS
-        from weblate.trans.models import Check
+        from trans.checks import CHECKS
+        from trans.models import Check
 
         # Filter checks for current project
         checks = Check.objects.filter(
@@ -205,8 +205,8 @@ class UnitManager(models.Manager):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        from weblate.trans.models import Suggestion, Comment
-        from weblate.trans.checks import CHECKS
+        from trans.models import Suggestion, Comment
+        from trans.checks import CHECKS
 
         if rqtype == 'fuzzy':
             return self.filter(fuzzy=True)
@@ -274,7 +274,7 @@ class UnitManager(models.Manager):
         '''
         if user.is_anonymous():
             return self.none()
-        from weblate.trans.models import Change
+        from trans.models import Change
         sample = self.all()[0]
         changes = Change.objects.filter(
             translation=sample.translation,
@@ -306,7 +306,7 @@ class UnitManager(models.Manager):
         Updates/Adds to all indices given unit.
         '''
         if appsettings.OFFLOAD_INDEXING:
-            from weblate.trans.models import IndexUpdate
+            from trans.models import IndexUpdate
             IndexUpdate.objects.get_or_create(unit=unit, source=source)
             return
 
@@ -499,7 +499,7 @@ class ChangeManager(models.Manager):
         '''
         Retuns queryset with content changes.
         '''
-        from weblate.trans.models import Change
+        from trans.models import Change
         return self.filter(
             action__in=(Change.ACTION_CHANGE, Change.ACTION_NEW),
             user__isnull=False,

@@ -22,8 +22,8 @@
 Tests for dictionary manipulations.
 """
 
-from weblate.trans.tests.views import ViewTestCase
-from weblate.trans.models import Dictionary
+from trans.tests.views import ViewTestCase
+from trans.models import Dictionary
 from django.core.urlresolvers import reverse
 import os.path
 

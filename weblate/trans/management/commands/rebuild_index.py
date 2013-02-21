@@ -18,10 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateCommand
-from weblate.trans.models import Unit
-from weblate.lang.models import Language
-from weblate.trans.search import (
+from trans.management.commands import WeblateCommand
+from trans.models import Unit
+from lang.models import Language
+from trans.search import (
     FULLTEXT_INDEX, create_source_index, create_target_index
 )
 from optparse import make_option

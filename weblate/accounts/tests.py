@@ -28,7 +28,7 @@ from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.conf import settings
 from django.core.management import call_command
-from weblate.accounts.models import Profile
+from accounts.models import Profile
 
 
 class RegistrationTest(TestCase):

@@ -19,7 +19,7 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.checks.base import SourceCheck
+from trans.checks.base import SourceCheck
 import re
 
 # Matches (s) not followed by alphanumeric chars or at the end

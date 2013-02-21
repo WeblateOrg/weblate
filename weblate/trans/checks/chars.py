@@ -19,7 +19,7 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.checks.base import TargetCheck, CountingCheck
+from trans.checks.base import TargetCheck, CountingCheck
 
 
 class BeginNewlineCheck(TargetCheck):

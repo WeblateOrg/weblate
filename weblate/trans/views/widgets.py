@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans import appsettings
+from trans import appsettings
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -28,10 +28,10 @@ from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
 
-from weblate.trans.models import Project
-from weblate.lang.models import Language
-from weblate.trans.forms import EnageLanguageForm
-from weblate.trans.views.helper import get_project
+from trans.models import Project
+from lang.models import Language
+from trans.forms import EnageLanguageForm
+from trans.views.helper import get_project
 
 import cairo
 import pango

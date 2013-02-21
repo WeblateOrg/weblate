@@ -23,10 +23,10 @@ Tests for quality checks.
 """
 
 from django.test import TestCase
-from weblate.trans.checks.format import (
+from trans.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck,
 )
-from weblate.trans.tests.checks import Unit
+from trans.tests.checks import Unit
 
 
 class PythonFormatCheckTest(TestCase):

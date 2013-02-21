@@ -22,7 +22,7 @@
 Tests for quality checks.
 """
 
-from weblate.trans.checks.chars import (
+from trans.checks.chars import (
     BeginNewlineCheck, EndNewlineCheck,
     BeginSpaceCheck, EndSpaceCheck,
     EndStopCheck, EndColonCheck,
@@ -31,7 +31,7 @@ from weblate.trans.checks.chars import (
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
 )
-from weblate.trans.tests.checks import CheckTestCase
+from trans.tests.checks import CheckTestCase
 
 
 class BeginNewlineCheckTest(CheckTestCase):

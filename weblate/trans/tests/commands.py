@@ -22,9 +22,9 @@
 Tests for management commands.
 """
 
-from weblate.trans.tests.models import RepoTestCase
+from trans.tests.models import RepoTestCase
 from django.core.management import call_command
-from weblate.trans.search import FULLTEXT_INDEX
+from trans.search import FULLTEXT_INDEX
 
 
 class ImportProjectTest(RepoTestCase):

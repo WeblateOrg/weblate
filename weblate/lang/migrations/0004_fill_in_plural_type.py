@@ -21,7 +21,7 @@ import datetime
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
-from weblate.lang.models import get_plural_type
+from lang.models import get_plural_type
 
 
 class Migration(DataMigration):

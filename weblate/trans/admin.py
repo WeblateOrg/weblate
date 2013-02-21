@@ -19,7 +19,7 @@
 #
 
 from django.contrib import admin
-from weblate.trans.models import (
+from trans.models import (
     Project, SubProject, Translation,
     Unit, Suggestion, Comment, Check, Dictionary, Change
 )

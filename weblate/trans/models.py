@@ -20,7 +20,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from weblate.trans import appsettings
+from trans import appsettings
 from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
@@ -46,25 +46,25 @@ from translate.storage import poheader
 from datetime import datetime, timedelta
 
 import weblate
-from weblate.lang.models import Language
-from weblate.trans.formats import (
+from lang.models import Language
+from trans.formats import (
     FILE_FORMAT_CHOICES,
     FILE_FORMATS,
     ttkit
 )
-from weblate.trans.checks import CHECKS
-from weblate.trans.managers import (
+from trans.checks import CHECKS
+from trans.managers import (
     TranslationManager, UnitManager, DictionaryManager, ChangeManager,
     ProjectManager, SubProjectManager,
 )
-from weblate.trans.filelock import FileLock, FileLockException
-from weblate.trans.util import (
+from trans.filelock import FileLock, FileLockException
+from trans.util import (
     is_plural, split_plural, join_plural,
     msg_checksum, get_source, get_target, get_context,
     is_translated, is_translatable, get_user_display,
     is_repo_link,
 )
-from weblate.trans.validators import (
+from trans.validators import (
     validate_repoweb,
     validate_commit_message,
     validate_filemask,
@@ -907,7 +907,7 @@ class SubProject(models.Model):
         Sends out notifications on merge failure.
         '''
         # Notify subscribed users about failure
-        from weblate.accounts.models import Profile, send_notification_email
+        from accounts.models import Profile, send_notification_email
         subscriptions = Profile.objects.subscribed_merge_failure(
             self.project,
         )
@@ -1752,7 +1752,7 @@ class Translation(models.Model):
 
         # Notify subscribed users
         if was_new:
-            from weblate.accounts.models import Profile
+            from accounts.models import Profile
             subscriptions = Profile.objects.subscribed_new_string(
                 self.subproject.project, self.language
             )
@@ -2540,7 +2540,7 @@ class Unit(models.Model):
         '''
         Stores unit to backend.
         '''
-        from weblate.accounts.models import Profile
+        from accounts.models import Profile
 
         # Update lock timestamp
         self.translation.update_lock(request)

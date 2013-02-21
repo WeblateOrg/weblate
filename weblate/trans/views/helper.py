@@ -21,9 +21,9 @@
 Helper methods for views.
 '''
 
-from weblate.trans.models import Project, SubProject, Translation
-from weblate.trans.forms import SearchForm
-from weblate.trans.checks import CHECKS
+from trans.models import Project, SubProject, Translation
+from trans.forms import SearchForm
+from trans.checks import CHECKS
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 

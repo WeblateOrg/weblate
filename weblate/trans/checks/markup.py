@@ -21,7 +21,7 @@
 from django.utils.translation import ugettext_lazy as _
 from xml.etree import cElementTree
 import re
-from weblate.trans.checks.base import TargetCheck
+from trans.checks.base import TargetCheck
 
 BBCODE_MATCH = re.compile(
     r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])',

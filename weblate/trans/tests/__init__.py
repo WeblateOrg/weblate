@@ -18,20 +18,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.tests.diff import *
-from weblate.trans.tests.checks import *
-from weblate.trans.tests.format_checks import *
-from weblate.trans.tests.source_checks import *
-from weblate.trans.tests.chars_checks import *
-from weblate.trans.tests.same_checks import *
-from weblate.trans.tests.consistency_checks import *
-from weblate.trans.tests.markup_checks import *
-from weblate.trans.tests.models import *
-from weblate.trans.tests.views import *
-from weblate.trans.tests.commands import *
-from weblate.trans.tests.exports import *
-from weblate.trans.tests.hooks import *
-from weblate.trans.tests.dictionary import *
-from weblate.trans.tests.charts import *
-from weblate.trans.tests.check_views import *
-from weblate.trans.tests.files import *
+from trans.tests.diff import *
+from trans.tests.checks import *
+from trans.tests.format_checks import *
+from trans.tests.source_checks import *
+from trans.tests.chars_checks import *
+from trans.tests.same_checks import *
+from trans.tests.consistency_checks import *
+from trans.tests.markup_checks import *
+from trans.tests.models import *
+from trans.tests.views import *
+from trans.tests.commands import *
+from trans.tests.exports import *
+from trans.tests.hooks import *
+from trans.tests.dictionary import *
+from trans.tests.charts import *
+from trans.tests.check_views import *
+from trans.tests.files import *

@@ -41,9 +41,9 @@ def check_versions(sender, app, **kwargs):
     '''
     Check required versions.
     '''
-    appname = 'weblate.trans.models'
+    appname = 'trans.models'
     if app == 'trans' or getattr(app, '__name__', '') == appname:
-        from weblate.trans.requirements import get_versions, check_version
+        from trans.requirements import get_versions, check_version
         versions = get_versions()
         failure = False
 

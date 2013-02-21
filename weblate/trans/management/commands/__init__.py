@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
-from weblate.trans.models import Unit, SubProject
+from trans.models import Unit, SubProject
 
 
 class WeblateCommand(BaseCommand):
