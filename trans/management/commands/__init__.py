@@ -95,7 +95,7 @@ class WeblateCommand(BaseCommand):
 
 class WeblateLangCommand(WeblateCommand):
     # Abstract class not referenced
-    # pylint: disable=R0921
+    # pylint: disable=R0921,R0922
     option_list = WeblateCommand.option_list + (
         make_option(
             '--lang',
