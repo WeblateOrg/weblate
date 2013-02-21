@@ -153,6 +153,21 @@ Each project can have assigned glossary for any language. This could be used
 for storing terminology for given project, so that translations are consistent.
 You can display terms from currently translated string in bottom tabs.
 
+Managing glossaries
++++++++++++++++++++
+
+On project page, on :guilabel:`Glossaries` tab, you can find link
+:guilabel:`Manage all glossaries`, where you can start new glossaries or edit
+existing ones. Once glossary is existing, it will also show up on this tab.
+
+.. image:: _static/project-glossaries.png
+
+On further page, you can choose which glossary to manage (all languages used in
+current project are shown). Following this language link will lead you to page,
+which can be used to edit, import or export the glossary:
+
+.. image:: _static/glossary-edit.png
+
 Suggestions
 -----------
 
