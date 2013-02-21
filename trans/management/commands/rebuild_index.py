@@ -19,10 +19,8 @@
 #
 
 from trans.management.commands import WeblateCommand
-from trans.models import Unit
-from lang.models import Language
 from trans.search import (
-    FULLTEXT_INDEX, create_source_index, create_target_index
+    update_index, create_source_index, create_target_index
 )
 from optparse import make_option
 
@@ -40,8 +38,6 @@ class Command(WeblateCommand):
     )
 
     def handle(self, *args, **options):
-        languages = Language.objects.all()
-
         # Optionally rebuild indices from scratch
         if options['clean']:
             create_source_index()
@@ -50,35 +46,4 @@ class Command(WeblateCommand):
 
         units = self.get_units(*args, **options)
 
-        # Update source index
-        with FULLTEXT_INDEX.source_writer(buffered=False) as writer:
-            checksums = units.values('checksum', 'source', 'context')
-            for unit in checksums.iterator():
-                Unit.objects.add_to_source_index(
-                    unit['checksum'],
-                    unit['source'],
-                    unit['context'],
-                    writer
-                )
-
-        # Update per language indices
-        for lang in languages:
-            index = FULLTEXT_INDEX.target_writer(
-                lang=lang.code, buffered=False
-            )
-            with index as writer:
-
-                language_units = units.filter(
-                    translation__language=lang
-                ).exclude(
-                    target=''
-                ).values(
-                    'checksum', 'target'
-                )
-
-                for unit in language_units.iterator():
-                    Unit.objects.add_to_target_index(
-                        unit['checksum'],
-                        unit['target'],
-                        writer
-                    )
+        update_index(units)

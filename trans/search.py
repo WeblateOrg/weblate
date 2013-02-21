@@ -30,6 +30,7 @@ from weblate import appsettings
 from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 from django.dispatch import receiver
+from lang.models import Language
 
 TARGET_SCHEMA = Schema(
     checksum=ID(stored=True, unique=True),
@@ -64,6 +65,51 @@ def create_index(sender=None, **kwargs):
     if not os.path.exists(appsettings.WHOOSH_INDEX):
         os.mkdir(appsettings.WHOOSH_INDEX)
         create_source_index()
+
+
+def update_index(units, source_units = None):
+    '''
+    Updates fulltext index for given set of units.
+    '''
+    from trans.models import Unit
+    languages = Language.objects.all()
+
+    # Default to same set for both updates
+    if source_units is None:
+        source_units = units
+
+    # Update source index
+    with FULLTEXT_INDEX.source_writer(buffered=False) as writer:
+        source_units = source_units.values('checksum', 'source', 'context')
+        for unit in source_units.iterator():
+            Unit.objects.add_to_source_index(
+                unit['checksum'],
+                unit['source'],
+                unit['context'],
+                writer
+            )
+
+    # Update per language indices
+    for lang in languages:
+        index = FULLTEXT_INDEX.target_writer(
+            lang=lang.code, buffered=False
+        )
+        with index as writer:
+
+            language_units = units.filter(
+                translation__language=lang
+            ).exclude(
+                target=''
+            ).values(
+                'checksum', 'target'
+            )
+
+            for unit in language_units.iterator():
+                Unit.objects.add_to_target_index(
+                    unit['checksum'],
+                    unit['target'],
+                    writer
+                )
 
 
 class Index(object):

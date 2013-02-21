@@ -20,44 +20,30 @@
 
 from django.core.management.base import BaseCommand
 from trans.models import IndexUpdate, Unit
-from lang.models import Language
-from trans.search import FULLTEXT_INDEX
+from trans.search import update_index
 
 
 class Command(BaseCommand):
     help = 'updates index for fulltext search'
 
     def handle(self, *args, **options):
-        languages = Language.objects.all()
+        # Grab all updates from the database
+        updates = list(IndexUpdate.objects.all())
 
-        base = IndexUpdate.objects.all()
+        # Grab just IDs
+        update_ids = [update.id for update in updates]
+        source_update_ids = [update.id for update in updates if update.source]
 
-        if base.count() == 0:
-            return
+        # Filter matching units
+        units = Unit.objects.filter(
+            indexupdate__id__in=update_ids
+        )
+        source_units = Unit.objects.filter(
+            indexupdate__id__in=source_update_ids
+        )
 
-        with FULLTEXT_INDEX.source_writer(buffered=False) as writer:
-            for update in base.filter(source=True).iterator():
-                Unit.objects.add_to_source_index(
-                    update.unit.checksum,
-                    update.unit.source,
-                    update.unit.context,
-                    writer)
+        # Udate index
+        update_index(units, source_units)
 
-        for lang in languages:
-            index = FULLTEXT_INDEX.target_writer(
-                lang=lang.code, buffered=False
-            )
-            with index as writer:
-                units = base.filter(
-                    unit__translation__language=lang
-                ).exclude(
-                    unit__target=''
-                )
-                for update in units.iterator():
-                    Unit.objects.add_to_target_index(
-                        update.unit.checksum,
-                        update.unit.target,
-                        writer
-                    )
-
-        base.delete()
+        # Delete processed updates
+        IndexUpdate.objects.filter(id__in=update_ids).delete()
