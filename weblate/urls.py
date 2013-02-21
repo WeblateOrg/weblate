@@ -34,10 +34,10 @@ import accounts.urls
 LANGUAGE = r'(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)'
 
 # URL regexp for project
-PROJECT = r'(?P<project>[^/]*)/'
+PROJECT = r'(?P<project>[^/]+)/'
 
 # URL regexp for subproject
-SUBPROJECT =  PROJECT + r'(?P<subproject>[^/]*)/'
+SUBPROJECT =  PROJECT + r'(?P<subproject>[^/]+)/'
 
 # URL regexp for translations
 TRANSLATION = SUBPROJECT + LANGUAGE + '/'
@@ -46,7 +46,7 @@ TRANSLATION = SUBPROJECT + LANGUAGE + '/'
 PROJECT_LANG = PROJECT + LANGUAGE + '/'
 
 # URL regexp used as base for widgets
-WIDGET = r'(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)'
+WIDGET = r'(?P<project>[^/]+)-(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 
 admin.autodiscover()
 
@@ -260,7 +260,7 @@ urlpatterns = patterns(
 
     # Comments
     url(
-        r'^comment/(?P<pk>[0-9]*)/$',
+        r'^comment/(?P<pk>[0-9]+)/$',
         'trans.views.edit.comment',
         name='comment',
     ),
@@ -384,17 +384,17 @@ urlpatterns = patterns(
         name='checks',
     ),
     url(
-        r'^checks/(?P<name>[^/]*)/$',
+        r'^checks/(?P<name>[^/]+)/$',
         'trans.views.checks.show_check',
         name='show_check',
     ),
     url(
-        r'^checks/(?P<name>[^/]*)/' + PROJECT + '$',
+        r'^checks/(?P<name>[^/]+)/' + PROJECT + '$',
         'trans.views.checks.show_check_project',
         name='show_check_project',
     ),
     url(
-        r'^checks/(?P<name>[^/]*)/' + SUBPROJECT + '$',
+        r'^checks/(?P<name>[^/]+)/' + SUBPROJECT + '$',
         'trans.views.checks.show_check_subproject',
         name='show_check_subproject',
     ),
@@ -457,12 +457,12 @@ urlpatterns = patterns(
 
     # Compatibility URLs for Widgets
     url(
-        r'^widgets/' + PROJECT + '(?P<widget>[^/]*)/(?P<color>[^/]*)/$',
+        r'^widgets/' + PROJECT + '(?P<widget>[^/]+)/(?P<color>[^/]+)/$',
         'trans.views.widgets.render',
         name='widgets-compat-render-color',
     ),
     url(
-        r'^widgets/' + PROJECT + '(?P<widget>[^/]*)/$',
+        r'^widgets/' + PROJECT + '(?P<widget>[^/]+)/$',
         'trans.views.widgets.render',
         name='widgets-compat-render',
     ),
@@ -503,7 +503,7 @@ urlpatterns = patterns(
 
     # AJAX/JS backends
     url(
-        r'^js/get/(?P<checksum>[^/]*)/$',
+        r'^js/get/(?P<checksum>[^/]+)/$',
         'trans.views.js.get_string',
         name='js-get',
     ),
@@ -513,7 +513,7 @@ urlpatterns = patterns(
         name='js-lock',
     ),
     url(
-        r'^js/ignore-check/(?P<check_id>[0-9]*)/$',
+        r'^js/ignore-check/(?P<check_id>[0-9]+)/$',
         'trans.views.js.ignore_check',
         name='js-ignore-check',
     ),
@@ -524,17 +524,17 @@ urlpatterns = patterns(
         name='js-config',
     ),
     url(
-        r'^js/similar/(?P<unit_id>[0-9]*)/$',
+        r'^js/similar/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.get_similar',
         name='js-similar',
     ),
     url(
-        r'^js/other/(?P<unit_id>[0-9]*)/$',
+        r'^js/other/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.get_other',
         name='js-other',
     ),
     url(
-        r'^js/dictionary/(?P<unit_id>[0-9]*)/$',
+        r'^js/dictionary/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.get_dictionary',
         name='js-dictionary',
     ),
