@@ -38,3 +38,4 @@ from trans.tests.dictionary import *
 from trans.tests.charts import *
 from trans.tests.check_views import *
 from trans.tests.files import *
+from trans.tests.sitemaps import *
