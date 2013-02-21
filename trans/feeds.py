@@ -24,9 +24,9 @@ from django.shortcuts import get_object_or_404
 from weblate import appsettings
 from django.core.urlresolvers import reverse
 
-from trans.models import Change, Translation, SubProject, Project
+from trans.models import Change
 from lang.models import Language
-from trans.views.helper import get_translation
+from trans.views.helper import get_translation, get_subproject, get_project
 
 
 class ChangesFeed(Feed):
@@ -90,11 +90,7 @@ class SubProjectChangesFeed(TranslationChangesFeed):
     '''
 
     def get_object(self, request, project, subproject):
-        return get_object_or_404(
-            SubProject,
-            slug=subproject,
-            project__slug=project
-        )
+        return get_subproject(request, project, subproject)
 
     def items(self, obj):
         return Change.objects.filter(
@@ -108,7 +104,7 @@ class ProjectChangesFeed(TranslationChangesFeed):
     '''
 
     def get_object(self, request, project):
-        return get_object_or_404(Project, slug=project)
+        return get_project(request, project)
 
     def items(self, obj):
         return Change.objects.filter(
