@@ -34,7 +34,6 @@ import re
 from datetime import date, datetime
 
 import weblate
-import trans
 
 from trans.simplediff import html_diff
 from trans.util import (
