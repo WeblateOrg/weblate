@@ -455,6 +455,10 @@ Several internal modules and paths have been renamed and changed, please adjust
 your :file:`settings.py` to match that (consult :file:`settings_example.py` for
 correct values).
 
+* Many modules lost their `weblate.` prefix.
+* Checks were moved to submodules.
+* Locales were moved to top level directory.
+
 Migrating from Pootle
 ---------------------
 
