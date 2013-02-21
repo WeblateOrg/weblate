@@ -20,12 +20,14 @@
 
 import os
 
+
 def get_root_dir():
     '''
     Returns Weblate root dir.
     '''
     curdir = os.path.dirname(os.path.abspath(__file__))
     return os.path.abspath(os.path.join(curdir, '..'))
+
 
 def is_running_git():
     '''
@@ -59,6 +61,7 @@ if RUNNING_GIT:
         # Import failed or git has troubles reading
         # repo (eg. swallow clone)
         RUNNING_GIT = False
+
 
 def get_doc_url(page, anchor=''):
     '''

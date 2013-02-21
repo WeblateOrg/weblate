@@ -132,7 +132,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -142,7 +141,6 @@ SECRET_KEY = 'jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6('
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -201,7 +199,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'weblate.trans.context_processors.url',
     'weblate.trans.context_processors.mt',
     'weblate.trans.context_processors.registration',
-    )
+)
 
 if DEBUG:
     DEFAULT_LOG = 'console'
@@ -238,14 +236,14 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'syslog':{
-            'level':'DEBUG',
-            'class':'logging.handlers.SysLogHandler',
+        'syslog': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.SysLogHandler',
             'formatter': 'syslog',
             'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
@@ -259,7 +257,7 @@ LOGGING = {
         },
         'weblate': {
             'handlers': [DEFAULT_LOG],
-            'level':'DEBUG',
+            'level': 'DEBUG',
         }
     }
 }
@@ -331,7 +329,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
 CHECK_LIST = (
-   'weblate.trans.checks.same.SameCheck',
+    'weblate.trans.checks.same.SameCheck',
     'weblate.trans.checks.chars.BeginNewlineCheck',
     'weblate.trans.checks.chars.EndNewlineCheck',
     'weblate.trans.checks.chars.BeginSpaceCheck',
