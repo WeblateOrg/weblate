@@ -82,7 +82,7 @@ class TranslationManager(models.Manager):
         Parses translation meta info and creates/updates translation object.
         '''
         lang = Language.objects.auto_get_or_create(code=code)
-        translation, created = self.get_or_create(
+        translation, dummy = self.get_or_create(
             language=lang,
             language_code=code,
             subproject=subproject
@@ -513,7 +513,7 @@ class ChangeManager(models.Manager):
 
         # Count number of changes
         result = []
-        for day in xrange(0, days, step):
+        for dummy in xrange(0, days, step):
             # Calculate interval
             int_start = dtstart
             int_end = int_start + timezone.timedelta(days=step)
