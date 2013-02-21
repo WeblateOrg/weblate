@@ -181,7 +181,7 @@ INSTALLED_APPS = (
     'weblate',
 )
 
-LOCALE_PATHS = ('%s/weblate/locale' % WEB_ROOT, )
+LOCALE_PATHS = ('%s/../locale' % WEB_ROOT, )
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
