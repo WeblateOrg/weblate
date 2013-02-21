@@ -24,6 +24,8 @@ from trans.models import Unit, SubProject
 
 
 class WeblateCommand(BaseCommand):
+    # Abstract class is only referenced 1 times
+    # pylint: disable=R0922
     '''
     Command which accepts project/subproject/--all params to process.
     '''
@@ -92,6 +94,8 @@ class WeblateCommand(BaseCommand):
 
 
 class WeblateLangCommand(WeblateCommand):
+    # Abstract class not referenced
+    # pylint: disable=R0921
     option_list = WeblateCommand.option_list + (
         make_option(
             '--lang',
