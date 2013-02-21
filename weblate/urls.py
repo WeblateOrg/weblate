@@ -19,22 +19,17 @@
 #
 
 from django.conf.urls import patterns, include, url
-from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
-from django.views.generic.simple import direct_to_template
 from django.conf import settings
 from django.views.generic import RedirectView
 from django.contrib.sitemaps import GenericSitemap, Sitemap
 
-from registration.views import activate, register
-
-from accounts.forms import RegistrationForm
 from trans.feeds import (
     TranslationChangesFeed, SubProjectChangesFeed,
     ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 )
 from trans.models import Project, SubProject, Translation
+import accounts.urls
 from accounts.models import Profile
 
 admin.autodiscover()
@@ -634,112 +629,7 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
-    url(
-        r'^accounts/register/$', register, {
-            'backend': 'registration.backends.default.DefaultBackend',
-            'form_class': RegistrationForm,
-            'extra_context': {'title': _('User registration')}
-        },
-        name='weblate_register'
-    ),
-    url(
-        r'^accounts/register/complete/$',
-        direct_to_template,
-        {
-            'template': 'registration/registration_complete.html',
-            'extra_context': {'title': _('User registration')},
-        },
-        name='registration_complete'
-    ),
-    url(
-        r'^accounts/register/closed/$',
-        direct_to_template,
-        {
-            'template': 'registration/registration_closed.html',
-            'extra_context': {'title': _('User registration')},
-        },
-        name='registration_disallowed'
-    ),
-    url(
-        r'^accounts/activate/complete/$',
-        direct_to_template,
-        {
-            'template': 'registration/activation_complete.html',
-            'extra_context': {'title': _('User registration')},
-        },
-        name='registration_activation_complete'
-    ),
-    url(
-        r'^accounts/activate/(?P<activation_key>\w+)/$',
-        activate,
-        {
-            'backend': 'registration.backends.default.DefaultBackend',
-            'extra_context': {
-                'title': _('Account activation'),
-                'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-            }
-        },
-        name='registration_activate'
-    ),
-    url(
-        r'^accounts/login/$',
-        auth_views.login,
-        {
-            'template_name': 'registration/login.html',
-            'extra_context': {'title': _('Login')},
-        },
-        name='auth_login'
-    ),
-    url(
-        r'^accounts/logout/$',
-        auth_views.logout,
-        {
-            'template_name': 'registration/logout.html',
-            'extra_context': {'title': _('Logged out')},
-        },
-        name='auth_logout'
-    ),
-    url(
-        r'^accounts/password/change/$',
-        auth_views.password_change,
-        {'extra_context': {'title': _('Change password')}},
-        name='auth_password_change'
-    ),
-    url(
-        r'^accounts/password/change/done/$',
-        auth_views.password_change_done,
-        {'extra_context': {'title': _('Password changed')}},
-        name='auth_password_change_done'
-    ),
-    url(
-        r'^accounts/password/reset/$',
-        auth_views.password_reset,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset'
-    ),
-    url(
-        r'^accounts/password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        auth_views.password_reset_confirm,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_confirm'
-    ),
-    url(
-        r'^accounts/password/reset/complete/$',
-        auth_views.password_reset_complete,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_complete'
-    ),
-    url(
-        r'^accounts/password/reset/done/$',
-        auth_views.password_reset_done,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_done'
-    ),
-    url(
-        r'^accounts/profile/',
-        'accounts.views.user_profile',
-        name='profile',
-    ),
+    url(r'^accounts/', include(accounts.urls)),
 
     # Static pages
     url(
