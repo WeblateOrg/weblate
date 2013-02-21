@@ -30,6 +30,24 @@ from trans.feeds import (
 from weblate.sitemaps import sitemaps
 import accounts.urls
 
+# URL regexp for language code
+LANGUAGE = r'(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)'
+
+# URL regexp for project
+PROJECT = r'(?P<project>[^/]*)/'
+
+# URL regexp for subproject
+SUBPROJECT =  PROJECT + r'(?P<subproject>[^/]*)/'
+
+# URL regexp for translations
+TRANSLATION = SUBPROJECT + LANGUAGE + '/'
+
+# URL regexp for project langauge pages
+PROJECT_LANG = PROJECT + LANGUAGE + '/'
+
+# URL regexp used as base for widgets
+WIDGET = r'(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)'
+
 admin.autodiscover()
 
 handler404 = 'trans.views.basic.not_found'
@@ -52,95 +70,95 @@ urlpatterns = patterns(
         RedirectView.as_view(url='/')
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/$',
+        r'^projects/' + PROJECT + '$',
         'trans.views.basic.show_project',
         name='project',
     ),
 
     # Engagement pages
     url(
-        r'^engage/(?P<project>[^/]*)/$',
+        r'^engage/' + PROJECT + '$',
         'trans.views.basic.show_engage',
         name='engage',
     ),
     url(
-        r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^engage/' + PROJECT_LANG + '$',
         'trans.views.basic.show_engage',
         name='engage-lang',
     ),
 
     # Glossary/Dictionary pages
     url(
-        r'^dictionaries/(?P<project>[^/]*)/$',
+        r'^dictionaries/' + PROJECT + '$',
         'trans.views.dictionary.show_dictionaries',
         name='show_dictionaries',
     ),
     url(
-        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^dictionaries/' + PROJECT_LANG + '$',
         'trans.views.dictionary.show_dictionary',
         name='show_dictionary',
     ),
     url(
-        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$',
+        r'^dictionaries/' + PROJECT_LANG + 'upload/$',
         'trans.views.dictionary.upload_dictionary',
         name='upload_dictionary',
     ),
     url(
-        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$',
+        r'^dictionaries/' + PROJECT_LANG + 'delete/$',
         'trans.views.dictionary.delete_dictionary',
         name='delete_dictionary',
     ),
     url(
-        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$',
+        r'^dictionaries/' + PROJECT_LANG + 'edit/$',
         'trans.views.dictionary.edit_dictionary',
         name='edit_dictionary',
     ),
     url(
-        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$',
+        r'^dictionaries/' + PROJECT_LANG + 'download/$',
         'trans.views.dictionary.download_dictionary',
         name='download_dictionary',
     ),
 
     # Subroject pages
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^projects/' + SUBPROJECT + '$',
         'trans.views.basic.show_subproject',
         name='subproject',
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/$',
+        r'^projects/' + SUBPROJECT + 'source/$',
         'trans.views.basic.show_source',
         name='show_source',
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/review/$',
+        r'^projects/' + SUBPROJECT + 'source/review/$',
         'trans.views.basic.review_source',
         name='review_source',
     ),
 
     # Translation pages
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^projects/' + TRANSLATION + '$',
         'trans.views.basic.show_translation',
         name='translation',
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$',
+        r'^projects/' + TRANSLATION + 'translate/$',
         'trans.views.edit.translate',
         name='translate',
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$',
+        r'^projects/' + TRANSLATION + 'download/$',
         'trans.views.files.download_translation',
         name='download_translation',
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$',
+        r'^projects/' + TRANSLATION + 'upload/$',
         'trans.views.files.upload_translation',
         name='upload_translation',
     ),
     url(
-        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$',
+        r'^projects/' + TRANSLATION + 'auto/$',
         'trans.views.edit.auto_translation',
         name='auto_translation',
     ),
@@ -152,17 +170,17 @@ urlpatterns = patterns(
         name='view_activity',
     ),
     url(
-        r'^activity/html/(?P<project>[^/]*)/$',
+        r'^activity/html/' + PROJECT + '$',
         'trans.views.charts.view_activity',
         name='view_activity_project',
     ),
     url(
-        r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^activity/html/' + SUBPROJECT + '$',
         'trans.views.charts.view_activity',
         name='view_activity_subproject',
     ),
     url(
-        r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^activity/html/' + TRANSLATION + '$',
         'trans.views.charts.view_activity',
         name='view_activity_translation',
     ),
@@ -174,17 +192,17 @@ urlpatterns = patterns(
         name='monthly_activity',
     ),
     url(
-        r'^activity/month/(?P<project>[^/]*)/$',
+        r'^activity/month/' + PROJECT + '$',
         'trans.views.charts.monthly_activity',
         name='monthly_activity_project',
     ),
     url(
-        r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^activity/month/' + SUBPROJECT + '$',
         'trans.views.charts.monthly_activity',
         name='monthly_activity_subproject',
     ),
     url(
-        r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^activity/month/' + TRANSLATION + '$',
         'trans.views.charts.monthly_activity',
         name='monthly_activity_translation',
     ),
@@ -196,34 +214,34 @@ urlpatterns = patterns(
         name='yearly_activity',
     ),
     url(
-        r'^activity/year/(?P<project>[^/]*)/$',
+        r'^activity/year/' + PROJECT + '$',
         'trans.views.charts.yearly_activity',
         name='yearly_activity_project',
     ),
     url(
-        r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^activity/year/' + SUBPROJECT + '$',
         'trans.views.charts.yearly_activity',
         name='yearly_activity_subproject',
     ),
     url(
-        r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^activity/year/' + TRANSLATION + '$',
         'trans.views.charts.yearly_activity',
         name='yearly_activity_translation',
     ),
 
     # Per language activity
     url(
-        r'^activity/language/html/(?P<lang>[^/]*)/$',
+        r'^activity/language/html/' + LANGUAGE + '$',
         'trans.views.charts.view_language_activity',
         name='view_language_activity',
     ),
     url(
-        r'^activity/language/month/(?P<lang>[^/]*)/$',
+        r'^activity/language/month/' + LANGUAGE + '$',
         'trans.views.charts.monthly_language_activity',
         name='monthly_language_activity',
     ),
     url(
-        r'^activity/language/year/(?P<lang>[^/]*)/$',
+        r'^activity/language/year/' + LANGUAGE + '$',
         'trans.views.charts.yearly_language_activity',
         name='yearly_language_activity',
     ),
@@ -249,100 +267,100 @@ urlpatterns = patterns(
 
     # Git manipulation - commit
     url(
-        r'^commit/(?P<project>[^/]*)/$',
+        r'^commit/' + PROJECT + '$',
         'trans.views.git.commit_project',
         name='commit_project',
     ),
     url(
-        r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^commit/' + SUBPROJECT + '$',
         'trans.views.git.commit_subproject',
         name='commit_subproject',
     ),
     url(
-        r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^commit/' + TRANSLATION + '$',
         'trans.views.git.commit_translation',
         name='commit_translation',
     ),
 
     # Git manipulation - update
     url(
-        r'^update/(?P<project>[^/]*)/$',
+        r'^update/' + PROJECT + '$',
         'trans.views.git.update_project',
         name='update_project',
     ),
     url(
-        r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^update/' + SUBPROJECT + '$',
         'trans.views.git.update_subproject',
         name='update_subproject',
     ),
     url(
-        r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^update/' + TRANSLATION + '$',
         'trans.views.git.update_translation',
         name='update_translation',
     ),
 
     # Git manipulation - push
     url(
-        r'^push/(?P<project>[^/]*)/$',
+        r'^push/' + PROJECT + '$',
         'trans.views.git.push_project',
         name='push_project',
     ),
     url(
-        r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^push/' + SUBPROJECT + '$',
         'trans.views.git.push_subproject',
         name='push_subproject',
     ),
     url(
-        r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^push/' + TRANSLATION + '$',
         'trans.views.git.push_translation',
         name='push_translation',
     ),
 
     # Git manipulation - reset
     url(
-        r'^reset/(?P<project>[^/]*)/$',
+        r'^reset/' + PROJECT + '$',
         'trans.views.git.reset_project',
         name='reset_project',
     ),
     url(
-        r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^reset/' + SUBPROJECT + '$',
         'trans.views.git.reset_subproject',
         name='reset_subproject',
     ),
     url(
-        r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^reset/' + TRANSLATION + '$',
         'trans.views.git.reset_translation',
         name='reset_translation',
     ),
 
     # Locking
     url(
-        r'^lock/(?P<project>[^/]*)/$',
+        r'^lock/' + PROJECT + '$',
         'trans.views.lock.lock_project',
         name='lock_project',
     ),
     url(
-        r'^unlock/(?P<project>[^/]*)/$',
+        r'^unlock/' + PROJECT + '$',
         'trans.views.lock.unlock_project',
         name='unlock_project',
     ),
     url(
-        r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^lock/' + SUBPROJECT + '$',
         'trans.views.lock.lock_subproject',
         name='lock_subproject',
     ),
     url(
-        r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^unlock/' + SUBPROJECT + '$',
         'trans.views.lock.unlock_subproject',
         name='unlock_subproject',
     ),
     url(
-        r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^lock/' + TRANSLATION + '$',
         'trans.views.lock.lock_translation',
         name='lock_translation',
     ),
     url(
-        r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^unlock/' + TRANSLATION + '$',
         'trans.views.lock.unlock_translation',
         name='unlock_translation',
     ),
@@ -354,7 +372,7 @@ urlpatterns = patterns(
         name='languages',
     ),
     url(
-        r'^languages/(?P<lang>[^/]*)/$',
+        r'^languages/' + LANGUAGE + '$',
         'trans.views.basic.show_language',
         name='show_language',
     ),
@@ -371,24 +389,24 @@ urlpatterns = patterns(
         name='show_check',
     ),
     url(
-        r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$',
+        r'^checks/(?P<name>[^/]*)/' + PROJECT + '$',
         'trans.views.checks.show_check_project',
         name='show_check_project',
     ),
     url(
-        r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^checks/(?P<name>[^/]*)/' + SUBPROJECT + '$',
         'trans.views.checks.show_check_subproject',
         name='show_check_subproject',
     ),
 
     # Notification hooks
     url(
-        r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^hooks/update/' + SUBPROJECT + '$',
         'trans.views.api.update_subproject',
         name='hook-subproject',
     ),
     url(
-        r'^hooks/update/(?P<project>[^/]*)/$',
+        r'^hooks/update/' + PROJECT + '$',
         'trans.views.api.update_project',
         name='hook-project',
     ),
@@ -405,7 +423,7 @@ urlpatterns = patterns(
 
     # Stats exports
     url(
-        r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^exports/stats/' + SUBPROJECT + '$',
         'trans.views.api.export_stats',
         name='export_stats',
     ),
@@ -417,51 +435,51 @@ urlpatterns = patterns(
         name='rss',
     ),
     url(
-        r'^exports/rss/language/(?P<lang>[^/]*)/$',
+        r'^exports/rss/language/' + LANGUAGE + '$',
         LanguageChangesFeed(),
         name='rss-language',
     ),
     url(
-        r'^exports/rss/(?P<project>[^/]*)/$',
+        r'^exports/rss/' + PROJECT + '$',
         ProjectChangesFeed(),
         name='rss-project',
     ),
     url(
-        r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^exports/rss/' + SUBPROJECT + '$',
         SubProjectChangesFeed(),
         name='rss-subproject',
     ),
     url(
-        r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^exports/rss/' + TRANSLATION + '$',
         TranslationChangesFeed(),
         name='rss-translation',
     ),
 
     # Compatibility URLs for Widgets
     url(
-        r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$',
+        r'^widgets/' + PROJECT + '(?P<widget>[^/]*)/(?P<color>[^/]*)/$',
         'trans.views.widgets.render',
         name='widgets-compat-render-color',
     ),
     url(
-        r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$',
+        r'^widgets/' + PROJECT + '(?P<widget>[^/]*)/$',
         'trans.views.widgets.render',
         name='widgets-compat-render',
     ),
 
     # Engagement widgets
     url(
-        r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)\.png$',
+        r'^widgets/' + WIDGET + '-' + LANGUAGE + r'\.png$',
         'trans.views.widgets.render',
         name='widget-image-lang',
     ),
     url(
-        r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$',
+        r'^widgets/' + WIDGET + '\.png$',
         'trans.views.widgets.render',
         name='widget-image',
     ),
     url(
-        r'^widgets/(?P<project>[^/]*)/$',
+        r'^widgets/' + PROJECT + '$',
         'trans.views.widgets.widgets',
         name='widgets',
     ),
@@ -478,7 +496,7 @@ urlpatterns = patterns(
         name='data_root',
     ),
     url(
-        r'^data/(?P<project>[^/]*)/$',
+        r'^data/' + PROJECT + '$',
         'trans.views.basic.data_project',
         name='data_project',
     ),
@@ -490,7 +508,7 @@ urlpatterns = patterns(
         name='js-get',
     ),
     url(
-        r'^js/lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^js/lock/' + TRANSLATION + '$',
         'trans.views.lock.update_lock',
         name='js-lock',
     ),
@@ -521,17 +539,17 @@ urlpatterns = patterns(
         name='js-dictionary',
     ),
     url(
-        r'^js/git/(?P<project>[^/]*)/$',
+        r'^js/git/' + PROJECT + '$',
         'trans.views.js.git_status_project',
         name='git_status_project',
     ),
     url(
-        r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        r'^js/git/' + SUBPROJECT + '$',
         'trans.views.js.git_status_subproject',
         name='git_status_subproject',
     ),
     url(
-        r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        r'^js/git/' + TRANSLATION + '$',
         'trans.views.js.git_status_translation',
         name='git_status_translation',
     ),
