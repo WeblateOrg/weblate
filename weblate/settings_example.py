@@ -36,12 +36,18 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2',  'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'weblate.db',                      # Or path to database file if using sqlite3.
-        'USER': 'weblate',                      # Not used with sqlite3.
-        'PASSWORD': 'weblate',                  # Not used with sqlite3.
-        'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        # Use 'postgresql_psycopg2',  'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',
+        # Database name or path to database file if using sqlite3.
+        'NAME': 'weblate.db',
+        # Database user, not used with sqlite3.
+        'USER': 'weblate',
+        # Database pasword, not used with sqlite3.
+        'PASSWORD': 'weblate',
+        # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': '127.0.0.1',
+        # Set to empty string for default. Not used with sqlite3.
+        'PORT': '',
     }
 }
 
@@ -156,7 +162,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'weblate.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like "/home/html/django_templates"
+    # or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '%s/html/' % WEB_ROOT,
