@@ -448,6 +448,12 @@ Since 1.3, :file:`settings.py` is not shipped with Weblate, but only example
 settings as :file:`settings_example.py` it is recommended to use it as new base
 for your setup.
 
+Upgrade from 1.4 to 1.5
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Several internal modules have been renamed, please adjust your :file:`settings.py`
+to match that (consult :file:`settings_example.py` for correct values).
+
 Migrating from Pootle
 ---------------------
 
