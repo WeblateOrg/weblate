@@ -65,6 +65,7 @@ user_dict = {
     'date_field': 'get_last_change',
 }
 
+
 class PagesSitemap(Sitemap):
     def items(self):
         return (
@@ -86,6 +87,7 @@ class PagesSitemap(Sitemap):
     def changefreq(self, item):
         return item[2]
 
+
 class EngageSitemap(GenericSitemap):
     '''
     Wrapper around GenericSitemap to point to engage page.
@@ -93,6 +95,7 @@ class EngageSitemap(GenericSitemap):
     def location(self, obj):
         from django.core.urlresolvers import reverse
         return reverse('engage', kwargs={'project': obj.slug})
+
 
 class EngageLangSitemap(Sitemap):
     '''
@@ -127,145 +130,501 @@ sitemaps = {
 
 admin.site.index_template = 'admin/custom-index.html'
 
-urlpatterns = patterns('',
-    url(r'^$', 'trans.views.basic.home', name='home'),
-    url(r'^projects/$', RedirectView.as_view(url='/')),
-    url(r'^projects/(?P<project>[^/]*)/$', 'trans.views.basic.show_project', name='project'),
+urlpatterns = patterns(
+    '',
+    url(
+        r'^$',
+        'trans.views.basic.home',
+        name='home',
+    ),
+    url(
+        r'^projects/$',
+        RedirectView.as_view(url='/')
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/$',
+        'trans.views.basic.show_project',
+        name='project',
+    ),
 
     # Engagement pages
-    url(r'^engage/(?P<project>[^/]*)/$', 'trans.views.basic.show_engage', name='engage'),
-    url(r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.basic.show_engage', name='engage-lang'),
+    url(
+        r'^engage/(?P<project>[^/]*)/$',
+        'trans.views.basic.show_engage',
+        name='engage',
+    ),
+    url(
+        r'^engage/(?P<project>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.basic.show_engage',
+        name='engage-lang',
+    ),
 
     # Glossary/Dictionary pages
-    url(r'^dictionaries/(?P<project>[^/]*)/$', 'trans.views.dictionary.show_dictionaries', name='show_dictionaries'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.dictionary.show_dictionary', name='show_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.dictionary.upload_dictionary', name='upload_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$', 'trans.views.dictionary.delete_dictionary', name='delete_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$', 'trans.views.dictionary.edit_dictionary', name='edit_dictionary'),
-    url(r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.dictionary.download_dictionary', name='download_dictionary'),
+    url(
+        r'^dictionaries/(?P<project>[^/]*)/$',
+        'trans.views.dictionary.show_dictionaries',
+        name='show_dictionaries',
+    ),
+    url(
+        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.dictionary.show_dictionary',
+        name='show_dictionary',
+    ),
+    url(
+        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/upload/$',
+        'trans.views.dictionary.upload_dictionary',
+        name='upload_dictionary',
+    ),
+    url(
+        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/delete/$',
+        'trans.views.dictionary.delete_dictionary',
+        name='delete_dictionary',
+    ),
+    url(
+        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/edit/$',
+        'trans.views.dictionary.edit_dictionary',
+        name='edit_dictionary',
+    ),
+    url(
+        r'^dictionaries/(?P<project>[^/]*)/(?P<lang>[^/]*)/download/$',
+        'trans.views.dictionary.download_dictionary',
+        name='download_dictionary',
+    ),
 
     # Subroject pages
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.basic.show_subproject', name='subproject'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/$', 'trans.views.basic.show_source', name='show_source'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/review/$', 'trans.views.basic.review_source', name='review_source'),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.basic.show_subproject',
+        name='subproject',
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/$',
+        'trans.views.basic.show_source',
+        name='show_source',
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/source/review/$',
+        'trans.views.basic.review_source',
+        name='review_source',
+    ),
 
     # Translation pages
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.basic.show_translation', name='translation'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$', 'trans.views.edit.translate', name='translate'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$', 'trans.views.edit.download_translation', name='download_translation'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$', 'trans.views.edit.upload_translation', name='upload_translation'),
-    url(r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$', 'trans.views.edit.auto_translation', name='auto_translation'),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.basic.show_translation',
+        name='translation',
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/translate/$',
+        'trans.views.edit.translate',
+        name='translate',
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$',
+        'trans.views.edit.download_translation',
+        name='download_translation',
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$',
+        'trans.views.edit.upload_translation',
+        name='upload_translation',
+    ),
+    url(
+        r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/auto/$',
+        'trans.views.edit.auto_translation',
+        name='auto_translation',
+    ),
 
     # Activity HTML
-    url(r'^activity/html/$', 'trans.views.charts.view_activity', name='view_activity'),
-    url(r'^activity/html/(?P<project>[^/]*)/$', 'trans.views.charts.view_activity', name='view_activity_project'),
-    url(r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.charts.view_activity', name='view_activity_subproject'),
-    url(r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.charts.view_activity', name='view_activity_translation'),
+    url(
+        r'^activity/html/$',
+        'trans.views.charts.view_activity',
+        name='view_activity',
+    ),
+    url(
+        r'^activity/html/(?P<project>[^/]*)/$',
+        'trans.views.charts.view_activity',
+        name='view_activity_project',
+    ),
+    url(
+        r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.charts.view_activity',
+        name='view_activity_subproject',
+    ),
+    url(
+        r'^activity/html/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.charts.view_activity',
+        name='view_activity_translation',
+    ),
 
     # Monthly activity
-    url(r'^activity/month/$', 'trans.views.charts.monthly_activity', name='monthly_activity'),
-    url(r'^activity/month/(?P<project>[^/]*)/$', 'trans.views.charts.monthly_activity', name='monthly_activity_project'),
-    url(r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.charts.monthly_activity', name='monthly_activity_subproject'),
-    url(r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.charts.monthly_activity', name='monthly_activity_translation'),
+    url(
+        r'^activity/month/$',
+        'trans.views.charts.monthly_activity',
+        name='monthly_activity',
+    ),
+    url(
+        r'^activity/month/(?P<project>[^/]*)/$',
+        'trans.views.charts.monthly_activity',
+        name='monthly_activity_project',
+    ),
+    url(
+        r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.charts.monthly_activity',
+        name='monthly_activity_subproject',
+    ),
+    url(
+        r'^activity/month/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.charts.monthly_activity',
+        name='monthly_activity_translation',
+    ),
 
     # Yearly activity
-    url(r'^activity/year/$', 'trans.views.charts.yearly_activity', name='yearly_activity'),
-    url(r'^activity/year/(?P<project>[^/]*)/$', 'trans.views.charts.yearly_activity', name='yearly_activity_project'),
-    url(r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.charts.yearly_activity', name='yearly_activity_subproject'),
-    url(r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.charts.yearly_activity', name='yearly_activity_translation'),
+    url(
+        r'^activity/year/$',
+        'trans.views.charts.yearly_activity',
+        name='yearly_activity',
+    ),
+    url(
+        r'^activity/year/(?P<project>[^/]*)/$',
+        'trans.views.charts.yearly_activity',
+        name='yearly_activity_project',
+    ),
+    url(
+        r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.charts.yearly_activity',
+        name='yearly_activity_subproject',
+    ),
+    url(
+        r'^activity/year/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.charts.yearly_activity',
+        name='yearly_activity_translation',
+    ),
 
     # Per language activity
-    url(r'^activity/language/html/(?P<lang>[^/]*)/$', 'trans.views.charts.view_language_activity', name='view_language_activity'),
-    url(r'^activity/language/month/(?P<lang>[^/]*)/$', 'trans.views.charts.monthly_language_activity', name='monthly_language_activity'),
-    url(r'^activity/language/year/(?P<lang>[^/]*)/$', 'trans.views.charts.yearly_language_activity', name='yearly_language_activity'),
+    url(
+        r'^activity/language/html/(?P<lang>[^/]*)/$',
+        'trans.views.charts.view_language_activity',
+        name='view_language_activity',
+    ),
+    url(
+        r'^activity/language/month/(?P<lang>[^/]*)/$',
+        'trans.views.charts.monthly_language_activity',
+        name='monthly_language_activity',
+    ),
+    url(
+        r'^activity/language/year/(?P<lang>[^/]*)/$',
+        'trans.views.charts.yearly_language_activity',
+        name='yearly_language_activity',
+    ),
 
     # Per user activity
-    url(r'^activity/user/month/(?P<user>[^/]+)/$', 'trans.views.charts.monthly_user_activity', name='monthly_user_activity'),
-    url(r'^activity/user/year/(?P<user>[^/]+)/$', 'trans.views.charts.yearly_user_activity', name='yearly_user_activity'),
+    url(
+        r'^activity/user/month/(?P<user>[^/]+)/$',
+        'trans.views.charts.monthly_user_activity',
+        name='monthly_user_activity',
+    ),
+    url(
+        r'^activity/user/year/(?P<user>[^/]+)/$',
+        'trans.views.charts.yearly_user_activity',
+        name='yearly_user_activity',
+    ),
 
     # Comments
-    url(r'^comment/(?P<pk>[0-9]*)/$', 'trans.views.edit.comment', name='comment'),
+    url(
+        r'^comment/(?P<pk>[0-9]*)/$',
+        'trans.views.edit.comment',
+        name='comment',
+    ),
 
     # Git manipulation - commit
-    url(r'^commit/(?P<project>[^/]*)/$', 'trans.views.git.commit_project', name='commit_project'),
-    url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.git.commit_subproject', name='commit_subproject'),
-    url(r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.git.commit_translation', name='commit_translation'),
+    url(
+        r'^commit/(?P<project>[^/]*)/$',
+        'trans.views.git.commit_project',
+        name='commit_project',
+    ),
+    url(
+        r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.git.commit_subproject',
+        name='commit_subproject',
+    ),
+    url(
+        r'^commit/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.git.commit_translation',
+        name='commit_translation',
+    ),
 
     # Git manipulation - update
-    url(r'^update/(?P<project>[^/]*)/$', 'trans.views.git.update_project', name='update_project'),
-    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.git.update_subproject', name='update_subproject'),
-    url(r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.git.update_translation', name='update_translation'),
+    url(
+        r'^update/(?P<project>[^/]*)/$',
+        'trans.views.git.update_project',
+        name='update_project',
+    ),
+    url(
+        r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.git.update_subproject',
+        name='update_subproject',
+    ),
+    url(
+        r'^update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.git.update_translation',
+        name='update_translation',
+    ),
 
     # Git manipulation - push
-    url(r'^push/(?P<project>[^/]*)/$', 'trans.views.git.push_project', name='push_project'),
-    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.git.push_subproject', name='push_subproject'),
-    url(r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.git.push_translation', name='push_translation'),
+    url(
+        r'^push/(?P<project>[^/]*)/$',
+        'trans.views.git.push_project',
+        name='push_project',
+    ),
+    url(
+        r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.git.push_subproject',
+        name='push_subproject',
+    ),
+    url(
+        r'^push/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.git.push_translation',
+        name='push_translation',
+    ),
 
     # Git manipulation - reset
-    url(r'^reset/(?P<project>[^/]*)/$', 'trans.views.git.reset_project', name='reset_project'),
-    url(r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.git.reset_subproject', name='reset_subproject'),
-    url(r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.git.reset_translation', name='reset_translation'),
+    url(
+        r'^reset/(?P<project>[^/]*)/$',
+        'trans.views.git.reset_project',
+        name='reset_project',
+    ),
+    url(
+        r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.git.reset_subproject',
+        name='reset_subproject',
+    ),
+    url(
+        r'^reset/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.git.reset_translation',
+        name='reset_translation',
+    ),
 
     # Locking
-    url(r'^lock/(?P<project>[^/]*)/$', 'trans.views.lock.lock_project', name='lock_project'),
-    url(r'^unlock/(?P<project>[^/]*)/$', 'trans.views.lock.unlock_project', name='unlock_project'),
-    url(r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.lock.lock_subproject', name='lock_subproject'),
-    url(r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.lock.unlock_subproject', name='unlock_subproject'),
-    url(r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.lock.lock_translation', name='lock_translation'),
-    url(r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.lock.unlock_translation', name='unlock_translation'),
+    url(
+        r'^lock/(?P<project>[^/]*)/$',
+        'trans.views.lock.lock_project',
+        name='lock_project',
+    ),
+    url(
+        r'^unlock/(?P<project>[^/]*)/$',
+        'trans.views.lock.unlock_project',
+        name='unlock_project',
+    ),
+    url(
+        r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.lock.lock_subproject',
+        name='lock_subproject',
+    ),
+    url(
+        r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.lock.unlock_subproject',
+        name='unlock_subproject',
+    ),
+    url(
+        r'^lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.lock.lock_translation',
+        name='lock_translation',
+    ),
+    url(
+        r'^unlock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.lock.unlock_translation',
+        name='unlock_translation',
+    ),
 
     # Languages browsing
-    url(r'^languages/$', 'trans.views.basic.show_languages', name='languages'),
-    url(r'^languages/(?P<lang>[^/]*)/$', 'trans.views.basic.show_language', name='show_language'),
+    url(
+        r'^languages/$',
+        'trans.views.basic.show_languages',
+        name='languages',
+    ),
+    url(
+        r'^languages/(?P<lang>[^/]*)/$',
+        'trans.views.basic.show_language',
+        name='show_language',
+    ),
 
     # Checks browsing
-    url(r'^checks/$', 'trans.views.checks.show_checks', name='checks'),
-    url(r'^checks/(?P<name>[^/]*)/$', 'trans.views.checks.show_check', name='show_check'),
-    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$', 'trans.views.checks.show_check_project', name='show_check_project'),
-    url(r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.checks.show_check_subproject', name='show_check_subproject'),
+    url(
+        r'^checks/$',
+        'trans.views.checks.show_checks',
+        name='checks',
+    ),
+    url(
+        r'^checks/(?P<name>[^/]*)/$',
+        'trans.views.checks.show_check',
+        name='show_check',
+    ),
+    url(
+        r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/$',
+        'trans.views.checks.show_check_project',
+        name='show_check_project',
+    ),
+    url(
+        r'^checks/(?P<name>[^/]*)/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.checks.show_check_subproject',
+        name='show_check_subproject',
+    ),
 
     # Notification hooks
-    url(r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.api.update_subproject', name='hook-subproject'),
-    url(r'^hooks/update/(?P<project>[^/]*)/$', 'trans.views.api.update_project', name='hook-project'),
-    url(r'^hooks/github/$', 'trans.views.api.git_service_hook', {'service': 'github'}, name='hook-github'),
-    url(r'^hooks/bitbucket/$', 'trans.views.api.git_service_hook', {'service': 'bitbucket'}, name='hook-bitbucket'),
+    url(
+        r'^hooks/update/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.api.update_subproject',
+        name='hook-subproject',
+    ),
+    url(
+        r'^hooks/update/(?P<project>[^/]*)/$',
+        'trans.views.api.update_project',
+        name='hook-project',
+    ),
+    url(
+        r'^hooks/github/$', 'trans.views.api.git_service_hook',
+        {'service': 'github'},
+        name='hook-github',
+    ),
+    url(
+        r'^hooks/bitbucket/$', 'trans.views.api.git_service_hook',
+        {'service': 'bitbucket'},
+        name='hook-bitbucket',
+    ),
 
     # Stats exports
-    url(r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.api.export_stats', name='export_stats'),
+    url(
+        r'^exports/stats/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.api.export_stats',
+        name='export_stats',
+    ),
 
     # RSS exports
-    url(r'^exports/rss/$', ChangesFeed(), name='rss'),
-    url(r'^exports/rss/language/(?P<lang>[^/]*)/$', LanguageChangesFeed(), name='rss-language'),
-    url(r'^exports/rss/(?P<project>[^/]*)/$', ProjectChangesFeed(), name='rss-project'),
-    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', SubProjectChangesFeed(), name='rss-subproject'),
-    url(r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', TranslationChangesFeed(), name='rss-translation'),
+    url(
+        r'^exports/rss/$',
+        ChangesFeed(),
+        name='rss',
+    ),
+    url(
+        r'^exports/rss/language/(?P<lang>[^/]*)/$',
+        LanguageChangesFeed(),
+        name='rss-language',
+    ),
+    url(
+        r'^exports/rss/(?P<project>[^/]*)/$',
+        ProjectChangesFeed(),
+        name='rss-project',
+    ),
+    url(
+        r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        SubProjectChangesFeed(),
+        name='rss-subproject',
+    ),
+    url(
+        r'^exports/rss/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        TranslationChangesFeed(),
+        name='rss-translation',
+    ),
 
     # Compatibility URLs for Widgets
-    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$', 'trans.views.widgets.render', name='widgets-compat-render-color'),
-    url(r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$', 'trans.views.widgets.render', name='widgets-compat-render'),
+    url(
+        r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/(?P<color>[^/]*)/$',
+        'trans.views.widgets.render',
+        name='widgets-compat-render-color',
+    ),
+    url(
+        r'^widgets/(?P<project>[^/]*)/(?P<widget>[^/]*)/$',
+        'trans.views.widgets.render',
+        name='widgets-compat-render',
+    ),
 
     # Engagement widgets
-    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)\.png$', 'trans.views.widgets.render', name='widget-image-lang'),
-    url(r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$', 'trans.views.widgets.render', name='widget-image'),
-    url(r'^widgets/(?P<project>[^/]*)/$', 'trans.views.widgets.widgets', name='widgets'),
-    url(r'^widgets/$', 'trans.views.widgets.widgets_root', name='widgets_root'),
+    url(
+        r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)-(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)\.png$',
+        'trans.views.widgets.render',
+        name='widget-image-lang',
+    ),
+    url(
+        r'^widgets/(?P<project>[^/]*)-(?P<widget>[^/-]*)-(?P<color>[^/-]*)\.png$',
+        'trans.views.widgets.render',
+        name='widget-image',
+    ),
+    url(
+        r'^widgets/(?P<project>[^/]*)/$',
+        'trans.views.widgets.widgets',
+        name='widgets',
+    ),
+    url(
+        r'^widgets/$',
+        'trans.views.widgets.widgets_root',
+        name='widgets_root',
+    ),
 
     # Data exports pages
-    url(r'^data/$', 'trans.views.basic.data_root', name='data_root'),
-    url(r'^data/(?P<project>[^/]*)/$', 'trans.views.basic.data_project', name='data_project'),
+    url(
+        r'^data/$',
+        'trans.views.basic.data_root',
+        name='data_root',
+    ),
+    url(
+        r'^data/(?P<project>[^/]*)/$',
+        'trans.views.basic.data_project',
+        name='data_project',
+    ),
 
     # AJAX/JS backends
-    url(r'^js/get/(?P<checksum>[^/]*)/$', 'trans.views.js.get_string', name='js-get'),
-    url(r'^js/lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.lock.update_lock', name='js-lock'),
-    url(r'^js/ignore-check/(?P<check_id>[0-9]*)/$', 'trans.views.js.ignore_check', name='js-ignore-check'),
+    url(
+        r'^js/get/(?P<checksum>[^/]*)/$',
+        'trans.views.js.get_string',
+        name='js-get',
+    ),
+    url(
+        r'^js/lock/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.lock.update_lock',
+        name='js-lock',
+    ),
+    url(
+        r'^js/ignore-check/(?P<check_id>[0-9]*)/$',
+        'trans.views.js.ignore_check',
+        name='js-ignore-check',
+    ),
     url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    url(r'^js/config/$', 'trans.views.js.js_config', name='js-config'),
-    url(r'^js/similar/(?P<unit_id>[0-9]*)/$', 'trans.views.js.get_similar', name='js-similar'),
-    url(r'^js/other/(?P<unit_id>[0-9]*)/$', 'trans.views.js.get_other', name='js-other'),
-    url(r'^js/dictionary/(?P<unit_id>[0-9]*)/$', 'trans.views.js.get_dictionary', name='js-dictionary'),
-    url(r'^js/git/(?P<project>[^/]*)/$', 'trans.views.js.git_status_project', name='git_status_project'),
-    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$', 'trans.views.js.git_status_subproject', name='git_status_subproject'),
-    url(r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$', 'trans.views.js.git_status_translation', name='git_status_translation'),
+    url(
+        r'^js/config/$',
+        'trans.views.js.js_config',
+        name='js-config',
+    ),
+    url(
+        r'^js/similar/(?P<unit_id>[0-9]*)/$',
+        'trans.views.js.get_similar',
+        name='js-similar',
+    ),
+    url(
+        r'^js/other/(?P<unit_id>[0-9]*)/$',
+        'trans.views.js.get_other',
+        name='js-other',
+    ),
+    url(
+        r'^js/dictionary/(?P<unit_id>[0-9]*)/$',
+        'trans.views.js.get_dictionary',
+        name='js-dictionary',
+    ),
+    url(
+        r'^js/git/(?P<project>[^/]*)/$',
+        'trans.views.js.git_status_project',
+        name='git_status_project',
+    ),
+    url(
+        r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/$',
+        'trans.views.js.git_status_subproject',
+        name='git_status_subproject',
+    ),
+    url(
+        r'^js/git/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/$',
+        'trans.views.js.git_status_translation',
+        name='git_status_translation',
+    ),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -275,34 +634,43 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
-    url(r'^accounts/register/$', register, {
-                'backend': 'registration.backends.default.DefaultBackend',
-                'form_class': RegistrationForm,
-                'extra_context': {'title': _('User registration')}
-            },
-            name='weblate_register'),
-    url(r'^accounts/register/complete/$',
+    url(
+        r'^accounts/register/$', register, {
+            'backend': 'registration.backends.default.DefaultBackend',
+            'form_class': RegistrationForm,
+            'extra_context': {'title': _('User registration')}
+        },
+        name='weblate_register'
+    ),
+    url(
+        r'^accounts/register/complete/$',
         direct_to_template,
         {
             'template': 'registration/registration_complete.html',
             'extra_context': {'title': _('User registration')},
         },
-        name='registration_complete'),
-    url(r'^accounts/register/closed/$',
+        name='registration_complete'
+    ),
+    url(
+        r'^accounts/register/closed/$',
         direct_to_template,
         {
             'template': 'registration/registration_closed.html',
             'extra_context': {'title': _('User registration')},
         },
-        name='registration_disallowed'),
-    url(r'^accounts/activate/complete/$',
+        name='registration_disallowed'
+    ),
+    url(
+        r'^accounts/activate/complete/$',
         direct_to_template,
         {
             'template': 'registration/activation_complete.html',
             'extra_context': {'title': _('User registration')},
         },
-        name='registration_activation_complete'),
-    url(r'^accounts/activate/(?P<activation_key>\w+)/$',
+        name='registration_activation_complete'
+    ),
+    url(
+        r'^accounts/activate/(?P<activation_key>\w+)/$',
         activate,
         {
             'backend': 'registration.backends.default.DefaultBackend',
@@ -311,59 +679,103 @@ urlpatterns = patterns('',
                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
             }
         },
-        name='registration_activate'),
-    url(r'^accounts/login/$',
+        name='registration_activate'
+    ),
+    url(
+        r'^accounts/login/$',
         auth_views.login,
         {
             'template_name': 'registration/login.html',
             'extra_context': {'title': _('Login')},
         },
-        name='auth_login'),
-    url(r'^accounts/logout/$',
+        name='auth_login'
+    ),
+    url(
+        r'^accounts/logout/$',
         auth_views.logout,
         {
             'template_name': 'registration/logout.html',
             'extra_context': {'title': _('Logged out')},
         },
-        name='auth_logout'),
-    url(r'^accounts/password/change/$',
+        name='auth_logout'
+    ),
+    url(
+        r'^accounts/password/change/$',
         auth_views.password_change,
         {'extra_context': {'title': _('Change password')}},
-        name='auth_password_change'),
-    url(r'^accounts/password/change/done/$',
+        name='auth_password_change'
+    ),
+    url(
+        r'^accounts/password/change/done/$',
         auth_views.password_change_done,
         {'extra_context': {'title': _('Password changed')}},
-        name='auth_password_change_done'),
-    url(r'^accounts/password/reset/$',
+        name='auth_password_change_done'
+    ),
+    url(
+        r'^accounts/password/reset/$',
         auth_views.password_reset,
         {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset'),
-    url(r'^accounts/password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+        name='auth_password_reset'
+    ),
+    url(
+        r'^accounts/password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
         auth_views.password_reset_confirm,
         {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_confirm'),
-    url(r'^accounts/password/reset/complete/$',
+        name='auth_password_reset_confirm'
+    ),
+    url(
+        r'^accounts/password/reset/complete/$',
         auth_views.password_reset_complete,
         {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_complete'),
-    url(r'^accounts/password/reset/done/$',
+        name='auth_password_reset_complete'
+    ),
+    url(
+        r'^accounts/password/reset/done/$',
         auth_views.password_reset_done,
         {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_done'),
-    url(r'^accounts/profile/', 'accounts.views.user_profile', name='profile'),
+        name='auth_password_reset_done'
+    ),
+    url(
+        r'^accounts/profile/',
+        'accounts.views.user_profile',
+        name='profile',
+    ),
 
     # Static pages
-    url(r'^contact/', 'accounts.views.contact', name='contact'),
-    url(r'^about/$', 'trans.views.basic.about', name='about'),
+    url(
+        r'^contact/',
+        'accounts.views.contact',
+        name='contact',
+    ),
+    url(
+        r'^about/$',
+        'trans.views.basic.about',
+        name='about',
+    ),
 
     # User pages
-    url(r'^user/(?P<user>[^/]+)/', 'accounts.views.user_page', name='user_page'),
+    url(
+        r'^user/(?P<user>[^/]+)/',
+        'accounts.views.user_page',
+        name='user_page',
+    ),
 
     # Sitemap
-    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
-    (r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    url(
+        r'^sitemap\.xml$',
+        'django.contrib.sitemaps.views.index',
+        {'sitemaps': sitemaps}
+    ),
+    url(
+        r'^sitemap-(?P<section>.+)\.xml$',
+        'django.contrib.sitemaps.views.sitemap',
+        {'sitemaps': sitemaps}
+    ),
 
     # Media files
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.MEDIA_ROOT}),
+    url(
+        r'^media/(?P<path>.*)$',
+        'django.views.static.serve',
+        {'document_root': settings.MEDIA_ROOT}
+    ),
 )
