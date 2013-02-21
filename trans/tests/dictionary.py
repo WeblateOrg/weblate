@@ -25,16 +25,9 @@ Tests for dictionary manipulations.
 from trans.tests.views import ViewTestCase
 from trans.models import Dictionary
 from django.core.urlresolvers import reverse
-import os.path
+from trans.tests.util import get_test_file
 
-TEST_DATA = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'data'
-)
-TEST_TBX = os.path.join(
-    TEST_DATA,
-    'terms.tbx'
-)
+TEST_TBX = get_test_file('terms.tbx')
 
 
 class DictionaryTest(ViewTestCase):

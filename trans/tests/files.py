@@ -24,16 +24,9 @@ Tests for import and export.
 
 from trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
-import os.path
+from trans.tests.util import get_test_file
 
-TEST_DATA = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'data'
-)
-TEST_PO = os.path.join(
-    TEST_DATA,
-    'cs.po'
-)
+TEST_PO = get_test_file('cs.po')
 
 TRANSLATION_OURS = u'Nazdar světe!\n'
 TRANSLATION_PO = u'Ahoj světe!\n'
