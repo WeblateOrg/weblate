@@ -71,9 +71,7 @@ def flush_index():
     '''
     Flushes any possibly buffered writes to index.
     '''
-    FULLTEXT_INDEX._source_writer.commit()
-    for lang in FULLTEXT_INDEX._target_writer:
-        FULLTEXT_INDEX._target_writer[lang].commit()
+    FULLTEXT_INDEX.commit()
 
 
 def update_index(units, source_units=None):
@@ -197,5 +195,13 @@ class Index(object):
         if not buffered:
             return self.target(lang).searcher()
         return self.target_writer(lang, buffered).searcher()
+
+    def commit(self):
+        '''
+        Commits pending changes.
+        '''
+        self._source_writer.commit()
+        for lang in self._target_writer:
+            self._target_writer[lang].commit()
 
 FULLTEXT_INDEX = Index()
