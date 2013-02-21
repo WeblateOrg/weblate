@@ -20,7 +20,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from trans import appsettings
+from weblate import appsettings
 from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe

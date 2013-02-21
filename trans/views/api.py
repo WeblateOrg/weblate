@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from trans import appsettings
+from weblate import appsettings
 from django.views.decorators.csrf import csrf_exempt
 from django.http import (
     HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest

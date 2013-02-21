@@ -21,7 +21,7 @@
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
-from trans import appsettings
+from weblate import appsettings
 from django.core.urlresolvers import reverse
 
 from trans.models import Change, Translation, SubProject, Project

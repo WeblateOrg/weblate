@@ -26,7 +26,7 @@ import whoosh
 import os
 from whoosh.fields import Schema, TEXT, ID
 from django.db.models.signals import post_syncdb
-from trans import appsettings
+from weblate import appsettings
 from whoosh.index import create_in, open_dir
 from whoosh.writing import BufferedWriter
 from django.dispatch import receiver

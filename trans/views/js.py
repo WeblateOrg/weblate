@@ -20,7 +20,7 @@
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
-from trans import appsettings
+from weblate import appsettings
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.decorators import permission_required

@@ -19,7 +19,7 @@
 #
 
 from django.db import models
-from trans import appsettings
+from weblate import appsettings
 from django.core.cache import cache
 from django.db.models import Q, Count
 from django.utils import timezone
