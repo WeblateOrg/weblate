@@ -1,7 +1,14 @@
 [MASTER]
+
+# Profiled execution.
 profile=no
+
+# Add files or directories to the blacklist. They should be base names, not
+# paths.
+ignore=migrations,settings_jenkins.py,settings_test.py,.git,test-repos,repos
+
+# Pickle collected data for later comparisons.
 persistent=yes
-ignore=migrations,settings_jenkins.py,settings_test.py
 cache-size=500
 
 [MESSAGES CONTROL]
@@ -23,17 +30,52 @@ disable=C0111,I0011,I0012,W0704,W0142,W0212,W0232,W0613,W0702,R0201,E1101,E1120,
 # R0924
 
 [REPORTS]
+
+# Set the output format. Available formats are text, parseable, colorized, msvs
+# (visual studio) and html
 output-format=parseable
+
+# Include message's id in output
 include-ids=yes
 
+[FORMAT]
 
-[BASIC]
-no-docstring-rgx=__.*__|_.*
-class-rgx=[A-Z_][a-zA-Z0-9_]+$
-function-rgx=[a-zA_][a-zA-Z0-9_]{2,70}$
-method-rgx=[a-z_][a-zA-Z0-9_]{2,70}$
-const-rgx=(([A-Z_][A-Z0-9_]*)|([a-z_][a-z0-9_]*)|(__.*__)|register|urlpatterns)$
-good-names=_,i,j,k,e,qs,pk,setUp,tearDown
+# Maximum number of characters on a single line.
+max-line-length=80
+
+# Maximum number of lines in a module
+max-module-lines=600
+
+# String used as indentation unit. This is usually " " (4 spaces) or "\t" (1
+# tab).
+indent-string='    '
+
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity.
+min-similarity-lines=4
+
+# Ignore comments when computing similarities.
+ignore-comments=yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings=yes
+
+
+[VARIABLES]
+
+# Tells whether we should check for unused import in __init__ files.
+init-import=no
+
+# A regular expression matching the beginning of the name of dummy variables
+# (i.e. not used).
+dummy-variables-rgx=dummy
+
+# List of additional names supposed to be defined in builtins. Remember that
+# you should avoid to define new builtins when possible.
+additional-builtins=
+
 
 [TYPECHECK]
 
@@ -50,40 +92,74 @@ ignored-classes=SQLObject
 zope=no
 
 # List of members which are set dynamically and missed by pylint inference
-# system, and so shouldn't trigger E0201 when accessed.
+# system, and so shouldn't trigger E0201 when accessed. Python regular
+# expressions are accepted.
 generated-members=objects,DoesNotExist,id,pk,_meta,base_fields,context
-
-# List of method names used to declare (i.e. assign) instance attributes
-defining-attr-methods=__init__,__new__,setUp
-
-
-[VARIABLES]
-init-import=no
-dummy-variables-rgx=dummy
-
-[SIMILARITIES]
-min-similarity-lines=3
-ignore-comments=yes
-ignore-docstrings=yes
 
 
 [MISCELLANEOUS]
+
+# List of note tags to take in consideration, separated by a comma.
 notes=FIXME,XXX,TODO,BUG
 
 
-[FORMAT]
-max-line-length=80
-max-module-lines=600
-indent-string='    '
+[BASIC]
+
+# Regular expression which should only match correct module level names
+const-rgx=(([A-Z_][A-Z0-9_]*)|([a-z_][a-z0-9_]*)|(__.*__)|register|urlpatterns)$
+
+# Regular expression which should only match correct class names
+class-rgx=[A-Z_][a-zA-Z0-9_]+$
+
+# Regular expression which should only match correct function names
+function-rgx=[a-zA_][a-zA-Z0-9_]{2,70}$
+
+# Regular expression which should only match correct method names
+method-rgx=[a-z_][a-zA-Z0-9_]{2,70}$
+
+# Good variable names which should always be accepted, separated by a comma
+good-names=_,i,j,k,e,qs,pk,setUp,tearDown
+
+# Regular expression which should only match functions or classes name which do
+# not require a docstring
+no-docstring-rgx=__.*__|_.*
+
+
+[CLASSES]
+
+
+
+
+
+# List of method names used to declare (i.e. assign) instance attributes.
+defining-attr-methods=__init__,__new__,setUp
 
 
 [DESIGN]
+
+# Maximum number of arguments for function / method
 max-args=10
+
+# Maximum number of locals for function / method body
 max-locals=15
+
+# Maximum number of return / yield for function / method body
 max-returns=7
+
+# Maximum number of branch for function / method body
 max-branchs=12
+
+# Maximum number of statements in function / method body
 max-statements=50
+
+# Maximum number of parents for a class (see R0901).
 max-parents=9
+
+# Maximum number of attributes for a class (see R0902).
 max-attributes=25
+
+# Minimum number of public methods for a class (see R0903).
 min-public-methods=0
+
+# Maximum number of public methods for a class (see R0904).
 max-public-methods=80
