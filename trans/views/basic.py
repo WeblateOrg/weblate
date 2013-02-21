@@ -20,7 +20,6 @@
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext as _
-import django.utils.translation
 from django.template import RequestContext, loader
 from django.http import HttpResponseNotFound, Http404
 from django.contrib import messages
@@ -42,7 +41,8 @@ from trans.forms import (
 )
 from accounts.models import Profile
 from trans.views.helper import (
-    get_project, get_subproject, get_translation
+    get_project, get_subproject, get_translation,
+    try_set_language,
 )
 import weblate
 
@@ -126,15 +126,7 @@ def show_engage(request, project, lang=None):
     # Handle language parameter
     language = None
     if lang is not None:
-        try:
-            django.utils.translation.activate(lang)
-        except:
-            # Ignore failure on activating language
-            pass
-        try:
-            language = Language.objects.get(code=lang)
-        except Language.DoesNotExist:
-            pass
+        language = try_set_language(lang)
 
     context = {
         'object': obj,

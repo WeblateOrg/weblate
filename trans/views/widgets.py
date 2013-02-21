@@ -23,7 +23,6 @@ from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext_lazy
-import django.utils.translation
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
@@ -31,7 +30,7 @@ from django.views.decorators.cache import cache_page
 from trans.models import Project
 from lang.models import Language
 from trans.forms import EnageLanguageForm
-from trans.views.helper import get_project
+from trans.views.helper import get_project, try_set_language
 
 import cairo
 import pango
@@ -234,15 +233,7 @@ def render(request, project, widget='287x66', color=None, lang=None):
 
     # Handle language parameter
     if lang is not None:
-        try:
-            django.utils.translation.activate(lang)
-        except:
-            # Ignore failure on activating language
-            pass
-        try:
-            lang = Language.objects.get(code=lang)
-        except Language.DoesNotExist:
-            lang = None
+        lang = try_set_language(lang)
 
     percent = obj.get_translated_percent(lang)
 

@@ -24,8 +24,10 @@ Helper methods for views.
 from trans.models import Project, SubProject, Translation
 from trans.forms import SearchForm
 from trans.checks import CHECKS
+from lang.models import Language
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
+import django.utils.translation
 
 
 def get_translation(request, project, subproject, lang, skip_acl=False):
@@ -193,4 +195,20 @@ def get_filter_name(rqtype, search_query):
     elif rqtype in CHECKS:
         return CHECKS[rqtype].name
     else:
+        return None
+
+
+def try_set_language(lang):
+    '''
+    Tries to activate language, returns matching Language object.
+    '''
+
+    try:
+        django.utils.translation.activate(lang)
+    except:
+        # Ignore failure on activating language
+        pass
+    try:
+        return Language.objects.get(code=lang)
+    except Language.DoesNotExist:
         return None
