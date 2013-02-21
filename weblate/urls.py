@@ -37,7 +37,7 @@ LANGUAGE = r'(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?)'
 PROJECT = r'(?P<project>[^/]+)/'
 
 # URL regexp for subproject
-SUBPROJECT =  PROJECT + r'(?P<subproject>[^/]+)/'
+SUBPROJECT = PROJECT + r'(?P<subproject>[^/]+)/'
 
 # URL regexp for translations
 TRANSLATION = SUBPROJECT + LANGUAGE + '/'
@@ -51,10 +51,6 @@ WIDGET = r'(?P<project>[^/]+)-(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 admin.autodiscover()
 
 handler404 = 'trans.views.basic.not_found'
-
-js_info_dict = {
-    'packages': ('weblate',),
-}
 
 admin.site.index_template = 'admin/custom-index.html'
 
@@ -517,7 +513,11 @@ urlpatterns = patterns(
         'trans.views.js.ignore_check',
         name='js-ignore-check',
     ),
-    url(r'^js/i18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url(
+        r'^js/i18n/$',
+        'django.views.i18n.javascript_catalog',
+        {'packages': ('weblate',)}
+    ),
     url(
         r'^js/config/$',
         'trans.views.js.js_config',
@@ -565,16 +565,8 @@ urlpatterns = patterns(
     url(r'^accounts/', include(accounts.urls)),
 
     # Static pages
-    url(
-        r'^contact/',
-        'accounts.views.contact',
-        name='contact',
-    ),
-    url(
-        r'^about/$',
-        'trans.views.basic.about',
-        name='about',
-    ),
+    url(r'^contact/', 'accounts.views.contact', name='contact'),
+    url(r'^about/$', 'trans.views.basic.about', name='about'),
 
     # User pages
     url(
