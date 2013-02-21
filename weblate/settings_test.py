@@ -22,7 +22,7 @@
 # Django settings for running testsuite
 #
 
-from settings_example import *
+from weblate.settings_example import *
 
 # Different root for test repos
 GIT_ROOT = '%s/test-repos/' % WEB_ROOT

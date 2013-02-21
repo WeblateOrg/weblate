@@ -22,7 +22,7 @@
 # Django settings for run inside Jenkins
 #
 
-from settings_test import *
+from weblate.settings_test import *
 import os
 
 INSTALLED_APPS += ('django_jenkins', )
