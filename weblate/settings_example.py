@@ -204,7 +204,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'trans.context_processors.title',
     'trans.context_processors.date',
     'trans.context_processors.url',
-    'trans.context_processors.mt',
+    'trans.context_processors.machine_translations',
     'trans.context_processors.registration',
 )
 
