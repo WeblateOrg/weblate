@@ -131,12 +131,12 @@ urlpatterns = patterns(
     ),
     url(
         r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/download/$',
-        'trans.views.edit.download_translation',
+        'trans.views.files.download_translation',
         name='download_translation',
     ),
     url(
         r'^projects/(?P<project>[^/]*)/(?P<subproject>[^/]*)/(?P<lang>[^/]*)/upload/$',
-        'trans.views.edit.upload_translation',
+        'trans.views.files.upload_translation',
         name='upload_translation',
     ),
     url(
