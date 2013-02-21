@@ -116,6 +116,11 @@ class PeriodicTest(RepoTestCase):
         )
 
     def test_update_index(self):
+        # Flush possible caches
+        FULLTEXT_INDEX._source_writer.commit()
+        for lang in FULLTEXT_INDEX._target_writer:
+            FULLTEXT_INDEX._target_writer[lang].commit()
+
         call_command(
             'update_index'
         )
