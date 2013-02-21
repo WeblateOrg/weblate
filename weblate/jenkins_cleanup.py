@@ -24,6 +24,7 @@ Cleanup task for Jenkins CI
 from django_jenkins.tasks import BaseTask
 from django.conf import settings
 import os
+import shutil
 
 
 class Task(BaseTask):
