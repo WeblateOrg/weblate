@@ -22,15 +22,13 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic import RedirectView
-from django.contrib.sitemaps import GenericSitemap, Sitemap
 
 from trans.feeds import (
     TranslationChangesFeed, SubProjectChangesFeed,
     ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 )
-from trans.models import Project, SubProject, Translation
+from weblate.sitemaps import sitemaps
 import accounts.urls
-from accounts.models import Profile
 
 admin.autodiscover()
 
@@ -38,89 +36,6 @@ handler404 = 'trans.views.basic.not_found'
 
 js_info_dict = {
     'packages': ('weblate',),
-}
-
-project_dict = {
-    'queryset': Project.objects.all_acl(None),
-    'date_field': 'get_last_change',
-}
-
-subproject_dict = {
-    'queryset': SubProject.objects.all_acl(None),
-    'date_field': 'get_last_change',
-}
-
-translation_dict = {
-    'queryset': Translation.objects.all_acl(None),
-    'date_field': 'get_last_change',
-}
-
-user_dict = {
-    'queryset': Profile.objects.all(),
-    'date_field': 'get_last_change',
-}
-
-
-class PagesSitemap(Sitemap):
-    def items(self):
-        return (
-            ('/', 1.0, 'daily'),
-            ('/about/', 0.8, 'daily'),
-            ('/contact/', 0.2, 'monthly'),
-        )
-
-    def location(self, item):
-        return item[0]
-
-    def lastmod(self, item):
-        from trans.models import Change
-        return Change.objects.all()[0].timestamp
-
-    def priority(self, item):
-        return item[1]
-
-    def changefreq(self, item):
-        return item[2]
-
-
-class EngageSitemap(GenericSitemap):
-    '''
-    Wrapper around GenericSitemap to point to engage page.
-    '''
-    def location(self, obj):
-        from django.core.urlresolvers import reverse
-        return reverse('engage', kwargs={'project': obj.slug})
-
-
-class EngageLangSitemap(Sitemap):
-    '''
-    Wrapper to generate sitemap for all per language engage pages.
-    '''
-    priority = 0.9
-
-    def items(self):
-        '''
-        Return list of existing project, langauge tuples.
-        '''
-        ret = []
-        for project in Project.objects.all_acl(None):
-            for lang in project.get_languages():
-                ret.append((project, lang))
-        return ret
-
-    def location(self, item):
-        from django.core.urlresolvers import reverse
-        return reverse('engage-lang', kwargs={'project': item[0].slug, 'lang': item[1].code})
-
-
-sitemaps = {
-    'project': GenericSitemap(project_dict, priority=0.8),
-    'engage': EngageSitemap(project_dict, priority=1.0),
-    'engagelang': EngageLangSitemap(),
-    'subproject': GenericSitemap(subproject_dict, priority=0.6),
-    'translation': GenericSitemap(translation_dict, priority=0.2),
-    'user': GenericSitemap(user_dict, priority=0.1),
-    'pages': PagesSitemap(),
 }
 
 admin.site.index_template = 'admin/custom-index.html'
