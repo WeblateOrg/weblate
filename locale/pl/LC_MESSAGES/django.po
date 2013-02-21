@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-20 11:45+0100\n"
+"POT-Creation-Date: 2013-02-21 12:03+0100\n"
 "PO-Revision-Date: 2013-01-11 12:40+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: Polish <http://l10n.cihar.com/projects/weblate/master/pl/>\n"
@@ -19,34 +19,6 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 1.4-dev\n"
 
-#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
-msgid "User registration"
-msgstr "Rejestracja użytkownika"
-
-#: urls.py:286
-msgid "Account activation"
-msgstr "Aktywacja konta"
-
-#: urls.py:295 html/base.html:49 html/registration/login.html:30
-msgid "Login"
-msgstr "Logowanie"
-
-#: urls.py:302
-msgid "Logged out"
-msgstr "Wylogowany"
-
-#: urls.py:307
-msgid "Change password"
-msgstr "Zmiana hasła"
-
-#: urls.py:311
-msgid "Password changed"
-msgstr "Hasło zmienione"
-
-#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
-msgid "Password reset"
-msgstr "Resetowanie hasła"
-
 #: accounts/forms.py:98 accounts/forms.py:122
 msgid "First name"
 msgstr "Imię"
@@ -55,7 +27,7 @@ msgstr "Imię"
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: accounts/forms.py:100 accounts/forms.py:135 html/i18n.html:15
+#: accounts/forms.py:100 accounts/forms.py:135 weblate/html/i18n.html:15
 msgid "E-mail"
 msgstr "E-mail"
 
@@ -75,7 +47,7 @@ msgstr "Twój e-mail"
 msgid "Message"
 msgstr "Wiadomość"
 
-#: accounts/forms.py:131 html/i18n.html:16
+#: accounts/forms.py:131 weblate/html/i18n.html:16
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
@@ -87,7 +59,8 @@ msgstr "﻿Co najmniej pięć znaków."
 msgid "Activation email will be sent here."
 msgstr "E-mail aktywacyjny zostanie wysłany tutaj."
 
-#: accounts/forms.py:139 html/i18n.html:17 html/profile.html:25
+#: accounts/forms.py:139 weblate/html/i18n.html:17
+#: weblate/html/profile.html:25
 msgid "Password"
 msgstr "Hasło"
 
@@ -115,7 +88,7 @@ msgstr "Nazwa użytkownika musi mieć co najmniej pięć znaków."
 msgid "Interface Language"
 msgstr "Język interfejsu"
 
-#: accounts/models.py:192 html/index.html:21 trans/views/basic.py:101
+#: accounts/models.py:192 trans/views/basic.py:101 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Języki"
 
@@ -172,2484 +145,6 @@ msgstr "Wiadomość została wysłana do administratora."
 #: accounts/views.py:155
 msgid "Contact"
 msgstr "Kontakt"
-
-#: html/404.html:7
-msgid "The page you are looking for was not found."
-msgstr "Strona, której szukasz, nie została odnaleziona."
-
-#: html/404.html:11
-msgid ""
-"However the following translation projects are available on this server:"
-msgstr ""
-"Jednakże, istnieją następujące projekty tłumaczeniowe, dostępne na serwerze:"
-
-#: html/500.html:5
-msgid "Server Error"
-msgstr "Błąd serwera"
-
-#: html/500.html:8
-msgid ""
-"The server had serious problems while serving your request. We've just sent "
-"our trained monkeys to fix the issue."
-msgstr ""
-"Serwer miał poważne problemy, próbując obsłużyć Twoje żądanie. Właśnie "
-"wysłaliśmy nasze \"przeszkolone małpy\", aby to naprawić."
-
-#: html/about.html:6
-msgid "about"
-msgstr ""
-
-#: html/about.html:11 html/footer.html:7 trans/views/basic.py:351
-msgid "About Weblate"
-msgstr "O Weblate"
-
-#: html/about.html:13
-msgid ""
-"Weblate is a web based translation tool with tight Git integration. It "
-"features simple and clean user interface, propagation of translations across "
-"subprojects, quality checks and automatic linking to source files."
-msgstr ""
-"Weblate to narzędzie do tłumaczenia z interfejsem WWW, zintegrowane z "
-"systemem kontroli wersji Git. Posiada przejrzysty interfejs użytkownika, "
-"możliwość scalania tłumaczeń pomiędzy podprojektami, sprawdzanie spójności i "
-"automatyczne odnośniki do plików źródłowych."
-
-#: html/about.html:15 html/contact.html:15
-#, python-format
-msgid ""
-"If you are looking for support for Weblate or want to file bug reports check "
-"its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
-msgstr ""
-
-#: html/about.html:20
-msgid ""
-"This Weblate instance hosts translations for various free software projects."
-msgstr ""
-
-#: html/about.html:21 html/index.html:54
-#, fuzzy, python-format
-#| msgid ""
-#| "Should your language be missing, please <a href=\"%(contact_url)s?"
-#| "subject=New+language+request+for+%(object)s\">contact us</a>."
-msgid ""
-"We can host your project as well, if you are interested, please <a href="
-"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
-msgstr ""
-"Jeśli brakuje Twojego języka, <a href=\"%(contact_url)s?subject=New+language"
-"+request+for+%(object)s\">skontaktuj się proszę z nami</a>."
-
-#: html/about.html:25
-msgid ""
-"Weblate is free software created by volunteers, but you can still support "
-"them financially:"
-msgstr ""
-
-#: html/about.html:28
-msgid "Flattr Weblate!"
-msgstr "Flattr Weblate!"
-
-#: html/about.html:29
-msgid "Donate to Weblate!"
-msgstr "Dotuj Weblate!"
-
-#: html/about.html:32
-msgid "Versions"
-msgstr "Wersje"
-
-#: html/about.html:34
-msgid "This site is built using following projects:"
-msgstr "Ta strona jest zbudowana z użyciem następujących projektów:"
-
-#: html/about.html:48 html/data.html:50
-msgid "Statistics"
-msgstr "Statystyki"
-
-#: html/about.html:52
-msgid "Strings to translate"
-msgstr "Napisy do przetłumaczenia"
-
-#: html/about.html:56
-msgid "Used languages"
-msgstr "Wykorzystane języki"
-
-#: html/about.html:60
-msgid "Registered users"
-msgstr "Zarejestrowani użytkownicy"
-
-#: html/about.html:64 html/user-activity.html:4
-msgid "Suggestions made"
-msgstr "Sugestie"
-
-#: html/about.html:68 html/user-activity.html:8
-msgid "Translations made"
-msgstr "Tłumaczenia"
-
-#: html/about.html:72
-msgid "Failing checks found"
-msgstr "Znaleziono nieudane testy"
-
-#: html/about.html:76
-msgid "Ignored checks"
-msgstr "Zignorowane testy"
-
-#: html/base.html:43
-#, python-format
-msgid "Logged in as %(name)s"
-msgstr "Zalogowany/-a jako %(name)s"
-
-#: html/base.html:44
-msgid "Logout"
-msgstr "Wyloguj"
-
-#: html/base.html:47 html/registration/registration_form.html:25
-msgid "Register"
-msgstr "Rejestruj"
-
-#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
-#: html/admin/ssh.html:8
-msgid "Home"
-msgstr "Strona domowa"
-
-#: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
-#: html/checks.html:7
-msgid "checks"
-msgstr "testy"
-
-#: html/check.html:18 html/check_project.html:19 html/check_subproject.html:20
-#, python-format
-msgid ""
-"More information about this check is available in the <a href=\"%(link)s"
-"\">documentation</a>."
-msgstr ""
-"Więcej informacji o tym teście znajdziesz w <a href=\"%(link)s"
-"\">dokumentacji</a>."
-
-#: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:177 html/js/other.html:6 html/js/similar.html:6
-msgid "Project"
-msgstr "Projekt"
-
-#: html/check.html:27 html/check_project.html:27 html/check_subproject.html:28
-#: html/checks.html:16
-msgid "Failures"
-msgstr "Niepowodzenia"
-
-#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:47
-msgid "There are no matching failed checks!"
-msgstr "Nie znaleziono pasujących nieudanych tłumaczeń!"
-
-#: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
-#: html/js/dictionary.html:8 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:297
-msgid "Translation"
-msgstr "Tłumaczenie"
-
-#: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:32 html/subproject.html:36 html/translate.html:62
-#: html/translate.html.py:176 html/translate.html:182
-#: html/js/dictionary.html:7 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:296
-msgid "Source"
-msgstr "Źródło"
-
-#: html/checks.html:15 html/admin/performance.html:20
-msgid "Check"
-msgstr "Test"
-
-#: html/contact.html:6
-#, fuzzy
-#| msgid "Contact"
-msgid "contact"
-msgstr "Kontakt"
-
-#: html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr ""
-
-#: html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"Prosimy o kontakt po angielsku, w przeciwnym wypadku możemy mieć kłopot ze "
-"zrozumieniem Twojego zapytania."
-
-#: html/contact.html:21
-msgid "Send"
-msgstr "Wyślij"
-
-#: html/data-root.html:6 html/data.html:7
-msgid "data"
-msgstr ""
-
-#: html/data-root.html:11 html/data.html:12 html/index.html:116
-msgid "Data export"
-msgstr ""
-
-#: html/data-root.html:14 html/data.html:15
-msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr ""
-
-#: html/data-root.html:17 html/data.html:18
-msgid "RSS feeds"
-msgstr ""
-
-#: html/data-root.html:20 html/data.html:21
-msgid ""
-"To follow translation progress you can use RSS feeds which include all "
-"important changes in translation."
-msgstr ""
-
-#: html/data-root.html:21 html/data.html:22
-#, python-format
-msgid ""
-"More information about exported RSS feeds is available in <a href="
-"\"%(rss_docs)s\">the documentation</a>."
-msgstr ""
-"Więcej informacji o źródłach RSS znajdziesz w <a href=\"%(rss_docs)s"
-"\">dokumentacji</a>."
-
-#: html/data-root.html:27 html/data.html:29 html/data.html.py:60
-msgid "URL"
-msgstr ""
-
-#: html/data-root.html:28 html/data.html:30 html/data.html.py:61
-msgid "Link"
-msgstr ""
-
-#: html/data-root.html:33 html/data.html:36 html/data.html.py:42
-msgid "RSS"
-msgstr ""
-
-#: html/data-root.html:38
-msgid "Per project data"
-msgstr "Dane dla projektu"
-
-#: html/data-root.html:41
-msgid ""
-"There is more data exported per project, please check following links for "
-"more information."
-msgstr ""
-
-#: html/data.html:48
-msgid ""
-"There are also per language RSS feeds available, you can construct them by "
-"appending a language code to the above URLs."
-msgstr ""
-
-#: html/data.html:53
-#, python-format
-msgid ""
-"Translation statistics for every subproject in JSON format allow you to use "
-"these data in other websites or tools. Format of the data is described in <a "
-"href=\"%(api_docs)s\">the documentation</a>."
-msgstr ""
-
-#: html/data.html:68 html/translation.html:58
-msgid "Download"
-msgstr "Pobierz"
-
-#: html/dictionaries.html:8 html/dictionary.html:7
-msgid "glossaries"
-msgstr ""
-
-#: html/dictionaries.html:15 html/languages.html:14
-#: html/list-translations.html:6
-msgid "Language"
-msgstr "Język"
-
-#: html/dictionaries.html:16
-msgid "Words"
-msgstr "Słowa"
-
-#: html/dictionary.html:15 html/translate.html:173
-msgid "Glossary"
-msgstr ""
-
-#: html/dictionary.html:19 html/source-review.html:19 html/translate.html:28
-msgid "First"
-msgstr "Pierwszy"
-
-#: html/dictionary.html:20 html/source-review.html:20 html/translate.html:29
-msgid "Previous"
-msgstr "Poprzedni"
-
-#: html/dictionary.html:21 html/source-review.html:21 html/translate.html:30
-#, python-format
-msgid "%(position)s / %(total)s"
-msgstr "%(position)s / %(total)s"
-
-#: html/dictionary.html:22 html/source-review.html:22 html/translate.html:31
-msgid "Next"
-msgstr "Następny"
-
-#: html/dictionary.html:23 html/source-review.html:23 html/translate.html:32
-msgid "Last"
-msgstr "Ostatni"
-
-#: html/dictionary.html:48
-msgid "Edit"
-msgstr "Edytuj"
-
-#: html/dictionary.html:57 html/translate.html:133
-msgid "Delete"
-msgstr "Usuń"
-
-#: html/dictionary.html:66
-msgid "No words found!"
-msgstr "Nie znaleziono żadnych słów!"
-
-#: html/dictionary.html:69 html/language.html:18 html/project.html:36
-#: html/subproject.html:26 html/translation.html:31
-msgid "Tools"
-msgstr "Narzędzia"
-
-#: html/dictionary.html:74
-msgid "Add new word"
-msgstr "Dodaj nowe słowo"
-
-#: html/dictionary.html:77
-msgid "Import glossary"
-msgstr "Zaimportuj słownik"
-
-#: html/dictionary.html:79
-msgid "Export glossary"
-msgstr "Wyeksportuj słownik"
-
-#: html/dictionary.html:90 html/translate.html:213 html/translate.html.py:246
-msgid "Add"
-msgstr "Dodaj"
-
-#: html/dictionary.html:99
-msgid ""
-"You can upload any format which is understood by Translate Toolkit "
-"(including TBX, CSV or Gettext PO files)."
-msgstr ""
-"Pliki można przesyłać w jakikolwiek formacie, zrozumiałym przez Translate "
-"Toolkit (np. TBX, CSV lub pliki Gettext .po)."
-
-#: html/dictionary.html:106
-msgid "Import"
-msgstr "Import"
-
-#: html/dictionary.html:114
-msgid "You can download glossary in following formats:"
-msgstr ""
-
-#: html/dictionary.html:117
-msgid "Comma separated values (CSV)"
-msgstr ""
-
-#: html/dictionary.html:118
-msgid "Gettext (PO)"
-msgstr ""
-
-#: html/dictionary.html:119
-msgid "TermBase eXchange (TBX)"
-msgstr ""
-
-#: html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "słowniki"
-
-#: html/edit_dictionary.html:14
-msgid "Change word"
-msgstr "Zmień słowo"
-
-#: html/edit_dictionary.html:21 html/profile.html:66 html/translate.html:153
-msgid "Save"
-msgstr "Zapisz"
-
-#: html/engage.html:11 html/engage.html.py:25
-#, python-format
-msgid "Get involved in %(project)s!"
-msgstr "Zaangażuj się w %(project)s!"
-
-#: html/engage.html:12
-#, python-format
-msgid ""
-"Get involved in %(project)s, which is currently being translated into "
-"%(languages)s languages using Weblate."
-msgstr ""
-"Zaangażuj się w %(project)s, które są aktualnie tłumaczone na %(languages)s "
-"przy użyciu Weblate."
-
-#: html/engage.html:28
-msgid "Hi, and thank you for your interest!"
-msgstr "Cześć, i dziękuję za zainteresowanie!"
-
-#: html/engage.html:31
-#, fuzzy, python-format
-msgid ""
-"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
-"a>, a web tool designed to ease translating for both developers and "
-"translators."
-msgstr ""
-"%(name)s jest tłumaczone przy użyciu <a href=\"%(weblate_url)s\">Weblate</"
-"a>, narzędzia WWW zaprojektowanego do łatwego tłumaczenia. Mogą go używać "
-"zarówno programiści, jak i tłumacze."
-
-#: html/engage.html:38
-#, fuzzy, python-format
-msgid ""
-"If you would like to contribute to translation of %(project)s, you need to "
-"<a href=\"%(reg_url)s\">register on this server</a>."
-msgstr ""
-"Jesli chcesz przyczynić się do tłumaczenia %(name)s, musisz <a href=\"/"
-"accounts/register/\">zarejestrować się na tym serwerze</a>."
-
-#: html/engage.html:41
-#, python-format
-msgid ""
-"Once you have activated your account just proceed to the <a href=\"%(url)s"
-"\">translation section</a>."
-msgstr ""
-"Jak tylko aktywujesz swoje konto, przejdź do <a href=\"%(url)s\">sekcji "
-"tłumaczenia</a>."
-
-#: html/footer.html:6
-#, fuzzy, python-format
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr "Napędzane przez <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-
-#: html/footer.html:8
-msgid "Contact us"
-msgstr "Skontaktuj się z nami"
-
-#: html/footer.html:9 html/admin/performance.html:22
-#: html/admin/performance.html.py:30
-msgid "Documentation"
-msgstr "Dokumentacja"
-
-#: html/git-commit-info.html:4
-#, python-format
-msgid "Commit %(hash)s"
-msgstr ""
-
-#: html/git-commit-info.html:5
-#, python-format
-msgid "Authored by %(author)s on %(date)s"
-msgstr ""
-
-#: html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr "Nazwa użytkownika zajęta. Proszę wybrać inną."
-
-#: html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "Musisz wprowadzić to samo hasło za każdym razem"
-
-#: html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "Ten adres e-mail jest już używany. Proszę podać inny."
-
-#: html/i18n.html:11
-msgid "Old password"
-msgstr "Stare hasło"
-
-#: html/i18n.html:12
-msgid "New password"
-msgstr "Nowe hasło"
-
-#: html/i18n.html:13
-msgid "New password confirmation"
-msgstr "Potwierdzenie nowego hasła"
-
-#: html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "Hasła nie zgadzają się."
-
-#: html/i18n.html:18
-msgid ""
-"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr ""
-"Aby wybrać więcej, przytrzymaj klawisz \"Control\" (\"Command\" w Mac)."
-
-#: html/i18n.html:23
-msgid "Afrikaans"
-msgstr "afrykanerski"
-
-#: html/i18n.html:24
-msgid "Akan"
-msgstr "akan"
-
-#: html/i18n.html:25
-msgid "Albanian"
-msgstr "albański"
-
-#: html/i18n.html:26
-msgid "Amharic"
-msgstr "amharski"
-
-#: html/i18n.html:27
-msgid "Arabic"
-msgstr "arabski"
-
-#: html/i18n.html:28
-msgid "Aragonese"
-msgstr "aragoński"
-
-#: html/i18n.html:29
-msgid "Armenian"
-msgstr "armeński"
-
-#: html/i18n.html:30
-msgid "Asturian"
-msgstr "asturyjski"
-
-#: html/i18n.html:31
-msgid "Azerbaijani"
-msgstr "azerski"
-
-#: html/i18n.html:32
-msgid "Basque"
-msgstr "baskijski"
-
-#: html/i18n.html:33
-msgid "Belarusian"
-msgstr "białoruski"
-
-#: html/i18n.html:34
-msgid "Belarusian (latin)"
-msgstr "białoruski (łacina)"
-
-#: html/i18n.html:35
-msgid "Bengali"
-msgstr "bengalski"
-
-#: html/i18n.html:36
-msgid "Bengali (India)"
-msgstr "bengalski (Indie)"
-
-#: html/i18n.html:37
-msgid "Bosnian"
-msgstr "bośniacki"
-
-#: html/i18n.html:38
-msgid "Breton"
-msgstr "bretoński"
-
-#: html/i18n.html:39
-msgid "Bulgarian"
-msgstr "bułgarski"
-
-#: html/i18n.html:40
-msgid "Catalan"
-msgstr "kataloński"
-
-#: html/i18n.html:41
-msgid "Central Khmer"
-msgstr "khmerski"
-
-#: html/i18n.html:42
-msgid "Cornish"
-msgstr "kornijski"
-
-#: html/i18n.html:43
-msgid "Croatian"
-msgstr "chorwacki"
-
-#: html/i18n.html:44
-msgid "Czech"
-msgstr "czeski"
-
-#: html/i18n.html:45
-msgid "Danish"
-msgstr "duński"
-
-#: html/i18n.html:46
-msgid "Dutch"
-msgstr "holenderski"
-
-#: html/i18n.html:47
-msgid "Dzongkha"
-msgstr "dzongkha"
-
-#: html/i18n.html:48
-msgid "English"
-msgstr "angielski"
-
-#: html/i18n.html:49
-msgid "English (South Africa)"
-msgstr "angielski (RPA)"
-
-#: html/i18n.html:50
-msgid "English (United Kingdom)"
-msgstr "angielski (Wielka Brytania)"
-
-#: html/i18n.html:51
-msgid "English (United States)"
-msgstr "angielski (US)"
-
-#: html/i18n.html:52
-msgid "Esperanto"
-msgstr "esperanto"
-
-#: html/i18n.html:53
-msgid "Estonian"
-msgstr "estoński"
-
-#: html/i18n.html:54
-msgid "Faroese"
-msgstr "faroeski"
-
-#: html/i18n.html:55
-msgid "Filipino"
-msgstr "filipiński"
-
-#: html/i18n.html:56
-msgid "Finnish"
-msgstr "fiński"
-
-#: html/i18n.html:57
-msgid "French"
-msgstr "francuski"
-
-#: html/i18n.html:58
-msgid "Frisian"
-msgstr "fryzyjski"
-
-#: html/i18n.html:59
-msgid "Friulian"
-msgstr "friulski"
-
-#: html/i18n.html:60
-msgid "Fulah"
-msgstr ""
-
-#: html/i18n.html:61
-msgid "Gaelic"
-msgstr "gaelicki"
-
-#: html/i18n.html:62
-msgid "Galician"
-msgstr "galicyjski"
-
-#: html/i18n.html:63
-msgid "Georgian"
-msgstr "gruziński"
-
-#: html/i18n.html:64
-msgid "German"
-msgstr "niemiecki"
-
-#: html/i18n.html:65
-msgid "Greek"
-msgstr "grecki"
-
-#: html/i18n.html:66
-msgid "Gujarati"
-msgstr "gudżaracki"
-
-#: html/i18n.html:67
-msgid "Gun"
-msgstr "gun"
-
-#: html/i18n.html:68
-msgid "Hausa"
-msgstr "hausa"
-
-#: html/i18n.html:69
-msgid "Hebrew"
-msgstr "hebrajski"
-
-#: html/i18n.html:70
-msgid "Hindi"
-msgstr "hindi"
-
-#: html/i18n.html:71
-msgid "Hungarian"
-msgstr "węgierski"
-
-#: html/i18n.html:72
-msgid "Chinese (Hong Kong)"
-msgstr "chiński (Hong Kong)"
-
-#: html/i18n.html:73
-msgid "Chinese (China)"
-msgstr "chiński (Chiny)"
-
-#: html/i18n.html:74
-msgid "Chinese (Taiwan)"
-msgstr "chiński (Taiwan)"
-
-#: html/i18n.html:75
-msgid "Icelandic"
-msgstr "islandzki"
-
-#: html/i18n.html:76
-msgid "Indonesian"
-msgstr "indonezyjski"
-
-#: html/i18n.html:77
-msgid "Interlingua"
-msgstr "interlingwa"
-
-#: html/i18n.html:78
-msgid "Irish"
-msgstr "irlandzki"
-
-#: html/i18n.html:79
-msgid "Italian"
-msgstr "włoski"
-
-#: html/i18n.html:80
-msgid "Japanese"
-msgstr "japoński"
-
-#: html/i18n.html:81
-msgid "Javanese"
-msgstr "jawajski"
-
-#: html/i18n.html:82
-msgid "Kannada"
-msgstr "kannada"
-
-#: html/i18n.html:83
-msgid "Kashubian"
-msgstr "kaszubski"
-
-#: html/i18n.html:84
-msgid "Kazakh"
-msgstr "kazachski"
-
-#: html/i18n.html:85
-msgid "Kirghiz"
-msgstr "kirgiski"
-
-#: html/i18n.html:86
-msgid "Korean"
-msgstr "koreański"
-
-#: html/i18n.html:87
-msgid "Kurdish"
-msgstr "kurdyjski"
-
-#: html/i18n.html:88
-msgid "Kurdish Sorani"
-msgstr "kurdyjski (Sorani)"
-
-#: html/i18n.html:89
-msgid "Lao"
-msgstr "laotański"
-
-#: html/i18n.html:90
-msgid "Latvian"
-msgstr "łotewski"
-
-#: html/i18n.html:91
-msgid "Lingala"
-msgstr "lingala"
-
-#: html/i18n.html:92
-msgid "Lithuanian"
-msgstr "litewski"
-
-#: html/i18n.html:93
-msgid "Luxembourgish"
-msgstr "luksemburski"
-
-#: html/i18n.html:94
-msgid "Macedonian"
-msgstr "macedoński"
-
-#: html/i18n.html:95
-msgid "Maithili"
-msgstr "maithili"
-
-#: html/i18n.html:96
-msgid "Malagasy"
-msgstr "malgaski"
-
-#: html/i18n.html:97
-msgid "Malay"
-msgstr "malajski"
-
-#: html/i18n.html:98
-msgid "Malayalam"
-msgstr "malajalam"
-
-#: html/i18n.html:99
-msgid "Maltese"
-msgstr "maltański"
-
-#: html/i18n.html:100
-msgid "Maori"
-msgstr "maoryski"
-
-#: html/i18n.html:101
-msgid "Mapudungun"
-msgstr "mapudungun"
-
-#: html/i18n.html:102
-msgid "Marathi"
-msgstr "marathi"
-
-#: html/i18n.html:103
-msgid "Mongolian"
-msgstr "mongolski"
-
-#: html/i18n.html:104
-msgid "Morisyen"
-msgstr "maurytyjski"
-
-#: html/i18n.html:105
-msgid "Nahuatl languages"
-msgstr "nahuatl (języki nahuatl)"
-
-#: html/i18n.html:106
-msgid "Neapolitan"
-msgstr "neapolitański"
-
-#: html/i18n.html:107
-msgid "Nepali"
-msgstr "nepalski"
-
-#: html/i18n.html:108
-msgid "Norwegian Bokmål"
-msgstr "norweski (Bokmål)"
-
-#: html/i18n.html:109
-msgid "Norwegian Nynorsk"
-msgstr "norweski (Nynorsk)"
-
-#: html/i18n.html:110
-msgid "Occitan"
-msgstr "oksytański"
-
-#: html/i18n.html:111
-msgid "Oriya"
-msgstr "orija"
-
-#: html/i18n.html:112
-msgid "Papiamento"
-msgstr "papiamento"
-
-#: html/i18n.html:113
-msgid "Pedi"
-msgstr "pedi"
-
-#: html/i18n.html:114
-msgid "Persian"
-msgstr "perski"
-
-#: html/i18n.html:115
-msgid "Piemontese"
-msgstr "piemoncki"
-
-#: html/i18n.html:116
-msgid "Polish"
-msgstr "polski"
-
-#: html/i18n.html:117
-msgid "Portuguese"
-msgstr "portugalski"
-
-#: html/i18n.html:118
-msgid "Portuguese (Brazil)"
-msgstr "portugalski (Brazylia)"
-
-#: html/i18n.html:119
-msgid "Portuguese (Portugal)"
-msgstr "portugalski (Portugalia)"
-
-#: html/i18n.html:120
-#, fuzzy
-msgid "Punjabi"
-msgstr "pendżabski"
-
-#: html/i18n.html:121
-msgid "Pushto"
-msgstr "pasztuński"
-
-#: html/i18n.html:122
-msgid "Romanian"
-msgstr "rumuński"
-
-#: html/i18n.html:123
-msgid "Romansh"
-msgstr "retoromański"
-
-#: html/i18n.html:124
-msgid "Russian"
-msgstr "rosyjski"
-
-#: html/i18n.html:125
-msgid "Scots"
-msgstr "scots"
-
-#: html/i18n.html:126
-msgid "Serbian"
-msgstr "serbski"
-
-#: html/i18n.html:127
-msgid "Serbian (cyrillic)"
-msgstr "serbski (cyrylica)"
-
-#: html/i18n.html:128
-msgid "Serbian (latin)"
-msgstr "serbski (łacina)"
-
-#: html/i18n.html:129
-msgid "Sinhala"
-msgstr "syngaleski"
-
-#: html/i18n.html:130
-msgid "Slovak"
-msgstr "słowacki"
-
-#: html/i18n.html:131
-msgid "Slovenian"
-msgstr "słoweński"
-
-#: html/i18n.html:132
-msgid "Somali"
-msgstr "somalijski"
-
-#: html/i18n.html:133
-msgid "Songhai languages"
-msgstr "songhaj (języki songhaj)"
-
-#: html/i18n.html:134
-msgid "Sotho"
-msgstr "sotho"
-
-#: html/i18n.html:135
-msgid "Spanish"
-msgstr "hiszpański"
-
-#: html/i18n.html:136
-msgid "Sundanese"
-msgstr "sundajski"
-
-#: html/i18n.html:137
-msgid "Swahili"
-msgstr "suahili"
-
-#: html/i18n.html:138
-msgid "Swedish"
-msgstr "szwedzki"
-
-#: html/i18n.html:139
-msgid "Tajik"
-msgstr "tadżycki"
-
-#: html/i18n.html:140
-msgid "Tamil"
-msgstr "tamilski"
-
-#: html/i18n.html:141
-msgid "Tatar"
-msgstr "tatarski"
-
-#: html/i18n.html:142
-msgid "Telugu"
-msgstr "telugu"
-
-#: html/i18n.html:143
-msgid "Thai"
-msgstr "tajski"
-
-#: html/i18n.html:144
-msgid "Tibetan"
-msgstr "tybetański"
-
-#: html/i18n.html:145
-msgid "Tigrinya"
-msgstr "tigrinia"
-
-#: html/i18n.html:146
-msgid "Turkish"
-msgstr "turecki"
-
-#: html/i18n.html:147
-msgid "Turkmen"
-msgstr "turkmeński"
-
-#: html/i18n.html:148
-msgid "Uighur"
-msgstr "ujgurski"
-
-#: html/i18n.html:149
-msgid "Ukrainian"
-msgstr "ukraiński"
-
-#: html/i18n.html:150
-msgid "Urdu"
-msgstr "urdu"
-
-#: html/i18n.html:151
-msgid "Uzbek"
-msgstr "uzbecki"
-
-#: html/i18n.html:152
-msgid "Uzbek (latin)"
-msgstr "uzbecki (łacina)"
-
-#: html/i18n.html:153
-msgid "Vietnamese"
-msgstr "wietnamski"
-
-#: html/i18n.html:154
-msgid "Walloon"
-msgstr "waloński"
-
-#: html/i18n.html:155
-msgid "Welsh"
-msgstr "walijski"
-
-#: html/i18n.html:156
-msgid "Yoruba"
-msgstr "joruba"
-
-#: html/i18n.html:157
-msgid "Zulu"
-msgstr "zulu"
-
-#: html/i18n.html:160
-msgid "Translate using Apertium"
-msgstr "Tłumacz używając Apertium"
-
-#: html/i18n.html:161
-msgid "Translate using Microsoft Translator"
-msgstr "Tłumacz używając Microsoft Translator"
-
-#: html/i18n.html:162
-msgid "Translate using MyMemory"
-msgstr "Tłumacz używając MyMemory"
-
-#: html/i18n.html:163
-msgid "Sort this column"
-msgstr "Posortuj tę kolumnę"
-
-#: html/i18n.html:164
-msgid "AJAX request to load this content has failed!"
-msgstr "Wczytanie tej zawartości, za pomocą żądania AJAX, nie powiodło się!"
-
-#: html/i18n.html:165
-msgid "Loading…"
-msgstr "Wczytywanie…"
-
-#: html/i18n.html:166
-msgid "Failed translation"
-msgstr "Tłumaczenie nie powiodło się"
-
-#: html/i18n.html:167
-msgid "The request for machine translation has failed."
-msgstr "Żądanie automatycznego tłumaczenia nie powiodło się."
-
-#: html/i18n.html:168
-msgid "Error details:"
-msgstr "Szczegóły błędu:"
-
-#: html/i18n.html:169
-msgid "Confirm resetting repository"
-msgstr "Potwierdź zresetowanie repozytorium"
-
-#: html/i18n.html:170
-msgid "Resetting the repository will throw away all local changes!"
-msgstr "Zresetowanie repozytorium odrzuci wszystkie lokalne zmiany!"
-
-#: html/i18n.html:171
-msgid "Ok"
-msgstr "Ok"
-
-#: html/i18n.html:172
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: html/i18n.html:173 html/list-translations.html:62 trans/views/helper.py:192
-msgid "Strings with any failing checks"
-msgstr "Napisy z nieudanymi testami"
-
-#: html/i18n.html:174 html/list-translations.html:63 trans/views/helper.py:186
-msgid "Fuzzy strings"
-msgstr "Napisy niepewne"
-
-#: html/i18n.html:175 html/list-translations.html:61
-msgid "Translated strings"
-msgstr "Napisy przetłumaczone"
-
-#: html/index.html:9
-#, python-format
-msgid ""
-"This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
-"software projects listed below. You need to be logged in for translating, "
-"otherwise you can only make suggestions."
-msgstr ""
-"<a href=\"%(weblate_url)s\">Weblate</a> uruchamia tę witrynę do tłumaczenia "
-"projektów wymienionych poniżej. Musisz się zalogować, by móc tłumaczyć, w "
-"przeciwnym razie możesz jedynie tworzyć sugestie."
-
-#: html/index.html:13 html/subproject.html:17 html/translate.html:91
-msgid "Translations"
-msgstr "Tłumaczenia"
-
-#: html/index.html:18
-msgid "Your translations"
-msgstr "Twoje tłumaczenia"
-
-#: html/index.html:20 html/language.html:12 html/user.html:18
-msgid "Projects"
-msgstr "Projekty"
-
-#: html/index.html:22
-msgid "Checks"
-msgstr "Testy"
-
-#: html/index.html:38 html/index.html.py:80 html/languages.html:15
-#: html/list-translations.html:8 html/project.html:21
-msgid "Translated"
-msgstr "Przetłumaczone"
-
-#: html/index.html:59
-msgid "Summaries"
-msgstr "Podsumowania"
-
-#: html/index.html:64 html/language.html:23 html/project.html:40
-#: html/subproject.html:30 html/translation.html:35
-#: html/translation.html.py:83
-msgid "Recent changes"
-msgstr "Ostatnie zmiany"
-
-#: html/index.html:65
-msgid "Most active translators"
-msgstr "Najaktywniejsi tłumacze"
-
-#: html/index.html:66
-msgid "Most active suggesters"
-msgstr "Najaktywniejsze osoby sugerujące"
-
-#: html/index.html:67 html/language.html:25 html/project.html:46
-#: html/subproject.html:37 html/translation.html:46 html/user.html:27
-msgid "Activity"
-msgstr ""
-
-#: html/index.html:68
-msgid "Others"
-msgstr "Inni/Inne"
-
-#: html/index.html:79 html/index.html.py:98 html/last-changes.html:14
-msgid "User"
-msgstr "Użytkownik"
-
-#: html/index.html:99
-msgid "Suggested"
-msgstr "Zasugerowane"
-
-#: html/index.html:114
-msgid "Languages summary"
-msgstr "Podsumowanie języków"
-
-#: html/index.html:115
-msgid "Checks overview"
-msgstr "Przegląd testów"
-
-#: html/index.html:117
-msgid "Widgets"
-msgstr "Widżety"
-
-#: html/language.html:6 html/languages.html:6
-msgid "languages"
-msgstr "języki"
-
-#: html/language.html:24 html/project.html:41
-msgid "Glossaries"
-msgstr ""
-
-#: html/last-changes.html:13
-msgid "When"
-msgstr ""
-
-#: html/last-changes.html:15
-#, fuzzy
-msgid "Action"
-msgstr "Wszystkie napisy"
-
-#: html/last-changes.html:30
-msgid "No recent activity has been recorded."
-msgstr "Nie zarejestrowano żadnej ostatniej aktywności."
-
-#: html/list-checks.html:6
-#, python-format
-msgid "Ignore: %(check)s"
-msgstr "Ignoruj: %(check)s"
-
-#: html/list-translations.html:9
-msgctxt "Number of fuzzy strings"
-msgid "Fuzzy"
-msgstr "Niepewny"
-
-#: html/list-translations.html:10
-msgctxt "Number of failing checks"
-msgid "Checks"
-msgstr "Testy"
-
-#: html/list-translations.html:11
-#, fuzzy
-#| msgid "Suggestions"
-msgctxt "Number of suggestions"
-msgid "Suggestions"
-msgstr "Sugestie"
-
-#: html/list-translations.html:24
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
-msgid "There is %(count)s fuzzy string."
-msgid_plural "There are %(count)s fuzzy strings."
-msgstr[0] "Jest %(count)s nie przetłumaczony napis."
-msgstr[1] "Są %(count)s nie przetłumaczone napisy."
-msgstr[2] "Jest %(count)s nie przetłumaczonych napisów."
-
-#: html/list-translations.html:33
-#, python-format
-msgid "There is %(count)s failing check."
-msgid_plural "There are %(count)s failing checks."
-msgstr[0] "Jest %(count)s nieudany test."
-msgstr[1] "Są %(count)s nieudane testy."
-msgstr[2] "Jest %(count)s nieudanych testów."
-
-#: html/list-translations.html:42
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
-msgid "There is %(count)s suggestion."
-msgid_plural "There are %(count)s suggestions."
-msgstr[0] "Jest %(count)s nie przetłumaczony napis."
-msgstr[1] "Są %(count)s nie przetłumaczone napisy."
-msgstr[2] "Jest %(count)s nie przetłumaczonych napisów."
-
-#: html/list-translations.html:51
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
-msgstr[0] "Jest %(count)s nie przetłumaczony napis."
-msgstr[1] "Są %(count)s nie przetłumaczone napisy."
-msgstr[2] "Jest %(count)s nie przetłumaczonych napisów."
-
-#: html/list-translations.html:51 html/translate.html:24
-msgid "Translate"
-msgstr "Tłumaczenie"
-
-#: html/profile.html:12 trans/views/edit.py:685
-msgid "Please fix errors in the form."
-msgstr "Proszę poprawić błędy w formularzu."
-
-#: html/profile.html:22
-msgid "Preferences"
-msgstr "Preferencje"
-
-#: html/profile.html:23
-msgid "Subscriptions"
-msgstr "Subskrypcje"
-
-#: html/profile.html:24
-msgid "Account"
-msgstr "Konto"
-
-#: html/profile.html:26
-msgid "Information"
-msgstr "Informacje"
-
-#: html/profile.html:27
-#, fuzzy
-msgid "Avatar"
-msgstr "tatarski"
-
-#: html/profile.html:35
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
-"Otrzymasz wybrane zawiadomienia poprzez e-mail, do wszystkich języków, które "
-"wybrałeś."
-
-#: html/profile.html:44
-msgid "Your name and email will appear as author on Git commits."
-msgstr ""
-"Twoje dane (imię, nazwisko) oraz adres e-mail pojawią się jako autor w "
-"logach Gita."
-
-#: html/profile.html:48
-#, python-format
-msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
-msgstr "Możesz zmienić hasło na <a href=\"%(pw_url)s\">osobnej stronie</a>."
-
-#: html/profile.html:56
-msgid "Your public profile:"
-msgstr ""
-
-#: html/profile.html:62
-msgid "Change your avatar at gravatar.com"
-msgstr ""
-
-#: html/project.html:11 html/source.html:13 html/subproject.html:13
-#: html/translation.html:16
-msgid "Project Information"
-msgstr "Informacje o projekcie"
-
-#: html/project.html:15
-msgid "Subprojects"
-msgstr "Podprojekty"
-
-#: html/project.html:20
-msgid "Subproject"
-msgstr "Podprojekt"
-
-#: html/project.html:43 html/subproject.html:33 html/translation.html:42
-msgid "Git maintenance"
-msgstr "Zarządzanie Gitem"
-
-#: html/project.html:45 html/subproject.html:35 html/translation.html:45
-msgid "Share"
-msgstr ""
-
-#: html/project.html:54
-#, fuzzy
-msgid "Manage all glossaries"
-msgstr "Zarządzaj wszystkimi słownikami"
-
-#: html/project_info.html:2
-msgid "Project website:"
-msgstr "Witryna projektu:"
-
-#: html/project_info.html:4
-msgid "Mailing list for translators:"
-msgstr "Lista dyskusyjna dla tłumaczy:"
-
-#: html/project_info.html:7
-msgid "Instructions for translators:"
-msgstr "Instrukcje dla tłumaczy:"
-
-#: html/share.html:5
-msgid "Share on Facebook!"
-msgstr ""
-
-#: html/share.html:6
-#, fuzzy, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Dzięki za używanie Weblate!"
-
-#: html/share.html:6
-#, fuzzy
-msgid "Tweet this translation!"
-msgstr "Użyj tego tłumaczenia"
-
-#: html/share.html:11
-#, fuzzy, python-format
-msgid ""
-"You can also promote this translation project using various <a href="
-"\"%(widgets_url)s\">other possibilities</a>."
-msgstr ""
-"Promuj swój projekt tłumaczenia używając <a href=\"%(widgets_url)s"
-"\">widżetów</a>."
-
-#: html/share.html:15
-#, python-format
-msgid ""
-"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
-"readable formats."
-msgstr ""
-
-#: html/source-review.html:9 html/source.html:8
-#, fuzzy
-msgid "source"
-msgstr "Źródło"
-
-#: html/source-review.html:10
-#, fuzzy
-msgid "review"
-msgstr "Przegląd"
-
-#: html/source-review.html:15
-#, fuzzy
-msgid "Strings to review"
-msgstr "Rozpocznij przeglądanie"
-
-#: html/source-review.html:33 html/translate.html:106
-#: html/translate.html.py:226 trans/views/checks.py:43
-msgid "Failing checks"
-msgstr "Testy nieudane"
-
-#: html/source-review.html:48
-#, fuzzy
-msgid "Comment"
-msgstr "Komentarze"
-
-#: html/source-review.html:62 html/translate.html:231
-#, fuzzy
-msgid "User comments"
-msgstr "Komentarze"
-
-#: html/source-review.html:75
-#, fuzzy
-msgid "No matching source strings found!"
-msgstr "Nie znaleziono innych napisów."
-
-#: html/source.html:19 html/translation.html:22
-msgid "Strings to check"
-msgstr "Napisy do sprawdzenia"
-
-#: html/subproject.html:31 trans/models.py:107
-msgid "New language"
-msgstr "Nowy język"
-
-#: html/subproject.html:42
-#, python-format
-msgid ""
-"Should your language be missing, please follow <a href=\"%(url)s"
-"\">translator instructions</a>."
-msgstr ""
-"Jeśli brakuje twojego języka, przejdź proszę do <a href=\"%(url)s"
-"\">instrukcji dla tłumacza</a>."
-
-#: html/subproject.html:44
-#, python-format
-msgid ""
-"Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">contact us</a>."
-msgstr ""
-"Jeśli brakuje Twojego języka, <a href=\"%(contact_url)s?subject=New+language"
-"+request+for+%(object)s\">skontaktuj się proszę z nami</a>."
-
-#: html/subproject.html:59
-#, fuzzy
-msgid "Source strings review"
-msgstr "Źródłowy ciąg znaków:"
-
-#: html/subproject_info.html:6
-msgid "Git repository:"
-msgstr "Repozytorium Git:"
-
-#: html/subproject_info.html:9 html/subproject_info.html.py:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "gałąź %(branch)s"
-
-#: html/translate.html:15
-msgid "translate"
-msgstr "tłumacz to"
-
-#: html/translate.html:36
-#, python-format
-msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr "Aktualny filtr: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-
-#: html/translate.html:67
-#, fuzzy
-msgid "Source change"
-msgstr "Ostatnie zmiany"
-
-#: html/translate.html:73
-msgid "Context"
-msgstr "Kontekst"
-
-#: html/translate.html:80 html/js/dictionary.html:19
-msgid "Copy"
-msgstr "Kopiuj"
-
-#: html/translate.html:83
-#, fuzzy
-msgid "Toggle text direction"
-msgstr "Nieprawidłowy kierunek tekstu"
-
-#: html/translate.html:96
-msgctxt "Message is fuzzy"
-msgid "Fuzzy"
-msgstr "Napis jest niepewny"
-
-#: html/translate.html:97
-msgid "Special characters:"
-msgstr ""
-
-#: html/translate.html:98
-msgid "Insert tab character"
-msgstr ""
-
-#: html/translate.html:99
-#, fuzzy
-msgid "Insert new line"
-msgstr "Początek od nowej linii"
-
-#: html/translate.html:100
-msgid "Insert horizontal ellipsis"
-msgstr ""
-
-#: html/translate.html:116
-msgid "Suggestions"
-msgstr "Sugestie"
-
-#: html/translate.html:123
-#, python-format
-msgid "Suggested by %(user)s"
-msgstr "Zasugerowane przez %(user)s"
-
-#: html/translate.html:125
-msgid "Suggested by anonymous user"
-msgstr "Zasugerowane przez użytkownika anonimowego"
-
-#: html/translate.html:130
-msgid "Accept"
-msgstr "Akceptuj"
-
-#: html/translate.html:147
-msgid "Flags"
-msgstr "Flagi"
-
-#: html/translate.html:157
-#, python-format
-msgid ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
-"translations."
-msgstr ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">Zaloguj się</a>, aby "
-"zapisać tłumaczenia."
-
-#: html/translate.html:160
-msgid "Suggest"
-msgstr "Zasugeruj"
-
-#: html/translate.html:166
-msgid "Translation context"
-msgstr "Kontekst tłumaczenia"
-
-#: html/translate.html:170
-msgid "Messages placed around this one"
-msgstr "Komunikaty podobne"
-
-#: html/translate.html:170
-msgid "Nearby messages"
-msgstr "Komunikaty w pobliżu"
-
-#: html/translate.html:171
-msgid "Similar messages"
-msgstr "Komunikaty podobne"
-
-#: html/translate.html:172
-msgid "Same message used in different subprojects"
-msgstr "Te same komunikaty są użyte w różnych podprojektach"
-
-#: html/translate.html:172
-msgid "All locations"
-msgstr "Wszystkie lokalizacje"
-
-#: html/translate.html:173
-#, fuzzy
-msgid "Words extracted from glossary"
-msgstr "Słowa wyodrębnione ze słownika"
-
-#: html/translate.html:174
-#, fuzzy
-msgid "Comments about this translation"
-msgstr "Użyj tego tłumaczenia"
-
-#: html/translate.html:174 html/unit-details.html:10
-msgid "Comments"
-msgstr "Komentarze"
-
-#: html/translate.html:175
-msgid "List of recent changes done in Weblate"
-msgstr "Lista ostatnich zmian, dokonanych w Weblate"
-
-#: html/translate.html:175
-msgid "Recent edits"
-msgstr "Ostatnie edycje"
-
-#: html/translate.html:176
-#, fuzzy
-msgid "Source string details and feedback"
-msgstr "To tłumaczenie nie jest aktualnie zablokowane do aktualizacji."
-
-#: html/translate.html:177
-msgid "Information about project"
-msgstr "Informacja o projekcie"
-
-#: html/translate.html:182 html/js/other.html:6 html/js/similar.html:6
-msgid "State"
-msgstr "Stan"
-
-#: html/translate.html:200
-msgid "You can share comments about this translation with other translators."
-msgstr ""
-
-#: html/translate.html:206 html/translate.html.py:238
-#, fuzzy
-msgid "New comment"
-msgstr "Komentarze"
-
-#: html/translate.html:216 html/translate.html.py:249
-msgid "You are not allowed to add comments."
-msgstr ""
-
-#: html/translate.html:232
-msgid ""
-"You can share comments about source string for this translation with other "
-"translators and developers."
-msgstr ""
-
-#: html/translation.html:36 html/translation.html.py:52
-msgid "Search"
-msgstr "Szukaj"
-
-#: html/translation.html:37
-msgid "Files"
-msgstr "Pliki"
-
-#: html/translation.html:39
-msgid "Automatic translation"
-msgstr "Tłumaczenie automatyczne"
-
-#: html/translation.html:44
-msgid "Locking"
-msgstr "Blokowane"
-
-#: html/translation.html:60
-#, python-format
-msgid ""
-"You can <a href=\"%(download_url)s\">download</a> file for offline "
-"translation."
-msgstr ""
-"Możesz <a href=\"%(download_url)s\">pobrać</a> plik, aby przetłumaczyć go "
-"bez dostępu do sieci."
-
-#: html/translation.html:64 html/translation.html.py:76
-msgid "Upload"
-msgstr "Prześlij"
-
-#: html/translation.html:66
-msgid ""
-"Uploaded file will be merged with current translation. In case you want to "
-"overwrite already translated strings, don't forget to enable it."
-msgstr ""
-"Przesłany plik będzie scalony z aktualnym tłumaczeniem. Jeśli chcesz "
-"nadpisać obecnie przetłumaczone napisy, zaznacz odpowiednią opcję."
-
-#: html/translation.html:68
-msgid "Uploaded file will be merged with current translation."
-msgstr "Przesłany plik będzie scalony z obecnym tłumaczeniem."
-
-#: html/translation.html:87
-msgid "Review"
-msgstr "Przegląd"
-
-#: html/translation.html:89
-msgid "Review translations touched by other users."
-msgstr "Przegląd tłumaczeń tworzonych przez innych użytkowników."
-
-#: html/translation.html:94
-msgid "Start review"
-msgstr "Rozpocznij przeglądanie"
-
-#: html/translation.html:101
-#, fuzzy
-msgid ""
-"Automatic translation takes existing translations in this project and "
-"applies it to the current subproject. It can be used to push translations to "
-"a different branch, to fix inconsistent translations or to translate new "
-"subproject using translation memory."
-msgstr ""
-"Tłumaczenie automatyczne bierze istniejące tłumaczenia w tym projekcie, i "
-"scala je z aktualnym podprojektem. Może być użyte do scalenia tłumaczeń "
-"pomiędzy różnymi gałęziami lub w celu pozbycia się niespójności w "
-"tłumaczeniach."
-
-#: html/translation.html:107
-msgid "Process"
-msgstr "Przetwarzaj"
-
-#: html/translation.html:113
-msgid "Locking the translation will prevent others to work on translation."
-msgstr "Zablokowanie tłumaczenia zabroni innym pracy nad nim."
-
-#: html/translation.html:115
-msgid "Locked by:"
-msgstr "Zablokowane przez:"
-
-#: html/translation.html:116
-msgid "Lock expires:"
-msgstr ""
-
-#: html/translation.html:118
-msgid "Translation is currently not locked."
-msgstr "To tłumaczenie nie jest aktualnie zablokowane do aktualizacji."
-
-#: html/translation.html:122 html/js/git-status.html:16
-msgid "Unlock"
-msgstr "Odblokuj"
-
-#: html/translation.html:124 html/js/git-status.html:18
-msgid "Lock"
-msgstr "Zablokuj"
-
-#: html/translation_info.html:8
-#, python-format
-msgid ""
-"There are %(count)s strings, out of which %(translated)s&#37; is translated "
-"and %(fuzzy)s&#37; is fuzzy."
-msgstr ""
-"Jest %(count)s napisów z których %(translated)s&#37; jest przetłumaczonych, "
-"a %(fuzzy)s&#37; jest wątpliwych."
-
-#: html/unit-details.html:4
-msgid "Used in"
-msgstr "Używane w"
-
-#: html/unit-state.html:3
-msgid "Message is fuzzy"
-msgstr "Komunikat jest wątpliwy"
-
-#: html/unit-state.html:4
-msgid "Message has failing checks"
-msgstr "Komunikat posiada nieudane testy"
-
-#: html/unit-state.html:5
-msgid "Message is translated"
-msgstr "Komunikat jest przetłumaczony"
-
-#: html/user-activity.html:12
-msgid "Last login"
-msgstr "Ostatnie logowanie"
-
-#: html/user-activity.html:16
-msgid "Registration date"
-msgstr "Data rejestracji"
-
-#: html/user.html:33 html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr ""
-
-#: html/user.html:36 html/js/activity.html:5
-msgid "Activity in last year"
-msgstr ""
-
-#: html/user.html:39
-#, fuzzy
-#| msgid "Recent edits"
-msgid "Recent contributions"
-msgstr "Ostatnie edycje"
-
-#: html/widgets-root.html:6 html/widgets.html:7
-msgid "widgets"
-msgstr "widżety"
-
-#: html/widgets-root.html:11 html/widgets.html:16
-#, fuzzy
-msgid "Promoting translation projects"
-msgstr "Użyj tego tłumaczenia dla wszystkich podprojektów"
-
-#: html/widgets-root.html:14
-msgid ""
-"Weblate provides various widgets to promote your translation projects. Open "
-"one of the project pages below."
-msgstr ""
-
-#: html/widgets.html:19
-#, fuzzy, python-format
-msgid ""
-"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
-msgstr ""
-"Możesz także wskazać osobom nowoprzybyłym stronę wprowadzenia <a href="
-"\"%(engage_url)s\">%(engage_url)s</a>.\n"
-"\t"
-
-#: html/widgets.html:22
-#, fuzzy
-msgid "Promoting specific translations"
-msgstr "Tłumaczenie automatyczne"
-
-#: html/widgets.html:25
-msgid ""
-"Besides promoting whole translation project, you can also choose specific "
-"language to promote:"
-msgstr ""
-
-#: html/widgets.html:29
-msgid "Image widgets"
-msgstr "Widżety w formie obrazu"
-
-#: html/widgets.html:32
-msgid ""
-"You can use following widgets to promote translation of your project. They "
-"can increase visibility of your translation projects and bring new "
-"contributors."
-msgstr ""
-"Aby wypromować tłumaczenie Twojego projektu, możesz użyć następujących "
-"widzetów. Mogą one poprawić widoczność Twoich projektów tłumaczeń, oraz "
-"przysporzyć Ci nowych współpracowników."
-
-#: html/widgets.html:36
-#, python-format
-msgid "Image %(widget)s"
-msgstr "Obraz %(widget)s"
-
-#: html/widgets.html:38
-msgid "Color variants:"
-msgstr "Rodzaj koloru:"
-
-#: html/widgets.html:48
-msgid "HTML code"
-msgstr ""
-
-#: html/widgets.html:49
-msgid "BB code"
-msgstr ""
-
-#: html/widgets.html:50
-msgid "Markdown code"
-msgstr ""
-
-#: html/widgets.html:51
-msgid "RST code"
-msgstr ""
-
-#: html/widgets.html:52
-msgid "Textile code"
-msgstr ""
-
-#: html/widgets.html:59 html/widgets.html.py:67 html/widgets.html.py:74
-#: html/widgets.html:82
-#, fuzzy
-msgid "Translation status"
-msgstr "Tłumaczenia"
-
-#: html/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Raporty"
-
-#: html/admin/custom-index.html:13 html/admin/report.html:4
-#: html/admin/report.html.py:13
-msgid "Status of repositories"
-msgstr "Stan repozytoriów"
-
-#: html/admin/custom-index.html:19 html/admin/ssh.html:4
-#: html/admin/ssh.html.py:8
-msgid "SSH keys"
-msgstr ""
-
-#: html/admin/custom-index.html:25 html/admin/performance.html:5
-#: html/admin/performance.html.py:14
-msgid "Performance report"
-msgstr ""
-
-#: html/admin/performance.html:9
-msgid "Performance"
-msgstr ""
-
-#: html/admin/performance.html:21
-msgid "Result"
-msgstr ""
-
-#: html/admin/report.html:8
-msgid "Status"
-msgstr "Stan"
-
-#: html/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Stan przyłączonego repozytorium jest nieznany. Zamiast tego, sprawdź <a href="
-"\"#%(slug)s\">%(repo)s</a>."
-
-#: html/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr ""
-
-#: html/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr ""
-
-#: html/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr ""
-
-#: html/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-
-#: html/admin/ssh.html:26
-msgid "Generate"
-msgstr ""
-
-#: html/admin/ssh.html:32
-#, fuzzy
-msgid "More information"
-msgstr "Informacje o projekcie"
-
-#: html/admin/ssh.html:34
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-
-#: html/js/dictionary.html:19
-#, fuzzy
-#| msgid "Your translations"
-msgid "Copy word to translation"
-msgstr "Twoje tłumaczenia"
-
-#: html/js/dictionary.html:27
-msgid "No related strings found in dictionary."
-msgstr "Nie znaleziono powiązanych napisów."
-
-#: html/js/git-status.html:8
-msgid "Commit pending changes"
-msgstr "Prześlij oczekujące zmiany"
-
-#: html/js/git-status.html:8
-msgid "Commit"
-msgstr "Prześlij"
-
-#: html/js/git-status.html:9
-msgid "Pull changes from remote repository"
-msgstr "Pobierz zmiany ze zdalnego repozytorium"
-
-#: html/js/git-status.html:9
-msgid "Pull"
-msgstr "Pobierz"
-
-#: html/js/git-status.html:10
-msgid "Push changes to remote repository"
-msgstr "Prześlij zmiany do zdalnego repozytorium"
-
-#: html/js/git-status.html:10
-msgid "Push"
-msgstr "Prześlij"
-
-#: html/js/git-status.html:12
-msgid "Reset all changes in local repository"
-msgstr "Zresetuj wszystkie zmiany w repozytorium lokalnym"
-
-#: html/js/git-status.html:12
-msgid "Reset"
-msgstr "Zresetuj"
-
-#: html/js/git-status.html:16
-msgid "Allow changes in the repository"
-msgstr "Pozwól na zmiany w repozytorium"
-
-#: html/js/git-status.html:18
-msgid "Prevent any changes in the repository"
-msgstr "Nie zezwalaj na zmiany w repozytorium"
-
-#: html/js/git-status.html:24
-msgid "There are some not commited changes!"
-msgstr "Istnieją jakieś nieprzesłane zmiany!"
-
-#: html/js/git-status.html:27
-msgid "Remote Git repository needs to be merged!"
-msgstr "Zdalne repozytorium Git musi zostać scalone!"
-
-#: html/js/git-status.html:30
-msgid "There are some new commits in local Git repository!"
-msgstr "W lokalnym repozytorium Git znajdują się jakieś nowe zmiany!"
-
-#: html/js/git-status.html:38
-msgid "Last remote commit:"
-msgstr ""
-
-#: html/js/git-status.html:48
-msgid "Details"
-msgstr "Szczegóły"
-
-#: html/js/other.html:17
-msgid "Use this translation for all subprojects"
-msgstr "Użyj tego tłumaczenia dla wszystkich podprojektów"
-
-#: html/js/other.html:17
-msgid "Use this translation"
-msgstr "Użyj tego tłumaczenia"
-
-#: html/js/other.html:25
-msgid "No other strings found."
-msgstr "Nie znaleziono innych napisów."
-
-#: html/js/similar.html:20
-msgid "No similar strings found."
-msgstr "Nie znaleziono podobnych napisów."
-
-#: html/mail/base.html:31 html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr "Wysłane przez system tłumaczeń Weblate"
-
-#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
-#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
-#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
-#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
-#: html/mail/new_string.html:8 html/mail/new_string.txt:1
-#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
-#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
-msgid "Hi,"
-msgstr ""
-
-#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "there has been a new translation on %(translation)s at %(site_title)s.\n"
-msgid ""
-"there has been a change in translation on %(translation)s at %(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
-
-#: html/mail/changed_translation.html:19 html/mail/changed_translation.txt:5
-#: html/mail/new_comment.html:18 html/mail/new_comment.txt:5
-#: html/mail/new_suggestion.html:19 html/mail/new_suggestion.txt:5
-#: html/mail/new_translation.html:19 html/mail/new_translation.txt:5
-msgid "Source string:"
-msgstr "Źródłowy ciąg znaków:"
-
-#: html/mail/changed_translation.html:29 html/mail/changed_translation.txt:9
-#: html/mail/new_translation.html:29 html/mail/new_translation.txt:9
-msgid "Translation:"
-msgstr "Tłumaczenie:"
-
-#: html/mail/changed_translation.html:39 html/mail/new_suggestion.html:40
-#, fuzzy
-msgid "Translation change:"
-msgstr "Kontekst tłumaczenia"
-
-#: html/mail/changed_translation.html:49 html/mail/changed_translation.txt:17
-#: html/mail/new_comment.html:39 html/mail/new_comment.txt:13
-#: html/mail/new_translation.html:39 html/mail/new_translation.txt:15
-#, fuzzy
-msgid "You can edit this string at:"
-msgstr "Możesz to przeglądać na:"
-
-#: html/mail/changed_translation.txt:13
-#, fuzzy
-msgid "Previous translation:"
-msgstr "Twoje tłumaczenia"
-
-#: html/mail/changed_translation_subject.txt:1
-#, fuzzy, python-format
-#| msgid "New translation in %(translation)s"
-msgid "Changed translation in %(translation)s"
-msgstr "Nowe tłumaczenie w %(translation)s"
-
-#: html/mail/footer.html:4 html/mail/footer.txt:1
-msgid "Translation summary:"
-msgstr "Podsumowanie tłumaczenia:"
-
-#: html/mail/footer.html:8 html/mail/footer.txt:3
-msgid "Total strings:"
-msgstr "Wszystkie napisy:"
-
-#: html/mail/footer.html:11 html/mail/footer.txt:4
-msgid "Translated strings:"
-msgstr "Napisy przetłumaczone:"
-
-#: html/mail/footer.html:14 html/mail/footer.txt:5
-msgid "Fuzzy strings:"
-msgstr "Napisy niepewne:"
-
-#: html/mail/footer.html:18
-#, fuzzy, python-format
-#| msgid "You can translate at %(translation_url)s"
-msgid ""
-"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr "Możesz tłumaczyć na %(translation_url)s"
-
-#: html/mail/footer.txt:7
-#, python-format
-msgid "You can translate at %(translation_url)s"
-msgstr "Możesz tłumaczyć na %(translation_url)s"
-
-#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:3
-#, fuzzy, python-format
-msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
-
-#: html/mail/merge_failure.html:16
-#, fuzzy
-msgid "Error message"
-msgstr "Szczegóły błędu:"
-
-#: html/mail/merge_failure.html:22
-#, fuzzy
-msgid "Repository status"
-msgstr "Repozytorium Git:"
-
-#: html/mail/merge_failure.txt:5
-#, fuzzy
-msgid "Error message:"
-msgstr "Szczegóły błędu:"
-
-#: html/mail/merge_failure.txt:9
-#, fuzzy
-msgid "Repository status:"
-msgstr "Repozytorium Git:"
-
-#: html/mail/merge_failure_subject.txt:1
-#, fuzzy, python-format
-msgid "Merge failure in %(subproject)s"
-msgstr "Zaangażuj się w %(project)s!"
-
-#: html/mail/new_comment.html:12 html/mail/new_comment.txt:3
-#, fuzzy, python-format
-msgid "there has been a new comment on %(subproject)s at %(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
-
-#: html/mail/new_comment.html:29 html/mail/new_comment.txt:9
-#, fuzzy
-msgid "Comment:"
-msgstr "Komentarze"
-
-#: html/mail/new_comment_subject.txt:1
-#, fuzzy, python-format
-msgid "New comment in %(subproject)s"
-msgstr "Zaangażuj się w %(project)s!"
-
-#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "%(username)s has just made his first contribution on %(translation)s at "
-#| "%(site_title)s.\n"
-msgid ""
-"%(username)s has just made a first contribution on %(translation)s at "
-"%(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"%(username)s właśnie po raz pierwszy przyczynił się do %(translation)s w "
-"%(site_title)s./n\n"
-
-#: html/mail/new_contributor_subject.txt:1
-#, python-format
-msgid "New contributor in %(translation)s"
-msgstr "Nowy współpracownik w %(translation)s"
-
-#: html/mail/new_string.html:12 html/mail/new_string.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "there are new strings to translate on %(translation)s at %(site_title)s.\n"
-msgid ""
-"there are new strings to translate on %(translation)s at %(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"są nowe napisy do przetłumaczenia do %(translation)s w %(site_title)s./n\n"
-
-#: html/mail/new_string_subject.txt:1
-#, python-format
-msgid "New string to translate in %(translation)s"
-msgstr "Nowy napis do przetłumaczenia w %(translation)s"
-
-#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "there is a new suggestion evaluate on %(translation)s at %(site_title)s.\n"
-msgid ""
-"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"jest nowa sugestia do oceny do %(translation)s w %(site_title)s./n\n"
-"\n"
-
-#: html/mail/new_suggestion.html:29 html/mail/new_suggestion.txt:9
-#, fuzzy
-#| msgid "Suggestions"
-msgid "Suggestion:"
-msgstr "Sugestie"
-
-#: html/mail/new_suggestion.html:51 html/mail/new_suggestion.txt:13
-msgid "You can review it at:"
-msgstr "Możesz to przeglądać na:"
-
-#: html/mail/new_suggestion_subject.txt:1
-#, python-format
-msgid "New suggestion in %(translation)s"
-msgstr "Nowa sugestia w %(translation)s"
-
-#: html/mail/new_translation.html:12 html/mail/new_translation.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "there has been a new translation on %(translation)s at %(site_title)s.\n"
-msgid "there has been a new translation on %(translation)s at %(site_title)s."
-msgstr ""
-"Cześć,/n\n"
-"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
-
-#: html/mail/new_translation.txt:13
-#, fuzzy
-msgid "Previously not translated"
-msgstr "Twoje tłumaczenia"
-
-#: html/mail/new_translation_subject.txt:1
-#, python-format
-msgid "New translation in %(translation)s"
-msgstr "Nowe tłumaczenie w %(translation)s"
-
-#: html/registration/activate.html:7
-msgid "Your account could not be activated"
-msgstr "Twoje konto nie mogło zostać aktywowane"
-
-#: html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] ""
-"Mogło tak się zdarzyć, ponieważ konto jest już aktywne, albo ponieważ "
-"czekałeś/czekałaś z aktywacją ponad %(days)s."
-msgstr[1] ""
-"Mogło tak się zdarzyć, ponieważ konta są już aktywne, albo ponieważ czekałeś/"
-"czekałaś z aktywacją ponad %(days)s."
-msgstr[2] ""
-"Mogło tak się zdarzyć, ponieważ konta są już aktywne, albo ponieważ czekałeś/"
-"czekałaś z aktywacją ponad %(days)s."
-
-#: html/registration/activate.html:12
-#, fuzzy, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-"Jeśli uważasz, że powyższa uwaga nie dotyczy Ciebie, <a href=\"/contact/"
-"\">skontaktuj się</a> proszę z administratorem tej strony. Możesz także <a "
-"href=\"%(reg_url)s\">zarejestrować się ponownie</a>."
-
-#: html/registration/activation_complete.html:8
-msgid "Thank you. Your account is now activated."
-msgstr "Dziękujemy. Twoje konto jest już aktywne."
-
-#: html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "Możesz teraz <a href=\"%(profile_url)s\">dostosować swój profil</a>."
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-"Witaj,\n"
-"\n"
-"To automatyczna wiadomość wysłana w celu zakończenia rejestracji w "
-"%(site_title)s.\n"
-"\n"
-"Proszę otworzyć poniższy odsyłacz w przeglądarce. Jeśli odsyłacz połamał się "
-"między\n"
-"wiele linii może istnieć konieczność sklejenia go."
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-"\n"
-"Jeśli masz problem z rejestracją, odpowiedz na tę wiadomość.\n"
-"\n"
-"Z poważaniem,\n"
-"%(site_title)s\n"
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "Twoja rejestracja w %(site_title)s"
-
-#: html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr ""
-"Kombinacja pól tekstowych: użytkownik/hasło nie została odnaleziona. Spróbuj "
-"ponownie."
-
-#: html/registration/login.html:37
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr ""
-"Nie masz jeszcze konta? Możesz się <a href=\"%(register_url)s"
-"\">zarejestrować</a>."
-
-#: html/registration/login.html:43
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"Nie pamiętasz hasła? Możesz <a href=\"%(reset_url)s\">je zresetować</a>."
-
-#: html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "Dzięki za używanie Weblate!"
-
-#: html/registration/logout.html:9
-msgid "Log in again"
-msgstr "Zaloguj się ponownie"
-
-#: html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "Twoje hasło zostało zmienione."
-
-#: html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Proszę poprawić poniższy błąd."
-msgstr[1] "Proszę poprawić poniższe błędy."
-msgstr[2] "Proszę poprawić poniższe błędy."
-
-#: html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Proszę wpisz swoje stare hasło, ze względów bezpieczeństwa, a następnie "
-"wprowadź nowe hasło dwa razy, dzięki czemu możemy zweryfikować czy wpisano "
-"je poprawnie."
-
-#: html/registration/password_change_form.html:22
-#: html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "Zmień hasło"
-
-#: html/registration/password_reset_complete.html:6
-msgid "Your password has been set.  You may go ahead and log in now."
-msgstr "Twoje hasło zostało ustawione. Możesz teraz przejść do logowania."
-
-#: html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "Zaloguj się"
-
-#: html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr ""
-"Proszę wpisać dwukrotnie nowe hasło, aby można było zweryfikować, czy "
-"wpisano je poprawnie."
-
-#: html/registration/password_reset_confirm.html:19
-#, fuzzy
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
-"Link do resetowania hasła był nieprawidłowy. Prawdopodobną przyczyna: link "
-"został już wykorzystany. Proszę ponownie wysłać żądanie resetowania hasła."
-
-#: html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Na podany adres e-mail wysłaliśmy list z instrukcjami dotyczącymi ustawienia "
-"hasła. List powinien do Ciebie dotrzeć w najbliższym czasie."
-
-#: html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Ta wiadomość dotarła do Ciebie, ponieważ otrzymaliśmy żądanie resetowania "
-"hasła dla Twojego konta na %(site_name)s."
-
-#: html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "Proszę przejść do następującej strony i wybrać nowe hasło:"
-
-#: html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "Twoja nazwa użytkownika, (na wszelki wypadek, gdybyś zapomniał/-a):"
-
-#: html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "Dzięki za używanie naszej strony!"
-
-#: html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "Zespół %(site_name)s"
-
-#: html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Nie pamiętasz hasła? Wpisz poniżej swój adres e-mail, a my wyślemy wiadomość "
-"z instrukcjami dotyczącymi ustawienia hasła nowego."
-
-#: html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "Zresetuj moje hasło"
-
-#: html/registration/registration_closed.html:9
-#, fuzzy, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-"Przepraszamy, ale rejestracje na tej stronie są wyłączone. Możesz się z nami "
-"<a href=\"/contact/\">skontaktować</a>, aby uzyskać więcej informacji."
-
-#: html/registration/registration_complete.html:7
-#, fuzzy
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"Dziękujemy za rejestrację. Bardzo szybko otrzymasz e-mail/n\n"
-"z prośbą o potwierdzenie. Proszę kliknij na ten link, aby zakończyć "
-"rejestrację."
-
-#: html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-
-#: html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "Proszę poprawić błędy w formularzu rejestracyjnym."
-
-#: html/registration/registration_form.html:23
-#, fuzzy
-msgid ""
-"By registering you agree to use your name and email in Git commits and your "
-"contribution to be licensed under same license as translated content."
-msgstr ""
-"Poprzez rejestrację użytkownika zgadzasz się używać swoje dane (imię, "
-"nazwisko) i e-mail w logach Gita."
 
 #: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
 #: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
@@ -2795,7 +290,7 @@ msgstr "Wszystkie napisy"
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/forms.py:92
+#: trans/forms.py:94
 #, fuzzy
 msgid ""
 "This equation identifies which plural form will be used based on given count "
@@ -2804,146 +299,163 @@ msgstr ""
 "Równanie to służy do określenia, która forma liczby mnogiej zostanie użyta w "
 "zależności od liczebności (n)."
 
-#: trans/forms.py:95
+#: trans/forms.py:97
 msgid "Plural equation"
 msgstr "Równanie liczby mnogiej"
 
-#: trans/forms.py:147
+#: trans/forms.py:149
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Pole wyboru do zaznaczania napisu jako tłumaczenie watpliwe"
 
-#: trans/forms.py:171 trans/forms.py:305
+#: trans/forms.py:173 trans/forms.py:307
 msgid "File"
 msgstr "Plik"
 
-#: trans/forms.py:173 trans/forms.py:308
+#: trans/forms.py:175 trans/forms.py:310
 #, fuzzy
 #| msgid "Merge file header"
 msgid "Merge method"
 msgstr "Scal nagłówek pliku"
 
-#: trans/forms.py:175
+#: trans/forms.py:177
 #, fuzzy
 #| msgid "Use this translation"
 msgid "Add as translation"
 msgstr "Użyj tego tłumaczenia"
 
-#: trans/forms.py:176
+#: trans/forms.py:178
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Add as a suggestion"
 msgstr "Nieprawidłowa sugestia!"
 
-#: trans/forms.py:177
+#: trans/forms.py:179
 #, fuzzy
 #| msgid "Use this translation"
 msgid "Add as fuzzy translation"
 msgstr "Użyj tego tłumaczenia"
 
-#: trans/forms.py:182
+#: trans/forms.py:184
 msgid "Merge file header"
 msgstr "Scal nagłówek pliku"
 
-#: trans/forms.py:183
+#: trans/forms.py:185
 msgid "Merges content of file header into the translation."
 msgstr "Scala zawartość nagłówka pliku z tłumaczeniem."
 
-#: trans/forms.py:194
+#: trans/forms.py:196
 msgid "Overwrite existing translations"
 msgstr "Nadpisz istniejące tłumaczenia"
 
-#: trans/forms.py:204
+#: trans/forms.py:206
 msgid "Author name"
 msgstr "Dane autora (imię, nazwisko)"
 
-#: trans/forms.py:206 trans/forms.py:211
+#: trans/forms.py:208 trans/forms.py:213
 msgid "Keep empty for using currently logged in user."
 msgstr "Zostaw puste, aby użyć aktualnie zalogowanego użytkownika."
 
-#: trans/forms.py:209
+#: trans/forms.py:211
 msgid "Author email"
 msgstr "Adres e-mail autora"
 
-#: trans/forms.py:219
+#: trans/forms.py:221
 msgid "Query"
 msgstr "Zapytanie"
 
-#: trans/forms.py:221
+#: trans/forms.py:223
 #, fuzzy
 #| msgid "Search"
 msgid "Search type"
 msgstr "Szukaj"
 
-#: trans/forms.py:224
+#: trans/forms.py:226
 msgid "Fulltext"
 msgstr ""
 
-#: trans/forms.py:225
+#: trans/forms.py:227
 msgid "Exact match"
 msgstr "Dokładne dopasowanie"
 
-#: trans/forms.py:226
+#: trans/forms.py:228
 #, fuzzy
 #| msgid "Source string:"
 msgid "Substring"
 msgstr "Źródłowy ciąg znaków:"
 
-#: trans/forms.py:231
+#: trans/forms.py:233
 msgid "Search in source strings"
 msgstr "Szukaj w napisach źródłowych"
 
-#: trans/forms.py:236
+#: trans/forms.py:238
 msgid "Search in target strings"
 msgstr "Szukaj w napisach docelowych"
 
-#: trans/forms.py:241
+#: trans/forms.py:243
 msgid "Search in context strings"
 msgstr "Szukaj w napisach kontekstowych"
 
-#: trans/forms.py:260
+#: trans/forms.py:262
 msgid "Overwrite strings"
 msgstr "Nadpisz napisy"
 
-#: trans/forms.py:265
+#: trans/forms.py:267
 msgid "Replace inconsistent"
 msgstr "Podmień niespójność"
 
-#: trans/forms.py:270
+#: trans/forms.py:272
 msgid "Subproject to use"
 msgstr "Podprojekt do wykorzystania"
 
-#: trans/forms.py:289
+#: trans/forms.py:291
 msgid "All subprojects"
 msgstr "Wszystkie podprojekty"
 
-#: trans/forms.py:310
+#: trans/forms.py:298 weblate/html/check_subproject.html:39
+#: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
+#: weblate/html/subproject.html:36 weblate/html/translate.html:62
+#: weblate/html/translate.html.py:176 weblate/html/translate.html:182
+#: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Source"
+msgstr "Źródło"
+
+#: trans/forms.py:299 weblate/html/check_subproject.html:27
+#: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
+#: weblate/html/translate.html:91 weblate/html/translate.html.py:182
+#: weblate/html/js/dictionary.html:8 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Translation"
+msgstr "Tłumaczenie"
+
+#: trans/forms.py:312
 msgid "Keep current"
 msgstr ""
 
-#: trans/forms.py:311
+#: trans/forms.py:313
 msgid "Overwrite existing"
 msgstr "Nadpisz istniejące"
 
-#: trans/forms.py:312
+#: trans/forms.py:314
 #, fuzzy
 #| msgid "Use this translation"
 msgid "Add as other translation"
 msgstr "Użyj tego tłumaczenia"
 
-#: trans/forms.py:322
+#: trans/forms.py:324
 msgid "Starting date"
 msgstr "Data początkowa"
 
-#: trans/forms.py:337
+#: trans/forms.py:339
 msgid "Starting letter"
 msgstr "Litera początkowa"
 
-#: trans/forms.py:338
+#: trans/forms.py:340
 msgid "Any"
 msgstr "Jakikolwiek"
 
-#: trans/forms.py:356
+#: trans/forms.py:358
 #, fuzzy
 msgid "Whole project"
 msgstr "Wszystkie podprojekty"
@@ -2978,6 +490,10 @@ msgstr "Lista dyskusyjna dla tłumaczy:"
 #, fuzzy
 msgid "URL with instructions for translators"
 msgstr "Instrukcje dla tłumaczy:"
+
+#: trans/models.py:107 weblate/html/subproject.html:31
+msgid "New language"
+msgstr "Nowy język"
 
 #: trans/models.py:112
 msgid "How to handle requests for creating new languages."
@@ -3668,6 +1184,16 @@ msgstr "Źródłowy ciąg znaków:"
 msgid "Page Not Found"
 msgstr "Nie znaleziono strony"
 
+#: trans/views/basic.py:351 weblate/html/about.html:11
+#: weblate/html/footer.html:7
+msgid "About Weblate"
+msgstr "O Weblate"
+
+#: trans/views/checks.py:43 weblate/html/source-review.html:33
+#: weblate/html/translate.html:106 weblate/html/translate.html.py:226
+msgid "Failing checks"
+msgstr "Testy nieudane"
+
 #: trans/views/dictionary.py:47
 msgid "Dictionaries"
 msgstr "Słowniki"
@@ -3767,6 +1293,10 @@ msgstr "Przetworzenie formularza nie powiodło się!"
 msgid "Access denied."
 msgstr ""
 
+#: trans/views/edit.py:685 weblate/html/profile.html:12
+msgid "Please fix errors in the form."
+msgstr "Proszę poprawić błędy w formularzu."
+
 #: trans/views/edit.py:718
 msgid "File content successfully merged into translation."
 msgstr "Zawartość pliku pomyślnie połączona z tłumaczeniem."
@@ -3796,6 +1326,11 @@ msgstr "Wszystkie repozytoria zostały zresetowane."
 msgid "Search for \"%s\""
 msgstr "Szukaj dla \"%s\""
 
+#: trans/views/helper.py:186 weblate/html/i18n.html:174
+#: weblate/html/list-translations.html:63
+msgid "Fuzzy strings"
+msgstr "Napisy niepewne"
+
 #: trans/views/helper.py:188
 msgid "Untranslated strings"
 msgstr "Napisy nieprzetłumaczone"
@@ -3803,6 +1338,11 @@ msgstr "Napisy nieprzetłumaczone"
 #: trans/views/helper.py:190
 msgid "Strings with suggestions"
 msgstr "Napisy z sugestiami"
+
+#: trans/views/helper.py:192 weblate/html/i18n.html:173
+#: weblate/html/list-translations.html:62
+msgid "Strings with any failing checks"
+msgstr "Napisy z nieudanymi testami"
 
 #: trans/views/lock.py:38
 msgid "Translation is now locked for you."
@@ -3860,6 +1400,2524 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
+
+#: ttkit/aresource.py:311
+msgid "Android Resource"
+msgstr ""
+
+#: weblate/urls.py:281 weblate/urls.py:288 weblate/urls.py:295
+#: weblate/urls.py:302
+msgid "User registration"
+msgstr "Rejestracja użytkownika"
+
+#: weblate/urls.py:310
+msgid "Account activation"
+msgstr "Aktywacja konta"
+
+#: weblate/urls.py:319 weblate/html/base.html:49
+#: weblate/html/registration/login.html:30
+msgid "Login"
+msgstr "Logowanie"
+
+#: weblate/urls.py:326
+msgid "Logged out"
+msgstr "Wylogowany"
+
+#: weblate/urls.py:331
+msgid "Change password"
+msgstr "Zmiana hasła"
+
+#: weblate/urls.py:335
+msgid "Password changed"
+msgstr "Hasło zmienione"
+
+#: weblate/urls.py:339 weblate/urls.py:343 weblate/urls.py:347
+#: weblate/urls.py:351
+msgid "Password reset"
+msgstr "Resetowanie hasła"
+
+#: weblate/html/404.html:7
+msgid "The page you are looking for was not found."
+msgstr "Strona, której szukasz, nie została odnaleziona."
+
+#: weblate/html/404.html:11
+msgid ""
+"However the following translation projects are available on this server:"
+msgstr ""
+"Jednakże, istnieją następujące projekty tłumaczeniowe, dostępne na serwerze:"
+
+#: weblate/html/500.html:5
+msgid "Server Error"
+msgstr "Błąd serwera"
+
+#: weblate/html/500.html:8
+msgid ""
+"The server had serious problems while serving your request. We've just sent "
+"our trained monkeys to fix the issue."
+msgstr ""
+"Serwer miał poważne problemy, próbując obsłużyć Twoje żądanie. Właśnie "
+"wysłaliśmy nasze \"przeszkolone małpy\", aby to naprawić."
+
+#: weblate/html/about.html:6
+msgid "about"
+msgstr ""
+
+#: weblate/html/about.html:13
+msgid ""
+"Weblate is a web based translation tool with tight Git integration. It "
+"features simple and clean user interface, propagation of translations across "
+"subprojects, quality checks and automatic linking to source files."
+msgstr ""
+"Weblate to narzędzie do tłumaczenia z interfejsem WWW, zintegrowane z "
+"systemem kontroli wersji Git. Posiada przejrzysty interfejs użytkownika, "
+"możliwość scalania tłumaczeń pomiędzy podprojektami, sprawdzanie spójności i "
+"automatyczne odnośniki do plików źródłowych."
+
+#: weblate/html/about.html:15 weblate/html/contact.html:15
+#, python-format
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
+msgstr ""
+
+#: weblate/html/about.html:20
+msgid ""
+"This Weblate instance hosts translations for various free software projects."
+msgstr ""
+
+#: weblate/html/about.html:21 weblate/html/index.html:54
+#, fuzzy, python-format
+#| msgid ""
+#| "Should your language be missing, please <a href=\"%(contact_url)s?"
+#| "subject=New+language+request+for+%(object)s\">contact us</a>."
+msgid ""
+"We can host your project as well, if you are interested, please <a href="
+"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
+msgstr ""
+"Jeśli brakuje Twojego języka, <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">skontaktuj się proszę z nami</a>."
+
+#: weblate/html/about.html:25
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: weblate/html/about.html:28
+msgid "Flattr Weblate!"
+msgstr "Flattr Weblate!"
+
+#: weblate/html/about.html:29
+msgid "Donate to Weblate!"
+msgstr "Dotuj Weblate!"
+
+#: weblate/html/about.html:32
+msgid "Versions"
+msgstr "Wersje"
+
+#: weblate/html/about.html:34
+msgid "This site is built using following projects:"
+msgstr "Ta strona jest zbudowana z użyciem następujących projektów:"
+
+#: weblate/html/about.html:48 weblate/html/data.html:50
+msgid "Statistics"
+msgstr "Statystyki"
+
+#: weblate/html/about.html:52
+msgid "Strings to translate"
+msgstr "Napisy do przetłumaczenia"
+
+#: weblate/html/about.html:56
+msgid "Used languages"
+msgstr "Wykorzystane języki"
+
+#: weblate/html/about.html:60
+msgid "Registered users"
+msgstr "Zarejestrowani użytkownicy"
+
+#: weblate/html/about.html:64 weblate/html/user-activity.html:4
+msgid "Suggestions made"
+msgstr "Sugestie"
+
+#: weblate/html/about.html:68 weblate/html/user-activity.html:8
+msgid "Translations made"
+msgstr "Tłumaczenia"
+
+#: weblate/html/about.html:72
+msgid "Failing checks found"
+msgstr "Znaleziono nieudane testy"
+
+#: weblate/html/about.html:76
+msgid "Ignored checks"
+msgstr "Zignorowane testy"
+
+#: weblate/html/base.html:43
+#, python-format
+msgid "Logged in as %(name)s"
+msgstr "Zalogowany/-a jako %(name)s"
+
+#: weblate/html/base.html:44
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: weblate/html/base.html:47
+#: weblate/html/registration/registration_form.html:25
+msgid "Register"
+msgstr "Rejestruj"
+
+#: weblate/html/base.html:54 weblate/html/admin/performance.html:9
+#: weblate/html/admin/report.html:8 weblate/html/admin/ssh.html:8
+msgid "Home"
+msgstr "Strona domowa"
+
+#: weblate/html/check.html:7 weblate/html/check_project.html:7
+#: weblate/html/check_subproject.html:7 weblate/html/checks.html:7
+msgid "checks"
+msgstr "testy"
+
+#: weblate/html/check.html:18 weblate/html/check_project.html:19
+#: weblate/html/check_subproject.html:20
+#, python-format
+msgid ""
+"More information about this check is available in the <a href=\"%(link)s"
+"\">documentation</a>."
+msgstr ""
+"Więcej informacji o tym teście znajdziesz w <a href=\"%(link)s"
+"\">dokumentacji</a>."
+
+#: weblate/html/check.html:26 weblate/html/check_project.html:26
+#: weblate/html/data.html:28 weblate/html/data.html.py:59
+#: weblate/html/index.html:37 weblate/html/list-translations.html:6
+#: weblate/html/translate.html:177 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Project"
+msgstr "Projekt"
+
+#: weblate/html/check.html:27 weblate/html/check_project.html:27
+#: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
+msgid "Failures"
+msgstr "Niepowodzenia"
+
+#: weblate/html/check.html:40 weblate/html/check_project.html:40
+#: weblate/html/check_subproject.html:47
+msgid "There are no matching failed checks!"
+msgstr "Nie znaleziono pasujących nieudanych tłumaczeń!"
+
+#: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
+msgid "Check"
+msgstr "Test"
+
+#: weblate/html/contact.html:6
+#, fuzzy
+#| msgid "Contact"
+msgid "contact"
+msgstr "Kontakt"
+
+#: weblate/html/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr ""
+
+#: weblate/html/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"Prosimy o kontakt po angielsku, w przeciwnym wypadku możemy mieć kłopot ze "
+"zrozumieniem Twojego zapytania."
+
+#: weblate/html/contact.html:21
+msgid "Send"
+msgstr "Wyślij"
+
+#: weblate/html/data-root.html:6 weblate/html/data.html:7
+msgid "data"
+msgstr ""
+
+#: weblate/html/data-root.html:11 weblate/html/data.html:12
+#: weblate/html/index.html:116
+msgid "Data export"
+msgstr ""
+
+#: weblate/html/data-root.html:14 weblate/html/data.html:15
+msgid "You can retrieve various data from Weblate in machine readable format."
+msgstr ""
+
+#: weblate/html/data-root.html:17 weblate/html/data.html:18
+msgid "RSS feeds"
+msgstr ""
+
+#: weblate/html/data-root.html:20 weblate/html/data.html:21
+msgid ""
+"To follow translation progress you can use RSS feeds which include all "
+"important changes in translation."
+msgstr ""
+
+#: weblate/html/data-root.html:21 weblate/html/data.html:22
+#, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Więcej informacji o źródłach RSS znajdziesz w <a href=\"%(rss_docs)s"
+"\">dokumentacji</a>."
+
+#: weblate/html/data-root.html:27 weblate/html/data.html:29
+#: weblate/html/data.html.py:60
+msgid "URL"
+msgstr ""
+
+#: weblate/html/data-root.html:28 weblate/html/data.html:30
+#: weblate/html/data.html.py:61
+msgid "Link"
+msgstr ""
+
+#: weblate/html/data-root.html:33 weblate/html/data.html:36
+#: weblate/html/data.html.py:42
+msgid "RSS"
+msgstr ""
+
+#: weblate/html/data-root.html:38
+msgid "Per project data"
+msgstr "Dane dla projektu"
+
+#: weblate/html/data-root.html:41
+msgid ""
+"There is more data exported per project, please check following links for "
+"more information."
+msgstr ""
+
+#: weblate/html/data.html:48
+msgid ""
+"There are also per language RSS feeds available, you can construct them by "
+"appending a language code to the above URLs."
+msgstr ""
+
+#: weblate/html/data.html:53
+#, python-format
+msgid ""
+"Translation statistics for every subproject in JSON format allow you to use "
+"these data in other websites or tools. Format of the data is described in <a "
+"href=\"%(api_docs)s\">the documentation</a>."
+msgstr ""
+
+#: weblate/html/data.html:68 weblate/html/translation.html:58
+msgid "Download"
+msgstr "Pobierz"
+
+#: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
+msgid "glossaries"
+msgstr ""
+
+#: weblate/html/dictionaries.html:15 weblate/html/languages.html:14
+#: weblate/html/list-translations.html:6
+msgid "Language"
+msgstr "Język"
+
+#: weblate/html/dictionaries.html:16
+msgid "Words"
+msgstr "Słowa"
+
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:173
+msgid "Glossary"
+msgstr ""
+
+#: weblate/html/dictionary.html:19 weblate/html/source-review.html:19
+#: weblate/html/translate.html:28
+msgid "First"
+msgstr "Pierwszy"
+
+#: weblate/html/dictionary.html:20 weblate/html/source-review.html:20
+#: weblate/html/translate.html:29
+msgid "Previous"
+msgstr "Poprzedni"
+
+#: weblate/html/dictionary.html:21 weblate/html/source-review.html:21
+#: weblate/html/translate.html:30
+#, python-format
+msgid "%(position)s / %(total)s"
+msgstr "%(position)s / %(total)s"
+
+#: weblate/html/dictionary.html:22 weblate/html/source-review.html:22
+#: weblate/html/translate.html:31
+msgid "Next"
+msgstr "Następny"
+
+#: weblate/html/dictionary.html:23 weblate/html/source-review.html:23
+#: weblate/html/translate.html:32
+msgid "Last"
+msgstr "Ostatni"
+
+#: weblate/html/dictionary.html:48
+msgid "Edit"
+msgstr "Edytuj"
+
+#: weblate/html/dictionary.html:57 weblate/html/translate.html:133
+msgid "Delete"
+msgstr "Usuń"
+
+#: weblate/html/dictionary.html:66
+msgid "No words found!"
+msgstr "Nie znaleziono żadnych słów!"
+
+#: weblate/html/dictionary.html:69 weblate/html/language.html:18
+#: weblate/html/project.html:36 weblate/html/subproject.html:26
+#: weblate/html/translation.html:31
+msgid "Tools"
+msgstr "Narzędzia"
+
+#: weblate/html/dictionary.html:74
+msgid "Add new word"
+msgstr "Dodaj nowe słowo"
+
+#: weblate/html/dictionary.html:77
+msgid "Import glossary"
+msgstr "Zaimportuj słownik"
+
+#: weblate/html/dictionary.html:79
+msgid "Export glossary"
+msgstr "Wyeksportuj słownik"
+
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:213
+#: weblate/html/translate.html.py:246
+msgid "Add"
+msgstr "Dodaj"
+
+#: weblate/html/dictionary.html:99
+msgid ""
+"You can upload any format which is understood by Translate Toolkit "
+"(including TBX, CSV or Gettext PO files)."
+msgstr ""
+"Pliki można przesyłać w jakikolwiek formacie, zrozumiałym przez Translate "
+"Toolkit (np. TBX, CSV lub pliki Gettext .po)."
+
+#: weblate/html/dictionary.html:106
+msgid "Import"
+msgstr "Import"
+
+#: weblate/html/dictionary.html:114
+msgid "You can download glossary in following formats:"
+msgstr ""
+
+#: weblate/html/dictionary.html:117
+msgid "Comma separated values (CSV)"
+msgstr ""
+
+#: weblate/html/dictionary.html:118
+msgid "Gettext (PO)"
+msgstr ""
+
+#: weblate/html/dictionary.html:119
+msgid "TermBase eXchange (TBX)"
+msgstr ""
+
+#: weblate/html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "słowniki"
+
+#: weblate/html/edit_dictionary.html:14
+msgid "Change word"
+msgstr "Zmień słowo"
+
+#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
+#: weblate/html/translate.html:153
+msgid "Save"
+msgstr "Zapisz"
+
+#: weblate/html/engage.html:11 weblate/html/engage.html.py:25
+#, python-format
+msgid "Get involved in %(project)s!"
+msgstr "Zaangażuj się w %(project)s!"
+
+#: weblate/html/engage.html:12
+#, python-format
+msgid ""
+"Get involved in %(project)s, which is currently being translated into "
+"%(languages)s languages using Weblate."
+msgstr ""
+"Zaangażuj się w %(project)s, które są aktualnie tłumaczone na %(languages)s "
+"przy użyciu Weblate."
+
+#: weblate/html/engage.html:28
+msgid "Hi, and thank you for your interest!"
+msgstr "Cześć, i dziękuję za zainteresowanie!"
+
+#: weblate/html/engage.html:31
+#, fuzzy, python-format
+msgid ""
+"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
+"a>, a web tool designed to ease translating for both developers and "
+"translators."
+msgstr ""
+"%(name)s jest tłumaczone przy użyciu <a href=\"%(weblate_url)s\">Weblate</"
+"a>, narzędzia WWW zaprojektowanego do łatwego tłumaczenia. Mogą go używać "
+"zarówno programiści, jak i tłumacze."
+
+#: weblate/html/engage.html:38
+#, fuzzy, python-format
+msgid ""
+"If you would like to contribute to translation of %(project)s, you need to "
+"<a href=\"%(reg_url)s\">register on this server</a>."
+msgstr ""
+"Jesli chcesz przyczynić się do tłumaczenia %(name)s, musisz <a href=\"/"
+"accounts/register/\">zarejestrować się na tym serwerze</a>."
+
+#: weblate/html/engage.html:41
+#, python-format
+msgid ""
+"Once you have activated your account just proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
+msgstr ""
+"Jak tylko aktywujesz swoje konto, przejdź do <a href=\"%(url)s\">sekcji "
+"tłumaczenia</a>."
+
+#: weblate/html/footer.html:6
+#, fuzzy, python-format
+msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgstr "Napędzane przez <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+
+#: weblate/html/footer.html:8
+msgid "Contact us"
+msgstr "Skontaktuj się z nami"
+
+#: weblate/html/footer.html:9 weblate/html/admin/performance.html:22
+#: weblate/html/admin/performance.html:30
+msgid "Documentation"
+msgstr "Dokumentacja"
+
+#: weblate/html/git-commit-info.html:4
+#, python-format
+msgid "Commit %(hash)s"
+msgstr ""
+
+#: weblate/html/git-commit-info.html:5
+#, python-format
+msgid "Authored by %(author)s on %(date)s"
+msgstr ""
+
+#: weblate/html/i18n.html:8
+msgid "This username is already taken. Please choose another."
+msgstr "Nazwa użytkownika zajęta. Proszę wybrać inną."
+
+#: weblate/html/i18n.html:9
+msgid "You must type the same password each time"
+msgstr "Musisz wprowadzić to samo hasło za każdym razem"
+
+#: weblate/html/i18n.html:10
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "Ten adres e-mail jest już używany. Proszę podać inny."
+
+#: weblate/html/i18n.html:11
+msgid "Old password"
+msgstr "Stare hasło"
+
+#: weblate/html/i18n.html:12
+msgid "New password"
+msgstr "Nowe hasło"
+
+#: weblate/html/i18n.html:13
+msgid "New password confirmation"
+msgstr "Potwierdzenie nowego hasła"
+
+#: weblate/html/i18n.html:14
+msgid "The two password fields didn't match."
+msgstr "Hasła nie zgadzają się."
+
+#: weblate/html/i18n.html:18
+msgid ""
+"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr ""
+"Aby wybrać więcej, przytrzymaj klawisz \"Control\" (\"Command\" w Mac)."
+
+#: weblate/html/i18n.html:23
+msgid "Afrikaans"
+msgstr "afrykanerski"
+
+#: weblate/html/i18n.html:24
+msgid "Akan"
+msgstr "akan"
+
+#: weblate/html/i18n.html:25
+msgid "Albanian"
+msgstr "albański"
+
+#: weblate/html/i18n.html:26
+msgid "Amharic"
+msgstr "amharski"
+
+#: weblate/html/i18n.html:27
+msgid "Arabic"
+msgstr "arabski"
+
+#: weblate/html/i18n.html:28
+msgid "Aragonese"
+msgstr "aragoński"
+
+#: weblate/html/i18n.html:29
+msgid "Armenian"
+msgstr "armeński"
+
+#: weblate/html/i18n.html:30
+msgid "Asturian"
+msgstr "asturyjski"
+
+#: weblate/html/i18n.html:31
+msgid "Azerbaijani"
+msgstr "azerski"
+
+#: weblate/html/i18n.html:32
+msgid "Basque"
+msgstr "baskijski"
+
+#: weblate/html/i18n.html:33
+msgid "Belarusian"
+msgstr "białoruski"
+
+#: weblate/html/i18n.html:34
+msgid "Belarusian (latin)"
+msgstr "białoruski (łacina)"
+
+#: weblate/html/i18n.html:35
+msgid "Bengali"
+msgstr "bengalski"
+
+#: weblate/html/i18n.html:36
+msgid "Bengali (India)"
+msgstr "bengalski (Indie)"
+
+#: weblate/html/i18n.html:37
+msgid "Bosnian"
+msgstr "bośniacki"
+
+#: weblate/html/i18n.html:38
+msgid "Breton"
+msgstr "bretoński"
+
+#: weblate/html/i18n.html:39
+msgid "Bulgarian"
+msgstr "bułgarski"
+
+#: weblate/html/i18n.html:40
+msgid "Catalan"
+msgstr "kataloński"
+
+#: weblate/html/i18n.html:41
+msgid "Central Khmer"
+msgstr "khmerski"
+
+#: weblate/html/i18n.html:42
+msgid "Cornish"
+msgstr "kornijski"
+
+#: weblate/html/i18n.html:43
+msgid "Croatian"
+msgstr "chorwacki"
+
+#: weblate/html/i18n.html:44
+msgid "Czech"
+msgstr "czeski"
+
+#: weblate/html/i18n.html:45
+msgid "Danish"
+msgstr "duński"
+
+#: weblate/html/i18n.html:46
+msgid "Dutch"
+msgstr "holenderski"
+
+#: weblate/html/i18n.html:47
+msgid "Dzongkha"
+msgstr "dzongkha"
+
+#: weblate/html/i18n.html:48
+msgid "English"
+msgstr "angielski"
+
+#: weblate/html/i18n.html:49
+msgid "English (South Africa)"
+msgstr "angielski (RPA)"
+
+#: weblate/html/i18n.html:50
+msgid "English (United Kingdom)"
+msgstr "angielski (Wielka Brytania)"
+
+#: weblate/html/i18n.html:51
+msgid "English (United States)"
+msgstr "angielski (US)"
+
+#: weblate/html/i18n.html:52
+msgid "Esperanto"
+msgstr "esperanto"
+
+#: weblate/html/i18n.html:53
+msgid "Estonian"
+msgstr "estoński"
+
+#: weblate/html/i18n.html:54
+msgid "Faroese"
+msgstr "faroeski"
+
+#: weblate/html/i18n.html:55
+msgid "Filipino"
+msgstr "filipiński"
+
+#: weblate/html/i18n.html:56
+msgid "Finnish"
+msgstr "fiński"
+
+#: weblate/html/i18n.html:57
+msgid "French"
+msgstr "francuski"
+
+#: weblate/html/i18n.html:58
+msgid "Frisian"
+msgstr "fryzyjski"
+
+#: weblate/html/i18n.html:59
+msgid "Friulian"
+msgstr "friulski"
+
+#: weblate/html/i18n.html:60
+msgid "Fulah"
+msgstr ""
+
+#: weblate/html/i18n.html:61
+msgid "Gaelic"
+msgstr "gaelicki"
+
+#: weblate/html/i18n.html:62
+msgid "Galician"
+msgstr "galicyjski"
+
+#: weblate/html/i18n.html:63
+msgid "Georgian"
+msgstr "gruziński"
+
+#: weblate/html/i18n.html:64
+msgid "German"
+msgstr "niemiecki"
+
+#: weblate/html/i18n.html:65
+msgid "Greek"
+msgstr "grecki"
+
+#: weblate/html/i18n.html:66
+msgid "Gujarati"
+msgstr "gudżaracki"
+
+#: weblate/html/i18n.html:67
+msgid "Gun"
+msgstr "gun"
+
+#: weblate/html/i18n.html:68
+msgid "Hausa"
+msgstr "hausa"
+
+#: weblate/html/i18n.html:69
+msgid "Hebrew"
+msgstr "hebrajski"
+
+#: weblate/html/i18n.html:70
+msgid "Hindi"
+msgstr "hindi"
+
+#: weblate/html/i18n.html:71
+msgid "Hungarian"
+msgstr "węgierski"
+
+#: weblate/html/i18n.html:72
+msgid "Chinese (Hong Kong)"
+msgstr "chiński (Hong Kong)"
+
+#: weblate/html/i18n.html:73
+msgid "Chinese (China)"
+msgstr "chiński (Chiny)"
+
+#: weblate/html/i18n.html:74
+msgid "Chinese (Taiwan)"
+msgstr "chiński (Taiwan)"
+
+#: weblate/html/i18n.html:75
+msgid "Icelandic"
+msgstr "islandzki"
+
+#: weblate/html/i18n.html:76
+msgid "Indonesian"
+msgstr "indonezyjski"
+
+#: weblate/html/i18n.html:77
+msgid "Interlingua"
+msgstr "interlingwa"
+
+#: weblate/html/i18n.html:78
+msgid "Irish"
+msgstr "irlandzki"
+
+#: weblate/html/i18n.html:79
+msgid "Italian"
+msgstr "włoski"
+
+#: weblate/html/i18n.html:80
+msgid "Japanese"
+msgstr "japoński"
+
+#: weblate/html/i18n.html:81
+msgid "Javanese"
+msgstr "jawajski"
+
+#: weblate/html/i18n.html:82
+msgid "Kannada"
+msgstr "kannada"
+
+#: weblate/html/i18n.html:83
+msgid "Kashubian"
+msgstr "kaszubski"
+
+#: weblate/html/i18n.html:84
+msgid "Kazakh"
+msgstr "kazachski"
+
+#: weblate/html/i18n.html:85
+msgid "Kirghiz"
+msgstr "kirgiski"
+
+#: weblate/html/i18n.html:86
+msgid "Korean"
+msgstr "koreański"
+
+#: weblate/html/i18n.html:87
+msgid "Kurdish"
+msgstr "kurdyjski"
+
+#: weblate/html/i18n.html:88
+msgid "Kurdish Sorani"
+msgstr "kurdyjski (Sorani)"
+
+#: weblate/html/i18n.html:89
+msgid "Lao"
+msgstr "laotański"
+
+#: weblate/html/i18n.html:90
+msgid "Latvian"
+msgstr "łotewski"
+
+#: weblate/html/i18n.html:91
+msgid "Lingala"
+msgstr "lingala"
+
+#: weblate/html/i18n.html:92
+msgid "Lithuanian"
+msgstr "litewski"
+
+#: weblate/html/i18n.html:93
+msgid "Luxembourgish"
+msgstr "luksemburski"
+
+#: weblate/html/i18n.html:94
+msgid "Macedonian"
+msgstr "macedoński"
+
+#: weblate/html/i18n.html:95
+msgid "Maithili"
+msgstr "maithili"
+
+#: weblate/html/i18n.html:96
+msgid "Malagasy"
+msgstr "malgaski"
+
+#: weblate/html/i18n.html:97
+msgid "Malay"
+msgstr "malajski"
+
+#: weblate/html/i18n.html:98
+msgid "Malayalam"
+msgstr "malajalam"
+
+#: weblate/html/i18n.html:99
+msgid "Maltese"
+msgstr "maltański"
+
+#: weblate/html/i18n.html:100
+msgid "Maori"
+msgstr "maoryski"
+
+#: weblate/html/i18n.html:101
+msgid "Mapudungun"
+msgstr "mapudungun"
+
+#: weblate/html/i18n.html:102
+msgid "Marathi"
+msgstr "marathi"
+
+#: weblate/html/i18n.html:103
+msgid "Mongolian"
+msgstr "mongolski"
+
+#: weblate/html/i18n.html:104
+msgid "Morisyen"
+msgstr "maurytyjski"
+
+#: weblate/html/i18n.html:105
+msgid "Nahuatl languages"
+msgstr "nahuatl (języki nahuatl)"
+
+#: weblate/html/i18n.html:106
+msgid "Neapolitan"
+msgstr "neapolitański"
+
+#: weblate/html/i18n.html:107
+msgid "Nepali"
+msgstr "nepalski"
+
+#: weblate/html/i18n.html:108
+msgid "Norwegian Bokmål"
+msgstr "norweski (Bokmål)"
+
+#: weblate/html/i18n.html:109
+msgid "Norwegian Nynorsk"
+msgstr "norweski (Nynorsk)"
+
+#: weblate/html/i18n.html:110
+msgid "Occitan"
+msgstr "oksytański"
+
+#: weblate/html/i18n.html:111
+msgid "Oriya"
+msgstr "orija"
+
+#: weblate/html/i18n.html:112
+msgid "Papiamento"
+msgstr "papiamento"
+
+#: weblate/html/i18n.html:113
+msgid "Pedi"
+msgstr "pedi"
+
+#: weblate/html/i18n.html:114
+msgid "Persian"
+msgstr "perski"
+
+#: weblate/html/i18n.html:115
+msgid "Piemontese"
+msgstr "piemoncki"
+
+#: weblate/html/i18n.html:116
+msgid "Polish"
+msgstr "polski"
+
+#: weblate/html/i18n.html:117
+msgid "Portuguese"
+msgstr "portugalski"
+
+#: weblate/html/i18n.html:118
+msgid "Portuguese (Brazil)"
+msgstr "portugalski (Brazylia)"
+
+#: weblate/html/i18n.html:119
+msgid "Portuguese (Portugal)"
+msgstr "portugalski (Portugalia)"
+
+#: weblate/html/i18n.html:120
+#, fuzzy
+msgid "Punjabi"
+msgstr "pendżabski"
+
+#: weblate/html/i18n.html:121
+msgid "Pushto"
+msgstr "pasztuński"
+
+#: weblate/html/i18n.html:122
+msgid "Romanian"
+msgstr "rumuński"
+
+#: weblate/html/i18n.html:123
+msgid "Romansh"
+msgstr "retoromański"
+
+#: weblate/html/i18n.html:124
+msgid "Russian"
+msgstr "rosyjski"
+
+#: weblate/html/i18n.html:125
+msgid "Scots"
+msgstr "scots"
+
+#: weblate/html/i18n.html:126
+msgid "Serbian"
+msgstr "serbski"
+
+#: weblate/html/i18n.html:127
+msgid "Serbian (cyrillic)"
+msgstr "serbski (cyrylica)"
+
+#: weblate/html/i18n.html:128
+msgid "Serbian (latin)"
+msgstr "serbski (łacina)"
+
+#: weblate/html/i18n.html:129
+msgid "Sinhala"
+msgstr "syngaleski"
+
+#: weblate/html/i18n.html:130
+msgid "Slovak"
+msgstr "słowacki"
+
+#: weblate/html/i18n.html:131
+msgid "Slovenian"
+msgstr "słoweński"
+
+#: weblate/html/i18n.html:132
+msgid "Somali"
+msgstr "somalijski"
+
+#: weblate/html/i18n.html:133
+msgid "Songhai languages"
+msgstr "songhaj (języki songhaj)"
+
+#: weblate/html/i18n.html:134
+msgid "Sotho"
+msgstr "sotho"
+
+#: weblate/html/i18n.html:135
+msgid "Spanish"
+msgstr "hiszpański"
+
+#: weblate/html/i18n.html:136
+msgid "Sundanese"
+msgstr "sundajski"
+
+#: weblate/html/i18n.html:137
+msgid "Swahili"
+msgstr "suahili"
+
+#: weblate/html/i18n.html:138
+msgid "Swedish"
+msgstr "szwedzki"
+
+#: weblate/html/i18n.html:139
+msgid "Tajik"
+msgstr "tadżycki"
+
+#: weblate/html/i18n.html:140
+msgid "Tamil"
+msgstr "tamilski"
+
+#: weblate/html/i18n.html:141
+msgid "Tatar"
+msgstr "tatarski"
+
+#: weblate/html/i18n.html:142
+msgid "Telugu"
+msgstr "telugu"
+
+#: weblate/html/i18n.html:143
+msgid "Thai"
+msgstr "tajski"
+
+#: weblate/html/i18n.html:144
+msgid "Tibetan"
+msgstr "tybetański"
+
+#: weblate/html/i18n.html:145
+msgid "Tigrinya"
+msgstr "tigrinia"
+
+#: weblate/html/i18n.html:146
+msgid "Turkish"
+msgstr "turecki"
+
+#: weblate/html/i18n.html:147
+msgid "Turkmen"
+msgstr "turkmeński"
+
+#: weblate/html/i18n.html:148
+msgid "Uighur"
+msgstr "ujgurski"
+
+#: weblate/html/i18n.html:149
+msgid "Ukrainian"
+msgstr "ukraiński"
+
+#: weblate/html/i18n.html:150
+msgid "Urdu"
+msgstr "urdu"
+
+#: weblate/html/i18n.html:151
+msgid "Uzbek"
+msgstr "uzbecki"
+
+#: weblate/html/i18n.html:152
+msgid "Uzbek (latin)"
+msgstr "uzbecki (łacina)"
+
+#: weblate/html/i18n.html:153
+msgid "Vietnamese"
+msgstr "wietnamski"
+
+#: weblate/html/i18n.html:154
+msgid "Walloon"
+msgstr "waloński"
+
+#: weblate/html/i18n.html:155
+msgid "Welsh"
+msgstr "walijski"
+
+#: weblate/html/i18n.html:156
+msgid "Yoruba"
+msgstr "joruba"
+
+#: weblate/html/i18n.html:157
+msgid "Zulu"
+msgstr "zulu"
+
+#: weblate/html/i18n.html:160
+msgid "Translate using Apertium"
+msgstr "Tłumacz używając Apertium"
+
+#: weblate/html/i18n.html:161
+msgid "Translate using Microsoft Translator"
+msgstr "Tłumacz używając Microsoft Translator"
+
+#: weblate/html/i18n.html:162
+msgid "Translate using MyMemory"
+msgstr "Tłumacz używając MyMemory"
+
+#: weblate/html/i18n.html:163
+msgid "Sort this column"
+msgstr "Posortuj tę kolumnę"
+
+#: weblate/html/i18n.html:164
+msgid "AJAX request to load this content has failed!"
+msgstr "Wczytanie tej zawartości, za pomocą żądania AJAX, nie powiodło się!"
+
+#: weblate/html/i18n.html:165
+msgid "Loading…"
+msgstr "Wczytywanie…"
+
+#: weblate/html/i18n.html:166
+msgid "Failed translation"
+msgstr "Tłumaczenie nie powiodło się"
+
+#: weblate/html/i18n.html:167
+msgid "The request for machine translation has failed."
+msgstr "Żądanie automatycznego tłumaczenia nie powiodło się."
+
+#: weblate/html/i18n.html:168
+msgid "Error details:"
+msgstr "Szczegóły błędu:"
+
+#: weblate/html/i18n.html:169
+msgid "Confirm resetting repository"
+msgstr "Potwierdź zresetowanie repozytorium"
+
+#: weblate/html/i18n.html:170
+msgid "Resetting the repository will throw away all local changes!"
+msgstr "Zresetowanie repozytorium odrzuci wszystkie lokalne zmiany!"
+
+#: weblate/html/i18n.html:171
+msgid "Ok"
+msgstr "Ok"
+
+#: weblate/html/i18n.html:172
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: weblate/html/i18n.html:175 weblate/html/list-translations.html:61
+msgid "Translated strings"
+msgstr "Napisy przetłumaczone"
+
+#: weblate/html/index.html:9
+#, python-format
+msgid ""
+"This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
+"software projects listed below. You need to be logged in for translating, "
+"otherwise you can only make suggestions."
+msgstr ""
+"<a href=\"%(weblate_url)s\">Weblate</a> uruchamia tę witrynę do tłumaczenia "
+"projektów wymienionych poniżej. Musisz się zalogować, by móc tłumaczyć, w "
+"przeciwnym razie możesz jedynie tworzyć sugestie."
+
+#: weblate/html/index.html:13 weblate/html/subproject.html:17
+#: weblate/html/translate.html:91
+msgid "Translations"
+msgstr "Tłumaczenia"
+
+#: weblate/html/index.html:18
+msgid "Your translations"
+msgstr "Twoje tłumaczenia"
+
+#: weblate/html/index.html:20 weblate/html/language.html:12
+#: weblate/html/user.html:18
+msgid "Projects"
+msgstr "Projekty"
+
+#: weblate/html/index.html:22
+msgid "Checks"
+msgstr "Testy"
+
+#: weblate/html/index.html:38 weblate/html/index.html.py:80
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21
+msgid "Translated"
+msgstr "Przetłumaczone"
+
+#: weblate/html/index.html:59
+msgid "Summaries"
+msgstr "Podsumowania"
+
+#: weblate/html/index.html:64 weblate/html/language.html:23
+#: weblate/html/project.html:40 weblate/html/subproject.html:30
+#: weblate/html/translation.html:35 weblate/html/translation.html.py:83
+msgid "Recent changes"
+msgstr "Ostatnie zmiany"
+
+#: weblate/html/index.html:65
+msgid "Most active translators"
+msgstr "Najaktywniejsi tłumacze"
+
+#: weblate/html/index.html:66
+msgid "Most active suggesters"
+msgstr "Najaktywniejsze osoby sugerujące"
+
+#: weblate/html/index.html:67 weblate/html/language.html:25
+#: weblate/html/project.html:46 weblate/html/subproject.html:37
+#: weblate/html/translation.html:46 weblate/html/user.html:27
+msgid "Activity"
+msgstr ""
+
+#: weblate/html/index.html:68
+msgid "Others"
+msgstr "Inni/Inne"
+
+#: weblate/html/index.html:79 weblate/html/index.html.py:98
+#: weblate/html/last-changes.html:14
+msgid "User"
+msgstr "Użytkownik"
+
+#: weblate/html/index.html:99
+msgid "Suggested"
+msgstr "Zasugerowane"
+
+#: weblate/html/index.html:114
+msgid "Languages summary"
+msgstr "Podsumowanie języków"
+
+#: weblate/html/index.html:115
+msgid "Checks overview"
+msgstr "Przegląd testów"
+
+#: weblate/html/index.html:117
+msgid "Widgets"
+msgstr "Widżety"
+
+#: weblate/html/language.html:6 weblate/html/languages.html:6
+msgid "languages"
+msgstr "języki"
+
+#: weblate/html/language.html:24 weblate/html/project.html:41
+msgid "Glossaries"
+msgstr ""
+
+#: weblate/html/last-changes.html:13
+msgid "When"
+msgstr ""
+
+#: weblate/html/last-changes.html:15
+#, fuzzy
+msgid "Action"
+msgstr "Wszystkie napisy"
+
+#: weblate/html/last-changes.html:30
+msgid "No recent activity has been recorded."
+msgstr "Nie zarejestrowano żadnej ostatniej aktywności."
+
+#: weblate/html/list-checks.html:6
+#, python-format
+msgid "Ignore: %(check)s"
+msgstr "Ignoruj: %(check)s"
+
+#: weblate/html/list-translations.html:9
+msgctxt "Number of fuzzy strings"
+msgid "Fuzzy"
+msgstr "Niepewny"
+
+#: weblate/html/list-translations.html:10
+msgctxt "Number of failing checks"
+msgid "Checks"
+msgstr "Testy"
+
+#: weblate/html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Sugestie"
+
+#: weblate/html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
+msgstr[0] "Jest %(count)s nie przetłumaczony napis."
+msgstr[1] "Są %(count)s nie przetłumaczone napisy."
+msgstr[2] "Jest %(count)s nie przetłumaczonych napisów."
+
+#: weblate/html/list-translations.html:33
+#, python-format
+msgid "There is %(count)s failing check."
+msgid_plural "There are %(count)s failing checks."
+msgstr[0] "Jest %(count)s nieudany test."
+msgstr[1] "Są %(count)s nieudane testy."
+msgstr[2] "Jest %(count)s nieudanych testów."
+
+#: weblate/html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "Jest %(count)s nie przetłumaczony napis."
+msgstr[1] "Są %(count)s nie przetłumaczone napisy."
+msgstr[2] "Jest %(count)s nie przetłumaczonych napisów."
+
+#: weblate/html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "Jest %(count)s nie przetłumaczony napis."
+msgstr[1] "Są %(count)s nie przetłumaczone napisy."
+msgstr[2] "Jest %(count)s nie przetłumaczonych napisów."
+
+#: weblate/html/list-translations.html:51 weblate/html/translate.html:24
+msgid "Translate"
+msgstr "Tłumaczenie"
+
+#: weblate/html/profile.html:22
+msgid "Preferences"
+msgstr "Preferencje"
+
+#: weblate/html/profile.html:23
+msgid "Subscriptions"
+msgstr "Subskrypcje"
+
+#: weblate/html/profile.html:24
+msgid "Account"
+msgstr "Konto"
+
+#: weblate/html/profile.html:26
+msgid "Information"
+msgstr "Informacje"
+
+#: weblate/html/profile.html:27
+#, fuzzy
+msgid "Avatar"
+msgstr "tatarski"
+
+#: weblate/html/profile.html:35
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr ""
+"Otrzymasz wybrane zawiadomienia poprzez e-mail, do wszystkich języków, które "
+"wybrałeś."
+
+#: weblate/html/profile.html:44
+msgid "Your name and email will appear as author on Git commits."
+msgstr ""
+"Twoje dane (imię, nazwisko) oraz adres e-mail pojawią się jako autor w "
+"logach Gita."
+
+#: weblate/html/profile.html:48
+#, python-format
+msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+msgstr "Możesz zmienić hasło na <a href=\"%(pw_url)s\">osobnej stronie</a>."
+
+#: weblate/html/profile.html:56
+msgid "Your public profile:"
+msgstr ""
+
+#: weblate/html/profile.html:62
+msgid "Change your avatar at gravatar.com"
+msgstr ""
+
+#: weblate/html/project.html:11 weblate/html/source.html:13
+#: weblate/html/subproject.html:13 weblate/html/translation.html:16
+msgid "Project Information"
+msgstr "Informacje o projekcie"
+
+#: weblate/html/project.html:15
+msgid "Subprojects"
+msgstr "Podprojekty"
+
+#: weblate/html/project.html:20
+msgid "Subproject"
+msgstr "Podprojekt"
+
+#: weblate/html/project.html:43 weblate/html/subproject.html:33
+#: weblate/html/translation.html:42
+msgid "Git maintenance"
+msgstr "Zarządzanie Gitem"
+
+#: weblate/html/project.html:45 weblate/html/subproject.html:35
+#: weblate/html/translation.html:45
+msgid "Share"
+msgstr ""
+
+#: weblate/html/project.html:54
+#, fuzzy
+msgid "Manage all glossaries"
+msgstr "Zarządzaj wszystkimi słownikami"
+
+#: weblate/html/project_info.html:2
+msgid "Project website:"
+msgstr "Witryna projektu:"
+
+#: weblate/html/project_info.html:4
+msgid "Mailing list for translators:"
+msgstr "Lista dyskusyjna dla tłumaczy:"
+
+#: weblate/html/project_info.html:7
+msgid "Instructions for translators:"
+msgstr "Instrukcje dla tłumaczy:"
+
+#: weblate/html/share.html:5
+msgid "Share on Facebook!"
+msgstr ""
+
+#: weblate/html/share.html:6
+#, fuzzy, python-format
+msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgstr "Dzięki za używanie Weblate!"
+
+#: weblate/html/share.html:6
+#, fuzzy
+msgid "Tweet this translation!"
+msgstr "Użyj tego tłumaczenia"
+
+#: weblate/html/share.html:11
+#, fuzzy, python-format
+msgid ""
+"You can also promote this translation project using various <a href="
+"\"%(widgets_url)s\">other possibilities</a>."
+msgstr ""
+"Promuj swój projekt tłumaczenia używając <a href=\"%(widgets_url)s"
+"\">widżetów</a>."
+
+#: weblate/html/share.html:15
+#, python-format
+msgid ""
+"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
+"readable formats."
+msgstr ""
+
+#: weblate/html/source-review.html:9 weblate/html/source.html:8
+#, fuzzy
+msgid "source"
+msgstr "Źródło"
+
+#: weblate/html/source-review.html:10
+#, fuzzy
+msgid "review"
+msgstr "Przegląd"
+
+#: weblate/html/source-review.html:15
+#, fuzzy
+msgid "Strings to review"
+msgstr "Rozpocznij przeglądanie"
+
+#: weblate/html/source-review.html:48
+#, fuzzy
+msgid "Comment"
+msgstr "Komentarze"
+
+#: weblate/html/source-review.html:62 weblate/html/translate.html:231
+#, fuzzy
+msgid "User comments"
+msgstr "Komentarze"
+
+#: weblate/html/source-review.html:75
+#, fuzzy
+msgid "No matching source strings found!"
+msgstr "Nie znaleziono innych napisów."
+
+#: weblate/html/source.html:19 weblate/html/translation.html:22
+msgid "Strings to check"
+msgstr "Napisy do sprawdzenia"
+
+#: weblate/html/subproject.html:42
+#, python-format
+msgid ""
+"Should your language be missing, please follow <a href=\"%(url)s"
+"\">translator instructions</a>."
+msgstr ""
+"Jeśli brakuje twojego języka, przejdź proszę do <a href=\"%(url)s"
+"\">instrukcji dla tłumacza</a>."
+
+#: weblate/html/subproject.html:44
+#, python-format
+msgid ""
+"Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">contact us</a>."
+msgstr ""
+"Jeśli brakuje Twojego języka, <a href=\"%(contact_url)s?subject=New+language"
+"+request+for+%(object)s\">skontaktuj się proszę z nami</a>."
+
+#: weblate/html/subproject.html:59
+#, fuzzy
+msgid "Source strings review"
+msgstr "Źródłowy ciąg znaków:"
+
+#: weblate/html/subproject_info.html:6
+msgid "Git repository:"
+msgstr "Repozytorium Git:"
+
+#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
+#, python-format
+msgid "%(branch)s branch"
+msgstr "gałąź %(branch)s"
+
+#: weblate/html/translate.html:15
+msgid "translate"
+msgstr "tłumacz to"
+
+#: weblate/html/translate.html:36
+#, python-format
+msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+msgstr "Aktualny filtr: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+
+#: weblate/html/translate.html:67
+#, fuzzy
+msgid "Source change"
+msgstr "Ostatnie zmiany"
+
+#: weblate/html/translate.html:73
+msgid "Context"
+msgstr "Kontekst"
+
+#: weblate/html/translate.html:80 weblate/html/js/dictionary.html:19
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: weblate/html/translate.html:83
+#, fuzzy
+msgid "Toggle text direction"
+msgstr "Nieprawidłowy kierunek tekstu"
+
+#: weblate/html/translate.html:96
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Napis jest niepewny"
+
+#: weblate/html/translate.html:97
+msgid "Special characters:"
+msgstr ""
+
+#: weblate/html/translate.html:98
+msgid "Insert tab character"
+msgstr ""
+
+#: weblate/html/translate.html:99
+#, fuzzy
+msgid "Insert new line"
+msgstr "Początek od nowej linii"
+
+#: weblate/html/translate.html:100
+msgid "Insert horizontal ellipsis"
+msgstr ""
+
+#: weblate/html/translate.html:116
+msgid "Suggestions"
+msgstr "Sugestie"
+
+#: weblate/html/translate.html:123
+#, python-format
+msgid "Suggested by %(user)s"
+msgstr "Zasugerowane przez %(user)s"
+
+#: weblate/html/translate.html:125
+msgid "Suggested by anonymous user"
+msgstr "Zasugerowane przez użytkownika anonimowego"
+
+#: weblate/html/translate.html:130
+msgid "Accept"
+msgstr "Akceptuj"
+
+#: weblate/html/translate.html:147
+msgid "Flags"
+msgstr "Flagi"
+
+#: weblate/html/translate.html:157
+#, python-format
+msgid ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
+"translations."
+msgstr ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Zaloguj się</a>, aby "
+"zapisać tłumaczenia."
+
+#: weblate/html/translate.html:160
+msgid "Suggest"
+msgstr "Zasugeruj"
+
+#: weblate/html/translate.html:166
+msgid "Translation context"
+msgstr "Kontekst tłumaczenia"
+
+#: weblate/html/translate.html:170
+msgid "Messages placed around this one"
+msgstr "Komunikaty podobne"
+
+#: weblate/html/translate.html:170
+msgid "Nearby messages"
+msgstr "Komunikaty w pobliżu"
+
+#: weblate/html/translate.html:171
+msgid "Similar messages"
+msgstr "Komunikaty podobne"
+
+#: weblate/html/translate.html:172
+msgid "Same message used in different subprojects"
+msgstr "Te same komunikaty są użyte w różnych podprojektach"
+
+#: weblate/html/translate.html:172
+msgid "All locations"
+msgstr "Wszystkie lokalizacje"
+
+#: weblate/html/translate.html:173
+#, fuzzy
+msgid "Words extracted from glossary"
+msgstr "Słowa wyodrębnione ze słownika"
+
+#: weblate/html/translate.html:174
+#, fuzzy
+msgid "Comments about this translation"
+msgstr "Użyj tego tłumaczenia"
+
+#: weblate/html/translate.html:174 weblate/html/unit-details.html:10
+msgid "Comments"
+msgstr "Komentarze"
+
+#: weblate/html/translate.html:175
+msgid "List of recent changes done in Weblate"
+msgstr "Lista ostatnich zmian, dokonanych w Weblate"
+
+#: weblate/html/translate.html:175
+msgid "Recent edits"
+msgstr "Ostatnie edycje"
+
+#: weblate/html/translate.html:176
+#, fuzzy
+msgid "Source string details and feedback"
+msgstr "To tłumaczenie nie jest aktualnie zablokowane do aktualizacji."
+
+#: weblate/html/translate.html:177
+msgid "Information about project"
+msgstr "Informacja o projekcie"
+
+#: weblate/html/translate.html:182 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "State"
+msgstr "Stan"
+
+#: weblate/html/translate.html:200
+msgid "You can share comments about this translation with other translators."
+msgstr ""
+
+#: weblate/html/translate.html:206 weblate/html/translate.html.py:238
+#, fuzzy
+msgid "New comment"
+msgstr "Komentarze"
+
+#: weblate/html/translate.html:216 weblate/html/translate.html.py:249
+msgid "You are not allowed to add comments."
+msgstr ""
+
+#: weblate/html/translate.html:232
+msgid ""
+"You can share comments about source string for this translation with other "
+"translators and developers."
+msgstr ""
+
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Szukaj"
+
+#: weblate/html/translation.html:37
+msgid "Files"
+msgstr "Pliki"
+
+#: weblate/html/translation.html:39
+msgid "Automatic translation"
+msgstr "Tłumaczenie automatyczne"
+
+#: weblate/html/translation.html:44
+msgid "Locking"
+msgstr "Blokowane"
+
+#: weblate/html/translation.html:60
+#, python-format
+msgid ""
+"You can <a href=\"%(download_url)s\">download</a> file for offline "
+"translation."
+msgstr ""
+"Możesz <a href=\"%(download_url)s\">pobrać</a> plik, aby przetłumaczyć go "
+"bez dostępu do sieci."
+
+#: weblate/html/translation.html:64 weblate/html/translation.html.py:76
+msgid "Upload"
+msgstr "Prześlij"
+
+#: weblate/html/translation.html:66
+msgid ""
+"Uploaded file will be merged with current translation. In case you want to "
+"overwrite already translated strings, don't forget to enable it."
+msgstr ""
+"Przesłany plik będzie scalony z aktualnym tłumaczeniem. Jeśli chcesz "
+"nadpisać obecnie przetłumaczone napisy, zaznacz odpowiednią opcję."
+
+#: weblate/html/translation.html:68
+msgid "Uploaded file will be merged with current translation."
+msgstr "Przesłany plik będzie scalony z obecnym tłumaczeniem."
+
+#: weblate/html/translation.html:87
+msgid "Review"
+msgstr "Przegląd"
+
+#: weblate/html/translation.html:89
+msgid "Review translations touched by other users."
+msgstr "Przegląd tłumaczeń tworzonych przez innych użytkowników."
+
+#: weblate/html/translation.html:94
+msgid "Start review"
+msgstr "Rozpocznij przeglądanie"
+
+#: weblate/html/translation.html:101
+#, fuzzy
+msgid ""
+"Automatic translation takes existing translations in this project and "
+"applies it to the current subproject. It can be used to push translations to "
+"a different branch, to fix inconsistent translations or to translate new "
+"subproject using translation memory."
+msgstr ""
+"Tłumaczenie automatyczne bierze istniejące tłumaczenia w tym projekcie, i "
+"scala je z aktualnym podprojektem. Może być użyte do scalenia tłumaczeń "
+"pomiędzy różnymi gałęziami lub w celu pozbycia się niespójności w "
+"tłumaczeniach."
+
+#: weblate/html/translation.html:107
+msgid "Process"
+msgstr "Przetwarzaj"
+
+#: weblate/html/translation.html:113
+msgid "Locking the translation will prevent others to work on translation."
+msgstr "Zablokowanie tłumaczenia zabroni innym pracy nad nim."
+
+#: weblate/html/translation.html:115
+msgid "Locked by:"
+msgstr "Zablokowane przez:"
+
+#: weblate/html/translation.html:116
+msgid "Lock expires:"
+msgstr ""
+
+#: weblate/html/translation.html:118
+msgid "Translation is currently not locked."
+msgstr "To tłumaczenie nie jest aktualnie zablokowane do aktualizacji."
+
+#: weblate/html/translation.html:122 weblate/html/js/git-status.html:16
+msgid "Unlock"
+msgstr "Odblokuj"
+
+#: weblate/html/translation.html:124 weblate/html/js/git-status.html:18
+msgid "Lock"
+msgstr "Zablokuj"
+
+#: weblate/html/translation_info.html:8
+#, python-format
+msgid ""
+"There are %(count)s strings, out of which %(translated)s&#37; is translated "
+"and %(fuzzy)s&#37; is fuzzy."
+msgstr ""
+"Jest %(count)s napisów z których %(translated)s&#37; jest przetłumaczonych, "
+"a %(fuzzy)s&#37; jest wątpliwych."
+
+#: weblate/html/unit-details.html:4
+msgid "Used in"
+msgstr "Używane w"
+
+#: weblate/html/unit-state.html:3
+msgid "Message is fuzzy"
+msgstr "Komunikat jest wątpliwy"
+
+#: weblate/html/unit-state.html:4
+msgid "Message has failing checks"
+msgstr "Komunikat posiada nieudane testy"
+
+#: weblate/html/unit-state.html:5
+msgid "Message is translated"
+msgstr "Komunikat jest przetłumaczony"
+
+#: weblate/html/user-activity.html:12
+msgid "Last login"
+msgstr "Ostatnie logowanie"
+
+#: weblate/html/user-activity.html:16
+msgid "Registration date"
+msgstr "Data rejestracji"
+
+#: weblate/html/user.html:33 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr ""
+
+#: weblate/html/user.html:36 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr ""
+
+#: weblate/html/user.html:39
+#, fuzzy
+#| msgid "Recent edits"
+msgid "Recent contributions"
+msgstr "Ostatnie edycje"
+
+#: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
+msgid "widgets"
+msgstr "widżety"
+
+#: weblate/html/widgets-root.html:11 weblate/html/widgets.html:16
+#, fuzzy
+msgid "Promoting translation projects"
+msgstr "Użyj tego tłumaczenia dla wszystkich podprojektów"
+
+#: weblate/html/widgets-root.html:14
+msgid ""
+"Weblate provides various widgets to promote your translation projects. Open "
+"one of the project pages below."
+msgstr ""
+
+#: weblate/html/widgets.html:19
+#, fuzzy, python-format
+msgid ""
+"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
+"\">%(engage_url)s</a>."
+msgstr ""
+"Możesz także wskazać osobom nowoprzybyłym stronę wprowadzenia <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>.\n"
+"\t"
+
+#: weblate/html/widgets.html:22
+#, fuzzy
+msgid "Promoting specific translations"
+msgstr "Tłumaczenie automatyczne"
+
+#: weblate/html/widgets.html:25
+msgid ""
+"Besides promoting whole translation project, you can also choose specific "
+"language to promote:"
+msgstr ""
+
+#: weblate/html/widgets.html:29
+msgid "Image widgets"
+msgstr "Widżety w formie obrazu"
+
+#: weblate/html/widgets.html:32
+msgid ""
+"You can use following widgets to promote translation of your project. They "
+"can increase visibility of your translation projects and bring new "
+"contributors."
+msgstr ""
+"Aby wypromować tłumaczenie Twojego projektu, możesz użyć następujących "
+"widzetów. Mogą one poprawić widoczność Twoich projektów tłumaczeń, oraz "
+"przysporzyć Ci nowych współpracowników."
+
+#: weblate/html/widgets.html:36
+#, python-format
+msgid "Image %(widget)s"
+msgstr "Obraz %(widget)s"
+
+#: weblate/html/widgets.html:38
+msgid "Color variants:"
+msgstr "Rodzaj koloru:"
+
+#: weblate/html/widgets.html:48
+msgid "HTML code"
+msgstr ""
+
+#: weblate/html/widgets.html:49
+msgid "BB code"
+msgstr ""
+
+#: weblate/html/widgets.html:50
+msgid "Markdown code"
+msgstr ""
+
+#: weblate/html/widgets.html:51
+msgid "RST code"
+msgstr ""
+
+#: weblate/html/widgets.html:52
+msgid "Textile code"
+msgstr ""
+
+#: weblate/html/widgets.html:59 weblate/html/widgets.html.py:67
+#: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
+#, fuzzy
+msgid "Translation status"
+msgstr "Tłumaczenia"
+
+#: weblate/html/admin/custom-index.html:10
+msgid "Reports"
+msgstr "Raporty"
+
+#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/report.html.py:13
+msgid "Status of repositories"
+msgstr "Stan repozytoriów"
+
+#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/ssh.html.py:8
+msgid "SSH keys"
+msgstr ""
+
+#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/performance.html:5
+#: weblate/html/admin/performance.html:14
+msgid "Performance report"
+msgstr ""
+
+#: weblate/html/admin/performance.html:9
+msgid "Performance"
+msgstr ""
+
+#: weblate/html/admin/performance.html:21
+msgid "Result"
+msgstr ""
+
+#: weblate/html/admin/report.html:8
+msgid "Status"
+msgstr "Stan"
+
+#: weblate/html/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Stan przyłączonego repozytorium jest nieznany. Zamiast tego, sprawdź <a href="
+"\"#%(slug)s\">%(repo)s</a>."
+
+#: weblate/html/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+
+#: weblate/html/admin/ssh.html:26
+msgid "Generate"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:32
+#, fuzzy
+msgid "More information"
+msgstr "Informacje o projekcie"
+
+#: weblate/html/admin/ssh.html:34
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+
+#: weblate/html/js/dictionary.html:19
+#, fuzzy
+#| msgid "Your translations"
+msgid "Copy word to translation"
+msgstr "Twoje tłumaczenia"
+
+#: weblate/html/js/dictionary.html:27
+msgid "No related strings found in dictionary."
+msgstr "Nie znaleziono powiązanych napisów."
+
+#: weblate/html/js/git-status.html:8
+msgid "Commit pending changes"
+msgstr "Prześlij oczekujące zmiany"
+
+#: weblate/html/js/git-status.html:8
+msgid "Commit"
+msgstr "Prześlij"
+
+#: weblate/html/js/git-status.html:9
+msgid "Pull changes from remote repository"
+msgstr "Pobierz zmiany ze zdalnego repozytorium"
+
+#: weblate/html/js/git-status.html:9
+msgid "Pull"
+msgstr "Pobierz"
+
+#: weblate/html/js/git-status.html:10
+msgid "Push changes to remote repository"
+msgstr "Prześlij zmiany do zdalnego repozytorium"
+
+#: weblate/html/js/git-status.html:10
+msgid "Push"
+msgstr "Prześlij"
+
+#: weblate/html/js/git-status.html:12
+msgid "Reset all changes in local repository"
+msgstr "Zresetuj wszystkie zmiany w repozytorium lokalnym"
+
+#: weblate/html/js/git-status.html:12
+msgid "Reset"
+msgstr "Zresetuj"
+
+#: weblate/html/js/git-status.html:16
+msgid "Allow changes in the repository"
+msgstr "Pozwól na zmiany w repozytorium"
+
+#: weblate/html/js/git-status.html:18
+msgid "Prevent any changes in the repository"
+msgstr "Nie zezwalaj na zmiany w repozytorium"
+
+#: weblate/html/js/git-status.html:24
+msgid "There are some not commited changes!"
+msgstr "Istnieją jakieś nieprzesłane zmiany!"
+
+#: weblate/html/js/git-status.html:27
+msgid "Remote Git repository needs to be merged!"
+msgstr "Zdalne repozytorium Git musi zostać scalone!"
+
+#: weblate/html/js/git-status.html:30
+msgid "There are some new commits in local Git repository!"
+msgstr "W lokalnym repozytorium Git znajdują się jakieś nowe zmiany!"
+
+#: weblate/html/js/git-status.html:38
+msgid "Last remote commit:"
+msgstr ""
+
+#: weblate/html/js/git-status.html:48
+msgid "Details"
+msgstr "Szczegóły"
+
+#: weblate/html/js/other.html:17
+msgid "Use this translation for all subprojects"
+msgstr "Użyj tego tłumaczenia dla wszystkich podprojektów"
+
+#: weblate/html/js/other.html:17
+msgid "Use this translation"
+msgstr "Użyj tego tłumaczenia"
+
+#: weblate/html/js/other.html:25
+msgid "No other strings found."
+msgstr "Nie znaleziono innych napisów."
+
+#: weblate/html/js/similar.html:20
+msgid "No similar strings found."
+msgstr "Nie znaleziono podobnych napisów."
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
+msgstr "Wysłane przez system tłumaczeń Weblate"
+
+#: weblate/html/mail/changed_translation.html:8
+#: weblate/html/mail/changed_translation.txt:1
+#: weblate/html/mail/merge_failure.html:8
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:8
+#: weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/new_contributor.html:8
+#: weblate/html/mail/new_contributor.txt:1 weblate/html/mail/new_string.html:8
+#: weblate/html/mail/new_string.txt:1 weblate/html/mail/new_suggestion.html:8
+#: weblate/html/mail/new_suggestion.txt:1
+#: weblate/html/mail/new_translation.html:8
+#: weblate/html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: weblate/html/mail/changed_translation.html:12
+#: weblate/html/mail/changed_translation.txt:3
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been a new translation on %(translation)s at %(site_title)s.\n"
+msgid ""
+"there has been a change in translation on %(translation)s at %(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
+
+#: weblate/html/mail/changed_translation.html:19
+#: weblate/html/mail/changed_translation.txt:5
+#: weblate/html/mail/new_comment.html:18 weblate/html/mail/new_comment.txt:5
+#: weblate/html/mail/new_suggestion.html:19
+#: weblate/html/mail/new_suggestion.txt:5
+#: weblate/html/mail/new_translation.html:19
+#: weblate/html/mail/new_translation.txt:5
+msgid "Source string:"
+msgstr "Źródłowy ciąg znaków:"
+
+#: weblate/html/mail/changed_translation.html:29
+#: weblate/html/mail/changed_translation.txt:9
+#: weblate/html/mail/new_translation.html:29
+#: weblate/html/mail/new_translation.txt:9
+msgid "Translation:"
+msgstr "Tłumaczenie:"
+
+#: weblate/html/mail/changed_translation.html:39
+#: weblate/html/mail/new_suggestion.html:40
+#, fuzzy
+msgid "Translation change:"
+msgstr "Kontekst tłumaczenia"
+
+#: weblate/html/mail/changed_translation.html:49
+#: weblate/html/mail/changed_translation.txt:17
+#: weblate/html/mail/new_comment.html:39 weblate/html/mail/new_comment.txt:13
+#: weblate/html/mail/new_translation.html:39
+#: weblate/html/mail/new_translation.txt:15
+#, fuzzy
+msgid "You can edit this string at:"
+msgstr "Możesz to przeglądać na:"
+
+#: weblate/html/mail/changed_translation.txt:13
+#, fuzzy
+msgid "Previous translation:"
+msgstr "Twoje tłumaczenia"
+
+#: weblate/html/mail/changed_translation_subject.txt:1
+#, fuzzy, python-format
+#| msgid "New translation in %(translation)s"
+msgid "Changed translation in %(translation)s"
+msgstr "Nowe tłumaczenie w %(translation)s"
+
+#: weblate/html/mail/footer.html:4 weblate/html/mail/footer.txt:1
+msgid "Translation summary:"
+msgstr "Podsumowanie tłumaczenia:"
+
+#: weblate/html/mail/footer.html:8 weblate/html/mail/footer.txt:3
+msgid "Total strings:"
+msgstr "Wszystkie napisy:"
+
+#: weblate/html/mail/footer.html:11 weblate/html/mail/footer.txt:4
+msgid "Translated strings:"
+msgstr "Napisy przetłumaczone:"
+
+#: weblate/html/mail/footer.html:14 weblate/html/mail/footer.txt:5
+msgid "Fuzzy strings:"
+msgstr "Napisy niepewne:"
+
+#: weblate/html/mail/footer.html:18
+#, fuzzy, python-format
+#| msgid "You can translate at %(translation_url)s"
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr "Możesz tłumaczyć na %(translation_url)s"
+
+#: weblate/html/mail/footer.txt:7
+#, python-format
+msgid "You can translate at %(translation_url)s"
+msgstr "Możesz tłumaczyć na %(translation_url)s"
+
+#: weblate/html/mail/merge_failure.html:12
+#: weblate/html/mail/merge_failure.txt:3
+#, fuzzy, python-format
+msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
+
+#: weblate/html/mail/merge_failure.html:16
+#, fuzzy
+msgid "Error message"
+msgstr "Szczegóły błędu:"
+
+#: weblate/html/mail/merge_failure.html:22
+#, fuzzy
+msgid "Repository status"
+msgstr "Repozytorium Git:"
+
+#: weblate/html/mail/merge_failure.txt:5
+#, fuzzy
+msgid "Error message:"
+msgstr "Szczegóły błędu:"
+
+#: weblate/html/mail/merge_failure.txt:9
+#, fuzzy
+msgid "Repository status:"
+msgstr "Repozytorium Git:"
+
+#: weblate/html/mail/merge_failure_subject.txt:1
+#, fuzzy, python-format
+msgid "Merge failure in %(subproject)s"
+msgstr "Zaangażuj się w %(project)s!"
+
+#: weblate/html/mail/new_comment.html:12 weblate/html/mail/new_comment.txt:3
+#, fuzzy, python-format
+msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
+
+#: weblate/html/mail/new_comment.html:29 weblate/html/mail/new_comment.txt:9
+#, fuzzy
+msgid "Comment:"
+msgstr "Komentarze"
+
+#: weblate/html/mail/new_comment_subject.txt:1
+#, fuzzy, python-format
+msgid "New comment in %(subproject)s"
+msgstr "Zaangażuj się w %(project)s!"
+
+#: weblate/html/mail/new_contributor.html:12
+#: weblate/html/mail/new_contributor.txt:3
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "%(username)s has just made his first contribution on %(translation)s at "
+#| "%(site_title)s.\n"
+msgid ""
+"%(username)s has just made a first contribution on %(translation)s at "
+"%(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"%(username)s właśnie po raz pierwszy przyczynił się do %(translation)s w "
+"%(site_title)s./n\n"
+
+#: weblate/html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Nowy współpracownik w %(translation)s"
+
+#: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there are new strings to translate on %(translation)s at %(site_title)s.\n"
+msgid ""
+"there are new strings to translate on %(translation)s at %(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"są nowe napisy do przetłumaczenia do %(translation)s w %(site_title)s./n\n"
+
+#: weblate/html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "Nowy napis do przetłumaczenia w %(translation)s"
+
+#: weblate/html/mail/new_suggestion.html:12
+#: weblate/html/mail/new_suggestion.txt:3
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there is a new suggestion evaluate on %(translation)s at %(site_title)s.\n"
+msgid ""
+"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"jest nowa sugestia do oceny do %(translation)s w %(site_title)s./n\n"
+"\n"
+
+#: weblate/html/mail/new_suggestion.html:29
+#: weblate/html/mail/new_suggestion.txt:9
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Suggestion:"
+msgstr "Sugestie"
+
+#: weblate/html/mail/new_suggestion.html:51
+#: weblate/html/mail/new_suggestion.txt:13
+msgid "You can review it at:"
+msgstr "Możesz to przeglądać na:"
+
+#: weblate/html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Nowa sugestia w %(translation)s"
+
+#: weblate/html/mail/new_translation.html:12
+#: weblate/html/mail/new_translation.txt:3
+#, fuzzy, python-format
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "there has been a new translation on %(translation)s at %(site_title)s.\n"
+msgid "there has been a new translation on %(translation)s at %(site_title)s."
+msgstr ""
+"Cześć,/n\n"
+"Pojawiło się nowe tłumaczenie do %(translation)s w %(site_title)s./n\n"
+
+#: weblate/html/mail/new_translation.txt:13
+#, fuzzy
+msgid "Previously not translated"
+msgstr "Twoje tłumaczenia"
+
+#: weblate/html/mail/new_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Nowe tłumaczenie w %(translation)s"
+
+#: weblate/html/registration/activate.html:7
+msgid "Your account could not be activated"
+msgstr "Twoje konto nie mogło zostać aktywowane"
+
+#: weblate/html/registration/activate.html:9
+#, python-format
+msgid ""
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+"This may be because it is already active or because you waited over %(days)s "
+"days to activate it."
+msgstr[0] ""
+"Mogło tak się zdarzyć, ponieważ konto jest już aktywne, albo ponieważ "
+"czekałeś/czekałaś z aktywacją ponad %(days)s."
+msgstr[1] ""
+"Mogło tak się zdarzyć, ponieważ konta są już aktywne, albo ponieważ czekałeś/"
+"czekałaś z aktywacją ponad %(days)s."
+msgstr[2] ""
+"Mogło tak się zdarzyć, ponieważ konta są już aktywne, albo ponieważ czekałeś/"
+"czekałaś z aktywacją ponad %(days)s."
+
+#: weblate/html/registration/activate.html:12
+#, fuzzy, python-format
+msgid ""
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+"Jeśli uważasz, że powyższa uwaga nie dotyczy Ciebie, <a href=\"/contact/"
+"\">skontaktuj się</a> proszę z administratorem tej strony. Możesz także <a "
+"href=\"%(reg_url)s\">zarejestrować się ponownie</a>."
+
+#: weblate/html/registration/activation_complete.html:8
+msgid "Thank you. Your account is now activated."
+msgstr "Dziękujemy. Twoje konto jest już aktywne."
+
+#: weblate/html/registration/activation_complete.html:12
+#, python-format
+msgid ""
+"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+msgstr "Możesz teraz <a href=\"%(profile_url)s\">dostosować swój profil</a>."
+
+#: weblate/html/registration/activation_email.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"This is an automatic email to help you complete your registration\n"
+"with %(site_title)s.\n"
+"\n"
+"Please open the following link in your web browser. If the link\n"
+"is split over several lines, you may need to copy it in the\n"
+"address bar."
+msgstr ""
+"Witaj,\n"
+"\n"
+"To automatyczna wiadomość wysłana w celu zakończenia rejestracji w "
+"%(site_title)s.\n"
+"\n"
+"Proszę otworzyć poniższy odsyłacz w przeglądarce. Jeśli odsyłacz połamał się "
+"między\n"
+"wiele linii może istnieć konieczność sklejenia go."
+
+#: weblate/html/registration/activation_email.txt:12
+#, python-format
+msgid ""
+"\n"
+"If there is a problem with your registration, please reply to\n"
+"this email.\n"
+"\n"
+"Best regards,\n"
+"%(site_title)s\n"
+msgstr ""
+"\n"
+"Jeśli masz problem z rejestracją, odpowiedz na tę wiadomość.\n"
+"\n"
+"Z poważaniem,\n"
+"%(site_title)s\n"
+
+#: weblate/html/registration/activation_email_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "Twoja rejestracja w %(site_title)s"
+
+#: weblate/html/registration/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr ""
+"Kombinacja pól tekstowych: użytkownik/hasło nie została odnaleziona. Spróbuj "
+"ponownie."
+
+#: weblate/html/registration/login.html:37
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
+"Nie masz jeszcze konta? Możesz się <a href=\"%(register_url)s"
+"\">zarejestrować</a>."
+
+#: weblate/html/registration/login.html:43
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"Nie pamiętasz hasła? Możesz <a href=\"%(reset_url)s\">je zresetować</a>."
+
+#: weblate/html/registration/logout.html:7
+msgid "Thanks for using Weblate!"
+msgstr "Dzięki za używanie Weblate!"
+
+#: weblate/html/registration/logout.html:9
+msgid "Log in again"
+msgstr "Zaloguj się ponownie"
+
+#: weblate/html/registration/password_change_done.html:6
+msgid "Your password was changed."
+msgstr "Twoje hasło zostało zmienione."
+
+#: weblate/html/registration/password_change_form.html:11
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Proszę poprawić poniższy błąd."
+msgstr[1] "Proszę poprawić poniższe błędy."
+msgstr[2] "Proszę poprawić poniższe błędy."
+
+#: weblate/html/registration/password_change_form.html:17
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Proszę wpisz swoje stare hasło, ze względów bezpieczeństwa, a następnie "
+"wprowadź nowe hasło dwa razy, dzięki czemu możemy zweryfikować czy wpisano "
+"je poprawnie."
+
+#: weblate/html/registration/password_change_form.html:22
+#: weblate/html/registration/password_reset_confirm.html:14
+msgid "Change my password"
+msgstr "Zmień hasło"
+
+#: weblate/html/registration/password_reset_complete.html:6
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Twoje hasło zostało ustawione. Możesz teraz przejść do logowania."
+
+#: weblate/html/registration/password_reset_complete.html:8
+msgid "Log in"
+msgstr "Zaloguj się"
+
+#: weblate/html/registration/password_reset_confirm.html:8
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Proszę wpisać dwukrotnie nowe hasło, aby można było zweryfikować, czy "
+"wpisano je poprawnie."
+
+#: weblate/html/registration/password_reset_confirm.html:19
+#, fuzzy
+msgid ""
+"The password reset link is invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Link do resetowania hasła był nieprawidłowy. Prawdopodobną przyczyna: link "
+"został już wykorzystany. Proszę ponownie wysłać żądanie resetowania hasła."
+
+#: weblate/html/registration/password_reset_done.html:7
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Na podany adres e-mail wysłaliśmy list z instrukcjami dotyczącymi ustawienia "
+"hasła. List powinien do Ciebie dotrzeć w najbliższym czasie."
+
+#: weblate/html/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Ta wiadomość dotarła do Ciebie, ponieważ otrzymaliśmy żądanie resetowania "
+"hasła dla Twojego konta na %(site_name)s."
+
+#: weblate/html/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Proszę przejść do następującej strony i wybrać nowe hasło:"
+
+#: weblate/html/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr "Twoja nazwa użytkownika, (na wszelki wypadek, gdybyś zapomniał/-a):"
+
+#: weblate/html/registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr "Dzięki za używanie naszej strony!"
+
+#: weblate/html/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Zespół %(site_name)s"
+
+#: weblate/html/registration/password_reset_form.html:6
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Nie pamiętasz hasła? Wpisz poniżej swój adres e-mail, a my wyślemy wiadomość "
+"z instrukcjami dotyczącymi ustawienia hasła nowego."
+
+#: weblate/html/registration/password_reset_form.html:10
+msgid "Reset my password"
+msgstr "Zresetuj moje hasło"
+
+#: weblate/html/registration/registration_closed.html:9
+#, fuzzy, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+"Przepraszamy, ale rejestracje na tej stronie są wyłączone. Możesz się z nami "
+"<a href=\"/contact/\">skontaktować</a>, aby uzyskać więcej informacji."
+
+#: weblate/html/registration/registration_complete.html:7
+#, fuzzy
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Dziękujemy za rejestrację. Bardzo szybko otrzymasz e-mail/n\n"
+"z prośbą o potwierdzenie. Proszę kliknij na ten link, aby zakończyć "
+"rejestrację."
+
+#: weblate/html/registration/registration_complete.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+
+#: weblate/html/registration/registration_form.html:11
+msgid "Please fix errors in registration form."
+msgstr "Proszę poprawić błędy w formularzu rejestracyjnym."
+
+#: weblate/html/registration/registration_form.html:23
+#, fuzzy
+msgid ""
+"By registering you agree to use your name and email in Git commits and your "
+"contribution to be licensed under same license as translated content."
+msgstr ""
+"Poprzez rejestrację użytkownika zgadzasz się używać swoje dane (imię, "
+"nazwisko) i e-mail w logach Gita."
 
 #, fuzzy
 #~| msgid "Plural"

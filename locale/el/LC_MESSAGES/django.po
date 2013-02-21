@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-20 11:45+0100\n"
+"POT-Creation-Date: 2013-02-21 12:03+0100\n"
 "PO-Revision-Date: 2013-02-20 11:53+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -18,34 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
-msgid "User registration"
-msgstr "Εγγραφή χρήστη"
-
-#: urls.py:286
-msgid "Account activation"
-msgstr "Ενεργοποιήση λογαριασμού"
-
-#: urls.py:295 html/base.html:49 html/registration/login.html:30
-msgid "Login"
-msgstr "Σύνδεση"
-
-#: urls.py:302
-msgid "Logged out"
-msgstr "Αποσυνδέθηκε"
-
-#: urls.py:307
-msgid "Change password"
-msgstr "Αλλαγή κωδικού"
-
-#: urls.py:311
-msgid "Password changed"
-msgstr "Ο κωδικός αλλάχτηκε"
-
-#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
-msgid "Password reset"
-msgstr "Επαναφορά κωδικού"
-
 #: accounts/forms.py:98 accounts/forms.py:122
 msgid "First name"
 msgstr "Όνομα"
@@ -54,7 +26,7 @@ msgstr "Όνομα"
 msgid "Last name"
 msgstr "Επώνυμο"
 
-#: accounts/forms.py:100 accounts/forms.py:135 html/i18n.html:15
+#: accounts/forms.py:100 accounts/forms.py:135 weblate/html/i18n.html:15
 msgid "E-mail"
 msgstr "Ηλεκτρονική διευθυνση"
 
@@ -74,7 +46,7 @@ msgstr "Η ηλεκτρονική σας διευθυνση"
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: accounts/forms.py:131 html/i18n.html:16
+#: accounts/forms.py:131 weblate/html/i18n.html:16
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
@@ -86,7 +58,8 @@ msgstr "Τουλάχιστον πέντε χαρακτήρες."
 msgid "Activation email will be sent here."
 msgstr "Η ηλεκτρονική επιστολή ενεργοποίησης θα σταλεί εδώ."
 
-#: accounts/forms.py:139 html/i18n.html:17 html/profile.html:25
+#: accounts/forms.py:139 weblate/html/i18n.html:17
+#: weblate/html/profile.html:25
 msgid "Password"
 msgstr "Κωδικός"
 
@@ -114,7 +87,7 @@ msgstr "Το όνομα χρήστη χρειάζεται να έχει τουλ
 msgid "Interface Language"
 msgstr "Γλώσσα Περιβάλλοντος εργασίας"
 
-#: accounts/models.py:192 html/index.html:21 trans/views/basic.py:101
+#: accounts/models.py:192 trans/views/basic.py:101 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Γλώσσες"
 
@@ -170,2437 +143,6 @@ msgstr "Το μήνυμα εστάλει στον διαχειριστή."
 #: accounts/views.py:155
 msgid "Contact"
 msgstr "Επικοινωνία"
-
-#: html/404.html:7
-msgid "The page you are looking for was not found."
-msgstr "Η σελίδα που αναζητάτε δεν βρέθηκε."
-
-#: html/404.html:11
-msgid ""
-"However the following translation projects are available on this server:"
-msgstr ""
-"Ωστόσο, τα ακόλουθα έργα μετάφρασης είναι διαθέσιμα σε αυτό το διακομιστή:"
-
-#: html/500.html:5
-msgid "Server Error"
-msgstr "Σφάλμα Διακομιστή"
-
-#: html/500.html:8
-msgid ""
-"The server had serious problems while serving your request. We've just sent "
-"our trained monkeys to fix the issue."
-msgstr ""
-"Ο διακομιστής είχε σοβαρά προβλήματα να εξυπηρετήσει το αίτημά σας. Στείλαμε "
-"τους τεχνικούς μας να διορθώσουν το θέμα."
-
-#: html/about.html:6
-msgid "about"
-msgstr "σχετικά"
-
-#: html/about.html:11 html/footer.html:7 trans/views/basic.py:351
-msgid "About Weblate"
-msgstr "Σχετικά με το Weblate"
-
-#: html/about.html:13
-msgid ""
-"Weblate is a web based translation tool with tight Git integration. It "
-"features simple and clean user interface, propagation of translations across "
-"subprojects, quality checks and automatic linking to source files."
-msgstr ""
-"Το Weblate είναι ένα διαδικτυακό εργαλείο μετάφρασης με ενσωμάτωση Git. "
-"Διαθέτει καθαρό και απλό περιβάλλον χρήστη, διαμοιρασμός των μεταφράσεων "
-"μεταξύ υποέργων, ποιοτικού ελέγχους και αυτόματη σύνδεση με τα πηγαία αρχεία."
-
-#: html/about.html:15 html/contact.html:15
-#, python-format
-msgid ""
-"If you are looking for support for Weblate or want to file bug reports check "
-"its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
-msgstr ""
-"Αν αναζητάτε υποστήριξη για το Weblate ή θέλετε να αρχειοθετήσετε αναφορές "
-"σφαλμάτων, δείτε την ιστοσελίδα του στο <a href=\"%(weblate_url)s\">weblate."
-"org</a>."
-
-#: html/about.html:20
-msgid ""
-"This Weblate instance hosts translations for various free software projects."
-msgstr ""
-"Αυτή η εγκατάσταση του Weblate φιλοξενεί μεταφράσεις για διάφορα έργα δωρεάν "
-"λογισμικών."
-
-#: html/about.html:21 html/index.html:54
-#, python-format
-msgid ""
-"We can host your project as well, if you are interested, please <a href="
-"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
-msgstr ""
-"Μπορείτε, επίσης, να φιλοξενήσετε το έργο σας, <a href=\"%(contact_url)s?"
-"subject=Project hosting\">επικοινωνήστε μαζί μας</a>."
-
-#: html/about.html:25
-msgid ""
-"Weblate is free software created by volunteers, but you can still support "
-"them financially:"
-msgstr ""
-"Το Weblate είναι ελεύθερο λογισμικό που δημιουργήθηκε από εθελοντές, αλλά "
-"μπορείτε να τους στηρίξουμε οικονομικά:"
-
-#: html/about.html:28
-msgid "Flattr Weblate!"
-msgstr "Flattr Weblate!"
-
-#: html/about.html:29
-msgid "Donate to Weblate!"
-msgstr "Δωρεά στο Weblate!"
-
-#: html/about.html:32
-msgid "Versions"
-msgstr "Εκδόσεις"
-
-#: html/about.html:34
-msgid "This site is built using following projects:"
-msgstr ""
-"Αυτός ο ιστότοπος δημιουργήθηκε χρησιμοποιώντας τα ακόλουθα προγράμματα:"
-
-#: html/about.html:48 html/data.html:50
-msgid "Statistics"
-msgstr "Στατιστικά"
-
-#: html/about.html:52
-msgid "Strings to translate"
-msgstr "Κείμενα για μετάφραση"
-
-#: html/about.html:56
-msgid "Used languages"
-msgstr "Χρησιμοποιημένες γλώσσες"
-
-#: html/about.html:60
-msgid "Registered users"
-msgstr "Εγγεγραμμένοι χρήστες"
-
-#: html/about.html:64 html/user-activity.html:4
-msgid "Suggestions made"
-msgstr "Προτάσεις που έγιναν"
-
-#: html/about.html:68 html/user-activity.html:8
-msgid "Translations made"
-msgstr "Μεταφράσεις που έγιναν"
-
-#: html/about.html:72
-msgid "Failing checks found"
-msgstr "Βρέθηκαν αποτυχημένοι έλεγχοι"
-
-#: html/about.html:76
-msgid "Ignored checks"
-msgstr "Αγνοημένοι έλεγχοι"
-
-#: html/base.html:43
-#, python-format
-msgid "Logged in as %(name)s"
-msgstr "Σύνδεση ως %(name)s"
-
-#: html/base.html:44
-msgid "Logout"
-msgstr "Αποσύνδεση"
-
-#: html/base.html:47 html/registration/registration_form.html:25
-msgid "Register"
-msgstr "Εγγραφή"
-
-#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
-#: html/admin/ssh.html:8
-msgid "Home"
-msgstr "Αρχική"
-
-#: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
-#: html/checks.html:7
-msgid "checks"
-msgstr "ελέγχοι"
-
-#: html/check.html:18 html/check_project.html:19 html/check_subproject.html:20
-#, python-format
-msgid ""
-"More information about this check is available in the <a href=\"%(link)s"
-"\">documentation</a>."
-msgstr ""
-"Περισσότερες πληροφορίες για αυτό τον έλεγχο είναι διαθέσιμες στο <a href="
-"\"%(link)s\">τεκμηρίωση</a>."
-
-#: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:177 html/js/other.html:6 html/js/similar.html:6
-msgid "Project"
-msgstr "Έργο"
-
-#: html/check.html:27 html/check_project.html:27 html/check_subproject.html:28
-#: html/checks.html:16
-msgid "Failures"
-msgstr "Αποτυχίες"
-
-#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:47
-msgid "There are no matching failed checks!"
-msgstr "Δεν υπάρχουν αντιστοιχίες αποτυχίας ελέγχων!"
-
-#: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
-#: html/js/dictionary.html:8 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:297
-msgid "Translation"
-msgstr "Μετάφραση"
-
-#: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:32 html/subproject.html:36 html/translate.html:62
-#: html/translate.html.py:176 html/translate.html:182
-#: html/js/dictionary.html:7 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:296
-msgid "Source"
-msgstr "Προέλευση"
-
-#: html/checks.html:15 html/admin/performance.html:20
-msgid "Check"
-msgstr "Έλεγχος"
-
-#: html/contact.html:6
-msgid "contact"
-msgstr "επικοινωνία"
-
-#: html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr ""
-"Μπορείτε να επικοινωνήσετε με τους συντηρητές αυτού του διακομιστή εδώ."
-
-#: html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"Επικοινωνήστε μαζί μας στα Αγγλικά, διαφορετικά δεν θα μπορέσουμε να "
-"καταλάβουμε το αίτημά σας."
-
-#: html/contact.html:21
-msgid "Send"
-msgstr "Αποστολή"
-
-#: html/data-root.html:6 html/data.html:7
-msgid "data"
-msgstr "δεδομένα"
-
-#: html/data-root.html:11 html/data.html:12 html/index.html:116
-msgid "Data export"
-msgstr "Εξαγωγή δεδομένων"
-
-#: html/data-root.html:14 html/data.html:15
-msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr ""
-"Μπορείτε να πάρετε διάφορα δεδομένα από το Weblate σε μορφή αναγνώσιμη από "
-"μηχανή."
-
-#: html/data-root.html:17 html/data.html:18
-msgid "RSS feeds"
-msgstr "Τροφοδοσίες RSS"
-
-#: html/data-root.html:20 html/data.html:21
-msgid ""
-"To follow translation progress you can use RSS feeds which include all "
-"important changes in translation."
-msgstr ""
-"Για να ακολουθείτε τη πρόοδο της μετάφρασης, μπορείτε να χρησιμοποιήσετε "
-"τροφοδοσίες RSS που περιλαμβάνει όλες τις σημαντικές αλλαγές στη μετάφραση."
-
-#: html/data-root.html:21 html/data.html:22
-#, python-format
-msgid ""
-"More information about exported RSS feeds is available in <a href="
-"\"%(rss_docs)s\">the documentation</a>."
-msgstr ""
-"Περισσότερες πληροφορίες για τις εξαγόμενες τροφοδοσίες RSS είναι διαθέσιμες "
-"<a href=\"%(rss_docs)s\">στην τεκμηρίωση</a>."
-
-#: html/data-root.html:27 html/data.html:29 html/data.html.py:60
-msgid "URL"
-msgstr "URL"
-
-#: html/data-root.html:28 html/data.html:30 html/data.html.py:61
-msgid "Link"
-msgstr "Σύνδεσμος"
-
-#: html/data-root.html:33 html/data.html:36 html/data.html.py:42
-msgid "RSS"
-msgstr "RSS"
-
-#: html/data-root.html:38
-msgid "Per project data"
-msgstr "Ανά δεδομενα έργου"
-
-#: html/data-root.html:41
-msgid ""
-"There is more data exported per project, please check following links for "
-"more information."
-msgstr ""
-"Υπάρχουν περισσόερα εξαγόμενα δεδομένα ανά έργο, ελέξτε τους ακόλουθους "
-"συνδέσμους για περισσότερες πληροφορίες."
-
-#: html/data.html:48
-msgid ""
-"There are also per language RSS feeds available, you can construct them by "
-"appending a language code to the above URLs."
-msgstr ""
-"Υπάρχουν, επίσης, διαθέσιμες και τροφοδοσίες RSS ανά γλώσσα, μπορείτε να τις "
-"χρησιμοποιήσετε βάζοντας τον κωδικό γλώσσας στα παραπάνω URLs."
-
-#: html/data.html:53
-#, python-format
-msgid ""
-"Translation statistics for every subproject in JSON format allow you to use "
-"these data in other websites or tools. Format of the data is described in <a "
-"href=\"%(api_docs)s\">the documentation</a>."
-msgstr ""
-"Τα στατιστικά μετάφρασης για κάθε υποέργο σε μορφή JSON σάς δίνει τη "
-"δυνατότητα να χρησιμοποιήσετε αυτά τα δεδομένα σε άλλες ιστοσελίδες ή "
-"εργαλεία. Η μορφή των δεδομένων περιγράφεται στην <a href=\"%(api_docs)s"
-"\">τεκμηρίωση</a>."
-
-#: html/data.html:68 html/translation.html:58
-msgid "Download"
-msgstr "Λήψη"
-
-#: html/dictionaries.html:8 html/dictionary.html:7
-msgid "glossaries"
-msgstr "γλωσσάρια"
-
-#: html/dictionaries.html:15 html/languages.html:14
-#: html/list-translations.html:6
-msgid "Language"
-msgstr "Γλώσσα"
-
-#: html/dictionaries.html:16
-msgid "Words"
-msgstr "Λέξεις"
-
-#: html/dictionary.html:15 html/translate.html:173
-msgid "Glossary"
-msgstr "Γλωσσάρι"
-
-#: html/dictionary.html:19 html/source-review.html:19 html/translate.html:28
-msgid "First"
-msgstr "Πρώτο"
-
-#: html/dictionary.html:20 html/source-review.html:20 html/translate.html:29
-msgid "Previous"
-msgstr "Προηγούμενο"
-
-#: html/dictionary.html:21 html/source-review.html:21 html/translate.html:30
-#, python-format
-msgid "%(position)s / %(total)s"
-msgstr "%(position)s / %(total)s"
-
-#: html/dictionary.html:22 html/source-review.html:22 html/translate.html:31
-msgid "Next"
-msgstr "Επόμενο"
-
-#: html/dictionary.html:23 html/source-review.html:23 html/translate.html:32
-msgid "Last"
-msgstr "Τελευταίο"
-
-#: html/dictionary.html:48
-msgid "Edit"
-msgstr "Επεξεργασία"
-
-#: html/dictionary.html:57 html/translate.html:133
-msgid "Delete"
-msgstr "Διαγραφή"
-
-#: html/dictionary.html:66
-msgid "No words found!"
-msgstr "Δεν βρέθηκαν λέξεις!"
-
-#: html/dictionary.html:69 html/language.html:18 html/project.html:36
-#: html/subproject.html:26 html/translation.html:31
-msgid "Tools"
-msgstr "Εργαλεία"
-
-#: html/dictionary.html:74
-msgid "Add new word"
-msgstr "Προσθήκη νέας λέξης"
-
-#: html/dictionary.html:77
-msgid "Import glossary"
-msgstr "Εισαγωγή γλωσσαρίου"
-
-#: html/dictionary.html:79
-msgid "Export glossary"
-msgstr "Εξαγωγή γλωσσαρίου"
-
-#: html/dictionary.html:90 html/translate.html:213 html/translate.html.py:246
-msgid "Add"
-msgstr "Προσθήκη"
-
-#: html/dictionary.html:99
-msgid ""
-"You can upload any format which is understood by Translate Toolkit "
-"(including TBX, CSV or Gettext PO files)."
-msgstr ""
-"Μπορείτε να αποστείλλετε οποιαδήποτε μορφή, η οποία είναι κατανοητή από την "
-"Εργαλειοθήκη Μετάφρασης (περιλαμβάνει αρχεία TBX, CSV ή Gettext PO)."
-
-#: html/dictionary.html:106
-msgid "Import"
-msgstr "Εισαγωγή"
-
-#: html/dictionary.html:114
-msgid "You can download glossary in following formats:"
-msgstr "Μπορείτε να λάβετε το γλωσσάρι στις ακόλουθες μορφές:"
-
-#: html/dictionary.html:117
-msgid "Comma separated values (CSV)"
-msgstr "Τιμές διαχωρισμένες με κόμμα (CSV)"
-
-#: html/dictionary.html:118
-msgid "Gettext (PO)"
-msgstr "Gettext (PO)"
-
-#: html/dictionary.html:119
-msgid "TermBase eXchange (TBX)"
-msgstr "TermBase eXchange (TBX)"
-
-#: html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "λεξικά"
-
-#: html/edit_dictionary.html:14
-msgid "Change word"
-msgstr "Αλλαγή λέξης"
-
-#: html/edit_dictionary.html:21 html/profile.html:66 html/translate.html:153
-msgid "Save"
-msgstr "Αποθήκευση"
-
-#: html/engage.html:11 html/engage.html.py:25
-#, python-format
-msgid "Get involved in %(project)s!"
-msgstr "Συμμετέχετε στο %(project)s!"
-
-#: html/engage.html:12
-#, python-format
-msgid ""
-"Get involved in %(project)s, which is currently being translated into "
-"%(languages)s languages using Weblate."
-msgstr ""
-"Συμμετέχετε %(project)s, που μεταφράζεται σήμερα σε %(languages)s γλώσσες "
-"χρησιμοποιώντας το Weblate."
-
-#: html/engage.html:28
-msgid "Hi, and thank you for your interest!"
-msgstr "Γεια σας, και ευχαριστούμε για το ενδιαφέρον σας!"
-
-#: html/engage.html:31
-#, python-format
-msgid ""
-"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
-"a>, a web tool designed to ease translating for both developers and "
-"translators."
-msgstr ""
-"Το %(project)s μεταφράζεται χρησιμοποιώντας το <a href=\"%(weblate_url)s"
-"\">Weblate</a>, ένα διαδικτυακό εργαλείο που έχει σχεδιαστεί για να "
-"διευκολύνουν τη μετάφραση για προγραμματιστές και για μεταφραστές."
-
-#: html/engage.html:38
-#, python-format
-msgid ""
-"If you would like to contribute to translation of %(project)s, you need to "
-"<a href=\"%(reg_url)s\">register on this server</a>."
-msgstr ""
-"Αν θα θέλατε να συμβάλετε στη μετάφραση του %(project)s, πρέπει να <a href="
-"\"%(reg_url)s\">εγγραφείτε σε αυτόν το διακομιστή</a>."
-
-#: html/engage.html:41
-#, python-format
-msgid ""
-"Once you have activated your account just proceed to the <a href=\"%(url)s"
-"\">translation section</a>."
-msgstr ""
-"Από τη στιγμή που έχετε ενεργοποιήσει το λογαριασμό σας απλώς προχωρήσετε "
-"στην <a href=\"%(url)s\">ενότητα μετάφρασης</a>."
-
-#: html/footer.html:6
-#, python-format
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr ""
-"Υποστηρίζετα από το <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-
-#: html/footer.html:8
-msgid "Contact us"
-msgstr "Επικοινωνήστε μαζί μας"
-
-#: html/footer.html:9 html/admin/performance.html:22
-#: html/admin/performance.html.py:30
-msgid "Documentation"
-msgstr "Τεκμηρίωση"
-
-#: html/git-commit-info.html:4
-#, python-format
-msgid "Commit %(hash)s"
-msgstr "Ολοκλήρωση %(hash)s"
-
-#: html/git-commit-info.html:5
-#, python-format
-msgid "Authored by %(author)s on %(date)s"
-msgstr "Συντάχθηκαν από τον %(author)s, στις %(date)s"
-
-#: html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr "Το όνομα χρήστη υπάρχει ήδη. Επιλέξτε άλλο."
-
-#: html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "Πρέπει να γράψετε τον ίδιο κωδικό κάθε φορά"
-
-#: html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "Αυτή η ηλεκτρονική διεύθυνση υπάρχει ήδη. Δώστε μια διαφορετική."
-
-#: html/i18n.html:11
-msgid "Old password"
-msgstr "Παλαιός κωδικός"
-
-#: html/i18n.html:12
-msgid "New password"
-msgstr "Νέος κωδικός"
-
-#: html/i18n.html:13
-msgid "New password confirmation"
-msgstr "Επιβεβαίωση νέου κωδικού"
-
-#: html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "Τα δύο πεδιά κωδικών δεν ταιριάζουν."
-
-#: html/i18n.html:18
-msgid ""
-"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr ""
-"Κρατήστε πατημένο το «Ctrl», ή το «Command» σε Mac, για να επιλέξετε "
-"περισσότερα από ένα."
-
-#: html/i18n.html:23
-msgid "Afrikaans"
-msgstr "Αφρικανικά"
-
-#: html/i18n.html:24
-msgid "Akan"
-msgstr "Ακανικά"
-
-#: html/i18n.html:25
-msgid "Albanian"
-msgstr "Αλβανικά"
-
-#: html/i18n.html:26
-msgid "Amharic"
-msgstr "Αμχαρικά"
-
-#: html/i18n.html:27
-msgid "Arabic"
-msgstr "Αραβικά"
-
-#: html/i18n.html:28
-msgid "Aragonese"
-msgstr "Αραγονικά"
-
-#: html/i18n.html:29
-msgid "Armenian"
-msgstr "Αρμένικα"
-
-#: html/i18n.html:30
-msgid "Asturian"
-msgstr "Αστουρικά"
-
-#: html/i18n.html:31
-msgid "Azerbaijani"
-msgstr "Αζερμπαϊτζανικά"
-
-#: html/i18n.html:32
-msgid "Basque"
-msgstr "Βάσκικα"
-
-#: html/i18n.html:33
-msgid "Belarusian"
-msgstr "Λευκορωσικά"
-
-#: html/i18n.html:34
-msgid "Belarusian (latin)"
-msgstr "Λευκορωσικά (Λατινικά)"
-
-#: html/i18n.html:35
-msgid "Bengali"
-msgstr "Βεγγαλικά"
-
-#: html/i18n.html:36
-msgid "Bengali (India)"
-msgstr "Βεγγαλικά (Ινδία)"
-
-#: html/i18n.html:37
-msgid "Bosnian"
-msgstr "Βοσνιακά"
-
-#: html/i18n.html:38
-msgid "Breton"
-msgstr "Μπρετονικά"
-
-#: html/i18n.html:39
-msgid "Bulgarian"
-msgstr "Βουλγαρικά"
-
-#: html/i18n.html:40
-msgid "Catalan"
-msgstr "Καταλανικά"
-
-#: html/i18n.html:41
-msgid "Central Khmer"
-msgstr "Κεντρικά Χμερικά"
-
-#: html/i18n.html:42
-msgid "Cornish"
-msgstr "Κορνουαλικά"
-
-#: html/i18n.html:43
-msgid "Croatian"
-msgstr "Κροατικά"
-
-#: html/i18n.html:44
-msgid "Czech"
-msgstr "Τσέχικα"
-
-#: html/i18n.html:45
-msgid "Danish"
-msgstr "Δανέζικα"
-
-#: html/i18n.html:46
-msgid "Dutch"
-msgstr "Ολλανδικά"
-
-#: html/i18n.html:47
-msgid "Dzongkha"
-msgstr "Ντζονγκικά"
-
-#: html/i18n.html:48
-msgid "English"
-msgstr "Αγγλικά"
-
-#: html/i18n.html:49
-msgid "English (South Africa)"
-msgstr "Αγγλικά (Νότιος Αφρική)"
-
-#: html/i18n.html:50
-msgid "English (United Kingdom)"
-msgstr "Αγγλικά (Ηνωμένο Βασίλειο)"
-
-#: html/i18n.html:51
-msgid "English (United States)"
-msgstr "Αγγλικά (Ηνωμένες Πολιτείες)"
-
-#: html/i18n.html:52
-msgid "Esperanto"
-msgstr "Εσπεράντο"
-
-#: html/i18n.html:53
-msgid "Estonian"
-msgstr "Εσθονικά"
-
-#: html/i18n.html:54
-msgid "Faroese"
-msgstr "Φαροϊκά"
-
-#: html/i18n.html:55
-msgid "Filipino"
-msgstr "Φιλιππινέζικα"
-
-#: html/i18n.html:56
-msgid "Finnish"
-msgstr "Φινλανδικά"
-
-#: html/i18n.html:57
-msgid "French"
-msgstr "Γαλλικά"
-
-#: html/i18n.html:58
-msgid "Frisian"
-msgstr "Φριζικά"
-
-#: html/i18n.html:59
-msgid "Friulian"
-msgstr "Φριουλικά"
-
-#: html/i18n.html:60
-msgid "Fulah"
-msgstr "Φουλαχικά"
-
-#: html/i18n.html:61
-msgid "Gaelic"
-msgstr "Κελτικά"
-
-#: html/i18n.html:62
-msgid "Galician"
-msgstr "Γαελικά"
-
-#: html/i18n.html:63
-msgid "Georgian"
-msgstr "Γεωργιανά"
-
-#: html/i18n.html:64
-msgid "German"
-msgstr "Γερμανικά"
-
-#: html/i18n.html:65
-msgid "Greek"
-msgstr "Ελληνικά"
-
-#: html/i18n.html:66
-msgid "Gujarati"
-msgstr "Γκουτζαρατικά"
-
-#: html/i18n.html:67
-msgid "Gun"
-msgstr "Γκουνικά"
-
-#: html/i18n.html:68
-msgid "Hausa"
-msgstr "Χαουσανικά"
-
-#: html/i18n.html:69
-msgid "Hebrew"
-msgstr "Εβραϊκά"
-
-#: html/i18n.html:70
-msgid "Hindi"
-msgstr "Ινδικά"
-
-#: html/i18n.html:71
-msgid "Hungarian"
-msgstr "Ουγγρικά"
-
-#: html/i18n.html:72
-msgid "Chinese (Hong Kong)"
-msgstr "Κινέζικα (Χονγκ Κονγκ)"
-
-#: html/i18n.html:73
-msgid "Chinese (China)"
-msgstr "Κινέζικα (Κίνα)"
-
-#: html/i18n.html:74
-msgid "Chinese (Taiwan)"
-msgstr "Κινέζικα (Ταιβάν)"
-
-#: html/i18n.html:75
-msgid "Icelandic"
-msgstr "Ισλανδικά"
-
-#: html/i18n.html:76
-msgid "Indonesian"
-msgstr "Ινδονησιακά"
-
-#: html/i18n.html:77
-msgid "Interlingua"
-msgstr "Ιντερλίνγκουα"
-
-#: html/i18n.html:78
-msgid "Irish"
-msgstr "Ιρλανδικά"
-
-#: html/i18n.html:79
-msgid "Italian"
-msgstr "Ιταλικά"
-
-#: html/i18n.html:80
-msgid "Japanese"
-msgstr "Ιαπωνέζικα"
-
-#: html/i18n.html:81
-msgid "Javanese"
-msgstr "Ιαβανέζικα"
-
-#: html/i18n.html:82
-msgid "Kannada"
-msgstr "Κανάντα"
-
-#: html/i18n.html:83
-msgid "Kashubian"
-msgstr "Κασουμπιανικά"
-
-#: html/i18n.html:84
-msgid "Kazakh"
-msgstr "Καζαχστανικά"
-
-#: html/i18n.html:85
-msgid "Kirghiz"
-msgstr "Κιργκιζινικά"
-
-#: html/i18n.html:86
-msgid "Korean"
-msgstr "Κορεάτικα"
-
-#: html/i18n.html:87
-msgid "Kurdish"
-msgstr "Κούρδικα"
-
-#: html/i18n.html:88
-msgid "Kurdish Sorani"
-msgstr "Κουρδικά Σοράνι"
-
-#: html/i18n.html:89
-msgid "Lao"
-msgstr "Λαονικά"
-
-#: html/i18n.html:90
-msgid "Latvian"
-msgstr "Λεττονικά"
-
-#: html/i18n.html:91
-msgid "Lingala"
-msgstr "Λινγκαλανικά"
-
-#: html/i18n.html:92
-msgid "Lithuanian"
-msgstr "Λιθουανικά"
-
-#: html/i18n.html:93
-msgid "Luxembourgish"
-msgstr "Λουξεμβρουργικά"
-
-#: html/i18n.html:94
-msgid "Macedonian"
-msgstr "Σλαβομακεδονικά"
-
-#: html/i18n.html:95
-msgid "Maithili"
-msgstr "Μαϊθιλικά"
-
-#: html/i18n.html:96
-msgid "Malagasy"
-msgstr "Μαδαγασκαρικά"
-
-#: html/i18n.html:97
-msgid "Malay"
-msgstr "Μαλαϊκά"
-
-#: html/i18n.html:98
-msgid "Malayalam"
-msgstr "Μαλαγιαλαμικά"
-
-#: html/i18n.html:99
-msgid "Maltese"
-msgstr "Μαλτέζικα"
-
-#: html/i18n.html:100
-msgid "Maori"
-msgstr "Μαορικά"
-
-#: html/i18n.html:101
-msgid "Mapudungun"
-msgstr "Μαπουντουγκουνικά"
-
-#: html/i18n.html:102
-msgid "Marathi"
-msgstr "Μαραθικά"
-
-#: html/i18n.html:103
-msgid "Mongolian"
-msgstr "Μογγολικά"
-
-#: html/i18n.html:104
-msgid "Morisyen"
-msgstr "Μορισιενικά"
-
-#: html/i18n.html:105
-msgid "Nahuatl languages"
-msgstr "Ναχουατλικά"
-
-#: html/i18n.html:106
-msgid "Neapolitan"
-msgstr "Νεαπολιτικά"
-
-#: html/i18n.html:107
-msgid "Nepali"
-msgstr "Νεπαλέζικα"
-
-#: html/i18n.html:108
-msgid "Norwegian Bokmål"
-msgstr "Νορβηγικά Bokmal"
-
-#: html/i18n.html:109
-msgid "Norwegian Nynorsk"
-msgstr "Νορβηγικά Nynorsk"
-
-#: html/i18n.html:110
-msgid "Occitan"
-msgstr "Οτσιτανικά"
-
-#: html/i18n.html:111
-msgid "Oriya"
-msgstr "Οριγικά"
-
-#: html/i18n.html:112
-msgid "Papiamento"
-msgstr "Παπιαμεντικά"
-
-#: html/i18n.html:113
-msgid "Pedi"
-msgstr "Πεντικά"
-
-#: html/i18n.html:114
-msgid "Persian"
-msgstr "Περσικά"
-
-#: html/i18n.html:115
-msgid "Piemontese"
-msgstr "Πιεμοντεζικά"
-
-#: html/i18n.html:116
-msgid "Polish"
-msgstr "Πολωνικά"
-
-#: html/i18n.html:117
-msgid "Portuguese"
-msgstr "Πορτογαλικά"
-
-#: html/i18n.html:118
-msgid "Portuguese (Brazil)"
-msgstr "Πορτογαλικά (Βραζιλία)"
-
-#: html/i18n.html:119
-msgid "Portuguese (Portugal)"
-msgstr "Πορτογαλικά (Πορτογαλία)"
-
-#: html/i18n.html:120
-msgid "Punjabi"
-msgstr "Πουντζαμπικά"
-
-#: html/i18n.html:121
-msgid "Pushto"
-msgstr "Πουσχτικά"
-
-#: html/i18n.html:122
-msgid "Romanian"
-msgstr "Ρουμανικά"
-
-#: html/i18n.html:123
-msgid "Romansh"
-msgstr "Ρομανσικά"
-
-#: html/i18n.html:124
-msgid "Russian"
-msgstr "Ρωσικά"
-
-#: html/i18n.html:125
-msgid "Scots"
-msgstr "Σκωτσικά"
-
-#: html/i18n.html:126
-msgid "Serbian"
-msgstr "Σερβικά"
-
-#: html/i18n.html:127
-msgid "Serbian (cyrillic)"
-msgstr "Σέρβικα (κυριλλικά)"
-
-#: html/i18n.html:128
-msgid "Serbian (latin)"
-msgstr "Σέρβικα (λατινικά)"
-
-#: html/i18n.html:129
-msgid "Sinhala"
-msgstr "Κεϋλανικά"
-
-#: html/i18n.html:130
-msgid "Slovak"
-msgstr "Σλοβακικά"
-
-#: html/i18n.html:131
-msgid "Slovenian"
-msgstr "Σλοβενικά"
-
-#: html/i18n.html:132
-msgid "Somali"
-msgstr "Σομαλέζικα"
-
-#: html/i18n.html:133
-msgid "Songhai languages"
-msgstr "Σονγκαϊκά"
-
-#: html/i18n.html:134
-msgid "Sotho"
-msgstr "Σοθικά"
-
-#: html/i18n.html:135
-msgid "Spanish"
-msgstr "Ισπανικά"
-
-#: html/i18n.html:136
-msgid "Sundanese"
-msgstr "Σουντικά"
-
-#: html/i18n.html:137
-msgid "Swahili"
-msgstr "Σουαχιλικά"
-
-#: html/i18n.html:138
-msgid "Swedish"
-msgstr "Σουηδικά"
-
-#: html/i18n.html:139
-msgid "Tajik"
-msgstr "Τατζικιστανικά"
-
-#: html/i18n.html:140
-msgid "Tamil"
-msgstr "Ταμιλικά"
-
-#: html/i18n.html:141
-msgid "Tatar"
-msgstr "Ταταρικά"
-
-#: html/i18n.html:142
-msgid "Telugu"
-msgstr "Τελουγκουικά"
-
-#: html/i18n.html:143
-msgid "Thai"
-msgstr "Ταϊλανδικά"
-
-#: html/i18n.html:144
-msgid "Tibetan"
-msgstr "Θιβετιανά"
-
-#: html/i18n.html:145
-msgid "Tigrinya"
-msgstr "Τιγκρινιανικά"
-
-#: html/i18n.html:146
-msgid "Turkish"
-msgstr "Τουρκικά"
-
-#: html/i18n.html:147
-msgid "Turkmen"
-msgstr "Τουρκμενικά"
-
-#: html/i18n.html:148
-msgid "Uighur"
-msgstr "Ουιγκουρικά"
-
-#: html/i18n.html:149
-msgid "Ukrainian"
-msgstr "Ουκρανικά"
-
-#: html/i18n.html:150
-msgid "Urdu"
-msgstr "Ουρντουικά"
-
-#: html/i18n.html:151
-msgid "Uzbek"
-msgstr "Ουζμπεκικά"
-
-#: html/i18n.html:152
-msgid "Uzbek (latin)"
-msgstr "Ουζμπεκικά (Λατινικά)"
-
-#: html/i18n.html:153
-msgid "Vietnamese"
-msgstr "Βιετναμέζικα"
-
-#: html/i18n.html:154
-msgid "Walloon"
-msgstr "Βαλλωνικά"
-
-#: html/i18n.html:155
-msgid "Welsh"
-msgstr "Ουαλικά"
-
-#: html/i18n.html:156
-msgid "Yoruba"
-msgstr "Γιορουμπικά"
-
-#: html/i18n.html:157
-msgid "Zulu"
-msgstr "Ζουλουκικά"
-
-#: html/i18n.html:160
-msgid "Translate using Apertium"
-msgstr "Μετάφραση με χρήση του Apertium"
-
-#: html/i18n.html:161
-msgid "Translate using Microsoft Translator"
-msgstr "Μετάφραση με χρήση του Microsoft Translator"
-
-#: html/i18n.html:162
-msgid "Translate using MyMemory"
-msgstr "Μετάφραση με χρήση του MyMemory"
-
-#: html/i18n.html:163
-msgid "Sort this column"
-msgstr "Ταξινόμηση αυτής της στήλης"
-
-#: html/i18n.html:164
-msgid "AJAX request to load this content has failed!"
-msgstr "Το αίτημα AJAX για φόρτωση αυτού του περιεχομένου απέτυχε!"
-
-#: html/i18n.html:165
-msgid "Loading…"
-msgstr "Φόρτωση…"
-
-#: html/i18n.html:166
-msgid "Failed translation"
-msgstr "Αποτυχημένη μετάφραση"
-
-#: html/i18n.html:167
-msgid "The request for machine translation has failed."
-msgstr "Το αίτημα για μηχανική μετάφραση απέτυχε."
-
-#: html/i18n.html:168
-msgid "Error details:"
-msgstr "Λεπτομέρειες σφάλματος:"
-
-#: html/i18n.html:169
-msgid "Confirm resetting repository"
-msgstr "Επιβεβαίωση επαναφοράς αποθετηρίου"
-
-#: html/i18n.html:170
-msgid "Resetting the repository will throw away all local changes!"
-msgstr "Η επαναφορά του αποθετηρίου θα απομακρύνει όλες τις τοπικές αλλαγές!"
-
-#: html/i18n.html:171
-msgid "Ok"
-msgstr "Εντάξει"
-
-#: html/i18n.html:172
-msgid "Cancel"
-msgstr "Άκυρο"
-
-#: html/i18n.html:173 html/list-translations.html:62 trans/views/helper.py:192
-msgid "Strings with any failing checks"
-msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
-
-#: html/i18n.html:174 html/list-translations.html:63 trans/views/helper.py:186
-msgid "Fuzzy strings"
-msgstr "Ασαφή κείμενα"
-
-#: html/i18n.html:175 html/list-translations.html:61
-msgid "Translated strings"
-msgstr "Μεταφρασμένα κείμενα"
-
-#: html/index.html:9
-#, python-format
-msgid ""
-"This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
-"software projects listed below. You need to be logged in for translating, "
-"otherwise you can only make suggestions."
-msgstr ""
-"Η ιστσσελίδα εκτελεί <a href=\"%(weblate_url)s\">Weblate</a> για τη "
-"μετάφραση των έργων λογισμικού που αναφέρονται παρακάτω. Πρέπει να "
-"συνδεθείτε για να μεταφράσετε, διαφορετικά μπορείτε να κάνετε μόνο προτάσεις."
-
-#: html/index.html:13 html/subproject.html:17 html/translate.html:91
-msgid "Translations"
-msgstr "Μεταφράσεις"
-
-#: html/index.html:18
-msgid "Your translations"
-msgstr "Οι μεταφράσεις σας"
-
-#: html/index.html:20 html/language.html:12 html/user.html:18
-msgid "Projects"
-msgstr "Έργα"
-
-#: html/index.html:22
-msgid "Checks"
-msgstr "Έλεγχοι"
-
-#: html/index.html:38 html/index.html.py:80 html/languages.html:15
-#: html/list-translations.html:8 html/project.html:21
-msgid "Translated"
-msgstr "Μεταφράστηκε"
-
-#: html/index.html:59
-msgid "Summaries"
-msgstr "Περιλήψεις"
-
-#: html/index.html:64 html/language.html:23 html/project.html:40
-#: html/subproject.html:30 html/translation.html:35
-#: html/translation.html.py:83
-msgid "Recent changes"
-msgstr "Πρόσφατες Αλλαγές"
-
-#: html/index.html:65
-msgid "Most active translators"
-msgstr "Πιο ενεργοί μεταφραστές"
-
-#: html/index.html:66
-msgid "Most active suggesters"
-msgstr "Πιο ενεργοί υποδηλώντες"
-
-#: html/index.html:67 html/language.html:25 html/project.html:46
-#: html/subproject.html:37 html/translation.html:46 html/user.html:27
-msgid "Activity"
-msgstr "Δραστηριότητα"
-
-#: html/index.html:68
-msgid "Others"
-msgstr "Άλλα"
-
-#: html/index.html:79 html/index.html.py:98 html/last-changes.html:14
-msgid "User"
-msgstr "Χρήστης"
-
-#: html/index.html:99
-msgid "Suggested"
-msgstr "Προτάθηκε"
-
-#: html/index.html:114
-msgid "Languages summary"
-msgstr "Περίληψη γλωσσών"
-
-#: html/index.html:115
-msgid "Checks overview"
-msgstr "Επισκόπηση ελέγχων"
-
-#: html/index.html:117
-msgid "Widgets"
-msgstr "Μικροεφαρμογές"
-
-#: html/language.html:6 html/languages.html:6
-msgid "languages"
-msgstr "γλώσσες"
-
-#: html/language.html:24 html/project.html:41
-msgid "Glossaries"
-msgstr "Γλωσσάρια"
-
-#: html/last-changes.html:13
-msgid "When"
-msgstr "Όταν"
-
-#: html/last-changes.html:15
-msgid "Action"
-msgstr "Ενέργεια"
-
-#: html/last-changes.html:30
-msgid "No recent activity has been recorded."
-msgstr "Καμία πρόσφατη δραστηριότητα δεν καταγράφηκε."
-
-#: html/list-checks.html:6
-#, python-format
-msgid "Ignore: %(check)s"
-msgstr "Αγνόηση: %(check)s"
-
-#: html/list-translations.html:9
-msgctxt "Number of fuzzy strings"
-msgid "Fuzzy"
-msgstr "Ασαφές"
-
-#: html/list-translations.html:10
-msgctxt "Number of failing checks"
-msgid "Checks"
-msgstr "Έλεγχοι"
-
-#: html/list-translations.html:11
-msgctxt "Number of suggestions"
-msgid "Suggestions"
-msgstr "Προτάσεις"
-
-#: html/list-translations.html:24
-#, python-format
-msgid "There is %(count)s fuzzy string."
-msgid_plural "There are %(count)s fuzzy strings."
-msgstr[0] "Υπάρχει %(count)s ασαφές κείμενο."
-msgstr[1] "Υπάρχουν %(count)s ασαφή κείμενα."
-
-#: html/list-translations.html:33
-#, python-format
-msgid "There is %(count)s failing check."
-msgid_plural "There are %(count)s failing checks."
-msgstr[0] "Υπάρχει %(count)s αποτυχημένος έλεγχος."
-msgstr[1] "Υπάρχουν %(count)s αποτυχημένοι έλεγχοι."
-
-#: html/list-translations.html:42
-#, python-format
-msgid "There is %(count)s suggestion."
-msgid_plural "There are %(count)s suggestions."
-msgstr[0] "Υπάρχει %(count)s πρόταση."
-msgstr[1] "Υπάρχουν %(count)s προτάσεις."
-
-#: html/list-translations.html:51
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
-msgstr[0] "Υπάρχει %(count)s αμετάφραστο κείμενο."
-msgstr[1] "Υπάρχουν %(count)s αμετάφραστα κείμενα."
-
-#: html/list-translations.html:51 html/translate.html:24
-msgid "Translate"
-msgstr "Μετάφραση"
-
-#: html/profile.html:12 trans/views/edit.py:685
-msgid "Please fix errors in the form."
-msgstr "Διορθώστε σφάλματα στη φόρμα."
-
-#: html/profile.html:22
-msgid "Preferences"
-msgstr "Προτιμήσεις"
-
-#: html/profile.html:23
-msgid "Subscriptions"
-msgstr "Προτάσεις"
-
-#: html/profile.html:24
-msgid "Account"
-msgstr "Λογαριασμός"
-
-#: html/profile.html:26
-msgid "Information"
-msgstr "Πληροφορίες"
-
-#: html/profile.html:27
-msgid "Avatar"
-msgstr "Είδωλο"
-
-#: html/profile.html:35
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
-"θα λάβετε τις επιλεγμένες ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για "
-"όλες σας τις γλώσσες."
-
-#: html/profile.html:44
-msgid "Your name and email will appear as author on Git commits."
-msgstr ""
-"Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζεται ως δημιουργός "
-"στους συμμετέχοντες του Git."
-
-#: html/profile.html:48
-#, python-format
-msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
-msgstr ""
-"Μπορείτε να αλλάξετε κωδικό σε <a href=\"%(pw_url)s\">διαφορετική σελίδα</a>."
-
-#: html/profile.html:56
-msgid "Your public profile:"
-msgstr "Το δημόσιό σας προφίλ:"
-
-#: html/profile.html:62
-msgid "Change your avatar at gravatar.com"
-msgstr "Αλλάξτε το ειδωλό σας στο gravatar.com"
-
-#: html/project.html:11 html/source.html:13 html/subproject.html:13
-#: html/translation.html:16
-msgid "Project Information"
-msgstr "Πληροφορίες Έργου"
-
-#: html/project.html:15
-msgid "Subprojects"
-msgstr "Υπόέργα"
-
-#: html/project.html:20
-msgid "Subproject"
-msgstr "Υπόέργο"
-
-#: html/project.html:43 html/subproject.html:33 html/translation.html:42
-msgid "Git maintenance"
-msgstr "Συντήρηση git"
-
-#: html/project.html:45 html/subproject.html:35 html/translation.html:45
-msgid "Share"
-msgstr "Κοινή χρήση"
-
-#: html/project.html:54
-msgid "Manage all glossaries"
-msgstr "Διαχείριση όλων των γλωσσαρίων"
-
-#: html/project_info.html:2
-msgid "Project website:"
-msgstr "Ιστοσελίδα έργου:"
-
-#: html/project_info.html:4
-msgid "Mailing list for translators:"
-msgstr "Λίστα αλληλογραφίας για μεταφραστές:"
-
-#: html/project_info.html:7
-msgid "Instructions for translators:"
-msgstr "Οδηγίες για μεταφραστές:"
-
-#: html/share.html:5
-msgid "Share on Facebook!"
-msgstr "Μοιραστείτε στο Facebook!"
-
-#: html/share.html:6
-#, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr ""
-"Μεταφράστε το %(object)s χρησιμοποιώντας το %%23Weblate στο %(share_url)s!"
-
-#: html/share.html:6
-msgid "Tweet this translation!"
-msgstr "Tweet αυτή τη μετάφραση!"
-
-#: html/share.html:11
-#, python-format
-msgid ""
-"You can also promote this translation project using various <a href="
-"\"%(widgets_url)s\">other possibilities</a>."
-msgstr ""
-"Μπορείτε να προωθήσετε αυτό το μεταφραστικό έργο χρησιμοποιώντας διάφορες <a "
-"href=\"%(widgets_url)s\">δυνατότητες</a>."
-
-#: html/share.html:15
-#, python-format
-msgid ""
-"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
-"readable formats."
-msgstr ""
-"Διάφορες <a href=\"%(data_url)s\">εξαγωγές δεδομένων</a> είναι διαθέσιμες σε "
-"αναγνώσιμη από μηχάνημα μορφή."
-
-#: html/source-review.html:9 html/source.html:8
-msgid "source"
-msgstr "προέλευση"
-
-#: html/source-review.html:10
-msgid "review"
-msgstr "επισκόπηση"
-
-#: html/source-review.html:15
-msgid "Strings to review"
-msgstr "Κείμενα για επισκόπηση"
-
-#: html/source-review.html:33 html/translate.html:106
-#: html/translate.html.py:226 trans/views/checks.py:43
-msgid "Failing checks"
-msgstr "Αποτυχημένοι έλεγχοι"
-
-#: html/source-review.html:48
-msgid "Comment"
-msgstr "Σχόλιο"
-
-#: html/source-review.html:62 html/translate.html:231
-msgid "User comments"
-msgstr "Σχόλια χρήστη"
-
-#: html/source-review.html:75
-msgid "No matching source strings found!"
-msgstr "Δεν βρέθηκαν παρόμοια κείμενα προέλευσης!"
-
-#: html/source.html:19 html/translation.html:22
-msgid "Strings to check"
-msgstr "Κείμενα για έλεγχο"
-
-#: html/subproject.html:31 trans/models.py:107
-msgid "New language"
-msgstr "Νέα Γλώσσα"
-
-#: html/subproject.html:42
-#, python-format
-msgid ""
-"Should your language be missing, please follow <a href=\"%(url)s"
-"\">translator instructions</a>."
-msgstr ""
-"Λείπει η γλώσσα σας, ακολουθήστε τις <a href=\"%(url)s\">οδηγίες μεταφραστή</"
-"a>."
-
-#: html/subproject.html:44
-#, python-format
-msgid ""
-"Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">contact us</a>."
-msgstr ""
-"Λείπει η γλώσσα σας, <a href=\"%(contact_url)s?subject=New+language+request"
-"+for+%(object)s\">επικοινωνήστε μαζί μας</a>."
-
-#: html/subproject.html:59
-msgid "Source strings review"
-msgstr "Επισκόπηση κειμένων προέλευσης"
-
-#: html/subproject_info.html:6
-msgid "Git repository:"
-msgstr "Αποθετήριο Git:"
-
-#: html/subproject_info.html:9 html/subproject_info.html.py:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "%(branch)s κλάδος"
-
-#: html/translate.html:15
-msgid "translate"
-msgstr "μετάφραση"
-
-#: html/translate.html:36
-#, python-format
-msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr "Τρέχον φίλτρο: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-
-#: html/translate.html:67
-msgid "Source change"
-msgstr "Αλλαγή προέλευσης"
-
-#: html/translate.html:73
-msgid "Context"
-msgstr "Συνοδευτικά"
-
-#: html/translate.html:80 html/js/dictionary.html:19
-msgid "Copy"
-msgstr "Αντιγραφή"
-
-#: html/translate.html:83
-msgid "Toggle text direction"
-msgstr "Αλλαγή κατεύθυνσης κειμένου"
-
-#: html/translate.html:96
-msgctxt "Message is fuzzy"
-msgid "Fuzzy"
-msgstr "Ασαφές"
-
-#: html/translate.html:97
-msgid "Special characters:"
-msgstr "Ειδικοί χαρακτήρες:"
-
-#: html/translate.html:98
-msgid "Insert tab character"
-msgstr "Εισαγωγή χαρακτήρα στηλοθέτη"
-
-#: html/translate.html:99
-msgid "Insert new line"
-msgstr "Προσθήκη νέας γραμμής"
-
-#: html/translate.html:100
-msgid "Insert horizontal ellipsis"
-msgstr "Εισαγωγή οριζόντιας έλλειψης"
-
-#: html/translate.html:116
-msgid "Suggestions"
-msgstr "Προτάσεις"
-
-#: html/translate.html:123
-#, python-format
-msgid "Suggested by %(user)s"
-msgstr "Προτάθηκε από τον %(user)s"
-
-#: html/translate.html:125
-msgid "Suggested by anonymous user"
-msgstr "Προτάθηκε από ανώνυμο χρήστη"
-
-#: html/translate.html:130
-msgid "Accept"
-msgstr "Αποδοχή"
-
-#: html/translate.html:147
-msgid "Flags"
-msgstr "Σημαίες"
-
-#: html/translate.html:157
-#, python-format
-msgid ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
-"translations."
-msgstr ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">Συνδεθείτε</a> για να "
-"αποθηκευτούν οι μεταφράσεις."
-
-#: html/translate.html:160
-msgid "Suggest"
-msgstr "Πρόταση"
-
-#: html/translate.html:166
-msgid "Translation context"
-msgstr "Συνοδευτικά μετάφρασης"
-
-#: html/translate.html:170
-msgid "Messages placed around this one"
-msgstr "Τα μηνύματα γύρω από αυτό"
-
-#: html/translate.html:170
-msgid "Nearby messages"
-msgstr "Κοντινά μηνύματα"
-
-#: html/translate.html:171
-msgid "Similar messages"
-msgstr "Παρόμοια μηνύματα"
-
-#: html/translate.html:172
-msgid "Same message used in different subprojects"
-msgstr "Το ίδιο μήνυμα που χρησιμοποιείται σε διαφορετικά υπόέργα"
-
-#: html/translate.html:172
-msgid "All locations"
-msgstr "Όλες οι τοποθεσίες"
-
-#: html/translate.html:173
-msgid "Words extracted from glossary"
-msgstr "Λέξεις εξαγόμενες από το γλωσσάρι"
-
-#: html/translate.html:174
-msgid "Comments about this translation"
-msgstr "Σχόλια για αυτή τη μετάφραση"
-
-#: html/translate.html:174 html/unit-details.html:10
-msgid "Comments"
-msgstr "Σχόλια"
-
-#: html/translate.html:175
-msgid "List of recent changes done in Weblate"
-msgstr "Λίστα πρόσφατων αλλαγών που έγιναν στο Weblate"
-
-#: html/translate.html:175
-msgid "Recent edits"
-msgstr "Πρόσφατες επεξεργασίες"
-
-#: html/translate.html:176
-msgid "Source string details and feedback"
-msgstr "Λεπτομέρειες κειμένου προέλευσης και παρατηρήσεις"
-
-#: html/translate.html:177
-msgid "Information about project"
-msgstr "Πληροφορίες για το έργο"
-
-#: html/translate.html:182 html/js/other.html:6 html/js/similar.html:6
-msgid "State"
-msgstr "Κατάσταση"
-
-#: html/translate.html:200
-msgid "You can share comments about this translation with other translators."
-msgstr ""
-"Μπορείτε να μοιραστείτε σχόλια για αυτή τη μετάφραση με άλλους μεταφραστές."
-
-#: html/translate.html:206 html/translate.html.py:238
-msgid "New comment"
-msgstr "Νέο σχόλιο"
-
-#: html/translate.html:216 html/translate.html.py:249
-msgid "You are not allowed to add comments."
-msgstr "Δεν σας επιτρέπεται να προσθέσετε σχόλια."
-
-#: html/translate.html:232
-msgid ""
-"You can share comments about source string for this translation with other "
-"translators and developers."
-msgstr ""
-"Μπορείτε να μοιραστείτε σχόλια για το κείμενο προέλευσης για αυτή τη "
-"μετάφραση με άλλους μεταφραστές και δημιουργούς."
-
-#: html/translation.html:36 html/translation.html.py:52
-msgid "Search"
-msgstr "Αναζήτηση"
-
-#: html/translation.html:37
-msgid "Files"
-msgstr "Αρχεία"
-
-#: html/translation.html:39
-msgid "Automatic translation"
-msgstr "Αυτόματη μετάφραση"
-
-#: html/translation.html:44
-msgid "Locking"
-msgstr "Κλείδωμα"
-
-#: html/translation.html:60
-#, python-format
-msgid ""
-"You can <a href=\"%(download_url)s\">download</a> file for offline "
-"translation."
-msgstr ""
-"Μπορείτε να <a href=\"%(download_url)s\">λάβετε</a> αρχείο για μετάφραση "
-"εκτός διαδικτύου."
-
-#: html/translation.html:64 html/translation.html.py:76
-msgid "Upload"
-msgstr "Αποστολή"
-
-#: html/translation.html:66
-msgid ""
-"Uploaded file will be merged with current translation. In case you want to "
-"overwrite already translated strings, don't forget to enable it."
-msgstr ""
-"Το απεσταλμένο αρχείο θα ενωθεί με την τρέχουσα μετάφραση. Στην περίπτωση "
-"που θέλετε να αντικαταστήσετε μεταφρασμένα κείμενα, μην ξεχάσετε να το "
-"ενεργοποιήσετε."
-
-#: html/translation.html:68
-msgid "Uploaded file will be merged with current translation."
-msgstr "Το απεσταλμένο αρχείο θα ενωθεί με την τρέχουσα μετάφραση."
-
-#: html/translation.html:87
-msgid "Review"
-msgstr "Επισκόπηση"
-
-#: html/translation.html:89
-msgid "Review translations touched by other users."
-msgstr "Επισκόπηση μεταφράσεων από άλλους χρήστες."
-
-#: html/translation.html:94
-msgid "Start review"
-msgstr "Έναρξη επισκόπησης"
-
-#: html/translation.html:101
-msgid ""
-"Automatic translation takes existing translations in this project and "
-"applies it to the current subproject. It can be used to push translations to "
-"a different branch, to fix inconsistent translations or to translate new "
-"subproject using translation memory."
-msgstr ""
-"Η αυτόματη μετάφραση παίρνει τις υπάρχουσες μεταφράσεις σε αυτό το έργο και "
-"τις εφαρμόζει στο τρέχον υπόέργο. Μπορεί να χρησιμοποιηθεί για μετάδοση των "
-"μεταφράσεων σε διαφορετικό κλάδο ή για να διορθώσετε ασυνεπήείς μεταφράσεις "
-"ή να μεταφράσετε νέο υποέργο χρησιμοποιώντας τη μεταφραστική μνήμη."
-
-#: html/translation.html:107
-msgid "Process"
-msgstr "Διαδικασία"
-
-#: html/translation.html:113
-msgid "Locking the translation will prevent others to work on translation."
-msgstr "Το κλείδωμα της μετάφρασης θα αποτρέψει άλλους να εργαστούν σε αυτή."
-
-#: html/translation.html:115
-msgid "Locked by:"
-msgstr "Κλειδώθηκε από:"
-
-#: html/translation.html:116
-msgid "Lock expires:"
-msgstr "Το κλείδωμα έληξε:"
-
-#: html/translation.html:118
-msgid "Translation is currently not locked."
-msgstr "Η μετάφραση δεν είναι κλειδωμένη."
-
-#: html/translation.html:122 html/js/git-status.html:16
-msgid "Unlock"
-msgstr "Ξεκλείδωμα"
-
-#: html/translation.html:124 html/js/git-status.html:18
-msgid "Lock"
-msgstr "Κλείδωμα"
-
-#: html/translation_info.html:8
-#, python-format
-msgid ""
-"There are %(count)s strings, out of which %(translated)s&#37; is translated "
-"and %(fuzzy)s&#37; is fuzzy."
-msgstr ""
-"Υπάρχουν %(count)s κείμενα, από τα οποία το %(translated)s&#37; είναι "
-"μεταφρασμένα και το %(fuzzy)s&#37; είναι ασαφή."
-
-#: html/unit-details.html:4
-msgid "Used in"
-msgstr "Χρήση σε"
-
-#: html/unit-state.html:3
-msgid "Message is fuzzy"
-msgstr "Το μήνυμα είναι ασαφές"
-
-#: html/unit-state.html:4
-msgid "Message has failing checks"
-msgstr "Το μήνυμα έχει αποτυχημένους έλεγχους"
-
-#: html/unit-state.html:5
-msgid "Message is translated"
-msgstr "Το μήνυμα μεταφράστηκε"
-
-#: html/user-activity.html:12
-msgid "Last login"
-msgstr "Τελευταία σύνδεση"
-
-#: html/user-activity.html:16
-msgid "Registration date"
-msgstr "Ημερομηνία εγγραφής"
-
-#: html/user.html:33 html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Δραστηριότητα τις τελευταίες 30 ημέρες"
-
-#: html/user.html:36 html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Δραστηριότητα το τελευταίο έτος"
-
-#: html/user.html:39
-msgid "Recent contributions"
-msgstr "Πρόσφατες συνεισφορές"
-
-#: html/widgets-root.html:6 html/widgets.html:7
-msgid "widgets"
-msgstr "μικροεφαρμογές"
-
-#: html/widgets-root.html:11 html/widgets.html:16
-msgid "Promoting translation projects"
-msgstr "Προώθηση μεταφραστικών έργων"
-
-#: html/widgets-root.html:14
-msgid ""
-"Weblate provides various widgets to promote your translation projects. Open "
-"one of the project pages below."
-msgstr ""
-"Το Weblate παρέχει διάφορες μικροεφαρμογές για την προώθηση των "
-"μεταφραστικών σας έργων. Ανοίξτε μια από τις σελίδες του έργου παρακάτω."
-
-#: html/widgets.html:19
-#, python-format
-msgid ""
-"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
-msgstr ""
-"Μπορείτε επίσης να κατευθύνετε τους νεοεισερχόμενους στην εισαγωγική σελίδα "
-"στο <a href=\"%(engage_url)s\">%(engage_url)s</a>."
-
-#: html/widgets.html:22
-msgid "Promoting specific translations"
-msgstr "Προώθηση συγκεκριμένων μεταφράσεων"
-
-#: html/widgets.html:25
-msgid ""
-"Besides promoting whole translation project, you can also choose specific "
-"language to promote:"
-msgstr ""
-"Εκτός από την προώθηση όλου του μεταφραστικού έργου, μπορείτε να επιλέξετε "
-"ορισμένη γλώσσα για προώθηση:"
-
-#: html/widgets.html:29
-msgid "Image widgets"
-msgstr "ΜΙκροεφαρμογές εικόνας"
-
-#: html/widgets.html:32
-msgid ""
-"You can use following widgets to promote translation of your project. They "
-"can increase visibility of your translation projects and bring new "
-"contributors."
-msgstr ""
-"Μπορείτε να χρησιμοποιήσετε μικροεφαρμογές για την προώθηση της μετάφρασης "
-"του έργου σας. Μπορούν να αυξήσουν την προβολή των μεταφραστικών σας έργων "
-"και να φέρει νέες συμμετοχές."
-
-#: html/widgets.html:36
-#, python-format
-msgid "Image %(widget)s"
-msgstr "Εικόνα %(widget)s"
-
-#: html/widgets.html:38
-msgid "Color variants:"
-msgstr "Μεταβλητές χρώματος:"
-
-#: html/widgets.html:48
-msgid "HTML code"
-msgstr "Κώδικας HTML"
-
-#: html/widgets.html:49
-msgid "BB code"
-msgstr "Κώδικας BB"
-
-#: html/widgets.html:50
-msgid "Markdown code"
-msgstr "Κώδικας Markdown"
-
-#: html/widgets.html:51
-msgid "RST code"
-msgstr "Κώδικας RST"
-
-#: html/widgets.html:52
-msgid "Textile code"
-msgstr "Κώδικας Textile"
-
-#: html/widgets.html:59 html/widgets.html.py:67 html/widgets.html.py:74
-#: html/widgets.html:82
-msgid "Translation status"
-msgstr "Kaτάσταση μετάφρασης"
-
-#: html/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Αναφορές"
-
-#: html/admin/custom-index.html:13 html/admin/report.html:4
-#: html/admin/report.html.py:13
-msgid "Status of repositories"
-msgstr "Κατάσταση αποθετηρίων"
-
-#: html/admin/custom-index.html:19 html/admin/ssh.html:4
-#: html/admin/ssh.html.py:8
-msgid "SSH keys"
-msgstr "Κλειδιά SSH"
-
-#: html/admin/custom-index.html:25 html/admin/performance.html:5
-#: html/admin/performance.html.py:14
-msgid "Performance report"
-msgstr "Αναφορά απόδοσης"
-
-#: html/admin/performance.html:9
-msgid "Performance"
-msgstr "Απόδοση"
-
-#: html/admin/performance.html:21
-msgid "Result"
-msgstr "Αποτέλεσμα"
-
-#: html/admin/report.html:8
-msgid "Status"
-msgstr "Κατάσταση"
-
-#: html/admin/report.html:17
-#, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Δεν εμφανίζεται η κατάσταση του συνδεδεμένου αποθετηρίου. Ελέξτε εναλλακτικά "
-"το <a href=\"#%(slug)s\">%(repo)s</a>."
-
-#: html/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr "Δημόσιο κλειδί SSH"
-
-#: html/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr "Το Weblate, αυτή τη στιγμή, χρησιμοποιεί το ακόλουθο κλειδί SSH:"
-
-#: html/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr "Δημιουργία κλειδιού SSH"
-
-#: html/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-"Δεν φαίνεται να έχετε υπάρχον κλειδί SSH, πατώντας το κουμπί παρακάτω το "
-"Weblate θα δημιουργηθεί για σας."
-
-#: html/admin/ssh.html:26
-msgid "Generate"
-msgstr "Δημιουργία"
-
-#: html/admin/ssh.html:32
-msgid "More information"
-msgstr "Περισσότερες πληροφορίες"
-
-#: html/admin/ssh.html:34
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-"Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τη ρύθμιση κλειδιών "
-"SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
-
-#: html/js/dictionary.html:19
-msgid "Copy word to translation"
-msgstr "Αντιγραφή λέξης στη μετάφραση"
-
-#: html/js/dictionary.html:27
-msgid "No related strings found in dictionary."
-msgstr "Δεν βρέθηκαν σχετικά κείμενα στο λεξικό."
-
-#: html/js/git-status.html:8
-msgid "Commit pending changes"
-msgstr "Κάντε τις εκκρεμείς αλλαγές"
-
-#: html/js/git-status.html:8
-msgid "Commit"
-msgstr "Ολοκλήρωση"
-
-#: html/js/git-status.html:9
-msgid "Pull changes from remote repository"
-msgstr "Πάρτε τις αλλαγές από απομακρυσμένο αποοθετήριο"
-
-#: html/js/git-status.html:9
-msgid "Pull"
-msgstr "Λήψη"
-
-#: html/js/git-status.html:10
-msgid "Push changes to remote repository"
-msgstr "Προωθήστε τις αλλαγές στο απομακρυσμένο αποθετήριο"
-
-#: html/js/git-status.html:10
-msgid "Push"
-msgstr "Προώθηση"
-
-#: html/js/git-status.html:12
-msgid "Reset all changes in local repository"
-msgstr "Επαναφορά όλων των αλλαγών στο τοπικό αποθετήριο"
-
-#: html/js/git-status.html:12
-msgid "Reset"
-msgstr "Επαναφορά"
-
-#: html/js/git-status.html:16
-msgid "Allow changes in the repository"
-msgstr "Δικαίωμα αλλαγών στο αποθετήριο"
-
-#: html/js/git-status.html:18
-msgid "Prevent any changes in the repository"
-msgstr "Αποτροπή αλλαγών στο αποθετήριο"
-
-#: html/js/git-status.html:24
-msgid "There are some not commited changes!"
-msgstr "Υπάρχουν μερικές μη δεσμευμένες αλλαγές!"
-
-#: html/js/git-status.html:27
-msgid "Remote Git repository needs to be merged!"
-msgstr "Το απομακρυσμένο αποθετήριο Git πρέπει να ενωθεί!"
-
-#: html/js/git-status.html:30
-msgid "There are some new commits in local Git repository!"
-msgstr "Υπάρχουν ορισμένες νέες δεσμεύσεις σε τοπικό αποθετήριο Git!"
-
-#: html/js/git-status.html:38
-msgid "Last remote commit:"
-msgstr "Τελευταία απομακρυσμένη ολοκλήρωση:"
-
-#: html/js/git-status.html:48
-msgid "Details"
-msgstr "Λεπτομέρειες"
-
-#: html/js/other.html:17
-msgid "Use this translation for all subprojects"
-msgstr "Χρήση αυτής της μετάφρασης για όλα τα υποέργα"
-
-#: html/js/other.html:17
-msgid "Use this translation"
-msgstr "Χρήση αυτής της μετάφρασης"
-
-#: html/js/other.html:25
-msgid "No other strings found."
-msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
-
-#: html/js/similar.html:20
-msgid "No similar strings found."
-msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
-
-#: html/mail/base.html:31 html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr "Απεστάλει από το μεταφραστικό σύστημα Weblate"
-
-#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
-#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
-#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
-#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
-#: html/mail/new_string.html:8 html/mail/new_string.txt:1
-#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
-#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
-msgid "Hi,"
-msgstr "Γεια σας,"
-
-#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:3
-#, python-format
-msgid ""
-"there has been a change in translation on %(translation)s at %(site_title)s."
-msgstr "υπήρξε αλλαγή στη μετάφραση στο %(translation)s στο %(site_title)s."
-
-#: html/mail/changed_translation.html:19 html/mail/changed_translation.txt:5
-#: html/mail/new_comment.html:18 html/mail/new_comment.txt:5
-#: html/mail/new_suggestion.html:19 html/mail/new_suggestion.txt:5
-#: html/mail/new_translation.html:19 html/mail/new_translation.txt:5
-msgid "Source string:"
-msgstr "Κείμενο προέλευσης:"
-
-#: html/mail/changed_translation.html:29 html/mail/changed_translation.txt:9
-#: html/mail/new_translation.html:29 html/mail/new_translation.txt:9
-msgid "Translation:"
-msgstr "Μετάφραση:"
-
-#: html/mail/changed_translation.html:39 html/mail/new_suggestion.html:40
-msgid "Translation change:"
-msgstr "Αλλαγή μετάφρασης:"
-
-#: html/mail/changed_translation.html:49 html/mail/changed_translation.txt:17
-#: html/mail/new_comment.html:39 html/mail/new_comment.txt:13
-#: html/mail/new_translation.html:39 html/mail/new_translation.txt:15
-msgid "You can edit this string at:"
-msgstr "Μπορείτε να επεξεργαστείτε αυτό το κείμενο στο:"
-
-#: html/mail/changed_translation.txt:13
-msgid "Previous translation:"
-msgstr "Προηγούμενη μετάφραση:"
-
-#: html/mail/changed_translation_subject.txt:1
-#, python-format
-msgid "Changed translation in %(translation)s"
-msgstr "Αλλαγμένη μετάφραση στο %(translation)s"
-
-#: html/mail/footer.html:4 html/mail/footer.txt:1
-msgid "Translation summary:"
-msgstr "Περίληψη μετάφρασης:"
-
-#: html/mail/footer.html:8 html/mail/footer.txt:3
-msgid "Total strings:"
-msgstr "Συνολικά κείμενα:"
-
-#: html/mail/footer.html:11 html/mail/footer.txt:4
-msgid "Translated strings:"
-msgstr "Μεταφρασμένα κείμενα:"
-
-#: html/mail/footer.html:14 html/mail/footer.txt:5
-msgid "Fuzzy strings:"
-msgstr "Ασαφή κείμενα:"
-
-#: html/mail/footer.html:18
-#, python-format
-msgid ""
-"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr ""
-"Μπορείτε να μεταφράσετε στο <a href=\"%(translation_url)s\">"
-"%(translation_url)s</a>"
-
-#: html/mail/footer.txt:7
-#, python-format
-msgid "You can translate at %(translation_url)s"
-msgstr "Μπορείτε να μεταφράσετε στο %(translation_url)s"
-
-#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:3
-#, python-format
-msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
-msgstr "υπήρξε ένα σφάλμα ένωσης του %(subproject)s στο %(site_title)s."
-
-#: html/mail/merge_failure.html:16
-msgid "Error message"
-msgstr "Μήνυμα σφάλματος"
-
-#: html/mail/merge_failure.html:22
-msgid "Repository status"
-msgstr "Κατάσταση αποθετηρίου"
-
-#: html/mail/merge_failure.txt:5
-msgid "Error message:"
-msgstr "Μήνυμα σφάλματος:"
-
-#: html/mail/merge_failure.txt:9
-msgid "Repository status:"
-msgstr "Κατάσταση αποθετηρίου:"
-
-#: html/mail/merge_failure_subject.txt:1
-#, python-format
-msgid "Merge failure in %(subproject)s"
-msgstr "Σφάλμα ένωσης στο %(subproject)s"
-
-#: html/mail/new_comment.html:12 html/mail/new_comment.txt:3
-#, python-format
-msgid "there has been a new comment on %(subproject)s at %(site_title)s."
-msgstr "υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s."
-
-#: html/mail/new_comment.html:29 html/mail/new_comment.txt:9
-msgid "Comment:"
-msgstr "Σχόλιο:"
-
-#: html/mail/new_comment_subject.txt:1
-#, python-format
-msgid "New comment in %(subproject)s"
-msgstr "Νέο σχόλιο στο %(subproject)s"
-
-#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
-#, python-format
-msgid ""
-"%(username)s has just made a first contribution on %(translation)s at "
-"%(site_title)s."
-msgstr ""
-"Ο χρήστης %(username)s μόλις είχε μια πρώτη συμμετοχή στο %(translation)s "
-"του %(site_title)s."
-
-#: html/mail/new_contributor_subject.txt:1
-#, python-format
-msgid "New contributor in %(translation)s"
-msgstr "Νέα συμβολή στο %(translation)s"
-
-#: html/mail/new_string.html:12 html/mail/new_string.txt:3
-#, python-format
-msgid ""
-"there are new strings to translate on %(translation)s at %(site_title)s."
-msgstr ""
-"υπάρχουν νέα κείμενα για μετάφραση στο %(translation)s του %(site_title)s."
-
-#: html/mail/new_string_subject.txt:1
-#, python-format
-msgid "New string to translate in %(translation)s"
-msgstr "Νέο κείμενο για μετάφραση στο %(translation)s"
-
-#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
-#, python-format
-msgid ""
-"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr ""
-"υπάρχει νέα πρόταση για εκτίμηση στο %(translation)s του %(site_title)s."
-
-#: html/mail/new_suggestion.html:29 html/mail/new_suggestion.txt:9
-msgid "Suggestion:"
-msgstr "Πρόταση:"
-
-#: html/mail/new_suggestion.html:51 html/mail/new_suggestion.txt:13
-msgid "You can review it at:"
-msgstr "Μπορείτε να το κάνετε επισκόπηση στο:"
-
-#: html/mail/new_suggestion_subject.txt:1
-#, python-format
-msgid "New suggestion in %(translation)s"
-msgstr "Αυτόματη πρόταση στο %(translation)s"
-
-#: html/mail/new_translation.html:12 html/mail/new_translation.txt:3
-#, python-format
-msgid "there has been a new translation on %(translation)s at %(site_title)s."
-msgstr "υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
-
-#: html/mail/new_translation.txt:13
-msgid "Previously not translated"
-msgstr "Προηγουμένως δεν μεταφράστηκε"
-
-#: html/mail/new_translation_subject.txt:1
-#, python-format
-msgid "New translation in %(translation)s"
-msgstr "Νέα μετάφραση σto %(translation)s"
-
-#: html/registration/activate.html:7
-msgid "Your account could not be activated"
-msgstr "Ο λογαριασμός σας δεν μπορούσε να ενεργοποιηθεί"
-
-#: html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] ""
-"Αυτό μπορεί να συμβαίνει γιατί είναι ήδη ενεργός ή γιατί περισσότερο από "
-"%(days)s ημέρα για να τον ενεργοποιήσετε."
-msgstr[1] ""
-"Αυτό μπορεί να συμβαίνει γιατί είναι ήδη ενεργός ή γιατί περισσότερο από "
-"%(days)s ημέρες για να τον ενεργοποιήσετε."
-
-#: html/registration/activate.html:12
-#, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-"Εάν δεν συμβαίνει αυτό, <a href=\"%(contact_url)s\">επικοινωνήστε</a> με το "
-"διαχειριστή της ιστοσελίδας. Διαφορετικά, μπορείτε να <a href=\"%(reg_url)s"
-"\">εγγραφείτε ξανά</a>."
-
-#: html/registration/activation_complete.html:8
-msgid "Thank you. Your account is now activated."
-msgstr "Ευχαριστούμε. Ο λογαριασμός σας ενεργοποιήθηκε."
-
-#: html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr ""
-"Ίσως θέλετε να <a href=\"%(profile_url)s\">προσαρμόσετε το προφίλ σας</a> "
-"τώρα."
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-"Γεια,\n"
-"\n"
-"Αυτή είναι μια αυτόματη ηλεκτρονική επιστολή για να σας βοηθήσει να "
-"ολοκληρώσετε την εγγραφή σας\n"
-"με το %(site_title)s.\n"
-"\n"
-"Ανοίξτε τον ακόλουθο σύνδεσμο στον φυλλομετρητή σας. Αν ο σύνδεσμος\n"
-"χωρίζεται σε αρκετές γραμμές, ίσως χρειαστεί να τον αντιγράψετε στη\n"
-"γραμμή διευθύνσεων."
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-"\n"
-"Αν υπάρχει πρόβλημα με την εγγραφή σας, απαντήστε σε\n"
-"αυτή την ηλεκτρονική επιστολή.\n"
-"\n"
-"Με εκτίμηση,\n"
-"%(site_title)s\n"
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "Η εγγραφή σας στο %(site_title)s"
-
-#: html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr ""
-"Αυτός ο συνδυασμός ονόματος χρήστη/κωδικού δεν βρέθηκε. Δοκιμάστε ξανά."
-
-#: html/registration/login.html:37
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr ""
-"Δεν έχετε ακόμα λογαριασμό; Μπορείτε να <a href=\"%(register_url)s"
-"\">εγγραφείτε</a>."
-
-#: html/registration/login.html:43
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"Ξεχάσατε τον κωδικό σας; Μπορείτε να <a href=\"%(reset_url)s\">τον "
-"επαναφέρετε</a>."
-
-#: html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "Ευχαριστούμε που χρησιμποιείτε το Weblate!"
-
-#: html/registration/logout.html:9
-msgid "Log in again"
-msgstr "Συνδεθείτε ξανά"
-
-#: html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "Ο κωδικός σας έχει αλλάξει."
-
-#: html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Διορθώστε το σφάλμα παρακάτω."
-msgstr[1] "Διορθώστε τα σφάλματα παρακάτω."
-
-#: html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Εισάγετε τον παλαιό σας κωδικό, για λόγους ασφαλείας, και μετά εισάγετε τον "
-"νέο σας κωδικό δύο φορές ώστε να βεβαιώσουμε ότι τον γράψατε σωστά."
-
-#: html/registration/password_change_form.html:22
-#: html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "Αλλαγή του κωδικού μου"
-
-#: html/registration/password_reset_complete.html:6
-msgid "Your password has been set.  You may go ahead and log in now."
-msgstr ""
-"Ο κωδικός σας ορίστηκε. Μπορείτε να προχωρήσετε και να να συνδεθείτε τώρα."
-
-#: html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "Σύνδεση"
-
-#: html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr ""
-"Εισάγετε τον νέο σας κωδικό δύο φορές για να βεβαιώσουμε ότι τον γράψατε "
-"σωστά."
-
-#: html/registration/password_reset_confirm.html:19
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
-"Ο σύνδεσμος επαναφοράς κωδικού δεν είναι έγκυρος, πιθανά γιατί έχει ήδη "
-"χρησιμοποιηθεί. Αιτηθείτε μια νέα επαναφορά κωδικού."
-
-#: html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Σας στείλαμε ηλεκτρονικά οδηγίες για να ορίσετε τον κωδικό σας στην "
-"ηλεκτρονική διεύθυνση που υποβάλλατε. Θα πρέπει να το λάβετε σύντομα."
-
-#: html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Λάβατε αυτή την ηλεκτρονική επιστολή γιατί αιτηθήκατε μια επαναφορά κωδικού "
-"για τον λογαριασμό χρήστη στο %(site_name)s."
-
-#: html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "Μεταβείτε στην επόμενη σελίδα και επιλέξτε ένα νέο κωδικό:"
-
-#: html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "Το όνομα χρήστη σας, στην περίπτωση που το ξεχάσατε:"
-
-#: html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "Ευχαριστούμε που χρησιμοποιείτε την ιστοσελίδα μας!"
-
-#: html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "Η ομάδα του %(site_name)s"
-
-#: html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Ξεχάσατε τον κωδικό σας; Εισάγετε την ηλεκτρονική σας διεύθυνση παρακάτω και "
-"θα σας αποστείλεουμε ηλεκτρονικά οδηγίες για τον ορισμό νέου."
-
-#: html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "Επαναφορά του κωδικού μου"
-
-#: html/registration/registration_closed.html:9
-#, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-"Συγνώμη, αλλά οι εγγραφές σε αυτή την ιστοσελίδα είναι απενεργοποιημένες. "
-"Μπορείτε να <a href=\"%(contact_url)s\">επικοινωνήσετε μαζί μας</a> για "
-"περισσότερες λεπτομέρειες."
-
-#: html/registration/registration_complete.html:7
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"Σας ευχαριστούμε που εγγραφτήκατε. Θα λάβετε, πολύ σύντομα, μια ηλεκτρονική "
-"επιστολή με\n"
-"ένα σύνδεσμο επιβεβαίωσης. Μεταβείτε σε αυτό το σύνδεσμο για να ολοκληρωθεί "
-"η εγγραφή σας."
-
-#: html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-"Αν δεν το λάβετε σύντομα, ελέγξτε το φάκελο «Ανεπιθύμητη αλληλογραφία». Εάν "
-"δεν υπάρχει, <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">επικοινωνήστε μαζί μας</a>."
-
-#: html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "Διορθώστε τα σφάλματα στη φόρμα εγγραφής."
-
-#: html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and your "
-"contribution to be licensed under same license as translated content."
-msgstr ""
-"Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η διεύθυνσή "
-"σας στους συμμετέχοντες του Git και η συνεισφορά σας να αδειοδοτηθεί υπό την "
-"ίδια άδεια όπως το μεταφρασμένο περιεχόμενο."
 
 #: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
 #: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
@@ -2737,7 +279,7 @@ msgstr "Κείμενα PHP"
 msgid "Android String Resource"
 msgstr "Προέλευση Κειμένου Android"
 
-#: trans/forms.py:92
+#: trans/forms.py:94
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
@@ -2745,136 +287,149 @@ msgstr ""
 "Αυτή η ισότητα αναγνωριζεί ποια μορφή πληθυντικού θα χρησιμοποιηθεί με βάση "
 "το δοθέν πλήθος (n)."
 
-#: trans/forms.py:95
+#: trans/forms.py:97
 msgid "Plural equation"
 msgstr "Ισότητα πληθυντικού"
 
-#: trans/forms.py:147
+#: trans/forms.py:149
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: trans/forms.py:171 trans/forms.py:305
+#: trans/forms.py:173 trans/forms.py:307
 msgid "File"
 msgstr "Αρχείο"
 
-#: trans/forms.py:173 trans/forms.py:308
-#| msgid "Merge file header"
+#: trans/forms.py:175 trans/forms.py:310
 msgid "Merge method"
 msgstr "Μέθοδος ένωσης"
 
-#: trans/forms.py:175
-#| msgid "Add as other translation"
+#: trans/forms.py:177
 msgid "Add as translation"
 msgstr "Προσθήκη ως μετάφραση"
 
-#: trans/forms.py:176
-#| msgid "Invalid suggestion!"
+#: trans/forms.py:178
 msgid "Add as a suggestion"
 msgstr "Προσθήκη ως μια πρόταση"
 
-#: trans/forms.py:177
-#| msgid "Add as other translation"
+#: trans/forms.py:179
 msgid "Add as fuzzy translation"
 msgstr "Προσθήκη ως ασαφής μετάφραση"
 
-#: trans/forms.py:182
+#: trans/forms.py:184
 msgid "Merge file header"
 msgstr "Ένωση κεφαλιδας αρχείου"
 
-#: trans/forms.py:183
+#: trans/forms.py:185
 msgid "Merges content of file header into the translation."
 msgstr "Ενώνει το περιεχόμενο της κεφαλίδας αρχείου μέσα στη μετάφραση."
 
-#: trans/forms.py:194
+#: trans/forms.py:196
 msgid "Overwrite existing translations"
 msgstr "Αντικατάσταση υπαρχόντων μεταφράσεων"
 
-#: trans/forms.py:204
+#: trans/forms.py:206
 msgid "Author name"
 msgstr "Όνομα δημιουργού"
 
-#: trans/forms.py:206 trans/forms.py:211
+#: trans/forms.py:208 trans/forms.py:213
 msgid "Keep empty for using currently logged in user."
 msgstr "Αφήστε το κενό για χρήση του ήδη συνδεδεμένου χρήστη."
 
-#: trans/forms.py:209
+#: trans/forms.py:211
 msgid "Author email"
 msgstr "Ηλεκτρονική διευθυνση δημιουργού"
 
-#: trans/forms.py:219
+#: trans/forms.py:221
 msgid "Query"
 msgstr "Ερώτημα"
 
-#: trans/forms.py:221
+#: trans/forms.py:223
 msgid "Search type"
 msgstr "Τύπος αναζήτησης"
 
-#: trans/forms.py:224
+#: trans/forms.py:226
 msgid "Fulltext"
 msgstr "Πλήρες κείμενο"
 
-#: trans/forms.py:225
+#: trans/forms.py:227
 msgid "Exact match"
 msgstr "Απόλυτο ταίριασμα"
 
-#: trans/forms.py:226
+#: trans/forms.py:228
 msgid "Substring"
 msgstr "Υπο-κείμενο"
 
-#: trans/forms.py:231
+#: trans/forms.py:233
 msgid "Search in source strings"
 msgstr "Αναζήτηση στα κείμενα προέλευσης"
 
-#: trans/forms.py:236
+#: trans/forms.py:238
 msgid "Search in target strings"
 msgstr "Αναζήτηση στα κείμενα προορισμού"
 
-#: trans/forms.py:241
+#: trans/forms.py:243
 msgid "Search in context strings"
 msgstr "Αναζήτηση στα συνοδευτικά κείμενα"
 
-#: trans/forms.py:260
+#: trans/forms.py:262
 msgid "Overwrite strings"
 msgstr "Αντικατάσταση κειμενων"
 
-#: trans/forms.py:265
+#: trans/forms.py:267
 msgid "Replace inconsistent"
 msgstr "Αντικατάσταση ασυνεπούς"
 
-#: trans/forms.py:270
+#: trans/forms.py:272
 msgid "Subproject to use"
 msgstr "Υπόέργο για χρήση"
 
-#: trans/forms.py:289
+#: trans/forms.py:291
 msgid "All subprojects"
 msgstr "Όλα τα υπόέργα"
 
-#: trans/forms.py:310
+#: trans/forms.py:298 weblate/html/check_subproject.html:39
+#: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
+#: weblate/html/subproject.html:36 weblate/html/translate.html:62
+#: weblate/html/translate.html.py:176 weblate/html/translate.html:182
+#: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Source"
+msgstr "Προέλευση"
+
+#: trans/forms.py:299 weblate/html/check_subproject.html:27
+#: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
+#: weblate/html/translate.html:91 weblate/html/translate.html.py:182
+#: weblate/html/js/dictionary.html:8 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Translation"
+msgstr "Μετάφραση"
+
+#: trans/forms.py:312
 msgid "Keep current"
 msgstr "Διατήρηση υπάρχουσας"
 
-#: trans/forms.py:311
+#: trans/forms.py:313
 msgid "Overwrite existing"
 msgstr "Αντικατάσταση υπαρχόντων"
 
-#: trans/forms.py:312
+#: trans/forms.py:314
 msgid "Add as other translation"
 msgstr "Προσθήκη ως άλλη μετάφραση"
 
-#: trans/forms.py:322
+#: trans/forms.py:324
 msgid "Starting date"
 msgstr "Ημερομηνία εκκίνησης"
 
-#: trans/forms.py:337
+#: trans/forms.py:339
 msgid "Starting letter"
 msgstr "Γράμμα εκκίνησης"
 
-#: trans/forms.py:338
+#: trans/forms.py:340
 msgid "Any"
 msgstr "Οποιοδήποτε"
 
-#: trans/forms.py:356
+#: trans/forms.py:358
 msgid "Whole project"
 msgstr "Ολόκληρο έργο"
 
@@ -2905,6 +460,10 @@ msgstr "Συνέδριο αλληλογραφίας για μεταφραστέ�
 #: trans/models.py:104
 msgid "URL with instructions for translators"
 msgstr "URL με Οδηγίες για μεταφραστές"
+
+#: trans/models.py:107 weblate/html/subproject.html:31
+msgid "New language"
+msgstr "Νέα Γλώσσα"
 
 #: trans/models.py:112
 msgid "How to handle requests for creating new languages."
@@ -3572,6 +1131,16 @@ msgstr "Κείμενα προέλευσης στο %s"
 msgid "Page Not Found"
 msgstr "Η Σελίδα Δεν Βρέθηκε"
 
+#: trans/views/basic.py:351 weblate/html/about.html:11
+#: weblate/html/footer.html:7
+msgid "About Weblate"
+msgstr "Σχετικά με το Weblate"
+
+#: trans/views/checks.py:43 weblate/html/source-review.html:33
+#: weblate/html/translate.html:106 weblate/html/translate.html.py:226
+msgid "Failing checks"
+msgstr "Αποτυχημένοι έλεγχοι"
+
 #: trans/views/dictionary.py:47
 msgid "Dictionaries"
 msgstr "Λεξικά"
@@ -3669,6 +1238,10 @@ msgstr "Απέτυχε η προσθήκη σχολίου!"
 msgid "Access denied."
 msgstr "Η πρόσβαση δεν επιτρέπεται."
 
+#: trans/views/edit.py:685 weblate/html/profile.html:12
+msgid "Please fix errors in the form."
+msgstr "Διορθώστε σφάλματα στη φόρμα."
+
 #: trans/views/edit.py:718
 msgid "File content successfully merged into translation."
 msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
@@ -3698,6 +1271,11 @@ msgstr "Όλα τα αποθετήρια εναναφέρθηκαν."
 msgid "Search for \"%s\""
 msgstr "Αναζήτηση για το «%s»"
 
+#: trans/views/helper.py:186 weblate/html/i18n.html:174
+#: weblate/html/list-translations.html:63
+msgid "Fuzzy strings"
+msgstr "Ασαφή κείμενα"
+
 #: trans/views/helper.py:188
 msgid "Untranslated strings"
 msgstr "Αμετάφραστα κείμενα"
@@ -3705,6 +1283,11 @@ msgstr "Αμετάφραστα κείμενα"
 #: trans/views/helper.py:190
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
+
+#: trans/views/helper.py:192 weblate/html/i18n.html:173
+#: weblate/html/list-translations.html:62
+msgid "Strings with any failing checks"
+msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
 #: trans/views/lock.py:38
 msgid "Translation is now locked for you."
@@ -3769,6 +1352,2479 @@ msgid ""
 msgstr ""
 "Αγγλική μετάφραση\n"
 "%(percent)d%% ολοκληρώθηκε"
+
+#: ttkit/aresource.py:311
+#, fuzzy
+#| msgid "Android String Resource"
+msgid "Android Resource"
+msgstr "Προέλευση Κειμένου Android"
+
+#: weblate/urls.py:281 weblate/urls.py:288 weblate/urls.py:295
+#: weblate/urls.py:302
+msgid "User registration"
+msgstr "Εγγραφή χρήστη"
+
+#: weblate/urls.py:310
+msgid "Account activation"
+msgstr "Ενεργοποιήση λογαριασμού"
+
+#: weblate/urls.py:319 weblate/html/base.html:49
+#: weblate/html/registration/login.html:30
+msgid "Login"
+msgstr "Σύνδεση"
+
+#: weblate/urls.py:326
+msgid "Logged out"
+msgstr "Αποσυνδέθηκε"
+
+#: weblate/urls.py:331
+msgid "Change password"
+msgstr "Αλλαγή κωδικού"
+
+#: weblate/urls.py:335
+msgid "Password changed"
+msgstr "Ο κωδικός αλλάχτηκε"
+
+#: weblate/urls.py:339 weblate/urls.py:343 weblate/urls.py:347
+#: weblate/urls.py:351
+msgid "Password reset"
+msgstr "Επαναφορά κωδικού"
+
+#: weblate/html/404.html:7
+msgid "The page you are looking for was not found."
+msgstr "Η σελίδα που αναζητάτε δεν βρέθηκε."
+
+#: weblate/html/404.html:11
+msgid ""
+"However the following translation projects are available on this server:"
+msgstr ""
+"Ωστόσο, τα ακόλουθα έργα μετάφρασης είναι διαθέσιμα σε αυτό το διακομιστή:"
+
+#: weblate/html/500.html:5
+msgid "Server Error"
+msgstr "Σφάλμα Διακομιστή"
+
+#: weblate/html/500.html:8
+msgid ""
+"The server had serious problems while serving your request. We've just sent "
+"our trained monkeys to fix the issue."
+msgstr ""
+"Ο διακομιστής είχε σοβαρά προβλήματα να εξυπηρετήσει το αίτημά σας. Στείλαμε "
+"τους τεχνικούς μας να διορθώσουν το θέμα."
+
+#: weblate/html/about.html:6
+msgid "about"
+msgstr "σχετικά"
+
+#: weblate/html/about.html:13
+msgid ""
+"Weblate is a web based translation tool with tight Git integration. It "
+"features simple and clean user interface, propagation of translations across "
+"subprojects, quality checks and automatic linking to source files."
+msgstr ""
+"Το Weblate είναι ένα διαδικτυακό εργαλείο μετάφρασης με ενσωμάτωση Git. "
+"Διαθέτει καθαρό και απλό περιβάλλον χρήστη, διαμοιρασμός των μεταφράσεων "
+"μεταξύ υποέργων, ποιοτικού ελέγχους και αυτόματη σύνδεση με τα πηγαία αρχεία."
+
+#: weblate/html/about.html:15 weblate/html/contact.html:15
+#, python-format
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
+msgstr ""
+"Αν αναζητάτε υποστήριξη για το Weblate ή θέλετε να αρχειοθετήσετε αναφορές "
+"σφαλμάτων, δείτε την ιστοσελίδα του στο <a href=\"%(weblate_url)s\">weblate."
+"org</a>."
+
+#: weblate/html/about.html:20
+msgid ""
+"This Weblate instance hosts translations for various free software projects."
+msgstr ""
+"Αυτή η εγκατάσταση του Weblate φιλοξενεί μεταφράσεις για διάφορα έργα δωρεάν "
+"λογισμικών."
+
+#: weblate/html/about.html:21 weblate/html/index.html:54
+#, python-format
+msgid ""
+"We can host your project as well, if you are interested, please <a href="
+"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
+msgstr ""
+"Μπορείτε, επίσης, να φιλοξενήσετε το έργο σας, <a href=\"%(contact_url)s?"
+"subject=Project hosting\">επικοινωνήστε μαζί μας</a>."
+
+#: weblate/html/about.html:25
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+"Το Weblate είναι ελεύθερο λογισμικό που δημιουργήθηκε από εθελοντές, αλλά "
+"μπορείτε να τους στηρίξουμε οικονομικά:"
+
+#: weblate/html/about.html:28
+msgid "Flattr Weblate!"
+msgstr "Flattr Weblate!"
+
+#: weblate/html/about.html:29
+msgid "Donate to Weblate!"
+msgstr "Δωρεά στο Weblate!"
+
+#: weblate/html/about.html:32
+msgid "Versions"
+msgstr "Εκδόσεις"
+
+#: weblate/html/about.html:34
+msgid "This site is built using following projects:"
+msgstr ""
+"Αυτός ο ιστότοπος δημιουργήθηκε χρησιμοποιώντας τα ακόλουθα προγράμματα:"
+
+#: weblate/html/about.html:48 weblate/html/data.html:50
+msgid "Statistics"
+msgstr "Στατιστικά"
+
+#: weblate/html/about.html:52
+msgid "Strings to translate"
+msgstr "Κείμενα για μετάφραση"
+
+#: weblate/html/about.html:56
+msgid "Used languages"
+msgstr "Χρησιμοποιημένες γλώσσες"
+
+#: weblate/html/about.html:60
+msgid "Registered users"
+msgstr "Εγγεγραμμένοι χρήστες"
+
+#: weblate/html/about.html:64 weblate/html/user-activity.html:4
+msgid "Suggestions made"
+msgstr "Προτάσεις που έγιναν"
+
+#: weblate/html/about.html:68 weblate/html/user-activity.html:8
+msgid "Translations made"
+msgstr "Μεταφράσεις που έγιναν"
+
+#: weblate/html/about.html:72
+msgid "Failing checks found"
+msgstr "Βρέθηκαν αποτυχημένοι έλεγχοι"
+
+#: weblate/html/about.html:76
+msgid "Ignored checks"
+msgstr "Αγνοημένοι έλεγχοι"
+
+#: weblate/html/base.html:43
+#, python-format
+msgid "Logged in as %(name)s"
+msgstr "Σύνδεση ως %(name)s"
+
+#: weblate/html/base.html:44
+msgid "Logout"
+msgstr "Αποσύνδεση"
+
+#: weblate/html/base.html:47
+#: weblate/html/registration/registration_form.html:25
+msgid "Register"
+msgstr "Εγγραφή"
+
+#: weblate/html/base.html:54 weblate/html/admin/performance.html:9
+#: weblate/html/admin/report.html:8 weblate/html/admin/ssh.html:8
+msgid "Home"
+msgstr "Αρχική"
+
+#: weblate/html/check.html:7 weblate/html/check_project.html:7
+#: weblate/html/check_subproject.html:7 weblate/html/checks.html:7
+msgid "checks"
+msgstr "ελέγχοι"
+
+#: weblate/html/check.html:18 weblate/html/check_project.html:19
+#: weblate/html/check_subproject.html:20
+#, python-format
+msgid ""
+"More information about this check is available in the <a href=\"%(link)s"
+"\">documentation</a>."
+msgstr ""
+"Περισσότερες πληροφορίες για αυτό τον έλεγχο είναι διαθέσιμες στο <a href="
+"\"%(link)s\">τεκμηρίωση</a>."
+
+#: weblate/html/check.html:26 weblate/html/check_project.html:26
+#: weblate/html/data.html:28 weblate/html/data.html.py:59
+#: weblate/html/index.html:37 weblate/html/list-translations.html:6
+#: weblate/html/translate.html:177 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Project"
+msgstr "Έργο"
+
+#: weblate/html/check.html:27 weblate/html/check_project.html:27
+#: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
+msgid "Failures"
+msgstr "Αποτυχίες"
+
+#: weblate/html/check.html:40 weblate/html/check_project.html:40
+#: weblate/html/check_subproject.html:47
+msgid "There are no matching failed checks!"
+msgstr "Δεν υπάρχουν αντιστοιχίες αποτυχίας ελέγχων!"
+
+#: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
+msgid "Check"
+msgstr "Έλεγχος"
+
+#: weblate/html/contact.html:6
+msgid "contact"
+msgstr "επικοινωνία"
+
+#: weblate/html/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr ""
+"Μπορείτε να επικοινωνήσετε με τους συντηρητές αυτού του διακομιστή εδώ."
+
+#: weblate/html/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"Επικοινωνήστε μαζί μας στα Αγγλικά, διαφορετικά δεν θα μπορέσουμε να "
+"καταλάβουμε το αίτημά σας."
+
+#: weblate/html/contact.html:21
+msgid "Send"
+msgstr "Αποστολή"
+
+#: weblate/html/data-root.html:6 weblate/html/data.html:7
+msgid "data"
+msgstr "δεδομένα"
+
+#: weblate/html/data-root.html:11 weblate/html/data.html:12
+#: weblate/html/index.html:116
+msgid "Data export"
+msgstr "Εξαγωγή δεδομένων"
+
+#: weblate/html/data-root.html:14 weblate/html/data.html:15
+msgid "You can retrieve various data from Weblate in machine readable format."
+msgstr ""
+"Μπορείτε να πάρετε διάφορα δεδομένα από το Weblate σε μορφή αναγνώσιμη από "
+"μηχανή."
+
+#: weblate/html/data-root.html:17 weblate/html/data.html:18
+msgid "RSS feeds"
+msgstr "Τροφοδοσίες RSS"
+
+#: weblate/html/data-root.html:20 weblate/html/data.html:21
+msgid ""
+"To follow translation progress you can use RSS feeds which include all "
+"important changes in translation."
+msgstr ""
+"Για να ακολουθείτε τη πρόοδο της μετάφρασης, μπορείτε να χρησιμοποιήσετε "
+"τροφοδοσίες RSS που περιλαμβάνει όλες τις σημαντικές αλλαγές στη μετάφραση."
+
+#: weblate/html/data-root.html:21 weblate/html/data.html:22
+#, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Περισσότερες πληροφορίες για τις εξαγόμενες τροφοδοσίες RSS είναι διαθέσιμες "
+"<a href=\"%(rss_docs)s\">στην τεκμηρίωση</a>."
+
+#: weblate/html/data-root.html:27 weblate/html/data.html:29
+#: weblate/html/data.html.py:60
+msgid "URL"
+msgstr "URL"
+
+#: weblate/html/data-root.html:28 weblate/html/data.html:30
+#: weblate/html/data.html.py:61
+msgid "Link"
+msgstr "Σύνδεσμος"
+
+#: weblate/html/data-root.html:33 weblate/html/data.html:36
+#: weblate/html/data.html.py:42
+msgid "RSS"
+msgstr "RSS"
+
+#: weblate/html/data-root.html:38
+msgid "Per project data"
+msgstr "Ανά δεδομενα έργου"
+
+#: weblate/html/data-root.html:41
+msgid ""
+"There is more data exported per project, please check following links for "
+"more information."
+msgstr ""
+"Υπάρχουν περισσόερα εξαγόμενα δεδομένα ανά έργο, ελέξτε τους ακόλουθους "
+"συνδέσμους για περισσότερες πληροφορίες."
+
+#: weblate/html/data.html:48
+msgid ""
+"There are also per language RSS feeds available, you can construct them by "
+"appending a language code to the above URLs."
+msgstr ""
+"Υπάρχουν, επίσης, διαθέσιμες και τροφοδοσίες RSS ανά γλώσσα, μπορείτε να τις "
+"χρησιμοποιήσετε βάζοντας τον κωδικό γλώσσας στα παραπάνω URLs."
+
+#: weblate/html/data.html:53
+#, python-format
+msgid ""
+"Translation statistics for every subproject in JSON format allow you to use "
+"these data in other websites or tools. Format of the data is described in <a "
+"href=\"%(api_docs)s\">the documentation</a>."
+msgstr ""
+"Τα στατιστικά μετάφρασης για κάθε υποέργο σε μορφή JSON σάς δίνει τη "
+"δυνατότητα να χρησιμοποιήσετε αυτά τα δεδομένα σε άλλες ιστοσελίδες ή "
+"εργαλεία. Η μορφή των δεδομένων περιγράφεται στην <a href=\"%(api_docs)s"
+"\">τεκμηρίωση</a>."
+
+#: weblate/html/data.html:68 weblate/html/translation.html:58
+msgid "Download"
+msgstr "Λήψη"
+
+#: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
+msgid "glossaries"
+msgstr "γλωσσάρια"
+
+#: weblate/html/dictionaries.html:15 weblate/html/languages.html:14
+#: weblate/html/list-translations.html:6
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: weblate/html/dictionaries.html:16
+msgid "Words"
+msgstr "Λέξεις"
+
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:173
+msgid "Glossary"
+msgstr "Γλωσσάρι"
+
+#: weblate/html/dictionary.html:19 weblate/html/source-review.html:19
+#: weblate/html/translate.html:28
+msgid "First"
+msgstr "Πρώτο"
+
+#: weblate/html/dictionary.html:20 weblate/html/source-review.html:20
+#: weblate/html/translate.html:29
+msgid "Previous"
+msgstr "Προηγούμενο"
+
+#: weblate/html/dictionary.html:21 weblate/html/source-review.html:21
+#: weblate/html/translate.html:30
+#, python-format
+msgid "%(position)s / %(total)s"
+msgstr "%(position)s / %(total)s"
+
+#: weblate/html/dictionary.html:22 weblate/html/source-review.html:22
+#: weblate/html/translate.html:31
+msgid "Next"
+msgstr "Επόμενο"
+
+#: weblate/html/dictionary.html:23 weblate/html/source-review.html:23
+#: weblate/html/translate.html:32
+msgid "Last"
+msgstr "Τελευταίο"
+
+#: weblate/html/dictionary.html:48
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: weblate/html/dictionary.html:57 weblate/html/translate.html:133
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: weblate/html/dictionary.html:66
+msgid "No words found!"
+msgstr "Δεν βρέθηκαν λέξεις!"
+
+#: weblate/html/dictionary.html:69 weblate/html/language.html:18
+#: weblate/html/project.html:36 weblate/html/subproject.html:26
+#: weblate/html/translation.html:31
+msgid "Tools"
+msgstr "Εργαλεία"
+
+#: weblate/html/dictionary.html:74
+msgid "Add new word"
+msgstr "Προσθήκη νέας λέξης"
+
+#: weblate/html/dictionary.html:77
+msgid "Import glossary"
+msgstr "Εισαγωγή γλωσσαρίου"
+
+#: weblate/html/dictionary.html:79
+msgid "Export glossary"
+msgstr "Εξαγωγή γλωσσαρίου"
+
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:213
+#: weblate/html/translate.html.py:246
+msgid "Add"
+msgstr "Προσθήκη"
+
+#: weblate/html/dictionary.html:99
+msgid ""
+"You can upload any format which is understood by Translate Toolkit "
+"(including TBX, CSV or Gettext PO files)."
+msgstr ""
+"Μπορείτε να αποστείλλετε οποιαδήποτε μορφή, η οποία είναι κατανοητή από την "
+"Εργαλειοθήκη Μετάφρασης (περιλαμβάνει αρχεία TBX, CSV ή Gettext PO)."
+
+#: weblate/html/dictionary.html:106
+msgid "Import"
+msgstr "Εισαγωγή"
+
+#: weblate/html/dictionary.html:114
+msgid "You can download glossary in following formats:"
+msgstr "Μπορείτε να λάβετε το γλωσσάρι στις ακόλουθες μορφές:"
+
+#: weblate/html/dictionary.html:117
+msgid "Comma separated values (CSV)"
+msgstr "Τιμές διαχωρισμένες με κόμμα (CSV)"
+
+#: weblate/html/dictionary.html:118
+msgid "Gettext (PO)"
+msgstr "Gettext (PO)"
+
+#: weblate/html/dictionary.html:119
+msgid "TermBase eXchange (TBX)"
+msgstr "TermBase eXchange (TBX)"
+
+#: weblate/html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "λεξικά"
+
+#: weblate/html/edit_dictionary.html:14
+msgid "Change word"
+msgstr "Αλλαγή λέξης"
+
+#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
+#: weblate/html/translate.html:153
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: weblate/html/engage.html:11 weblate/html/engage.html.py:25
+#, python-format
+msgid "Get involved in %(project)s!"
+msgstr "Συμμετέχετε στο %(project)s!"
+
+#: weblate/html/engage.html:12
+#, python-format
+msgid ""
+"Get involved in %(project)s, which is currently being translated into "
+"%(languages)s languages using Weblate."
+msgstr ""
+"Συμμετέχετε %(project)s, που μεταφράζεται σήμερα σε %(languages)s γλώσσες "
+"χρησιμοποιώντας το Weblate."
+
+#: weblate/html/engage.html:28
+msgid "Hi, and thank you for your interest!"
+msgstr "Γεια σας, και ευχαριστούμε για το ενδιαφέρον σας!"
+
+#: weblate/html/engage.html:31
+#, python-format
+msgid ""
+"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
+"a>, a web tool designed to ease translating for both developers and "
+"translators."
+msgstr ""
+"Το %(project)s μεταφράζεται χρησιμοποιώντας το <a href=\"%(weblate_url)s"
+"\">Weblate</a>, ένα διαδικτυακό εργαλείο που έχει σχεδιαστεί για να "
+"διευκολύνουν τη μετάφραση για προγραμματιστές και για μεταφραστές."
+
+#: weblate/html/engage.html:38
+#, python-format
+msgid ""
+"If you would like to contribute to translation of %(project)s, you need to "
+"<a href=\"%(reg_url)s\">register on this server</a>."
+msgstr ""
+"Αν θα θέλατε να συμβάλετε στη μετάφραση του %(project)s, πρέπει να <a href="
+"\"%(reg_url)s\">εγγραφείτε σε αυτόν το διακομιστή</a>."
+
+#: weblate/html/engage.html:41
+#, python-format
+msgid ""
+"Once you have activated your account just proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
+msgstr ""
+"Από τη στιγμή που έχετε ενεργοποιήσει το λογαριασμό σας απλώς προχωρήσετε "
+"στην <a href=\"%(url)s\">ενότητα μετάφρασης</a>."
+
+#: weblate/html/footer.html:6
+#, python-format
+msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgstr ""
+"Υποστηρίζετα από το <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+
+#: weblate/html/footer.html:8
+msgid "Contact us"
+msgstr "Επικοινωνήστε μαζί μας"
+
+#: weblate/html/footer.html:9 weblate/html/admin/performance.html:22
+#: weblate/html/admin/performance.html:30
+msgid "Documentation"
+msgstr "Τεκμηρίωση"
+
+#: weblate/html/git-commit-info.html:4
+#, python-format
+msgid "Commit %(hash)s"
+msgstr "Ολοκλήρωση %(hash)s"
+
+#: weblate/html/git-commit-info.html:5
+#, python-format
+msgid "Authored by %(author)s on %(date)s"
+msgstr "Συντάχθηκαν από τον %(author)s, στις %(date)s"
+
+#: weblate/html/i18n.html:8
+msgid "This username is already taken. Please choose another."
+msgstr "Το όνομα χρήστη υπάρχει ήδη. Επιλέξτε άλλο."
+
+#: weblate/html/i18n.html:9
+msgid "You must type the same password each time"
+msgstr "Πρέπει να γράψετε τον ίδιο κωδικό κάθε φορά"
+
+#: weblate/html/i18n.html:10
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "Αυτή η ηλεκτρονική διεύθυνση υπάρχει ήδη. Δώστε μια διαφορετική."
+
+#: weblate/html/i18n.html:11
+msgid "Old password"
+msgstr "Παλαιός κωδικός"
+
+#: weblate/html/i18n.html:12
+msgid "New password"
+msgstr "Νέος κωδικός"
+
+#: weblate/html/i18n.html:13
+msgid "New password confirmation"
+msgstr "Επιβεβαίωση νέου κωδικού"
+
+#: weblate/html/i18n.html:14
+msgid "The two password fields didn't match."
+msgstr "Τα δύο πεδιά κωδικών δεν ταιριάζουν."
+
+#: weblate/html/i18n.html:18
+msgid ""
+"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr ""
+"Κρατήστε πατημένο το «Ctrl», ή το «Command» σε Mac, για να επιλέξετε "
+"περισσότερα από ένα."
+
+#: weblate/html/i18n.html:23
+msgid "Afrikaans"
+msgstr "Αφρικανικά"
+
+#: weblate/html/i18n.html:24
+msgid "Akan"
+msgstr "Ακανικά"
+
+#: weblate/html/i18n.html:25
+msgid "Albanian"
+msgstr "Αλβανικά"
+
+#: weblate/html/i18n.html:26
+msgid "Amharic"
+msgstr "Αμχαρικά"
+
+#: weblate/html/i18n.html:27
+msgid "Arabic"
+msgstr "Αραβικά"
+
+#: weblate/html/i18n.html:28
+msgid "Aragonese"
+msgstr "Αραγονικά"
+
+#: weblate/html/i18n.html:29
+msgid "Armenian"
+msgstr "Αρμένικα"
+
+#: weblate/html/i18n.html:30
+msgid "Asturian"
+msgstr "Αστουρικά"
+
+#: weblate/html/i18n.html:31
+msgid "Azerbaijani"
+msgstr "Αζερμπαϊτζανικά"
+
+#: weblate/html/i18n.html:32
+msgid "Basque"
+msgstr "Βάσκικα"
+
+#: weblate/html/i18n.html:33
+msgid "Belarusian"
+msgstr "Λευκορωσικά"
+
+#: weblate/html/i18n.html:34
+msgid "Belarusian (latin)"
+msgstr "Λευκορωσικά (Λατινικά)"
+
+#: weblate/html/i18n.html:35
+msgid "Bengali"
+msgstr "Βεγγαλικά"
+
+#: weblate/html/i18n.html:36
+msgid "Bengali (India)"
+msgstr "Βεγγαλικά (Ινδία)"
+
+#: weblate/html/i18n.html:37
+msgid "Bosnian"
+msgstr "Βοσνιακά"
+
+#: weblate/html/i18n.html:38
+msgid "Breton"
+msgstr "Μπρετονικά"
+
+#: weblate/html/i18n.html:39
+msgid "Bulgarian"
+msgstr "Βουλγαρικά"
+
+#: weblate/html/i18n.html:40
+msgid "Catalan"
+msgstr "Καταλανικά"
+
+#: weblate/html/i18n.html:41
+msgid "Central Khmer"
+msgstr "Κεντρικά Χμερικά"
+
+#: weblate/html/i18n.html:42
+msgid "Cornish"
+msgstr "Κορνουαλικά"
+
+#: weblate/html/i18n.html:43
+msgid "Croatian"
+msgstr "Κροατικά"
+
+#: weblate/html/i18n.html:44
+msgid "Czech"
+msgstr "Τσέχικα"
+
+#: weblate/html/i18n.html:45
+msgid "Danish"
+msgstr "Δανέζικα"
+
+#: weblate/html/i18n.html:46
+msgid "Dutch"
+msgstr "Ολλανδικά"
+
+#: weblate/html/i18n.html:47
+msgid "Dzongkha"
+msgstr "Ντζονγκικά"
+
+#: weblate/html/i18n.html:48
+msgid "English"
+msgstr "Αγγλικά"
+
+#: weblate/html/i18n.html:49
+msgid "English (South Africa)"
+msgstr "Αγγλικά (Νότιος Αφρική)"
+
+#: weblate/html/i18n.html:50
+msgid "English (United Kingdom)"
+msgstr "Αγγλικά (Ηνωμένο Βασίλειο)"
+
+#: weblate/html/i18n.html:51
+msgid "English (United States)"
+msgstr "Αγγλικά (Ηνωμένες Πολιτείες)"
+
+#: weblate/html/i18n.html:52
+msgid "Esperanto"
+msgstr "Εσπεράντο"
+
+#: weblate/html/i18n.html:53
+msgid "Estonian"
+msgstr "Εσθονικά"
+
+#: weblate/html/i18n.html:54
+msgid "Faroese"
+msgstr "Φαροϊκά"
+
+#: weblate/html/i18n.html:55
+msgid "Filipino"
+msgstr "Φιλιππινέζικα"
+
+#: weblate/html/i18n.html:56
+msgid "Finnish"
+msgstr "Φινλανδικά"
+
+#: weblate/html/i18n.html:57
+msgid "French"
+msgstr "Γαλλικά"
+
+#: weblate/html/i18n.html:58
+msgid "Frisian"
+msgstr "Φριζικά"
+
+#: weblate/html/i18n.html:59
+msgid "Friulian"
+msgstr "Φριουλικά"
+
+#: weblate/html/i18n.html:60
+msgid "Fulah"
+msgstr "Φουλαχικά"
+
+#: weblate/html/i18n.html:61
+msgid "Gaelic"
+msgstr "Κελτικά"
+
+#: weblate/html/i18n.html:62
+msgid "Galician"
+msgstr "Γαελικά"
+
+#: weblate/html/i18n.html:63
+msgid "Georgian"
+msgstr "Γεωργιανά"
+
+#: weblate/html/i18n.html:64
+msgid "German"
+msgstr "Γερμανικά"
+
+#: weblate/html/i18n.html:65
+msgid "Greek"
+msgstr "Ελληνικά"
+
+#: weblate/html/i18n.html:66
+msgid "Gujarati"
+msgstr "Γκουτζαρατικά"
+
+#: weblate/html/i18n.html:67
+msgid "Gun"
+msgstr "Γκουνικά"
+
+#: weblate/html/i18n.html:68
+msgid "Hausa"
+msgstr "Χαουσανικά"
+
+#: weblate/html/i18n.html:69
+msgid "Hebrew"
+msgstr "Εβραϊκά"
+
+#: weblate/html/i18n.html:70
+msgid "Hindi"
+msgstr "Ινδικά"
+
+#: weblate/html/i18n.html:71
+msgid "Hungarian"
+msgstr "Ουγγρικά"
+
+#: weblate/html/i18n.html:72
+msgid "Chinese (Hong Kong)"
+msgstr "Κινέζικα (Χονγκ Κονγκ)"
+
+#: weblate/html/i18n.html:73
+msgid "Chinese (China)"
+msgstr "Κινέζικα (Κίνα)"
+
+#: weblate/html/i18n.html:74
+msgid "Chinese (Taiwan)"
+msgstr "Κινέζικα (Ταιβάν)"
+
+#: weblate/html/i18n.html:75
+msgid "Icelandic"
+msgstr "Ισλανδικά"
+
+#: weblate/html/i18n.html:76
+msgid "Indonesian"
+msgstr "Ινδονησιακά"
+
+#: weblate/html/i18n.html:77
+msgid "Interlingua"
+msgstr "Ιντερλίνγκουα"
+
+#: weblate/html/i18n.html:78
+msgid "Irish"
+msgstr "Ιρλανδικά"
+
+#: weblate/html/i18n.html:79
+msgid "Italian"
+msgstr "Ιταλικά"
+
+#: weblate/html/i18n.html:80
+msgid "Japanese"
+msgstr "Ιαπωνέζικα"
+
+#: weblate/html/i18n.html:81
+msgid "Javanese"
+msgstr "Ιαβανέζικα"
+
+#: weblate/html/i18n.html:82
+msgid "Kannada"
+msgstr "Κανάντα"
+
+#: weblate/html/i18n.html:83
+msgid "Kashubian"
+msgstr "Κασουμπιανικά"
+
+#: weblate/html/i18n.html:84
+msgid "Kazakh"
+msgstr "Καζαχστανικά"
+
+#: weblate/html/i18n.html:85
+msgid "Kirghiz"
+msgstr "Κιργκιζινικά"
+
+#: weblate/html/i18n.html:86
+msgid "Korean"
+msgstr "Κορεάτικα"
+
+#: weblate/html/i18n.html:87
+msgid "Kurdish"
+msgstr "Κούρδικα"
+
+#: weblate/html/i18n.html:88
+msgid "Kurdish Sorani"
+msgstr "Κουρδικά Σοράνι"
+
+#: weblate/html/i18n.html:89
+msgid "Lao"
+msgstr "Λαονικά"
+
+#: weblate/html/i18n.html:90
+msgid "Latvian"
+msgstr "Λεττονικά"
+
+#: weblate/html/i18n.html:91
+msgid "Lingala"
+msgstr "Λινγκαλανικά"
+
+#: weblate/html/i18n.html:92
+msgid "Lithuanian"
+msgstr "Λιθουανικά"
+
+#: weblate/html/i18n.html:93
+msgid "Luxembourgish"
+msgstr "Λουξεμβρουργικά"
+
+#: weblate/html/i18n.html:94
+msgid "Macedonian"
+msgstr "Σλαβομακεδονικά"
+
+#: weblate/html/i18n.html:95
+msgid "Maithili"
+msgstr "Μαϊθιλικά"
+
+#: weblate/html/i18n.html:96
+msgid "Malagasy"
+msgstr "Μαδαγασκαρικά"
+
+#: weblate/html/i18n.html:97
+msgid "Malay"
+msgstr "Μαλαϊκά"
+
+#: weblate/html/i18n.html:98
+msgid "Malayalam"
+msgstr "Μαλαγιαλαμικά"
+
+#: weblate/html/i18n.html:99
+msgid "Maltese"
+msgstr "Μαλτέζικα"
+
+#: weblate/html/i18n.html:100
+msgid "Maori"
+msgstr "Μαορικά"
+
+#: weblate/html/i18n.html:101
+msgid "Mapudungun"
+msgstr "Μαπουντουγκουνικά"
+
+#: weblate/html/i18n.html:102
+msgid "Marathi"
+msgstr "Μαραθικά"
+
+#: weblate/html/i18n.html:103
+msgid "Mongolian"
+msgstr "Μογγολικά"
+
+#: weblate/html/i18n.html:104
+msgid "Morisyen"
+msgstr "Μορισιενικά"
+
+#: weblate/html/i18n.html:105
+msgid "Nahuatl languages"
+msgstr "Ναχουατλικά"
+
+#: weblate/html/i18n.html:106
+msgid "Neapolitan"
+msgstr "Νεαπολιτικά"
+
+#: weblate/html/i18n.html:107
+msgid "Nepali"
+msgstr "Νεπαλέζικα"
+
+#: weblate/html/i18n.html:108
+msgid "Norwegian Bokmål"
+msgstr "Νορβηγικά Bokmal"
+
+#: weblate/html/i18n.html:109
+msgid "Norwegian Nynorsk"
+msgstr "Νορβηγικά Nynorsk"
+
+#: weblate/html/i18n.html:110
+msgid "Occitan"
+msgstr "Οτσιτανικά"
+
+#: weblate/html/i18n.html:111
+msgid "Oriya"
+msgstr "Οριγικά"
+
+#: weblate/html/i18n.html:112
+msgid "Papiamento"
+msgstr "Παπιαμεντικά"
+
+#: weblate/html/i18n.html:113
+msgid "Pedi"
+msgstr "Πεντικά"
+
+#: weblate/html/i18n.html:114
+msgid "Persian"
+msgstr "Περσικά"
+
+#: weblate/html/i18n.html:115
+msgid "Piemontese"
+msgstr "Πιεμοντεζικά"
+
+#: weblate/html/i18n.html:116
+msgid "Polish"
+msgstr "Πολωνικά"
+
+#: weblate/html/i18n.html:117
+msgid "Portuguese"
+msgstr "Πορτογαλικά"
+
+#: weblate/html/i18n.html:118
+msgid "Portuguese (Brazil)"
+msgstr "Πορτογαλικά (Βραζιλία)"
+
+#: weblate/html/i18n.html:119
+msgid "Portuguese (Portugal)"
+msgstr "Πορτογαλικά (Πορτογαλία)"
+
+#: weblate/html/i18n.html:120
+msgid "Punjabi"
+msgstr "Πουντζαμπικά"
+
+#: weblate/html/i18n.html:121
+msgid "Pushto"
+msgstr "Πουσχτικά"
+
+#: weblate/html/i18n.html:122
+msgid "Romanian"
+msgstr "Ρουμανικά"
+
+#: weblate/html/i18n.html:123
+msgid "Romansh"
+msgstr "Ρομανσικά"
+
+#: weblate/html/i18n.html:124
+msgid "Russian"
+msgstr "Ρωσικά"
+
+#: weblate/html/i18n.html:125
+msgid "Scots"
+msgstr "Σκωτσικά"
+
+#: weblate/html/i18n.html:126
+msgid "Serbian"
+msgstr "Σερβικά"
+
+#: weblate/html/i18n.html:127
+msgid "Serbian (cyrillic)"
+msgstr "Σέρβικα (κυριλλικά)"
+
+#: weblate/html/i18n.html:128
+msgid "Serbian (latin)"
+msgstr "Σέρβικα (λατινικά)"
+
+#: weblate/html/i18n.html:129
+msgid "Sinhala"
+msgstr "Κεϋλανικά"
+
+#: weblate/html/i18n.html:130
+msgid "Slovak"
+msgstr "Σλοβακικά"
+
+#: weblate/html/i18n.html:131
+msgid "Slovenian"
+msgstr "Σλοβενικά"
+
+#: weblate/html/i18n.html:132
+msgid "Somali"
+msgstr "Σομαλέζικα"
+
+#: weblate/html/i18n.html:133
+msgid "Songhai languages"
+msgstr "Σονγκαϊκά"
+
+#: weblate/html/i18n.html:134
+msgid "Sotho"
+msgstr "Σοθικά"
+
+#: weblate/html/i18n.html:135
+msgid "Spanish"
+msgstr "Ισπανικά"
+
+#: weblate/html/i18n.html:136
+msgid "Sundanese"
+msgstr "Σουντικά"
+
+#: weblate/html/i18n.html:137
+msgid "Swahili"
+msgstr "Σουαχιλικά"
+
+#: weblate/html/i18n.html:138
+msgid "Swedish"
+msgstr "Σουηδικά"
+
+#: weblate/html/i18n.html:139
+msgid "Tajik"
+msgstr "Τατζικιστανικά"
+
+#: weblate/html/i18n.html:140
+msgid "Tamil"
+msgstr "Ταμιλικά"
+
+#: weblate/html/i18n.html:141
+msgid "Tatar"
+msgstr "Ταταρικά"
+
+#: weblate/html/i18n.html:142
+msgid "Telugu"
+msgstr "Τελουγκουικά"
+
+#: weblate/html/i18n.html:143
+msgid "Thai"
+msgstr "Ταϊλανδικά"
+
+#: weblate/html/i18n.html:144
+msgid "Tibetan"
+msgstr "Θιβετιανά"
+
+#: weblate/html/i18n.html:145
+msgid "Tigrinya"
+msgstr "Τιγκρινιανικά"
+
+#: weblate/html/i18n.html:146
+msgid "Turkish"
+msgstr "Τουρκικά"
+
+#: weblate/html/i18n.html:147
+msgid "Turkmen"
+msgstr "Τουρκμενικά"
+
+#: weblate/html/i18n.html:148
+msgid "Uighur"
+msgstr "Ουιγκουρικά"
+
+#: weblate/html/i18n.html:149
+msgid "Ukrainian"
+msgstr "Ουκρανικά"
+
+#: weblate/html/i18n.html:150
+msgid "Urdu"
+msgstr "Ουρντουικά"
+
+#: weblate/html/i18n.html:151
+msgid "Uzbek"
+msgstr "Ουζμπεκικά"
+
+#: weblate/html/i18n.html:152
+msgid "Uzbek (latin)"
+msgstr "Ουζμπεκικά (Λατινικά)"
+
+#: weblate/html/i18n.html:153
+msgid "Vietnamese"
+msgstr "Βιετναμέζικα"
+
+#: weblate/html/i18n.html:154
+msgid "Walloon"
+msgstr "Βαλλωνικά"
+
+#: weblate/html/i18n.html:155
+msgid "Welsh"
+msgstr "Ουαλικά"
+
+#: weblate/html/i18n.html:156
+msgid "Yoruba"
+msgstr "Γιορουμπικά"
+
+#: weblate/html/i18n.html:157
+msgid "Zulu"
+msgstr "Ζουλουκικά"
+
+#: weblate/html/i18n.html:160
+msgid "Translate using Apertium"
+msgstr "Μετάφραση με χρήση του Apertium"
+
+#: weblate/html/i18n.html:161
+msgid "Translate using Microsoft Translator"
+msgstr "Μετάφραση με χρήση του Microsoft Translator"
+
+#: weblate/html/i18n.html:162
+msgid "Translate using MyMemory"
+msgstr "Μετάφραση με χρήση του MyMemory"
+
+#: weblate/html/i18n.html:163
+msgid "Sort this column"
+msgstr "Ταξινόμηση αυτής της στήλης"
+
+#: weblate/html/i18n.html:164
+msgid "AJAX request to load this content has failed!"
+msgstr "Το αίτημα AJAX για φόρτωση αυτού του περιεχομένου απέτυχε!"
+
+#: weblate/html/i18n.html:165
+msgid "Loading…"
+msgstr "Φόρτωση…"
+
+#: weblate/html/i18n.html:166
+msgid "Failed translation"
+msgstr "Αποτυχημένη μετάφραση"
+
+#: weblate/html/i18n.html:167
+msgid "The request for machine translation has failed."
+msgstr "Το αίτημα για μηχανική μετάφραση απέτυχε."
+
+#: weblate/html/i18n.html:168
+msgid "Error details:"
+msgstr "Λεπτομέρειες σφάλματος:"
+
+#: weblate/html/i18n.html:169
+msgid "Confirm resetting repository"
+msgstr "Επιβεβαίωση επαναφοράς αποθετηρίου"
+
+#: weblate/html/i18n.html:170
+msgid "Resetting the repository will throw away all local changes!"
+msgstr "Η επαναφορά του αποθετηρίου θα απομακρύνει όλες τις τοπικές αλλαγές!"
+
+#: weblate/html/i18n.html:171
+msgid "Ok"
+msgstr "Εντάξει"
+
+#: weblate/html/i18n.html:172
+msgid "Cancel"
+msgstr "Άκυρο"
+
+#: weblate/html/i18n.html:175 weblate/html/list-translations.html:61
+msgid "Translated strings"
+msgstr "Μεταφρασμένα κείμενα"
+
+#: weblate/html/index.html:9
+#, python-format
+msgid ""
+"This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
+"software projects listed below. You need to be logged in for translating, "
+"otherwise you can only make suggestions."
+msgstr ""
+"Η ιστσσελίδα εκτελεί <a href=\"%(weblate_url)s\">Weblate</a> για τη "
+"μετάφραση των έργων λογισμικού που αναφέρονται παρακάτω. Πρέπει να "
+"συνδεθείτε για να μεταφράσετε, διαφορετικά μπορείτε να κάνετε μόνο προτάσεις."
+
+#: weblate/html/index.html:13 weblate/html/subproject.html:17
+#: weblate/html/translate.html:91
+msgid "Translations"
+msgstr "Μεταφράσεις"
+
+#: weblate/html/index.html:18
+msgid "Your translations"
+msgstr "Οι μεταφράσεις σας"
+
+#: weblate/html/index.html:20 weblate/html/language.html:12
+#: weblate/html/user.html:18
+msgid "Projects"
+msgstr "Έργα"
+
+#: weblate/html/index.html:22
+msgid "Checks"
+msgstr "Έλεγχοι"
+
+#: weblate/html/index.html:38 weblate/html/index.html.py:80
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21
+msgid "Translated"
+msgstr "Μεταφράστηκε"
+
+#: weblate/html/index.html:59
+msgid "Summaries"
+msgstr "Περιλήψεις"
+
+#: weblate/html/index.html:64 weblate/html/language.html:23
+#: weblate/html/project.html:40 weblate/html/subproject.html:30
+#: weblate/html/translation.html:35 weblate/html/translation.html.py:83
+msgid "Recent changes"
+msgstr "Πρόσφατες Αλλαγές"
+
+#: weblate/html/index.html:65
+msgid "Most active translators"
+msgstr "Πιο ενεργοί μεταφραστές"
+
+#: weblate/html/index.html:66
+msgid "Most active suggesters"
+msgstr "Πιο ενεργοί υποδηλώντες"
+
+#: weblate/html/index.html:67 weblate/html/language.html:25
+#: weblate/html/project.html:46 weblate/html/subproject.html:37
+#: weblate/html/translation.html:46 weblate/html/user.html:27
+msgid "Activity"
+msgstr "Δραστηριότητα"
+
+#: weblate/html/index.html:68
+msgid "Others"
+msgstr "Άλλα"
+
+#: weblate/html/index.html:79 weblate/html/index.html.py:98
+#: weblate/html/last-changes.html:14
+msgid "User"
+msgstr "Χρήστης"
+
+#: weblate/html/index.html:99
+msgid "Suggested"
+msgstr "Προτάθηκε"
+
+#: weblate/html/index.html:114
+msgid "Languages summary"
+msgstr "Περίληψη γλωσσών"
+
+#: weblate/html/index.html:115
+msgid "Checks overview"
+msgstr "Επισκόπηση ελέγχων"
+
+#: weblate/html/index.html:117
+msgid "Widgets"
+msgstr "Μικροεφαρμογές"
+
+#: weblate/html/language.html:6 weblate/html/languages.html:6
+msgid "languages"
+msgstr "γλώσσες"
+
+#: weblate/html/language.html:24 weblate/html/project.html:41
+msgid "Glossaries"
+msgstr "Γλωσσάρια"
+
+#: weblate/html/last-changes.html:13
+msgid "When"
+msgstr "Όταν"
+
+#: weblate/html/last-changes.html:15
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: weblate/html/last-changes.html:30
+msgid "No recent activity has been recorded."
+msgstr "Καμία πρόσφατη δραστηριότητα δεν καταγράφηκε."
+
+#: weblate/html/list-checks.html:6
+#, python-format
+msgid "Ignore: %(check)s"
+msgstr "Αγνόηση: %(check)s"
+
+#: weblate/html/list-translations.html:9
+msgctxt "Number of fuzzy strings"
+msgid "Fuzzy"
+msgstr "Ασαφές"
+
+#: weblate/html/list-translations.html:10
+msgctxt "Number of failing checks"
+msgid "Checks"
+msgstr "Έλεγχοι"
+
+#: weblate/html/list-translations.html:11
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Προτάσεις"
+
+#: weblate/html/list-translations.html:24
+#, python-format
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
+msgstr[0] "Υπάρχει %(count)s ασαφές κείμενο."
+msgstr[1] "Υπάρχουν %(count)s ασαφή κείμενα."
+
+#: weblate/html/list-translations.html:33
+#, python-format
+msgid "There is %(count)s failing check."
+msgid_plural "There are %(count)s failing checks."
+msgstr[0] "Υπάρχει %(count)s αποτυχημένος έλεγχος."
+msgstr[1] "Υπάρχουν %(count)s αποτυχημένοι έλεγχοι."
+
+#: weblate/html/list-translations.html:42
+#, python-format
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "Υπάρχει %(count)s πρόταση."
+msgstr[1] "Υπάρχουν %(count)s προτάσεις."
+
+#: weblate/html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "Υπάρχει %(count)s αμετάφραστο κείμενο."
+msgstr[1] "Υπάρχουν %(count)s αμετάφραστα κείμενα."
+
+#: weblate/html/list-translations.html:51 weblate/html/translate.html:24
+msgid "Translate"
+msgstr "Μετάφραση"
+
+#: weblate/html/profile.html:22
+msgid "Preferences"
+msgstr "Προτιμήσεις"
+
+#: weblate/html/profile.html:23
+msgid "Subscriptions"
+msgstr "Προτάσεις"
+
+#: weblate/html/profile.html:24
+msgid "Account"
+msgstr "Λογαριασμός"
+
+#: weblate/html/profile.html:26
+msgid "Information"
+msgstr "Πληροφορίες"
+
+#: weblate/html/profile.html:27
+msgid "Avatar"
+msgstr "Είδωλο"
+
+#: weblate/html/profile.html:35
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr ""
+"θα λάβετε τις επιλεγμένες ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για "
+"όλες σας τις γλώσσες."
+
+#: weblate/html/profile.html:44
+msgid "Your name and email will appear as author on Git commits."
+msgstr ""
+"Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζεται ως δημιουργός "
+"στους συμμετέχοντες του Git."
+
+#: weblate/html/profile.html:48
+#, python-format
+msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+msgstr ""
+"Μπορείτε να αλλάξετε κωδικό σε <a href=\"%(pw_url)s\">διαφορετική σελίδα</a>."
+
+#: weblate/html/profile.html:56
+msgid "Your public profile:"
+msgstr "Το δημόσιό σας προφίλ:"
+
+#: weblate/html/profile.html:62
+msgid "Change your avatar at gravatar.com"
+msgstr "Αλλάξτε το ειδωλό σας στο gravatar.com"
+
+#: weblate/html/project.html:11 weblate/html/source.html:13
+#: weblate/html/subproject.html:13 weblate/html/translation.html:16
+msgid "Project Information"
+msgstr "Πληροφορίες Έργου"
+
+#: weblate/html/project.html:15
+msgid "Subprojects"
+msgstr "Υπόέργα"
+
+#: weblate/html/project.html:20
+msgid "Subproject"
+msgstr "Υπόέργο"
+
+#: weblate/html/project.html:43 weblate/html/subproject.html:33
+#: weblate/html/translation.html:42
+msgid "Git maintenance"
+msgstr "Συντήρηση git"
+
+#: weblate/html/project.html:45 weblate/html/subproject.html:35
+#: weblate/html/translation.html:45
+msgid "Share"
+msgstr "Κοινή χρήση"
+
+#: weblate/html/project.html:54
+msgid "Manage all glossaries"
+msgstr "Διαχείριση όλων των γλωσσαρίων"
+
+#: weblate/html/project_info.html:2
+msgid "Project website:"
+msgstr "Ιστοσελίδα έργου:"
+
+#: weblate/html/project_info.html:4
+msgid "Mailing list for translators:"
+msgstr "Λίστα αλληλογραφίας για μεταφραστές:"
+
+#: weblate/html/project_info.html:7
+msgid "Instructions for translators:"
+msgstr "Οδηγίες για μεταφραστές:"
+
+#: weblate/html/share.html:5
+msgid "Share on Facebook!"
+msgstr "Μοιραστείτε στο Facebook!"
+
+#: weblate/html/share.html:6
+#, python-format
+msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgstr ""
+"Μεταφράστε το %(object)s χρησιμοποιώντας το %%23Weblate στο %(share_url)s!"
+
+#: weblate/html/share.html:6
+msgid "Tweet this translation!"
+msgstr "Tweet αυτή τη μετάφραση!"
+
+#: weblate/html/share.html:11
+#, python-format
+msgid ""
+"You can also promote this translation project using various <a href="
+"\"%(widgets_url)s\">other possibilities</a>."
+msgstr ""
+"Μπορείτε να προωθήσετε αυτό το μεταφραστικό έργο χρησιμοποιώντας διάφορες <a "
+"href=\"%(widgets_url)s\">δυνατότητες</a>."
+
+#: weblate/html/share.html:15
+#, python-format
+msgid ""
+"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
+"readable formats."
+msgstr ""
+"Διάφορες <a href=\"%(data_url)s\">εξαγωγές δεδομένων</a> είναι διαθέσιμες σε "
+"αναγνώσιμη από μηχάνημα μορφή."
+
+#: weblate/html/source-review.html:9 weblate/html/source.html:8
+msgid "source"
+msgstr "προέλευση"
+
+#: weblate/html/source-review.html:10
+msgid "review"
+msgstr "επισκόπηση"
+
+#: weblate/html/source-review.html:15
+msgid "Strings to review"
+msgstr "Κείμενα για επισκόπηση"
+
+#: weblate/html/source-review.html:48
+msgid "Comment"
+msgstr "Σχόλιο"
+
+#: weblate/html/source-review.html:62 weblate/html/translate.html:231
+msgid "User comments"
+msgstr "Σχόλια χρήστη"
+
+#: weblate/html/source-review.html:75
+msgid "No matching source strings found!"
+msgstr "Δεν βρέθηκαν παρόμοια κείμενα προέλευσης!"
+
+#: weblate/html/source.html:19 weblate/html/translation.html:22
+msgid "Strings to check"
+msgstr "Κείμενα για έλεγχο"
+
+#: weblate/html/subproject.html:42
+#, python-format
+msgid ""
+"Should your language be missing, please follow <a href=\"%(url)s"
+"\">translator instructions</a>."
+msgstr ""
+"Λείπει η γλώσσα σας, ακολουθήστε τις <a href=\"%(url)s\">οδηγίες μεταφραστή</"
+"a>."
+
+#: weblate/html/subproject.html:44
+#, python-format
+msgid ""
+"Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">contact us</a>."
+msgstr ""
+"Λείπει η γλώσσα σας, <a href=\"%(contact_url)s?subject=New+language+request"
+"+for+%(object)s\">επικοινωνήστε μαζί μας</a>."
+
+#: weblate/html/subproject.html:59
+msgid "Source strings review"
+msgstr "Επισκόπηση κειμένων προέλευσης"
+
+#: weblate/html/subproject_info.html:6
+msgid "Git repository:"
+msgstr "Αποθετήριο Git:"
+
+#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
+#, python-format
+msgid "%(branch)s branch"
+msgstr "%(branch)s κλάδος"
+
+#: weblate/html/translate.html:15
+msgid "translate"
+msgstr "μετάφραση"
+
+#: weblate/html/translate.html:36
+#, python-format
+msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+msgstr "Τρέχον φίλτρο: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+
+#: weblate/html/translate.html:67
+msgid "Source change"
+msgstr "Αλλαγή προέλευσης"
+
+#: weblate/html/translate.html:73
+msgid "Context"
+msgstr "Συνοδευτικά"
+
+#: weblate/html/translate.html:80 weblate/html/js/dictionary.html:19
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: weblate/html/translate.html:83
+msgid "Toggle text direction"
+msgstr "Αλλαγή κατεύθυνσης κειμένου"
+
+#: weblate/html/translate.html:96
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Ασαφές"
+
+#: weblate/html/translate.html:97
+msgid "Special characters:"
+msgstr "Ειδικοί χαρακτήρες:"
+
+#: weblate/html/translate.html:98
+msgid "Insert tab character"
+msgstr "Εισαγωγή χαρακτήρα στηλοθέτη"
+
+#: weblate/html/translate.html:99
+msgid "Insert new line"
+msgstr "Προσθήκη νέας γραμμής"
+
+#: weblate/html/translate.html:100
+msgid "Insert horizontal ellipsis"
+msgstr "Εισαγωγή οριζόντιας έλλειψης"
+
+#: weblate/html/translate.html:116
+msgid "Suggestions"
+msgstr "Προτάσεις"
+
+#: weblate/html/translate.html:123
+#, python-format
+msgid "Suggested by %(user)s"
+msgstr "Προτάθηκε από τον %(user)s"
+
+#: weblate/html/translate.html:125
+msgid "Suggested by anonymous user"
+msgstr "Προτάθηκε από ανώνυμο χρήστη"
+
+#: weblate/html/translate.html:130
+msgid "Accept"
+msgstr "Αποδοχή"
+
+#: weblate/html/translate.html:147
+msgid "Flags"
+msgstr "Σημαίες"
+
+#: weblate/html/translate.html:157
+#, python-format
+msgid ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
+"translations."
+msgstr ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Συνδεθείτε</a> για να "
+"αποθηκευτούν οι μεταφράσεις."
+
+#: weblate/html/translate.html:160
+msgid "Suggest"
+msgstr "Πρόταση"
+
+#: weblate/html/translate.html:166
+msgid "Translation context"
+msgstr "Συνοδευτικά μετάφρασης"
+
+#: weblate/html/translate.html:170
+msgid "Messages placed around this one"
+msgstr "Τα μηνύματα γύρω από αυτό"
+
+#: weblate/html/translate.html:170
+msgid "Nearby messages"
+msgstr "Κοντινά μηνύματα"
+
+#: weblate/html/translate.html:171
+msgid "Similar messages"
+msgstr "Παρόμοια μηνύματα"
+
+#: weblate/html/translate.html:172
+msgid "Same message used in different subprojects"
+msgstr "Το ίδιο μήνυμα που χρησιμοποιείται σε διαφορετικά υπόέργα"
+
+#: weblate/html/translate.html:172
+msgid "All locations"
+msgstr "Όλες οι τοποθεσίες"
+
+#: weblate/html/translate.html:173
+msgid "Words extracted from glossary"
+msgstr "Λέξεις εξαγόμενες από το γλωσσάρι"
+
+#: weblate/html/translate.html:174
+msgid "Comments about this translation"
+msgstr "Σχόλια για αυτή τη μετάφραση"
+
+#: weblate/html/translate.html:174 weblate/html/unit-details.html:10
+msgid "Comments"
+msgstr "Σχόλια"
+
+#: weblate/html/translate.html:175
+msgid "List of recent changes done in Weblate"
+msgstr "Λίστα πρόσφατων αλλαγών που έγιναν στο Weblate"
+
+#: weblate/html/translate.html:175
+msgid "Recent edits"
+msgstr "Πρόσφατες επεξεργασίες"
+
+#: weblate/html/translate.html:176
+msgid "Source string details and feedback"
+msgstr "Λεπτομέρειες κειμένου προέλευσης και παρατηρήσεις"
+
+#: weblate/html/translate.html:177
+msgid "Information about project"
+msgstr "Πληροφορίες για το έργο"
+
+#: weblate/html/translate.html:182 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "State"
+msgstr "Κατάσταση"
+
+#: weblate/html/translate.html:200
+msgid "You can share comments about this translation with other translators."
+msgstr ""
+"Μπορείτε να μοιραστείτε σχόλια για αυτή τη μετάφραση με άλλους μεταφραστές."
+
+#: weblate/html/translate.html:206 weblate/html/translate.html.py:238
+msgid "New comment"
+msgstr "Νέο σχόλιο"
+
+#: weblate/html/translate.html:216 weblate/html/translate.html.py:249
+msgid "You are not allowed to add comments."
+msgstr "Δεν σας επιτρέπεται να προσθέσετε σχόλια."
+
+#: weblate/html/translate.html:232
+msgid ""
+"You can share comments about source string for this translation with other "
+"translators and developers."
+msgstr ""
+"Μπορείτε να μοιραστείτε σχόλια για το κείμενο προέλευσης για αυτή τη "
+"μετάφραση με άλλους μεταφραστές και δημιουργούς."
+
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: weblate/html/translation.html:37
+msgid "Files"
+msgstr "Αρχεία"
+
+#: weblate/html/translation.html:39
+msgid "Automatic translation"
+msgstr "Αυτόματη μετάφραση"
+
+#: weblate/html/translation.html:44
+msgid "Locking"
+msgstr "Κλείδωμα"
+
+#: weblate/html/translation.html:60
+#, python-format
+msgid ""
+"You can <a href=\"%(download_url)s\">download</a> file for offline "
+"translation."
+msgstr ""
+"Μπορείτε να <a href=\"%(download_url)s\">λάβετε</a> αρχείο για μετάφραση "
+"εκτός διαδικτύου."
+
+#: weblate/html/translation.html:64 weblate/html/translation.html.py:76
+msgid "Upload"
+msgstr "Αποστολή"
+
+#: weblate/html/translation.html:66
+msgid ""
+"Uploaded file will be merged with current translation. In case you want to "
+"overwrite already translated strings, don't forget to enable it."
+msgstr ""
+"Το απεσταλμένο αρχείο θα ενωθεί με την τρέχουσα μετάφραση. Στην περίπτωση "
+"που θέλετε να αντικαταστήσετε μεταφρασμένα κείμενα, μην ξεχάσετε να το "
+"ενεργοποιήσετε."
+
+#: weblate/html/translation.html:68
+msgid "Uploaded file will be merged with current translation."
+msgstr "Το απεσταλμένο αρχείο θα ενωθεί με την τρέχουσα μετάφραση."
+
+#: weblate/html/translation.html:87
+msgid "Review"
+msgstr "Επισκόπηση"
+
+#: weblate/html/translation.html:89
+msgid "Review translations touched by other users."
+msgstr "Επισκόπηση μεταφράσεων από άλλους χρήστες."
+
+#: weblate/html/translation.html:94
+msgid "Start review"
+msgstr "Έναρξη επισκόπησης"
+
+#: weblate/html/translation.html:101
+msgid ""
+"Automatic translation takes existing translations in this project and "
+"applies it to the current subproject. It can be used to push translations to "
+"a different branch, to fix inconsistent translations or to translate new "
+"subproject using translation memory."
+msgstr ""
+"Η αυτόματη μετάφραση παίρνει τις υπάρχουσες μεταφράσεις σε αυτό το έργο και "
+"τις εφαρμόζει στο τρέχον υπόέργο. Μπορεί να χρησιμοποιηθεί για μετάδοση των "
+"μεταφράσεων σε διαφορετικό κλάδο ή για να διορθώσετε ασυνεπήείς μεταφράσεις "
+"ή να μεταφράσετε νέο υποέργο χρησιμοποιώντας τη μεταφραστική μνήμη."
+
+#: weblate/html/translation.html:107
+msgid "Process"
+msgstr "Διαδικασία"
+
+#: weblate/html/translation.html:113
+msgid "Locking the translation will prevent others to work on translation."
+msgstr "Το κλείδωμα της μετάφρασης θα αποτρέψει άλλους να εργαστούν σε αυτή."
+
+#: weblate/html/translation.html:115
+msgid "Locked by:"
+msgstr "Κλειδώθηκε από:"
+
+#: weblate/html/translation.html:116
+msgid "Lock expires:"
+msgstr "Το κλείδωμα έληξε:"
+
+#: weblate/html/translation.html:118
+msgid "Translation is currently not locked."
+msgstr "Η μετάφραση δεν είναι κλειδωμένη."
+
+#: weblate/html/translation.html:122 weblate/html/js/git-status.html:16
+msgid "Unlock"
+msgstr "Ξεκλείδωμα"
+
+#: weblate/html/translation.html:124 weblate/html/js/git-status.html:18
+msgid "Lock"
+msgstr "Κλείδωμα"
+
+#: weblate/html/translation_info.html:8
+#, python-format
+msgid ""
+"There are %(count)s strings, out of which %(translated)s&#37; is translated "
+"and %(fuzzy)s&#37; is fuzzy."
+msgstr ""
+"Υπάρχουν %(count)s κείμενα, από τα οποία το %(translated)s&#37; είναι "
+"μεταφρασμένα και το %(fuzzy)s&#37; είναι ασαφή."
+
+#: weblate/html/unit-details.html:4
+msgid "Used in"
+msgstr "Χρήση σε"
+
+#: weblate/html/unit-state.html:3
+msgid "Message is fuzzy"
+msgstr "Το μήνυμα είναι ασαφές"
+
+#: weblate/html/unit-state.html:4
+msgid "Message has failing checks"
+msgstr "Το μήνυμα έχει αποτυχημένους έλεγχους"
+
+#: weblate/html/unit-state.html:5
+msgid "Message is translated"
+msgstr "Το μήνυμα μεταφράστηκε"
+
+#: weblate/html/user-activity.html:12
+msgid "Last login"
+msgstr "Τελευταία σύνδεση"
+
+#: weblate/html/user-activity.html:16
+msgid "Registration date"
+msgstr "Ημερομηνία εγγραφής"
+
+#: weblate/html/user.html:33 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Δραστηριότητα τις τελευταίες 30 ημέρες"
+
+#: weblate/html/user.html:36 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Δραστηριότητα το τελευταίο έτος"
+
+#: weblate/html/user.html:39
+msgid "Recent contributions"
+msgstr "Πρόσφατες συνεισφορές"
+
+#: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
+msgid "widgets"
+msgstr "μικροεφαρμογές"
+
+#: weblate/html/widgets-root.html:11 weblate/html/widgets.html:16
+msgid "Promoting translation projects"
+msgstr "Προώθηση μεταφραστικών έργων"
+
+#: weblate/html/widgets-root.html:14
+msgid ""
+"Weblate provides various widgets to promote your translation projects. Open "
+"one of the project pages below."
+msgstr ""
+"Το Weblate παρέχει διάφορες μικροεφαρμογές για την προώθηση των "
+"μεταφραστικών σας έργων. Ανοίξτε μια από τις σελίδες του έργου παρακάτω."
+
+#: weblate/html/widgets.html:19
+#, python-format
+msgid ""
+"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
+"\">%(engage_url)s</a>."
+msgstr ""
+"Μπορείτε επίσης να κατευθύνετε τους νεοεισερχόμενους στην εισαγωγική σελίδα "
+"στο <a href=\"%(engage_url)s\">%(engage_url)s</a>."
+
+#: weblate/html/widgets.html:22
+msgid "Promoting specific translations"
+msgstr "Προώθηση συγκεκριμένων μεταφράσεων"
+
+#: weblate/html/widgets.html:25
+msgid ""
+"Besides promoting whole translation project, you can also choose specific "
+"language to promote:"
+msgstr ""
+"Εκτός από την προώθηση όλου του μεταφραστικού έργου, μπορείτε να επιλέξετε "
+"ορισμένη γλώσσα για προώθηση:"
+
+#: weblate/html/widgets.html:29
+msgid "Image widgets"
+msgstr "ΜΙκροεφαρμογές εικόνας"
+
+#: weblate/html/widgets.html:32
+msgid ""
+"You can use following widgets to promote translation of your project. They "
+"can increase visibility of your translation projects and bring new "
+"contributors."
+msgstr ""
+"Μπορείτε να χρησιμοποιήσετε μικροεφαρμογές για την προώθηση της μετάφρασης "
+"του έργου σας. Μπορούν να αυξήσουν την προβολή των μεταφραστικών σας έργων "
+"και να φέρει νέες συμμετοχές."
+
+#: weblate/html/widgets.html:36
+#, python-format
+msgid "Image %(widget)s"
+msgstr "Εικόνα %(widget)s"
+
+#: weblate/html/widgets.html:38
+msgid "Color variants:"
+msgstr "Μεταβλητές χρώματος:"
+
+#: weblate/html/widgets.html:48
+msgid "HTML code"
+msgstr "Κώδικας HTML"
+
+#: weblate/html/widgets.html:49
+msgid "BB code"
+msgstr "Κώδικας BB"
+
+#: weblate/html/widgets.html:50
+msgid "Markdown code"
+msgstr "Κώδικας Markdown"
+
+#: weblate/html/widgets.html:51
+msgid "RST code"
+msgstr "Κώδικας RST"
+
+#: weblate/html/widgets.html:52
+msgid "Textile code"
+msgstr "Κώδικας Textile"
+
+#: weblate/html/widgets.html:59 weblate/html/widgets.html.py:67
+#: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
+msgid "Translation status"
+msgstr "Kaτάσταση μετάφρασης"
+
+#: weblate/html/admin/custom-index.html:10
+msgid "Reports"
+msgstr "Αναφορές"
+
+#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/report.html.py:13
+msgid "Status of repositories"
+msgstr "Κατάσταση αποθετηρίων"
+
+#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/ssh.html.py:8
+msgid "SSH keys"
+msgstr "Κλειδιά SSH"
+
+#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/performance.html:5
+#: weblate/html/admin/performance.html:14
+msgid "Performance report"
+msgstr "Αναφορά απόδοσης"
+
+#: weblate/html/admin/performance.html:9
+msgid "Performance"
+msgstr "Απόδοση"
+
+#: weblate/html/admin/performance.html:21
+msgid "Result"
+msgstr "Αποτέλεσμα"
+
+#: weblate/html/admin/report.html:8
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: weblate/html/admin/report.html:17
+#, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Δεν εμφανίζεται η κατάσταση του συνδεδεμένου αποθετηρίου. Ελέξτε εναλλακτικά "
+"το <a href=\"#%(slug)s\">%(repo)s</a>."
+
+#: weblate/html/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr "Δημόσιο κλειδί SSH"
+
+#: weblate/html/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr "Το Weblate, αυτή τη στιγμή, χρησιμοποιεί το ακόλουθο κλειδί SSH:"
+
+#: weblate/html/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr "Δημιουργία κλειδιού SSH"
+
+#: weblate/html/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+"Δεν φαίνεται να έχετε υπάρχον κλειδί SSH, πατώντας το κουμπί παρακάτω το "
+"Weblate θα δημιουργηθεί για σας."
+
+#: weblate/html/admin/ssh.html:26
+msgid "Generate"
+msgstr "Δημιουργία"
+
+#: weblate/html/admin/ssh.html:32
+msgid "More information"
+msgstr "Περισσότερες πληροφορίες"
+
+#: weblate/html/admin/ssh.html:34
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+"Μπορείτε να βρείτε περισσότερες πληροφορίες σχετικά με τη ρύθμιση κλειδιών "
+"SSH στο <a href=\"%(ssh_docs)s\">εγχειρίδιο του Weblate</a>."
+
+#: weblate/html/js/dictionary.html:19
+msgid "Copy word to translation"
+msgstr "Αντιγραφή λέξης στη μετάφραση"
+
+#: weblate/html/js/dictionary.html:27
+msgid "No related strings found in dictionary."
+msgstr "Δεν βρέθηκαν σχετικά κείμενα στο λεξικό."
+
+#: weblate/html/js/git-status.html:8
+msgid "Commit pending changes"
+msgstr "Κάντε τις εκκρεμείς αλλαγές"
+
+#: weblate/html/js/git-status.html:8
+msgid "Commit"
+msgstr "Ολοκλήρωση"
+
+#: weblate/html/js/git-status.html:9
+msgid "Pull changes from remote repository"
+msgstr "Πάρτε τις αλλαγές από απομακρυσμένο αποοθετήριο"
+
+#: weblate/html/js/git-status.html:9
+msgid "Pull"
+msgstr "Λήψη"
+
+#: weblate/html/js/git-status.html:10
+msgid "Push changes to remote repository"
+msgstr "Προωθήστε τις αλλαγές στο απομακρυσμένο αποθετήριο"
+
+#: weblate/html/js/git-status.html:10
+msgid "Push"
+msgstr "Προώθηση"
+
+#: weblate/html/js/git-status.html:12
+msgid "Reset all changes in local repository"
+msgstr "Επαναφορά όλων των αλλαγών στο τοπικό αποθετήριο"
+
+#: weblate/html/js/git-status.html:12
+msgid "Reset"
+msgstr "Επαναφορά"
+
+#: weblate/html/js/git-status.html:16
+msgid "Allow changes in the repository"
+msgstr "Δικαίωμα αλλαγών στο αποθετήριο"
+
+#: weblate/html/js/git-status.html:18
+msgid "Prevent any changes in the repository"
+msgstr "Αποτροπή αλλαγών στο αποθετήριο"
+
+#: weblate/html/js/git-status.html:24
+msgid "There are some not commited changes!"
+msgstr "Υπάρχουν μερικές μη δεσμευμένες αλλαγές!"
+
+#: weblate/html/js/git-status.html:27
+msgid "Remote Git repository needs to be merged!"
+msgstr "Το απομακρυσμένο αποθετήριο Git πρέπει να ενωθεί!"
+
+#: weblate/html/js/git-status.html:30
+msgid "There are some new commits in local Git repository!"
+msgstr "Υπάρχουν ορισμένες νέες δεσμεύσεις σε τοπικό αποθετήριο Git!"
+
+#: weblate/html/js/git-status.html:38
+msgid "Last remote commit:"
+msgstr "Τελευταία απομακρυσμένη ολοκλήρωση:"
+
+#: weblate/html/js/git-status.html:48
+msgid "Details"
+msgstr "Λεπτομέρειες"
+
+#: weblate/html/js/other.html:17
+msgid "Use this translation for all subprojects"
+msgstr "Χρήση αυτής της μετάφρασης για όλα τα υποέργα"
+
+#: weblate/html/js/other.html:17
+msgid "Use this translation"
+msgstr "Χρήση αυτής της μετάφρασης"
+
+#: weblate/html/js/other.html:25
+msgid "No other strings found."
+msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
+
+#: weblate/html/js/similar.html:20
+msgid "No similar strings found."
+msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
+msgstr "Απεστάλει από το μεταφραστικό σύστημα Weblate"
+
+#: weblate/html/mail/changed_translation.html:8
+#: weblate/html/mail/changed_translation.txt:1
+#: weblate/html/mail/merge_failure.html:8
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:8
+#: weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/new_contributor.html:8
+#: weblate/html/mail/new_contributor.txt:1 weblate/html/mail/new_string.html:8
+#: weblate/html/mail/new_string.txt:1 weblate/html/mail/new_suggestion.html:8
+#: weblate/html/mail/new_suggestion.txt:1
+#: weblate/html/mail/new_translation.html:8
+#: weblate/html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr "Γεια σας,"
+
+#: weblate/html/mail/changed_translation.html:12
+#: weblate/html/mail/changed_translation.txt:3
+#, python-format
+msgid ""
+"there has been a change in translation on %(translation)s at %(site_title)s."
+msgstr "υπήρξε αλλαγή στη μετάφραση στο %(translation)s στο %(site_title)s."
+
+#: weblate/html/mail/changed_translation.html:19
+#: weblate/html/mail/changed_translation.txt:5
+#: weblate/html/mail/new_comment.html:18 weblate/html/mail/new_comment.txt:5
+#: weblate/html/mail/new_suggestion.html:19
+#: weblate/html/mail/new_suggestion.txt:5
+#: weblate/html/mail/new_translation.html:19
+#: weblate/html/mail/new_translation.txt:5
+msgid "Source string:"
+msgstr "Κείμενο προέλευσης:"
+
+#: weblate/html/mail/changed_translation.html:29
+#: weblate/html/mail/changed_translation.txt:9
+#: weblate/html/mail/new_translation.html:29
+#: weblate/html/mail/new_translation.txt:9
+msgid "Translation:"
+msgstr "Μετάφραση:"
+
+#: weblate/html/mail/changed_translation.html:39
+#: weblate/html/mail/new_suggestion.html:40
+msgid "Translation change:"
+msgstr "Αλλαγή μετάφρασης:"
+
+#: weblate/html/mail/changed_translation.html:49
+#: weblate/html/mail/changed_translation.txt:17
+#: weblate/html/mail/new_comment.html:39 weblate/html/mail/new_comment.txt:13
+#: weblate/html/mail/new_translation.html:39
+#: weblate/html/mail/new_translation.txt:15
+msgid "You can edit this string at:"
+msgstr "Μπορείτε να επεξεργαστείτε αυτό το κείμενο στο:"
+
+#: weblate/html/mail/changed_translation.txt:13
+msgid "Previous translation:"
+msgstr "Προηγούμενη μετάφραση:"
+
+#: weblate/html/mail/changed_translation_subject.txt:1
+#, python-format
+msgid "Changed translation in %(translation)s"
+msgstr "Αλλαγμένη μετάφραση στο %(translation)s"
+
+#: weblate/html/mail/footer.html:4 weblate/html/mail/footer.txt:1
+msgid "Translation summary:"
+msgstr "Περίληψη μετάφρασης:"
+
+#: weblate/html/mail/footer.html:8 weblate/html/mail/footer.txt:3
+msgid "Total strings:"
+msgstr "Συνολικά κείμενα:"
+
+#: weblate/html/mail/footer.html:11 weblate/html/mail/footer.txt:4
+msgid "Translated strings:"
+msgstr "Μεταφρασμένα κείμενα:"
+
+#: weblate/html/mail/footer.html:14 weblate/html/mail/footer.txt:5
+msgid "Fuzzy strings:"
+msgstr "Ασαφή κείμενα:"
+
+#: weblate/html/mail/footer.html:18
+#, python-format
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr ""
+"Μπορείτε να μεταφράσετε στο <a href=\"%(translation_url)s\">"
+"%(translation_url)s</a>"
+
+#: weblate/html/mail/footer.txt:7
+#, python-format
+msgid "You can translate at %(translation_url)s"
+msgstr "Μπορείτε να μεταφράσετε στο %(translation_url)s"
+
+#: weblate/html/mail/merge_failure.html:12
+#: weblate/html/mail/merge_failure.txt:3
+#, python-format
+msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+msgstr "υπήρξε ένα σφάλμα ένωσης του %(subproject)s στο %(site_title)s."
+
+#: weblate/html/mail/merge_failure.html:16
+msgid "Error message"
+msgstr "Μήνυμα σφάλματος"
+
+#: weblate/html/mail/merge_failure.html:22
+msgid "Repository status"
+msgstr "Κατάσταση αποθετηρίου"
+
+#: weblate/html/mail/merge_failure.txt:5
+msgid "Error message:"
+msgstr "Μήνυμα σφάλματος:"
+
+#: weblate/html/mail/merge_failure.txt:9
+msgid "Repository status:"
+msgstr "Κατάσταση αποθετηρίου:"
+
+#: weblate/html/mail/merge_failure_subject.txt:1
+#, python-format
+msgid "Merge failure in %(subproject)s"
+msgstr "Σφάλμα ένωσης στο %(subproject)s"
+
+#: weblate/html/mail/new_comment.html:12 weblate/html/mail/new_comment.txt:3
+#, python-format
+msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+msgstr "υπήρξε ένα νέο σχόλιο του %(subproject)s στο %(site_title)s."
+
+#: weblate/html/mail/new_comment.html:29 weblate/html/mail/new_comment.txt:9
+msgid "Comment:"
+msgstr "Σχόλιο:"
+
+#: weblate/html/mail/new_comment_subject.txt:1
+#, python-format
+msgid "New comment in %(subproject)s"
+msgstr "Νέο σχόλιο στο %(subproject)s"
+
+#: weblate/html/mail/new_contributor.html:12
+#: weblate/html/mail/new_contributor.txt:3
+#, python-format
+msgid ""
+"%(username)s has just made a first contribution on %(translation)s at "
+"%(site_title)s."
+msgstr ""
+"Ο χρήστης %(username)s μόλις είχε μια πρώτη συμμετοχή στο %(translation)s "
+"του %(site_title)s."
+
+#: weblate/html/mail/new_contributor_subject.txt:1
+#, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Νέα συμβολή στο %(translation)s"
+
+#: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
+#, python-format
+msgid ""
+"there are new strings to translate on %(translation)s at %(site_title)s."
+msgstr ""
+"υπάρχουν νέα κείμενα για μετάφραση στο %(translation)s του %(site_title)s."
+
+#: weblate/html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr "Νέο κείμενο για μετάφραση στο %(translation)s"
+
+#: weblate/html/mail/new_suggestion.html:12
+#: weblate/html/mail/new_suggestion.txt:3
+#, python-format
+msgid ""
+"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
+msgstr ""
+"υπάρχει νέα πρόταση για εκτίμηση στο %(translation)s του %(site_title)s."
+
+#: weblate/html/mail/new_suggestion.html:29
+#: weblate/html/mail/new_suggestion.txt:9
+msgid "Suggestion:"
+msgstr "Πρόταση:"
+
+#: weblate/html/mail/new_suggestion.html:51
+#: weblate/html/mail/new_suggestion.txt:13
+msgid "You can review it at:"
+msgstr "Μπορείτε να το κάνετε επισκόπηση στο:"
+
+#: weblate/html/mail/new_suggestion_subject.txt:1
+#, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Αυτόματη πρόταση στο %(translation)s"
+
+#: weblate/html/mail/new_translation.html:12
+#: weblate/html/mail/new_translation.txt:3
+#, python-format
+msgid "there has been a new translation on %(translation)s at %(site_title)s."
+msgstr "υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
+
+#: weblate/html/mail/new_translation.txt:13
+msgid "Previously not translated"
+msgstr "Προηγουμένως δεν μεταφράστηκε"
+
+#: weblate/html/mail/new_translation_subject.txt:1
+#, python-format
+msgid "New translation in %(translation)s"
+msgstr "Νέα μετάφραση σto %(translation)s"
+
+#: weblate/html/registration/activate.html:7
+msgid "Your account could not be activated"
+msgstr "Ο λογαριασμός σας δεν μπορούσε να ενεργοποιηθεί"
+
+#: weblate/html/registration/activate.html:9
+#, python-format
+msgid ""
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+"This may be because it is already active or because you waited over %(days)s "
+"days to activate it."
+msgstr[0] ""
+"Αυτό μπορεί να συμβαίνει γιατί είναι ήδη ενεργός ή γιατί περισσότερο από "
+"%(days)s ημέρα για να τον ενεργοποιήσετε."
+msgstr[1] ""
+"Αυτό μπορεί να συμβαίνει γιατί είναι ήδη ενεργός ή γιατί περισσότερο από "
+"%(days)s ημέρες για να τον ενεργοποιήσετε."
+
+#: weblate/html/registration/activate.html:12
+#, python-format
+msgid ""
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+"Εάν δεν συμβαίνει αυτό, <a href=\"%(contact_url)s\">επικοινωνήστε</a> με το "
+"διαχειριστή της ιστοσελίδας. Διαφορετικά, μπορείτε να <a href=\"%(reg_url)s"
+"\">εγγραφείτε ξανά</a>."
+
+#: weblate/html/registration/activation_complete.html:8
+msgid "Thank you. Your account is now activated."
+msgstr "Ευχαριστούμε. Ο λογαριασμός σας ενεργοποιήθηκε."
+
+#: weblate/html/registration/activation_complete.html:12
+#, python-format
+msgid ""
+"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+msgstr ""
+"Ίσως θέλετε να <a href=\"%(profile_url)s\">προσαρμόσετε το προφίλ σας</a> "
+"τώρα."
+
+#: weblate/html/registration/activation_email.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"This is an automatic email to help you complete your registration\n"
+"with %(site_title)s.\n"
+"\n"
+"Please open the following link in your web browser. If the link\n"
+"is split over several lines, you may need to copy it in the\n"
+"address bar."
+msgstr ""
+"Γεια,\n"
+"\n"
+"Αυτή είναι μια αυτόματη ηλεκτρονική επιστολή για να σας βοηθήσει να "
+"ολοκληρώσετε την εγγραφή σας\n"
+"με το %(site_title)s.\n"
+"\n"
+"Ανοίξτε τον ακόλουθο σύνδεσμο στον φυλλομετρητή σας. Αν ο σύνδεσμος\n"
+"χωρίζεται σε αρκετές γραμμές, ίσως χρειαστεί να τον αντιγράψετε στη\n"
+"γραμμή διευθύνσεων."
+
+#: weblate/html/registration/activation_email.txt:12
+#, python-format
+msgid ""
+"\n"
+"If there is a problem with your registration, please reply to\n"
+"this email.\n"
+"\n"
+"Best regards,\n"
+"%(site_title)s\n"
+msgstr ""
+"\n"
+"Αν υπάρχει πρόβλημα με την εγγραφή σας, απαντήστε σε\n"
+"αυτή την ηλεκτρονική επιστολή.\n"
+"\n"
+"Με εκτίμηση,\n"
+"%(site_title)s\n"
+
+#: weblate/html/registration/activation_email_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "Η εγγραφή σας στο %(site_title)s"
+
+#: weblate/html/registration/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr ""
+"Αυτός ο συνδυασμός ονόματος χρήστη/κωδικού δεν βρέθηκε. Δοκιμάστε ξανά."
+
+#: weblate/html/registration/login.html:37
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
+"Δεν έχετε ακόμα λογαριασμό; Μπορείτε να <a href=\"%(register_url)s"
+"\">εγγραφείτε</a>."
+
+#: weblate/html/registration/login.html:43
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"Ξεχάσατε τον κωδικό σας; Μπορείτε να <a href=\"%(reset_url)s\">τον "
+"επαναφέρετε</a>."
+
+#: weblate/html/registration/logout.html:7
+msgid "Thanks for using Weblate!"
+msgstr "Ευχαριστούμε που χρησιμποιείτε το Weblate!"
+
+#: weblate/html/registration/logout.html:9
+msgid "Log in again"
+msgstr "Συνδεθείτε ξανά"
+
+#: weblate/html/registration/password_change_done.html:6
+msgid "Your password was changed."
+msgstr "Ο κωδικός σας έχει αλλάξει."
+
+#: weblate/html/registration/password_change_form.html:11
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Διορθώστε το σφάλμα παρακάτω."
+msgstr[1] "Διορθώστε τα σφάλματα παρακάτω."
+
+#: weblate/html/registration/password_change_form.html:17
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Εισάγετε τον παλαιό σας κωδικό, για λόγους ασφαλείας, και μετά εισάγετε τον "
+"νέο σας κωδικό δύο φορές ώστε να βεβαιώσουμε ότι τον γράψατε σωστά."
+
+#: weblate/html/registration/password_change_form.html:22
+#: weblate/html/registration/password_reset_confirm.html:14
+msgid "Change my password"
+msgstr "Αλλαγή του κωδικού μου"
+
+#: weblate/html/registration/password_reset_complete.html:6
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+"Ο κωδικός σας ορίστηκε. Μπορείτε να προχωρήσετε και να να συνδεθείτε τώρα."
+
+#: weblate/html/registration/password_reset_complete.html:8
+msgid "Log in"
+msgstr "Σύνδεση"
+
+#: weblate/html/registration/password_reset_confirm.html:8
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Εισάγετε τον νέο σας κωδικό δύο φορές για να βεβαιώσουμε ότι τον γράψατε "
+"σωστά."
+
+#: weblate/html/registration/password_reset_confirm.html:19
+msgid ""
+"The password reset link is invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Ο σύνδεσμος επαναφοράς κωδικού δεν είναι έγκυρος, πιθανά γιατί έχει ήδη "
+"χρησιμοποιηθεί. Αιτηθείτε μια νέα επαναφορά κωδικού."
+
+#: weblate/html/registration/password_reset_done.html:7
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Σας στείλαμε ηλεκτρονικά οδηγίες για να ορίσετε τον κωδικό σας στην "
+"ηλεκτρονική διεύθυνση που υποβάλλατε. Θα πρέπει να το λάβετε σύντομα."
+
+#: weblate/html/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Λάβατε αυτή την ηλεκτρονική επιστολή γιατί αιτηθήκατε μια επαναφορά κωδικού "
+"για τον λογαριασμό χρήστη στο %(site_name)s."
+
+#: weblate/html/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Μεταβείτε στην επόμενη σελίδα και επιλέξτε ένα νέο κωδικό:"
+
+#: weblate/html/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr "Το όνομα χρήστη σας, στην περίπτωση που το ξεχάσατε:"
+
+#: weblate/html/registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr "Ευχαριστούμε που χρησιμοποιείτε την ιστοσελίδα μας!"
+
+#: weblate/html/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Η ομάδα του %(site_name)s"
+
+#: weblate/html/registration/password_reset_form.html:6
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Ξεχάσατε τον κωδικό σας; Εισάγετε την ηλεκτρονική σας διεύθυνση παρακάτω και "
+"θα σας αποστείλεουμε ηλεκτρονικά οδηγίες για τον ορισμό νέου."
+
+#: weblate/html/registration/password_reset_form.html:10
+msgid "Reset my password"
+msgstr "Επαναφορά του κωδικού μου"
+
+#: weblate/html/registration/registration_closed.html:9
+#, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+"Συγνώμη, αλλά οι εγγραφές σε αυτή την ιστοσελίδα είναι απενεργοποιημένες. "
+"Μπορείτε να <a href=\"%(contact_url)s\">επικοινωνήσετε μαζί μας</a> για "
+"περισσότερες λεπτομέρειες."
+
+#: weblate/html/registration/registration_complete.html:7
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Σας ευχαριστούμε που εγγραφτήκατε. Θα λάβετε, πολύ σύντομα, μια ηλεκτρονική "
+"επιστολή με\n"
+"ένα σύνδεσμο επιβεβαίωσης. Μεταβείτε σε αυτό το σύνδεσμο για να ολοκληρωθεί "
+"η εγγραφή σας."
+
+#: weblate/html/registration/registration_complete.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+"Αν δεν το λάβετε σύντομα, ελέγξτε το φάκελο «Ανεπιθύμητη αλληλογραφία». Εάν "
+"δεν υπάρχει, <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">επικοινωνήστε μαζί μας</a>."
+
+#: weblate/html/registration/registration_form.html:11
+msgid "Please fix errors in registration form."
+msgstr "Διορθώστε τα σφάλματα στη φόρμα εγγραφής."
+
+#: weblate/html/registration/registration_form.html:23
+msgid ""
+"By registering you agree to use your name and email in Git commits and your "
+"contribution to be licensed under same license as translated content."
+msgstr ""
+"Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η διεύθυνσή "
+"σας στους συμμετέχοντες του Git και η συνεισφορά σας να αδειοδοτηθεί υπό την "
+"ίδια άδεια όπως το μεταφρασμένο περιεχόμενο."
 
 #~ msgid "Conflict handling"
 #~ msgstr "Χειρισμός διέναιξης"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-20 11:45+0100\n"
+"POT-Creation-Date: 2013-02-21 12:03+0100\n"
 "PO-Revision-Date: 2012-06-29 23:35+0200\n"
 "Last-Translator: Jukka Penttinen <tikkakalja@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,34 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.1\n"
 
-#: urls.py:257 urls.py:264 urls.py:271 urls.py:278
-msgid "User registration"
-msgstr "Käyttäjän rekisteröinti"
-
-#: urls.py:286
-msgid "Account activation"
-msgstr "Tunnuksen aktivointi"
-
-#: urls.py:295 html/base.html:49 html/registration/login.html:30
-msgid "Login"
-msgstr "Sisäänkirjautuminen"
-
-#: urls.py:302
-msgid "Logged out"
-msgstr "Uloskirjautuneena"
-
-#: urls.py:307
-msgid "Change password"
-msgstr "Vaihda salasanaa"
-
-#: urls.py:311
-msgid "Password changed"
-msgstr "Salasana vaihdettu"
-
-#: urls.py:315 urls.py:319 urls.py:323 urls.py:327
-msgid "Password reset"
-msgstr "Salasanan palautus"
-
 #: accounts/forms.py:98 accounts/forms.py:122
 msgid "First name"
 msgstr "Etunimi"
@@ -54,7 +26,7 @@ msgstr "Etunimi"
 msgid "Last name"
 msgstr "Sukunimi"
 
-#: accounts/forms.py:100 accounts/forms.py:135 html/i18n.html:15
+#: accounts/forms.py:100 accounts/forms.py:135 weblate/html/i18n.html:15
 msgid "E-mail"
 msgstr "Sähköposti"
 
@@ -74,7 +46,7 @@ msgstr "Sähköpostiosoitteesi"
 msgid "Message"
 msgstr "Viesti"
 
-#: accounts/forms.py:131 html/i18n.html:16
+#: accounts/forms.py:131 weblate/html/i18n.html:16
 msgid "Username"
 msgstr "Käyttäjänimi"
 
@@ -86,7 +58,8 @@ msgstr "Vähintään viisi merkkiä pitkä."
 msgid "Activation email will be sent here."
 msgstr "Aktivointisähköposti lähetetään tähän osoitteeseen."
 
-#: accounts/forms.py:139 html/i18n.html:17 html/profile.html:25
+#: accounts/forms.py:139 weblate/html/i18n.html:17
+#: weblate/html/profile.html:25
 msgid "Password"
 msgstr "Salasana"
 
@@ -115,7 +88,7 @@ msgstr "Käyttäjänimessä on oltava vähintään viisi merkkiä."
 msgid "Interface Language"
 msgstr "Käyttöliittymän kieli"
 
-#: accounts/models.py:192 html/index.html:21 trans/views/basic.py:101
+#: accounts/models.py:192 trans/views/basic.py:101 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Kielet"
 
@@ -175,2459 +148,6 @@ msgstr "Viesti ylläpitäjälle on lähetetty."
 #: accounts/views.py:155
 msgid "Contact"
 msgstr "Ota yhteyttä"
-
-#: html/404.html:7
-msgid "The page you are looking for was not found."
-msgstr "Sivua, jota etsit, ei löydy."
-
-#: html/404.html:11
-#, fuzzy
-msgid ""
-"However the following translation projects are available on this server:"
-msgstr ""
-"Kuitenkin seuraavat käännösprojektit ovat saatavilla tällä palvelimella:"
-
-#: html/500.html:5
-msgid "Server Error"
-msgstr "Palvelinvirhe"
-
-#: html/500.html:8
-msgid ""
-"The server had serious problems while serving your request. We've just sent "
-"our trained monkeys to fix the issue."
-msgstr ""
-"Palvelimella oli vakavia ongelmia toteuttaessaan pyyntöäsi. Olemme juuri "
-"lähettäneet koulutetut\n"
-"apinamme korjaamaan ongelman."
-
-#: html/about.html:6
-msgid "about"
-msgstr ""
-
-#: html/about.html:11 html/footer.html:7 trans/views/basic.py:351
-msgid "About Weblate"
-msgstr "Tietoa Weblatesta"
-
-#: html/about.html:13
-#, fuzzy
-msgid ""
-"Weblate is a web based translation tool with tight Git integration. It "
-"features simple and clean user interface, propagation of translations across "
-"subprojects, quality checks and automatic linking to source files."
-msgstr ""
-"Weblate on verkkopohjainen kääntämistyökalu, jolla on tiukka Git "
-"integraatio. Se tarjoaa yksinkertaisen ja\n"
-" siistin käyttöliittymän, käännösten etenemisen aliprojektien yli, "
-"johdonmukaisuus tarkistukset tai\n"
-" automaattisen linkittämisen lähdetiedostoihin."
-
-#: html/about.html:15 html/contact.html:15
-#, python-format
-msgid ""
-"If you are looking for support for Weblate or want to file bug reports check "
-"its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
-msgstr ""
-
-#: html/about.html:20
-msgid ""
-"This Weblate instance hosts translations for various free software projects."
-msgstr ""
-
-#: html/about.html:21 html/index.html:54
-#, fuzzy, python-format
-#| msgid ""
-#| "Should your language be missing, please <a href=\"%(contact_url)s?"
-#| "subject=New+language+request+for+%(object)s\">contact us</a>."
-msgid ""
-"We can host your project as well, if you are interested, please <a href="
-"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
-msgstr ""
-"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
-
-#: html/about.html:25
-msgid ""
-"Weblate is free software created by volunteers, but you can still support "
-"them financially:"
-msgstr ""
-
-#: html/about.html:28
-#, fuzzy
-msgid "Flattr Weblate!"
-msgstr "Tietoa Weblatesta"
-
-#: html/about.html:29
-#, fuzzy
-msgid "Donate to Weblate!"
-msgstr "Tietoa Weblatesta"
-
-#: html/about.html:32
-#, fuzzy
-msgid "Versions"
-msgstr "Persia"
-
-#: html/about.html:34
-msgid "This site is built using following projects:"
-msgstr "Tämä sivu on rakennettu käyttämällä seuraavia projekteja:"
-
-#: html/about.html:48 html/data.html:50
-#, fuzzy
-msgid "Statistics"
-msgstr "Tilanne"
-
-#: html/about.html:52
-#, fuzzy
-msgid "Strings to translate"
-msgstr "Git haara käännettäväksi"
-
-#: html/about.html:56
-#, fuzzy
-msgid "Used languages"
-msgstr "kielet"
-
-#: html/about.html:60
-#, fuzzy
-msgid "Registered users"
-msgstr "Rekisteröidy"
-
-#: html/about.html:64 html/user-activity.html:4
-#, fuzzy
-msgid "Suggestions made"
-msgstr "Ehdotukset"
-
-#: html/about.html:68 html/user-activity.html:8
-#, fuzzy
-msgid "Translations made"
-msgstr "Käännökset"
-
-#: html/about.html:72
-#, fuzzy
-msgid "Failing checks found"
-msgstr "Epäonnistuvat tarkistukset"
-
-#: html/about.html:76
-#, fuzzy
-msgid "Ignored checks"
-msgstr "Jätä huomioitta: %(check)s"
-
-#: html/base.html:43
-#, python-format
-msgid "Logged in as %(name)s"
-msgstr "Kirjauduttu sisään nimellä %(name)s"
-
-#: html/base.html:44
-msgid "Logout"
-msgstr "Kirjaudu ulos"
-
-#: html/base.html:47 html/registration/registration_form.html:25
-msgid "Register"
-msgstr "Rekisteröidy"
-
-#: html/base.html:54 html/admin/performance.html:9 html/admin/report.html:8
-#: html/admin/ssh.html:8
-msgid "Home"
-msgstr "Koti"
-
-#: html/check.html:7 html/check_project.html:7 html/check_subproject.html:7
-#: html/checks.html:7
-msgid "checks"
-msgstr "tarkistukset"
-
-#: html/check.html:18 html/check_project.html:19 html/check_subproject.html:20
-#, python-format
-msgid ""
-"More information about this check is available in the <a href=\"%(link)s"
-"\">documentation</a>."
-msgstr ""
-"Lisätietoja tästä tarkistusta on saataville <a href=\"%(link)s"
-"\">dokumentaatiossa</a>."
-
-#: html/check.html:26 html/check_project.html:26 html/data.html:28
-#: html/data.html.py:59 html/index.html:37 html/list-translations.html:6
-#: html/translate.html:177 html/js/other.html:6 html/js/similar.html:6
-msgid "Project"
-msgstr "Projekti"
-
-#: html/check.html:27 html/check_project.html:27 html/check_subproject.html:28
-#: html/checks.html:16
-msgid "Failures"
-msgstr "Epäonnistumiset"
-
-#: html/check.html:40 html/check_project.html:40 html/check_subproject.html:47
-msgid "There are no matching failed checks!"
-msgstr "Täsmääviä epäonnistuneita tarkistuksia ei ole!"
-
-#: html/check_subproject.html:27 html/dictionary.html:33
-#: html/last-changes.html:16 html/translate.html:91 html/translate.html.py:182
-#: html/js/dictionary.html:8 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:297
-msgid "Translation"
-msgstr "Käännös"
-
-#: html/check_subproject.html:39 html/dictionary.html:32
-#: html/source-review.html:32 html/subproject.html:36 html/translate.html:62
-#: html/translate.html.py:176 html/translate.html:182
-#: html/js/dictionary.html:7 html/js/other.html:6 html/js/similar.html:6
-#: trans/forms.py:296
-msgid "Source"
-msgstr "Lähde"
-
-#: html/checks.html:15 html/admin/performance.html:20
-msgid "Check"
-msgstr "Tarkistus"
-
-#: html/contact.html:6
-#, fuzzy
-#| msgid "Contact"
-msgid "contact"
-msgstr "Ota yhteyttä"
-
-#: html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr ""
-
-#: html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"Ole hyvä ja ota meihin yhteyttä englanniksi, muutoin emme ehkä ymmärrä "
-"pyyntöäsi."
-
-#: html/contact.html:21
-msgid "Send"
-msgstr "Lähetä"
-
-#: html/data-root.html:6 html/data.html:7
-msgid "data"
-msgstr ""
-
-#: html/data-root.html:11 html/data.html:12 html/index.html:116
-msgid "Data export"
-msgstr ""
-
-#: html/data-root.html:14 html/data.html:15
-msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr ""
-
-#: html/data-root.html:17 html/data.html:18
-msgid "RSS feeds"
-msgstr ""
-
-#: html/data-root.html:20 html/data.html:21
-msgid ""
-"To follow translation progress you can use RSS feeds which include all "
-"important changes in translation."
-msgstr ""
-
-#: html/data-root.html:21 html/data.html:22
-#, fuzzy, python-format
-msgid ""
-"More information about exported RSS feeds is available in <a href="
-"\"%(rss_docs)s\">the documentation</a>."
-msgstr ""
-"Lisätietoja tästä tarkistusta on saataville <a href=\"%(link)s"
-"\">dokumentaatiossa</a>."
-
-#: html/data-root.html:27 html/data.html:29 html/data.html.py:60
-msgid "URL"
-msgstr ""
-
-#: html/data-root.html:28 html/data.html:30 html/data.html.py:61
-msgid "Link"
-msgstr ""
-
-#: html/data-root.html:33 html/data.html:36 html/data.html.py:42
-msgid "RSS"
-msgstr ""
-
-#: html/data-root.html:38
-#, fuzzy
-msgid "Per project data"
-msgstr "Projekti"
-
-#: html/data-root.html:41
-msgid ""
-"There is more data exported per project, please check following links for "
-"more information."
-msgstr ""
-
-#: html/data.html:48
-msgid ""
-"There are also per language RSS feeds available, you can construct them by "
-"appending a language code to the above URLs."
-msgstr ""
-
-#: html/data.html:53
-#, python-format
-msgid ""
-"Translation statistics for every subproject in JSON format allow you to use "
-"these data in other websites or tools. Format of the data is described in <a "
-"href=\"%(api_docs)s\">the documentation</a>."
-msgstr ""
-
-#: html/data.html:68 html/translation.html:58
-msgid "Download"
-msgstr "Lataa"
-
-#: html/dictionaries.html:8 html/dictionary.html:7
-msgid "glossaries"
-msgstr ""
-
-#: html/dictionaries.html:15 html/languages.html:14
-#: html/list-translations.html:6
-msgid "Language"
-msgstr "Kieli"
-
-#: html/dictionaries.html:16
-msgid "Words"
-msgstr "Sanat"
-
-#: html/dictionary.html:15 html/translate.html:173
-msgid "Glossary"
-msgstr ""
-
-#: html/dictionary.html:19 html/source-review.html:19 html/translate.html:28
-msgid "First"
-msgstr "Ensimmäinen"
-
-#: html/dictionary.html:20 html/source-review.html:20 html/translate.html:29
-msgid "Previous"
-msgstr "Edellinen"
-
-#: html/dictionary.html:21 html/source-review.html:21 html/translate.html:30
-#, python-format
-msgid "%(position)s / %(total)s"
-msgstr "%(position)s / %(total)s"
-
-#: html/dictionary.html:22 html/source-review.html:22 html/translate.html:31
-msgid "Next"
-msgstr "Seuraava"
-
-#: html/dictionary.html:23 html/source-review.html:23 html/translate.html:32
-msgid "Last"
-msgstr "Viimeinen"
-
-#: html/dictionary.html:48
-msgid "Edit"
-msgstr "Muokkaa"
-
-#: html/dictionary.html:57 html/translate.html:133
-msgid "Delete"
-msgstr "Poista"
-
-#: html/dictionary.html:66
-msgid "No words found!"
-msgstr "Sanoja ei löydetty!"
-
-#: html/dictionary.html:69 html/language.html:18 html/project.html:36
-#: html/subproject.html:26 html/translation.html:31
-msgid "Tools"
-msgstr "Työkalut"
-
-#: html/dictionary.html:74
-msgid "Add new word"
-msgstr "Lisää uusi sana"
-
-#: html/dictionary.html:77
-#, fuzzy
-msgid "Import glossary"
-msgstr "Tuo sanakirja"
-
-#: html/dictionary.html:79
-#, fuzzy
-msgid "Export glossary"
-msgstr "Tuo sanakirja"
-
-#: html/dictionary.html:90 html/translate.html:213 html/translate.html.py:246
-msgid "Add"
-msgstr "Lisää"
-
-#: html/dictionary.html:99
-#, fuzzy
-msgid ""
-"You can upload any format which is understood by Translate Toolkit "
-"(including TBX, CSV or Gettext PO files)."
-msgstr ""
-"Voit ladata palvelimelle missä tahansa muodossa, jota Translate Toolkit "
-"ymmärtää. Esimerkiksi csv tai po tiedostona."
-
-#: html/dictionary.html:106
-msgid "Import"
-msgstr "Tuo"
-
-#: html/dictionary.html:114
-msgid "You can download glossary in following formats:"
-msgstr ""
-
-#: html/dictionary.html:117
-msgid "Comma separated values (CSV)"
-msgstr ""
-
-#: html/dictionary.html:118
-msgid "Gettext (PO)"
-msgstr ""
-
-#: html/dictionary.html:119
-msgid "TermBase eXchange (TBX)"
-msgstr ""
-
-#: html/edit_dictionary.html:7
-msgid "dictionaries"
-msgstr "sanakirjat"
-
-#: html/edit_dictionary.html:14
-msgid "Change word"
-msgstr "Vaihda sanaa"
-
-#: html/edit_dictionary.html:21 html/profile.html:66 html/translate.html:153
-msgid "Save"
-msgstr "Tallenna"
-
-#: html/engage.html:11 html/engage.html.py:25
-#, python-format
-msgid "Get involved in %(project)s!"
-msgstr ""
-
-#: html/engage.html:12
-#, python-format
-msgid ""
-"Get involved in %(project)s, which is currently being translated into "
-"%(languages)s languages using Weblate."
-msgstr ""
-
-#: html/engage.html:28
-msgid "Hi, and thank you for your interest!"
-msgstr ""
-
-#: html/engage.html:31
-#, python-format
-msgid ""
-"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
-"a>, a web tool designed to ease translating for both developers and "
-"translators."
-msgstr ""
-
-#: html/engage.html:38
-#, fuzzy, python-format
-msgid ""
-"If you would like to contribute to translation of %(project)s, you need to "
-"<a href=\"%(reg_url)s\">register on this server</a>."
-msgstr ""
-"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
-
-#: html/engage.html:41
-#, python-format
-msgid ""
-"Once you have activated your account just proceed to the <a href=\"%(url)s"
-"\">translation section</a>."
-msgstr ""
-
-#: html/footer.html:6
-#, fuzzy, python-format
-msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr "Tarjoaa <a href=\"http://weblate.org\">Weblate %(version)s</a>"
-
-#: html/footer.html:8
-msgid "Contact us"
-msgstr "Ota meihin yhteyttä"
-
-#: html/footer.html:9 html/admin/performance.html:22
-#: html/admin/performance.html.py:30
-msgid "Documentation"
-msgstr "Dokumentaatio"
-
-#: html/git-commit-info.html:4
-#, python-format
-msgid "Commit %(hash)s"
-msgstr ""
-
-#: html/git-commit-info.html:5
-#, python-format
-msgid "Authored by %(author)s on %(date)s"
-msgstr ""
-
-#: html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr ""
-"Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
-
-#: html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "Salasanan täytyy olla sama molemmilla kerroilla"
-
-#: html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
-
-#: html/i18n.html:11
-msgid "Old password"
-msgstr "Vanha salasana"
-
-#: html/i18n.html:12
-msgid "New password"
-msgstr "Uusi salasana"
-
-#: html/i18n.html:13
-msgid "New password confirmation"
-msgstr "Uuden salasanan varmistus"
-
-#: html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "Kaksi salasana kenttää eivät täsmää."
-
-#: html/i18n.html:18
-msgid ""
-"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr ""
-"Paina \"Control\" tai \"Command\" näppäintä Macilla, valitaksesi useamman, "
-"kuin yhden."
-
-#: html/i18n.html:23
-msgid "Afrikaans"
-msgstr "Afrikaans"
-
-#: html/i18n.html:24
-msgid "Akan"
-msgstr "Akan"
-
-#: html/i18n.html:25
-msgid "Albanian"
-msgstr "Albania"
-
-#: html/i18n.html:26
-msgid "Amharic"
-msgstr "Amharic"
-
-#: html/i18n.html:27
-msgid "Arabic"
-msgstr "Arabia"
-
-#: html/i18n.html:28
-msgid "Aragonese"
-msgstr "Aragon"
-
-#: html/i18n.html:29
-msgid "Armenian"
-msgstr "Armenia"
-
-#: html/i18n.html:30
-msgid "Asturian"
-msgstr "Asturia"
-
-#: html/i18n.html:31
-msgid "Azerbaijani"
-msgstr "Azerbaitsan"
-
-#: html/i18n.html:32
-msgid "Basque"
-msgstr "Baski"
-
-#: html/i18n.html:33
-msgid "Belarusian"
-msgstr "Valkovenäjä"
-
-#: html/i18n.html:34
-msgid "Belarusian (latin)"
-msgstr "Valkovenäjä(latin)"
-
-#: html/i18n.html:35
-msgid "Bengali"
-msgstr "Bengali"
-
-#: html/i18n.html:36
-msgid "Bengali (India)"
-msgstr "Bengali (Intia)"
-
-#: html/i18n.html:37
-msgid "Bosnian"
-msgstr "Bosnia"
-
-#: html/i18n.html:38
-msgid "Breton"
-msgstr "Breton"
-
-#: html/i18n.html:39
-msgid "Bulgarian"
-msgstr "Bulgaria"
-
-#: html/i18n.html:40
-msgid "Catalan"
-msgstr "Katalonia"
-
-#: html/i18n.html:41
-msgid "Central Khmer"
-msgstr "Keski-khmer"
-
-#: html/i18n.html:42
-msgid "Cornish"
-msgstr "Korni"
-
-#: html/i18n.html:43
-msgid "Croatian"
-msgstr "Kroatia"
-
-#: html/i18n.html:44
-msgid "Czech"
-msgstr "Tsekki"
-
-#: html/i18n.html:45
-msgid "Danish"
-msgstr "Tanska"
-
-#: html/i18n.html:46
-msgid "Dutch"
-msgstr "Hollanti"
-
-#: html/i18n.html:47
-msgid "Dzongkha"
-msgstr "Dzongkha"
-
-#: html/i18n.html:48
-msgid "English"
-msgstr "Englanti"
-
-#: html/i18n.html:49
-msgid "English (South Africa)"
-msgstr "Englanti (Etelä-Afrikka)"
-
-#: html/i18n.html:50
-msgid "English (United Kingdom)"
-msgstr "Englanti (UK)"
-
-#: html/i18n.html:51
-msgid "English (United States)"
-msgstr "Englanti (USA)"
-
-#: html/i18n.html:52
-msgid "Esperanto"
-msgstr "Esperanto"
-
-#: html/i18n.html:53
-msgid "Estonian"
-msgstr "Viro"
-
-#: html/i18n.html:54
-msgid "Faroese"
-msgstr "Färsaaret"
-
-#: html/i18n.html:55
-msgid "Filipino"
-msgstr "Filippiinit"
-
-#: html/i18n.html:56
-msgid "Finnish"
-msgstr "Suomi"
-
-#: html/i18n.html:57
-msgid "French"
-msgstr "Ranska"
-
-#: html/i18n.html:58
-msgid "Frisian"
-msgstr "Friisi"
-
-#: html/i18n.html:59
-msgid "Friulian"
-msgstr "Friuli"
-
-#: html/i18n.html:60
-msgid "Fulah"
-msgstr ""
-
-#: html/i18n.html:61
-msgid "Gaelic"
-msgstr "Gaeli"
-
-#: html/i18n.html:62
-msgid "Galician"
-msgstr "Galisia"
-
-#: html/i18n.html:63
-msgid "Georgian"
-msgstr "Georgia"
-
-#: html/i18n.html:64
-msgid "German"
-msgstr "Saksa"
-
-#: html/i18n.html:65
-msgid "Greek"
-msgstr "Kreikka"
-
-#: html/i18n.html:66
-msgid "Gujarati"
-msgstr "Gujarati"
-
-#: html/i18n.html:67
-msgid "Gun"
-msgstr "Gun"
-
-#: html/i18n.html:68
-msgid "Hausa"
-msgstr "Hausa"
-
-#: html/i18n.html:69
-msgid "Hebrew"
-msgstr "Hebrea"
-
-#: html/i18n.html:70
-msgid "Hindi"
-msgstr "Hindi"
-
-#: html/i18n.html:71
-msgid "Hungarian"
-msgstr "Unkari"
-
-#: html/i18n.html:72
-msgid "Chinese (Hong Kong)"
-msgstr "Kiina (Hong Kong)"
-
-#: html/i18n.html:73
-msgid "Chinese (China)"
-msgstr "Kiina (Kiina)"
-
-#: html/i18n.html:74
-msgid "Chinese (Taiwan)"
-msgstr "Kiina (Taiwan)"
-
-#: html/i18n.html:75
-msgid "Icelandic"
-msgstr "Islanti"
-
-#: html/i18n.html:76
-msgid "Indonesian"
-msgstr "Indonesia"
-
-#: html/i18n.html:77
-msgid "Interlingua"
-msgstr "Interlingua"
-
-#: html/i18n.html:78
-msgid "Irish"
-msgstr "Iiri"
-
-#: html/i18n.html:79
-msgid "Italian"
-msgstr "Italia"
-
-#: html/i18n.html:80
-msgid "Japanese"
-msgstr "Japani"
-
-#: html/i18n.html:81
-msgid "Javanese"
-msgstr "Java"
-
-#: html/i18n.html:82
-msgid "Kannada"
-msgstr "Kannada"
-
-#: html/i18n.html:83
-msgid "Kashubian"
-msgstr "Kasubi"
-
-#: html/i18n.html:84
-msgid "Kazakh"
-msgstr "Kazakki"
-
-#: html/i18n.html:85
-msgid "Kirghiz"
-msgstr "Kirgiisi"
-
-#: html/i18n.html:86
-msgid "Korean"
-msgstr "Korea"
-
-#: html/i18n.html:87
-msgid "Kurdish"
-msgstr "Kurdi"
-
-#: html/i18n.html:88
-msgid "Kurdish Sorani"
-msgstr "Sorani (Kurdi)"
-
-#: html/i18n.html:89
-msgid "Lao"
-msgstr "Lao"
-
-#: html/i18n.html:90
-msgid "Latvian"
-msgstr "Latvia"
-
-#: html/i18n.html:91
-msgid "Lingala"
-msgstr "Lingala"
-
-#: html/i18n.html:92
-msgid "Lithuanian"
-msgstr "Liettua"
-
-#: html/i18n.html:93
-msgid "Luxembourgish"
-msgstr "Luxemburg"
-
-#: html/i18n.html:94
-msgid "Macedonian"
-msgstr "Makedonia"
-
-#: html/i18n.html:95
-msgid "Maithili"
-msgstr "Maithili"
-
-#: html/i18n.html:96
-msgid "Malagasy"
-msgstr "Malagasi"
-
-#: html/i18n.html:97
-msgid "Malay"
-msgstr "Malai"
-
-#: html/i18n.html:98
-msgid "Malayalam"
-msgstr "Malayalam"
-
-#: html/i18n.html:99
-msgid "Maltese"
-msgstr "Malta"
-
-#: html/i18n.html:100
-msgid "Maori"
-msgstr "Maori"
-
-#: html/i18n.html:101
-msgid "Mapudungun"
-msgstr "Mapudungun"
-
-#: html/i18n.html:102
-msgid "Marathi"
-msgstr "Marathi"
-
-#: html/i18n.html:103
-msgid "Mongolian"
-msgstr "Mongolia"
-
-#: html/i18n.html:104
-msgid "Morisyen"
-msgstr "Mauritania"
-
-#: html/i18n.html:105
-msgid "Nahuatl languages"
-msgstr "Nahuatl kieli"
-
-#: html/i18n.html:106
-msgid "Neapolitan"
-msgstr "Neapolitan Italia"
-
-#: html/i18n.html:107
-msgid "Nepali"
-msgstr "Nepali"
-
-#: html/i18n.html:108
-msgid "Norwegian Bokmål"
-msgstr "Kirjanorja"
-
-#: html/i18n.html:109
-msgid "Norwegian Nynorsk"
-msgstr "Uusnorja"
-
-#: html/i18n.html:110
-msgid "Occitan"
-msgstr "Oksitaani"
-
-#: html/i18n.html:111
-msgid "Oriya"
-msgstr "Orija"
-
-#: html/i18n.html:112
-msgid "Papiamento"
-msgstr "Papiamentu"
-
-#: html/i18n.html:113
-msgid "Pedi"
-msgstr "Pohjoissotho"
-
-#: html/i18n.html:114
-msgid "Persian"
-msgstr "Persia"
-
-#: html/i18n.html:115
-msgid "Piemontese"
-msgstr "Piemonte"
-
-#: html/i18n.html:116
-msgid "Polish"
-msgstr "Puola"
-
-#: html/i18n.html:117
-msgid "Portuguese"
-msgstr "Portugali"
-
-#: html/i18n.html:118
-msgid "Portuguese (Brazil)"
-msgstr "Portugali (Brasilia)"
-
-#: html/i18n.html:119
-msgid "Portuguese (Portugal)"
-msgstr "Portugali (Portugali)"
-
-#: html/i18n.html:120
-#, fuzzy
-msgid "Punjabi"
-msgstr "Punjabi"
-
-#: html/i18n.html:121
-msgid "Pushto"
-msgstr "Pastu"
-
-#: html/i18n.html:122
-msgid "Romanian"
-msgstr "Romalia"
-
-#: html/i18n.html:123
-msgid "Romansh"
-msgstr "Retoromaani"
-
-#: html/i18n.html:124
-msgid "Russian"
-msgstr "Venäjä"
-
-#: html/i18n.html:125
-msgid "Scots"
-msgstr "Skotti"
-
-#: html/i18n.html:126
-msgid "Serbian"
-msgstr "Serbia"
-
-#: html/i18n.html:127
-msgid "Serbian (cyrillic)"
-msgstr "Serbia (Kyrillinen)"
-
-#: html/i18n.html:128
-msgid "Serbian (latin)"
-msgstr "Serbia (latin)"
-
-#: html/i18n.html:129
-msgid "Sinhala"
-msgstr "singaleesi"
-
-#: html/i18n.html:130
-msgid "Slovak"
-msgstr "Slovakki"
-
-#: html/i18n.html:131
-msgid "Slovenian"
-msgstr "Slovenia"
-
-#: html/i18n.html:132
-msgid "Somali"
-msgstr "Somali"
-
-#: html/i18n.html:133
-msgid "Songhai languages"
-msgstr "Songhai"
-
-#: html/i18n.html:134
-msgid "Sotho"
-msgstr "Eteläsotho"
-
-#: html/i18n.html:135
-msgid "Spanish"
-msgstr "Espanja"
-
-#: html/i18n.html:136
-msgid "Sundanese"
-msgstr "Sundaneesi"
-
-#: html/i18n.html:137
-msgid "Swahili"
-msgstr "Swahili"
-
-#: html/i18n.html:138
-msgid "Swedish"
-msgstr "Ruotsi"
-
-#: html/i18n.html:139
-msgid "Tajik"
-msgstr "Tadziki"
-
-#: html/i18n.html:140
-msgid "Tamil"
-msgstr "Tamili"
-
-#: html/i18n.html:141
-msgid "Tatar"
-msgstr "Tatar"
-
-#: html/i18n.html:142
-msgid "Telugu"
-msgstr "Telugu"
-
-#: html/i18n.html:143
-msgid "Thai"
-msgstr "Thai"
-
-#: html/i18n.html:144
-msgid "Tibetan"
-msgstr "Tiibet"
-
-#: html/i18n.html:145
-msgid "Tigrinya"
-msgstr "Tigrinja"
-
-#: html/i18n.html:146
-msgid "Turkish"
-msgstr "Turkki"
-
-#: html/i18n.html:147
-msgid "Turkmen"
-msgstr "Turkmeeni"
-
-#: html/i18n.html:148
-msgid "Uighur"
-msgstr "Uiguuri"
-
-#: html/i18n.html:149
-msgid "Ukrainian"
-msgstr "Ukraina"
-
-#: html/i18n.html:150
-msgid "Urdu"
-msgstr "Urdu"
-
-#: html/i18n.html:151
-msgid "Uzbek"
-msgstr "Udzbekki"
-
-#: html/i18n.html:152
-msgid "Uzbek (latin)"
-msgstr "Udzbekki (latin)"
-
-#: html/i18n.html:153
-msgid "Vietnamese"
-msgstr "Vietnam"
-
-#: html/i18n.html:154
-msgid "Walloon"
-msgstr "Vallooni"
-
-#: html/i18n.html:155
-msgid "Welsh"
-msgstr "Kymri"
-
-#: html/i18n.html:156
-msgid "Yoruba"
-msgstr "Joruba"
-
-#: html/i18n.html:157
-msgid "Zulu"
-msgstr "Zulu"
-
-#: html/i18n.html:160
-msgid "Translate using Apertium"
-msgstr "Käännä käyttämällä Apertiumia"
-
-#: html/i18n.html:161
-msgid "Translate using Microsoft Translator"
-msgstr "Käännä käyttämällä Microsoft Kääntäjää"
-
-#: html/i18n.html:162
-msgid "Translate using MyMemory"
-msgstr "Käännä käyttämällä MyMemoryä"
-
-#: html/i18n.html:163
-msgid "Sort this column"
-msgstr "Järjestä tämä sarake"
-
-#: html/i18n.html:164
-msgid "AJAX request to load this content has failed!"
-msgstr "AJAX pyyntö tämän sisällön lataamiseksi on epäonnistunut!"
-
-#: html/i18n.html:165
-#, fuzzy
-msgid "Loading…"
-msgstr "Ladataan…"
-
-#: html/i18n.html:166
-msgid "Failed translation"
-msgstr "Epäonnistunut käännös"
-
-#: html/i18n.html:167
-msgid "The request for machine translation has failed."
-msgstr "Pyyntö koneellisen käännöksen tekemiseen on epäonnistunut."
-
-#: html/i18n.html:168
-msgid "Error details:"
-msgstr "Virheen lisätiedot:"
-
-#: html/i18n.html:169
-#, fuzzy
-msgid "Confirm resetting repository"
-msgstr "Git ohjelmistolähteen osoite (URL)"
-
-#: html/i18n.html:170
-msgid "Resetting the repository will throw away all local changes!"
-msgstr ""
-
-#: html/i18n.html:171
-msgid "Ok"
-msgstr ""
-
-#: html/i18n.html:172
-msgid "Cancel"
-msgstr ""
-
-#: html/i18n.html:173 html/list-translations.html:62 trans/views/helper.py:192
-#, fuzzy
-msgid "Strings with any failing checks"
-msgstr "Merkkijonojen ehdotukset (%d)"
-
-#: html/i18n.html:174 html/list-translations.html:63 trans/views/helper.py:186
-msgid "Fuzzy strings"
-msgstr "Epäselvät merkkijonot"
-
-#: html/i18n.html:175 html/list-translations.html:61
-#, fuzzy
-msgid "Translated strings"
-msgstr "Kääntämättömät merkkijonot"
-
-#: html/index.html:9
-#, python-format
-msgid ""
-"This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
-"software projects listed below. You need to be logged in for translating, "
-"otherwise you can only make suggestions."
-msgstr ""
-"Tämä sivu käyttää <a href=\"%(weblate_url)s\">Weblatea</a> kääntääkseen "
-"ohjelmistoprojekteja, jotka on\n"
-" lueteltu alapuolella. Sinun on oltava sisäänkirjautunut voidaksesi kääntää, "
-"muuten voit tehdä vain\n"
-" ehdotuksia."
-
-#: html/index.html:13 html/subproject.html:17 html/translate.html:91
-msgid "Translations"
-msgstr "Käännökset"
-
-#: html/index.html:18
-msgid "Your translations"
-msgstr "Käännöksesi"
-
-#: html/index.html:20 html/language.html:12 html/user.html:18
-msgid "Projects"
-msgstr "Projektit"
-
-#: html/index.html:22
-msgid "Checks"
-msgstr "Tarkistukset"
-
-#: html/index.html:38 html/index.html.py:80 html/languages.html:15
-#: html/list-translations.html:8 html/project.html:21
-msgid "Translated"
-msgstr "Käännetty"
-
-#: html/index.html:59
-msgid "Summaries"
-msgstr "Yhteenvedot"
-
-#: html/index.html:64 html/language.html:23 html/project.html:40
-#: html/subproject.html:30 html/translation.html:35
-#: html/translation.html.py:83
-msgid "Recent changes"
-msgstr "Viimeaikaiset muutokset"
-
-#: html/index.html:65
-msgid "Most active translators"
-msgstr "Aktiivisimmat kääntäjät"
-
-#: html/index.html:66
-msgid "Most active suggesters"
-msgstr "Aktiivisimmat ehdottajat"
-
-#: html/index.html:67 html/language.html:25 html/project.html:46
-#: html/subproject.html:37 html/translation.html:46 html/user.html:27
-msgid "Activity"
-msgstr ""
-
-#: html/index.html:68
-msgid "Others"
-msgstr "Muut"
-
-#: html/index.html:79 html/index.html.py:98 html/last-changes.html:14
-msgid "User"
-msgstr "Käyttäjä"
-
-#: html/index.html:99
-msgid "Suggested"
-msgstr "Ehdottanut"
-
-#: html/index.html:114
-msgid "Languages summary"
-msgstr "Kielten yhteenveto"
-
-#: html/index.html:115
-msgid "Checks overview"
-msgstr "Tarkistusten yleiskatsaus"
-
-#: html/index.html:117
-msgid "Widgets"
-msgstr ""
-
-#: html/language.html:6 html/languages.html:6
-msgid "languages"
-msgstr "kielet"
-
-#: html/language.html:24 html/project.html:41
-msgid "Glossaries"
-msgstr ""
-
-#: html/last-changes.html:13
-msgid "When"
-msgstr ""
-
-#: html/last-changes.html:15
-#, fuzzy
-msgid "Action"
-msgstr "Kaikki sijainnit"
-
-#: html/last-changes.html:30
-msgid "No recent activity has been recorded."
-msgstr "Viimeaikaista aktiivisuutta ei ole tallennettu."
-
-#: html/list-checks.html:6
-#, python-format
-msgid "Ignore: %(check)s"
-msgstr "Jätä huomioitta: %(check)s"
-
-#: html/list-translations.html:9
-#, fuzzy
-msgctxt "Number of fuzzy strings"
-msgid "Fuzzy"
-msgstr "Epäselvä"
-
-#: html/list-translations.html:10
-#, fuzzy
-msgctxt "Number of failing checks"
-msgid "Checks"
-msgstr "Tarkistukset"
-
-#: html/list-translations.html:11
-#, fuzzy
-#| msgid "Suggestions"
-msgctxt "Number of suggestions"
-msgid "Suggestions"
-msgstr "Ehdotukset"
-
-#: html/list-translations.html:24
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
-msgid "There is %(count)s fuzzy string."
-msgid_plural "There are %(count)s fuzzy strings."
-msgstr[0] "%(count)s kääntämätön merkkiketju."
-msgstr[1] "%(count)s kääntämätöntä merkkiketjua."
-
-#: html/list-translations.html:33
-#, python-format
-msgid "There is %(count)s failing check."
-msgid_plural "There are %(count)s failing checks."
-msgstr[0] "%(count)s epäonnistunutta tarkistusta."
-msgstr[1] "%(count)s epäonnistunutta tarkistusta."
-
-#: html/list-translations.html:42
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
-msgid "There is %(count)s suggestion."
-msgid_plural "There are %(count)s suggestions."
-msgstr[0] "%(count)s kääntämätön merkkiketju."
-msgstr[1] "%(count)s kääntämätöntä merkkiketjua."
-
-#: html/list-translations.html:51
-#, python-format
-msgid "There is %(count)s not translated string."
-msgid_plural "There are %(count)s not translated strings."
-msgstr[0] "%(count)s kääntämätön merkkiketju."
-msgstr[1] "%(count)s kääntämätöntä merkkiketjua."
-
-#: html/list-translations.html:51 html/translate.html:24
-msgid "Translate"
-msgstr "Käännä"
-
-#: html/profile.html:12 trans/views/edit.py:685
-msgid "Please fix errors in the form."
-msgstr "Ole hyvä ja korjaa virheet lomakkeessa."
-
-#: html/profile.html:22
-msgid "Preferences"
-msgstr "Asetukset"
-
-#: html/profile.html:23
-#, fuzzy
-msgid "Subscriptions"
-msgstr "Ehdotukset"
-
-#: html/profile.html:24
-msgid "Account"
-msgstr "Käyttäjätili"
-
-#: html/profile.html:26
-#, fuzzy
-msgid "Information"
-msgstr "Projektitiedot"
-
-#: html/profile.html:27
-#, fuzzy
-msgid "Avatar"
-msgstr "Tatar"
-
-#: html/profile.html:35
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
-
-#: html/profile.html:44
-msgid "Your name and email will appear as author on Git commits."
-msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
-
-#: html/profile.html:48
-#, python-format
-msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
-msgstr ""
-"Salasanaa voidaan vaihtaa <a href=\"%(pw_url)s\">erillisellä sivulla</a>."
-
-#: html/profile.html:56
-msgid "Your public profile:"
-msgstr ""
-
-#: html/profile.html:62
-msgid "Change your avatar at gravatar.com"
-msgstr ""
-
-#: html/project.html:11 html/source.html:13 html/subproject.html:13
-#: html/translation.html:16
-msgid "Project Information"
-msgstr "Projektitiedot"
-
-#: html/project.html:15
-msgid "Subprojects"
-msgstr "Aliprojektit"
-
-#: html/project.html:20
-msgid "Subproject"
-msgstr "Aliprojekti"
-
-#: html/project.html:43 html/subproject.html:33 html/translation.html:42
-msgid "Git maintenance"
-msgstr "Gitin ylläpito"
-
-#: html/project.html:45 html/subproject.html:35 html/translation.html:45
-msgid "Share"
-msgstr ""
-
-#: html/project.html:54
-#, fuzzy
-msgid "Manage all glossaries"
-msgstr "Hallitse kaikkia sanakirjoja"
-
-#: html/project_info.html:2
-msgid "Project website:"
-msgstr "Projektin verkkosivu:"
-
-#: html/project_info.html:4
-msgid "Mailing list for translators:"
-msgstr "Sähköpostituslista kääntäjille:"
-
-#: html/project_info.html:7
-msgid "Instructions for translators:"
-msgstr "Ohjeet kääntäjille:"
-
-#: html/share.html:5
-msgid "Share on Facebook!"
-msgstr ""
-
-#: html/share.html:6
-#, fuzzy, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "Kiitos Weblaten käyttämisestä!"
-
-#: html/share.html:6
-#, fuzzy
-msgid "Tweet this translation!"
-msgstr "Käytä tätä käännöstä"
-
-#: html/share.html:11
-#, fuzzy, python-format
-msgid ""
-"You can also promote this translation project using various <a href="
-"\"%(widgets_url)s\">other possibilities</a>."
-msgstr ""
-"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
-
-#: html/share.html:15
-#, python-format
-msgid ""
-"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
-"readable formats."
-msgstr ""
-
-#: html/source-review.html:9 html/source.html:8
-#, fuzzy
-msgid "source"
-msgstr "Lähde"
-
-#: html/source-review.html:10
-#, fuzzy
-msgid "review"
-msgstr "Tarkista"
-
-#: html/source-review.html:15
-#, fuzzy
-msgid "Strings to review"
-msgstr "Aloita tarkistus"
-
-#: html/source-review.html:33 html/translate.html:106
-#: html/translate.html.py:226 trans/views/checks.py:43
-msgid "Failing checks"
-msgstr "Epäonnistuvat tarkistukset"
-
-#: html/source-review.html:48
-#, fuzzy
-msgid "Comment"
-msgstr "Kommentit"
-
-#: html/source-review.html:62 html/translate.html:231
-#, fuzzy
-msgid "User comments"
-msgstr "Kommentit"
-
-#: html/source-review.html:75
-#, fuzzy
-msgid "No matching source strings found!"
-msgstr "Muita merkkiketjuja ei löytynyt."
-
-#: html/source.html:19 html/translation.html:22
-msgid "Strings to check"
-msgstr "Merkkiketjut tarkistettaviksi"
-
-#: html/subproject.html:31 trans/models.py:107
-msgid "New language"
-msgstr "Uusi kieli"
-
-#: html/subproject.html:42
-#, fuzzy, python-format
-msgid ""
-"Should your language be missing, please follow <a href=\"%(url)s"
-"\">translator instructions</a>."
-msgstr ""
-"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
-
-#: html/subproject.html:44
-#, python-format
-msgid ""
-"Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">contact us</a>."
-msgstr ""
-"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
-
-#: html/subproject.html:59
-#, fuzzy
-msgid "Source strings review"
-msgstr "Etsi lähdemerkkijonoista"
-
-#: html/subproject_info.html:6
-msgid "Git repository:"
-msgstr "Git ohjelmistolähde:"
-
-#: html/subproject_info.html:9 html/subproject_info.html.py:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "%(branch)s haara"
-
-#: html/translate.html:15
-msgid "translate"
-msgstr "käännä"
-
-#: html/translate.html:36
-#, python-format
-msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-msgstr "Nykyinen suodatin: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-
-#: html/translate.html:67
-#, fuzzy
-msgid "Source change"
-msgstr "Viimeaikaiset muutokset"
-
-#: html/translate.html:73
-msgid "Context"
-msgstr "Asiayhteys"
-
-#: html/translate.html:80 html/js/dictionary.html:19
-msgid "Copy"
-msgstr "Kopioi"
-
-#: html/translate.html:83
-#, fuzzy
-msgid "Toggle text direction"
-msgstr "Väärä tekstin suunta"
-
-#: html/translate.html:96
-#, fuzzy
-msgctxt "Message is fuzzy"
-msgid "Fuzzy"
-msgstr "Epäselvä"
-
-#: html/translate.html:97
-msgid "Special characters:"
-msgstr ""
-
-#: html/translate.html:98
-msgid "Insert tab character"
-msgstr ""
-
-#: html/translate.html:99
-#, fuzzy
-msgid "Insert new line"
-msgstr "Aloittaa uuden rivin"
-
-#: html/translate.html:100
-msgid "Insert horizontal ellipsis"
-msgstr ""
-
-#: html/translate.html:116
-msgid "Suggestions"
-msgstr "Ehdotukset"
-
-#: html/translate.html:123
-#, python-format
-msgid "Suggested by %(user)s"
-msgstr "Ehdottanut %(user)s"
-
-#: html/translate.html:125
-msgid "Suggested by anonymous user"
-msgstr "Ehdottanut tuntematon käyttäjä"
-
-#: html/translate.html:130
-msgid "Accept"
-msgstr "Hyväksy"
-
-#: html/translate.html:147
-msgid "Flags"
-msgstr "Liput"
-
-#: html/translate.html:157
-#, python-format
-msgid ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
-"translations."
-msgstr ""
-"<a href=\"%(login_url)s?next=%(translate_url)s\">Kirjaudu sisään</a> "
-"käännösten tallentamista varten."
-
-#: html/translate.html:160
-msgid "Suggest"
-msgstr "Ehdota"
-
-#: html/translate.html:166
-msgid "Translation context"
-msgstr "Käännöksen sisältö"
-
-#: html/translate.html:170
-msgid "Messages placed around this one"
-msgstr "Viestit, jotka ovat tämän ympärillä"
-
-#: html/translate.html:170
-msgid "Nearby messages"
-msgstr "Läheiset viestit"
-
-#: html/translate.html:171
-msgid "Similar messages"
-msgstr "Samankaltaiset viestit"
-
-#: html/translate.html:172
-msgid "Same message used in different subprojects"
-msgstr "Samaa viestiä on käytetty eri aliprojekteissa"
-
-#: html/translate.html:172
-msgid "All locations"
-msgstr "Kaikki sijainnit"
-
-#: html/translate.html:173
-#, fuzzy
-msgid "Words extracted from glossary"
-msgstr "Sanakirjasta puretut sanat"
-
-#: html/translate.html:174
-#, fuzzy
-msgid "Comments about this translation"
-msgstr "Käytä tätä käännöstä"
-
-#: html/translate.html:174 html/unit-details.html:10
-msgid "Comments"
-msgstr "Kommentit"
-
-#: html/translate.html:175
-msgid "List of recent changes done in Weblate"
-msgstr "Luettelo viimeaikaisista muutoksista Weblatessa"
-
-#: html/translate.html:175
-msgid "Recent edits"
-msgstr "Viimeaikaiset muokkaukset"
-
-#: html/translate.html:176
-#, fuzzy
-msgid "Source string details and feedback"
-msgstr "Etsi lähdemerkkijonoista"
-
-#: html/translate.html:177
-msgid "Information about project"
-msgstr "Tietoa projektista"
-
-#: html/translate.html:182 html/js/other.html:6 html/js/similar.html:6
-msgid "State"
-msgstr "Tila"
-
-#: html/translate.html:200
-msgid "You can share comments about this translation with other translators."
-msgstr ""
-
-#: html/translate.html:206 html/translate.html.py:238
-#, fuzzy
-msgid "New comment"
-msgstr "Kommentit"
-
-#: html/translate.html:216 html/translate.html.py:249
-msgid "You are not allowed to add comments."
-msgstr ""
-
-#: html/translate.html:232
-msgid ""
-"You can share comments about source string for this translation with other "
-"translators and developers."
-msgstr ""
-
-#: html/translation.html:36 html/translation.html.py:52
-msgid "Search"
-msgstr "Etsi"
-
-#: html/translation.html:37
-#, fuzzy
-msgid "Files"
-msgstr "Tiedosto"
-
-#: html/translation.html:39
-msgid "Automatic translation"
-msgstr "Automaattinen käännös"
-
-#: html/translation.html:44
-msgid "Locking"
-msgstr ""
-
-#: html/translation.html:60
-#, python-format
-msgid ""
-"You can <a href=\"%(download_url)s\">download</a> file for offline "
-"translation."
-msgstr ""
-"Voit <a href=\"%(download_url)s\">ladata</a> tiedoston offline kääntämistä "
-"varten."
-
-#: html/translation.html:64 html/translation.html.py:76
-msgid "Upload"
-msgstr "Lähetä"
-
-#: html/translation.html:66
-msgid ""
-"Uploaded file will be merged with current translation. In case you want to "
-"overwrite already translated strings, don't forget to enable it."
-msgstr ""
-"Lähetetty tiedosto yhdistetään nykyisen käännöksen kanssa. Mikäli tahdot "
-"ylikirjoittaa valmiiksi käännetyt merkkiketjut, älä unohda ottaa sitä "
-"käyttöön."
-
-#: html/translation.html:68
-msgid "Uploaded file will be merged with current translation."
-msgstr "Ladattu tiedosto yhdistetään nykyisen käännöksen kanssa."
-
-#: html/translation.html:87
-msgid "Review"
-msgstr "Tarkista"
-
-#: html/translation.html:89
-msgid "Review translations touched by other users."
-msgstr "Tarkista käännöksiä, joihin muut käyttäjät ovat koskeneet."
-
-#: html/translation.html:94
-msgid "Start review"
-msgstr "Aloita tarkistus"
-
-#: html/translation.html:101
-#, fuzzy
-msgid ""
-"Automatic translation takes existing translations in this project and "
-"applies it to the current subproject. It can be used to push translations to "
-"a different branch, to fix inconsistent translations or to translate new "
-"subproject using translation memory."
-msgstr ""
-"Automaattinen kääntäminen ottaa olemassa olevan käännöksen tästä projektista "
-"ja toteuttaa sen nykyisen aliprojektin kanssa. Sitä voidaan käyttää "
-"käännösten työntämiseen eri haaraan tai virheellisten käännösten "
-"korjaamiseen."
-
-#: html/translation.html:107
-msgid "Process"
-msgstr "Edistyminen"
-
-#: html/translation.html:113
-msgid "Locking the translation will prevent others to work on translation."
-msgstr ""
-
-#: html/translation.html:115
-msgid "Locked by:"
-msgstr ""
-
-#: html/translation.html:116
-msgid "Lock expires:"
-msgstr ""
-
-#: html/translation.html:118
-msgid "Translation is currently not locked."
-msgstr ""
-
-#: html/translation.html:122 html/js/git-status.html:16
-msgid "Unlock"
-msgstr ""
-
-#: html/translation.html:124 html/js/git-status.html:18
-msgid "Lock"
-msgstr ""
-
-#: html/translation_info.html:8
-#, python-format
-msgid ""
-"There are %(count)s strings, out of which %(translated)s&#37; is translated "
-"and %(fuzzy)s&#37; is fuzzy."
-msgstr ""
-"%(count)s merkkiketjua, joista on %(translated)s&#37; käännettyjä ja "
-"%(fuzzy)s&#37; on epäselvää."
-
-#: html/unit-details.html:4
-msgid "Used in"
-msgstr "Käytetty"
-
-#: html/unit-state.html:3
-msgid "Message is fuzzy"
-msgstr "Viesti on epäselvä"
-
-#: html/unit-state.html:4
-msgid "Message has failing checks"
-msgstr "Viestillä on epäonnistuvia tarkistuksia"
-
-#: html/unit-state.html:5
-msgid "Message is translated"
-msgstr "Viesti on käännetty"
-
-#: html/user-activity.html:12
-#, fuzzy
-msgid "Last login"
-msgstr "Sisäänkirjautuminen"
-
-#: html/user-activity.html:16
-#, fuzzy
-msgid "Registration date"
-msgstr "Aloituspäivä"
-
-#: html/user.html:33 html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr ""
-
-#: html/user.html:36 html/js/activity.html:5
-msgid "Activity in last year"
-msgstr ""
-
-#: html/user.html:39
-#, fuzzy
-#| msgid "Recent edits"
-msgid "Recent contributions"
-msgstr "Viimeaikaiset muokkaukset"
-
-#: html/widgets-root.html:6 html/widgets.html:7
-msgid "widgets"
-msgstr ""
-
-#: html/widgets-root.html:11 html/widgets.html:16
-#, fuzzy
-msgid "Promoting translation projects"
-msgstr "Käytä tätä käännöstä kaikkien aliprojektien kanssa"
-
-#: html/widgets-root.html:14
-msgid ""
-"Weblate provides various widgets to promote your translation projects. Open "
-"one of the project pages below."
-msgstr ""
-
-#: html/widgets.html:19
-#, python-format
-msgid ""
-"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
-"\">%(engage_url)s</a>."
-msgstr ""
-
-#: html/widgets.html:22
-#, fuzzy
-msgid "Promoting specific translations"
-msgstr "Automaattinen käännös"
-
-#: html/widgets.html:25
-msgid ""
-"Besides promoting whole translation project, you can also choose specific "
-"language to promote:"
-msgstr ""
-
-#: html/widgets.html:29
-msgid "Image widgets"
-msgstr ""
-
-#: html/widgets.html:32
-msgid ""
-"You can use following widgets to promote translation of your project. They "
-"can increase visibility of your translation projects and bring new "
-"contributors."
-msgstr ""
-
-#: html/widgets.html:36
-#, python-format
-msgid "Image %(widget)s"
-msgstr ""
-
-#: html/widgets.html:38
-msgid "Color variants:"
-msgstr ""
-
-#: html/widgets.html:48
-msgid "HTML code"
-msgstr ""
-
-#: html/widgets.html:49
-msgid "BB code"
-msgstr ""
-
-#: html/widgets.html:50
-msgid "Markdown code"
-msgstr ""
-
-#: html/widgets.html:51
-msgid "RST code"
-msgstr ""
-
-#: html/widgets.html:52
-msgid "Textile code"
-msgstr ""
-
-#: html/widgets.html:59 html/widgets.html.py:67 html/widgets.html.py:74
-#: html/widgets.html:82
-#, fuzzy
-msgid "Translation status"
-msgstr "Käännökset"
-
-#: html/admin/custom-index.html:10
-msgid "Reports"
-msgstr "Raportit"
-
-#: html/admin/custom-index.html:13 html/admin/report.html:4
-#: html/admin/report.html.py:13
-msgid "Status of repositories"
-msgstr "Ohjelmistolähteiden tilanne"
-
-#: html/admin/custom-index.html:19 html/admin/ssh.html:4
-#: html/admin/ssh.html.py:8
-msgid "SSH keys"
-msgstr ""
-
-#: html/admin/custom-index.html:25 html/admin/performance.html:5
-#: html/admin/performance.html.py:14
-msgid "Performance report"
-msgstr ""
-
-#: html/admin/performance.html:9
-msgid "Performance"
-msgstr ""
-
-#: html/admin/performance.html:21
-msgid "Result"
-msgstr ""
-
-#: html/admin/report.html:8
-msgid "Status"
-msgstr "Tilanne"
-
-#: html/admin/report.html:17
-#, fuzzy, python-format
-msgid ""
-"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
-"%(repo)s</a> instead."
-msgstr ""
-"Linkitetyn tietolähteen tilaa ei näytetä. Tarkasta sen sijaan %(repo)s."
-
-#: html/admin/ssh.html:14
-msgid "Public SSH key"
-msgstr ""
-
-#: html/admin/ssh.html:15
-msgid "Weblate currently uses following SSH key:"
-msgstr ""
-
-#: html/admin/ssh.html:22
-msgid "Generate SSH key"
-msgstr ""
-
-#: html/admin/ssh.html:23
-msgid ""
-"You don't seem to have existing SSH key, by pressing button below Weblate "
-"will generate it for you."
-msgstr ""
-
-#: html/admin/ssh.html:26
-msgid "Generate"
-msgstr ""
-
-#: html/admin/ssh.html:32
-#, fuzzy
-msgid "More information"
-msgstr "Projektitiedot"
-
-#: html/admin/ssh.html:34
-#, python-format
-msgid ""
-"You can find more information about setting up SSH keys in <a href="
-"\"%(ssh_docs)s\">the Weblate manual</a>."
-msgstr ""
-
-#: html/js/dictionary.html:19
-#, fuzzy
-#| msgid "Your translations"
-msgid "Copy word to translation"
-msgstr "Käännöksesi"
-
-#: html/js/dictionary.html:27
-msgid "No related strings found in dictionary."
-msgstr "Asiaan liittyviä merkkiketjuja ei löydetty sanakirjasta."
-
-#: html/js/git-status.html:8
-msgid "Commit pending changes"
-msgstr "Commitilla on odottavia muutoksia"
-
-#: html/js/git-status.html:8
-msgid "Commit"
-msgstr "Suorita"
-
-#: html/js/git-status.html:9
-msgid "Pull changes from remote repository"
-msgstr "Vedä muutokset etäohjelmistolähteestä"
-
-#: html/js/git-status.html:9
-msgid "Pull"
-msgstr "Vedä"
-
-#: html/js/git-status.html:10
-msgid "Push changes to remote repository"
-msgstr "Työnnä muutokset etäohjelmistolähteeseen"
-
-#: html/js/git-status.html:10
-msgid "Push"
-msgstr "Työnnä"
-
-#: html/js/git-status.html:12
-#, fuzzy
-msgid "Reset all changes in local repository"
-msgstr "Vedä muutokset etäohjelmistolähteestä"
-
-#: html/js/git-status.html:12
-msgid "Reset"
-msgstr ""
-
-#: html/js/git-status.html:16
-#, fuzzy
-msgid "Allow changes in the repository"
-msgstr "Vedä muutokset etäohjelmistolähteestä"
-
-#: html/js/git-status.html:18
-#, fuzzy
-msgid "Prevent any changes in the repository"
-msgstr "Työnnä muutokset etäohjelmistolähteeseen"
-
-#: html/js/git-status.html:24
-msgid "There are some not commited changes!"
-msgstr "Joitakin committamattomia muutoksia!"
-
-#: html/js/git-status.html:27
-msgid "Remote Git repository needs to be merged!"
-msgstr "Etä git ohjelmistolähde täytyy yhdistää!"
-
-#: html/js/git-status.html:30
-msgid "There are some new commits in local Git repository!"
-msgstr "Joitakin uusia committeja on paikallisessa Git ohjelmistolähteessä!"
-
-#: html/js/git-status.html:38
-msgid "Last remote commit:"
-msgstr ""
-
-#: html/js/git-status.html:48
-msgid "Details"
-msgstr "Lisätiedot"
-
-#: html/js/other.html:17
-msgid "Use this translation for all subprojects"
-msgstr "Käytä tätä käännöstä kaikkien aliprojektien kanssa"
-
-#: html/js/other.html:17
-msgid "Use this translation"
-msgstr "Käytä tätä käännöstä"
-
-#: html/js/other.html:25
-msgid "No other strings found."
-msgstr "Muita merkkiketjuja ei löytynyt."
-
-#: html/js/similar.html:20
-msgid "No similar strings found."
-msgstr "Samankaltaisia merkkiketjuja ei löytynyt."
-
-#: html/mail/base.html:31 html/mail/signature.txt:3
-msgid "Sent by Weblate translation system"
-msgstr ""
-
-#: html/mail/changed_translation.html:8 html/mail/changed_translation.txt:1
-#: html/mail/merge_failure.html:8 html/mail/merge_failure.txt:1
-#: html/mail/new_comment.html:8 html/mail/new_comment.txt:1
-#: html/mail/new_contributor.html:8 html/mail/new_contributor.txt:1
-#: html/mail/new_string.html:8 html/mail/new_string.txt:1
-#: html/mail/new_suggestion.html:8 html/mail/new_suggestion.txt:1
-#: html/mail/new_translation.html:8 html/mail/new_translation.txt:1
-msgid "Hi,"
-msgstr ""
-
-#: html/mail/changed_translation.html:12 html/mail/changed_translation.txt:3
-#, fuzzy, python-format
-msgid ""
-"there has been a change in translation on %(translation)s at %(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/changed_translation.html:19 html/mail/changed_translation.txt:5
-#: html/mail/new_comment.html:18 html/mail/new_comment.txt:5
-#: html/mail/new_suggestion.html:19 html/mail/new_suggestion.txt:5
-#: html/mail/new_translation.html:19 html/mail/new_translation.txt:5
-#, fuzzy
-msgid "Source string:"
-msgstr "Etsi lähdemerkkijonoista"
-
-#: html/mail/changed_translation.html:29 html/mail/changed_translation.txt:9
-#: html/mail/new_translation.html:29 html/mail/new_translation.txt:9
-#, fuzzy
-msgid "Translation:"
-msgstr "Käännös"
-
-#: html/mail/changed_translation.html:39 html/mail/new_suggestion.html:40
-#, fuzzy
-msgid "Translation change:"
-msgstr "Käännöksen sisältö"
-
-#: html/mail/changed_translation.html:49 html/mail/changed_translation.txt:17
-#: html/mail/new_comment.html:39 html/mail/new_comment.txt:13
-#: html/mail/new_translation.html:39 html/mail/new_translation.txt:15
-msgid "You can edit this string at:"
-msgstr ""
-
-#: html/mail/changed_translation.txt:13
-#, fuzzy
-msgid "Previous translation:"
-msgstr "Käännöksesi"
-
-#: html/mail/changed_translation_subject.txt:1
-#, fuzzy, python-format
-msgid "Changed translation in %(translation)s"
-msgstr "Automaattinen käännös"
-
-#: html/mail/footer.html:4 html/mail/footer.txt:1
-#, fuzzy
-msgid "Translation summary:"
-msgstr "Käännökset"
-
-#: html/mail/footer.html:8 html/mail/footer.txt:3
-#, fuzzy
-msgid "Total strings:"
-msgstr "Kaikki merkkijonot"
-
-#: html/mail/footer.html:11 html/mail/footer.txt:4
-#, fuzzy
-msgid "Translated strings:"
-msgstr "Kääntämättömät merkkijonot"
-
-#: html/mail/footer.html:14 html/mail/footer.txt:5
-#, fuzzy
-msgid "Fuzzy strings:"
-msgstr "Epäselvät merkkijonot"
-
-#: html/mail/footer.html:18
-#, fuzzy, python-format
-msgid ""
-"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr "Lähde ja käännös tekstit ovat samat"
-
-#: html/mail/footer.txt:7
-#, fuzzy, python-format
-msgid "You can translate at %(translation_url)s"
-msgstr "Lähde ja käännös tekstit ovat samat"
-
-#: html/mail/merge_failure.html:12 html/mail/merge_failure.txt:3
-#, fuzzy, python-format
-msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/merge_failure.html:16
-#, fuzzy
-msgid "Error message"
-msgstr "Virheen lisätiedot:"
-
-#: html/mail/merge_failure.html:22
-#, fuzzy
-msgid "Repository status"
-msgstr "Git ohjelmistolähde:"
-
-#: html/mail/merge_failure.txt:5
-#, fuzzy
-msgid "Error message:"
-msgstr "Virheen lisätiedot:"
-
-#: html/mail/merge_failure.txt:9
-#, fuzzy
-msgid "Repository status:"
-msgstr "Git ohjelmistolähde:"
-
-#: html/mail/merge_failure_subject.txt:1
-#, python-format
-msgid "Merge failure in %(subproject)s"
-msgstr ""
-
-#: html/mail/new_comment.html:12 html/mail/new_comment.txt:3
-#, fuzzy, python-format
-msgid "there has been a new comment on %(subproject)s at %(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_comment.html:29 html/mail/new_comment.txt:9
-#, fuzzy
-msgid "Comment:"
-msgstr "Kommentit"
-
-#: html/mail/new_comment_subject.txt:1
-#, python-format
-msgid "New comment in %(subproject)s"
-msgstr ""
-
-#: html/mail/new_contributor.html:12 html/mail/new_contributor.txt:3
-#, fuzzy, python-format
-msgid ""
-"%(username)s has just made a first contribution on %(translation)s at "
-"%(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_contributor_subject.txt:1
-#, fuzzy, python-format
-msgid "New contributor in %(translation)s"
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_string.html:12 html/mail/new_string.txt:3
-#, fuzzy, python-format
-msgid ""
-"there are new strings to translate on %(translation)s at %(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_string_subject.txt:1
-#, python-format
-msgid "New string to translate in %(translation)s"
-msgstr ""
-
-#: html/mail/new_suggestion.html:12 html/mail/new_suggestion.txt:3
-#, fuzzy, python-format
-msgid ""
-"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_suggestion.html:29 html/mail/new_suggestion.txt:9
-#, fuzzy
-#| msgid "Suggestions"
-msgid "Suggestion:"
-msgstr "Ehdotukset"
-
-#: html/mail/new_suggestion.html:51 html/mail/new_suggestion.txt:13
-msgid "You can review it at:"
-msgstr ""
-
-#: html/mail/new_suggestion_subject.txt:1
-#, fuzzy, python-format
-msgid "New suggestion in %(translation)s"
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_translation.html:12 html/mail/new_translation.txt:3
-#, fuzzy, python-format
-msgid "there has been a new translation on %(translation)s at %(site_title)s."
-msgstr "Automaattinen käännös"
-
-#: html/mail/new_translation.txt:13
-#, fuzzy
-msgid "Previously not translated"
-msgstr "Käännöksesi"
-
-#: html/mail/new_translation_subject.txt:1
-#, fuzzy, python-format
-msgid "New translation in %(translation)s"
-msgstr "Automaattinen käännös"
-
-#: html/registration/activate.html:7
-#, fuzzy
-msgid "Your account could not be activated"
-msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
-
-#: html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] ""
-msgstr[1] ""
-
-#: html/registration/activate.html:12
-#, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-
-#: html/registration/activation_complete.html:8
-#, fuzzy
-msgid "Thank you. Your account is now activated."
-msgstr ""
-"Kiitos. Tunnuksesi\n"
-"    on nyt aktivoitu. Käyttäjänimesi on \n"
-"    <b>%(username)s</b>."
-
-#: html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "Haluat ehkä <a href=\"%(profile_url)s\">muokata profiilisi</a> nyt."
-
-#: html/registration/activation_email.txt:1
-#, python-format
-msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
-msgstr ""
-"Hei,\n"
-"\n"
-"Tämä on automaattinen sähköposti, joka auttaa sinua suorittamaan "
-"rekisteröintisi \n"
-"sivulla %(site_title)s.\n"
-"\n"
-"Ole hyvä ja avaa seuraava linkki verkkoselaimessasi. Mikäli linkki on \n"
-"jakaantunut usealle riville, sinun täytyy mahdollisesti kopioida se \n"
-"osoiteriville."
-
-#: html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
-msgstr ""
-"\n"
-"Mikäli rekisteröintisi kanssa on ongelma, ole hyvä ja \n"
-"vastaa tähän sähköpostiin.\n"
-"\n"
-"Ystävällisin terveisin\n"
-"%(site_title)s\n"
-
-#: html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "Rekisteröitymisesi palvelussa %(site_title)s"
-
-#: html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr ""
-"Tätä käyttäjätunnus/salasana yhdistelmää ei löydetty. Ole hyvä ja yritä "
-"uudelleen."
-
-#: html/registration/login.html:37
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr ""
-"Eikö sinulla ole vielä tunnusta? Voit <a href=\"%(register_url)s"
-"\">rekisteröityä</a>."
-
-#: html/registration/login.html:43
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
-
-#: html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "Kiitos Weblaten käyttämisestä!"
-
-#: html/registration/logout.html:9
-msgid "Log in again"
-msgstr "Kirjaudu sisään uudestaan"
-
-#: html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "Salasanasi vaihdettiin."
-
-#: html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Ole hyvä ja korjaa virhe, joka on alapuolella."
-msgstr[1] "Ole hyvä ja korjaa virheet, jotka ovat alapuolella."
-
-#: html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Ole hyvä ja anna vanha salasanasi turvallisuuden vuoksi ja sen jälkeen anna "
-"uusi salasanasi kahdesti, jotta voimme varmistaa, että kirjoitit sen oikein."
-
-#: html/registration/password_change_form.html:22
-#: html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "Vaihda salasanaani"
-
-#: html/registration/password_reset_complete.html:6
-msgid "Your password has been set.  You may go ahead and log in now."
-msgstr "Salasanasi on asetettu Voit jatkaa ja kirjautua sisään nyt."
-
-#: html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "Kirjaudu sisään"
-
-#: html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr ""
-"Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa, että kirjoitit sen "
-"oikein."
-
-#: html/registration/password_reset_confirm.html:19
-#, fuzzy
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
-"Salasananpalautuslinkki oli virheellinen, koska se on luultavasti jo "
-"käytetty. Ole hyvä ja pyydä uusi salasananpalautus."
-
-#: html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Lähetimme sähköpostilla ohjeet, kuinka voit palauttaa salasanasi, antamaasi "
-"sähköpostiosoitteeseen. Sinun pitäisi vastaanottaa se pian."
-
-#: html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Vastaanotat tämän sähköpostin, koska olet pyytänyt salasananpalautusta "
-"käyttäjätunnuksellesi palvelussa  %(site_name)s."
-
-#: html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "Mene seuraavalle sivulle ja valitse uusi salasana:"
-
-#: html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "Käyttäjätunnuksesi, jos olet unohtanut:"
-
-#: html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "Kiitos että käytit sivustoamme!"
-
-#: html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "Onnellinen %(site_name)s team"
-
-#: html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Salasana hukassa? Anna sähköpostiosoitteesi, niin saat ohjeet uuden "
-"salasanan luomiseksi."
-
-#: html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "Nollaa salasanani"
-
-#: html/registration/registration_closed.html:9
-#, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-
-#: html/registration/registration_complete.html:7
-#, fuzzy
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"Kiitos rekisteröitymisestäsi. Saa pian sähköpostiisi vahvistuslinkin. "
-"Valitse linkki vahvistaaksesi rekisteröitymisesi."
-
-#: html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-
-#: html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "Korjaa virheet rekisteröitymislomakkeessa."
-
-#: html/registration/registration_form.html:23
-#, fuzzy
-msgid ""
-"By registering you agree to use your name and email in Git commits and your "
-"contribution to be licensed under same license as translated content."
-msgstr ""
-"Rekisteröitymällä hyväksyt nimesi ja sähköpostiosoitteesi käytön Git "
-"commitissa."
 
 #: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
 #: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
@@ -2772,7 +292,7 @@ msgstr "Kaikki merkkijonot"
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/forms.py:92
+#: trans/forms.py:94
 #, fuzzy
 msgid ""
 "This equation identifies which plural form will be used based on given count "
@@ -2781,144 +301,161 @@ msgstr ""
 "Tätä yhtälöä käytetään määrittelemään mitä monikkomuotoa voidaan käyttää "
 "annetulle määrälle (n)."
 
-#: trans/forms.py:95
+#: trans/forms.py:97
 msgid "Plural equation"
 msgstr "Monikkoyhtälö"
 
-#: trans/forms.py:147
+#: trans/forms.py:149
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Epäselvä"
 
-#: trans/forms.py:171 trans/forms.py:305
+#: trans/forms.py:173 trans/forms.py:307
 msgid "File"
 msgstr "Tiedosto"
 
-#: trans/forms.py:173 trans/forms.py:308
+#: trans/forms.py:175 trans/forms.py:310
 msgid "Merge method"
 msgstr ""
 
-#: trans/forms.py:175
+#: trans/forms.py:177
 #, fuzzy
 #| msgid "Use this translation"
 msgid "Add as translation"
 msgstr "Käytä tätä käännöstä"
 
-#: trans/forms.py:176
+#: trans/forms.py:178
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Add as a suggestion"
 msgstr "Sopimaton ehdotus!"
 
-#: trans/forms.py:177
+#: trans/forms.py:179
 #, fuzzy
 #| msgid "Use this translation"
 msgid "Add as fuzzy translation"
 msgstr "Käytä tätä käännöstä"
 
-#: trans/forms.py:182
+#: trans/forms.py:184
 msgid "Merge file header"
 msgstr ""
 
-#: trans/forms.py:183
+#: trans/forms.py:185
 #, fuzzy
 msgid "Merges content of file header into the translation."
 msgstr "Tiedoston sisältö on liitetty onnistuneesti käännökseen."
 
-#: trans/forms.py:194
+#: trans/forms.py:196
 msgid "Overwrite existing translations"
 msgstr "Korvaa olemassa oleva käännös"
 
-#: trans/forms.py:204
+#: trans/forms.py:206
 msgid "Author name"
 msgstr "Tekijän nimi"
 
-#: trans/forms.py:206 trans/forms.py:211
+#: trans/forms.py:208 trans/forms.py:213
 msgid "Keep empty for using currently logged in user."
 msgstr "Pidä tyhjänä kirjautuneille käyttäjille."
 
-#: trans/forms.py:209
+#: trans/forms.py:211
 msgid "Author email"
 msgstr "Tekijän sähköposti"
 
-#: trans/forms.py:219
+#: trans/forms.py:221
 msgid "Query"
 msgstr "Kysely"
 
-#: trans/forms.py:221
+#: trans/forms.py:223
 #, fuzzy
 #| msgid "Search"
 msgid "Search type"
 msgstr "Etsi"
 
-#: trans/forms.py:224
+#: trans/forms.py:226
 msgid "Fulltext"
 msgstr ""
 
-#: trans/forms.py:225
+#: trans/forms.py:227
 msgid "Exact match"
 msgstr "Täydellinen sopivuus"
 
-#: trans/forms.py:226
+#: trans/forms.py:228
 #, fuzzy
 msgid "Substring"
 msgstr "Etsi lähdemerkkijonoista"
 
-#: trans/forms.py:231
+#: trans/forms.py:233
 msgid "Search in source strings"
 msgstr "Etsi lähdemerkkijonoista"
 
-#: trans/forms.py:236
+#: trans/forms.py:238
 msgid "Search in target strings"
 msgstr "Etsi kohdemerkkijonoista"
 
-#: trans/forms.py:241
+#: trans/forms.py:243
 msgid "Search in context strings"
 msgstr "Etsi sisältömerkkijonoista"
 
-#: trans/forms.py:260
+#: trans/forms.py:262
 msgid "Overwrite strings"
 msgstr "Korvaa merkkojonot"
 
-#: trans/forms.py:265
+#: trans/forms.py:267
 msgid "Replace inconsistent"
 msgstr "Korjaa epämääraisyydet"
 
-#: trans/forms.py:270
+#: trans/forms.py:272
 msgid "Subproject to use"
 msgstr "Käytettävä aliprojekti"
 
-#: trans/forms.py:289
+#: trans/forms.py:291
 msgid "All subprojects"
 msgstr "Kaikki aliprojektit"
 
-#: trans/forms.py:310
+#: trans/forms.py:298 weblate/html/check_subproject.html:39
+#: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
+#: weblate/html/subproject.html:36 weblate/html/translate.html:62
+#: weblate/html/translate.html.py:176 weblate/html/translate.html:182
+#: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Source"
+msgstr "Lähde"
+
+#: trans/forms.py:299 weblate/html/check_subproject.html:27
+#: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
+#: weblate/html/translate.html:91 weblate/html/translate.html.py:182
+#: weblate/html/js/dictionary.html:8 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Translation"
+msgstr "Käännös"
+
+#: trans/forms.py:312
 msgid "Keep current"
 msgstr ""
 
-#: trans/forms.py:311
+#: trans/forms.py:313
 msgid "Overwrite existing"
 msgstr "Korvaa olemassa oleva"
 
-#: trans/forms.py:312
+#: trans/forms.py:314
 #, fuzzy
 #| msgid "Use this translation"
 msgid "Add as other translation"
 msgstr "Käytä tätä käännöstä"
 
-#: trans/forms.py:322
+#: trans/forms.py:324
 msgid "Starting date"
 msgstr "Aloituspäivä"
 
-#: trans/forms.py:337
+#: trans/forms.py:339
 msgid "Starting letter"
 msgstr "Aloituskirjain"
 
-#: trans/forms.py:338
+#: trans/forms.py:340
 msgid "Any"
 msgstr "Mikä tahansa"
 
-#: trans/forms.py:356
+#: trans/forms.py:358
 #, fuzzy
 msgid "Whole project"
 msgstr "Kaikki aliprojektit"
@@ -2954,6 +491,10 @@ msgstr "Sähköpostituslista kääntäjille:"
 #, fuzzy
 msgid "URL with instructions for translators"
 msgstr "Ohjeet kääntäjille:"
+
+#: trans/models.py:107 weblate/html/subproject.html:31
+msgid "New language"
+msgstr "Uusi kieli"
 
 #: trans/models.py:112
 msgid "How to handle requests for creating new languages."
@@ -3604,6 +1145,16 @@ msgstr "Etsi lähdemerkkijonoista"
 msgid "Page Not Found"
 msgstr "Sivua ei löydy"
 
+#: trans/views/basic.py:351 weblate/html/about.html:11
+#: weblate/html/footer.html:7
+msgid "About Weblate"
+msgstr "Tietoa Weblatesta"
+
+#: trans/views/checks.py:43 weblate/html/source-review.html:33
+#: weblate/html/translate.html:106 weblate/html/translate.html.py:226
+msgid "Failing checks"
+msgstr "Epäonnistuvat tarkistukset"
+
 #: trans/views/dictionary.py:47
 msgid "Dictionaries"
 msgstr "Sanakirjat"
@@ -3700,6 +1251,10 @@ msgstr "Lomakkeen käsittely epäonnistui!"
 msgid "Access denied."
 msgstr ""
 
+#: trans/views/edit.py:685 weblate/html/profile.html:12
+msgid "Please fix errors in the form."
+msgstr "Ole hyvä ja korjaa virheet lomakkeessa."
+
 #: trans/views/edit.py:718
 msgid "File content successfully merged into translation."
 msgstr "Tiedoston sisältö on liitetty onnistuneesti käännökseen."
@@ -3730,6 +1285,11 @@ msgstr "Kaikki tietolähteet on lähtetty."
 msgid "Search for \"%s\""
 msgstr "Etsii \"%s\""
 
+#: trans/views/helper.py:186 weblate/html/i18n.html:174
+#: weblate/html/list-translations.html:63
+msgid "Fuzzy strings"
+msgstr "Epäselvät merkkijonot"
+
 #: trans/views/helper.py:188
 msgid "Untranslated strings"
 msgstr "Kääntämättömät merkkijonot"
@@ -3737,6 +1297,12 @@ msgstr "Kääntämättömät merkkijonot"
 #: trans/views/helper.py:190
 msgid "Strings with suggestions"
 msgstr "Ehdotetut merkkijonot"
+
+#: trans/views/helper.py:192 weblate/html/i18n.html:173
+#: weblate/html/list-translations.html:62
+#, fuzzy
+msgid "Strings with any failing checks"
+msgstr "Merkkijonojen ehdotukset (%d)"
 
 #: trans/views/lock.py:38
 msgid "Translation is now locked for you."
@@ -3794,6 +1360,2498 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
+
+#: ttkit/aresource.py:311
+msgid "Android Resource"
+msgstr ""
+
+#: weblate/urls.py:281 weblate/urls.py:288 weblate/urls.py:295
+#: weblate/urls.py:302
+msgid "User registration"
+msgstr "Käyttäjän rekisteröinti"
+
+#: weblate/urls.py:310
+msgid "Account activation"
+msgstr "Tunnuksen aktivointi"
+
+#: weblate/urls.py:319 weblate/html/base.html:49
+#: weblate/html/registration/login.html:30
+msgid "Login"
+msgstr "Sisäänkirjautuminen"
+
+#: weblate/urls.py:326
+msgid "Logged out"
+msgstr "Uloskirjautuneena"
+
+#: weblate/urls.py:331
+msgid "Change password"
+msgstr "Vaihda salasanaa"
+
+#: weblate/urls.py:335
+msgid "Password changed"
+msgstr "Salasana vaihdettu"
+
+#: weblate/urls.py:339 weblate/urls.py:343 weblate/urls.py:347
+#: weblate/urls.py:351
+msgid "Password reset"
+msgstr "Salasanan palautus"
+
+#: weblate/html/404.html:7
+msgid "The page you are looking for was not found."
+msgstr "Sivua, jota etsit, ei löydy."
+
+#: weblate/html/404.html:11
+#, fuzzy
+msgid ""
+"However the following translation projects are available on this server:"
+msgstr ""
+"Kuitenkin seuraavat käännösprojektit ovat saatavilla tällä palvelimella:"
+
+#: weblate/html/500.html:5
+msgid "Server Error"
+msgstr "Palvelinvirhe"
+
+#: weblate/html/500.html:8
+msgid ""
+"The server had serious problems while serving your request. We've just sent "
+"our trained monkeys to fix the issue."
+msgstr ""
+"Palvelimella oli vakavia ongelmia toteuttaessaan pyyntöäsi. Olemme juuri "
+"lähettäneet koulutetut\n"
+"apinamme korjaamaan ongelman."
+
+#: weblate/html/about.html:6
+msgid "about"
+msgstr ""
+
+#: weblate/html/about.html:13
+#, fuzzy
+msgid ""
+"Weblate is a web based translation tool with tight Git integration. It "
+"features simple and clean user interface, propagation of translations across "
+"subprojects, quality checks and automatic linking to source files."
+msgstr ""
+"Weblate on verkkopohjainen kääntämistyökalu, jolla on tiukka Git "
+"integraatio. Se tarjoaa yksinkertaisen ja\n"
+" siistin käyttöliittymän, käännösten etenemisen aliprojektien yli, "
+"johdonmukaisuus tarkistukset tai\n"
+" automaattisen linkittämisen lähdetiedostoihin."
+
+#: weblate/html/about.html:15 weblate/html/contact.html:15
+#, python-format
+msgid ""
+"If you are looking for support for Weblate or want to file bug reports check "
+"its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
+msgstr ""
+
+#: weblate/html/about.html:20
+msgid ""
+"This Weblate instance hosts translations for various free software projects."
+msgstr ""
+
+#: weblate/html/about.html:21 weblate/html/index.html:54
+#, fuzzy, python-format
+#| msgid ""
+#| "Should your language be missing, please <a href=\"%(contact_url)s?"
+#| "subject=New+language+request+for+%(object)s\">contact us</a>."
+msgid ""
+"We can host your project as well, if you are interested, please <a href="
+"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
+msgstr ""
+"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
+
+#: weblate/html/about.html:25
+msgid ""
+"Weblate is free software created by volunteers, but you can still support "
+"them financially:"
+msgstr ""
+
+#: weblate/html/about.html:28
+#, fuzzy
+msgid "Flattr Weblate!"
+msgstr "Tietoa Weblatesta"
+
+#: weblate/html/about.html:29
+#, fuzzy
+msgid "Donate to Weblate!"
+msgstr "Tietoa Weblatesta"
+
+#: weblate/html/about.html:32
+#, fuzzy
+msgid "Versions"
+msgstr "Persia"
+
+#: weblate/html/about.html:34
+msgid "This site is built using following projects:"
+msgstr "Tämä sivu on rakennettu käyttämällä seuraavia projekteja:"
+
+#: weblate/html/about.html:48 weblate/html/data.html:50
+#, fuzzy
+msgid "Statistics"
+msgstr "Tilanne"
+
+#: weblate/html/about.html:52
+#, fuzzy
+msgid "Strings to translate"
+msgstr "Git haara käännettäväksi"
+
+#: weblate/html/about.html:56
+#, fuzzy
+msgid "Used languages"
+msgstr "kielet"
+
+#: weblate/html/about.html:60
+#, fuzzy
+msgid "Registered users"
+msgstr "Rekisteröidy"
+
+#: weblate/html/about.html:64 weblate/html/user-activity.html:4
+#, fuzzy
+msgid "Suggestions made"
+msgstr "Ehdotukset"
+
+#: weblate/html/about.html:68 weblate/html/user-activity.html:8
+#, fuzzy
+msgid "Translations made"
+msgstr "Käännökset"
+
+#: weblate/html/about.html:72
+#, fuzzy
+msgid "Failing checks found"
+msgstr "Epäonnistuvat tarkistukset"
+
+#: weblate/html/about.html:76
+#, fuzzy
+msgid "Ignored checks"
+msgstr "Jätä huomioitta: %(check)s"
+
+#: weblate/html/base.html:43
+#, python-format
+msgid "Logged in as %(name)s"
+msgstr "Kirjauduttu sisään nimellä %(name)s"
+
+#: weblate/html/base.html:44
+msgid "Logout"
+msgstr "Kirjaudu ulos"
+
+#: weblate/html/base.html:47
+#: weblate/html/registration/registration_form.html:25
+msgid "Register"
+msgstr "Rekisteröidy"
+
+#: weblate/html/base.html:54 weblate/html/admin/performance.html:9
+#: weblate/html/admin/report.html:8 weblate/html/admin/ssh.html:8
+msgid "Home"
+msgstr "Koti"
+
+#: weblate/html/check.html:7 weblate/html/check_project.html:7
+#: weblate/html/check_subproject.html:7 weblate/html/checks.html:7
+msgid "checks"
+msgstr "tarkistukset"
+
+#: weblate/html/check.html:18 weblate/html/check_project.html:19
+#: weblate/html/check_subproject.html:20
+#, python-format
+msgid ""
+"More information about this check is available in the <a href=\"%(link)s"
+"\">documentation</a>."
+msgstr ""
+"Lisätietoja tästä tarkistusta on saataville <a href=\"%(link)s"
+"\">dokumentaatiossa</a>."
+
+#: weblate/html/check.html:26 weblate/html/check_project.html:26
+#: weblate/html/data.html:28 weblate/html/data.html.py:59
+#: weblate/html/index.html:37 weblate/html/list-translations.html:6
+#: weblate/html/translate.html:177 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "Project"
+msgstr "Projekti"
+
+#: weblate/html/check.html:27 weblate/html/check_project.html:27
+#: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
+msgid "Failures"
+msgstr "Epäonnistumiset"
+
+#: weblate/html/check.html:40 weblate/html/check_project.html:40
+#: weblate/html/check_subproject.html:47
+msgid "There are no matching failed checks!"
+msgstr "Täsmääviä epäonnistuneita tarkistuksia ei ole!"
+
+#: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
+msgid "Check"
+msgstr "Tarkistus"
+
+#: weblate/html/contact.html:6
+#, fuzzy
+#| msgid "Contact"
+msgid "contact"
+msgstr "Ota yhteyttä"
+
+#: weblate/html/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr ""
+
+#: weblate/html/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"Ole hyvä ja ota meihin yhteyttä englanniksi, muutoin emme ehkä ymmärrä "
+"pyyntöäsi."
+
+#: weblate/html/contact.html:21
+msgid "Send"
+msgstr "Lähetä"
+
+#: weblate/html/data-root.html:6 weblate/html/data.html:7
+msgid "data"
+msgstr ""
+
+#: weblate/html/data-root.html:11 weblate/html/data.html:12
+#: weblate/html/index.html:116
+msgid "Data export"
+msgstr ""
+
+#: weblate/html/data-root.html:14 weblate/html/data.html:15
+msgid "You can retrieve various data from Weblate in machine readable format."
+msgstr ""
+
+#: weblate/html/data-root.html:17 weblate/html/data.html:18
+msgid "RSS feeds"
+msgstr ""
+
+#: weblate/html/data-root.html:20 weblate/html/data.html:21
+msgid ""
+"To follow translation progress you can use RSS feeds which include all "
+"important changes in translation."
+msgstr ""
+
+#: weblate/html/data-root.html:21 weblate/html/data.html:22
+#, fuzzy, python-format
+msgid ""
+"More information about exported RSS feeds is available in <a href="
+"\"%(rss_docs)s\">the documentation</a>."
+msgstr ""
+"Lisätietoja tästä tarkistusta on saataville <a href=\"%(link)s"
+"\">dokumentaatiossa</a>."
+
+#: weblate/html/data-root.html:27 weblate/html/data.html:29
+#: weblate/html/data.html.py:60
+msgid "URL"
+msgstr ""
+
+#: weblate/html/data-root.html:28 weblate/html/data.html:30
+#: weblate/html/data.html.py:61
+msgid "Link"
+msgstr ""
+
+#: weblate/html/data-root.html:33 weblate/html/data.html:36
+#: weblate/html/data.html.py:42
+msgid "RSS"
+msgstr ""
+
+#: weblate/html/data-root.html:38
+#, fuzzy
+msgid "Per project data"
+msgstr "Projekti"
+
+#: weblate/html/data-root.html:41
+msgid ""
+"There is more data exported per project, please check following links for "
+"more information."
+msgstr ""
+
+#: weblate/html/data.html:48
+msgid ""
+"There are also per language RSS feeds available, you can construct them by "
+"appending a language code to the above URLs."
+msgstr ""
+
+#: weblate/html/data.html:53
+#, python-format
+msgid ""
+"Translation statistics for every subproject in JSON format allow you to use "
+"these data in other websites or tools. Format of the data is described in <a "
+"href=\"%(api_docs)s\">the documentation</a>."
+msgstr ""
+
+#: weblate/html/data.html:68 weblate/html/translation.html:58
+msgid "Download"
+msgstr "Lataa"
+
+#: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
+msgid "glossaries"
+msgstr ""
+
+#: weblate/html/dictionaries.html:15 weblate/html/languages.html:14
+#: weblate/html/list-translations.html:6
+msgid "Language"
+msgstr "Kieli"
+
+#: weblate/html/dictionaries.html:16
+msgid "Words"
+msgstr "Sanat"
+
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:173
+msgid "Glossary"
+msgstr ""
+
+#: weblate/html/dictionary.html:19 weblate/html/source-review.html:19
+#: weblate/html/translate.html:28
+msgid "First"
+msgstr "Ensimmäinen"
+
+#: weblate/html/dictionary.html:20 weblate/html/source-review.html:20
+#: weblate/html/translate.html:29
+msgid "Previous"
+msgstr "Edellinen"
+
+#: weblate/html/dictionary.html:21 weblate/html/source-review.html:21
+#: weblate/html/translate.html:30
+#, python-format
+msgid "%(position)s / %(total)s"
+msgstr "%(position)s / %(total)s"
+
+#: weblate/html/dictionary.html:22 weblate/html/source-review.html:22
+#: weblate/html/translate.html:31
+msgid "Next"
+msgstr "Seuraava"
+
+#: weblate/html/dictionary.html:23 weblate/html/source-review.html:23
+#: weblate/html/translate.html:32
+msgid "Last"
+msgstr "Viimeinen"
+
+#: weblate/html/dictionary.html:48
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: weblate/html/dictionary.html:57 weblate/html/translate.html:133
+msgid "Delete"
+msgstr "Poista"
+
+#: weblate/html/dictionary.html:66
+msgid "No words found!"
+msgstr "Sanoja ei löydetty!"
+
+#: weblate/html/dictionary.html:69 weblate/html/language.html:18
+#: weblate/html/project.html:36 weblate/html/subproject.html:26
+#: weblate/html/translation.html:31
+msgid "Tools"
+msgstr "Työkalut"
+
+#: weblate/html/dictionary.html:74
+msgid "Add new word"
+msgstr "Lisää uusi sana"
+
+#: weblate/html/dictionary.html:77
+#, fuzzy
+msgid "Import glossary"
+msgstr "Tuo sanakirja"
+
+#: weblate/html/dictionary.html:79
+#, fuzzy
+msgid "Export glossary"
+msgstr "Tuo sanakirja"
+
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:213
+#: weblate/html/translate.html.py:246
+msgid "Add"
+msgstr "Lisää"
+
+#: weblate/html/dictionary.html:99
+#, fuzzy
+msgid ""
+"You can upload any format which is understood by Translate Toolkit "
+"(including TBX, CSV or Gettext PO files)."
+msgstr ""
+"Voit ladata palvelimelle missä tahansa muodossa, jota Translate Toolkit "
+"ymmärtää. Esimerkiksi csv tai po tiedostona."
+
+#: weblate/html/dictionary.html:106
+msgid "Import"
+msgstr "Tuo"
+
+#: weblate/html/dictionary.html:114
+msgid "You can download glossary in following formats:"
+msgstr ""
+
+#: weblate/html/dictionary.html:117
+msgid "Comma separated values (CSV)"
+msgstr ""
+
+#: weblate/html/dictionary.html:118
+msgid "Gettext (PO)"
+msgstr ""
+
+#: weblate/html/dictionary.html:119
+msgid "TermBase eXchange (TBX)"
+msgstr ""
+
+#: weblate/html/edit_dictionary.html:7
+msgid "dictionaries"
+msgstr "sanakirjat"
+
+#: weblate/html/edit_dictionary.html:14
+msgid "Change word"
+msgstr "Vaihda sanaa"
+
+#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
+#: weblate/html/translate.html:153
+msgid "Save"
+msgstr "Tallenna"
+
+#: weblate/html/engage.html:11 weblate/html/engage.html.py:25
+#, python-format
+msgid "Get involved in %(project)s!"
+msgstr ""
+
+#: weblate/html/engage.html:12
+#, python-format
+msgid ""
+"Get involved in %(project)s, which is currently being translated into "
+"%(languages)s languages using Weblate."
+msgstr ""
+
+#: weblate/html/engage.html:28
+msgid "Hi, and thank you for your interest!"
+msgstr ""
+
+#: weblate/html/engage.html:31
+#, python-format
+msgid ""
+"%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
+"a>, a web tool designed to ease translating for both developers and "
+"translators."
+msgstr ""
+
+#: weblate/html/engage.html:38
+#, fuzzy, python-format
+msgid ""
+"If you would like to contribute to translation of %(project)s, you need to "
+"<a href=\"%(reg_url)s\">register on this server</a>."
+msgstr ""
+"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
+
+#: weblate/html/engage.html:41
+#, python-format
+msgid ""
+"Once you have activated your account just proceed to the <a href=\"%(url)s"
+"\">translation section</a>."
+msgstr ""
+
+#: weblate/html/footer.html:6
+#, fuzzy, python-format
+msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgstr "Tarjoaa <a href=\"http://weblate.org\">Weblate %(version)s</a>"
+
+#: weblate/html/footer.html:8
+msgid "Contact us"
+msgstr "Ota meihin yhteyttä"
+
+#: weblate/html/footer.html:9 weblate/html/admin/performance.html:22
+#: weblate/html/admin/performance.html:30
+msgid "Documentation"
+msgstr "Dokumentaatio"
+
+#: weblate/html/git-commit-info.html:4
+#, python-format
+msgid "Commit %(hash)s"
+msgstr ""
+
+#: weblate/html/git-commit-info.html:5
+#, python-format
+msgid "Authored by %(author)s on %(date)s"
+msgstr ""
+
+#: weblate/html/i18n.html:8
+msgid "This username is already taken. Please choose another."
+msgstr ""
+"Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
+
+#: weblate/html/i18n.html:9
+msgid "You must type the same password each time"
+msgstr "Salasanan täytyy olla sama molemmilla kerroilla"
+
+#: weblate/html/i18n.html:10
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
+
+#: weblate/html/i18n.html:11
+msgid "Old password"
+msgstr "Vanha salasana"
+
+#: weblate/html/i18n.html:12
+msgid "New password"
+msgstr "Uusi salasana"
+
+#: weblate/html/i18n.html:13
+msgid "New password confirmation"
+msgstr "Uuden salasanan varmistus"
+
+#: weblate/html/i18n.html:14
+msgid "The two password fields didn't match."
+msgstr "Kaksi salasana kenttää eivät täsmää."
+
+#: weblate/html/i18n.html:18
+msgid ""
+"Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
+msgstr ""
+"Paina \"Control\" tai \"Command\" näppäintä Macilla, valitaksesi useamman, "
+"kuin yhden."
+
+#: weblate/html/i18n.html:23
+msgid "Afrikaans"
+msgstr "Afrikaans"
+
+#: weblate/html/i18n.html:24
+msgid "Akan"
+msgstr "Akan"
+
+#: weblate/html/i18n.html:25
+msgid "Albanian"
+msgstr "Albania"
+
+#: weblate/html/i18n.html:26
+msgid "Amharic"
+msgstr "Amharic"
+
+#: weblate/html/i18n.html:27
+msgid "Arabic"
+msgstr "Arabia"
+
+#: weblate/html/i18n.html:28
+msgid "Aragonese"
+msgstr "Aragon"
+
+#: weblate/html/i18n.html:29
+msgid "Armenian"
+msgstr "Armenia"
+
+#: weblate/html/i18n.html:30
+msgid "Asturian"
+msgstr "Asturia"
+
+#: weblate/html/i18n.html:31
+msgid "Azerbaijani"
+msgstr "Azerbaitsan"
+
+#: weblate/html/i18n.html:32
+msgid "Basque"
+msgstr "Baski"
+
+#: weblate/html/i18n.html:33
+msgid "Belarusian"
+msgstr "Valkovenäjä"
+
+#: weblate/html/i18n.html:34
+msgid "Belarusian (latin)"
+msgstr "Valkovenäjä(latin)"
+
+#: weblate/html/i18n.html:35
+msgid "Bengali"
+msgstr "Bengali"
+
+#: weblate/html/i18n.html:36
+msgid "Bengali (India)"
+msgstr "Bengali (Intia)"
+
+#: weblate/html/i18n.html:37
+msgid "Bosnian"
+msgstr "Bosnia"
+
+#: weblate/html/i18n.html:38
+msgid "Breton"
+msgstr "Breton"
+
+#: weblate/html/i18n.html:39
+msgid "Bulgarian"
+msgstr "Bulgaria"
+
+#: weblate/html/i18n.html:40
+msgid "Catalan"
+msgstr "Katalonia"
+
+#: weblate/html/i18n.html:41
+msgid "Central Khmer"
+msgstr "Keski-khmer"
+
+#: weblate/html/i18n.html:42
+msgid "Cornish"
+msgstr "Korni"
+
+#: weblate/html/i18n.html:43
+msgid "Croatian"
+msgstr "Kroatia"
+
+#: weblate/html/i18n.html:44
+msgid "Czech"
+msgstr "Tsekki"
+
+#: weblate/html/i18n.html:45
+msgid "Danish"
+msgstr "Tanska"
+
+#: weblate/html/i18n.html:46
+msgid "Dutch"
+msgstr "Hollanti"
+
+#: weblate/html/i18n.html:47
+msgid "Dzongkha"
+msgstr "Dzongkha"
+
+#: weblate/html/i18n.html:48
+msgid "English"
+msgstr "Englanti"
+
+#: weblate/html/i18n.html:49
+msgid "English (South Africa)"
+msgstr "Englanti (Etelä-Afrikka)"
+
+#: weblate/html/i18n.html:50
+msgid "English (United Kingdom)"
+msgstr "Englanti (UK)"
+
+#: weblate/html/i18n.html:51
+msgid "English (United States)"
+msgstr "Englanti (USA)"
+
+#: weblate/html/i18n.html:52
+msgid "Esperanto"
+msgstr "Esperanto"
+
+#: weblate/html/i18n.html:53
+msgid "Estonian"
+msgstr "Viro"
+
+#: weblate/html/i18n.html:54
+msgid "Faroese"
+msgstr "Färsaaret"
+
+#: weblate/html/i18n.html:55
+msgid "Filipino"
+msgstr "Filippiinit"
+
+#: weblate/html/i18n.html:56
+msgid "Finnish"
+msgstr "Suomi"
+
+#: weblate/html/i18n.html:57
+msgid "French"
+msgstr "Ranska"
+
+#: weblate/html/i18n.html:58
+msgid "Frisian"
+msgstr "Friisi"
+
+#: weblate/html/i18n.html:59
+msgid "Friulian"
+msgstr "Friuli"
+
+#: weblate/html/i18n.html:60
+msgid "Fulah"
+msgstr ""
+
+#: weblate/html/i18n.html:61
+msgid "Gaelic"
+msgstr "Gaeli"
+
+#: weblate/html/i18n.html:62
+msgid "Galician"
+msgstr "Galisia"
+
+#: weblate/html/i18n.html:63
+msgid "Georgian"
+msgstr "Georgia"
+
+#: weblate/html/i18n.html:64
+msgid "German"
+msgstr "Saksa"
+
+#: weblate/html/i18n.html:65
+msgid "Greek"
+msgstr "Kreikka"
+
+#: weblate/html/i18n.html:66
+msgid "Gujarati"
+msgstr "Gujarati"
+
+#: weblate/html/i18n.html:67
+msgid "Gun"
+msgstr "Gun"
+
+#: weblate/html/i18n.html:68
+msgid "Hausa"
+msgstr "Hausa"
+
+#: weblate/html/i18n.html:69
+msgid "Hebrew"
+msgstr "Hebrea"
+
+#: weblate/html/i18n.html:70
+msgid "Hindi"
+msgstr "Hindi"
+
+#: weblate/html/i18n.html:71
+msgid "Hungarian"
+msgstr "Unkari"
+
+#: weblate/html/i18n.html:72
+msgid "Chinese (Hong Kong)"
+msgstr "Kiina (Hong Kong)"
+
+#: weblate/html/i18n.html:73
+msgid "Chinese (China)"
+msgstr "Kiina (Kiina)"
+
+#: weblate/html/i18n.html:74
+msgid "Chinese (Taiwan)"
+msgstr "Kiina (Taiwan)"
+
+#: weblate/html/i18n.html:75
+msgid "Icelandic"
+msgstr "Islanti"
+
+#: weblate/html/i18n.html:76
+msgid "Indonesian"
+msgstr "Indonesia"
+
+#: weblate/html/i18n.html:77
+msgid "Interlingua"
+msgstr "Interlingua"
+
+#: weblate/html/i18n.html:78
+msgid "Irish"
+msgstr "Iiri"
+
+#: weblate/html/i18n.html:79
+msgid "Italian"
+msgstr "Italia"
+
+#: weblate/html/i18n.html:80
+msgid "Japanese"
+msgstr "Japani"
+
+#: weblate/html/i18n.html:81
+msgid "Javanese"
+msgstr "Java"
+
+#: weblate/html/i18n.html:82
+msgid "Kannada"
+msgstr "Kannada"
+
+#: weblate/html/i18n.html:83
+msgid "Kashubian"
+msgstr "Kasubi"
+
+#: weblate/html/i18n.html:84
+msgid "Kazakh"
+msgstr "Kazakki"
+
+#: weblate/html/i18n.html:85
+msgid "Kirghiz"
+msgstr "Kirgiisi"
+
+#: weblate/html/i18n.html:86
+msgid "Korean"
+msgstr "Korea"
+
+#: weblate/html/i18n.html:87
+msgid "Kurdish"
+msgstr "Kurdi"
+
+#: weblate/html/i18n.html:88
+msgid "Kurdish Sorani"
+msgstr "Sorani (Kurdi)"
+
+#: weblate/html/i18n.html:89
+msgid "Lao"
+msgstr "Lao"
+
+#: weblate/html/i18n.html:90
+msgid "Latvian"
+msgstr "Latvia"
+
+#: weblate/html/i18n.html:91
+msgid "Lingala"
+msgstr "Lingala"
+
+#: weblate/html/i18n.html:92
+msgid "Lithuanian"
+msgstr "Liettua"
+
+#: weblate/html/i18n.html:93
+msgid "Luxembourgish"
+msgstr "Luxemburg"
+
+#: weblate/html/i18n.html:94
+msgid "Macedonian"
+msgstr "Makedonia"
+
+#: weblate/html/i18n.html:95
+msgid "Maithili"
+msgstr "Maithili"
+
+#: weblate/html/i18n.html:96
+msgid "Malagasy"
+msgstr "Malagasi"
+
+#: weblate/html/i18n.html:97
+msgid "Malay"
+msgstr "Malai"
+
+#: weblate/html/i18n.html:98
+msgid "Malayalam"
+msgstr "Malayalam"
+
+#: weblate/html/i18n.html:99
+msgid "Maltese"
+msgstr "Malta"
+
+#: weblate/html/i18n.html:100
+msgid "Maori"
+msgstr "Maori"
+
+#: weblate/html/i18n.html:101
+msgid "Mapudungun"
+msgstr "Mapudungun"
+
+#: weblate/html/i18n.html:102
+msgid "Marathi"
+msgstr "Marathi"
+
+#: weblate/html/i18n.html:103
+msgid "Mongolian"
+msgstr "Mongolia"
+
+#: weblate/html/i18n.html:104
+msgid "Morisyen"
+msgstr "Mauritania"
+
+#: weblate/html/i18n.html:105
+msgid "Nahuatl languages"
+msgstr "Nahuatl kieli"
+
+#: weblate/html/i18n.html:106
+msgid "Neapolitan"
+msgstr "Neapolitan Italia"
+
+#: weblate/html/i18n.html:107
+msgid "Nepali"
+msgstr "Nepali"
+
+#: weblate/html/i18n.html:108
+msgid "Norwegian Bokmål"
+msgstr "Kirjanorja"
+
+#: weblate/html/i18n.html:109
+msgid "Norwegian Nynorsk"
+msgstr "Uusnorja"
+
+#: weblate/html/i18n.html:110
+msgid "Occitan"
+msgstr "Oksitaani"
+
+#: weblate/html/i18n.html:111
+msgid "Oriya"
+msgstr "Orija"
+
+#: weblate/html/i18n.html:112
+msgid "Papiamento"
+msgstr "Papiamentu"
+
+#: weblate/html/i18n.html:113
+msgid "Pedi"
+msgstr "Pohjoissotho"
+
+#: weblate/html/i18n.html:114
+msgid "Persian"
+msgstr "Persia"
+
+#: weblate/html/i18n.html:115
+msgid "Piemontese"
+msgstr "Piemonte"
+
+#: weblate/html/i18n.html:116
+msgid "Polish"
+msgstr "Puola"
+
+#: weblate/html/i18n.html:117
+msgid "Portuguese"
+msgstr "Portugali"
+
+#: weblate/html/i18n.html:118
+msgid "Portuguese (Brazil)"
+msgstr "Portugali (Brasilia)"
+
+#: weblate/html/i18n.html:119
+msgid "Portuguese (Portugal)"
+msgstr "Portugali (Portugali)"
+
+#: weblate/html/i18n.html:120
+#, fuzzy
+msgid "Punjabi"
+msgstr "Punjabi"
+
+#: weblate/html/i18n.html:121
+msgid "Pushto"
+msgstr "Pastu"
+
+#: weblate/html/i18n.html:122
+msgid "Romanian"
+msgstr "Romalia"
+
+#: weblate/html/i18n.html:123
+msgid "Romansh"
+msgstr "Retoromaani"
+
+#: weblate/html/i18n.html:124
+msgid "Russian"
+msgstr "Venäjä"
+
+#: weblate/html/i18n.html:125
+msgid "Scots"
+msgstr "Skotti"
+
+#: weblate/html/i18n.html:126
+msgid "Serbian"
+msgstr "Serbia"
+
+#: weblate/html/i18n.html:127
+msgid "Serbian (cyrillic)"
+msgstr "Serbia (Kyrillinen)"
+
+#: weblate/html/i18n.html:128
+msgid "Serbian (latin)"
+msgstr "Serbia (latin)"
+
+#: weblate/html/i18n.html:129
+msgid "Sinhala"
+msgstr "singaleesi"
+
+#: weblate/html/i18n.html:130
+msgid "Slovak"
+msgstr "Slovakki"
+
+#: weblate/html/i18n.html:131
+msgid "Slovenian"
+msgstr "Slovenia"
+
+#: weblate/html/i18n.html:132
+msgid "Somali"
+msgstr "Somali"
+
+#: weblate/html/i18n.html:133
+msgid "Songhai languages"
+msgstr "Songhai"
+
+#: weblate/html/i18n.html:134
+msgid "Sotho"
+msgstr "Eteläsotho"
+
+#: weblate/html/i18n.html:135
+msgid "Spanish"
+msgstr "Espanja"
+
+#: weblate/html/i18n.html:136
+msgid "Sundanese"
+msgstr "Sundaneesi"
+
+#: weblate/html/i18n.html:137
+msgid "Swahili"
+msgstr "Swahili"
+
+#: weblate/html/i18n.html:138
+msgid "Swedish"
+msgstr "Ruotsi"
+
+#: weblate/html/i18n.html:139
+msgid "Tajik"
+msgstr "Tadziki"
+
+#: weblate/html/i18n.html:140
+msgid "Tamil"
+msgstr "Tamili"
+
+#: weblate/html/i18n.html:141
+msgid "Tatar"
+msgstr "Tatar"
+
+#: weblate/html/i18n.html:142
+msgid "Telugu"
+msgstr "Telugu"
+
+#: weblate/html/i18n.html:143
+msgid "Thai"
+msgstr "Thai"
+
+#: weblate/html/i18n.html:144
+msgid "Tibetan"
+msgstr "Tiibet"
+
+#: weblate/html/i18n.html:145
+msgid "Tigrinya"
+msgstr "Tigrinja"
+
+#: weblate/html/i18n.html:146
+msgid "Turkish"
+msgstr "Turkki"
+
+#: weblate/html/i18n.html:147
+msgid "Turkmen"
+msgstr "Turkmeeni"
+
+#: weblate/html/i18n.html:148
+msgid "Uighur"
+msgstr "Uiguuri"
+
+#: weblate/html/i18n.html:149
+msgid "Ukrainian"
+msgstr "Ukraina"
+
+#: weblate/html/i18n.html:150
+msgid "Urdu"
+msgstr "Urdu"
+
+#: weblate/html/i18n.html:151
+msgid "Uzbek"
+msgstr "Udzbekki"
+
+#: weblate/html/i18n.html:152
+msgid "Uzbek (latin)"
+msgstr "Udzbekki (latin)"
+
+#: weblate/html/i18n.html:153
+msgid "Vietnamese"
+msgstr "Vietnam"
+
+#: weblate/html/i18n.html:154
+msgid "Walloon"
+msgstr "Vallooni"
+
+#: weblate/html/i18n.html:155
+msgid "Welsh"
+msgstr "Kymri"
+
+#: weblate/html/i18n.html:156
+msgid "Yoruba"
+msgstr "Joruba"
+
+#: weblate/html/i18n.html:157
+msgid "Zulu"
+msgstr "Zulu"
+
+#: weblate/html/i18n.html:160
+msgid "Translate using Apertium"
+msgstr "Käännä käyttämällä Apertiumia"
+
+#: weblate/html/i18n.html:161
+msgid "Translate using Microsoft Translator"
+msgstr "Käännä käyttämällä Microsoft Kääntäjää"
+
+#: weblate/html/i18n.html:162
+msgid "Translate using MyMemory"
+msgstr "Käännä käyttämällä MyMemoryä"
+
+#: weblate/html/i18n.html:163
+msgid "Sort this column"
+msgstr "Järjestä tämä sarake"
+
+#: weblate/html/i18n.html:164
+msgid "AJAX request to load this content has failed!"
+msgstr "AJAX pyyntö tämän sisällön lataamiseksi on epäonnistunut!"
+
+#: weblate/html/i18n.html:165
+#, fuzzy
+msgid "Loading…"
+msgstr "Ladataan…"
+
+#: weblate/html/i18n.html:166
+msgid "Failed translation"
+msgstr "Epäonnistunut käännös"
+
+#: weblate/html/i18n.html:167
+msgid "The request for machine translation has failed."
+msgstr "Pyyntö koneellisen käännöksen tekemiseen on epäonnistunut."
+
+#: weblate/html/i18n.html:168
+msgid "Error details:"
+msgstr "Virheen lisätiedot:"
+
+#: weblate/html/i18n.html:169
+#, fuzzy
+msgid "Confirm resetting repository"
+msgstr "Git ohjelmistolähteen osoite (URL)"
+
+#: weblate/html/i18n.html:170
+msgid "Resetting the repository will throw away all local changes!"
+msgstr ""
+
+#: weblate/html/i18n.html:171
+msgid "Ok"
+msgstr ""
+
+#: weblate/html/i18n.html:172
+msgid "Cancel"
+msgstr ""
+
+#: weblate/html/i18n.html:175 weblate/html/list-translations.html:61
+#, fuzzy
+msgid "Translated strings"
+msgstr "Kääntämättömät merkkijonot"
+
+#: weblate/html/index.html:9
+#, python-format
+msgid ""
+"This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
+"software projects listed below. You need to be logged in for translating, "
+"otherwise you can only make suggestions."
+msgstr ""
+"Tämä sivu käyttää <a href=\"%(weblate_url)s\">Weblatea</a> kääntääkseen "
+"ohjelmistoprojekteja, jotka on\n"
+" lueteltu alapuolella. Sinun on oltava sisäänkirjautunut voidaksesi kääntää, "
+"muuten voit tehdä vain\n"
+" ehdotuksia."
+
+#: weblate/html/index.html:13 weblate/html/subproject.html:17
+#: weblate/html/translate.html:91
+msgid "Translations"
+msgstr "Käännökset"
+
+#: weblate/html/index.html:18
+msgid "Your translations"
+msgstr "Käännöksesi"
+
+#: weblate/html/index.html:20 weblate/html/language.html:12
+#: weblate/html/user.html:18
+msgid "Projects"
+msgstr "Projektit"
+
+#: weblate/html/index.html:22
+msgid "Checks"
+msgstr "Tarkistukset"
+
+#: weblate/html/index.html:38 weblate/html/index.html.py:80
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21
+msgid "Translated"
+msgstr "Käännetty"
+
+#: weblate/html/index.html:59
+msgid "Summaries"
+msgstr "Yhteenvedot"
+
+#: weblate/html/index.html:64 weblate/html/language.html:23
+#: weblate/html/project.html:40 weblate/html/subproject.html:30
+#: weblate/html/translation.html:35 weblate/html/translation.html.py:83
+msgid "Recent changes"
+msgstr "Viimeaikaiset muutokset"
+
+#: weblate/html/index.html:65
+msgid "Most active translators"
+msgstr "Aktiivisimmat kääntäjät"
+
+#: weblate/html/index.html:66
+msgid "Most active suggesters"
+msgstr "Aktiivisimmat ehdottajat"
+
+#: weblate/html/index.html:67 weblate/html/language.html:25
+#: weblate/html/project.html:46 weblate/html/subproject.html:37
+#: weblate/html/translation.html:46 weblate/html/user.html:27
+msgid "Activity"
+msgstr ""
+
+#: weblate/html/index.html:68
+msgid "Others"
+msgstr "Muut"
+
+#: weblate/html/index.html:79 weblate/html/index.html.py:98
+#: weblate/html/last-changes.html:14
+msgid "User"
+msgstr "Käyttäjä"
+
+#: weblate/html/index.html:99
+msgid "Suggested"
+msgstr "Ehdottanut"
+
+#: weblate/html/index.html:114
+msgid "Languages summary"
+msgstr "Kielten yhteenveto"
+
+#: weblate/html/index.html:115
+msgid "Checks overview"
+msgstr "Tarkistusten yleiskatsaus"
+
+#: weblate/html/index.html:117
+msgid "Widgets"
+msgstr ""
+
+#: weblate/html/language.html:6 weblate/html/languages.html:6
+msgid "languages"
+msgstr "kielet"
+
+#: weblate/html/language.html:24 weblate/html/project.html:41
+msgid "Glossaries"
+msgstr ""
+
+#: weblate/html/last-changes.html:13
+msgid "When"
+msgstr ""
+
+#: weblate/html/last-changes.html:15
+#, fuzzy
+msgid "Action"
+msgstr "Kaikki sijainnit"
+
+#: weblate/html/last-changes.html:30
+msgid "No recent activity has been recorded."
+msgstr "Viimeaikaista aktiivisuutta ei ole tallennettu."
+
+#: weblate/html/list-checks.html:6
+#, python-format
+msgid "Ignore: %(check)s"
+msgstr "Jätä huomioitta: %(check)s"
+
+#: weblate/html/list-translations.html:9
+#, fuzzy
+msgctxt "Number of fuzzy strings"
+msgid "Fuzzy"
+msgstr "Epäselvä"
+
+#: weblate/html/list-translations.html:10
+#, fuzzy
+msgctxt "Number of failing checks"
+msgid "Checks"
+msgstr "Tarkistukset"
+
+#: weblate/html/list-translations.html:11
+#, fuzzy
+#| msgid "Suggestions"
+msgctxt "Number of suggestions"
+msgid "Suggestions"
+msgstr "Ehdotukset"
+
+#: weblate/html/list-translations.html:24
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s fuzzy string."
+msgid_plural "There are %(count)s fuzzy strings."
+msgstr[0] "%(count)s kääntämätön merkkiketju."
+msgstr[1] "%(count)s kääntämätöntä merkkiketjua."
+
+#: weblate/html/list-translations.html:33
+#, python-format
+msgid "There is %(count)s failing check."
+msgid_plural "There are %(count)s failing checks."
+msgstr[0] "%(count)s epäonnistunutta tarkistusta."
+msgstr[1] "%(count)s epäonnistunutta tarkistusta."
+
+#: weblate/html/list-translations.html:42
+#, fuzzy, python-format
+#| msgid "There is %(count)s not translated string."
+#| msgid_plural "There are %(count)s not translated strings."
+msgid "There is %(count)s suggestion."
+msgid_plural "There are %(count)s suggestions."
+msgstr[0] "%(count)s kääntämätön merkkiketju."
+msgstr[1] "%(count)s kääntämätöntä merkkiketjua."
+
+#: weblate/html/list-translations.html:51
+#, python-format
+msgid "There is %(count)s not translated string."
+msgid_plural "There are %(count)s not translated strings."
+msgstr[0] "%(count)s kääntämätön merkkiketju."
+msgstr[1] "%(count)s kääntämätöntä merkkiketjua."
+
+#: weblate/html/list-translations.html:51 weblate/html/translate.html:24
+msgid "Translate"
+msgstr "Käännä"
+
+#: weblate/html/profile.html:22
+msgid "Preferences"
+msgstr "Asetukset"
+
+#: weblate/html/profile.html:23
+#, fuzzy
+msgid "Subscriptions"
+msgstr "Ehdotukset"
+
+#: weblate/html/profile.html:24
+msgid "Account"
+msgstr "Käyttäjätili"
+
+#: weblate/html/profile.html:26
+#, fuzzy
+msgid "Information"
+msgstr "Projektitiedot"
+
+#: weblate/html/profile.html:27
+#, fuzzy
+msgid "Avatar"
+msgstr "Tatar"
+
+#: weblate/html/profile.html:35
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr ""
+
+#: weblate/html/profile.html:44
+msgid "Your name and email will appear as author on Git commits."
+msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
+
+#: weblate/html/profile.html:48
+#, python-format
+msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
+msgstr ""
+"Salasanaa voidaan vaihtaa <a href=\"%(pw_url)s\">erillisellä sivulla</a>."
+
+#: weblate/html/profile.html:56
+msgid "Your public profile:"
+msgstr ""
+
+#: weblate/html/profile.html:62
+msgid "Change your avatar at gravatar.com"
+msgstr ""
+
+#: weblate/html/project.html:11 weblate/html/source.html:13
+#: weblate/html/subproject.html:13 weblate/html/translation.html:16
+msgid "Project Information"
+msgstr "Projektitiedot"
+
+#: weblate/html/project.html:15
+msgid "Subprojects"
+msgstr "Aliprojektit"
+
+#: weblate/html/project.html:20
+msgid "Subproject"
+msgstr "Aliprojekti"
+
+#: weblate/html/project.html:43 weblate/html/subproject.html:33
+#: weblate/html/translation.html:42
+msgid "Git maintenance"
+msgstr "Gitin ylläpito"
+
+#: weblate/html/project.html:45 weblate/html/subproject.html:35
+#: weblate/html/translation.html:45
+msgid "Share"
+msgstr ""
+
+#: weblate/html/project.html:54
+#, fuzzy
+msgid "Manage all glossaries"
+msgstr "Hallitse kaikkia sanakirjoja"
+
+#: weblate/html/project_info.html:2
+msgid "Project website:"
+msgstr "Projektin verkkosivu:"
+
+#: weblate/html/project_info.html:4
+msgid "Mailing list for translators:"
+msgstr "Sähköpostituslista kääntäjille:"
+
+#: weblate/html/project_info.html:7
+msgid "Instructions for translators:"
+msgstr "Ohjeet kääntäjille:"
+
+#: weblate/html/share.html:5
+msgid "Share on Facebook!"
+msgstr ""
+
+#: weblate/html/share.html:6
+#, fuzzy, python-format
+msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgstr "Kiitos Weblaten käyttämisestä!"
+
+#: weblate/html/share.html:6
+#, fuzzy
+msgid "Tweet this translation!"
+msgstr "Käytä tätä käännöstä"
+
+#: weblate/html/share.html:11
+#, fuzzy, python-format
+msgid ""
+"You can also promote this translation project using various <a href="
+"\"%(widgets_url)s\">other possibilities</a>."
+msgstr ""
+"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
+
+#: weblate/html/share.html:15
+#, python-format
+msgid ""
+"Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
+"readable formats."
+msgstr ""
+
+#: weblate/html/source-review.html:9 weblate/html/source.html:8
+#, fuzzy
+msgid "source"
+msgstr "Lähde"
+
+#: weblate/html/source-review.html:10
+#, fuzzy
+msgid "review"
+msgstr "Tarkista"
+
+#: weblate/html/source-review.html:15
+#, fuzzy
+msgid "Strings to review"
+msgstr "Aloita tarkistus"
+
+#: weblate/html/source-review.html:48
+#, fuzzy
+msgid "Comment"
+msgstr "Kommentit"
+
+#: weblate/html/source-review.html:62 weblate/html/translate.html:231
+#, fuzzy
+msgid "User comments"
+msgstr "Kommentit"
+
+#: weblate/html/source-review.html:75
+#, fuzzy
+msgid "No matching source strings found!"
+msgstr "Muita merkkiketjuja ei löytynyt."
+
+#: weblate/html/source.html:19 weblate/html/translation.html:22
+msgid "Strings to check"
+msgstr "Merkkiketjut tarkistettaviksi"
+
+#: weblate/html/subproject.html:42
+#, fuzzy, python-format
+msgid ""
+"Should your language be missing, please follow <a href=\"%(url)s"
+"\">translator instructions</a>."
+msgstr ""
+"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
+
+#: weblate/html/subproject.html:44
+#, python-format
+msgid ""
+"Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">contact us</a>."
+msgstr ""
+"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
+
+#: weblate/html/subproject.html:59
+#, fuzzy
+msgid "Source strings review"
+msgstr "Etsi lähdemerkkijonoista"
+
+#: weblate/html/subproject_info.html:6
+msgid "Git repository:"
+msgstr "Git ohjelmistolähde:"
+
+#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
+#, python-format
+msgid "%(branch)s branch"
+msgstr "%(branch)s haara"
+
+#: weblate/html/translate.html:15
+msgid "translate"
+msgstr "käännä"
+
+#: weblate/html/translate.html:36
+#, python-format
+msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+msgstr "Nykyinen suodatin: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+
+#: weblate/html/translate.html:67
+#, fuzzy
+msgid "Source change"
+msgstr "Viimeaikaiset muutokset"
+
+#: weblate/html/translate.html:73
+msgid "Context"
+msgstr "Asiayhteys"
+
+#: weblate/html/translate.html:80 weblate/html/js/dictionary.html:19
+msgid "Copy"
+msgstr "Kopioi"
+
+#: weblate/html/translate.html:83
+#, fuzzy
+msgid "Toggle text direction"
+msgstr "Väärä tekstin suunta"
+
+#: weblate/html/translate.html:96
+#, fuzzy
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "Epäselvä"
+
+#: weblate/html/translate.html:97
+msgid "Special characters:"
+msgstr ""
+
+#: weblate/html/translate.html:98
+msgid "Insert tab character"
+msgstr ""
+
+#: weblate/html/translate.html:99
+#, fuzzy
+msgid "Insert new line"
+msgstr "Aloittaa uuden rivin"
+
+#: weblate/html/translate.html:100
+msgid "Insert horizontal ellipsis"
+msgstr ""
+
+#: weblate/html/translate.html:116
+msgid "Suggestions"
+msgstr "Ehdotukset"
+
+#: weblate/html/translate.html:123
+#, python-format
+msgid "Suggested by %(user)s"
+msgstr "Ehdottanut %(user)s"
+
+#: weblate/html/translate.html:125
+msgid "Suggested by anonymous user"
+msgstr "Ehdottanut tuntematon käyttäjä"
+
+#: weblate/html/translate.html:130
+msgid "Accept"
+msgstr "Hyväksy"
+
+#: weblate/html/translate.html:147
+msgid "Flags"
+msgstr "Liput"
+
+#: weblate/html/translate.html:157
+#, python-format
+msgid ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
+"translations."
+msgstr ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">Kirjaudu sisään</a> "
+"käännösten tallentamista varten."
+
+#: weblate/html/translate.html:160
+msgid "Suggest"
+msgstr "Ehdota"
+
+#: weblate/html/translate.html:166
+msgid "Translation context"
+msgstr "Käännöksen sisältö"
+
+#: weblate/html/translate.html:170
+msgid "Messages placed around this one"
+msgstr "Viestit, jotka ovat tämän ympärillä"
+
+#: weblate/html/translate.html:170
+msgid "Nearby messages"
+msgstr "Läheiset viestit"
+
+#: weblate/html/translate.html:171
+msgid "Similar messages"
+msgstr "Samankaltaiset viestit"
+
+#: weblate/html/translate.html:172
+msgid "Same message used in different subprojects"
+msgstr "Samaa viestiä on käytetty eri aliprojekteissa"
+
+#: weblate/html/translate.html:172
+msgid "All locations"
+msgstr "Kaikki sijainnit"
+
+#: weblate/html/translate.html:173
+#, fuzzy
+msgid "Words extracted from glossary"
+msgstr "Sanakirjasta puretut sanat"
+
+#: weblate/html/translate.html:174
+#, fuzzy
+msgid "Comments about this translation"
+msgstr "Käytä tätä käännöstä"
+
+#: weblate/html/translate.html:174 weblate/html/unit-details.html:10
+msgid "Comments"
+msgstr "Kommentit"
+
+#: weblate/html/translate.html:175
+msgid "List of recent changes done in Weblate"
+msgstr "Luettelo viimeaikaisista muutoksista Weblatessa"
+
+#: weblate/html/translate.html:175
+msgid "Recent edits"
+msgstr "Viimeaikaiset muokkaukset"
+
+#: weblate/html/translate.html:176
+#, fuzzy
+msgid "Source string details and feedback"
+msgstr "Etsi lähdemerkkijonoista"
+
+#: weblate/html/translate.html:177
+msgid "Information about project"
+msgstr "Tietoa projektista"
+
+#: weblate/html/translate.html:182 weblate/html/js/other.html:6
+#: weblate/html/js/similar.html:6
+msgid "State"
+msgstr "Tila"
+
+#: weblate/html/translate.html:200
+msgid "You can share comments about this translation with other translators."
+msgstr ""
+
+#: weblate/html/translate.html:206 weblate/html/translate.html.py:238
+#, fuzzy
+msgid "New comment"
+msgstr "Kommentit"
+
+#: weblate/html/translate.html:216 weblate/html/translate.html.py:249
+msgid "You are not allowed to add comments."
+msgstr ""
+
+#: weblate/html/translate.html:232
+msgid ""
+"You can share comments about source string for this translation with other "
+"translators and developers."
+msgstr ""
+
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Etsi"
+
+#: weblate/html/translation.html:37
+#, fuzzy
+msgid "Files"
+msgstr "Tiedosto"
+
+#: weblate/html/translation.html:39
+msgid "Automatic translation"
+msgstr "Automaattinen käännös"
+
+#: weblate/html/translation.html:44
+msgid "Locking"
+msgstr ""
+
+#: weblate/html/translation.html:60
+#, python-format
+msgid ""
+"You can <a href=\"%(download_url)s\">download</a> file for offline "
+"translation."
+msgstr ""
+"Voit <a href=\"%(download_url)s\">ladata</a> tiedoston offline kääntämistä "
+"varten."
+
+#: weblate/html/translation.html:64 weblate/html/translation.html.py:76
+msgid "Upload"
+msgstr "Lähetä"
+
+#: weblate/html/translation.html:66
+msgid ""
+"Uploaded file will be merged with current translation. In case you want to "
+"overwrite already translated strings, don't forget to enable it."
+msgstr ""
+"Lähetetty tiedosto yhdistetään nykyisen käännöksen kanssa. Mikäli tahdot "
+"ylikirjoittaa valmiiksi käännetyt merkkiketjut, älä unohda ottaa sitä "
+"käyttöön."
+
+#: weblate/html/translation.html:68
+msgid "Uploaded file will be merged with current translation."
+msgstr "Ladattu tiedosto yhdistetään nykyisen käännöksen kanssa."
+
+#: weblate/html/translation.html:87
+msgid "Review"
+msgstr "Tarkista"
+
+#: weblate/html/translation.html:89
+msgid "Review translations touched by other users."
+msgstr "Tarkista käännöksiä, joihin muut käyttäjät ovat koskeneet."
+
+#: weblate/html/translation.html:94
+msgid "Start review"
+msgstr "Aloita tarkistus"
+
+#: weblate/html/translation.html:101
+#, fuzzy
+msgid ""
+"Automatic translation takes existing translations in this project and "
+"applies it to the current subproject. It can be used to push translations to "
+"a different branch, to fix inconsistent translations or to translate new "
+"subproject using translation memory."
+msgstr ""
+"Automaattinen kääntäminen ottaa olemassa olevan käännöksen tästä projektista "
+"ja toteuttaa sen nykyisen aliprojektin kanssa. Sitä voidaan käyttää "
+"käännösten työntämiseen eri haaraan tai virheellisten käännösten "
+"korjaamiseen."
+
+#: weblate/html/translation.html:107
+msgid "Process"
+msgstr "Edistyminen"
+
+#: weblate/html/translation.html:113
+msgid "Locking the translation will prevent others to work on translation."
+msgstr ""
+
+#: weblate/html/translation.html:115
+msgid "Locked by:"
+msgstr ""
+
+#: weblate/html/translation.html:116
+msgid "Lock expires:"
+msgstr ""
+
+#: weblate/html/translation.html:118
+msgid "Translation is currently not locked."
+msgstr ""
+
+#: weblate/html/translation.html:122 weblate/html/js/git-status.html:16
+msgid "Unlock"
+msgstr ""
+
+#: weblate/html/translation.html:124 weblate/html/js/git-status.html:18
+msgid "Lock"
+msgstr ""
+
+#: weblate/html/translation_info.html:8
+#, python-format
+msgid ""
+"There are %(count)s strings, out of which %(translated)s&#37; is translated "
+"and %(fuzzy)s&#37; is fuzzy."
+msgstr ""
+"%(count)s merkkiketjua, joista on %(translated)s&#37; käännettyjä ja "
+"%(fuzzy)s&#37; on epäselvää."
+
+#: weblate/html/unit-details.html:4
+msgid "Used in"
+msgstr "Käytetty"
+
+#: weblate/html/unit-state.html:3
+msgid "Message is fuzzy"
+msgstr "Viesti on epäselvä"
+
+#: weblate/html/unit-state.html:4
+msgid "Message has failing checks"
+msgstr "Viestillä on epäonnistuvia tarkistuksia"
+
+#: weblate/html/unit-state.html:5
+msgid "Message is translated"
+msgstr "Viesti on käännetty"
+
+#: weblate/html/user-activity.html:12
+#, fuzzy
+msgid "Last login"
+msgstr "Sisäänkirjautuminen"
+
+#: weblate/html/user-activity.html:16
+#, fuzzy
+msgid "Registration date"
+msgstr "Aloituspäivä"
+
+#: weblate/html/user.html:33 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr ""
+
+#: weblate/html/user.html:36 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr ""
+
+#: weblate/html/user.html:39
+#, fuzzy
+#| msgid "Recent edits"
+msgid "Recent contributions"
+msgstr "Viimeaikaiset muokkaukset"
+
+#: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
+msgid "widgets"
+msgstr ""
+
+#: weblate/html/widgets-root.html:11 weblate/html/widgets.html:16
+#, fuzzy
+msgid "Promoting translation projects"
+msgstr "Käytä tätä käännöstä kaikkien aliprojektien kanssa"
+
+#: weblate/html/widgets-root.html:14
+msgid ""
+"Weblate provides various widgets to promote your translation projects. Open "
+"one of the project pages below."
+msgstr ""
+
+#: weblate/html/widgets.html:19
+#, python-format
+msgid ""
+"You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
+"\">%(engage_url)s</a>."
+msgstr ""
+
+#: weblate/html/widgets.html:22
+#, fuzzy
+msgid "Promoting specific translations"
+msgstr "Automaattinen käännös"
+
+#: weblate/html/widgets.html:25
+msgid ""
+"Besides promoting whole translation project, you can also choose specific "
+"language to promote:"
+msgstr ""
+
+#: weblate/html/widgets.html:29
+msgid "Image widgets"
+msgstr ""
+
+#: weblate/html/widgets.html:32
+msgid ""
+"You can use following widgets to promote translation of your project. They "
+"can increase visibility of your translation projects and bring new "
+"contributors."
+msgstr ""
+
+#: weblate/html/widgets.html:36
+#, python-format
+msgid "Image %(widget)s"
+msgstr ""
+
+#: weblate/html/widgets.html:38
+msgid "Color variants:"
+msgstr ""
+
+#: weblate/html/widgets.html:48
+msgid "HTML code"
+msgstr ""
+
+#: weblate/html/widgets.html:49
+msgid "BB code"
+msgstr ""
+
+#: weblate/html/widgets.html:50
+msgid "Markdown code"
+msgstr ""
+
+#: weblate/html/widgets.html:51
+msgid "RST code"
+msgstr ""
+
+#: weblate/html/widgets.html:52
+msgid "Textile code"
+msgstr ""
+
+#: weblate/html/widgets.html:59 weblate/html/widgets.html.py:67
+#: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
+#, fuzzy
+msgid "Translation status"
+msgstr "Käännökset"
+
+#: weblate/html/admin/custom-index.html:10
+msgid "Reports"
+msgstr "Raportit"
+
+#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/report.html.py:13
+msgid "Status of repositories"
+msgstr "Ohjelmistolähteiden tilanne"
+
+#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/ssh.html.py:8
+msgid "SSH keys"
+msgstr ""
+
+#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/performance.html:5
+#: weblate/html/admin/performance.html:14
+msgid "Performance report"
+msgstr ""
+
+#: weblate/html/admin/performance.html:9
+msgid "Performance"
+msgstr ""
+
+#: weblate/html/admin/performance.html:21
+msgid "Result"
+msgstr ""
+
+#: weblate/html/admin/report.html:8
+msgid "Status"
+msgstr "Tilanne"
+
+#: weblate/html/admin/report.html:17
+#, fuzzy, python-format
+msgid ""
+"Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
+"%(repo)s</a> instead."
+msgstr ""
+"Linkitetyn tietolähteen tilaa ei näytetä. Tarkasta sen sijaan %(repo)s."
+
+#: weblate/html/admin/ssh.html:14
+msgid "Public SSH key"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:15
+msgid "Weblate currently uses following SSH key:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:22
+msgid "Generate SSH key"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:23
+msgid ""
+"You don't seem to have existing SSH key, by pressing button below Weblate "
+"will generate it for you."
+msgstr ""
+
+#: weblate/html/admin/ssh.html:26
+msgid "Generate"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:32
+#, fuzzy
+msgid "More information"
+msgstr "Projektitiedot"
+
+#: weblate/html/admin/ssh.html:34
+#, python-format
+msgid ""
+"You can find more information about setting up SSH keys in <a href="
+"\"%(ssh_docs)s\">the Weblate manual</a>."
+msgstr ""
+
+#: weblate/html/js/dictionary.html:19
+#, fuzzy
+#| msgid "Your translations"
+msgid "Copy word to translation"
+msgstr "Käännöksesi"
+
+#: weblate/html/js/dictionary.html:27
+msgid "No related strings found in dictionary."
+msgstr "Asiaan liittyviä merkkiketjuja ei löydetty sanakirjasta."
+
+#: weblate/html/js/git-status.html:8
+msgid "Commit pending changes"
+msgstr "Commitilla on odottavia muutoksia"
+
+#: weblate/html/js/git-status.html:8
+msgid "Commit"
+msgstr "Suorita"
+
+#: weblate/html/js/git-status.html:9
+msgid "Pull changes from remote repository"
+msgstr "Vedä muutokset etäohjelmistolähteestä"
+
+#: weblate/html/js/git-status.html:9
+msgid "Pull"
+msgstr "Vedä"
+
+#: weblate/html/js/git-status.html:10
+msgid "Push changes to remote repository"
+msgstr "Työnnä muutokset etäohjelmistolähteeseen"
+
+#: weblate/html/js/git-status.html:10
+msgid "Push"
+msgstr "Työnnä"
+
+#: weblate/html/js/git-status.html:12
+#, fuzzy
+msgid "Reset all changes in local repository"
+msgstr "Vedä muutokset etäohjelmistolähteestä"
+
+#: weblate/html/js/git-status.html:12
+msgid "Reset"
+msgstr ""
+
+#: weblate/html/js/git-status.html:16
+#, fuzzy
+msgid "Allow changes in the repository"
+msgstr "Vedä muutokset etäohjelmistolähteestä"
+
+#: weblate/html/js/git-status.html:18
+#, fuzzy
+msgid "Prevent any changes in the repository"
+msgstr "Työnnä muutokset etäohjelmistolähteeseen"
+
+#: weblate/html/js/git-status.html:24
+msgid "There are some not commited changes!"
+msgstr "Joitakin committamattomia muutoksia!"
+
+#: weblate/html/js/git-status.html:27
+msgid "Remote Git repository needs to be merged!"
+msgstr "Etä git ohjelmistolähde täytyy yhdistää!"
+
+#: weblate/html/js/git-status.html:30
+msgid "There are some new commits in local Git repository!"
+msgstr "Joitakin uusia committeja on paikallisessa Git ohjelmistolähteessä!"
+
+#: weblate/html/js/git-status.html:38
+msgid "Last remote commit:"
+msgstr ""
+
+#: weblate/html/js/git-status.html:48
+msgid "Details"
+msgstr "Lisätiedot"
+
+#: weblate/html/js/other.html:17
+msgid "Use this translation for all subprojects"
+msgstr "Käytä tätä käännöstä kaikkien aliprojektien kanssa"
+
+#: weblate/html/js/other.html:17
+msgid "Use this translation"
+msgstr "Käytä tätä käännöstä"
+
+#: weblate/html/js/other.html:25
+msgid "No other strings found."
+msgstr "Muita merkkiketjuja ei löytynyt."
+
+#: weblate/html/js/similar.html:20
+msgid "No similar strings found."
+msgstr "Samankaltaisia merkkiketjuja ei löytynyt."
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:3
+msgid "Sent by Weblate translation system"
+msgstr ""
+
+#: weblate/html/mail/changed_translation.html:8
+#: weblate/html/mail/changed_translation.txt:1
+#: weblate/html/mail/merge_failure.html:8
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:8
+#: weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/new_contributor.html:8
+#: weblate/html/mail/new_contributor.txt:1 weblate/html/mail/new_string.html:8
+#: weblate/html/mail/new_string.txt:1 weblate/html/mail/new_suggestion.html:8
+#: weblate/html/mail/new_suggestion.txt:1
+#: weblate/html/mail/new_translation.html:8
+#: weblate/html/mail/new_translation.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: weblate/html/mail/changed_translation.html:12
+#: weblate/html/mail/changed_translation.txt:3
+#, fuzzy, python-format
+msgid ""
+"there has been a change in translation on %(translation)s at %(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/changed_translation.html:19
+#: weblate/html/mail/changed_translation.txt:5
+#: weblate/html/mail/new_comment.html:18 weblate/html/mail/new_comment.txt:5
+#: weblate/html/mail/new_suggestion.html:19
+#: weblate/html/mail/new_suggestion.txt:5
+#: weblate/html/mail/new_translation.html:19
+#: weblate/html/mail/new_translation.txt:5
+#, fuzzy
+msgid "Source string:"
+msgstr "Etsi lähdemerkkijonoista"
+
+#: weblate/html/mail/changed_translation.html:29
+#: weblate/html/mail/changed_translation.txt:9
+#: weblate/html/mail/new_translation.html:29
+#: weblate/html/mail/new_translation.txt:9
+#, fuzzy
+msgid "Translation:"
+msgstr "Käännös"
+
+#: weblate/html/mail/changed_translation.html:39
+#: weblate/html/mail/new_suggestion.html:40
+#, fuzzy
+msgid "Translation change:"
+msgstr "Käännöksen sisältö"
+
+#: weblate/html/mail/changed_translation.html:49
+#: weblate/html/mail/changed_translation.txt:17
+#: weblate/html/mail/new_comment.html:39 weblate/html/mail/new_comment.txt:13
+#: weblate/html/mail/new_translation.html:39
+#: weblate/html/mail/new_translation.txt:15
+msgid "You can edit this string at:"
+msgstr ""
+
+#: weblate/html/mail/changed_translation.txt:13
+#, fuzzy
+msgid "Previous translation:"
+msgstr "Käännöksesi"
+
+#: weblate/html/mail/changed_translation_subject.txt:1
+#, fuzzy, python-format
+msgid "Changed translation in %(translation)s"
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/footer.html:4 weblate/html/mail/footer.txt:1
+#, fuzzy
+msgid "Translation summary:"
+msgstr "Käännökset"
+
+#: weblate/html/mail/footer.html:8 weblate/html/mail/footer.txt:3
+#, fuzzy
+msgid "Total strings:"
+msgstr "Kaikki merkkijonot"
+
+#: weblate/html/mail/footer.html:11 weblate/html/mail/footer.txt:4
+#, fuzzy
+msgid "Translated strings:"
+msgstr "Kääntämättömät merkkijonot"
+
+#: weblate/html/mail/footer.html:14 weblate/html/mail/footer.txt:5
+#, fuzzy
+msgid "Fuzzy strings:"
+msgstr "Epäselvät merkkijonot"
+
+#: weblate/html/mail/footer.html:18
+#, fuzzy, python-format
+msgid ""
+"You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr "Lähde ja käännös tekstit ovat samat"
+
+#: weblate/html/mail/footer.txt:7
+#, fuzzy, python-format
+msgid "You can translate at %(translation_url)s"
+msgstr "Lähde ja käännös tekstit ovat samat"
+
+#: weblate/html/mail/merge_failure.html:12
+#: weblate/html/mail/merge_failure.txt:3
+#, fuzzy, python-format
+msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/merge_failure.html:16
+#, fuzzy
+msgid "Error message"
+msgstr "Virheen lisätiedot:"
+
+#: weblate/html/mail/merge_failure.html:22
+#, fuzzy
+msgid "Repository status"
+msgstr "Git ohjelmistolähde:"
+
+#: weblate/html/mail/merge_failure.txt:5
+#, fuzzy
+msgid "Error message:"
+msgstr "Virheen lisätiedot:"
+
+#: weblate/html/mail/merge_failure.txt:9
+#, fuzzy
+msgid "Repository status:"
+msgstr "Git ohjelmistolähde:"
+
+#: weblate/html/mail/merge_failure_subject.txt:1
+#, python-format
+msgid "Merge failure in %(subproject)s"
+msgstr ""
+
+#: weblate/html/mail/new_comment.html:12 weblate/html/mail/new_comment.txt:3
+#, fuzzy, python-format
+msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_comment.html:29 weblate/html/mail/new_comment.txt:9
+#, fuzzy
+msgid "Comment:"
+msgstr "Kommentit"
+
+#: weblate/html/mail/new_comment_subject.txt:1
+#, python-format
+msgid "New comment in %(subproject)s"
+msgstr ""
+
+#: weblate/html/mail/new_contributor.html:12
+#: weblate/html/mail/new_contributor.txt:3
+#, fuzzy, python-format
+msgid ""
+"%(username)s has just made a first contribution on %(translation)s at "
+"%(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_contributor_subject.txt:1
+#, fuzzy, python-format
+msgid "New contributor in %(translation)s"
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
+#, fuzzy, python-format
+msgid ""
+"there are new strings to translate on %(translation)s at %(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_string_subject.txt:1
+#, python-format
+msgid "New string to translate in %(translation)s"
+msgstr ""
+
+#: weblate/html/mail/new_suggestion.html:12
+#: weblate/html/mail/new_suggestion.txt:3
+#, fuzzy, python-format
+msgid ""
+"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_suggestion.html:29
+#: weblate/html/mail/new_suggestion.txt:9
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Suggestion:"
+msgstr "Ehdotukset"
+
+#: weblate/html/mail/new_suggestion.html:51
+#: weblate/html/mail/new_suggestion.txt:13
+msgid "You can review it at:"
+msgstr ""
+
+#: weblate/html/mail/new_suggestion_subject.txt:1
+#, fuzzy, python-format
+msgid "New suggestion in %(translation)s"
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_translation.html:12
+#: weblate/html/mail/new_translation.txt:3
+#, fuzzy, python-format
+msgid "there has been a new translation on %(translation)s at %(site_title)s."
+msgstr "Automaattinen käännös"
+
+#: weblate/html/mail/new_translation.txt:13
+#, fuzzy
+msgid "Previously not translated"
+msgstr "Käännöksesi"
+
+#: weblate/html/mail/new_translation_subject.txt:1
+#, fuzzy, python-format
+msgid "New translation in %(translation)s"
+msgstr "Automaattinen käännös"
+
+#: weblate/html/registration/activate.html:7
+#, fuzzy
+msgid "Your account could not be activated"
+msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
+
+#: weblate/html/registration/activate.html:9
+#, python-format
+msgid ""
+"This may be because it is already active or because you waited over %(days)s "
+"day to activate it."
+msgid_plural ""
+"This may be because it is already active or because you waited over %(days)s "
+"days to activate it."
+msgstr[0] ""
+msgstr[1] ""
+
+#: weblate/html/registration/activate.html:12
+#, python-format
+msgid ""
+"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
+"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
+"again</a>."
+msgstr ""
+
+#: weblate/html/registration/activation_complete.html:8
+#, fuzzy
+msgid "Thank you. Your account is now activated."
+msgstr ""
+"Kiitos. Tunnuksesi\n"
+"    on nyt aktivoitu. Käyttäjänimesi on \n"
+"    <b>%(username)s</b>."
+
+#: weblate/html/registration/activation_complete.html:12
+#, python-format
+msgid ""
+"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+msgstr "Haluat ehkä <a href=\"%(profile_url)s\">muokata profiilisi</a> nyt."
+
+#: weblate/html/registration/activation_email.txt:1
+#, python-format
+msgid ""
+"Hi,\n"
+"\n"
+"This is an automatic email to help you complete your registration\n"
+"with %(site_title)s.\n"
+"\n"
+"Please open the following link in your web browser. If the link\n"
+"is split over several lines, you may need to copy it in the\n"
+"address bar."
+msgstr ""
+"Hei,\n"
+"\n"
+"Tämä on automaattinen sähköposti, joka auttaa sinua suorittamaan "
+"rekisteröintisi \n"
+"sivulla %(site_title)s.\n"
+"\n"
+"Ole hyvä ja avaa seuraava linkki verkkoselaimessasi. Mikäli linkki on \n"
+"jakaantunut usealle riville, sinun täytyy mahdollisesti kopioida se \n"
+"osoiteriville."
+
+#: weblate/html/registration/activation_email.txt:12
+#, python-format
+msgid ""
+"\n"
+"If there is a problem with your registration, please reply to\n"
+"this email.\n"
+"\n"
+"Best regards,\n"
+"%(site_title)s\n"
+msgstr ""
+"\n"
+"Mikäli rekisteröintisi kanssa on ongelma, ole hyvä ja \n"
+"vastaa tähän sähköpostiin.\n"
+"\n"
+"Ystävällisin terveisin\n"
+"%(site_title)s\n"
+
+#: weblate/html/registration/activation_email_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "Rekisteröitymisesi palvelussa %(site_title)s"
+
+#: weblate/html/registration/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr ""
+"Tätä käyttäjätunnus/salasana yhdistelmää ei löydetty. Ole hyvä ja yritä "
+"uudelleen."
+
+#: weblate/html/registration/login.html:37
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
+"Eikö sinulla ole vielä tunnusta? Voit <a href=\"%(register_url)s"
+"\">rekisteröityä</a>."
+
+#: weblate/html/registration/login.html:43
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
+
+#: weblate/html/registration/logout.html:7
+msgid "Thanks for using Weblate!"
+msgstr "Kiitos Weblaten käyttämisestä!"
+
+#: weblate/html/registration/logout.html:9
+msgid "Log in again"
+msgstr "Kirjaudu sisään uudestaan"
+
+#: weblate/html/registration/password_change_done.html:6
+msgid "Your password was changed."
+msgstr "Salasanasi vaihdettiin."
+
+#: weblate/html/registration/password_change_form.html:11
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Ole hyvä ja korjaa virhe, joka on alapuolella."
+msgstr[1] "Ole hyvä ja korjaa virheet, jotka ovat alapuolella."
+
+#: weblate/html/registration/password_change_form.html:17
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Ole hyvä ja anna vanha salasanasi turvallisuuden vuoksi ja sen jälkeen anna "
+"uusi salasanasi kahdesti, jotta voimme varmistaa, että kirjoitit sen oikein."
+
+#: weblate/html/registration/password_change_form.html:22
+#: weblate/html/registration/password_reset_confirm.html:14
+msgid "Change my password"
+msgstr "Vaihda salasanaani"
+
+#: weblate/html/registration/password_reset_complete.html:6
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Salasanasi on asetettu Voit jatkaa ja kirjautua sisään nyt."
+
+#: weblate/html/registration/password_reset_complete.html:8
+msgid "Log in"
+msgstr "Kirjaudu sisään"
+
+#: weblate/html/registration/password_reset_confirm.html:8
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa, että kirjoitit sen "
+"oikein."
+
+#: weblate/html/registration/password_reset_confirm.html:19
+#, fuzzy
+msgid ""
+"The password reset link is invalid, possibly because it has already been "
+"used. Please request a new password reset."
+msgstr ""
+"Salasananpalautuslinkki oli virheellinen, koska se on luultavasti jo "
+"käytetty. Ole hyvä ja pyydä uusi salasananpalautus."
+
+#: weblate/html/registration/password_reset_done.html:7
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Lähetimme sähköpostilla ohjeet, kuinka voit palauttaa salasanasi, antamaasi "
+"sähköpostiosoitteeseen. Sinun pitäisi vastaanottaa se pian."
+
+#: weblate/html/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Vastaanotat tämän sähköpostin, koska olet pyytänyt salasananpalautusta "
+"käyttäjätunnuksellesi palvelussa  %(site_name)s."
+
+#: weblate/html/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr "Mene seuraavalle sivulle ja valitse uusi salasana:"
+
+#: weblate/html/registration/password_reset_email.html:8
+msgid "Your username, in case you've forgotten:"
+msgstr "Käyttäjätunnuksesi, jos olet unohtanut:"
+
+#: weblate/html/registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr "Kiitos että käytit sivustoamme!"
+
+#: weblate/html/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Onnellinen %(site_name)s team"
+
+#: weblate/html/registration/password_reset_form.html:6
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Salasana hukassa? Anna sähköpostiosoitteesi, niin saat ohjeet uuden "
+"salasanan luomiseksi."
+
+#: weblate/html/registration/password_reset_form.html:10
+msgid "Reset my password"
+msgstr "Nollaa salasanani"
+
+#: weblate/html/registration/registration_closed.html:9
+#, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+
+#: weblate/html/registration/registration_complete.html:7
+#, fuzzy
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Kiitos rekisteröitymisestäsi. Saa pian sähköpostiisi vahvistuslinkin. "
+"Valitse linkki vahvistaaksesi rekisteröitymisesi."
+
+#: weblate/html/registration/registration_complete.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+
+#: weblate/html/registration/registration_form.html:11
+msgid "Please fix errors in registration form."
+msgstr "Korjaa virheet rekisteröitymislomakkeessa."
+
+#: weblate/html/registration/registration_form.html:23
+#, fuzzy
+msgid ""
+"By registering you agree to use your name and email in Git commits and your "
+"contribution to be licensed under same license as translated content."
+msgstr ""
+"Rekisteröitymällä hyväksyt nimesi ja sähköpostiosoitteesi käytön Git "
+"commitissa."
 
 #, fuzzy
 #~| msgid "Plural"
