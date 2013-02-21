@@ -76,7 +76,7 @@ def flush_index():
         FULLTEXT_INDEX._target_writer[lang].commit()
 
 
-def update_index(units, source_units = None):
+def update_index(units, source_units=None):
     '''
     Updates fulltext index for given set of units.
     '''
