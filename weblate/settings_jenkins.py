@@ -50,6 +50,7 @@ PROJECT_APPS = (
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',
+    'weblate',
 )
 
 PYLINT_RCFILE = os.path.join(WEB_ROOT, '..', 'pylint.rc')
