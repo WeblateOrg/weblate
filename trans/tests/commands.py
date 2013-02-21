@@ -24,7 +24,7 @@ Tests for management commands.
 
 from trans.tests.models import RepoTestCase
 from django.core.management import call_command
-from trans.search import FULLTEXT_INDEX
+from trans.search import flush_index
 
 
 class ImportProjectTest(RepoTestCase):
@@ -117,10 +117,8 @@ class PeriodicTest(RepoTestCase):
 
     def test_update_index(self):
         # Flush possible caches
-        FULLTEXT_INDEX._source_writer.commit()
-        for lang in FULLTEXT_INDEX._target_writer:
-            FULLTEXT_INDEX._target_writer[lang].commit()
-
+        flush_index()
+        # Test the command
         call_command(
             'update_index'
         )
@@ -200,9 +198,7 @@ class RebuildIndexTest(CheckGitTest):
     def setUp(self):
         super(RebuildIndexTest, self).setUp()
         # Flush possible caches
-        FULLTEXT_INDEX._source_writer.commit()
-        for lang in FULLTEXT_INDEX._target_writer:
-            FULLTEXT_INDEX._target_writer[lang].commit()
+        flush_index()
 
     def test_all_clean(self):
         self.do_test(

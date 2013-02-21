@@ -67,6 +67,15 @@ def create_index(sender=None, **kwargs):
         create_source_index()
 
 
+def flush_index():
+    '''
+    Flushes any possibly buffered writes to index.
+    '''
+    FULLTEXT_INDEX._source_writer.commit()
+    for lang in FULLTEXT_INDEX._target_writer:
+        FULLTEXT_INDEX._target_writer[lang].commit()
+
+
 def update_index(units, source_units = None):
     '''
     Updates fulltext index for given set of units.
