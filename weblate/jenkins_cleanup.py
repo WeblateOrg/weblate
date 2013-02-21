@@ -17,41 +17,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+'''
+Cleanup task for Jenkins CI
+'''
 
-#
-# Django settings for run inside Jenkins
-#
-
-from weblate.settings_test import *
+from django_jenkins.tasks import BaseTask
+from django.conf import settings
 import os
 
-INSTALLED_APPS += ('django_jenkins', )
 
-JENKINS_TASKS = (
-    'weblate.jenkins_cleanup',
-    'django_jenkins.tasks.run_pylint',
-    'django_jenkins.tasks.run_pyflakes',
-    'django_jenkins.tasks.run_sloccount',
-    'django_jenkins.tasks.with_coverage',
-    'django_jenkins.tasks.run_pep8',
-    'django_jenkins.tasks.run_csslint',
-    'django_jenkins.tasks.run_jshint',
-    'django_jenkins.tasks.django_tests',
-)
+class Task(BaseTask):
+    def teardown_test_environment(self, **kwargs):
+        '''
+        Remove test repos before collecting code stats.
 
-CSSLINT_CHECKED_FILES = (
-    os.path.join(WEB_ROOT, 'media/css/style.css'),
-)
-
-JSHINT_CHECKED_FILES = (
-    os.path.join(WEB_ROOT, 'media/js/loader.js'),
-)
-
-PROJECT_APPS = (
-    'trans',
-    'lang',
-    'accounts',
-    'weblate',
-)
-
-PYLINT_RCFILE = os.path.join(WEB_ROOT, '..', 'pylint.rc')
+        The test-repos just pollute stats.
+        '''
+        if 'test-repos' in settings.GIT_ROOT:
+            if os.path.exists(settings.GIT_ROOT):
+                shutil.rmtree(settings.GIT_ROOT)
