@@ -301,7 +301,7 @@ def render(request, project, widget='287x66', color=None, lang=None):
     pangocairo_context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
 
     # Text format strings
-    params =  {
+    params = {
         'name': obj.name,
         'count': obj.get_total(),
         'languages': obj.get_language_count(),
