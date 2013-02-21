@@ -135,7 +135,7 @@ def upload_dictionary(request, project, lang):
             except Exception as e:
                 messages.error(
                     request,
-                    _('File content merge failed: %s' % unicode(e))
+                    _('File upload has failed: %s' % unicode(e))
                 )
         else:
             messages.error(request, _('Failed to process form!'))
