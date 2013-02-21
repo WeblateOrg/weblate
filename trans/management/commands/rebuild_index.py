@@ -19,6 +19,7 @@
 #
 
 from trans.management.commands import WeblateCommand
+from lang.models import Language
 from trans.search import (
     update_index, create_source_index, create_target_index
 )
@@ -41,7 +42,7 @@ class Command(WeblateCommand):
         # Optionally rebuild indices from scratch
         if options['clean']:
             create_source_index()
-            for lang in languages:
+            for lang in Language.objects.have_translation():
                 create_target_index(lang=lang.code)
 
         units = self.get_units(*args, **options)
