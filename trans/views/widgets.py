@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate import appsettings
+from django.conf import settings
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -258,7 +258,7 @@ def render(request, project, widget='287x66', color=None, lang=None):
 
     # Background 287 x 66, logo 64 px
     surface = cairo.ImageSurface.create_from_png(
-        os.path.join(appsettings.WEB_ROOT, 'media', widget_data['name'] % {
+        os.path.join(settings.MEDIA_ROOT, widget_data['name'] % {
             'color': color,
             'widget': widget,
         })
