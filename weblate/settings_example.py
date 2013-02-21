@@ -328,30 +328,30 @@ LOCK_TIME = 15 * 60
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
-CHECK_LIST = (
-    'trans.checks.same.SameCheck',
-    'trans.checks.chars.BeginNewlineCheck',
-    'trans.checks.chars.EndNewlineCheck',
-    'trans.checks.chars.BeginSpaceCheck',
-    'trans.checks.chars.EndSpaceCheck',
-    'trans.checks.chars.EndStopCheck',
-    'trans.checks.chars.EndColonCheck',
-    'trans.checks.chars.EndQuestionCheck',
-    'trans.checks.chars.EndExclamationCheck',
-    'trans.checks.chars.EndEllipsisCheck',
-    'trans.checks.format.PythonFormatCheck',
-    'trans.checks.format.PHPFormatCheck',
-    'trans.checks.format.CFormatCheck',
-    'trans.checks.consistency.PluralsCheck',
-    'trans.checks.consistency.ConsistencyCheck',
-    'trans.checks.consistency.DirectionCheck',
-    'trans.checks.chars.NewlineCountingCheck',
-    'trans.checks.markup.BBCodeCheck',
-    'trans.checks.chars.ZeroWidthSpaceCheck',
-    'trans.checks.markup.XMLTagsCheck',
-    'trans.checks.source.OptionalPluralCheck',
-    'trans.checks.source.EllipsisCheck',
-)
+#CHECK_LIST = (
+#    'trans.checks.same.SameCheck',
+#    'trans.checks.chars.BeginNewlineCheck',
+#    'trans.checks.chars.EndNewlineCheck',
+#    'trans.checks.chars.BeginSpaceCheck',
+#    'trans.checks.chars.EndSpaceCheck',
+#    'trans.checks.chars.EndStopCheck',
+#    'trans.checks.chars.EndColonCheck',
+#    'trans.checks.chars.EndQuestionCheck',
+#    'trans.checks.chars.EndExclamationCheck',
+#    'trans.checks.chars.EndEllipsisCheck',
+#    'trans.checks.format.PythonFormatCheck',
+#    'trans.checks.format.PHPFormatCheck',
+#    'trans.checks.format.CFormatCheck',
+#    'trans.checks.consistency.PluralsCheck',
+#    'trans.checks.consistency.ConsistencyCheck',
+#    'trans.checks.consistency.DirectionCheck',
+#    'trans.checks.chars.NewlineCountingCheck',
+#    'trans.checks.markup.BBCodeCheck',
+#    'trans.checks.chars.ZeroWidthSpaceCheck',
+#    'trans.checks.markup.XMLTagsCheck',
+#    'trans.checks.source.OptionalPluralCheck',
+#    'trans.checks.source.EllipsisCheck',
+#)
 
 # E-mail address that error messages come from.
 SERVER_EMAIL = 'noreply@weblate.org'
