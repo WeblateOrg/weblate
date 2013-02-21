@@ -18,6 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# Wildcard import
+# pylint: disable=W0401
+
 from trans.tests.diff import *
 from trans.tests.checks import *
 from trans.tests.format_checks import *
