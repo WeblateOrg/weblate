@@ -451,8 +451,9 @@ for your setup.
 Upgrade from 1.4 to 1.5
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Several internal modules have been renamed, please adjust your :file:`settings.py`
-to match that (consult :file:`settings_example.py` for correct values).
+Several internal modules and paths have been renamed and changed, please adjust
+your :file:`settings.py` to match that (consult :file:`settings_example.py` for
+correct values).
 
 Migrating from Pootle
 ---------------------
