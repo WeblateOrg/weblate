@@ -263,7 +263,7 @@ def render(request, project, widget='287x66', color=None, lang=None):
     if widget_data['progress'] is not None:
         # Filled bar
         ctx.new_path()
-        ctx.set_source_rgb (*widget_data['colors'][color]['bar'])
+        ctx.set_source_rgb(*widget_data['colors'][color]['bar'])
         if widget_data['progress']['horizontal']:
             ctx.rectangle(
                 widget_data['progress']['x'],
