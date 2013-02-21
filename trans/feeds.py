@@ -26,6 +26,7 @@ from django.core.urlresolvers import reverse
 
 from trans.models import Change, Translation, SubProject, Project
 from lang.models import Language
+from trans.views.helper import get_translation
 
 
 class ChangesFeed(Feed):
@@ -66,13 +67,7 @@ class TranslationChangesFeed(ChangesFeed):
     '''
 
     def get_object(self, request, project, subproject, lang):
-        return get_object_or_404(
-            Translation,
-            language__code=lang,
-            subproject__slug=subproject,
-            subproject__project__slug=project,
-            enabled=True
-        )
+        return get_translation(request, project, subproject, lang)
 
     def title(self, obj):
         return _('Recent changes in %s') % obj
