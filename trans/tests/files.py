@@ -43,23 +43,6 @@ class ImportTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        # Store URL for testing
-        self.translation_url = self.get_translation().get_absolute_url()
-
-    def get_translation(self):
-        return self.subproject.translation_set.get(
-            language_code='cs'
-        )
-
-    def get_unit(self):
-        translation = self.get_translation()
-        return translation.unit_set.get(source='Hello, world!\n')
-
-    def change_unit(self, target):
-        unit = self.get_unit()
-        unit.target = target
-        unit.save_backend(self.get_request('/'))
-
     def do_import(self, **kwargs):
         '''
         Helper to perform file import.

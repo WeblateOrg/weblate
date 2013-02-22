@@ -65,6 +65,11 @@ class ViewTestCase(RepoTestCase):
             'lang': 'cs',
         }
 
+        # Store URL for testing
+        self.translation_url = self.get_translation().get_absolute_url()
+        self.project_url = self.project.get_absolute_url()
+        self.subproject_url = self.subproject.get_absolute_url()
+
     def get_request(self, *args, **kwargs):
         '''
         Wrapper to get fake request object.
@@ -75,6 +80,20 @@ class ViewTestCase(RepoTestCase):
         messages = FallbackStorage(request)
         setattr(request, '_messages', messages)
         return request
+
+    def get_translation(self):
+        return self.subproject.translation_set.get(
+            language_code='cs'
+        )
+
+    def get_unit(self):
+        translation = self.get_translation()
+        return translation.unit_set.get(source='Hello, world!\n')
+
+    def change_unit(self, target):
+        unit = self.get_unit()
+        unit.target = target
+        unit.save_backend(self.get_request('/'))
 
 
 class BasicViewTest(ViewTestCase):
