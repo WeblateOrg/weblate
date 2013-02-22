@@ -373,7 +373,7 @@ class Project(models.Model):
         '''
         Updates all git repos.
         '''
-        ret = True
+        ret = False
         for resource in self.subproject_set.all():
             ret &= resource.do_update(request)
         return ret
@@ -382,7 +382,7 @@ class Project(models.Model):
         '''
         Pushes all git repos.
         '''
-        ret = True
+        ret = False
         for resource in self.subproject_set.all():
             ret |= resource.do_push(request)
         return ret
@@ -391,7 +391,7 @@ class Project(models.Model):
         '''
         Pushes all git repos.
         '''
-        ret = True
+        ret = False
         for resource in self.subproject_set.all():
             ret |= resource.do_reset(request)
         return ret
