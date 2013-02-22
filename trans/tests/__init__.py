@@ -40,3 +40,4 @@ from trans.tests.check_views import *
 from trans.tests.files import *
 from trans.tests.sitemaps import *
 from trans.tests.git_views import *
+from trans.tests.js_views import *
