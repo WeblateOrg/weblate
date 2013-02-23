@@ -58,4 +58,7 @@ class JSViewsTest(ViewTestCase):
         response = self.client.get(
             reverse('js-dictionary', kwargs={'unit_id': unit.id}),
         )
-        self.assertContains(response, 'No related strings found in dictionary.')
+        self.assertContains(
+            response,
+            'No related strings found in dictionary.'
+        )
