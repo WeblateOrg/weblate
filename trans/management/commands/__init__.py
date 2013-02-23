@@ -17,6 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+'''
+Helper classes for management commands.
+'''
+
+# Abstract class is only referenced 1 times
+# pylint: disable=R0921,R0922
 
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
@@ -24,8 +30,6 @@ from trans.models import Unit, SubProject
 
 
 class WeblateCommand(BaseCommand):
-    # Abstract class is only referenced 1 times
-    # pylint: disable=R0922
     '''
     Command which accepts project/subproject/--all params to process.
     '''
@@ -94,8 +98,10 @@ class WeblateCommand(BaseCommand):
 
 
 class WeblateLangCommand(WeblateCommand):
-    # Abstract class not referenced
-    # pylint: disable=R0921,R0922
+    '''
+    Command accepting additional language parameter to filter
+    list of languages to process.
+    '''
     option_list = WeblateCommand.option_list + (
         make_option(
             '--lang',
