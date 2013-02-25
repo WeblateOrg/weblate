@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-21 12:03+0100\n"
+"POT-Creation-Date: 2013-02-25 10:15+0100\n"
 "PO-Revision-Date: 2013-02-21 14:11+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -128,6 +128,37 @@ msgstr "Birleştirmenin başarısız olmasında bildirim"
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
 
+#: accounts/urls.py:38 accounts/urls.py:47 accounts/urls.py:56
+#: accounts/urls.py:65
+msgid "User registration"
+msgstr "Kullanıcı kaydı"
+
+#: accounts/urls.py:75
+msgid "Account activation"
+msgstr "Hesap etkinleştirme"
+
+#: accounts/urls.py:86 weblate/html/base.html:49
+#: weblate/html/registration/login.html:30
+msgid "Login"
+msgstr "Oturum aç"
+
+#: accounts/urls.py:95
+msgid "Logged out"
+msgstr "Oturum kapandı"
+
+#: accounts/urls.py:102
+msgid "Change password"
+msgstr "Parolayı değiştir"
+
+#: accounts/urls.py:108
+msgid "Password changed"
+msgstr "Parola değiştirildi"
+
+#: accounts/urls.py:114 accounts/urls.py:120 accounts/urls.py:126
+#: accounts/urls.py:132
+msgid "Password reset"
+msgstr "Parola sıfırlama"
+
 #: accounts/views.py:98
 msgid "Your profile has been updated."
 msgstr "Profiliniz güncellendi."
@@ -233,12 +264,12 @@ msgstr "Anahtar üretme başarısız!"
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/feeds.py:37 trans/feeds.py:78
+#: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
 msgid "Recent changes in %s"
 msgstr "%s içindeki son değişiklikler"
 
-#: trans/feeds.py:40 trans/feeds.py:81
+#: trans/feeds.py:41 trans/feeds.py:79
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
@@ -275,7 +306,7 @@ msgstr "Java Özellikleri (UTF-8)"
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: trans/formats.py:122
+#: trans/formats.py:122 ttkit/aresource.py:311
 msgid "Android String Resource"
 msgstr "Android Dizgi Kaynağı"
 
@@ -958,103 +989,103 @@ msgstr "Üç nokta"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Satır, üç nokta karakteri (…) yerine üç tane nokta (...) kullanır"
 
-#: trans/templatetags/translations.py:66
+#: trans/templatetags/translations.py:65
 msgid "Tab character"
 msgstr "Tab karakteri"
 
-#: trans/templatetags/translations.py:124
+#: trans/templatetags/translations.py:123
 msgid "New line"
 msgstr "Yeni satır"
 
-#: trans/templatetags/translations.py:248
+#: trans/templatetags/translations.py:247
 #, python-format
 msgid "Avatar for %s"
 msgstr "%s için avatar"
 
-#: trans/templatetags/translations.py:284
+#: trans/templatetags/translations.py:286
 #, python-format
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s yıl önce"
 
-#: trans/templatetags/translations.py:289
+#: trans/templatetags/translations.py:291
 #, python-format
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s ay önce"
 
-#: trans/templatetags/translations.py:294
+#: trans/templatetags/translations.py:296
 #, python-format
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s hafta önce"
 
-#: trans/templatetags/translations.py:298
+#: trans/templatetags/translations.py:300
 #, python-format
 msgid "yesterday"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s gün önce"
 
-#: trans/templatetags/translations.py:301
-#: trans/templatetags/translations.py:338
+#: trans/templatetags/translations.py:303
+#: trans/templatetags/translations.py:340
 msgid "now"
 msgstr "şimdi"
 
-#: trans/templatetags/translations.py:304
+#: trans/templatetags/translations.py:306
 #, python-format
 msgid "a second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s saniye önce"
 
-#: trans/templatetags/translations.py:309
+#: trans/templatetags/translations.py:311
 #, python-format
 msgid "a minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s dakika önce"
 
-#: trans/templatetags/translations.py:314
+#: trans/templatetags/translations.py:316
 #, python-format
 msgid "an hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s saat önce"
 
-#: trans/templatetags/translations.py:321
+#: trans/templatetags/translations.py:323
 #, python-format
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "şu andan %(count)s yıl sonra"
 
-#: trans/templatetags/translations.py:326
+#: trans/templatetags/translations.py:328
 #, python-format
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "şu andan %(count)s ay sonra"
 
-#: trans/templatetags/translations.py:331
+#: trans/templatetags/translations.py:333
 #, python-format
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "şu andan %(count)s hafta sonra"
 
-#: trans/templatetags/translations.py:335
+#: trans/templatetags/translations.py:337
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
 msgstr[0] "şu andan %(count)s gün sonra"
 
-#: trans/templatetags/translations.py:341
+#: trans/templatetags/translations.py:343
 #, python-format
 msgid "a second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "şu andan %(count)s saniye sonra"
 
-#: trans/templatetags/translations.py:348
+#: trans/templatetags/translations.py:350
 #, python-format
 msgid "a minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "şu andan %(count)s dakika sonra"
 
-#: trans/templatetags/translations.py:353
+#: trans/templatetags/translations.py:355
 #, python-format
 msgid "an hour from now"
 msgid_plural "%(count)s hours from now"
@@ -1064,7 +1095,7 @@ msgstr[0] "şu andan %(count)s saat sonra"
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı girin."
 
-#: trans/views/basic.py:152
+#: trans/views/basic.py:144
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1076,7 +1107,7 @@ msgstr ""
 "%(total)s satır içeriyor ve <a href=\"%(url)s\"> %(languages)s dile "
 "çevrilmektedir</a>. Toplamda, bu çeviriler %%%(percent)s tamamlandı."
 
-#: trans/views/basic.py:161
+#: trans/views/basic.py:153
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1086,21 +1117,21 @@ msgstr ""
 "Türkçe dilinde <a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri "
 "için şu anda %(total)s satır içeriyor ve %%%(percent)s tamamlandı."
 
-#: trans/views/basic.py:250
+#: trans/views/basic.py:242
 #, python-format
 msgid "Review source strings in %s"
 msgstr "%s içindeki kaynak satırları gözden geçir"
 
-#: trans/views/basic.py:269
+#: trans/views/basic.py:261
 #, python-format
 msgid "Source strings in %s"
 msgstr "%s içindeki kaynak satır"
 
-#: trans/views/basic.py:335
+#: trans/views/basic.py:327
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
-#: trans/views/basic.py:351 weblate/html/about.html:11
+#: trans/views/basic.py:343 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Weblate hakkında"
@@ -1128,21 +1159,22 @@ msgstr "Dosyada içe aktarmak için bulunan kelime yok."
 msgid "Imported %d words from file."
 msgstr "Dosyadan %d kelime içe aktarıldı."
 
-#: trans/views/dictionary.py:138 trans/views/edit.py:728
-#, python-format
-msgid "File content merge failed: %s"
+#: trans/views/dictionary.py:138
+#, fuzzy, python-format
+#| msgid "File content merge failed: %s"
+msgid "File upload has failed: %s"
 msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:554
+#: trans/views/edit.py:545
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
-#: trans/views/edit.py:113
+#: trans/views/edit.py:104
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views/edit.py:149
+#: trans/views/edit.py:140
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1151,73 +1183,78 @@ msgstr ""
 "Şu anda bu çeviri için aktif bir çevirmen yok, lütfen çevirmen olmayı "
 "düşünün aksi halde öneriniz gözden geçirilmeden kalabilir."
 
-#: trans/views/edit.py:167
+#: trans/views/edit.py:158
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views/edit.py:173 trans/views/edit.py:230
+#: trans/views/edit.py:164 trans/views/edit.py:221
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views/edit.py:195
+#: trans/views/edit.py:186
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views/edit.py:221 trans/views/edit.py:281
+#: trans/views/edit.py:212 trans/views/edit.py:272
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:247
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views/edit.py:288
+#: trans/views/edit.py:279
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views/edit.py:299
+#: trans/views/edit.py:290
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views/edit.py:309
+#: trans/views/edit.py:300
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views/edit.py:334
+#: trans/views/edit.py:325
 msgid "Invalid suggestion!"
 msgstr "Geçersiz öneri!"
 
-#: trans/views/edit.py:428
+#: trans/views/edit.py:419
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views/edit.py:552
+#: trans/views/edit.py:543
 msgid "Automatic translation completed."
 msgstr "Otomatik çeviri tamamlandı."
 
-#: trans/views/edit.py:632
+#: trans/views/edit.py:584
 msgid "Posted new comment"
 msgstr "Gönderilen yeni yorum"
 
-#: trans/views/edit.py:657
+#: trans/views/edit.py:609
 msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
-#: trans/views/edit.py:672
+#: trans/views/files.py:92
 msgid "Access denied."
 msgstr "Erişim reddedildi."
 
-#: trans/views/edit.py:685 weblate/html/profile.html:12
+#: trans/views/files.py:105 weblate/html/profile.html:12
 msgid "Please fix errors in the form."
 msgstr "Lütfen formdaki hataları düzeltin."
 
-#: trans/views/edit.py:718
+#: trans/views/files.py:138
 msgid "File content successfully merged into translation."
 msgstr "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
-#: trans/views/edit.py:723
+#: trans/views/files.py:143
 msgid "There were no new strings in uploaded file."
 msgstr "Gönderilen dosyada yeni satırlar yoktu."
+
+#: trans/views/files.py:148
+#, python-format
+msgid "File content merge failed: %s"
+msgstr "Dosya içeriğinin birleştirilmesi başarısız oldu: %s"
 
 #: trans/views/git.py:36 trans/views/git.py:47 trans/views/git.py:58
 msgid "All pending translations were committed."
@@ -1235,25 +1272,25 @@ msgstr "Tüm havuzlar yollandı."
 msgid "All repositories have been reset."
 msgstr "Tüm havuzlar sıfırlandı."
 
-#: trans/views/helper.py:184
+#: trans/views/helper.py:186
 #, python-format
 msgid "Search for \"%s\""
 msgstr "\"%s\" için aranıyor"
 
-#: trans/views/helper.py:186 weblate/html/i18n.html:174
+#: trans/views/helper.py:188 weblate/html/i18n.html:174
 #: weblate/html/list-translations.html:63
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
 
-#: trans/views/helper.py:188
+#: trans/views/helper.py:190
 msgid "Untranslated strings"
 msgstr "Çevrilmemiş satır"
 
-#: trans/views/helper.py:190
+#: trans/views/helper.py:192
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
 
-#: trans/views/helper.py:192 weblate/html/i18n.html:173
+#: trans/views/helper.py:194 weblate/html/i18n.html:173
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
 msgstr "Herhangi bir başarısız kontrolü olan satır"
@@ -1283,7 +1320,7 @@ msgid "Project is now open for translation updates."
 msgstr "Proje artık çeviri güncellemeleri için açık."
 
 #. Translators: text in the engagement widget
-#: trans/views/widgets.py:82
+#: trans/views/widgets.py:81
 #, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
@@ -1293,7 +1330,7 @@ msgstr ""
 "%%%(percent)d tamamlandı, geliştirmemize yardım edin!"
 
 #. Translators: text in the engagement widget, please use your language name instead of English
-#: trans/views/widgets.py:84
+#: trans/views/widgets.py:83
 #, python-format
 msgid ""
 "translating %(count)d strings into English\n"
@@ -1303,7 +1340,7 @@ msgstr ""
 "%%%(percent)d tamamlandı, geliştirmemize yardım edin!"
 
 #. Translators: text in the engagement widget
-#: trans/views/widgets.py:124
+#: trans/views/widgets.py:123
 #, python-format
 msgid ""
 "translation\n"
@@ -1313,7 +1350,7 @@ msgstr ""
 "%%%(percent)d bitti"
 
 #. Translators: text in the engagement widget, please use your language name instead of English
-#: trans/views/widgets.py:126
+#: trans/views/widgets.py:125
 #, python-format
 msgid ""
 "English translation\n"
@@ -1321,42 +1358,6 @@ msgid ""
 msgstr ""
 "Türkçe çevirisi\n"
 "%%%(percent)d bitti"
-
-#: ttkit/aresource.py:311
-#| msgid "Android String Resource"
-msgid "Android Resource"
-msgstr "Android Kaynağı"
-
-#: weblate/urls.py:281 weblate/urls.py:288 weblate/urls.py:295
-#: weblate/urls.py:302
-msgid "User registration"
-msgstr "Kullanıcı kaydı"
-
-#: weblate/urls.py:310
-msgid "Account activation"
-msgstr "Hesap etkinleştirme"
-
-#: weblate/urls.py:319 weblate/html/base.html:49
-#: weblate/html/registration/login.html:30
-msgid "Login"
-msgstr "Oturum aç"
-
-#: weblate/urls.py:326
-msgid "Logged out"
-msgstr "Oturum kapandı"
-
-#: weblate/urls.py:331
-msgid "Change password"
-msgstr "Parolayı değiştir"
-
-#: weblate/urls.py:335
-msgid "Password changed"
-msgstr "Parola değiştirildi"
-
-#: weblate/urls.py:339 weblate/urls.py:343 weblate/urls.py:347
-#: weblate/urls.py:351
-msgid "Password reset"
-msgstr "Parola sıfırlama"
 
 #: weblate/html/404.html:7
 msgid "The page you are looking for was not found."
@@ -3775,6 +3776,10 @@ msgstr ""
 "Kayıt olarak Git sunumlarındaki adınızı ve epostanızı kullanmayı ve "
 "katkılarınızın çevirdiğiniz içerik ile aynı lisans altında lisanslandığını "
 "kabul ettiniz."
+
+#~| msgid "Android String Resource"
+#~ msgid "Android Resource"
+#~ msgstr "Android Kaynağı"
 
 #~ msgid "Conflict handling"
 #~ msgstr "Çakışma işleme"
