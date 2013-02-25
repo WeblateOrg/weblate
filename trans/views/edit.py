@@ -134,7 +134,7 @@ def translate(request, project, subproject, lang):
                     ).exclude(
                         user=None
                     )
-                    if recent_changes.count() == 0 or True:
+                    if not recent_changes.exists():
                         messages.info(
                             request,
                             _('There is currently no active translator for this translation, please consider becoming a translator as your suggestion might otherwise remain unreviewed.')
