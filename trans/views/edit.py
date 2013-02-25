@@ -133,8 +133,8 @@ def translate(request, project, subproject, lang):
                         translation=unit.translation,
                     ).exclude(
                         user=None
-                    ).order_by('-timestamp')
-                    if recent_changes.count() == 0 or True:
+                    )
+                    if not recent_changes.exists():
                         messages.info(
                             request,
                             _('There is currently no active translator for this translation, please consider becoming a translator as your suggestion might otherwise remain unreviewed.')
