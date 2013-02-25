@@ -133,7 +133,7 @@ def translate(request, project, subproject, lang):
                         translation=unit.translation,
                     ).exclude(
                         user=None
-                    ).order_by('-timestamp')
+                    )
                     if recent_changes.count() == 0 or True:
                         messages.info(
                             request,
