@@ -37,9 +37,7 @@ from datetime import datetime, timedelta
 
 import weblate
 from lang.models import Language
-from trans.formats import (
-    ttkit
-)
+from trans.formats import ttkit
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
