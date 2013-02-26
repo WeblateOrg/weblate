@@ -26,130 +26,122 @@ from trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
 
 
-class GitNoChangeTest(ViewTestCase):
+class GitNoChangeProjectTest(ViewTestCase):
     '''
     Testing of git manipulations with no change in repo.
     '''
 
     STATUS_CHECK = 'Push changes to remote repository'
+    TEST_TYPE = 'project'
 
     def setUp(self):
-        super(GitNoChangeTest, self).setUp()
+        super(GitNoChangeProjectTest, self).setUp()
         # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
 
-    def test_project_commit(self):
-        response = self.client.get(
-            reverse('commit_project', kwargs=self.kw_project)
+    def get_test_url(self, prefix):
+        return reverse(
+            '%s_%s' % (prefix, self.TEST_TYPE),
+            kwargs=getattr(self, 'kw_%s' % self.TEST_TYPE)
         )
-        self.assertRedirects(response, self.project_url)
 
-    def test_subproject_commit(self):
-        response = self.client.get(
-            reverse('commit_subproject', kwargs=self.kw_subproject)
-        )
-        self.assertRedirects(response, self.subproject_url)
+    def get_expected_redirect(self):
+        return getattr(self, '%s_url' % self.TEST_TYPE)
 
-    def test_translation_commit(self):
+    def test_commit(self):
         response = self.client.get(
-            reverse('commit_translation', kwargs=self.kw_translation)
+            self.get_test_url('commit')
         )
-        self.assertRedirects(response, self.translation_url)
+        self.assertRedirects(response, self.get_expected_redirect())
 
-    def test_project_update(self):
+    def test_update(self):
         response = self.client.get(
-            reverse('update_project', kwargs=self.kw_project)
+            self.get_test_url('update')
         )
-        self.assertRedirects(response, self.project_url)
-
-    def test_subproject_update(self):
-        response = self.client.get(
-            reverse('update_subproject', kwargs=self.kw_subproject)
-        )
-        self.assertRedirects(response, self.subproject_url)
-
-    def test_translation_update(self):
-        response = self.client.get(
-            reverse('update_translation', kwargs=self.kw_translation)
-        )
-        self.assertRedirects(response, self.translation_url)
+        self.assertRedirects(response, self.get_expected_redirect())
 
     def test_project_push(self):
         response = self.client.get(
-            reverse('push_project', kwargs=self.kw_project)
+            self.get_test_url('push')
         )
-        self.assertRedirects(response, self.project_url)
-
-    def test_subproject_push(self):
-        response = self.client.get(
-            reverse('push_subproject', kwargs=self.kw_subproject)
-        )
-        self.assertRedirects(response, self.subproject_url)
-
-    def test_translation_push(self):
-        response = self.client.get(
-            reverse('push_translation', kwargs=self.kw_translation)
-        )
-        self.assertRedirects(response, self.translation_url)
+        self.assertRedirects(response, self.get_expected_redirect())
 
     def test_project_reset(self):
         response = self.client.get(
-            reverse('reset_project', kwargs=self.kw_project)
+            self.get_test_url('reset')
         )
-        self.assertRedirects(response, self.project_url)
-
-    def test_subproject_reset(self):
-        response = self.client.get(
-            reverse('reset_subproject', kwargs=self.kw_subproject)
-        )
-        self.assertRedirects(response, self.subproject_url)
-
-    def test_translation_reset(self):
-        response = self.client.get(
-            reverse('reset_translation', kwargs=self.kw_translation)
-        )
-        self.assertRedirects(response, self.translation_url)
+        self.assertRedirects(response, self.get_expected_redirect())
 
     def test_project_status(self):
         response = self.client.get(
-            reverse('git_status_project', kwargs=self.kw_project)
-        )
-        self.assertContains(response, self.STATUS_CHECK)
-
-    def test_subproject_status(self):
-        response = self.client.get(
-            reverse('git_status_subproject', kwargs=self.kw_subproject)
-        )
-        self.assertContains(response, self.STATUS_CHECK)
-
-    def test_translation_status(self):
-        response = self.client.get(
-            reverse('git_status_translation', kwargs=self.kw_translation)
+            self.get_test_url('git_status')
         )
         self.assertContains(response, self.STATUS_CHECK)
 
 
-class GitChangeTest(GitNoChangeTest):
+class GitNoChangeSubProjectTest(GitNoChangeProjectTest):
     '''
-    Testing of git manipulations with not commited change in repo.
+    Testing of subproject git manipulations.
+    '''
+    TEST_TYPE = 'subproject'
+
+
+class GitNoChangeTranslationTest(GitNoChangeProjectTest):
+    '''
+    Testing of translation git manipulations.
+    '''
+    TEST_TYPE = 'translation'
+
+
+class GitChangeProjectTest(GitNoChangeProjectTest):
+    '''
+    Testing of project git manipulations with not commited change in repo.
     '''
 
     STATUS_CHECK = 'There are some not commited changes!'
 
     def setUp(self):
-        super(GitChangeTest, self).setUp()
+        super(GitChangeProjectTest, self).setUp()
         self.change_unit(u'Ahoj světe!\n')
 
 
-class GitCommitedChangeTest(GitNoChangeTest):
+class GitChangeSubProjectTest(GitChangeProjectTest):
     '''
-    Testing of git manipulations with commited change in repo.
+    Testing of subproject git manipulations with not commited change in repo.
+    '''
+    TEST_TYPE = 'subproject'
+
+
+class GitChangeTranslationTest(GitChangeProjectTest):
+    '''
+    Testing of translation git manipulations with not commited change in repo.
+    '''
+    TEST_TYPE = 'translation'
+
+
+class GitCommitedChangeProjectTest(GitNoChangeProjectTest):
+    '''
+    Testing of project git manipulations with commited change in repo.
     '''
 
     STATUS_CHECK = 'There are some new commits in local Git repository!'
 
     def setUp(self):
-        super(GitCommitedChangeTest, self).setUp()
+        super(GitCommitedChangeProjectTest, self).setUp()
         self.change_unit(u'Ahoj světe!\n')
         self.project.commit_pending()
+
+
+class GitCommitedChangeSubProjectTest(GitCommitedChangeProjectTest):
+    '''
+    Testing of subproject git manipulations with commited change in repo.
+    '''
+    TEST_TYPE = 'subproject'
+
+
+class GitCommitedChangeTranslationTest(GitCommitedChangeProjectTest):
+    '''
+    Testing of translation git manipulations with commited change in repo.
+    '''
+    TEST_TYPE = 'translation'
