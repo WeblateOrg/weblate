@@ -29,7 +29,6 @@ from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-import os
 import time
 import random
 import os.path
