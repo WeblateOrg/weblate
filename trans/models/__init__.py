@@ -22,5 +22,6 @@ from trans.models.project import Project
 from trans.models.subproject import SubProject
 from trans.models.translation import Translation
 from trans.models.unit import Unit
-from trans.models.unitdata import Check, Suggestion, Comment, Change, IndexUpdate
+from trans.models.unitdata import Check, Suggestion, Comment, Change
+from trans.models.unitdata import IndexUpdate
 from trans.models.dictionary import Dictionary
