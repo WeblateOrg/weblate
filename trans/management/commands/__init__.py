@@ -21,14 +21,13 @@
 Helper classes for management commands.
 '''
 
-# Abstract class is only referenced 1 times
-# pylint: disable=R0921,R0922
-
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
 from trans.models import Unit, SubProject
 
 
+# Abstract class is only referenced 1 times
+# pylint: disable=R0921,R0922
 class WeblateCommand(BaseCommand):
     '''
     Command which accepts project/subproject/--all params to process.
@@ -97,6 +96,8 @@ class WeblateCommand(BaseCommand):
         raise NotImplementedError()
 
 
+# Abstract class is only referenced 1 times
+# pylint: disable=R0921,R0922
 class WeblateLangCommand(WeblateCommand):
     '''
     Command accepting additional language parameter to filter
