@@ -29,6 +29,8 @@ from django.utils.safestring import mark_safe
 from django.utils.hashcompat import md5_constructor
 from django.conf import settings
 import urllib
+import time
+import random
 
 GRAVATAR_URL_PREFIX = getattr(
     settings,
@@ -237,6 +239,7 @@ def get_site_url(url=''):
         site.domain,
         url
     )
+
 
 def sleep_while_git_locked():
     '''
