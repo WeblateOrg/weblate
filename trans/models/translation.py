@@ -28,8 +28,6 @@ from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-import time
-import random
 import os.path
 import logging
 import git
@@ -48,7 +46,7 @@ from trans.models.project import Project
 from trans.util import (
     msg_checksum, get_source, get_target, get_context,
     is_translated, is_translatable, get_user_display,
-    get_site_url,
+    get_site_url, sleep_while_git_locked,
 )
 
 logger = logging.getLogger('weblate')
@@ -783,7 +781,7 @@ class Translation(models.Model):
             except git.GitCommandError:
                 # There might be another attempt on commit in same time
                 # so we will sleep a bit an retry
-                time.sleep(random.random() * 2)
+                sleep_while_git_locked()
                 self.__git_commit(gitrepo, author, timestamp, sync)
 
         # Push if we should

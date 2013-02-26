@@ -237,3 +237,9 @@ def get_site_url(url=''):
         site.domain,
         url
     )
+
+def sleep_while_git_locked():
+    '''
+    Random sleep to perform when git repository is locked.
+    '''
+    time.sleep(random.random() * 2)

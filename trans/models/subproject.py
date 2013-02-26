@@ -27,8 +27,6 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from glob import glob
 import os
-import time
-import random
 import os.path
 import logging
 import git
@@ -41,6 +39,7 @@ from trans.models.project import Project
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
+from trans.util import sleep_while_git_locked
 from trans.validators import (
     validate_repoweb,
     validate_filemask,
@@ -355,7 +354,7 @@ class SubProject(models.Model):
             except git.GitCommandError:
                 # There might be another attempt on pull in same time
                 # so we will sleep a bit an retry
-                time.sleep(random.random() * 2)
+                sleep_while_git_locked()
                 self.git_repo.git.remote('update', 'origin')
         except Exception as e:
             logger.error('Failed to update Git repo: %s', str(e))
