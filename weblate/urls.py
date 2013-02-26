@@ -227,17 +227,17 @@ urlpatterns = patterns(
 
     # Per language activity
     url(
-        r'^activity/language/html/' + LANGUAGE + '$',
+        r'^activity/language/html/' + LANGUAGE + '/$',
         'trans.views.charts.view_language_activity',
         name='view_language_activity',
     ),
     url(
-        r'^activity/language/month/' + LANGUAGE + '$',
+        r'^activity/language/month/' + LANGUAGE + '/$',
         'trans.views.charts.monthly_language_activity',
         name='monthly_language_activity',
     ),
     url(
-        r'^activity/language/year/' + LANGUAGE + '$',
+        r'^activity/language/year/' + LANGUAGE + '/$',
         'trans.views.charts.yearly_language_activity',
         name='yearly_language_activity',
     ),
@@ -368,7 +368,7 @@ urlpatterns = patterns(
         name='languages',
     ),
     url(
-        r'^languages/' + LANGUAGE + '$',
+        r'^languages/' + LANGUAGE + '/$',
         'trans.views.basic.show_language',
         name='show_language',
     ),
@@ -431,7 +431,7 @@ urlpatterns = patterns(
         name='rss',
     ),
     url(
-        r'^exports/rss/language/' + LANGUAGE + '$',
+        r'^exports/rss/language/' + LANGUAGE + '/$',
         LanguageChangesFeed(),
         name='rss-language',
     ),
