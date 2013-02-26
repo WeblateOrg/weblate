@@ -29,8 +29,8 @@
 </thead>
 <tbody>
 <tr>
-<td>http://{{ site_domain }}{% url 'rss' %}</td>
-<td><a href="http://{{ site_domain }}{% url 'rss' %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss' %}</td>
+<td><a href="{{ site_url }}{% url 'rss' %}">{% trans "RSS" %}</a></td>
 </tr>
 </tbody>
 </table>

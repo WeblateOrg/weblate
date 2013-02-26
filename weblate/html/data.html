@@ -32,14 +32,14 @@
 <tbody>
 <tr>
 <th>{{ object }}</th>
-<td>http://{{ site_domain }}{% url 'rss-project' project=object.slug %}</td>
-<td><a href="http://{{ site_domain }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss-project' project=object.slug %}</td>
+<td><a href="{{ site_url }}{% url 'rss-project' project=object.slug %}">{% trans "RSS" %}</a></td>
 </tr>
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>http://{{ site_domain }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="http://{{ site_domain }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}">{% trans "RSS" %}</a></td>
+<td>{{ site_url }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'rss-subproject' project=object.slug subproject=subproject.slug %}">{% trans "RSS" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -64,8 +64,8 @@
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>http://{{ site_domain }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="http://{{ site_domain }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
+<td>{{ site_url }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>

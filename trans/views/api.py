@@ -23,10 +23,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import (
     HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 )
-from django.contrib.sites.models import Site
 
 from trans.models import SubProject
 from trans.views.helper import get_project, get_subproject
+from trans.util import get_site_url
 
 import json
 import logging
@@ -205,7 +205,6 @@ def export_stats(request, project, subproject):
     '''
     subprj = get_subproject(request, project, subproject)
     response = []
-    site = Site.objects.get_current()
     for trans in subprj.translation_set.all():
         response.append({
             'code': trans.language.code,
@@ -220,9 +219,7 @@ def export_stats(request, project, subproject):
             'failing': trans.get_failing_checks(),
             'failing_percent': trans.get_failing_checks_percent(),
             'url': trans.get_share_url(),
-            'url_translate': 'http://%s%s' % (
-                site.domain, trans.get_absolute_url()
-            ),
+            'url_translate': get_site_url(trans.get_absolute_url()),
         })
     return HttpResponse(
         json.dumps(response, default=dt_handler),

@@ -22,6 +22,7 @@ import hashlib
 import re
 from translate.misc import quote
 from translate.storage.properties import propunit
+from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -225,3 +226,14 @@ def is_repo_link(val):
     Checks whethere repository is just a link for other one.
     '''
     return val.startswith('weblate://')
+
+
+def get_site_url(url=''):
+    '''
+    Returns root url of current site with domain.
+    '''
+    site = Site.objects.get_current()
+    return 'http://%s%s' % (
+        site.domain,
+        url
+    )

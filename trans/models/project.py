@@ -24,7 +24,6 @@ from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
-from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
@@ -34,6 +33,7 @@ from lang.models import Language
 from trans.validators import (
     validate_commit_message,
 )
+from trans.util import get_site_url
 
 
 DEFAULT_COMMIT_MESSAGE = (
@@ -194,10 +194,8 @@ class Project(models.Model):
         '''
         Returns absolute URL usable for sharing.
         '''
-        site = Site.objects.get_current()
-        return 'http://%s%s' % (
-            site.domain,
-            reverse('engage', kwargs={'project': self.slug}),
+        return get_site_url(
+            reverse('engage', kwargs={'project': self.slug})
         )
 
     @models.permalink

@@ -22,6 +22,7 @@ import weblate
 from django.conf import settings
 from weblate import appsettings
 from datetime import datetime
+from trans.util import get_site_url
 
 URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
 
@@ -39,6 +40,7 @@ def weblate_url(request):
 def title(request):
     return {
         'site_title': appsettings.SITE_TITLE,
+        'site_url': get_site_url(),
         'offer_hosting': appsettings.OFFER_HOSTING,
     }
 

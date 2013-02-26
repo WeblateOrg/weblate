@@ -26,7 +26,6 @@ from django.contrib import messages
 from django.db.models import Sum
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
 
 from trans.models import (
@@ -356,9 +355,7 @@ def about(request):
 
 
 def data_root(request):
-    site = Site.objects.get_current()
     return render_to_response('data-root.html', RequestContext(request, {
-        'site_domain': site.domain,
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
         'projects': Project.objects.all_acl(request.user),
@@ -367,10 +364,8 @@ def data_root(request):
 
 def data_project(request, project):
     obj = get_project(request, project)
-    site = Site.objects.get_current()
     return render_to_response('data.html', RequestContext(request, {
         'object': obj,
-        'site_domain': site.domain,
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
     }))

@@ -24,7 +24,6 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from glob import glob
 import os
@@ -41,6 +40,7 @@ from trans.formats import (
 from trans.models.project import Project
 from trans.filelock import FileLock
 from trans.util import is_repo_link
+from trans.util import get_site_url
 from trans.validators import (
     validate_repoweb,
     validate_filemask,
@@ -200,10 +200,8 @@ class SubProject(models.Model):
         '''
         Returns absolute URL usable for sharing.
         '''
-        site = Site.objects.get_current()
-        return 'http://%s%s' % (
-            site.domain,
-            reverse('engage', kwargs={'project': self.project.slug}),
+        return get_site_url(
+            reverse('engage', kwargs={'project': self.project.slug})
         )
 
     @models.permalink

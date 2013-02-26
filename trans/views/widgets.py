@@ -23,10 +23,10 @@ from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext_lazy
-from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
 
+from trans.util import get_site_url
 from trans.models import Project
 from lang.models import Language
 from trans.forms import EnageLanguageForm
@@ -148,7 +148,6 @@ def widgets(request, project):
         if form.cleaned_data['lang'] != '':
             lang = Language.objects.get(code=form.cleaned_data['lang'])
 
-    site = Site.objects.get_current()
     if lang is None:
         engage_base = reverse('engage', kwargs={'project': obj.slug})
     else:
@@ -156,14 +155,10 @@ def widgets(request, project):
             'engage-lang',
             kwargs={'project': obj.slug, 'lang': lang.code}
         )
-    engage_url = 'http://%s%s' % (
-        site.domain,
-        engage_base,
-    )
+    engage_url = get_site_url(engage_base)
     engage_url_track = '%s?utm_source=widget' % engage_url
-    widget_base_url = 'http://%s%s' % (
-        site.domain,
-        reverse('widgets', kwargs={'project': obj.slug}),
+    widget_base_url = get_site_url(
+        reverse('widgets', kwargs={'project': obj.slug})
     )
     widget_list = []
     for widget_name in WIDGETS:
@@ -191,10 +186,7 @@ def widgets(request, project):
                 )
             color_list.append({
                 'name': color,
-                'url': 'http://%s%s' % (
-                    site.domain,
-                    color_url,
-                ),
+                'url': get_site_url(color_url),
             })
         widget_list.append({
             'name': widget_name,

@@ -38,7 +38,7 @@ from south.signals import post_migrate
 
 from lang.models import Language
 from trans.models import Project, Change
-from trans.util import get_user_display
+from trans.util import get_user_display, get_site_url
 import weblate
 
 import logging
@@ -76,8 +76,8 @@ def send_notification_email(language, email, notification, translation_obj,
         domain = Site.objects.get_current().domain
         context['translation'] = translation_obj
         context['current_site'] = domain
-        context['translation_url'] = 'http://%s%s' % (
-            domain, translation_obj.get_absolute_url()
+        context['translation_url'] = get_site_url(
+            translation_obj.get_absolute_url()
         )
         context['subject_template'] = subject_template
 

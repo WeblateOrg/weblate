@@ -25,7 +25,6 @@ from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
-from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -49,6 +48,7 @@ from trans.models.project import Project
 from trans.util import (
     msg_checksum, get_source, get_target, get_context,
     is_translated, is_translatable, get_user_display,
+    get_site_url,
 )
 
 logger = logging.getLogger('weblate')
@@ -296,16 +296,14 @@ class Translation(models.Model):
         '''
         Returns absolute URL usable for sharing.
         '''
-        site = Site.objects.get_current()
-        return 'http://%s%s' % (
-            site.domain,
+        return get_site_url(
             reverse(
                 'engage-lang',
                 kwargs={
                     'project': self.subproject.project.slug,
                     'lang': self.language.code
                 }
-            ),
+            )
         )
 
     @models.permalink
@@ -879,13 +877,11 @@ class Translation(models.Model):
                     )
 
                     if self.subproject.project.set_translation_team:
-                        site = Site.objects.get_current()
                         # Store language team with link to website
                         store.updateheader(
-                            language_team='%s <http://%s%s>' % (
+                            language_team='%s <%s>' % (
                                 self.language.name,
-                                site.domain,
-                                self.get_absolute_url(),
+                                get_site_url(self.get_absolute_url()),
                             )
                         )
                         # Optionally store email for reporting bugs in source

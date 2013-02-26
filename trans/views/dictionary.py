@@ -26,10 +26,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.contrib.sites.models import Site
 
 from trans.models import Translation, Dictionary
 from lang.models import Language
+from trans.util import get_site_url
 from trans.forms import WordForm, DictUploadForm, LetterForm
 from trans.views.helper import get_project
 import weblate
@@ -163,19 +163,17 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
         has_lang = False
 
         # Set po file header
-        site = Site.objects.get_current()
         store.updateheader(
             add=True,
             language=lang.code,
             x_generator='Weblate %s' % weblate.VERSION,
             project_id_version='%s (%s)' % (lang.name, prj.name),
-            language_team='%s <http://%s%s>' % (
+            language_team='%s <%s>' % (
                 lang.name,
-                site.domain,
-                reverse(
+                get_site_url(reverse(
                     'show_dictionary',
                     kwargs={'project': prj.slug, 'lang': lang.code}
-                ),
+                )),
             )
         )
     else:
