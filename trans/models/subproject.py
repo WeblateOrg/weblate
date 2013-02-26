@@ -55,9 +55,8 @@ class SubProjectManager(models.Manager):
         '''
         Returns list of projects user is allowed to access.
         '''
-        all_projects = Project.objects.all()
-        projects = Project.objects.all_acl(user)
-        if projects.count() == all_projects.count():
+        projects, filtered = Project.objects.get_acl_status(user)
+        if not filtered:
             return self.all()
         return self.filter(project__in=projects)
 

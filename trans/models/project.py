@@ -57,13 +57,20 @@ class ProjectManager(models.Manager):
         '''
         Returns list of projects user is allowed to access.
         '''
+        return self.get_acl_status(user)[0]
+
+    def get_acl_status(self, user):
+        '''
+        Returns list of projects user is allowed to access
+        and flag whether there is any filtering active.
+        '''
         projects = self.all()
         project_ids = [
             project.id for project in projects if project.has_acl(user)
         ]
         if projects.count() == len(project_ids):
-            return projects
-        return self.filter(id__in=project_ids)
+            return projects, False
+        return self.filter(id__in=project_ids), True
 
 
 class Project(models.Model):
