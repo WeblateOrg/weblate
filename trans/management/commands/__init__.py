@@ -26,12 +26,12 @@ from optparse import make_option
 from trans.models import Unit, SubProject
 
 
-# Abstract class is only referenced 1 times
-# pylint: disable=R0921,R0922
 class WeblateCommand(BaseCommand):
     '''
     Command which accepts project/subproject/--all params to process.
     '''
+    # Abstract class is only referenced 1 times
+    # pylint: disable=R0921,R0922
     args = '<project/subproject>'
     option_list = BaseCommand.option_list + (
         make_option(
@@ -96,13 +96,13 @@ class WeblateCommand(BaseCommand):
         raise NotImplementedError()
 
 
-# Abstract class is only referenced 1 times
-# pylint: disable=R0921,R0922
 class WeblateLangCommand(WeblateCommand):
     '''
     Command accepting additional language parameter to filter
     list of languages to process.
     '''
+    # Abstract class is only referenced 1 times
+    # pylint: disable=R0921,R0922
     option_list = WeblateCommand.option_list + (
         make_option(
             '--lang',
