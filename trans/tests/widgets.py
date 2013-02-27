@@ -46,7 +46,7 @@ class WidgetsTest(ViewTestCase):
     def test_view_widgets_lang(self):
         response = self.client.get(
             reverse('widgets', kwargs=self.kw_project),
-            lang='cs'
+            {'lang': 'cs'}
         )
         self.assertContains(response, 'Test')
 
