@@ -255,7 +255,7 @@ $(function() {
     $('#button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('#navi .button-disabled').button('disable');
     $('.translation-editor').change(text_change).keypress(text_change).autogrow();
-    $('#id_target').focus();
+    $('.translation-editor').focus();
     $('#toggle-direction').buttonset().change(function(e) {
         $('.translation-editor').attr('dir', $("#toggle-direction :radio:checked").attr('value')).focus();
     });
