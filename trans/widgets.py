@@ -47,6 +47,7 @@ COLOR_DATA = {
 
 WIDGETS = {}
 
+
 def register_widget(widget):
     '''
     Registers widget in dictionary.
@@ -182,7 +183,6 @@ class Widget(object):
             self.progress['height']
         )
         self.context.stroke()
-
 
     def get_text_layout(self, text, font_face, font_size):
         '''
