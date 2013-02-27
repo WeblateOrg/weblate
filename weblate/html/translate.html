@@ -125,7 +125,7 @@
 {% trans "Suggested by anonymous user" %}
 {% endif %}
 {% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
-<div class="suggestionactions">
+<div class="menu-float action-buttons">
 {% if perms.trans.accept_suggestion %}
 <a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">{% trans "Accept" %}</a>
 {% endif %}
