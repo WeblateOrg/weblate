@@ -15,7 +15,7 @@
 <h2>{% trans "Glossary" %}</h2>
 
 <span id="navi-toolbar" class="ui-widget-header ui-corner-all">
-<span id="navi">
+<span id="navi" class="button-row">
 <a id="button-first" {% if words.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;letter={{ letter }}">{% trans "First" %}</a>
 <a id="button-prev" {% if not words.has_previous %}class="button-disabled"{% endif %} href="?page={{ words.previous_page_number }}&amp;letter={{ letter }}">{% trans "Previous" %}</a>
 <a id="button-pos">{% blocktrans with words.number as position and words.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
