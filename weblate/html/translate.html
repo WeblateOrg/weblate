@@ -27,7 +27,7 @@
 <span id="navi">
 <a id="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
 <a id="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
-<a id="button-pos">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a id="button-pos" class="textbutton">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
 <a id="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
 <a id="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
 </span>
