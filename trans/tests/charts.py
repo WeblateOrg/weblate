@@ -23,7 +23,6 @@ Tests for charts and widgets.
 """
 
 from trans.tests.views import ViewTestCase
-from trans.views.widgets import WIDGETS
 from django.core.urlresolvers import reverse
 
 
@@ -133,72 +132,3 @@ class ChartsTest(ViewTestCase):
             )
         )
         self.assertContains(response, 'PNG')
-
-
-class WidgetsTest(ViewTestCase):
-    '''
-    Testing of widgets.
-    '''
-    def test_view_widgets_root(self):
-        response = self.client.get(
-            reverse('widgets_root')
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_widgets(self):
-        response = self.client.get(
-            reverse('widgets', kwargs=self.kw_project)
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_widgets_lang(self):
-        response = self.client.get(
-            reverse('widgets', kwargs=self.kw_project),
-            lang='cs'
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_engage(self):
-        response = self.client.get(
-            reverse('engage', kwargs=self.kw_project)
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_engage_lang(self):
-        response = self.client.get(
-            reverse('engage-lang', kwargs=self.kw_lang_project)
-        )
-        self.assertContains(response, 'Test')
-
-    def test_view_widget_image(self):
-        for widget in WIDGETS:
-            for color in WIDGETS[widget]['colors']:
-                response = self.client.get(
-                    reverse(
-                        'widget-image',
-                        kwargs={
-                            'project': self.project.slug,
-                            'widget': widget,
-                            'color': color,
-                        }
-                    )
-                )
-                # This is pretty stupid test for PNG image
-                self.assertContains(response, 'PNG')
-
-    def test_view_widget_image_lang(self):
-        for widget in WIDGETS:
-            for color in WIDGETS[widget]['colors']:
-                response = self.client.get(
-                    reverse(
-                        'widget-image-lang',
-                        kwargs={
-                            'project': self.project.slug,
-                            'widget': widget,
-                            'color': color,
-                            'lang': 'cs',
-                        }
-                    )
-                )
-                # This is pretty stupid test for PNG image
-                self.assertContains(response, 'PNG')

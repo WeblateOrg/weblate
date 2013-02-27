@@ -36,6 +36,7 @@ from trans.tests.exports import *
 from trans.tests.hooks import *
 from trans.tests.dictionary import *
 from trans.tests.charts import *
+from trans.tests.widgets import *
 from trans.tests.check_views import *
 from trans.tests.files import *
 from trans.tests.sitemaps import *
