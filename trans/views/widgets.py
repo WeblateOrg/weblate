@@ -44,9 +44,8 @@ def widgets(request, project):
     # Parse possible language selection
     form = EnageLanguageForm(obj, request.GET)
     lang = None
-    if form.is_valid():
-        if form.cleaned_data['lang'] != '':
-            lang = Language.objects.get(code=form.cleaned_data['lang'])
+    if form.is_valid() and form.cleaned_data['lang'] != '':
+        lang = Language.objects.get(code=form.cleaned_data['lang'])
 
     if lang is None:
         engage_base = reverse('engage', kwargs={'project': obj.slug})
