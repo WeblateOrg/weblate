@@ -151,4 +151,4 @@ class ViewTest(TestCase):
 
         # Get profile page
         response = self.client.get(reverse('profile'))
-        self.assertContains(response, 'id="subscriptions"')
+        self.assertContains(response, 'class="preferences"')
