@@ -114,8 +114,8 @@
 {% if suggestions %}
 <tr>
 <th>{% trans "Suggestions" %}</th>
-<td id="suggestions">
-<table>
+<td>
+<table class="suggestions">
 {% for suggestion in suggestions %}
 <tr><td class="translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</td></tr>
 <tr><td>
