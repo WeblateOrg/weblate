@@ -14,7 +14,7 @@
 
 <h2>{% trans "Strings to review" %}</h2>
 
-<span id="navi-toolbar" class="ui-widget-header ui-corner-all">
+<span class="navi-toolbar ui-widget-header ui-corner-all">
 <span id="navi">
 <a id="button-first" {% if sources.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;letter={{ letter }}">{% trans "First" %}</a>
 <a id="button-prev" {% if not sources.has_previous %}class="button-disabled"{% endif %} href="?page={{ sources.previous_page_number }}&amp;letter={{ letter }}">{% trans "Previous" %}</a>
