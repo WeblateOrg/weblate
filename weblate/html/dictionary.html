@@ -22,7 +22,7 @@
 <a id="button-next" {% if not words.has_next %}class="button-disabled"{% endif %} href="?page={{ words.next_page_number }}&amp;letter={{ letter }}">{% trans "Next" %}</a>
 <a id="button-end" {% if words.paginator.num_pages == words.number %}class="button-disabled"{% endif %} href="?page={{ words.paginator.num_pages }}&amp;letter={{ letter }}">{% trans "Last" %}</a>
 </span>
-<form class="autosubmit" id="letter-form">{{ letterform.as_p }}</form>
+<form class="autosubmit">{{ letterform.as_p }}</form>
 </span>
 
 {% if words.object_list %}
