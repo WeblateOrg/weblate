@@ -117,7 +117,8 @@ class Widget(object):
         '''
         return os.path.join(
             settings.MEDIA_ROOT,
-            'weblate-widget-%(widget)s-%(color)s.png' % {
+            'widgets',
+            '%(widget)s-%(color)s.png' % {
                 'color': self.color,
                 'widget': self.name,
             }
