@@ -160,13 +160,14 @@ class EndQuestionCheck(TargetCheck):
         'Source and translation do not both end with a question mark '
         'or it is not correctly spaced'
     )
+    question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         if self.is_language(language, ['fr', 'br']):
             if len(target) == 0 or len(source) == 0:
                 return False
             if source[-1] == '?':
-                if target[-2:] not in [' ?', '&nbsp;?', u' ?']:
+                if target[-2:] not in self.question_fr:
                     return True
             return False
         return self.check_chars(
@@ -187,6 +188,7 @@ class EndExclamationCheck(TargetCheck):
         'Source and translation do not both end with an exclamation mark '
         'or it is not correctly spaced'
     )
+    exclamation_fr = (' !', '&nbsp;!', u' !', ' ! ', '&nbsp;! ', u' ! ')
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
         if len(source) == 0:
@@ -199,7 +201,7 @@ class EndExclamationCheck(TargetCheck):
             if len(target) == 0:
                 return False
             if source[-1] == '!':
-                if target[-2:] not in [' !', '&nbsp;!', u' !']:
+                if target[-2:] not in self.exclamation_fr:
                     return True
             return False
         return self.check_chars(
