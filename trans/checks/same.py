@@ -26,6 +26,9 @@ from trans.checks.format import (
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
+    'accelerator',
+    'action',
+    'active',
     'alarm',
     'audio',
     'auto',
@@ -55,6 +58,7 @@ SAME_BLACKLIST = frozenset((
     'gzip',
     'headset',
     'hardware',
+    'help',
     'id',
     'in',
     'irc',
@@ -76,6 +80,7 @@ SAME_BLACKLIST = frozenset((
     'normal',
     'ok',
     'open document',
+    'orientation',
     'pager',
     'pdf',
     'pib',
