@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-25 10:15+0100\n"
+"POT-Creation-Date: 2013-02-28 11:16+0100\n"
 "PO-Revision-Date: 2013-02-25 10:19+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -88,7 +88,7 @@ msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
 
-#: accounts/models.py:192 trans/views/basic.py:101 weblate/html/index.html:21
+#: accounts/models.py:192 trans/views/basic.py:100 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -464,329 +464,7 @@ msgstr "Jakékoliv"
 msgid "Whole project"
 msgstr "Celý projekt"
 
-#: trans/models.py:83
-msgid "Use contact form"
-msgstr "Použít kontaktní formulář"
-
-#: trans/models.py:84
-msgid "Point to translation instructions URL"
-msgstr "Odkázat na instrukce pro překladatele"
-
-#: trans/models.py:87
-msgid "Merge"
-msgstr "Sloučit"
-
-#: trans/models.py:88
-msgid "Rebase"
-msgstr "Přeskládání"
-
-#: trans/models.py:96
-msgid "Project website"
-msgstr "Stránky projektu"
-
-#: trans/models.py:100
-msgid "Email conference for translators"
-msgstr "Emailová konference pro překladatele"
-
-#: trans/models.py:104
-msgid "URL with instructions for translators"
-msgstr "URL návodu pro překladatele"
-
-#: trans/models.py:107 weblate/html/subproject.html:31
-msgid "New language"
-msgstr "Nový jazyk"
-
-#: trans/models.py:112
-msgid "How to handle requests for creating new languages."
-msgstr "Jak se mají řešit požadavky na nové překlady."
-
-#: trans/models.py:116
-msgid "Merge style"
-msgstr "Způsob slučování"
-
-#: trans/models.py:121
-msgid ""
-"Define whether Weblate should merge upstream repository or rebase changes "
-"onto it."
-msgstr ""
-"Zvolte zda má Weblate sloučit vzdálený repozitář nebo přeskládat změny."
-
-#: trans/models.py:129
-msgid ""
-"You can use format strings for various information, please check "
-"documentation for more details."
-msgstr ""
-"Můžete použít formátovací řetězce pro začlenění různých informace, další "
-"informace naleznete v dokumentaci."
-
-#: trans/models.py:146
-msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Zda má být repozitář odeslán při každém zapsání změn."
-
-#: trans/models.py:153
-msgid ""
-"Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr "Jestli má být hlavička Translation-Team aktualizována Weblate."
-
-#: trans/models.py:161
-msgid ""
-"Whether to enable ACL for this project, please check documentation before "
-"enabling this."
-msgstr ""
-"Jestli se mají pro tento projekt povolit ACL. Před zapnutím si prosím "
-"přečtěte dokumentaci."
-
-#: trans/models.py:191
-#, python-format
-msgid "You are not allowed to access project %s."
-msgstr "Nemáte oprávnění pro přístup k projektu %s."
-
-#: trans/models.py:198
-msgid ""
-"Please either fill in instructions URL or use different option for adding "
-"new language."
-msgstr ""
-"Prosím zadejte URL s instrukcemi nebo zvolte jinou možnost přidávání nového "
-"jazyka."
-
-#: trans/models.py:424
-msgid "Name to display"
-msgstr "Zobrazené jméno"
-
-#: trans/models.py:428
-msgid "Name used in URLs"
-msgstr "Jméno použité v URL"
-
-#: trans/models.py:434
-msgid ""
-"URL of Git repository, use weblate://project/subproject for sharing with "
-"other subproject."
-msgstr ""
-"URL Gitového repozitáře, použijte weblate://projekt/podprojekt pro sdílení s "
-"jiným podprojektem."
-
-#: trans/models.py:441
-msgid "URL of push Git repository"
-msgstr "URL pro odesílání do Git repozitáře"
-
-#: trans/models.py:446
-#, python-format
-msgid ""
-"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
-"as filename and line placeholders."
-msgstr ""
-"Odkaz na prohlížení Gitu, použijte %(branch)s místo větve, %(file)s a "
-"%(line)s místo jména souboru a řádky."
-
-#: trans/models.py:454
-msgid ""
-"Email address where errors in source string will be reported, keep empty for "
-"no emails."
-msgstr ""
-"E-mailová adresa, na kterou budou hlášeny chyby ve zdrojových řetězcích. "
-"Ponechte prázdné pokud je nechcete zasílat."
-
-#: trans/models.py:461
-msgid "Git branch to translate"
-msgstr "Větev Gitu k překladu"
-
-#: trans/models.py:468
-msgid ""
-"Path of files to translate, use * instead of language code, for example: po/"
-"*.po or locale/*/LC_MESSAGES/django.po."
-msgstr ""
-"Cesta souborů k překladu, použijte * místo kódu jazyka, například: po/*.po "
-"nebo locale/*/LC_MESSAGES/django.po."
-
-#: trans/models.py:476
-msgid ""
-"Filename of translations template, this is recommended to use for "
-"translations which store only translated string like Android resource "
-"strings."
-msgstr ""
-"Jméno souboru s šablonou překladu, toto je potřeba jen pro překlady, které "
-"ukládají jen přeložené řetězce jako například překlady pro Android."
-
-#: trans/models.py:486
-msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
-"Automatická detekce nemusí pro některé formáty fungovat a je trochu "
-"pomalejší."
-
-#: trans/models.py:493
-msgid "Whether subproject is locked for translation updates."
-msgstr "Jestli je projekt zamknutý pro překlady."
-
-#: trans/models.py:499
-msgid ""
-"Whether translation updates in other subproject will cause automatic "
-"translation in this project"
-msgstr ""
-"Jestli překlady v jiných podprojektech způsobí automatický překlad v tomto "
-"projektu"
-
-#: trans/models.py:713
-#, python-format
-msgid "Failed to fetch git repository: %s"
-msgstr "Nepodařilo se stáhnout Git repozitář: %s"
-
-#: trans/models.py:804
-#, python-format
-msgid "Push is disabled for %s."
-msgstr "Odesílání je vypnuté pro %s."
-
-#: trans/models.py:842
-#, python-format
-msgid "Failed to push to remote branch on %s."
-msgstr "Nepodařilo se odeslat do vzdálené větve %s."
-
-#: trans/models.py:871
-#, python-format
-msgid "Failed to reset to remote branch on %s."
-msgstr "Nepodařilo se resetovat na vzdálenou větev %s."
-
-#: trans/models.py:958
-#, python-format
-msgid "Failed to merge remote branch into %s."
-msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
-
-#: trans/models.py:992
-#, python-format
-msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Nepodařilo se přeskládat změny na vzdálenou větev %s."
-
-#: trans/models.py:1106
-msgid "Push URL is not used when repository is linked!"
-msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
-
-#: trans/models.py:1112
-msgid "The mask did not match any files!"
-msgstr "Masce neodpovídají žádné soubory!"
-
-#: trans/models.py:1118
-msgid ""
-"There are more files for single language, please adjust the mask and use "
-"subprojects for translating different resources."
-msgstr ""
-"Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
-"podprojekty pro překládání různých souborů."
-
-#: trans/models.py:1139
-#, python-format
-msgid "Format of %d matched files could not be recognized."
-msgstr "Nepodařilo ze rozpoznat formát %d souborů."
-
-#: trans/models.py:1144
-#, python-format
-msgid "Failed to parse %d matched files!"
-msgstr "Nepodařilo ze zpracovat %d souborů!"
-
-#: trans/models.py:1154
-msgid "Format of translation template could not be recognized."
-msgstr "Nepodařilo ze rozpoznat formát šablony překladů."
-
-#: trans/models.py:1157
-msgid "Failed to parse translation template."
-msgstr "Nepodařilo se zpracovat šablonu překladů."
-
-#: trans/models.py:1356
-#, python-format
-msgid ""
-"Filename %s not found in repository! To add new translation, add language "
-"file into repository."
-msgstr ""
-"Soubor %s nebyl nalezen v repozitáři! Chcete-li přidat nový překlad, "
-"přidejte soubor s překladem do repozitáře."
-
-#: trans/models.py:1365
-#, python-format
-msgid "Format of %s could not be recognized."
-msgstr "Nepodařilo ze rozpoznat formát souboru %s."
-
-#: trans/models.py:1370
-#, python-format
-msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
-
-#: trans/models.py:1394
-#, python-format
-msgid "This translation is locked by %(user)s!"
-msgstr "Tento překlad je uzamčen pro uživatele %(user)s!"
-
-#: trans/models.py:2109 trans/models.py:2142
-msgid "All strings"
-msgstr "Všechny řetězce"
-
-#: trans/models.py:2116 trans/models.py:2173
-#, python-format
-msgid "Strings with any failing checks (%d)"
-msgstr "Řetězců s jakoukoliv selhavší kontrolou (%d)"
-
-#: trans/models.py:2133 trans/models.py:2190
-#, python-format
-msgid "Strings with comments (%d)"
-msgstr "Řetězců s komentáři (%d)"
-
-#: trans/models.py:2149
-#, python-format
-msgid "Untranslated strings (%d)"
-msgstr "Nepřeložených řetězců (%d)"
-
-#: trans/models.py:2157
-#, python-format
-msgid "Fuzzy strings (%d)"
-msgstr "Nejasných řetězců (%d)"
-
-#: trans/models.py:2165
-#, python-format
-msgid "Strings with suggestions (%d)"
-msgstr "Řetězců s návrhy (%d)"
-
-#: trans/models.py:2556
-msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
-
-#: trans/models.py:2568
-msgid "Message not found in backend storage, it is probably corrupted."
-msgstr ""
-"Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
-"poškození."
-
-#: trans/models.py:2705
-#, python-format
-msgid "unit ID %s"
-msgstr "ID jednotky %s"
-
-#: trans/models.py:3032
-msgid "Resource update"
-msgstr "Aktualizace zdroje"
-
-#: trans/models.py:3033
-msgid "Translation completed"
-msgstr "Dokončení překladu"
-
-#: trans/models.py:3034
-msgid "Translation changed"
-msgstr "Změna překladu"
-
-#: trans/models.py:3035
-msgid "New translation"
-msgstr "Nový překlad"
-
-#: trans/models.py:3036
-msgid "Comment added"
-msgstr "Přidán komentář"
-
-#: trans/models.py:3037
-msgid "Suggestion added"
-msgstr "Přidán návrh"
-
-#: trans/models.py:3055
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
-
-#: trans/util.py:71
+#: trans/util.py:74
 msgid "None"
 msgstr "Žádný"
 
@@ -806,6 +484,43 @@ msgstr "Nelze odkázat na git repozitář, který již je odkazem!"
 #: trans/validators.py:75
 msgid "Invalid link to repository!"
 msgstr "Chybný odkaz na git repozitář!"
+
+#: trans/widgets.py:260
+#, python-format
+msgid ""
+"translating %(count)d strings into %(languages)d languages\n"
+"%(percent)d%% complete, help us improve!"
+msgstr ""
+"překládáme %(count)d řetězců do %(languages)d jazyků\n"
+"%(percent)d%% hotovo, pomozte nám se zlepšit!"
+
+#: trans/widgets.py:265
+#, python-format
+msgid ""
+"translating %(count)d strings into English\n"
+"%(percent)d%% complete, help us improve!"
+msgstr ""
+"překládáme %(count)d řetězců do češtiny\n"
+"%(percent)d%% hotovo, pomozte nám se zlepšit!"
+
+#: trans/widgets.py:286
+#, python-format
+msgid ""
+"translation\n"
+"%(percent)d%% done"
+msgstr ""
+"překládání\n"
+"%(percent)d%% hotovo"
+
+#. Translators: please use your language name instead of English
+#: trans/widgets.py:288
+#, python-format
+msgid ""
+"English translation\n"
+"%(percent)d%% done"
+msgstr ""
+"český překlad\n"
+"%(percent)d%% hotovo"
 
 #: trans/checks/chars.py:30
 msgid "Starting newline"
@@ -867,37 +582,37 @@ msgid ""
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí otazníkem nebo kolem něj chybí mezery"
 
-#: trans/checks/chars.py:185
+#: trans/checks/chars.py:186
 msgid "Trailing exclamation"
 msgstr "Koncový vykřičník"
 
-#: trans/checks/chars.py:187
+#: trans/checks/chars.py:188
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem nebo kolem něj chybí mezery"
 
-#: trans/checks/chars.py:218
+#: trans/checks/chars.py:220
 msgid "Trailing ellipsis"
 msgstr "Koncová výpustka"
 
-#: trans/checks/chars.py:219
+#: trans/checks/chars.py:221
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Překlad a zdroj oba nekončí výpustky"
 
-#: trans/checks/chars.py:231
+#: trans/checks/chars.py:233
 msgid "Mismatched \\n"
 msgstr "Neodpovídající \\n"
 
-#: trans/checks/chars.py:232
+#: trans/checks/chars.py:234
 msgid "Number of \\n in translation does not match source"
 msgstr "Počet \\n v překladu neodpovídá zdroji"
 
-#: trans/checks/chars.py:240
+#: trans/checks/chars.py:242
 msgid "Zero-width space"
 msgstr "Nulová mezera"
 
-#: trans/checks/chars.py:241
+#: trans/checks/chars.py:243
 msgid "Translation contains extra zero-width space character"
 msgstr "Překlad obsahuje navíc nulovou mezeru"
 
@@ -958,11 +673,11 @@ msgstr "Neodpovídající XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: trans/checks/same.py:113
+#: trans/checks/same.py:126
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: trans/checks/same.py:114
+#: trans/checks/same.py:127
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
@@ -981,6 +696,328 @@ msgstr "Výpustka"
 #: trans/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Řetězec používá tři tečky (...) namísto výpustky (…)"
+
+#: trans/models/project.py:46
+msgid "Use contact form"
+msgstr "Použít kontaktní formulář"
+
+#: trans/models/project.py:47
+msgid "Point to translation instructions URL"
+msgstr "Odkázat na instrukce pro překladatele"
+
+#: trans/models/project.py:50
+msgid "Merge"
+msgstr "Sloučit"
+
+#: trans/models/project.py:51
+msgid "Rebase"
+msgstr "Přeskládání"
+
+#: trans/models/project.py:80
+msgid "Project website"
+msgstr "Stránky projektu"
+
+#: trans/models/project.py:84
+msgid "Email conference for translators"
+msgstr "Emailová konference pro překladatele"
+
+#: trans/models/project.py:88
+msgid "URL with instructions for translators"
+msgstr "URL návodu pro překladatele"
+
+#: trans/models/project.py:91 weblate/html/subproject.html:31
+msgid "New language"
+msgstr "Nový jazyk"
+
+#: trans/models/project.py:96
+msgid "How to handle requests for creating new languages."
+msgstr "Jak se mají řešit požadavky na nové překlady."
+
+#: trans/models/project.py:100
+msgid "Merge style"
+msgstr "Způsob slučování"
+
+#: trans/models/project.py:105
+msgid ""
+"Define whether Weblate should merge upstream repository or rebase changes "
+"onto it."
+msgstr ""
+"Zvolte zda má Weblate sloučit vzdálený repozitář nebo přeskládat změny."
+
+#: trans/models/project.py:113
+msgid ""
+"You can use format strings for various information, please check "
+"documentation for more details."
+msgstr ""
+"Můžete použít formátovací řetězce pro začlenění různých informace, další "
+"informace naleznete v dokumentaci."
+
+#: trans/models/project.py:130
+msgid "Whether the repository should be pushed upstream on every commit."
+msgstr "Zda má být repozitář odeslán při každém zapsání změn."
+
+#: trans/models/project.py:137
+msgid ""
+"Whether the Translation-Team in file headers should be updated by Weblate."
+msgstr "Jestli má být hlavička Translation-Team aktualizována Weblate."
+
+#: trans/models/project.py:145
+msgid ""
+"Whether to enable ACL for this project, please check documentation before "
+"enabling this."
+msgstr ""
+"Jestli se mají pro tento projekt povolit ACL. Před zapnutím si prosím "
+"přečtěte dokumentaci."
+
+#: trans/models/project.py:176
+#, python-format
+msgid "You are not allowed to access project %s."
+msgstr "Nemáte oprávnění pro přístup k projektu %s."
+
+#: trans/models/project.py:183
+msgid ""
+"Please either fill in instructions URL or use different option for adding "
+"new language."
+msgstr ""
+"Prosím zadejte URL s instrukcemi nebo zvolte jinou možnost přidávání nového "
+"jazyka."
+
+#: trans/models/subproject.py:75
+msgid "Name to display"
+msgstr "Zobrazené jméno"
+
+#: trans/models/subproject.py:79
+msgid "Name used in URLs"
+msgstr "Jméno použité v URL"
+
+#: trans/models/subproject.py:85
+msgid ""
+"URL of Git repository, use weblate://project/subproject for sharing with "
+"other subproject."
+msgstr ""
+"URL Gitového repozitáře, použijte weblate://projekt/podprojekt pro sdílení s "
+"jiným podprojektem."
+
+#: trans/models/subproject.py:92
+msgid "URL of push Git repository"
+msgstr "URL pro odesílání do Git repozitáře"
+
+#: trans/models/subproject.py:97
+#, python-format
+msgid ""
+"Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
+"as filename and line placeholders."
+msgstr ""
+"Odkaz na prohlížení Gitu, použijte %(branch)s místo větve, %(file)s a "
+"%(line)s místo jména souboru a řádky."
+
+#: trans/models/subproject.py:105
+msgid ""
+"Email address where errors in source string will be reported, keep empty for "
+"no emails."
+msgstr ""
+"E-mailová adresa, na kterou budou hlášeny chyby ve zdrojových řetězcích. "
+"Ponechte prázdné pokud je nechcete zasílat."
+
+#: trans/models/subproject.py:112
+msgid "Git branch to translate"
+msgstr "Větev Gitu k překladu"
+
+#: trans/models/subproject.py:119
+msgid ""
+"Path of files to translate, use * instead of language code, for example: po/"
+"*.po or locale/*/LC_MESSAGES/django.po."
+msgstr ""
+"Cesta souborů k překladu, použijte * místo kódu jazyka, například: po/*.po "
+"nebo locale/*/LC_MESSAGES/django.po."
+
+#: trans/models/subproject.py:127
+msgid ""
+"Filename of translations template, this is recommended to use for "
+"translations which store only translated string like Android resource "
+"strings."
+msgstr ""
+"Jméno souboru s šablonou překladu, toto je potřeba jen pro překlady, které "
+"ukládají jen přeložené řetězce jako například překlady pro Android."
+
+#: trans/models/subproject.py:137
+msgid "Automatic detection might fail for some formats and is slightly slower."
+msgstr ""
+"Automatická detekce nemusí pro některé formáty fungovat a je trochu "
+"pomalejší."
+
+#: trans/models/subproject.py:144
+msgid "Whether subproject is locked for translation updates."
+msgstr "Jestli je projekt zamknutý pro překlady."
+
+#: trans/models/subproject.py:150
+msgid ""
+"Whether translation updates in other subproject will cause automatic "
+"translation in this project"
+msgstr ""
+"Jestli překlady v jiných podprojektech způsobí automatický překlad v tomto "
+"projektu"
+
+#: trans/models/subproject.py:363
+#, python-format
+msgid "Failed to fetch git repository: %s"
+msgstr "Nepodařilo se stáhnout Git repozitář: %s"
+
+#: trans/models/subproject.py:454
+#, python-format
+msgid "Push is disabled for %s."
+msgstr "Odesílání je vypnuté pro %s."
+
+#: trans/models/subproject.py:492
+#, python-format
+msgid "Failed to push to remote branch on %s."
+msgstr "Nepodařilo se odeslat do vzdálené větve %s."
+
+#: trans/models/subproject.py:521
+#, python-format
+msgid "Failed to reset to remote branch on %s."
+msgstr "Nepodařilo se resetovat na vzdálenou větev %s."
+
+#: trans/models/subproject.py:608
+#, python-format
+msgid "Failed to merge remote branch into %s."
+msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
+
+#: trans/models/subproject.py:642
+#, python-format
+msgid "Failed to rebase our branch onto remote branch %s."
+msgstr "Nepodařilo se přeskládat změny na vzdálenou větev %s."
+
+#: trans/models/subproject.py:757
+msgid "Push URL is not used when repository is linked!"
+msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
+
+#: trans/models/subproject.py:763
+msgid "The mask did not match any files!"
+msgstr "Masce neodpovídají žádné soubory!"
+
+#: trans/models/subproject.py:769
+msgid ""
+"There are more files for single language, please adjust the mask and use "
+"subprojects for translating different resources."
+msgstr ""
+"Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
+"podprojekty pro překládání různých souborů."
+
+#: trans/models/subproject.py:790
+#, python-format
+msgid "Format of %d matched files could not be recognized."
+msgstr "Nepodařilo ze rozpoznat formát %d souborů."
+
+#: trans/models/subproject.py:795
+#, python-format
+msgid "Failed to parse %d matched files!"
+msgstr "Nepodařilo ze zpracovat %d souborů!"
+
+#: trans/models/subproject.py:805
+msgid "Format of translation template could not be recognized."
+msgstr "Nepodařilo ze rozpoznat formát šablony překladů."
+
+#: trans/models/subproject.py:808
+msgid "Failed to parse translation template."
+msgstr "Nepodařilo se zpracovat šablonu překladů."
+
+#: trans/models/translation.py:149
+#, python-format
+msgid ""
+"Filename %s not found in repository! To add new translation, add language "
+"file into repository."
+msgstr ""
+"Soubor %s nebyl nalezen v repozitáři! Chcete-li přidat nový překlad, "
+"přidejte soubor s překladem do repozitáře."
+
+#: trans/models/translation.py:158
+#, python-format
+msgid "Format of %s could not be recognized."
+msgstr "Nepodařilo ze rozpoznat formát souboru %s."
+
+#: trans/models/translation.py:163
+#, python-format
+msgid "Failed to parse file %(file)s: %(error)s"
+msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
+
+#: trans/models/translation.py:187
+#, python-format
+msgid "This translation is locked by %(user)s!"
+msgstr "Tento překlad je uzamčen pro uživatele %(user)s!"
+
+#: trans/models/translation.py:902 trans/models/translation.py:935
+msgid "All strings"
+msgstr "Všechny řetězce"
+
+#: trans/models/translation.py:909 trans/models/translation.py:966
+#, python-format
+msgid "Strings with any failing checks (%d)"
+msgstr "Řetězců s jakoukoliv selhavší kontrolou (%d)"
+
+#: trans/models/translation.py:926 trans/models/translation.py:983
+#, python-format
+msgid "Strings with comments (%d)"
+msgstr "Řetězců s komentáři (%d)"
+
+#: trans/models/translation.py:942
+#, python-format
+msgid "Untranslated strings (%d)"
+msgstr "Nepřeložených řetězců (%d)"
+
+#: trans/models/translation.py:950
+#, python-format
+msgid "Fuzzy strings (%d)"
+msgstr "Nejasných řetězců (%d)"
+
+#: trans/models/translation.py:958
+#, python-format
+msgid "Strings with suggestions (%d)"
+msgstr "Řetězců s návrhy (%d)"
+
+#: trans/models/unit.py:565
+msgid "Failed to store message in the backend, lock timeout occurred!"
+msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
+
+#: trans/models/unit.py:577
+msgid "Message not found in backend storage, it is probably corrupted."
+msgstr ""
+"Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
+"poškození."
+
+#: trans/models/unit.py:714
+#, python-format
+msgid "unit ID %s"
+msgstr "ID jednotky %s"
+
+#: trans/models/unitdata.py:225
+msgid "Resource update"
+msgstr "Aktualizace zdroje"
+
+#: trans/models/unitdata.py:226
+msgid "Translation completed"
+msgstr "Dokončení překladu"
+
+#: trans/models/unitdata.py:227
+msgid "Translation changed"
+msgstr "Změna překladu"
+
+#: trans/models/unitdata.py:228
+msgid "New translation"
+msgstr "Nový překlad"
+
+#: trans/models/unitdata.py:229
+msgid "Comment added"
+msgstr "Přidán komentář"
+
+#: trans/models/unitdata.py:230
+msgid "Suggestion added"
+msgstr "Přidán návrh"
+
+#: trans/models/unitdata.py:249
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
@@ -1112,11 +1149,11 @@ msgstr[0] "za hodinu"
 msgstr[1] "za %(count)s hodiny"
 msgstr[2] "za %(count)s hodin"
 
-#: trans/views/basic.py:67
+#: trans/views/basic.py:66
 msgid "Please set your full name in your profile."
 msgstr "Prosím nastavte si v profilu vaše jméno."
 
-#: trans/views/basic.py:144
+#: trans/views/basic.py:143
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1128,7 +1165,7 @@ msgstr ""
 "obsahuje %(total)s řetězců k překladu a je <a href=\"%(url)s\">překládán do "
 "%(languages)s jazyků</a>. Celkově je tento překlad hotový z %(percent)s%%."
 
-#: trans/views/basic.py:153
+#: trans/views/basic.py:152
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1138,21 +1175,21 @@ msgstr ""
 "<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné "
 "době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
-#: trans/views/basic.py:242
+#: trans/views/basic.py:241
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Zkontrolovat zdrojové řetězce v %s"
 
-#: trans/views/basic.py:261
+#: trans/views/basic.py:260
 #, python-format
 msgid "Source strings in %s"
 msgstr "Zdrojové řetězce v %s"
 
-#: trans/views/basic.py:327
+#: trans/views/basic.py:326
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
-#: trans/views/basic.py:343 weblate/html/about.html:11
+#: trans/views/basic.py:342 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "O Weblate"
@@ -1166,7 +1203,7 @@ msgstr "Selhavší kontroly"
 msgid "Dictionaries"
 msgstr "Slovníky"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:299
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:297
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Slovník pro %(project)s - %(language)s"
@@ -1182,7 +1219,6 @@ msgstr "Ze souboru bylo importováno %d slov."
 
 #: trans/views/dictionary.py:138
 #, python-format
-#| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"
 msgstr "Selhalo nahrání obsahu souboru: %s"
 
@@ -1339,46 +1375,6 @@ msgstr "Všechny podprojekty byly zamčeny pro překlady!"
 #: trans/views/lock.py:130
 msgid "Project is now open for translation updates."
 msgstr "Projekt je nyní přístupný pro překladání."
-
-#. Translators: text in the engagement widget
-#: trans/views/widgets.py:81
-#, python-format
-msgid ""
-"translating %(count)d strings into %(languages)d languages\n"
-"%(percent)d%% complete, help us improve!"
-msgstr ""
-"překládáme %(count)d řetězců do %(languages)d jazyků\n"
-"%(percent)d%% hotovo, pomozte nám se zlepšit!"
-
-#. Translators: text in the engagement widget, please use your language name instead of English
-#: trans/views/widgets.py:83
-#, python-format
-msgid ""
-"translating %(count)d strings into English\n"
-"%(percent)d%% complete, help us improve!"
-msgstr ""
-"překládáme %(count)d řetězců do češtiny\n"
-"%(percent)d%% hotovo, pomozte nám se zlepšit!"
-
-#. Translators: text in the engagement widget
-#: trans/views/widgets.py:123
-#, python-format
-msgid ""
-"translation\n"
-"%(percent)d%% done"
-msgstr ""
-"překládání\n"
-"%(percent)d%% hotovo"
-
-#. Translators: text in the engagement widget, please use your language name instead of English
-#: trans/views/widgets.py:125
-#, python-format
-msgid ""
-"English translation\n"
-"%(percent)d%% done"
-msgstr ""
-"český překlad\n"
-"%(percent)d%% hotovo"
 
 #: weblate/html/404.html:7
 msgid "The page you are looking for was not found."
