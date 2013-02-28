@@ -184,7 +184,7 @@ mail in case something goes wrong on the server, for example:
 Set correct site name
 +++++++++++++++++++++
 
-Sdjust site name in admin interface, otherwise links in RSS or registration
+Adjust site name in admin interface, otherwise links in RSS or registration
 emails will not work.
 
 .. seealso:: :ref:`faq-site`
@@ -271,7 +271,7 @@ Running server
 Running Weblate is not different from running any other Django based
 application.
 
-It is recommended to serve static files directly by your webserver, you should
+It is recommended to serve static files directly by your web server, you should
 use that for following paths:
 
 :file:`/media`
@@ -322,7 +322,7 @@ Prebuilt appliance
 ------------------
 
 Prebuilt appliance provides preconfigured Weblate running with MySQL database
-as backend and Apache as webserver. However it comes with standard set of
+as backend and Apache as web server. However it comes with standard set of
 passwords you will want to change:
 
 ======== ======== ======= ==================================================

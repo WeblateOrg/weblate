@@ -45,7 +45,7 @@ Translation format used in Qt based applications.
 Android string resources
 ------------------------
 
-Adroid specific file format for translating applications.
+Android specific file format for translating applications.
 
 .. seealso:: https://developer.android.com/guide/topics/resources/string-resource.html
 

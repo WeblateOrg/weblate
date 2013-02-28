@@ -98,7 +98,7 @@ Repoweb
 
     For example on GitHub, you would use something like ``https://github.com/nijel/weblate-hello/blob/%(branch)s/%(file)s#L%(line)s``. 
 Branch
-    Which brach to checkout from the Git and where to look for translations.
+    Which branch to checkout from the Git and where to look for translations.
 Filemask
     Mask of files to translate including path. It should include one *
     replacing language code. In case your Git repository contains more than one
@@ -112,7 +112,7 @@ Locked
     You can lock the translation to prevent updates by users.
 Allow translation propagation
     You can disable propagation of translations to this subproject from other
-    subprojects withing same project. This really depens on what you are
+    subprojects withing same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 
 .. note::
@@ -189,7 +189,7 @@ Pushing changes
 ---------------
 
 Each project can have configured push URL and in such case Weblate offers
-button to push changes to remote repo in web interface.
+button to push changes to remote repository in web interface.
 
 I case you will use SSH for pushing, you need to have key without passphrase
 (or use ssh-agent for Django) and the remote server needs to be verified by you
@@ -208,7 +208,7 @@ Merge or rebase
 ---------------
 
 By default Weblate merges upstream repository into it's own. This is safest way
-in case you also access underlaying repository by other means. In case you don't
+in case you also access underlying repository by other means. In case you don't
 need this, you can enable rebasing of changes on upstream, what will produce
 history with less merge commits.
 
@@ -245,7 +245,7 @@ Weblate uses privileges system based on Django. It defines following extra privi
 * Can upload translation [Users, Managers]
 * Can overwrite with translation upload [Users, Managers]
 * Can define author of translation upload  [Managers]
-* Can force commiting of translation [Managers]
+* Can force committing of translation [Managers]
 * Can update translation from git [Managers]
 * Can push translations to remote git [Managers]
 * Can do automatic translation using other project strings [Managers]
@@ -261,14 +261,14 @@ Weblate uses privileges system based on Django. It defines following extra privi
 * Can lock translation for translating [Users, Managers]
 
 The default setup (after you run :djadmin:`setupgroups`) consists
-of two groups `Users` and `Managers` which have privileges as descibed above.
+of two groups `Users` and `Managers` which have privileges as described above.
 All new users are automatically added to `Users` group.
 
 Additionally anonymous users are allowed to make suggestions to any translation.
 
 Basically `Users` are meant as regular translators and `Managers` for
 developers who need more control over the translation - they can force
-commiting changes to git, push changes upstream (if Weblate is configured to do
+committing changes to git, push changes upstream (if Weblate is configured to do
 so) or disable translation (eg. when there are some major changes happening
 upstream). 
 
@@ -311,7 +311,7 @@ Lazy commits
 
 Default behaviour (configured by :setting:`LAZY_COMMITS`) of Weblate is to group
 commits from same author into one if possible. This heavily reduces number of
-commits, however you might need to explicitely tell to do the commits in case
+commits, however you might need to explicitly tell to do the commits in case
 you want to get Git repository in sync, eg. for merge (this is by default
 allowed for Managers group, see :ref:`privileges`).
 
@@ -342,7 +342,7 @@ fragmented index.
 
 Offloaded indexing is always better choice for production setup - it only marks
 which items need to be reindexed and you need to schedule background process 
-(:djadmin:`update_index`) to update index. This leads to faster reponse of the
+(:djadmin:`update_index`) to update index. This leads to faster response of the
 site and less fragmented index with cost that it might be slightly outdated.
 
 .. seealso:: :djadmin:`update_index`, :setting:`OFFLOAD_INDEXING`, :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`

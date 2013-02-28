@@ -45,7 +45,7 @@ Czech language is shown as secondary:
 Subscriptions
 +++++++++++++
 
-You can subscribe to various notificatiosn on :guilabel:`Subscriptions` tab.
+You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
 You will receive notifications for selected events on chosen projects for
 languages you have indicated for translation (see above).
 
@@ -80,7 +80,7 @@ Add as translation
     Imported translations are added as translation. This is most usual and
     default behavior.
 Add as a suggestion
-    Imported translations are added as suggesions, do this when you want to
+    Imported translations are added as suggestions, do this when you want to
     review imported strings.
 Add as fuzzy translation
     Imported translations are added as fuzzy translations. This can be useful
@@ -207,7 +207,7 @@ Apertium
 ++++++++
 
 A free/open-source machine translation platform providing translation to
-limited set of lanugages.
+limited set of languages.
 
 .. seealso::
 
@@ -310,7 +310,7 @@ Trailing exclamation
 
 Source and translated do not both end with exclamation mark or it is not
 correctly spaced. This includes spacing rules for French or Breton.
-Exclamation mark is also check in various langauge variants (Chinese,
+Exclamation mark is also check in various language variants (Chinese,
 Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
 .. _check-end-ellipsis:
@@ -437,6 +437,6 @@ Ellipsis
 ~~~~~~~~
 
 The string uses three dots (...) instead of an ellipsis character (…). Using
-unicode character is in most cases better approach and looks better.
+Unicode character is in most cases better approach and looks better.
 
 .. seealso:: https://en.wikipedia.org/wiki/Ellipsis

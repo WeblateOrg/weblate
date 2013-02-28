@@ -47,28 +47,28 @@ cleanuptrans
 
 .. django-admin:: cleanuptrans
 
-Cleanups orphnaed checks and translation suggestions.
+Cleanups orphaned checks and translation suggestions.
 
 createadmin
 -----------
 
 .. django-admin:: createadmin
 
-Creates admin account with pasword admin.
+Creates ``admin`` account with password ``admin``.
 
 import_project <project> <gitrepo> <branch> <filemask>
 ------------------------------------------------------
 
 .. django-admin:: import_project
 
-Batch imports subprojects into project based on filemask.
+Batch imports subprojects into project based on file mask.
 
 `<project>` names an existing project, into which the subprojects should
 be imported.
 
 The `<gitrepo>` defines URL of Git repository to use, and `<branch>` the
 git branch.
-To import additional translation subprojects, from an existing weblate subproject,
+To import additional translation subprojects, from an existing Weblate subproject,
 use a `weblate://<project>/<subproject>` URL for the `<gitrepo>`.
 
 The repository is searched for directories matching a double wildcard

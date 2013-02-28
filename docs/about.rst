@@ -4,7 +4,7 @@ About Weblate
 Project goals
 -------------
 
-Web based translation with tight git intergration supporting wide range of file
+Web based translation with tight git integration supporting wide range of file
 formats and makes it easy for translators to contribute.
 
 The translations should be kept within same repository as source code and

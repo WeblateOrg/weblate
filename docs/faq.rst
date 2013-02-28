@@ -18,7 +18,7 @@ without interaction unless some merge conflict occurs.
 2. Set push URL at your :ref:`subproject` in Weblate, this will allow Weblate
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
-   Weblate push changes to your repo whenever they are commited at Weblate.
+   Weblate push changes to your repository whenever they are committed at Weblate.
 4. Optionally setup cron job for :djadmin:`commit_pending`.
 
 How to fix merge conflicts in translations?
@@ -56,7 +56,7 @@ There is nothing special about the repository, it lives under
 :setting:`GIT_ROOT` directory and is named as `project/subproject/`. If you
 have SSH access to this machine, you can use the repository directly.
 
-For anonymous acces you might want to run git server and let it serve the
+For anonymous access you might want to run git server and let it serve the
 repository to outside world.
 
 What are options of pushing changes back upstream?
@@ -114,7 +114,7 @@ provide feedback on source string or discuss it with other translators.
 Where do language definition come from and how can I add own?
 -------------------------------------------------------------
 
-Basic set of langauge definitions is included within Weblate and
+Basic set of language definitions is included within Weblate and
 Translate-toolkit. This covers more than 150 languages and includes information
 about used plural forms or text direction.
 
@@ -167,8 +167,8 @@ rebuild it from scratch time to time:
 I get "Lock Error" quite often while translating
 ------------------------------------------------
 
-This is usually caused by concurent updates to fulltext index. In case you are
-running multithreaded server (eg. mod_wsgi), this happens quite often. For such
+This is usually caused by concurrent updates to fulltext index. In case you are
+running multi threaded server (eg. mod_wsgi), this happens quite often. For such
 setup it is recommended to enable :setting:`OFFLOAD_INDEXING`.
 
 .. seealso:: :ref:`fulltext`
@@ -200,7 +200,7 @@ to work with anything else than Git, but somebody has to implement this support.
 How does Weblate credit translators?
 ------------------------------------
 
-Every change made in Weblate is commited into VCS under translators name. This
+Every change made in Weblate is committed into VCS under translators name. This
 way every single change has proper authorship and you can track it down using
 standard VCS tools you use for code.
 

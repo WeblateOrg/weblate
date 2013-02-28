@@ -8,7 +8,7 @@ Weblate's Web API
 Notification hooks
 ------------------
 
-Notification hooks allow external applications to notify weblate that Git
+Notification hooks allow external applications to notify Weblate that Git
 repository has been updated.
 
 .. describe:: GET /hooks/update/(string:project)/(string:subproject)/

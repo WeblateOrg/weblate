@@ -29,7 +29,7 @@ Released on January 23rd 2013.
 * Added per language widgets and engage page.
 * Improved translation locking handling.
 * Show code snippets for widgets in more variants.
-* Indicate failing checks or fuzzy strings in progressbars.
+* Indicate failing checks or fuzzy strings in progress bars.
 * More options for formatting commit message.
 * Fixed error handling with machine translation services.
 * Improved automatic translation locking behaviour.
