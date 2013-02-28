@@ -44,7 +44,7 @@ CSSLINT_CHECKED_FILES = (
 )
 
 JSHINT_CHECKED_FILES = (
-    os.path.join(WEB_ROOT, 'media/js/loader.js'),
+    os.path.join(WEB_ROOT, 'media/loader.js'),
 )
 
 PROJECT_APPS = (
