@@ -148,6 +148,12 @@ class SameCheck(TargetCheck):
         if len(source.strip('0123456789:/,.')) <= 1:
             return False
 
+        lower_source = source.lower()
+
+        # Skip copyright
+        if '(c) copyright' in lower_source or u'©' in source:
+            return False
+
         # Ignore strings which don't contain any string to translate
         if self.is_format_only(source, flags):
             return False
@@ -161,7 +167,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Ignore words which are often same in foreigh language
-        if source.lower().strip('_&: ') in SAME_BLACKLIST:
+        if lower_source.strip('_&: ') in SAME_BLACKLIST:
             return False
 
         return (source == target)

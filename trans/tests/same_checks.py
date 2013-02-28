@@ -49,3 +49,21 @@ class SameCheckTest(CheckTestCase):
 
     def test_same_numbers(self):
         self.do_test(False, ('1:4', '1:4', ''))
+
+    def test_same_copyright(self):
+        self.do_test(
+            False,
+            (
+                u'(c) Copyright 2013 Michal Čihař',
+                u'(c) Copyright 2013 Michal Čihař',
+                ''
+            )
+        )
+        self.do_test(
+            False,
+            (
+                u'© Copyright 2013 Michal Čihař',
+                u'© Copyright 2013 Michal Čihař',
+                ''
+            )
+        )
