@@ -135,6 +135,10 @@ class SameCheck(TargetCheck):
         if len(source) <= 1 and len(target) <= 1:
             return False
 
+        # Check special things like 1:4 1/2
+        if len(source.strip('0123456789:/,.')) <= 1:
+            return False
+
         # Ignore strings which don't contain any string to translate
         if self.is_format_only(source, flags):
             return False
