@@ -46,3 +46,6 @@ class SameCheckTest(CheckTestCase):
             None,
             0
         ))
+
+    def test_same_numbers(self):
+        self.do_test(False, ('1:4', '1:4', ''))
