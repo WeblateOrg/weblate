@@ -26,27 +26,37 @@ import importlib
 import __builtin__
 
 
+FILE_FORMATS = {}
+
+
+def register_fileformat(fileformat):
+    '''
+    Registers fileformat in dictionary.
+    '''
+    FILE_FORMATS[fileformat.format_id] = fileformat()
+
+
 class FileFormat(object):
     '''
-    Simple object defining file format loader.
+    Generic object defining file format loader.
     '''
-    def __init__(self, name, loader, monolingual=None, mark_fuzzy=False,
-                 fixups=None):
-        self.name = name
-        self.loader = loader
-        self.monolingual = monolingual
-        self.mark_fuzzy = mark_fuzzy
-        self.fixups = fixups
+    name = ''
+    format_id = ''
+    loader = None
+    monolingual = None
+    mark_fuzzy = None
+
+    def fixup(self, store):
+        '''
+        Performs optional fixups on store.
+        '''
+        return store
 
     def load(self, storefile):
         '''
         Loads file using defined loader.
         '''
         loader = self.loader
-
-        # If loader is callable call it directly
-        if callable(loader):
-            return loader(storefile)
 
         # Tuple style loader, import from translate toolkit
         module_name, class_name = loader
@@ -70,61 +80,98 @@ class FileFormat(object):
         # Parse file
         store = storeclass.parsefile(storefile)
 
-        # Apply possible fixups
-        if self.fixups is not None:
-            for fix in self.fixups:
-                setattr(store, fix, self.fixups[fix])
-
-        return store
+        # Apply possible fixups and return
+        return self.fixup(store)
 
 
-FILE_FORMATS = {
-    'auto': FileFormat(
-        _('Automatic detection'),
-        factory.getobject,
-    ),
-    'po': FileFormat(
-        _('Gettext PO file'),
-        ('po', 'pofile'),
-        False,
-    ),
-    'ts': FileFormat(
-        _('Qt Linguist Translation File'),
-        ('ts2', 'tsfile'),
-    ),
-    'xliff': FileFormat(
-        _('XLIFF Translation File'),
-        ('xliff', 'xlifffile'),
-    ),
-    'strings': FileFormat(
-        _('OS X Strings'),
-        ('properties', 'stringsfile'),
-        False,
-    ),
-    'properties': FileFormat(
-        _('Java Properties'),
-        ('properties', 'javafile'),
-        True,
-        # Java properties need to be iso-8859-1, but
-        # ttkit converts them to utf-8
-        fixups={'encoding': 'iso-8859-1'},
-    ),
-    'properties-utf8': FileFormat(
-        _('Java Properties (UTF-8)'),
-        ('properties', 'javautf8file'),
-        True,
-    ),
-    'php': FileFormat(
-        _('PHP strings'),
-        ('php', 'phpfile'),
-    ),
-    'aresource': FileFormat(
-        _('Android String Resource'),
-        ('aresource', 'AndroidResourceFile'),
-        True,
-        mark_fuzzy=True,
-    )
-}
+class AutoFormat(FileFormat):
+    name = _('Automatic detection')
+    format_id = 'auto'
+
+    def load(self, storefile):
+        '''
+        Directly loads using translate-toolkit.
+        '''
+        return factory.getobject(storefile)
+
+register_fileformat(AutoFormat)
+
+
+class PoFormat(FileFormat):
+    name = _('Gettext PO file')
+    format_id = 'po'
+    loader = ('po', 'pofile')
+    monolingual = False
+
+register_fileformat(PoFormat)
+
+
+class TSFormat(FileFormat):
+    name = _('Qt Linguist Translation File')
+    format_id = 'ts'
+    loader = ('ts2', 'tsfile')
+
+register_fileformat(TSFormat)
+
+
+class XliffFormat(FileFormat):
+    name = _('XLIFF Translation File')
+    format_id = 'xliff'
+    loader = ('xliff', 'xlifffile')
+
+register_fileformat(XliffFormat)
+
+
+class StringsFormat(FileFormat):
+    name = _('OS X Strings')
+    format_id = 'strings'
+    loader = ('properties', 'stringsfile')
+    monolingual = False
+
+register_fileformat(StringsFormat)
+
+
+class PropertiesFormat(FileFormat):
+    name = _('Java Properties')
+    format_id = 'properties'
+    loader = ('properties', 'javafile')
+    monolingual = True
+
+    def fixup(self, store):
+        '''
+        Java properties need to be iso-8859-1, but
+        ttkit converts them to utf-8.
+        '''
+        store.enncoding = 'iso-8859-1'
+
+register_fileformat(PropertiesFormat)
+
+
+class PropertiesUtf8Format(FileFormat):
+    name = _('Java Properties (UTF-8)')
+    format_id = 'properties-utf8'
+    loader = ('properties', 'javautf8file')
+    monolingual = 5
+
+register_fileformat(PropertiesUtf8Format)
+
+
+class PhpFormat(FileFormat):
+    name = _('PHP strings')
+    format_id = 'php'
+    loader = ('php', 'phpfile')
+
+register_fileformat(PhpFormat)
+
+
+class AndroidFormat(FileFormat):
+    name = _('Android String Resource')
+    format_id = 'aresource'
+    loader = ('aresource', 'AndroidResourceFile')
+    monolingual = True
+    mark_fuzzy = True
+
+register_fileformat(AndroidFormat)
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
 
