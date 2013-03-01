@@ -143,6 +143,7 @@ class PropertiesFormat(FileFormat):
         ttkit converts them to utf-8.
         '''
         store.encoding = 'iso-8859-1'
+        return store
 
 register_fileformat(PropertiesFormat)
 
