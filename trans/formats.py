@@ -33,7 +33,7 @@ def register_fileformat(fileformat):
     '''
     Registers fileformat in dictionary.
     '''
-    FILE_FORMATS[fileformat.format_id] = fileformat()
+    FILE_FORMATS[fileformat.format_id] = fileformat
 
 
 class FileFormat(object):
@@ -194,6 +194,6 @@ def ttkit(storefile, file_format='auto'):
         raise Exception('Not supported file format: %s' % file_format)
 
     # Get loader
-    format_obj = FILE_FORMATS[file_format]
+    format_obj = FILE_FORMATS[file_format]()
 
     return format_obj.load(storefile)
