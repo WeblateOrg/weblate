@@ -142,7 +142,7 @@ class PropertiesFormat(FileFormat):
         Java properties need to be iso-8859-1, but
         ttkit converts them to utf-8.
         '''
-        store.enncoding = 'iso-8859-1'
+        store.encoding = 'iso-8859-1'
 
 register_fileformat(PropertiesFormat)
 
@@ -151,7 +151,7 @@ class PropertiesUtf8Format(FileFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
-    monolingual = 5
+    monolingual = True
 
 register_fileformat(PropertiesUtf8Format)
 
