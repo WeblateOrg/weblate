@@ -144,30 +144,28 @@ class SameCheck(TargetCheck):
         return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
 
     def check_single(self, source, target, flags, language, unit, cache_slot):
-        # One letter things are usually labels or decimal/thousand separators
-        if len(source) <= 1 and len(target) <= 1:
-            return False
-
-        # Check special things like 1:4 1/2
-        if len(source.strip('0123456789:/,.')) <= 1:
-            return False
-
-        lower_source = source.lower()
-
-        # Skip copyright
-        if '(c) copyright' in lower_source or u'©' in source:
-            return False
-
-        # Ignore strings which don't contain any string to translate
-        if self.is_format_only(source, flags):
-            return False
-
         # English variants will have most things not translated
         if self.is_language(language, ['en']):
             return False
 
+        # One letter things are usually labels or decimal/thousand separators
+        if len(source) <= 1 and len(target) <= 1:
+            return False
+
         # Probably shortcut
         if source.isupper() and target.isupper():
+            return False
+
+        lower_source = source.lower()
+
+        # Check special things like 1:4 1/2 or copyright
+        if (len(source.strip('0123456789:/,.')) <= 1
+                or '(c) copyright' in lower_source
+                or u'©' in source):
+            return False
+
+        # Ignore strings which don't contain any string to translate
+        if self.is_format_only(source, flags):
             return False
 
         # Ignore words which are often same in foreigh language
