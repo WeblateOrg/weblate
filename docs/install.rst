@@ -55,6 +55,28 @@ All requirements are available either directly in openSUSE or in
     zypper install python-django python-django-registration translate-toolkit python-GitPython \
         python-whoosh python-cairo python-South python-gtk
 
+
+Requirements on OSX
+++++++++++++++++++++++++
+
+PyCairo and PyGtk are available to be installed using brew, all other requirements
+must be installed using pip as explained next. In a terminal:
+
+.. code-block:: sh
+
+    brew update
+    brew install py2cairo pygtk
+
+If your python was not installed using brew, make sure you have this in
+your .bash_profile file or executed somehow:
+
+.. code-block:: sh
+
+    export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+
+This configuration make available the installed libraries to python
+
+
 Requirements using pip installer
 ++++++++++++++++++++++++++++++++
 
