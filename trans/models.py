@@ -511,6 +511,7 @@ class SubProject(models.Model):
         )
         permissions = (
             ('lock_subproject', "Can lock translation for translating"),
+            ('can_see_git_repository', "Can see git repository URL"),
         )
 
     def __init__(self, *args, **kwargs):

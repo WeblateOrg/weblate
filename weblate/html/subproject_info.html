@@ -3,6 +3,7 @@
 {% with object.project as object %}
 {% include "project_info.html" %}
 {% endwith %}
+{% if perms.trans.can_see_git_repository %}
 <p>{% trans "Git repository:" %} 
 <code>{% if object.is_repo_link %}{{ object.linked_subproject.repo }}{% else %}{{ object.repo }}{% endif %}</code> (
 {% if object.is_repo_link %}
@@ -19,3 +20,4 @@
 )
 {% endif %}
 </p>
+{% endif %}

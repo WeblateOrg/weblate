@@ -412,6 +412,7 @@ def create_groups(update):
             Permission.objects.get(codename='change_dictionary'),
             Permission.objects.get(codename='delete_dictionary'),
             Permission.objects.get(codename='lock_translation'),
+            Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
         )
     group, created = Group.objects.get_or_create(name='Managers')
@@ -435,6 +436,7 @@ def create_groups(update):
             Permission.objects.get(codename='lock_subproject'),
             Permission.objects.get(codename='reset_translation'),
             Permission.objects.get(codename='lock_translation'),
+            Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
             Permission.objects.get(codename='delete_comment'),
         )
