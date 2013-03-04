@@ -239,6 +239,9 @@ class Profile(models.Model):
     def get_user_display(self):
         return get_user_display(self.user)
 
+    def get_user_display_link(self):
+        return get_user_display(self.user, True, True)
+
     def get_user_name(self):
         return get_user_display(self.user, False)
 
