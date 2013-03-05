@@ -84,7 +84,7 @@ Most requirements can be also installed using pip installer:
 
 .. code-block:: sh
 
-    pip install Django GitPython south django-registration whoosh translate-toolkit lxml
+    pip install -r requirements.txt
 
 However you need to get PyCairo and PyGtk for your platform elsewhere as they
 do not support this easy installation method. Check their website for options
