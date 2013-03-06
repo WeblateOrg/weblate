@@ -21,7 +21,7 @@
 from django.conf.urls import patterns, url
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import views as auth_views
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 from django.conf import settings
 
 from registration.views import activate, register
@@ -41,29 +41,23 @@ urlpatterns = patterns(
     ),
     url(
         r'^register/complete/$',
-        direct_to_template,
-        {
-            'template': 'registration/registration_complete.html',
-            'extra_context': {'title': _('User registration')},
-        },
+        TemplateView.as_view(
+            template_name='registration/registration_complete.html'
+        ),
         name='registration_complete'
     ),
     url(
         r'^register/closed/$',
-        direct_to_template,
-        {
-            'template': 'registration/registration_closed.html',
-            'extra_context': {'title': _('User registration')},
-        },
+        TemplateView.as_view(
+            template_name='registration/registration_closed.html'
+        ),
         name='registration_disallowed'
     ),
     url(
         r'^activate/complete/$',
-        direct_to_template,
-        {
-            'template': 'registration/activation_complete.html',
-            'extra_context': {'title': _('User registration')},
-        },
+        TemplateView.as_view(
+            template_name='registration/activation_complete.html',
+        ),
         name='registration_activation_complete'
     ),
     url(

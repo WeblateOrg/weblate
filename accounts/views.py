@@ -29,12 +29,26 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 
 from accounts.models import set_lang
 from trans.models import Change, Project
 from accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )
+
+
+class RegistrationTemplateView(TemplateView):
+    '''
+    Class for rendering registration pages.
+    '''
+    def get_context_data(**kwargs):
+        '''
+        Creates context for rendering page.
+        '''
+        context = super(RegistrationTemplateView, self).get_context_data(**kwargs)
+        context['title'] = _('User registration')
+        return context
 
 
 def mail_admins_sender(subject, message, sender, fail_silently=False,
