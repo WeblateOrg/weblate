@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-28 11:16+0100\n"
+"POT-Creation-Date: 2013-03-06 10:48+0100\n"
 "PO-Revision-Date: 2013-02-28 16:15+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -73,7 +73,8 @@ msgstr "Adgangskode (igen)"
 
 #: accounts/forms.py:146
 msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr "Gentag adgangskoden, så vi kan verificere at du indtastede det korrekt."
+msgstr ""
+"Gentag adgangskoden, så vi kan verificere at du indtastede det korrekt."
 
 #: accounts/forms.py:156
 msgid "Password needs to have at least six characters."
@@ -123,54 +124,53 @@ msgstr "Notifikation ved ny kommentar"
 msgid "Notification on merge failure"
 msgstr "Notifikation ved flette-fejl"
 
-#: accounts/models.py:387
+#: accounts/models.py:390
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Din profil er blevet overført, du kan evt. tilpasse præferencer."
 
-#: accounts/urls.py:38 accounts/urls.py:47 accounts/urls.py:56
-#: accounts/urls.py:65
+#: accounts/urls.py:38 accounts/views.py:50
 msgid "User registration"
 msgstr "Bruger-registrering"
 
-#: accounts/urls.py:75
+#: accounts/urls.py:69
 msgid "Account activation"
 msgstr "Aktivering af konto"
 
-#: accounts/urls.py:86 weblate/html/base.html:49
+#: accounts/urls.py:80 weblate/html/base.html:49
 #: weblate/html/registration/login.html:30
 msgid "Login"
 msgstr "Logind"
 
-#: accounts/urls.py:95
+#: accounts/urls.py:89
 msgid "Logged out"
 msgstr "Logget ud"
 
-#: accounts/urls.py:102
+#: accounts/urls.py:96
 msgid "Change password"
 msgstr "Skift adgangskode"
 
-#: accounts/urls.py:108
+#: accounts/urls.py:102
 msgid "Password changed"
 msgstr "Adgangskode er ændret"
 
-#: accounts/urls.py:114 accounts/urls.py:120 accounts/urls.py:126
-#: accounts/urls.py:132
+#: accounts/urls.py:108 accounts/urls.py:114 accounts/urls.py:120
+#: accounts/urls.py:126
 msgid "Password reset"
 msgstr "Nulstilling af adgangskode"
 
-#: accounts/views.py:98
+#: accounts/views.py:112
 msgid "Your profile has been updated."
 msgstr "Din profil er blevet opdateret."
 
-#: accounts/views.py:117
+#: accounts/views.py:131
 msgid "User profile"
 msgstr "Bruger-profil"
 
-#: accounts/views.py:141
+#: accounts/views.py:155
 msgid "Message has been sent to administrator."
 msgstr "Besked er sendt til administrator."
 
-#: accounts/views.py:155
+#: accounts/views.py:169
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -273,39 +273,39 @@ msgstr "Seneste ændringer i %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alle de seneste ændringer foretaget gennem Weblate i %s."
 
-#: trans/formats.py:83
+#: trans/formats.py:88
 msgid "Automatic detection"
 msgstr "Automatisk registrering"
 
-#: trans/formats.py:87
+#: trans/formats.py:101
 msgid "Gettext PO file"
 msgstr "Gettext PO-fil"
 
-#: trans/formats.py:92
+#: trans/formats.py:110
 msgid "Qt Linguist Translation File"
 msgstr "QT Lingust-oversættelsesfil"
 
-#: trans/formats.py:96
+#: trans/formats.py:118
 msgid "XLIFF Translation File"
 msgstr "XLIFF-oversættelsesfil"
 
-#: trans/formats.py:100
+#: trans/formats.py:126
 msgid "OS X Strings"
 msgstr "OS X-strenge"
 
-#: trans/formats.py:105
+#: trans/formats.py:135
 msgid "Java Properties"
 msgstr "Java-egenskaber"
 
-#: trans/formats.py:113
+#: trans/formats.py:152
 msgid "Java Properties (UTF-8)"
 msgstr "Java-egenskaber (UTF-8)"
 
-#: trans/formats.py:118
+#: trans/formats.py:161
 msgid "PHP strings"
 msgstr "PHP-strenge"
 
-#: trans/formats.py:122 ttkit/aresource.py:311
+#: trans/formats.py:169 ttkit/aresource.py:311
 msgid "Android String Resource"
 msgstr "Android-tekststreng-ressource"
 
@@ -818,8 +818,8 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
-"Henvisning til arkiv-browser, brug %(branch)s for forgrening, %(file)s og %"
-"(line)s som filnavn og pladsholdere for linjer."
+"Henvisning til arkiv-browser, brug %(branch)s for forgrening, %(file)s og "
+"%(line)s som filnavn og pladsholdere for linjer."
 
 #: trans/models/subproject.py:105
 msgid ""
@@ -995,8 +995,7 @@ msgstr "Mislykkedes med at lagre besked i motoren. Der opstod låst tidsudløb!"
 #: trans/models/unit.py:577
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
-"Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis "
-"beskadiget."
+"Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis beskadiget."
 
 #: trans/models/unit.py:714
 #, python-format
@@ -1173,8 +1172,8 @@ msgid ""
 "complete."
 msgstr ""
 "<a href=\"%(url)s\">Projektet med at oversætte %(project)s</a> til dansk "
-"indeholder i øjeblikket %(total)s strenge til oversættelse, og er %"
-"(percent)s komplet."
+"indeholder i øjeblikket %(total)s strenge til oversættelse, og er "
+"%(percent)s komplet."
 
 #: trans/views/basic.py:241
 #, python-format
@@ -1220,7 +1219,6 @@ msgstr "Importerede %d ord fra fil."
 
 #: trans/views/dictionary.py:138
 #, python-format
-#| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"
 msgstr "Filoverførsel mislykkedes: %s"
 
@@ -1438,8 +1436,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
-"Vi kan også hoste dit projekt, hvis du er interesseret så <a href=\"%"
-"(contact_url)s?subject=Project hosting\">kontakt os</a> venligst."
+"Vi kan også hoste dit projekt, hvis du er interesseret så <a href="
+"\"%(contact_url)s?subject=Project hosting\">kontakt os</a> venligst."
 
 #: weblate/html/about.html:25
 msgid ""
@@ -1528,8 +1526,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Mere information om dette tjek er tilgængeligt i <a href=\"%"
-"(link)s\">dokumentationen</a>."
+"Mere information om dette tjek er tilgængeligt i <a href=\"%(link)s"
+"\">dokumentationen</a>."
 
 #: weblate/html/check.html:26 weblate/html/check_project.html:26
 #: weblate/html/data.html:28 weblate/html/data.html.py:59
@@ -1803,8 +1801,8 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(project)s oversættes med brug af <a href=\"%(weblate_url)s\">Weblate</a>, et "
-"web-værktøj som er udviklet til at gøre oversættelse lettere, både for "
+"%(project)s oversættes med brug af <a href=\"%(weblate_url)s\">Weblate</a>, "
+"et web-værktøj som er udviklet til at gøre oversættelse lettere, både for "
 "udviklere og oversættere."
 
 #: weblate/html/engage.html:38
@@ -1813,8 +1811,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Hvis du vil bidrage til oversættelsen af %(project)s, så skal du <a href=\"%"
-"(reg_url)s\">tilmelde dig på denne server</a>."
+"Hvis du vil bidrage til oversættelsen af %(project)s, så skal du <a href="
+"\"%(reg_url)s\">tilmelde dig på denne server</a>."
 
 #: weblate/html/engage.html:41
 #, python-format
@@ -1822,8 +1820,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Når du har aktiveret din konto, så fortsæt blot til <a href=\"%(url)s\">overs"
-"ættelses-sektionen</a>."
+"Når du har aktiveret din konto, så fortsæt blot til <a href=\"%(url)s"
+"\">oversættelses-sektionen</a>."
 
 #: weblate/html/footer.html:6
 #, python-format
@@ -1884,7 +1882,8 @@ msgstr "De to felter med adgangskoder stemmer ikke overens."
 #: weblate/html/i18n.html:18
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr "Hold \"Ctrl\", eller \"Command\" på en Mac, nede for at vælge mere end et."
+msgstr ""
+"Hold \"Ctrl\", eller \"Command\" på en Mac, nede for at vælge mere end et."
 
 #: weblate/html/i18n.html:23
 msgid "Afrikaans"
@@ -2489,8 +2488,8 @@ msgid ""
 "software projects listed below. You need to be logged in for translating, "
 "otherwise you can only make suggestions."
 msgstr ""
-"Dette sted bruger <a href=\"%(weblate_url)s\">Weblate</a> til oversættelse af "
-"software-projekterne som vises nedenfor. Du skal være logget ind for at "
+"Dette sted bruger <a href=\"%(weblate_url)s\">Weblate</a> til oversættelse "
+"af software-projekterne som vises nedenfor. Du skal være logget ind for at "
 "oversætte, alternativt kan du kun give forslag."
 
 #: weblate/html/index.html:13 weblate/html/subproject.html:17
@@ -2737,8 +2736,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"Promovér dette oversættelsesprojekt via forskellige <a href=\"%"
-"(widgets_url)s\">andre muligheder</a>."
+"Promovér dette oversættelsesprojekt via forskellige <a href=\"%(widgets_url)s"
+"\">andre muligheder</a>."
 
 #: weblate/html/share.html:15
 #, python-format
@@ -2746,8 +2745,8 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
-"Der er forskellige <a href=\"%(data_url)s\">data-eksporter</a> tilgængelige i "
-"formater som kan maskinlæses."
+"Der er forskellige <a href=\"%(data_url)s\">data-eksporter</a> tilgængelige "
+"i formater som kan maskinlæses."
 
 #: weblate/html/source-review.html:9 weblate/html/source.html:8
 msgid "source"
@@ -2792,9 +2791,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Skulle dit sprog mangle, så tag venligst <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">kontakt  til "
-"os</a>."
+"Skulle dit sprog mangle, så tag venligst <a href=\"%(contact_url)s?"
+"subject=New+language+request+for+%(object)s\">kontakt  til os</a>."
 
 #: weblate/html/subproject.html:59
 msgid "Source strings review"
@@ -3067,8 +3065,8 @@ msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
 msgstr ""
-"Der er %(count)s strenge, hvoraf %(translated)s&#37; er oversat(te) og %"
-"(fuzzy)s&#37; er uklar(e)."
+"Der er %(count)s strenge, hvoraf %(translated)s&#37; er oversat(te) og "
+"%(fuzzy)s&#37; er uklar(e)."
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
@@ -3128,8 +3126,8 @@ msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"Du kan henvise nyankomne til introduktionssiden på <a href=\"%(engage_url)s\">"
-"%(engage_url)s</a>."
+"Du kan henvise nyankomne til introduktionssiden på <a href=\"%(engage_url)s"
+"\">%(engage_url)s</a>."
 
 #: weblate/html/widgets.html:22
 msgid "Promoting specific translations"
@@ -3229,8 +3227,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Viser ikke status fra sammenkædet arkiv. Tjek i stedet <a href=\"#%(slug)s\">%"
-"(repo)s</a>."
+"Viser ikke status fra sammenkædet arkiv. Tjek i stedet <a href=\"#%(slug)s\">"
+"%(repo)s</a>."
 
 #: weblate/html/admin/ssh.html:14
 msgid "Public SSH key"
@@ -3266,8 +3264,8 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
-"Du finder mere information om opsætning af SSH-nøgler i <a href=\"%"
-"(ssh_docs)s\">Weblate-manualen</a>."
+"Du finder mere information om opsætning af SSH-nøgler i <a href="
+"\"%(ssh_docs)s\">Weblate-manualen</a>."
 
 #: weblate/html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -3495,8 +3493,8 @@ msgid ""
 "%(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"%(username)s har netop foretaget det første bidrag til %(translation)s på %"
-"(site_title)s."
+"%(username)s har netop foretaget det første bidrag til %(translation)s på "
+"%(site_title)s."
 
 #: weblate/html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -3520,7 +3518,8 @@ msgstr "Ny strenge til oversættelse i %(translation)s"
 #, python-format
 msgid ""
 "there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
-msgstr "der er nye forslag til gennemgang på %(translation)s på %(site_title)s."
+msgstr ""
+"der er nye forslag til gennemgang på %(translation)s på %(site_title)s."
 
 #: weblate/html/mail/new_suggestion.html:29
 #: weblate/html/mail/new_suggestion.txt:9
@@ -3566,11 +3565,11 @@ msgid_plural ""
 "This may be because it is already active or because you waited over %(days)s "
 "days to activate it."
 msgstr[0] ""
-"Dette kan skyldes at den allerede er aktiv eller at du ventede mere end %"
-"(days)s dag med at aktivere den."
+"Dette kan skyldes at den allerede er aktiv eller at du ventede mere end "
+"%(days)s dag med at aktivere den."
 msgstr[1] ""
-"Dette kan skyldes at den allerede er aktiv eller at du ventede mere end %"
-"(days)s dage med at aktivere den."
+"Dette kan skyldes at den allerede er aktiv eller at du ventede mere end "
+"%(days)s dage med at aktivere den."
 
 #: weblate/html/registration/activate.html:12
 #, python-format
@@ -3579,9 +3578,9 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Hvis dette ikke er tilfældet, så tag venligst <a href=\"%"
-"(contact_url)s\">kontakt</a> til webstedets administrator. Alternativt skal "
-"du eventuelt <a href=\"%(reg_url)s\">tilmelde dig igen</a>."
+"Hvis dette ikke er tilfældet, så tag venligst <a href=\"%(contact_url)s"
+"\">kontakt</a> til webstedets administrator. Alternativt skal du eventuelt "
+"<a href=\"%(reg_url)s\">tilmelde dig igen</a>."
 
 #: weblate/html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -3591,7 +3590,8 @@ msgstr "Mange tak. Din konto er nu aktiveret."
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "Du ønsker evt. at <a href=\"%(profile_url)s\">tilpasse din profil</a> nu."
+msgstr ""
+"Du ønsker evt. at <a href=\"%(profile_url)s\">tilpasse din profil</a> nu."
 
 #: weblate/html/registration/activation_email.txt:1
 #, python-format
@@ -3766,8 +3766,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Beklager, men tilmelding til dette sted er deaktiveret. Du kan <a href=\"%"
-"(contact_url)s\">kontakte os</a> for at få flere detaljer."
+"Beklager, men tilmelding til dette sted er deaktiveret. Du kan <a href="
+"\"%(contact_url)s\">kontakte os</a> for at få flere detaljer."
 
 #: weblate/html/registration/registration_complete.html:7
 msgid ""
