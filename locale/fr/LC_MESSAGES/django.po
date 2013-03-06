@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-02-28 11:16+0100\n"
+"POT-Creation-Date: 2013-03-06 10:48+0100\n"
 "PO-Revision-Date: 2013-03-04 13:56+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -123,55 +123,54 @@ msgstr "Avis lors d'un nouveau commentaire"
 msgid "Notification on merge failure"
 msgstr "Aviser lors de l'échec d'une fusion"
 
-#: accounts/models.py:387
+#: accounts/models.py:390
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Votre profil a été migré, vous pourriez vouloir ajuster les préférences."
 
-#: accounts/urls.py:38 accounts/urls.py:47 accounts/urls.py:56
-#: accounts/urls.py:65
+#: accounts/urls.py:38 accounts/views.py:50
 msgid "User registration"
 msgstr "Enregistrement utilisateur"
 
-#: accounts/urls.py:75
+#: accounts/urls.py:69
 msgid "Account activation"
 msgstr "Activation du compte"
 
-#: accounts/urls.py:86 weblate/html/base.html:49
+#: accounts/urls.py:80 weblate/html/base.html:49
 #: weblate/html/registration/login.html:30
 msgid "Login"
 msgstr "Connexion"
 
-#: accounts/urls.py:95
+#: accounts/urls.py:89
 msgid "Logged out"
 msgstr "Déconnecté"
 
-#: accounts/urls.py:102
+#: accounts/urls.py:96
 msgid "Change password"
 msgstr "Modifier le mot de passe"
 
-#: accounts/urls.py:108
+#: accounts/urls.py:102
 msgid "Password changed"
 msgstr "Mot de passe modifié"
 
-#: accounts/urls.py:114 accounts/urls.py:120 accounts/urls.py:126
-#: accounts/urls.py:132
+#: accounts/urls.py:108 accounts/urls.py:114 accounts/urls.py:120
+#: accounts/urls.py:126
 msgid "Password reset"
 msgstr "Mot de passe réinitialisé"
 
-#: accounts/views.py:98
+#: accounts/views.py:112
 msgid "Your profile has been updated."
 msgstr "Votre profil a été mis à jour."
 
-#: accounts/views.py:117
+#: accounts/views.py:131
 msgid "User profile"
 msgstr "Profil d'utilisateur"
 
-#: accounts/views.py:141
+#: accounts/views.py:155
 msgid "Message has been sent to administrator."
 msgstr "Le message a été envoyé à l'administrateur."
 
-#: accounts/views.py:155
+#: accounts/views.py:169
 msgid "Contact"
 msgstr "Contact"
 
@@ -274,39 +273,39 @@ msgstr "Changements récents dans %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Tous les changements récents faits via Weblate dans %s."
 
-#: trans/formats.py:83
+#: trans/formats.py:88
 msgid "Automatic detection"
 msgstr "Détection automatique"
 
-#: trans/formats.py:87
+#: trans/formats.py:101
 msgid "Gettext PO file"
 msgstr "Fichier PO Gettext"
 
-#: trans/formats.py:92
+#: trans/formats.py:110
 msgid "Qt Linguist Translation File"
 msgstr "Fichier de traduction Qt Linguist"
 
-#: trans/formats.py:96
+#: trans/formats.py:118
 msgid "XLIFF Translation File"
 msgstr "Fichier de traduction XLIFF"
 
-#: trans/formats.py:100
+#: trans/formats.py:126
 msgid "OS X Strings"
 msgstr "Chaînes OS X"
 
-#: trans/formats.py:105
+#: trans/formats.py:135
 msgid "Java Properties"
 msgstr "Propriétés Java"
 
-#: trans/formats.py:113
+#: trans/formats.py:152
 msgid "Java Properties (UTF-8)"
 msgstr "Propriétés Java (UTF-8)"
 
-#: trans/formats.py:118
+#: trans/formats.py:161
 msgid "PHP strings"
 msgstr "Chaînes PHP"
 
-#: trans/formats.py:122 ttkit/aresource.py:311
+#: trans/formats.py:169 ttkit/aresource.py:311
 msgid "Android String Resource"
 msgstr "Ressource chaîne Android"
 
@@ -332,22 +331,18 @@ msgid "File"
 msgstr "Fichier"
 
 #: trans/forms.py:175 trans/forms.py:310
-#| msgid "Merge file header"
 msgid "Merge method"
 msgstr "Méthode de fusion"
 
 #: trans/forms.py:177
-#| msgid "Use this translation"
 msgid "Add as translation"
 msgstr "Ajouter comme traduction"
 
 #: trans/forms.py:178
-#| msgid "Invalid suggestion!"
 msgid "Add as a suggestion"
 msgstr "Ajouter comme suggestion"
 
 #: trans/forms.py:179
-#| msgid "Use this translation"
 msgid "Add as fuzzy translation"
 msgstr "Ajouter comme traduction floue"
 
@@ -449,7 +444,6 @@ msgid "Overwrite existing"
 msgstr "Écraser l'existant"
 
 #: trans/forms.py:314
-#| msgid "Use this translation"
 msgid "Add as other translation"
 msgstr "Ajouter comme autre traduction"
 
@@ -1243,7 +1237,6 @@ msgstr "%d mots importés depuis le fichier."
 
 #: trans/views/dictionary.py:138
 #, python-format
-#| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"
 msgstr "Échec d'envoi du fichier : %s"
 
