@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-03-06 10:48+0100\n"
-"PO-Revision-Date: 2013-03-01 16:26+0200\n"
+"PO-Revision-Date: 2013-03-07 15:45+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
 "Language: nl\n"
@@ -699,14 +699,18 @@ msgstr "Optioneel meervoud"
 #: trans/checks/source.py:36
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
+"De tekenreeks is optioneel gebruikt als meervoud, maar gebruikt geen "
+"meervoudsvormen"
 
 #: trans/checks/source.py:50
 msgid "Ellipsis"
-msgstr ""
+msgstr "Beletselteken (…)"
 
 #: trans/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
+"De tekenreeks gebruikt drie puntjes (...) in plaats van een beletselteken "
+"(…)"
 
 #: trans/models/project.py:46
 msgid "Use contact form"
@@ -850,9 +854,8 @@ msgid ""
 "translations which store only translated string like Android resource "
 "strings."
 msgstr ""
-"Bestandsnaam van template voor vertalingen, dit is aangewezen voor "
-"vertalingen die enkel de vertaalde tekenreeks opslaan, zoals Android "
-"hulpbrontekenreeksen."
+"Bestandsnaam van vertaalsjabloon, dit is aangewezen voor vertalingen die "
+"enkel de vertaalde tekenreeks opslaan, zoals Android hulpbrontekenreeksen."
 
 #: trans/models/subproject.py:137
 msgid "Automatic detection might fail for some formats and is slightly slower."
@@ -915,11 +918,14 @@ msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
+"Er is meer dan een bestand voor dezelfde taal, gelieve het selectiemasker "
+"aan te passen en subprojecten te gebruiken om verschillende bronnen te "
+"vertalen."
 
 #: trans/models/subproject.py:790
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr ""
+msgstr "Het formaat van %d overeenkomende bestanden werd niet herkend."
 
 #: trans/models/subproject.py:795
 #, python-format
@@ -928,11 +934,11 @@ msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
 
 #: trans/models/subproject.py:805
 msgid "Format of translation template could not be recognized."
-msgstr ""
+msgstr "Het formaat van de vertaalsjabloon werd niet herkend."
 
 #: trans/models/subproject.py:808
 msgid "Failed to parse translation template."
-msgstr "Verwerken van vertaaltemplate is mislukt."
+msgstr "Verwerken van vertaalsjabloon is mislukt."
 
 #: trans/models/translation.py:149
 #, python-format
@@ -940,11 +946,13 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Bestandsnaam %s niet gevonden in het repository! Om een nieuwe vertaling toe "
+"te voegen, voeg het taalbestand toe aan het repository."
 
 #: trans/models/translation.py:158
 #, python-format
 msgid "Format of %s could not be recognized."
-msgstr ""
+msgstr "Formaat van %s werd niet herkend."
 
 #: trans/models/translation.py:163
 #, python-format
@@ -988,19 +996,23 @@ msgstr "Tekenreeksen met suggesties (%d)"
 #: trans/models/unit.py:565
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
+"Opslaan van bericht in achterliggende databank is mislukt, een timeout is "
+"opgetreden!"
 
 #: trans/models/unit.py:577
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
+"Bericht niet gevonden in achterliggende opslagruimte, deze is waarschijnlijk "
+"beschadigd."
 
 #: trans/models/unit.py:714
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "eenheid-ID %s"
 
 #: trans/models/unitdata.py:225
 msgid "Resource update"
-msgstr ""
+msgstr "Aanpassen van de hulpbron"
 
 #: trans/models/unitdata.py:226
 msgid "Translation completed"
@@ -1025,11 +1037,11 @@ msgstr "Suggestie toegevoegd"
 #: trans/models/unitdata.py:249
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
-msgstr ""
+msgstr "Tab karakter"
 
 #: trans/templatetags/translations.py:123
 msgid "New line"
@@ -1065,8 +1077,8 @@ msgstr[1] "%(count)s weken geleden"
 #, python-format
 msgid "yesterday"
 msgid_plural "%(count)s days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "gisteren"
+msgstr[1] "%(count)s dagen geleden"
 
 #: trans/templatetags/translations.py:303
 #: trans/templatetags/translations.py:340
@@ -1119,8 +1131,8 @@ msgstr[1] "over %(count)s weken"
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "morgen"
+msgstr[1] "over %(count)s dagen"
 
 #: trans/templatetags/translations.py:343
 #, python-format
@@ -2844,7 +2856,7 @@ msgstr "Nieuwe regel toevoegen"
 
 #: weblate/html/translate.html:100
 msgid "Insert horizontal ellipsis"
-msgstr "Beletselteken (...) invoegen"
+msgstr "Beletselteken (…) invoegen"
 
 #: weblate/html/translate.html:116
 msgid "Suggestions"
