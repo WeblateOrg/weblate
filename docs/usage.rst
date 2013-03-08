@@ -168,6 +168,13 @@ which can be used to edit, import or export the glossary:
 
 .. image:: _static/glossary-edit.png
 
+Reports
+-------
+
+You can check activity reports for translations, project or individual users.
+
+.. image:: _static/activity.png
+
 Suggestions
 -----------
 
