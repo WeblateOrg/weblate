@@ -29,6 +29,26 @@ add Weblate as remote repository, merge it into upstream and fix conflicts.
 Once you push changes back, Weblate will be able to use merged version without
 any other special actions.
 
+.. code-block:: sh
+
+    # Add remote
+    git remote add weblate git://git.weblate.org/debian-handbook.git
+
+    # Update remotes
+    git remote update
+
+    # Merge Weblate changes
+    git merge weblate/master
+
+    # Resolve conflicts
+    edit ....
+    git add ...
+    ...
+    git commit
+
+    # Push changes to upstream respository, Weblate will fetch merge from there
+    git push
+
 .. seealso:: :ref:`git-export`
 
 How do I translate several branches at once?
