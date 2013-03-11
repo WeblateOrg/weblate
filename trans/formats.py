@@ -23,7 +23,7 @@ File format specific behavior.
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage import factory
-from trans.utils import get_source
+from trans.util import get_source
 import importlib
 import __builtin__
 
