@@ -97,6 +97,63 @@ class FileFormat(object):
         # Apply possible fixups and return
         return cls.fixup(store)
 
+    def __init__(self, storefile, template_store=None):
+        '''
+        Creates file format object, wrapping up translate-toolkit's
+        store.
+        '''
+        # Load store
+        self.store = self.load(storefile)
+        # Remember template
+        self.template_store = template_store
+
+    @property
+    def has_template(self):
+        '''
+        Checks whether class is using template.
+        '''
+        return (
+            (self.monolingual or self.monolingual is None)
+            and not self.template_store is None
+        )
+
+    def find_unit(self, context, source):
+        '''
+        Finds unit by context and source.
+
+        Returns tuple (pounit, created) indicating whether returned
+        unit is new one.
+        '''
+        if self.has_template:
+            # We search by ID when using template
+            pounit = self.store.findid(context)
+
+            if pounit is not None:
+                return (pounit, False)
+
+            # Need to create new unit based on template
+            pounit = self.template_store.findid(context)
+
+            if pounit is not None:
+                return (pounit, True)
+            add = True
+            found = pounit is not None
+        else:
+            # Find all units with same source
+            found_units = self.store.findunits(source)
+            if len(found_units) > 0:
+                for pounit in found_units:
+                    # Does context match?
+                    if pounit.getcontext() == context:
+                        return (pounit, False)
+            else:
+                # Fallback to manual find for value based files
+                for pounit in store.units:
+                    if get_source(pounit) == src:
+                        return (pounit, False)
+
+        return (None, False)
+
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
