@@ -152,7 +152,7 @@ class Translation(models.Model):
                 self.filename
             )
         try:
-            self.get_store()
+            self.load_store()
         except ValueError:
             raise ValidationError(
                 _('Format of %s could not be recognized.') %
@@ -388,15 +388,22 @@ class Translation(models.Model):
         '''
         return os.path.join(self.subproject.get_path(), self.filename)
 
-    def get_store(self):
+    def load_store(self):
         '''
-        Returns ttkit storage object for a translation.
+        Loads translate-toolkit storage from disk.
+        '''
+        return ttkit(
+            self.get_filename(),
+            self.subproject.file_format
+        )
+
+    @property
+    def store(self):
+        '''
+        Returns translate-toolkit storage object for a translation.
         '''
         if self._store is None:
-            self._store = ttkit(
-                self.get_filename(),
-                self.subproject.file_format
-            )
+            self._store = self.load_store()
         return self._store
 
     def check_sync(self):
@@ -436,7 +443,7 @@ class Translation(models.Model):
         # Position of current unit
         pos = 1
         # Load translation file
-        store = self.get_store()
+        store = self.store
         # Load translation template
         template_store = self.subproject.get_template_store()
         if template_store is None:
@@ -795,7 +802,7 @@ class Translation(models.Model):
         # Save with lock acquired
         with self.subproject.get_git_lock():
 
-            store = self.get_store()
+            store = self.store
             src = unit.get_source_plurals()[0]
             need_save = False
             found = False
@@ -992,7 +999,7 @@ class Translation(models.Model):
         # Merge with lock acquired
         with self.subproject.get_git_lock():
 
-            store1 = self.get_store()
+            store1 = self.store
             store1.require_index()
 
             for unit2 in store2.units:
