@@ -23,6 +23,7 @@ File format specific behavior.
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage import factory
+from trans.utils import get_source
 import importlib
 import __builtin__
 
@@ -137,8 +138,6 @@ class FileFormat(object):
 
             if pounit is not None:
                 return (pounit, True)
-            add = True
-            found = pounit is not None
         else:
             # Find all units with same source
             found_units = self.store.findunits(source)
@@ -149,8 +148,8 @@ class FileFormat(object):
                         return (pounit, False)
             else:
                 # Fallback to manual find for value based files
-                for pounit in store.units:
-                    if get_source(pounit) == src:
+                for pounit in self.store.units:
+                    if get_source(pounit) == source:
                         return (pounit, False)
 
         return (None, False)
