@@ -165,6 +165,14 @@ class FileFormat(object):
         else:
             self.store.addunit(pounit)
 
+    def update_header(self, **kwargs):
+        '''
+        Updates store header if available.
+        '''
+        if not hasattr(self.store, 'updateheader'):
+            return
+        self.store.updateheader(**kwargs)
+
     def save(self):
         '''
         Saves underlaying store to disk.
