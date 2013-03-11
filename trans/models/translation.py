@@ -869,30 +869,33 @@ class Translation(models.Model):
                         + poheader.tzstring()
                     )
 
+                    # Prepare headers to update
+                    headers = {
+                        'add': True,
+                        'last_translator': author,
+                        'plural_forms': self.language.get_plural_form(),
+                        'language': self.language_code,
+                        'PO_Revision_Date': po_revision_date,
+                        'x_generator': 'Weblate %s' % weblate.VERSION
+                    }
+
+                    # Optionally store language team with link to website
+                    if self.subproject.project.set_translation_team:
+                        headers['language_team'] = '%s <%s>' % (
+                            self.language.name,
+                            get_site_url(self.get_absolute_url()),
+                        )
+
+                    # Optionally store email for reporting bugs in source
+                    report_source_bugs = self.subproject.report_source_bugs
+                    if report_source_bugs != '':
+                        headers['report_msgid_bugs_to'] = report_source_bugs
+
                     # Update genric headers
                     store.updateheader(
-                        add=True,
-                        last_translator=author,
-                        plural_forms=self.language.get_plural_form(),
-                        language=self.language_code,
-                        PO_Revision_Date=po_revision_date,
-                        x_generator='Weblate %s' % weblate.VERSION
+                        **headers
                     )
 
-                    if self.subproject.project.set_translation_team:
-                        # Store language team with link to website
-                        store.updateheader(
-                            language_team='%s <%s>' % (
-                                self.language.name,
-                                get_site_url(self.get_absolute_url()),
-                            )
-                        )
-                        # Optionally store email for reporting bugs in source
-                        report_source_bugs = self.subproject.report_source_bugs
-                        if report_source_bugs != '':
-                            store.updateheader(
-                                report_msgid_bugs_to=report_source_bugs,
-                            )
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)
                 # save translation changes
