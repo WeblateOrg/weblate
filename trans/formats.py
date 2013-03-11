@@ -165,6 +165,12 @@ class FileFormat(object):
         else:
             self.store.addunit(pounit)
 
+    def save(self):
+        '''
+        Saves underlaying store to disk.
+        '''
+        self.store.save()
+
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
