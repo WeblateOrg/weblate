@@ -191,15 +191,3 @@ class AndroidFormat(FileFormat):
 register_fileformat(AndroidFormat)
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
-
-
-def ttkit(storefile, file_format='auto'):
-    '''
-    Returns translate-toolkit storage for a path.
-    '''
-
-    if not file_format in FILE_FORMATS:
-        raise Exception('Not supported file format: %s' % file_format)
-
-    # Actually load the file
-    return FILE_FORMATS[file_format].load(storefile)
