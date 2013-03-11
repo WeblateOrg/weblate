@@ -20,7 +20,7 @@
 
 from django.db import models
 from lang.models import Language
-from trans.formats import ttkit
+from trans.formats import AutoFormat
 from trans.models.project import Project
 
 
@@ -31,8 +31,8 @@ class DictionaryManager(models.Manager):
         '''
         ret = 0
 
-        # Load file using ttkit
-        store = ttkit(fileobj)
+        # Load file using translate-toolkit
+        store = AutoFormat.load(fileobj)
 
         # process all units
         for unit in store.units:

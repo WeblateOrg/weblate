@@ -46,20 +46,33 @@ class FileFormat(object):
     monolingual = None
     mark_fuzzy = None
 
-    def fixup(self, store):
+    @classmethod
+    def fixup(cls, store):
         '''
         Performs optional fixups on store.
         '''
         return store
 
-    def load(self, storefile):
+    @classmethod
+    def load(cls, storefile):
         '''
         Loads file using defined loader.
         '''
-        loader = self.loader
+        # Workaround for _ created by interactive interpreter and
+        # later used instead of gettext by ttkit
+        if '_' in __builtin__.__dict__ and not callable(__builtin__.__dict__['_']):
+            del __builtin__.__dict__['_']
 
+        # Add missing mode attribute to Django file wrapper
+        if not isinstance(storefile, basestring):
+            storefile.mode = 'r'
+
+        return cls.parse_store(storefile)
+
+    @classmethod
+    def parse_store(cls, storefile):
         # Tuple style loader, import from translate toolkit
-        module_name, class_name = loader
+        module_name, class_name = cls.loader
         if '.' in module_name:
             module = importlib.import_module(module_name)
         else:
@@ -81,14 +94,15 @@ class FileFormat(object):
         store = storeclass.parsefile(storefile)
 
         # Apply possible fixups and return
-        return self.fixup(store)
+        return cls.fixup(store)
 
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
     format_id = 'auto'
 
-    def load(self, storefile):
+    @classmethod
+    def parse_store(cls, storefile):
         '''
         Directly loads using translate-toolkit.
         '''
@@ -137,7 +151,8 @@ class PropertiesFormat(FileFormat):
     loader = ('properties', 'javafile')
     monolingual = True
 
-    def fixup(self, store):
+    @classmethod
+    def fixup(cls, store):
         '''
         Java properties need to be iso-8859-1, but
         ttkit converts them to utf-8.
@@ -182,19 +197,8 @@ def ttkit(storefile, file_format='auto'):
     Returns translate-toolkit storage for a path.
     '''
 
-    # Workaround for _ created by interactive interpreter and
-    # later used instead of gettext by ttkit
-    if '_' in __builtin__.__dict__ and not callable(__builtin__.__dict__['_']):
-        del __builtin__.__dict__['_']
-
-    # Add missing mode attribute to Django file wrapper
-    if not isinstance(storefile, basestring):
-        storefile.mode = 'r'
-
     if not file_format in FILE_FORMATS:
         raise Exception('Not supported file format: %s' % file_format)
 
-    # Get loader
-    format_obj = FILE_FORMATS[file_format]()
-
-    return format_obj.load(storefile)
+    # Actually load the file
+    return FILE_FORMATS[file_format].load(storefile)
