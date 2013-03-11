@@ -921,7 +921,8 @@ class SubProject(models.Model):
             self.get_template_filename(),
         )
 
-    def get_template_store(self):
+    @property
+    def template_store(self):
         '''
         Gets translate-toolkit store for template.
         '''

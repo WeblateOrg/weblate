@@ -445,7 +445,7 @@ class Translation(models.Model):
         # Load translation file
         store = self.store
         # Load translation template
-        template_store = self.subproject.get_template_store()
+        template_store = self.subproject.template_store
         if template_store is None:
             for unit in store.units:
                 # We care only about translatable strings
@@ -815,7 +815,7 @@ class Translation(models.Model):
                     found = True
                 else:
                     # Need to create new unit based on template
-                    template_store = self.subproject.get_template_store()
+                    template_store = self.subproject.template_store
                     pounit = template_store.findid(unit.context)
                     add = True
                     found = pounit is not None
