@@ -178,6 +178,31 @@ class FileFormat(object):
         '''
         self.store.save()
 
+    @property
+    def mimetype(self):
+        '''
+        Returns most common mime type for format.
+        '''
+        if self.store.Mimetypes is None:
+            # Properties files do not expose mimetype
+            return 'text/plain'
+        else:
+            return self.store.Mimetypes[0]
+
+    @property
+    def extension(self):
+        '''
+        Returns most common file extension for format.
+        '''
+        if self.store.Extensions is None:
+            # Typo in translate-toolkit 1.9, see
+            # https://github.com/translate/translate/pull/10
+            if hasattr(self.store, 'Exensions'):
+                return self.store.Exensions[0]
+            else:
+                return 'txt'
+        else:
+            return self.store.Extensions[0]
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
