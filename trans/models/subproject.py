@@ -792,10 +792,9 @@ class SubProject(models.Model):
                 ))
 
             # Validate template
-            if self.template != '':
-                template = self.get_template_filename()
+            if self.has_template():
                 try:
-                    self.file_format_cls.load(template)
+                    self.load_template_store()
                 except ValueError:
                     raise ValidationError(_('Format of translation template could not be recognized.'))
                 except Exception as e:
@@ -807,6 +806,9 @@ class SubProject(models.Model):
             pass
 
     def get_template_filename(self):
+        '''
+        Creates absolute filename for template.
+        '''
         return os.path.join(self.get_path(), self.template)
 
     def save(self, *args, **kwargs):
@@ -911,6 +913,14 @@ class SubProject(models.Model):
         '''
         return self.file_format_cls.mark_fuzzy
 
+    def load_template_store(self):
+        '''
+        Loads translate-toolkit store for template.
+        '''
+        return self.file_format_cls.load(
+            self.get_template_filename(),
+        )
+
     def get_template_store(self):
         '''
         Gets translate-toolkit store for template.
@@ -920,9 +930,7 @@ class SubProject(models.Model):
             return None
 
         if self._template_store is None:
-            self._template_store = self.file_format_cls.load(
-                self.get_template_filename(),
-            )
+            self._template_store = self.load_template_store()
 
         return self._template_store
 
