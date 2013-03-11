@@ -31,7 +31,6 @@ from django.core.urlresolvers import reverse
 import os.path
 import logging
 import git
-from translate.storage.lisa import LISAfile
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -393,8 +392,9 @@ class Translation(models.Model):
         '''
         Loads translate-toolkit storage from disk.
         '''
-        return self.subproject.file_format_cls.load(
-            self.get_filename()
+        return self.subproject.file_format_cls(
+            self.get_filename(),
+            self.subproject.template_store
         )
 
     @property
@@ -442,12 +442,9 @@ class Translation(models.Model):
         was_new = False
         # Position of current unit
         pos = 1
-        # Load translation file
-        store = self.store
-        # Load translation template
-        template_store = self.subproject.template_store
-        if template_store is None:
-            for unit in store.units:
+
+        if not self.store.has_template:
+            for unit in self.store.store.units:
                 # We care only about translatable strings
                 if not is_translatable(unit):
                     continue
@@ -461,11 +458,11 @@ class Translation(models.Model):
                 except:
                     pass
         else:
-            for template_unit in template_store.units:
+            for template_unit in self.store.template_store.units:
                 # We care only about translatable strings
                 if not is_translatable(template_unit):
                     continue
-                unit = store.findid(template_unit.getid())
+                unit = self.store.store.findid(template_unit.getid())
                 newunit, is_new = Unit.objects.update_from_unit(
                     self, unit, pos, template=template_unit
                 )
@@ -802,42 +799,14 @@ class Translation(models.Model):
         # Save with lock acquired
         with self.subproject.get_git_lock():
 
-            store = self.store
             src = unit.get_source_plurals()[0]
             need_save = False
-            found = False
             add = False
 
-            if self.subproject.has_template():
-                # We search by ID when using template
-                pounit = store.findid(unit.context)
-                if pounit is not None:
-                    found = True
-                else:
-                    # Need to create new unit based on template
-                    template_store = self.subproject.template_store
-                    pounit = template_store.findid(unit.context)
-                    add = True
-                    found = pounit is not None
-            else:
-                # Find all units with same source
-                found_units = store.findunits(src)
-                if len(found_units) > 0:
-                    for pounit in found_units:
-                        # Does context match?
-                        if pounit.getcontext() == unit.context:
-                            # We should have only one match
-                            found = True
-                            break
-                else:
-                    # Fallback to manual find for value based files
-                    for pounit in store.units:
-                        if get_source(pounit) == src:
-                            found = True
-                            break
+            pounit, add = self.store.find_unit(unit.context, src)
 
             # Bail out if we have not found anything
-            if not found:
+            if pounit is None:
                 return False, None
 
             # Detect changes
@@ -851,11 +820,7 @@ class Translation(models.Model):
                 pounit.markfuzzy(unit.fuzzy)
                 # Optionally add unit to translation file
                 if add:
-                    if isinstance(store, LISAfile):
-                        # LISA based stores need to know this
-                        store.addunit(pounit, new=True)
-                    else:
-                        store.addunit(pounit)
+                    self.store.add_unit(pounit)
                 # We need to update backend
                 need_save = True
 
@@ -863,43 +828,42 @@ class Translation(models.Model):
             if need_save:
                 author = self.get_author_name(request.user)
                 # Update po file header
-                if hasattr(store, 'updateheader'):
-                    po_revision_date = (
-                        datetime.now().strftime('%Y-%m-%d %H:%M')
-                        + poheader.tzstring()
+                po_revision_date = (
+                    datetime.now().strftime('%Y-%m-%d %H:%M')
+                    + poheader.tzstring()
+                )
+
+                # Prepare headers to update
+                headers = {
+                    'add': True,
+                    'last_translator': author,
+                    'plural_forms': self.language.get_plural_form(),
+                    'language': self.language_code,
+                    'PO_Revision_Date': po_revision_date,
+                    'x_generator': 'Weblate %s' % weblate.VERSION
+                }
+
+                # Optionally store language team with link to website
+                if self.subproject.project.set_translation_team:
+                    headers['language_team'] = '%s <%s>' % (
+                        self.language.name,
+                        get_site_url(self.get_absolute_url()),
                     )
 
-                    # Prepare headers to update
-                    headers = {
-                        'add': True,
-                        'last_translator': author,
-                        'plural_forms': self.language.get_plural_form(),
-                        'language': self.language_code,
-                        'PO_Revision_Date': po_revision_date,
-                        'x_generator': 'Weblate %s' % weblate.VERSION
-                    }
+                # Optionally store email for reporting bugs in source
+                report_source_bugs = self.subproject.report_source_bugs
+                if report_source_bugs != '':
+                    headers['report_msgid_bugs_to'] = report_source_bugs
 
-                    # Optionally store language team with link to website
-                    if self.subproject.project.set_translation_team:
-                        headers['language_team'] = '%s <%s>' % (
-                            self.language.name,
-                            get_site_url(self.get_absolute_url()),
-                        )
-
-                    # Optionally store email for reporting bugs in source
-                    report_source_bugs = self.subproject.report_source_bugs
-                    if report_source_bugs != '':
-                        headers['report_msgid_bugs_to'] = report_source_bugs
-
-                    # Update genric headers
-                    store.updateheader(
-                        **headers
-                    )
+                # Update genric headers
+                self.store.update_header(
+                    **headers
+                )
 
                 # commit possible previous changes (by other author)
                 self.commit_pending(author)
                 # save translation changes
-                store.save()
+                self.store.save()
                 # commit Git repo if needed
                 self.git_commit(author, timezone.now(), sync=True)
 
@@ -1002,7 +966,7 @@ class Translation(models.Model):
         # Merge with lock acquired
         with self.subproject.get_git_lock():
 
-            store1 = self.store
+            store1 = self.store.store
             store1.require_index()
 
             for unit2 in store2.units:
