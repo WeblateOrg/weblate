@@ -30,11 +30,7 @@ import os
 import os.path
 import logging
 import git
-from trans.formats import (
-    FILE_FORMAT_CHOICES,
-    FILE_FORMATS,
-    ttkit
-)
+from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
 from trans.filelock import FileLock
 from trans.util import is_repo_link
@@ -777,9 +773,8 @@ class SubProject(models.Model):
             errors = []
             for match in matches:
                 try:
-                    ttkit(
+                    self.file_format_cls.load(
                         os.path.join(self.get_path(), match),
-                        self.file_format
                     )
                 except ValueError:
                     notrecognized.append(match)
@@ -800,7 +795,7 @@ class SubProject(models.Model):
             if self.template != '':
                 template = self.get_template_filename()
                 try:
-                    ttkit(template, self.file_format)
+                    self.file_format_cls.load(template)
                 except ValueError:
                     raise ValidationError(_('Format of translation template could not be recognized.'))
                 except Exception as e:
@@ -918,16 +913,15 @@ class SubProject(models.Model):
 
     def get_template_store(self):
         '''
-        Gets ttkit store for template.
+        Gets translate-toolkit store for template.
         '''
         # Do we need template?
         if not self.has_template():
             return None
 
         if self._template_store is None:
-            self._template_store = ttkit(
+            self._template_store = self.file_format_cls.load(
                 self.get_template_filename(),
-                self.file_format
             )
 
         return self._template_store
