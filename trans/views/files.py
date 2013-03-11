@@ -33,13 +33,6 @@ import os.path
 logger = logging.getLogger('weblate')
 
 
-# See https://code.djangoproject.com/ticket/6027
-class FixedFileWrapper(FileWrapper):
-    def __iter__(self):
-        self.filelike.seek(0)
-        return self
-
-
 def download_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
@@ -67,14 +60,14 @@ def download_translation(request, project, subproject, lang):
     # that useful)
     filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
 
-    # Django wrapper for sending file
-    wrapper = FixedFileWrapper(file(srcfilename))
-
-    response = HttpResponse(wrapper, mimetype=mime)
+    # Create response
+    response = HttpResponse(
+        file(srcfilename).read(),
+        mimetype=mime
+    )
 
     # Fill in response headers
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
-    response['Content-Length'] = os.path.getsize(srcfilename)
 
     return response
 
