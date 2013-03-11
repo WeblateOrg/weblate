@@ -24,6 +24,7 @@ Tests for management commands.
 
 from trans.tests.models import RepoTestCase
 from django.core.management import call_command
+from django.core.management.base import CommandError
 import django
 from trans.search import flush_index
 
