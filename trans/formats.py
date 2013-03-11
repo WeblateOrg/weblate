@@ -21,6 +21,7 @@
 File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
+from translate.storage.lisa import LISAfile
 from translate.storage import factory
 import importlib
 import __builtin__
@@ -153,6 +154,16 @@ class FileFormat(object):
                         return (pounit, False)
 
         return (None, False)
+
+    def add_unit(self, pounit):
+        '''
+        Adds new unit to underlaying store.
+        '''
+        if isinstance(self.store, LISAfile):
+            # LISA based stores need to know this
+            self.store.addunit(pounit, new=True)
+        else:
+            self.store.addunit(pounit)
 
 
 class AutoFormat(FileFormat):
