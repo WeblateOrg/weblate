@@ -37,7 +37,7 @@ from datetime import datetime, timedelta
 
 import weblate
 from lang.models import Language
-from trans.formats import ttkit
+from trans.formats import AutoFormat
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
@@ -141,7 +141,8 @@ class Translation(models.Model):
 
     def clean(self):
         '''
-        Validates that filename exists and can be opened using ttkit.
+        Validates that filename exists and can be opened using
+        translate-toolkit.
         '''
         if not os.path.exists(self.get_filename()):
             raise ValidationError(
@@ -392,9 +393,8 @@ class Translation(models.Model):
         '''
         Loads translate-toolkit storage from disk.
         '''
-        return ttkit(
-            self.get_filename(),
-            self.subproject.file_format
+        return self.subproject.file_format_cls.load(
+            self.get_filename()
         )
 
     @property
@@ -994,7 +994,7 @@ class Translation(models.Model):
 
     def merge_store(self, author, store2, overwrite, merge_header, add_fuzzy):
         '''
-        Merges ttkit store into current translation.
+        Merges translate-toolkit store into current translation.
         '''
         # Merge with lock acquired
         with self.subproject.get_git_lock():
@@ -1045,7 +1045,7 @@ class Translation(models.Model):
 
     def merge_suggestions(self, request, store):
         '''
-        Merges contect of ttkit store as a suggestions.
+        Merges contect of translate-toolkit store as a suggestions.
         '''
         from trans.models.unitdata import Suggestion
         ret = False
@@ -1087,9 +1087,13 @@ class Translation(models.Model):
         '''
         # Load backend file
         try:
-            store = ttkit(fileobj)
+            # First try using own loader
+            store = self.subproject.file_format_cls.load(
+                fileobj
+            )
         except:
-            store = ttkit(fileobj, self.subproject.file_format)
+            # Fallback to automatic detection
+            store = AutoFormat.load(fileobj)
 
         # Optionally set authorship
         if author is None:
