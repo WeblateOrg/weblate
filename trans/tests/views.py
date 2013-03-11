@@ -28,6 +28,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
+import cairo
+from cStringIO import StringIO
 
 
 class ViewTestCase(RepoTestCase):
@@ -94,6 +96,17 @@ class ViewTestCase(RepoTestCase):
         unit = self.get_unit()
         unit.target = target
         unit.save_backend(self.get_request('/'))
+
+    def assertPNG(self, response):
+        '''
+        Checks whether response contains valid PNG image.
+        '''
+        # Check response status code
+        self.assertEqual(response.status_code, 200)
+        # Try to load PNG with Cairo
+        cairo.ImageSurface.create_from_png(
+            StringIO(response.content)
+        )
 
 
 class BasicViewTest(ViewTestCase):
