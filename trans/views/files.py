@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -28,7 +27,6 @@ from trans.forms import UploadForm, SimpleUploadForm, ExtraUploadForm
 from trans.views.helper import get_translation
 
 import logging
-import os.path
 
 logger = logging.getLogger('weblate')
 
