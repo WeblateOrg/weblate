@@ -60,7 +60,8 @@ class FileFormat(object):
         '''
         # Workaround for _ created by interactive interpreter and
         # later used instead of gettext by ttkit
-        if '_' in __builtin__.__dict__ and not callable(__builtin__.__dict__['_']):
+        if ('_' in __builtin__.__dict__
+                and not callable(__builtin__.__dict__['_'])):
             del __builtin__.__dict__['_']
 
         # Add missing mode attribute to Django file wrapper
