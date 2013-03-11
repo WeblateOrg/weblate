@@ -204,6 +204,7 @@ class FileFormat(object):
         else:
             return self.store.Extensions[0]
 
+
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
     format_id = 'auto'
