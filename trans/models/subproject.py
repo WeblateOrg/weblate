@@ -890,7 +890,8 @@ class SubProject(models.Model):
     def git_needs_push(self):
         return self.git_check_merge('origin/%s..' % self.branch)
 
-    def get_file_format(self):
+    @property
+    def file_format_cls(self):
         '''
         Returns file format object.
         '''
@@ -902,7 +903,7 @@ class SubProject(models.Model):
         '''
         Returns true if subproject is using template for translation
         '''
-        monolingual = self.get_file_format().monolingual
+        monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None)
             and self.template != ''
@@ -913,7 +914,7 @@ class SubProject(models.Model):
         '''
         Returns whether we're handling fuzzy mark in the database.
         '''
-        return self.get_file_format().mark_fuzzy
+        return self.file_format_cls.mark_fuzzy
 
     def get_template_store(self):
         '''
