@@ -208,6 +208,18 @@ class FileUnit(object):
         '''
         return self.mainunit.istranslatable() and not self.mainunit.isblank()
 
+    def set_target(self, target):
+        '''
+        Sets translation unit target.
+        '''
+        self.unit.settarget(target)
+
+    def mark_fuzzy(self, fuzzy):
+        '''
+        Sets fuzzy flag on translated unit.
+        '''
+        self.unit.markfuzzy(fuzzy)
+
 
 class FileFormat(object):
     '''
@@ -298,17 +310,18 @@ class FileFormat(object):
         unit is new one.
         '''
         if self.has_template:
+            # Need to create new unit based on template
+            template_pounit = self.template_store.findid(context)
             # We search by ID when using template
             pounit = self.store.findid(context)
+            # We always need new unit to translate
+            if pounit is None:
+                pounit = template_pounit
+                add = True
+            else:
+                add = False
 
-            if pounit is not None:
-                return (pounit, False)
-
-            # Need to create new unit based on template
-            pounit = self.template_store.findid(context)
-
-            if pounit is not None:
-                return (pounit, True)
+            return (FileUnit(pounit, template_pounit), add)
         else:
             # Find all units with same source
             found_units = self.store.findunits(source)
@@ -316,12 +329,12 @@ class FileFormat(object):
                 for pounit in found_units:
                     # Does context match?
                     if pounit.getcontext() == context:
-                        return (pounit, False)
+                        return (FileUnit(pounit), False)
             else:
                 # Fallback to manual find for value based files
                 for pounit in self.store.units:
                     if get_source(pounit) == source:
-                        return (pounit, False)
+                        return (FileUnit(pounit), False)
 
         return (None, False)
 
@@ -331,9 +344,9 @@ class FileFormat(object):
         '''
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
-            self.store.addunit(pounit, new=True)
+            self.store.addunit(pounit.unit, new=True)
         else:
-            self.store.addunit(pounit)
+            self.store.addunit(pounit.unit)
 
     def update_header(self, **kwargs):
         '''

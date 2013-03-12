@@ -789,14 +789,14 @@ class Translation(models.Model):
                 return False, None
 
             # Detect changes
-            if unit.target != get_target(pounit) or unit.fuzzy != pounit.isfuzzy():
+            if unit.target != pounit.get_target() or unit.fuzzy != pounit.is_fuzzy():
                 # Store translations
                 if unit.is_plural():
-                    pounit.settarget(unit.get_target_plurals())
+                    pounit.set_target(unit.get_target_plurals())
                 else:
-                    pounit.settarget(unit.target)
+                    pounit.set_target(unit.target)
                 # Update fuzzy flag
-                pounit.markfuzzy(unit.fuzzy)
+                pounit.mark_fuzzy(unit.fuzzy)
                 # Optionally add unit to translation file
                 if add:
                     self.store.add_unit(pounit)
