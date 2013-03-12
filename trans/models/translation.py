@@ -951,7 +951,7 @@ class Translation(models.Model):
 
             for unit2 in store2.all_units():
                 # No translated -> skip
-                if not unit.is_translated():
+                if not unit2.is_translated():
                     continue
 
                 # Optionally merge header
