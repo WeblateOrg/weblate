@@ -449,10 +449,8 @@ class Translation(models.Model):
             )
             was_new = was_new or (is_new and not newunit.translated)
             pos += 1
-            try:
+            if not is_new:
                 oldunits.remove(newunit.id)
-            except:
-                pass
 
         # Delete not used units
         units_to_delete = Unit.objects.filter(
