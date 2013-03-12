@@ -42,7 +42,7 @@ from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import (
     msg_checksum, get_source, get_target, get_context,
-    is_translated, is_translatable, get_user_display,
+    is_translated,  get_user_display,
     get_site_url, sleep_while_git_locked,
 )
 
