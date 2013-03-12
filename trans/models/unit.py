@@ -78,7 +78,7 @@ class UnitManager(models.Manager):
             created = True
 
         # Update all details
-        dbunit.update_from_unit(unit, pos, created )
+        dbunit.update_from_unit(unit, pos, created)
 
         # Return result
         return dbunit, created
