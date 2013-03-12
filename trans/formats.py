@@ -140,8 +140,6 @@ class FileUnit(object):
         Returns context of message. In some cases we have to use
         ID here to make all backends consistent.
         '''
-        if self.unit is None:
-            return ''
         context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
             return self.mainunit.getid()
