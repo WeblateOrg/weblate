@@ -442,7 +442,10 @@ class Translation(models.Model):
         # Position of current unit
         pos = 1
 
-        for unit in self.store.translatable_units():
+        for unit in self.store.all_units():
+            if not unit.is_translatable():
+                continue
+
             newunit, is_new = Unit.objects.update_from_unit(
                 self, unit, pos
             )
@@ -996,10 +999,10 @@ class Translation(models.Model):
         '''
         from trans.models.unitdata import Suggestion
         ret = False
-        for unit in store.translatable_units():
+        for unit in store.all_units():
 
             # Skip headers or not translated
-            if not unit.is_translated():
+            if not unit.is_translatable() or not unit.is_translated():
                 continue
 
             # Indicate something new

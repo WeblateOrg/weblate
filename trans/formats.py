@@ -363,35 +363,23 @@ class FileFormat(object):
         '''
         self.store.save()
 
-    def translatable_units(self):
+    def all_units(self):
         '''
-        Generator of translatable units.
+        Generator of all units.
         '''
         if not self.has_template:
             for tt_unit in self.store.units:
 
                 # Create wrapper object
-                unit = FileUnit(tt_unit)
-
-                # We care only about translatable strings
-                if not unit.is_translatable():
-                    continue
-
-                yield unit
+                yield FileUnit(tt_unit)
         else:
             for template_unit in self.template_store.units:
 
                 # Create wrapper object (not translated)
-                unit = FileUnit(None, template_unit)
-
-                # We care only about translatable strings
-                if not unit.is_translatable():
-                    continue
-
-                # Get translated unit (if it exists)
-                unit.unit = self.store.findid(template_unit.getid())
-
-                yield unit
+                yield FileUnit(
+                    self.store.findid(template_unit.getid()),
+                    template_unit
+                )
 
     @property
     def mimetype(self):
