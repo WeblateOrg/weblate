@@ -35,7 +35,7 @@ from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 from trans.data import IGNORE_SIMILAR
 
 from trans.filelock import FileLockException
-from trans.util import is_plural, split_plural, is_translated
+from trans.util import is_plural, split_plural
 
 logger = logging.getLogger('weblate')
 
@@ -551,7 +551,7 @@ class Unit(models.Model):
             return False
 
         # Update translated flag
-        self.translated = is_translated(pounit)
+        self.translated = pounit.is_translated()
 
         # Update comments as they might have been changed (eg, fuzzy flag
         # removed)
