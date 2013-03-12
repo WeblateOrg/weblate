@@ -26,7 +26,6 @@ from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.hashcompat import md5_constructor
 from django.conf import settings
 import urllib
 import time
@@ -52,7 +51,7 @@ def gravatar_for_email(email, size=80):
     '''
     Generates url for gravatar.
     '''
-    mail_hash = md5_constructor(email.lower()).hexdigest()
+    mail_hash = hashlib.md5(email.lower()).hexdigest()
 
     url = "%savatar/%s/?" % (GRAVATAR_URL_PREFIX, mail_hash)
 
