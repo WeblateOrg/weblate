@@ -26,7 +26,6 @@ from django.test import TestCase
 from trans.checks.consistency import (
     PluralsCheck,
 )
-from trans.tests.checks import Language
 
 
 class PluralsCheckTest(TestCase):
