@@ -25,7 +25,7 @@ Tests for quality checks.
 from trans.checks.same import (
     SameCheck,
 )
-from trans.tests.checks import Language, CheckTestCase
+from trans.tests.checks import Unit, CheckTestCase
 
 
 class SameCheckTest(CheckTestCase):
@@ -41,9 +41,7 @@ class SameCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_single(
             'source',
             'source',
-            '',
-            Language('en'),
-            None,
+            Unit(code='en'),
             0
         ))
 

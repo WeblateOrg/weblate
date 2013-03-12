@@ -818,12 +818,10 @@ class Unit(models.Model):
         for check in checks_to_run:
             check_obj = CHECKS[check]
             # Target check
-            if check_obj.target and check_obj.check(
-                    src, tgt, self.flags, self.translation.language, self):
+            if check_obj.target and check_obj.check(src, tgt, self):
                 failing_target.append(check)
             # Source check
-            if check_obj.source and check_obj.check_source(
-                    src, self.flags, self):
+            if check_obj.source and check_obj.check_source(src, self):
                 failing_source.append(check)
 
         # Compare to existing checks, delete non failing ones

@@ -37,8 +37,6 @@ class PluralsCheckTest(TestCase):
         self.assertFalse(self.check.check(
             ['string'],
             ['string'],
-            '',
-            Language('cs'),
             None
         ))
 
@@ -46,8 +44,6 @@ class PluralsCheckTest(TestCase):
         self.assertFalse(self.check.check(
             ['string', 'plural'],
             ['', ''],
-            '',
-            Language('cs'),
             None
         ))
 
@@ -55,7 +51,5 @@ class PluralsCheckTest(TestCase):
         self.assertTrue(self.check.check(
             ['string', 'plural'],
             ['string', ''],
-            '',
-            Language('cs'),
             None
         ))

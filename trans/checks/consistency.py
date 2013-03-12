@@ -30,7 +30,7 @@ class PluralsCheck(TargetCheck):
     name = _('Missing plurals')
     description = _('Some plural forms are not translated')
 
-    def check(self, sources, targets, flags, language, unit):
+    def check(self, sources, targets, unit):
         # Is this plural?
         if len(sources) == 1:
             return False
@@ -51,12 +51,13 @@ class ConsistencyCheck(TargetCheck):
         'This message has more than one translation in this project'
     )
 
-    def check(self, sources, targets, flags, language, unit):
+    def check(self, sources, targets, unit):
         from trans.models import Unit
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False
         project = unit.translation.subproject.project
+        language = unit.translation.language
         related = Unit.objects.filter(
             translation__language=language,
             translation__subproject__project=project,
@@ -82,10 +83,10 @@ class DirectionCheck(TargetCheck):
     name = _('Invalid text direction')
     description = _('Text direction can be either LTR or RTL')
 
-    def check(self, sources, targets, flags, language, unit):
+    def check(self, sources, targets, unit):
         # Is this plural?
         if len(sources) > 1:
             return False
         if not sources[0].lower() in ['ltr', 'rtl']:
             return False
-        return targets[0].lower() != language.direction
+        return targets[0].lower() != unit.translation.language.direction

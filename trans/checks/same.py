@@ -143,9 +143,9 @@ class SameCheck(TargetCheck):
         stripped = regex.sub('', msg)
         return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
 
-    def check_single(self, source, target, flags, language, unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # English variants will have most things not translated
-        if self.is_language(language, ['en']):
+        if self.is_language(unit, ['en']):
             return False
 
         # One letter things are usually labels or decimal/thousand separators
@@ -165,7 +165,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Ignore strings which don't contain any string to translate
-        if self.is_format_only(source, flags):
+        if self.is_format_only(source, unit.flags):
             return False
 
         # Ignore words which are often same in foreigh language

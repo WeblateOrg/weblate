@@ -403,7 +403,7 @@ contain string "foo".
         description = _('Your translation is foo')
 
         # Real check code
-        def check_single(self, source, target, flags, language, unit):
+        def check_single(self, source, target, unit):
             return 'foo' in target
 
 Checking Czech translation text plurals differ
@@ -429,7 +429,7 @@ language are not same.
         description = _('Your translation is foo')
 
         # Real check code
-        def check(self, sources, targets, flags, language, unit):
-            if self.is_language(language, ['cs']):
+        def check(self, sources, targets, unit):
+            if self.is_language(unit, ['cs']):
                 return targets[1] == targets[2]
             return False

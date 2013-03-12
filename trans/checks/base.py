@@ -32,30 +32,30 @@ class Check(object):
     target = False
     source = False
 
-    def check(self, sources, targets, flags, language, unit):
+    def check(self, sources, targets, unit):
         '''
         Checks single unit, handling plurals.
         '''
         # Check singular
-        if self.check_single(sources[0], targets[0], flags, language, unit, 0):
+        if self.check_single(sources[0], targets[0], unit, 0):
             return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
         # Check plurals against plural from source
         for target in targets[1:]:
-            if self.check_single(sources[1], target, flags, language, unit, 1):
+            if self.check_single(sources[1], target, unit, 1):
                 return True
         # Check did not fire
         return False
 
-    def check_single(self, source, target, flags, language, unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         '''
         Check for single phrase, not dealing with plurals.
         '''
         return False
 
-    def check_source(self, source, flags, unit):
+    def check_source(self, source, unit):
         '''
         Checks source string
         '''
@@ -74,12 +74,12 @@ class Check(object):
             or (src not in chars and tgt in chars)
         )
 
-    def is_language(self, language, vals):
+    def is_language(self, unit, vals):
         '''
         Detects whether language is in given list, ignores language
         variants.
         '''
-        return language.code.split('_')[0] in vals
+        return unit.translation.language.code.split('_')[0] in vals
 
     def get_doc_url(self):
         '''
@@ -129,7 +129,7 @@ class CountingCheck(TargetCheck):
     '''
     string = None
 
-    def check_single(self, source, target, flags, language, unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         if len(target) == 0 or len(source) == 0:
             return False
         return source.count(self.string) != target.count(self.string)

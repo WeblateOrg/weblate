@@ -35,14 +35,24 @@ class Language(object):
         self.code = code
 
 
+class Translation(object):
+    '''
+    Mock translation object.
+    '''
+    def __init__(self, code='cs'):
+        self.language = Language(code)
+
+
 class Unit(object):
     '''
     Mock unit object.
     '''
-    def __init__(self, checksum=None):
+    def __init__(self, checksum=None, flags='', code='cs'):
         if checksum is None:
             checksum = str(uuid.uuid1())
         self.checksum = checksum
+        self.flags = flags
+        self.translation = Translation(code)
 
 
 class CheckTestCase(TestCase):
@@ -69,9 +79,7 @@ class CheckTestCase(TestCase):
             self.check.check_single(
                 data[0],
                 data[1],
-                data[2],
-                Language(lang),
-                Unit(),
+                Unit(None, data[2], lang),
                 0
             ),
             expected
@@ -103,9 +111,7 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                self.test_good_matching[2],
-                Language(),
-                Unit()
+                Unit(None, self.test_good_matching[2])
             )
         )
 
@@ -114,9 +120,7 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_good_matching[0]] * 2,
                 [self.test_good_matching[1]] * 3,
-                self.test_good_matching[2],
-                Language(),
-                Unit()
+                Unit(None, self.test_good_matching[2])
             )
         )
 
@@ -127,9 +131,7 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_failure_1[0]],
                 [self.test_failure_1[1]],
-                self.test_failure_1[2],
-                Language(),
-                Unit()
+                Unit(None, self.test_failure_1[2])
             )
         )
 
@@ -140,8 +142,6 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
-                self.test_failure_1[2],
-                Language(),
-                Unit()
+                Unit(None, self.test_failure_1[2])
             )
         )

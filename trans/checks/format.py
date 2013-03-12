@@ -73,12 +73,12 @@ class BaseFormatCheck(TargetCheck):
     flag = None
     regexp = None
 
-    def check(self, sources, targets, flags, language, unit):
+    def check(self, sources, targets, unit):
         '''
         Checks single unit, handling plurals.
         '''
         # Verify unit is properly flagged
-        if not self.flag in flags:
+        if not self.flag in unit.flags:
             return False
 
         # Special case languages with single plural form
