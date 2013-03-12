@@ -64,7 +64,7 @@ class UnitManager(models.Manager):
                 translation=translation,
                 checksum=checksum
             )
-            force = False
+            created = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
             self.filter(
@@ -82,13 +82,13 @@ class UnitManager(models.Manager):
                 source=src,
                 context=ctx
             )
-            force = True
+            created = True
 
         # Update all details
-        dbunit.update_from_unit(unit, pos, force, template)
+        dbunit.update_from_unit(unit, pos, created, template)
 
         # Return result
-        return dbunit, force
+        return dbunit, created
 
     def filter_checks(self, rqtype, translation):
         '''
@@ -418,7 +418,7 @@ class Unit(models.Model):
             self.translation.get_translate_url(), self.checksum
         )
 
-    def update_from_unit(self, unit, pos, force, template=None):
+    def update_from_unit(self, unit, pos, created, template=None):
         '''
         Updates Unit from ttkit unit.
         '''
@@ -468,7 +468,7 @@ class Unit(models.Model):
             previous_source = ''
 
         # Check if we actually need to change anything
-        if (not force and
+        if (not created and
                 location == self.location and
                 flags == self.flags and
                 same_content and same_fuzzy and
@@ -488,7 +488,7 @@ class Unit(models.Model):
         self.comment = comment
         self.previous_source = previous_source
         self.save(
-            force_insert=force,
+            force_insert=created,
             backend=True,
             same_content=same_content,
             same_fuzzy=same_fuzzy
