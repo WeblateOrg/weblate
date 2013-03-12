@@ -779,7 +779,6 @@ class Translation(models.Model):
         with self.subproject.get_git_lock():
 
             src = unit.get_source_plurals()[0]
-            need_save = False
             add = False
 
             pounit, add = self.store.find_unit(unit.context, src)
@@ -788,65 +787,68 @@ class Translation(models.Model):
             if pounit is None:
                 return False, None
 
-            # Detect changes
-            if unit.target != pounit.get_target() or unit.fuzzy != pounit.is_fuzzy():
-                # Store translations
-                if unit.is_plural():
-                    pounit.set_target(unit.get_target_plurals())
-                else:
-                    pounit.set_target(unit.target)
-                # Update fuzzy flag
-                pounit.mark_fuzzy(unit.fuzzy)
-                # Optionally add unit to translation file
-                if add:
-                    self.store.add_unit(pounit)
-                # We need to update backend
-                need_save = True
+            # Check for changes
+            if (unit.target == pounit.get_target()
+                    and unit.fuzzy == pounit.is_fuzzy()):
+                return False, pounit
 
-            # Save backend if there was a change
-            if need_save:
-                author = self.get_author_name(request.user)
-                # Update po file header
-                po_revision_date = (
-                    datetime.now().strftime('%Y-%m-%d %H:%M')
-                    + poheader.tzstring()
+            # Store translations
+            if unit.is_plural():
+                pounit.set_target(unit.get_target_plurals())
+            else:
+                pounit.set_target(unit.target)
+
+            # Update fuzzy flag
+            pounit.mark_fuzzy(unit.fuzzy)
+
+            # Optionally add unit to translation file
+            if add:
+                self.store.add_unit(pounit)
+
+            # We need to update backend now
+            author = self.get_author_name(request.user)
+
+            # Update po file header
+            po_revision_date = (
+                datetime.now().strftime('%Y-%m-%d %H:%M')
+                + poheader.tzstring()
+            )
+
+            # Prepare headers to update
+            headers = {
+                'add': True,
+                'last_translator': author,
+                'plural_forms': self.language.get_plural_form(),
+                'language': self.language_code,
+                'PO_Revision_Date': po_revision_date,
+                'x_generator': 'Weblate %s' % weblate.VERSION
+            }
+
+            # Optionally store language team with link to website
+            if self.subproject.project.set_translation_team:
+                headers['language_team'] = '%s <%s>' % (
+                    self.language.name,
+                    get_site_url(self.get_absolute_url()),
                 )
 
-                # Prepare headers to update
-                headers = {
-                    'add': True,
-                    'last_translator': author,
-                    'plural_forms': self.language.get_plural_form(),
-                    'language': self.language_code,
-                    'PO_Revision_Date': po_revision_date,
-                    'x_generator': 'Weblate %s' % weblate.VERSION
-                }
+            # Optionally store email for reporting bugs in source
+            report_source_bugs = self.subproject.report_source_bugs
+            if report_source_bugs != '':
+                headers['report_msgid_bugs_to'] = report_source_bugs
 
-                # Optionally store language team with link to website
-                if self.subproject.project.set_translation_team:
-                    headers['language_team'] = '%s <%s>' % (
-                        self.language.name,
-                        get_site_url(self.get_absolute_url()),
-                    )
+            # Update genric headers
+            self.store.update_header(
+                **headers
+            )
 
-                # Optionally store email for reporting bugs in source
-                report_source_bugs = self.subproject.report_source_bugs
-                if report_source_bugs != '':
-                    headers['report_msgid_bugs_to'] = report_source_bugs
+            # commit possible previous changes (by other author)
+            self.commit_pending(author)
+            # save translation changes
+            self.store.save()
+            # commit Git repo if needed
+            self.git_commit(author, timezone.now(), sync=True)
 
-                # Update genric headers
-                self.store.update_header(
-                    **headers
-                )
-
-                # commit possible previous changes (by other author)
-                self.commit_pending(author)
-                # save translation changes
-                self.store.save()
-                # commit Git repo if needed
-                self.git_commit(author, timezone.now(), sync=True)
-
-        return need_save, pounit
+        return True, pounit
 
     def get_source_checks(self):
         '''
