@@ -35,10 +35,7 @@ from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 from trans.data import IGNORE_SIMILAR
 
 from trans.filelock import FileLockException
-from trans.util import (
-    is_plural, split_plural, join_plural,
-    msg_checksum, is_translated,
-)
+from trans.util import is_plural, split_plural, is_translated
 
 logger = logging.getLogger('weblate')
 
@@ -425,19 +422,11 @@ class Unit(models.Model):
         comment = unit.get_comments()
         fuzzy = unit.is_fuzzy()
         translated = unit.is_translated()
+        previous_source = unit.get_previous_source()
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target)
         same_fuzzy = (fuzzy == self.fuzzy)
-
-        # TODO: move to unit class
-        if fuzzy and hasattr(unit, 'prev_source'):
-            if hasattr(unit.prev_source, 'strings'):
-                previous_source = join_plural(unit.prev_source.strings)
-            else:
-                previous_source = unit.prev_source
-        else:
-            previous_source = ''
 
         # Check if we actually need to change anything
         if (not created and

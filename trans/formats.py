@@ -146,6 +146,14 @@ class FileUnit(object):
             return self.mainunit.getid()
         return context
 
+    def get_previous_source(self):
+        '''
+        Returns previous message source if there was any.
+        '''
+        if not self.is_fuzzy() or not hasattr(self.unit, 'prev_source'):
+            return ''
+        return get_string(self.unit.prev_source)
+
     def get_checksum(self):
         '''
         Returns checksum of source string, used for quick lookup.
