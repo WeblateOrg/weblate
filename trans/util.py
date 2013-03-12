@@ -130,33 +130,6 @@ def get_string(text):
     return text
 
 
-def is_unit_key_value(unit):
-    '''
-    Checks whether unit is key = value based rather than
-    translation.
-
-    These are some files like PHP or properties, which for some
-    reason do not correctly set source/target attributes.
-    '''
-    return (
-        hasattr(unit, 'name')
-        and hasattr(unit, 'value')
-        and hasattr(unit, 'translation')
-    )
-
-
-def is_translated(unit):
-    '''
-    Checks whether unit is translated.
-    '''
-    if unit is None:
-        return False
-    if is_unit_key_value(unit):
-        return not unit.isfuzzy() and unit.value != ''
-    else:
-        return unit.istranslated()
-
-
 def is_repo_link(val):
     '''
     Checks whethere repository is just a link for other one.
