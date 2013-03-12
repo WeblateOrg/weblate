@@ -19,9 +19,6 @@
 #
 
 import hashlib
-import re
-from translate.misc import quote
-from translate.storage.properties import propunit
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
