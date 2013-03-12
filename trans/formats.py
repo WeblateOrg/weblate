@@ -78,7 +78,7 @@ class FileUnit(object):
 
     def get_comments(self):
         '''
-        Retusn comments (notes) from units.
+        Returns comments (notes) from units.
         '''
         comment = ''
 
