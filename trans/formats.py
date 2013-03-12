@@ -23,6 +23,7 @@ File format specific behavior.
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit
+from translate.storage.xliff import xliffunit
 from translate.storage import factory
 from trans.util import get_source, get_string
 from translate.misc import quote
@@ -63,6 +64,10 @@ class FileUnit(object):
         '''
         Returns comma separated list of locations.
         '''
+        # XLIFF is special in ttkit - it uses locations for what
+        # is context in other formats
+        if isinstance(self.mainunit, xliffunit):
+            return ''
         return ', '.join(self.mainunit.getlocations())
 
     def get_flags(self):
@@ -141,7 +146,16 @@ class FileUnit(object):
         Returns context of message. In some cases we have to use
         ID here to make all backends consistent.
         '''
-        context = self.mainunit.getcontext()
+        # XLIFF is special in ttkit - it uses locations for what
+        # is context in other formats
+        if isinstance(self.mainunit, xliffunit):
+            context = self.mainunit.getlocations()
+            if len(context) == 0:
+                return ''
+            else:
+                return context[0]
+        else:
+            context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
             return self.mainunit.getid()
         return context
