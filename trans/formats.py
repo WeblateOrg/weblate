@@ -80,6 +80,8 @@ class FileUnit(object):
         '''
         Retusn comments (notes) from units.
         '''
+        comment = ''
+
         if self.unit is not None:
             comment = self.unit.getnotes()
 
