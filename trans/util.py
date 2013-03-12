@@ -122,6 +122,18 @@ def join_plural(text):
     return PLURAL_SEPARATOR.join(text)
 
 
+def get_string(text):
+    '''
+    Returns correctly formatted string from ttkit unit data.
+    '''
+    # Check for null target (happens with XLIFF)
+    if text is None:
+        return ''
+    if hasattr(text, 'strings'):
+        return join_plural(text.strings)
+    return text
+
+
 def msg_checksum(source, context):
     '''
     Returns checksum of source string, used for quick lookup.

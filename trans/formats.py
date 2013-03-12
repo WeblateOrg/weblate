@@ -24,7 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit
 from translate.storage import factory
-from trans.util import get_source, join_plural
+from trans.util import get_source, get_string
 from translate.misc import quote
 import re
 import importlib
@@ -112,10 +112,7 @@ class FileUnit(object):
         if self.is_unit_key_value():
             return self.mainunit.name
         else:
-            if hasattr(self.mainunit.source, 'strings'):
-                return join_plural(self.mainunit.source.strings)
-            else:
-                return self.mainunit.source
+            return get_string(self.mainunit.source)
 
     def get_target(self):
         '''
@@ -134,13 +131,7 @@ class FileUnit(object):
                 return value
             return self.unit.value
         else:
-            if hasattr(self.unit.target, 'strings'):
-                return join_plural(self.unit.target.strings)
-            else:
-                # Check for null target (happens with XLIFF)
-                if self.unit.target is None:
-                    return ''
-                return self.unit.target
+            return get_string(self.unit.target)
 
     def get_context(self):
         '''
