@@ -555,10 +555,7 @@ class Unit(models.Model):
 
         # Update comments as they might have been changed (eg, fuzzy flag
         # removed)
-        if hasattr(pounit, 'typecomments'):
-            self.flags = ', '.join(pounit.typecomments)
-        else:
-            self.flags = ''
+        self.flags = pounit.get_flags()
 
         # Get old unit from database (for notifications)
         oldunit = Unit.objects.get(id=self.id)
