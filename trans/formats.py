@@ -161,7 +161,8 @@ class FileUnit(object):
         We use MD5 as it is faster than SHA1.
         '''
         md5 = hashlib.md5()
-        md5.update(self.get_source().encode('utf-8'))
+        if self.template is None:
+            md5.update(self.get_source().encode('utf-8'))
         md5.update(self.get_context().encode('utf-8'))
         return md5.hexdigest()
 
