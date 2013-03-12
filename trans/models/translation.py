@@ -40,10 +40,7 @@ from trans.formats import AutoFormat
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
-from trans.util import (
-    is_translated,  get_user_display,
-    get_site_url, sleep_while_git_locked,
-)
+from trans.util import get_user_display, get_site_url, sleep_while_git_locked
 
 logger = logging.getLogger('weblate')
 
@@ -952,23 +949,23 @@ class Translation(models.Model):
             store1 = self.store.store
             store1.require_index()
 
-            for unit2 in store2.units:
+            for unit2 in store2.all_units():
                 # No translated -> skip
-                if not is_translated(unit2):
+                if not unit.is_translated():
                     continue
 
                 # Optionally merge header
-                if unit2.isheader():
+                if unit2.unit.isheader():
                     if merge_header and isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
 
                 # Find unit by ID
-                unit1 = store1.findid(unit2.getid())
+                unit1 = store1.findid(unit2.unit.getid())
 
                 # Fallback to finding by source
                 if unit1 is None:
-                    unit1 = store1.findunit(unit2.source)
+                    unit1 = store1.findunit(unit2.unit.source)
 
                 # Unit not found, nothing to do
                 if unit1 is None:
@@ -979,7 +976,7 @@ class Translation(models.Model):
                     continue
 
                 # Actually update translation
-                unit1.merge(unit2, overwrite=True, comments=False)
+                unit1.merge(unit2.unit, overwrite=True, comments=False)
 
                 # Handle
                 if add_fuzzy:
@@ -1065,7 +1062,7 @@ class Translation(models.Model):
             for translation in translations:
                 ret |= translation.merge_store(
                     author,
-                    store.store,
+                    store,
                     overwrite,
                     merge_header,
                     (method == 'fuzzy')
