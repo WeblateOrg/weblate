@@ -53,7 +53,7 @@ class FileUnit(object):
         '''
         self.unit = unit
         self.template = template
-        if unit is None:
+        if template is not None:
             self.mainunit = template
         else:
             self.mainunit = unit
@@ -164,6 +164,14 @@ class FileUnit(object):
             return not self.unit.isfuzzy() and self.unit.value != ''
         else:
             return self.unit.istranslated()
+
+    def is_fuzzy(self):
+        '''
+        Checks whether unit is translated.
+        '''
+        if self.unit is None:
+            return False
+        return self.unit.isfuzzy()
 
     def is_translatable(self):
         '''
@@ -314,6 +322,36 @@ class FileFormat(object):
         Saves underlaying store to disk.
         '''
         self.store.save()
+
+    def translatable_units(self):
+        '''
+        Generator of translatable units.
+        '''
+        if not self.has_template:
+            for tt_unit in self.store.units:
+
+                # Create wrapper object
+                unit = FileUnit(tt_unit)
+
+                # We care only about translatable strings
+                if not unit.is_translatable():
+                    continue
+
+                yield unit
+        else:
+            for template_unit in self.template_store.units:
+
+                # Create wrapper object (not translated)
+                unit = FileUnit(None, template_unit)
+
+                # We care only about translatable strings
+                if not unit.is_translatable():
+                    continue
+
+                # Get translated unit (if it exists)
+                unit.unit = self.store.findid(template_unit.getid())
+
+                yield unit
 
     @property
     def mimetype(self):

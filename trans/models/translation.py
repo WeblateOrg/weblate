@@ -443,35 +443,16 @@ class Translation(models.Model):
         # Position of current unit
         pos = 1
 
-        if not self.store.has_template:
-            for unit in self.store.store.units:
-                # We care only about translatable strings
-                if not is_translatable(unit):
-                    continue
-                newunit, is_new = Unit.objects.update_from_unit(
-                    self, unit, pos
-                )
-                was_new = was_new or (is_new and not newunit.translated)
-                pos += 1
-                try:
-                    oldunits.remove(newunit.id)
-                except:
-                    pass
-        else:
-            for template_unit in self.store.template_store.units:
-                # We care only about translatable strings
-                if not is_translatable(template_unit):
-                    continue
-                unit = self.store.store.findid(template_unit.getid())
-                newunit, is_new = Unit.objects.update_from_unit(
-                    self, unit, pos, template=template_unit
-                )
-                was_new = was_new or (is_new and not newunit.translated)
-                pos += 1
-                try:
-                    oldunits.remove(newunit.id)
-                except:
-                    pass
+        for unit in self.store.translatable_units():
+            newunit, is_new = Unit.objects.update_from_unit(
+                self, unit, pos
+            )
+            was_new = was_new or (is_new and not newunit.translated)
+            pos += 1
+            try:
+                oldunits.remove(newunit.id)
+            except:
+                pass
 
         # Delete not used units
         units_to_delete = Unit.objects.filter(
