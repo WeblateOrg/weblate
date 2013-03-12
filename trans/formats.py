@@ -25,7 +25,7 @@ from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit
 from translate.storage.xliff import xliffunit
 from translate.storage import factory
-from trans.util import get_source, get_string
+from trans.util import get_string
 from translate.misc import quote
 import re
 import hashlib
@@ -333,8 +333,9 @@ class FileFormat(object):
             else:
                 # Fallback to manual find for value based files
                 for pounit in self.store.units:
-                    if get_source(pounit) == source:
-                        return (FileUnit(pounit), False)
+                    pounit = FileUnit(pounit)
+                    if pounit.get_source() == source:
+                        return (pounit, False)
 
         return (None, False)
 
