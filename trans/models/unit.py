@@ -582,7 +582,11 @@ class Unit(models.Model):
         profile.save()
 
         # Notify about new contributor
-        if not Change.objects.filter(translation=self.translation, user=request.user).exists():
+        user_changes = Change.objects.filter(
+            translation=self.translation,
+            user=request.user
+        )
+        if not user_changes.exists():
             # Get list of subscribers for new contributor
             subscriptions = Profile.objects.subscribed_new_contributor(
                 self.translation.subproject.project,
@@ -609,7 +613,8 @@ class Unit(models.Model):
             )
 
         # Force commiting on completing translation
-        if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
+        if (old_translated < self.translation.translated
+                and self.translation.translated == self.translation.total):
             self.translation.commit_pending()
             Change.objects.create(
                 translation=self.translation,
