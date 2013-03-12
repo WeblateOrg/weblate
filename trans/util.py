@@ -133,18 +133,6 @@ def get_string(text):
     return text
 
 
-def msg_checksum(source, context):
-    '''
-    Returns checksum of source string, used for quick lookup.
-
-    We use MD5 as it is faster than SHA1.
-    '''
-    md5 = hashlib.md5()
-    md5.update(source.encode('utf-8'))
-    md5.update(context.encode('utf-8'))
-    return md5.hexdigest()
-
-
 def is_unit_key_value(unit):
     '''
     Checks whether unit is key = value based rather than
@@ -160,58 +148,6 @@ def is_unit_key_value(unit):
     )
 
 
-def get_source(unit):
-    '''
-    Returns source string from a ttkit unit.
-    '''
-    if is_unit_key_value(unit):
-        return unit.name
-    else:
-        if hasattr(unit.source, 'strings'):
-            return join_plural(unit.source.strings)
-        else:
-            return unit.source
-
-
-def get_target(unit):
-    '''
-    Returns target string from a ttkit unit.
-    '''
-    if unit is None:
-        return ''
-    if is_unit_key_value(unit):
-        # Need to decode property encoded string
-        if isinstance(unit, propunit):
-            # This is basically stolen from
-            # translate.storage.properties.propunit.gettarget
-            # which for some reason does not return translation
-            value = quote.propertiesdecode(unit.value)
-            value = re.sub(u"\\\\ ", u" ", value)
-            return value
-        return unit.value
-    else:
-        if hasattr(unit.target, 'strings'):
-            return join_plural(unit.target.strings)
-        else:
-            # Check for null target (happens with XLIFF)
-            if unit.target is None:
-                return ''
-            return unit.target
-
-
-def get_context(unit):
-    '''
-    Returns context of message. In some cases we have to use
-    ID here to make all backends consistent.
-    '''
-    if unit is None:
-        return ''
-    context = unit.getcontext()
-    if is_unit_key_value(unit) and context == '':
-        return unit.getid()
-    return context
-
-
 def is_translated(unit):
     '''
     Checks whether unit is translated.
@@ -222,16 +158,6 @@ def is_translated(unit):
         return not unit.isfuzzy() and unit.value != ''
     else:
         return unit.istranslated()
-
-
-def is_translatable(unit):
-    '''
-    Checks whether unit is translatable.
-
-    For some reason, blank string does not mean non translatable
-    unit in some formats (XLIFF), so lets skip those as well.
-    '''
-    return unit.istranslatable() and not unit.isblank()
 
 
 def is_repo_link(val):
