@@ -803,8 +803,12 @@ class SubProject(models.Model):
             except Exception as e:
                 errors.append('%s: %s' % (match, str(e)))
         if len(notrecognized) > 0:
+            msg = (
+                _('Format of %d matched files could not be recognized.') %
+                len(notrecognized)
+            )
             raise ValidationError('%s\n%s' % (
-                (_('Format of %d matched files could not be recognized.') % len(notrecognized)),
+                msg,
                 '\n'.join(notrecognized)
             ))
         if len(errors) > 0:
