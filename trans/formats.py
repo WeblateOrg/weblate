@@ -22,8 +22,11 @@ File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
+from translate.storage.properties import propunit
 from translate.storage import factory
-from trans.util import get_source
+from trans.util import get_source, join_plural
+from translate.misc import quote
+import re
 import importlib
 import __builtin__
 
@@ -36,6 +39,140 @@ def register_fileformat(fileformat):
     Registers fileformat in dictionary.
     '''
     FILE_FORMATS[fileformat.format_id] = fileformat
+
+
+class FileUnit(object):
+    '''
+    Wrapper for translate-toolkit unit to cope with ID/template based
+    translations.
+    '''
+
+    def __init__(self, unit, template=None):
+        '''
+        Creates wrapper object.
+        '''
+        self.unit = unit
+        self.template = template
+        if unit is None:
+            self.mainunit = template
+        else:
+            self.mainunit = unit
+
+    def get_locations(self):
+        '''
+        Returns comma separated list of locations.
+        '''
+        return ', '.join(self.mainunit.getlocations())
+
+    def get_flags(self):
+        '''
+        Returns flags (typecomments) from units.
+        '''
+        # Merge flags
+        if hasattr(self.unit, 'typecomments'):
+            return ', '.join(self.unit.typecomments)
+        elif hasattr(self.template, 'typecomments'):
+            return ', '.join(self.template.typecomments)
+        else:
+            return ''
+
+    def get_comments(self):
+        '''
+        Retusn comments (notes) from units.
+        '''
+        if self.unit is not None:
+            comment = self.unit.getnotes()
+
+        if self.template is not None:
+            # Avoid duplication in case template has same comments
+            template_comment = self.template.getnotes()
+            if template_comment != comment:
+                comment = template_comment + ' ' + comment
+
+        return comment
+
+    def is_unit_key_value(self):
+        '''
+        Checks whether unit is key = value based rather than
+        translation.
+
+        These are some files like PHP or properties, which for some
+        reason do not correctly set source/target attributes.
+        '''
+        return (
+            hasattr(self.mainunit, 'name')
+            and hasattr(self.mainunit, 'value')
+            and hasattr(self.mainunit, 'translation')
+        )
+
+    def get_source(self):
+        '''
+        Returns source string from a ttkit unit.
+        '''
+        if self.is_unit_key_value():
+            return self.mainunit.name
+        else:
+            if hasattr(self.mainunit.source, 'strings'):
+                return join_plural(self.mainunit.source.strings)
+            else:
+                return self.mainunit.source
+
+    def get_target(self):
+        '''
+        Returns target string from a ttkit unit.
+        '''
+        if self.unit is None:
+            return ''
+        if self.is_unit_key_value():
+            # Need to decode property encoded string
+            if isinstance(self.unit, propunit):
+                # This is basically stolen from
+                # translate.storage.properties.propunit.gettarget
+                # which for some reason does not return translation
+                value = quote.propertiesdecode(self.unit.value)
+                value = re.sub(u"\\\\ ", u" ", value)
+                return value
+            return self.unit.value
+        else:
+            if hasattr(self.unit.target, 'strings'):
+                return join_plural(self.unit.target.strings)
+            else:
+                # Check for null target (happens with XLIFF)
+                if self.unit.target is None:
+                    return ''
+                return self.unit.target
+
+    def get_context(self):
+        '''
+        Returns context of message. In some cases we have to use
+        ID here to make all backends consistent.
+        '''
+        if self.unit is None:
+            return ''
+        context = self.mainunit.getcontext()
+        if self.is_unit_key_value() and context == '':
+            return self.mainunit.getid()
+        return context
+
+    def is_translated(self):
+        '''
+        Checks whether unit is translated.
+        '''
+        if self.unit is None:
+            return False
+        if self.is_unit_key_value():
+            return not self.unit.isfuzzy() and self.unit.value != ''
+        else:
+            return self.unit.istranslated()
+
+    def is_translatable(self):
+        '''
+        Checks whether unit is translatable.
+
+        For some reason, blank string does not mean non translatable
+        unit in some formats (XLIFF), so lets skip those as well.
+        '''
+        return self.mainunit.istranslatable() and not self.mainunit.isblank()
 
 
 class FileFormat(object):
