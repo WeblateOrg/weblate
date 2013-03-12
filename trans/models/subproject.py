@@ -735,7 +735,6 @@ class SubProject(models.Model):
         self.update_remote_branch()
         self.update_branch()
 
-
     def clean_repo_link(self):
         '''
         Validates repository link.
@@ -756,7 +755,7 @@ class SubProject(models.Model):
             raise ValidationError(
                 _('Format of translation template could not be recognized.')
             )
-        except Exception as e:
+        except Exception:
             raise ValidationError(
                 _('Failed to parse translation template.')
             )
