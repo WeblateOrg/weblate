@@ -735,6 +735,32 @@ class SubProject(models.Model):
         self.update_remote_branch()
         self.update_branch()
 
+
+    def clean_repo_link(self):
+        '''
+        Validates repository link.
+        '''
+        if self.push != '':
+            raise ValidationError(
+                _('Push URL is not used when repository is linked!')
+            )
+        validate_repo(self.repo)
+
+    def clean_template(self):
+        '''
+        Validates whether template can be loaded.
+        '''
+        try:
+            self.load_template_store()
+        except ValueError:
+            raise ValidationError(
+                _('Format of translation template could not be recognized.')
+            )
+        except Exception as e:
+            raise ValidationError(
+                _('Failed to parse translation template.')
+            )
+
     def clean(self):
         '''
         Validator fetches repository and tries to find translation files.
@@ -748,62 +774,49 @@ class SubProject(models.Model):
         self.sync_git_repo(True)
 
         # Push repo is not used with link
-        if self.is_repo_link() and self.push != '':
-            raise ValidationError(
-                _('Push URL is not used when repository is linked!')
-            )
+        if self.is_repo_link():
+            self.clean_repo_link()
 
-        try:
-            matches = self.get_mask_matches()
-            if len(matches) == 0:
-                raise ValidationError(_('The mask did not match any files!'))
-            langs = {}
-            for match in matches:
-                code = self.get_lang_code(match)
-                if code in langs:
-                    raise ValidationError(_(
-                        'There are more files for single language, please '
-                        'adjust the mask and use subprojects for translating '
-                        'different resources.'
-                    ))
-                langs[code] = match
-
-            # Try parsing files
-            notrecognized = []
-            errors = []
-            for match in matches:
-                try:
-                    self.file_format_cls.load(
-                        os.path.join(self.get_path(), match),
-                    )
-                except ValueError:
-                    notrecognized.append(match)
-                except Exception as e:
-                    errors.append('%s: %s' % (match, str(e)))
-            if len(notrecognized) > 0:
-                raise ValidationError('%s\n%s' % (
-                    (_('Format of %d matched files could not be recognized.') % len(notrecognized)),
-                    '\n'.join(notrecognized)
+        matches = self.get_mask_matches()
+        if len(matches) == 0:
+            raise ValidationError(_('The mask did not match any files!'))
+        langs = set()
+        for match in matches:
+            code = self.get_lang_code(match)
+            if code in langs:
+                raise ValidationError(_(
+                    'There are more files for single language, please '
+                    'adjust the mask and use subprojects for translating '
+                    'different resources.'
                 ))
-            if len(errors) > 0:
-                raise ValidationError('%s\n%s' % (
-                    (_('Failed to parse %d matched files!') % len(errors)),
-                    '\n'.join(errors)
-                ))
+            langs.add(code)
 
-            # Validate template
-            if self.has_template():
-                try:
-                    self.load_template_store()
-                except ValueError:
-                    raise ValidationError(_('Format of translation template could not be recognized.'))
-                except Exception as e:
-                    raise ValidationError(
-                        _('Failed to parse translation template.')
-                    )
-        except SubProject.DoesNotExist:
-            # Happens with invalid link
-            pass
+        # Try parsing files
+        notrecognized = []
+        errors = []
+        for match in matches:
+            try:
+                self.file_format_cls.load(
+                    os.path.join(self.get_path(), match),
+                )
+            except ValueError:
+                notrecognized.append(match)
+            except Exception as e:
+                errors.append('%s: %s' % (match, str(e)))
+        if len(notrecognized) > 0:
+            raise ValidationError('%s\n%s' % (
+                (_('Format of %d matched files could not be recognized.') % len(notrecognized)),
+                '\n'.join(notrecognized)
+            ))
+        if len(errors) > 0:
+            raise ValidationError('%s\n%s' % (
+                (_('Failed to parse %d matched files!') % len(errors)),
+                '\n'.join(errors)
+            ))
+
+        # Validate template
+        if self.has_template():
+            self.clean_template()
 
     def get_template_filename(self):
         '''
