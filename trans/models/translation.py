@@ -41,7 +41,6 @@ from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import (
-    msg_checksum, get_source, get_target, get_context,
     is_translated,  get_user_display,
     get_site_url, sleep_while_git_locked,
 )
@@ -997,25 +996,23 @@ class Translation(models.Model):
         '''
         from trans.models.unitdata import Suggestion
         ret = False
-        for unit in store.units:
+        for unit in store.translatable_units():
 
             # Skip headers or not translated
-            if unit.isheader() or not is_translated(unit):
+            if not unit.is_translated():
                 continue
 
             # Indicate something new
             ret = True
 
             # Calculate unit checksum
-            src = get_source(unit)
-            ctx = get_context(unit)
-            checksum = msg_checksum(src, ctx)
+            checksum = unit.get_checksum()
 
             # Create suggestion objects.
             # We don't care about duplicates or non existing strings here
             # this is better handled in cleanup.
             Suggestion.objects.create(
-                target=get_target(unit),
+                target=unit.get_target(),
                 checksum=checksum,
                 language=self.language,
                 project=self.subproject.project,
@@ -1036,12 +1033,13 @@ class Translation(models.Model):
         # Load backend file
         try:
             # First try using own loader
-            store = self.subproject.file_format_cls.load(
-                fileobj
+            store = self.subproject.file_format_cls(
+                fileobj,
+                self.subproject.template_store
             )
         except:
             # Fallback to automatic detection
-            store = AutoFormat.load(fileobj)
+            store = AutoFormat(fileobj)
 
         # Optionally set authorship
         if author is None:
@@ -1064,7 +1062,7 @@ class Translation(models.Model):
             for translation in translations:
                 ret |= translation.merge_store(
                     author,
-                    store,
+                    store.store,
                     overwrite,
                     merge_header,
                     (method == 'fuzzy')
