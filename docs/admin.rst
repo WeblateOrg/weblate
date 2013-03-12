@@ -115,6 +115,8 @@ Allow translation propagation
     subprojects withing same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 
+.. seealso:: :ref:`faq-vcs`
+
 .. note::
    
     As setup of translation project includes fetching Git repositories, you

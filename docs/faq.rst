@@ -213,11 +213,38 @@ as ``TEMP`` variable:
 Features
 ++++++++
 
+.. _faq-vcs:
+
 Does Weblate support other VCS than Git?
 ----------------------------------------
 
-Not currently. Weblate requires distributed VCS and could be probably adjusted
-to work with anything else than Git, but somebody has to implement this support.
+Weblate does not have native support for anything else than Git, however Git is
+versatile system, which allows plugging in `remote helpers`_ for other VCS as well.
+
+At this time, helpers for Bazaar and Mercurial (hg) are available within 
+`Git source code`_, they might be also included in your Git package. If this is
+not the case, you can download them manually and put somewhere in your search path 
+(for example :file:`~/bin`). You also need to have installed appropriate version 
+control programs.
+
+Once you have these installed, you can use such remotes to specifi repository in Weblate.
+
+To clone ``gnuhello`` project from Launchpad with Bazaar use::
+
+    bzr::lp:gnuhello
+
+For ``hello`` repository from selenic.com with Mercurial use::
+
+    hg::http://selenic.com/repo/hello
+
+.. _remote helpers: http://git-scm.com/docs/git-remote-helpers
+.. _Git source code: https://github.com/git/git/tree/master/contrib/remote-helpers
+
+.. note::
+    
+    For native support of other VCS, Weblate requires distributed VCS and could
+    be probably adjusted to work with anything else than Git, but somebody has
+    to implement this support.
 
 How does Weblate credit translators?
 ------------------------------------
