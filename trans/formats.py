@@ -27,6 +27,7 @@ from translate.storage import factory
 from trans.util import get_source, get_string
 from translate.misc import quote
 import re
+import hashlib
 import importlib
 import __builtin__
 
@@ -144,6 +145,17 @@ class FileUnit(object):
         if self.is_unit_key_value() and context == '':
             return self.mainunit.getid()
         return context
+
+    def get_checksum(self):
+        '''
+        Returns checksum of source string, used for quick lookup.
+
+        We use MD5 as it is faster than SHA1.
+        '''
+        md5 = hashlib.md5()
+        md5.update(self.get_source().encode('utf-8'))
+        md5.update(self.get_context().encode('utf-8'))
+        return md5.hexdigest()
 
     def is_translated(self):
         '''

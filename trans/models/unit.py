@@ -48,11 +48,10 @@ class UnitManager(models.Manager):
         '''
         Process translation toolkit unit and stores/updates database entry.
         '''
+        # Get basic unit data
         src = unit.get_source()
         ctx = unit.get_context()
-
-        # TODO: move to unit
-        checksum = msg_checksum(src, ctx)
+        checksum = unit.get_checksum()
 
         # Try getting existing unit
         dbunit = None
