@@ -85,6 +85,7 @@ LANGUAGES = (
     ('pl', 'Polski'),
     ('pt', u'Português'),
     ('pt_BR', u'Português brasileiro'),
+    ('ru', u'русский'),
     ('sl', u'Slovenščina'),
     ('sv', u'Svenska'),
     ('tr', u'Türkçe'),

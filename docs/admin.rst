@@ -115,6 +115,8 @@ Allow translation propagation
     subprojects withing same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 
+.. seealso:: :ref:`faq-vcs`
+
 .. note::
    
     As setup of translation project includes fetching Git repositories, you
@@ -401,7 +403,7 @@ contain string "foo".
         description = _('Your translation is foo')
 
         # Real check code
-        def check_single(self, source, target, flags, language, unit):
+        def check_single(self, source, target, unit):
             return 'foo' in target
 
 Checking Czech translation text plurals differ
@@ -427,7 +429,7 @@ language are not same.
         description = _('Your translation is foo')
 
         # Real check code
-        def check(self, sources, targets, flags, language, unit):
-            if self.is_language(language, ['cs']):
+        def check(self, sources, targets, unit):
+            if self.is_language(unit, ['cs']):
                 return targets[1] == targets[2]
             return False

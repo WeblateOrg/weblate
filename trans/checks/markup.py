@@ -40,7 +40,7 @@ class BBCodeCheck(TargetCheck):
     name = _('Mismatched BBcode')
     description = _('BBcode in translation does not match source')
 
-    def check_single(self, source, target, flags, language, unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # Try geting source parsing from cache
         src_match = self.get_cache(unit, cache_slot)
         # Cache miss
@@ -82,7 +82,7 @@ class XMLTagsCheck(TargetCheck):
         text = self.strip_entities(text.encode('utf-8'))
         return cElementTree.fromstring('<weblate>%s</weblate>' % text)
 
-    def check_single(self, source, target, flags, language, unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # Try getting source string data from cache
         source_tags = self.get_cache(unit, cache_slot)
 

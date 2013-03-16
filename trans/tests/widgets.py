@@ -76,7 +76,7 @@ class WidgetsTest(ViewTestCase):
                     )
                 )
                 # This is pretty stupid test for PNG image
-                self.assertContains(response, 'PNG')
+                self.assertPNG(response)
 
     def test_view_widget_image_lang(self):
         for widget in WIDGETS:
@@ -93,4 +93,4 @@ class WidgetsTest(ViewTestCase):
                     )
                 )
                 # This is pretty stupid test for PNG image
-                self.assertContains(response, 'PNG')
+                self.assertPNG(response)

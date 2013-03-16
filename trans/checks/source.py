@@ -36,7 +36,7 @@ class OptionalPluralCheck(SourceCheck):
         'The string is optionally used as plural, but not using plural forms'
     )
 
-    def check_source(self, source, flags, unit):
+    def check_source(self, source, unit):
         if len(source) > 1:
             return False
         return len(PLURAL_MATCH.findall(source[0])) > 0
@@ -53,5 +53,5 @@ class EllipsisCheck(SourceCheck):
         u'instead of an ellipsis character (…)'
     )
 
-    def check_source(self, source, flags, unit):
+    def check_source(self, source, unit):
         return '...' in source[0]

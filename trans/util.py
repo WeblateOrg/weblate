@@ -19,14 +19,10 @@
 #
 
 import hashlib
-import re
-from translate.misc import quote
-from translate.storage.properties import propunit
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.hashcompat import md5_constructor
 from django.conf import settings
 import urllib
 import time
@@ -52,7 +48,7 @@ def gravatar_for_email(email, size=80):
     '''
     Generates url for gravatar.
     '''
-    mail_hash = md5_constructor(email.lower()).hexdigest()
+    mail_hash = hashlib.md5(email.lower()).hexdigest()
 
     url = "%savatar/%s/?" % (GRAVATAR_URL_PREFIX, mail_hash)
 
@@ -122,105 +118,16 @@ def join_plural(text):
     return PLURAL_SEPARATOR.join(text)
 
 
-def msg_checksum(source, context):
+def get_string(text):
     '''
-    Returns checksum of source string, used for quick lookup.
-
-    We use MD5 as it is faster than SHA1.
+    Returns correctly formatted string from ttkit unit data.
     '''
-    md5 = hashlib.md5()
-    md5.update(source.encode('utf-8'))
-    md5.update(context.encode('utf-8'))
-    return md5.hexdigest()
-
-
-def is_unit_key_value(unit):
-    '''
-    Checks whether unit is key = value based rather than
-    translation.
-
-    These are some files like PHP or properties, which for some
-    reason do not correctly set source/target attributes.
-    '''
-    return (
-        hasattr(unit, 'name')
-        and hasattr(unit, 'value')
-        and hasattr(unit, 'translation')
-    )
-
-
-def get_source(unit):
-    '''
-    Returns source string from a ttkit unit.
-    '''
-    if is_unit_key_value(unit):
-        return unit.name
-    else:
-        if hasattr(unit.source, 'strings'):
-            return join_plural(unit.source.strings)
-        else:
-            return unit.source
-
-
-def get_target(unit):
-    '''
-    Returns target string from a ttkit unit.
-    '''
-    if unit is None:
+    # Check for null target (happens with XLIFF)
+    if text is None:
         return ''
-    if is_unit_key_value(unit):
-        # Need to decode property encoded string
-        if isinstance(unit, propunit):
-            # This is basically stolen from
-            # translate.storage.properties.propunit.gettarget
-            # which for some reason does not return translation
-            value = quote.propertiesdecode(unit.value)
-            value = re.sub(u"\\\\ ", u" ", value)
-            return value
-        return unit.value
-    else:
-        if hasattr(unit.target, 'strings'):
-            return join_plural(unit.target.strings)
-        else:
-            # Check for null target (happens with XLIFF)
-            if unit.target is None:
-                return ''
-            return unit.target
-
-
-def get_context(unit):
-    '''
-    Returns context of message. In some cases we have to use
-    ID here to make all backends consistent.
-    '''
-    if unit is None:
-        return ''
-    context = unit.getcontext()
-    if is_unit_key_value(unit) and context == '':
-        return unit.getid()
-    return context
-
-
-def is_translated(unit):
-    '''
-    Checks whether unit is translated.
-    '''
-    if unit is None:
-        return False
-    if is_unit_key_value(unit):
-        return not unit.isfuzzy() and unit.value != ''
-    else:
-        return unit.istranslated()
-
-
-def is_translatable(unit):
-    '''
-    Checks whether unit is translatable.
-
-    For some reason, blank string does not mean non translatable
-    unit in some formats (XLIFF), so lets skip those as well.
-    '''
-    return unit.istranslatable() and not unit.isblank()
+    if hasattr(text, 'strings'):
+        return join_plural(text.strings)
+    return text
 
 
 def is_repo_link(val):

@@ -30,11 +30,7 @@ import os
 import os.path
 import logging
 import git
-from trans.formats import (
-    FILE_FORMAT_CHOICES,
-    FILE_FORMATS,
-    ttkit
-)
+from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
 from trans.filelock import FileLock
 from trans.util import is_repo_link
@@ -740,6 +736,31 @@ class SubProject(models.Model):
         self.update_remote_branch()
         self.update_branch()
 
+    def clean_repo_link(self):
+        '''
+        Validates repository link.
+        '''
+        if self.push != '':
+            raise ValidationError(
+                _('Push URL is not used when repository is linked!')
+            )
+        validate_repo(self.repo)
+
+    def clean_template(self):
+        '''
+        Validates whether template can be loaded.
+        '''
+        try:
+            self.load_template_store()
+        except ValueError:
+            raise ValidationError(
+                _('Format of translation template could not be recognized.')
+            )
+        except Exception:
+            raise ValidationError(
+                _('Failed to parse translation template.')
+            )
+
     def clean(self):
         '''
         Validator fetches repository and tries to find translation files.
@@ -753,66 +774,58 @@ class SubProject(models.Model):
         self.sync_git_repo(True)
 
         # Push repo is not used with link
-        if self.is_repo_link() and self.push != '':
-            raise ValidationError(
-                _('Push URL is not used when repository is linked!')
+        if self.is_repo_link():
+            self.clean_repo_link()
+
+        matches = self.get_mask_matches()
+        if len(matches) == 0:
+            raise ValidationError(_('The mask did not match any files!'))
+        langs = set()
+        for match in matches:
+            code = self.get_lang_code(match)
+            if code in langs:
+                raise ValidationError(_(
+                    'There are more files for single language, please '
+                    'adjust the mask and use subprojects for translating '
+                    'different resources.'
+                ))
+            langs.add(code)
+
+        # Try parsing files
+        notrecognized = []
+        errors = []
+        for match in matches:
+            try:
+                self.file_format_cls.load(
+                    os.path.join(self.get_path(), match),
+                )
+            except ValueError:
+                notrecognized.append(match)
+            except Exception as e:
+                errors.append('%s: %s' % (match, str(e)))
+        if len(notrecognized) > 0:
+            msg = (
+                _('Format of %d matched files could not be recognized.') %
+                len(notrecognized)
             )
+            raise ValidationError('%s\n%s' % (
+                msg,
+                '\n'.join(notrecognized)
+            ))
+        if len(errors) > 0:
+            raise ValidationError('%s\n%s' % (
+                (_('Failed to parse %d matched files!') % len(errors)),
+                '\n'.join(errors)
+            ))
 
-        try:
-            matches = self.get_mask_matches()
-            if len(matches) == 0:
-                raise ValidationError(_('The mask did not match any files!'))
-            langs = {}
-            for match in matches:
-                code = self.get_lang_code(match)
-                if code in langs:
-                    raise ValidationError(_(
-                        'There are more files for single language, please '
-                        'adjust the mask and use subprojects for translating '
-                        'different resources.'
-                    ))
-                langs[code] = match
-
-            # Try parsing files
-            notrecognized = []
-            errors = []
-            for match in matches:
-                try:
-                    ttkit(
-                        os.path.join(self.get_path(), match),
-                        self.file_format
-                    )
-                except ValueError:
-                    notrecognized.append(match)
-                except Exception as e:
-                    errors.append('%s: %s' % (match, str(e)))
-            if len(notrecognized) > 0:
-                raise ValidationError('%s\n%s' % (
-                    (_('Format of %d matched files could not be recognized.') % len(notrecognized)),
-                    '\n'.join(notrecognized)
-                ))
-            if len(errors) > 0:
-                raise ValidationError('%s\n%s' % (
-                    (_('Failed to parse %d matched files!') % len(errors)),
-                    '\n'.join(errors)
-                ))
-
-            # Validate template
-            if self.template != '':
-                template = self.get_template_filename()
-                try:
-                    ttkit(template, self.file_format)
-                except ValueError:
-                    raise ValidationError(_('Format of translation template could not be recognized.'))
-                except Exception as e:
-                    raise ValidationError(
-                        _('Failed to parse translation template.')
-                    )
-        except SubProject.DoesNotExist:
-            # Happens with invalid link
-            pass
+        # Validate template
+        if self.has_template():
+            self.clean_template()
 
     def get_template_filename(self):
+        '''
+        Creates absolute filename for template.
+        '''
         return os.path.join(self.get_path(), self.template)
 
     def save(self, *args, **kwargs):
@@ -891,7 +904,8 @@ class SubProject(models.Model):
     def git_needs_push(self):
         return self.git_check_merge('origin/%s..' % self.branch)
 
-    def get_file_format(self):
+    @property
+    def file_format_cls(self):
         '''
         Returns file format object.
         '''
@@ -903,7 +917,7 @@ class SubProject(models.Model):
         '''
         Returns true if subproject is using template for translation
         '''
-        monolingual = self.get_file_format().monolingual
+        monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None)
             and self.template != ''
@@ -914,21 +928,27 @@ class SubProject(models.Model):
         '''
         Returns whether we're handling fuzzy mark in the database.
         '''
-        return self.get_file_format().mark_fuzzy
+        return self.file_format_cls.mark_fuzzy
 
-    def get_template_store(self):
+    def load_template_store(self):
         '''
-        Gets ttkit store for template.
+        Loads translate-toolkit store for template.
+        '''
+        return self.file_format_cls.load(
+            self.get_template_filename(),
+        )
+
+    @property
+    def template_store(self):
+        '''
+        Gets translate-toolkit store for template.
         '''
         # Do we need template?
         if not self.has_template():
             return None
 
         if self._template_store is None:
-            self._template_store = ttkit(
-                self.get_template_filename(),
-                self.file_format
-            )
+            self._template_store = self.load_template_store()
 
         return self._template_store
 

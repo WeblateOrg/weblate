@@ -26,7 +26,6 @@ from django.test import TestCase
 from trans.checks.consistency import (
     PluralsCheck,
 )
-from trans.tests.checks import Language
 
 
 class PluralsCheckTest(TestCase):
@@ -37,8 +36,6 @@ class PluralsCheckTest(TestCase):
         self.assertFalse(self.check.check(
             ['string'],
             ['string'],
-            '',
-            Language('cs'),
             None
         ))
 
@@ -46,8 +43,6 @@ class PluralsCheckTest(TestCase):
         self.assertFalse(self.check.check(
             ['string', 'plural'],
             ['', ''],
-            '',
-            Language('cs'),
             None
         ))
 
@@ -55,7 +50,5 @@ class PluralsCheckTest(TestCase):
         self.assertTrue(self.check.check(
             ['string', 'plural'],
             ['string', ''],
-            '',
-            Language('cs'),
             None
         ))

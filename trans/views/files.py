@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.servers.basehttp import FileWrapper
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -28,53 +27,27 @@ from trans.forms import UploadForm, SimpleUploadForm, ExtraUploadForm
 from trans.views.helper import get_translation
 
 import logging
-import os.path
 
 logger = logging.getLogger('weblate')
-
-
-# See https://code.djangoproject.com/ticket/6027
-class FixedFileWrapper(FileWrapper):
-    def __iter__(self):
-        self.filelike.seek(0)
-        return self
 
 
 def download_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    # Retrieve ttkit store to get extension and mime type
-    store = obj.get_store()
     srcfilename = obj.get_filename()
-
-    if store.Mimetypes is None:
-        # Properties files do not expose mimetype
-        mime = 'text/plain'
-    else:
-        mime = store.Mimetypes[0]
-
-    if store.Extensions is None:
-        # Typo in translate-toolkit 1.9, see
-        # https://github.com/translate/translate/pull/10
-        if hasattr(store, 'Exensions'):
-            ext = store.Exensions[0]
-        else:
-            ext = 'txt'
-    else:
-        ext = store.Extensions[0]
 
     # Construct file name (do not use real filename as it is usually not
     # that useful)
-    filename = '%s-%s-%s.%s' % (project, subproject, lang, ext)
+    filename = '%s-%s-%s.%s' % (project, subproject, lang, obj.store.extension)
 
-    # Django wrapper for sending file
-    wrapper = FixedFileWrapper(file(srcfilename))
-
-    response = HttpResponse(wrapper, mimetype=mime)
+    # Create response
+    response = HttpResponse(
+        file(srcfilename).read(),
+        mimetype=obj.store.mimetype
+    )
 
     # Fill in response headers
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
-    response['Content-Length'] = os.path.getsize(srcfilename)
 
     return response
 

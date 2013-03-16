@@ -31,21 +31,16 @@ from django.core.urlresolvers import reverse
 import os.path
 import logging
 import git
-from translate.storage.lisa import LISAfile
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
 import weblate
 from lang.models import Language
-from trans.formats import ttkit
+from trans.formats import AutoFormat
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
-from trans.util import (
-    msg_checksum, get_source, get_target, get_context,
-    is_translated, is_translatable, get_user_display,
-    get_site_url, sleep_while_git_locked,
-)
+from trans.util import get_user_display, get_site_url, sleep_while_git_locked
 
 logger = logging.getLogger('weblate')
 
@@ -141,7 +136,8 @@ class Translation(models.Model):
 
     def clean(self):
         '''
-        Validates that filename exists and can be opened using ttkit.
+        Validates that filename exists and can be opened using
+        translate-toolkit.
         '''
         if not os.path.exists(self.get_filename()):
             raise ValidationError(
@@ -152,7 +148,7 @@ class Translation(models.Model):
                 self.filename
             )
         try:
-            self.get_store()
+            self.load_store()
         except ValueError:
             raise ValidationError(
                 _('Format of %s could not be recognized.') %
@@ -388,15 +384,22 @@ class Translation(models.Model):
         '''
         return os.path.join(self.subproject.get_path(), self.filename)
 
-    def get_store(self):
+    def load_store(self):
         '''
-        Returns ttkit storage object for a translation.
+        Loads translate-toolkit storage from disk.
+        '''
+        return self.subproject.file_format_cls(
+            self.get_filename(),
+            self.subproject.template_store
+        )
+
+    @property
+    def store(self):
+        '''
+        Returns translate-toolkit storage object for a translation.
         '''
         if self._store is None:
-            self._store = ttkit(
-                self.get_filename(),
-                self.subproject.file_format
-            )
+            self._store = self.load_store()
         return self._store
 
     def check_sync(self):
@@ -435,39 +438,18 @@ class Translation(models.Model):
         was_new = False
         # Position of current unit
         pos = 1
-        # Load translation file
-        store = self.get_store()
-        # Load translation template
-        template_store = self.subproject.get_template_store()
-        if template_store is None:
-            for unit in store.units:
-                # We care only about translatable strings
-                if not is_translatable(unit):
-                    continue
-                newunit, is_new = Unit.objects.update_from_unit(
-                    self, unit, pos
-                )
-                was_new = was_new or (is_new and not newunit.translated)
-                pos += 1
-                try:
-                    oldunits.remove(newunit.id)
-                except:
-                    pass
-        else:
-            for template_unit in template_store.units:
-                # We care only about translatable strings
-                if not is_translatable(template_unit):
-                    continue
-                unit = store.findid(template_unit.getid())
-                newunit, is_new = Unit.objects.update_from_unit(
-                    self, unit, pos, template=template_unit
-                )
-                was_new = was_new or (is_new and not newunit.translated)
-                pos += 1
-                try:
-                    oldunits.remove(newunit.id)
-                except:
-                    pass
+
+        for unit in self.store.all_units():
+            if not unit.is_translatable():
+                continue
+
+            newunit, is_new = Unit.objects.update_from_unit(
+                self, unit, pos
+            )
+            was_new = was_new or (is_new and not newunit.translated)
+            pos += 1
+            if not is_new:
+                oldunits.remove(newunit.id)
 
         # Delete not used units
         units_to_delete = Unit.objects.filter(
@@ -795,105 +777,77 @@ class Translation(models.Model):
         # Save with lock acquired
         with self.subproject.get_git_lock():
 
-            store = self.get_store()
             src = unit.get_source_plurals()[0]
-            need_save = False
-            found = False
             add = False
 
-            if self.subproject.has_template():
-                # We search by ID when using template
-                pounit = store.findid(unit.context)
-                if pounit is not None:
-                    found = True
-                else:
-                    # Need to create new unit based on template
-                    template_store = self.subproject.get_template_store()
-                    pounit = template_store.findid(unit.context)
-                    add = True
-                    found = pounit is not None
-            else:
-                # Find all units with same source
-                found_units = store.findunits(src)
-                if len(found_units) > 0:
-                    for pounit in found_units:
-                        # Does context match?
-                        if pounit.getcontext() == unit.context:
-                            # We should have only one match
-                            found = True
-                            break
-                else:
-                    # Fallback to manual find for value based files
-                    for pounit in store.units:
-                        if get_source(pounit) == src:
-                            found = True
-                            break
+            pounit, add = self.store.find_unit(unit.context, src)
 
             # Bail out if we have not found anything
-            if not found:
+            if pounit is None:
                 return False, None
 
-            # Detect changes
-            if unit.target != get_target(pounit) or unit.fuzzy != pounit.isfuzzy():
-                # Store translations
-                if unit.is_plural():
-                    pounit.settarget(unit.get_target_plurals())
-                else:
-                    pounit.settarget(unit.target)
-                # Update fuzzy flag
-                pounit.markfuzzy(unit.fuzzy)
-                # Optionally add unit to translation file
-                if add:
-                    if isinstance(store, LISAfile):
-                        # LISA based stores need to know this
-                        store.addunit(pounit, new=True)
-                    else:
-                        store.addunit(pounit)
-                # We need to update backend
-                need_save = True
+            # Check for changes
+            if (unit.target == pounit.get_target()
+                    and unit.fuzzy == pounit.is_fuzzy()):
+                return False, pounit
 
-            # Save backend if there was a change
-            if need_save:
-                author = self.get_author_name(request.user)
-                # Update po file header
-                if hasattr(store, 'updateheader'):
-                    po_revision_date = (
-                        datetime.now().strftime('%Y-%m-%d %H:%M')
-                        + poheader.tzstring()
-                    )
+            # Store translations
+            if unit.is_plural():
+                pounit.set_target(unit.get_target_plurals())
+            else:
+                pounit.set_target(unit.target)
 
-                    # Update genric headers
-                    store.updateheader(
-                        add=True,
-                        last_translator=author,
-                        plural_forms=self.language.get_plural_form(),
-                        language=self.language_code,
-                        PO_Revision_Date=po_revision_date,
-                        x_generator='Weblate %s' % weblate.VERSION
-                    )
+            # Update fuzzy flag
+            pounit.mark_fuzzy(unit.fuzzy)
 
-                    if self.subproject.project.set_translation_team:
-                        # Store language team with link to website
-                        store.updateheader(
-                            language_team='%s <%s>' % (
-                                self.language.name,
-                                get_site_url(self.get_absolute_url()),
-                            )
-                        )
-                        # Optionally store email for reporting bugs in source
-                        report_source_bugs = self.subproject.report_source_bugs
-                        if report_source_bugs != '':
-                            store.updateheader(
-                                report_msgid_bugs_to=report_source_bugs,
-                            )
-                # commit possible previous changes (by other author)
-                self.commit_pending(author)
-                # save translation changes
-                store.save()
-                # commit Git repo if needed
-                self.git_commit(author, timezone.now(), sync=True)
+            # Optionally add unit to translation file
+            if add:
+                self.store.add_unit(pounit)
 
-        return need_save, pounit
+            # We need to update backend now
+            author = self.get_author_name(request.user)
+
+            # Update po file header
+            po_revision_date = (
+                datetime.now().strftime('%Y-%m-%d %H:%M')
+                + poheader.tzstring()
+            )
+
+            # Prepare headers to update
+            headers = {
+                'add': True,
+                'last_translator': author,
+                'plural_forms': self.language.get_plural_form(),
+                'language': self.language_code,
+                'PO_Revision_Date': po_revision_date,
+                'x_generator': 'Weblate %s' % weblate.VERSION
+            }
+
+            # Optionally store language team with link to website
+            if self.subproject.project.set_translation_team:
+                headers['language_team'] = '%s <%s>' % (
+                    self.language.name,
+                    get_site_url(self.get_absolute_url()),
+                )
+
+            # Optionally store email for reporting bugs in source
+            report_source_bugs = self.subproject.report_source_bugs
+            if report_source_bugs != '':
+                headers['report_msgid_bugs_to'] = report_source_bugs
+
+            # Update genric headers
+            self.store.update_header(
+                **headers
+            )
+
+            # commit possible previous changes (by other author)
+            self.commit_pending(author)
+            # save translation changes
+            self.store.save()
+            # commit Git repo if needed
+            self.git_commit(author, timezone.now(), sync=True)
+
+        return True, pounit
 
     def get_source_checks(self):
         '''
@@ -987,31 +941,31 @@ class Translation(models.Model):
 
     def merge_store(self, author, store2, overwrite, merge_header, add_fuzzy):
         '''
-        Merges ttkit store into current translation.
+        Merges translate-toolkit store into current translation.
         '''
         # Merge with lock acquired
         with self.subproject.get_git_lock():
 
-            store1 = self.get_store()
+            store1 = self.store.store
             store1.require_index()
 
-            for unit2 in store2.units:
+            for unit2 in store2.all_units():
                 # No translated -> skip
-                if not is_translated(unit2):
+                if not unit2.is_translated():
                     continue
 
                 # Optionally merge header
-                if unit2.isheader():
+                if unit2.unit.isheader():
                     if merge_header and isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
 
                 # Find unit by ID
-                unit1 = store1.findid(unit2.getid())
+                unit1 = store1.findid(unit2.unit.getid())
 
                 # Fallback to finding by source
                 if unit1 is None:
-                    unit1 = store1.findunit(unit2.source)
+                    unit1 = store1.findunit(unit2.unit.source)
 
                 # Unit not found, nothing to do
                 if unit1 is None:
@@ -1022,7 +976,7 @@ class Translation(models.Model):
                     continue
 
                 # Actually update translation
-                unit1.merge(unit2, overwrite=True, comments=False)
+                unit1.merge(unit2.unit, overwrite=True, comments=False)
 
                 # Handle
                 if add_fuzzy:
@@ -1038,29 +992,27 @@ class Translation(models.Model):
 
     def merge_suggestions(self, request, store):
         '''
-        Merges contect of ttkit store as a suggestions.
+        Merges contect of translate-toolkit store as a suggestions.
         '''
         from trans.models.unitdata import Suggestion
         ret = False
-        for unit in store.units:
+        for unit in store.all_units():
 
             # Skip headers or not translated
-            if unit.isheader() or not is_translated(unit):
+            if not unit.is_translatable() or not unit.is_translated():
                 continue
 
             # Indicate something new
             ret = True
 
             # Calculate unit checksum
-            src = get_source(unit)
-            ctx = get_context(unit)
-            checksum = msg_checksum(src, ctx)
+            checksum = unit.get_checksum()
 
             # Create suggestion objects.
             # We don't care about duplicates or non existing strings here
             # this is better handled in cleanup.
             Suggestion.objects.create(
-                target=get_target(unit),
+                target=unit.get_target(),
                 checksum=checksum,
                 language=self.language,
                 project=self.subproject.project,
@@ -1080,9 +1032,14 @@ class Translation(models.Model):
         '''
         # Load backend file
         try:
-            store = ttkit(fileobj)
+            # First try using own loader
+            store = self.subproject.file_format_cls(
+                fileobj,
+                self.subproject.template_store
+            )
         except:
-            store = ttkit(fileobj, self.subproject.file_format)
+            # Fallback to automatic detection
+            store = AutoFormat(fileobj)
 
         # Optionally set authorship
         if author is None:

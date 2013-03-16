@@ -35,27 +35,20 @@ from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
 from trans.data import IGNORE_SIMILAR
 
 from trans.filelock import FileLockException
-from trans.util import (
-    is_plural, split_plural, join_plural,
-    msg_checksum, get_source, get_target, get_context,
-    is_translated,
-)
+from trans.util import is_plural, split_plural
 
 logger = logging.getLogger('weblate')
 
 
 class UnitManager(models.Manager):
-    def update_from_unit(self, translation, unit, pos, template=None):
+    def update_from_unit(self, translation, unit, pos):
         '''
         Process translation toolkit unit and stores/updates database entry.
         '''
-        if template is None:
-            src = get_source(unit)
-            ctx = get_context(unit)
-        else:
-            src = get_target(template)
-            ctx = get_context(template)
-        checksum = msg_checksum(src, ctx)
+        # Get basic unit data
+        src = unit.get_source()
+        ctx = unit.get_context()
+        checksum = unit.get_checksum()
 
         # Try getting existing unit
         dbunit = None
@@ -64,7 +57,7 @@ class UnitManager(models.Manager):
                 translation=translation,
                 checksum=checksum
             )
-            force = False
+            created = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
             self.filter(
@@ -82,13 +75,13 @@ class UnitManager(models.Manager):
                 source=src,
                 context=ctx
             )
-            force = True
+            created = True
 
         # Update all details
-        dbunit.update_from_unit(unit, pos, force, template)
+        dbunit.update_from_unit(unit, pos, created)
 
         # Return result
-        return dbunit, force
+        return dbunit, created
 
     def filter_checks(self, rqtype, translation):
         '''
@@ -418,57 +411,25 @@ class Unit(models.Model):
             self.translation.get_translate_url(), self.checksum
         )
 
-    def update_from_unit(self, unit, pos, force, template=None):
+    def update_from_unit(self, unit, pos, created):
         '''
         Updates Unit from ttkit unit.
         '''
-        # Template is optional
-        if template is None:
-            template = unit
-        # Merge locations
-        location = ', '.join(template.getlocations())
-        # Merge flags
-        if unit is not None and hasattr(unit, 'typecomments'):
-            flags = ', '.join(unit.typecomments)
-        elif template is not None and hasattr(template, 'typecomments'):
-            flags = ', '.join(template.typecomments)
-        else:
-            flags = ''
-        # Get target
-        target = get_target(unit)
-
-        # Get data from unit
-        if unit is None:
-            fuzzy = False
-            translated = False
-            if template is None:
-                comment = ''
-            else:
-                comment = template.getnotes()
-        else:
-            fuzzy = unit.isfuzzy()
-            translated = is_translated(unit)
-            comment = unit.getnotes()
-            if template is not None:
-                # Avoid duplication in case template has same comments
-                template_comment = template.getnotes()
-                if template_comment != comment:
-                    comment = template_comment + ' ' + comment
+        # Get unit attributes
+        location = unit.get_locations()
+        flags = unit.get_flags()
+        target = unit.get_target()
+        comment = unit.get_comments()
+        fuzzy = unit.is_fuzzy()
+        translated = unit.is_translated()
+        previous_source = unit.get_previous_source()
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target)
         same_fuzzy = (fuzzy == self.fuzzy)
 
-        if fuzzy and hasattr(unit, 'prev_source'):
-            if hasattr(unit.prev_source, 'strings'):
-                previous_source = join_plural(unit.prev_source.strings)
-            else:
-                previous_source = unit.prev_source
-        else:
-            previous_source = ''
-
         # Check if we actually need to change anything
-        if (not force and
+        if (not created and
                 location == self.location and
                 flags == self.flags and
                 same_content and same_fuzzy and
@@ -488,7 +449,7 @@ class Unit(models.Model):
         self.comment = comment
         self.previous_source = previous_source
         self.save(
-            force_insert=force,
+            force_insert=created,
             backend=True,
             same_content=same_content,
             same_fuzzy=same_fuzzy
@@ -590,14 +551,11 @@ class Unit(models.Model):
             return False
 
         # Update translated flag
-        self.translated = is_translated(pounit)
+        self.translated = pounit.is_translated()
 
         # Update comments as they might have been changed (eg, fuzzy flag
         # removed)
-        if hasattr(pounit, 'typecomments'):
-            self.flags = ', '.join(pounit.typecomments)
-        else:
-            self.flags = ''
+        self.flags = pounit.get_flags()
 
         # Get old unit from database (for notifications)
         oldunit = Unit.objects.get(id=self.id)
@@ -624,7 +582,11 @@ class Unit(models.Model):
         profile.save()
 
         # Notify about new contributor
-        if not Change.objects.filter(translation=self.translation, user=request.user).exists():
+        user_changes = Change.objects.filter(
+            translation=self.translation,
+            user=request.user
+        )
+        if not user_changes.exists():
             # Get list of subscribers for new contributor
             subscriptions = Profile.objects.subscribed_new_contributor(
                 self.translation.subproject.project,
@@ -651,7 +613,8 @@ class Unit(models.Model):
             )
 
         # Force commiting on completing translation
-        if old_translated < self.translation.translated and self.translation.translated == self.translation.total:
+        if (old_translated < self.translation.translated
+                and self.translation.translated == self.translation.total):
             self.translation.commit_pending()
             Change.objects.create(
                 translation=self.translation,
@@ -855,10 +818,10 @@ class Unit(models.Model):
         for check in checks_to_run:
             check_obj = CHECKS[check]
             # Target check
-            if check_obj.target and check_obj.check(src, tgt, self.flags, self.translation.language, self):
+            if check_obj.target and check_obj.check(src, tgt, self):
                 failing_target.append(check)
             # Source check
-            if check_obj.source and check_obj.check_source(src, self.flags, self):
+            if check_obj.source and check_obj.check_source(src, self):
                 failing_source.append(check)
 
         # Compare to existing checks, delete non failing ones

@@ -38,7 +38,6 @@ class OptionalPluralCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 ['text'],
-                '',
                 Unit(),
             )
         )
@@ -47,7 +46,6 @@ class OptionalPluralCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 ['text', 'texts'],
-                '',
                 Unit(),
             )
         )
@@ -56,7 +54,6 @@ class OptionalPluralCheckTest(TestCase):
         self.assertTrue(
             self.check.check_source(
                 ['text(s)'],
-                '',
                 Unit(),
             )
         )
@@ -70,7 +67,6 @@ class EllipsisCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 ['text'],
-                '',
                 Unit(),
             )
         )
@@ -79,7 +75,6 @@ class EllipsisCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 [u'text…'],
-                '',
                 Unit(),
             )
         )
@@ -88,7 +83,6 @@ class EllipsisCheckTest(TestCase):
         self.assertTrue(
             self.check.check_source(
                 ['text...'],
-                '',
                 Unit(),
             )
         )
