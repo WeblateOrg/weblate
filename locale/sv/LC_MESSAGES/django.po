@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-03-08 09:25+0100\n"
-"PO-Revision-Date: 2013-03-14 19:56+0200\n"
+"PO-Revision-Date: 2013-03-17 21:57+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -274,18 +274,16 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Alla de senaste ändringarna gjorda med Weblate i %s."
 
 #: trans/formats.py:88
-#, fuzzy
 msgid "Automatic detection"
-msgstr "Automatisk översättning"
+msgstr "Automatisk igenkänning"
 
 #: trans/formats.py:101
 msgid "Gettext PO file"
-msgstr ""
+msgstr "Gettext po-fil"
 
 #: trans/formats.py:110
-#, fuzzy
 msgid "Qt Linguist Translation File"
-msgstr "Strängar att kontrollera"
+msgstr "Qt Linguist-översättningsfil"
 
 #: trans/formats.py:118
 msgid "XLIFF Translation File"
@@ -477,11 +475,11 @@ msgstr "Ingen"
 #: trans/validators.py:32 trans/validators.py:52
 #, python-format
 msgid "Bad format string (%s)"
-msgstr ""
+msgstr "Felaktigt formaterad sträng (%s)"
 
 #: trans/validators.py:61
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Fil-masken innehåller inte * som ersättningstecken för språk!"
 
 #: trans/validators.py:73
 msgid "Can not link to linked repository!"
@@ -659,7 +657,7 @@ msgstr "Python-format"
 #: trans/checks/format.py:171 trans/checks/format.py:182
 #: trans/checks/format.py:193
 msgid "Format string does not match source"
-msgstr ""
+msgstr "Formatsträngen matchar inte källan"
 
 #: trans/checks/format.py:181
 msgid "PHP format"
@@ -743,7 +741,7 @@ msgstr "Nytt språk"
 
 #: trans/models/project.py:96
 msgid "How to handle requests for creating new languages."
-msgstr ""
+msgstr "Hur förfrågningar om att skapa nya språk hanteras."
 
 #: trans/models/project.py:100
 msgid "Merge style"
@@ -760,6 +758,8 @@ msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
+"Du kan använda formatsträngar för diverse information, se dokumentationen "
+"för mer detaljer."
 
 #: trans/models/project.py:130
 msgid "Whether the repository should be pushed upstream on every commit."
@@ -779,10 +779,10 @@ msgstr ""
 "du aktiverar detta."
 
 #: trans/models/project.py:176
-#, fuzzy, python-format
+#, python-format
 #| msgid "You are not allowed to add comments."
 msgid "You are not allowed to access project %s."
-msgstr "Du har inte behörighet att lägga till kommentarer."
+msgstr "Du har inte åtkomstbehörighet för projektet %s."
 
 #: trans/models/project.py:183
 msgid ""
@@ -805,6 +805,8 @@ msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
+"URL för Git-förråd, använd weblate://projekt/underprojekt för delning med "
+"andra underprojekt."
 
 #: trans/models/subproject.py:92
 msgid "URL of push Git repository"
@@ -846,6 +848,8 @@ msgstr ""
 #: trans/models/subproject.py:137
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
+"Automatisk igenkänning kan misslyckas för vissa format och är något "
+"långsammare."
 
 #: trans/models/subproject.py:144
 msgid "Whether subproject is locked for translation updates."
@@ -895,13 +899,15 @@ msgstr ""
 
 #: trans/models/subproject.py:763
 msgid "The mask did not match any files!"
-msgstr ""
+msgstr "Masken matchade inte några filer!"
 
 #: trans/models/subproject.py:769
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
+"Det finns fler filer för enskilda språk, justera masken och använd "
+"underprojekt för att översätta olika resurser."
 
 #: trans/models/subproject.py:790
 #, python-format
@@ -911,15 +917,15 @@ msgstr "Formatet på %d matchande filer kändes inte igen."
 #: trans/models/subproject.py:795
 #, python-format
 msgid "Failed to parse %d matched files!"
-msgstr ""
+msgstr "Kunde inte tolka %d matchade filer!"
 
 #: trans/models/subproject.py:805
 msgid "Format of translation template could not be recognized."
-msgstr ""
+msgstr "Formatet på översättningsmallen kändes inte igen."
 
 #: trans/models/subproject.py:808
 msgid "Failed to parse translation template."
-msgstr ""
+msgstr "Kunde inte tolka översättningsmall."
 
 #: trans/models/translation.py:149
 #, python-format
@@ -938,7 +944,7 @@ msgstr "Formatet på %s kändes inte igen."
 #: trans/models/translation.py:163
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr ""
+msgstr "Kunde inte tolka filen %(file)s: %(error)s"
 
 #: trans/models/translation.py:187
 #, python-format
@@ -985,7 +991,7 @@ msgstr ""
 #: trans/models/unit.py:714
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "enhets-ID %s"
 
 #: trans/models/unitdata.py:225
 msgid "Resource update"
@@ -1014,7 +1020,7 @@ msgstr "Förslag tillagt"
 #: trans/models/unitdata.py:249
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s vid %(time)s i %(translation)s av %(user)s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
@@ -1192,7 +1198,7 @@ msgstr "Ordböcker"
 #: trans/views/dictionary.py:81 trans/views/dictionary.py:297
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr ""
+msgstr "Ordbok i %(language)s för %(project)s"
 
 #: trans/views/dictionary.py:128
 msgid "No words to import found in file."
@@ -1206,7 +1212,7 @@ msgstr "Importerade %d ord från fil."
 #: trans/views/dictionary.py:138
 #, python-format
 msgid "File upload has failed: %s"
-msgstr ""
+msgstr "Sändning av fil misslyckades: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
 #: trans/views/edit.py:545
@@ -1302,7 +1308,7 @@ msgstr "Sammanslagning med filinnehållet misslyckades: %s"
 
 #: trans/views/git.py:36 trans/views/git.py:47 trans/views/git.py:58
 msgid "All pending translations were committed."
-msgstr ""
+msgstr "Alla väntande översättningar checkades in."
 
 #: trans/views/git.py:69 trans/views/git.py:80 trans/views/git.py:91
 msgid "All repositories were updated."
@@ -1475,7 +1481,7 @@ msgstr "Översättningar"
 
 #: weblate/html/about.html:72
 msgid "Failing checks found"
-msgstr ""
+msgstr "Felande kontroller funna"
 
 #: weblate/html/about.html:76
 msgid "Ignored checks"
@@ -1531,7 +1537,7 @@ msgstr "Fel"
 #: weblate/html/check.html:40 weblate/html/check_project.html:40
 #: weblate/html/check_subproject.html:47
 msgid "There are no matching failed checks!"
-msgstr ""
+msgstr "Det finns inga matchande felande kontroller!"
 
 #: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
 msgid "Check"
@@ -1543,7 +1549,7 @@ msgstr "kontakt"
 
 #: weblate/html/contact.html:11
 msgid "You can contact maintainers of this server here."
-msgstr ""
+msgstr "Du kan kontakta de som driver den här servern här."
 
 #: weblate/html/contact.html:13
 msgid ""
@@ -1997,7 +2003,7 @@ msgstr "Färöiska"
 
 #: weblate/html/i18n.html:55
 msgid "Filipino"
-msgstr ""
+msgstr "Filipino"
 
 #: weblate/html/i18n.html:56
 msgid "Finnish"
@@ -2017,7 +2023,7 @@ msgstr "Friuliska"
 
 #: weblate/html/i18n.html:60
 msgid "Fulah"
-msgstr ""
+msgstr "Fula"
 
 #: weblate/html/i18n.html:61
 msgid "Gaelic"
@@ -2345,7 +2351,7 @@ msgstr "Tatariska"
 
 #: weblate/html/i18n.html:142
 msgid "Telugu"
-msgstr "Telugo"
+msgstr "Telugu"
 
 #: weblate/html/i18n.html:143
 msgid "Thai"
@@ -2545,7 +2551,7 @@ msgstr "Överblick av kontroller"
 
 #: weblate/html/index.html:117
 msgid "Widgets"
-msgstr ""
+msgstr "Widgetar"
 
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 msgid "languages"
@@ -2600,8 +2606,8 @@ msgstr[1] "Det finns %(count)s luddiga strängar."
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Det finns %(count)s felande kontroll."
+msgstr[1] "Det finns %(count)s felande kontroller."
 
 #: weblate/html/list-translations.html:42
 #, python-format
@@ -2648,6 +2654,7 @@ msgstr "Du kommer att erhålla valda meddelanden via e-post för alla dina språ
 #: weblate/html/profile.html:44
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
+"Ditt namn och e-post kommer användas som författare för Git-incheckningar."
 
 #: weblate/html/profile.html:48
 #, python-format
@@ -3054,7 +3061,7 @@ msgstr "Meddelandet är luddigt"
 
 #: weblate/html/unit-state.html:4
 msgid "Message has failing checks"
-msgstr ""
+msgstr "Meddelandet har felande kontroller"
 
 #: weblate/html/unit-state.html:5
 msgid "Message is translated"
@@ -3082,18 +3089,19 @@ msgstr "Senaste bidrag"
 
 #: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
 msgid "widgets"
-msgstr ""
+msgstr "widgetar"
 
 #: weblate/html/widgets-root.html:11 weblate/html/widgets.html:16
-#, fuzzy
 msgid "Promoting translation projects"
-msgstr "Använd denna översättning för alla underprojekt"
+msgstr "Främja översättningsprojekt"
 
 #: weblate/html/widgets-root.html:14
 msgid ""
 "Weblate provides various widgets to promote your translation projects. Open "
 "one of the project pages below."
 msgstr ""
+"Weblate erbjuder diverse widgetar för att göra reklam för dina "
+"översättningsprojekt. Öppna en av projektsidorna nedan."
 
 #: weblate/html/widgets.html:19
 #, python-format
@@ -3105,19 +3113,20 @@ msgstr ""
 "(engage_url)s\">%(engage_url)s</a>."
 
 #: weblate/html/widgets.html:22
-#, fuzzy
 msgid "Promoting specific translations"
-msgstr "Automatisk översättning"
+msgstr "Gör reklam för specifika översättningar"
 
 #: weblate/html/widgets.html:25
 msgid ""
 "Besides promoting whole translation project, you can also choose specific "
 "language to promote:"
 msgstr ""
+"Förutom att göra reklam för hela översättningsprojekt kan du också välja ett "
+"specifikt språk att främja:"
 
 #: weblate/html/widgets.html:29
 msgid "Image widgets"
-msgstr ""
+msgstr "Bildwidgetar"
 
 #: weblate/html/widgets.html:32
 msgid ""
@@ -3125,6 +3134,9 @@ msgid ""
 "can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
+"Du kan använda följande widgetar för att främja översättning av ditt "
+"projekt. De kan öka synligheten på dina översättningsprojekt och locka till "
+"sig nya medarbetare."
 
 #: weblate/html/widgets.html:36
 #, python-format
@@ -3149,7 +3161,7 @@ msgstr "Markdown-kod"
 
 #: weblate/html/widgets.html:51
 msgid "RST code"
-msgstr ""
+msgstr "RST-kod"
 
 #: weblate/html/widgets.html:52
 msgid "Textile code"
@@ -3178,11 +3190,11 @@ msgstr "SSH-nycklar"
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"
-msgstr ""
+msgstr "Prestandarapport"
 
 #: weblate/html/admin/performance.html:9
 msgid "Performance"
-msgstr ""
+msgstr "Prestanda"
 
 #: weblate/html/admin/performance.html:21
 msgid "Result"
@@ -3198,6 +3210,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
+"Visar inte status för länkat förråd. Se <a href=\"#%(slug)s\">%(repo)s</a> "
+"istället."
 
 #: weblate/html/admin/ssh.html:14
 msgid "Public SSH key"
@@ -3295,7 +3309,7 @@ msgstr ""
 
 #: weblate/html/js/git-status.html:30
 msgid "There are some new commits in local Git repository!"
-msgstr ""
+msgstr "Det finns nya incheckningar i det lokala Git-förrådet!"
 
 #: weblate/html/js/git-status.html:38
 msgid "Last remote commit:"
@@ -3769,6 +3783,9 @@ msgid ""
 "By registering you agree to use your name and email in Git commits and your "
 "contribution to be licensed under same license as translated content."
 msgstr ""
+"Genom att registrera dig godkänner du att använda ditt namn och e-post i "
+"Git-incheckningar och att dina bidrag hamnar under samma licens som det som "
+"översatts."
 
 #, fuzzy
 #~| msgid "Plural"
