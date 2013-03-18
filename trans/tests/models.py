@@ -93,7 +93,7 @@ class RepoTestCase(TestCase):
         )
 
     def create_subproject(self, file_format='auto', mask='po/*.po',
-                          template='', repoweb=''):
+                          template='', repoweb=REPOWEB_URL):
         '''
         Creates test subproject.
         '''
@@ -114,7 +114,6 @@ class RepoTestCase(TestCase):
         return self.create_subproject(
             'strings',
             'iphone/*.lproj/Localizable.strings',
-            repoweb=REPOWEB_URL,
         )
 
     def create_android(self):
