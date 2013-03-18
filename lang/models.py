@@ -27,9 +27,7 @@ from lang import data
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
 from django.dispatch import receiver
-import logging
-
-logger = logging.getLogger('weblate')
+import weblate
 
 # Plural types definition
 PLURAL_NONE = 0
@@ -84,7 +82,7 @@ def get_plural_type(code, pluralequation):
         return PLURAL_ARABIC
 
     # Log error in case of uknown mapping
-    logger.error(
+    weblate.logger.error(
         'Can not guess type of plural for %s: %s', code, pluralequation
     )
 

@@ -26,10 +26,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 from trans.forms import UploadForm, SimpleUploadForm, ExtraUploadForm
 from trans.views.helper import get_translation
 
-import logging
-
-logger = logging.getLogger('weblate')
-
 
 def download_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)

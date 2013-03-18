@@ -27,7 +27,6 @@ from django.contrib import messages
 from django.core.cache import cache
 from whoosh import qparser
 import itertools
-import logging
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
@@ -36,8 +35,7 @@ from trans.data import IGNORE_SIMILAR
 
 from trans.filelock import FileLockException
 from trans.util import is_plural, split_plural
-
-logger = logging.getLogger('weblate')
+import weblate
 
 
 class UnitManager(models.Manager):
@@ -519,7 +517,7 @@ class Unit(models.Model):
         try:
             (saved, pounit) = self.translation.update_unit(self, request)
         except FileLockException:
-            logger.error('failed to lock backend for %s!', self)
+            weblate.logger.error('failed to lock backend for %s!', self)
             messages.error(
                 request,
                 _(
@@ -531,7 +529,7 @@ class Unit(models.Model):
 
         # Handle situation when backend did not find the message
         if pounit is None:
-            logger.error('message %s disappeared!', self)
+            weblate.logger.error('message %s disappeared!', self)
             messages.error(
                 request,
                 _(
@@ -635,7 +633,7 @@ class Unit(models.Model):
         '''
         # Warn if request is not coming from backend
         if not 'backend' in kwargs:
-            logger.error(
+            weblate.logger.error(
                 'Unit.save called without backend sync: %s',
                 ''.join(traceback.format_stack())
             )

@@ -32,14 +32,12 @@ from trans.decorators import any_permission_required
 from trans.views.helper import (
     get_project, get_subproject, get_translation
 )
+import weblate
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
-import logging
 import json
 from xml.etree import ElementTree
 import urllib2
-
-logger = logging.getLogger('weblate')
 
 
 def get_string(request, checksum):
@@ -205,7 +203,7 @@ def js_config(request):
             parsed = json.loads(pairs)
             apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
         except Exception as e:
-            logger.error('failed to get supported languages from Apertium, using defaults (%s)', str(e))
+            weblate.logger.error('failed to get supported languages from Apertium, using defaults (%s)', str(e))
             apertium_langs = ['gl', 'ca', 'es', 'eo']
     else:
         apertium_langs = None
@@ -218,7 +216,7 @@ def js_config(request):
             parsed = ElementTree.fromstring(data)
             microsoft_langs = [p.text for p in parsed.getchildren()]
         except Exception as e:
-            logger.error('failed to get supported languages from Microsoft, using defaults (%s)', str(e))
+            weblate.logger.error('failed to get supported languages from Microsoft, using defaults (%s)', str(e))
             microsoft_langs = [
                 'ar', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'cs', 'da', 'nl', 'en',
                 'et', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww', 'hu',

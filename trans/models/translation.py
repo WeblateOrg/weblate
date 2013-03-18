@@ -29,7 +29,6 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os.path
-import logging
 import git
 from translate.storage import poheader
 from datetime import datetime, timedelta
@@ -41,8 +40,6 @@ from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
-
-logger = logging.getLogger('weblate')
 
 
 class TranslationManager(models.Manager):
@@ -418,13 +415,13 @@ class Translation(models.Model):
 
         # Check if we're not already up to date
         if self.revision != blob_hash:
-            logger.info(
+            weblate.logger.info(
                 'processing %s in %s, revision has changed',
                 self.filename,
                 self.subproject.__unicode__()
             )
         elif force:
-            logger.info(
+            weblate.logger.info(
                 'processing %s in %s, check forced',
                 self.filename,
                 self.subproject.__unicode__()
@@ -745,7 +742,7 @@ class Translation(models.Model):
 
         # Can we delay commit?
         if not force_commit and appsettings.LAZY_COMMITS:
-            logger.info(
+            weblate.logger.info(
                 'Delaying commiting %s in %s as %s',
                 self.filename,
                 self,
@@ -754,7 +751,7 @@ class Translation(models.Model):
             return False
 
         # Do actual commit with git lock
-        logger.info('Commiting %s in %s as %s', self.filename, self, author)
+        weblate.logger.info('Commiting %s in %s as %s', self.filename, self, author)
         with self.subproject.git_lock:
             try:
                 self.__git_commit(gitrepo, author, timestamp, sync)

@@ -28,7 +28,7 @@ from django.core.urlresolvers import reverse
 from glob import glob
 import os
 import os.path
-import logging
+import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
@@ -37,8 +37,6 @@ from trans.util import is_repo_link
 from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
 from trans.validators import validate_repoweb, validate_filemask, validate_repo
-
-logger = logging.getLogger('weblate')
 
 
 class SubProjectManager(models.Manager):
@@ -340,7 +338,7 @@ class SubProject(models.Model):
             return self.linked_subproject.update_remote_branch(validate)
 
         # Update
-        logger.info('updating repo %s', self.__unicode__())
+        weblate.logger.info('updating repo %s', self.__unicode__())
         try:
             try:
                 self.git_repo.git.remote('update', 'origin')
@@ -350,7 +348,7 @@ class SubProject(models.Model):
                 sleep_while_git_locked()
                 self.git_repo.git.remote('update', 'origin')
         except Exception as e:
-            logger.error('Failed to update Git repo: %s', str(e))
+            weblate.logger.error('Failed to update Git repo: %s', str(e))
             if validate:
                 raise ValidationError(
                     _('Failed to fetch git repository: %s') % str(e)
@@ -462,14 +460,14 @@ class SubProject(models.Model):
 
         # Do actual push
         try:
-            logger.info('pushing to remote repo %s', self.__unicode__())
+            weblate.logger.info('pushing to remote repo %s', self.__unicode__())
             self.git_repo.git.push(
                 'origin',
                 '%s:%s' % (self.branch, self.branch)
             )
             return True
         except Exception as e:
-            logger.warning('failed push on repo %s', self.__unicode__())
+            weblate.logger.warning('failed push on repo %s', self.__unicode__())
             msg = 'Error:\n%s' % str(e)
             mail_admins(
                 'failed push on repo %s' % self.__unicode__(),
@@ -496,10 +494,10 @@ class SubProject(models.Model):
         # Do actual reset
         with self.git_lock:
             try:
-                logger.info('reseting to remote repo %s', self.__unicode__())
+                weblate.logger.info('reseting to remote repo %s', self.__unicode__())
                 self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
             except Exception as e:
-                logger.warning('failed reset on repo %s', self.__unicode__())
+                weblate.logger.warning('failed reset on repo %s', self.__unicode__())
                 msg = 'Error:\n%s' % str(e)
                 mail_admins(
                     'failed reset on repo %s' % self.__unicode__(),
@@ -586,7 +584,7 @@ class SubProject(models.Model):
             try:
                 # Try to merge it
                 method('origin/%s' % self.branch)
-                logger.info(
+                weblate.logger.info(
                     '%s remote into repo %s',
                     self.project.merge_style,
                     self.__unicode__()
@@ -599,7 +597,7 @@ class SubProject(models.Model):
                 method('--abort')
 
         # Log error
-        logger.warning(
+        weblate.logger.warning(
             'failed %s on repo %s',
             self.project.merge_style,
             self.__unicode__()
@@ -634,10 +632,10 @@ class SubProject(models.Model):
         for path in self.get_mask_matches():
             code = self.get_lang_code(path)
             if langs is not None and code not in langs:
-                logger.info('skipping %s', path)
+                weblate.logger.info('skipping %s', path)
                 continue
 
-            logger.info('checking %s', path)
+            weblate.logger.info('checking %s', path)
             translation = Translation.objects.update_from_blob(
                 self, code, path, force, request=request
             )
@@ -647,7 +645,7 @@ class SubProject(models.Model):
         if langs is None:
             todelete = self.translation_set.exclude(id__in=translations)
             if todelete.exists():
-                logger.info(
+                weblate.logger.info(
                     'removing stale translations: %s',
                     ','.join([trans.language.code for trans in todelete])
                 )
@@ -655,13 +653,13 @@ class SubProject(models.Model):
 
         # Process linked repos
         for subproject in self.get_linked_childs():
-            logger.info(
+            weblate.logger.info(
                 'updating linked project %s',
                 subproject
             )
             subproject.create_translations(force, langs, request=request)
 
-        logger.info('updating of %s completed', self)
+        weblate.logger.info('updating of %s completed', self)
 
     def get_lang_code(self, path):
         '''
