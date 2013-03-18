@@ -118,7 +118,7 @@ class FileUnit(object):
         Returns source string from a ttkit unit.
         '''
         if self.is_unit_key_value():
-            return self.mainunit.name
+            return quote.propertiesdecode(self.mainunit.name)
         else:
             return get_string(self.mainunit.source)
 
