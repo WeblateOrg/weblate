@@ -136,14 +136,8 @@ class BasicViewTest(ViewTestCase):
 
 
 class BasicResourceViewTest(BasicViewTest):
-    def create_subproject(self, file_format='aresource',
-                          mask='android/values-*/strings.xml',
-                          template='android/values/strings.xml'):
-        return super(BasicResourceViewTest, self).create_subproject(
-            file_format,
-            mask,
-            template,
-        )
+    def create_subproject(self, *args, **kwargs):
+        return self.create_android()
 
 
 class EditTest(ViewTestCase):
@@ -223,11 +217,5 @@ class EditTest(ViewTestCase):
 
 
 class EditResourceTest(EditTest):
-    def create_subproject(self, file_format='aresource',
-                          mask='android/values-*/strings.xml',
-                          template='android/values/strings.xml'):
-        return super(EditResourceTest, self).create_subproject(
-            file_format,
-            mask,
-            template,
-        )
+    def create_subproject(self, *args, **kwargs):
+        return self.create_android()
