@@ -409,6 +409,8 @@ class Translation(models.Model):
         '''
         Removes stale checks/comments/suggestions for deleted units.
         '''
+        from trans.models.unit import Unit
+        from trans.models.unitdata import Check, Suggestion, Comment
         for checksum in deleted_checksums:
             units = Unit.objects.filter(
                 translation__language=self.language,
@@ -463,7 +465,7 @@ class Translation(models.Model):
         Updates translation data from blob.
         '''
         from trans.models.unit import Unit
-        from trans.models.unitdata import Check, Suggestion, Comment, Change
+        from trans.models.unitdata import Change
         blob_hash = self.get_git_blob_hash()
 
         # Check if we're not already up to date
