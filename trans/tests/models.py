@@ -89,7 +89,7 @@ class RepoTestCase(TestCase):
         )
 
     def create_subproject(self, file_format='auto', mask='po/*.po',
-                          template=''):
+                          template='', repoweb=''):
         '''
         Creates test subproject.
         '''
@@ -103,12 +103,14 @@ class RepoTestCase(TestCase):
             filemask=mask,
             template=template,
             file_format=file_format,
+            repoweb=repoweb,
         )
 
     def create_iphone(self):
         return self.create_subproject(
             'strings',
             'iphone/*.lproj/Localizable.strings',
+            repoweb='https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s',
         )
 
     def create_android(self):
