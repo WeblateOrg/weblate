@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-03-08 09:25+0100\n"
+"POT-Creation-Date: 2013-03-18 16:30+0100\n"
 "PO-Revision-Date: 2012-11-28 14:58+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Galician <http://l10n.cihar.com/projects/weblate/master/gl/>\n"
@@ -83,53 +83,53 @@ msgstr "Cómpre que o contrasinal teña cando menos seis caracteres."
 msgid "Username needs to have at least five characters."
 msgstr "Cómpre que o nome de usuario teña cando menos cinco caracteres."
 
-#: accounts/models.py:186
+#: accounts/models.py:182
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: accounts/models.py:192 trans/views/basic.py:100 weblate/html/index.html:21
+#: accounts/models.py:188 trans/views/basic.py:100 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Idiomas"
 
-#: accounts/models.py:197
+#: accounts/models.py:193
 msgid "Secondary languages"
 msgstr "Segundos idiomas"
 
-#: accounts/models.py:206
+#: accounts/models.py:202
 msgid "Subscribed projects"
 msgstr "Proxectos subscritos"
 
-#: accounts/models.py:210
+#: accounts/models.py:206
 msgid "Notification on any translation"
 msgstr "Notificación en calquera tradución"
 
-#: accounts/models.py:214
+#: accounts/models.py:210
 msgid "Notification on new string to translate"
 msgstr "Notificación sobre nova cadea para traducir"
 
-#: accounts/models.py:218
+#: accounts/models.py:214
 msgid "Notification on new suggestion"
 msgstr "Notificación sobre novas suxestións"
 
-#: accounts/models.py:222
+#: accounts/models.py:218
 msgid "Notification on new contributor"
 msgstr "Notificación sobre novo colaborador"
 
-#: accounts/models.py:226
+#: accounts/models.py:222
 #, fuzzy
 msgid "Notification on new comment"
 msgstr "Notificación sobre novo colaborador"
 
-#: accounts/models.py:230
+#: accounts/models.py:226
 #, fuzzy
 msgid "Notification on merge failure"
 msgstr "Notificación sobre novo colaborador"
 
-#: accounts/models.py:390
+#: accounts/models.py:386
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Migrouse o seu perfil, quizais queira axustar as preferencias."
 
-#: accounts/urls.py:38 accounts/views.py:50
+#: accounts/urls.py:38 accounts/views.py:52
 msgid "User registration"
 msgstr "Rexistro do usuario"
 
@@ -159,31 +159,32 @@ msgstr "Contrasinal cambiado"
 msgid "Password reset"
 msgstr "Restabelecer o contrasinal"
 
-#: accounts/views.py:112
+#: accounts/views.py:114
 msgid "Your profile has been updated."
 msgstr "Actualizouse o seu perfil."
 
-#: accounts/views.py:131
+#: accounts/views.py:133
 msgid "User profile"
 msgstr "Perfil do usuario"
 
-#: accounts/views.py:155
+#: accounts/views.py:157
 msgid "Message has been sent to administrator."
 msgstr "Envióuselle unha mensaxe ao administrador."
 
-#: accounts/views.py:169
+#: accounts/views.py:171
 msgid "Contact"
 msgstr "Contacto"
 
 #: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
 #: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
+#: lang/models.py:301
 msgctxt "Plural form description"
 msgid "One"
 msgstr ""
 
 #: lang/models.py:257 lang/models.py:262 lang/models.py:270 lang/models.py:275
 #: lang/models.py:281 lang/models.py:287 lang/models.py:291 lang/models.py:298
-#: lang/models.py:302
+#: lang/models.py:305 lang/models.py:309
 #, fuzzy
 #| msgid "Others"
 msgctxt "Plural form description"
@@ -191,6 +192,7 @@ msgid "Other"
 msgstr "Outros"
 
 #: lang/models.py:261 lang/models.py:268 lang/models.py:286 lang/models.py:296
+#: lang/models.py:303
 msgctxt "Plural form description"
 msgid "Few"
 msgstr ""
@@ -201,12 +203,12 @@ msgid "Zero"
 msgstr ""
 
 #: lang/models.py:267 lang/models.py:274 lang/models.py:279 lang/models.py:285
-#: lang/models.py:301
+#: lang/models.py:302 lang/models.py:308
 msgctxt "Plural form description"
 msgid "Two"
 msgstr ""
 
-#: lang/models.py:269 lang/models.py:297
+#: lang/models.py:269 lang/models.py:297 lang/models.py:304
 msgctxt "Plural form description"
 msgid "Many"
 msgstr ""
@@ -216,15 +218,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr ""
 
-#: lang/models.py:359
+#: lang/models.py:367
 msgid "Singular"
 msgstr "Singular"
 
-#: lang/models.py:361
+#: lang/models.py:369
 msgid "Plural"
 msgstr "Plural"
 
-#: lang/models.py:362
+#: lang/models.py:370
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -277,44 +279,44 @@ msgstr "Cambios recentes"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Lista de cambios recentes feitos no Weblate"
 
-#: trans/formats.py:88
+#: trans/formats.py:415
 #, fuzzy
 msgid "Automatic detection"
 msgstr "Tradución automática"
 
-#: trans/formats.py:101
+#: trans/formats.py:429
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/formats.py:110
+#: trans/formats.py:438
 #, fuzzy
 msgid "Qt Linguist Translation File"
 msgstr "Cadeas para traducir"
 
-#: trans/formats.py:118
+#: trans/formats.py:446
 #, fuzzy
 msgid "XLIFF Translation File"
 msgstr "Traducións feitas"
 
-#: trans/formats.py:126
+#: trans/formats.py:454
 #, fuzzy
 msgid "OS X Strings"
 msgstr "Todas as cadeas"
 
-#: trans/formats.py:135
+#: trans/formats.py:463
 msgid "Java Properties"
 msgstr ""
 
-#: trans/formats.py:152
+#: trans/formats.py:481
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/formats.py:161
+#: trans/formats.py:490
 #, fuzzy
 msgid "PHP strings"
 msgstr "Todas as cadeas"
 
-#: trans/formats.py:169 ttkit/aresource.py:311
+#: trans/formats.py:498 ttkit/aresource.py:311
 msgid "Android String Resource"
 msgstr ""
 
@@ -488,7 +490,7 @@ msgstr "Calquera"
 msgid "Whole project"
 msgstr "Todos os subproxectos"
 
-#: trans/util.py:74
+#: trans/util.py:70
 msgid "None"
 msgstr ""
 
@@ -660,11 +662,11 @@ msgstr "Inconsistente"
 msgid "This message has more than one translation in this project"
 msgstr "Esta mensaxe ten máis dunha tradución neste proxecto"
 
-#: trans/checks/consistency.py:82
+#: trans/checks/consistency.py:83
 msgid "Invalid text direction"
 msgstr "A dirección do texto non é correcta"
 
-#: trans/checks/consistency.py:83
+#: trans/checks/consistency.py:84
 msgid "Text direction can be either LTR or RTL"
 msgstr "A dirección do texto pode ser tanto LTR como RTL"
 
@@ -813,15 +815,15 @@ msgstr ""
 "Cumpra as indicacións do URL de instrucións ou utilice unha opción diferente "
 "para engadir un novo idioma."
 
-#: trans/models/subproject.py:75
+#: trans/models/subproject.py:65
 msgid "Name to display"
 msgstr "Nome para presentar"
 
-#: trans/models/subproject.py:79
+#: trans/models/subproject.py:69
 msgid "Name used in URLs"
 msgstr "Nome usado nos URL"
 
-#: trans/models/subproject.py:85
+#: trans/models/subproject.py:75
 #, fuzzy
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
@@ -830,11 +832,11 @@ msgstr ""
 "O URL do repositorio Git, usa weblate://project/subproject para compartir "
 "con outro subproxecto"
 
-#: trans/models/subproject.py:92
+#: trans/models/subproject.py:82
 msgid "URL of push Git repository"
 msgstr "URL do repositorio Git para pular"
 
-#: trans/models/subproject.py:97
+#: trans/models/subproject.py:87
 #, fuzzy, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -843,17 +845,17 @@ msgstr ""
 "Ligazón ao navegador do repositorio, use  %(branch)s para ramificación, "
 "%(file)s e %(line)s como nome de ficheiro e marcadores de posición de liña"
 
-#: trans/models/subproject.py:105
+#: trans/models/subproject.py:95
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
 
-#: trans/models/subproject.py:112
+#: trans/models/subproject.py:102
 msgid "Git branch to translate"
 msgstr "Ramificación Git para traducir"
 
-#: trans/models/subproject.py:119
+#: trans/models/subproject.py:109
 #, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
@@ -862,7 +864,7 @@ msgstr ""
 "Ruta dos ficheiros para traducir, use * no canto do código de idioma, por "
 "exemplo: po/*.po ou locale/*/LC_MESSAGES/django.po"
 
-#: trans/models/subproject.py:127
+#: trans/models/subproject.py:117
 #, fuzzy
 msgid ""
 "Filename of translations template, this is recommended to use for "
@@ -872,32 +874,32 @@ msgstr ""
 "Nome do ficheiro do modelo de traducións, que é recomendábel usar para "
 "traducións que almacenan só texto traducido como cadeas de recursos Android"
 
-#: trans/models/subproject.py:137
+#: trans/models/subproject.py:127
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: trans/models/subproject.py:144
+#: trans/models/subproject.py:134
 #, fuzzy
 msgid "Whether subproject is locked for translation updates."
 msgstr "Cando o subproxecto está bloqueado para actualizacións de tradución"
 
-#: trans/models/subproject.py:150
+#: trans/models/subproject.py:140
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
 
-#: trans/models/subproject.py:363
+#: trans/models/subproject.py:354
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Fallou o tentar obeter o repositorio git: %s"
 
-#: trans/models/subproject.py:454
+#: trans/models/subproject.py:441
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "O pulo está desactivado para %s."
 
-#: trans/models/subproject.py:492
+#: trans/models/subproject.py:485
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Fallou o pular á ramificación remota en %s."
@@ -907,25 +909,33 @@ msgstr "Fallou o pular á ramificación remota en %s."
 msgid "Failed to reset to remote branch on %s."
 msgstr "Produciuse un erro ao restabelecer a ramificación remota en %s."
 
-#: trans/models/subproject.py:608
-#, python-format
-msgid "Failed to merge remote branch into %s."
-msgstr "Fallou o fusionar a ramificación remota en %s."
-
-#: trans/models/subproject.py:642
+#: trans/models/subproject.py:590
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Produciuse un erro ao restabelecer a ramificación remota en %s."
 
-#: trans/models/subproject.py:757
+#: trans/models/subproject.py:593
+#, python-format
+msgid "Failed to merge remote branch into %s."
+msgstr "Fallou o fusionar a ramificación remota en %s."
+
+#: trans/models/subproject.py:707
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:763
+#: trans/models/subproject.py:719
+msgid "Format of translation template could not be recognized."
+msgstr "Non se recoñeceu o formato do modelo de tradución."
+
+#: trans/models/subproject.py:723
+msgid "Failed to parse translation template."
+msgstr "Fallou ao procesar o modelo da tradución."
+
+#: trans/models/subproject.py:744
 msgid "The mask did not match any files!"
 msgstr "A máscara non casa con ningún ficheiro!"
 
-#: trans/models/subproject.py:769
+#: trans/models/subproject.py:750
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -933,25 +943,17 @@ msgstr ""
 "Hai máis ficheiros para un idioma particular, axuste a máscara e use "
 "subproxectos para traducir recursos diferentes."
 
-#: trans/models/subproject.py:790
+#: trans/models/subproject.py:770
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Non se pode recoñecer o formto dos %d ficheiros atopados."
 
-#: trans/models/subproject.py:795
+#: trans/models/subproject.py:779
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
-#: trans/models/subproject.py:805
-msgid "Format of translation template could not be recognized."
-msgstr "Non se recoñeceu o formato do modelo de tradución."
-
-#: trans/models/subproject.py:808
-msgid "Failed to parse translation template."
-msgstr "Fallou ao procesar o modelo da tradución."
-
-#: trans/models/translation.py:149
+#: trans/models/translation.py:142
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -960,17 +962,17 @@ msgstr ""
 "O nome de ficheiro %s non se atopa no repositorio! Para engadir unha nova "
 "tradución, engada un ficheiro de idioma no repositorio."
 
-#: trans/models/translation.py:158
+#: trans/models/translation.py:151
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Non se puido recoñecer o formato de %s."
 
-#: trans/models/translation.py:163
+#: trans/models/translation.py:156
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Produciuse un fallo ao procesar o ficheiro %(file)s: %(error)s"
 
-#: trans/models/translation.py:187
+#: trans/models/translation.py:180
 #, fuzzy, python-format
 #| msgid ""
 #| "This translation is locked by %(user)s for translation till %(time)s!"
@@ -978,46 +980,46 @@ msgid "This translation is locked by %(user)s!"
 msgstr ""
 "Ata %(time)s, esta tradución está bloqueada por %(user)s para traducila!"
 
-#: trans/models/translation.py:902 trans/models/translation.py:935
+#: trans/models/translation.py:866 trans/models/translation.py:899
 msgid "All strings"
 msgstr "Todas as cadeas"
 
-#: trans/models/translation.py:909 trans/models/translation.py:966
+#: trans/models/translation.py:873 trans/models/translation.py:930
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
 
-#: trans/models/translation.py:926 trans/models/translation.py:983
+#: trans/models/translation.py:890 trans/models/translation.py:947
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "Cadeas con suxestións (%d)"
 
-#: trans/models/translation.py:942
+#: trans/models/translation.py:906
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Cadeas non traducidas (%d)"
 
-#: trans/models/translation.py:950
+#: trans/models/translation.py:914
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadeas revisábeis (%d)"
 
-#: trans/models/translation.py:958
+#: trans/models/translation.py:922
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadeas con suxestións (%d)"
 
-#: trans/models/unit.py:565
+#: trans/models/unit.py:524
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:577
+#: trans/models/unit.py:536
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Non se atopou a mensaxe no almacenamento da infraestrutura, probabelmente "
 "está corrupta."
 
-#: trans/models/unit.py:714
+#: trans/models/unit.py:675
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidade %s"
@@ -1255,91 +1257,91 @@ msgid "File upload has failed: %s"
 msgstr "Fallou a fusión do contido do ficheiro: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:545
+#: trans/views/edit.py:542
 msgid "Failed to process form!"
 msgstr "Fallou o procesamento do formulario!"
 
-#: trans/views/edit.py:104
+#: trans/views/edit.py:101
 msgid "Your suggestion is empty!"
 msgstr "A súa suxestión está vadía!"
 
-#: trans/views/edit.py:140
+#: trans/views/edit.py:137
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:158
+#: trans/views/edit.py:155
 msgid "You need to log in to be able to save translations!"
 msgstr "Cómpre acceder para poder gardar as traducións!"
 
-#: trans/views/edit.py:164 trans/views/edit.py:221
+#: trans/views/edit.py:161 trans/views/edit.py:218
 msgid "You don't have privileges to save translations!"
 msgstr "Non ten permisos para gardar as traducións!"
 
-#: trans/views/edit.py:186
+#: trans/views/edit.py:183
 msgid "Some checks have failed on your translation!"
 msgstr "Fallaron algunhas comprobacións na súa tradución!"
 
-#: trans/views/edit.py:212 trans/views/edit.py:272
+#: trans/views/edit.py:209 trans/views/edit.py:269
 msgid "Message you wanted to translate is no longer available!"
 msgstr "A mensaxe que quere traducir xa non está dispoñíbel!"
 
-#: trans/views/edit.py:247
+#: trans/views/edit.py:244
 msgid "Can not merge different messages!"
 msgstr "Non se poden fusionar diferentes mensaxes!"
 
-#: trans/views/edit.py:279
+#: trans/views/edit.py:276
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Cómpre acceder para xestionar as suxestións!"
 
-#: trans/views/edit.py:290
+#: trans/views/edit.py:287
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Non ten permiso para aceptar suxestións!"
 
-#: trans/views/edit.py:300
+#: trans/views/edit.py:297
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Non ten permiso para eliminar suxestións!"
 
-#: trans/views/edit.py:325
+#: trans/views/edit.py:322
 msgid "Invalid suggestion!"
 msgstr "Suxestión incorrecta!"
 
-#: trans/views/edit.py:419
+#: trans/views/edit.py:416
 msgid "You have reached end of translating."
 msgstr "Rematou a tradución."
 
-#: trans/views/edit.py:543
+#: trans/views/edit.py:540
 msgid "Automatic translation completed."
 msgstr "Tradución automática completada."
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:581
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:609
+#: trans/views/edit.py:606
 #, fuzzy
 msgid "Failed to add comment!"
 msgstr "Fallou o procesamento do formulario!"
 
-#: trans/views/files.py:92
+#: trans/views/files.py:61
 msgid "Access denied."
 msgstr ""
 
-#: trans/views/files.py:105 weblate/html/profile.html:12
+#: trans/views/files.py:74 weblate/html/profile.html:12
 msgid "Please fix errors in the form."
 msgstr "Arranxe os erros do formulario."
 
-#: trans/views/files.py:138
+#: trans/views/files.py:107
 msgid "File content successfully merged into translation."
 msgstr "Fusionouse correctamente o contido do ficheiro na tradución."
 
-#: trans/views/files.py:143
+#: trans/views/files.py:112
 msgid "There were no new strings in uploaded file."
 msgstr "Non hai cadeas novas no ficheiro enviado."
 
-#: trans/views/files.py:148
+#: trans/views/files.py:117
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Fallou a fusión do contido do ficheiro: %s"
