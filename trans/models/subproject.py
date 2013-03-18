@@ -494,23 +494,24 @@ class SubProject(models.Model):
         self.update_remote_branch()
 
         # Do actual reset
-        try:
-            logger.info('reseting to remote repo %s', self.__unicode__())
-            self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
-        except Exception as e:
-            logger.warning('failed reset on repo %s', self.__unicode__())
-            msg = 'Error:\n%s' % str(e)
-            mail_admins(
-                'failed reset on repo %s' % self.__unicode__(),
-                msg
-            )
-            if request is not None:
-                messages.error(
-                    request,
-                    _('Failed to reset to remote branch on %s.') %
-                    self.__unicode__()
+        with self.git_lock:
+            try:
+                logger.info('reseting to remote repo %s', self.__unicode__())
+                self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
+            except Exception as e:
+                logger.warning('failed reset on repo %s', self.__unicode__())
+                msg = 'Error:\n%s' % str(e)
+                mail_admins(
+                    'failed reset on repo %s' % self.__unicode__(),
+                    msg
                 )
-            return False
+                if request is not None:
+                    messages.error(
+                        request,
+                        _('Failed to reset to remote branch on %s.') %
+                        self.__unicode__()
+                    )
+                return False
 
         # create translation objects for all files
         self.create_translations(request=request)
