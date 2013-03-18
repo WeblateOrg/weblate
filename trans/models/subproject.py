@@ -569,70 +569,6 @@ class SubProject(models.Model):
             }
         )
 
-    def update_merge(self, request=None):
-        '''
-        Updates current branch to remote using merge.
-        '''
-        with self.get_git_lock():
-            try:
-                # Try to merge it
-                self.git_repo.git.merge('origin/%s' % self.branch)
-                logger.info('merged remote into repo %s', self.__unicode__())
-                return True
-            except Exception as e:
-                # In case merge has failer recover
-                status = self.git_repo.git.status()
-                error = str(e)
-                self.git_repo.git.merge('--abort')
-
-        # Log error
-        logger.warning('failed merge on repo %s', self.__unicode__())
-
-        # Notify subscribers and admins
-        self.notify_merge_failure(error, status)
-
-        # Tell user (if there is any)
-        if request is not None:
-            messages.error(
-                request,
-                _('Failed to merge remote branch into %s.') %
-                self.__unicode__()
-            )
-
-        return False
-
-    def update_rebase(self, request=None):
-        '''
-        Updates current branch to remote using rebase.
-        '''
-        with self.get_git_lock():
-            try:
-                # Try to merge it
-                self.git_repo.git.rebase('origin/%s' % self.branch)
-                logger.info('rebased remote into repo %s', self.__unicode__())
-                return True
-            except Exception as e:
-                # In case merge has failer recover
-                status = self.git_repo.git.status()
-                error = str(e)
-                self.git_repo.git.rebase('--abort')
-
-        # Log error
-        logger.warning('failed rebase on repo %s', self.__unicode__())
-
-        # Notify subscribers and admins
-        self.notify_merge_failure(error, status)
-
-        # Tell user (if there is any)
-        if request is not None:
-            messages.error(
-                request,
-                _('Failed to rebase our branch onto remote branch %s.') %
-                self.__unicode__()
-            )
-
-        return False
-
     def update_branch(self, request=None):
         '''
         Updates current branch to match remote (if possible).
@@ -642,9 +578,46 @@ class SubProject(models.Model):
 
         # Merge/rebase
         if self.project.merge_style == 'rebase':
-            return self.update_rebase(request)
+            method = self.git_repo.git.rebase
+            error_msg = _('Failed to rebase our branch onto remote branch %s.')
         else:
-            return self.update_merge(request)
+            method = self.git_repo.git.merge
+            error_msg = _('Failed to merge remote branch into %s.')
+
+        with self.get_git_lock():
+            try:
+                # Try to merge it
+                method('origin/%s' % self.branch)
+                logger.info(
+                    '%s remote into repo %s',
+                    self.project.merge_style,
+                    self.__unicode__()
+                )
+                return True
+            except Exception as e:
+                # In case merge has failer recover
+                status = self.git_repo.git.status()
+                error = str(e)
+                method('--abort')
+
+        # Log error
+        logger.warning(
+            'failed %s on repo %s',
+            self.project.merge_style,
+            self.__unicode__()
+        )
+
+        # Notify subscribers and admins
+        self.notify_merge_failure(error, status)
+
+        # Tell user (if there is any)
+        if request is not None:
+            messages.error(
+                request,
+                error_msg % self.__unicode__()
+            )
+
+        return False
 
     def get_mask_matches(self):
         '''
