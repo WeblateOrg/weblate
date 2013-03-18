@@ -366,24 +366,22 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.linked_subproject.configure_repo(validate)
-        # Create/Open repo
-        gitrepo = self.git_repo
         # Get/Create origin remote
         try:
-            origin = gitrepo.remotes.origin
+            origin = self.git_repo.remotes.origin
         except:
-            gitrepo.git.remote('add', 'origin', self.repo)
-            origin = gitrepo.remotes.origin
+            self.git_repo.git.remote('add', 'origin', self.repo)
+            origin = self.git_repo.remotes.origin
         # Check remote source
         if origin.url != self.repo:
-            gitrepo.git.remote('set-url', 'origin', self.repo)
+            self.git_repo.git.remote('set-url', 'origin', self.repo)
         # Check push url
         try:
             pushurl = origin.pushurl
         except AttributeError:
             pushurl = ''
         if pushurl != self.push:
-            gitrepo.git.remote('set-url', 'origin', '--push', self.push)
+            self.git_repo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
         self.update_remote_branch(validate)
 
@@ -394,18 +392,16 @@ class SubProject(models.Model):
         if self.is_repo_link():
             return self.linked_subproject.configure_branch()
 
-        gitrepo = self.git_repo
-
         # create branch if it does not exist
-        if not self.branch in gitrepo.heads:
-            gitrepo.git.branch(
+        if not self.branch in self.git_repo.heads:
+            self.git_repo.git.branch(
                 '--track',
                 self.branch,
                 'origin/%s' % self.branch
             )
 
         # switch to correct branch
-        gitrepo.git.checkout(self.branch)
+        self.git_repo.git.checkout(self.branch)
 
     def do_update(self, request=None):
         '''
@@ -577,19 +573,17 @@ class SubProject(models.Model):
         '''
         Updates current branch to remote using merge.
         '''
-        gitrepo = self.git_repo
-
         with self.get_git_lock():
             try:
                 # Try to merge it
-                gitrepo.git.merge('origin/%s' % self.branch)
+                self.git_repo.git.merge('origin/%s' % self.branch)
                 logger.info('merged remote into repo %s', self.__unicode__())
                 return True
             except Exception as e:
                 # In case merge has failer recover
-                status = gitrepo.git.status()
+                status = self.git_repo.git.status()
                 error = str(e)
-                gitrepo.git.merge('--abort')
+                self.git_repo.git.merge('--abort')
 
         # Log error
         logger.warning('failed merge on repo %s', self.__unicode__())
@@ -611,19 +605,17 @@ class SubProject(models.Model):
         '''
         Updates current branch to remote using rebase.
         '''
-        gitrepo = self.git_repo
-
         with self.get_git_lock():
             try:
                 # Try to merge it
-                gitrepo.git.rebase('origin/%s' % self.branch)
+                self.git_repo.git.rebase('origin/%s' % self.branch)
                 logger.info('rebased remote into repo %s', self.__unicode__())
                 return True
             except Exception as e:
                 # In case merge has failer recover
-                status = gitrepo.git.status()
+                status = self.git_repo.git.status()
                 error = str(e)
-                gitrepo.git.rebase('--abort')
+                self.git_repo.git.rebase('--abort')
 
         # Log error
         logger.warning('failed rebase on repo %s', self.__unicode__())
