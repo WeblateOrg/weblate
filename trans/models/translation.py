@@ -405,6 +405,59 @@ class Translation(models.Model):
         '''
         self.update_from_blob()
 
+    def cleanup_deleted(self, deleted_checksums):
+        '''
+        Removes stale checks/comments/suggestions for deleted units.
+        '''
+        for checksum in deleted_checksums:
+            units = Unit.objects.filter(
+                translation__language=self.language,
+                translation__subproject__project=self.subproject.project,
+                checksum=checksum
+            )
+            if not units.exists():
+                # Last unit referencing to these checks
+                Check.objects.filter(
+                    project=self.subproject.project,
+                    language=self.language,
+                    checksum=checksum
+                ).delete()
+                # Delete suggestons referencing this unit
+                Suggestion.objects.filter(
+                    project=self.subproject.project,
+                    language=self.language,
+                    checksum=checksum
+                ).delete()
+                # Delete translation comments referencing this unit
+                Comment.objects.filter(
+                    project=self.subproject.project,
+                    language=self.language,
+                    checksum=checksum
+                ).delete()
+                # Check for other units with same source
+                other_units = Unit.objects.filter(
+                    translation__subproject__project=self.subproject.project,
+                    checksum=checksum
+                )
+                if not other_units.exists():
+                    # Delete source comments as well if this was last reference
+                    Comment.objects.filter(
+                        project=self.subproject.project,
+                        language=None,
+                        checksum=checksum
+                    ).delete()
+                    # Delete source checks as well if this was last reference
+                    Check.objects.filter(
+                        project=self.subproject.project,
+                        language=None,
+                        checksum=checksum
+                    ).delete()
+            else:
+                # There are other units as well, but some checks
+                # (eg. consistency) needs update now
+                for unit in units:
+                    unit.check()
+
     def update_from_blob(self, force=False, request=None):
         '''
         Updates translation data from blob.
@@ -459,54 +512,7 @@ class Translation(models.Model):
         units_to_delete.delete()
 
         # Cleanup checks for deleted units
-        for checksum in deleted_checksums:
-            units = Unit.objects.filter(
-                translation__language=self.language,
-                translation__subproject__project=self.subproject.project,
-                checksum=checksum
-            )
-            if not units.exists():
-                # Last unit referencing to these checks
-                Check.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Delete suggestons referencing this unit
-                Suggestion.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Delete translation comments referencing this unit
-                Comment.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Check for other units with same source
-                other_units = Unit.objects.filter(
-                    translation__subproject__project=self.subproject.project,
-                    checksum=checksum
-                )
-                if not other_units.exists():
-                    # Delete source comments as well if this was last reference
-                    Comment.objects.filter(
-                        project=self.subproject.project,
-                        language=None,
-                        checksum=checksum
-                    ).delete()
-                    # Delete source checks as well if this was last reference
-                    Check.objects.filter(
-                        project=self.subproject.project,
-                        language=None,
-                        checksum=checksum
-                    ).delete()
-            else:
-                # There are other units as well, but some checks
-                # (eg. consistency) needs update now
-                for unit in units:
-                    unit.check()
+        self.cleanup_deleted(deleted_checksums)
 
         # Update revision and stats
         self.update_stats()
