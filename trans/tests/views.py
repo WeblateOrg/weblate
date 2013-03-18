@@ -140,6 +140,11 @@ class BasicResourceViewTest(BasicViewTest):
         return self.create_android()
 
 
+class BasicIphoneViewTest(BasicViewTest):
+    def create_subproject(self, *args, **kwargs):
+        return self.create_iphone()
+
+
 class EditTest(ViewTestCase):
     '''
     Tests for manipulating translation.
@@ -219,3 +224,8 @@ class EditTest(ViewTestCase):
 class EditResourceTest(EditTest):
     def create_subproject(self, *args, **kwargs):
         return self.create_android()
+
+
+class EditIphoneTest(EditTest):
+    def create_subproject(self, *args, **kwargs):
+        return self.create_iphone()
