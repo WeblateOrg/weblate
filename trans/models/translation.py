@@ -755,7 +755,7 @@ class Translation(models.Model):
 
         # Do actual commit with git lock
         logger.info('Commiting %s in %s as %s', self.filename, self, author)
-        with self.subproject.get_git_lock():
+        with self.subproject.git_lock:
             try:
                 self.__git_commit(gitrepo, author, timestamp, sync)
             except git.GitCommandError:
@@ -775,7 +775,7 @@ class Translation(models.Model):
         Updates backend file and unit.
         '''
         # Save with lock acquired
-        with self.subproject.get_git_lock():
+        with self.subproject.git_lock:
 
             src = unit.get_source_plurals()[0]
             add = False
@@ -944,7 +944,7 @@ class Translation(models.Model):
         Merges translate-toolkit store into current translation.
         '''
         # Merge with lock acquired
-        with self.subproject.get_git_lock():
+        with self.subproject.git_lock:
 
             store1 = self.store.store
             store1.require_index()

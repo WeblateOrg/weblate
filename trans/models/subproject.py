@@ -264,7 +264,8 @@ class SubProject(models.Model):
         '''
         return os.path.join(self.project.get_path(), self.slug + '.lock')
 
-    def get_git_lock(self):
+    @property
+    def git_lock(self):
         '''
         Returns lock object for current translation instance.
         '''
@@ -580,7 +581,7 @@ class SubProject(models.Model):
             method = self.git_repo.git.merge
             error_msg = _('Failed to merge remote branch into %s.')
 
-        with self.get_git_lock():
+        with self.git_lock:
             try:
                 # Try to merge it
                 method('origin/%s' % self.branch)
