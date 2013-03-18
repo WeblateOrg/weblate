@@ -33,6 +33,10 @@ from trans.models import (
     Project, SubProject
 )
 
+REPOWEB_URL = \
+    'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
+GIT_URL = 'git://github.com/nijel/weblate-test.git'
+
 
 class RepoTestCase(TestCase):
     '''
@@ -62,7 +66,7 @@ class RepoTestCase(TestCase):
         if not os.path.exists(self.base_repo_path):
             cmd.clone(
                 '--bare',
-                'git://github.com/nijel/weblate-test.git',
+                GIT_URL,
                 self.base_repo_path
             )
 
@@ -110,7 +114,7 @@ class RepoTestCase(TestCase):
         return self.create_subproject(
             'strings',
             'iphone/*.lproj/Localizable.strings',
-            repoweb='https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s',
+            repoweb=REPOWEB_URL,
         )
 
     def create_android(self):
