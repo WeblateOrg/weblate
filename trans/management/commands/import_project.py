@@ -193,7 +193,7 @@ class Command(BaseCommand):
         if SubProject.objects.filter(project=project, slug=slug).exists():
             weblate.logger.warn(
                 'Subproject %s already exists, skipping and using it '
-                        'as main subproject',
+                'as main subproject',
                 name
             )
             shutil.rmtree(workdir)
