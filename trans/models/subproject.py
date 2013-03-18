@@ -919,8 +919,7 @@ class SubProject(models.Model):
         monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None)
-            and self.template != ''
-            and not self.template is None
+            and len(self.template) > 0
         )
 
     def should_mark_fuzzy(self):
