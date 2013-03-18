@@ -36,11 +36,7 @@ from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
-from trans.validators import (
-    validate_repoweb,
-    validate_filemask,
-    validate_repo,
-)
+from trans.validators import validate_repoweb, validate_filemask, validate_repo
 
 logger = logging.getLogger('weblate')
 
@@ -268,7 +264,8 @@ class SubProject(models.Model):
         '''
         return os.path.join(self.project.get_path(), self.slug + '.lock')
 
-    def get_git_lock(self):
+    @property
+    def git_lock(self):
         '''
         Returns lock object for current translation instance.
         '''
@@ -366,24 +363,22 @@ class SubProject(models.Model):
         '''
         if self.is_repo_link():
             return self.linked_subproject.configure_repo(validate)
-        # Create/Open repo
-        gitrepo = self.git_repo
         # Get/Create origin remote
         try:
-            origin = gitrepo.remotes.origin
+            origin = self.git_repo.remotes.origin
         except:
-            gitrepo.git.remote('add', 'origin', self.repo)
-            origin = gitrepo.remotes.origin
+            self.git_repo.git.remote('add', 'origin', self.repo)
+            origin = self.git_repo.remotes.origin
         # Check remote source
         if origin.url != self.repo:
-            gitrepo.git.remote('set-url', 'origin', self.repo)
+            self.git_repo.git.remote('set-url', 'origin', self.repo)
         # Check push url
         try:
             pushurl = origin.pushurl
         except AttributeError:
             pushurl = ''
         if pushurl != self.push:
-            gitrepo.git.remote('set-url', 'origin', '--push', self.push)
+            self.git_repo.git.remote('set-url', 'origin', '--push', self.push)
         # Update
         self.update_remote_branch(validate)
 
@@ -394,18 +389,16 @@ class SubProject(models.Model):
         if self.is_repo_link():
             return self.linked_subproject.configure_branch()
 
-        gitrepo = self.git_repo
-
         # create branch if it does not exist
-        if not self.branch in gitrepo.heads:
-            gitrepo.git.branch(
+        if not self.branch in self.git_repo.heads:
+            self.git_repo.git.branch(
                 '--track',
                 self.branch,
                 'origin/%s' % self.branch
             )
 
         # switch to correct branch
-        gitrepo.git.checkout(self.branch)
+        self.git_repo.git.checkout(self.branch)
 
     def do_update(self, request=None):
         '''
@@ -501,23 +494,24 @@ class SubProject(models.Model):
         self.update_remote_branch()
 
         # Do actual reset
-        try:
-            logger.info('reseting to remote repo %s', self.__unicode__())
-            self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
-        except Exception as e:
-            logger.warning('failed reset on repo %s', self.__unicode__())
-            msg = 'Error:\n%s' % str(e)
-            mail_admins(
-                'failed reset on repo %s' % self.__unicode__(),
-                msg
-            )
-            if request is not None:
-                messages.error(
-                    request,
-                    _('Failed to reset to remote branch on %s.') %
-                    self.__unicode__()
+        with self.git_lock:
+            try:
+                logger.info('reseting to remote repo %s', self.__unicode__())
+                self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
+            except Exception as e:
+                logger.warning('failed reset on repo %s', self.__unicode__())
+                msg = 'Error:\n%s' % str(e)
+                mail_admins(
+                    'failed reset on repo %s' % self.__unicode__(),
+                    msg
                 )
-            return False
+                if request is not None:
+                    messages.error(
+                        request,
+                        _('Failed to reset to remote branch on %s.') %
+                        self.__unicode__()
+                    )
+                return False
 
         # create translation objects for all files
         self.create_translations(request=request)
@@ -573,74 +567,6 @@ class SubProject(models.Model):
             }
         )
 
-    def update_merge(self, request=None):
-        '''
-        Updates current branch to remote using merge.
-        '''
-        gitrepo = self.git_repo
-
-        with self.get_git_lock():
-            try:
-                # Try to merge it
-                gitrepo.git.merge('origin/%s' % self.branch)
-                logger.info('merged remote into repo %s', self.__unicode__())
-                return True
-            except Exception as e:
-                # In case merge has failer recover
-                status = gitrepo.git.status()
-                error = str(e)
-                gitrepo.git.merge('--abort')
-
-        # Log error
-        logger.warning('failed merge on repo %s', self.__unicode__())
-
-        # Notify subscribers and admins
-        self.notify_merge_failure(error, status)
-
-        # Tell user (if there is any)
-        if request is not None:
-            messages.error(
-                request,
-                _('Failed to merge remote branch into %s.') %
-                self.__unicode__()
-            )
-
-        return False
-
-    def update_rebase(self, request=None):
-        '''
-        Updates current branch to remote using rebase.
-        '''
-        gitrepo = self.git_repo
-
-        with self.get_git_lock():
-            try:
-                # Try to merge it
-                gitrepo.git.rebase('origin/%s' % self.branch)
-                logger.info('rebased remote into repo %s', self.__unicode__())
-                return True
-            except Exception as e:
-                # In case merge has failer recover
-                status = gitrepo.git.status()
-                error = str(e)
-                gitrepo.git.rebase('--abort')
-
-        # Log error
-        logger.warning('failed rebase on repo %s', self.__unicode__())
-
-        # Notify subscribers and admins
-        self.notify_merge_failure(error, status)
-
-        # Tell user (if there is any)
-        if request is not None:
-            messages.error(
-                request,
-                _('Failed to rebase our branch onto remote branch %s.') %
-                self.__unicode__()
-            )
-
-        return False
-
     def update_branch(self, request=None):
         '''
         Updates current branch to match remote (if possible).
@@ -650,9 +576,46 @@ class SubProject(models.Model):
 
         # Merge/rebase
         if self.project.merge_style == 'rebase':
-            return self.update_rebase(request)
+            method = self.git_repo.git.rebase
+            error_msg = _('Failed to rebase our branch onto remote branch %s.')
         else:
-            return self.update_merge(request)
+            method = self.git_repo.git.merge
+            error_msg = _('Failed to merge remote branch into %s.')
+
+        with self.git_lock:
+            try:
+                # Try to merge it
+                method('origin/%s' % self.branch)
+                logger.info(
+                    '%s remote into repo %s',
+                    self.project.merge_style,
+                    self.__unicode__()
+                )
+                return True
+            except Exception as e:
+                # In case merge has failer recover
+                status = self.git_repo.git.status()
+                error = str(e)
+                method('--abort')
+
+        # Log error
+        logger.warning(
+            'failed %s on repo %s',
+            self.project.merge_style,
+            self.__unicode__()
+        )
+
+        # Notify subscribers and admins
+        self.notify_merge_failure(error, status)
+
+        # Tell user (if there is any)
+        if request is not None:
+            messages.error(
+                request,
+                error_msg % self.__unicode__()
+            )
+
+        return False
 
     def get_mask_matches(self):
         '''
@@ -662,24 +625,14 @@ class SubProject(models.Model):
         matches = glob(os.path.join(self.get_path(), self.filemask))
         return [f.replace(prefix, '') for f in matches]
 
-    def get_translation_blobs(self):
-        '''
-        Iterator over translations in filesystem.
-        '''
-        # Glob files
-        for filename in self.get_mask_matches():
-            yield (
-                self.get_lang_code(filename),
-                filename,
-            )
-
     def create_translations(self, force=False, langs=None, request=None):
         '''
         Loads translations from git.
         '''
         from trans.models.translation import Translation
         translations = []
-        for code, path in self.get_translation_blobs():
+        for path in self.get_mask_matches():
+            code = self.get_lang_code(path)
             if langs is not None and code not in langs:
                 logger.info('skipping %s', path)
                 continue
@@ -834,7 +787,7 @@ class SubProject(models.Model):
         '''
         # Detect if git config has changed (so that we have to pull the repo)
         changed_git = True
-        if (self.id):
+        if self.id:
             old = SubProject.objects.get(pk=self.id)
             changed_git = (
                 (old.repo != self.repo)
@@ -919,15 +872,8 @@ class SubProject(models.Model):
         monolingual = self.file_format_cls.monolingual
         return (
             (monolingual or monolingual is None)
-            and self.template != ''
-            and not self.template is None
+            and len(self.template) > 0
         )
-
-    def should_mark_fuzzy(self):
-        '''
-        Returns whether we're handling fuzzy mark in the database.
-        '''
-        return self.file_format_cls.mark_fuzzy
 
     def load_template_store(self):
         '''
