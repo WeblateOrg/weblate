@@ -922,12 +922,6 @@ class SubProject(models.Model):
             and len(self.template) > 0
         )
 
-    def should_mark_fuzzy(self):
-        '''
-        Returns whether we're handling fuzzy mark in the database.
-        '''
-        return self.file_format_cls.mark_fuzzy
-
     def load_template_store(self):
         '''
         Loads translate-toolkit store for template.
