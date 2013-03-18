@@ -834,7 +834,7 @@ class SubProject(models.Model):
         '''
         # Detect if git config has changed (so that we have to pull the repo)
         changed_git = True
-        if (self.id):
+        if self.id:
             old = SubProject.objects.get(pk=self.id)
             changed_git = (
                 (old.repo != self.repo)
