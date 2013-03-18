@@ -93,7 +93,7 @@ class RepoTestCase(TestCase):
         )
 
     def _create_subproject(self, file_format='auto', mask='po/*.po',
-                          template='', repoweb=REPOWEB_URL):
+                          template=''):
         '''
         Creates real test subproject.
         '''
@@ -107,7 +107,7 @@ class RepoTestCase(TestCase):
             filemask=mask,
             template=template,
             file_format=file_format,
-            repoweb=repoweb,
+            repoweb=REPOWEB_URL,
         )
 
     def create_subproject(self):
