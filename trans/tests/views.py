@@ -136,12 +136,12 @@ class BasicViewTest(ViewTestCase):
 
 
 class BasicResourceViewTest(BasicViewTest):
-    def create_subproject(self, *args, **kwargs):
+    def create_subproject(self):
         return self.create_android()
 
 
 class BasicIphoneViewTest(BasicViewTest):
-    def create_subproject(self, *args, **kwargs):
+    def create_subproject(self):
         return self.create_iphone()
 
 
@@ -222,10 +222,10 @@ class EditTest(ViewTestCase):
 
 
 class EditResourceTest(EditTest):
-    def create_subproject(self, *args, **kwargs):
+    def create_subproject(self):
         return self.create_android()
 
 
 class EditIphoneTest(EditTest):
-    def create_subproject(self, *args, **kwargs):
+    def create_subproject(self):
         return self.create_iphone()
