@@ -213,6 +213,9 @@ class FileUnit(object):
         Sets translation unit target.
         '''
         self.unit.settarget(target)
+        # Propagate to value so that is_translated works correctly
+        if self.is_unit_key_value():
+            self.unit.value = self.unit.translation
 
     def mark_fuzzy(self, fuzzy):
         '''
