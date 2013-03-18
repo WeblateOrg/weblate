@@ -507,8 +507,9 @@ class Translation(models.Model):
         )
         # We need to resolve this now as otherwise list will become empty after
         # delete
-        deleted_checksums = units_to_delete.values_list('checksum', flat=True)
-        deleted_checksums = list(deleted_checksums)
+        deleted_checksums = list(
+            units_to_delete.values_list('checksum', flat=True)
+        )
         units_to_delete.delete()
 
         # Cleanup checks for deleted units
