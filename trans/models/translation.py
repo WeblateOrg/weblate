@@ -466,10 +466,9 @@ class Translation(models.Model):
         '''
         from trans.models.unit import Unit
         from trans.models.unitdata import Change
-        blob_hash = self.get_git_blob_hash()
 
         # Check if we're not already up to date
-        if self.revision != blob_hash:
+        if self.revision != self.get_git_blob_hash():
             weblate.logger.info(
                 'processing %s in %s, revision has changed',
                 self.filename,
