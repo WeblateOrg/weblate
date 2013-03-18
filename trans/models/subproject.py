@@ -662,24 +662,14 @@ class SubProject(models.Model):
         matches = glob(os.path.join(self.get_path(), self.filemask))
         return [f.replace(prefix, '') for f in matches]
 
-    def get_translation_blobs(self):
-        '''
-        Iterator over translations in filesystem.
-        '''
-        # Glob files
-        for filename in self.get_mask_matches():
-            yield (
-                self.get_lang_code(filename),
-                filename,
-            )
-
     def create_translations(self, force=False, langs=None, request=None):
         '''
         Loads translations from git.
         '''
         from trans.models.translation import Translation
         translations = []
-        for code, path in self.get_translation_blobs():
+        for path in self.get_mask_matches():
+            code = self.get_lang_code(path)
             if langs is not None and code not in langs:
                 logger.info('skipping %s', path)
                 continue
