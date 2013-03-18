@@ -323,7 +323,7 @@ class SubProject(models.Model):
         if self.is_repo_link():
             return self.linked_subproject.get_repoweb_link(filename, line)
 
-        if self.repoweb == '' or self.repoweb is None:
+        if len(self.repoweb) == 0:
             return None
 
         return self.repoweb % {
