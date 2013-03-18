@@ -751,7 +751,12 @@ class Translation(models.Model):
             return False
 
         # Do actual commit with git lock
-        weblate.logger.info('Commiting %s in %s as %s', self.filename, self, author)
+        weblate.logger.info(
+            'Commiting %s in %s as %s',
+            self.filename,
+            self,
+            author
+        )
         with self.subproject.git_lock:
             try:
                 self.__git_commit(gitrepo, author, timestamp, sync)

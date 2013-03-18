@@ -460,14 +460,20 @@ class SubProject(models.Model):
 
         # Do actual push
         try:
-            weblate.logger.info('pushing to remote repo %s', self.__unicode__())
+            weblate.logger.info(
+                'pushing to remote repo %s',
+                self.__unicode__()
+            )
             self.git_repo.git.push(
                 'origin',
                 '%s:%s' % (self.branch, self.branch)
             )
             return True
         except Exception as e:
-            weblate.logger.warning('failed push on repo %s', self.__unicode__())
+            weblate.logger.warning(
+                'failed push on repo %s',
+                self.__unicode__()
+            )
             msg = 'Error:\n%s' % str(e)
             mail_admins(
                 'failed push on repo %s' % self.__unicode__(),
@@ -494,10 +500,16 @@ class SubProject(models.Model):
         # Do actual reset
         with self.git_lock:
             try:
-                weblate.logger.info('reseting to remote repo %s', self.__unicode__())
+                weblate.logger.info(
+                    'reseting to remote repo %s',
+                    self.__unicode__()
+                )
                 self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
             except Exception as e:
-                weblate.logger.warning('failed reset on repo %s', self.__unicode__())
+                weblate.logger.warning(
+                    'failed reset on repo %s',
+                    self.__unicode__()
+                )
                 msg = 'Error:\n%s' % str(e)
                 mail_admins(
                     'failed reset on repo %s' % self.__unicode__(),

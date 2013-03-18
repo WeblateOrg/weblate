@@ -161,7 +161,10 @@ class Command(BaseCommand):
                 project=project
             )
             if subprojects.exists():
-                weblate.logger.warn('Subproject %s already exists, skipping', name)
+                weblate.logger.warn(
+                    'Subproject %s already exists, skipping',
+                    name
+                )
                 continue
 
             weblate.logger.info('Creating subproject %s', name)
@@ -188,8 +191,11 @@ class Command(BaseCommand):
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
-            weblate.logger.warn('Subproject %s already exists, skipping and using it '
-                        'as main subproject', name)
+            weblate.logger.warn(
+                'Subproject %s already exists, skipping and using it '
+                        'as main subproject',
+                name
+            )
             shutil.rmtree(workdir)
             return matches, 'weblate://%s/%s' % (project.slug, slug)
 
