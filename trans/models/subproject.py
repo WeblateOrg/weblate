@@ -36,11 +36,7 @@ from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
-from trans.validators import (
-    validate_repoweb,
-    validate_filemask,
-    validate_repo,
-)
+from trans.validators import validate_repoweb, validate_filemask, validate_repo
 
 logger = logging.getLogger('weblate')
 
