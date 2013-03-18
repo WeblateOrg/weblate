@@ -179,6 +179,8 @@ class EditTest(ViewTestCase):
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
 
     def test_edit_check(self):
         response = self.edit_unit(
