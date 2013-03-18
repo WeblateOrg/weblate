@@ -132,11 +132,10 @@ class Command(BaseCommand):
 
         if is_repo_link(repo):
             sharedrepo = repo
-            master_sub_project = repo.rsplit('/', 1)[-1]
             try:
                 sub_project = SubProject.objects.get(
                     project=project,
-                    slug=master_sub_project
+                    slug=repo.rsplit('/', 1)[-1]
                 )
             except SubProject.DoesNotExist:
                 raise CommandError(
