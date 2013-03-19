@@ -25,8 +25,7 @@ class DummyTranslation(MachineTranslation):
     '''
     Dummy machine translation for testing purposes.
     '''
-    name = 'dummy'
-    verbose = 'Dummy'
+    name = 'Dummy'
 
     def download_languages(self):
         '''

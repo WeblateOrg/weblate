@@ -26,8 +26,7 @@ class OpenTranTranslation(MachineTranslation):
     '''
     Open-Tran machine translation support.
     '''
-    name = 'open-tran'
-    verbose = 'Open-Tran'
+    name = 'Open-Tran'
 
     def download_languages(self):
         '''

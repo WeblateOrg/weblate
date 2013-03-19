@@ -25,8 +25,7 @@ class MyMemoryTranslation(MachineTranslation):
     '''
     MyMemory machine translation support.
     '''
-    name = 'mymemory'
-    verbose = 'MyMemory'
+    name = 'MyMemory'
 
     def is_supported(self, language):
         '''

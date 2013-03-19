@@ -35,13 +35,13 @@ class MachineTranslation(object):
     '''
     Generic object for machine translation services.
     '''
-    name = None
-    verbose = None
+    name = 'MT'
 
     def __init__(self):
         '''
         Creates new machine translation object.
         '''
+        self.mtid = self.name.lower().replace(' ', '-')
 
     def json_req(self, url, **kwargs):
         '''
@@ -93,7 +93,7 @@ class MachineTranslation(object):
         '''
         Returns list of supported languages.
         '''
-        cache_key = '%s-languages' % self.name
+        cache_key = '%s-languages' % self.mtid
 
         # Try using list from cache
         languages = cache.get(cache_key)
