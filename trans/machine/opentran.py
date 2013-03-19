@@ -30,6 +30,9 @@ class OpenTranTranslation(MachineTranslation):
     verbose = 'Open-Tran'
 
     def download_languages(self):
+        '''
+        Downloads list of supported languages from a service.
+        '''
         return self.json_req('http://open-tran.eu/json/supported')
 
     def format_match(self, match):
@@ -43,7 +46,7 @@ class OpenTranTranslation(MachineTranslation):
 
     def download_translations(self, language, text):
         '''
-        Downloads and processes translations.
+        Downloads list of possible translations from a service.
         '''
         response = self.json_req(
             'http://en.%s.open-tran.eu/json/suggest/%s' % (

@@ -50,7 +50,7 @@ class MyMemoryTranslation(MachineTranslation):
 
     def download_translations(self, language, text):
         '''
-        Downloads and processes translations.
+        Downloads list of possible translations from a service.
         '''
         response = self.json_status_req(
             'http://mymemory.translated.net/api/get',

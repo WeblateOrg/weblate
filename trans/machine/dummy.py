@@ -30,7 +30,7 @@ class DummyTranslation(MachineTranslation):
 
     def download_languages(self):
         '''
-        Dummy translation supports just Czech languages.
+        Dummy translation supports just Czech language.
         '''
         return set(('cs',))
 
