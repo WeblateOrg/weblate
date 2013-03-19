@@ -59,4 +59,6 @@ class OpenTranTranslation(MachineTranslation):
             )
         )
 
-        return [self.format_match(match) for match in response if match['value'] <= 4]
+        return [self.format_match(match)
+                for match in response
+                if match['value'] <= 4]
