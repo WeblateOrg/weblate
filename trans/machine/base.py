@@ -43,15 +43,27 @@ class MachineTranslation(object):
         Creates new machine translation object.
         '''
 
-    def json_req(self, url):
+    def json_req(self, url, **kwargs):
         '''
         Performs JSON request.
         '''
+
+        # Append parameters
+        if len(kwargs) > 0:
+            url = '%s?%s' % (url, urllib.urlencode(kwargs))
+
+        # Create request object with custom headers
         request = urllib2.Request(url)
         request.add_header('User-Agent', 'Weblate/%s' % weblate.VERSION)
+
+        # Load JSON response
         response = json.load(urllib2.urlopen(request))
+
+        # Check response status
         if response['responseStatus'] != 200:
             raise MachineTranslationError(response['responseDetails'])
+
+        # Return data
         return response
 
     def download_languages(self):

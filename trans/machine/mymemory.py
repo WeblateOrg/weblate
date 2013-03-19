@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import urllib
 from trans.machine.base import MachineTranslation
 
 
@@ -53,13 +52,10 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         Downloads and processes translations.
         '''
-        args = urllib.urlencode({
-            'q': text,
-            'langpair': 'en|%s' % language,
-        })
-
         response = self.json_req(
-            'http://mymemory.translated.net/api/get?' + args
+            'http://mymemory.translated.net/api/get',
+            q=text,
+            langpair='en|%s' % language,
         )
 
         return [self.format_match(match) for match in response['matches']]
