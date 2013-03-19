@@ -24,8 +24,7 @@ from django.core.exceptions import ImproperlyConfigured
 # Initialize checks list
 SERVICES = {}
 for path in appsettings.MACHINE_TRANSLATION_SERVICES:
-    i = path.rfind('.')
-    module, attr = path[:i], path[i + 1:]
+    module, attr = path.rsplit('.', 1)
     try:
         mod = __import__(module, {}, {}, [attr])
     except ImportError as e:
