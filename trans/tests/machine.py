@@ -27,17 +27,17 @@ class MachineTranslationTest(TestCase):
     Testing of machine translation core.
     '''
     def test_support(self):
-        mt = DummyTranslation()
-        self.assertTrue(mt.is_supported('cs'))
-        self.assertFalse(mt.is_supported('de'))
+        machine_translation = DummyTranslation()
+        self.assertTrue(machine_translation.is_supported('cs'))
+        self.assertFalse(machine_translation.is_supported('de'))
 
     def test_translate(self):
-        mt = DummyTranslation()
+        machine_translation = DummyTranslation()
         self.assertEqual(
-            mt.translate('cs', 'Hello'),
+            machine_translation.translate('cs', 'Hello'),
             []
         )
         self.assertEqual(
-            mt.translate('cs', 'Hello, world!'),
+            machine_translation.translate('cs', 'Hello, world!'),
             []
         )
