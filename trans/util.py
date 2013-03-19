@@ -28,6 +28,12 @@ import urllib
 import time
 import random
 
+try:
+    import libravatar
+    HAS_LIBRAVATAR = True
+except ImportError:
+    HAS_LIBRAVATAR = False
+
 AVATAR_URL_PREFIX = getattr(
     settings,
     'AVATAR_URL_PREFIX',
@@ -48,6 +54,8 @@ def avatar_for_email(email, size=80):
     '''
     Generates url for avatar.
     '''
+    if HAS_LIBRAVATAR:
+        return escape(libravatar.libravatar_url(email=email))
     mail_hash = hashlib.md5(email.lower()).hexdigest()
 
     url = "%savatar/%s?" % (AVATAR_URL_PREFIX, mail_hash)
