@@ -59,6 +59,16 @@ class MachineTranslation(object):
         # Load JSON response
         response = json.load(urllib2.urlopen(request))
 
+        # Return data
+        return response
+
+    def json_status_req(self, url, **kwargs):
+        '''
+        Performs JSON request with checking response status.
+        '''
+        # Perform request
+        response = self.json_req(url, **kwargs)
+
         # Check response status
         if response['responseStatus'] != 200:
             raise MachineTranslationError(response['responseDetails'])

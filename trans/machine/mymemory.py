@@ -52,7 +52,7 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         Downloads and processes translations.
         '''
-        response = self.json_req(
+        response = self.json_status_req(
             'http://mymemory.translated.net/api/get',
             q=text,
             langpair='en|%s' % language,
