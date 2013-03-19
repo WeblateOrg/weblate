@@ -26,9 +26,7 @@ from django.db.models import Count
 
 from trans.models import Unit, Check
 from trans.checks import CHECKS
-from trans.views.helper import (
-    get_project, get_subproject
-)
+from trans.views.helper import get_project, get_subproject
 
 
 def show_checks(request):

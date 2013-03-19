@@ -29,9 +29,7 @@ from django.db.models import Q
 from trans.models import Unit, Check, Dictionary
 from trans.views.helper import SearchOptions
 from trans.decorators import any_permission_required
-from trans.views.helper import (
-    get_project, get_subproject, get_translation
-)
+from trans.views.helper import get_project, get_subproject, get_translation
 import weblate
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
