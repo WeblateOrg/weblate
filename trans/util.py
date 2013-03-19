@@ -82,11 +82,11 @@ def get_user_display(user, icon=True, link=False):
     '''
     Nicely formats user for display.
     '''
+    email = 'noreply@weblate.org'
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
         full_name = _('None')
-        email = 'noreply@weblate.org'
         profile = None
     else:
         # Get full name
@@ -96,7 +96,8 @@ def get_user_display(user, icon=True, link=False):
         if full_name.strip() == '':
             full_name = user.username
 
-        email = user.email
+        if user.email != '':
+            email = user.email
         profile = user.get_profile()
 
     # Escape HTML
