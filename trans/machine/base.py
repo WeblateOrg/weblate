@@ -88,6 +88,12 @@ class MachineTranslation(object):
         '''
         raise NotImplementedError()
 
+    def convert_language(self, language):
+        '''
+        Converts language to service specific code.
+        '''
+        return language
+
     @property
     def supported_languages(self):
         '''
@@ -118,6 +124,7 @@ class MachineTranslation(object):
         '''
         Returns list of machine translations.
         '''
+        language = self.convert_language(language)
         if not self.is_supported(language):
             return []
 
