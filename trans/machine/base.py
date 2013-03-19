@@ -80,7 +80,7 @@ class MachineTranslation(object):
         '''
         Downloads list of supported languages from a service.
         '''
-        raise NotImplementedError()
+        return []
 
     def download_translations(self, language, text):
         '''
