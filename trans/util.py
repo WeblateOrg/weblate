@@ -55,6 +55,9 @@ def avatar_for_email(email, size=80):
     Generates url for avatar.
     '''
 
+    if email == '':
+        email = 'noreply@weblate.org'
+
     if HAS_LIBRAVATAR:
         # Use libravatar library if available
         url = libravatar.libravatar_url(
@@ -82,11 +85,11 @@ def get_user_display(user, icon=True, link=False):
     '''
     Nicely formats user for display.
     '''
-    email = 'noreply@weblate.org'
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
         full_name = _('None')
+        email = ''
         profile = None
     else:
         # Get full name
@@ -96,8 +99,7 @@ def get_user_display(user, icon=True, link=False):
         if full_name.strip() == '':
             full_name = user.username
 
-        if user.email != '':
-            email = user.email
+        email = user.email
         profile = user.get_profile()
 
     # Escape HTML
