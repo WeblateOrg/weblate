@@ -26,6 +26,8 @@ PyGtk
     http://www.pygtk.org/
 south
     http://south.aeracode.org/
+libravatar (optional for federated avatar support)
+    https://pypi.python.org/pypi/pyLibravatar
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
