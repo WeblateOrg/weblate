@@ -18,3 +18,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from weblate import appsettings
+from django.core.exceptions import ImproperlyConfigured
+
+# Initialize checks list
+SERVICES = {}
+for path in appsettings.MACHINE_TRANSLATION_SERVICES:
+    i = path.rfind('.')
+    module, attr = path[:i], path[i + 1:]
+    try:
+        mod = __import__(module, {}, {}, [attr])
+    except ImportError as e:
+        raise ImproperlyConfigured(
+            'Error importing machine translation module %s: "%s"' %
+            (module, e)
+        )
+    try:
+        cls = getattr(mod, attr)
+    except AttributeError:
+        raise ImproperlyConfigured(
+            'Module "%s" does not define a "%s" class' %
+            (module, attr)
+        )
+    SERVICES[cls.check_id] = cls()

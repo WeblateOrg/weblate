@@ -101,3 +101,9 @@ CHECK_LIST = get('CHECK_LIST', (
     'trans.checks.source.OptionalPluralCheck',
     'trans.checks.source.EllipsisCheck',
 ))
+
+# List of machine translations
+MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', ())
+
+# Whether machine translations are enabled
+MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0

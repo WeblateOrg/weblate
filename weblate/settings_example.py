@@ -358,6 +358,12 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.source.EllipsisCheck',
 #)
 
+
+# List of machine translations
+# MACHINE_TRANSLATION_SERVICES = (
+#)
+
+
 # E-mail address that error messages come from.
 SERVER_EMAIL = 'noreply@weblate.org'
 
