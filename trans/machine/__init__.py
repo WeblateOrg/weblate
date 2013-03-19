@@ -40,4 +40,4 @@ for path in appsettings.MACHINE_TRANSLATION_SERVICES:
             'Module "%s" does not define a "%s" class' %
             (module, attr)
         )
-    SERVICES[cls.check_id] = cls()
+    SERVICES[cls.mtid] = cls()
