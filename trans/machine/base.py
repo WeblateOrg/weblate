@@ -19,6 +19,16 @@
 #
 
 from django.core.cache import cache
+import json
+import urllib
+import urllib2
+import weblate
+
+
+class MachineTranslationError(Exception):
+    '''
+    Generic Machine translation error.
+    '''
 
 
 class MachineTranslation(object):
@@ -32,6 +42,17 @@ class MachineTranslation(object):
         '''
         Creates new machine translation object.
         '''
+
+    def json_req(self, url):
+        '''
+        Performs JSON request.
+        '''
+        request = urllib2.Request(url)
+        request.add_header('User-Agent', 'Weblate/%s' % weblate.VERSION)
+        response = json.load(urllib2.urlopen(request))
+        if response['responseStatus'] != 200:
+            raise MachineTranslationError(response['responseDetails'])
+        return response
 
     def download_languages(self):
         '''
