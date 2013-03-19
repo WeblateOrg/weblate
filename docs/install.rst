@@ -287,6 +287,17 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
 .. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
 .. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
+
+.. _production-avatar:
+
+Federated avatar support
+++++++++++++++++++++++++
+
+By default, Weblate relies on <https://www.libravatar.org/> for avatars. When
+you install `pyLibavatar`_, you will get proper support for federated avatars.
+
+.. _pyLibavatar: https://pypi.python.org/pypi/pyLibravatar
+
 .. _server:
 
 Running server
