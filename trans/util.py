@@ -54,8 +54,12 @@ def avatar_for_email(email, size=80):
     '''
     Generates url for avatar.
     '''
+
+    # Use libravatar library if available
     if HAS_LIBRAVATAR:
-        return escape(libravatar.libravatar_url(email=email))
+        return escape(libravatar.libravatar_url(email=email, https=True))
+
+    # Fallback to standard method
     mail_hash = hashlib.md5(email.lower()).hexdigest()
 
     url = "%savatar/%s?" % (AVATAR_URL_PREFIX, mail_hash)
