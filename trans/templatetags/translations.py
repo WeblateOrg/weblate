@@ -37,7 +37,7 @@ import weblate
 
 from trans.simplediff import html_diff
 from trans.util import (
-    split_plural, gravatar_for_email, get_user_display
+    split_plural, avatar_for_email, get_user_display
 )
 from lang.models import Language
 from trans.models import Project, SubProject, Dictionary
@@ -242,8 +242,8 @@ def show_message(tags, message):
 
 
 @register.simple_tag
-def gravatar(user, size=80):
-    url = gravatar_for_email(user.email, size)
+def avatar(user, size=80):
+    url = avatar_for_email(user.email, size)
     alt = escape(_('Avatar for %s') % get_user_display(user, False))
     return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (
         url, alt, size, size

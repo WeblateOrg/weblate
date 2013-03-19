@@ -27,6 +27,7 @@ from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.conf import settings
 from weblate import appsettings
+from trans.util import HAS_LIBRAVATAR
 import weblate
 
 import os
@@ -111,6 +112,11 @@ def performance(request):
             and settings.DEFAULT_FROM_EMAIL not in default_mails
         ),
         'production-email',
+    ))
+    checks.append((
+        _('Federated avatar support'),
+        HAS_LIBRAVATAR,
+        'production-avatar',
     ))
     return render_to_response(
         "admin/performance.html",

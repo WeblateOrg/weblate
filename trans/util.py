@@ -28,33 +28,41 @@ import urllib
 import time
 import random
 
-GRAVATAR_URL_PREFIX = getattr(
+try:
+    import libravatar
+    HAS_LIBRAVATAR = True
+except ImportError:
+    HAS_LIBRAVATAR = False
+
+AVATAR_URL_PREFIX = getattr(
     settings,
-    'GRAVATAR_URL_PREFIX',
-    'https://secure.gravatar.com/'
+    'AVATAR_URL_PREFIX',
+    'https://seccdn.libravatar.org/'
 )
-# See http://cs.gravatar.com/site/implement/images/
+# See http://wiki.libravatar.org/api/
 # for available choices
-GRAVATAR_DEFAULT_IMAGE = getattr(
+AVATAR_DEFAULT_IMAGE = getattr(
     settings,
-    'GRAVATAR_DEFAULT_IMAGE',
+    'AVATAR_DEFAULT_IMAGE',
     'identicon'
 )
 
 PLURAL_SEPARATOR = '\x00\x00'
 
 
-def gravatar_for_email(email, size=80):
+def avatar_for_email(email, size=80):
     '''
-    Generates url for gravatar.
+    Generates url for avatar.
     '''
+    if HAS_LIBRAVATAR:
+        return escape(libravatar.libravatar_url(email=email))
     mail_hash = hashlib.md5(email.lower()).hexdigest()
 
-    url = "%savatar/%s/?" % (GRAVATAR_URL_PREFIX, mail_hash)
+    url = "%savatar/%s?" % (AVATAR_URL_PREFIX, mail_hash)
 
     url += urllib.urlencode({
         's': str(size),
-        'd': GRAVATAR_DEFAULT_IMAGE
+        'd': AVATAR_DEFAULT_IMAGE
     })
 
     return escape(url)
@@ -86,12 +94,12 @@ def get_user_display(user, icon=True, link=False):
 
     # Icon requested?
     if icon:
-        # Get gravatar image
-        gravatar = gravatar_for_email(email, size=32)
+        # Get avatar image
+        avatar = avatar_for_email(email, size=32)
 
-        full_name = '<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
+        full_name = '<img src="%(avatar)s" class="avatar" /> %(name)s' % {
             'name': full_name,
-            'gravatar': gravatar
+            'avatar': avatar
         }
 
     if link and profile is not None:
