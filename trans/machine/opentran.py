@@ -28,6 +28,12 @@ class OpenTranTranslation(MachineTranslation):
     '''
     name = 'Open-Tran'
 
+    def convert_language(self, language):
+        '''
+        Converts language to service specific code.
+        '''
+        return language.replace('-', '_').replace('@', '_').lower()
+
     def download_languages(self):
         '''
         Downloads list of supported languages from a service.
