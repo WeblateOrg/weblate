@@ -13,6 +13,7 @@ Released on ? 2013.
 * Activity charts are now available for each translation, language or user.
 * Extended options of import_project admin command.
 * Compatible with Django 1.5.
+* Avatars are now shown using libravatar.
 
 weblate 1.4
 -----------
