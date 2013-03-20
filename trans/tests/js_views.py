@@ -57,7 +57,7 @@ class JSViewsTest(ViewTestCase):
         data = simplejson.loads(response.content)
         self.assertEqual(
             data,
-            ['Nazdar světe!', 'Ahoj světe!']
+            [['Nazdar světe!', 100], ['Ahoj světe!', 100]]
         )
 
     def test_get_other(self):
