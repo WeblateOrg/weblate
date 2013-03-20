@@ -22,7 +22,7 @@ from weblate import appsettings
 from trans.util import load_class
 
 # Initialize checks list
-SERVICES = {}
+MACHINE_TRANSLATION_SERVICES = {}
 for path in appsettings.MACHINE_TRANSLATION_SERVICES:
     obj = load_class(path)()
-    SERVICES[obj.mtid] = obj
+    MACHINE_TRANSLATION_SERVICES[obj.mtid] = obj

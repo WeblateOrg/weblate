@@ -22,11 +22,12 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
 from weblate import appsettings
 from django.template import RequestContext
-from django.http import HttpResponse
-from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.contrib.auth.decorators import permission_required, login_required
 from django.db.models import Q
 
 from trans.models import Unit, Check, Dictionary
+from trans.machine import MACHINE_TRANSLATION_SERVICES
 from trans.views.helper import SearchOptions
 from trans.decorators import any_permission_required
 from trans.views.helper import get_project, get_subproject, get_translation
@@ -73,6 +74,29 @@ def get_similar(request, unit_id):
     return render_to_response('js/similar.html', RequestContext(request, {
         'similar': similar,
     }))
+
+@login_required
+def translate(request, unit_id):
+    '''
+    AJAX handler for translating.
+    '''
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit.check_acl(request)
+
+    service_name = request.GET.get('service', 'INVALID')
+
+    if not service_name in MACHINE_TRANSLATION_SERVICES:
+        return HttpResponseBadRequest('Invalid service specified')
+
+    response = MACHINE_TRANSLATION_SERVICES[service_name].translate(
+        unit.translation.language.code,
+        unit.get_source_plurals()[0]
+    )
+
+    return HttpResponse(
+        json.dumps(response),
+        mimetype='application/json'
+    )
 
 
 def get_other(request, unit_id):

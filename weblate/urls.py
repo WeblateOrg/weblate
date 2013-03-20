@@ -529,6 +529,11 @@ urlpatterns = patterns(
         name='js-similar',
     ),
     url(
+        r'^js/translate/(?P<unit_id>[0-9]+)/$',
+        'trans.views.js.translate',
+        name='js-translate',
+    ),
+    url(
         r'^js/other/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.get_other',
         name='js-other',

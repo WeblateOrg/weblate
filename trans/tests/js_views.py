@@ -24,6 +24,7 @@ Tests for AJAX/JS views.
 
 from trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
+from django.utils import simplejson
 
 
 class JSViewsTest(ViewTestCase):
@@ -45,6 +46,19 @@ class JSViewsTest(ViewTestCase):
             reverse('js-similar', kwargs={'unit_id': unit.id}),
         )
         self.assertContains(response, 'No similar strings found')
+
+    def test_translate(self):
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse('js-translate', kwargs={'unit_id': unit.id}),
+            {'service': 'dummy'}
+        )
+        self.assertContains(response, 'Ahoj')
+        data = simplejson.loads(response.content)
+        self.assertEqual(
+            data,
+            ['Nazdar světe!', 'Ahoj světe!']
+        )
 
     def test_get_other(self):
         unit = self.get_unit()
