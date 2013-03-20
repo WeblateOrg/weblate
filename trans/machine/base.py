@@ -140,4 +140,12 @@ class MachineTranslation(object):
         if not self.is_supported(language):
             return []
 
-        return self.download_translations(language, text)
+        try:
+            return self.download_translations(language, text)
+        except Exception as exc:
+            weblate.logger.error(
+                'Failed to fetch translations from %s (%s)',
+                self.name,
+                str(exc)
+            )
+            return []
