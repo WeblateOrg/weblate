@@ -19,8 +19,6 @@
 #
 
 from trans.management.commands import WeblateCommand
-from django.utils import timezone
-from datetime import timedelta
 from optparse import make_option
 
 
@@ -37,6 +35,5 @@ class Command(WeblateCommand):
     )
 
     def handle(self, *args, **options):
-
         for subproject in self.get_subprojects(*args, **options):
             subproject.do_push(force_commit=options['force_commit'])
