@@ -22,6 +22,7 @@ Base code for machine translation services.
 '''
 
 from django.core.cache import cache
+from django.conf import settings
 import json
 import urllib
 import urllib2
@@ -144,7 +145,8 @@ class MachineTranslation(object):
                 self.name,
                 str(exc)
             )
-            raise
+            if settings.DEBUG:
+                raise
             return self.default_languages
 
         # Update cache
@@ -174,4 +176,6 @@ class MachineTranslation(object):
                 self.name,
                 str(exc)
             )
+            if settings.DEBUG:
+                raise
             return []
