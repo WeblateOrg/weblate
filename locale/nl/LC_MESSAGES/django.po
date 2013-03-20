@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-03-19 14:20+0100\n"
+"POT-Creation-Date: 2013-03-20 13:27+0100\n"
 "PO-Revision-Date: 2013-03-20 11:54+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: accounts/forms.py:98 accounts/forms.py:122
+#: accounts/forms.py:98 accounts/forms.py:131
 msgid "First name"
 msgstr "Voornaam"
 
-#: accounts/forms.py:99 accounts/forms.py:123
+#: accounts/forms.py:99 accounts/forms.py:132
 msgid "Last name"
 msgstr "Achternaam"
 
-#: accounts/forms.py:100 accounts/forms.py:135 weblate/html/i18n.html:15
+#: accounts/forms.py:100 accounts/forms.py:145 weblate/html/i18n.html:15
 msgid "E-mail"
 msgstr "E-mail"
 
@@ -46,42 +46,42 @@ msgstr "Uw e-mail"
 msgid "Message"
 msgstr "Bericht"
 
-#: accounts/forms.py:131 weblate/html/i18n.html:16
+#: accounts/forms.py:141 weblate/html/i18n.html:16
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: accounts/forms.py:133
+#: accounts/forms.py:143
 msgid "At least five characters long."
 msgstr "Tenminste 5 tekens lang."
 
-#: accounts/forms.py:137
+#: accounts/forms.py:147
 msgid "Activation email will be sent here."
 msgstr "De activeringsmail wordt hiernaar verzonden."
 
-#: accounts/forms.py:139 weblate/html/i18n.html:17
+#: accounts/forms.py:149 weblate/html/i18n.html:17
 #: weblate/html/profile.html:25
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: accounts/forms.py:141
+#: accounts/forms.py:151
 msgid "At least six characters long."
 msgstr "Ten minste zes tekens lang."
 
-#: accounts/forms.py:143
+#: accounts/forms.py:153
 msgid "Password (again)"
 msgstr "Wachtwoord (opnieuw)"
 
-#: accounts/forms.py:146
+#: accounts/forms.py:156
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Herhaal het wachtwoord zodat er gecontroleerd kan worden of het correct "
 "getypt werd."
 
-#: accounts/forms.py:156
+#: accounts/forms.py:166
 msgid "Password needs to have at least six characters."
 msgstr "Wachtwoorden moeten minstens zes tekens lang zijn."
 
-#: accounts/forms.py:166
+#: accounts/forms.py:176
 msgid "Username needs to have at least five characters."
 msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
 
@@ -471,7 +471,7 @@ msgstr "Gelijk welke"
 msgid "Whole project"
 msgstr "Volledig project"
 
-#: trans/util.py:82
+#: trans/util.py:104
 msgid "None"
 msgstr "Geen"
 
@@ -880,53 +880,53 @@ msgstr ""
 "Of vertalingsaanpassingen in andere subprojecten resulteren in automatische "
 "vertaling in dit project"
 
-#: trans/models/subproject.py:354
+#: trans/models/subproject.py:356
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Ophalen van git repository is mislukt: %s"
 
-#: trans/models/subproject.py:441
+#: trans/models/subproject.py:443
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: trans/models/subproject.py:485
+#: trans/models/subproject.py:487
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models/subproject.py:521
+#: trans/models/subproject.py:523
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Opnieuw instellen van externe tak op %s is mislukt."
 
-#: trans/models/subproject.py:590
+#: trans/models/subproject.py:592
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Mislukt onze branche te rebasen op externe branch %s."
 
-#: trans/models/subproject.py:593
+#: trans/models/subproject.py:595
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe tak met %s is mislukt."
 
-#: trans/models/subproject.py:707
+#: trans/models/subproject.py:709
 msgid "Push URL is not used when repository is linked!"
 msgstr "De push URL wordt niet gebruikt wanneer het repository verbonden is!"
 
-#: trans/models/subproject.py:719
+#: trans/models/subproject.py:721
 msgid "Format of translation template could not be recognized."
 msgstr "Het formaat van de vertaalsjabloon werd niet herkend."
 
-#: trans/models/subproject.py:723
+#: trans/models/subproject.py:725
 msgid "Failed to parse translation template."
 msgstr "Verwerken van vertaalsjabloon is mislukt."
 
-#: trans/models/subproject.py:744
+#: trans/models/subproject.py:746
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models/subproject.py:750
+#: trans/models/subproject.py:752
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -935,12 +935,12 @@ msgstr ""
 "aan te passen en subprojecten te gebruiken om verschillende bronnen te "
 "vertalen."
 
-#: trans/models/subproject.py:770
+#: trans/models/subproject.py:772
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Het formaat van %d overeenkomende bestanden werd niet herkend."
 
-#: trans/models/subproject.py:779
+#: trans/models/subproject.py:781
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
@@ -1207,7 +1207,7 @@ msgstr "Pagina niet gevonden"
 msgid "About Weblate"
 msgstr "Over Weblate"
 
-#: trans/views/checks.py:43 weblate/html/source-review.html:33
+#: trans/views/checks.py:41 weblate/html/source-review.html:33
 #: weblate/html/translate.html:106 weblate/html/translate.html.py:226
 msgid "Failing checks"
 msgstr "Gefaalde controles"
@@ -1327,19 +1327,19 @@ msgstr "Het upgeloade bestand bevat geen nieuwe tekenreeksen."
 msgid "File content merge failed: %s"
 msgstr "Samenvoegen van bestandsinhoud is mislukt : %s"
 
-#: trans/views/git.py:36 trans/views/git.py:47 trans/views/git.py:58
+#: trans/views/git.py:34 trans/views/git.py:45 trans/views/git.py:56
 msgid "All pending translations were committed."
 msgstr "Alle hangende vertalingen werden gecommit."
 
-#: trans/views/git.py:69 trans/views/git.py:80 trans/views/git.py:91
+#: trans/views/git.py:67 trans/views/git.py:78 trans/views/git.py:89
 msgid "All repositories were updated."
 msgstr "Alle repositories werden bijgewerkt."
 
-#: trans/views/git.py:102 trans/views/git.py:113 trans/views/git.py:124
+#: trans/views/git.py:100 trans/views/git.py:111 trans/views/git.py:122
 msgid "All repositories were pushed."
 msgstr "Alle repositories werden gepushed."
 
-#: trans/views/git.py:135 trans/views/git.py:146 trans/views/git.py:157
+#: trans/views/git.py:133 trans/views/git.py:144 trans/views/git.py:155
 msgid "All repositories have been reset."
 msgstr "Alle archieven zijn opnieuw ingesteld."
 
@@ -1366,27 +1366,27 @@ msgstr "Tekenreeksen met suggesties"
 msgid "Strings with any failing checks"
 msgstr "Tekenreeksen met gefaalde controles"
 
-#: trans/views/lock.py:38
+#: trans/views/lock.py:36
 msgid "Translation is now locked for you."
 msgstr "De vertaling is nu geblokkeerd voor jou."
 
-#: trans/views/lock.py:62
+#: trans/views/lock.py:60
 msgid "Translation is now open for translation updates."
 msgstr "Vertaling is nu open voor vertaalupdates."
 
-#: trans/views/lock.py:80
+#: trans/views/lock.py:78
 msgid "Subproject is now locked for translation updates!"
 msgstr "Het subproject is nu geblokkeerd voor vertaalaanpassingen!"
 
-#: trans/views/lock.py:96
+#: trans/views/lock.py:94
 msgid "Subproject is now open for translation updates."
 msgstr "Het subproject staat nu open voor vertaalaanpassingen."
 
-#: trans/views/lock.py:115
+#: trans/views/lock.py:113
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Alle subprojecten zijn nu geblokkeerd voor vertaalaanpassingen!"
 
-#: trans/views/lock.py:130
+#: trans/views/lock.py:128
 msgid "Project is now open for translation updates."
 msgstr "Het project is nu open voor vertaalupdates."
 
@@ -2515,7 +2515,7 @@ msgid "Your translations"
 msgstr "Uw vertalingen"
 
 #: weblate/html/index.html:20 weblate/html/language.html:12
-#: weblate/html/user.html:18
+#: weblate/html/user.html:19
 msgid "Projects"
 msgstr "Projecten"
 
@@ -2549,7 +2549,7 @@ msgstr "Meest actieve aanraders"
 
 #: weblate/html/index.html:67 weblate/html/language.html:25
 #: weblate/html/project.html:46 weblate/html/subproject.html:37
-#: weblate/html/translation.html:46 weblate/html/user.html:27
+#: weblate/html/translation.html:46 weblate/html/user.html:28
 msgid "Activity"
 msgstr "Activiteit"
 
@@ -3109,15 +3109,15 @@ msgstr "Laatste aanmelding"
 msgid "Registration date"
 msgstr "Registratiedatum"
 
-#: weblate/html/user.html:33 weblate/html/js/activity.html:2
+#: weblate/html/user.html:34 weblate/html/js/activity.html:2
 msgid "Activity in last 30 days"
 msgstr "Activiteit in laatste 30 dagen"
 
-#: weblate/html/user.html:36 weblate/html/js/activity.html:5
+#: weblate/html/user.html:37 weblate/html/js/activity.html:5
 msgid "Activity in last year"
 msgstr "Activiteit in het afgelopen jaar"
 
-#: weblate/html/user.html:39
+#: weblate/html/user.html:40
 msgid "Recent contributions"
 msgstr "Recente bijdragen"
 
@@ -3368,7 +3368,7 @@ msgstr "Geen andere tekenreeksen gevonden."
 msgid "No similar strings found."
 msgstr "Geen gelijkaardige tekenreeksen gevonden."
 
-#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:3
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
 msgstr "Verstuurd door het Weblate vertaalsysteem"
 
@@ -3383,6 +3383,7 @@ msgstr "Verstuurd door het Weblate vertaalsysteem"
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
+#: weblate/html/registration/activation_email.txt:1
 msgid "Hi,"
 msgstr "Hallo,"
 
@@ -3578,6 +3579,10 @@ msgstr "Nog niet eerder vertaald"
 msgid "New translation in %(translation)s"
 msgstr "Nieuwe vertaling in %(translation)s"
 
+#: weblate/html/mail/signature.txt:4
+msgid "More information about Weblate can be found at http://weblate.org/"
+msgstr ""
+
 #: weblate/html/registration/activate.html:7
 msgid "Your account could not be activated"
 msgstr "Uw account kon niet geactiveerd worden"
@@ -3604,9 +3609,9 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Als dit niet het geval is, gelieve de websitebeheerder te <a href=\"%"
-"(contact_url)s\">contacteren</a>. Zoniet, kan je je<a href=\"%"
-"(reg_url)s\">opnieuw registreren</a>."
+"Als dit niet het geval is, gelieve de websitebeheerder te <a href="
+"\"%(contact_url)s\">contacteren</a>. Zoniet, kan je je<a href=\"%(reg_url)s"
+"\">opnieuw registreren</a>."
 
 #: weblate/html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -3619,17 +3624,27 @@ msgid ""
 msgstr ""
 "Misschien wilt u nu <a href=\"%(profile_url)s\">uw profiel bijwerken</a>."
 
-#: weblate/html/registration/activation_email.txt:1
+#: weblate/html/registration/activation_email.txt:3
 #, python-format
 msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
+"This is an automatic email to help you complete your registration with "
+"%(site_title)s."
+msgstr ""
+
+#: weblate/html/registration/activation_email.txt:5
+#, fuzzy
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "This is an automatic email to help you complete your registration\n"
+#| "with %(site_title)s.\n"
+#| "\n"
+#| "Please open the following link in your web browser. If the link\n"
+#| "is split over several lines, you may need to copy it in the\n"
+#| "address bar."
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
 msgstr ""
 "Hallo,\n"
 "\n"
@@ -3641,15 +3656,16 @@ msgstr ""
 "moet u deze eventueel manueel kopiëren naar het\n"
 "adresveld."
 
-#: weblate/html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
+#: weblate/html/registration/activation_email.txt:9
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "If there is a problem with your registration, please reply to\n"
+#| "this email.\n"
+#| "\n"
+#| "Best regards,\n"
+#| "%(site_title)s\n"
+msgid "If there is a problem with your registration, please contact us:"
 msgstr ""
 "\n"
 "Als er een probleem is met uw registratie,\n"
@@ -3793,8 +3809,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Sorry, maar registraties op deze site zijn uitgeschakeld. U kan <a href=\"%"
-"(contact_url)s\">contact met ons opnemen</a> voor meer informatie."
+"Sorry, maar registraties op deze site zijn uitgeschakeld. U kan <a href="
+"\"%(contact_url)s\">contact met ons opnemen</a> voor meer informatie."
 
 #: weblate/html/registration/registration_complete.html:7
 msgid ""

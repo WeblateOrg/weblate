@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-03-19 14:20+0100\n"
+"POT-Creation-Date: 2013-03-20 13:27+0100\n"
 "PO-Revision-Date: 2013-02-02 16:33+0200\n"
 "Last-Translator: Manuel Nicolau <manuel_nicolau_454@hotmail.com>\n"
 "Language-Team: Portuguese <http://l10n.cihar.com/projects/weblate/master/pt/"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Weblate 1.5-dev\n"
 
-#: accounts/forms.py:98 accounts/forms.py:122
+#: accounts/forms.py:98 accounts/forms.py:131
 msgid "First name"
 msgstr "Primeiro Nome"
 
-#: accounts/forms.py:99 accounts/forms.py:123
+#: accounts/forms.py:99 accounts/forms.py:132
 msgid "Last name"
 msgstr "Último Nome"
 
-#: accounts/forms.py:100 accounts/forms.py:135 weblate/html/i18n.html:15
+#: accounts/forms.py:100 accounts/forms.py:145 weblate/html/i18n.html:15
 msgid "E-mail"
 msgstr "E-Mail"
 
@@ -47,40 +47,40 @@ msgstr "Seu Email"
 msgid "Message"
 msgstr "Mensagem"
 
-#: accounts/forms.py:131 weblate/html/i18n.html:16
+#: accounts/forms.py:141 weblate/html/i18n.html:16
 msgid "Username"
 msgstr "Utilizador"
 
-#: accounts/forms.py:133
+#: accounts/forms.py:143
 msgid "At least five characters long."
 msgstr "Tem de ter no mínimo cinco caracteres."
 
-#: accounts/forms.py:137
+#: accounts/forms.py:147
 msgid "Activation email will be sent here."
 msgstr "Um email de ativação será enviado para aqui."
 
-#: accounts/forms.py:139 weblate/html/i18n.html:17
+#: accounts/forms.py:149 weblate/html/i18n.html:17
 #: weblate/html/profile.html:25
 msgid "Password"
 msgstr "Palavra-Passe"
 
-#: accounts/forms.py:141
+#: accounts/forms.py:151
 msgid "At least six characters long."
 msgstr "Tem de ter no mínimo seis caracteres."
 
-#: accounts/forms.py:143
+#: accounts/forms.py:153
 msgid "Password (again)"
 msgstr "Palavra-Passe (repetir)"
 
-#: accounts/forms.py:146
+#: accounts/forms.py:156
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Repita a Palavra-Passe para verificar se foi digitada corretamente."
 
-#: accounts/forms.py:156
+#: accounts/forms.py:166
 msgid "Password needs to have at least six characters."
 msgstr "A palavra-passe precisa ter pelo menos seis caracteres."
 
-#: accounts/forms.py:166
+#: accounts/forms.py:176
 msgid "Username needs to have at least five characters."
 msgstr "O Utilizador precisa ter pelo menos cinco caracteres."
 
@@ -488,7 +488,7 @@ msgstr "Qualquer"
 msgid "Whole project"
 msgstr "Todos os subprojetos"
 
-#: trans/util.py:82
+#: trans/util.py:104
 msgid "None"
 msgstr ""
 
@@ -889,53 +889,53 @@ msgid ""
 "translation in this project"
 msgstr ""
 
-#: trans/models/subproject.py:354
+#: trans/models/subproject.py:356
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Falha na busca do repositório Git: %s"
 
-#: trans/models/subproject.py:441
+#: trans/models/subproject.py:443
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "O envio está desactivado para %s."
 
-#: trans/models/subproject.py:485
+#: trans/models/subproject.py:487
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Falha ao enviar para o ramo remoto em %s."
 
-#: trans/models/subproject.py:521
+#: trans/models/subproject.py:523
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Falha ao redefinir o ramo remoto em %s."
 
-#: trans/models/subproject.py:590
+#: trans/models/subproject.py:592
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Falha ao rebasear o nosso ramo no ramo remoto %s."
 
-#: trans/models/subproject.py:593
+#: trans/models/subproject.py:595
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Falha ao fundir ramo remoto em %s."
 
-#: trans/models/subproject.py:707
+#: trans/models/subproject.py:709
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:719
+#: trans/models/subproject.py:721
 msgid "Format of translation template could not be recognized."
 msgstr "Formato do modelo de tradução não foi reconhecido."
 
-#: trans/models/subproject.py:723
+#: trans/models/subproject.py:725
 msgid "Failed to parse translation template."
 msgstr "Falha ao analisar o modelo de tradução."
 
-#: trans/models/subproject.py:744
+#: trans/models/subproject.py:746
 msgid "The mask did not match any files!"
 msgstr "A máscara não encontrou ficheiros correspondentes!"
 
-#: trans/models/subproject.py:750
+#: trans/models/subproject.py:752
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -943,12 +943,12 @@ msgstr ""
 "Existem mais ficheiros para idioma único, por favor ajuste a máscara e "
 "utilize subprojetos para traduzir diferentes recursos."
 
-#: trans/models/subproject.py:770
+#: trans/models/subproject.py:772
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formato dos %d ficheiros encontrados não é reconhecido."
 
-#: trans/models/subproject.py:779
+#: trans/models/subproject.py:781
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Falha ao analisar %d ficheiros encontrados!"
@@ -1219,7 +1219,7 @@ msgstr "Página não encontrada"
 msgid "About Weblate"
 msgstr "Acerca do Weblate"
 
-#: trans/views/checks.py:43 weblate/html/source-review.html:33
+#: trans/views/checks.py:41 weblate/html/source-review.html:33
 #: weblate/html/translate.html:106 weblate/html/translate.html.py:226
 msgid "Failing checks"
 msgstr "Verificações falharam"
@@ -1338,19 +1338,19 @@ msgstr "Não há novas cadeias no arquivo enviado."
 msgid "File content merge failed: %s"
 msgstr "Falha ao fundir o conteúdo do arquivo: %s"
 
-#: trans/views/git.py:36 trans/views/git.py:47 trans/views/git.py:58
+#: trans/views/git.py:34 trans/views/git.py:45 trans/views/git.py:56
 msgid "All pending translations were committed."
 msgstr "Todas as traduções pendentes foram publicadas."
 
-#: trans/views/git.py:69 trans/views/git.py:80 trans/views/git.py:91
+#: trans/views/git.py:67 trans/views/git.py:78 trans/views/git.py:89
 msgid "All repositories were updated."
 msgstr "Todos os repositórios foram atualizados."
 
-#: trans/views/git.py:102 trans/views/git.py:113 trans/views/git.py:124
+#: trans/views/git.py:100 trans/views/git.py:111 trans/views/git.py:122
 msgid "All repositories were pushed."
 msgstr "Todos os repositórios foram enviados."
 
-#: trans/views/git.py:135 trans/views/git.py:146 trans/views/git.py:157
+#: trans/views/git.py:133 trans/views/git.py:144 trans/views/git.py:155
 msgid "All repositories have been reset."
 msgstr "Todos os repositórios foram reiniciados."
 
@@ -1377,28 +1377,28 @@ msgstr "Cadeias com sugestões"
 msgid "Strings with any failing checks"
 msgstr "Cadeias com qualquer falha de verificação"
 
-#: trans/views/lock.py:38
+#: trans/views/lock.py:36
 msgid "Translation is now locked for you."
 msgstr "A tradução agora está bloqueada para si."
 
-#: trans/views/lock.py:62
+#: trans/views/lock.py:60
 msgid "Translation is now open for translation updates."
 msgstr "A tradução está agora aberta para actualizações de tradução."
 
-#: trans/views/lock.py:80
+#: trans/views/lock.py:78
 msgid "Subproject is now locked for translation updates!"
 msgstr "O subprojeto agora está bloqueado para atualizações da tradução!"
 
-#: trans/views/lock.py:96
+#: trans/views/lock.py:94
 msgid "Subproject is now open for translation updates."
 msgstr "O subprojeto agora está aberto para atualização da tradução."
 
-#: trans/views/lock.py:115
+#: trans/views/lock.py:113
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 "Todos os subprojetos agora estão bloqueados para atualização da tradução!"
 
-#: trans/views/lock.py:130
+#: trans/views/lock.py:128
 msgid "Project is now open for translation updates."
 msgstr "O projeto agora está aberto para atualização da tradução."
 
@@ -2537,7 +2537,7 @@ msgid "Your translations"
 msgstr "Suas traduções"
 
 #: weblate/html/index.html:20 weblate/html/language.html:12
-#: weblate/html/user.html:18
+#: weblate/html/user.html:19
 msgid "Projects"
 msgstr "Projetos"
 
@@ -2571,7 +2571,7 @@ msgstr "Utilizadores com mais sugestões"
 
 #: weblate/html/index.html:67 weblate/html/language.html:25
 #: weblate/html/project.html:46 weblate/html/subproject.html:37
-#: weblate/html/translation.html:46 weblate/html/user.html:27
+#: weblate/html/translation.html:46 weblate/html/user.html:28
 msgid "Activity"
 msgstr ""
 
@@ -3147,15 +3147,15 @@ msgstr "Última sessão"
 msgid "Registration date"
 msgstr "Data de Registo"
 
-#: weblate/html/user.html:33 weblate/html/js/activity.html:2
+#: weblate/html/user.html:34 weblate/html/js/activity.html:2
 msgid "Activity in last 30 days"
 msgstr ""
 
-#: weblate/html/user.html:36 weblate/html/js/activity.html:5
+#: weblate/html/user.html:37 weblate/html/js/activity.html:5
 msgid "Activity in last year"
 msgstr ""
 
-#: weblate/html/user.html:39
+#: weblate/html/user.html:40
 #, fuzzy
 #| msgid "Recent edits"
 msgid "Recent contributions"
@@ -3409,7 +3409,7 @@ msgstr "Não foram encontradas outras strings."
 msgid "No similar strings found."
 msgstr "Não forma encontradas strings similares."
 
-#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:3
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
 msgstr "Enviado pelo sistema de tradução Weblate"
 
@@ -3424,6 +3424,7 @@ msgstr "Enviado pelo sistema de tradução Weblate"
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
+#: weblate/html/registration/activation_email.txt:1
 msgid "Hi,"
 msgstr ""
 
@@ -3661,6 +3662,10 @@ msgstr "Não traduzido previamente"
 msgid "New translation in %(translation)s"
 msgstr "Nova tradução em %(translation)s"
 
+#: weblate/html/mail/signature.txt:4
+msgid "More information about Weblate can be found at http://weblate.org/"
+msgstr ""
+
 #: weblate/html/registration/activate.html:7
 msgid "Your account could not be activated"
 msgstr "Não foi possível ativar sua conta"
@@ -3702,17 +3707,27 @@ msgid ""
 msgstr ""
 "Talvez queira <a href=\"%(profile_url)s\">ajustar o seu perfil</a> agora."
 
-#: weblate/html/registration/activation_email.txt:1
+#: weblate/html/registration/activation_email.txt:3
 #, python-format
 msgid ""
-"Hi,\n"
-"\n"
-"This is an automatic email to help you complete your registration\n"
-"with %(site_title)s.\n"
-"\n"
-"Please open the following link in your web browser. If the link\n"
-"is split over several lines, you may need to copy it in the\n"
-"address bar."
+"This is an automatic email to help you complete your registration with "
+"%(site_title)s."
+msgstr ""
+
+#: weblate/html/registration/activation_email.txt:5
+#, fuzzy
+#| msgid ""
+#| "Hi,\n"
+#| "\n"
+#| "This is an automatic email to help you complete your registration\n"
+#| "with %(site_title)s.\n"
+#| "\n"
+#| "Please open the following link in your web browser. If the link\n"
+#| "is split over several lines, you may need to copy it in the\n"
+#| "address bar."
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
 msgstr ""
 "Olá,\n"
 "\n"
@@ -3723,15 +3738,16 @@ msgstr ""
 "está dividido em várias linhas, pode precisar copiar na\n"
 "barra de endereço."
 
-#: weblate/html/registration/activation_email.txt:12
-#, python-format
-msgid ""
-"\n"
-"If there is a problem with your registration, please reply to\n"
-"this email.\n"
-"\n"
-"Best regards,\n"
-"%(site_title)s\n"
+#: weblate/html/registration/activation_email.txt:9
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "If there is a problem with your registration, please reply to\n"
+#| "this email.\n"
+#| "\n"
+#| "Best regards,\n"
+#| "%(site_title)s\n"
+msgid "If there is a problem with your registration, please contact us:"
 msgstr ""
 "\n"
 "Se existe algum problema com o seu registo, por favor,\n"
