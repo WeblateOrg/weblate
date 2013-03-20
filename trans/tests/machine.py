@@ -19,11 +19,16 @@
 #
 
 from django.test import TestCase
+import unittest
+from weblate import appsettings
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
 from trans.machine.mymemory import MyMemoryTranslation
 from trans.machine.opentran import OpenTranTranslation
 from trans.machine.apertium import ApertiumTranslation
+from trans.machine.microsoft import (
+    MicrosoftTranslation, microsoft_translation_supported
+)
 
 class MachineTranslationTest(TestCase):
     '''
@@ -60,3 +65,9 @@ class MachineTranslationTest(TestCase):
     def test_apertium(self):
         machine = ApertiumTranslation()
         self.assertGreater(len(machine.translate('es', 'world')), 0)
+
+    @unittest.skipUnless(microsoft_translation_supported(),
+                        'missing credentials')
+    def test_microsoft(self):
+        machine = MicrosoftTranslation()
+        self.assertGreater(len(machine.translate('cs', 'world')), 0)

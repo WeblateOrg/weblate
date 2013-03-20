@@ -23,6 +23,16 @@ from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
 
 
+def microsoft_translation_supported():
+    '''
+    Checks whether service is supported.
+    '''
+    return (
+        appsettings.MT_MICROSOFT_ID is not None
+        and appsettings.MT_MICROSOFT_SECRET is not None
+    )
+
+
 class MicrosoftTranslation(MachineTranslation):
     '''
     Microsoft Translator machine translation support.
@@ -35,8 +45,7 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         super(MicrosoftTranslation, self).__init__()
         self._access_token = None
-        if (appsettings.MT_MICROSOFT_ID is None
-                or appsettings.MT_MICROSOFT_SECRET is None):
+        if not microsoft_translation_supported():
             raise ImproperlyConfigured(
                 'Microsoft Translator requires credentials'
             )
