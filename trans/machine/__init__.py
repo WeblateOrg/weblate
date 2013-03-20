@@ -24,5 +24,5 @@ from trans.util import load_class
 # Initialize checks list
 SERVICES = {}
 for path in appsettings.MACHINE_TRANSLATION_SERVICES:
-    cls = load_class(path)
-    SERVICES[cls.mtid] = cls()
+    obj = load_class(path)()
+    SERVICES[obj.mtid] = obj
