@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-03-20 13:27+0100\n"
-"PO-Revision-Date: 2013-03-17 21:57+0200\n"
+"PO-Revision-Date: 2013-03-20 19:23+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -959,7 +959,7 @@ msgstr "Alla strängar"
 #: trans/models/translation.py:873 trans/models/translation.py:930
 #, python-format
 msgid "Strings with any failing checks (%d)"
-msgstr "Strängar med felande kontroller (%d)"
+msgstr "Strängar med kontroller som misslyckats (%d)"
 
 #: trans/models/translation.py:890 trans/models/translation.py:947
 #, python-format
@@ -1190,7 +1190,7 @@ msgstr "Om Weblate"
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
 #: weblate/html/translate.html:106 weblate/html/translate.html.py:226
 msgid "Failing checks"
-msgstr "Felande kontroller"
+msgstr "Kontroller som misslyckats"
 
 #: trans/views/dictionary.py:47
 msgid "Dictionaries"
@@ -1344,7 +1344,7 @@ msgstr "Strängar med förslag"
 #: trans/views/helper.py:194 weblate/html/i18n.html:173
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
-msgstr "Strängar med felande kontroller"
+msgstr "Strängar med kontroller som misslyckats"
 
 #: trans/views/lock.py:36
 msgid "Translation is now locked for you."
@@ -1482,7 +1482,7 @@ msgstr "Översättningar"
 
 #: weblate/html/about.html:72
 msgid "Failing checks found"
-msgstr "Felande kontroller funna"
+msgstr "Misslyckade kontroller funna"
 
 #: weblate/html/about.html:76
 msgid "Ignored checks"
@@ -1538,7 +1538,7 @@ msgstr "Fel"
 #: weblate/html/check.html:40 weblate/html/check_project.html:40
 #: weblate/html/check_subproject.html:47
 msgid "There are no matching failed checks!"
-msgstr "Det finns inga matchande felande kontroller!"
+msgstr "Det finns inga matchande misslyckade kontroller!"
 
 #: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
 msgid "Check"
@@ -2605,8 +2605,8 @@ msgstr[1] "Det finns %(count)s luddiga strängar."
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
-msgstr[0] "Det finns %(count)s felande kontroll."
-msgstr[1] "Det finns %(count)s felande kontroller."
+msgstr[0] "Det finns %(count)s kontroll som misslyckats."
+msgstr[1] "Det finns %(count)s kontroller som misslyckats."
 
 #: weblate/html/list-translations.html:42
 #, python-format
@@ -3061,7 +3061,7 @@ msgstr "Meddelandet är luddigt"
 
 #: weblate/html/unit-state.html:4
 msgid "Message has failing checks"
-msgstr "Meddelandet har felande kontroller"
+msgstr "Meddelandet har misslyckade kontroller"
 
 #: weblate/html/unit-state.html:5
 msgid "Message is translated"
@@ -3540,7 +3540,7 @@ msgstr "Ny översättning i %(translation)s"
 
 #: weblate/html/mail/signature.txt:4
 msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr ""
+msgstr "Mer information om Weblate kan ses på http://weblate.org/"
 
 #: weblate/html/registration/activate.html:7
 msgid "Your account could not be activated"
@@ -3588,9 +3588,10 @@ msgid ""
 "This is an automatic email to help you complete your registration with "
 "%(site_title)s."
 msgstr ""
+"Det här ett automatiskt e-postmeddelande som hjälper dig slutföra din "
+"registrering hos %(site_title)s."
 
 #: weblate/html/registration/activation_email.txt:5
-#, fuzzy
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -3604,17 +3605,10 @@ msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"Hej,\n"
-"\n"
-"Detta är ett automatiskt mail för att hjälpa dig slutföra din registrering\n"
-"hos %(site_title)s.\n"
-"\n"
-"Var god öppna följande länk i din webbläsare. Om länken\n"
-"är delad över flera rader måste du kanske kopiera den till\n"
-"adressfältet."
+"Var god öppna följande länk i din webbläsare. Om länken är delad över flera "
+"rader måste du kanske kopiera den till adressfältet."
 
 #: weblate/html/registration/activation_email.txt:9
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "If there is a problem with your registration, please reply to\n"
@@ -3623,13 +3617,7 @@ msgstr ""
 #| "Best regards,\n"
 #| "%(site_title)s\n"
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
-"\n"
-"Svara på detta mail om det uppstår problem med din\n"
-"registrering.\n"
-"\n"
-"Vänliga hälsningar,\n"
-"%(site_title)s\n"
+msgstr "Kontakta oss om det uppstår problem med din registrering:"
 
 #: weblate/html/registration/activation_email_subject.txt:1
 #, python-format
