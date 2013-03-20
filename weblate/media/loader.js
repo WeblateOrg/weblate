@@ -374,6 +374,7 @@ $(function() {
         $("form.autosubmit").submit();
     });
     $('#s_content').hide();
+    $('#id_content').parent('td').parent('tr').hide();
     $('.expander').click(function() {
         $(this).parent().find('.expander-icon').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
         $(this).parent().next().toggle();

@@ -121,6 +121,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
     '''
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
+    content = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
 
@@ -166,3 +167,11 @@ class RegistrationForm(RegistrationFormUniqueEmail):
                 _(u'Username needs to have at least five characters.')
             )
         return super(RegistrationForm, self).clean_username()
+
+    def clean_content(self):
+        '''
+        Check if content is empty.
+        '''
+        if self.cleaned_data['content'] != '':
+            raise forms.ValidationError('Invalid value')
+        return ''
