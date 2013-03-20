@@ -22,6 +22,7 @@ import hashlib
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
+from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.conf import settings
@@ -57,8 +58,15 @@ def avatar_for_email(email, size=80):
     Generates url for avatar.
     '''
 
+    # Safely handle blank email
     if email == '':
         email = 'noreply@weblate.org'
+
+    # Retrieve from cache
+    cache_key = 'avatar-%s-%s' % (email, size)
+    url = cache.get(cache_key)
+    if url is not None:
+        return url
 
     if HAS_LIBRAVATAR:
         # Use libravatar library if available
@@ -79,6 +87,9 @@ def avatar_for_email(email, size=80):
             's': str(size),
             'd': AVATAR_DEFAULT_IMAGE
         })
+
+    # Store result in cache
+    cache.set(cache_key, url, 3600 * 24)
 
     return escape(url)
 
