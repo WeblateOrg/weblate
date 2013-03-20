@@ -48,7 +48,7 @@ class MachineTranslationTest(TestCase):
         )
         self.assertEqual(
             machine_translation.translate('cs', 'Hello, world!'),
-            []
+            ['Nazdar světe!', 'Ahoj světe!']
         )
 
     def test_glosbe(self):

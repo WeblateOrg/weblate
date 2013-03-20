@@ -37,7 +37,7 @@ class DummyTranslation(MachineTranslation):
         '''
         Dummy translation supports just single phrase.
         '''
-        if text.strip == 'Hello, world!':
+        if text.strip() == 'Hello, world!':
             return [
                 'Nazdar světe!',
                 'Ahoj světe!',
