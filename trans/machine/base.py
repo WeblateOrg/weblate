@@ -115,7 +115,7 @@ class MachineTranslation(object):
             languages = self.download_languages()
         except Exception as exc:
             weblate.logger.error(
-                'Failed to fetch supported languages for %s, using defaults (%s)',
+                'Failed to fetch languages from %s, using defaults (%s)',
                 self.name,
                 str(exc)
             )
