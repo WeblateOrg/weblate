@@ -83,8 +83,12 @@ class MachineTranslation(object):
 
         # Read and possibly convert response
         text = handle.read()
+        # Needed for Microsoft
         if text.startswith('\xef\xbb\xbf'):
             text = text.decode('UTF-8-sig')
+        # Needed for Google
+        while ',,' in text:
+            text = text.replace(',,', ',null,')
 
         # Parse JSON
         response = json.loads(text)

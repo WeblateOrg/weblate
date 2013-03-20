@@ -28,6 +28,7 @@ from trans.machine.apertium import ApertiumTranslation
 from trans.machine.microsoft import (
     MicrosoftTranslation, microsoft_translation_supported
 )
+from trans.machine.google import GoogleTranslation
 
 
 class MachineTranslationTest(TestCase):
@@ -70,4 +71,8 @@ class MachineTranslationTest(TestCase):
                          'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
+        self.assertGreater(len(machine.translate('cs', 'world')), 0)
+
+    def test_google(self):
+        machine = GoogleTranslation()
         self.assertGreater(len(machine.translate('cs', 'world')), 0)
