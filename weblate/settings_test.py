@@ -34,3 +34,9 @@ SOUTH_TESTS_MIGRATE = False
 # Do not use in production!
 MT_MICROSOFT_ID = 'weblate'
 MT_MICROSOFT_SECRET = 'Hc7KBi75sBa/2FPntp8o8m2WxhW9oDQTuQUCr02Y044='
+
+# Enable some machine translations
+MACHINE_TRANSLATION_SERVICES = (
+    'trans.machine.microsoft.MicrosoftTranslation',
+    'trans.machine.dummy.DummyTranslation',
+)
