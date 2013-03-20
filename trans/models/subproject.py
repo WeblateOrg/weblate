@@ -312,7 +312,7 @@ class SubProject(models.Model):
         '''
         Returns latest remote commit we know.
         '''
-        return self.git_repo.commit('origin/master')
+        return self.git_repo.commit('origin/%s' % self.branch)
 
     def get_repoweb_link(self, filename, line):
         '''
