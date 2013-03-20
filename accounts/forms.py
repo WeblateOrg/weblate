@@ -112,6 +112,15 @@ class ContactForm(forms.Form):
         required=True,
         widget=forms.Textarea
     )
+    content = forms.CharField(required=False)
+
+    def clean_content(self):
+        '''
+        Check if content is empty.
+        '''
+        if self.cleaned_data['content'] != '':
+            raise forms.ValidationError('Invalid value')
+        return ''
 
 
 class RegistrationForm(RegistrationFormUniqueEmail):
