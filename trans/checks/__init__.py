@@ -19,24 +19,10 @@
 #
 
 from weblate import appsettings
-from django.core.exceptions import ImproperlyConfigured
+from trans.util import load_class
 
 # Initialize checks list
 CHECKS = {}
 for path in appsettings.CHECK_LIST:
-    module, attr = path.rsplit('.', 1)
-    try:
-        mod = __import__(module, {}, {}, [attr])
-    except ImportError as e:
-        raise ImproperlyConfigured(
-            'Error importing translation check module %s: "%s"' %
-            (module, e)
-        )
-    try:
-        cls = getattr(mod, attr)
-    except AttributeError:
-        raise ImproperlyConfigured(
-            'Module "%s" does not define a "%s" callable check' %
-            (module, attr)
-        )
+    cls = load_class(path)
     CHECKS[cls.check_id] = cls()

@@ -19,11 +19,13 @@
 #
 
 import hashlib
+from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from importlib import import_module
 import urllib
 import time
 import random
@@ -174,3 +176,25 @@ def sleep_while_git_locked():
     Random sleep to perform when git repository is locked.
     '''
     time.sleep(random.random() * 2)
+
+
+def load_class(name):
+    '''
+    Imports module and creates class given by name in string.
+    '''
+    module, attr = name.rsplit('.', 1)
+    try:
+        mod = import_module(module)
+    except ImportError as e:
+        raise ImproperlyConfigured(
+            'Error importing module %s: "%s"' %
+            (module, e)
+        )
+    try:
+        cls = getattr(mod, attr)
+    except AttributeError:
+        raise ImproperlyConfigured(
+            'Module "%s" does not define a "%s" class' %
+            (module, attr)
+        )
+    return cls
