@@ -47,31 +47,56 @@ class MachineTranslation(object):
         '''
         self.mtid = self.name.lower().replace(' ', '-')
 
-    def json_req(self, url, **kwargs):
+    def authenticate(self, request):
+        '''
+        Hook for backends to allow add authentication headers to request.
+        '''
+        return
+
+    def json_req(self, url, http_post=False, skip_auth=False, **kwargs):
         '''
         Performs JSON request.
         '''
+        # Encode params
+        if len(kwargs) > 0:
+            params = urllib.urlencode(kwargs)
+        else:
+            params = ''
 
         # Append parameters
-        if len(kwargs) > 0:
-            url = '%s?%s' % (url, urllib.urlencode(kwargs))
+        if len(params) > 0 and not http_post:
+            url = '%s?%s' % (url, params)
 
         # Create request object with custom headers
         request = urllib2.Request(url)
         request.add_header('User-Agent', 'Weblate/%s' % weblate.VERSION)
+        # Optional authentication
+        if not skip_auth:
+            self.authenticate(request)
 
-        # Load JSON response
-        response = json.load(urllib2.urlopen(request))
+        # Fire request
+        if http_post:
+            handle = urllib2.urlopen(request, params)
+        else:
+            handle = urllib2.urlopen(request)
+
+        # Read and possibly convert response
+        text = handle.read()
+        if text.startswith('\xef\xbb\xbf'):
+            text = text.decode('UTF-8-sig')
+
+        # Parse JSON
+        response = json.loads(text)
 
         # Return data
         return response
 
-    def json_status_req(self, url, **kwargs):
+    def json_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
         '''
         Performs JSON request with checking response status.
         '''
         # Perform request
-        response = self.json_req(url, **kwargs)
+        response = self.json_req(url, http_post, skip_auth, **kwargs)
 
         # Check response status
         if response['responseStatus'] != 200:
@@ -119,6 +144,7 @@ class MachineTranslation(object):
                 self.name,
                 str(exc)
             )
+            raise
             return self.default_languages
 
         # Update cache

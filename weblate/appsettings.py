@@ -41,6 +41,11 @@ MT_APERTIUM_KEY = get('MT_APERTIUM_KEY', None)
 # http://www.bing.com/developers/createapp.aspx
 MT_MICROSOFT_KEY = get('MT_MICROSOFT_KEY', None)
 
+# Microsoft Translator service, register at
+# https://datamarket.azure.com/developer/applications/
+MT_MICROSOFT_ID = get('MT_MICROSOFT_ID', None)
+MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)
+
 # Path where git repositories are stored, it needs to be writable
 GIT_ROOT = get('GIT_ROOT', '%s/repos/' % WEB_ROOT)
 
