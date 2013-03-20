@@ -22,6 +22,10 @@ from trans.machine.base import MachineTranslation, MachineTranslationError
 from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
 
+BASE_URL = 'http://api.microsofttranslator.com/V2/Ajax.svc/'
+TRANSLATE_URL = BASE_URL + 'Translate'
+LIST_URL = BASE_URL + 'GetLanguagesForTranslate'
+
 
 def microsoft_translation_supported():
     '''
@@ -100,9 +104,7 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         Downloads list of supported languages from a service.
         '''
-        data = self.json_req(
-            'http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguagesForTranslate'
-        )
+        data = self.json_req(LIST_URL)
         return data
 
     def format_match(self, match):
@@ -130,10 +132,5 @@ class MicrosoftTranslation(MachineTranslation):
             'contentType': 'text/plain',
             'category': 'general',
         }
-        response = self.json_req(
-            'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            **args
-        )
+        response = self.json_req(TRANSLATE_URL, **args)
         return [(response, 100)]
-
-
