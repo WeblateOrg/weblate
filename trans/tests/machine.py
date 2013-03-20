@@ -20,7 +20,6 @@
 
 from django.test import TestCase
 import unittest
-from weblate import appsettings
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
 from trans.machine.mymemory import MyMemoryTranslation
@@ -68,7 +67,7 @@ class MachineTranslationTest(TestCase):
         self.assertGreater(len(machine.translate('es', 'world')), 0)
 
     @unittest.skipUnless(microsoft_translation_supported(),
-                        'missing credentials')
+                         'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
         self.assertGreater(len(machine.translate('cs', 'world')), 0)
