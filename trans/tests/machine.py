@@ -20,6 +20,9 @@
 
 from django.test import TestCase
 from trans.machine.dummy import DummyTranslation
+from trans.machine.glosbe import GlosbeTranslation
+from trans.machine.mymemory import MyMemoryTranslation
+from trans.machine.opentran import OpenTranTranslation
 
 
 class MachineTranslationTest(TestCase):
@@ -41,3 +44,15 @@ class MachineTranslationTest(TestCase):
             machine_translation.translate('cs', 'Hello, world!'),
             []
         )
+
+    def test_glosbe(self):
+        machine = GlosbeTranslation()
+        self.assertGreater(len(machine.translate('cs', 'world')), 0)
+
+    def test_mymemory(self):
+        machine = MyMemoryTranslation()
+        self.assertGreater(len(machine.translate('cs', 'world')), 0)
+
+    def test_opentran(self):
+        machine = OpenTranTranslation()
+        self.assertGreater(len(machine.translate('cs', 'world')), 0)
