@@ -1,4 +1,4 @@
-{% load url from future %}{% load i18n %}
--- 
-    {% trans "Sent by Weblate translation system" %}
-    http://weblate.org/
+{% load url from future %}{% load translations %}{% load i18n %}--
+    {% blocktrans %}Sent by Weblate translation system{% endblocktrans %}
+    http://{{ site.domain }}{% url 'home' %}
+    {% trans "More information about Weblate can be found at http://weblate.org/" %}
