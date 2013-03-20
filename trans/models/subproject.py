@@ -278,6 +278,8 @@ class SubProject(models.Model):
         '''
         Returns true if push is possible for this subproject.
         '''
+        if self.is_repo_link():
+            return self.linked_subproject.can_push()
         return self.push != '' and self.push is not None
 
     def is_repo_link(self):
