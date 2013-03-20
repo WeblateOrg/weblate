@@ -112,8 +112,8 @@ it also commits any pending changes.
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
 
-rebuild_index
--------------
+rebuild_index <project|project/subproject>
+------------------------------------------
 
 .. django-admin:: rebuild_index
 
