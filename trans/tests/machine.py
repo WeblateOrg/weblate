@@ -30,6 +30,7 @@ from trans.machine.microsoft import (
     MicrosoftTranslation, microsoft_translation_supported
 )
 
+
 class MachineTranslationTest(TestCase):
     '''
     Testing of machine translation core.

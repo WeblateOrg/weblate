@@ -73,4 +73,3 @@ class ApertiumTranslation(MachineTranslation):
         )
 
         return [(response['responseData']['translatedText'], 100)]
-
