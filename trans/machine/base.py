@@ -17,6 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+'''
+Base code for machine translation services.
+'''
 
 from django.core.cache import cache
 import json
@@ -36,6 +39,7 @@ class MachineTranslation(object):
     Generic object for machine translation services.
     '''
     name = 'MT'
+    default_languages = []
 
     def __init__(self):
         '''
@@ -107,7 +111,15 @@ class MachineTranslation(object):
             return languages
 
         # Download
-        languages = self.download_languages()
+        try:
+            languages = self.download_languages()
+        except Exception as exc:
+            weblate.logger.error(
+                'Failed to fetch supported languages for %s, using defaults (%s)',
+                self.name,
+                str(exc)
+            )
+            return self.default_languages
 
         # Update cache
         cache.set(cache_key, languages, 3600 * 48)
