@@ -26,7 +26,7 @@ from optparse import make_option
 from trans.models import Unit, SubProject
 
 
-class WeblateCommand(BaseCommand):  # pylint: disable=R0921,R0922
+class WeblateCommand(BaseCommand):
     '''
     Command which accepts project/subproject/--all params to process.
     '''
@@ -94,7 +94,7 @@ class WeblateCommand(BaseCommand):  # pylint: disable=R0921,R0922
         raise NotImplementedError()
 
 
-class WeblateLangCommand(WeblateCommand):  # pylint: disable=R0921,R0922
+class WeblateLangCommand(WeblateCommand):
     '''
     Command accepting additional language parameter to filter
     list of languages to process.
