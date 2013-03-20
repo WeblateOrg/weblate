@@ -27,12 +27,6 @@ class GoogleTranslation(MachineTranslation):
     '''
     name = 'Google'
 
-    def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
-        return language.replace('_', '-').lower()
-
     def is_supported(self, language):
         '''
         Any language is supported.
