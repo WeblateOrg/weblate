@@ -43,20 +43,6 @@ class ApertiumTranslation(MachineTranslation):
                 for item in data['responseData']
                 if item['sourceLanguage'] == 'en']
 
-    def format_match(self, match):
-        '''
-        Reformats match to (translation, quality) tuple.
-        '''
-        if match['quality'].isdigit():
-            quality = int(match['quality'])
-        else:
-            quality = 0
-
-        return (
-            match['translation'],
-            quality * match['match']
-        )
-
     def download_translations(self, language, text):
         '''
         Downloads list of possible translations from a service.
