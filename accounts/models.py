@@ -69,9 +69,10 @@ def send_notification_email(language, email, notification, translation_obj,
         html_body_template = 'mail/%s.html' % notification
 
         # Adjust context
-        domain = Site.objects.get_current().domain
+        site = Site.objects.get_current()
         context['translation'] = translation_obj
-        context['current_site'] = domain
+        context['current_site'] = site.domain
+        context['site'] = site
         context['translation_url'] = get_site_url(
             translation_obj.get_absolute_url()
         )
