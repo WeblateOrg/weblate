@@ -288,6 +288,12 @@ class SubProject(models.Model):
         '''
         return is_repo_link(self.repo)
 
+    def can_add_language(self):
+        '''
+        Returns true if new languages can be added.
+        '''
+        return self.project.new_lang != 'none'
+
     @property
     def linked_subproject(self):
         '''
