@@ -75,6 +75,7 @@ def get_similar(request, unit_id):
         'similar': similar,
     }))
 
+
 @login_required
 def translate(request, unit_id):
     '''
