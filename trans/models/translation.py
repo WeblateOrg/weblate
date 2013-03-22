@@ -483,7 +483,8 @@ class Translation(models.Model):
         else:
             return
 
-        oldunits = set(self.unit_set.all().values_list('id', flat=True))
+        # List of created units (used for cleanup and duplicates detection)
+        created_units = set()
 
         # Was there change?
         was_new = False
@@ -497,20 +498,34 @@ class Translation(models.Model):
             newunit, is_new = Unit.objects.update_from_unit(
                 self, unit, pos
             )
-            was_new = was_new or (is_new and not newunit.translated)
-            pos += 1
-            if not is_new:
-                oldunits.remove(newunit.id)
 
-        # Delete not used units
-        units_to_delete = Unit.objects.filter(
-            id__in=oldunits
+            # Check if unit is new and untranslated
+            was_new = was_new or (is_new and not newunit.translated)
+
+            # Update position
+            pos += 1
+
+            # Check for possible duplicate units
+            if newunit.id in created_units:
+                weblate.logger.error(
+                    'Duplicite string to translate in %s: %s',
+                    self,
+                    newunit
+                )
+
+            # Store current unit ID
+            created_units.add(newunit.id)
+
+        # Get lists of stale units to delete
+        units_to_delete = self.unit_set.exclude(
+            id__in=created_units
         )
         # We need to resolve this now as otherwise list will become empty after
         # delete
         deleted_checksums = list(
             units_to_delete.values_list('checksum', flat=True)
         )
+        # Actually delete units
         units_to_delete.delete()
 
         # Cleanup checks for deleted units
