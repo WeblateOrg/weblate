@@ -319,9 +319,12 @@ class SubProject(models.Model):
     def get_repoweb_link(self, filename, line):
         '''
         Generates link to source code browser for given file and line.
+
+        For linked repositories, it is possible to override linked
+        repository path here.
         '''
         if len(self.repoweb) == 0:
-            if self.is_repo_link() :
+            if self.is_repo_link():
                 return self.linked_subproject.get_repoweb_link(filename, line)
             return None
 
