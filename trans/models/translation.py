@@ -503,7 +503,7 @@ class Translation(models.Model):
                 oldunits.remove(newunit.id)
 
         # Delete not used units
-        units_to_delete = self.unit_set.filter(
+        units_to_delete = Unit.objects.filter(
             id__in=oldunits
         )
         # We need to resolve this now as otherwise list will become empty after
