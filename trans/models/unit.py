@@ -51,15 +51,13 @@ class UnitManager(models.Manager):
         # Try getting existing unit
         dbunit = None
         try:
-            dbunit = self.get(
-                translation=translation,
+            dbunit = translation.unit_set.get(
                 checksum=checksum
             )
             created = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
-            self.filter(
-                translation=translation,
+            dbunit = translation.unit_set.filter(
                 checksum=checksum
             ).delete()
         except Unit.DoesNotExist:
