@@ -320,10 +320,9 @@ class SubProject(models.Model):
         '''
         Generates link to source code browser for given file and line.
         '''
-        if self.is_repo_link():
-            return self.linked_subproject.get_repoweb_link(filename, line)
-
         if len(self.repoweb) == 0:
+            if self.is_repo_link() :
+                return self.linked_subproject.get_repoweb_link(filename, line)
             return None
 
         return self.repoweb % {
