@@ -387,8 +387,6 @@ class SubProject(models.Model):
             pushurl = ''
         if pushurl != self.push:
             self.git_repo.git.remote('set-url', 'origin', '--push', self.push)
-        # Update
-        self.update_remote_branch(validate)
 
     def configure_branch(self):
         '''
