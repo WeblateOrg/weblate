@@ -136,14 +136,13 @@ class BasicViewTest(ViewTestCase):
 
 
 class BasicResourceViewTest(BasicViewTest):
-    def create_subproject(self, file_format='aresource',
-                          mask='android/values-*/strings.xml',
-                          template='android/values/strings.xml'):
-        return super(BasicResourceViewTest, self).create_subproject(
-            file_format,
-            mask,
-            template,
-        )
+    def create_subproject(self):
+        return self.create_android()
+
+
+class BasicIphoneViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_iphone()
 
 
 class EditTest(ViewTestCase):
@@ -180,6 +179,8 @@ class EditTest(ViewTestCase):
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
 
     def test_edit_check(self):
         response = self.edit_unit(
@@ -223,11 +224,10 @@ class EditTest(ViewTestCase):
 
 
 class EditResourceTest(EditTest):
-    def create_subproject(self, file_format='aresource',
-                          mask='android/values-*/strings.xml',
-                          template='android/values/strings.xml'):
-        return super(EditResourceTest, self).create_subproject(
-            file_format,
-            mask,
-            template,
-        )
+    def create_subproject(self):
+        return self.create_android()
+
+
+class EditIphoneTest(EditTest):
+    def create_subproject(self):
+        return self.create_iphone()

@@ -28,7 +28,9 @@
 <div class="tabs" id="subproject-tabs">
 <ul>
 <li><a href="#changes">{% trans "Recent changes" %}</a></li>
+{% if object.can_add_language %}
 <li><a href="#new-lang">{% trans "New language" %}</a></li>
+{% endif %}
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
@@ -37,6 +39,7 @@
 <li><a href="{% url 'view_activity_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
 </ul>
 
+{% if object.can_add_language %}
 <div id="new-lang">
 {% if object.project.new_lang == 'url' %}
 <p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</li>
@@ -44,6 +47,7 @@
 <p>{% blocktrans %}Should your language be missing, please <a href="{{ contact_url }}?subject=New+language+request+for+{{ object }}">contact us</a>.{% endblocktrans %}</li>
 {% endif %}
 </div>
+{% endif %}
 
 <div id="changes">
 {% include "last-changes.html" %}

@@ -27,9 +27,7 @@ from lang import data
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
 from django.dispatch import receiver
-import logging
-
-logger = logging.getLogger('weblate')
+import weblate
 
 # Plural types definition
 PLURAL_NONE = 0
@@ -42,6 +40,7 @@ PLURAL_ONE_TWO_FEW_OTHER = 6
 PLURAL_ONE_OTHER_ZERO = 7
 PLURAL_ONE_FEW_MANY_OTHER = 8
 PLURAL_TWO_OTHER = 9
+PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
 PLURAL_UNKNOWN = 666
 
 # Plural equation - type mappings
@@ -54,6 +53,7 @@ PLURAL_MAPPINGS = (
     (data.ONE_OTHER_ZERO_PLURALS, PLURAL_ONE_OTHER_ZERO),
     (data.ONE_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_FEW_MANY_OTHER),
     (data.TWO_OTHER_PLURALS, PLURAL_TWO_OTHER),
+    (data.ONE_TWO_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_MANY_OTHER),
 )
 
 
@@ -84,7 +84,7 @@ def get_plural_type(code, pluralequation):
         return PLURAL_ARABIC
 
     # Log error in case of uknown mapping
-    logger.error(
+    weblate.logger.error(
         'Can not guess type of plural for %s: %s', code, pluralequation
     )
 
@@ -297,6 +297,13 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Many'),
         pgettext_lazy('Plural form description', 'Other'),
     ),
+    PLURAL_ONE_TWO_FEW_MANY_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
     PLURAL_TWO_OTHER: (
         pgettext_lazy('Plural form description', 'Two'),
         pgettext_lazy('Plural form description', 'Other'),
@@ -316,6 +323,7 @@ class Language(models.Model):
         (PLURAL_ONE_OTHER_ZERO, 'One/other/zero'),
         (PLURAL_ONE_FEW_MANY_OTHER, 'One/few/many/other'),
         (PLURAL_TWO_OTHER, 'Two/other'),
+        (PLURAL_ONE_TWO_FEW_MANY_OTHER, 'One/two/few/many/other'),
         (PLURAL_UNKNOWN, 'Unknown'),
     )
     code = models.SlugField(unique=True)

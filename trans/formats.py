@@ -118,6 +118,9 @@ class FileUnit(object):
         Returns source string from a ttkit unit.
         '''
         if self.is_unit_key_value():
+            # Need to decode property encoded string
+            if isinstance(self.unit, propunit):
+                return quote.propertiesdecode(self.mainunit.name)
             return self.mainunit.name
         else:
             return get_string(self.mainunit.source)
@@ -213,6 +216,9 @@ class FileUnit(object):
         Sets translation unit target.
         '''
         self.unit.settarget(target)
+        # Propagate to value so that is_translated works correctly
+        if self.is_unit_key_value():
+            self.unit.value = self.unit.translation
 
     def mark_fuzzy(self, fuzzy):
         '''
@@ -259,19 +265,16 @@ class FileFormat(object):
     def parse_store(cls, storefile):
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
-        if '.' in module_name:
-            module = importlib.import_module(module_name)
-        else:
-            try:
-                module = importlib.import_module(
-                    'translate.storage.%s' % module_name
-                )
-            except ImportError:
-                # Fallback to bultin ttkit copy
-                # (only valid for aresource)
-                module = importlib.import_module(
-                    'ttkit.%s' % module_name
-                )
+        try:
+            module = importlib.import_module(
+                'translate.storage.%s' % module_name
+            )
+        except ImportError:
+            # Fallback to bultin ttkit copy
+            # (only valid for aresource)
+            module = importlib.import_module(
+                'ttkit.%s' % module_name
+            )
 
         # Get the class
         storeclass = getattr(module, class_name)

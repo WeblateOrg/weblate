@@ -28,13 +28,11 @@ from glob import glob
 from optparse import make_option
 import tempfile
 import git
-import logging
 import os
 import re
 import shutil
 import fnmatch
-
-logger = logging.getLogger('weblate')
+import weblate
 
 
 class Command(BaseCommand):
@@ -70,15 +68,15 @@ class Command(BaseCommand):
         os.chmod(workdir, 0755)
 
         # Initialize git repository
-        logger.info('Initializing git repository...')
+        weblate.logger.info('Initializing git repository...')
         gitrepo = git.Repo.init(workdir)
         gitrepo.git.remote('add', 'origin', repo)
 
-        logger.info('Fetching remote git repository...')
+        weblate.logger.info('Fetching remote git repository...')
         gitrepo.git.remote('update', 'origin')
         gitrepo.git.branch('--track', branch, 'origin/%s' % branch)
 
-        logger.info('Updating working copy in git repository...')
+        weblate.logger.info('Updating working copy in git repository...')
         gitrepo.git.checkout(branch)
 
         return workdir
@@ -96,14 +94,14 @@ class Command(BaseCommand):
         '''
         # Find matching files
         matches = self.get_matching_files(repo, filemask)
-        logger.info('Found %d matching files', len(matches))
+        weblate.logger.info('Found %d matching files', len(matches))
 
         # Parse subproject names out of them
         names = set()
         maskre = self.get_match_regexp(filemask)
         for match in matches:
             names.add(self.get_name(maskre, match))
-        logger.info('Found %d subprojects', len(names))
+        weblate.logger.info('Found %d subprojects', len(names))
         return names
 
     def handle(self, *args, **options):
@@ -134,11 +132,10 @@ class Command(BaseCommand):
 
         if is_repo_link(repo):
             sharedrepo = repo
-            master_sub_project = repo.rsplit('/', 1)[-1]
             try:
                 sub_project = SubProject.objects.get(
                     project=project,
-                    slug=master_sub_project
+                    slug=repo.rsplit('/', 1)[-1]
                 )
             except SubProject.DoesNotExist:
                 raise CommandError(
@@ -163,10 +160,13 @@ class Command(BaseCommand):
                 project=project
             )
             if subprojects.exists():
-                logger.warn('Subproject %s already exists, skipping', name)
+                weblate.logger.warn(
+                    'Subproject %s already exists, skipping',
+                    name
+                )
                 continue
 
-            logger.info('Creating subproject %s', name)
+            weblate.logger.info('Creating subproject %s', name)
             SubProject.objects.create(
                 name=name,
                 slug=slug,
@@ -190,12 +190,15 @@ class Command(BaseCommand):
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
-            logger.warn('Subproject %s already exists, skipping and using it '
-                        'as main subproject', name)
+            weblate.logger.warn(
+                'Subproject %s already exists, skipping and using it '
+                'as main subproject',
+                name
+            )
             shutil.rmtree(workdir)
             return matches, 'weblate://%s/%s' % (project.slug, slug)
 
-        logger.info('Creating subproject %s as main subproject', name)
+        weblate.logger.info('Creating subproject %s as main subproject', name)
 
         # Rename gitrepository to new name
         os.rename(

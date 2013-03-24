@@ -41,10 +41,6 @@ from trans.models import Project, Change
 from trans.util import get_user_display, get_site_url
 import weblate
 
-import logging
-
-logger = logging.getLogger('weblate')
-
 
 def send_notification_email(language, email, notification, translation_obj,
                             context=None, headers=None, from_email=None):
@@ -57,7 +53,7 @@ def send_notification_email(language, email, notification, translation_obj,
     if headers is None:
         headers = {}
     try:
-        logger.info(
+        weblate.logger.info(
             'sending notification %s on %s to %s',
             notification,
             translation_obj.__unicode__(),
@@ -73,9 +69,10 @@ def send_notification_email(language, email, notification, translation_obj,
         html_body_template = 'mail/%s.html' % notification
 
         # Adjust context
-        domain = Site.objects.get_current().domain
+        site = Site.objects.get_current()
         context['translation'] = translation_obj
-        context['current_site'] = domain
+        context['current_site'] = site.domain
+        context['site'] = site
         context['translation_url'] = get_site_url(
             translation_obj.get_absolute_url()
         )

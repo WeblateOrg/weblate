@@ -158,6 +158,24 @@ API key for Microsoft Translator service, you can register at http://www.bing.co
 
 .. seealso:: :ref:`machine-translation`
 
+.. setting:: MT_MICROSOFT_ID
+
+MT_MICROSOFT_ID
+---------------
+
+Cliend ID for Microsoft Translator service.
+
+.. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+
+.. setting:: MT_MICROSOFT_KEY
+
+MT_MICROSOFT_SECRET
+-------------------
+
+Client secret for Microsoft Translator service.
+
+.. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+
 .. setting:: NEARBY_MESSAGES
 
 NEARBY_MESSAGES

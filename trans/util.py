@@ -19,43 +19,77 @@
 #
 
 import hashlib
+from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext as _
+from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from importlib import import_module
 import urllib
 import time
 import random
 
-GRAVATAR_URL_PREFIX = getattr(
+try:
+    import libravatar
+    HAS_LIBRAVATAR = True
+except ImportError:
+    HAS_LIBRAVATAR = False
+
+AVATAR_URL_PREFIX = getattr(
     settings,
-    'GRAVATAR_URL_PREFIX',
-    'https://secure.gravatar.com/'
+    'AVATAR_URL_PREFIX',
+    'https://seccdn.libravatar.org/'
 )
-# See http://cs.gravatar.com/site/implement/images/
+# See http://wiki.libravatar.org/api/
 # for available choices
-GRAVATAR_DEFAULT_IMAGE = getattr(
+AVATAR_DEFAULT_IMAGE = getattr(
     settings,
-    'GRAVATAR_DEFAULT_IMAGE',
+    'AVATAR_DEFAULT_IMAGE',
     'identicon'
 )
 
 PLURAL_SEPARATOR = '\x00\x00'
 
 
-def gravatar_for_email(email, size=80):
+def avatar_for_email(email, size=80):
     '''
-    Generates url for gravatar.
+    Generates url for avatar.
     '''
-    mail_hash = hashlib.md5(email.lower()).hexdigest()
 
-    url = "%savatar/%s/?" % (GRAVATAR_URL_PREFIX, mail_hash)
+    # Safely handle blank email
+    if email == '':
+        email = 'noreply@weblate.org'
 
-    url += urllib.urlencode({
-        's': str(size),
-        'd': GRAVATAR_DEFAULT_IMAGE
-    })
+    # Retrieve from cache
+    cache_key = 'avatar-%s-%s' % (email, size)
+    url = cache.get(cache_key)
+    if url is not None:
+        return url
+
+    if HAS_LIBRAVATAR:
+        # Use libravatar library if available
+        url = libravatar.libravatar_url(
+            email=email,
+            https=True,
+            default=AVATAR_DEFAULT_IMAGE,
+            size=size
+        )
+
+    else:
+        # Fallback to standard method
+        mail_hash = hashlib.md5(email.lower()).hexdigest()
+
+        url = "%savatar/%s?" % (AVATAR_URL_PREFIX, mail_hash)
+
+        url += urllib.urlencode({
+            's': str(size),
+            'd': AVATAR_DEFAULT_IMAGE
+        })
+
+    # Store result in cache
+    cache.set(cache_key, url, 3600 * 24)
 
     return escape(url)
 
@@ -68,7 +102,7 @@ def get_user_display(user, icon=True, link=False):
     if user is None:
         # None user, probably remotely triggered action
         full_name = _('None')
-        email = 'noreply@weblate.org'
+        email = ''
         profile = None
     else:
         # Get full name
@@ -86,12 +120,12 @@ def get_user_display(user, icon=True, link=False):
 
     # Icon requested?
     if icon:
-        # Get gravatar image
-        gravatar = gravatar_for_email(email, size=32)
+        # Get avatar image
+        avatar = avatar_for_email(email, size=32)
 
-        full_name = '<img src="%(gravatar)s" class="avatar" /> %(name)s' % {
+        full_name = '<img src="%(avatar)s" class="avatar" /> %(name)s' % {
             'name': full_name,
-            'gravatar': gravatar
+            'avatar': avatar
         }
 
     if link and profile is not None:
@@ -153,3 +187,25 @@ def sleep_while_git_locked():
     Random sleep to perform when git repository is locked.
     '''
     time.sleep(random.random() * 2)
+
+
+def load_class(name):
+    '''
+    Imports module and creates class given by name in string.
+    '''
+    module, attr = name.rsplit('.', 1)
+    try:
+        mod = import_module(module)
+    except ImportError as e:
+        raise ImproperlyConfigured(
+            'Error importing module %s: "%s"' %
+            (module, e)
+        )
+    try:
+        cls = getattr(mod, attr)
+    except AttributeError:
+        raise ImproperlyConfigured(
+            'Module "%s" does not define a "%s" class' %
+            (module, attr)
+        )
+    return cls

@@ -19,6 +19,9 @@
 #
 
 import os
+import logging
+
+logger = logging.getLogger('weblate')
 
 
 def get_root_dir():

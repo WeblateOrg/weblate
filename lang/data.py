@@ -258,6 +258,10 @@ ONE_TWO_FEW_OTHER_PLURALS = (
     'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3',
 )
 
+ONE_TWO_FEW_MANY_OTHER_PLURALS = (
+    'n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4',
+)
+
 ONE_FEW_MANY_OTHER_PLURALS = (
     'n==1 ? 0 : n==0 || ( n%100>1 && n%100<11) ? 1 : '
     '(n%100>10 && n%100<20 ) ? 2 : 3'

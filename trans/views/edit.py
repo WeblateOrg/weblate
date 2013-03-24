@@ -38,10 +38,7 @@ from trans.views.helper import (
 )
 from trans.util import join_plural
 from accounts.models import Profile, send_notification_email
-
-import logging
-
-logger = logging.getLogger('weblate')
+import weblate
 
 
 def translate(request, project, subproject, lang):
@@ -203,7 +200,7 @@ def translate(request, project, subproject, lang):
                     search_options.url
                 ))
             except Unit.DoesNotExist:
-                logger.error(
+                weblate.logger.error(
                     'message %s disappeared!',
                     form.cleaned_data['checksum']
                 )
@@ -263,7 +260,7 @@ def translate(request, project, subproject, lang):
                             search_options.url
                         ))
             except Unit.DoesNotExist:
-                logger.error(
+                weblate.logger.error(
                     'message %s disappeared!',
                     form.cleaned_data['checksum']
                 )

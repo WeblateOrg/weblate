@@ -33,6 +33,10 @@ from trans.models import (
     Project, SubProject
 )
 
+REPOWEB_URL = \
+    'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
+GIT_URL = 'git://github.com/nijel/weblate-test.git'
+
 
 class RepoTestCase(TestCase):
     '''
@@ -62,7 +66,7 @@ class RepoTestCase(TestCase):
         if not os.path.exists(self.base_repo_path):
             cmd.clone(
                 '--bare',
-                'git://github.com/nijel/weblate-test.git',
+                GIT_URL,
                 self.base_repo_path
             )
 
@@ -88,10 +92,9 @@ class RepoTestCase(TestCase):
             web='http://weblate.org/'
         )
 
-    def create_subproject(self, file_format='auto', mask='po/*.po',
-                          template=''):
+    def _create_subproject(self, file_format, mask, template=''):
         '''
-        Creates test subproject.
+        Creates real test subproject.
         '''
         project = self.create_project()
         return SubProject.objects.create(
@@ -103,30 +106,40 @@ class RepoTestCase(TestCase):
             filemask=mask,
             template=template,
             file_format=file_format,
+            repoweb=REPOWEB_URL,
+        )
+
+    def create_subproject(self):
+        '''
+        Wrapper method for proving test subproject.
+        '''
+        return self._create_subproject(
+            'auto',
+            'po/*.po',
         )
 
     def create_iphone(self):
-        return self.create_subproject(
+        return self._create_subproject(
             'strings',
             'iphone/*.lproj/Localizable.strings',
         )
 
     def create_android(self):
-        return self.create_subproject(
+        return self._create_subproject(
             'aresource',
             'android/values-*/strings.xml',
             'android/values/strings.xml',
         )
 
     def create_java(self):
-        return self.create_subproject(
+        return self._create_subproject(
             'properties',
             'java/swing_messages_*.properties',
             'java/swing_messages.properties',
         )
 
     def create_xliff(self):
-        return self.create_subproject(
+        return self._create_subproject(
             'xliff',
             'xliff/*/DPH.xlf',
         )

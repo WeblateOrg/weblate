@@ -188,6 +188,10 @@ class CommitGitTest(CheckGitTest):
     command_name = 'commitgit'
 
 
+class PushGitTest(CheckGitTest):
+    command_name = 'pushgit'
+
+
 class LoadTest(CheckGitTest):
     command_name = 'loadpo'
 

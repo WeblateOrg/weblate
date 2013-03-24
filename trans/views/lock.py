@@ -23,9 +23,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 
-from trans.views.helper import (
-    get_project, get_subproject, get_translation
-)
+from trans.views.helper import get_project, get_subproject, get_translation
 
 
 @login_required

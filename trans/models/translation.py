@@ -29,7 +29,6 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os.path
-import logging
 import git
 from translate.storage import poheader
 from datetime import datetime, timedelta
@@ -41,8 +40,6 @@ from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
-
-logger = logging.getLogger('weblate')
 
 
 class TranslationManager(models.Manager):
@@ -408,60 +405,12 @@ class Translation(models.Model):
         '''
         self.update_from_blob()
 
-    def update_from_blob(self, force=False, request=None):
+    def cleanup_deleted(self, deleted_checksums):
         '''
-        Updates translation data from blob.
+        Removes stale checks/comments/suggestions for deleted units.
         '''
         from trans.models.unit import Unit
-        from trans.models.unitdata import Check, Suggestion, Comment, Change
-        blob_hash = self.get_git_blob_hash()
-
-        # Check if we're not already up to date
-        if self.revision != blob_hash:
-            logger.info(
-                'processing %s in %s, revision has changed',
-                self.filename,
-                self.subproject.__unicode__()
-            )
-        elif force:
-            logger.info(
-                'processing %s in %s, check forced',
-                self.filename,
-                self.subproject.__unicode__()
-            )
-        else:
-            return
-
-        oldunits = set(self.unit_set.all().values_list('id', flat=True))
-
-        # Was there change?
-        was_new = False
-        # Position of current unit
-        pos = 1
-
-        for unit in self.store.all_units():
-            if not unit.is_translatable():
-                continue
-
-            newunit, is_new = Unit.objects.update_from_unit(
-                self, unit, pos
-            )
-            was_new = was_new or (is_new and not newunit.translated)
-            pos += 1
-            if not is_new:
-                oldunits.remove(newunit.id)
-
-        # Delete not used units
-        units_to_delete = Unit.objects.filter(
-            translation=self, id__in=oldunits
-        )
-        # We need to resolve this now as otherwise list will become empty after
-        # delete
-        deleted_checksums = units_to_delete.values_list('checksum', flat=True)
-        deleted_checksums = list(deleted_checksums)
-        units_to_delete.delete()
-
-        # Cleanup checks for deleted units
+        from trans.models.unitdata import Check, Suggestion, Comment
         for checksum in deleted_checksums:
             units = Unit.objects.filter(
                 translation__language=self.language,
@@ -510,6 +459,77 @@ class Translation(models.Model):
                 # (eg. consistency) needs update now
                 for unit in units:
                     unit.check()
+
+    def update_from_blob(self, force=False, request=None):
+        '''
+        Updates translation data from blob.
+        '''
+        from trans.models.unit import Unit
+        from trans.models.unitdata import Change
+
+        # Check if we're not already up to date
+        if self.revision != self.get_git_blob_hash():
+            weblate.logger.info(
+                'processing %s in %s, revision has changed',
+                self.filename,
+                self.subproject.__unicode__()
+            )
+        elif force:
+            weblate.logger.info(
+                'processing %s in %s, check forced',
+                self.filename,
+                self.subproject.__unicode__()
+            )
+        else:
+            return
+
+        # List of created units (used for cleanup and duplicates detection)
+        created_units = set()
+
+        # Was there change?
+        was_new = False
+        # Position of current unit
+        pos = 1
+
+        for unit in self.store.all_units():
+            if not unit.is_translatable():
+                continue
+
+            newunit, is_new = Unit.objects.update_from_unit(
+                self, unit, pos
+            )
+
+            # Check if unit is new and untranslated
+            was_new = was_new or (is_new and not newunit.translated)
+
+            # Update position
+            pos += 1
+
+            # Check for possible duplicate units
+            if newunit.id in created_units:
+                weblate.logger.error(
+                    'Duplicite string to translate in %s: %s',
+                    self,
+                    newunit
+                )
+
+            # Store current unit ID
+            created_units.add(newunit.id)
+
+        # Get lists of stale units to delete
+        units_to_delete = self.unit_set.exclude(
+            id__in=created_units
+        )
+        # We need to resolve this now as otherwise list will become empty after
+        # delete
+        deleted_checksums = list(
+            units_to_delete.values_list('checksum', flat=True)
+        )
+        # Actually delete units
+        units_to_delete.delete()
+
+        # Cleanup checks for deleted units
+        self.cleanup_deleted(deleted_checksums)
 
         # Update revision and stats
         self.update_stats()
@@ -745,7 +765,7 @@ class Translation(models.Model):
 
         # Can we delay commit?
         if not force_commit and appsettings.LAZY_COMMITS:
-            logger.info(
+            weblate.logger.info(
                 'Delaying commiting %s in %s as %s',
                 self.filename,
                 self,
@@ -754,8 +774,13 @@ class Translation(models.Model):
             return False
 
         # Do actual commit with git lock
-        logger.info('Commiting %s in %s as %s', self.filename, self, author)
-        with self.subproject.get_git_lock():
+        weblate.logger.info(
+            'Commiting %s in %s as %s',
+            self.filename,
+            self,
+            author
+        )
+        with self.subproject.git_lock:
             try:
                 self.__git_commit(gitrepo, author, timestamp, sync)
             except git.GitCommandError:
@@ -775,7 +800,7 @@ class Translation(models.Model):
         Updates backend file and unit.
         '''
         # Save with lock acquired
-        with self.subproject.get_git_lock():
+        with self.subproject.git_lock:
 
             src = unit.get_source_plurals()[0]
             add = False
@@ -944,7 +969,7 @@ class Translation(models.Model):
         Merges translate-toolkit store into current translation.
         '''
         # Merge with lock acquired
-        with self.subproject.get_git_lock():
+        with self.subproject.git_lock:
 
             store1 = self.store.store
             store1.require_index()

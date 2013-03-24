@@ -45,6 +45,7 @@ DEFAULT_COMMIT_MESSAGE = (
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
     ('url', ugettext_lazy('Point to translation instructions URL')),
+    ('none', ugettext_lazy('No adding of language')),
 )
 MERGE_CHOICES = (
     ('merge', ugettext_lazy('Merge')),

@@ -29,10 +29,8 @@ from trans.views.helper import get_project, get_subproject
 from trans.util import get_site_url
 
 import json
-import logging
+import weblate
 import threading
-
-logger = logging.getLogger('weblate')
 
 
 BITBUCKET_REPOS = (
@@ -115,7 +113,7 @@ def git_service_hook(request, service):
     elif service == 'bitbucket':
         hook_helper = bitbucket_hook_helper
     else:
-        logger.error('service %s, not supported', service)
+        weblate.logger.error('service %s, not supported', service)
         return HttpResponseBadRequest('invalid service')
 
     # Send the request data to the service handler.
@@ -128,14 +126,14 @@ def git_service_hook(request, service):
     service_long_name = service_data['service_long_name']
     repos = service_data['repos']
     branch = service_data['branch']
-    logger.info(
+    weblate.logger.info(
         'received %s notification on repository %s, branch %s',
         service_long_name, repos[0], branch
     )
 
     # Trigger updates
     for obj in SubProject.objects.filter(repo__in=repos, branch=branch):
-        logger.info(
+        weblate.logger.info(
             '%s notification will update %s',
             service_long_name,
             obj
