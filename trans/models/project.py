@@ -348,12 +348,12 @@ class Project(models.Model):
                 return True
         return False
 
-    def commit_pending(self):
+    def commit_pending(self, request):
         '''
         Commits any pending changes.
         '''
         for resource in self.subproject_set.all():
-            resource.commit_pending()
+            resource.commit_pending(request)
 
     def do_update(self, request=None):
         '''

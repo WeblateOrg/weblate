@@ -130,7 +130,7 @@ class GitCommitedChangeProjectTest(GitNoChangeProjectTest):
     def setUp(self):
         super(GitCommitedChangeProjectTest, self).setUp()
         self.change_unit(u'Ahoj světe!\n')
-        self.project.commit_pending()
+        self.project.commit_pending(self.get_request('/'))
 
 
 class GitCommitedChangeSubProjectTest(GitCommitedChangeProjectTest):

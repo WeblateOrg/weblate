@@ -488,7 +488,7 @@ def translate(request, project, subproject, lang):
 @permission_required('trans.automatic_translation')
 def auto_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
-    obj.commit_pending()
+    obj.commit_pending(request)
     autoform = AutoForm(obj, request.POST)
     change = None
     if not obj.subproject.locked and autoform.is_valid():

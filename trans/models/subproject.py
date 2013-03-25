@@ -423,7 +423,7 @@ class SubProject(models.Model):
             return True
 
         # commit possible pending changes
-        self.commit_pending()
+        self.commit_pending(request)
 
         # update remote branch
         ret = self.update_branch(request)
@@ -457,7 +457,7 @@ class SubProject(models.Model):
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending(skip_push=True)
+            self.commit_pending(request, skip_push=True)
 
         # Do we have anything to push?
         if not self.git_needs_push():
@@ -549,21 +549,21 @@ class SubProject(models.Model):
             repo='weblate://%s/%s' % (self.project.slug, self.slug)
         )
 
-    def commit_pending(self, from_link=False, skip_push=False):
+    def commit_pending(self, request, from_link=False, skip_push=False):
         '''
         Checks whether there is any translation which needs commit.
         '''
         if not from_link and self.is_repo_link():
             return self.linked_subproject.commit_pending(
-                True, skip_push=skip_push
+                requst, True, skip_push=skip_push
             )
 
         for translation in self.translation_set.all():
-            translation.commit_pending(skip_push=skip_push)
+            translation.commit_pending(requst, skip_push=skip_push)
 
         # Process linked projects
         for subproject in self.get_linked_childs():
-            subproject.commit_pending(True, skip_push=skip_push)
+            subproject.commit_pending(requst, True, skip_push=skip_push)
 
     def notify_merge_failure(self, error, status):
         '''
@@ -707,7 +707,7 @@ class SubProject(models.Model):
             return
         self.configure_repo(validate)
         self.configure_branch()
-        self.commit_pending()
+        self.commit_pending(None)
         self.update_remote_branch()
         self.update_branch()
 

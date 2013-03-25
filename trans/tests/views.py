@@ -206,7 +206,7 @@ class EditTest(ViewTestCase):
         self.assertTrue(self.subproject.git_needs_commit())
         self.assertTrue(self.subproject.project.git_needs_commit())
 
-        self.translation.commit_pending()
+        self.translation.commit_pending(self.get_request('/'))
 
         self.assertFalse(self.translation.git_needs_commit())
         self.assertFalse(self.subproject.git_needs_commit())
