@@ -36,7 +36,7 @@ class ProjectAdmin(admin.ModelAdmin):
         Updates selected resources from git.
         '''
         for project in queryset:
-            project.do_update()
+            project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
@@ -78,7 +78,7 @@ class SubProjectAdmin(admin.ModelAdmin):
         Updates selected resources from git.
         '''
         for project in queryset:
-            project.do_update()
+            project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):

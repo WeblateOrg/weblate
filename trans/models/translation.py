@@ -624,7 +624,7 @@ class Translation(models.Model):
         except IndexError:
             return None
 
-    def commit_pending(self, author=None, skip_push=False):
+    def commit_pending(self, request, author=None, skip_push=False):
         '''
         Commits any pending changes.
         '''
@@ -636,7 +636,7 @@ class Translation(models.Model):
             return
 
         # Commit changes
-        self.git_commit(last, self.get_last_change(), True, True, skip_push)
+        self.git_commit(request, last, self.get_last_change(), True, True, skip_push)
 
     def get_author_name(self, user, email=True):
         '''
@@ -747,7 +747,7 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, author, timestamp, force_commit=False, sync=False,
+    def git_commit(self, request, author, timestamp, force_commit=False, sync=False,
                    skip_push=False):
         '''
         Wrapper for commiting translation to git.
@@ -790,8 +790,10 @@ class Translation(models.Model):
                 self.__git_commit(gitrepo, author, timestamp, sync)
 
         # Push if we should
-        if self.subproject.project.push_on_commit and not skip_push:
-            self.subproject.do_push(force_commit=False)
+        if (self.subproject.project.push_on_commit
+                and not skip_push
+                and self.can_push()):
+            self.subproject.do_push(request, force_commit=False)
 
         return True
 
@@ -866,11 +868,11 @@ class Translation(models.Model):
             )
 
             # commit possible previous changes (by other author)
-            self.commit_pending(author)
+            self.commit_pending(request, author)
             # save translation changes
             self.store.save()
             # commit Git repo if needed
-            self.git_commit(author, timezone.now(), sync=True)
+            self.git_commit(request, author, timezone.now(), sync=True)
 
         return True, pounit
 
@@ -964,7 +966,7 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, author, store2, overwrite, merge_header, add_fuzzy):
+    def merge_store(self, request, author, store2, overwrite, merge_header, add_fuzzy):
         '''
         Merges translate-toolkit store into current translation.
         '''
@@ -1008,9 +1010,9 @@ class Translation(models.Model):
                     unit1.markfuzzy()
 
             # Write to backend and commit
-            self.commit_pending(author)
+            self.commit_pending(request, author)
             store1.save()
-            ret = self.git_commit(author, timezone.now(), True)
+            ret = self.git_commit(request, author, timezone.now(), True)
             self.check_sync()
 
         return ret
@@ -1086,6 +1088,7 @@ class Translation(models.Model):
             # Do actual merge
             for translation in translations:
                 ret |= translation.merge_store(
+                    request,
                     author,
                     store,
                     overwrite,

@@ -432,12 +432,14 @@ class SubProject(models.Model):
         self.create_translations(request=request)
 
         # Push after possible merge
-        if self.git_needs_push() and self.project.push_on_commit:
-            self.do_push(force_commit=False, do_update=False)
+        if (self.git_needs_push()
+                and self.project.push_on_commit
+                and self.can_push()):
+            self.do_push(request, force_commit=False, do_update=False)
 
         return ret
 
-    def do_push(self, request=None, force_commit=True, do_update=True):
+    def do_push(self, request, force_commit=True, do_update=True):
         '''
         Wrapper for pushing changes to remote repo.
         '''
@@ -446,10 +448,11 @@ class SubProject(models.Model):
 
         # Do we have push configured
         if not self.can_push():
-            messages.error(
-                request,
-                _('Push is disabled for %s.') % self.__unicode__()
-            )
+            if request is not None:
+                messages.error(
+                    request,
+                    _('Push is disabled for %s.') % self.__unicode__()
+                )
             return False
 
         # Commit any pending changes
