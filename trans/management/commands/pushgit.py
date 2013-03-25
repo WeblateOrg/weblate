@@ -36,4 +36,4 @@ class Command(WeblateCommand):
 
     def handle(self, *args, **options):
         for subproject in self.get_subprojects(*args, **options):
-            subproject.do_push(force_commit=options['force_commit'])
+            subproject.do_push(None, force_commit=options['force_commit'])

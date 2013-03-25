@@ -433,11 +433,11 @@ class SubProject(models.Model):
 
         # Push after possible merge
         if self.git_needs_push() and self.project.push_on_commit:
-            self.do_push(force_commit=False, do_update=False)
+            self.do_push(request, force_commit=False, do_update=False)
 
         return ret
 
-    def do_push(self, request=None, force_commit=True, do_update=True):
+    def do_push(self, request, force_commit=True, do_update=True):
         '''
         Wrapper for pushing changes to remote repo.
         '''
