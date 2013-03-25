@@ -432,7 +432,9 @@ class SubProject(models.Model):
         self.create_translations(request=request)
 
         # Push after possible merge
-        if self.git_needs_push() and self.project.push_on_commit:
+        if (self.git_needs_push()
+                and self.project.push_on_commit
+                and self.can_push()):
             self.do_push(request, force_commit=False, do_update=False)
 
         return ret
