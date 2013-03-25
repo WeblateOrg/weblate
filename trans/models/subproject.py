@@ -448,10 +448,11 @@ class SubProject(models.Model):
 
         # Do we have push configured
         if not self.can_push():
-            messages.error(
-                request,
-                _('Push is disabled for %s.') % self.__unicode__()
-            )
+            if request is not None:
+                messages.error(
+                    request,
+                    _('Push is disabled for %s.') % self.__unicode__()
+                )
             return False
 
         # Commit any pending changes
