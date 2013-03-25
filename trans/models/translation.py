@@ -636,7 +636,9 @@ class Translation(models.Model):
             return
 
         # Commit changes
-        self.git_commit(request, last, self.get_last_change(), True, True, skip_push)
+        self.git_commit(
+            request, last, self.get_last_change(), True, True, skip_push
+        )
 
     def get_author_name(self, user, email=True):
         '''
@@ -747,8 +749,8 @@ class Translation(models.Model):
     def git_needs_push(self):
         return self.subproject.git_needs_push()
 
-    def git_commit(self, request, author, timestamp, force_commit=False, sync=False,
-                   skip_push=False):
+    def git_commit(self, request, author, timestamp, force_commit=False,
+                   sync=False, skip_push=False):
         '''
         Wrapper for commiting translation to git.
 
@@ -966,7 +968,8 @@ class Translation(models.Model):
 
         return result
 
-    def merge_store(self, request, author, store2, overwrite, merge_header, add_fuzzy):
+    def merge_store(self, request, author, store2, overwrite, merge_header,
+                    add_fuzzy):
         '''
         Merges translate-toolkit store into current translation.
         '''
