@@ -555,15 +555,15 @@ class SubProject(models.Model):
         '''
         if not from_link and self.is_repo_link():
             return self.linked_subproject.commit_pending(
-                requst, True, skip_push=skip_push
+                request, True, skip_push=skip_push
             )
 
         for translation in self.translation_set.all():
-            translation.commit_pending(requst, skip_push=skip_push)
+            translation.commit_pending(request, skip_push=skip_push)
 
         # Process linked projects
         for subproject in self.get_linked_childs():
-            subproject.commit_pending(requst, True, skip_push=skip_push)
+            subproject.commit_pending(request, True, skip_push=skip_push)
 
     def notify_merge_failure(self, error, status):
         '''
