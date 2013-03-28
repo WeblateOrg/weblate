@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-03-27 10:49+0100\n"
-"PO-Revision-Date: 2013-03-23 22:04+0200\n"
+"PO-Revision-Date: 2013-03-28 22:31+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -247,7 +247,7 @@ msgstr ""
 #. Translators: Indexing is postponed to cron job
 #: trans/admin_views.py:82
 msgid "Indexing offloading"
-msgstr ""
+msgstr "Avlastning av indexering"
 
 #: trans/admin_views.py:98
 msgid "Django caching"
@@ -718,10 +718,9 @@ msgid "Point to translation instructions URL"
 msgstr "Peka på URL för översättningsinstruktioner"
 
 #: trans/models/project.py:48
-#, fuzzy
 #| msgid "New language"
 msgid "No adding of language"
-msgstr "Nytt språk"
+msgstr "Ingen tilläggning av språk"
 
 #: trans/models/project.py:51
 msgid "Merge"
@@ -851,6 +850,8 @@ msgid ""
 "translations which store only translated string like Android resource "
 "strings."
 msgstr ""
+"Filnamn på översättningsmall, detta rekommenderas för översättningar som "
+"bara lagrar översatta strängar, som exempelvis Android-resurssträngar."
 
 #: trans/models/subproject.py:127
 msgid "Automatic detection might fail for some formats and is slightly slower."
@@ -1031,12 +1032,11 @@ msgstr "%(action)s vid %(time)s i %(translation)s av %(user)s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
-msgstr ""
+msgstr "Tabulatortecken"
 
 #: trans/templatetags/translations.py:123
-#, fuzzy
 msgid "New line"
-msgstr "Nytt språk"
+msgstr "Ny rad"
 
 #: trans/templatetags/translations.py:247
 #, python-format
@@ -1837,12 +1837,12 @@ msgstr "Dokumentation"
 #: weblate/html/git-commit-info.html:4
 #, python-format
 msgid "Commit %(hash)s"
-msgstr ""
+msgstr "Incheckning %(hash)s"
 
 #: weblate/html/git-commit-info.html:5
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
-msgstr ""
+msgstr "Författad av %(author)s den %(date)s"
 
 #: weblate/html/i18n.html:8
 msgid "This username is already taken. Please choose another."
@@ -2673,7 +2673,7 @@ msgstr "Din offentliga profil:"
 
 #: weblate/html/profile.html:62
 msgid "Avatars are provided using libravatar."
-msgstr ""
+msgstr "Avatarer tillhandahålls med hjälp av libravatar."
 
 #: weblate/html/project.html:11 weblate/html/source.html:13
 #: weblate/html/subproject.html:13 weblate/html/translation.html:16
@@ -2840,15 +2840,15 @@ msgstr "Specialtecken:"
 
 #: weblate/html/translate.html:98
 msgid "Insert tab character"
-msgstr ""
+msgstr "Infoga tabulatortecken"
 
 #: weblate/html/translate.html:99
 msgid "Insert new line"
-msgstr ""
+msgstr "Infoga ny rad"
 
 #: weblate/html/translate.html:100
 msgid "Insert horizontal ellipsis"
-msgstr ""
+msgstr "Infoga horisontell ellips"
 
 #: weblate/html/translate.html:116
 msgid "Suggestions"
@@ -2995,10 +2995,12 @@ msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
 msgstr ""
+"Den skickade filen kommer slås samman med nuvarande översättning. Om du vill "
+"skriva över redan översatta filer, kom ihåg att aktivera det valet nedan."
 
 #: weblate/html/translation.html:68
 msgid "Uploaded file will be merged with current translation."
-msgstr ""
+msgstr "Den skickade filen kommer slås samman med nuvarande översättning."
 
 #: weblate/html/translation.html:87
 msgid "Review"
@@ -3019,6 +3021,10 @@ msgid ""
 "a different branch, to fix inconsistent translations or to translate new "
 "subproject using translation memory."
 msgstr ""
+"Automatisk översättning tar befintliga översättningar i detta projekt och "
+"tillämpar dem på det aktuella underprojektet. Detta kan användas för att "
+"sprida översättningar till en annan gren, fixa inkonsekventa översättningar "
+"eller att översätta nya underprojekt med hjälp av översättningsminnet."
 
 #: weblate/html/translation.html:107
 msgid "Process"
