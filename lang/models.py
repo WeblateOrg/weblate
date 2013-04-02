@@ -420,6 +420,10 @@ class Language(models.Model):
             self.name = 'Norwegian Bokmål'
         elif self.code == 'pa':
             self.name = 'Punjabi'
+        elif self.code == 'zh_CN':
+            self.name = 'Simplified Chinese'
+        elif self.code == 'zh_TW':
+            self.name = 'Traditional Chinese'
 
     def set_direction(self):
         '''
