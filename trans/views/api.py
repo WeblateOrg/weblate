@@ -187,7 +187,10 @@ def github_hook_helper(data):
     }
 
 
-def dt_handler(obj):
+def json_dt_handler(obj):
+    '''
+    JSON export handler to include correctly formated datetime objects.
+    '''
     if hasattr(obj, 'isoformat'):
         return obj.isoformat()
     else:
@@ -202,6 +205,12 @@ def export_stats(request, project, subproject):
     Exports stats in JSON format.
     '''
     subprj = get_subproject(request, project, subproject)
+
+    try:
+        indent = int(request.GET['indent'])
+    except:
+        indent = None
+
     response = []
     for trans in subprj.translation_set.all():
         response.append({
@@ -220,6 +229,10 @@ def export_stats(request, project, subproject):
             'url_translate': get_site_url(trans.get_absolute_url()),
         })
     return HttpResponse(
-        json.dumps(response, default=dt_handler),
+        json.dumps(
+            response,
+            default=json_dt_handler,
+            indent = indent,
+        ),
         mimetype='application/json'
     )
