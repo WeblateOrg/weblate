@@ -14,6 +14,7 @@ Released on ? 2013.
 * Extended options of import_project admin command.
 * Compatible with Django 1.5.
 * Avatars are now shown using libravatar.
+* Added possibility to pretty print JSON export.
 
 weblate 1.4
 -----------

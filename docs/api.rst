@@ -46,6 +46,9 @@ Weblate provides various exports to allow you further process the data.
 
     Retrieves statistics for given subproject in JSON format.
 
+    You can get pretty-printed output by appending ``?indent=1`` to the
+    request.
+
     Example response:
 
     .. code-block:: json
