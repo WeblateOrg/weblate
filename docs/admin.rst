@@ -180,7 +180,7 @@ And enable it's use by defining proper attributes in given repository (eg. in
 
 .. note::
 
-    This merge driver assumes the changes in POT files always are done in brach
+    This merge driver assumes the changes in POT files always are done in branch
     we're trying to merge.
 
 .. seealso:: http://www.no-ack.org/2010/12/writing-git-merge-driver-for-po-files.html
