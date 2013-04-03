@@ -530,7 +530,7 @@ def auto_translation(request, project, subproject, lang):
                 # Create signle change object for whole merge
                 if change is None:
                     change = Change.objects.create(
-                        unit=unit,
+                        action=Change.ACTION_AUTO,
                         translation=unit.translation,
                         user=request.user
                     )
