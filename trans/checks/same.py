@@ -82,6 +82,7 @@ SAME_BLACKLIST = frozenset((
     'n/a',
     'name',
     'normal',
+    'null',
     'ok',
     'open document',
     'orientation',
