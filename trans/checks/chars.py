@@ -104,7 +104,7 @@ class EndStopCheck(TargetCheck):
     description = _('Source and translation do not both end with a full stop')
 
     def check_single(self, source, target, unit, cache_slot):
-        if len(source) == 1 and len(target) == 1:
+        if len(source) <= 4 and len(target) <= 4:
             return False
         if self.is_language(unit, ['ja']) and source[-1] in [':', ';']:
             # Japanese sentence might need to end with full stop
