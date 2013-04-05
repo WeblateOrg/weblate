@@ -424,7 +424,7 @@ class SubProject(models.Model):
             return True
 
         # commit possible pending changes
-        self.commit_pending()
+        self.commit_pending(request)
 
         # update remote branch
         ret = self.update_branch(request)
@@ -433,12 +433,14 @@ class SubProject(models.Model):
         self.create_translations(request=request)
 
         # Push after possible merge
-        if self.git_needs_push() and self.project.push_on_commit:
-            self.do_push(force_commit=False, do_update=False)
+        if (self.git_needs_push()
+                and self.project.push_on_commit
+                and self.can_push()):
+            self.do_push(request, force_commit=False, do_update=False)
 
         return ret
 
-    def do_push(self, request=None, force_commit=True, do_update=True):
+    def do_push(self, request, force_commit=True, do_update=True):
         '''
         Wrapper for pushing changes to remote repo.
         '''
@@ -447,15 +449,16 @@ class SubProject(models.Model):
 
         # Do we have push configured
         if not self.can_push():
-            messages.error(
-                request,
-                _('Push is disabled for %s.') % self.__unicode__()
-            )
+            if request is not None:
+                messages.error(
+                    request,
+                    _('Push is disabled for %s.') % self.__unicode__()
+                )
             return False
 
         # Commit any pending changes
         if force_commit:
-            self.commit_pending(skip_push=True)
+            self.commit_pending(request, skip_push=True)
 
         # Do we have anything to push?
         if not self.git_needs_push():
@@ -547,21 +550,21 @@ class SubProject(models.Model):
             repo='weblate://%s/%s' % (self.project.slug, self.slug)
         )
 
-    def commit_pending(self, from_link=False, skip_push=False):
+    def commit_pending(self, request, from_link=False, skip_push=False):
         '''
         Checks whether there is any translation which needs commit.
         '''
         if not from_link and self.is_repo_link():
             return self.linked_subproject.commit_pending(
-                True, skip_push=skip_push
+                request, True, skip_push=skip_push
             )
 
         for translation in self.translation_set.all():
-            translation.commit_pending(skip_push=skip_push)
+            translation.commit_pending(request, skip_push=skip_push)
 
         # Process linked projects
         for subproject in self.get_linked_childs():
-            subproject.commit_pending(True, skip_push=skip_push)
+            subproject.commit_pending(request, True, skip_push=skip_push)
 
     def notify_merge_failure(self, error, status):
         '''
@@ -705,7 +708,7 @@ class SubProject(models.Model):
             return
         self.configure_repo(validate)
         self.configure_branch()
-        self.commit_pending()
+        self.commit_pending(None)
         self.update_remote_branch()
         self.update_branch()
 

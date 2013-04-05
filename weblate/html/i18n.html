@@ -18,7 +18,12 @@ These are from django-registration and django.contrib.auth.
 {% blocktrans %}Hold down "Control", or "Command" on a Mac, to select more than one.{% endblocktrans %}
 
 <!-- 
-Language names 
+Language names, generated using:
+
+from lang.models import Language
+for l in Language.objects.exclude(name__contains='generated').values_list('name', flat=True).distinct():
+    print '{%% trans "%s" %%}' % l
+
 -->
 {% trans "Afrikaans" %}
 {% trans "Akan" %}
@@ -39,6 +44,9 @@ Language names
 {% trans "Bulgarian" %}
 {% trans "Catalan" %}
 {% trans "Central Khmer" %}
+{% trans "Chinese (Hong Kong)" %}
+{% trans "Chinese (China)" %}
+{% trans "Chinese (Taiwan)" %}
 {% trans "Cornish" %}
 {% trans "Croatian" %}
 {% trans "Czech" %}
@@ -69,9 +77,6 @@ Language names
 {% trans "Hebrew" %}
 {% trans "Hindi" %}
 {% trans "Hungarian" %}
-{% trans "Chinese (Hong Kong)" %}
-{% trans "Chinese (China)" %}
-{% trans "Chinese (Taiwan)" %}
 {% trans "Icelandic" %}
 {% trans "Indonesian" %}
 {% trans "Interlingua" %}
@@ -126,6 +131,7 @@ Language names
 {% trans "Serbian" %}
 {% trans "Serbian (cyrillic)" %}
 {% trans "Serbian (latin)" %}
+{% trans "Simplified Chinese" %}
 {% trans "Sinhala" %}
 {% trans "Slovak" %}
 {% trans "Slovenian" %}
@@ -143,6 +149,7 @@ Language names
 {% trans "Thai" %}
 {% trans "Tibetan" %}
 {% trans "Tigrinya" %}
+{% trans "Traditional Chinese" %}
 {% trans "Turkish" %}
 {% trans "Turkmen" %}
 {% trans "Uighur" %}
@@ -153,6 +160,7 @@ Language names
 {% trans "Vietnamese" %}
 {% trans "Walloon" %}
 {% trans "Welsh" %}
+{% trans "Yakut" %}
 {% trans "Yoruba" %}
 {% trans "Zulu" %}
 

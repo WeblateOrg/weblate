@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-03-20 13:27+0100\n"
-"PO-Revision-Date: 2013-03-20 13:50+0200\n"
+"POT-Creation-Date: 2013-04-02 12:03+0200\n"
+"PO-Revision-Date: 2013-04-03 07:43+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -83,47 +83,47 @@ msgstr "Ο κωδικός χρειάζεται να έχει τουλάιχτο�
 msgid "Username needs to have at least five characters."
 msgstr "Το όνομα χρήστη χρειάζεται να έχει τουλάχιστον 5 χαρακτήρες."
 
-#: accounts/models.py:182
+#: accounts/models.py:183
 msgid "Interface Language"
 msgstr "Γλώσσα Περιβάλλοντος εργασίας"
 
-#: accounts/models.py:188 trans/views/basic.py:100 weblate/html/index.html:21
+#: accounts/models.py:189 trans/views/basic.py:100 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Γλώσσες"
 
-#: accounts/models.py:193
+#: accounts/models.py:194
 msgid "Secondary languages"
 msgstr "Δευτερεύουσες γλώσσες"
 
-#: accounts/models.py:202
+#: accounts/models.py:203
 msgid "Subscribed projects"
 msgstr "Καταχωρημένα έργα"
 
-#: accounts/models.py:206
+#: accounts/models.py:207
 msgid "Notification on any translation"
 msgstr "Ειδοποίηση για οποιαδήποτε μετάφραση"
 
-#: accounts/models.py:210
+#: accounts/models.py:211
 msgid "Notification on new string to translate"
 msgstr "Ειδοποίηση για νέο κείμενο για μετάφραση"
 
-#: accounts/models.py:214
+#: accounts/models.py:215
 msgid "Notification on new suggestion"
 msgstr "Ειδοποίηση για νέα πρόταση"
 
-#: accounts/models.py:218
+#: accounts/models.py:219
 msgid "Notification on new contributor"
 msgstr "Ειδοποίηση για νέα συμβολή"
 
-#: accounts/models.py:222
+#: accounts/models.py:223
 msgid "Notification on new comment"
 msgstr "Ειδοποίηση για νέο σχόλιο"
 
-#: accounts/models.py:226
+#: accounts/models.py:227
 msgid "Notification on merge failure"
 msgstr "Ειδοποίηση για σφάλμα ένωσης"
 
-#: accounts/models.py:386
+#: accounts/models.py:387
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
 "Το προφίλ σας έχει μεταφερθεί, ίσως θέλετε να προσαρμόσετε τις ρυθμίσεις σας."
@@ -215,15 +215,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Τρία"
 
-#: lang/models.py:367
+#: lang/models.py:369
 msgid "Singular"
 msgstr "Ενικός"
 
-#: lang/models.py:369
+#: lang/models.py:371
 msgid "Plural"
 msgstr "Πληθυντικός"
 
-#: lang/models.py:370
+#: lang/models.py:372
 #, python-format
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
@@ -426,7 +426,7 @@ msgstr "Όλα τα υπόέργα"
 
 #: trans/forms.py:298 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
-#: weblate/html/subproject.html:36 weblate/html/translate.html:62
+#: weblate/html/subproject.html:38 weblate/html/translate.html:62
 #: weblate/html/translate.html.py:176 weblate/html/translate.html:182
 #: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
 #: weblate/html/js/similar.html:6
@@ -727,39 +727,43 @@ msgstr "Χρήση φόρμας επικοινωνίας"
 msgid "Point to translation instructions URL"
 msgstr "Εστιάστε στο URL οδηγιών μετάφρασης"
 
-#: trans/models/project.py:50
+#: trans/models/project.py:48
+msgid "No adding of language"
+msgstr "Μαμιά προσθήκη γλώσσας"
+
+#: trans/models/project.py:51
 msgid "Merge"
 msgstr "Ένωση"
 
-#: trans/models/project.py:51
+#: trans/models/project.py:52
 msgid "Rebase"
 msgstr "Αναβάθμιση"
 
-#: trans/models/project.py:80
+#: trans/models/project.py:81
 msgid "Project website"
 msgstr "Ιστοσελίδα έργου"
 
-#: trans/models/project.py:84
+#: trans/models/project.py:85
 msgid "Email conference for translators"
 msgstr "Συνέδριο αλληλογραφίας για μεταφραστές"
 
-#: trans/models/project.py:88
+#: trans/models/project.py:89
 msgid "URL with instructions for translators"
 msgstr "URL με Οδηγίες για μεταφραστές"
 
-#: trans/models/project.py:91 weblate/html/subproject.html:31
+#: trans/models/project.py:92 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "Νέα Γλώσσα"
 
-#: trans/models/project.py:96
+#: trans/models/project.py:97
 msgid "How to handle requests for creating new languages."
 msgstr "Πως να χειρίζεστε αιτήσεις για δημιουργία νέων γνωσσών."
 
-#: trans/models/project.py:100
+#: trans/models/project.py:101
 msgid "Merge style"
 msgstr "Ένωση στυλ"
 
-#: trans/models/project.py:105
+#: trans/models/project.py:106
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -767,7 +771,7 @@ msgstr ""
 "Ορίστε αν το Weblate θα πρέπει να συγχωνεύσει αποστέλοντας το χώρο φύλαξης ή "
 "να αναβαθμίσει τις αλλαγές σε αυτό."
 
-#: trans/models/project.py:113
+#: trans/models/project.py:114
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -775,18 +779,18 @@ msgstr ""
 "Μπορείτε να χρησιμιοποιήσετε μορφοποιημένα κείμενα για διάφορες πληροφορίες, "
 "για περισσότερες λεπτομέρειες δείτε την τεκμηρίωση."
 
-#: trans/models/project.py:130
+#: trans/models/project.py:131
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Αν το αποθετήριο πρέπει να προωθηθεί προς τα πάνω σε κάθε πράξη."
 
-#: trans/models/project.py:137
+#: trans/models/project.py:138
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Αν θα πρέπει η Μεταφραστική Ομάδα στις κεφαλίδες αρχείου να ενημερώνετε από "
 "το Weblate."
 
-#: trans/models/project.py:145
+#: trans/models/project.py:146
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
@@ -794,12 +798,12 @@ msgstr ""
 "Προκειμένου να ενεργοποιήσετε το ACL για αυτό το έργο, ελέξτε την τεκμηρίωση "
 "πριν το ενεργοποιήσετε αυτό."
 
-#: trans/models/project.py:176
+#: trans/models/project.py:177
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "Δεν σας επιτρέπεται η πρόσβαση στο έργο %s."
 
-#: trans/models/project.py:183
+#: trans/models/project.py:184
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -884,55 +888,55 @@ msgstr ""
 "Αν η μετάφραση ενημερωθεί σε άλλο υπόέργο, τότε θα προκαλέσει αυτόματη "
 "μετάφραση σε αυτό το έργο"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:364
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Απέτυχε η λήψη του αποθετηρίου git: %s"
 
-#: trans/models/subproject.py:443
+#: trans/models/subproject.py:454
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#: trans/models/subproject.py:487
+#: trans/models/subproject.py:498
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Απέτυχε η προώθηση στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models/subproject.py:523
+#: trans/models/subproject.py:534
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Απέτυχε η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models/subproject.py:592
+#: trans/models/subproject.py:603
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Απέτυχε η αναβαθμίστε του υποκαταστήματός μας σε απομακρυσμένο υποκατάστημα "
 "%s."
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Απέτυχε η ένωση του απομακρυσμένου κλάδου στο %s."
 
-#: trans/models/subproject.py:709
+#: trans/models/subproject.py:720
 msgid "Push URL is not used when repository is linked!"
 msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: trans/models/subproject.py:721
+#: trans/models/subproject.py:732
 msgid "Format of translation template could not be recognized."
 msgstr "Η μορφή του προτύπου μετάφρασης δεν μπορεί να αναγνωριστεί."
 
-#: trans/models/subproject.py:725
+#: trans/models/subproject.py:736
 msgid "Failed to parse translation template."
 msgstr "Απέτυχε η ανάλυση του προτύπου μετάφρασης."
 
-#: trans/models/subproject.py:746
+#: trans/models/subproject.py:757
 msgid "The mask did not match any files!"
 msgstr "Η μάσκα δεν ταιριάζει με κανένα αρχείο!"
 
-#: trans/models/subproject.py:752
+#: trans/models/subproject.py:763
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -940,12 +944,12 @@ msgstr ""
 "Υπάρχουν περισσότερα αρχεία για μονή γλώσσα, προσαρμόστε τη μάσκα και "
 "χρησιμοποιήστε υποέργα για μετάφραση διαφορετικών προελεύσεων."
 
-#: trans/models/subproject.py:772
+#: trans/models/subproject.py:783
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:792
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
@@ -974,45 +978,45 @@ msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error
 msgid "This translation is locked by %(user)s!"
 msgstr "Αυτή η μετάφραση είναι κλειδωμένη από τον χρήστη %(user)s!"
 
-#: trans/models/translation.py:866 trans/models/translation.py:899
+#: trans/models/translation.py:885 trans/models/translation.py:918
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: trans/models/translation.py:873 trans/models/translation.py:930
+#: trans/models/translation.py:892 trans/models/translation.py:949
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων (%d)"
 
-#: trans/models/translation.py:890 trans/models/translation.py:947
+#: trans/models/translation.py:909 trans/models/translation.py:966
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Κείμενα με σχόλια (%d)"
 
-#: trans/models/translation.py:906
+#: trans/models/translation.py:925
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Αμετάφραστα κείμενα (%d)"
 
-#: trans/models/translation.py:914
+#: trans/models/translation.py:933
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ασαφή κείμενα (%d)"
 
-#: trans/models/translation.py:922
+#: trans/models/translation.py:941
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models/unit.py:524
+#: trans/models/unit.py:522
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
-#: trans/models/unit.py:536
+#: trans/models/unit.py:534
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
 
-#: trans/models/unit.py:675
+#: trans/models/unit.py:673
 #, python-format
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
@@ -1349,7 +1353,7 @@ msgstr "Όλα τα αποθετήρια εναναφέρθηκαν."
 msgid "Search for \"%s\""
 msgstr "Αναζήτηση για το «%s»"
 
-#: trans/views/helper.py:188 weblate/html/i18n.html:174
+#: trans/views/helper.py:188 weblate/html/i18n.html:182
 #: weblate/html/list-translations.html:63
 msgid "Fuzzy strings"
 msgstr "Ασαφή κείμενα"
@@ -1362,7 +1366,7 @@ msgstr "Αμετάφραστα κείμενα"
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
 
-#: trans/views/helper.py:194 weblate/html/i18n.html:173
+#: trans/views/helper.py:194 weblate/html/i18n.html:181
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
@@ -1902,599 +1906,612 @@ msgstr ""
 "Κρατήστε πατημένο το «Ctrl», ή το «Command» σε Mac, για να επιλέξετε "
 "περισσότερα από ένα."
 
-#: weblate/html/i18n.html:23
+#: weblate/html/i18n.html:28
 msgid "Afrikaans"
 msgstr "Αφρικανικά"
 
-#: weblate/html/i18n.html:24
+#: weblate/html/i18n.html:29
 msgid "Akan"
 msgstr "Ακανικά"
 
-#: weblate/html/i18n.html:25
+#: weblate/html/i18n.html:30
 msgid "Albanian"
 msgstr "Αλβανικά"
 
-#: weblate/html/i18n.html:26
+#: weblate/html/i18n.html:31
 msgid "Amharic"
 msgstr "Αμχαρικά"
 
-#: weblate/html/i18n.html:27
+#: weblate/html/i18n.html:32
 msgid "Arabic"
 msgstr "Αραβικά"
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:33
 msgid "Aragonese"
 msgstr "Αραγονικά"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:34
 msgid "Armenian"
 msgstr "Αρμένικα"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:35
 msgid "Asturian"
 msgstr "Αστουρικά"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:36
 msgid "Azerbaijani"
 msgstr "Αζερμπαϊτζανικά"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:37
 msgid "Basque"
 msgstr "Βάσκικα"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:38
 msgid "Belarusian"
 msgstr "Λευκορωσικά"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:39
 msgid "Belarusian (latin)"
 msgstr "Λευκορωσικά (Λατινικά)"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:40
 msgid "Bengali"
 msgstr "Βεγγαλικά"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:41
 msgid "Bengali (India)"
 msgstr "Βεγγαλικά (Ινδία)"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:42
 msgid "Bosnian"
 msgstr "Βοσνιακά"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:43
 msgid "Breton"
 msgstr "Μπρετονικά"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:44
 msgid "Bulgarian"
 msgstr "Βουλγαρικά"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:45
 msgid "Catalan"
 msgstr "Καταλανικά"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:46
 msgid "Central Khmer"
 msgstr "Κεντρικά Χμερικά"
 
-#: weblate/html/i18n.html:42
-msgid "Cornish"
-msgstr "Κορνουαλικά"
-
-#: weblate/html/i18n.html:43
-msgid "Croatian"
-msgstr "Κροατικά"
-
-#: weblate/html/i18n.html:44
-msgid "Czech"
-msgstr "Τσέχικα"
-
-#: weblate/html/i18n.html:45
-msgid "Danish"
-msgstr "Δανέζικα"
-
-#: weblate/html/i18n.html:46
-msgid "Dutch"
-msgstr "Ολλανδικά"
-
 #: weblate/html/i18n.html:47
-msgid "Dzongkha"
-msgstr "Ντζονγκικά"
-
-#: weblate/html/i18n.html:48
-msgid "English"
-msgstr "Αγγλικά"
-
-#: weblate/html/i18n.html:49
-msgid "English (South Africa)"
-msgstr "Αγγλικά (Νότιος Αφρική)"
-
-#: weblate/html/i18n.html:50
-msgid "English (United Kingdom)"
-msgstr "Αγγλικά (Ηνωμένο Βασίλειο)"
-
-#: weblate/html/i18n.html:51
-msgid "English (United States)"
-msgstr "Αγγλικά (Ηνωμένες Πολιτείες)"
-
-#: weblate/html/i18n.html:52
-msgid "Esperanto"
-msgstr "Εσπεράντο"
-
-#: weblate/html/i18n.html:53
-msgid "Estonian"
-msgstr "Εσθονικά"
-
-#: weblate/html/i18n.html:54
-msgid "Faroese"
-msgstr "Φαροϊκά"
-
-#: weblate/html/i18n.html:55
-msgid "Filipino"
-msgstr "Φιλιππινέζικα"
-
-#: weblate/html/i18n.html:56
-msgid "Finnish"
-msgstr "Φινλανδικά"
-
-#: weblate/html/i18n.html:57
-msgid "French"
-msgstr "Γαλλικά"
-
-#: weblate/html/i18n.html:58
-msgid "Frisian"
-msgstr "Φριζικά"
-
-#: weblate/html/i18n.html:59
-msgid "Friulian"
-msgstr "Φριουλικά"
-
-#: weblate/html/i18n.html:60
-msgid "Fulah"
-msgstr "Φουλαχικά"
-
-#: weblate/html/i18n.html:61
-msgid "Gaelic"
-msgstr "Κελτικά"
-
-#: weblate/html/i18n.html:62
-msgid "Galician"
-msgstr "Γαελικά"
-
-#: weblate/html/i18n.html:63
-msgid "Georgian"
-msgstr "Γεωργιανά"
-
-#: weblate/html/i18n.html:64
-msgid "German"
-msgstr "Γερμανικά"
-
-#: weblate/html/i18n.html:65
-msgid "Greek"
-msgstr "Ελληνικά"
-
-#: weblate/html/i18n.html:66
-msgid "Gujarati"
-msgstr "Γκουτζαρατικά"
-
-#: weblate/html/i18n.html:67
-msgid "Gun"
-msgstr "Γκουνικά"
-
-#: weblate/html/i18n.html:68
-msgid "Hausa"
-msgstr "Χαουσανικά"
-
-#: weblate/html/i18n.html:69
-msgid "Hebrew"
-msgstr "Εβραϊκά"
-
-#: weblate/html/i18n.html:70
-msgid "Hindi"
-msgstr "Ινδικά"
-
-#: weblate/html/i18n.html:71
-msgid "Hungarian"
-msgstr "Ουγγρικά"
-
-#: weblate/html/i18n.html:72
 msgid "Chinese (Hong Kong)"
 msgstr "Κινέζικα (Χονγκ Κονγκ)"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:48
 msgid "Chinese (China)"
 msgstr "Κινέζικα (Κίνα)"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:49
 msgid "Chinese (Taiwan)"
 msgstr "Κινέζικα (Ταιβάν)"
 
+#: weblate/html/i18n.html:50
+msgid "Cornish"
+msgstr "Κορνουαλικά"
+
+#: weblate/html/i18n.html:51
+msgid "Croatian"
+msgstr "Κροατικά"
+
+#: weblate/html/i18n.html:52
+msgid "Czech"
+msgstr "Τσέχικα"
+
+#: weblate/html/i18n.html:53
+msgid "Danish"
+msgstr "Δανέζικα"
+
+#: weblate/html/i18n.html:54
+msgid "Dutch"
+msgstr "Ολλανδικά"
+
+#: weblate/html/i18n.html:55
+msgid "Dzongkha"
+msgstr "Ντζονγκικά"
+
+#: weblate/html/i18n.html:56
+msgid "English"
+msgstr "Αγγλικά"
+
+#: weblate/html/i18n.html:57
+msgid "English (South Africa)"
+msgstr "Αγγλικά (Νότιος Αφρική)"
+
+#: weblate/html/i18n.html:58
+msgid "English (United Kingdom)"
+msgstr "Αγγλικά (Ηνωμένο Βασίλειο)"
+
+#: weblate/html/i18n.html:59
+msgid "English (United States)"
+msgstr "Αγγλικά (Ηνωμένες Πολιτείες)"
+
+#: weblate/html/i18n.html:60
+msgid "Esperanto"
+msgstr "Εσπεράντο"
+
+#: weblate/html/i18n.html:61
+msgid "Estonian"
+msgstr "Εσθονικά"
+
+#: weblate/html/i18n.html:62
+msgid "Faroese"
+msgstr "Φαροϊκά"
+
+#: weblate/html/i18n.html:63
+msgid "Filipino"
+msgstr "Φιλιππινέζικα"
+
+#: weblate/html/i18n.html:64
+msgid "Finnish"
+msgstr "Φινλανδικά"
+
+#: weblate/html/i18n.html:65
+msgid "French"
+msgstr "Γαλλικά"
+
+#: weblate/html/i18n.html:66
+msgid "Frisian"
+msgstr "Φριζικά"
+
+#: weblate/html/i18n.html:67
+msgid "Friulian"
+msgstr "Φριουλικά"
+
+#: weblate/html/i18n.html:68
+msgid "Fulah"
+msgstr "Φουλαχικά"
+
+#: weblate/html/i18n.html:69
+msgid "Gaelic"
+msgstr "Κελτικά"
+
+#: weblate/html/i18n.html:70
+msgid "Galician"
+msgstr "Γαελικά"
+
+#: weblate/html/i18n.html:71
+msgid "Georgian"
+msgstr "Γεωργιανά"
+
+#: weblate/html/i18n.html:72
+msgid "German"
+msgstr "Γερμανικά"
+
+#: weblate/html/i18n.html:73
+msgid "Greek"
+msgstr "Ελληνικά"
+
+#: weblate/html/i18n.html:74
+msgid "Gujarati"
+msgstr "Γκουτζαρατικά"
+
 #: weblate/html/i18n.html:75
+msgid "Gun"
+msgstr "Γκουνικά"
+
+#: weblate/html/i18n.html:76
+msgid "Hausa"
+msgstr "Χαουσανικά"
+
+#: weblate/html/i18n.html:77
+msgid "Hebrew"
+msgstr "Εβραϊκά"
+
+#: weblate/html/i18n.html:78
+msgid "Hindi"
+msgstr "Ινδικά"
+
+#: weblate/html/i18n.html:79
+msgid "Hungarian"
+msgstr "Ουγγρικά"
+
+#: weblate/html/i18n.html:80
 msgid "Icelandic"
 msgstr "Ισλανδικά"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:81
 msgid "Indonesian"
 msgstr "Ινδονησιακά"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:82
 msgid "Interlingua"
 msgstr "Ιντερλίνγκουα"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:83
 msgid "Irish"
 msgstr "Ιρλανδικά"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:84
 msgid "Italian"
 msgstr "Ιταλικά"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:85
 msgid "Japanese"
 msgstr "Ιαπωνέζικα"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:86
 msgid "Javanese"
 msgstr "Ιαβανέζικα"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:87
 msgid "Kannada"
 msgstr "Κανάντα"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:88
 msgid "Kashubian"
 msgstr "Κασουμπιανικά"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:89
 msgid "Kazakh"
 msgstr "Καζαχστανικά"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:90
 msgid "Kirghiz"
 msgstr "Κιργκιζινικά"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:91
 msgid "Korean"
 msgstr "Κορεάτικα"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:92
 msgid "Kurdish"
 msgstr "Κούρδικα"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:93
 msgid "Kurdish Sorani"
 msgstr "Κουρδικά Σοράνι"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:94
 msgid "Lao"
 msgstr "Λαονικά"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:95
 msgid "Latvian"
 msgstr "Λεττονικά"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:96
 msgid "Lingala"
 msgstr "Λινγκαλανικά"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:97
 msgid "Lithuanian"
 msgstr "Λιθουανικά"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:98
 msgid "Luxembourgish"
 msgstr "Λουξεμβρουργικά"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:99
 msgid "Macedonian"
 msgstr "Σλαβομακεδονικά"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:100
 msgid "Maithili"
 msgstr "Μαϊθιλικά"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:101
 msgid "Malagasy"
 msgstr "Μαδαγασκαρικά"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:102
 msgid "Malay"
 msgstr "Μαλαϊκά"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:103
 msgid "Malayalam"
 msgstr "Μαλαγιαλαμικά"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:104
 msgid "Maltese"
 msgstr "Μαλτέζικα"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:105
 msgid "Maori"
 msgstr "Μαορικά"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:106
 msgid "Mapudungun"
 msgstr "Μαπουντουγκουνικά"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:107
 msgid "Marathi"
 msgstr "Μαραθικά"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:108
 msgid "Mongolian"
 msgstr "Μογγολικά"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:109
 msgid "Morisyen"
 msgstr "Μορισιενικά"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:110
 msgid "Nahuatl languages"
 msgstr "Ναχουατλικά"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:111
 msgid "Neapolitan"
 msgstr "Νεαπολιτικά"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:112
 msgid "Nepali"
 msgstr "Νεπαλέζικα"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:113
 msgid "Norwegian Bokmål"
 msgstr "Νορβηγικά Bokmal"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:114
 msgid "Norwegian Nynorsk"
 msgstr "Νορβηγικά Nynorsk"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:115
 msgid "Occitan"
 msgstr "Οτσιτανικά"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:116
 msgid "Oriya"
 msgstr "Οριγικά"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:117
 msgid "Papiamento"
 msgstr "Παπιαμεντικά"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:118
 msgid "Pedi"
 msgstr "Πεντικά"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:119
 msgid "Persian"
 msgstr "Περσικά"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:120
 msgid "Piemontese"
 msgstr "Πιεμοντεζικά"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:121
 msgid "Polish"
 msgstr "Πολωνικά"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:122
 msgid "Portuguese"
 msgstr "Πορτογαλικά"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:123
 msgid "Portuguese (Brazil)"
 msgstr "Πορτογαλικά (Βραζιλία)"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:124
 msgid "Portuguese (Portugal)"
 msgstr "Πορτογαλικά (Πορτογαλία)"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:125
 msgid "Punjabi"
 msgstr "Πουντζαμπικά"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:126
 msgid "Pushto"
 msgstr "Πουσχτικά"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:127
 msgid "Romanian"
 msgstr "Ρουμανικά"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:128
 msgid "Romansh"
 msgstr "Ρομανσικά"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:129
 msgid "Russian"
 msgstr "Ρωσικά"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:130
 msgid "Scots"
 msgstr "Σκωτσικά"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:131
 msgid "Serbian"
 msgstr "Σερβικά"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:132
 msgid "Serbian (cyrillic)"
 msgstr "Σέρβικα (κυριλλικά)"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:133
 msgid "Serbian (latin)"
 msgstr "Σέρβικα (λατινικά)"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:134
+msgid "Simplified Chinese"
+msgstr "Παραδοσιακά Κινέζικα"
+
+#: weblate/html/i18n.html:135
 msgid "Sinhala"
 msgstr "Κεϋλανικά"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:136
 msgid "Slovak"
 msgstr "Σλοβακικά"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:137
 msgid "Slovenian"
 msgstr "Σλοβενικά"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:138
 msgid "Somali"
 msgstr "Σομαλέζικα"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:139
 msgid "Songhai languages"
 msgstr "Σονγκαϊκά"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:140
 msgid "Sotho"
 msgstr "Σοθικά"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:141
 msgid "Spanish"
 msgstr "Ισπανικά"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:142
 msgid "Sundanese"
 msgstr "Σουντικά"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:143
 msgid "Swahili"
 msgstr "Σουαχιλικά"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:144
 msgid "Swedish"
 msgstr "Σουηδικά"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:145
 msgid "Tajik"
 msgstr "Τατζικιστανικά"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:146
 msgid "Tamil"
 msgstr "Ταμιλικά"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:147
 msgid "Tatar"
 msgstr "Ταταρικά"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:148
 msgid "Telugu"
 msgstr "Τελουγκουικά"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:149
 msgid "Thai"
 msgstr "Ταϊλανδικά"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:150
 msgid "Tibetan"
 msgstr "Θιβετιανά"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:151
 msgid "Tigrinya"
 msgstr "Τιγκρινιανικά"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:152
+#| msgid "dictionaries"
+msgid "Traditional Chinese"
+msgstr "Παραδοσιακά Κινέζικα"
+
+#: weblate/html/i18n.html:153
 msgid "Turkish"
 msgstr "Τουρκικά"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:154
 msgid "Turkmen"
 msgstr "Τουρκμενικά"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:155
 msgid "Uighur"
 msgstr "Ουιγκουρικά"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:156
 msgid "Ukrainian"
 msgstr "Ουκρανικά"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:157
 msgid "Urdu"
 msgstr "Ουρντουικά"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:158
 msgid "Uzbek"
 msgstr "Ουζμπεκικά"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:159
 msgid "Uzbek (latin)"
 msgstr "Ουζμπεκικά (Λατινικά)"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:160
 msgid "Vietnamese"
 msgstr "Βιετναμέζικα"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:161
 msgid "Walloon"
 msgstr "Βαλλωνικά"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:162
 msgid "Welsh"
 msgstr "Ουαλικά"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:163
+msgid "Yakut"
+msgstr "Γιακούτ"
+
+#: weblate/html/i18n.html:164
 msgid "Yoruba"
 msgstr "Γιορουμπικά"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:165
 msgid "Zulu"
 msgstr "Ζουλουκικά"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:168
 msgid "Translate using Apertium"
 msgstr "Μετάφραση με χρήση του Apertium"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:169
 msgid "Translate using Microsoft Translator"
 msgstr "Μετάφραση με χρήση του Microsoft Translator"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:170
 msgid "Translate using MyMemory"
 msgstr "Μετάφραση με χρήση του MyMemory"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:171
 msgid "Sort this column"
 msgstr "Ταξινόμηση αυτής της στήλης"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:172
 msgid "AJAX request to load this content has failed!"
 msgstr "Το αίτημα AJAX για φόρτωση αυτού του περιεχομένου απέτυχε!"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:173
 msgid "Loading…"
 msgstr "Φόρτωση…"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:174
 msgid "Failed translation"
 msgstr "Αποτυχημένη μετάφραση"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:175
 msgid "The request for machine translation has failed."
 msgstr "Το αίτημα για μηχανική μετάφραση απέτυχε."
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:176
 msgid "Error details:"
 msgstr "Λεπτομέρειες σφάλματος:"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:177
 msgid "Confirm resetting repository"
 msgstr "Επιβεβαίωση επαναφοράς αποθετηρίου"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:178
 msgid "Resetting the repository will throw away all local changes!"
 msgstr "Η επαναφορά του αποθετηρίου θα απομακρύνει όλες τις τοπικές αλλαγές!"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:179
 msgid "Ok"
 msgstr "Εντάξει"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:180
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: weblate/html/i18n.html:175 weblate/html/list-translations.html:61
+#: weblate/html/i18n.html:183 weblate/html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Μεταφρασμένα κείμενα"
 
@@ -2552,7 +2569,7 @@ msgid "Most active suggesters"
 msgstr "Πιο ενεργοί υποδηλώντες"
 
 #: weblate/html/index.html:67 weblate/html/language.html:25
-#: weblate/html/project.html:46 weblate/html/subproject.html:37
+#: weblate/html/project.html:46 weblate/html/subproject.html:39
 #: weblate/html/translation.html:46 weblate/html/user.html:28
 msgid "Activity"
 msgstr "Δραστηριότητα"
@@ -2713,12 +2730,12 @@ msgstr "Υπόέργα"
 msgid "Subproject"
 msgstr "Υπόέργο"
 
-#: weblate/html/project.html:43 weblate/html/subproject.html:33
+#: weblate/html/project.html:43 weblate/html/subproject.html:35
 #: weblate/html/translation.html:42
 msgid "Git maintenance"
 msgstr "Συντήρηση git"
 
-#: weblate/html/project.html:45 weblate/html/subproject.html:35
+#: weblate/html/project.html:45 weblate/html/subproject.html:37
 #: weblate/html/translation.html:45
 msgid "Share"
 msgstr "Κοινή χρήση"
@@ -2799,7 +2816,7 @@ msgstr "Δεν βρέθηκαν παρόμοια κείμενα προέλευσ
 msgid "Strings to check"
 msgstr "Κείμενα για έλεγχο"
 
-#: weblate/html/subproject.html:42
+#: weblate/html/subproject.html:45
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -2808,7 +2825,7 @@ msgstr ""
 "Λείπει η γλώσσα σας, ακολουθήστε τις <a href=\"%(url)s\">οδηγίες μεταφραστή</"
 "a>."
 
-#: weblate/html/subproject.html:44
+#: weblate/html/subproject.html:47
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -2817,7 +2834,7 @@ msgstr ""
 "Λείπει η γλώσσα σας, <a href=\"%(contact_url)s?subject=New+language+request"
 "+for+%(object)s\">επικοινωνήστε μαζί μας</a>."
 
-#: weblate/html/subproject.html:59
+#: weblate/html/subproject.html:63
 msgid "Source strings review"
 msgstr "Επισκόπηση κειμένων προέλευσης"
 
@@ -3582,8 +3599,8 @@ msgstr "Νέα μετάφραση σto %(translation)s"
 #: weblate/html/mail/signature.txt:4
 msgid "More information about Weblate can be found at http://weblate.org/"
 msgstr ""
-"Περισσότερες πληροφορίες σχετικά με το Weblate μπορούν να βρεθούν στο "
-"http://weblate.org/"
+"Περισσότερες πληροφορίες σχετικά με το Weblate μπορούν να βρεθούν στο http://"
+"weblate.org/"
 
 #: weblate/html/registration/activate.html:7
 msgid "Your account could not be activated"
@@ -3637,15 +3654,6 @@ msgstr ""
 "ολοκληρώσετε την εγγραφή σας με το %(site_title)s."
 
 #: weblate/html/registration/activation_email.txt:5
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "This is an automatic email to help you complete your registration\n"
-#| "with %(site_title)s.\n"
-#| "\n"
-#| "Please open the following link in your web browser. If the link\n"
-#| "is split over several lines, you may need to copy it in the\n"
-#| "address bar."
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
@@ -3655,13 +3663,6 @@ msgstr ""
 "διευθύνσεων."
 
 #: weblate/html/registration/activation_email.txt:9
-#| msgid ""
-#| "\n"
-#| "If there is a problem with your registration, please reply to\n"
-#| "this email.\n"
-#| "\n"
-#| "Best regards,\n"
-#| "%(site_title)s\n"
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "Αν υπάρχει πρόβλημα με την εγγραφή σας, επικοινωνήστε μαζί μας:"
 

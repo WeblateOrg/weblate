@@ -29,7 +29,7 @@ from trans.views.helper import get_project, get_subproject, get_translation
 @permission_required('trans.commit_translation')
 def commit_project(request, project):
     obj = get_project(request, project)
-    obj.commit_pending()
+    obj.commit_pending(request)
 
     messages.info(request, _('All pending translations were committed.'))
 
@@ -40,7 +40,7 @@ def commit_project(request, project):
 @permission_required('trans.commit_translation')
 def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
-    obj.commit_pending()
+    obj.commit_pending(request)
 
     messages.info(request, _('All pending translations were committed.'))
 
@@ -51,7 +51,7 @@ def commit_subproject(request, project, subproject):
 @permission_required('trans.commit_translation')
 def commit_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
-    obj.commit_pending()
+    obj.commit_pending(request)
 
     messages.info(request, _('All pending translations were committed.'))
 

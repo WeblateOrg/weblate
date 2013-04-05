@@ -36,7 +36,7 @@ class ProjectAdmin(admin.ModelAdmin):
         Updates selected resources from git.
         '''
         for project in queryset:
-            project.do_update()
+            project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
@@ -57,7 +57,7 @@ class ProjectAdmin(admin.ModelAdmin):
         Commits pending changes for selected resources.
         '''
         for project in queryset:
-            project.commit_pending()
+            project.commit_pending(request)
         self.message_user(
             request,
             "Flushed changes in %d git repos." % queryset.count()
@@ -78,7 +78,7 @@ class SubProjectAdmin(admin.ModelAdmin):
         Updates selected resources from git.
         '''
         for project in queryset:
-            project.do_update()
+            project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
 
     def update_checks(self, request, queryset):
@@ -102,7 +102,7 @@ class SubProjectAdmin(admin.ModelAdmin):
         Commits pending changes for selected resources.
         '''
         for project in queryset:
-            project.commit_pending()
+            project.commit_pending(request)
         self.message_user(
             request,
             "Flushed changes in %d git repos." % queryset.count()

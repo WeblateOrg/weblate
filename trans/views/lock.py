@@ -68,7 +68,7 @@ def unlock_translation(request, project, subproject, lang):
 def lock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    obj.commit_pending()
+    obj.commit_pending(request)
 
     obj.locked = True
     obj.save()
@@ -102,7 +102,7 @@ def unlock_subproject(request, project, subproject):
 def lock_project(request, project):
     obj = get_project(request, project)
 
-    obj.commit_pending()
+    obj.commit_pending(request)
 
     for subproject in obj.subproject_set.all():
         subproject.locked = True

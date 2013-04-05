@@ -611,7 +611,7 @@ class Unit(models.Model):
         # Force commiting on completing translation
         if (old_translated < self.translation.translated
                 and self.translation.translated == self.translation.total):
-            self.translation.commit_pending()
+            self.translation.commit_pending(request)
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,

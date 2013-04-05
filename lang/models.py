@@ -346,7 +346,9 @@ class Language(models.Model):
         ordering = ['name']
 
     def __unicode__(self):
-        if not '(' in self.name and ('_' in self.code or '-' in self.code):
+        if (not '(' in self.name
+                and ('_' in self.code or '-' in self.code)
+                and self.code not in ('zh_TW', 'zh_CN')):
             return '%s (%s)' % (_(self.name), self.code)
         return _(self.name)
 
@@ -420,6 +422,10 @@ class Language(models.Model):
             self.name = 'Norwegian Bokmål'
         elif self.code == 'pa':
             self.name = 'Punjabi'
+        elif self.code == 'zh_CN':
+            self.name = 'Simplified Chinese'
+        elif self.code == 'zh_TW':
+            self.name = 'Traditional Chinese'
 
     def set_direction(self):
         '''

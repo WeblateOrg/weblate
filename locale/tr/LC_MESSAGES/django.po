@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-03-20 13:27+0100\n"
-"PO-Revision-Date: 2013-03-20 17:47+0200\n"
+"POT-Creation-Date: 2013-04-02 12:03+0200\n"
+"PO-Revision-Date: 2013-04-02 13:49+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
 "Language: tr\n"
@@ -84,47 +84,47 @@ msgstr "Parolanın en az altı karakter olması gerekir."
 msgid "Username needs to have at least five characters."
 msgstr "Kullanıcı adının en az altı karakter olması gerekir."
 
-#: accounts/models.py:182
+#: accounts/models.py:183
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:188 trans/views/basic.py:100 weblate/html/index.html:21
+#: accounts/models.py:189 trans/views/basic.py:100 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Diller"
 
-#: accounts/models.py:193
+#: accounts/models.py:194
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: accounts/models.py:202
+#: accounts/models.py:203
 msgid "Subscribed projects"
 msgstr "Abone olunmuş projeler"
 
-#: accounts/models.py:206
+#: accounts/models.py:207
 msgid "Notification on any translation"
 msgstr "Herhangi bir çeviride bildirim"
 
-#: accounts/models.py:210
+#: accounts/models.py:211
 msgid "Notification on new string to translate"
 msgstr "Yeni satır çevirmek için bildirim"
 
-#: accounts/models.py:214
+#: accounts/models.py:215
 msgid "Notification on new suggestion"
 msgstr "Yeni öneride bildirim"
 
-#: accounts/models.py:218
+#: accounts/models.py:219
 msgid "Notification on new contributor"
 msgstr "Yeni katkıda bulunmada bildirim"
 
-#: accounts/models.py:222
+#: accounts/models.py:223
 msgid "Notification on new comment"
 msgstr "Yeni yorumda bildirim"
 
-#: accounts/models.py:226
+#: accounts/models.py:227
 msgid "Notification on merge failure"
 msgstr "Birleştirmenin başarısız olmasında bildirim"
 
-#: accounts/models.py:386
+#: accounts/models.py:387
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
 
@@ -215,15 +215,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Üç"
 
-#: lang/models.py:367
+#: lang/models.py:369
 msgid "Singular"
 msgstr "Tekil"
 
-#: lang/models.py:369
+#: lang/models.py:371
 msgid "Plural"
 msgstr "Çoğul"
 
-#: lang/models.py:370
+#: lang/models.py:372
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
@@ -425,7 +425,7 @@ msgstr "Tüm alt projeler"
 
 #: trans/forms.py:298 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
-#: weblate/html/subproject.html:36 weblate/html/translate.html:62
+#: weblate/html/subproject.html:38 weblate/html/translate.html:62
 #: weblate/html/translate.html.py:176 weblate/html/translate.html:182
 #: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
 #: weblate/html/js/similar.html:6
@@ -715,39 +715,44 @@ msgstr "İletişim formunu kullanın"
 msgid "Point to translation instructions URL"
 msgstr "Çeviri talimatları URL'sini göster"
 
-#: trans/models/project.py:50
+#: trans/models/project.py:48
+#| msgid "Songhai languages"
+msgid "No adding of language"
+msgstr "Dilin eklemesi yok"
+
+#: trans/models/project.py:51
 msgid "Merge"
 msgstr "Birleştir"
 
-#: trans/models/project.py:51
+#: trans/models/project.py:52
 msgid "Rebase"
 msgstr "Yeniden Uyarla"
 
-#: trans/models/project.py:80
+#: trans/models/project.py:81
 msgid "Project website"
 msgstr "Proje web sitesi"
 
-#: trans/models/project.py:84
+#: trans/models/project.py:85
 msgid "Email conference for translators"
 msgstr "Çevirmenler için eposta toplantısı"
 
-#: trans/models/project.py:88
+#: trans/models/project.py:89
 msgid "URL with instructions for translators"
 msgstr "Çevirmenler için talimat URL'si"
 
-#: trans/models/project.py:91 weblate/html/subproject.html:31
+#: trans/models/project.py:92 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "Yeni dil"
 
-#: trans/models/project.py:96
+#: trans/models/project.py:97
 msgid "How to handle requests for creating new languages."
 msgstr "Yeni dilleri oluşturmak için isteklerle nasıl başa çıkılır."
 
-#: trans/models/project.py:100
+#: trans/models/project.py:101
 msgid "Merge style"
 msgstr "Birleştirme stili"
 
-#: trans/models/project.py:105
+#: trans/models/project.py:106
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -755,7 +760,7 @@ msgstr ""
 "Weblate'in havuz yönünde birleştirmesini ya da üzerinde değişiklikleri "
 "yeniden uyarlamasını tanımlar."
 
-#: trans/models/project.py:113
+#: trans/models/project.py:114
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -763,17 +768,17 @@ msgstr ""
 "Çeşitli bilgi için biçim dizgilerini kullanabilirsiniz, lütfen daha fazla "
 "ayrıntı için belgeleri kontrol edin."
 
-#: trans/models/project.py:130
+#: trans/models/project.py:131
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Her işlemede havuz ters yönde yollannmalıysa."
 
-#: trans/models/project.py:137
+#: trans/models/project.py:138
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Dosya başlıkları içindeki Çeviri-Takımı Weblate tarafından güncellenmeliyse."
 
-#: trans/models/project.py:145
+#: trans/models/project.py:146
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
@@ -781,12 +786,12 @@ msgstr ""
 "Bu proje için ACL'nin etkinleştirilip etkinleştirilmemesi, lütfen bunu "
 "etkinleştirmeden önce belgeleri kontrol edin."
 
-#: trans/models/project.py:176
+#: trans/models/project.py:177
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "%s projesine erişmenize izin verilmiyor."
 
-#: trans/models/project.py:183
+#: trans/models/project.py:184
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -869,53 +874,53 @@ msgstr ""
 "Diğer alt projedeki çeviri güncellemeleri bu projede otomatik çeviriye neden "
 "olacaksa"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:364
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models/subproject.py:443
+#: trans/models/subproject.py:454
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models/subproject.py:487
+#: trans/models/subproject.py:498
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models/subproject.py:523
+#: trans/models/subproject.py:534
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models/subproject.py:592
+#: trans/models/subproject.py:603
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models/subproject.py:709
+#: trans/models/subproject.py:720
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: trans/models/subproject.py:721
+#: trans/models/subproject.py:732
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models/subproject.py:725
+#: trans/models/subproject.py:736
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models/subproject.py:746
+#: trans/models/subproject.py:757
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models/subproject.py:752
+#: trans/models/subproject.py:763
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -923,12 +928,12 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models/subproject.py:772
+#: trans/models/subproject.py:783
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:792
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
@@ -957,45 +962,45 @@ msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
 
-#: trans/models/translation.py:866 trans/models/translation.py:899
+#: trans/models/translation.py:885 trans/models/translation.py:918
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models/translation.py:873 trans/models/translation.py:930
+#: trans/models/translation.py:892 trans/models/translation.py:949
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models/translation.py:890 trans/models/translation.py:947
+#: trans/models/translation.py:909 trans/models/translation.py:966
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models/translation.py:906
+#: trans/models/translation.py:925
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models/translation.py:914
+#: trans/models/translation.py:933
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models/translation.py:922
+#: trans/models/translation.py:941
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models/unit.py:524
+#: trans/models/unit.py:522
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models/unit.py:536
+#: trans/models/unit.py:534
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models/unit.py:675
+#: trans/models/unit.py:673
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
@@ -1318,7 +1323,7 @@ msgstr "Tüm havuzlar sıfırlandı."
 msgid "Search for \"%s\""
 msgstr "\"%s\" için aranıyor"
 
-#: trans/views/helper.py:188 weblate/html/i18n.html:174
+#: trans/views/helper.py:188 weblate/html/i18n.html:182
 #: weblate/html/list-translations.html:63
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
@@ -1331,7 +1336,7 @@ msgstr "Çevrilmemiş satır"
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
 
-#: trans/views/helper.py:194 weblate/html/i18n.html:173
+#: trans/views/helper.py:194 weblate/html/i18n.html:181
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
 msgstr "Herhangi bir başarısız kontrolü olan satır"
@@ -1868,599 +1873,612 @@ msgstr ""
 "Birden fazla seçmek için \"Control (Ctrl)\" veya Mac'deki \"Command\" tuşuna "
 "basılı tutun."
 
-#: weblate/html/i18n.html:23
+#: weblate/html/i18n.html:28
 msgid "Afrikaans"
 msgstr "Afrikaanca"
 
-#: weblate/html/i18n.html:24
+#: weblate/html/i18n.html:29
 msgid "Akan"
 msgstr "Akan dili"
 
-#: weblate/html/i18n.html:25
+#: weblate/html/i18n.html:30
 msgid "Albanian"
 msgstr "Arnavutça"
 
-#: weblate/html/i18n.html:26
+#: weblate/html/i18n.html:31
 msgid "Amharic"
 msgstr "Amharca"
 
-#: weblate/html/i18n.html:27
+#: weblate/html/i18n.html:32
 msgid "Arabic"
 msgstr "Arapça"
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:33
 msgid "Aragonese"
 msgstr "Aragonca"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:34
 msgid "Armenian"
 msgstr "Ermenice"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:35
 msgid "Asturian"
 msgstr "Asturyaca"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:36
 msgid "Azerbaijani"
 msgstr "Azerice"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:37
 msgid "Basque"
 msgstr "Baskça"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:38
 msgid "Belarusian"
 msgstr "Beyaz Rusça"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:39
 msgid "Belarusian (latin)"
 msgstr "Beyaz Rusça (latin)"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:40
 msgid "Bengali"
 msgstr "Bengalce"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:41
 msgid "Bengali (India)"
 msgstr "Bengalce (Hindistan)"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:42
 msgid "Bosnian"
 msgstr "Boşnakça"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:43
 msgid "Breton"
 msgstr "Bretonca"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:44
 msgid "Bulgarian"
 msgstr "Bulgarca"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:45
 msgid "Catalan"
 msgstr "Katalanca"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:46
 msgid "Central Khmer"
 msgstr "Merkez Khmerce"
 
-#: weblate/html/i18n.html:42
-msgid "Cornish"
-msgstr "Kelt dili"
-
-#: weblate/html/i18n.html:43
-msgid "Croatian"
-msgstr "Hırvatça"
-
-#: weblate/html/i18n.html:44
-msgid "Czech"
-msgstr "Çekçe"
-
-#: weblate/html/i18n.html:45
-msgid "Danish"
-msgstr "Danca"
-
-#: weblate/html/i18n.html:46
-msgid "Dutch"
-msgstr "Felemenkçe"
-
 #: weblate/html/i18n.html:47
-msgid "Dzongkha"
-msgstr "Dzongkha dili"
-
-#: weblate/html/i18n.html:48
-msgid "English"
-msgstr "İngilizce"
-
-#: weblate/html/i18n.html:49
-msgid "English (South Africa)"
-msgstr "İngilizce (Güney Afrika)"
-
-#: weblate/html/i18n.html:50
-msgid "English (United Kingdom)"
-msgstr "İngilizce (Birleşik Krallık)"
-
-#: weblate/html/i18n.html:51
-msgid "English (United States)"
-msgstr "İngilizce (ABD)"
-
-#: weblate/html/i18n.html:52
-msgid "Esperanto"
-msgstr "Esperanto dili"
-
-#: weblate/html/i18n.html:53
-msgid "Estonian"
-msgstr "Estçe"
-
-#: weblate/html/i18n.html:54
-msgid "Faroese"
-msgstr "Faroe dili"
-
-#: weblate/html/i18n.html:55
-msgid "Filipino"
-msgstr "Filipin dili"
-
-#: weblate/html/i18n.html:56
-msgid "Finnish"
-msgstr "Fince"
-
-#: weblate/html/i18n.html:57
-msgid "French"
-msgstr "Fransızca"
-
-#: weblate/html/i18n.html:58
-msgid "Frisian"
-msgstr "Frizce"
-
-#: weblate/html/i18n.html:59
-msgid "Friulian"
-msgstr "Friulice"
-
-#: weblate/html/i18n.html:60
-msgid "Fulah"
-msgstr "Fulah"
-
-#: weblate/html/i18n.html:61
-msgid "Gaelic"
-msgstr "Keltçe"
-
-#: weblate/html/i18n.html:62
-msgid "Galician"
-msgstr "Galiçyaca"
-
-#: weblate/html/i18n.html:63
-msgid "Georgian"
-msgstr "Gürcüce"
-
-#: weblate/html/i18n.html:64
-msgid "German"
-msgstr "Almanca"
-
-#: weblate/html/i18n.html:65
-msgid "Greek"
-msgstr "Yunanca"
-
-#: weblate/html/i18n.html:66
-msgid "Gujarati"
-msgstr "Gucerat dili"
-
-#: weblate/html/i18n.html:67
-msgid "Gun"
-msgstr "Gun dili"
-
-#: weblate/html/i18n.html:68
-msgid "Hausa"
-msgstr "Hausa dili"
-
-#: weblate/html/i18n.html:69
-msgid "Hebrew"
-msgstr "İbranice"
-
-#: weblate/html/i18n.html:70
-msgid "Hindi"
-msgstr "Hinduca"
-
-#: weblate/html/i18n.html:71
-msgid "Hungarian"
-msgstr "Macarca"
-
-#: weblate/html/i18n.html:72
 msgid "Chinese (Hong Kong)"
 msgstr "Çince (Hong Kong)"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:48
 msgid "Chinese (China)"
 msgstr "Çince (Çin)"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:49
 msgid "Chinese (Taiwan)"
 msgstr "Çince (Tayvan)"
 
+#: weblate/html/i18n.html:50
+msgid "Cornish"
+msgstr "Kelt dili"
+
+#: weblate/html/i18n.html:51
+msgid "Croatian"
+msgstr "Hırvatça"
+
+#: weblate/html/i18n.html:52
+msgid "Czech"
+msgstr "Çekçe"
+
+#: weblate/html/i18n.html:53
+msgid "Danish"
+msgstr "Danca"
+
+#: weblate/html/i18n.html:54
+msgid "Dutch"
+msgstr "Felemenkçe"
+
+#: weblate/html/i18n.html:55
+msgid "Dzongkha"
+msgstr "Dzongkha dili"
+
+#: weblate/html/i18n.html:56
+msgid "English"
+msgstr "İngilizce"
+
+#: weblate/html/i18n.html:57
+msgid "English (South Africa)"
+msgstr "İngilizce (Güney Afrika)"
+
+#: weblate/html/i18n.html:58
+msgid "English (United Kingdom)"
+msgstr "İngilizce (Birleşik Krallık)"
+
+#: weblate/html/i18n.html:59
+msgid "English (United States)"
+msgstr "İngilizce (ABD)"
+
+#: weblate/html/i18n.html:60
+msgid "Esperanto"
+msgstr "Esperanto dili"
+
+#: weblate/html/i18n.html:61
+msgid "Estonian"
+msgstr "Estçe"
+
+#: weblate/html/i18n.html:62
+msgid "Faroese"
+msgstr "Faroe dili"
+
+#: weblate/html/i18n.html:63
+msgid "Filipino"
+msgstr "Filipin dili"
+
+#: weblate/html/i18n.html:64
+msgid "Finnish"
+msgstr "Fince"
+
+#: weblate/html/i18n.html:65
+msgid "French"
+msgstr "Fransızca"
+
+#: weblate/html/i18n.html:66
+msgid "Frisian"
+msgstr "Frizce"
+
+#: weblate/html/i18n.html:67
+msgid "Friulian"
+msgstr "Friulice"
+
+#: weblate/html/i18n.html:68
+msgid "Fulah"
+msgstr "Fulah"
+
+#: weblate/html/i18n.html:69
+msgid "Gaelic"
+msgstr "Keltçe"
+
+#: weblate/html/i18n.html:70
+msgid "Galician"
+msgstr "Galiçyaca"
+
+#: weblate/html/i18n.html:71
+msgid "Georgian"
+msgstr "Gürcüce"
+
+#: weblate/html/i18n.html:72
+msgid "German"
+msgstr "Almanca"
+
+#: weblate/html/i18n.html:73
+msgid "Greek"
+msgstr "Yunanca"
+
+#: weblate/html/i18n.html:74
+msgid "Gujarati"
+msgstr "Gucerat dili"
+
 #: weblate/html/i18n.html:75
+msgid "Gun"
+msgstr "Gun dili"
+
+#: weblate/html/i18n.html:76
+msgid "Hausa"
+msgstr "Hausa dili"
+
+#: weblate/html/i18n.html:77
+msgid "Hebrew"
+msgstr "İbranice"
+
+#: weblate/html/i18n.html:78
+msgid "Hindi"
+msgstr "Hinduca"
+
+#: weblate/html/i18n.html:79
+msgid "Hungarian"
+msgstr "Macarca"
+
+#: weblate/html/i18n.html:80
 msgid "Icelandic"
 msgstr "İzlanda dili"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:81
 msgid "Indonesian"
 msgstr "Endonezce"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:82
 msgid "Interlingua"
 msgstr "Arayüz dili"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:83
 msgid "Irish"
 msgstr "İrlandaca"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:84
 msgid "Italian"
 msgstr "İtalyanca"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:85
 msgid "Japanese"
 msgstr "Japonca"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:86
 msgid "Javanese"
 msgstr "Cavaca"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:87
 msgid "Kannada"
 msgstr "Kannada dili"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:88
 msgid "Kashubian"
 msgstr "Kaşubyan"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:89
 msgid "Kazakh"
 msgstr "Kazakça"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:90
 msgid "Kirghiz"
 msgstr "Kırgızca"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:91
 msgid "Korean"
 msgstr "Korece"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:92
 msgid "Kurdish"
 msgstr "Kürtçe"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:93
 msgid "Kurdish Sorani"
 msgstr "Sorani Kürtçe"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:94
 msgid "Lao"
 msgstr "Laoca"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:95
 msgid "Latvian"
 msgstr "Letonca"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:96
 msgid "Lingala"
 msgstr "Bantu dili"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:97
 msgid "Lithuanian"
 msgstr "Litvanca"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:98
 msgid "Luxembourgish"
 msgstr "Lüksemburgca"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:99
 msgid "Macedonian"
 msgstr "Makedonca"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:100
 msgid "Maithili"
 msgstr "Hindu-Aryan dili"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:101
 msgid "Malagasy"
 msgstr "Malgaşça"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:102
 msgid "Malay"
 msgstr "Malayca"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:103
 msgid "Malayalam"
 msgstr "Malayamca"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:104
 msgid "Maltese"
 msgstr "Malta dili"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:105
 msgid "Maori"
 msgstr "Maori dili"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:106
 msgid "Mapudungun"
 msgstr "Araukanca"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:107
 msgid "Marathi"
 msgstr "Marathi Hint dili"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:108
 msgid "Mongolian"
 msgstr "Moğolca"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:109
 msgid "Morisyen"
 msgstr "Morisyen dili"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:110
 msgid "Nahuatl languages"
 msgstr "Nahuatl dili"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:111
 msgid "Neapolitan"
 msgstr "Napoli dili"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:112
 msgid "Nepali"
 msgstr "Nepalce"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:113
 msgid "Norwegian Bokmål"
 msgstr "Bokmål Norveççe"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:114
 msgid "Norwegian Nynorsk"
 msgstr "Nynorsk Norveçce"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:115
 msgid "Occitan"
 msgstr "Oksitanca"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:116
 msgid "Oriya"
 msgstr "Oriya dili"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:117
 msgid "Papiamento"
 msgstr "Creole dili"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:118
 msgid "Pedi"
 msgstr "Pedi dili"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:119
 msgid "Persian"
 msgstr "Farsça"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:120
 msgid "Piemontese"
 msgstr "Piedmont dili"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:121
 msgid "Polish"
 msgstr "Lehçe"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:122
 msgid "Portuguese"
 msgstr "Portekizce"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:123
 msgid "Portuguese (Brazil)"
 msgstr "Portekizce (Brezilya)"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:124
 msgid "Portuguese (Portugal)"
 msgstr "Portekizce (Portekiz)"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:125
 msgid "Punjabi"
 msgstr "Pencapça"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:126
 msgid "Pushto"
 msgstr "Peştuca"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:127
 msgid "Romanian"
 msgstr "Romence"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:128
 msgid "Romansh"
 msgstr "Romanş"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:129
 msgid "Russian"
 msgstr "Rusça"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:130
 msgid "Scots"
 msgstr "İskoç İngilizcesi"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:131
 msgid "Serbian"
 msgstr "Sırpça"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:132
 msgid "Serbian (cyrillic)"
 msgstr "Sırpça (kiril)"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:133
 msgid "Serbian (latin)"
 msgstr "Sırpça (latin)"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:134
+msgid "Simplified Chinese"
+msgstr "Basitleştirilmiş Çince"
+
+#: weblate/html/i18n.html:135
 msgid "Sinhala"
 msgstr "Sinhalese dili"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:136
 msgid "Slovak"
 msgstr "Slovakça"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:137
 msgid "Slovenian"
 msgstr "Slovence"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:138
 msgid "Somali"
 msgstr "Somalice"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:139
 msgid "Songhai languages"
 msgstr "Songhai dilleri"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:140
 msgid "Sotho"
 msgstr "Sotho dili"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:141
 msgid "Spanish"
 msgstr "İspanyolca"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:142
 msgid "Sundanese"
 msgstr "Sundanese dili"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:143
 msgid "Swahili"
 msgstr "Svahili dili"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:144
 msgid "Swedish"
 msgstr "İsveççe"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:145
 msgid "Tajik"
 msgstr "Tacikçe"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:146
 msgid "Tamil"
 msgstr "Tamilce"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:147
 msgid "Tatar"
 msgstr "Tatarca"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:148
 msgid "Telugu"
 msgstr "Telugu dili"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:149
 msgid "Thai"
 msgstr "Tayca"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:150
 msgid "Tibetan"
 msgstr "Tibet dili"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:151
 msgid "Tigrinya"
 msgstr "Tigrinya dili"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:152
+#| msgid "dictionaries"
+msgid "Traditional Chinese"
+msgstr "Geleneksel Çince"
+
+#: weblate/html/i18n.html:153
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:154
 msgid "Turkmen"
 msgstr "Türkmence"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:155
 msgid "Uighur"
 msgstr "Uygurca"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:156
 msgid "Ukrainian"
 msgstr "Ukraynaca"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:157
 msgid "Urdu"
 msgstr "Urduca"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:158
 msgid "Uzbek"
 msgstr "Özbekçe"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:159
 msgid "Uzbek (latin)"
 msgstr "Özbekçe (latin)"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:160
 msgid "Vietnamese"
 msgstr "Vietnamca"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:161
 msgid "Walloon"
 msgstr "Valonca"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:162
 msgid "Welsh"
 msgstr "Galce"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:163
+msgid "Yakut"
+msgstr "Yakut dili"
+
+#: weblate/html/i18n.html:164
 msgid "Yoruba"
 msgstr "Yoruba dili"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:165
 msgid "Zulu"
 msgstr "Zulu dili"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:168
 msgid "Translate using Apertium"
 msgstr "Apertium kullanarak çevir"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:169
 msgid "Translate using Microsoft Translator"
 msgstr "Microsoft Translator kullanarak çevir"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:170
 msgid "Translate using MyMemory"
 msgstr "MyMemory kullanarak çevir"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:171
 msgid "Sort this column"
 msgstr "Bu sütuna göre sırala"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:172
 msgid "AJAX request to load this content has failed!"
 msgstr "Bu içeriği yüklemek için AJAX'ın isteği başarısız oldu!"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:173
 msgid "Loading…"
 msgstr "Yükleniyor…"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:174
 msgid "Failed translation"
 msgstr "Başarısız çeviri"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:175
 msgid "The request for machine translation has failed."
 msgstr "Makine çevirisi için istek başarısız oldu."
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:176
 msgid "Error details:"
 msgstr "Hata ayrıntıları:"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:177
 msgid "Confirm resetting repository"
 msgstr "Havuzu sıfırlamayı onayla"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:178
 msgid "Resetting the repository will throw away all local changes!"
 msgstr "Havuzu sıfırlamak tüm yerel değişiklikleri kaybedecektir!"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:179
 msgid "Ok"
 msgstr "Tamam"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:180
 msgid "Cancel"
 msgstr "İptal"
 
-#: weblate/html/i18n.html:175 weblate/html/list-translations.html:61
+#: weblate/html/i18n.html:183 weblate/html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Çevrilmiş satır"
 
@@ -2518,7 +2536,7 @@ msgid "Most active suggesters"
 msgstr "En aktif öneride bulunanlar"
 
 #: weblate/html/index.html:67 weblate/html/language.html:25
-#: weblate/html/project.html:46 weblate/html/subproject.html:37
+#: weblate/html/project.html:46 weblate/html/subproject.html:39
 #: weblate/html/translation.html:46 weblate/html/user.html:28
 msgid "Activity"
 msgstr "Etkinlik"
@@ -2670,12 +2688,12 @@ msgstr "Alt projeler"
 msgid "Subproject"
 msgstr "Alt proje"
 
-#: weblate/html/project.html:43 weblate/html/subproject.html:33
+#: weblate/html/project.html:43 weblate/html/subproject.html:35
 #: weblate/html/translation.html:42
 msgid "Git maintenance"
 msgstr "Git bakım"
 
-#: weblate/html/project.html:45 weblate/html/subproject.html:35
+#: weblate/html/project.html:45 weblate/html/subproject.html:37
 #: weblate/html/translation.html:45
 msgid "Share"
 msgstr "Paylaş"
@@ -2756,7 +2774,7 @@ msgstr "Eşleşen kaynak satırlar yok!"
 msgid "Strings to check"
 msgstr "Satır kontrolü"
 
-#: weblate/html/subproject.html:42
+#: weblate/html/subproject.html:45
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -2765,7 +2783,7 @@ msgstr ""
 "Diliniz eksik mi, lütfen <a href=\"%(url)s\">çevirmen talimatlarını</a> "
 "takip edin."
 
-#: weblate/html/subproject.html:44
+#: weblate/html/subproject.html:47
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -2774,7 +2792,7 @@ msgstr ""
 "Diliniz eksik mi, lütfen <a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">bize ulaşın</a>."
 
-#: weblate/html/subproject.html:59
+#: weblate/html/subproject.html:63
 msgid "Source strings review"
 msgstr "Kaynak satırları gözden geçirme"
 
@@ -3594,15 +3612,6 @@ msgstr ""
 "epostadır."
 
 #: weblate/html/registration/activation_email.txt:5
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "This is an automatic email to help you complete your registration\n"
-#| "with %(site_title)s.\n"
-#| "\n"
-#| "Please open the following link in your web browser. If the link\n"
-#| "is split over several lines, you may need to copy it in the\n"
-#| "address bar."
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
@@ -3611,13 +3620,6 @@ msgstr ""
 "satırla bölünmüşse bunu adres çubuğuna kopyalamanız gerekebilir."
 
 #: weblate/html/registration/activation_email.txt:9
-#| msgid ""
-#| "\n"
-#| "If there is a problem with your registration, please reply to\n"
-#| "this email.\n"
-#| "\n"
-#| "Best regards,\n"
-#| "%(site_title)s\n"
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "Eğer kaydınız ile ilgili bir sorun varsa, lütfen bizimle temasa geçin:"
 

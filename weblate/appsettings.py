@@ -98,7 +98,6 @@ CHECK_LIST = get('CHECK_LIST', (
     'trans.checks.format.CFormatCheck',
     'trans.checks.consistency.PluralsCheck',
     'trans.checks.consistency.ConsistencyCheck',
-    'trans.checks.consistency.DirectionCheck',
     'trans.checks.chars.NewlineCountingCheck',
     'trans.checks.markup.BBCodeCheck',
     'trans.checks.chars.ZeroWidthSpaceCheck',

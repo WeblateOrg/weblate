@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-03-20 13:27+0100\n"
+"POT-Creation-Date: 2013-04-02 12:03+0200\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -84,47 +84,47 @@ msgstr "密码至少要 6 个字符。"
 msgid "Username needs to have at least five characters."
 msgstr "用户名至少要 5 个字符。"
 
-#: accounts/models.py:182
+#: accounts/models.py:183
 msgid "Interface Language"
 msgstr "界面语言"
 
-#: accounts/models.py:188 trans/views/basic.py:100 weblate/html/index.html:21
+#: accounts/models.py:189 trans/views/basic.py:100 weblate/html/index.html:21
 msgid "Languages"
 msgstr "语言"
 
-#: accounts/models.py:193
+#: accounts/models.py:194
 msgid "Secondary languages"
 msgstr "第二语言"
 
-#: accounts/models.py:202
+#: accounts/models.py:203
 msgid "Subscribed projects"
 msgstr "已订阅的项目"
 
-#: accounts/models.py:206
+#: accounts/models.py:207
 msgid "Notification on any translation"
 msgstr "在有任何翻译时通知"
 
-#: accounts/models.py:210
+#: accounts/models.py:211
 msgid "Notification on new string to translate"
 msgstr "在有新条目需要翻译时通知"
 
-#: accounts/models.py:214
+#: accounts/models.py:215
 msgid "Notification on new suggestion"
 msgstr "在有新建议时通知"
 
-#: accounts/models.py:218
+#: accounts/models.py:219
 msgid "Notification on new contributor"
 msgstr "在有新贡献者时通知"
 
-#: accounts/models.py:222
+#: accounts/models.py:223
 msgid "Notification on new comment"
 msgstr "在有新注释时通知"
 
-#: accounts/models.py:226
+#: accounts/models.py:227
 msgid "Notification on merge failure"
 msgstr "在合并失败时通知"
 
-#: accounts/models.py:386
+#: accounts/models.py:387
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "您的资料已经迁移，您也许想要调整首选项。"
 
@@ -217,15 +217,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr ""
 
-#: lang/models.py:367
+#: lang/models.py:369
 msgid "Singular"
 msgstr "单数形式"
 
-#: lang/models.py:369
+#: lang/models.py:371
 msgid "Plural"
 msgstr "复数形式"
 
-#: lang/models.py:370
+#: lang/models.py:372
 #, python-format
 msgid "Plural form %d"
 msgstr "复数形式 %d"
@@ -438,7 +438,7 @@ msgstr "所有子项目"
 
 #: trans/forms.py:298 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
-#: weblate/html/subproject.html:36 weblate/html/translate.html:62
+#: weblate/html/subproject.html:38 weblate/html/translate.html:62
 #: weblate/html/translate.html.py:176 weblate/html/translate.html:182
 #: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
 #: weblate/html/js/similar.html:6
@@ -720,73 +720,79 @@ msgstr "使用联系表单"
 msgid "Point to translation instructions URL"
 msgstr "翻译介绍地址"
 
-#: trans/models/project.py:50
+#: trans/models/project.py:48
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "No adding of language"
+msgstr "桑海语"
+
+#: trans/models/project.py:51
 msgid "Merge"
 msgstr "合并"
 
-#: trans/models/project.py:51
+#: trans/models/project.py:52
 msgid "Rebase"
 msgstr ""
 
-#: trans/models/project.py:80
+#: trans/models/project.py:81
 msgid "Project website"
 msgstr "项目网站"
 
-#: trans/models/project.py:84
+#: trans/models/project.py:85
 msgid "Email conference for translators"
 msgstr "供翻译讨论的邮件列表"
 
-#: trans/models/project.py:88
+#: trans/models/project.py:89
 #, fuzzy
 msgid "URL with instructions for translators"
 msgstr "翻译说明："
 
-#: trans/models/project.py:91 weblate/html/subproject.html:31
+#: trans/models/project.py:92 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "新增语言"
 
-#: trans/models/project.py:96
+#: trans/models/project.py:97
 msgid "How to handle requests for creating new languages."
 msgstr "如何处理创建新语言的请求。"
 
-#: trans/models/project.py:100
+#: trans/models/project.py:101
 msgid "Merge style"
 msgstr "合并方式"
 
-#: trans/models/project.py:105
+#: trans/models/project.py:106
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 
-#: trans/models/project.py:113
+#: trans/models/project.py:114
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models/project.py:130
+#: trans/models/project.py:131
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "是否在每次提交时都要向上游推送代码库。"
 
-#: trans/models/project.py:137
+#: trans/models/project.py:138
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Weblate 是否应该更新文件头中的 Translation-Team 。"
 
-#: trans/models/project.py:145
+#: trans/models/project.py:146
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
 
-#: trans/models/project.py:176
+#: trans/models/project.py:177
 #, fuzzy, python-format
 #| msgid "You are not allowed to add comments."
 msgid "You are not allowed to access project %s."
 msgstr "您不能添加注释。"
 
-#: trans/models/project.py:183
+#: trans/models/project.py:184
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -859,64 +865,64 @@ msgid ""
 "translation in this project"
 msgstr "更新其它子项目翻译时是否自动翻译此项目"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:364
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "获取 Git 代码库失败：%s"
 
-#: trans/models/subproject.py:443
+#: trans/models/subproject.py:454
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s 已经禁用上传。"
 
-#: trans/models/subproject.py:487
+#: trans/models/subproject.py:498
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "上传至远程分支 %s 失败。"
 
-#: trans/models/subproject.py:523
+#: trans/models/subproject.py:534
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "重设至远程分支 %s 失败。"
 
-#: trans/models/subproject.py:592
+#: trans/models/subproject.py:603
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "重设至远程分支 %s 失败。"
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "合并入远程分支 %s 上失败。"
 
-#: trans/models/subproject.py:709
+#: trans/models/subproject.py:720
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:721
+#: trans/models/subproject.py:732
 msgid "Format of translation template could not be recognized."
 msgstr "无法识别译文模板的格式。"
 
-#: trans/models/subproject.py:725
+#: trans/models/subproject.py:736
 msgid "Failed to parse translation template."
 msgstr "解析译文模板失败。"
 
-#: trans/models/subproject.py:746
+#: trans/models/subproject.py:757
 msgid "The mask did not match any files!"
 msgstr "此掩码不和任何文件匹配！"
 
-#: trans/models/subproject.py:752
+#: trans/models/subproject.py:763
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr "每种语言都有其它文件，请调整掩码并使用子项目翻译不同的源条目。"
 
-#: trans/models/subproject.py:772
+#: trans/models/subproject.py:783
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "无法识别匹配 %d 格式的文件。"
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:792
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "解析 %d 匹配文件失败！"
@@ -945,44 +951,44 @@ msgstr "解析文件 %(file)s 失败: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "此翻译已被 %(user)s 锁定到 %(time)s！"
 
-#: trans/models/translation.py:866 trans/models/translation.py:899
+#: trans/models/translation.py:885 trans/models/translation.py:918
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models/translation.py:873 trans/models/translation.py:930
+#: trans/models/translation.py:892 trans/models/translation.py:949
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "未通过检查的条目 (%d)"
 
-#: trans/models/translation.py:890 trans/models/translation.py:947
+#: trans/models/translation.py:909 trans/models/translation.py:966
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "有注释的条目 (%d)"
 
-#: trans/models/translation.py:906
+#: trans/models/translation.py:925
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models/translation.py:914
+#: trans/models/translation.py:933
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models/translation.py:922
+#: trans/models/translation.py:941
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
 
-#: trans/models/unit.py:524
+#: trans/models/unit.py:522
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:536
+#: trans/models/unit.py:534
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models/unit.py:675
+#: trans/models/unit.py:673
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
@@ -1316,7 +1322,7 @@ msgstr "已重设所有代码库。"
 msgid "Search for \"%s\""
 msgstr "搜索 “%s”"
 
-#: trans/views/helper.py:188 weblate/html/i18n.html:174
+#: trans/views/helper.py:188 weblate/html/i18n.html:182
 #: weblate/html/list-translations.html:63
 msgid "Fuzzy strings"
 msgstr "模糊条目"
@@ -1329,7 +1335,7 @@ msgstr "未翻译条目"
 msgid "Strings with suggestions"
 msgstr "有建议的条目"
 
-#: trans/views/helper.py:194 weblate/html/i18n.html:173
+#: trans/views/helper.py:194 weblate/html/i18n.html:181
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
 msgstr "未通过检查的条目"
@@ -1848,599 +1854,613 @@ msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr "按住 “Ctrl” 或 Mac 上的 “Command” 键多选。"
 
-#: weblate/html/i18n.html:23
+#: weblate/html/i18n.html:28
 msgid "Afrikaans"
 msgstr "南非语"
 
-#: weblate/html/i18n.html:24
+#: weblate/html/i18n.html:29
 msgid "Akan"
 msgstr "阿坎语"
 
-#: weblate/html/i18n.html:25
+#: weblate/html/i18n.html:30
 msgid "Albanian"
 msgstr "阿尔巴尼亚语"
 
-#: weblate/html/i18n.html:26
+#: weblate/html/i18n.html:31
 msgid "Amharic"
 msgstr "阿姆哈拉语"
 
-#: weblate/html/i18n.html:27
+#: weblate/html/i18n.html:32
 msgid "Arabic"
 msgstr "阿拉伯语"
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:33
 msgid "Aragonese"
 msgstr "阿拉贡语"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:34
 msgid "Armenian"
 msgstr "亚美尼亚语"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:35
 msgid "Asturian"
 msgstr "阿斯图里亚斯语"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:36
 msgid "Azerbaijani"
 msgstr "阿塞拜疆语"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:37
 msgid "Basque"
 msgstr "巴斯克语"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:38
 msgid "Belarusian"
 msgstr "白俄罗斯语"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:39
 msgid "Belarusian (latin)"
 msgstr "白俄罗斯语(拉丁)"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:40
 msgid "Bengali"
 msgstr "孟加拉语"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:41
 msgid "Bengali (India)"
 msgstr "孟加拉语(印度)"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:42
 msgid "Bosnian"
 msgstr "波斯尼亚语"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:43
 msgid "Breton"
 msgstr "布列塔尼语"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:44
 msgid "Bulgarian"
 msgstr "保加利亚语"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:45
 msgid "Catalan"
 msgstr "加泰罗尼亚语"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:46
 msgid "Central Khmer"
 msgstr "高棉语"
 
-#: weblate/html/i18n.html:42
-msgid "Cornish"
-msgstr "康沃尔语"
-
-#: weblate/html/i18n.html:43
-msgid "Croatian"
-msgstr "克罗地亚语"
-
-#: weblate/html/i18n.html:44
-msgid "Czech"
-msgstr "捷克语"
-
-#: weblate/html/i18n.html:45
-msgid "Danish"
-msgstr "丹麦语"
-
-#: weblate/html/i18n.html:46
-msgid "Dutch"
-msgstr "荷兰语"
-
 #: weblate/html/i18n.html:47
-msgid "Dzongkha"
-msgstr "宗喀语"
-
-#: weblate/html/i18n.html:48
-msgid "English"
-msgstr "英语"
-
-#: weblate/html/i18n.html:49
-msgid "English (South Africa)"
-msgstr "英语(南非)"
-
-#: weblate/html/i18n.html:50
-msgid "English (United Kingdom)"
-msgstr "英语(英国)"
-
-#: weblate/html/i18n.html:51
-msgid "English (United States)"
-msgstr "英语(美国)"
-
-#: weblate/html/i18n.html:52
-msgid "Esperanto"
-msgstr "世界语"
-
-#: weblate/html/i18n.html:53
-msgid "Estonian"
-msgstr "爱沙尼亚语"
-
-#: weblate/html/i18n.html:54
-msgid "Faroese"
-msgstr "法罗语"
-
-#: weblate/html/i18n.html:55
-msgid "Filipino"
-msgstr "菲律宾语"
-
-#: weblate/html/i18n.html:56
-msgid "Finnish"
-msgstr "芬兰语"
-
-#: weblate/html/i18n.html:57
-msgid "French"
-msgstr "法语"
-
-#: weblate/html/i18n.html:58
-msgid "Frisian"
-msgstr "弗里西亚语"
-
-#: weblate/html/i18n.html:59
-msgid "Friulian"
-msgstr "弗留利语"
-
-#: weblate/html/i18n.html:60
-msgid "Fulah"
-msgstr ""
-
-#: weblate/html/i18n.html:61
-msgid "Gaelic"
-msgstr "盖尔语"
-
-#: weblate/html/i18n.html:62
-msgid "Galician"
-msgstr "加利西亚语"
-
-#: weblate/html/i18n.html:63
-msgid "Georgian"
-msgstr "格鲁吉亚语"
-
-#: weblate/html/i18n.html:64
-msgid "German"
-msgstr "德语"
-
-#: weblate/html/i18n.html:65
-msgid "Greek"
-msgstr "希腊语"
-
-#: weblate/html/i18n.html:66
-msgid "Gujarati"
-msgstr "古吉拉特语"
-
-#: weblate/html/i18n.html:67
-msgid "Gun"
-msgstr "丰语"
-
-#: weblate/html/i18n.html:68
-msgid "Hausa"
-msgstr "豪撒语"
-
-#: weblate/html/i18n.html:69
-msgid "Hebrew"
-msgstr "希伯来语"
-
-#: weblate/html/i18n.html:70
-msgid "Hindi"
-msgstr "印地语"
-
-#: weblate/html/i18n.html:71
-msgid "Hungarian"
-msgstr "匈牙利语"
-
-#: weblate/html/i18n.html:72
 msgid "Chinese (Hong Kong)"
 msgstr "汉语 (中国香港)"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:48
 msgid "Chinese (China)"
 msgstr "汉语 (中国大陆)"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:49
 msgid "Chinese (Taiwan)"
 msgstr "汉语 (中国台湾)"
 
+#: weblate/html/i18n.html:50
+msgid "Cornish"
+msgstr "康沃尔语"
+
+#: weblate/html/i18n.html:51
+msgid "Croatian"
+msgstr "克罗地亚语"
+
+#: weblate/html/i18n.html:52
+msgid "Czech"
+msgstr "捷克语"
+
+#: weblate/html/i18n.html:53
+msgid "Danish"
+msgstr "丹麦语"
+
+#: weblate/html/i18n.html:54
+msgid "Dutch"
+msgstr "荷兰语"
+
+#: weblate/html/i18n.html:55
+msgid "Dzongkha"
+msgstr "宗喀语"
+
+#: weblate/html/i18n.html:56
+msgid "English"
+msgstr "英语"
+
+#: weblate/html/i18n.html:57
+msgid "English (South Africa)"
+msgstr "英语(南非)"
+
+#: weblate/html/i18n.html:58
+msgid "English (United Kingdom)"
+msgstr "英语(英国)"
+
+#: weblate/html/i18n.html:59
+msgid "English (United States)"
+msgstr "英语(美国)"
+
+#: weblate/html/i18n.html:60
+msgid "Esperanto"
+msgstr "世界语"
+
+#: weblate/html/i18n.html:61
+msgid "Estonian"
+msgstr "爱沙尼亚语"
+
+#: weblate/html/i18n.html:62
+msgid "Faroese"
+msgstr "法罗语"
+
+#: weblate/html/i18n.html:63
+msgid "Filipino"
+msgstr "菲律宾语"
+
+#: weblate/html/i18n.html:64
+msgid "Finnish"
+msgstr "芬兰语"
+
+#: weblate/html/i18n.html:65
+msgid "French"
+msgstr "法语"
+
+#: weblate/html/i18n.html:66
+msgid "Frisian"
+msgstr "弗里西亚语"
+
+#: weblate/html/i18n.html:67
+msgid "Friulian"
+msgstr "弗留利语"
+
+#: weblate/html/i18n.html:68
+msgid "Fulah"
+msgstr ""
+
+#: weblate/html/i18n.html:69
+msgid "Gaelic"
+msgstr "盖尔语"
+
+#: weblate/html/i18n.html:70
+msgid "Galician"
+msgstr "加利西亚语"
+
+#: weblate/html/i18n.html:71
+msgid "Georgian"
+msgstr "格鲁吉亚语"
+
+#: weblate/html/i18n.html:72
+msgid "German"
+msgstr "德语"
+
+#: weblate/html/i18n.html:73
+msgid "Greek"
+msgstr "希腊语"
+
+#: weblate/html/i18n.html:74
+msgid "Gujarati"
+msgstr "古吉拉特语"
+
 #: weblate/html/i18n.html:75
+msgid "Gun"
+msgstr "丰语"
+
+#: weblate/html/i18n.html:76
+msgid "Hausa"
+msgstr "豪撒语"
+
+#: weblate/html/i18n.html:77
+msgid "Hebrew"
+msgstr "希伯来语"
+
+#: weblate/html/i18n.html:78
+msgid "Hindi"
+msgstr "印地语"
+
+#: weblate/html/i18n.html:79
+msgid "Hungarian"
+msgstr "匈牙利语"
+
+#: weblate/html/i18n.html:80
 msgid "Icelandic"
 msgstr "冰岛语"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:81
 msgid "Indonesian"
 msgstr "印尼语"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:82
 msgid "Interlingua"
 msgstr "国际语"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:83
 msgid "Irish"
 msgstr "爱尔兰语"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:84
 msgid "Italian"
 msgstr "意大利语"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:85
 msgid "Japanese"
 msgstr "日语"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:86
 msgid "Javanese"
 msgstr "爪哇语"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:87
 msgid "Kannada"
 msgstr "堪纳德语"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:88
 msgid "Kashubian"
 msgstr "卡舒比语"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:89
 msgid "Kazakh"
 msgstr "哈萨克语"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:90
 msgid "Kirghiz"
 msgstr "吉尔吉斯语"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:91
 msgid "Korean"
 msgstr "韩语"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:92
 msgid "Kurdish"
 msgstr "库尔德语"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:93
 msgid "Kurdish Sorani"
 msgstr "库尔德语 Sorani"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:94
 msgid "Lao"
 msgstr "老挝语"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:95
 msgid "Latvian"
 msgstr "拉脱维亚语"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:96
 msgid "Lingala"
 msgstr "林加拉语"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:97
 msgid "Lithuanian"
 msgstr "立陶宛语"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:98
 msgid "Luxembourgish"
 msgstr "卢森堡语"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:99
 msgid "Macedonian"
 msgstr "马其顿语"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:100
 msgid "Maithili"
 msgstr "米提里语"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:101
 msgid "Malagasy"
 msgstr "马尔加什语"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:102
 msgid "Malay"
 msgstr "马来语"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:103
 msgid "Malayalam"
 msgstr "马来亚拉姆语"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:104
 msgid "Maltese"
 msgstr "马尔他语"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:105
 msgid "Maori"
 msgstr "毛利语"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:106
 msgid "Mapudungun"
 msgstr "马普彻语"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:107
 msgid "Marathi"
 msgstr "马拉地语"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:108
 msgid "Mongolian"
 msgstr "蒙古语"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:109
 msgid "Morisyen"
 msgstr "毛里求斯语"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:110
 msgid "Nahuatl languages"
 msgstr "那瓦特语"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:111
 msgid "Neapolitan"
 msgstr "那不勒斯语"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:112
 msgid "Nepali"
 msgstr "尼泊尔语"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:113
 msgid "Norwegian Bokmål"
 msgstr "挪威博克马尔语"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:114
 msgid "Norwegian Nynorsk"
 msgstr "挪威尼诺斯克语"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:115
 msgid "Occitan"
 msgstr "奥克斯坦语"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:116
 msgid "Oriya"
 msgstr "奥里雅语"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:117
 msgid "Papiamento"
 msgstr "帕皮阿门托语"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:118
 msgid "Pedi"
 msgstr "佩地语"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:119
 msgid "Persian"
 msgstr "波斯语"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:120
 msgid "Piemontese"
 msgstr "皮埃蒙特语"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:121
 msgid "Polish"
 msgstr "波兰语"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:122
 msgid "Portuguese"
 msgstr "葡萄牙语"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:123
 msgid "Portuguese (Brazil)"
 msgstr "葡萄牙语(巴西)"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:124
 msgid "Portuguese (Portugal)"
 msgstr "葡萄牙语(葡萄牙)"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:125
 msgid "Punjabi"
 msgstr "旁遮普语"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:126
 msgid "Pushto"
 msgstr "普什图语"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:127
 msgid "Romanian"
 msgstr "罗马尼亚语"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:128
 msgid "Romansh"
 msgstr "罗曼斯语"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:129
 msgid "Russian"
 msgstr "俄语"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:130
 msgid "Scots"
 msgstr "苏格兰语"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:131
 msgid "Serbian"
 msgstr "塞尔维亚语"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:132
 msgid "Serbian (cyrillic)"
 msgstr "塞尔维亚语(西里尔)"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:133
 msgid "Serbian (latin)"
 msgstr "塞尔维亚语(拉丁)"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:134
+msgid "Simplified Chinese"
+msgstr ""
+
+#: weblate/html/i18n.html:135
 msgid "Sinhala"
 msgstr "僧伽罗语"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:136
 msgid "Slovak"
 msgstr "斯洛伐克语"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:137
 msgid "Slovenian"
 msgstr "斯洛文尼亚语"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:138
 msgid "Somali"
 msgstr "索马里语"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:139
 msgid "Songhai languages"
 msgstr "桑海语"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:140
 msgid "Sotho"
 msgstr "梭托语"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:141
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:142
 msgid "Sundanese"
 msgstr "巽他语"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:143
 msgid "Swahili"
 msgstr "斯瓦希里语"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:144
 msgid "Swedish"
 msgstr "瑞典语"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:145
 msgid "Tajik"
 msgstr "塔吉克语"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:146
 msgid "Tamil"
 msgstr "坦米儿语"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:147
 msgid "Tatar"
 msgstr "鞑靼语"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:148
 msgid "Telugu"
 msgstr "泰卢固语"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:149
 msgid "Thai"
 msgstr "泰语"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:150
 msgid "Tibetan"
 msgstr "藏语"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:151
 msgid "Tigrinya"
 msgstr "提格里尼亚语"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:152
+#, fuzzy
+#| msgid "dictionaries"
+msgid "Traditional Chinese"
+msgstr "词典"
+
+#: weblate/html/i18n.html:153
 msgid "Turkish"
 msgstr "土耳其语"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:154
 msgid "Turkmen"
 msgstr "土库曼语"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:155
 msgid "Uighur"
 msgstr "维吾尔语"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:156
 msgid "Ukrainian"
 msgstr "乌克兰语"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:157
 msgid "Urdu"
 msgstr "乌尔都语"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:158
 msgid "Uzbek"
 msgstr "乌兹别克语"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:159
 msgid "Uzbek (latin)"
 msgstr "乌兹别克语(拉丁)"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:160
 msgid "Vietnamese"
 msgstr "越南语"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:161
 msgid "Walloon"
 msgstr "瓦龙语"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:162
 msgid "Welsh"
 msgstr "威尔士语"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:163
+msgid "Yakut"
+msgstr ""
+
+#: weblate/html/i18n.html:164
 msgid "Yoruba"
 msgstr "约鲁巴语"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:165
 msgid "Zulu"
 msgstr "祖鲁语"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:168
 msgid "Translate using Apertium"
 msgstr "使用 Apertium 翻译"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:169
 msgid "Translate using Microsoft Translator"
 msgstr "使用 Microsoft Translator 翻译"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:170
 msgid "Translate using MyMemory"
 msgstr "使用 MyMemory 翻译"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:171
 msgid "Sort this column"
 msgstr "重新排列"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:172
 msgid "AJAX request to load this content has failed!"
 msgstr "AJAX 加载此内容的请求已经失败！"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:173
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:174
 msgid "Failed translation"
 msgstr "翻译失败"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:175
 msgid "The request for machine translation has failed."
 msgstr "机器翻译的请求已经失败。"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:176
 msgid "Error details:"
 msgstr "错误详情："
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:177
 msgid "Confirm resetting repository"
 msgstr "确认代码库重设"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:178
 msgid "Resetting the repository will throw away all local changes!"
 msgstr "重设代码库将丢失所有本地修改！"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:179
 msgid "Ok"
 msgstr "确定"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:180
 msgid "Cancel"
 msgstr "取消"
 
-#: weblate/html/i18n.html:175 weblate/html/list-translations.html:61
+#: weblate/html/i18n.html:183 weblate/html/list-translations.html:61
 msgid "Translated strings"
 msgstr "已翻译条目"
 
@@ -2497,7 +2517,7 @@ msgid "Most active suggesters"
 msgstr "最活跃的建议者"
 
 #: weblate/html/index.html:67 weblate/html/language.html:25
-#: weblate/html/project.html:46 weblate/html/subproject.html:37
+#: weblate/html/project.html:46 weblate/html/subproject.html:39
 #: weblate/html/translation.html:46 weblate/html/user.html:28
 msgid "Activity"
 msgstr ""
@@ -2655,12 +2675,12 @@ msgstr "子项目"
 msgid "Subproject"
 msgstr "子项目"
 
-#: weblate/html/project.html:43 weblate/html/subproject.html:33
+#: weblate/html/project.html:43 weblate/html/subproject.html:35
 #: weblate/html/translation.html:42
 msgid "Git maintenance"
 msgstr "Git 维护"
 
-#: weblate/html/project.html:45 weblate/html/subproject.html:35
+#: weblate/html/project.html:45 weblate/html/subproject.html:37
 #: weblate/html/translation.html:45
 msgid "Share"
 msgstr "分享"
@@ -2739,14 +2759,14 @@ msgstr "未找到匹配的源条目!"
 msgid "Strings to check"
 msgstr "要检查的条目"
 
-#: weblate/html/subproject.html:42
+#: weblate/html/subproject.html:45
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr "如果没有您的语言，请查阅<a href=\"%(url)s\">翻译说明</a>。"
 
-#: weblate/html/subproject.html:44
+#: weblate/html/subproject.html:47
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -2755,7 +2775,7 @@ msgstr ""
 "如果没有您的语言，请 <a href=\"%(contact_url)s?subject=New+language+request"
 "+for+%(object)s\">联系我们</a>。"
 
-#: weblate/html/subproject.html:59
+#: weblate/html/subproject.html:63
 msgid "Source strings review"
 msgstr "复查源条目"
 
