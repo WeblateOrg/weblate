@@ -4,9 +4,10 @@ As an open source project, Weblate welcomes contributions of many forms.
 
 Examples of contributions include:
 
-* Code patches
-* Documentation improvements
 * Bug reports and patch reviews
+* Code patches
+* Pull requests
+* Documentation improvements
 
 You can find more information on our website:
 
