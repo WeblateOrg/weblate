@@ -271,7 +271,7 @@ class Profile(models.Model):
             headers = {}
 
         # Check whether user is still allowed to access this project
-        if not translation_obj.has_acl(self):
+        if not translation_obj.has_acl(self.user):
             return
         # Actually send notification
         send_notification_email(
