@@ -494,6 +494,13 @@ correct values).
 * Checks were moved to submodules.
 * Locales were moved to top level directory.
 
+.. note::
+
+    If you have update in same directory, stale :file:`*.pyc` files might be
+    left around and cause various import errors. To recover from this, delete
+    all of them in Weblate's directory, for example by 
+    ``find . -name '*.pyc' - delete``.
+
 Migrating from Pootle
 ---------------------
 
