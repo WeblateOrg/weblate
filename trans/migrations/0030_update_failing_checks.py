@@ -20,21 +20,27 @@
 
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-
-        # Changing field 'SubProject.push'
-        db.alter_column('trans_subproject', 'push', self.gf('django.db.models.fields.CharField')(max_length=200, null=False))
+        '''
+        Update failing checks count for all translations.
+        '''
+        for translation in orm['trans.Translation'].objects.all():
+            translation.failing_checks = orm['trans.Check'].objects.filter(
+                project=translation.subproject.project,
+                language=translation.language,
+                ignore=False
+            ).count()
+            translation.save()
 
     def backwards(self, orm):
-
-        # Changing field 'SubProject.push'
-        db.alter_column('trans_subproject', 'push', self.gf('django.db.models.fields.CharField')(default='', max_length=200))
+        '''
+        There is nothing to migrate here.
+        '''
 
     models = {
         'auth.group': {
@@ -171,6 +177,7 @@ class Migration(SchemaMigration):
         'trans.translation': {
             'Meta': {'ordering': "['language__name']", 'object_name': 'Translation'},
             'enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'db_index': 'True'}),
+            'failing_checks': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'}),
             'filename': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'fuzzy': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -202,3 +209,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['trans']
+    symmetrical = True

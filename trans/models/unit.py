@@ -168,6 +168,8 @@ class UnitManager(models.Manager):
             return translation.fuzzy
         elif rqtype == 'untranslated':
             return translation.total - translation.translated
+        elif rqtype == 'allchecks':
+            return translation.failing_checks
 
         # Try to get value from cache
         cache_key = 'counts-%s-%s-%s' % (
@@ -793,6 +795,7 @@ class Unit(models.Model):
             # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
                 self.checks().delete()
+                self.translation.invalidate_cache()
                 return
 
             # If there is no consistency checking, we can return

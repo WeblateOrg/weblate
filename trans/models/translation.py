@@ -86,6 +86,7 @@ class Translation(models.Model):
     translated = models.IntegerField(default=0, db_index=True)
     fuzzy = models.IntegerField(default=0, db_index=True)
     total = models.IntegerField(default=0, db_index=True)
+    failing_checks = models.IntegerField(default=0, db_index=True)
 
     enabled = models.BooleanField(default=True, db_index=True)
 
@@ -534,6 +535,10 @@ class Translation(models.Model):
         # Update revision and stats
         self.update_stats()
 
+        # Cleanup checks cache if there were some deleted units
+        if len(deleted_checksums) > 0:
+            self.invalidate_cache()
+
         # Store change entry
         if request is None:
             user = None
@@ -591,6 +596,9 @@ class Translation(models.Model):
         self.total = self.unit_set.count()
         self.fuzzy = self.unit_set.filter(fuzzy=True).count()
         self.translated = self.unit_set.filter(translated=True).count()
+        self.failing_checks = self.filter_checks(
+            'allchecks', translation
+        ).count()
         self.save()
         self.store_hash()
 

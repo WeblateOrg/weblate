@@ -27,14 +27,16 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding field 'Translation.failing_checks'
+        db.add_column('trans_translation', 'failing_checks',
+                      self.gf('django.db.models.fields.IntegerField')(default=0, db_index=True),
+                      keep_default=False)
 
-        # Changing field 'SubProject.push'
-        db.alter_column('trans_subproject', 'push', self.gf('django.db.models.fields.CharField')(max_length=200, null=False))
 
     def backwards(self, orm):
+        # Deleting field 'Translation.failing_checks'
+        db.delete_column('trans_translation', 'failing_checks')
 
-        # Changing field 'SubProject.push'
-        db.alter_column('trans_subproject', 'push', self.gf('django.db.models.fields.CharField')(default='', max_length=200))
 
     models = {
         'auth.group': {
@@ -171,6 +173,7 @@ class Migration(SchemaMigration):
         'trans.translation': {
             'Meta': {'ordering': "['language__name']", 'object_name': 'Translation'},
             'enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'db_index': 'True'}),
+            'failing_checks': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'}),
             'filename': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'fuzzy': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
