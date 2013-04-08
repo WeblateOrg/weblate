@@ -347,26 +347,11 @@ class Translation(models.Model, URLMixin):
         return False
 
     @models.permalink
-    def get_download_url(self):
-        return ('download_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
     def get_translate_url(self):
         return ('translate', (), {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_source_review_url(self):
-        return ('review_source', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
         })
 
     def __unicode__(self):
