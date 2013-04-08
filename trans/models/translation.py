@@ -721,7 +721,7 @@ class Translation(models.Model, URLMixin):
         files = [self.filename]
         if self.subproject.extra_commit_file != '':
             files.append(self.subproject.extra_commit_file % {
-                'lang': self.language_code,
+                'language': self.language_code,
             })
 
         # Do actual commit

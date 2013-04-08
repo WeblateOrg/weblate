@@ -37,7 +37,7 @@ def validate_extra_file(val):
     Validates extra file to commit.
     '''
     try:
-        val % {'lang': 'cs'}
+        val % {'language': 'cs'}
     except Exception as e:
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
