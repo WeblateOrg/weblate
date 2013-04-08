@@ -164,6 +164,7 @@ class SubProject(models.Model):
         self._git_repo = None
         self._file_format = None
         self._template_store = None
+        self._percents = None
 
     def has_acl(self, user):
         '''
@@ -836,53 +837,39 @@ class SubProject(models.Model):
         if changed_git:
             self.create_translations()
 
+    def _get_percents(self):
+        '''
+        Returns percentages of translation status.
+        '''
+        # Use cache if available
+        if self._percents is not None:
+            return self._percents
+
+        # Get prercents
+        result = self.translation_set.get_percents()
+
+        # Update cache
+        self._percents = result
+
+        return result
+
     def get_translated_percent(self):
         '''
         Returns percent of translated strings.
         '''
-        translations = self.translation_set.aggregate(
-            Sum('translated'), Sum('total')
-        )
-
-        total = translations['total__sum']
-        translated = translations['translated__sum']
-
-        if total == 0:
-            return 0
-
-        return round(translated * 100.0 / total, 1)
+        return self._get_percents()[0]
 
     def get_fuzzy_percent(self):
         '''
         Returns percent of fuzzy strings.
         '''
-        translations = self.translation_set.aggregate(
-            Sum('fuzzy'), Sum('total')
-        )
-
-        total = translations['total__sum']
-        fuzzy = translations['fuzzy__sum']
-
-        if total == 0:
-            return 0
-
-        return round(fuzzy * 100.0 / total, 1)
+        return self._get_percents()[1]
 
     def get_failing_checks_percent(self):
         '''
         Returns percentage of failed checks.
         '''
-        translations = self.translation_set.aggregate(
-            Sum('failing_checks'), Sum('total')
-        )
-
-        total = translations['total__sum']
-        failing_checks = translations['failing_checks__sum']
-
-        if total == 0:
-            return 0
-
-        return round(failing_checks * 100.0 / total, 1)
+        return self._get_percents()[2]
 
     def git_needs_commit(self):
         '''
