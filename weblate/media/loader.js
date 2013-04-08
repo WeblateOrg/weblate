@@ -209,10 +209,10 @@ function load_table_sorting() {
 function load_progress() {
     $('div.progress').each(function f(i, e) {
         var $e = $(e);
-        var good = parseFloat($e.attr('value'));
+        var good = parseFloat($e.data('value'));
         var checks = -1;
-        if ($e.attr('checks')) {
-            checks = parseFloat($e.attr('checks'));
+        if ($e.data('checks')) {
+            checks = parseFloat($e.data('checks'));
             good = good - checks;
         }
         var parts = [{
@@ -225,9 +225,9 @@ function load_progress() {
                 barClass: 'checks'
             });
         }
-        if ($e.attr('fuzzy')) {
+        if ($e.data('fuzzy')) {
             parts.push({
-                value: parseFloat($e.attr('fuzzy')),
+                value: parseFloat($e.data('fuzzy')),
                 barClass: 'fuzzy'
             });
         }

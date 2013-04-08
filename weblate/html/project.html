@@ -25,7 +25,7 @@
 {% with prj.get_translated_percent as percent %}
 <tr>
 <th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
-<td><div class="progress" value="{{ percent|floatformat:0 }}"></div></td>
+<td><div class="progress" data-value="{{ percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ percent }}%</td>
 </tr>
 {% endwith %}
