@@ -21,7 +21,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from weblate import appsettings
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
@@ -75,6 +75,43 @@ class TranslationManager(models.Manager):
         if not filtered:
             return self.all()
         return self.filter(subproject__project__in=projects)
+
+    def get_percents(self, project=None, subproject=None, language=None):
+        '''
+        Returns tuple consting of status percents -
+        (translated, fuzzy, failing checks)
+        '''
+        # Filter translations
+        translations = self
+        if project is not None:
+            translations = translations.filter(subproject__project=project)
+        if subproject is not None:
+            translations = translations.filter(subproject=subproject)
+        if language is not None:
+            translations = translations.filter(language=language)
+
+        # Aggregate
+        translations = translations.aggregate(
+            Sum('translated'),
+            Sum('fuzzy'),
+            Sum('failing_checks'),
+            Sum('total'),
+        )
+
+        total = translations['total__sum']
+
+        if total == 0 or total is None:
+            # Catch no translations (division by zero)
+            return (0, 0 ,0)
+
+        # Fetch values
+        result = [
+            translations['translated__sum'],
+            translations['fuzzy__sum'],
+            translations['failing_checks__sum'],
+        ]
+        # Calculate percent
+        return tuple([round(value * 100.0 / total, 1) for value in result])
 
 
 class Translation(models.Model):

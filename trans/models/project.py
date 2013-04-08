@@ -20,7 +20,6 @@
 
 from django.db import models
 from weblate import appsettings
-from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
@@ -154,6 +153,13 @@ class Project(models.Model):
         ordering = ['name']
         app_label = 'trans'
 
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Project, self).__init__(*args, **kwargs)
+        self._percents = None
+
     def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
@@ -282,53 +288,43 @@ class Project(models.Model):
                     content_type=content_type
                 )
 
-    def get_translated_percent(self, lang=None):
+    def _get_percents(self, lang=None):
+        '''
+        Returns percentages of translation status.
+        '''
+        # Use cache if no filtering
+        if lang is None and self._percents is not None:
+            return self._percents
+
+        # Import translations
         from trans.models.translation import Translation
-        # Filter all translations
-        translations = Translation.objects.filter(subproject__project=self)
-        # Filter by language
-        if lang is not None:
-            translations = translations.filter(language=lang)
-        # Aggregate
-        translations = translations.aggregate(Sum('translated'), Sum('total'))
-        total = translations['total__sum']
-        translated = translations['translated__sum']
-        # Catch no translations
-        if total == 0 or total is None:
-            return 0
-        # Return percent
-        return round(translated * 100.0 / total, 1)
+
+        # Get prercents
+        result = Translation.objects.get_percents(project=self, language=lang)
+
+        # Update cache
+        if lang is None:
+            self._percents = result
+
+        return result
+
+    def get_translated_percent(self, lang=None):
+        '''
+        Returns percent of translated strings.
+        '''
+        return self._get_percents(lang)[0]
 
     def get_fuzzy_percent(self):
-        from trans.models.translation import Translation
-        # Filter all translations
-        translations = Translation.objects.filter(subproject__project=self)
-        # Aggregate
-        translations = translations.aggregate(Sum('fuzzy'), Sum('total'))
-        total = translations['total__sum']
-        fuzzy = translations['fuzzy__sum']
-        # Catch no translations
-        if total == 0 or total is None:
-            return 0
-        # Return percent
-        return round(fuzzy * 100.0 / total, 1)
+        '''
+        Returns percent of fuzzy strings.
+        '''
+        return self._get_percents()[1]
 
     def get_failing_checks_percent(self):
         '''
         Returns percentage of failed checks.
         '''
-        from trans.models.translation import Translation
-        # Filter all translations
-        translations = Translation.objects.filter(subproject__project=self)
-        # Aggregate
-        translations = translations.aggregate(Sum('failing_checks'), Sum('total'))
-        total = translations['total__sum']
-        failing_checks = translations['failing_checks__sum']
-        # Catch no translations
-        if total == 0 or total is None:
-            return 0
-        # Return percent
-        return round(failing_checks * 100.0 / total, 1)
+        return self._get_percents()[2]
 
     def get_total(self):
         '''
