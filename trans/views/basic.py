@@ -82,7 +82,7 @@ def home(request):
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
     last_changes = Change.objects.filter(
         translation__subproject__project__in=acl_projects,
-    ).order_by('-timestamp')[:10].select_related()
+    ).order_by('-timestamp')[:10]
 
     return render_to_response('index.html', RequestContext(request, {
         'projects': projects,
@@ -105,7 +105,7 @@ def show_language(request, lang):
     obj = get_object_or_404(Language, code=lang)
     last_changes = Change.objects.filter(
         translation__language=obj
-    ).order_by('-timestamp')[:10].select_related()
+    ).order_by('-timestamp')[:10]
     dicts = Dictionary.objects.filter(
         language=obj
     ).values_list('project', flat=True).distinct()
@@ -172,7 +172,7 @@ def show_project(request, project):
 
     last_changes = Change.objects.filter(
         translation__subproject__project=obj
-    ).order_by('-timestamp')[:10].select_related()
+    ).order_by('-timestamp')[:10]
 
     return render_to_response('project.html', RequestContext(request, {
         'object': obj,
@@ -190,7 +190,7 @@ def show_subproject(request, project, subproject):
 
     last_changes = Change.objects.filter(
         translation__subproject=obj
-    ).order_by('-timestamp')[:10].select_related()
+    ).order_by('-timestamp')[:10]
 
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
@@ -265,7 +265,7 @@ def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
     last_changes = Change.objects.filter(
         translation=obj
-    ).order_by('-timestamp')[:10].select_related()
+    ).order_by('-timestamp')[:10]
 
     # Check locks
     obj.is_locked(request)
