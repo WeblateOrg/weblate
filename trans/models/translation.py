@@ -1135,7 +1135,7 @@ class Translation(models.Model, URLMixin):
 
         # Are we asked for specific cache key?
         if cache_type is None:
-            keys = ['allchecks'] + list(CHECKS)
+            keys = list(CHECKS)
         else:
             keys = [cache_type]
 
