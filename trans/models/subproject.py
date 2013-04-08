@@ -852,6 +852,38 @@ class SubProject(models.Model):
 
         return round(translated * 100.0 / total, 1)
 
+    def get_fuzzy_percent(self):
+        '''
+        Returns percent of fuzzy strings.
+        '''
+        translations = self.translation_set.aggregate(
+            Sum('fuzzy'), Sum('total')
+        )
+
+        total = translations['total__sum']
+        fuzzy = translations['fuzzy__sum']
+
+        if total == 0:
+            return 0
+
+        return round(fuzzy * 100.0 / total, 1)
+
+    def get_failing_checks_percent(self):
+        '''
+        Returns percentage of failed checks.
+        '''
+        translations = self.translation_set.aggregate(
+            Sum('failing_checks'), Sum('total')
+        )
+
+        total = translations['total__sum']
+        failing_checks = translations['failing_checks__sum']
+
+        if total == 0:
+            return 0
+
+        return round(failing_checks * 100.0 / total, 1)
+
     def git_needs_commit(self):
         '''
         Checks whether there are some not commited changes.

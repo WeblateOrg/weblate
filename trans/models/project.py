@@ -299,6 +299,37 @@ class Project(models.Model):
         # Return percent
         return round(translated * 100.0 / total, 1)
 
+    def get_fuzzy_percent(self):
+        from trans.models.translation import Translation
+        # Filter all translations
+        translations = Translation.objects.filter(subproject__project=self)
+        # Aggregate
+        translations = translations.aggregate(Sum('fuzzy'), Sum('total'))
+        total = translations['total__sum']
+        fuzzy = translations['fuzzy__sum']
+        # Catch no translations
+        if total == 0 or total is None:
+            return 0
+        # Return percent
+        return round(fuzzy * 100.0 / total, 1)
+
+    def get_failing_checks_percent(self):
+        '''
+        Returns percentage of failed checks.
+        '''
+        from trans.models.translation import Translation
+        # Filter all translations
+        translations = Translation.objects.filter(subproject__project=self)
+        # Aggregate
+        translations = translations.aggregate(Sum('failing_checks'), Sum('total'))
+        total = translations['total__sum']
+        failing_checks = translations['failing_checks__sum']
+        # Catch no translations
+        if total == 0 or total is None:
+            return 0
+        # Return percent
+        return round(failing_checks * 100.0 / total, 1)
+
     def get_total(self):
         '''
         Calculates total number of strings to translate. This is done based on
