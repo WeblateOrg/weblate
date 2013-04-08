@@ -110,7 +110,8 @@ def translate(request, project, subproject, lang):
                         )
                     # Create the suggestion
                     unit.add_suggestion(
-                        join_plural(form.cleaned_data['target'])
+                        join_plural(form.cleaned_data['target']),
+                        user
                     )
                     # Invite user to become translator if there is nobody else
                     recent_changes = Change.objects.content().filter(

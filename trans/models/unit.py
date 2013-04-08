@@ -879,10 +879,12 @@ class Unit(models.Model):
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         )
 
-    def add_suggestion(self, target):
+    def add_suggestion(self, target, user):
         '''
         Creates new suggestion for this unit.
         '''
+        from trans.models.unitdata import Suggestion, Change
+
         # Create the suggestion
         Suggestion.objects.create(
             target=target,
@@ -893,9 +895,9 @@ class Unit(models.Model):
         )
         # Record in change
         Change.objects.create(
-            unit=unit,
+            unit=self,
             action=Change.ACTION_SUGGESTION,
-            translation=unit.translation,
+            translation=self.translation,
             user=user
         )
         # Update suggestion count
