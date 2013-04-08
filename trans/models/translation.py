@@ -1060,9 +1060,12 @@ class Translation(models.Model):
                 user=request.user
             )
 
-        # Invalidate cache if we've added something
+            # Increase suggestion counter
+            self.have_suggestion += 1
+
+        # Save updated suggestion count
         if ret:
-            self.invalidate_cache('suggestions')
+            self.save()
 
         return ret
 
