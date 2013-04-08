@@ -30,10 +30,15 @@ class Migration(DataMigration):
         Update failing checks count for all translations.
         '''
         for translation in orm['trans.Translation'].objects.all():
-            translation.failing_checks = orm['trans.Check'].objects.filter(
+            checks = orm['trans.Check'].objects.filter(
                 project=translation.subproject.project,
                 language=translation.language,
                 ignore=False
+            )
+            checks = checks.values_list('checksum', flat=True)
+            translation.failing_checks = orm['trans.Unit'].objects.filter(
+                checksum__in=checks,
+                translation=translation
             ).count()
             translation.save()
 
