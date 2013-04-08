@@ -1124,7 +1124,9 @@ class Translation(models.Model):
 
         By default for all checks or check type can be specified.
         '''
-        return self.failing_checks
+        if check == 'allchecks':
+            return self.failing_checks
+        return self.unit_set.count_type(check, self)
 
     def get_failing_checks_percent(self, check='allchecks'):
         '''
@@ -1132,7 +1134,7 @@ class Translation(models.Model):
         '''
         if self.total == 0:
             return 0
-        return round(self.failing_checks * 100.0 / self.total, 1)
+        return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
 
     def invalidate_cache(self, cache_type=None):
         '''
