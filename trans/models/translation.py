@@ -600,7 +600,7 @@ class Translation(models.Model):
         self.failing_checks = self.unit_set.filter_checks(
             'allchecks', self
         ).count()
-        self.have_suggestion = self.unit_set.filter_checks(
+        self.have_suggestion = self.unit_set.filter_type(
             'suggestions', self
         ).count()
         self.save()
