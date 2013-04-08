@@ -40,6 +40,7 @@ from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
+from trans.models.mixins import URLMixin
 
 
 class TranslationManager(models.Manager):
@@ -114,7 +115,7 @@ class TranslationManager(models.Manager):
         return tuple([round(value * 100.0 / total, 1) for value in result])
 
 
-class Translation(models.Model):
+class Translation(models.Model, URLMixin):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -312,13 +313,21 @@ class Translation(models.Model):
     def get_non_translated(self):
         return self.total - self.translated
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('translation', (), {
+    def _reverse_url_name(self):
+        '''
+        Returns base name for URL reversing.
+        '''
+        return 'translation'
+
+    def _reverse_url_kwargs(self):
+        '''
+        Returns kwargs for URL reversing.
+        '''
+        return {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
-        })
+        }
 
     def get_share_url(self):
         '''
@@ -334,56 +343,8 @@ class Translation(models.Model):
             )
         )
 
-    @models.permalink
-    def get_commit_url(self):
-        return ('commit_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_update_url(self):
-        return ('update_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_push_url(self):
-        return ('push_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_reset_url(self):
-        return ('reset_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
     def is_git_lockable(self):
         return False
-
-    @models.permalink
-    def get_lock_url(self):
-        return ('lock_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_unlock_url(self):
-        return ('unlock_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
 
     @models.permalink
     def get_download_url(self):

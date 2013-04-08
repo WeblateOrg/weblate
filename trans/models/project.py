@@ -30,7 +30,7 @@ import os
 import os.path
 from lang.models import Language
 from trans.validators import validate_commit_message
-from trans.models.mixins import PercentMixin
+from trans.models.mixins import PercentMixin, URLMixin
 from trans.util import get_site_url
 
 
@@ -72,7 +72,7 @@ class ProjectManager(models.Manager):
         return self.filter(id__in=project_ids), True
 
 
-class Project(models.Model, PercentMixin):
+class Project(models.Model, PercentMixin, URLMixin):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(db_index=True, unique=True)
     web = models.URLField(
@@ -190,11 +190,19 @@ class Project(models.Model, PercentMixin):
                 'or use different option for adding new language.'
             ))
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('project', (), {
+    def _reverse_url_name(self):
+        '''
+        Returns base name for URL reversing.
+        '''
+        return 'project'
+
+    def _reverse_url_kwargs(self):
+        '''
+        Returns kwargs for URL reversing.
+        '''
+        return {
             'project': self.slug
-        })
+        }
 
     def get_share_url(self):
         '''
@@ -204,30 +212,6 @@ class Project(models.Model, PercentMixin):
             reverse('engage', kwargs={'project': self.slug})
         )
 
-    @models.permalink
-    def get_commit_url(self):
-        return ('commit_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_update_url(self):
-        return ('update_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_push_url(self):
-        return ('push_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_reset_url(self):
-        return ('reset_project', (), {
-            'project': self.slug
-        })
-
     def is_git_lockable(self):
         return True
 
@@ -235,18 +219,6 @@ class Project(models.Model, PercentMixin):
         return max(
             [subproject.locked for subproject in self.subproject_set.all()]
         )
-
-    @models.permalink
-    def get_lock_url(self):
-        return ('lock_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_unlock_url(self):
-        return ('unlock_project', (), {
-            'project': self.slug
-        })
 
     def get_path(self):
         return os.path.join(appsettings.GIT_ROOT, self.slug)

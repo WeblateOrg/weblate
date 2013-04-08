@@ -32,7 +32,7 @@ import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
-from trans.models.mixins import PercentMixin
+from trans.models.mixins import PercentMixin, URLMixin
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
@@ -60,7 +60,7 @@ class SubProjectManager(models.Manager):
         return self.get(slug=subproject, project__slug=project)
 
 
-class SubProject(models.Model, PercentMixin):
+class SubProject(models.Model, PercentMixin, URLMixin):
     name = models.CharField(
         max_length=100,
         help_text=ugettext_lazy('Name to display')
@@ -180,12 +180,20 @@ class SubProject(models.Model, PercentMixin):
         '''
         self.project.check_acl(request)
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('subproject', (), {
+    def _reverse_url_name(self):
+        '''
+        Returns base name for URL reversing.
+        '''
+        return 'subproject'
+
+    def _reverse_url_kwargs(self):
+        '''
+        Returns kwargs for URL reversing.
+        '''
+        return {
             'project': self.project.slug,
             'subproject': self.slug
-        })
+        }
 
     def get_share_url(self):
         '''
@@ -195,53 +203,11 @@ class SubProject(models.Model, PercentMixin):
             reverse('engage', kwargs={'project': self.project.slug})
         )
 
-    @models.permalink
-    def get_commit_url(self):
-        return ('commit_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_update_url(self):
-        return ('update_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_push_url(self):
-        return ('push_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_reset_url(self):
-        return ('reset_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
     def is_git_lockable(self):
         return True
 
     def is_git_locked(self):
         return self.locked
-
-    @models.permalink
-    def get_lock_url(self):
-        return ('lock_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_unlock_url(self):
-        return ('unlock_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
 
     def __unicode__(self):
         return '%s/%s' % (self.project.__unicode__(), self.name)
