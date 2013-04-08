@@ -878,3 +878,26 @@ class Unit(models.Model):
             position__gte=self.position - appsettings.NEARBY_MESSAGES,
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         )
+
+    def add_suggestion(self, target):
+        '''
+        Creates new suggestion for this unit.
+        '''
+        # Create the suggestion
+        Suggestion.objects.create(
+            target=target,
+            checksum=self.checksum,
+            language=self.translation.language,
+            project=self.translation.subproject.project,
+            user=user
+        )
+        # Record in change
+        Change.objects.create(
+            unit=unit,
+            action=Change.ACTION_SUGGESTION,
+            translation=unit.translation,
+            user=user
+        )
+        # Update suggestion count
+        self.translation.have_suggestion += 1
+        self.translation.save()

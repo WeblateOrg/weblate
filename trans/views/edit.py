@@ -109,22 +109,9 @@ def translate(request, project, subproject, lang):
                             )
                         )
                     # Create the suggestion
-                    sug = Suggestion.objects.create(
-                        target=join_plural(form.cleaned_data['target']),
-                        checksum=unit.checksum,
-                        language=unit.translation.language,
-                        project=unit.translation.subproject.project,
-                        user=user
+                    unit.add_suggestion(
+                        join_plural(form.cleaned_data['target'])
                     )
-                    # Record in change
-                    Change.objects.create(
-                        unit=unit,
-                        action=Change.ACTION_SUGGESTION,
-                        translation=unit.translation,
-                        user=user
-                    )
-                    # Invalidate counts cache
-                    unit.translation.invalidate_cache('suggestions')
                     # Invite user to become translator if there is nobody else
                     recent_changes = Change.objects.content().filter(
                         translation=unit.translation,
