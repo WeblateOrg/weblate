@@ -65,7 +65,7 @@ class TranslationManager(models.Manager):
         '''
         Filters enabled translations.
         '''
-        return self.filter(enabled=True)
+        return self.filter(enabled=True).select_related()
 
     def all_acl(self, user):
         '''
