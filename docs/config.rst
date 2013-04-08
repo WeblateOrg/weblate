@@ -65,6 +65,19 @@ CHECK_LIST
 
 List of quality checks to perform on translation.
 
+Some of the checks are not useful for all projects, so you are welcome to
+adjust list of performed on your installation.
+
+For example you can enable only few of them:
+
+.. code-block:: python
+
+    CHECK_LIST = (
+        'trans.checks.same.SameCheck',
+        'trans.checks.format.CFormatCheck',
+        'trans.checks.chars.ZeroWidthSpaceCheck',
+    )
+
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
 
 .. setting:: ENABLE_HOOKS
