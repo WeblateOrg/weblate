@@ -28,7 +28,7 @@ from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-import os.path
+import os
 import git
 from translate.storage import poheader
 from datetime import datetime, timedelta
@@ -716,6 +716,16 @@ class Translation(models.Model, URLMixin):
 
         # Format commit message
         msg = self.get_commit_message()
+
+        # Pre commit hook
+        if self.subproject.pre_commit_script != '':
+            ret = os.system(self.subproject.pre_commit_script)
+            if ret != 0:
+                weblate.logger.error(
+                    'Failed to run pre commit script (%d): %s',
+                    ret,
+                    self.subproject.pre_commit_script
+                )
 
         # Create list of files to commit
         files = [self.filename]
