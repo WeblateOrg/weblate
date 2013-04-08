@@ -29,9 +29,8 @@ from django.contrib.contenttypes.models import ContentType
 import os
 import os.path
 from lang.models import Language
-from trans.validators import (
-    validate_commit_message,
-)
+from trans.validators import validate_commit_message
+from trans.models.mixins import PercentMixin
 from trans.util import get_site_url
 
 
@@ -73,7 +72,7 @@ class ProjectManager(models.Manager):
         return self.filter(id__in=project_ids), True
 
 
-class Project(models.Model):
+class Project(models.Model, PercentMixin):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(db_index=True, unique=True)
     web = models.URLField(
@@ -313,18 +312,6 @@ class Project(models.Model):
         Returns percent of translated strings.
         '''
         return self._get_percents(lang)[0]
-
-    def get_fuzzy_percent(self):
-        '''
-        Returns percent of fuzzy strings.
-        '''
-        return self._get_percents()[1]
-
-    def get_failing_checks_percent(self):
-        '''
-        Returns percentage of failed checks.
-        '''
-        return self._get_percents()[2]
 
     def get_total(self):
         '''

@@ -20,9 +20,9 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _, pgettext_lazy
-from django.db.models import Sum
 from translate.lang.data import languages
 from lang import data
+from trans.models.mixins import PercentMixin
 
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
@@ -311,7 +311,7 @@ PLURAL_NAMES = {
 }
 
 
-class Language(models.Model):
+class Language(models.Model, PercentMixin):
     PLURAL_CHOICES = (
         (PLURAL_NONE, 'None'),
         (PLURAL_ONE_OTHER, 'One/other (classic plural)'),
@@ -402,24 +402,6 @@ class Language(models.Model):
         self._percents = result
 
         return result
-
-    def get_translated_percent(self):
-        '''
-        Returns percent of translated strings.
-        '''
-        return self._get_percents()[0]
-
-    def get_fuzzy_percent(self):
-        '''
-        Returns percent of fuzzy strings.
-        '''
-        return self._get_percents()[1]
-
-    def get_failing_checks_percent(self):
-        '''
-        Returns percentage of failed checks.
-        '''
-        return self._get_percents()[2]
 
     def get_html(self):
         '''

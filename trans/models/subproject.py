@@ -32,6 +32,7 @@ import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
+from trans.models.mixins import PercentMixin
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
@@ -59,7 +60,7 @@ class SubProjectManager(models.Manager):
         return self.get(slug=subproject, project__slug=project)
 
 
-class SubProject(models.Model):
+class SubProject(models.Model, PercentMixin):
     name = models.CharField(
         max_length=100,
         help_text=ugettext_lazy('Name to display')
@@ -852,24 +853,6 @@ class SubProject(models.Model):
         self._percents = result
 
         return result
-
-    def get_translated_percent(self):
-        '''
-        Returns percent of translated strings.
-        '''
-        return self._get_percents()[0]
-
-    def get_fuzzy_percent(self):
-        '''
-        Returns percent of fuzzy strings.
-        '''
-        return self._get_percents()[1]
-
-    def get_failing_checks_percent(self):
-        '''
-        Returns percentage of failed checks.
-        '''
-        return self._get_percents()[2]
 
     def git_needs_commit(self):
         '''

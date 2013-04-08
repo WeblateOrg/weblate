@@ -100,9 +100,9 @@ class TranslationManager(models.Manager):
 
         total = translations['total__sum']
 
+        # Catch no translations (division by zero)
         if total == 0 or total is None:
-            # Catch no translations (division by zero)
-            return (0, 0 ,0)
+            return (0, 0, 0)
 
         # Fetch values
         result = [
