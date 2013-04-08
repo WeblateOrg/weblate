@@ -719,7 +719,10 @@ class Translation(models.Model, URLMixin):
 
         # Pre commit hook
         if self.subproject.pre_commit_script != '':
-            ret = os.system(self.subproject.pre_commit_script)
+            ret = os.system('%s "%s"' % (
+                self.subproject.pre_commit_script,
+                self.get_filename()
+            ))
             if ret != 0:
                 weblate.logger.error(
                     'Failed to run pre commit script (%d): %s',
