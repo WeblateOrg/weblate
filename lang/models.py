@@ -398,6 +398,48 @@ class Language(models.Model):
             return 0
         return round(translated * 100.0 / total, 1)
 
+    def get_fuzzy_percent(self):
+        '''
+        Returns status of translations in this language.
+        '''
+        from trans.models import Translation
+
+        translations = Translation.objects.filter(
+            language=self
+        ).aggregate(
+            Sum('fuzzy'),
+            Sum('total')
+        )
+
+        fuzzy = translations['fuzzy__sum']
+        total = translations['total__sum']
+
+        # Prevent division by zero on no translations
+        if total == 0:
+            return 0
+        return round(fuzzy * 100.0 / total, 1)
+
+    def get_failing_checks_percent(self):
+        '''
+        Returns status of translations in this language.
+        '''
+        from trans.models import Translation
+
+        translations = Translation.objects.filter(
+            language=self
+        ).aggregate(
+            Sum('failing_checks'),
+            Sum('total')
+        )
+
+        failing_checks = translations['failing_checks__sum']
+        total = translations['total__sum']
+
+        # Prevent division by zero on no translations
+        if total == 0:
+            return 0
+        return round(failing_checks * 100.0 / total, 1)
+
     def get_html(self):
         '''
         Returns html attributes for markup in this language, includes
