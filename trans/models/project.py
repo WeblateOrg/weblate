@@ -259,6 +259,9 @@ class Project(models.Model, PercentMixin, URLMixin):
                     content_type=content_type
                 )
 
+    # Arguments number differs from overridden method
+    # pylint: disable=W0221
+
     def _get_percents(self, lang=None):
         '''
         Returns percentages of translation status.
@@ -278,6 +281,9 @@ class Project(models.Model, PercentMixin, URLMixin):
             self._percents = result
 
         return result
+
+    # Arguments number differs from overridden method
+    # pylint: disable=W0221
 
     def get_translated_percent(self, lang=None):
         '''
