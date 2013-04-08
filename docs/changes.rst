@@ -15,6 +15,9 @@ Released on ? 2013.
 * Compatible with Django 1.5.
 * Avatars are now shown using libravatar.
 * Added possibility to pretty print JSON export.
+* Various performance improvements.
+* Indicate failing checks or fuzzy strings in progress bars for projects or languages as well.
+* Added support for custom pre-commit hooks and commiting additional files.
 
 weblate 1.4
 -----------
