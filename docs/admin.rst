@@ -243,7 +243,14 @@ place to achieve this.
 
 Before using any scripts, you need to list them in
 :setting:`PRE_COMMIT_SCRIPTS` configuration variable. Then you can enable them
-at :ref:`subproject` configuration.
+at :ref:`subproject` configuration as :guilabel:`Pre commit script`.
+
+The script can also generate additional file to be included in the commit. This
+can be configured as :guilabel:`Extra commit file` at :ref:`subproject`
+configuration. You can use following format strings in the filename:
+
+``%(language)s``
+    Language code
 
 
 User registration
