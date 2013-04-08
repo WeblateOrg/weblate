@@ -212,6 +212,24 @@ This is recommended setup for production use.
 
 .. seealso:: :ref:`fulltext`
 
+.. setting:: PRE_COMMIT_SCRIPTS
+
+PRE_COMMIT_SCRIPTS
+------------------
+
+List of scripts which are allowed as pre commit scripts. The script needs to be
+later enabled in subproject configuration.
+
+For example you can allow script which does some cleanup:
+
+.. code-block:: python
+
+    PRE_COMMIT_SCRIPTS = (
+        '/usr/local/bin/cleanup-translation',
+    )
+
+.. seealso:: :ref:`processing`
+
 .. setting:: REGISTRATION_OPEN
 
 REGISTRATION_OPEN
