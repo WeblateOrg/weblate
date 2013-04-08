@@ -86,6 +86,7 @@ class Translation(models.Model):
     translated = models.IntegerField(default=0, db_index=True)
     fuzzy = models.IntegerField(default=0, db_index=True)
     total = models.IntegerField(default=0, db_index=True)
+    failing_checks = models.IntegerField(default=0, db_index=True)
 
     enabled = models.BooleanField(default=True, db_index=True)
 
