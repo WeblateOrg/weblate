@@ -535,6 +535,10 @@ class Translation(models.Model):
         # Update revision and stats
         self.update_stats()
 
+        # Cleanup checks cache if there were some deleted units
+        if len(deleted_checksums) > 0:
+            self.invalidate_cache()
+
         # Store change entry
         if request is None:
             user = None
