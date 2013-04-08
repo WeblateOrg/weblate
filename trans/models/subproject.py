@@ -148,7 +148,8 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         blank=True,
         choices=SCRIPT_CHOICES,
         help_text=ugettext_lazy(
-            'Script to be executed before commiting translation.'
+            'Script to be executed before commiting translation, '
+            'please check documentation for more details.'
         ),
     )
 
