@@ -170,6 +170,8 @@ class UnitManager(models.Manager):
             return translation.total - translation.translated
         elif rqtype == 'allchecks':
             return translation.failing_checks
+        elif rqtype == 'suggestions':
+            return translation.have_suggestion
 
         # Try to get value from cache
         cache_key = 'counts-%s-%s-%s' % (

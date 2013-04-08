@@ -600,6 +600,9 @@ class Translation(models.Model):
         self.failing_checks = self.unit_set.filter_checks(
             'allchecks', self
         ).count()
+        self.have_suggestion = self.unit_set.filter_checks(
+            'suggestions', self
+        ).count()
         self.save()
         self.store_hash()
 
@@ -943,11 +946,10 @@ class Translation(models.Model):
             ))
 
         # Translations with suggestions
-        suggestions = self.unit_set.count_type('suggestions', self)
-        if suggestions > 0:
+        if self.have_suggestion > 0:
             result.append((
                 'suggestions',
-                _('Strings with suggestions (%d)') % suggestions
+                _('Strings with suggestions (%d)') % self.have_suggestion
             ))
 
         # All checks
@@ -1117,7 +1119,7 @@ class Translation(models.Model):
         '''
         Returns number of units with suggestions.
         '''
-        return self.unit_set.count_type('suggestions', self)
+        return self.have_suggestion
 
     def get_failing_checks(self, check='allchecks'):
         '''

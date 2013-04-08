@@ -158,7 +158,7 @@ class ImportTest(ViewTestCase):
         self.assertEquals(translation.fuzzy, 0)
         self.assertEquals(translation.total, 4)
         self.assertEquals(
-            translation.unit_set.count_type('suggestions', translation),
+            translation.have_suggestion,
             1
         )
 
