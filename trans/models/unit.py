@@ -795,6 +795,7 @@ class Unit(models.Model):
             # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
                 self.checks().delete()
+                self.translation.invalidate_cache()
                 return
 
             # If there is no consistency checking, we can return
