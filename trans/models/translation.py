@@ -597,7 +597,7 @@ class Translation(models.Model):
         self.fuzzy = self.unit_set.filter(fuzzy=True).count()
         self.translated = self.unit_set.filter(translated=True).count()
         self.failing_checks = self.unit_set.filter_checks(
-            'allchecks', translation
+            'allchecks', self
         ).count()
         self.save()
         self.store_hash()
