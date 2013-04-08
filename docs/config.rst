@@ -228,6 +228,10 @@ For example you can allow script which does some cleanup:
         '/usr/local/bin/cleanup-translation',
     )
 
+.. note:: 
+   
+    The hook is executed using system() call, so it is evaluated in a shell.
+
 .. seealso:: :ref:`processing`
 
 .. setting:: REGISTRATION_OPEN
