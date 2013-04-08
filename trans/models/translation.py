@@ -402,48 +402,49 @@ class Translation(models.Model, URLMixin):
                 translation__subproject__project=self.subproject.project,
                 checksum=checksum
             )
-            if not units.exists():
-                # Last unit referencing to these checks
-                Check.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Delete suggestons referencing this unit
-                Suggestion.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Delete translation comments referencing this unit
-                Comment.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Check for other units with same source
-                other_units = Unit.objects.filter(
-                    translation__subproject__project=self.subproject.project,
-                    checksum=checksum
-                )
-                if not other_units.exists():
-                    # Delete source comments as well if this was last reference
-                    Comment.objects.filter(
-                        project=self.subproject.project,
-                        language=None,
-                        checksum=checksum
-                    ).delete()
-                    # Delete source checks as well if this was last reference
-                    Check.objects.filter(
-                        project=self.subproject.project,
-                        language=None,
-                        checksum=checksum
-                    ).delete()
-            else:
+            if units.exists():
                 # There are other units as well, but some checks
                 # (eg. consistency) needs update now
                 for unit in units:
                     unit.check()
+                continue
+
+            # Last unit referencing to these checks
+            Check.objects.filter(
+                project=self.subproject.project,
+                language=self.language,
+                checksum=checksum
+            ).delete()
+            # Delete suggestons referencing this unit
+            Suggestion.objects.filter(
+                project=self.subproject.project,
+                language=self.language,
+                checksum=checksum
+            ).delete()
+            # Delete translation comments referencing this unit
+            Comment.objects.filter(
+                project=self.subproject.project,
+                language=self.language,
+                checksum=checksum
+            ).delete()
+            # Check for other units with same source
+            other_units = Unit.objects.filter(
+                translation__subproject__project=self.subproject.project,
+                checksum=checksum
+            )
+            if not other_units.exists():
+                # Delete source comments as well if this was last reference
+                Comment.objects.filter(
+                    project=self.subproject.project,
+                    language=None,
+                    checksum=checksum
+                ).delete()
+                # Delete source checks as well if this was last reference
+                Check.objects.filter(
+                    project=self.subproject.project,
+                    language=None,
+                    checksum=checksum
+                ).delete()
 
     def update_from_blob(self, force=False, request=None):
         '''
