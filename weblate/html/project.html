@@ -21,7 +21,7 @@
 <th colspan="2">{% trans "Translated" %}</th>
 </tr>
 <tbody>
-{% for prj in object.subproject_set.all %}
+{% for prj in object.subproject_set.select_related %}
 {% with prj.get_translated_percent as percent and prj.get_fuzzy_percent as fuzzy and prj.get_failing_checks_percent as check_percent %}
 <tr>
 <th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
