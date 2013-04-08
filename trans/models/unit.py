@@ -879,20 +879,22 @@ class Unit(models.Model):
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         )
 
-    def add_suggestion(self, target, user):
+    def add_suggestion(self, target, user, profile):
         '''
         Creates new suggestion for this unit.
         '''
         from trans.models.unitdata import Suggestion, Change
+        from accounts.models import Profile
 
         # Create the suggestion
-        Suggestion.objects.create(
+        suggestion = Suggestion.objects.create(
             target=target,
             checksum=self.checksum,
             language=self.translation.language,
             project=self.translation.subproject.project,
             user=user
         )
+
         # Record in change
         Change.objects.create(
             unit=self,
@@ -900,6 +902,25 @@ class Unit(models.Model):
             translation=self.translation,
             user=user
         )
+
         # Update suggestion count
         self.translation.have_suggestion += 1
         self.translation.save()
+
+        # Notify subscribed users
+        subscriptions = Profile.objects.subscribed_new_suggestion(
+            self.translation.subproject.project,
+            self.translation.language,
+            user
+        )
+        for subscription in subscriptions:
+            subscription.notify_new_suggestion(
+                self.translation,
+                suggestion,
+                self
+            )
+
+        # Update suggestion stats
+        if profile is not None:
+            profile.suggested += 1
+            profile.save()

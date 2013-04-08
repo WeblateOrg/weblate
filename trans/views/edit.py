@@ -111,7 +111,8 @@ def translate(request, project, subproject, lang):
                     # Create the suggestion
                     unit.add_suggestion(
                         join_plural(form.cleaned_data['target']),
-                        user
+                        user,
+                        profile
                     )
                     # Invite user to become translator if there is nobody else
                     recent_changes = Change.objects.content().filter(
@@ -124,18 +125,6 @@ def translate(request, project, subproject, lang):
                             request,
                             _('There is currently no active translator for this translation, please consider becoming a translator as your suggestion might otherwise remain unreviewed.')
                         )
-                    # Notify subscribed users
-                    subscriptions = Profile.objects.subscribed_new_suggestion(
-                        obj.subproject.project,
-                        obj.language,
-                        request.user
-                    )
-                    for subscription in subscriptions:
-                        subscription.notify_new_suggestion(obj, sug, unit)
-                    # Update suggestion stats
-                    if profile is not None:
-                        profile.suggested += 1
-                        profile.save()
                 elif not request.user.is_authenticated():
                     # We accept translations only from authenticated
                     messages.error(
