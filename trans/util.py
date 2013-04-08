@@ -30,6 +30,7 @@ from importlib import import_module
 import urllib
 import time
 import random
+import os.path
 
 try:
     import libravatar
@@ -209,3 +210,11 @@ def load_class(name):
             (module, attr)
         )
     return cls
+
+
+def get_script_name(name):
+    '''
+    Returns script name from string possibly containing full path and
+    parameters.
+    '''
+    return os.path.basename(name).split()[0]

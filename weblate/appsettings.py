@@ -19,6 +19,7 @@
 #
 
 from django.conf import settings
+from trans.util import get_script_name
 import os
 
 
@@ -112,4 +113,8 @@ MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', ())
 # Whether machine translations are enabled
 MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
 
-SCRIPT_CHOICES = (('', ''),)
+# List of scripts to use in custom processing
+PRE_COMMIT_SCRIPTS = get('PRE_COMMIT_SCRIPTS', ())
+SCRIPT_CHOICES = [
+    (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
+] + [('', '')]

@@ -363,6 +363,9 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.source.EllipsisCheck',
 #)
 
+# List of scripts to use in custom processing
+#PRE_COMMIT_SCRIPTS = (
+#)
 
 # List of machine translations
 # MACHINE_TRANSLATION_SERVICES = (
