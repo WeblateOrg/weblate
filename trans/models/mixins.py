@@ -30,7 +30,7 @@ class PercentMixin(object):
         '''
         Returns percentages of translation status.
         '''
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_translated_percent(self):
         '''
@@ -59,13 +59,13 @@ class URLMixin(object):
         '''
         Returns base name for URL reversing.
         '''
-        raise NotImplemented
+        raise NotImplementedError()
 
     def _reverse_url_kwargs(self):
         '''
         Returns kwargs for URL reversing.
         '''
-        raise NotImplemented
+        raise NotImplementedError()
 
     def reverse_url(self, name=None):
         '''
