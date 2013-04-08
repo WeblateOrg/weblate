@@ -717,9 +717,16 @@ class Translation(models.Model, URLMixin):
         # Format commit message
         msg = self.get_commit_message()
 
+        # Create list of files to commit
+        files = [self.filename]
+        if self.subproject.extra_commit_file != '':
+            files.append(self.subproject.extra_commit_file % {
+                'lang': self.language_code,
+            })
+
         # Do actual commit
         gitrepo.git.commit(
-            self.filename,
+            *files,
             author=author.encode('utf-8'),
             date=timestamp.isoformat(),
             m=msg
