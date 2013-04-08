@@ -19,7 +19,6 @@
 #
 
 from django.db import models
-from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
