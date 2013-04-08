@@ -168,6 +168,8 @@ class UnitManager(models.Manager):
             return translation.fuzzy
         elif rqtype == 'untranslated':
             return translation.total - translation.translated
+        elif rqtype == 'allchecks':
+            return translation.failing_checks
 
         # Try to get value from cache
         cache_key = 'counts-%s-%s-%s' % (
