@@ -37,6 +37,7 @@ from trans.util import is_repo_link
 from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
 from trans.validators import validate_repoweb, validate_filemask, validate_repo
+from weblate.appsettings import SCRIPT_CHOICES
 
 
 class SubProjectManager(models.Manager):
@@ -128,6 +129,26 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             'and is slightly slower.'
         ),
     )
+    extra_commit_file = models.CharField(
+        max_length=200,
+        default='',
+        blank=True,
+        validators=[validate_filemask],
+        help_text=ugettext_lazy(
+            'Additional file to include in commits, please check '
+            'documentation for more details.',
+        )
+    )
+    pre_commit_script = models.CharField(
+        max_length=200,
+        default='',
+        blank=True,
+        choices=SCRIPT_CHOICES,
+        help_text=ugettext_lazy(
+            'Script to be executed before commiting translation.'
+        ),
+    )
+
     locked = models.BooleanField(
         default=False,
         help_text=ugettext_lazy(
