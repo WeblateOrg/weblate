@@ -255,6 +255,25 @@ configuration. You can use following format strings in the filename:
 ``%(language)s``
     Language code
 
+Example - generating mo files in repository
++++++++++++++++++++++++++++++++++++++++++++
+
+Allow usage of the hook in the configuration
+
+.. code-block:: python
+
+    PRE_COMMIT_SCRIPTS = (
+        '/usr/share/weblate/examples/hook-generate-mo',
+    )
+
+To enable it, choose now :guilabel:`hook-generate-mo` as :guilabel:`Pre commit
+script`. You will also want to add path to generated files to be included in
+Git commit, for example ``po/%(language)s.mo`` as :guilabel:`Extra commit file`.
+
+
+You can find more example scripts in ``examples`` folder within Weblate sources,
+their name start with ``hook-``.
+
 
 User registration
 -----------------
