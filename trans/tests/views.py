@@ -194,8 +194,11 @@ class EditTest(ViewTestCase):
         self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
 
         unit = self.translation.unit_set.get(source='Hello, world!\n')
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
         # Check number of suggestions
-        self.assertEqual(unit.translation.have_suggestion, 1)
+        self.assertEqual(translation.have_suggestion, 1)
 
         # Unit should not be translated
         self.assertEqual(len(unit.checks()), 0)
