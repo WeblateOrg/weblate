@@ -156,17 +156,19 @@ class EditTest(ViewTestCase):
         )
         self.translate_url = self.translation.get_translate_url()
 
-    def edit_unit(self, source, target):
+    def edit_unit(self, source, target, **kwargs):
         unit = self.translation.unit_set.get(source=source)
+        params = {
+            'checksum': unit.checksum,
+            'target': target,
+            'type': 'all',
+            'dir': 'forward',
+            'pos': '1',
+        }
+        params.update(kwargs)
         return self.client.post(
             self.translate_url,
-            {
-                'checksum': unit.checksum,
-                'target': target,
-                'type': 'all',
-                'dir': 'forward',
-                'pos': '1',
-            }
+            params
         )
 
     def test_edit(self):
@@ -180,6 +182,24 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
+    def test_suggest(self):
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            suggest='yes'
+        )
+        # We should get to second message
+        self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
+
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        # Check number of suggestions
+        self.assertEqual(unit.translation.have_suggestion, 1)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
 
     def test_edit_check(self):
