@@ -32,6 +32,16 @@ def validate_repoweb(val):
         raise ValidationError(_('Bad format string (%s)') % str(e))
 
 
+def validate_extra_file(val):
+    '''
+    Validates extra file to commit.
+    '''
+    try:
+        val % {'lang': 'cs'}
+    except Exception as e:
+        raise ValidationError(_('Bad format string (%s)') % str(e))
+
+
 def validate_commit_message(val):
     '''
     Validates that commit message is a valid format string.
