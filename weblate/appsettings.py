@@ -47,6 +47,9 @@ MT_MICROSOFT_KEY = get('MT_MICROSOFT_KEY', None)
 MT_MICROSOFT_ID = get('MT_MICROSOFT_ID', None)
 MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)
 
+# tmserver URL
+MT_TMSERVER = get('MT_TMSERVER', None)
+
 # Path where git repositories are stored, it needs to be writable
 GIT_ROOT = get('GIT_ROOT', '%s/repos/' % WEB_ROOT)
 
