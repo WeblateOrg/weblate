@@ -282,15 +282,15 @@ class UnitManager(models.Manager):
                 query |= Q(context__icontains=search_query)
             return self.filter(query)
         else:
-            return self.fulltext_search(
+            return self.fulltext(
                 search_query,
                 search_source,
                 search_context,
                 search_target
             )
 
-    def fulltext_search(self, query, source=True, context=True, translation=True,
-               checksums=False):
+    def fulltext(self, query, source=True, context=True, translation=True,
+                 checksums=False):
         '''
         Performs full text search on defined set of fields.
 
@@ -365,7 +365,7 @@ class UnitManager(models.Manager):
                     and cnt > 0
                     and len(terms) - cnt < 4):
                 for search in itertools.combinations(terms, cnt):
-                    results = self.fulltext_search(
+                    results = self.fulltext(
                         ' '.join(search),
                         True,
                         False,
