@@ -436,8 +436,6 @@ def translate(request, project, subproject, lang):
         'fuzzy': unit.fuzzy,
     })
 
-    total = obj.unit_set.all().count()
-
     return render_to_response(
         'translate.html',
         RequestContext(
@@ -451,7 +449,7 @@ def translate(request, project, subproject, lang):
                 'object': obj,
                 'unit': unit,
                 'last_changes': unit.change_set.all()[:10],
-                'total': total,
+                'total': obj.unit_set.all().count(),
                 'search_id': search_result['search_id'],
                 'offset': offset,
                 'filter_name': search_result['name'],
