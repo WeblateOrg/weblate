@@ -30,6 +30,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
 import git
+import traceback
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -381,7 +382,19 @@ class Translation(models.Model, URLMixin):
         Returns translate-toolkit storage object for a translation.
         '''
         if self._store is None:
-            self._store = self.load_store()
+            try:
+                self._store = self.load_store()
+            except Exception as exc:
+                weblate.logger.warning(
+                    'failed parsing store %s: %s',
+                    self.__unicode__(),
+                    str(exc)
+                )
+                self.subproject.notify_merge_failure(
+                    str(exc),
+                    ''.join(traceback.format_stack()),
+                )
+                raise
         return self._store
 
     def check_sync(self):
