@@ -265,43 +265,22 @@ def handle_merge(obj, request, next_unit_url):
         )
         return
 
+    mergeform = MergeForm(request.GET)
+    if not mergeform.is_valid():
+        return
+
     try:
-        mergeform = MergeForm(request.GET)
-        if mergeform.is_valid():
-            try:
-                unit = Unit.objects.get(
-                    checksum=mergeform.cleaned_data['checksum'],
-                    translation=obj
-                )
-            except Unit.MultipleObjectsReturned:
-                # Possible temporary inconsistency caused by ongoing
-                # update of repo, let's pretend everyting is okay
-                unit = Unit.objects.filter(
-                    checksum=mergeform.cleaned_data['checksum'],
-                    translation=obj
-                )[0]
-
-            merged = Unit.objects.get(
-                pk=mergeform.cleaned_data['merge']
-            )
-
-            if unit.checksum != merged.checksum:
-                messages.error(
-                    request,
-                    _('Can not merge different messages!')
-                )
-            else:
-                # Store unit
-                unit.target = merged.target
-                unit.fuzzy = merged.fuzzy
-                saved = unit.save_backend(request)
-                # Update stats if there was change
-                if saved:
-                    profile = request.user.get_profile()
-                    profile.translated += 1
-                    profile.save()
-                # Redirect to next entry
-                return HttpResponseRedirect(next_unit_url)
+        unit = Unit.objects.get(
+            checksum=mergeform.cleaned_data['checksum'],
+            translation=obj
+        )
+    except Unit.MultipleObjectsReturned:
+        # Possible temporary inconsistency caused by ongoing
+        # update of repo, let's pretend everyting is okay
+        unit = Unit.objects.filter(
+            checksum=mergeform.cleaned_data['checksum'],
+            translation=obj
+        )[0]
     except Unit.DoesNotExist:
         weblate.logger.error(
             'message %s disappeared!',
@@ -311,6 +290,29 @@ def handle_merge(obj, request, next_unit_url):
             request,
             _('Message you wanted to translate is no longer available!')
         )
+        return
+
+    merged = Unit.objects.get(
+        pk=mergeform.cleaned_data['merge']
+    )
+
+    if unit.checksum != merged.checksum:
+        messages.error(
+            request,
+            _('Can not merge different messages!')
+        )
+    else:
+        # Store unit
+        unit.target = merged.target
+        unit.fuzzy = merged.fuzzy
+        saved = unit.save_backend(request)
+        # Update stats if there was change
+        if saved:
+            profile = request.user.get_profile()
+            profile.translated += 1
+            profile.save()
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
 
 def handle_suggestions(request, this_unit_url):
