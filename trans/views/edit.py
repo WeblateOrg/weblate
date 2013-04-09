@@ -180,7 +180,7 @@ def handle_translate(obj, request, profile, user_locked,
         if 'suggest' in request.POST:
             # Handle suggesion saving
             user = request.user
-            if form.cleaned_data['target'] == len(form.cleaned_data['target']) * ['']:
+            if form.cleaned_data['target'][0] == '':
                 messages.error(request, _('Your suggestion is empty!'))
                 # Stay on same entry
                 return HttpResponseRedirect(this_unit_url)
