@@ -27,6 +27,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils import formats
 import uuid
+import time
 
 from trans.models import SubProject, Unit, Suggestion, Change, Comment
 from trans.forms import (
@@ -57,6 +58,16 @@ def get_filter_name(rqtype):
         return CHECKS[rqtype].name
     else:
         return None
+
+
+def cleanup_session(session):
+    '''
+    Deletes old search results from session storage.
+    '''
+    now = int(time.time())
+    for key in session.keys():
+        if key.startswith('search_') and session[key]['ttl'] < now:
+            del session[key]
 
 
 def search(translation, request):
@@ -120,12 +131,16 @@ def search(translation, request):
         messages.warning(request, _('No string matched your search!'))
         return HttpResponseRedirect(translation.get_absolute_url())
 
+    # Remove old search results
+    cleanup_session(request.session)
+
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
         'name': name,
         'ids': unit_ids,
         'search_id': search_id,
+        'ttl': int(time.time()) + 86400,
     }
 
     request.session['search_%s' % search_id] = search_result
