@@ -409,25 +409,25 @@ def translate(request, project, subproject, lang):
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)
 
+    response = None
+
     # Any form submitted?
     if request.method == 'POST' and not project_locked:
         response = handle_translate(
             obj, request, profile, user_locked, this_unit_url, next_unit_url
         )
-        if response is not None:
-            return response
 
     # Handle translation merging
-    if 'merge' in request.GET and not locked:
+    elif 'merge' in request.GET and not locked:
         response = handle_merge(obj, request, profile, next_unit_url)
-        if response is not None:
-            return response
 
     # Handle accepting/deleting suggestions
-    if not locked and ('accept' in request.GET or 'delete' in request.GET):
+    elif not locked and ('accept' in request.GET or 'delete' in request.GET):
         response = handle_suggestions(request, this_unit_url)
-        if response is not None:
-            return response
+
+    # Pass possible redirect further
+    if response is not None:
+        return response
 
     # Grab actual unit
     unit = obj.unit_set.get(pk=search_result['ids'][offset])
