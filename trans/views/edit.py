@@ -254,7 +254,7 @@ def handle_translate(obj, request, profile, user_locked,
         )
 
 
-def handle_merge(obj, request, profile, this_unit_url, next_unit_url):
+def handle_merge(obj, request, profile, next_unit_url):
     '''
     Handles unit merging.
     '''
@@ -363,7 +363,7 @@ def translate(request, project, subproject, lang):
 
     # Handle translation merging
     if 'merge' in request.GET and not locked:
-        response = handle_merge(obj, request, profile, this_unit_url, next_unit_url)
+        response = handle_merge(obj, request, profile, next_unit_url)
         if response is not None:
             return response
 
