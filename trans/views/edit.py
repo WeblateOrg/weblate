@@ -197,10 +197,11 @@ def handle_translate(obj, request, profile, user_locked,
                 user=None
             )
             if not recent_changes.exists():
-                messages.info(
-                    request,
-                    _('There is currently no active translator for this translation, please consider becoming a translator as your suggestion might otherwise remain unreviewed.')
-                )
+                messages.info(request, _(
+                    'There is currently no active translator for this '
+                    'translation, please consider becoming a translator '
+                    'as your suggestion might otherwise remain unreviewed.'
+                ))
         elif not request.user.is_authenticated():
             # We accept translations only from authenticated
             messages.error(
@@ -315,18 +316,27 @@ def handle_suggestions(request, this_unit_url):
     '''
     # Check for authenticated users
     if not request.user.is_authenticated():
-        messages.error(request, _('You need to log in to be able to manage suggestions!'))
+        messages.error(
+            request,
+            _('You need to log in to be able to manage suggestions!')
+        )
         return HttpResponseRedirect(this_unit_url)
 
     # Parse suggestion ID
     if 'accept' in request.GET:
         if not request.user.has_perm('trans.accept_suggestion'):
-            messages.error(request, _('You do not have privilege to accept suggestions!'))
+            messages.error(
+                request,
+                _('You do not have privilege to accept suggestions!')
+            )
             return HttpResponseRedirect(this_unit_url)
         sugid = request.GET['accept']
     else:
         if not request.user.has_perm('trans.delete_suggestion'):
-            messages.error(request, _('You do not have privilege to delete suggestions!'))
+            messages.error(
+                request,
+                _('You do not have privilege to delete suggestions!')
+            )
             return HttpResponseRedirect(this_unit_url)
         sugid = request.GET['delete']
     try:
@@ -401,7 +411,9 @@ def translate(request, project, subproject, lang):
 
     # Any form submitted?
     if request.method == 'POST' and not project_locked:
-        response = handle_translate(obj, request, profile, user_locked, this_unit_url, next_unit_url)
+        response = handle_translate(
+            obj, request, profile, user_locked, this_unit_url, next_unit_url
+        )
         if response is not None:
             return response
 
