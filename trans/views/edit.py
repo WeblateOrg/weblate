@@ -184,12 +184,6 @@ def handle_translate(obj, request, profile, user_locked,
                 messages.error(request, _('Your suggestion is empty!'))
                 # Stay on same entry
                 return HttpResponseRedirect(this_unit_url)
-            # Create the suggestion
-            unit.add_suggestion(
-                join_plural(form.cleaned_data['target']),
-                user,
-                profile
-            )
             # Invite user to become translator if there is nobody else
             recent_changes = Change.objects.content().filter(
                 translation=unit.translation,
@@ -202,6 +196,12 @@ def handle_translate(obj, request, profile, user_locked,
                     'translation, please consider becoming a translator '
                     'as your suggestion might otherwise remain unreviewed.'
                 ))
+            # Create the suggestion
+            unit.add_suggestion(
+                join_plural(form.cleaned_data['target']),
+                user,
+                profile
+            )
         elif not request.user.is_authenticated():
             # We accept translations only from authenticated
             messages.error(
