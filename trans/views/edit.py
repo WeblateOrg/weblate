@@ -25,7 +25,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
-from django.db.models import Q
 from django.utils import formats
 import uuid
 
@@ -40,7 +39,6 @@ from trans.checks import CHECKS
 from trans.util import join_plural
 from accounts.models import Profile, send_notification_email
 import weblate
-
 
 
 def get_filter_name(rqtype):
@@ -98,24 +96,13 @@ def search(translation, request):
         )
         name = _('Review of translations since %s') % formatted_date
     elif search_form.is_valid():
-        # Search query
-        search_query = search_form.cleaned_data['q']
-
-        # Search type
-        search_type = search_form.cleaned_data['search']
-
-        # Search options
-        search_source = search_form.cleaned_data['src']
-        search_target = search_form.cleaned_data['tgt']
-        search_context = search_form.cleaned_data['ctx']
-
         # Apply search conditions
         allunits = translation.unit_set.search(
-            search_type,
-            search_query,
-            search_source,
-            search_context,
-            search_target
+            search_form.cleaned_data['search'],
+            search_form.cleaned_data['q'],
+            search_form.cleaned_data['src'],
+            search_form.cleaned_data['ctx'],
+            search_form.cleaned_data['tgt'],
         )
 
         name = _('Search for "%s"') % search_query
