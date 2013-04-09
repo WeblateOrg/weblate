@@ -257,7 +257,39 @@ class UnitManager(models.Manager):
         return [searcher.stored_fields(d)['checksum']
                 for d in searcher.docs_for_query(parsed)]
 
-    def search(self, query, source=True, context=True, translation=True,
+    def search(self, search_type, search_query,
+               search_source=True, search_context=True, search_target=True):
+        '''
+        High level wrapper for searching.
+        '''
+
+        if search_type == 'exact':
+            query = Q()
+            if search_source:
+                query |= Q(source=search_query)
+            if search_target:
+                query |= Q(target=search_query)
+            if search_context:
+                query |= Q(context=search_query)
+            return self.filter(query)
+        elif search_type == 'substring':
+            query = Q()
+            if search_source:
+                query |= Q(source__icontains=search_query)
+            if search_target:
+                query |= Q(target__icontains=search_query)
+            if search_context:
+                query |= Q(context__icontains=search_query)
+            return self.filter(query)
+        else:
+            return self.fulltext_search(
+                search_query,
+                search_source,
+                search_context,
+                search_target
+            )
+
+    def fulltext_search(self, query, source=True, context=True, translation=True,
                checksums=False):
         '''
         Performs full text search on defined set of fields.
@@ -333,7 +365,7 @@ class UnitManager(models.Manager):
                     and cnt > 0
                     and len(terms) - cnt < 4):
                 for search in itertools.combinations(terms, cnt):
-                    results = self.search(
+                    results = self.fulltext_search(
                         ' '.join(search),
                         True,
                         False,

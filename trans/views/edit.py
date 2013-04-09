@@ -86,31 +86,13 @@ def search(translation, request):
         search_context = search_form.cleaned_data['ctx']
 
         # Apply search conditions
-        if search_type == 'exact':
-            query = Q()
-            if search_source:
-                query |= Q(source=search_query)
-            if search_target:
-                query |= Q(target=search_query)
-            if search_context:
-                query |= Q(context=search_query)
-            allunits = translation.unit_set.filter(query)
-        elif search_type == 'substring':
-            query = Q()
-            if search_source:
-                query |= Q(source__icontains=search_query)
-            if search_target:
-                query |= Q(target__icontains=search_query)
-            if search_context:
-                query |= Q(context__icontains=search_query)
-            allunits = translation.unit_set.filter(query)
-        else:
-            allunits = translation.unit_set.search(
-                search_query,
-                search_source,
-                search_context,
-                search_target
-            )
+        allunits = translation.unit_set.search(
+            search_type,
+            search_query,
+            search_source,
+            search_context,
+            search_target
+        )
     else:
         # Filtering by type
         allunits = translation.unit_set.filter_type(rqtype, translation)
