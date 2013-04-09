@@ -395,6 +395,22 @@ class UnitManager(models.Manager):
             translation__language=unit.translation.language
         )
 
+    def get_checksum(self, request, translation, checksum):
+        '''
+        Returns unit based on checksum.
+        '''
+        try:
+            return Unit.objects.filter(
+                checksum=checksum,
+                translation=translation
+            )[0]
+        except Unit.DoesNotExist:
+            weblate.logger.error('message %s disappeared!', checksum)
+            messages.error(
+                request,
+                _('Message you wanted to translate is no longer available!')
+            )
+            raise
 
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)

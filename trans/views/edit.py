@@ -166,26 +166,12 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     obj.check_sync()
 
     try:
-        unit = Unit.objects.get(
-            checksum=form.cleaned_data['checksum'],
-            translation=obj
-        )
-    except Unit.MultipleObjectsReturned:
-        # Possible temporary inconsistency caused by ongoing update
-        # of repo, let's pretend everyting is okay
-        unit = Unit.objects.filter(
-            checksum=form.cleaned_data['checksum'],
-            translation=obj
-        )[0]
-    except Unit.DoesNotExist:
-        weblate.logger.error(
-            'message %s disappeared!',
-            form.cleaned_data['checksum']
-        )
-        messages.error(
+        unit = Unit.objects.get_checksum(
             request,
-            _('Message you wanted to translate is no longer available!')
+            obj,
+            form.cleaned_data['checksum'],
         )
+    except Unit.DoesNotExist:
         return
 
     if 'suggest' in request.POST:
@@ -270,26 +256,12 @@ def handle_merge(obj, request, next_unit_url):
         return
 
     try:
-        unit = Unit.objects.get(
-            checksum=mergeform.cleaned_data['checksum'],
-            translation=obj
-        )
-    except Unit.MultipleObjectsReturned:
-        # Possible temporary inconsistency caused by ongoing
-        # update of repo, let's pretend everyting is okay
-        unit = Unit.objects.filter(
-            checksum=mergeform.cleaned_data['checksum'],
-            translation=obj
-        )[0]
-    except Unit.DoesNotExist:
-        weblate.logger.error(
-            'message %s disappeared!',
-            mergeform.cleaned_data['checksum']
-        )
-        messages.error(
+        unit = Unit.objects.get_checksum(
             request,
-            _('Message you wanted to translate is no longer available!')
+            obj,
+            mergeform.cleaned_data['checksum'],
         )
+    except Unit.DoesNotExist:
         return
 
     merged = Unit.objects.get(
