@@ -369,7 +369,7 @@ $(function() {
 
         }
     });
-    $("#id_date").datepicker();
+    $("#id_date").datepicker({ dateFormat: "yy-mm-dd" });
     $("form.autosubmit select").change(function() {
         $("form.autosubmit").submit();
     });
