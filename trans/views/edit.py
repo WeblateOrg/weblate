@@ -36,6 +36,7 @@ from trans.forms import (
     AntispamForm, CommentForm
 )
 from trans.views.helper import get_translation
+from trans.checks import CHECKS
 from trans.util import join_plural
 from accounts.models import Profile, send_notification_email
 import weblate
