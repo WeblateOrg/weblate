@@ -24,7 +24,6 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import AnonymousUser
 from django.utils import formats
 import uuid
 import time
@@ -181,8 +180,6 @@ def handle_translate(obj, request, profile, user_locked,
         if 'suggest' in request.POST:
             # Handle suggesion saving
             user = request.user
-            if isinstance(user, AnonymousUser):
-                user = None
             if form.cleaned_data['target'] == len(form.cleaned_data['target']) * ['']:
                 messages.error(request, _('Your suggestion is empty!'))
                 # Stay on same entry

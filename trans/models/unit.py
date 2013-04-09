@@ -918,6 +918,9 @@ class Unit(models.Model):
         from trans.models.unitdata import Suggestion, Change
         from accounts.models import Profile
 
+        if not user.is_authenticated():
+            user = None
+
         # Create the suggestion
         suggestion = Suggestion.objects.create(
             target=target,
