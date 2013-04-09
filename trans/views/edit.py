@@ -74,27 +74,16 @@ def search(translation, request):
             request.user
         )
     elif search_form.is_valid():
-        # Searching
-
         # Search query
         search_query = search_form.cleaned_data['q']
 
         # Search type
         search_type = search_form.cleaned_data['search']
 
-        # TODO: Move to form validation
-        if search_type == '':
-            search_type = 'ftx'
-
         # Search options
         search_source = search_form.cleaned_data['src']
         search_target = search_form.cleaned_data['tgt']
         search_context = search_form.cleaned_data['ctx']
-        # Sane defaults
-        # TODO: Move to form validation
-        if not search_context and not search_source and not search_target:
-            search_source = True
-            search_target = True
 
         # Apply search conditions
         if search_type == 'exact':
@@ -180,7 +169,6 @@ def translate(request, project, subproject, lang):
     # Check boundaries
     if offset < 0 or offset > len(search_result['ids']):
         messages.info(request, _('You have reached end of translating.'))
-
 
     # Some URLs we will most likely use
     base_unit_url = '%s?sid=%s&offset=' % (
