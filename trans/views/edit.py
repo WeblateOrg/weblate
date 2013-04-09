@@ -309,7 +309,53 @@ def handle_merge(obj, request, profile, next_unit_url):
             )
 
 
+def handle_suggestions(request, this_unit_url):
+    '''
+    Handles suggestion deleting/accepting.
+    '''
+    # Check for authenticated users
+    if not request.user.is_authenticated():
+        messages.error(request, _('You need to log in to be able to manage suggestions!'))
+        return HttpResponseRedirect(this_unit_url)
+
+    # Parse suggestion ID
+    if 'accept' in request.GET:
+        if not request.user.has_perm('trans.accept_suggestion'):
+            messages.error(request, _('You do not have privilege to accept suggestions!'))
+            return HttpResponseRedirect(this_unit_url)
+        sugid = request.GET['accept']
+    else:
+        if not request.user.has_perm('trans.delete_suggestion'):
+            messages.error(request, _('You do not have privilege to delete suggestions!'))
+            return HttpResponseRedirect(this_unit_url)
+        sugid = request.GET['delete']
+    try:
+        sugid = int(sugid)
+        suggestion = Suggestion.objects.get(pk=sugid)
+    except Suggestion.DoesNotExist:
+        suggestion = None
+
+    if suggestion is not None:
+        if 'accept' in request.GET:
+            # Accept suggesiont
+            suggestion.accept(request)
+        # Invalidate caches
+        for unit in Unit.objects.filter(checksum=suggestion.checksum):
+            unit.translation.invalidate_cache('suggestions')
+        # Delete suggestion in both cases (accepted ones are no longer
+        # needed)
+        suggestion.delete()
+    else:
+        messages.error(request, _('Invalid suggestion!'))
+
+    # Redirect to same entry for possible editing
+    return HttpResponseRedirect(this_unit_url)
+
+
 def translate(request, project, subproject, lang):
+    '''
+    Generic entry point for translating, suggesting and searching.
+    '''
     obj = get_translation(request, project, subproject, lang)
 
     # Check locks
@@ -366,43 +412,9 @@ def translate(request, project, subproject, lang):
 
     # Handle accepting/deleting suggestions
     if not locked and ('accept' in request.GET or 'delete' in request.GET):
-        # Check for authenticated users
-        if not request.user.is_authenticated():
-            messages.error(request, _('You need to log in to be able to manage suggestions!'))
-            return HttpResponseRedirect(this_unit_url)
-
-        # Parse suggestion ID
-        if 'accept' in request.GET:
-            if not request.user.has_perm('trans.accept_suggestion'):
-                messages.error(request, _('You do not have privilege to accept suggestions!'))
-                return HttpResponseRedirect(this_unit_url)
-            sugid = request.GET['accept']
-        else:
-            if not request.user.has_perm('trans.delete_suggestion'):
-                messages.error(request, _('You do not have privilege to delete suggestions!'))
-                return HttpResponseRedirect(this_unit_url)
-            sugid = request.GET['delete']
-        try:
-            sugid = int(sugid)
-            suggestion = Suggestion.objects.get(pk=sugid)
-        except:
-            suggestion = None
-
-        if suggestion is not None:
-            if 'accept' in request.GET:
-                # Accept suggesiont
-                suggestion.accept(request)
-            # Invalidate caches
-            for unit in Unit.objects.filter(checksum=suggestion.checksum):
-                unit.translation.invalidate_cache('suggestions')
-            # Delete suggestion in both cases (accepted ones are no longer
-            # needed)
-            suggestion.delete()
-        else:
-            messages.error(request, _('Invalid suggestion!'))
-
-        # Redirect to same entry for possible editing
-        return HttpResponseRedirect(this_unit_url)
+        response = handle_suggestions(request, this_unit_url)
+        if response is not None:
+            return response
 
     # Grab actual unit
     unit = obj.unit_set.get(pk=search_result['ids'][offset])
