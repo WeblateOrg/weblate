@@ -25,7 +25,7 @@ class GoogleTranslation(MachineTranslation):
     '''
     Google machine translation support.
     '''
-    name = 'Google'
+    name = 'Google Translate'
 
     def is_supported(self, language):
         '''

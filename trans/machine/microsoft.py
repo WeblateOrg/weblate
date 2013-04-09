@@ -41,7 +41,7 @@ class MicrosoftTranslation(MachineTranslation):
     '''
     Microsoft Translator machine translation support.
     '''
-    name = 'Microsoft'
+    name = 'Microsoft Translator'
 
     def __init__(self):
         '''
