@@ -371,6 +371,7 @@ def translate(request, project, subproject, lang):
 
     # Search results
     search_result = search(obj, request)
+    num_results = len(search_result['ids'])
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -383,7 +384,7 @@ def translate(request, project, subproject, lang):
         offset = 0
 
     # Check boundaries
-    if offset < 0 or offset >= len(search_result['ids']):
+    if offset < 0 or offset >= num_results:
         messages.info(request, _('You have reached end of translating.'))
         # Delete search
         del request.session['search_%s' % search_result['search_id']]
@@ -460,7 +461,7 @@ def translate(request, project, subproject, lang):
             {
                 'this_unit_url': this_unit_url,
                 'first_unit_url': base_unit_url + '0',
-                'last_unit_url': base_unit_url + str(len(search_result['ids']) - 1),
+                'last_unit_url': base_unit_url + str(num_results - 1),
                 'next_unit_url': next_unit_url,
                 'prev_unit_url': base_unit_url + str(offset - 1),
                 'object': obj,
@@ -470,7 +471,7 @@ def translate(request, project, subproject, lang):
                 'search_id': search_result['search_id'],
                 'offset': offset,
                 'filter_name': search_result['name'],
-                'filter_count': len(search_result['ids']),
+                'filter_count': num_results,
                 'filter_pos': offset + 1,
                 'form': form,
                 'antispam': antispam,
