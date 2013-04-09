@@ -178,8 +178,9 @@ class EditTest(ViewTestCase):
         '''
         self.assertEqual(response.status_code, 302)
 
-        url = response['Location']
-        scheme, netloc, path, query, fragment = urlsplit(url)
+        # We don't use all variables
+        # pylint: disable=W0612
+        scheme, netloc, path, query, fragment = urlsplit(response['Location'])
 
         self.assertEqual(path, exp_path)
 
