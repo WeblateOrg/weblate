@@ -21,24 +21,129 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
+import uuid
 
 from trans.models import SubProject, Unit, Suggestion, Change, Comment
 from trans.forms import (
-    TranslationForm,
+    TranslationForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm
 )
 from trans.views.helper import (
-    get_translation, SearchOptions, bool2str, get_filter_name
+    get_translation, get_filter_name
 )
 from trans.util import join_plural
 from accounts.models import Profile, send_notification_email
 import weblate
+
+
+def search(translation, request):
+    '''
+    Performs search or retuns cached search results.
+    '''
+
+    # Already performed search
+    if 'sid' in request.GET:
+        # Grab from session storage
+        search_id = 'search_%s' % request.GET['sid']
+
+        # Check if we know the search
+        if search_id not in request.session:
+            messages.error(request, _('Invalid search string!'))
+            return HttpResponseRedirect(translation.get_absolute_url())
+
+        return request.session[search_id]
+
+    # Possible new search
+    rqtype = request.GET.get('type', 'all')
+    search_query = ''
+
+    search_form = SearchForm(request.GET)
+    review_form = ReviewForm(request.GET)
+
+    if review_form.is_valid():
+        # Review
+        allunits = translation.unit_set.review(
+            review_form.cleaned_data['date'],
+            request.user
+        )
+    elif search_form.is_valid():
+        # Searching
+
+        # Search query
+        search_query = search_form.cleaned_data['q']
+
+        # Search type
+        search_type = search_form.cleaned_data['search']
+
+        # TODO: Move to form validation
+        if search_type == '':
+            search_type = 'ftx'
+
+        # Search options
+        search_source = search_form.cleaned_data['src']
+        search_target = search_form.cleaned_data['tgt']
+        search_context = search_form.cleaned_data['ctx']
+        # Sane defaults
+        # TODO: Move to form validation
+        if not search_context and not search_source and not search_target:
+            search_source = True
+            search_target = True
+
+        # Apply search conditions
+        if search_type == 'exact':
+            query = Q()
+            if search_source:
+                query |= Q(source=search_query)
+            if search_target:
+                query |= Q(target=search_query)
+            if search_context:
+                query |= Q(context=search_query)
+            allunits = translation.unit_set.filter(query)
+        elif search_type == 'substring':
+            query = Q()
+            if search_source:
+                query |= Q(source__icontains=search_query)
+            if search_target:
+                query |= Q(target__icontains=search_query)
+            if search_context:
+                query |= Q(context__icontains=search_query)
+            allunits = translation.unit_set.filter(query)
+        else:
+            allunits = translation.unit_set.search(
+                search_query,
+                search_source,
+                search_context,
+                search_target
+            )
+    else:
+        # Filtering by type
+        allunits = translation.unit_set.filter_type(rqtype, translation)
+
+    # Grab unit IDs
+    unit_ids = list(allunits.values_list('id', flat=True))
+
+    # Check empty search results
+    if len(unit_ids) == 0:
+        messages.warning(request, _('No string matched your search!'))
+        return HttpResponseRedirect(translation.get_absolute_url())
+
+    # Store in cache and return
+    search_id = str(uuid.uuid1())
+    search_result = {
+        'name': get_filter_name(rqtype, search_query),
+        'ids': unit_ids,
+        'search_id': search_id,
+    }
+
+    request.session['search_%s' % search_id] = search_result
+
+    return search_result
 
 
 def translate(request, project, subproject, lang):
@@ -58,7 +163,31 @@ def translate(request, project, subproject, lang):
     secondary = None
     unit = None
 
-    search_options = SearchOptions(request)
+    # Search results
+    search_result = search(obj, request)
+
+    # Handle redirects
+    if isinstance(search_result, HttpResponse):
+        return search_result
+
+    # Search offset
+    try:
+        offset = int(request.GET.get('offset', '0'))
+    except ValueError:
+        offset = 0
+
+    # Check boundaries
+    if offset < 0 or offset > len(search_result['ids']):
+        messages.info(request, _('You have reached end of translating.'))
+
+
+    # Some URLs we will most likely use
+    base_unit_url = '%s?sid=%s&offset=' % (
+        obj.get_translate_url(),
+        search_result['search_id'],
+    )
+    this_unit_url = base_unit_url + str(offset)
+    next_unit_url = base_unit_url + str(offset + 1)
 
     # Any form submitted?
     if request.method == 'POST':
@@ -68,12 +197,7 @@ def translate(request, project, subproject, lang):
             antispam = AntispamForm(request.POST)
             if not antispam.is_valid():
                 # Silently redirect to next entry
-                return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
-                    obj.get_translate_url(),
-                    search_options.rqtype,
-                    search_options.pos,
-                    search_options.url
-                ))
+                return HttpResponseRedirect(next_unit_url)
 
         form = TranslationForm(request.POST)
         if form.is_valid() and not project_locked:
@@ -100,14 +224,7 @@ def translate(request, project, subproject, lang):
                     if form.cleaned_data['target'] == len(form.cleaned_data['target']) * ['']:
                         messages.error(request, _('Your suggestion is empty!'))
                         # Stay on same entry
-                        return HttpResponseRedirect(
-                            '%s?type=%s&pos=%d&dir=stay%s' % (
-                                obj.get_translate_url(),
-                                search_options.rqtype,
-                                search_options.pos,
-                                search_options.url
-                            )
-                        )
+                        return HttpResponseRedirect(this_unit_url)
                     # Create the suggestion
                     unit.add_suggestion(
                         join_plural(form.cleaned_data['target']),
@@ -160,22 +277,10 @@ def translate(request, project, subproject, lang):
                                 _('Some checks have failed on your translation!')
                             )
                             # Stay on same entry
-                            return HttpResponseRedirect(
-                                '%s?type=%s&pos=%d&dir=stay%s' % (
-                                    obj.get_translate_url(),
-                                    search_options.rqtype,
-                                    search_options.pos,
-                                    search_options.url
-                                )
-                            )
+                            return HttpResponseRedirect(this_unit_url)
 
                 # Redirect to next entry
-                return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
-                    obj.get_translate_url(),
-                    search_options.rqtype,
-                    search_options.pos,
-                    search_options.url
-                ))
+                return HttpResponseRedirect(next_unit_url)
             except Unit.DoesNotExist:
                 weblate.logger.error(
                     'message %s disappeared!',
@@ -230,12 +335,7 @@ def translate(request, project, subproject, lang):
                             profile.translated += 1
                             profile.save()
                         # Redirect to next entry
-                        return HttpResponseRedirect('%s?type=%s&pos=%d%s' % (
-                            obj.get_translate_url(),
-                            search_options.rqtype,
-                            search_options.pos,
-                            search_options.url
-                        ))
+                        return HttpResponseRedirect(next_unit_url)
             except Unit.DoesNotExist:
                 weblate.logger.error(
                     'message %s disappeared!',
@@ -251,33 +351,18 @@ def translate(request, project, subproject, lang):
         # Check for authenticated users
         if not request.user.is_authenticated():
             messages.error(request, _('You need to log in to be able to manage suggestions!'))
-            return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
-                obj.get_translate_url(),
-                search_options.rqtype,
-                search_options.pos,
-                search_options.url
-            ))
+            return HttpResponseRedirect(this_unit_url)
 
         # Parse suggestion ID
         if 'accept' in request.GET:
             if not request.user.has_perm('trans.accept_suggestion'):
                 messages.error(request, _('You do not have privilege to accept suggestions!'))
-                return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
-                    obj.get_translate_url(),
-                    search_options.rqtype,
-                    search_options.pos,
-                    search_options.url
-                ))
+                return HttpResponseRedirect(this_unit_url)
             sugid = request.GET['accept']
         else:
             if not request.user.has_perm('trans.delete_suggestion'):
                 messages.error(request, _('You do not have privilege to delete suggestions!'))
-                return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
-                    obj.get_translate_url(),
-                    search_options.rqtype,
-                    search_options.pos,
-                    search_options.url
-                ))
+                return HttpResponseRedirect(this_unit_url)
             sugid = request.GET['delete']
         try:
             sugid = int(sugid)
@@ -299,99 +384,12 @@ def translate(request, project, subproject, lang):
             messages.error(request, _('Invalid suggestion!'))
 
         # Redirect to same entry for possible editing
-        return HttpResponseRedirect('%s?type=%s&pos=%d&dir=stay%s' % (
-            obj.get_translate_url(),
-            search_options.rqtype,
-            search_options.pos,
-            search_options.url
-        ))
-
-    reviewform = ReviewForm(request.GET)
-
-    if reviewform.is_valid():
-        allunits = obj.unit_set.review(
-            reviewform.cleaned_data['date'],
-            request.user
-        )
-        # Review
-        if search_options.direction == 'stay':
-            units = allunits.filter(
-                position=search_options.pos
-            )
-        elif search_options.direction == 'back':
-            units = allunits.filter(
-                position__lt=search_options.pos
-            ).order_by('-position')
-        else:
-            units = allunits.filter(
-                position__gt=search_options.pos
-            )
-    elif search_options.query != '':
-        # Apply search conditions
-        if search_options.type == 'exact':
-            query = Q()
-            if search_options.source:
-                query |= Q(source=search_options.query)
-            if search_options.target:
-                query |= Q(target=search_options.query)
-            if search_options.context:
-                query |= Q(context=search_options.query)
-            allunits = obj.unit_set.filter(query)
-        elif search_options.type == 'substring':
-            query = Q()
-            if search_options.source:
-                query |= Q(source__icontains=search_options.query)
-            if search_options.target:
-                query |= Q(target__icontains=search_options.query)
-            if search_options.context:
-                query |= Q(context__icontains=search_options.query)
-            allunits = obj.unit_set.filter(query)
-        else:
-            allunits = obj.unit_set.search(
-                search_options.query,
-                search_options.source,
-                search_options.context,
-                search_options.target
-            )
-        if search_options.direction == 'stay':
-            units = obj.unit_set.filter(
-                position=search_options.pos
-            )
-        elif search_options.direction == 'back':
-            units = allunits.filter(
-                position__lt=search_options.pos
-            ).order_by('-position')
-        else:
-            units = allunits.filter(
-                position__gt=search_options.pos
-            )
-    elif 'checksum' in request.GET:
-        allunits = obj.unit_set.filter(checksum=request.GET['checksum'])
-        units = allunits
-    else:
-        allunits = obj.unit_set.filter_type(search_options.rqtype, obj)
-        # What unit set is about to show
-        if search_options.direction == 'stay':
-            units = obj.unit_set.filter(
-                position=search_options.pos
-            )
-        elif search_options.direction == 'back':
-            units = allunits.filter(
-                position__lt=search_options.pos
-            ).order_by('-position')
-        else:
-            units = allunits.filter(
-                position__gt=search_options.pos
-            )
+        return HttpResponseRedirect(this_unit_url)
 
     # If we failed to get unit above or on no POST
     if unit is None:
         # Grab actual unit
-        try:
-            unit = units[0]
-        except IndexError:
-            messages.info(request, _('You have reached end of translating.'))
-            return HttpResponseRedirect(obj.get_absolute_url())
+        unit = obj.unit_set.get(pk=search_result['ids'][offset])
 
         # Show secondary languages for logged in users
         if profile:
@@ -424,35 +422,32 @@ def translate(request, project, subproject, lang):
         })
 
     total = obj.unit_set.all().count()
-    filter_count = allunits.count()
 
     return render_to_response(
         'translate.html',
         RequestContext(
             request,
             {
+                'this_unit_url': this_unit_url,
+                'first_unit_url': base_unit_url + '0',
+                'last_unit_url': base_unit_url + str(len(search_result['ids'])),
+                'next_unit_url': next_unit_url,
+                'prev_unit_url': base_unit_url + str(offset - 1),
                 'object': obj,
                 'unit': unit,
                 'last_changes': unit.change_set.all()[:10],
                 'total': total,
-                'type': search_options.rqtype,
-                'filter_name': get_filter_name(
-                    search_options.rqtype, search_options.query
-                ),
-                'filter_count': filter_count,
-                'filter_pos': filter_count + 1 - units.count(),
+                'search_id': search_result['search_id'],
+                'offset': offset,
+                'filter_name': search_result['name'],
+                'filter_count': len(search_result['ids']),
+                'filter_pos': offset + 1,
                 'form': form,
                 'antispam': antispam,
                 'comment_form': CommentForm(),
                 'target_language': obj.language.code.replace('_', '-').lower(),
                 'update_lock': own_lock,
                 'secondary': secondary,
-                'search_query': search_options.query,
-                'search_url': search_options.url,
-                'search_source': bool2str(search_options.source),
-                'search_type': search_options.type,
-                'search_target': bool2str(search_options.target),
-                'search_context': bool2str(search_options.context),
                 'locked': locked,
                 'user_locked': user_locked,
                 'project_locked': project_locked,

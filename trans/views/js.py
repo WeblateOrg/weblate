@@ -28,7 +28,6 @@ from django.db.models import Q
 
 from trans.models import Unit, Check, Dictionary
 from trans.machine import MACHINE_TRANSLATION_SERVICES
-from trans.views.helper import SearchOptions
 from trans.decorators import any_permission_required
 from trans.views.helper import get_project, get_subproject, get_translation
 import weblate
@@ -109,13 +108,11 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
-    search_options = SearchOptions(request)
-
     return render_to_response('js/other.html', RequestContext(request, {
         'other': other,
         'unit': unit,
-        'type': search_options.rqtype,
-        'search_url': search_options.url,
+        'search_id': request.GET.get('sid', ''),
+        'offset': request.GET.get('offset', ''),
     }))
 
 
