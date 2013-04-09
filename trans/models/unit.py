@@ -911,7 +911,7 @@ class Unit(models.Model):
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         )
 
-    def add_suggestion(self, target, user, profile):
+    def add_suggestion(self, target, user):
         '''
         Creates new suggestion for this unit.
         '''
@@ -956,6 +956,7 @@ class Unit(models.Model):
             )
 
         # Update suggestion stats
-        if profile is not None:
+        if user is not None:
+            profile = user.get_profile()
             profile.suggested += 1
             profile.save()

@@ -147,8 +147,7 @@ def search(translation, request):
     return search_result
 
 
-def handle_translate(obj, request, profile, user_locked,
-                     this_unit_url, next_unit_url):
+def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     '''
     Saves translation or suggestion to database and backend.
     '''
@@ -200,7 +199,6 @@ def handle_translate(obj, request, profile, user_locked,
             unit.add_suggestion(
                 join_plural(form.cleaned_data['target']),
                 user,
-                profile
             )
         elif not request.user.is_authenticated():
             # We accept translations only from authenticated
@@ -252,7 +250,7 @@ def handle_translate(obj, request, profile, user_locked,
         )
 
 
-def handle_merge(obj, request, profile, next_unit_url):
+def handle_merge(obj, request, next_unit_url):
     '''
     Handles unit merging.
     '''
@@ -296,6 +294,7 @@ def handle_merge(obj, request, profile, next_unit_url):
                 saved = unit.save_backend(request)
                 # Update stats if there was change
                 if saved:
+                    profile = request.user.get_profile()
                     profile.translated += 1
                     profile.save()
                 # Redirect to next entry
@@ -373,13 +372,6 @@ def translate(request, project, subproject, lang):
     project_locked, user_locked, own_lock = obj.is_locked(request, True)
     locked = project_locked or user_locked
 
-    if request.user.is_authenticated():
-        profile = request.user.get_profile()
-        antispam = None
-    else:
-        profile = None
-        antispam = AntispamForm()
-
     # Search results
     search_result = search(obj, request)
     num_results = len(search_result['ids'])
@@ -415,12 +407,12 @@ def translate(request, project, subproject, lang):
     # Any form submitted?
     if request.method == 'POST' and not project_locked:
         response = handle_translate(
-            obj, request, profile, user_locked, this_unit_url, next_unit_url
+            obj, request, user_locked, this_unit_url, next_unit_url
         )
 
     # Handle translation merging
     elif 'merge' in request.GET and not locked:
-        response = handle_merge(obj, request, profile, next_unit_url)
+        response = handle_merge(obj, request, next_unit_url)
 
     # Handle accepting/deleting suggestions
     elif not locked and ('accept' in request.GET or 'delete' in request.GET):
@@ -434,7 +426,8 @@ def translate(request, project, subproject, lang):
     unit = obj.unit_set.get(pk=search_result['ids'][offset])
 
     # Show secondary languages for logged in users
-    if profile:
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
         secondary_langs = profile.secondary_languages.exclude(
             id=unit.translation.language.id
         )
@@ -455,8 +448,10 @@ def translate(request, project, subproject, lang):
             targets[lang.target] = 1
             res.append(lang)
         secondary = res
+        antispam = None
     else:
         secondary = None
+        antispam = AntispamForm()
 
     # Prepare form
     form = TranslationForm(initial={
