@@ -22,7 +22,6 @@ Helper methods for views.
 '''
 
 from trans.models import Project, SubProject, Translation
-from trans.forms import SearchForm
 from trans.checks import CHECKS
 from lang.models import Language
 from django.utils.translation import ugettext as _
