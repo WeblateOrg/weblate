@@ -412,6 +412,7 @@ class UnitManager(models.Manager):
             )
             raise
 
+
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length=40, db_index=True)
