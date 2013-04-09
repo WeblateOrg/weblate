@@ -73,12 +73,21 @@ class SortedSelectMixin(object):
         # Stolen from Select.render_options
         for option_value, option_label in all_choices:
             if isinstance(option_label, (list, tuple)):
-                output.append(u'<optgroup label="%s">' % escape(force_unicode(option_value)))
+                output.append(
+                    u'<optgroup label="%s">' %
+                    escape(force_unicode(option_value))
+                )
                 for option in option_label:
-                    output.append(self.render_option(selected_choices, *option))
+                    output.append(
+                        self.render_option(selected_choices, *option)
+                    )
                 output.append(u'</optgroup>')
             else:
-                output.append(self.render_option(selected_choices, option_value, option_label))
+                output.append(
+                    self.render_option(
+                        selected_choices, option_value, option_label
+                    )
+                )
         return u'\n'.join(output)
 
 
