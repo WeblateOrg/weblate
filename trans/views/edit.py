@@ -161,84 +161,22 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     form = TranslationForm(request.POST)
     if not form.is_valid():
         return
+
     # Check whether translation is not outdated
     obj.check_sync()
+
     try:
-        try:
-            unit = Unit.objects.get(
-                checksum=form.cleaned_data['checksum'],
-                translation=obj
-            )
-        except Unit.MultipleObjectsReturned:
-            # Possible temporary inconsistency caused by ongoing update
-            # of repo, let's pretend everyting is okay
-            unit = Unit.objects.filter(
-                checksum=form.cleaned_data['checksum'],
-                translation=obj
-            )[0]
-        if 'suggest' in request.POST:
-            # Handle suggesion saving
-            user = request.user
-            if form.cleaned_data['target'][0] == '':
-                messages.error(request, _('Your suggestion is empty!'))
-                # Stay on same entry
-                return HttpResponseRedirect(this_unit_url)
-            # Invite user to become translator if there is nobody else
-            recent_changes = Change.objects.content().filter(
-                translation=unit.translation,
-            ).exclude(
-                user=None
-            )
-            if not recent_changes.exists():
-                messages.info(request, _(
-                    'There is currently no active translator for this '
-                    'translation, please consider becoming a translator '
-                    'as your suggestion might otherwise remain unreviewed.'
-                ))
-            # Create the suggestion
-            unit.add_suggestion(
-                join_plural(form.cleaned_data['target']),
-                user,
-            )
-        elif not request.user.is_authenticated():
-            # We accept translations only from authenticated
-            messages.error(
-                request,
-                _('You need to log in to be able to save translations!')
-            )
-        elif not request.user.has_perm('trans.save_translation'):
-            # Need privilege to save
-            messages.error(
-                request,
-                _('You don\'t have privileges to save translations!')
-            )
-        elif not user_locked:
-            # Remember old checks
-            oldchecks = set(
-                unit.active_checks().values_list('check', flat=True)
-            )
-            # Update unit and save it
-            unit.target = join_plural(form.cleaned_data['target'])
-            unit.fuzzy = form.cleaned_data['fuzzy']
-            saved = unit.save_backend(request)
-
-            if saved:
-                # Get new set of checks
-                newchecks = set(
-                    unit.active_checks().values_list('check', flat=True)
-                )
-                # Did we introduce any new failures?
-                if newchecks > oldchecks:
-                    # Show message to user
-                    messages.error(
-                        request,
-                        _('Some checks have failed on your translation!')
-                    )
-                    # Stay on same entry
-                    return HttpResponseRedirect(this_unit_url)
-
-        # Redirect to next entry
-        return HttpResponseRedirect(next_unit_url)
+        unit = Unit.objects.get(
+            checksum=form.cleaned_data['checksum'],
+            translation=obj
+        )
+    except Unit.MultipleObjectsReturned:
+        # Possible temporary inconsistency caused by ongoing update
+        # of repo, let's pretend everyting is okay
+        unit = Unit.objects.filter(
+            checksum=form.cleaned_data['checksum'],
+            translation=obj
+        )[0]
     except Unit.DoesNotExist:
         weblate.logger.error(
             'message %s disappeared!',
@@ -248,6 +186,71 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             request,
             _('Message you wanted to translate is no longer available!')
         )
+        return
+
+    if 'suggest' in request.POST:
+        # Handle suggesion saving
+        user = request.user
+        if form.cleaned_data['target'][0] == '':
+            messages.error(request, _('Your suggestion is empty!'))
+            # Stay on same entry
+            return HttpResponseRedirect(this_unit_url)
+        # Invite user to become translator if there is nobody else
+        recent_changes = Change.objects.content().filter(
+            translation=unit.translation,
+        ).exclude(
+            user=None
+        )
+        if not recent_changes.exists():
+            messages.info(request, _(
+                'There is currently no active translator for this '
+                'translation, please consider becoming a translator '
+                'as your suggestion might otherwise remain unreviewed.'
+            ))
+        # Create the suggestion
+        unit.add_suggestion(
+            join_plural(form.cleaned_data['target']),
+            user,
+        )
+    elif not request.user.is_authenticated():
+        # We accept translations only from authenticated
+        messages.error(
+            request,
+            _('You need to log in to be able to save translations!')
+        )
+    elif not request.user.has_perm('trans.save_translation'):
+        # Need privilege to save
+        messages.error(
+            request,
+            _('You don\'t have privileges to save translations!')
+        )
+    elif not user_locked:
+        # Remember old checks
+        oldchecks = set(
+            unit.active_checks().values_list('check', flat=True)
+        )
+        # Update unit and save it
+        unit.target = join_plural(form.cleaned_data['target'])
+        unit.fuzzy = form.cleaned_data['fuzzy']
+        saved = unit.save_backend(request)
+
+        if saved:
+            # Get new set of checks
+            newchecks = set(
+                unit.active_checks().values_list('check', flat=True)
+            )
+            # Did we introduce any new failures?
+            if newchecks > oldchecks:
+                # Show message to user
+                messages.error(
+                    request,
+                    _('Some checks have failed on your translation!')
+                )
+                # Stay on same entry
+                return HttpResponseRedirect(this_unit_url)
+
+    # Redirect to next entry
+    return HttpResponseRedirect(next_unit_url)
 
 
 def handle_merge(obj, request, next_unit_url):
