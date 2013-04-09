@@ -368,9 +368,15 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #)
 
 # List of machine translations
-# MACHINE_TRANSLATION_SERVICES = (
+#MACHINE_TRANSLATION_SERVICES = (
+#    'trans.machine.apertium.ApertiumTranslation',
+#    'trans.machine.glosbe.GlosbeTranslation',
+#    'trans.machine.google.GoogleTranslation',
+#    'trans.machine.microsoft.MicrosoftTranslation',
+#    'trans.machine.mymemory.MyMemoryTranslation',
+#    'trans.machine.opentran.OpenTranTranslation',
+#    'trans.machine.tmserver.TMServerTranslation',
 #)
-
 
 # E-mail address that error messages come from.
 SERVER_EMAIL = 'noreply@weblate.org'

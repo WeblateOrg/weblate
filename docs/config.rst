@@ -153,6 +153,32 @@ Some of exceptions you might want to include:
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
     )
 
+.. setting:: MACHINE_TRANSLATION_SERVICES
+
+MACHINE_TRANSLATION_SERVICES
+----------------------------
+
+List of enabled machine translation services to use.
+
+.. note::
+
+    Many of services need additional configuration like API keys, please check
+    their documentation for more details.
+
+.. code-block:: python
+
+    MACHINE_TRANSLATION_SERVICES = (
+        'trans.machine.apertium.ApertiumTranslation',
+        'trans.machine.glosbe.GlosbeTranslation',
+        'trans.machine.google.GoogleTranslation',
+        'trans.machine.microsoft.MicrosoftTranslation',
+        'trans.machine.mymemory.MyMemoryTranslation',
+        'trans.machine.opentran.OpenTranTranslation',
+        'trans.machine.tmserver.TMServerTranslation',
+    )
+
+.. seealso:: :ref:`machine-translation`
+
 .. setting:: MT_APERTIUM_KEY
 
 MT_APERTIUM_KEY
