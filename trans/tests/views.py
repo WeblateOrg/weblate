@@ -29,6 +29,7 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
 import cairo
+from urlparse import urlsplit
 from cStringIO import StringIO
 
 
@@ -171,13 +172,27 @@ class EditTest(ViewTestCase):
             params
         )
 
+    def assertRedirectsOffset(self, response, exp_path, exp_offset):
+        '''
+        Asserts that offset in response matches expected one.
+        '''
+        self.assertEqual(response.status_code, 302)
+
+        url = response['Location']
+        scheme, netloc, path, query, fragment = urlsplit(url)
+
+        self.assertEqual(path, exp_path)
+
+        exp_offset = 'offset=%d' % exp_offset
+        self.assertTrue(exp_offset in query)
+
     def test_edit(self):
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
+        self.assertRedirectsOffset(response, self.translate_url, 1)
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -191,7 +206,7 @@ class EditTest(ViewTestCase):
             suggest='yes'
         )
         # We should get to second message
-        self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
+        self.assertRedirectsOffset(response, self.translate_url, 1)
 
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         translation = self.subproject.translation_set.get(
@@ -211,9 +226,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!'
         )
         # We should stay on current message
-        self.assertRedirects(
-            response, self.translate_url + '?type=all&pos=1&dir=stay'
-        )
+        self.assertRedirectsOffset(response, self.translate_url, 0)
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertEqual(len(unit.checks()), 2)
@@ -224,7 +237,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirects(response, self.translate_url + '?type=all&pos=1')
+        self.assertRedirectsOffset(response, self.translate_url, 1)
         self.assertTrue(self.translation.git_needs_commit())
         self.assertTrue(self.subproject.git_needs_commit())
         self.assertTrue(self.subproject.project.git_needs_commit())
