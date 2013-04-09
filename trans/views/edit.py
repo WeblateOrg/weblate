@@ -179,8 +179,12 @@ def translate(request, project, subproject, lang):
         offset = 0
 
     # Check boundaries
-    if offset < 0 or offset > len(search_result['ids']):
+    if offset < 0 or offset >= len(search_result['ids']):
         messages.info(request, _('You have reached end of translating.'))
+        # Delete search
+        del request.session['search_%s' % search_result['search_id']]
+        # Redirect to translation
+        return HttpResponseRedirect(obj.get_absolute_url())
 
     # Some URLs we will most likely use
     base_unit_url = '%s?sid=%s&offset=' % (
@@ -431,7 +435,7 @@ def translate(request, project, subproject, lang):
             {
                 'this_unit_url': this_unit_url,
                 'first_unit_url': base_unit_url + '0',
-                'last_unit_url': base_unit_url + str(len(search_result['ids'])),
+                'last_unit_url': base_unit_url + str(len(search_result['ids']) - 1),
                 'next_unit_url': next_unit_url,
                 'prev_unit_url': base_unit_url + str(offset - 1),
                 'object': obj,
