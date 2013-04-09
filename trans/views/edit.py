@@ -262,52 +262,53 @@ def handle_merge(obj, request, profile, next_unit_url):
             request,
             _('You don\'t have privileges to save translations!')
         )
-    else:
-        try:
-            mergeform = MergeForm(request.GET)
-            if mergeform.is_valid():
-                try:
-                    unit = Unit.objects.get(
-                        checksum=mergeform.cleaned_data['checksum'],
-                        translation=obj
-                    )
-                except Unit.MultipleObjectsReturned:
-                    # Possible temporary inconsistency caused by ongoing
-                    # update of repo, let's pretend everyting is okay
-                    unit = Unit.objects.filter(
-                        checksum=mergeform.cleaned_data['checksum'],
-                        translation=obj
-                    )[0]
+        return
 
-                merged = Unit.objects.get(
-                    pk=mergeform.cleaned_data['merge']
+    try:
+        mergeform = MergeForm(request.GET)
+        if mergeform.is_valid():
+            try:
+                unit = Unit.objects.get(
+                    checksum=mergeform.cleaned_data['checksum'],
+                    translation=obj
                 )
+            except Unit.MultipleObjectsReturned:
+                # Possible temporary inconsistency caused by ongoing
+                # update of repo, let's pretend everyting is okay
+                unit = Unit.objects.filter(
+                    checksum=mergeform.cleaned_data['checksum'],
+                    translation=obj
+                )[0]
 
-                if unit.checksum != merged.checksum:
-                    messages.error(
-                        request,
-                        _('Can not merge different messages!')
-                    )
-                else:
-                    # Store unit
-                    unit.target = merged.target
-                    unit.fuzzy = merged.fuzzy
-                    saved = unit.save_backend(request)
-                    # Update stats if there was change
-                    if saved:
-                        profile.translated += 1
-                        profile.save()
-                    # Redirect to next entry
-                    return HttpResponseRedirect(next_unit_url)
-        except Unit.DoesNotExist:
-            weblate.logger.error(
-                'message %s disappeared!',
-                mergeform.cleaned_data['checksum']
+            merged = Unit.objects.get(
+                pk=mergeform.cleaned_data['merge']
             )
-            messages.error(
-                request,
-                _('Message you wanted to translate is no longer available!')
-            )
+
+            if unit.checksum != merged.checksum:
+                messages.error(
+                    request,
+                    _('Can not merge different messages!')
+                )
+            else:
+                # Store unit
+                unit.target = merged.target
+                unit.fuzzy = merged.fuzzy
+                saved = unit.save_backend(request)
+                # Update stats if there was change
+                if saved:
+                    profile.translated += 1
+                    profile.save()
+                # Redirect to next entry
+                return HttpResponseRedirect(next_unit_url)
+    except Unit.DoesNotExist:
+        weblate.logger.error(
+            'message %s disappeared!',
+            mergeform.cleaned_data['checksum']
+        )
+        messages.error(
+            request,
+            _('Message you wanted to translate is no longer available!')
+        )
 
 
 def handle_suggestions(request, this_unit_url):
