@@ -326,9 +326,6 @@ def translate(request, project, subproject, lang):
         profile = None
         antispam = AntispamForm()
 
-    secondary = None
-    unit = None
-
     # Search results
     search_result = search(obj, request)
 
@@ -410,40 +407,40 @@ def translate(request, project, subproject, lang):
         # Redirect to same entry for possible editing
         return HttpResponseRedirect(this_unit_url)
 
-    # If we failed to get unit above or on no POST
-    if unit is None:
-        # Grab actual unit
-        unit = obj.unit_set.get(pk=search_result['ids'][offset])
+    # Grab actual unit
+    unit = obj.unit_set.get(pk=search_result['ids'][offset])
 
-        # Show secondary languages for logged in users
-        if profile:
-            secondary_langs = profile.secondary_languages.exclude(
-                id=unit.translation.language.id
-            )
-            project = unit.translation.subproject.project
-            secondary = Unit.objects.filter(
-                checksum=unit.checksum,
-                translated=True,
-                translation__subproject__project=project,
-                translation__language__in=secondary_langs,
-            )
-            # distinct('target') works with Django 1.4 so let's emulate that
-            # based on presumption we won't get too many results
-            targets = {}
-            res = []
-            for lang in secondary:
-                if lang.target in targets:
-                    continue
-                targets[lang.target] = 1
-                res.append(lang)
-            secondary = res
+    # Show secondary languages for logged in users
+    if profile:
+        secondary_langs = profile.secondary_languages.exclude(
+            id=unit.translation.language.id
+        )
+        project = unit.translation.subproject.project
+        secondary = Unit.objects.filter(
+            checksum=unit.checksum,
+            translated=True,
+            translation__subproject__project=project,
+            translation__language__in=secondary_langs,
+        )
+        # distinct('target') works with Django 1.4 so let's emulate that
+        # based on presumption we won't get too many results
+        targets = {}
+        res = []
+        for lang in secondary:
+            if lang.target in targets:
+                continue
+            targets[lang.target] = 1
+            res.append(lang)
+        secondary = res
+    else:
+        secondary = None
 
-        # Prepare form
-        form = TranslationForm(initial={
-            'checksum': unit.checksum,
-            'target': (unit.translation.language, unit.get_target_plurals()),
-            'fuzzy': unit.fuzzy,
-        })
+    # Prepare form
+    form = TranslationForm(initial={
+        'checksum': unit.checksum,
+        'target': (unit.translation.language, unit.get_target_plurals()),
+        'fuzzy': unit.fuzzy,
+    })
 
     total = obj.unit_set.all().count()
 
