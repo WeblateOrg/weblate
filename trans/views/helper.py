@@ -96,26 +96,6 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
     return project, subproject, translation
 
 
-def get_filter_name(rqtype, search_query):
-    '''
-    Returns name of current filter.
-    '''
-    if search_query != '':
-        return _('Search for "%s"') % search_query
-    elif rqtype == 'fuzzy':
-        return _('Fuzzy strings')
-    elif rqtype == 'untranslated':
-        return _('Untranslated strings')
-    elif rqtype == 'suggestions':
-        return _('Strings with suggestions')
-    elif rqtype == 'allchecks':
-        return _('Strings with any failing checks')
-    elif rqtype in CHECKS:
-        return CHECKS[rqtype].name
-    else:
-        return None
-
-
 def try_set_language(lang):
     '''
     Tries to activate language, returns matching Language object.

@@ -26,6 +26,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
+from django.utils import formats
 import uuid
 
 from trans.models import SubProject, Unit, Suggestion, Change, Comment
@@ -34,12 +35,29 @@ from trans.forms import (
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm
 )
-from trans.views.helper import (
-    get_translation, get_filter_name
-)
+from trans.views.helper import get_translation
 from trans.util import join_plural
 from accounts.models import Profile, send_notification_email
 import weblate
+
+
+
+def get_filter_name(rqtype):
+    '''
+    Returns name of current filter.
+    '''
+    if rqtype == 'fuzzy':
+        return _('Fuzzy strings')
+    elif rqtype == 'untranslated':
+        return _('Untranslated strings')
+    elif rqtype == 'suggestions':
+        return _('Strings with suggestions')
+    elif rqtype == 'allchecks':
+        return _('Strings with any failing checks')
+    elif rqtype in CHECKS:
+        return CHECKS[rqtype].name
+    else:
+        return None
 
 
 def search(translation, request):
@@ -68,11 +86,16 @@ def search(translation, request):
 
     if review_form.is_valid():
         # Review
-        # TODO: this search is missing name
         allunits = translation.unit_set.review(
             review_form.cleaned_data['date'],
             request.user
         )
+
+        formatted_date = formats.date_format(
+            review_form.cleaned_data['date'],
+            'SHORT_DATE_FORMAT'
+        )
+        name = _('Review of translations since %s') % formatted_date
     elif search_form.is_valid():
         # Search query
         search_query = search_form.cleaned_data['q']
@@ -93,9 +116,13 @@ def search(translation, request):
             search_context,
             search_target
         )
+
+        name = _('Search for "%s"') % search_query
     else:
         # Filtering by type
         allunits = translation.unit_set.filter_type(rqtype, translation)
+
+        name = get_filter_name(rqtype)
 
     # Grab unit IDs
     unit_ids = list(allunits.values_list('id', flat=True))
@@ -108,7 +135,7 @@ def search(translation, request):
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
-        'name': get_filter_name(rqtype, search_query),
+        'name': name,
         'ids': unit_ids,
         'search_id': search_id,
     }
