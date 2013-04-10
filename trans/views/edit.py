@@ -54,8 +54,6 @@ def get_filter_name(rqtype):
         return _('Strings with any failing checks')
     elif rqtype in CHECKS:
         return CHECKS[rqtype].name
-    else:
-        return None
 
 
 def get_search_name(search_type, search_query):
@@ -66,7 +64,7 @@ def get_search_name(search_type, search_query):
         return _('Fulltext search for "%s"') % search_query
     elif search_type == 'exact':
         return _('Search for exact string "%s"') % search_query
-    elif search_type == 'substring':
+    else:
         return _('Substring search for "%s"') % search_query
 
 
