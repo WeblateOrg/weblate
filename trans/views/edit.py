@@ -87,7 +87,6 @@ def search(translation, request):
 
     # Possible new search
     rqtype = request.GET.get('type', 'all')
-    search_query = ''
 
     search_form = SearchForm(request.GET)
     review_form = ReviewForm(request.GET)
@@ -114,7 +113,7 @@ def search(translation, request):
             search_form.cleaned_data['tgt'],
         )
 
-        name = _('Search for "%s"') % search_query
+        name = _('Search for "%s"') % search_form.cleaned_data['q']
     else:
         # Filtering by type
         allunits = translation.unit_set.filter_type(rqtype, translation)
