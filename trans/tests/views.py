@@ -29,6 +29,7 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
 import cairo
+import re
 from urlparse import urlsplit
 from cStringIO import StringIO
 
@@ -323,4 +324,33 @@ class SearchViewTest(ViewTestCase):
         self.assertRedirects(
             response,
             self.translation.get_absolute_url()
+        )
+
+    def test_search_links(self):
+        response = self.client.get(
+            self.translate_url,
+            {'q': 'weblate'}
+        )
+        self.assertContains(
+            response,
+            'Current filter: Fulltext search for'
+        )
+        # Extract search ID
+        search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
+        # Try access to pages
+        response = self.client.get(
+            self.translate_url,
+            {'sid': search_id, 'offset': 0}
+        )
+        self.assertContains(
+            response,
+            'http://demo.weblate.org/',
+        )
+        response = self.client.get(
+            self.translate_url,
+            {'sid': search_id, 'offset': 1}
+        )
+        self.assertContains(
+            response,
+            'Thank you for using Weblate.',
         )
