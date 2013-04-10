@@ -337,12 +337,12 @@ def handle_suggestions(request, this_unit_url):
         if 'accept' in request.GET:
             # Accept suggesiont
             suggestion.accept(request)
-        # Invalidate caches
-        for unit in Unit.objects.filter(checksum=suggestion.checksum):
-            unit.translation.invalidate_cache('suggestions')
         # Delete suggestion in both cases (accepted ones are no longer
         # needed)
         suggestion.delete()
+        # Update suggestion stats
+        for unit in Unit.objects.filter(checksum=suggestion.checksum):
+            unit.translation.update_stats()
     else:
         messages.error(request, _('Invalid suggestion!'))
 
