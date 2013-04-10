@@ -354,3 +354,12 @@ class SearchViewTest(ViewTestCase):
             response,
             'Thank you for using Weblate.',
         )
+        # Try invalid SID
+        response = self.client.get(
+            self.translate_url,
+            {'sid': 'invalid', 'offset': 1}
+        )
+        self.assertRedirects(
+            response,
+            self.translation.get_absolute_url()
+        )
