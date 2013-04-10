@@ -188,15 +188,6 @@ API key for Apertium Web Service, you can register at http://api.apertium.org/re
 
 .. seealso:: :ref:`machine-translation`
 
-.. setting:: MT_MICROSOFT_KEY
-
-MT_MICROSOFT_KEY
-----------------
-
-API key for Microsoft Translator service, you can register at http://www.bing.com/developers/createapp.aspx
-
-.. seealso:: :ref:`machine-translation`
-
 .. setting:: MT_MICROSOFT_ID
 
 MT_MICROSOFT_ID
@@ -206,7 +197,7 @@ Cliend ID for Microsoft Translator service.
 
 .. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
 
-.. setting:: MT_MICROSOFT_KEY
+.. setting:: MT_MICROSOFT_SECRET
 
 MT_MICROSOFT_SECRET
 -------------------

@@ -39,10 +39,6 @@ WEB_ROOT = get('WEB_ROOT', os.path.dirname(os.path.abspath(__file__)))
 MT_APERTIUM_KEY = get('MT_APERTIUM_KEY', None)
 
 # Microsoft Translator service, register at
-# http://www.bing.com/developers/createapp.aspx
-MT_MICROSOFT_KEY = get('MT_MICROSOFT_KEY', None)
-
-# Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = get('MT_MICROSOFT_ID', None)
 MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)

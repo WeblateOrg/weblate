@@ -36,10 +36,11 @@ function mt_set(txt) {
 }
 
 var loading = 0;
+var mt_loaded = false;
 
 function inc_loading() {
     if (loading === 0) {
-        $('#loading').show();
+        $('#mt-loading').show();
     }
     loading++;
 }
@@ -47,90 +48,60 @@ function inc_loading() {
 function dec_loading() {
     loading--;
     if (loading === 0) {
-        $('#loading').hide();
+        $('#mt-loading').hide();
     }
 }
 
 function get_source_string(callback) {
-    inc_loading();
+    $('#loading').show();
     $.get($('#js-get').attr('href'), function(data) {
         callback(data);
-        dec_loading();
+        $('#loading').hide();
     });
 }
 
-function failed_mt(jqXHR, textStatus, errorThrown) {
+function process_machine_translation(data, textStatus, jqXHR) {
     dec_loading();
-    $('<div title="' + gettext('Failed translation') + '"><p>' + gettext('The request for machine translation has failed.') + '</p><p>' + gettext('Error details:') + ' ' + textStatus + '</p></div>').dialog();
+    if (data.responseStatus == 200) {
+        data.translations.forEach(function (el, idx, ar) {
+            var code = $('<tr data-quality=' + el.quality + '"><td class="translatetext target">' + el.text + '</td><td>' + el.source + '</td><td><a class="copymt small-button">' + gettext('Copy') + '</a></td></tr>');
+            $('#machine-translations').append(code);
+        });
+        $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
+            var text = $(this).parent().parent().find('.target').text();
+            mt_set(text);
+        });
+    } else {
+        var msg = interpolate(
+            gettext('The request for machine translation using %s has failed:'),
+            [data.service]
+        );
+        $('#mt-errors').append(
+            $('<li>' + msg + ' ' + data.responseDetails + '</li>')
+        );
+    }
 }
 
-function process_mt(data, textStatus, jqXHR) {
-    if (typeof(data.responseData) == 'undefined') {
-        mt_set(data);
-    } else if (data.responseData !== '') {
-        if (data.responseStatus == 200) {
-            mt_set(data.responseData.translatedText);
-        } else {
-            failed_mt(null, data.responseDetails, null);
-        }
-    }
+function failed_machine_translation(jqXHR, textStatus, errorThrown) {
     dec_loading();
+    $('#mt-errors').append(
+        $(gettext('The request for machine translation has failed:') + ' ' + textStatus)
+    );
 }
 
-function add_translate_button(id, text, callback) {
-    $('#copy-text').after('<a href="#" id="translate-' + id + '">' + text + '</a>');
-    $('#translate-' + id).button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(callback);
-}
-
-function load_translate_apis() {
-    if (typeof(APERTIUM_LANGS) != 'undefined' && APERTIUM_LANGS.indexOf(target_language) != -1) {
-        add_translate_button('apertium', gettext('Translate using Apertium'), function () {
-            get_source_string(function(data) {
-                inc_loading();
-                $.ajax({
-                    url: "http://api.apertium.org/json/translate?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language + "&key=" + APERTIUM_API_KEY,
-                    success: process_mt,
-                    error: failed_mt,
-                    timeout: 10000,
-                    dataType: 'json'
-                });
-            });
-            return false;
-        });
+function load_machine_translations() {
+    if (mt_loaded) {
+        return;
     }
-
-    var microsoft_language = target_language;
-    if (microsoft_language == 'zh-tw') {
-        microsoft_language = 'zh-CHT';
-    } else if (microsoft_language == 'zh-cn') {
-        microsoft_language = 'zh-CHS';
-    }
-    if (typeof(MICROSOFT_LANGS) != 'undefined' && MICROSOFT_LANGS.indexOf(microsoft_language) != -1) {
-        add_translate_button('apertium', gettext('Translate using Microsoft Translator'), function () {
-            get_source_string(function(data) {
-                inc_loading();
-                $.ajax({
-                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + encodeURIComponent(data) + "&from=en&to=" + microsoft_language,
-                    success: process_mt,
-                    error: failed_mt,
-                    dataType: 'jsonp',
-                    jsonp: "oncomplete"
-                });
-            });
-            return false;
+    mt_loaded = true;
+    MACHINE_TRANSLATION_SERVICES.forEach(function (el, idx, ar) {
+        inc_loading();
+        $.ajax({
+            url: $('#js-translate').attr('href') + '?service=' + el,
+            success: process_machine_translation,
+            error: failed_machine_translation,
+            dataType: 'json'
         });
-    }
-    add_translate_button('mymemory', gettext('Translate using MyMemory'), function () {
-        get_source_string(function(data) {
-            inc_loading();
-            $.ajax({
-                url: "http://mymemory.translated.net/api/get?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language,
-                success: process_mt,
-                error: failed_mt,
-                dataType: 'json'
-            });
-        });
-        return false;
     });
 }
 
@@ -276,9 +247,6 @@ $(function() {
         }
         $('#id_target').insertAtCaret(text);
     });
-    if (typeof(target_language) != 'undefined') {
-        load_translate_apis();
-    }
     $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
         var parent_id = $(this).parent()[0].id;
         var check_id = parent_id.substring(6);
@@ -317,6 +285,18 @@ $(function() {
                 var text = $(this).parent().parent().find('.target').text();
                 $('#id_target').insertAtCaret(text);
             });
+        },
+        create: function (e, ui) {
+            /* Machine translations loading */
+            if (ui.panel.attr('id') == 'tab-machine') {
+                load_machine_translations();
+            }
+        },
+        activate: function (e, ui) {
+            /* Machine translations loading */
+            if (ui.newPanel.attr('id') == 'tab-machine') {
+                load_machine_translations();
+            }
         }
     });
     $("div.tabs").tabs({

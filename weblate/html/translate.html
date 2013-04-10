@@ -39,6 +39,7 @@
 
 <form action="{{ this_unit_url }}" method="post">
 <a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
+<a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
 <a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
 {% csrf_token %}
 {% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
@@ -164,6 +165,9 @@
         <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
         <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;offset={{ offset }}&amp;sid={{ search_id }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
         <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
+        {% if mt_enabled %}
+        <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+        {% endif %}
         <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">{% trans "Comments" %}</a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">{% trans "Source" %}</a></li>
@@ -185,6 +189,24 @@
     </tbody>
     </table>
     </div>
+    {% if mt_enabled %}
+    <div id="tab-machine">
+    <img src="{% get_media_prefix %}loading.gif" id="mt-loading" style="display: none" />
+    <table>
+    <thead>
+    <tr>
+    <th>{% trans "Translation" %}</th>
+    <th>{% trans "Source" %}</th>
+    <th></th>
+    <tr>
+    </thead>
+    <tbody id="machine-translations">
+    </tbody>
+    </table>
+    <ul id="mt-errors">
+    </ul>
+    </div>
+    {% endif %}
     <div id="tab-changes">
     {% include "last-changes.html" %}
     </div>

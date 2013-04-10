@@ -88,10 +88,27 @@ def translate(request, unit_id):
     if not service_name in MACHINE_TRANSLATION_SERVICES:
         return HttpResponseBadRequest('Invalid service specified')
 
-    response = MACHINE_TRANSLATION_SERVICES[service_name].translate(
-        unit.translation.language.code,
-        unit.get_source_plurals()[0]
-    )
+    translation_service = MACHINE_TRANSLATION_SERVICES[service_name]
+
+    # Error response
+    response = {
+        'responseStatus': 500,
+        'service': translation_service.name,
+        'responseDetails': '',
+        'translations': [],
+    }
+
+    try:
+        response['translations'] = translation_service.translate(
+            unit.translation.language.code,
+            unit.get_source_plurals()[0]
+        )
+        response['responseStatus'] = 200
+    except Exception as exc:
+        response['responseDetails'] = '%s: %s' % (
+            exc.__class__.__name__,
+            str(exc)
+        )
 
     return HttpResponse(
         json.dumps(response),
@@ -212,40 +229,8 @@ def git_status_translation(request, project, subproject, lang):
 def js_config(request):
     '''
     Generates settings for javascript. Includes things like
-    API keys for translaiton services or list of languages they
-    support.
+    translaiton services.
     '''
-    # Apertium support
-    if appsettings.MT_APERTIUM_KEY is not None and appsettings.MT_APERTIUM_KEY != '':
-        try:
-            listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % appsettings.MT_APERTIUM_KEY)
-            pairs = listpairs.read()
-            parsed = json.loads(pairs)
-            apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
-        except Exception as e:
-            weblate.logger.error('failed to get supported languages from Apertium, using defaults (%s)', str(e))
-            apertium_langs = ['gl', 'ca', 'es', 'eo']
-    else:
-        apertium_langs = None
-
-    # Microsoft translator support
-    if appsettings.MT_MICROSOFT_KEY is not None and appsettings.MT_MICROSOFT_KEY != '':
-        try:
-            listpairs = urllib2.urlopen('http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate?appID=%s' % appsettings.MT_MICROSOFT_KEY)
-            data = listpairs.read()
-            parsed = ElementTree.fromstring(data)
-            microsoft_langs = [p.text for p in parsed.getchildren()]
-        except Exception as e:
-            weblate.logger.error('failed to get supported languages from Microsoft, using defaults (%s)', str(e))
-            microsoft_langs = [
-                'ar', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'cs', 'da', 'nl', 'en',
-                'et', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww', 'hu',
-                'id', 'it', 'ja', 'ko', 'lv', 'lt', 'no', 'fa', 'pl', 'pt',
-                'ro', 'ru', 'sk', 'sl', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
-            ]
-    else:
-        microsoft_langs = None
-
     # Machine translation
     machine_services = MACHINE_TRANSLATION_SERVICES.keys()
 
@@ -254,8 +239,6 @@ def js_config(request):
         RequestContext(
             request,
             {
-                'apertium_langs': apertium_langs,
-                'microsoft_langs': microsoft_langs,
                 'machine_services': machine_services,
             }
         ),

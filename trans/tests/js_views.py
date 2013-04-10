@@ -56,10 +56,10 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'Ahoj')
         data = simplejson.loads(response.content)
         self.assertEqual(
-            data,
+            data['translations'],
             [
-                {'q': 100, 's': 'Dummy', 't': 'Nazdar světe!'},
-                {'q': 100, 's': 'Dummy', 't': 'Ahoj světe!'},
+                {'quality': 100, 'source': 'Dummy', 'text': 'Nazdar světe!'},
+                {'quality': 100, 'source': 'Dummy', 'text': 'Ahoj světe!'},
             ]
         )
 

@@ -469,7 +469,6 @@ def translate(request, project, subproject, lang):
                 'form': form,
                 'antispam': antispam,
                 'comment_form': CommentForm(),
-                'target_language': obj.language.code.replace('_', '-').lower(),
                 'update_lock': own_lock,
                 'secondary': secondary,
                 'locked': locked,
