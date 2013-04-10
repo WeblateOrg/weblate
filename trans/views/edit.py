@@ -350,11 +350,13 @@ def translate(request, project, subproject, lang):
 
     # Search results
     search_result = search(obj, request)
-    num_results = len(search_result['ids'])
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
         return search_result
+
+    # Get numer of results
+    num_results = len(search_result['ids'])
 
     # Search offset
     try:
