@@ -364,6 +364,7 @@ class EditIphoneTest(EditTest):
     def create_subproject(self):
         return self.create_iphone()
 
+
 class SearchViewTest(ViewTestCase):
     def setUp(self):
         super(SearchViewTest, self).setUp()
@@ -391,7 +392,6 @@ class SearchViewTest(ViewTestCase):
                 expected
             )
         return response
-
 
     def test_search(self):
         # Default
