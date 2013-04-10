@@ -20,7 +20,6 @@
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
-from weblate import appsettings
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required, login_required
@@ -30,12 +29,9 @@ from trans.models import Unit, Check, Dictionary
 from trans.machine import MACHINE_TRANSLATION_SERVICES
 from trans.decorators import any_permission_required
 from trans.views.helper import get_project, get_subproject, get_translation
-import weblate
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import json
-from xml.etree import ElementTree
-import urllib2
 
 
 def get_string(request, checksum):
