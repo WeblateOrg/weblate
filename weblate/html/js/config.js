@@ -10,3 +10,4 @@ var MICROSOFT_API_KEY = '{{ microsoft_api_key }}';
 {% if microsoft_langs %}
 var MICROSOFT_LANGS = ['{{ microsoft_langs|join:"','" }}'];
 {% endif %}
+var MACHINE_TRANSLATION_SERVICES = [{% if machine_services %}'{{ machine_services|join:"','" }}'{% endif %}];

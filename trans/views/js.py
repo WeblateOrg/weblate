@@ -246,6 +246,9 @@ def js_config(request):
     else:
         microsoft_langs = None
 
+    # Machine translation
+    machine_services = MACHINE_TRANSLATION_SERVICES.keys()
+
     return render_to_response(
         'js/config.js',
         RequestContext(
@@ -253,6 +256,7 @@ def js_config(request):
             {
                 'apertium_langs': apertium_langs,
                 'microsoft_langs': microsoft_langs,
+                'machine_services': machine_services,
             }
         ),
         mimetype='application/javascript'
