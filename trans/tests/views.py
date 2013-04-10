@@ -268,3 +268,59 @@ class EditResourceTest(EditTest):
 class EditIphoneTest(EditTest):
     def create_subproject(self):
         return self.create_iphone()
+
+class SearchViewTest(ViewTestCase):
+    def setUp(self):
+        super(SearchViewTest, self).setUp()
+        self.translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        self.translate_url = self.translation.get_translate_url()
+
+    def test_search(self):
+        # Default
+        response = self.client.get(
+            self.translate_url,
+            {'q': 'hello'}
+        )
+        self.assertContains(
+            response,
+            'Current filter: Fulltext search for'
+        )
+        # Fulltext
+        response = self.client.get(
+            self.translate_url,
+            {'q': 'hello', 'search': 'ftx'}
+        )
+        self.assertContains(
+            response,
+            'Current filter: Fulltext search for'
+        )
+        # Substring
+        response = self.client.get(
+            self.translate_url,
+            {'q': 'hello', 'search': 'substring'}
+        )
+        self.assertContains(
+            response,
+            'Current filter: Substring search for'
+        )
+        # Exact string
+        response = self.client.get(
+            self.translate_url,
+            {'q': 'Thank you for using Weblate.', 'search': 'exact'}
+        )
+        self.assertContains(
+            response,
+            'Current filter: Search for exact string'
+        )
+        # Review
+        response = self.client.get(
+            self.translate_url,
+            {'date': '2010-01-10', 'type': 'review'}
+        )
+        # This should not match anything
+        self.assertRedirects(
+            response,
+            self.translation.get_absolute_url()
+        )
