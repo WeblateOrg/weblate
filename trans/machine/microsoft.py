@@ -119,4 +119,4 @@ class MicrosoftTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.json_req(TRANSLATE_URL, **args)
-        return [(response, 100)]
+        return [(response, 100, self.name)]

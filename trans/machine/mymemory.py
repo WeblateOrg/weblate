@@ -48,9 +48,18 @@ class MyMemoryTranslation(MachineTranslation):
         else:
             quality = 0
 
+        if match['last-updated-by'] != '':
+            source = '%s (%s)' % (
+                self.name,
+                match['last-updated-by']
+            )
+        else:
+            source = self.name
+
         return (
             match['translation'],
-            quality * match['match']
+            quality * match['match'],
+            source
         )
 
     def download_translations(self, language, text):

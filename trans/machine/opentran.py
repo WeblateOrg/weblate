@@ -47,6 +47,7 @@ class OpenTranTranslation(MachineTranslation):
         return (
             match['text'],
             100 - (match['value'] - 1) * 20,
+            self.name
         )
 
     def download_translations(self, language, text):

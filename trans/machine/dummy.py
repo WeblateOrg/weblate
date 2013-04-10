@@ -39,7 +39,7 @@ class DummyTranslation(MachineTranslation):
         '''
         if text.strip() == 'Hello, world!':
             return [
-                ('Nazdar světe!', 100),
-                ('Ahoj světe!', 100),
+                ('Nazdar světe!', 100, 'Dummy'),
+                ('Ahoj světe!', 100, 'Dummy'),
             ]
         return []
