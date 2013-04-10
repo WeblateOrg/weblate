@@ -406,3 +406,29 @@ class SearchViewTest(ViewTestCase):
             response,
             self.translation.get_absolute_url()
         )
+
+    def test_search_type(self):
+        self.do_search(
+            {'type': 'untranslated'},
+            'Current filter: Untranslated strings'
+        )
+        self.do_search(
+            {'type': 'fuzzy'},
+            None
+        )
+        self.do_search(
+            {'type': 'suggestions'},
+            None
+        )
+        self.do_search(
+            {'type': 'allchecks'},
+            None
+        )
+        self.do_search(
+            {'type': 'plurals'},
+            None
+        )
+        self.do_search(
+            {'type': 'all'},
+            '1 / 4'
+        )
