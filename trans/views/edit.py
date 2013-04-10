@@ -298,7 +298,7 @@ def handle_merge(obj, request, next_unit_url):
         return HttpResponseRedirect(next_unit_url)
 
 
-def handle_suggestions(request, this_unit_url):
+def handle_suggestions(obj, request, this_unit_url):
     '''
     Handles suggestion deleting/accepting.
     '''
@@ -335,14 +335,11 @@ def handle_suggestions(request, this_unit_url):
 
     if suggestion is not None:
         if 'accept' in request.GET:
-            # Accept suggesiont
-            suggestion.accept(request)
-        # Delete suggestion in both cases (accepted ones are no longer
-        # needed)
-        suggestion.delete()
-        # Update suggestion stats
-        for unit in Unit.objects.filter(checksum=suggestion.checksum):
-            unit.translation.update_stats()
+            # Accept suggesion
+            suggestion.accept(obj, request)
+        else:
+            # Delete suggestion
+            suggestion.delete()
     else:
         messages.error(request, _('Invalid suggestion!'))
 
@@ -406,7 +403,7 @@ def translate(request, project, subproject, lang):
 
     # Handle accepting/deleting suggestions
     elif not locked and ('accept' in request.GET or 'delete' in request.GET):
-        response = handle_suggestions(request, this_unit_url)
+        response = handle_suggestions(obj, request, this_unit_url)
 
     # Pass possible redirect further
     if response is not None:
