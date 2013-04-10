@@ -212,6 +212,15 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
 
     def test_suggest(self):
+        # Try empty suggestion (should not be added)
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            suggest='yes'
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 0)
+
         # Add first suggestion
         response = self.edit_unit(
             'Hello, world!\n',
