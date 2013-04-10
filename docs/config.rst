@@ -177,7 +177,7 @@ List of enabled machine translation services to use.
         'trans.machine.tmserver.TMServerTranslation',
     )
 
-.. seealso:: :ref:`machine-translation`
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_APERTIUM_KEY
 
@@ -186,7 +186,7 @@ MT_APERTIUM_KEY
 
 API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
 
-.. seealso:: :ref:`machine-translation`
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_MICROSOFT_ID
 
@@ -195,7 +195,7 @@ MT_MICROSOFT_ID
 
 Cliend ID for Microsoft Translator service.
 
-.. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
 
 .. setting:: MT_MICROSOFT_SECRET
 
@@ -204,7 +204,16 @@ MT_MICROSOFT_SECRET
 
 Client secret for Microsoft Translator service.
 
-.. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+
+.. setting:: MT_TMSERVER
+
+MT_TMSERVER
+-----------
+
+URL where tmserver is running.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
 
 .. setting:: NEARBY_MESSAGES
 

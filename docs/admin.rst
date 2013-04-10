@@ -415,6 +415,111 @@ translation page.
 User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
 
 
+.. _machine-translation-setup:
+
+Machine translation setup
+-------------------------
+
+Weblate has builtin support for several machine translation services and it's
+up to adminitrator to enable them. The services have different terms of use, so
+please check whether you are allowed to use them before enabling in Weblate.
+The individual services are enabled using :setting:`MACHINE_TRANSLATION_SERVICES`.
+
+Apertium
+++++++++
+
+A free/open-source machine translation platform providing translation to
+limited set of languages.
+
+You should get API key from them, otherwise number of requests is rate limited.
+
+.. seealso::
+
+    :setting:`MT_APERTIUM_KEY`, http://www.apertium.org/
+
+Glosbe
+++++++
+
+Free dictionary and translation memory for almost every living language.
+
+API is free to use, regarding indicated data source license. There is a limit
+of call that may be done from one IP in fixed period of time, to prevent from
+abuse.
+
+.. seealso::
+
+    http://glosbe.com/
+
+Google Translate
+++++++++++++++++
+
+Machine translation service provided by Google.
+
+Please note that this does not use (paid) Translation API but rather web based
+translation interface.
+
+.. seealso::
+
+    http://translate.google.com/
+
+Microsoft Translator
+++++++++++++++++++++
+
+Machine translation service provided by Microsoft.
+
+You need to register at Azure market and use Client ID and secret from there.
+
+.. seealso::
+
+    :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`, 
+    http://www.microsofttranslator.com/, 
+    https://datamarket.azure.com/developer/applications/
+
+MyMemory
+++++++++
+
+Huge translation memory with machine translation.
+
+Free, anonymous usage is currently limited to 100 requests/day, you can ask for
+more.
+
+.. seealso::
+
+    http://mymemory.translated.net/
+
+Open-Tran
++++++++++
+
+Database of open source translations.
+
+.. seealso::
+
+    http://www.open-tran.eu/
+
+tmserver
+++++++++
+
+You can run your own translation memory server which is bundled with
+Translate-toolkit and let Weblate talk to it.
+
+First you will want to import some data to the translation memory:
+
+.. code-block:: sh
+
+    build_tmdb -d /var/lib/tm/db -s en -t cs locale/cs/LC_MESSAGES/django.po
+    build_tmdb -d /var/lib/tm/db -s en -t de locale/de/LC_MESSAGES/django.po
+    build_tmdb -d /var/lib/tm/db -s en -t fr locale/fr/LC_MESSAGES/django.po
+
+Now you can start tmserver to listen to your requests:
+
+.. code-block:: sh
+
+    tmserver -d /var/lib/tm/db
+
+.. seealso::
+
+    :setting:`MT_TMSERVER`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
+
 .. _custom-checks:
 
 Customizing checks
