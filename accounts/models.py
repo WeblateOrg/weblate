@@ -145,7 +145,7 @@ class ProfileManager(models.Manager):
             languages=language
         )
         # We don't want to filter out anonymous user
-        if user.is_authenticated():
+        if user is not None and user.is_authenticated():
             ret = ret.exclude(user=user)
         return ret
 
