@@ -54,8 +54,8 @@ class Suggestion(models.Model):
             unit.save_backend(request)
         self.delete()
 
-    def delete(self):
-        super(Suggestion, self).delete()
+    def delete(self, *args, **kwargs):
+        super(Suggestion, self).delete(*args, **kwargs)
         # Update suggestion stats
         related_units = Unit.objects.filter(
             checksum=self.checksum,
