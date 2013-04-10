@@ -325,61 +325,57 @@ class SearchViewTest(ViewTestCase):
         )
         self.translate_url = self.translation.get_translate_url()
 
-    def test_search(self):
-        # Default
+    def do_search(self, params, expected):
+        '''
+        Helper method for performing search test.
+        '''
         response = self.client.get(
             self.translate_url,
-            {'q': 'hello'}
+            params,
         )
-        self.assertContains(
-            response,
+        if expected is None:
+            self.assertRedirects(
+                response,
+                self.translation.get_absolute_url()
+            )
+        else:
+            self.assertContains(
+                response,
+                expected
+            )
+        return response
+
+
+    def test_search(self):
+        # Default
+        self.do_search(
+            {'q': 'hello'},
             'Current filter: Fulltext search for'
         )
         # Fulltext
-        response = self.client.get(
-            self.translate_url,
-            {'q': 'hello', 'search': 'ftx'}
-        )
-        self.assertContains(
-            response,
+        self.do_search(
+            {'q': 'hello', 'search': 'ftx'},
             'Current filter: Fulltext search for'
         )
         # Substring
-        response = self.client.get(
-            self.translate_url,
-            {'q': 'hello', 'search': 'substring'}
-        )
-        self.assertContains(
-            response,
+        self.do_search(
+            {'q': 'hello', 'search': 'substring'},
             'Current filter: Substring search for'
         )
         # Exact string
-        response = self.client.get(
-            self.translate_url,
-            {'q': 'Thank you for using Weblate.', 'search': 'exact'}
-        )
-        self.assertContains(
-            response,
+        self.do_search(
+            {'q': 'Thank you for using Weblate.', 'search': 'exact'},
             'Current filter: Search for exact string'
         )
         # Review
-        response = self.client.get(
-            self.translate_url,
-            {'date': '2010-01-10', 'type': 'review'}
-        )
-        # This should not match anything
-        self.assertRedirects(
-            response,
-            self.translation.get_absolute_url()
+        self.do_search(
+            {'date': '2010-01-10', 'type': 'review'},
+            None
         )
 
     def test_search_links(self):
-        response = self.client.get(
-            self.translate_url,
-            {'q': 'weblate'}
-        )
-        self.assertContains(
-            response,
+        response = self.do_search(
+            {'q': 'weblate'},
             'Current filter: Fulltext search for'
         )
         # Extract search ID
