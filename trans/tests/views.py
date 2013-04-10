@@ -291,6 +291,31 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
 
+    def test_merge(self):
+        # Translate unit to have something to start with
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        # Try the merge
+        response = self.client.get(
+            self.translate_url,
+            {'checksum': unit.checksum, 'merge': unit.id}
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+
+        # Test error handling
+        unit2 = self.translation.unit_set.get(
+            source='Thank you for using Weblate.'
+        )
+        response = self.client.get(
+            self.translate_url,
+            {'checksum': unit.checksum, 'merge': unit2.id}
+        )
+        self.assertContains(response, 'Can not merge different messages!')
+
     def test_edit_check(self):
         response = self.edit_unit(
             'Hello, world!\n',
