@@ -58,6 +58,18 @@ def get_filter_name(rqtype):
         return None
 
 
+def get_search_name(search_type, search_query):
+    '''
+    Returns name for search.
+    '''
+    if search_type == 'ftx':
+        return _('Fulltext search for "%s"') % search_query
+    elif search_type == 'exact':
+        return _('Search for exact string "%s"') % search_query
+    elif search_type == 'substring':
+        return _('Substring search for "%s"') % search_query
+
+
 def cleanup_session(session):
     '''
     Deletes old search results from session storage.
@@ -113,7 +125,10 @@ def search(translation, request):
             search_form.cleaned_data['tgt'],
         )
 
-        name = _('Search for "%s"') % search_form.cleaned_data['q']
+        name = get_search_name(
+            search_form.cleaned_data['search'],
+            search_form.cleaned_data['q'],
+        )
     else:
         # Filtering by type
         allunits = translation.unit_set.filter_type(rqtype, translation)
