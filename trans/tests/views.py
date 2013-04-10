@@ -199,6 +199,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
 
     def test_suggest(self):
+        # Add first suggestion
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
@@ -207,6 +208,35 @@ class EditTest(ViewTestCase):
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
 
+        # Add second suggestion
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Ahoj svete!\n',
+            suggest='yes'
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+
+        # Reload from database
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 2)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
+        # Delete one of suggestions
+        self.client.get(
+            self.translate_url,
+            {'delete': 1},
+        )
+
+        # Reload from database
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         translation = self.subproject.translation_set.get(
             language_code='cs'
@@ -218,6 +248,26 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
+
+        # Accept one of suggestions
+        self.client.get(
+            self.translate_url,
+            {'accept': 2},
+        )
+
+        # Reload from database
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 0)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Ahoj svete!\n')
 
     def test_edit_check(self):
         response = self.edit_unit(
