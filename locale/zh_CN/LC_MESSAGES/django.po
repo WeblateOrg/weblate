@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-09 17:03+0200\n"
+"POT-Creation-Date: 2013-04-10 16:48+0200\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -136,7 +136,7 @@ msgstr "注册用户"
 msgid "Account activation"
 msgstr "激活帐号"
 
-#: accounts/urls.py:80 weblate/html/base.html:49
+#: accounts/urls.py:80 weblate/html/base.html:46
 #: weblate/html/registration/login.html:30
 msgid "Login"
 msgstr "登录"
@@ -438,18 +438,18 @@ msgstr "所有子项目"
 
 #: trans/forms.py:317 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
-#: weblate/html/subproject.html:38 weblate/html/translate.html:55
-#: weblate/html/translate.html.py:169 weblate/html/translate.html:174
-#: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
+#: weblate/html/subproject.html:38 weblate/html/translate.html:56
+#: weblate/html/translate.html.py:173 weblate/html/translate.html:178
+#: weblate/html/translate.html.py:199 weblate/html/js/dictionary.html:7
+#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
 msgid "Source"
 msgstr "源条目"
 
 #: trans/forms.py:318 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
-#: weblate/html/translate.html:84 weblate/html/translate.html.py:174
-#: weblate/html/js/dictionary.html:8 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
+#: weblate/html/translate.html:85 weblate/html/translate.html.py:178
+#: weblate/html/translate.html:198 weblate/html/js/dictionary.html:8
+#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
 msgid "Translation"
 msgstr "翻译"
 
@@ -996,50 +996,50 @@ msgstr "有建议的条目 (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "您想要翻译的信息已不存在了！"
 
-#: trans/models/unit.py:574
+#: trans/models/unit.py:575
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:586
+#: trans/models/unit.py:587
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models/unit.py:725
+#: trans/models/unit.py:726
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
 
-#: trans/models/unitdata.py:226
+#: trans/models/unitdata.py:236
 msgid "Resource update"
 msgstr "资源更新"
 
-#: trans/models/unitdata.py:227
+#: trans/models/unitdata.py:237
 msgid "Translation completed"
 msgstr "完成翻译"
 
-#: trans/models/unitdata.py:228
+#: trans/models/unitdata.py:238
 msgid "Translation changed"
 msgstr "修改翻译"
 
-#: trans/models/unitdata.py:229
+#: trans/models/unitdata.py:239
 #, fuzzy
 #| msgid "translation"
 msgid "New translation"
 msgstr "翻译"
 
-#: trans/models/unitdata.py:230
+#: trans/models/unitdata.py:240
 msgid "Comment added"
 msgstr "添加注释"
 
-#: trans/models/unitdata.py:231
+#: trans/models/unitdata.py:241
 msgid "Suggestion added"
 msgstr "提出建议"
 
-#: trans/models/unitdata.py:232 weblate/html/translation.html:39
+#: trans/models/unitdata.py:242 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "自动翻译"
 
-#: trans/models/unitdata.py:251
+#: trans/models/unitdata.py:261
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
@@ -1204,7 +1204,7 @@ msgid "About Weblate"
 msgstr "关于 Weblate"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
-#: weblate/html/translate.html:99 weblate/html/translate.html.py:218
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:240
 msgid "Failing checks"
 msgstr "未通过检查"
 
@@ -1233,105 +1233,118 @@ msgid "File upload has failed: %s"
 msgstr "文件内容合并失败：%s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:530
+#: trans/views/edit.py:537
 msgid "Failed to process form!"
 msgstr "处理表单失败！"
 
-#: trans/views/edit.py:49 weblate/html/i18n.html:182
+#: trans/views/edit.py:48 weblate/html/i18n.html:180
 #: weblate/html/list-translations.html:63
 msgid "Fuzzy strings"
 msgstr "模糊条目"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:50
 msgid "Untranslated strings"
 msgstr "未翻译条目"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:52
 msgid "Strings with suggestions"
 msgstr "有建议的条目"
 
-#: trans/views/edit.py:55 weblate/html/i18n.html:181
+#: trans/views/edit.py:54 weblate/html/i18n.html:179
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
 msgstr "未通过检查的条目"
 
-#: trans/views/edit.py:84
+#: trans/views/edit.py:64
+#, fuzzy, python-format
+#| msgid "Search for \"%s\""
+msgid "Fulltext search for \"%s\""
+msgstr "搜索 “%s”"
+
+#: trans/views/edit.py:66
+#, fuzzy, python-format
+#| msgid "Search in context strings"
+msgid "Search for exact string \"%s\""
+msgstr "在上下文条目中搜索"
+
+#: trans/views/edit.py:68
+#, fuzzy, python-format
+#| msgid "Search for \"%s\""
+msgid "Substring search for \"%s\""
+msgstr "搜索 “%s”"
+
+#: trans/views/edit.py:93
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
 msgstr "无效建议！"
 
-#: trans/views/edit.py:107
+#: trans/views/edit.py:115
 #, fuzzy, python-format
 #| msgid "Review source strings in %s"
 msgid "Review of translations since %s"
 msgstr "复查 %s 的源条目"
 
-#: trans/views/edit.py:118
-#, python-format
-msgid "Search for \"%s\""
-msgstr "搜索 “%s”"
-
-#: trans/views/edit.py:130
+#: trans/views/edit.py:141
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:181
+#: trans/views/edit.py:192
 msgid "Your suggestion is empty!"
 msgstr "您没有提建议！"
 
-#: trans/views/edit.py:192
+#: trans/views/edit.py:203
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:205
+#: trans/views/edit.py:216
 msgid "You need to log in to be able to save translations!"
 msgstr "您需要登录才能保存译文！"
 
-#: trans/views/edit.py:211 trans/views/edit.py:250
+#: trans/views/edit.py:222 trans/views/edit.py:261
 msgid "You don't have privileges to save translations!"
 msgstr "您没有保存译文的权限！"
 
-#: trans/views/edit.py:233
+#: trans/views/edit.py:244
 msgid "Some checks have failed on your translation!"
 msgstr "您的译文有些地方未通过检查！"
 
-#: trans/views/edit.py:274
+#: trans/views/edit.py:285
 msgid "Can not merge different messages!"
 msgstr "不能合并不同信息！"
 
-#: trans/views/edit.py:298
+#: trans/views/edit.py:309
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "您需要登录才能管理建议！"
 
-#: trans/views/edit.py:307
+#: trans/views/edit.py:318
 msgid "You do not have privilege to accept suggestions!"
 msgstr "您没有接受建议的权限！"
 
-#: trans/views/edit.py:315
+#: trans/views/edit.py:326
 msgid "You do not have privilege to delete suggestions!"
 msgstr "您没有删除建议的权限！"
 
-#: trans/views/edit.py:336
+#: trans/views/edit.py:344
 msgid "Invalid suggestion!"
 msgstr "无效建议！"
 
-#: trans/views/edit.py:368
+#: trans/views/edit.py:378
 msgid "You have reached end of translating."
 msgstr "您的翻译已经结束了。"
 
-#: trans/views/edit.py:528
+#: trans/views/edit.py:535
 msgid "Automatic translation completed."
 msgstr "已完成自动翻译。"
 
-#: trans/views/edit.py:569
+#: trans/views/edit.py:576
 msgid "Posted new comment"
 msgstr "新注释已发表"
 
-#: trans/views/edit.py:594
+#: trans/views/edit.py:601
 msgid "Failed to add comment!"
 msgstr "添加注释失败！"
 
@@ -1516,21 +1529,21 @@ msgstr "未通过检查"
 msgid "Ignored checks"
 msgstr "已忽略检查"
 
-#: weblate/html/base.html:43
+#: weblate/html/base.html:40
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "作为 %(name)s 登录"
 
-#: weblate/html/base.html:44
+#: weblate/html/base.html:41
 msgid "Logout"
 msgstr "退出"
 
-#: weblate/html/base.html:47
+#: weblate/html/base.html:44
 #: weblate/html/registration/registration_form.html:25
 msgid "Register"
 msgstr "注册"
 
-#: weblate/html/base.html:54 weblate/html/admin/performance.html:9
+#: weblate/html/base.html:51 weblate/html/admin/performance.html:9
 #: weblate/html/admin/report.html:8 weblate/html/admin/ssh.html:8
 msgid "Home"
 msgstr "主页"
@@ -1678,7 +1691,7 @@ msgstr "语言"
 msgid "Words"
 msgstr "单词"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:166
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:167
 msgid "Glossary"
 msgstr "词汇表"
 
@@ -1712,7 +1725,7 @@ msgstr "最后一条"
 msgid "Edit"
 msgstr "编辑"
 
-#: weblate/html/dictionary.html:57 weblate/html/translate.html:126
+#: weblate/html/dictionary.html:57 weblate/html/translate.html:127
 msgid "Delete"
 msgstr "删除"
 
@@ -1738,8 +1751,8 @@ msgstr "导入词汇表"
 msgid "Export glossary"
 msgstr "导出词汇表"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:205
-#: weblate/html/translate.html.py:238
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:227
+#: weblate/html/translate.html.py:260
 msgid "Add"
 msgstr "添加"
 
@@ -1779,7 +1792,7 @@ msgid "Change word"
 msgstr "修改单词"
 
 #: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
-#: weblate/html/translate.html:146
+#: weblate/html/translate.html:147
 msgid "Save"
 msgstr "保存"
 
@@ -2440,58 +2453,55 @@ msgid "Zulu"
 msgstr "祖鲁语"
 
 #: weblate/html/i18n.html:168
-msgid "Translate using Apertium"
-msgstr "使用 Apertium 翻译"
-
-#: weblate/html/i18n.html:169
-msgid "Translate using Microsoft Translator"
-msgstr "使用 Microsoft Translator 翻译"
-
-#: weblate/html/i18n.html:170
-msgid "Translate using MyMemory"
-msgstr "使用 MyMemory 翻译"
-
-#: weblate/html/i18n.html:171
 msgid "Sort this column"
 msgstr "重新排列"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:169
 msgid "AJAX request to load this content has failed!"
 msgstr "AJAX 加载此内容的请求已经失败！"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:170
 msgid "Loading…"
 msgstr "正在加载…"
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:171
 msgid "Failed translation"
 msgstr "翻译失败"
 
-#: weblate/html/i18n.html:175
-msgid "The request for machine translation has failed."
+#: weblate/html/i18n.html:172
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid "The request for machine translation has failed:"
 msgstr "机器翻译的请求已经失败。"
 
-#: weblate/html/i18n.html:176
-msgid "Error details:"
-msgstr "错误详情："
+#: weblate/html/i18n.html:173
+#, fuzzy, python-format
+#| msgid "The request for machine translation has failed."
+msgid "The request for machine translation using %%s has failed:"
+msgstr "机器翻译的请求已经失败。"
 
-#: weblate/html/i18n.html:177
+#: weblate/html/i18n.html:174 weblate/html/translate.html:74
+#: weblate/html/js/dictionary.html:19
+msgid "Copy"
+msgstr "复制"
+
+#: weblate/html/i18n.html:175
 msgid "Confirm resetting repository"
 msgstr "确认代码库重设"
 
-#: weblate/html/i18n.html:178
+#: weblate/html/i18n.html:176
 msgid "Resetting the repository will throw away all local changes!"
 msgstr "重设代码库将丢失所有本地修改！"
 
-#: weblate/html/i18n.html:179
+#: weblate/html/i18n.html:177
 msgid "Ok"
 msgstr "确定"
 
-#: weblate/html/i18n.html:180
+#: weblate/html/i18n.html:178
 msgid "Cancel"
 msgstr "取消"
 
-#: weblate/html/i18n.html:183 weblate/html/list-translations.html:61
+#: weblate/html/i18n.html:181 weblate/html/list-translations.html:61
 msgid "Translated strings"
 msgstr "已翻译条目"
 
@@ -2506,7 +2516,7 @@ msgstr ""
 "需要登录后才能翻译，否则只能提建议。"
 
 #: weblate/html/index.html:13 weblate/html/subproject.html:17
-#: weblate/html/translate.html:84
+#: weblate/html/translate.html:85
 msgid "Translations"
 msgstr "翻译"
 
@@ -2778,7 +2788,7 @@ msgstr "要复查的条目"
 msgid "Comment"
 msgstr "注释"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:223
+#: weblate/html/source-review.html:62 weblate/html/translate.html:245
 msgid "User comments"
 msgstr "用户注释"
 
@@ -2828,66 +2838,62 @@ msgstr "翻译"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "当前过滤结果：%(filter_name)s (%(filter_pos)s/%(filter_count)s)"
 
-#: weblate/html/translate.html:60
+#: weblate/html/translate.html:61
 #, fuzzy
 msgid "Source change"
 msgstr "最近的修改"
 
-#: weblate/html/translate.html:66
+#: weblate/html/translate.html:67
 msgid "Context"
 msgstr "上下文"
 
-#: weblate/html/translate.html:73 weblate/html/js/dictionary.html:19
-msgid "Copy"
-msgstr "复制"
-
-#: weblate/html/translate.html:76
+#: weblate/html/translate.html:77
 msgid "Toggle text direction"
 msgstr "切换文字方向"
 
-#: weblate/html/translate.html:89
+#: weblate/html/translate.html:90
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "模糊"
 
-#: weblate/html/translate.html:90
+#: weblate/html/translate.html:91
 msgid "Special characters:"
 msgstr "特殊字符："
 
-#: weblate/html/translate.html:91
+#: weblate/html/translate.html:92
 msgid "Insert tab character"
 msgstr "插入制表符"
 
-#: weblate/html/translate.html:92
+#: weblate/html/translate.html:93
 msgid "Insert new line"
 msgstr "插入换行符"
 
-#: weblate/html/translate.html:93
+#: weblate/html/translate.html:94
 msgid "Insert horizontal ellipsis"
 msgstr "插入省略号"
 
-#: weblate/html/translate.html:109
+#: weblate/html/translate.html:110
 msgid "Suggestions"
 msgstr "建议"
 
-#: weblate/html/translate.html:116
+#: weblate/html/translate.html:117
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "建议者 %(user)s"
 
-#: weblate/html/translate.html:118
+#: weblate/html/translate.html:119
 msgid "Suggested by anonymous user"
 msgstr "建议者为匿名用户"
 
-#: weblate/html/translate.html:123
+#: weblate/html/translate.html:124
 msgid "Accept"
 msgstr "接受"
 
-#: weblate/html/translate.html:140
+#: weblate/html/translate.html:141
 msgid "Flags"
 msgstr "标记"
 
-#: weblate/html/translate.html:150
+#: weblate/html/translate.html:151
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -2895,76 +2901,88 @@ msgid ""
 msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">登录</a> 以便保存译文。"
 
-#: weblate/html/translate.html:153
+#: weblate/html/translate.html:154
 msgid "Suggest"
 msgstr "建议"
 
-#: weblate/html/translate.html:159
+#: weblate/html/translate.html:160
 msgid "Translation context"
 msgstr "翻译上下文"
 
-#: weblate/html/translate.html:163
+#: weblate/html/translate.html:164
 msgid "Messages placed around this one"
 msgstr "此条目附近的条目"
 
-#: weblate/html/translate.html:163
+#: weblate/html/translate.html:164
 msgid "Nearby messages"
 msgstr "附近的条目"
 
-#: weblate/html/translate.html:164
+#: weblate/html/translate.html:165
 msgid "Similar messages"
 msgstr "相似的条目"
 
-#: weblate/html/translate.html:165
+#: weblate/html/translate.html:166
 msgid "Same message used in different subprojects"
 msgstr "在不同子项目中所使用的相同条目"
 
-#: weblate/html/translate.html:165
+#: weblate/html/translate.html:166
 msgid "All locations"
 msgstr "所有位置"
 
-#: weblate/html/translate.html:166
+#: weblate/html/translate.html:167
 msgid "Words extracted from glossary"
 msgstr "词汇表中提取的单词"
 
-#: weblate/html/translate.html:167
+#: weblate/html/translate.html:169
+#, fuzzy
+#| msgid "Point to translation instructions URL"
+msgid "Machine translation suggestions"
+msgstr "翻译介绍地址"
+
+#: weblate/html/translate.html:169
+#, fuzzy
+#| msgid "Failed translation"
+msgid "Machine translation"
+msgstr "翻译失败"
+
+#: weblate/html/translate.html:171
 msgid "Comments about this translation"
 msgstr "关于此翻译的注释"
 
-#: weblate/html/translate.html:167 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:171 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr "注释"
 
-#: weblate/html/translate.html:168
+#: weblate/html/translate.html:172
 msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
-#: weblate/html/translate.html:168
+#: weblate/html/translate.html:172
 msgid "Recent edits"
 msgstr "最近的编辑"
 
-#: weblate/html/translate.html:169
+#: weblate/html/translate.html:173
 msgid "Source string details and feedback"
 msgstr "源条目详细及反馈"
 
-#: weblate/html/translate.html:174 weblate/html/js/other.html:6
+#: weblate/html/translate.html:178 weblate/html/js/other.html:6
 #: weblate/html/js/similar.html:6
 msgid "State"
 msgstr "状态"
 
-#: weblate/html/translate.html:192
+#: weblate/html/translate.html:214
 msgid "You can share comments about this translation with other translators."
 msgstr "您可以分享关于此条目的注释给其它翻译。"
 
-#: weblate/html/translate.html:198 weblate/html/translate.html.py:230
+#: weblate/html/translate.html:220 weblate/html/translate.html.py:252
 msgid "New comment"
 msgstr "新注释"
 
-#: weblate/html/translate.html:208 weblate/html/translate.html.py:241
+#: weblate/html/translate.html:230 weblate/html/translate.html.py:263
 msgid "You are not allowed to add comments."
 msgstr "您不能添加注释。"
 
-#: weblate/html/translate.html:224
+#: weblate/html/translate.html:246
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -3833,6 +3851,18 @@ msgid ""
 msgstr ""
 "注册意味着您同意将您的姓名和邮箱用于 Git 提交并且您的翻译成果将通过与您所翻译"
 "内容相同的许可协议来授权。"
+
+#~ msgid "Translate using Apertium"
+#~ msgstr "使用 Apertium 翻译"
+
+#~ msgid "Translate using Microsoft Translator"
+#~ msgstr "使用 Microsoft Translator 翻译"
+
+#~ msgid "Translate using MyMemory"
+#~ msgstr "使用 MyMemory 翻译"
+
+#~ msgid "Error details:"
+#~ msgstr "错误详情："
 
 #~ msgid "Information about project"
 #~ msgstr "项目信息"

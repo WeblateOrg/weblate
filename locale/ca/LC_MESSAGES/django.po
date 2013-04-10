@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-09 17:03+0200\n"
+"POT-Creation-Date: 2013-04-10 16:48+0200\n"
 "PO-Revision-Date: 2013-02-19 18:17+0200\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Catalan <http://l10n.cihar.com/projects/weblate/master/ca/>\n"
@@ -136,7 +136,7 @@ msgstr "Registre d'usuaris nou"
 msgid "Account activation"
 msgstr "Activació del compte"
 
-#: accounts/urls.py:80 weblate/html/base.html:49
+#: accounts/urls.py:80 weblate/html/base.html:46
 #: weblate/html/registration/login.html:30
 msgid "Login"
 msgstr "Entrada"
@@ -436,18 +436,18 @@ msgstr ""
 
 #: trans/forms.py:317 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
-#: weblate/html/subproject.html:38 weblate/html/translate.html:55
-#: weblate/html/translate.html.py:169 weblate/html/translate.html:174
-#: weblate/html/js/dictionary.html:7 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
+#: weblate/html/subproject.html:38 weblate/html/translate.html:56
+#: weblate/html/translate.html.py:173 weblate/html/translate.html:178
+#: weblate/html/translate.html.py:199 weblate/html/js/dictionary.html:7
+#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
 msgid "Source"
 msgstr "Origen"
 
 #: trans/forms.py:318 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
-#: weblate/html/translate.html:84 weblate/html/translate.html.py:174
-#: weblate/html/js/dictionary.html:8 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
+#: weblate/html/translate.html:85 weblate/html/translate.html.py:178
+#: weblate/html/translate.html:198 weblate/html/js/dictionary.html:8
+#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
 msgid "Translation"
 msgstr "Traducció"
 
@@ -982,50 +982,50 @@ msgstr ""
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/models/unit.py:574
+#: trans/models/unit.py:575
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:586
+#: trans/models/unit.py:587
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models/unit.py:725
+#: trans/models/unit.py:726
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: trans/models/unitdata.py:226
+#: trans/models/unitdata.py:236
 msgid "Resource update"
 msgstr ""
 
-#: trans/models/unitdata.py:227
+#: trans/models/unitdata.py:237
 msgid "Translation completed"
 msgstr ""
 
-#: trans/models/unitdata.py:228
+#: trans/models/unitdata.py:238
 msgid "Translation changed"
 msgstr ""
 
-#: trans/models/unitdata.py:229
+#: trans/models/unitdata.py:239
 #, fuzzy
 #| msgid "Failed translation"
 msgid "New translation"
 msgstr "La traducció ha fallat"
 
-#: trans/models/unitdata.py:230
+#: trans/models/unitdata.py:240
 msgid "Comment added"
 msgstr ""
 
-#: trans/models/unitdata.py:231
+#: trans/models/unitdata.py:241
 msgid "Suggestion added"
 msgstr ""
 
-#: trans/models/unitdata.py:232 weblate/html/translation.html:39
+#: trans/models/unitdata.py:242 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Traducció automàtica"
 
-#: trans/models/unitdata.py:251
+#: trans/models/unitdata.py:261
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -1199,7 +1199,7 @@ msgid "About Weblate"
 msgstr "Quant al Weblate"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
-#: weblate/html/translate.html:99 weblate/html/translate.html.py:218
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:240
 msgid "Failing checks"
 msgstr ""
 
@@ -1227,103 +1227,113 @@ msgid "File upload has failed: %s"
 msgstr ""
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:530
+#: trans/views/edit.py:537
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views/edit.py:49 weblate/html/i18n.html:182
+#: trans/views/edit.py:48 weblate/html/i18n.html:180
 #: weblate/html/list-translations.html:63
 msgid "Fuzzy strings"
 msgstr "Cadenes dubtoses"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:50
 msgid "Untranslated strings"
 msgstr ""
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:52
 msgid "Strings with suggestions"
 msgstr ""
 
-#: trans/views/edit.py:55 weblate/html/i18n.html:181
+#: trans/views/edit.py:54 weblate/html/i18n.html:179
 #: weblate/html/list-translations.html:62
 msgid "Strings with any failing checks"
 msgstr "Cadenes amb comprovacions fallides"
 
-#: trans/views/edit.py:84
+#: trans/views/edit.py:64
+#, python-format
+msgid "Fulltext search for \"%s\""
+msgstr ""
+
+#: trans/views/edit.py:66
+#, python-format
+msgid "Search for exact string \"%s\""
+msgstr ""
+
+#: trans/views/edit.py:68
+#, python-format
+msgid "Substring search for \"%s\""
+msgstr ""
+
+#: trans/views/edit.py:93
 msgid "Invalid search string!"
 msgstr ""
 
-#: trans/views/edit.py:107
+#: trans/views/edit.py:115
 #, fuzzy, python-format
 #| msgid "Failed translation"
 msgid "Review of translations since %s"
 msgstr "La traducció ha fallat"
 
-#: trans/views/edit.py:118
-#, python-format
-msgid "Search for \"%s\""
-msgstr ""
-
-#: trans/views/edit.py:130
+#: trans/views/edit.py:141
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:181
+#: trans/views/edit.py:192
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views/edit.py:192
+#: trans/views/edit.py:203
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:205
+#: trans/views/edit.py:216
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:211 trans/views/edit.py:250
+#: trans/views/edit.py:222 trans/views/edit.py:261
 msgid "You don't have privileges to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:233
+#: trans/views/edit.py:244
 msgid "Some checks have failed on your translation!"
 msgstr ""
 
-#: trans/views/edit.py:274
+#: trans/views/edit.py:285
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views/edit.py:298
+#: trans/views/edit.py:309
 msgid "You need to log in to be able to manage suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:307
+#: trans/views/edit.py:318
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:315
+#: trans/views/edit.py:326
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:336
+#: trans/views/edit.py:344
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: trans/views/edit.py:368
+#: trans/views/edit.py:378
 msgid "You have reached end of translating."
 msgstr ""
 
-#: trans/views/edit.py:528
+#: trans/views/edit.py:535
 msgid "Automatic translation completed."
 msgstr ""
 
-#: trans/views/edit.py:569
+#: trans/views/edit.py:576
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:594
+#: trans/views/edit.py:601
 msgid "Failed to add comment!"
 msgstr ""
 
@@ -1507,21 +1517,21 @@ msgstr "S’han trobat comprovacions fallides"
 msgid "Ignored checks"
 msgstr "Comprovacions ignorades"
 
-#: weblate/html/base.html:43
+#: weblate/html/base.html:40
 #, python-format
 msgid "Logged in as %(name)s"
 msgstr "Sessió iniciada com a %(name)s"
 
-#: weblate/html/base.html:44
+#: weblate/html/base.html:41
 msgid "Logout"
 msgstr "Surt"
 
-#: weblate/html/base.html:47
+#: weblate/html/base.html:44
 #: weblate/html/registration/registration_form.html:25
 msgid "Register"
 msgstr "Registre"
 
-#: weblate/html/base.html:54 weblate/html/admin/performance.html:9
+#: weblate/html/base.html:51 weblate/html/admin/performance.html:9
 #: weblate/html/admin/report.html:8 weblate/html/admin/ssh.html:8
 msgid "Home"
 msgstr "Inici"
@@ -1673,7 +1683,7 @@ msgstr "Llengua"
 msgid "Words"
 msgstr "Paraules"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:166
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:167
 msgid "Glossary"
 msgstr "Glossari"
 
@@ -1707,7 +1717,7 @@ msgstr "Últim"
 msgid "Edit"
 msgstr "Edita"
 
-#: weblate/html/dictionary.html:57 weblate/html/translate.html:126
+#: weblate/html/dictionary.html:57 weblate/html/translate.html:127
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -1733,8 +1743,8 @@ msgstr "Importa el glossari"
 msgid "Export glossary"
 msgstr "Exporta el glossari"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:205
-#: weblate/html/translate.html.py:238
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:227
+#: weblate/html/translate.html.py:260
 msgid "Add"
 msgstr "Afegeix"
 
@@ -1775,7 +1785,7 @@ msgid "Change word"
 msgstr "Canvia la paraula"
 
 #: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
-#: weblate/html/translate.html:146
+#: weblate/html/translate.html:147
 msgid "Save"
 msgstr "Desa"
 
@@ -2433,58 +2443,55 @@ msgid "Zulu"
 msgstr ""
 
 #: weblate/html/i18n.html:168
-msgid "Translate using Apertium"
-msgstr "Tradueix amb l'Apertium"
-
-#: weblate/html/i18n.html:169
-msgid "Translate using Microsoft Translator"
-msgstr "Tradueix amb el Microsoft Translator"
-
-#: weblate/html/i18n.html:170
-msgid "Translate using MyMemory"
-msgstr "Tradueix amb el MyMemory"
-
-#: weblate/html/i18n.html:171
 msgid "Sort this column"
 msgstr "Ordena aquesta columna"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:169
 msgid "AJAX request to load this content has failed!"
 msgstr "La petició AJAX per carregar aquest contingut ha fallat!"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:170
 msgid "Loading…"
 msgstr "S'està carregant..."
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:171
 msgid "Failed translation"
 msgstr "La traducció ha fallat"
 
-#: weblate/html/i18n.html:175
-msgid "The request for machine translation has failed."
+#: weblate/html/i18n.html:172
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid "The request for machine translation has failed:"
 msgstr "La petició de traducció automàtica ha fallat."
 
-#: weblate/html/i18n.html:176
-msgid "Error details:"
-msgstr "Detalls de l'error:"
+#: weblate/html/i18n.html:173
+#, fuzzy, python-format
+#| msgid "The request for machine translation has failed."
+msgid "The request for machine translation using %%s has failed:"
+msgstr "La petició de traducció automàtica ha fallat."
 
-#: weblate/html/i18n.html:177
+#: weblate/html/i18n.html:174 weblate/html/translate.html:74
+#: weblate/html/js/dictionary.html:19
+msgid "Copy"
+msgstr "Copia"
+
+#: weblate/html/i18n.html:175
 msgid "Confirm resetting repository"
 msgstr "Confirmeu la reinicialització del dipòsit"
 
-#: weblate/html/i18n.html:178
+#: weblate/html/i18n.html:176
 msgid "Resetting the repository will throw away all local changes!"
 msgstr "La reinicialització del dipòsit esborrarà tots els canvis locals!"
 
-#: weblate/html/i18n.html:179
+#: weblate/html/i18n.html:177
 msgid "Ok"
 msgstr "D'acord"
 
-#: weblate/html/i18n.html:180
+#: weblate/html/i18n.html:178
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: weblate/html/i18n.html:183 weblate/html/list-translations.html:61
+#: weblate/html/i18n.html:181 weblate/html/list-translations.html:61
 msgid "Translated strings"
 msgstr "Cadenes traduïdes"
 
@@ -2497,7 +2504,7 @@ msgid ""
 msgstr ""
 
 #: weblate/html/index.html:13 weblate/html/subproject.html:17
-#: weblate/html/translate.html:84
+#: weblate/html/translate.html:85
 msgid "Translations"
 msgstr "Traduccions"
 
@@ -2772,7 +2779,7 @@ msgstr "Cadenes a revisar"
 msgid "Comment"
 msgstr "Comentari"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:223
+#: weblate/html/source-review.html:62 weblate/html/translate.html:245
 msgid "User comments"
 msgstr "Comentaris de l'usuari"
 
@@ -2820,66 +2827,62 @@ msgstr "tradueix"
 msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr ""
 
-#: weblate/html/translate.html:60
+#: weblate/html/translate.html:61
 #, fuzzy
 msgid "Source change"
 msgstr "Canvis recents"
 
-#: weblate/html/translate.html:66
+#: weblate/html/translate.html:67
 msgid "Context"
 msgstr "Context"
 
-#: weblate/html/translate.html:73 weblate/html/js/dictionary.html:19
-msgid "Copy"
-msgstr "Copia"
-
-#: weblate/html/translate.html:76
+#: weblate/html/translate.html:77
 msgid "Toggle text direction"
 msgstr "Canvia la direcció del text"
 
-#: weblate/html/translate.html:89
+#: weblate/html/translate.html:90
 msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Dubtós"
 
-#: weblate/html/translate.html:90
+#: weblate/html/translate.html:91
 msgid "Special characters:"
 msgstr "Caràcters especials:"
 
-#: weblate/html/translate.html:91
+#: weblate/html/translate.html:92
 msgid "Insert tab character"
 msgstr "Insereix el caràcter de tabulació"
 
-#: weblate/html/translate.html:92
+#: weblate/html/translate.html:93
 msgid "Insert new line"
 msgstr "Insereix un salt de línia"
 
-#: weblate/html/translate.html:93
+#: weblate/html/translate.html:94
 msgid "Insert horizontal ellipsis"
 msgstr ""
 
-#: weblate/html/translate.html:109
+#: weblate/html/translate.html:110
 msgid "Suggestions"
 msgstr "Suggeriments"
 
-#: weblate/html/translate.html:116
+#: weblate/html/translate.html:117
 #, python-format
 msgid "Suggested by %(user)s"
 msgstr "Suggerit per %(user)s"
 
-#: weblate/html/translate.html:118
+#: weblate/html/translate.html:119
 msgid "Suggested by anonymous user"
 msgstr "Suggerit per un usuari anònim"
 
-#: weblate/html/translate.html:123
+#: weblate/html/translate.html:124
 msgid "Accept"
 msgstr "D'acord"
 
-#: weblate/html/translate.html:140
+#: weblate/html/translate.html:141
 msgid "Flags"
 msgstr ""
 
-#: weblate/html/translate.html:150
+#: weblate/html/translate.html:151
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -2888,76 +2891,88 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Inicieu sessió</a> per "
 "desar les traduccions."
 
-#: weblate/html/translate.html:153
+#: weblate/html/translate.html:154
 msgid "Suggest"
 msgstr "Suggereix"
 
-#: weblate/html/translate.html:159
+#: weblate/html/translate.html:160
 msgid "Translation context"
 msgstr "Context de la traducció"
 
-#: weblate/html/translate.html:163
+#: weblate/html/translate.html:164
 msgid "Messages placed around this one"
 msgstr "Missatges propers a aquest"
 
-#: weblate/html/translate.html:163
+#: weblate/html/translate.html:164
 msgid "Nearby messages"
 msgstr "Missatges propers"
 
-#: weblate/html/translate.html:164
+#: weblate/html/translate.html:165
 msgid "Similar messages"
 msgstr "Missatges similars"
 
-#: weblate/html/translate.html:165
+#: weblate/html/translate.html:166
 msgid "Same message used in different subprojects"
 msgstr ""
 
-#: weblate/html/translate.html:165
+#: weblate/html/translate.html:166
 msgid "All locations"
 msgstr ""
 
-#: weblate/html/translate.html:166
+#: weblate/html/translate.html:167
 msgid "Words extracted from glossary"
 msgstr "Paraules extretes del glossari"
 
-#: weblate/html/translate.html:167
+#: weblate/html/translate.html:169
+#, fuzzy
+#| msgid "Failed translation"
+msgid "Machine translation suggestions"
+msgstr "La traducció ha fallat"
+
+#: weblate/html/translate.html:169
+#, fuzzy
+#| msgid "Failed translation"
+msgid "Machine translation"
+msgstr "La traducció ha fallat"
+
+#: weblate/html/translate.html:171
 msgid "Comments about this translation"
 msgstr "Comentaris sobre aquesta traducció"
 
-#: weblate/html/translate.html:167 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:171 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr "Comentaris"
 
-#: weblate/html/translate.html:168
+#: weblate/html/translate.html:172
 msgid "List of recent changes done in Weblate"
 msgstr "Llista de canvis recents fets al Weblate"
 
-#: weblate/html/translate.html:168
+#: weblate/html/translate.html:172
 msgid "Recent edits"
 msgstr "Edicions recents"
 
-#: weblate/html/translate.html:169
+#: weblate/html/translate.html:173
 msgid "Source string details and feedback"
 msgstr ""
 
-#: weblate/html/translate.html:174 weblate/html/js/other.html:6
+#: weblate/html/translate.html:178 weblate/html/js/other.html:6
 #: weblate/html/js/similar.html:6
 msgid "State"
 msgstr "Estat"
 
-#: weblate/html/translate.html:192
+#: weblate/html/translate.html:214
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 
-#: weblate/html/translate.html:198 weblate/html/translate.html.py:230
+#: weblate/html/translate.html:220 weblate/html/translate.html.py:252
 msgid "New comment"
 msgstr "Comentari nou"
 
-#: weblate/html/translate.html:208 weblate/html/translate.html.py:241
+#: weblate/html/translate.html:230 weblate/html/translate.html.py:263
 msgid "You are not allowed to add comments."
 msgstr "No esteu autoritzat a afegir comentaris."
 
-#: weblate/html/translate.html:224
+#: weblate/html/translate.html:246
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -3723,6 +3738,18 @@ msgid ""
 "By registering you agree to use your name and email in Git commits and your "
 "contribution to be licensed under same license as translated content."
 msgstr ""
+
+#~ msgid "Translate using Apertium"
+#~ msgstr "Tradueix amb l'Apertium"
+
+#~ msgid "Translate using Microsoft Translator"
+#~ msgstr "Tradueix amb el Microsoft Translator"
+
+#~ msgid "Translate using MyMemory"
+#~ msgstr "Tradueix amb el MyMemory"
+
+#~ msgid "Error details:"
+#~ msgstr "Detalls de l'error:"
 
 #~ msgid "Information about project"
 #~ msgstr "Informació sobre el projecte"
