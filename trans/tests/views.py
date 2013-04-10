@@ -163,9 +163,6 @@ class EditTest(ViewTestCase):
         params = {
             'checksum': unit.checksum,
             'target': target,
-            'type': 'all',
-            'dir': 'forward',
-            'pos': '1',
         }
         params.update(kwargs)
         return self.client.post(
