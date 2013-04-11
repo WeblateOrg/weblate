@@ -170,6 +170,7 @@
         <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">{% trans "Comments" %}</a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">{% trans "Source" %}</a></li>
+        <li><a href="#tab-search">{% trans "Search" %}</a></li>
     </ul>
     <div id="tab-nearby">
     <table>
@@ -266,6 +267,13 @@
     </tr>
     </table>
     </div>
+    <div id="tab-search">
+    <form action="{{ unit.translation.get_translate_url }}" method="GET">
+    {{ search_form.as_p }}
+    <input type="submit" value="{% trans "Search" %}" class="button" />
+    </form>
+    </div>
+
 </div>
 
 {% endblock %}

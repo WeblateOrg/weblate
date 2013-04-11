@@ -451,6 +451,7 @@ def translate(request, project, subproject, lang):
         'target': (unit.translation.language, unit.get_target_plurals()),
         'fuzzy': unit.fuzzy,
     })
+    search_form = SearchForm()
 
     return render_to_response(
         'translate.html',
@@ -474,6 +475,7 @@ def translate(request, project, subproject, lang):
                 'form': form,
                 'antispam': antispam,
                 'comment_form': CommentForm(),
+                'search_form': search_form,
                 'update_lock': own_lock,
                 'secondary': secondary,
                 'locked': locked,
