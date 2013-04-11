@@ -217,6 +217,19 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
 
+        # Test that third edit still works
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Ahoj svete!\n'
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        self.assertEqual(unit.target, 'Ahoj svete!\n')
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
     def test_suggest(self):
         # Try empty suggestion (should not be added)
         response = self.edit_unit(
