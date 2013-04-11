@@ -27,7 +27,6 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.tests.models import RepoTestCase
-from trans.models.subproject import SubProject
 from accounts.models import Profile
 import cairo
 import re
