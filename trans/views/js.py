@@ -97,7 +97,7 @@ def get_other(request, unit_id):
     other = Unit.objects.same(unit)
 
     return render_to_response('js/other.html', RequestContext(request, {
-        'other': other,
+        'other': other.select_related(),
         'unit': unit,
         'search_id': request.GET.get('sid', ''),
         'offset': request.GET.get('offset', ''),
