@@ -40,6 +40,12 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'Hello')
         self.assertEquals(response.content, unit.get_source_plurals()[0])
 
+        response = self.client.get(
+            reverse('js-get', kwargs={'checksum': 'x'}),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEquals(response.content, '')
+
     def test_translate(self):
         unit = self.get_unit()
         response = self.client.get(
