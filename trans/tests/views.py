@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.tests.models import RepoTestCase
+from trans.models.subproject import SubProject
 from accounts.models import Profile
 import cairo
 import re
@@ -373,6 +374,19 @@ class EditResourceTest(EditTest):
 class EditIphoneTest(EditTest):
     def create_subproject(self):
         return self.create_iphone()
+
+
+class EditLinkTest(EditTest):
+    def create_subproject(self):
+        parent = self.create_iphone()
+        return SubProject.objects.create(
+            name='Test2',
+            slug='test2',
+            project=parent.project,
+            repo='weblate://test/test',
+            file_format='po',
+            filemask='po/*.po',
+        )
 
 
 class SearchViewTest(ViewTestCase):
