@@ -66,6 +66,13 @@ class JSViewsTest(ViewTestCase):
             ]
         )
 
+        # Invalid service
+        response = self.client.get(
+            reverse('js-translate', kwargs={'unit_id': unit.id}),
+            {'service': 'invalid'}
+        )
+        self.assertEqual(response.status_code, 400)
+
     def test_get_other(self):
         unit = self.get_unit()
         response = self.client.get(
