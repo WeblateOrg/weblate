@@ -96,7 +96,9 @@ class SubProject(models.Model, PercentMixin, URLMixin):
     )
     git_export = models.CharField(
         max_length=200,
-        help_text=ugettext_lazy('URL of Git repository where users can fetch changes from Weblate'),
+        help_text=ugettext_lazy(
+            'URL of Git repository where users can fetch changes from Weblate'
+        ),
         blank=True
     )
     report_source_bugs = models.EmailField(
