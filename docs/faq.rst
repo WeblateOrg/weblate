@@ -133,6 +133,25 @@ How do I provide feedback on source string?
 On context tabs below translation, you can use :guilabel:`Source` tab to
 provide feedback on source string or discuss it with other translators.
 
+How can I use existing translations while translating?
+------------------------------------------------------
+
+Weblate provides you several ways to utilize existing translations while
+translating:
+
+- You can use import functionality to load compendium as translations,
+  suggestions or fuzzy translations. This is best approach for one time
+  translation using compedium or similar translation database.
+- You can setup :ref:`tmserver` with all databases you have and let Weblate use
+  it. This is good for case when you want to use it for several times during
+  translating.
+- Another option is to translate all related projects in single Weblate
+  instance, what will make it automatically pick up translation from other
+  projects as well.
+
+.. seealso:: :ref:`machinee-translation-setup`, :ref:`machinee-translation`
+
+
 Where do language definition come from and how can I add own?
 -------------------------------------------------------------
 

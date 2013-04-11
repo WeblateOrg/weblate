@@ -496,6 +496,8 @@ Database of open source translations.
 
     http://www.open-tran.eu/
 
+.. _tmserver:
+
 tmserver
 ++++++++
 
