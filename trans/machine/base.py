@@ -145,8 +145,9 @@ class MachineTranslation(object):
             languages = self.download_languages()
         except Exception as exc:
             weblate.logger.error(
-                'Failed to fetch languages from %s, using defaults (%s)',
+                'Failed to fetch languages from %s, using defaults (%s: %s)',
                 self.name,
+                exc.__class__.__name__,
                 str(exc)
             )
             if settings.DEBUG:
@@ -179,8 +180,9 @@ class MachineTranslation(object):
                     for trans in translations]
         except Exception as exc:
             weblate.logger.error(
-                'Failed to fetch translations from %s (%s)',
+                'Failed to fetch translations from %s (%s: %s)',
                 self.name,
+                exc.__class__.__name__,
                 str(exc)
             )
             raise
