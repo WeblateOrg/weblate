@@ -148,6 +148,11 @@ class BasicIphoneViewTest(BasicViewTest):
         return self.create_iphone()
 
 
+class BasicIphoneViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_link()
+
+
 class EditTest(ViewTestCase):
     '''
     Tests for manipulating translation.
@@ -378,15 +383,7 @@ class EditIphoneTest(EditTest):
 
 class EditLinkTest(EditTest):
     def create_subproject(self):
-        parent = self.create_iphone()
-        return SubProject.objects.create(
-            name='Test2',
-            slug='test2',
-            project=parent.project,
-            repo='weblate://test/test',
-            file_format='po',
-            filemask='po/*.po',
-        )
+        return self.create_link()
 
 
 class SearchViewTest(ViewTestCase):
