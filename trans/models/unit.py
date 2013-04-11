@@ -361,7 +361,8 @@ class UnitManager(models.Manager):
 
         return self.filter(
             checksum__in=checksums,
-            translation__language=unit.translation.language
+            translation__language=unit.translation.language,
+            translated=True
         ).exclude(
             pk=unit.id
         )
@@ -392,7 +393,8 @@ class UnitManager(models.Manager):
 
         return self.filter(
             checksum__in=checksums,
-            translation__language=unit.translation.language
+            translation__language=unit.translation.language,
+            translated=True
         ).exclude(
             pk=unit.id
         )
