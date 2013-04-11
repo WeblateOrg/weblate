@@ -752,15 +752,16 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         Validates whether template can be loaded.
         '''
+        # TODO: check if file exists
         try:
             self.load_template_store()
         except ValueError:
             raise ValidationError(
                 _('Format of translation template could not be recognized.')
             )
-        except Exception:
+        except Exception as exc:
             raise ValidationError(
-                _('Failed to parse translation template.')
+                _('Failed to parse translation template: %s') % str(exc)
             )
 
     def clean(self):
