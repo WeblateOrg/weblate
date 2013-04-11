@@ -524,11 +524,6 @@ urlpatterns = patterns(
         name='js-config',
     ),
     url(
-        r'^js/similar/(?P<unit_id>[0-9]+)/$',
-        'trans.views.js.get_similar',
-        name='js-similar',
-    ),
-    url(
         r'^js/translate/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.translate',
         name='js-translate',

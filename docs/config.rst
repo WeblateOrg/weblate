@@ -275,14 +275,6 @@ True will be assumed if it is not supplied.
 
     This is actually django-registration settings.
 
-.. setting:: SIMILAR_MESSAGES
-
-SIMILAR_MESSAGES
-----------------
-
-Number of similar messages to lookup. This is not a hard limit, just a
-number Weblate tries to find if it is possible.
-
 .. setting:: SITE_TITLE
 
 SITE_TITLE
@@ -296,4 +288,3 @@ WHOOSH_INDEX
 ------------
 
 Directory where Whoosh fulltext indices will be stored. Defaults to :file:`whoosh-index` subdirectory.
-

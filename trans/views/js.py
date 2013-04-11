@@ -46,31 +46,6 @@ def get_string(request, checksum):
     return HttpResponse(units[0].get_source_plurals()[0])
 
 
-def get_similar(request, unit_id):
-    '''
-    AJAX handler for getting similar strings.
-    '''
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
-
-    similar_units = Unit.objects.similar(unit)
-
-    # distinct('target') works with Django 1.4 so let's emulate that
-    # based on presumption we won't get too many results
-    targets = {}
-    res = []
-    for similar in similar_units:
-        if similar.target in targets:
-            continue
-        targets[similar.target] = 1
-        res.append(similar)
-    similar = res
-
-    return render_to_response('js/similar.html', RequestContext(request, {
-        'similar': similar,
-    }))
-
-
 @login_required
 def translate(request, unit_id):
     '''

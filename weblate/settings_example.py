@@ -319,9 +319,6 @@ BACKGROUND_HOOKS = True
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
 
-# Minimal number of similar messages to show
-SIMILAR_MESSAGES = 5
-
 # Enable lazy commits
 LAZY_COMMITS = True
 

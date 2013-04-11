@@ -40,13 +40,6 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'Hello')
         self.assertEquals(response.content, unit.get_source_plurals()[0])
 
-    def test_get_similar(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse('js-similar', kwargs={'unit_id': unit.id}),
-        )
-        self.assertContains(response, 'No similar strings found')
-
     def test_translate(self):
         unit = self.get_unit()
         response = self.client.get(

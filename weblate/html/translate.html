@@ -162,7 +162,6 @@
 <div id="translate-tabs">
     <ul>
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
-        <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
         <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;offset={{ offset }}&amp;sid={{ search_id }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
         <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
         {% if mt_enabled %}
