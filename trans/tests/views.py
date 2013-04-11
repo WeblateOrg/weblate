@@ -159,7 +159,7 @@ class BasicIphoneViewTest(BasicViewTest):
         return self.create_iphone()
 
 
-class BasicIphoneViewTest(BasicViewTest):
+class BasicLinkViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_link()
 
