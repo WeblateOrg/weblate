@@ -43,36 +43,36 @@ class MachineTranslationTest(TestCase):
     def test_translate(self):
         machine_translation = DummyTranslation()
         self.assertEqual(
-            machine_translation.translate('cs', 'Hello'),
+            machine_translation.translate('cs', 'Hello', None),
             []
         )
         self.assertEqual(
-            len(machine_translation.translate('cs', 'Hello, world!')),
+            len(machine_translation.translate('cs', 'Hello, world!', None)),
             2
         )
 
     def test_glosbe(self):
         machine = GlosbeTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world'), list)
+        self.assertIsInstance(machine.translate('cs', 'world', None), list)
 
     def test_mymemory(self):
         machine = MyMemoryTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world'), list)
+        self.assertIsInstance(machine.translate('cs', 'world', None), list)
 
     def test_opentran(self):
         machine = OpenTranTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world'), list)
+        self.assertIsInstance(machine.translate('cs', 'world', None), list)
 
     def test_apertium(self):
         machine = ApertiumTranslation()
-        self.assertIsInstance(machine.translate('es', 'world'), list)
+        self.assertIsInstance(machine.translate('es', 'world', None), list)
 
     @unittest.skipUnless(microsoft_translation_supported(),
                          'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world'), list)
+        self.assertIsInstance(machine.translate('cs', 'world', None), list)
 
     def test_google(self):
         machine = GoogleTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world'), list)
+        self.assertIsInstance(machine.translate('cs', 'world', None), list)
