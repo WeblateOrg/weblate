@@ -19,6 +19,8 @@
 #
 
 from django.test import TestCase
+from trans.tests.views import ViewTestCase
+from trans.models.unit import Unit
 import unittest
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
@@ -29,6 +31,9 @@ from trans.machine.microsoft import (
     MicrosoftTranslation, microsoft_translation_supported
 )
 from trans.machine.google import GoogleTranslation
+from trans.machine.weblatetm import (
+    WeblateSimilarTranslation, WeblateTranslation
+)
 
 
 class MachineTranslationTest(TestCase):
@@ -76,3 +81,25 @@ class MachineTranslationTest(TestCase):
     def test_google(self):
         machine = GoogleTranslation()
         self.assertIsInstance(machine.translate('cs', 'world', None), list)
+
+
+class WeblateTranslationTest(ViewTestCase):
+    def test_same(self):
+        machine = WeblateTranslation()
+        unit = Unit.objects.all()[0]
+        results = machine.translate(
+            unit.translation.language.code,
+            unit.get_source_plurals()[0],
+            unit
+        )
+        self.assertEquals(results, [])
+
+    def test_similar(self):
+        machine = WeblateSimilarTranslation()
+        unit = Unit.objects.all()[0]
+        results = machine.translate(
+            unit.translation.language.code,
+            unit.get_source_plurals()[0],
+            unit
+        )
+        self.assertEquals(results, [])
