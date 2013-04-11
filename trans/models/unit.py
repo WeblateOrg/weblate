@@ -777,6 +777,21 @@ class Unit(models.Model):
             language=self.translation.language
         )
 
+    def cleanup_checks(self, source, target):
+        '''
+        Cleanups listed source and target checks.
+        '''
+        from trans.models.unitdata import Check
+        if len(source) == 0 and len(target) == 0:
+            return
+        Check.objects.filter(
+            checksum=self.checksum,
+            project=self.translation.subproject.project
+        ).filter(
+            (Q(language=self.translation.language) & Q(check__in=target)) |
+            (Q(language=None) & Q(check__in=source))
+        ).delete()
+
     def checks(self):
         '''
         Returns all checks for this unit (even ignored).
@@ -882,8 +897,8 @@ class Unit(models.Model):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        failing_target = []
-        failing_source = []
+        old_target_checks = set(self.checks().values_list('check', flat=True))
+        old_source_checks = set(self.source_checks().values_list('check', flat=True))
 
         change = False
 
@@ -892,50 +907,38 @@ class Unit(models.Model):
             check_obj = CHECKS[check]
             # Target check
             if check_obj.target and check_obj.check(src, tgt, self):
-                failing_target.append(check)
+                if check in old_target_checks:
+                    # We already have this check
+                    old_target_checks.remove(check)
+                else:
+                    # Create new check
+                    Check.objects.create(
+                        checksum=self.checksum,
+                        project=self.translation.subproject.project,
+                        language=self.translation.language,
+                        ignore=False,
+                        check=check
+                    )
+                    change = True
             # Source check
             if check_obj.source and check_obj.check_source(src, self):
-                failing_source.append(check)
+                if check in old_source_checks:
+                    # We already have this check
+                    old_source_checks.remove(check)
+                else:
+                    # Create new check
+                    Check.objects.create(
+                        checksum=self.checksum,
+                        project=self.translation.subproject.project,
+                        language=None,
+                        ignore=False,
+                        check=check
+                    )
+                    change = True
 
-        # Compare to existing checks, delete non failing ones
-        for check in self.checks():
-            if check.check in failing_target:
-                failing_target.remove(check.check)
-                continue
-            if cleanup_checks:
-                check.delete()
-                change = True
-
-        # Compare to existing source checks, delete non failing ones
-        for check in self.source_checks():
-            if check.check in failing_source:
-                failing_source.remove(check.check)
-                continue
-            if cleanup_checks:
-                check.delete()
-                change = True
-
-        # Store new checks in database
-        for check in failing_target:
-            Check.objects.create(
-                checksum=self.checksum,
-                project=self.translation.subproject.project,
-                language=self.translation.language,
-                ignore=False,
-                check=check
-            )
-            change = True
-
-        # Store new checks in database
-        for check in failing_source:
-            Check.objects.create(
-                checksum=self.checksum,
-                project=self.translation.subproject.project,
-                language=None,
-                ignore=False,
-                check=check
-            )
-            change = True
+        # Delete no longer failing checks
+        if cleanup_checks:
+            self.cleanup_checks(old_source_checks, old_target_checks)
 
         # Invalidate checks cache
         if change:

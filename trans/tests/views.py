@@ -327,6 +327,16 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertEqual(len(unit.checks()), 2)
 
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should stay on current message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(len(unit.checks()), 0)
+
     def test_commit_push(self):
         response = self.edit_unit(
             'Hello, world!\n',
