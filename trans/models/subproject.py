@@ -671,7 +671,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         matches = glob(os.path.join(self.get_path(), self.filemask))
         matches = [f.replace(prefix, '') for f in matches]
         # Template can have possibly same name as translations
-        if self.template in matches:
+        if self.has_template() and self.template in matches:
             matches.remove(self.template)
         return matches
 
