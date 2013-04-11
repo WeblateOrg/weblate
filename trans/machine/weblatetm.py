@@ -22,6 +22,17 @@ from trans.machine.base import MachineTranslation
 from trans.models.unit import Unit
 
 
+def format_unit_match(unit, quality):
+    '''
+    Formats unit to translation service result.
+    '''
+    return (
+        unit.get_target_plurals()[0],
+        quality,
+        'Weblate (%s)' % unicode(unit.translation.subproject)
+    )
+
+
 class WeblateTranslation(MachineTranslation):
     '''
     Translation service using strings already translated in Weblate.
@@ -46,8 +57,7 @@ class WeblateTranslation(MachineTranslation):
         '''
         matching_units = Unit.objects.same_source(unit)
 
-        return [(unit.target, 100, unicode(unit.translation.subproject)) for
-                unit in matching_units]
+        return [format_unit_match(unit, 100) for unit in matching_units]
 
 
 class WeblateSimilarTranslation(MachineTranslation):
@@ -74,5 +84,4 @@ class WeblateSimilarTranslation(MachineTranslation):
         '''
         matching_units = Unit.objects.more_like_this(unit)
 
-        return [(unit.target, 80, unicode(unit.translation.subproject)) for
-                unit in matching_units]
+        return [format_unit_match(unit, 80) for unit in matching_units]
