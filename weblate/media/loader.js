@@ -100,7 +100,7 @@ function process_machine_translation(data, textStatus, jqXHR) {
 function failed_machine_translation(jqXHR, textStatus, errorThrown) {
     dec_loading();
     $('#mt-errors').append(
-        $(gettext('The request for machine translation has failed:') + ' ' + textStatus)
+        $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
     );
 }
 
