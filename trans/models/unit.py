@@ -494,13 +494,17 @@ class Unit(models.Model):
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target)
-        same_fuzzy = (fuzzy == self.fuzzy)
+        same_state = (
+            fuzzy == self.fuzzy
+            and translated == self.translated
+            and not created
+        )
 
         # Check if we actually need to change anything
         if (not created and
                 location == self.location and
                 flags == self.flags and
-                same_content and same_fuzzy and
+                same_content and same_state and
                 translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
@@ -520,7 +524,7 @@ class Unit(models.Model):
             force_insert=created,
             backend=True,
             same_content=same_content,
-            same_fuzzy=same_fuzzy
+            same_state=same_state
         )
 
     def is_plural(self):
@@ -712,14 +716,14 @@ class Unit(models.Model):
 
         # Pop parameter indicating that we don't have to process content
         same_content = kwargs.pop('same_content', False)
-        same_fuzzy = kwargs.pop('same_fuzzy', False)
+        same_state = kwargs.pop('same_state', False)
         force_insert = kwargs.get('force_insert', False)
 
         # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
 
         # Update checks if content or fuzzy flag has changed
-        if not same_content or not same_fuzzy:
+        if not same_content or not same_state:
             self.check()
 
         # Update fulltext index if content has changed or this is a new unit
