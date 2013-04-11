@@ -732,6 +732,10 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             raise ValidationError(
                 _('Push URL is not used when repository is linked!')
             )
+        if self.git_export != '':
+            raise ValidationError(
+                _('Export URL is not used when repository is linked!')
+            )
         validate_repo(self.repo)
 
     def clean_template(self):
