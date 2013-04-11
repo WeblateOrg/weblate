@@ -319,6 +319,22 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         return self.git_repo.commit('origin/%s' % self.branch)
 
+    def get_repo_url(self):
+        '''
+        Returns link to repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.repo
+        return self.repo
+
+    def get_repo_branch(self):
+        '''
+        Returns branch in repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.branch
+        return self.branch
+
     def get_repoweb_link(self, filename, line):
         '''
         Generates link to source code browser for given file and line.

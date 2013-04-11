@@ -4,15 +4,10 @@
 {% include "project_info.html" %}
 {% endwith %}
 <p>{% trans "Git repository:" %} 
-<code class="git-repo ui-corner-all">{% if object.is_repo_link %}{{ object.linked_subproject.repo }}{% else %}{{ object.repo }}{% endif %}</code> (
-{% if object.is_repo_link %}
-{% blocktrans with object.linked_subproject.branch as branch %}{{ branch }} branch{% endblocktrans %}
-{% else %}
-{% blocktrans with object.branch as branch %}{{ branch }} branch{% endblocktrans %}
+<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code> ({{ object.get_repo_branch }}
  @ 
 {% with object.get_last_remote_commit as commit %}
 {% include "git-commit-info.html" %}
 {% endwith %}
 )
-{% endif %}
 </p>
