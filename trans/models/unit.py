@@ -26,12 +26,10 @@ from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.core.cache import cache
 from whoosh import qparser
-import itertools
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
 from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
-from trans.data import IGNORE_SIMILAR
 
 from trans.filelock import FileLockException
 from trans.util import is_plural, split_plural
