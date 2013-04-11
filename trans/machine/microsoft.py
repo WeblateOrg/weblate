@@ -98,6 +98,8 @@ class MicrosoftTranslation(MachineTranslation):
             return 'zh-CHT'
         if language == 'zh-cn':
             return 'zh-CHS'
+        if language == 'nb':
+            return 'no'
         return language
 
     def download_languages(self):
