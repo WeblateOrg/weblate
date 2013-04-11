@@ -45,4 +45,4 @@ class GoogleTranslation(MachineTranslation):
             tl=language,
         )
 
-        return [(response[0][0][0], 100, self.name)]
+        return [(response[0][0][0], 100, self.name, text)]

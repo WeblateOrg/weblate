@@ -59,7 +59,8 @@ class MyMemoryTranslation(MachineTranslation):
         return (
             match['translation'],
             quality * match['match'],
-            source
+            source,
+            match['segment'],
         )
 
     def download_translations(self, language, text, unit):

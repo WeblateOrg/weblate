@@ -176,8 +176,15 @@ class MachineTranslation(object):
         try:
             translations = self.download_translations(language, text, unit)
 
-            return [{'text': trans[0], 'quality': trans[1], 'service': trans[2]}
-                    for trans in translations]
+            return [
+                {
+                    'text': trans[0],
+                    'quality': trans[1],
+                    'service': trans[2],
+                    'source': trans[3]
+                }
+                for trans in translations
+            ]
         except Exception as exc:
             weblate.logger.error(
                 'Failed to fetch translations from %s (%s: %s)',
