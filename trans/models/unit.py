@@ -898,7 +898,9 @@ class Unit(models.Model):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         old_target_checks = set(self.checks().values_list('check', flat=True))
-        old_source_checks = set(self.source_checks().values_list('check', flat=True))
+        old_source_checks = set(self.source_checks().values_list(
+            'check', flat=True
+        ))
 
         change = False
 
