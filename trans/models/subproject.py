@@ -335,6 +335,14 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             return self.linked_subproject.branch
         return self.branch
 
+    def get_export_url(self):
+        '''
+        Returns URL of exported git repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.git_export
+        return self.git_export
+
     def get_repoweb_link(self, filename, line):
         '''
         Generates link to source code browser for given file and line.
