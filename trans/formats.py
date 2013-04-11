@@ -123,7 +123,10 @@ class FileUnit(object):
                 return quote.propertiesdecode(self.mainunit.name)
             return self.mainunit.name
         else:
-            return get_string(self.mainunit.source)
+            if self.template is not None:
+                return get_string(self.template.target)
+            else:
+                return get_string(self.unit.source)
 
     def get_target(self):
         '''
