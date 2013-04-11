@@ -51,8 +51,18 @@ class JSViewsTest(ViewTestCase):
         self.assertEqual(
             data['translations'],
             [
-                {'quality': 100, 'service': 'Dummy', 'text': 'Nazdar světe!'},
-                {'quality': 100, 'service': 'Dummy', 'text': 'Ahoj světe!'},
+                {
+                    'quality': 100,
+                    'service': 'Dummy',
+                    'text': 'Nazdar světe!',
+                    'source': u'Hello, world!\n',
+                },
+                {
+                    'quality': 100,
+                    'service': 'Dummy',
+                    'text': 'Ahoj světe!',
+                    'source': u'Hello, world!\n',
+                },
             ]
         )
 
