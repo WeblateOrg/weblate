@@ -176,7 +176,7 @@ class MachineTranslation(object):
         try:
             translations = self.download_translations(language, text, unit)
 
-            return [{'text': trans[0], 'quality': trans[1], 'source': trans[2]}
+            return [{'text': trans[0], 'quality': trans[1], 'service': trans[2]}
                     for trans in translations]
         except Exception as exc:
             weblate.logger.error(
