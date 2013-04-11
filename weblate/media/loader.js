@@ -68,7 +68,7 @@ function process_machine_translation(data, textStatus, jqXHR) {
             var done = false;
             new_row.append($('<td/>').attr('class', 'translatetext target').text(el.text));
             new_row.append($('<td/>').attr('class', 'translatetext').text(el.source));
-            new_row.append($('<td/>').text(el.service + ' ' + el.quality));
+            new_row.append($('<td/>').text(el.service));
             new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
             $('#machine-translations').children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality) {
