@@ -63,10 +63,12 @@ function get_source_string(callback) {
 function process_machine_translation(data, textStatus, jqXHR) {
     dec_loading();
     if (data.responseStatus == 200) {
+        var lang=$('.translation_html_markup').attr('lang');
+        var dir=$('.translation_html_markup').attr('dir');
         data.translations.forEach(function (el, idx, ar) {
             var new_row = $('<tr/>').data('quality', el.quality);
             var done = false;
-            new_row.append($('<td/>').attr('class', 'translatetext target').text(el.text));
+            new_row.append($('<td/>').attr('class', 'translatetext target').attr('lang', lang).attr('dir', dir).text(el.text));
             new_row.append($('<td/>').attr('class', 'translatetext').text(el.source));
             new_row.append($('<td/>').text(el.service));
             new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
