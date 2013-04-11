@@ -220,11 +220,13 @@ class SubProjectTest(RepoTestCase):
     '''
     def test_create(self):
         project = self.create_subproject()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 3)
 
     def test_create_iphone(self):
         project = self.create_iphone()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
@@ -236,21 +238,25 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_android(self):
         project = self.create_android()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
     def test_create_java(self):
         project = self.create_java()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
     def test_create_xliff(self):
         project = self.create_xliff()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
     def test_link(self):
         project = self.create_link()
+        project.full_clean()
         self.assertTrue(project.is_repo_link())
         self.assertEqual(project.translation_set.count(), 3)
 
