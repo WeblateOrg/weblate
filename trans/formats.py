@@ -24,6 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit
 from translate.storage.xliff import xliffunit
+from translate.storage.po import pounit
 from translate.storage import factory
 from trans.util import get_string
 from translate.misc import quote
@@ -160,6 +161,9 @@ class FileUnit(object):
                 return ''
             else:
                 return context[0]
+        elif isinstance(self.mainunit, pounit) and self.template is not None:
+            # Monolingual PO files
+            return self.template.source
         else:
             context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
@@ -435,6 +439,15 @@ class PoFormat(FileFormat):
     monolingual = False
 
 register_fileformat(PoFormat)
+
+
+class PoMonoFormat(FileFormat):
+    name = _('Gettext PO file (monolingual)')
+    format_id = 'po-mono'
+    loader = ('po', 'pofile')
+    monolingual = True
+
+register_fileformat(PoMonoFormat)
 
 
 class TSFormat(FileFormat):

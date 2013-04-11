@@ -118,6 +118,13 @@ class RepoTestCase(TestCase):
             'po/*.po',
         )
 
+    def create_po_mono(self):
+        return self._create_subproject(
+            'po-mono',
+            'po-mono/*.po',
+            'po-mono/en.po',
+        )
+
     def create_iphone(self):
         return self._create_subproject(
             'strings',
@@ -220,6 +227,12 @@ class SubProjectTest(RepoTestCase):
         project = self.create_iphone()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
+
+    def test_create_po_mono(self):
+        project = self.create_po_mono()
+        project.full_clean()
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual(project.translation_set.count(), 3)
 
     def test_create_android(self):
         project = self.create_android()

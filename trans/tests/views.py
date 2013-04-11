@@ -150,6 +150,11 @@ class BasicResourceViewTest(BasicViewTest):
         return self.create_android()
 
 
+class BasicPoMonoViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_po_mono()
+
+
 class BasicIphoneViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_iphone()
@@ -394,6 +399,11 @@ class EditTest(ViewTestCase):
 class EditResourceTest(EditTest):
     def create_subproject(self):
         return self.create_android()
+
+
+class EditPoMonoTest(EditTest):
+    def create_subproject(self):
+        return self.create_po_mono()
 
 
 class EditIphoneTest(EditTest):

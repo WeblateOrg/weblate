@@ -20,6 +20,14 @@ headers or linking to corresponding source files.
 
 .. seealso:: https://en.wikipedia.org/wiki/Gettext
 
+Monolingual Gettext
++++++++++++++++++++
+
+Some projects decide to use Gettext as monolingual formats - they code just IDs
+in their source code and the string needs to be translated to all languages,
+including English. Weblate does support this, though you have to choose explicitely
+this file format when importing resources into Weblate.
+
 XLIFF
 -----
 
