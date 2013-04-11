@@ -388,8 +388,12 @@ class UnitManager(models.Manager):
                 source_string,
                 500
             )
+            # Include all more like this results
             for result in more_results:
                 checksums.add(result['checksum'])
+            # Remove all original matches
+            for result in results:
+                checksums.discard(result['checksum'])
 
         return self.filter(
             checksum__in=checksums,
