@@ -19,7 +19,6 @@
 #
 
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.decorators.cache import cache_page
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required, login_required
@@ -196,8 +195,6 @@ def git_status_translation(request, project, subproject, lang):
     }))
 
 
-# Cache this page for one month, it should not really change much
-@cache_page(30 * 24 * 3600)
 def js_config(request):
     '''
     Generates settings for javascript. Includes things like
