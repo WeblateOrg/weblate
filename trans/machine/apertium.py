@@ -58,4 +58,9 @@ class ApertiumTranslation(MachineTranslation):
             **args
         )
 
-        return [(response['responseData']['translatedText'], 100, self.name, text)]
+        return [(
+            response['responseData']['translatedText'],
+            100,
+            self.name,
+            text
+        )]
