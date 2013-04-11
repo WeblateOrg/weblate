@@ -76,7 +76,7 @@ def fmttranslation(value, language=None, diff=None):
     '''
     # Get language
     if language is None:
-        language = Language.objects.get(code='en')
+        language = Language.objects.get_default()
 
     # Split plurals to separate strings
     plurals = split_plural(value)

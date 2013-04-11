@@ -93,6 +93,16 @@ def get_plural_type(code, pluralequation):
 
 
 class LanguageManager(models.Manager):
+    _default_lang = None
+
+    def get_default(self):
+        '''
+        Returns default source language object.
+        '''
+        if self._default_lang is None:
+            self._default_lang = self.get(code='en')
+        return self._default_lang
+
     def auto_get_or_create(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
