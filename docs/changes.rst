@@ -19,6 +19,7 @@ Released on ? 2013.
 * Indicate failing checks or fuzzy strings in progress bars for projects or languages as well.
 * Added support for custom pre-commit hooks and commiting additional files.
 * Rewritten search for better performance and user experience.
+* New interface for machine translations.
 
 weblate 1.4
 -----------
