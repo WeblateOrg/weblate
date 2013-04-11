@@ -175,6 +175,8 @@ List of enabled machine translation services to use.
         'trans.machine.mymemory.MyMemoryTranslation',
         'trans.machine.opentran.OpenTranTranslation',
         'trans.machine.tmserver.TMServerTranslation',
+        'trans.machine.weblatetm.WeblateSimilarTranslation',
+        'trans.machine.weblatetm.WeblateTranslation',
     )
 
 .. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`

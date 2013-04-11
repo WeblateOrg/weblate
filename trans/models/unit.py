@@ -342,6 +342,61 @@ class UnitManager(models.Manager):
 
         return self.filter(checksum__in=ret)
 
+    def same_source(self, unit):
+        '''
+        Finds units with same source.
+        '''
+        index = FULLTEXT_INDEX.source_searcher(
+            not appsettings.OFFLOAD_INDEXING
+        )
+        source_string = unit.get_source_plurals()[0]
+        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
+        parsed = parser.parse(source_string)
+        checksums = set()
+        with index as searcher:
+            # Search for same string
+            results = searcher.search(parsed)
+            for result in results:
+                checksums.add(result['checksum'])
+
+        return self.filter(
+            checksum__in=checksums,
+            translation__language=unit.translation.language
+        ).exclude(
+            pk=unit.id
+        )
+
+    def more_like_this(self, unit):
+        '''
+        Finds closely similar units.
+        '''
+        index = FULLTEXT_INDEX.source_searcher(
+            not appsettings.OFFLOAD_INDEXING
+        )
+        source_string = unit.get_source_plurals()[0]
+        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
+        parsed = parser.parse(source_string)
+        checksums = set()
+        with index as searcher:
+            # Search for same string
+            results = searcher.search(parsed)
+            first_hit = results[0]
+            # Find similar results to first one
+            more_results = first_hit.more_like_this(
+                'source',
+                source_string,
+                500
+            )
+            for result in more_results:
+                checksums.add(result['checksum'])
+
+        return self.filter(
+            checksum__in=checksums,
+            translation__language=unit.translation.language
+        ).exclude(
+            pk=unit.id
+        )
+
     def similar(self, unit):
         '''
         Finds similar units to current unit.
