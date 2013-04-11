@@ -95,3 +95,11 @@ class JSViewsTest(ViewTestCase):
             response,
             'No related strings found in dictionary.'
         )
+
+    def test_js_config(self):
+        response = self.client.get(reverse('js-config'))
+        # Check we have dummy service listed
+        self.assertContains(
+            response,
+            "'dummy'"
+        )
