@@ -36,10 +36,7 @@
 {% with object.get_last_remote_commit as commit %}
 <p>
 {% trans "Last remote commit:" %}
-<span class="git-commit">
-{{ commit.hexsha|slice:":7" }}
 {% include "git-commit-info.html" %}
-</span>
 </p>
 {% endwith %}
 {% endif %}
