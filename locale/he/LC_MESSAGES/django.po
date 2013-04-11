@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-04-11 16:12+0200\n"
-"PO-Revision-Date: 2013-04-11 17:17+0200\n"
+"PO-Revision-Date: 2013-04-11 17:33+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
 "Language: he\n"
@@ -817,26 +817,32 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
+"קישור לסייר המאגרים, ניתן להשתמש ב־%(branch)s לציון ענף, %(file)s ו־%(line)s "
+"לציון שם קובץ ושורה."
 
 #: trans/models/subproject.py:100
 msgid "URL of Git repository where users can fetch changes from Weblate"
-msgstr ""
+msgstr "כתובת מאגר ה־Git ממנה יכולים משתמשים למשוך שינויים מ־Weblate"
 
 #: trans/models/subproject.py:106
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"כתובת הדוא״ל אליה ידווחו שגיאות במחרוזות המקור, יש להשאיר ריק כדי שלא יישלחו "
+"הודעות."
 
 #: trans/models/subproject.py:113
 msgid "Git branch to translate"
-msgstr ""
+msgstr "ענף Git לתרגום"
 
 #: trans/models/subproject.py:120
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
+"נתיב הקבצים לתרגום, ניתן להשתמש ב־* במקום קוד השפה, למשל: po/*.po או "
+"locale/*/LC_MESSAGES/django.po."
 
 #: trans/models/subproject.py:128
 msgid ""
@@ -844,93 +850,98 @@ msgid ""
 "translations which store only translated string like Android resource "
 "strings."
 msgstr ""
+"שמות קובצי תבניות התרגום, מומלץ להשתמש בזה רק לטובת מתרגמים ששומרים מחרוזות "
+"מתורגמות בלבד כמו למשל מחרוזות משאבים של Android."
 
 #: trans/models/subproject.py:138
 msgid "Automatic detection might fail for some formats and is slightly slower."
-msgstr ""
+msgstr "הזיהוי האוטומטי עשוי להיכשל עבור חלק מהמבנים והוא גם מעט אטי יותר."
 
 #: trans/models/subproject.py:148
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
-msgstr ""
+msgstr "קובץ נוסף לכלול בשמירת התרגום, ניתן לחפש פרטים נוספים בתיעוד."
 
 #: trans/models/subproject.py:158
 msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
 msgstr ""
+"סקריפט שיש להפעיל לפני שמירת התרגום, ניתן לחפש בתיעוד לקבלת פרטים נוספים."
 
 #: trans/models/subproject.py:166
 msgid "Whether subproject is locked for translation updates."
-msgstr ""
+msgstr "האם תת מיזמים נעולים לעדכוני תרגום."
 
 #: trans/models/subproject.py:172
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
-msgstr ""
+msgstr "האם עדכוני תרגום בתת מיזמים אחרים אמורים לגרום לתרגום אוטומטי במיזם זה"
 
 #: trans/models/subproject.py:387
 #, python-format
 msgid "Failed to fetch git repository: %s"
-msgstr ""
+msgstr "אחזור מאגר ה־git נכשל: %s"
 
 #: trans/models/subproject.py:477
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "בוטלה דחיפה עבור %s."
 
 #: trans/models/subproject.py:521
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "הדחיפה לענף המרוחק על %s נכשלה."
 
 #: trans/models/subproject.py:557
 #, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr ""
+msgstr "איפוס הענף המרוחק ב־%s נכשל."
 
 #: trans/models/subproject.py:626
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr ""
+msgstr "החלפת בסיס הענף שלנו לענף המרוחק %s נכשלה."
 
 #: trans/models/subproject.py:629
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "מיזוג הענף המרוחק לתוך %s נכשל."
 
 #: trans/models/subproject.py:743
 msgid "Push URL is not used when repository is linked!"
-msgstr ""
+msgstr "לא נעשה שימוש בכתובת הדחיפה כאשר המאגר מקושר!"
 
 #: trans/models/subproject.py:747
 msgid "Export URL is not used when repository is linked!"
-msgstr ""
+msgstr "לא נעשה שימוש בכתובת הייצוא כאשר המאגר מקושר!"
 
 #: trans/models/subproject.py:759
 msgid "Format of translation template could not be recognized."
-msgstr ""
+msgstr "לא ניתן לזהות את מבנה תבנית התרגום."
 
 #: trans/models/subproject.py:763
 msgid "Failed to parse translation template."
-msgstr ""
+msgstr "פענוח תבנית התרגום נכשל."
 
 #: trans/models/subproject.py:784
 msgid "The mask did not match any files!"
-msgstr ""
+msgstr "המסכה אינה תואמת קבצים כלשהם!"
 
 #: trans/models/subproject.py:790
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
+"יש יותר מדי קבצים לשפה אחת, נא להתאים את המסכה לשימוש בתת מיזמים לצורך תרגום "
+"של משאבים שונים."
 
 #: trans/models/subproject.py:810
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr ""
+msgstr "התבנית של %d ההתאמות אינה ניתנת לזיהוי."
 
 #: trans/models/subproject.py:819
 #, python-format
