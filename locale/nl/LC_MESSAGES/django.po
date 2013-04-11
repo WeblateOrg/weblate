@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-10 16:57+0200\n"
+"POT-Creation-Date: 2013-04-11 16:12+0200\n"
 "PO-Revision-Date: 2013-04-11 09:08+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -176,56 +176,56 @@ msgstr "De boodschap werd naar de beheerder gestuurd."
 msgid "Contact"
 msgstr "Contact"
 
-#: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
-#: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
-#: lang/models.py:301
+#: lang/models.py:267 lang/models.py:271 lang/models.py:277 lang/models.py:284
+#: lang/models.py:289 lang/models.py:295 lang/models.py:301 lang/models.py:306
+#: lang/models.py:312
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Een"
 
-#: lang/models.py:257 lang/models.py:262 lang/models.py:270 lang/models.py:275
-#: lang/models.py:281 lang/models.py:287 lang/models.py:291 lang/models.py:298
-#: lang/models.py:305 lang/models.py:309
+#: lang/models.py:268 lang/models.py:273 lang/models.py:281 lang/models.py:286
+#: lang/models.py:292 lang/models.py:298 lang/models.py:302 lang/models.py:309
+#: lang/models.py:316 lang/models.py:320
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Andere"
 
-#: lang/models.py:261 lang/models.py:268 lang/models.py:286 lang/models.py:296
-#: lang/models.py:303
+#: lang/models.py:272 lang/models.py:279 lang/models.py:297 lang/models.py:307
+#: lang/models.py:314
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Weinig"
 
-#: lang/models.py:265 lang/models.py:292
+#: lang/models.py:276 lang/models.py:303
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Geen"
 
-#: lang/models.py:267 lang/models.py:274 lang/models.py:279 lang/models.py:285
-#: lang/models.py:302 lang/models.py:308
+#: lang/models.py:278 lang/models.py:285 lang/models.py:290 lang/models.py:296
+#: lang/models.py:313 lang/models.py:319
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Twee"
 
-#: lang/models.py:269 lang/models.py:297 lang/models.py:304
+#: lang/models.py:280 lang/models.py:308 lang/models.py:315
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Veel"
 
-#: lang/models.py:280
+#: lang/models.py:291
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Drie"
 
-#: lang/models.py:376
+#: lang/models.py:387
 msgid "Singular"
 msgstr "Enkelvoud"
 
-#: lang/models.py:378
+#: lang/models.py:389
 msgid "Plural"
 msgstr "Meervoud"
 
-#: lang/models.py:379
+#: lang/models.py:390
 #, python-format
 msgid "Plural form %d"
 msgstr "Meervoud vorm %d"
@@ -429,9 +429,9 @@ msgstr "Alle subprojecten"
 #: trans/forms.py:317 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
-#: weblate/html/translate.html.py:173 weblate/html/translate.html:178
+#: weblate/html/translate.html.py:172 weblate/html/translate.html:178
 #: weblate/html/translate.html.py:199 weblate/html/js/dictionary.html:7
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Bron"
 
@@ -439,7 +439,7 @@ msgstr "Bron"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:178
 #: weblate/html/translate.html:198 weblate/html/js/dictionary.html:8
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Vertaling"
 
@@ -837,7 +837,11 @@ msgstr ""
 "Link naar repository browser, gebruik %(branch)s, %(file)s en %(line)s als "
 "plaatsvervangers voor tak, bestandsnaam en regelnummer."
 
-#: trans/models/subproject.py:99
+#: trans/models/subproject.py:100
+msgid "URL of Git repository where users can fetch changes from Weblate"
+msgstr ""
+
+#: trans/models/subproject.py:106
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -845,11 +849,11 @@ msgstr ""
 "E-mail adres waar fouten in brontekenreeksen gemeld kunnen worden, laat leeg "
 "voor geen E-mails."
 
-#: trans/models/subproject.py:106
+#: trans/models/subproject.py:113
 msgid "Git branch to translate"
 msgstr "Git tak om te vertalen"
 
-#: trans/models/subproject.py:113
+#: trans/models/subproject.py:120
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -857,7 +861,7 @@ msgstr ""
 "Pad van te vertalen bestanden, gebruik * in plaats van de taalcode, "
 "bijvoorbeeld : po/*.po of locale/*/LC_MESSAGES/django.po."
 
-#: trans/models/subproject.py:121
+#: trans/models/subproject.py:128
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -866,13 +870,13 @@ msgstr ""
 "Bestandsnaam van vertaalsjabloon, dit is aangewezen voor vertalingen die "
 "enkel de vertaalde tekenreeks opslaan, zoals Android hulpbrontekenreeksen."
 
-#: trans/models/subproject.py:131
+#: trans/models/subproject.py:138
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatische detectie kan mislukken bij bepaalde formaten en is lichtjes "
 "trager."
 
-#: trans/models/subproject.py:141
+#: trans/models/subproject.py:148
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
@@ -880,7 +884,7 @@ msgstr ""
 "Bijkomend bestand om te gebruiken bij commits, gelieve de documentatie te "
 "bekijken voor verdere details."
 
-#: trans/models/subproject.py:151
+#: trans/models/subproject.py:158
 msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
@@ -888,11 +892,11 @@ msgstr ""
 "Script dat uitgevoerd wordt alvorens een vertaling te committen, gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: trans/models/subproject.py:159
+#: trans/models/subproject.py:166
 msgid "Whether subproject is locked for translation updates."
 msgstr "Of het subproject geblokkeerd is voor vertaalaanpassingen."
 
-#: trans/models/subproject.py:165
+#: trans/models/subproject.py:172
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -900,53 +904,59 @@ msgstr ""
 "Of vertalingsaanpassingen in andere subprojecten resulteren in automatische "
 "vertaling in dit project"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:387
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Ophalen van git repository is mislukt: %s"
 
-#: trans/models/subproject.py:446
+#: trans/models/subproject.py:477
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: trans/models/subproject.py:490
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models/subproject.py:526
+#: trans/models/subproject.py:557
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Opnieuw instellen van externe tak op %s is mislukt."
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:626
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Mislukt onze branche te rebasen op externe branch %s."
 
-#: trans/models/subproject.py:598
+#: trans/models/subproject.py:629
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe tak met %s is mislukt."
 
-#: trans/models/subproject.py:712
+#: trans/models/subproject.py:743
 msgid "Push URL is not used when repository is linked!"
 msgstr "De push URL wordt niet gebruikt wanneer het repository verbonden is!"
 
-#: trans/models/subproject.py:724
+#: trans/models/subproject.py:747
+#, fuzzy
+#| msgid "Push URL is not used when repository is linked!"
+msgid "Export URL is not used when repository is linked!"
+msgstr "De push URL wordt niet gebruikt wanneer het repository verbonden is!"
+
+#: trans/models/subproject.py:759
 msgid "Format of translation template could not be recognized."
 msgstr "Het formaat van de vertaalsjabloon werd niet herkend."
 
-#: trans/models/subproject.py:728
+#: trans/models/subproject.py:763
 msgid "Failed to parse translation template."
 msgstr "Verwerken van vertaalsjabloon is mislukt."
 
-#: trans/models/subproject.py:749
+#: trans/models/subproject.py:784
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models/subproject.py:755
+#: trans/models/subproject.py:790
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -955,12 +965,12 @@ msgstr ""
 "aan te passen en subprojecten te gebruiken om verschillende bronnen te "
 "vertalen."
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:810
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Het formaat van %d overeenkomende bestanden werd niet herkend."
 
-#: trans/models/subproject.py:784
+#: trans/models/subproject.py:819
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
@@ -1018,23 +1028,23 @@ msgstr "Vage tekenreeksen (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
 
-#: trans/models/unit.py:411
+#: trans/models/unit.py:430
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Het bericht dat u wilde vertalen is niet langer beschikbaar!"
 
-#: trans/models/unit.py:575
+#: trans/models/unit.py:598
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Opslaan van bericht in achterliggende databank is mislukt, een timeout is "
 "opgetreden!"
 
-#: trans/models/unit.py:587
+#: trans/models/unit.py:610
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Bericht niet gevonden in achterliggende opslagruimte, deze is waarschijnlijk "
 "beschadigd."
 
-#: trans/models/unit.py:726
+#: trans/models/unit.py:749
 #, python-format
 msgid "unit ID %s"
 msgstr "eenheid-ID %s"
@@ -1236,7 +1246,7 @@ msgid "About Weblate"
 msgstr "Over Weblate"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:240
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:241
 msgid "Failing checks"
 msgstr "Gefaalde controles"
 
@@ -1264,7 +1274,7 @@ msgid "File upload has failed: %s"
 msgstr "Bestand uploaden is mislukt : %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:537
+#: trans/views/edit.py:544
 msgid "Failed to process form!"
 msgstr "Het formulier kon niet verwerkt worden!"
 
@@ -1286,23 +1296,20 @@ msgstr "Tekenreeksen met gefaalde controles"
 
 #: trans/views/edit.py:64
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Full text-zoeken naar \"%s\""
 
 #: trans/views/edit.py:66
 #, python-format
-#| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Zoeken naar exacte tekenreeks \"%s\""
 
 #: trans/views/edit.py:68
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Zoeken naar subtekenreeks \"%s\""
 
-#: trans/views/edit.py:93
+#: trans/views/edit.py:93 trans/views/edit.py:417
 msgid "Invalid search string!"
 msgstr "Ongeldige zoekterm!"
 
@@ -1365,15 +1372,15 @@ msgstr "Ongeldige suggestie!"
 msgid "You have reached end of translating."
 msgstr "U heeft de vertaling afgewerkt."
 
-#: trans/views/edit.py:535
+#: trans/views/edit.py:542
 msgid "Automatic translation completed."
 msgstr "Automatische vertaling is klaar."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:583
 msgid "Posted new comment"
 msgstr "Nieuwe opmerking toegevoegd"
 
-#: trans/views/edit.py:601
+#: trans/views/edit.py:608
 msgid "Failed to add comment!"
 msgstr "Opmerking toevoegen is mislukt!"
 
@@ -1593,7 +1600,7 @@ msgstr ""
 #: weblate/html/check.html:26 weblate/html/check_project.html:26
 #: weblate/html/data.html:28 weblate/html/data.html.py:59
 #: weblate/html/index.html:37 weblate/html/list-translations.html:6
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "Project"
 
@@ -1730,7 +1737,7 @@ msgstr "Taal"
 msgid "Words"
 msgstr "Woorden"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:167
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:166
 msgid "Glossary"
 msgstr "Woordenlijst"
 
@@ -1790,8 +1797,8 @@ msgstr "Woordenlijst importeren"
 msgid "Export glossary"
 msgstr "Woordenlijst exporteren"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:227
-#: weblate/html/translate.html.py:260
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:228
+#: weblate/html/translate.html.py:261
 msgid "Add"
 msgstr "Toevoegen"
 
@@ -1897,12 +1904,12 @@ msgstr "Contacteer ons"
 msgid "Documentation"
 msgstr "Documentatie"
 
-#: weblate/html/git-commit-info.html:4
+#: weblate/html/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
 msgstr "Commit %(hash)s"
 
-#: weblate/html/git-commit-info.html:5
+#: weblate/html/git-commit-info.html:4
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr "Geschreven door %(author)s op %(date)s"
@@ -2786,7 +2793,7 @@ msgstr "Te beoordelen tekenreeksen"
 msgid "Comment"
 msgstr "Opmerking"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:245
+#: weblate/html/source-review.html:62 weblate/html/translate.html:246
 msgid "User comments"
 msgstr "Opmerkingen van de gebruiker"
 
@@ -2824,10 +2831,11 @@ msgstr "Beoordeling brontekenreeksen"
 msgid "Git repository:"
 msgstr "Git repository:"
 
-#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "tak %(branch)s"
+#: weblate/html/subproject_info.html:17
+#, fuzzy
+#| msgid "Sent by Weblate translation system"
+msgid "Git repository with Weblate translations:"
+msgstr "Verstuurd door het Weblate vertaalsysteem"
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -2922,79 +2930,77 @@ msgid "Nearby messages"
 msgstr "Berichten in de buurt"
 
 #: weblate/html/translate.html:165
-msgid "Similar messages"
-msgstr "Gelijkaardige berichten"
-
-#: weblate/html/translate.html:166
 msgid "Same message used in different subprojects"
 msgstr "Hetzelfde bericht gebruikt in verschillende subprojecten"
 
-#: weblate/html/translate.html:166
+#: weblate/html/translate.html:165
 msgid "All locations"
 msgstr "Alle locaties"
 
-#: weblate/html/translate.html:167
+#: weblate/html/translate.html:166
 msgid "Words extracted from glossary"
 msgstr "Woorden gewonnen uit woordenlijst"
 
-#: weblate/html/translate.html:169
-#| msgid "Point to translation instructions URL"
+#: weblate/html/translate.html:168
 msgid "Machine translation suggestions"
 msgstr "Suggesties door machinevertaling"
 
-#: weblate/html/translate.html:169
-#| msgid "Failed translation"
+#: weblate/html/translate.html:168
 msgid "Machine translation"
 msgstr "Machinevertaling"
 
-#: weblate/html/translate.html:171
+#: weblate/html/translate.html:170
 msgid "Comments about this translation"
 msgstr "Opmerkingen over deze vertaling"
 
-#: weblate/html/translate.html:171 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:170 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr "Opmerkingen"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "List of recent changes done in Weblate"
 msgstr "Lijst met recente wijzigingen in Weblate"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "Recent edits"
 msgstr "Recente bewerkingen"
 
-#: weblate/html/translate.html:173
+#: weblate/html/translate.html:172
 msgid "Source string details and feedback"
 msgstr "Details en reacties over brontekenreeksen"
 
+#: weblate/html/translate.html:173 weblate/html/translate.html.py:273
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Zoeken"
+
 #: weblate/html/translate.html:178 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
 msgid "State"
 msgstr "Status"
 
-#: weblate/html/translate.html:214
+#: weblate/html/translate.html:200
+msgid "Service"
+msgstr ""
+
+#: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
 msgstr "U kunt opmerkingen over deze vertaling delen met andere vertalers."
 
-#: weblate/html/translate.html:220 weblate/html/translate.html.py:252
+#: weblate/html/translate.html:221 weblate/html/translate.html.py:253
 msgid "New comment"
 msgstr "Nieuwe opmerking"
 
-#: weblate/html/translate.html:230 weblate/html/translate.html.py:263
+#: weblate/html/translate.html:231 weblate/html/translate.html.py:264
 msgid "You are not allowed to add comments."
 msgstr "Het is niet toegestaan om reacties toe te voegen."
 
-#: weblate/html/translate.html:246
+#: weblate/html/translate.html:247
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
 msgstr ""
 "U kunt opmerkingen over de brontekenreeks van deze vertaling delen met "
 "andere ontwikkelaars en vertalers."
-
-#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
-msgid "Search"
-msgstr "Zoeken"
 
 #: weblate/html/translation.html:37
 msgid "Files"
@@ -3357,7 +3363,7 @@ msgstr "Er zijn nieuwe commits in het lokaal Git repository!"
 msgid "Last remote commit:"
 msgstr "Laatste externe commit:"
 
-#: weblate/html/js/git-status.html:48
+#: weblate/html/js/git-status.html:45
 msgid "Details"
 msgstr "Details"
 
@@ -3372,10 +3378,6 @@ msgstr "Gebruik deze vertaling"
 #: weblate/html/js/other.html:25
 msgid "No other strings found."
 msgstr "Geen andere tekenreeksen gevonden."
-
-#: weblate/html/js/similar.html:20
-msgid "No similar strings found."
-msgstr "Geen gelijkaardige tekenreeksen gevonden."
 
 #: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
@@ -3830,6 +3832,15 @@ msgstr ""
 "Door te registreren gaat u ermee akkoord dat uw naam en E-mail adres "
 "gebruikt wordt in Git commits en dat uw bijdrage onder dezelfde licentie "
 "beschikbaar gesteld zal worden als vertaalde inhoud."
+
+#~ msgid "%(branch)s branch"
+#~ msgstr "tak %(branch)s"
+
+#~ msgid "Similar messages"
+#~ msgstr "Gelijkaardige berichten"
+
+#~ msgid "No similar strings found."
+#~ msgstr "Geen gelijkaardige tekenreeksen gevonden."
 
 #~ msgid "Sort this column"
 #~ msgstr "Deze kolom sorteren"

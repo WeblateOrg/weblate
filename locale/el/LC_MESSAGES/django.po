@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-10 16:57+0200\n"
+"POT-Creation-Date: 2013-04-11 16:12+0200\n"
 "PO-Revision-Date: 2013-04-11 08:06+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -174,56 +174,56 @@ msgstr "Το μήνυμα εστάλει στον διαχειριστή."
 msgid "Contact"
 msgstr "Επικοινωνία"
 
-#: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
-#: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
-#: lang/models.py:301
+#: lang/models.py:267 lang/models.py:271 lang/models.py:277 lang/models.py:284
+#: lang/models.py:289 lang/models.py:295 lang/models.py:301 lang/models.py:306
+#: lang/models.py:312
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Ένα"
 
-#: lang/models.py:257 lang/models.py:262 lang/models.py:270 lang/models.py:275
-#: lang/models.py:281 lang/models.py:287 lang/models.py:291 lang/models.py:298
-#: lang/models.py:305 lang/models.py:309
+#: lang/models.py:268 lang/models.py:273 lang/models.py:281 lang/models.py:286
+#: lang/models.py:292 lang/models.py:298 lang/models.py:302 lang/models.py:309
+#: lang/models.py:316 lang/models.py:320
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Άλλα"
 
-#: lang/models.py:261 lang/models.py:268 lang/models.py:286 lang/models.py:296
-#: lang/models.py:303
+#: lang/models.py:272 lang/models.py:279 lang/models.py:297 lang/models.py:307
+#: lang/models.py:314
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Λίγα"
 
-#: lang/models.py:265 lang/models.py:292
+#: lang/models.py:276 lang/models.py:303
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Μηδέν"
 
-#: lang/models.py:267 lang/models.py:274 lang/models.py:279 lang/models.py:285
-#: lang/models.py:302 lang/models.py:308
+#: lang/models.py:278 lang/models.py:285 lang/models.py:290 lang/models.py:296
+#: lang/models.py:313 lang/models.py:319
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Δύο"
 
-#: lang/models.py:269 lang/models.py:297 lang/models.py:304
+#: lang/models.py:280 lang/models.py:308 lang/models.py:315
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Πολλά"
 
-#: lang/models.py:280
+#: lang/models.py:291
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Τρία"
 
-#: lang/models.py:376
+#: lang/models.py:387
 msgid "Singular"
 msgstr "Ενικός"
 
-#: lang/models.py:378
+#: lang/models.py:389
 msgid "Plural"
 msgstr "Πληθυντικός"
 
-#: lang/models.py:379
+#: lang/models.py:390
 #, python-format
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
@@ -427,9 +427,9 @@ msgstr "Όλα τα υπόέργα"
 #: trans/forms.py:317 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
-#: weblate/html/translate.html.py:173 weblate/html/translate.html:178
+#: weblate/html/translate.html.py:172 weblate/html/translate.html:178
 #: weblate/html/translate.html.py:199 weblate/html/js/dictionary.html:7
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Προέλευση"
 
@@ -437,7 +437,7 @@ msgstr "Προέλευση"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:178
 #: weblate/html/translate.html:198 weblate/html/js/dictionary.html:8
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Μετάφραση"
 
@@ -840,7 +840,11 @@ msgstr ""
 "Σύνδεσμος για φυλλομετρητή αποθετηρίου, χρησιμοποιήστε τα %(branch)s για "
 "κλάδο, %(file)s και %(line)s ως όνομα αρχείου και χαρακτήρες αλλαγής γραμμής."
 
-#: trans/models/subproject.py:99
+#: trans/models/subproject.py:100
+msgid "URL of Git repository where users can fetch changes from Weblate"
+msgstr ""
+
+#: trans/models/subproject.py:106
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -848,11 +852,11 @@ msgstr ""
 "Ηλεκτρονική διεύθυνση όπου θα αναφερθούν σφάλματα στο κείμενο προέλευσης, "
 "άδειο για καμιά αλληλογραφία."
 
-#: trans/models/subproject.py:106
+#: trans/models/subproject.py:113
 msgid "Git branch to translate"
 msgstr "Κλάδος Git για μετάφραση"
 
-#: trans/models/subproject.py:113
+#: trans/models/subproject.py:120
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -860,7 +864,7 @@ msgstr ""
 "Διαδρομή αρχείων για μετάφραση, χρήση του * αντί για κωδικό γλώσσας, για "
 "παράδειγμα: po/*.po ή locale/*/LC_MESSAGES/django.po."
 
-#: trans/models/subproject.py:121
+#: trans/models/subproject.py:128
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -870,16 +874,13 @@ msgstr ""
 "χρησιμοποιείται για μεταφράσεις που αποθηκεύουν μόνο το μεταφρασμένο κείμενο "
 "όπως τα κείμενα πηγαίου κώδικα Android."
 
-#: trans/models/subproject.py:131
+#: trans/models/subproject.py:138
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Η αυτόματη ανίχνευση μπορεί να αποτύχει για ορισμένες μορφές και είναι "
 "σχετικά αργή."
 
-#: trans/models/subproject.py:141
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
+#: trans/models/subproject.py:148
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
@@ -887,10 +888,7 @@ msgstr ""
 "Μπορείτε να χρησιμιοποιήσετε πρόσθετα κείμενα για διάφορες πληροφορίες, για "
 "περισσότερες λεπτομέρειες δείτε την τεκμηρίωση."
 
-#: trans/models/subproject.py:151
-#| msgid ""
-#| "You can use format strings for various information, please check "
-#| "documentation for more details."
+#: trans/models/subproject.py:158
 msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
@@ -898,11 +896,11 @@ msgstr ""
 "Κώδικας που θα εκτελεστεί πριν τη μετάφραση, για περισσότερες λεπτομέρειες "
 "δείτε την τεκμηρίωση."
 
-#: trans/models/subproject.py:159
+#: trans/models/subproject.py:166
 msgid "Whether subproject is locked for translation updates."
 msgstr "Αν το υποέργο είναι κλειδωμένο για μεταφραστικές ενημερώσεις."
 
-#: trans/models/subproject.py:165
+#: trans/models/subproject.py:172
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -910,55 +908,61 @@ msgstr ""
 "Αν η μετάφραση ενημερωθεί σε άλλο υπόέργο, τότε θα προκαλέσει αυτόματη "
 "μετάφραση σε αυτό το έργο"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:387
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Απέτυχε η λήψη του αποθετηρίου git: %s"
 
-#: trans/models/subproject.py:446
+#: trans/models/subproject.py:477
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#: trans/models/subproject.py:490
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Απέτυχε η προώθηση στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models/subproject.py:526
+#: trans/models/subproject.py:557
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Απέτυχε η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:626
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Απέτυχε η αναβαθμίστε του υποκαταστήματός μας σε απομακρυσμένο υποκατάστημα "
 "%s."
 
-#: trans/models/subproject.py:598
+#: trans/models/subproject.py:629
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Απέτυχε η ένωση του απομακρυσμένου κλάδου στο %s."
 
-#: trans/models/subproject.py:712
+#: trans/models/subproject.py:743
 msgid "Push URL is not used when repository is linked!"
 msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: trans/models/subproject.py:724
+#: trans/models/subproject.py:747
+#, fuzzy
+#| msgid "Push URL is not used when repository is linked!"
+msgid "Export URL is not used when repository is linked!"
+msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
+
+#: trans/models/subproject.py:759
 msgid "Format of translation template could not be recognized."
 msgstr "Η μορφή του προτύπου μετάφρασης δεν μπορεί να αναγνωριστεί."
 
-#: trans/models/subproject.py:728
+#: trans/models/subproject.py:763
 msgid "Failed to parse translation template."
 msgstr "Απέτυχε η ανάλυση του προτύπου μετάφρασης."
 
-#: trans/models/subproject.py:749
+#: trans/models/subproject.py:784
 msgid "The mask did not match any files!"
 msgstr "Η μάσκα δεν ταιριάζει με κανένα αρχείο!"
 
-#: trans/models/subproject.py:755
+#: trans/models/subproject.py:790
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -966,12 +970,12 @@ msgstr ""
 "Υπάρχουν περισσότερα αρχεία για μονή γλώσσα, προσαρμόστε τη μάσκα και "
 "χρησιμοποιήστε υποέργα για μετάφραση διαφορετικών προελεύσεων."
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:810
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
 
-#: trans/models/subproject.py:784
+#: trans/models/subproject.py:819
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
@@ -1029,20 +1033,20 @@ msgstr "Ασαφή κείμενα (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Κείμενα με προτάσεις (%d)"
 
-#: trans/models/unit.py:411
+#: trans/models/unit.py:430
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Το μήνυμα που θέλατε να μεταφράσετε δεν είναι πλέον διαθέσιμο!"
 
-#: trans/models/unit.py:575
+#: trans/models/unit.py:598
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
-#: trans/models/unit.py:587
+#: trans/models/unit.py:610
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
 
-#: trans/models/unit.py:726
+#: trans/models/unit.py:749
 #, python-format
 msgid "unit ID %s"
 msgstr "μέχρι ID %s"
@@ -1244,7 +1248,7 @@ msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:240
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:241
 msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
@@ -1272,7 +1276,7 @@ msgid "File upload has failed: %s"
 msgstr "Το ανέβασμα του αρχείου απέτυχε: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:537
+#: trans/views/edit.py:544
 msgid "Failed to process form!"
 msgstr "Απέτυχε η προώθηση της φόμρας!"
 
@@ -1294,30 +1298,25 @@ msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχω
 
 #: trans/views/edit.py:64
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Αναζήτηση πλήρους κειμένου για το «%s»"
 
 #: trans/views/edit.py:66
 #, python-format
-#| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Αναζήτηση γιατο ακριβές κείμενο «%s»"
 
 #: trans/views/edit.py:68
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Αναζήτηση μερικού κειμένου για «%s»"
 
-#: trans/views/edit.py:93
-#| msgid "Invalid suggestion!"
+#: trans/views/edit.py:93 trans/views/edit.py:417
 msgid "Invalid search string!"
 msgstr "Μη έγκυρη αναζήτηση κειμένου!"
 
 #: trans/views/edit.py:115
 #, python-format
-#| msgid "Review source strings in %s"
 msgid "Review of translations since %s"
 msgstr "Επισκόπηση μεταφράσεων από %s"
 
@@ -1374,15 +1373,15 @@ msgstr "Μη έγκυρη πρόταση!"
 msgid "You have reached end of translating."
 msgstr "Ολοκληρώσατε τη μετάφραση."
 
-#: trans/views/edit.py:535
+#: trans/views/edit.py:542
 msgid "Automatic translation completed."
 msgstr "Ολοκλήρωση αυτόματης μετάφρασης."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:583
 msgid "Posted new comment"
 msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
-#: trans/views/edit.py:601
+#: trans/views/edit.py:608
 msgid "Failed to add comment!"
 msgstr "Απέτυχε η προσθήκη σχολίου!"
 
@@ -1603,7 +1602,7 @@ msgstr ""
 #: weblate/html/check.html:26 weblate/html/check_project.html:26
 #: weblate/html/data.html:28 weblate/html/data.html.py:59
 #: weblate/html/index.html:37 weblate/html/list-translations.html:6
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "Έργο"
 
@@ -1742,7 +1741,7 @@ msgstr "Γλώσσα"
 msgid "Words"
 msgstr "Λέξεις"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:167
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:166
 msgid "Glossary"
 msgstr "Γλωσσάρι"
 
@@ -1802,8 +1801,8 @@ msgstr "Εισαγωγή γλωσσαρίου"
 msgid "Export glossary"
 msgstr "Εξαγωγή γλωσσαρίου"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:227
-#: weblate/html/translate.html.py:260
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:228
+#: weblate/html/translate.html.py:261
 msgid "Add"
 msgstr "Προσθήκη"
 
@@ -1910,12 +1909,12 @@ msgstr "Επικοινωνήστε μαζί μας"
 msgid "Documentation"
 msgstr "Τεκμηρίωση"
 
-#: weblate/html/git-commit-info.html:4
+#: weblate/html/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
 msgstr "Ολοκλήρωση %(hash)s"
 
-#: weblate/html/git-commit-info.html:5
+#: weblate/html/git-commit-info.html:4
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr "Συντάχθηκαν από τον %(author)s, στις %(date)s"
@@ -2802,7 +2801,7 @@ msgstr "Κείμενα για επισκόπηση"
 msgid "Comment"
 msgstr "Σχόλιο"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:245
+#: weblate/html/source-review.html:62 weblate/html/translate.html:246
 msgid "User comments"
 msgstr "Σχόλια χρήστη"
 
@@ -2840,10 +2839,11 @@ msgstr "Επισκόπηση κειμένων προέλευσης"
 msgid "Git repository:"
 msgstr "Αποθετήριο Git:"
 
-#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "%(branch)s κλάδος"
+#: weblate/html/subproject_info.html:17
+#, fuzzy
+#| msgid "Sent by Weblate translation system"
+msgid "Git repository with Weblate translations:"
+msgstr "Απεστάλει από το μεταφραστικό σύστημα Weblate"
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -2938,80 +2938,78 @@ msgid "Nearby messages"
 msgstr "Κοντινά μηνύματα"
 
 #: weblate/html/translate.html:165
-msgid "Similar messages"
-msgstr "Παρόμοια μηνύματα"
-
-#: weblate/html/translate.html:166
 msgid "Same message used in different subprojects"
 msgstr "Το ίδιο μήνυμα που χρησιμοποιείται σε διαφορετικά υπόέργα"
 
-#: weblate/html/translate.html:166
+#: weblate/html/translate.html:165
 msgid "All locations"
 msgstr "Όλες οι τοποθεσίες"
 
-#: weblate/html/translate.html:167
+#: weblate/html/translate.html:166
 msgid "Words extracted from glossary"
 msgstr "Λέξεις εξαγόμενες από το γλωσσάρι"
 
-#: weblate/html/translate.html:169
-#| msgid "Point to translation instructions URL"
+#: weblate/html/translate.html:168
 msgid "Machine translation suggestions"
 msgstr "Προτάσεις μεταφραστικής μηχανής"
 
-#: weblate/html/translate.html:169
-#| msgid "Failed translation"
+#: weblate/html/translate.html:168
 msgid "Machine translation"
 msgstr "Νεταφραστική μηχανή"
 
-#: weblate/html/translate.html:171
+#: weblate/html/translate.html:170
 msgid "Comments about this translation"
 msgstr "Σχόλια για αυτή τη μετάφραση"
 
-#: weblate/html/translate.html:171 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:170 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr "Σχόλια"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "List of recent changes done in Weblate"
 msgstr "Λίστα πρόσφατων αλλαγών που έγιναν στο Weblate"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "Recent edits"
 msgstr "Πρόσφατες επεξεργασίες"
 
-#: weblate/html/translate.html:173
+#: weblate/html/translate.html:172
 msgid "Source string details and feedback"
 msgstr "Λεπτομέρειες κειμένου προέλευσης και παρατηρήσεις"
 
+#: weblate/html/translate.html:173 weblate/html/translate.html.py:273
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Αναζήτηση"
+
 #: weblate/html/translate.html:178 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
 msgid "State"
 msgstr "Κατάσταση"
 
-#: weblate/html/translate.html:214
+#: weblate/html/translate.html:200
+msgid "Service"
+msgstr ""
+
+#: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 "Μπορείτε να μοιραστείτε σχόλια για αυτή τη μετάφραση με άλλους μεταφραστές."
 
-#: weblate/html/translate.html:220 weblate/html/translate.html.py:252
+#: weblate/html/translate.html:221 weblate/html/translate.html.py:253
 msgid "New comment"
 msgstr "Νέο σχόλιο"
 
-#: weblate/html/translate.html:230 weblate/html/translate.html.py:263
+#: weblate/html/translate.html:231 weblate/html/translate.html.py:264
 msgid "You are not allowed to add comments."
 msgstr "Δεν σας επιτρέπεται να προσθέσετε σχόλια."
 
-#: weblate/html/translate.html:246
+#: weblate/html/translate.html:247
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
 msgstr ""
 "Μπορείτε να μοιραστείτε σχόλια για το κείμενο προέλευσης για αυτή τη "
 "μετάφραση με άλλους μεταφραστές και δημιουργούς."
-
-#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
-msgid "Search"
-msgstr "Αναζήτηση"
 
 #: weblate/html/translation.html:37
 msgid "Files"
@@ -3371,7 +3369,7 @@ msgstr "Υπάρχουν ορισμένες νέες δεσμεύσεις σε �
 msgid "Last remote commit:"
 msgstr "Τελευταία απομακρυσμένη ολοκλήρωση:"
 
-#: weblate/html/js/git-status.html:48
+#: weblate/html/js/git-status.html:45
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
@@ -3385,10 +3383,6 @@ msgstr "Χρήση αυτής της μετάφρασης"
 
 #: weblate/html/js/other.html:25
 msgid "No other strings found."
-msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
-
-#: weblate/html/js/similar.html:20
-msgid "No similar strings found."
 msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
 
 #: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
@@ -3838,6 +3832,15 @@ msgstr ""
 "Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η διεύθυνσή "
 "σας στους συμμετέχοντες του Git και η συνεισφορά σας να αδειοδοτηθεί υπό την "
 "ίδια άδεια όπως το μεταφρασμένο περιεχόμενο."
+
+#~ msgid "%(branch)s branch"
+#~ msgstr "%(branch)s κλάδος"
+
+#~ msgid "Similar messages"
+#~ msgstr "Παρόμοια μηνύματα"
+
+#~ msgid "No similar strings found."
+#~ msgstr "Δεν βρέθηκαν παρόμοια κείμενα."
 
 #~ msgid "Sort this column"
 #~ msgstr "Ταξινόμηση αυτής της στήλης"

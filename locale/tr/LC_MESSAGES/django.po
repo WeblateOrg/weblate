@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-10 16:57+0200\n"
+"POT-Creation-Date: 2013-04-11 16:12+0200\n"
 "PO-Revision-Date: 2013-04-10 18:01+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -174,56 +174,56 @@ msgstr "Mesaj yöneticiye gönderildi."
 msgid "Contact"
 msgstr "İletişim"
 
-#: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
-#: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
-#: lang/models.py:301
+#: lang/models.py:267 lang/models.py:271 lang/models.py:277 lang/models.py:284
+#: lang/models.py:289 lang/models.py:295 lang/models.py:301 lang/models.py:306
+#: lang/models.py:312
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Bir"
 
-#: lang/models.py:257 lang/models.py:262 lang/models.py:270 lang/models.py:275
-#: lang/models.py:281 lang/models.py:287 lang/models.py:291 lang/models.py:298
-#: lang/models.py:305 lang/models.py:309
+#: lang/models.py:268 lang/models.py:273 lang/models.py:281 lang/models.py:286
+#: lang/models.py:292 lang/models.py:298 lang/models.py:302 lang/models.py:309
+#: lang/models.py:316 lang/models.py:320
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Diğer"
 
-#: lang/models.py:261 lang/models.py:268 lang/models.py:286 lang/models.py:296
-#: lang/models.py:303
+#: lang/models.py:272 lang/models.py:279 lang/models.py:297 lang/models.py:307
+#: lang/models.py:314
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Birkaç"
 
-#: lang/models.py:265 lang/models.py:292
+#: lang/models.py:276 lang/models.py:303
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Sıfır"
 
-#: lang/models.py:267 lang/models.py:274 lang/models.py:279 lang/models.py:285
-#: lang/models.py:302 lang/models.py:308
+#: lang/models.py:278 lang/models.py:285 lang/models.py:290 lang/models.py:296
+#: lang/models.py:313 lang/models.py:319
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "İki"
 
-#: lang/models.py:269 lang/models.py:297 lang/models.py:304
+#: lang/models.py:280 lang/models.py:308 lang/models.py:315
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Birçok"
 
-#: lang/models.py:280
+#: lang/models.py:291
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Üç"
 
-#: lang/models.py:376
+#: lang/models.py:387
 msgid "Singular"
 msgstr "Tekil"
 
-#: lang/models.py:378
+#: lang/models.py:389
 msgid "Plural"
 msgstr "Çoğul"
 
-#: lang/models.py:379
+#: lang/models.py:390
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
@@ -426,9 +426,9 @@ msgstr "Tüm alt projeler"
 #: trans/forms.py:317 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
-#: weblate/html/translate.html.py:173 weblate/html/translate.html:178
+#: weblate/html/translate.html.py:172 weblate/html/translate.html:178
 #: weblate/html/translate.html.py:199 weblate/html/js/dictionary.html:7
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Kaynak"
 
@@ -436,7 +436,7 @@ msgstr "Kaynak"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:178
 #: weblate/html/translate.html:198 weblate/html/js/dictionary.html:8
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Çeviri"
 
@@ -827,7 +827,11 @@ msgstr ""
 "Havuz tarayıcısına bağlantı, dal için %(branch)s, dosya adı ve satır yer "
 "tutucuları olarak %(file)s ve %(line)s kullan."
 
-#: trans/models/subproject.py:99
+#: trans/models/subproject.py:100
+msgid "URL of Git repository where users can fetch changes from Weblate"
+msgstr ""
+
+#: trans/models/subproject.py:106
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -835,11 +839,11 @@ msgstr ""
 "Kaynak satırdaki hataların raporlanacağı eposta adresi, eposta almamak için "
 "boş bırakın."
 
-#: trans/models/subproject.py:106
+#: trans/models/subproject.py:113
 msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
-#: trans/models/subproject.py:113
+#: trans/models/subproject.py:120
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -847,7 +851,7 @@ msgstr ""
 "Çevirmek için dosyaların yolu, dil kodu yerine * kullanın, örneğin: po/*.po "
 "veya locale/*/LC_MESSAGES/django.po."
 
-#: trans/models/subproject.py:121
+#: trans/models/subproject.py:128
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -856,12 +860,12 @@ msgstr ""
 "Çeviri şablonunun dosya adı, bu Android kaynak satırları gibi sadece "
 "çevrilmiş satırın saklandığı çeviriler için kullanılması önerilir."
 
-#: trans/models/subproject.py:131
+#: trans/models/subproject.py:138
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Otomatik algılama bazı biçimlerde başarısız olabilir ve biraz yavaştır."
 
-#: trans/models/subproject.py:141
+#: trans/models/subproject.py:148
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
@@ -869,7 +873,7 @@ msgstr ""
 "İşlenenlere dahil etmek için ilave dosya, lütfen daha fazla ayrıntı için "
 "belgeleri kontrol edin."
 
-#: trans/models/subproject.py:151
+#: trans/models/subproject.py:158
 msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
@@ -877,11 +881,11 @@ msgstr ""
 "Çeviri işlenmesinden önce çalıştırılması için betik, lütfen daha fazla "
 "ayrıntı için belgeleri kontrol edin."
 
-#: trans/models/subproject.py:159
+#: trans/models/subproject.py:166
 msgid "Whether subproject is locked for translation updates."
 msgstr "Çeviri güncellemeleri için alt proje kilitlenmesi."
 
-#: trans/models/subproject.py:165
+#: trans/models/subproject.py:172
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -889,53 +893,59 @@ msgstr ""
 "Diğer alt projedeki çeviri güncellemeleri bu projede otomatik çeviriye neden "
 "olacaksa"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:387
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models/subproject.py:446
+#: trans/models/subproject.py:477
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models/subproject.py:490
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models/subproject.py:526
+#: trans/models/subproject.py:557
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:626
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models/subproject.py:598
+#: trans/models/subproject.py:629
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models/subproject.py:712
+#: trans/models/subproject.py:743
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: trans/models/subproject.py:724
+#: trans/models/subproject.py:747
+#, fuzzy
+#| msgid "Push URL is not used when repository is linked!"
+msgid "Export URL is not used when repository is linked!"
+msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
+
+#: trans/models/subproject.py:759
 msgid "Format of translation template could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models/subproject.py:728
+#: trans/models/subproject.py:763
 msgid "Failed to parse translation template."
 msgstr "Çeviri şablonu ayrıştırma başarısız."
 
-#: trans/models/subproject.py:749
+#: trans/models/subproject.py:784
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models/subproject.py:755
+#: trans/models/subproject.py:790
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -943,12 +953,12 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:810
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models/subproject.py:784
+#: trans/models/subproject.py:819
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
@@ -1006,20 +1016,20 @@ msgstr "Belirsiz satır (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models/unit.py:411
+#: trans/models/unit.py:430
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/models/unit.py:575
+#: trans/models/unit.py:598
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models/unit.py:587
+#: trans/models/unit.py:610
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models/unit.py:726
+#: trans/models/unit.py:749
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
@@ -1207,7 +1217,7 @@ msgid "About Weblate"
 msgstr "Weblate hakkında"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:240
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:241
 msgid "Failing checks"
 msgstr "Başarısız kontrolleri"
 
@@ -1235,7 +1245,7 @@ msgid "File upload has failed: %s"
 msgstr "Dosya gönderme başarısız oldu: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:537
+#: trans/views/edit.py:544
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
@@ -1257,23 +1267,20 @@ msgstr "Herhangi bir başarısız kontrolü olan satır"
 
 #: trans/views/edit.py:64
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "\"%s\" için tam metin arama"
 
 #: trans/views/edit.py:66
 #, python-format
-#| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Tam dizgi \"%s\" için arama"
 
 #: trans/views/edit.py:68
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "\"%s\" için alt dizgi arama"
 
-#: trans/views/edit.py:93
+#: trans/views/edit.py:93 trans/views/edit.py:417
 msgid "Invalid search string!"
 msgstr "Geçersiz arama dizgisi!"
 
@@ -1335,15 +1342,15 @@ msgstr "Geçersiz öneri!"
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views/edit.py:535
+#: trans/views/edit.py:542
 msgid "Automatic translation completed."
 msgstr "Otomatik çeviri tamamlandı."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:583
 msgid "Posted new comment"
 msgstr "Gönderilen yeni yorum"
 
-#: trans/views/edit.py:601
+#: trans/views/edit.py:608
 msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
@@ -1562,7 +1569,7 @@ msgstr ""
 #: weblate/html/check.html:26 weblate/html/check_project.html:26
 #: weblate/html/data.html:28 weblate/html/data.html.py:59
 #: weblate/html/index.html:37 weblate/html/list-translations.html:6
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "Proje"
 
@@ -1698,7 +1705,7 @@ msgstr "Dil"
 msgid "Words"
 msgstr "Kelime"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:167
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:166
 msgid "Glossary"
 msgstr "Terimler Sözlüğü"
 
@@ -1758,8 +1765,8 @@ msgstr "Terimler sözlüğünü içe aktar"
 msgid "Export glossary"
 msgstr "Terimler sözlüğünü dışa aktar"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:227
-#: weblate/html/translate.html.py:260
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:228
+#: weblate/html/translate.html.py:261
 msgid "Add"
 msgstr "Ekle"
 
@@ -1867,12 +1874,12 @@ msgstr "Bize ulaşın"
 msgid "Documentation"
 msgstr "Belgeler"
 
-#: weblate/html/git-commit-info.html:4
+#: weblate/html/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
 msgstr "İşleme %(hash)s"
 
-#: weblate/html/git-commit-info.html:5
+#: weblate/html/git-commit-info.html:4
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr "%(date)s tarihinde %(author)s tarafından yazıldı"
@@ -2751,7 +2758,7 @@ msgstr "Gözden geçirmek için satırlar"
 msgid "Comment"
 msgstr "Yorum"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:245
+#: weblate/html/source-review.html:62 weblate/html/translate.html:246
 msgid "User comments"
 msgstr "Kullanıcı yorumları"
 
@@ -2789,10 +2796,11 @@ msgstr "Kaynak satırları gözden geçirme"
 msgid "Git repository:"
 msgstr "Git havuzu:"
 
-#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "%(branch)s dalı"
+#: weblate/html/subproject_info.html:17
+#, fuzzy
+#| msgid "Sent by Weblate translation system"
+msgid "Git repository with Weblate translations:"
+msgstr "Weblate çeviri sistemi tarafından gönderildi"
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -2887,80 +2895,78 @@ msgid "Nearby messages"
 msgstr "Yakındaki iletiler"
 
 #: weblate/html/translate.html:165
-msgid "Similar messages"
-msgstr "Benzer iletiler"
-
-#: weblate/html/translate.html:166
 msgid "Same message used in different subprojects"
 msgstr "Farklı alt projelerde kullanılmış aynı iletiler"
 
-#: weblate/html/translate.html:166
+#: weblate/html/translate.html:165
 msgid "All locations"
 msgstr "Tüm yerler"
 
-#: weblate/html/translate.html:167
+#: weblate/html/translate.html:166
 msgid "Words extracted from glossary"
 msgstr "Terimler sözlüğünden çıkartılmış kelimeler"
 
-#: weblate/html/translate.html:169
-#| msgid "Point to translation instructions URL"
+#: weblate/html/translate.html:168
 msgid "Machine translation suggestions"
 msgstr "Makine çevirisi önerileri"
 
-#: weblate/html/translate.html:169
-#| msgid "Failed translation"
+#: weblate/html/translate.html:168
 msgid "Machine translation"
 msgstr "Makine çevirisi"
 
-#: weblate/html/translate.html:171
+#: weblate/html/translate.html:170
 msgid "Comments about this translation"
 msgstr "Bu çeviri hakkında yorumlar"
 
-#: weblate/html/translate.html:171 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:170 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr "Yorumlar"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate'te yapılmış en son değişikliklerin listesi"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "Recent edits"
 msgstr "En son düzenlemeler"
 
-#: weblate/html/translate.html:173
+#: weblate/html/translate.html:172
 msgid "Source string details and feedback"
 msgstr "Kaynak satırı ayrıntıları ve geri bildirim"
 
+#: weblate/html/translate.html:173 weblate/html/translate.html.py:273
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Ara"
+
 #: weblate/html/translate.html:178 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
 msgid "State"
 msgstr "Durum"
 
-#: weblate/html/translate.html:214
+#: weblate/html/translate.html:200
+msgid "Service"
+msgstr ""
+
+#: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 "Bu çeviri hakkındaki yorumları diğer çevirmenler ile paylaşabilirsiniz."
 
-#: weblate/html/translate.html:220 weblate/html/translate.html.py:252
+#: weblate/html/translate.html:221 weblate/html/translate.html.py:253
 msgid "New comment"
 msgstr "Yeni yorum"
 
-#: weblate/html/translate.html:230 weblate/html/translate.html.py:263
+#: weblate/html/translate.html:231 weblate/html/translate.html.py:264
 msgid "You are not allowed to add comments."
 msgstr "Yorumları eklemenize izin verilmiyor."
 
-#: weblate/html/translate.html:246
+#: weblate/html/translate.html:247
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
 msgstr ""
 "Bu çeviri için kaynak satırı hakkındaki yorumları diğer çevirmenler ve "
 "geliştiriciler ile paylaşabilirsiniz."
-
-#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
-msgid "Search"
-msgstr "Ara"
 
 #: weblate/html/translation.html:37
 msgid "Files"
@@ -3320,7 +3326,7 @@ msgstr "Yerel Git havuzunda bazı yeni işlemeler var!"
 msgid "Last remote commit:"
 msgstr "Son uzaktan işleme:"
 
-#: weblate/html/js/git-status.html:48
+#: weblate/html/js/git-status.html:45
 msgid "Details"
 msgstr "Ayrıntılar"
 
@@ -3335,10 +3341,6 @@ msgstr "Bu çeviriyi kullan"
 #: weblate/html/js/other.html:25
 msgid "No other strings found."
 msgstr "Bulunan diğer satırlar yok."
-
-#: weblate/html/js/similar.html:20
-msgid "No similar strings found."
-msgstr "Bulunan benzer satırlar yok."
 
 #: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
@@ -3780,6 +3782,15 @@ msgstr ""
 "Kayıt olarak Git sunumlarındaki adınızı ve epostanızı kullanmayı ve "
 "katkılarınızın çevirdiğiniz içerik ile aynı lisans altında lisanslandığını "
 "kabul ettiniz."
+
+#~ msgid "%(branch)s branch"
+#~ msgstr "%(branch)s dalı"
+
+#~ msgid "Similar messages"
+#~ msgstr "Benzer iletiler"
+
+#~ msgid "No similar strings found."
+#~ msgstr "Bulunan benzer satırlar yok."
 
 #~ msgid "Sort this column"
 #~ msgstr "Bu sütuna göre sırala"

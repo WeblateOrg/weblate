@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-10 16:57+0200\n"
+"POT-Creation-Date: 2013-04-11 16:12+0200\n"
 "PO-Revision-Date: 2013-04-10 20:31+0200\n"
 "Last-Translator: Anders Jonsson <jonars03@student.umu.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
@@ -173,56 +173,56 @@ msgstr "Meddelandet har skickats till administratören."
 msgid "Contact"
 msgstr "Kontakt"
 
-#: lang/models.py:256 lang/models.py:260 lang/models.py:266 lang/models.py:273
-#: lang/models.py:278 lang/models.py:284 lang/models.py:290 lang/models.py:295
-#: lang/models.py:301
+#: lang/models.py:267 lang/models.py:271 lang/models.py:277 lang/models.py:284
+#: lang/models.py:289 lang/models.py:295 lang/models.py:301 lang/models.py:306
+#: lang/models.py:312
 msgctxt "Plural form description"
 msgid "One"
 msgstr "En"
 
-#: lang/models.py:257 lang/models.py:262 lang/models.py:270 lang/models.py:275
-#: lang/models.py:281 lang/models.py:287 lang/models.py:291 lang/models.py:298
-#: lang/models.py:305 lang/models.py:309
+#: lang/models.py:268 lang/models.py:273 lang/models.py:281 lang/models.py:286
+#: lang/models.py:292 lang/models.py:298 lang/models.py:302 lang/models.py:309
+#: lang/models.py:316 lang/models.py:320
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Övriga"
 
-#: lang/models.py:261 lang/models.py:268 lang/models.py:286 lang/models.py:296
-#: lang/models.py:303
+#: lang/models.py:272 lang/models.py:279 lang/models.py:297 lang/models.py:307
+#: lang/models.py:314
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Några få"
 
-#: lang/models.py:265 lang/models.py:292
+#: lang/models.py:276 lang/models.py:303
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Noll"
 
-#: lang/models.py:267 lang/models.py:274 lang/models.py:279 lang/models.py:285
-#: lang/models.py:302 lang/models.py:308
+#: lang/models.py:278 lang/models.py:285 lang/models.py:290 lang/models.py:296
+#: lang/models.py:313 lang/models.py:319
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Två"
 
-#: lang/models.py:269 lang/models.py:297 lang/models.py:304
+#: lang/models.py:280 lang/models.py:308 lang/models.py:315
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Många"
 
-#: lang/models.py:280
+#: lang/models.py:291
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tre"
 
-#: lang/models.py:376
+#: lang/models.py:387
 msgid "Singular"
 msgstr "Singular"
 
-#: lang/models.py:378
+#: lang/models.py:389
 msgid "Plural"
 msgstr "Plural"
 
-#: lang/models.py:379
+#: lang/models.py:390
 #, python-format
 msgid "Plural form %d"
 msgstr "Pluralform %d"
@@ -426,9 +426,9 @@ msgstr "Alla underprojekt"
 #: trans/forms.py:317 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
-#: weblate/html/translate.html.py:173 weblate/html/translate.html:178
+#: weblate/html/translate.html.py:172 weblate/html/translate.html:178
 #: weblate/html/translate.html.py:199 weblate/html/js/dictionary.html:7
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Källa"
 
@@ -436,7 +436,7 @@ msgstr "Källa"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:16
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:178
 #: weblate/html/translate.html:198 weblate/html/js/dictionary.html:8
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Översättning"
 
@@ -823,18 +823,22 @@ msgid ""
 "as filename and line placeholders."
 msgstr ""
 
-#: trans/models/subproject.py:99
+#: trans/models/subproject.py:100
+msgid "URL of Git repository where users can fetch changes from Weblate"
+msgstr ""
+
+#: trans/models/subproject.py:106
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
 "E-postadress dit fel i källsträngen rapporteras, behåll tom för inga mail."
 
-#: trans/models/subproject.py:106
+#: trans/models/subproject.py:113
 msgid "Git branch to translate"
 msgstr "Git-gren att översätta"
 
-#: trans/models/subproject.py:113
+#: trans/models/subproject.py:120
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -842,7 +846,7 @@ msgstr ""
 "Sökväg för filer att översätta, använd * istället för språkkod, till "
 "exempel: po/*.po ellerr locale/*/LC_MESSAGES/django.po."
 
-#: trans/models/subproject.py:121
+#: trans/models/subproject.py:128
 msgid ""
 "Filename of translations template, this is recommended to use for "
 "translations which store only translated string like Android resource "
@@ -851,20 +855,20 @@ msgstr ""
 "Filnamn på översättningsmall, detta rekommenderas för översättningar som "
 "bara lagrar översatta strängar, som exempelvis Android-resurssträngar."
 
-#: trans/models/subproject.py:131
+#: trans/models/subproject.py:138
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatisk igenkänning kan misslyckas för vissa format och är något "
 "långsammare."
 
-#: trans/models/subproject.py:141
+#: trans/models/subproject.py:148
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
 msgstr ""
 "Extra fil att inkludera i incheckningar, se dokumentationen för mer detaljer."
 
-#: trans/models/subproject.py:151
+#: trans/models/subproject.py:158
 msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
@@ -872,11 +876,11 @@ msgstr ""
 "Skript att utföra innan översättningen checkas in, se dokumentationen för "
 "mer detaljer."
 
-#: trans/models/subproject.py:159
+#: trans/models/subproject.py:166
 msgid "Whether subproject is locked for translation updates."
 msgstr "Om underprojektet är låst för översättningsuppdateringar eller inte."
 
-#: trans/models/subproject.py:165
+#: trans/models/subproject.py:172
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -884,53 +888,57 @@ msgstr ""
 "Om översättningsuppdateringar i andra underprojekt ska orsaka automatisk "
 "översättning i detta projekt eller inte"
 
-#: trans/models/subproject.py:356
+#: trans/models/subproject.py:387
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Kunde inte hämta git-förråd: %s"
 
-#: trans/models/subproject.py:446
+#: trans/models/subproject.py:477
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models/subproject.py:490
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models/subproject.py:526
+#: trans/models/subproject.py:557
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models/subproject.py:595
+#: trans/models/subproject.py:626
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: trans/models/subproject.py:598
+#: trans/models/subproject.py:629
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models/subproject.py:712
+#: trans/models/subproject.py:743
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:724
+#: trans/models/subproject.py:747
+msgid "Export URL is not used when repository is linked!"
+msgstr ""
+
+#: trans/models/subproject.py:759
 msgid "Format of translation template could not be recognized."
 msgstr "Formatet på översättningsmallen kändes inte igen."
 
-#: trans/models/subproject.py:728
+#: trans/models/subproject.py:763
 msgid "Failed to parse translation template."
 msgstr "Kunde inte tolka översättningsmall."
 
-#: trans/models/subproject.py:749
+#: trans/models/subproject.py:784
 msgid "The mask did not match any files!"
 msgstr "Masken matchade inte några filer!"
 
-#: trans/models/subproject.py:755
+#: trans/models/subproject.py:790
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -938,12 +946,12 @@ msgstr ""
 "Det finns fler filer för enskilda språk, justera masken och använd "
 "underprojekt för att översätta olika resurser."
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:810
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formatet på %d matchande filer kändes inte igen."
 
-#: trans/models/subproject.py:784
+#: trans/models/subproject.py:819
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Kunde inte tolka %d matchade filer!"
@@ -1001,19 +1009,19 @@ msgstr "Luddiga strängar (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Strängar med förslag (%d)"
 
-#: trans/models/unit.py:411
+#: trans/models/unit.py:430
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Meddelandet du ville översätta är ej längre tillgängligt!"
 
-#: trans/models/unit.py:575
+#: trans/models/unit.py:598
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:587
+#: trans/models/unit.py:610
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models/unit.py:726
+#: trans/models/unit.py:749
 #, python-format
 msgid "unit ID %s"
 msgstr "enhets-ID %s"
@@ -1215,7 +1223,7 @@ msgid "About Weblate"
 msgstr "Om Weblate"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:240
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:241
 msgid "Failing checks"
 msgstr "Kontroller som misslyckats"
 
@@ -1243,7 +1251,7 @@ msgid "File upload has failed: %s"
 msgstr "Sändning av fil misslyckades: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:537
+#: trans/views/edit.py:544
 msgid "Failed to process form!"
 msgstr ""
 
@@ -1265,23 +1273,20 @@ msgstr "Strängar med kontroller som misslyckats"
 
 #: trans/views/edit.py:64
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Fulltextsökning efter \"%s\""
 
 #: trans/views/edit.py:66
 #, python-format
-#| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Sök efter den exakta strängen \"%s\""
 
 #: trans/views/edit.py:68
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Delsträngssökning efter \"%s\""
 
-#: trans/views/edit.py:93
+#: trans/views/edit.py:93 trans/views/edit.py:417
 msgid "Invalid search string!"
 msgstr "Ogiltig söksträng!"
 
@@ -1344,15 +1349,15 @@ msgstr "Ogiltigt förslag!"
 msgid "You have reached end of translating."
 msgstr "Du har nått översättningens slut."
 
-#: trans/views/edit.py:535
+#: trans/views/edit.py:542
 msgid "Automatic translation completed."
 msgstr "Automatisk översättning klar."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:583
 msgid "Posted new comment"
 msgstr "Postade ny kommentar"
 
-#: trans/views/edit.py:601
+#: trans/views/edit.py:608
 msgid "Failed to add comment!"
 msgstr "Kunde inte lägga till kommentar!"
 
@@ -1572,7 +1577,7 @@ msgstr ""
 #: weblate/html/check.html:26 weblate/html/check_project.html:26
 #: weblate/html/data.html:28 weblate/html/data.html.py:59
 #: weblate/html/index.html:37 weblate/html/list-translations.html:6
-#: weblate/html/js/other.html:6 weblate/html/js/similar.html:6
+#: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "Projekt"
 
@@ -1707,7 +1712,7 @@ msgstr "Språk"
 msgid "Words"
 msgstr "Ord"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:167
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:166
 msgid "Glossary"
 msgstr "Ordlista"
 
@@ -1767,8 +1772,8 @@ msgstr "Importera ordlista"
 msgid "Export glossary"
 msgstr "Exortera ordlista"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:227
-#: weblate/html/translate.html.py:260
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:228
+#: weblate/html/translate.html.py:261
 msgid "Add"
 msgstr "Lägg till"
 
@@ -1874,12 +1879,12 @@ msgstr "Kontakta oss"
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: weblate/html/git-commit-info.html:4
+#: weblate/html/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
 msgstr "Incheckning %(hash)s"
 
-#: weblate/html/git-commit-info.html:5
+#: weblate/html/git-commit-info.html:4
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
 msgstr "Författad av %(author)s den %(date)s"
@@ -2761,7 +2766,7 @@ msgstr "Strängar att granska"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:245
+#: weblate/html/source-review.html:62 weblate/html/translate.html:246
 msgid "User comments"
 msgstr "Användarkommentarer"
 
@@ -2799,10 +2804,11 @@ msgstr "Granskning av källsträngar"
 msgid "Git repository:"
 msgstr "Git-förråd:"
 
-#: weblate/html/subproject_info.html:9 weblate/html/subproject_info.html:11
-#, python-format
-msgid "%(branch)s branch"
-msgstr "grenen %(branch)s"
+#: weblate/html/subproject_info.html:17
+#, fuzzy
+#| msgid "Sent by Weblate translation system"
+msgid "Git repository with Weblate translations:"
+msgstr "Sänt av översättningssystemet Weblate"
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -2897,79 +2903,77 @@ msgid "Nearby messages"
 msgstr "Närliggande meddelanden"
 
 #: weblate/html/translate.html:165
-msgid "Similar messages"
-msgstr "Liknande meddelanden"
-
-#: weblate/html/translate.html:166
 msgid "Same message used in different subprojects"
 msgstr "Samma meddelande använt i olika underprojekt"
 
-#: weblate/html/translate.html:166
+#: weblate/html/translate.html:165
 msgid "All locations"
 msgstr "Alla platser"
 
-#: weblate/html/translate.html:167
+#: weblate/html/translate.html:166
 msgid "Words extracted from glossary"
 msgstr "Ord extraherade från ordlista"
 
-#: weblate/html/translate.html:169
-#| msgid "Point to translation instructions URL"
+#: weblate/html/translate.html:168
 msgid "Machine translation suggestions"
 msgstr "Förslag från maskinöversättning"
 
-#: weblate/html/translate.html:169
-#| msgid "Failed translation"
+#: weblate/html/translate.html:168
 msgid "Machine translation"
 msgstr "Maskinöversättning"
 
-#: weblate/html/translate.html:171
+#: weblate/html/translate.html:170
 msgid "Comments about this translation"
 msgstr "Kommentarer om denna översättning"
 
-#: weblate/html/translate.html:171 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:170 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr "Kommentarer"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "List of recent changes done in Weblate"
 msgstr "Lista av ändringar nyligt gjorda i Weblate"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:171
 msgid "Recent edits"
 msgstr "Senaste ändringar"
 
-#: weblate/html/translate.html:173
+#: weblate/html/translate.html:172
 msgid "Source string details and feedback"
 msgstr "Detaljer och feedback för källsträngen"
 
+#: weblate/html/translate.html:173 weblate/html/translate.html.py:273
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+msgid "Search"
+msgstr "Sök"
+
 #: weblate/html/translate.html:178 weblate/html/js/other.html:6
-#: weblate/html/js/similar.html:6
 msgid "State"
 msgstr "Tillstånd"
 
-#: weblate/html/translate.html:214
+#: weblate/html/translate.html:200
+msgid "Service"
+msgstr ""
+
+#: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
 msgstr "Du kan dela kommentarer om denna översättning med andra översättare."
 
-#: weblate/html/translate.html:220 weblate/html/translate.html.py:252
+#: weblate/html/translate.html:221 weblate/html/translate.html.py:253
 msgid "New comment"
 msgstr "Ny kommentar"
 
-#: weblate/html/translate.html:230 weblate/html/translate.html.py:263
+#: weblate/html/translate.html:231 weblate/html/translate.html.py:264
 msgid "You are not allowed to add comments."
 msgstr "Du har inte behörighet att lägga till kommentarer."
 
-#: weblate/html/translate.html:246
+#: weblate/html/translate.html:247
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
 msgstr ""
 "Du kan dela kommentarer om källsträngen för denna översättning med andra "
 "översättare och utvecklare."
-
-#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
-msgid "Search"
-msgstr "Sök"
 
 #: weblate/html/translation.html:37
 msgid "Files"
@@ -3328,7 +3332,7 @@ msgstr "Det finns nya incheckningar i det lokala Git-förrådet!"
 msgid "Last remote commit:"
 msgstr ""
 
-#: weblate/html/js/git-status.html:48
+#: weblate/html/js/git-status.html:45
 msgid "Details"
 msgstr "Detaljer"
 
@@ -3343,10 +3347,6 @@ msgstr "Använd denna översättning"
 #: weblate/html/js/other.html:25
 msgid "No other strings found."
 msgstr "Inga andra strängar hittades."
-
-#: weblate/html/js/similar.html:20
-msgid "No similar strings found."
-msgstr "Inga liknande strängar hittades."
 
 #: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
 msgid "Sent by Weblate translation system"
@@ -3785,6 +3785,15 @@ msgstr ""
 "Genom att registrera dig godkänner du att använda ditt namn och e-post i Git-"
 "incheckningar och att dina bidrag hamnar under samma licens som det som "
 "översatts."
+
+#~ msgid "%(branch)s branch"
+#~ msgstr "grenen %(branch)s"
+
+#~ msgid "Similar messages"
+#~ msgstr "Liknande meddelanden"
+
+#~ msgid "No similar strings found."
+#~ msgstr "Inga liknande strängar hittades."
 
 #~ msgid "Sort this column"
 #~ msgstr "Sortera denna kolumn"
