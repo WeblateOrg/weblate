@@ -64,8 +64,12 @@ function process_machine_translation(data, textStatus, jqXHR) {
     dec_loading();
     if (data.responseStatus == 200) {
         data.translations.forEach(function (el, idx, ar) {
-            var code = $('<tr data-quality=' + el.quality + '"><td class="translatetext target">' + el.text + '</td><td class="translatetext">' + el.source + '</td><td>' + el.service + '</td><td><a class="copymt small-button">' + gettext('Copy') + '</a></td></tr>');
-            $('#machine-translations').append(code);
+            var new_row = $('<tr/>').data('quality', el.quality);
+            new_row.append($('<td/>').attr('class', 'translatetext target').text(el.text));
+            new_row.append($('<td/>').attr('class', 'translatetext').text(el.source));
+            new_row.append($('<td/>').text(el.service));
+            new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
+            $('#machine-translations').append(new_row);
         });
         $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
             var text = $(this).parent().parent().find('.target').text();
