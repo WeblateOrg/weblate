@@ -149,7 +149,7 @@ translating:
   instance, what will make it automatically pick up translation from other
   projects as well.
 
-.. seealso:: :ref:`machinee-translation-setup`, :ref:`machinee-translation`
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 
 Where do language definition come from and how can I add own?
