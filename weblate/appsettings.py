@@ -107,7 +107,10 @@ CHECK_LIST = get('CHECK_LIST', (
 ))
 
 # List of machine translations
-MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', ())
+MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', (
+    'trans.machine.weblatetm.WeblateSimilarTranslation',
+    'trans.machine.weblatetm.WeblateTranslation',
+))
 
 # Whether machine translations are enabled
 MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0

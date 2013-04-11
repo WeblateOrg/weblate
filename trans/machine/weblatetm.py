@@ -19,32 +19,20 @@
 #
 
 from trans.machine.base import MachineTranslation
-from django.core.exceptions import ImproperlyConfigured
-from weblate.appsettings import MT_TMSERVER
-import urllib
+from trans.models.unit import Unit
 
 
-class TMServerTranslation(MachineTranslation):
+class WeblateTranslation(MachineTranslation):
     '''
-    tmserver machine translation support.
+    Translation service using strings already translated in Weblate.
     '''
-    name = 'tmserver'
-
-    def __init__(self):
-        '''
-        Checks configuration.
-        '''
-        super(TMServerTranslation, self).__init__()
-        if MT_TMSERVER is None:
-            raise ImproperlyConfigured(
-                'Not configured tmserver URL'
-            )
+    name = 'Weblate'
 
     def convert_language(self, language):
         '''
         Converts language to service specific code.
         '''
-        return language.replace('-', '_').lower()
+        return language
 
     def is_supported(self, language):
         '''
@@ -56,12 +44,35 @@ class TMServerTranslation(MachineTranslation):
         '''
         Downloads list of possible translations from a service.
         '''
-        url = '%s/tmserver/en/%s/unit/%s' % (
-            MT_TMSERVER.rstrip('/'),
-            urllib.quote(language),
-            urllib.quote(text),
-        )
-        response = self.json_req(url)
+        matching_units = Unit.objects.same_source(unit)
 
-        return [(line['target'], line['quality'], self.name)
-                for line in response]
+        return [(unit.target, 100, unicode(unit.translation.subproject)) for
+                unit in matching_units]
+
+
+class WeblateSimilarTranslation(MachineTranslation):
+    '''
+    Translation service using strings already translated in Weblate.
+    '''
+    name = 'Weblate similarity'
+
+    def convert_language(self, language):
+        '''
+        Converts language to service specific code.
+        '''
+        return language
+
+    def is_supported(self, language):
+        '''
+        Any language is supported.
+        '''
+        return True
+
+    def download_translations(self, language, text, unit):
+        '''
+        Downloads list of possible translations from a service.
+        '''
+        matching_units = Unit.objects.more_like_this(unit)
+
+        return [(unit.target, 80, unicode(unit.translation.subproject)) for
+                unit in matching_units]

@@ -50,7 +50,7 @@ class OpenTranTranslation(MachineTranslation):
             self.name
         )
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
         '''

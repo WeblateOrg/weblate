@@ -375,6 +375,8 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.machine.mymemory.MyMemoryTranslation',
 #    'trans.machine.opentran.OpenTranTranslation',
 #    'trans.machine.tmserver.TMServerTranslation',
+#    'trans.machine.weblatetm.WeblateSimilarTranslation',
+#    'trans.machine.weblatetm.WeblateTranslation',
 #)
 
 # E-mail address that error messages come from.

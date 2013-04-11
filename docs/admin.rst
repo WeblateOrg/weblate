@@ -520,6 +520,16 @@ Now you can start tmserver to listen to your requests:
 
     :setting:`MT_TMSERVER`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
 
+Weblate
++++++++
+
+Weblate can be source of machine translation as well. There are two services to
+provide you results - one does exact search for string, the other one finds all
+similar strings.
+
+First one is useful for full string translations, the second one for finding
+individual phrases or words to keep the translation consistent.
+
 .. _custom-checks:
 
 Customizing checks
