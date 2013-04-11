@@ -65,11 +65,20 @@ function process_machine_translation(data, textStatus, jqXHR) {
     if (data.responseStatus == 200) {
         data.translations.forEach(function (el, idx, ar) {
             var new_row = $('<tr/>').data('quality', el.quality);
+            var done = false;
             new_row.append($('<td/>').attr('class', 'translatetext target').text(el.text));
             new_row.append($('<td/>').attr('class', 'translatetext').text(el.source));
-            new_row.append($('<td/>').text(el.service));
+            new_row.append($('<td/>').text(el.service + ' ' + el.quality));
             new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
-            $('#machine-translations').append(new_row);
+            $('#machine-translations').children('tr').each(function (idx) {
+                if ($(this).data('quality') < el.quality) {
+                    $(this).before(new_row);
+                    done = true;
+                }
+            });
+            if (! done) {
+                $('#machine-translations').append(new_row);
+            }
         });
         $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
             var text = $(this).parent().parent().find('.target').text();
