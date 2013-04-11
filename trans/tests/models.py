@@ -279,6 +279,18 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+    def test_validation_mono(self):
+        project = self.create_po_mono()
+        # Correct project
+        project.full_clean()
+        # Not existing file
+        project.template = 'not-existing'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Template file not found!',
+            project.full_clean
+        )
+
 
 class TranslationTest(RepoTestCase):
     '''
