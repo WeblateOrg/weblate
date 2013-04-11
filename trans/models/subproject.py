@@ -669,7 +669,11 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         prefix = os.path.join(self.get_path(), '')
         matches = glob(os.path.join(self.get_path(), self.filemask))
-        return [f.replace(prefix, '') for f in matches]
+        matches = [f.replace(prefix, '') for f in matches]
+        # Template can have possibly same name as translations
+        if self.template in matches:
+            matches.remove(self.template)
+        return matches
 
     def create_translations(self, force=False, langs=None, request=None):
         '''
@@ -752,15 +756,20 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         Validates whether template can be loaded.
         '''
+
+        full_path = os.path.join(self.get_path(), self.template)
+        if not os.path.exists(full_path):
+            raise ValidationError(_('Template file not found!'))
+
         try:
             self.load_template_store()
         except ValueError:
             raise ValidationError(
                 _('Format of translation template could not be recognized.')
             )
-        except Exception:
+        except Exception as exc:
             raise ValidationError(
-                _('Failed to parse translation template.')
+                _('Failed to parse translation template: %s') % str(exc)
             )
 
     def clean(self):

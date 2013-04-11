@@ -118,6 +118,13 @@ class RepoTestCase(TestCase):
             'po/*.po',
         )
 
+    def create_po_mono(self):
+        return self._create_subproject(
+            'po-mono',
+            'po-mono/*.po',
+            'po-mono/en.po',
+        )
+
     def create_iphone(self):
         return self._create_subproject(
             'strings',
@@ -213,31 +220,43 @@ class SubProjectTest(RepoTestCase):
     '''
     def test_create(self):
         project = self.create_subproject()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 3)
 
     def test_create_iphone(self):
         project = self.create_iphone()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
+    def test_create_po_mono(self):
+        project = self.create_po_mono()
+        project.full_clean()
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual(project.translation_set.count(), 3)
+
     def test_create_android(self):
         project = self.create_android()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
     def test_create_java(self):
         project = self.create_java()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
     def test_create_xliff(self):
         project = self.create_xliff()
+        project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
 
     def test_link(self):
         project = self.create_link()
+        project.full_clean()
         self.assertTrue(project.is_repo_link())
         self.assertEqual(project.translation_set.count(), 3)
 
@@ -257,6 +276,18 @@ class SubProjectTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             'Format of 1 matched files could not be recognized.',
+            project.full_clean
+        )
+
+    def test_validation_mono(self):
+        project = self.create_po_mono()
+        # Correct project
+        project.full_clean()
+        # Not existing file
+        project.template = 'not-existing'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Template file not found!',
             project.full_clean
         )
 

@@ -137,10 +137,22 @@ class BasicViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
+    def test_view_unit(self):
+        unit = self.get_translation().unit_set.get(source='Hello, world!\n')
+        response = self.client.get(
+            unit.get_absolute_url()
+        )
+        self.assertContains(response, 'Hello, world!')
+
 
 class BasicResourceViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_android()
+
+
+class BasicPoMonoViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_po_mono()
 
 
 class BasicIphoneViewTest(BasicViewTest):
@@ -387,6 +399,11 @@ class EditTest(ViewTestCase):
 class EditResourceTest(EditTest):
     def create_subproject(self):
         return self.create_android()
+
+
+class EditPoMonoTest(EditTest):
+    def create_subproject(self):
+        return self.create_po_mono()
 
 
 class EditIphoneTest(EditTest):
