@@ -43,6 +43,8 @@ class GoogleTranslation(MachineTranslation):
             text=text,
             sl='en',
             tl=language,
+            ie='UTF-8',
+            oe='UTF-8'
         )
 
         return [(response[0][0][0], 100, self.name, text)]
