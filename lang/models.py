@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _, pgettext_lazy
+from django.utils.safestring import mark_safe
 from translate.lang.data import languages
 from lang import data
 from trans.models.mixins import PercentMixin
@@ -408,7 +409,7 @@ class Language(models.Model, PercentMixin):
         Returns html attributes for markup in this language, includes
         language and direction.
         '''
-        return 'lang="%s" dir="%s"' % (self.code, self.direction)
+        return mark_safe('lang="%s" dir="%s"' % (self.code, self.direction))
 
     def fixup_name(self):
         '''
