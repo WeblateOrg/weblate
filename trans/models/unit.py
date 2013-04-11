@@ -381,6 +381,8 @@ class UnitManager(models.Manager):
         with index as searcher:
             # Search for same string
             results = searcher.search(parsed)
+            if len(results) == 0:
+                return self.none()
             first_hit = results[0]
             # Find similar results to first one
             more_results = first_hit.more_like_this(
