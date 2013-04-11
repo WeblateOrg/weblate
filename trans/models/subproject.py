@@ -756,7 +756,11 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         Validates whether template can be loaded.
         '''
-        # TODO: check if file exists
+
+        full_path = os.path.join(self.get_path(), self.template)
+        if not os.path.exists(full_path):
+            raise ValidationError(_('Template file not found!'))
+
         try:
             self.load_template_store()
         except ValueError:
