@@ -86,6 +86,9 @@ class MachineTranslation(object):
         # Needed for Microsoft
         if text.startswith('\xef\xbb\xbf'):
             text = text.decode('UTF-8-sig')
+        else:
+            # Some services just cut in middle of UTF-8 char...
+            text = text.decode('utf-8', 'ignore')
         # Needed for Google
         while ',,' in text:
             text = text.replace(',,', ',null,')
