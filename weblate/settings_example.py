@@ -77,6 +77,7 @@ LANGUAGES = (
     ('fi', 'Suomi'),
     ('fr', u'Français'),
     ('gl', 'Galego'),
+    ('he', u'עִבְרִית'),
     ('hu', 'Magyar'),
     ('id', 'Indonesia'),
     ('ja', u'日本語'),
