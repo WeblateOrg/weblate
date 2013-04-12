@@ -59,7 +59,7 @@ class TMServerTranslation(MachineTranslation):
         url = '%s/tmserver/en/%s/unit/%s' % (
             MT_TMSERVER.rstrip('/'),
             urllib.quote(language),
-            urllib.quote(text),
+            urllib.quote(text.encode('utf-8')),
         )
         response = self.json_req(url)
 
