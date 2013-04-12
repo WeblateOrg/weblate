@@ -595,12 +595,12 @@ class Translation(models.Model, URLMixin):
         '''
         self.total_words = self.unit_set.aggregate(
             Sum('num_words')
-        )['num_words']
+        )['num_words__sum']
         self.translated_words = self.unit_set.filter(
             translated=True
         ).aggregate(
             Sum('num_words')
-        )['num_words']
+        )['num_words__sum']
 
         self.total = self.unit_set.count()
         self.fuzzy = self.unit_set.filter(
