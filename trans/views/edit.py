@@ -150,6 +150,7 @@ def search(translation, request):
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,
+        'offset': 0,
     }
 
     request.session['search_%s' % search_id] = search_result
@@ -368,7 +369,7 @@ def translate(request, project, subproject, lang):
 
     # Search offset
     try:
-        offset = int(request.GET.get('offset', '0'))
+        offset = int(request.GET.get('offset', search_result['offset']))
     except ValueError:
         offset = 0
 
