@@ -68,3 +68,9 @@ class ExportsViewTest(ViewTestCase):
             reverse('data_project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Test')
+
+    def test_about(self):
+        response = self.client.get(
+            reverse('about')
+        )
+        self.assertContains(response, 'Translate Toolkit')
