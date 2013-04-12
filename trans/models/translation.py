@@ -125,6 +125,8 @@ class Translation(models.Model, URLMixin):
     translated = models.IntegerField(default=0, db_index=True)
     fuzzy = models.IntegerField(default=0, db_index=True)
     total = models.IntegerField(default=0, db_index=True)
+    translated_words = models.IntegerField(default=0)
+    total_words = models.IntegerField(default=0)
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
 
@@ -591,15 +593,30 @@ class Translation(models.Model, URLMixin):
         '''
         Updates translation statistics.
         '''
+        self.total_words = self.unit_set.aggegate(
+            Sum('num_words')
+        )['num_words']
+        self.translated_words = self.unit_set.filter(
+            translated=True
+        ).aggegate(
+            Sum('num_words')
+        )['num_words']
+
         self.total = self.unit_set.count()
-        self.fuzzy = self.unit_set.filter(fuzzy=True).count()
-        self.translated = self.unit_set.filter(translated=True).count()
-        self.failing_checks = self.unit_set.filter_checks(
-            'allchecks', self
+        self.fuzzy = self.unit_set.filter(
+            fuzzy=True
         ).count()
-        self.have_suggestion = self.unit_set.filter_type(
-            'suggestions', self
+        self.translated = self.unit_set.filter(
+            translated=True
         ).count()
+
+        self.failing_checks = self.unit_set.filter(
+            has_failing_check=True
+        ).count()
+        self.have_suggestion = self.unit_set.filter(
+            has_suggestion=True
+        ).count()
+
         self.save()
         self.store_hash()
 

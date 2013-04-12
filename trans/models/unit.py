@@ -93,7 +93,7 @@ class UnitManager(models.Manager):
 
         # Filter by language
         if rqtype == 'allchecks':
-            checks = checks.filter(language=translation.language)
+            return self.filter(has_failing_check=True)
         elif rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
             filter_translated = False
@@ -129,12 +129,7 @@ class UnitManager(models.Manager):
         elif rqtype == 'untranslated':
             return self.filter(translated=False)
         elif rqtype == 'suggestions':
-            sugs = Suggestion.objects.filter(
-                language=translation.language,
-                project=translation.subproject.project
-            )
-            sugs = sugs.values_list('checksum', flat=True)
-            return self.filter(checksum__in=sugs)
+            return self.filter(has_suggestion=True)
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
@@ -143,12 +138,9 @@ class UnitManager(models.Manager):
             coms = coms.values_list('checksum', flat=True)
             return self.filter(checksum__in=coms)
         elif rqtype == 'targetcomments':
-            coms = Comment.objects.filter(
-                language=translation.language,
-                project=translation.subproject.project
-            )
-            coms = coms.values_list('checksum', flat=True)
-            return self.filter(checksum__in=coms)
+            return self.filter(has_comment=True)
+        elif rqtype == 'allchecks':
+            return self.filter(has_failing_check=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation)
         else:
@@ -446,6 +438,12 @@ class Unit(models.Model):
     translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
 
+    has_suggestion = models.BooleanField(default=False, db_index=True)
+    has_comment = models.BooleanField(default=False, db_index=True)
+    has_failing_check = models.BooleanField(default=False, db_index=True)
+
+    num_words = models.IntegerField(default=0)
+
     objects = UnitManager()
 
     class Meta:
@@ -717,7 +715,12 @@ class Unit(models.Model):
         # Pop parameter indicating that we don't have to process content
         same_content = kwargs.pop('same_content', False)
         same_state = kwargs.pop('same_state', False)
+        # Keep the force_insert for parent save
         force_insert = kwargs.get('force_insert', False)
+
+        # Store number of words
+        if not same_content:
+            self.num_words = len(self.get_source_plurals()[0].split())
 
         # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
@@ -902,8 +905,6 @@ class Unit(models.Model):
             'check', flat=True
         ))
 
-        change = False
-
         # Run all checks
         for check in checks_to_run:
             check_obj = CHECKS[check]
@@ -921,7 +922,6 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
-                    change = True
             # Source check
             if check_obj.source and check_obj.check_source(src, self):
                 if check in old_source_checks:
@@ -936,15 +936,52 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
-                    change = True
 
         # Delete no longer failing checks
         if cleanup_checks:
             self.cleanup_checks(old_source_checks, old_target_checks)
 
-        # Invalidate checks cache
-        if change:
+        # Update failing checks flag
+        self.update_has_failing_check()
+
+    def update_has_failing_check(self):
+        '''
+        Updates flag counting failing checks.
+        '''
+        has_failing_check = len(self.active_checks()) > 0
+        if has_failing_check != self.has_failing_check:
+            self.has_failing_check = has_failing_check
+            self.save()
+
+            # Invalidate checks cache
             self.translation.invalidate_cache()
+
+            # Update translation stats
+            self.translation.update_stats()
+
+    def update_has_suggestion(self):
+        '''
+        Updates flag counting suggestions.
+        '''
+        has_suggestion = len(self.suggestions()) > 0
+        if has_suggestion != self.has_suggestion:
+            self.has_suggestion = has_suggestion
+            self.save()
+
+            # Update translation stats
+            self.translation.update_stats()
+
+    def update_has_comment(self):
+        '''
+        Updates flag counting comments.
+        '''
+        has_comment = len(self.get_comments()) > 0
+        if has_comment != self.has_comment:
+            self.has_comment = has_comment
+            self.save()
+
+            # Update translation stats
+            self.translation.update_stats()
 
     def nearby(self):
         '''
@@ -1005,3 +1042,63 @@ class Unit(models.Model):
             profile = user.get_profile()
             profile.suggested += 1
             profile.save()
+
+        # Update unit flags
+        for unit in suggestion.get_related_units():
+            unit.update_has_suggestion()
+
+    def add_comment(self, user, lang, text):
+        '''
+        Adds comment to this unit.
+        '''
+        from trans.models.unitdata import Comment, Change
+        from accounts.models import Profile
+
+        new_comment = Comment.objects.create(
+            user=user,
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            comment=text,
+            language=lang
+        )
+        Change.objects.create(
+            unit=self,
+            action=Change.ACTION_COMMENT,
+            translation=self.translation,
+            user=request.user
+        )
+
+        # Invalidate counts cache
+        if lang is None:
+            self.translation.invalidate_cache('sourcecomments')
+        else:
+            self.translation.invalidate_cache('targetcomments')
+
+        # Update unit stats
+        for unit in new_comment.get_related_units():
+            unit.update_has_comment()
+
+        # Notify subscribed users
+        subscriptions = Profile.objects.subscribed_new_comment(
+            self.translation.subproject.project,
+            lang,
+            request.user
+        )
+        for subscription in subscriptions:
+            subscription.notify_new_comment(self, new_comment)
+
+        # Notify upstream
+        report_source_bugs = self.translation.subproject.report_source_bugs
+        if lang is None and report_source_bugs != '':
+            send_notification_email(
+                'en',
+                report_source_bugs,
+                'new_comment',
+                self.translation,
+                {
+                    'unit': self,
+                    'comment': new_comment,
+                    'subproject': self.translation.subproject,
+                },
+                from_email=request.user.email,
+            )
