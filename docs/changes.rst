@@ -6,6 +6,7 @@ weblate 1.5
 
 Released on ? 2013.
 
+* Please check manual for upgrade instructions.
 * Added public user pages.
 * Better naming of plural forms.
 * Added support for TBX export of glossary.
@@ -20,6 +21,9 @@ Released on ? 2013.
 * Added support for custom pre-commit hooks and commiting additional files.
 * Rewritten search for better performance and user experience.
 * New interface for machine translations.
+* Added support for monolingual po files.
+* Extend amount of cached metadata to improve speed of various searches.
+* Now shows word counts as well.
 
 weblate 1.4
 -----------
