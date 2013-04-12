@@ -316,48 +316,48 @@ class FileFormat(object):
         '''
         Finds unit by context and source.
 
-        Returns tuple (pounit, created) indicating whether returned
+        Returns tuple (ttkit_unit, created) indicating whether returned
         unit is new one.
         '''
         if self.has_template:
             # Need to create new unit based on template
-            template_pounit = self.template_store.findid(context)
+            template_ttkit_unit = self.template_store.findid(context)
             # We search by ID when using template
-            pounit = self.store.findid(context)
+            ttkit_unit = self.store.findid(context)
             # We always need new unit to translate
-            if pounit is None:
-                pounit = template_pounit
+            if ttkit_unit is None:
+                ttkit_unit = template_ttkit_unit
                 add = True
             else:
                 add = False
 
-            return (FileUnit(pounit, template_pounit), add)
+            return (FileUnit(ttkit_unit, template_ttkit_unit), add)
         else:
             # Find all units with same source
             found_units = self.store.findunits(source)
             if len(found_units) > 0:
-                for pounit in found_units:
+                for ttkit_unit in found_units:
                     # Does context match?
-                    if pounit.getcontext() == context:
-                        return (FileUnit(pounit), False)
+                    if ttkit_unit.getcontext() == context:
+                        return (FileUnit(ttkit_unit), False)
             else:
                 # Fallback to manual find for value based files
-                for pounit in self.store.units:
-                    pounit = FileUnit(pounit)
-                    if pounit.get_source() == source:
-                        return (pounit, False)
+                for ttkit_unit in self.store.units:
+                    ttkit_unit = FileUnit(ttkit_unit)
+                    if ttkit_unit.get_source() == source:
+                        return (ttkit_unit, False)
 
         return (None, False)
 
-    def add_unit(self, pounit):
+    def add_unit(self, ttkit_unit):
         '''
         Adds new unit to underlaying store.
         '''
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
-            self.store.addunit(pounit.unit, new=True)
+            self.store.addunit(ttkit_unit.unit, new=True)
         else:
-            self.store.addunit(pounit.unit)
+            self.store.addunit(ttkit_unit.unit)
 
     def update_header(self, **kwargs):
         '''
