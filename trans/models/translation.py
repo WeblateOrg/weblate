@@ -1100,12 +1100,9 @@ class Translation(models.Model, URLMixin):
                 user=request.user
             )
 
-            # Increase suggestion counter
-            self.have_suggestion += 1
-
-        # Save updated suggestion count
+        # Update suggestion count
         if ret:
-            self.save()
+            self.update_stats()
 
         return ret
 
