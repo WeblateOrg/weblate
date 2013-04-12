@@ -6,6 +6,7 @@
 <th>{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
 <th></th>
 <th colspan="2">{% trans "Translated" %}</th>
+<th>{% trans "Words" context "Number of translated words" %}</th>
 <th>{% trans "Fuzzy" context "Number of fuzzy strings" %}</th>
 <th>{% trans "Checks" context "Number of failing checks" %}</th>
 <th>{% trans "Suggestions" context "Number of suggestions" %}</th>
@@ -19,6 +20,7 @@
 <td>{% if trans.is_user_locked %}<span class="ui-icon ui-icon-locked tooltip">{{ trans.get_lock_display }}</span>{% endif %}</td>
 <td><div class="progress" data-value="{{ percent|floatformat:0 }}" data-fuzzy="{{ fuzzy|floatformat:0 }}" data-checks="{{ check_percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ percent }}%</td>
+<td class="percent" title="{% blocktrans count words=trans.untranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.get_words_percent }}%</td>
 <td class="percent">
 {% if fuzzy > 0 %}
 <a href="{{ trans.get_translate_url }}?type=fuzzy" title="{% blocktrans count trans.fuzzy as count %}There is {{ count }} fuzzy string.{% plural %}There are {{ count }} fuzzy strings.{% endblocktrans %}">

@@ -212,6 +212,15 @@ class Translation(models.Model, URLMixin):
             return 0
         return round(self.translated * 100.0 / self.total, 1)
 
+    def get_words_percent(self):
+        if self.total_words == 0:
+            return 0
+        return round(self.translated_words * 100.0 / self.total_words, 1)
+
+    @property
+    def untranslated_words(self):
+        return self.total_words - self.translated_words
+
     def get_lock_user_display(self):
         '''
         Returns formatted lock user.
