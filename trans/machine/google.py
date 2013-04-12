@@ -47,4 +47,7 @@ class GoogleTranslation(MachineTranslation):
             oe='UTF-8'
         )
 
-        return [(response[0][0][0], 100, self.name, text)]
+        translation = ' '.join([sentence[0] for sentence in response[0]])
+        source = ' '.join([sentence[1] for sentence in response[0]])
+
+        return [(translation, 100, self.name, source)]
