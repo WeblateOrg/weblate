@@ -555,3 +555,75 @@ class SearchViewTest(ViewTestCase):
             {'type': 'all'},
             '1 / 4'
         )
+
+class CommentViewTest(ViewTestCase):
+    def setUp(self):
+        super(CommentViewTest, self).setUp()
+        self.translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        self.translation.invalidate_cache('targetcomments')
+        self.translation.invalidate_cache('sourcecomments')
+
+    def test_add_target_comment(self):
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+
+        # Add comment
+        response = self.client.post(
+            reverse('comment', kwargs={'pk': unit.id}),
+            {'comment': 'New target testing comment'}
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
+
+        # Check it is shown on page
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, 'New target testing comment')
+
+        # Reload from database
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of comments
+        self.assertTrue(unit.has_comment)
+        self.assertEqual(
+            translation.unit_set.count_type('targetcomments', translation),
+            1
+        )
+        self.assertEqual(
+            translation.unit_set.count_type('sourcecomments', translation),
+            0
+        )
+
+    def test_add_source_comment(self):
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+
+        # Add comment
+        response = self.client.post(
+            reverse('comment', kwargs={'pk': unit.id}),
+            {
+                'comment': 'New source testing comment',
+                'type': 'source'
+            }
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
+
+        # Check it is shown on page
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, 'New source testing comment')
+
+        # Reload from database
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of comments
+        self.assertFalse(unit.has_comment)
+        self.assertEqual(
+            translation.unit_set.count_type('targetcomments', translation),
+            0
+        )
+        self.assertEqual(
+            translation.unit_set.count_type('sourcecomments', translation),
+            1
+        )
