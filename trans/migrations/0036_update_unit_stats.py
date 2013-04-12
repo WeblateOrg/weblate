@@ -54,7 +54,7 @@ class Migration(DataMigration):
             unit.num_words = len(unit.source.split(PLURAL_SEPARATOR)[0].split())
             unit.save()
             done += 1
-            if done % 500 == 0:
+            if done % 1000 == 0:
                 print 'Migrated %d of %d, ETA: %d min' % (
                     done,
                     total,
