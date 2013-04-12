@@ -409,12 +409,19 @@ def translate(request, project, subproject, lang):
         return response
 
     # Grab actual unit
-    try:
-        unit = obj.unit_set.get(pk=search_result['ids'][offset])
-    except Unit.DoesNotExist:
-        # Can happen when using SID for other translation
-        messages.error(request, _('Invalid search string!'))
-        return HttpResponseRedirect(obj.get_absolute_url())
+    if 'checksum' in request.GET:
+        try:
+            unit = obj.unit_set.get(checksum=request.GET['checksum'])
+        except Unit.DoesNotExist:
+            unit = None
+
+    if unit is None:
+        try:
+            unit = obj.unit_set.get(pk=search_result['ids'][offset])
+        except Unit.DoesNotExist:
+            # Can happen when using SID for other translation
+            messages.error(request, _('Invalid search string!'))
+            return HttpResponseRedirect(obj.get_absolute_url())
 
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
