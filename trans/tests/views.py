@@ -411,6 +411,21 @@ class EditTest(ViewTestCase):
         self.assertFalse(self.subproject.git_needs_push())
         self.assertFalse(self.subproject.project.git_needs_push())
 
+    def test_auto(self):
+        '''
+        Tests for automatic translation.
+        '''
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        # Default params
+        url = reverse('auto_translation', kwargs=self.kw_translation)
+        response = self.client.post(
+            url
+        )
+        self.assertRedirects(response, self.translation_url)
+
 
 class EditResourceTest(EditTest):
     def create_subproject(self):
