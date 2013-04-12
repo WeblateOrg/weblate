@@ -23,10 +23,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
-from lang.models import Language
-from trans.checks import CHECKS
 from trans.models.unit import Unit
-from trans.models.project import Project
 from trans.models.translation import Translation
 from trans.util import get_user_display
 

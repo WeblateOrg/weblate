@@ -37,7 +37,6 @@ from trans.forms import (
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
 from trans.util import join_plural
-from accounts.models import Profile, send_notification_email
 
 
 def get_filter_name(rqtype):
@@ -561,7 +560,7 @@ def comment(request, pk):
     form = CommentForm(request.POST)
 
     if form.is_valid():
-        unit.add_comment(request.user, lang, form.cleaned_data['comment'])
+        obj.add_comment(request.user, lang, form.cleaned_data['comment'])
         messages.info(request, _('Posted new comment'))
     else:
         messages.error(request, _('Failed to add comment!'))

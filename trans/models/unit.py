@@ -122,7 +122,7 @@ class UnitManager(models.Manager):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        from trans.models.unitdata import Suggestion, Comment
+        from trans.models.unitdata import Comment
 
         if rqtype == 'fuzzy':
             return self.filter(fuzzy=True)
@@ -1050,7 +1050,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Comment
         from trans.models.changes import Change
-        from accounts.models import Profile
+        from accounts.models import Profile, send_notification_email
 
         new_comment = Comment.objects.create(
             user=user,
@@ -1063,7 +1063,7 @@ class Unit(models.Model):
             unit=self,
             action=Change.ACTION_COMMENT,
             translation=self.translation,
-            user=request.user
+            user=user
         )
 
         # Invalidate counts cache
@@ -1080,7 +1080,7 @@ class Unit(models.Model):
         subscriptions = Profile.objects.subscribed_new_comment(
             self.translation.subproject.project,
             lang,
-            request.user
+            user
         )
         for subscription in subscriptions:
             subscription.notify_new_comment(self, new_comment)
@@ -1098,5 +1098,5 @@ class Unit(models.Model):
                     'comment': new_comment,
                     'subproject': self.translation.subproject,
                 },
-                from_email=request.user.email,
+                from_email=user.email,
             )
