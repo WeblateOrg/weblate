@@ -913,8 +913,6 @@ class Unit(models.Model):
             'check', flat=True
         ))
 
-        change = False
-
         # Run all checks
         for check in checks_to_run:
             check_obj = CHECKS[check]
@@ -932,7 +930,6 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
-                    change = True
             # Source check
             if check_obj.source and check_obj.check_source(src, self):
                 if check in old_source_checks:
@@ -947,14 +944,24 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
-                    change = True
 
         # Delete no longer failing checks
         if cleanup_checks:
             self.cleanup_checks(old_source_checks, old_target_checks)
 
-        # Invalidate checks cache
-        if change:
+        # Update failing checks flag
+        self.update_has_failing_check()
+
+    def update_has_failing_check(self):
+        '''
+        Updates flag counting failing checks.
+        '''
+        has_failing_checks = len(self.active_checks()) > 0
+        if has_failing_checks != self.has_failing_checks
+            self.has_failing_checks = has_failing_checks
+            self.save()
+
+            # Invalidate checks cache
             self.translation.invalidate_cache()
 
     def nearby(self):

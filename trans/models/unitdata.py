@@ -142,6 +142,25 @@ class Check(models.Model):
         except:
             return ''
 
+    def set_ignore(self):
+        '''
+        Sets ignore flag.
+        '''
+        self.ignore = True
+        self.save()
+
+        # Update related unit flags
+        related_units = Unit.objects.filter(
+            checksum=self.checksum,
+            translation__subproject__project=self.project,
+        )
+        if self.language is not None:
+            related_units = related_units.filter(
+                translation__language=self.language
+            )
+        for unit in related_units:
+            unit.update_has_failing_check()
+
 
 class ChangeManager(models.Manager):
     def content(self):
