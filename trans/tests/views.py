@@ -149,7 +149,7 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, 'Test/Test')
 
     def test_view_unit(self):
-        unit = self.get_translation().unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         response = self.client.get(
             unit.get_absolute_url()
         )
@@ -221,7 +221,7 @@ class EditTest(ViewTestCase):
         )
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
@@ -234,7 +234,7 @@ class EditTest(ViewTestCase):
         )
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
@@ -247,7 +247,7 @@ class EditTest(ViewTestCase):
         )
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
@@ -282,7 +282,7 @@ class EditTest(ViewTestCase):
         self.assertRedirectsOffset(response, self.translate_url, 1)
 
         # Reload from database
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         translation = self.subproject.translation_set.get(
             language_code='cs'
         )
@@ -301,7 +301,7 @@ class EditTest(ViewTestCase):
         )
 
         # Reload from database
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         translation = self.subproject.translation_set.get(
             language_code='cs'
         )
@@ -320,7 +320,7 @@ class EditTest(ViewTestCase):
         )
 
         # Reload from database
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         translation = self.subproject.translation_set.get(
             language_code='cs'
         )
@@ -339,7 +339,7 @@ class EditTest(ViewTestCase):
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         # Try the merge
         response = self.client.get(
             self.translate_url,
@@ -366,7 +366,7 @@ class EditTest(ViewTestCase):
         )
         # We should stay on current message
         self.assertRedirectsOffset(response, self.translate_url, 0)
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
@@ -379,7 +379,7 @@ class EditTest(ViewTestCase):
         )
         self.assertContains(response, 'ok')
         # Should have one less check
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
         self.assertEqual(len(unit.active_checks()), 1)
@@ -391,7 +391,7 @@ class EditTest(ViewTestCase):
         )
         # We should stay on current message
         self.assertRedirectsOffset(response, self.translate_url, 1)
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
@@ -594,7 +594,7 @@ class CommentViewTest(ViewTestCase):
         self.translation.invalidate_cache('sourcecomments')
 
     def test_add_target_comment(self):
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
 
         # Add comment
         response = self.client.post(
@@ -608,7 +608,7 @@ class CommentViewTest(ViewTestCase):
         self.assertContains(response, 'New target testing comment')
 
         # Reload from database
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         translation = self.subproject.translation_set.get(
             language_code='cs'
         )
@@ -624,7 +624,7 @@ class CommentViewTest(ViewTestCase):
         )
 
     def test_add_source_comment(self):
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
 
         # Add comment
         response = self.client.post(
@@ -641,7 +641,7 @@ class CommentViewTest(ViewTestCase):
         self.assertContains(response, 'New source testing comment')
 
         # Reload from database
-        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        unit = self.get_unit()
         translation = self.subproject.translation_set.get(
             language_code='cs'
         )
