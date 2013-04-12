@@ -36,37 +36,25 @@ class ExportsViewTest(ViewTestCase):
 
     def test_view_rss_project(self):
         response = self.client.get(
-            reverse('rss-project', kwargs={
-                'project': self.subproject.project.slug
-            })
+            reverse('rss-project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_view_rss_subproject(self):
         response = self.client.get(
-            reverse('rss-subproject', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
+            reverse('rss-subproject', kwargs=self.kw_subproject)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_view_rss_translation(self):
         response = self.client.get(
-            reverse('rss-translation', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-                'lang': 'cs',
-            })
+            reverse('rss-translation', kwargs=self.kw_translation)
         )
         self.assertContains(response, 'Test/Test')
 
     def test_export_stats(self):
         response = self.client.get(
-            reverse('export_stats', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
+            reverse('export_stats', kwargs=self.kw_subproject)
         )
         parsed = simplejson.loads(response.content)
         self.assertEqual(parsed[0]['name'], 'Czech')
