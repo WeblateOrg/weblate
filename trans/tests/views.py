@@ -347,6 +347,7 @@ class EditTest(ViewTestCase):
         self.assertContains(response, 'Can not merge different messages!')
 
     def test_edit_check(self):
+        # Save with failing check
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!'
@@ -355,8 +356,21 @@ class EditTest(ViewTestCase):
         self.assertRedirectsOffset(response, self.translate_url, 0)
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!')
+        self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
 
+        # Ignore one of checks
+        check_id = unit.checks()[0].id
+        response = self.client.get(
+            reverse('js-ignore-check', kwargs={'check_id': check_id})
+        )
+        self.assertContains(response, 'ok')
+        # Should have one less check
+        unit = self.translation.unit_set.get(source='Hello, world!\n')
+        self.assertTrue(unit.has_failing_check)
+        self.assertEqual(len(unit.checks()), 1)
+
+        # Save with no failing checks
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
@@ -365,6 +379,7 @@ class EditTest(ViewTestCase):
         self.assertRedirectsOffset(response, self.translate_url, 1)
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
 
     def test_commit_push(self):
