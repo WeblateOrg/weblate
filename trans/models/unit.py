@@ -93,7 +93,7 @@ class UnitManager(models.Manager):
 
         # Filter by language
         if rqtype == 'allchecks':
-            checks = checks.filter(language=translation.language)
+            return self.filter(has_failing_check=True)
         elif rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
             filter_translated = False
@@ -129,12 +129,7 @@ class UnitManager(models.Manager):
         elif rqtype == 'untranslated':
             return self.filter(translated=False)
         elif rqtype == 'suggestions':
-            sugs = Suggestion.objects.filter(
-                language=translation.language,
-                project=translation.subproject.project
-            )
-            sugs = sugs.values_list('checksum', flat=True)
-            return self.filter(checksum__in=sugs)
+            return self.filter(has_suggestion=True)
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
@@ -143,12 +138,9 @@ class UnitManager(models.Manager):
             coms = coms.values_list('checksum', flat=True)
             return self.filter(checksum__in=coms)
         elif rqtype == 'targetcomments':
-            coms = Comment.objects.filter(
-                language=translation.language,
-                project=translation.subproject.project
-            )
-            coms = coms.values_list('checksum', flat=True)
-            return self.filter(checksum__in=coms)
+            return self.filter(has_comment=True)
+        elif rqtype == 'allchecks':
+            return self.filter(has_failing_check=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation)
         else:
