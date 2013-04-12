@@ -117,6 +117,12 @@ class Comment(models.Model, RelatedUnitMixin):
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 
+    def delete(self, *args, **kwargs):
+        super(Suggestion, self).delete(*args, **kwargs)
+        # Update unit flags
+        for unit in suggestion.get_related_units():
+            unit.update_has_comment()
+
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 

@@ -28,7 +28,7 @@ from django.utils import formats
 import uuid
 import time
 
-from trans.models import SubProject, Unit, Suggestion, Change, Comment
+from trans.models import SubProject, Unit, Suggestion, Change
 from trans.forms import (
     TranslationForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
@@ -561,49 +561,8 @@ def comment(request, pk):
     form = CommentForm(request.POST)
 
     if form.is_valid():
-        new_comment = Comment.objects.create(
-            user=request.user,
-            checksum=obj.checksum,
-            project=obj.translation.subproject.project,
-            comment=form.cleaned_data['comment'],
-            language=lang
-        )
-        Change.objects.create(
-            unit=obj,
-            action=Change.ACTION_COMMENT,
-            translation=obj.translation,
-            user=request.user
-        )
-
-        # Invalidate counts cache
-        if lang is None:
-            obj.translation.invalidate_cache('sourcecomments')
-        else:
-            obj.translation.invalidate_cache('targetcomments')
+        unit.add_comment(request.user, lang, form.cleaned_data['comment'])
         messages.info(request, _('Posted new comment'))
-        # Notify subscribed users
-        subscriptions = Profile.objects.subscribed_new_comment(
-            obj.translation.subproject.project,
-            lang,
-            request.user
-        )
-        for subscription in subscriptions:
-            subscription.notify_new_comment(obj, new_comment)
-        # Notify upstream
-        report_source_bugs = obj.translation.subproject.report_source_bugs
-        if lang is None and report_source_bugs != '':
-            send_notification_email(
-                'en',
-                report_source_bugs,
-                'new_comment',
-                obj.translation,
-                {
-                    'unit': obj,
-                    'comment': new_comment,
-                    'subproject': obj.translation.subproject,
-                },
-                from_email=request.user.email,
-            )
     else:
         messages.error(request, _('Failed to add comment!'))
 

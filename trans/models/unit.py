@@ -1054,3 +1054,59 @@ class Unit(models.Model):
         # Update unit flags
         for unit in suggestion.get_related_units():
             unit.update_has_suggestion()
+
+    def add_comment(self, user, lang, text):
+        '''
+        Adds comment to this unit.
+        '''
+        from trans.models.unitdata import Comment, Change
+        from accounts.models import Profile
+
+        new_comment = Comment.objects.create(
+            user=user,
+            checksum=self.checksum,
+            project=self.translation.subproject.project,
+            comment=text
+            language=lang
+        )
+        Change.objects.create(
+            unit=self,
+            action=Change.ACTION_COMMENT,
+            translation=self.translation,
+            user=request.user
+        )
+
+        # Invalidate counts cache
+        if lang is None:
+            self.translation.invalidate_cache('sourcecomments')
+        else:
+            self.translation.invalidate_cache('targetcomments')
+
+        # Update unit stats
+        for unit in new_comment.get_related_units():
+            unit.update_has_comment()
+
+        # Notify subscribed users
+        subscriptions = Profile.objects.subscribed_new_comment(
+            self.translation.subproject.project,
+            lang,
+            request.user
+        )
+        for subscription in subscriptions:
+            subscription.notify_new_comment(self, new_comment)
+
+        # Notify upstream
+        report_source_bugs = self.translation.subproject.report_source_bugs
+        if lang is None and report_source_bugs != '':
+            send_notification_email(
+                'en',
+                report_source_bugs,
+                'new_comment',
+                self.translation,
+                {
+                    'unit': self,
+                    'comment': new_comment,
+                    'subproject': self.translation.subproject,
+                },
+                from_email=request.user.email,
+            )
