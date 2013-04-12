@@ -164,6 +164,10 @@ translations. It does not however perform any automatic cleanup of stale
 strings as it might have unexpected outcome. If you want to do this, please
 install pre commit hook which will handle the cleanup according to your needs.
 
+Weblate also will not try to update bilingual files in any way, so if you need
+:filename:`po` files being updated from :filename:`pot`, you need to do it on
+your own.
+
 .. seealso:: :ref:`processing`
 
 
