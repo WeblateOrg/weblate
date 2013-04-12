@@ -12,14 +12,18 @@ class Migration(DataMigration):
         Update suggestion counts for all translations.
         '''
         for translation in orm['trans.Translation'].objects.iterator():
-            translation.total_words = translation.unit_set.aggegate(
+            translation.total_words = translation.unit_set.aggregate(
                 Sum('num_words')
-            )['num_words']
+            )['num_words__sum']
+            if translation.total_words is None:
+                translation.total_words = 0
             translation.translated_words = translation.unit_set.filter(
                 translated=True
-            ).aggegate(
+            ).aggregate(
                 Sum('num_words')
-            )['num_words']
+            )['num_words__sum']
+            if translation.translated_words is None:
+                translation.translated_words = 0
             translation.save()
 
     def backwards(self, orm):
