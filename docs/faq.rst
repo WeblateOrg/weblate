@@ -151,6 +151,21 @@ translating:
 
 .. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+Does Weblate update translation files besides translations?
+-----------------------------------------------------------
+
+Weblate tries to limit changes in translation files to minimum. For some file
+formats it might unfortunately lead to reformatting the file. If you want to
+keep the file formattted in your way, please use pre commit hook for that.
+
+For monolingual files (see :ref:`formats`) Weblate might add new translation
+units which are present in the :guilabel:`template` and not in actual
+translations. It does not however perform any automatic cleanup of stale
+strings as it might have unexpected outcome. If you want to do this, please
+install pre commit hook which will handle the cleanup according to your needs.
+
+.. seealso:: :ref:`processing`
+
 
 Where do language definition come from and how can I add own?
 -------------------------------------------------------------
