@@ -31,7 +31,26 @@ from trans.models.translation import Translation
 from trans.util import get_user_display
 
 
-class Suggestion(models.Model):
+class RelatedUnitMixin(self):
+    '''
+    Mixin to provide access to related units for checksum referenced objects.
+    '''
+    def get_related_units(self):
+        '''
+        Returns queryset with related units.
+        '''
+        related_units = Unit.objects.filter(
+            checksum=self.checksum,
+            translation__subproject__project=self.project,
+        )
+        if self.language is not None:
+            related_units = related_units.filter(
+                translation__language=self.language
+            )
+        return related_units
+
+
+class Suggestion(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -57,12 +76,7 @@ class Suggestion(models.Model):
     def delete(self, *args, **kwargs):
         super(Suggestion, self).delete(*args, **kwargs)
         # Update suggestion stats
-        related_units = Unit.objects.filter(
-            checksum=self.checksum,
-            translation__subproject__project=self.project,
-            translation__language=self.language
-        )
-        for unit in related_units:
+        for unit in self.get_related_units():
             unit.translation.update_stats()
 
     def get_matching_unit(self):
@@ -70,11 +84,7 @@ class Suggestion(models.Model):
         Retrieves one (possibly out of several) unit matching
         this suggestion.
         '''
-        return Unit.objects.filter(
-            checksum=self.checksum,
-            translation__subproject__project=self.project,
-            translation__language=self.language,
-        )[0]
+        return self.get_related_units()[0]
 
     def get_source(self):
         '''
@@ -92,7 +102,7 @@ class Suggestion(models.Model):
         return get_user_display(self.user, link=True)
 
 
-class Comment(models.Model):
+class Comment(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -110,7 +120,7 @@ class Comment(models.Model):
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
-class Check(models.Model):
+class Check(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
@@ -150,15 +160,7 @@ class Check(models.Model):
         self.save()
 
         # Update related unit flags
-        related_units = Unit.objects.filter(
-            checksum=self.checksum,
-            translation__subproject__project=self.project,
-        )
-        if self.language is not None:
-            related_units = related_units.filter(
-                translation__language=self.language
-            )
-        for unit in related_units:
+        for unit in self.get_related_units():
             unit.update_has_failing_check()
 
 
