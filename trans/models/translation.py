@@ -125,6 +125,8 @@ class Translation(models.Model, URLMixin):
     translated = models.IntegerField(default=0, db_index=True)
     fuzzy = models.IntegerField(default=0, db_index=True)
     total = models.IntegerField(default=0, db_index=True)
+    translated_words = models.IntegerField(default=0)
+    total_words = models.IntegerField(default=0)
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
 
