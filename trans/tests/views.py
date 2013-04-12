@@ -275,7 +275,7 @@ class EditTest(ViewTestCase):
             language_code='cs'
         )
         # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 2)
+        self.assertEqual(translation.have_suggestion, 1)
 
         # Unit should not be translated
         self.assertEqual(len(unit.checks()), 0)
