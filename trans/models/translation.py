@@ -1089,16 +1089,14 @@ class Translation(models.Model, URLMixin):
             # Calculate unit checksum
             checksum = unit.get_checksum()
 
-            # Create suggestion objects.
-            # We don't care about duplicates or non existing strings here
-            # this is better handled in cleanup.
-            Suggestion.objects.create(
-                target=unit.get_target(),
-                checksum=checksum,
-                language=self.language,
-                project=self.subproject.project,
-                user=request.user
-            )
+            # Grab database unit
+            dbunit = self.unit_set.filter(checksum=checksum)
+            if not dbunit.exists():
+                continue
+            dbunit = dbunit[0]
+
+            # Add suggestion
+            dbunit.add_suggestion(unit.get_target(), request.user)
 
         # Update suggestion count
         if ret:
