@@ -991,7 +991,7 @@ class Unit(models.Model):
             translation=self.translation,
             position__gte=self.position - appsettings.NEARBY_MESSAGES,
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
-        )
+        ).select_related()
 
     def add_suggestion(self, target, user):
         '''
