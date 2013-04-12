@@ -583,6 +583,7 @@ class SearchViewTest(ViewTestCase):
             '1 / 4'
         )
 
+
 class CommentViewTest(ViewTestCase):
     def setUp(self):
         super(CommentViewTest, self).setUp()
