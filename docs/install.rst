@@ -496,6 +496,10 @@ correct values).
 * Checks were moved to submodules.
 * Locales were moved to top level directory.
 
+The migration of database structure to 1.5 might take quite long, it is
+recommended to put your site offline, while the migration is going on.
+
+
 .. note::
 
     If you have update in same directory, stale :file:`*.pyc` files might be
