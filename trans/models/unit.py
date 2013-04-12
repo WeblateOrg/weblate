@@ -951,7 +951,7 @@ class Unit(models.Model):
         has_failing_check = len(self.active_checks()) > 0
         if has_failing_check != self.has_failing_check:
             self.has_failing_check = has_failing_check
-            self.save()
+            self.save(backend=True)
 
             # Invalidate checks cache
             self.translation.invalidate_cache()
@@ -966,7 +966,7 @@ class Unit(models.Model):
         has_suggestion = len(self.suggestions()) > 0
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
-            self.save()
+            self.save(backend=True)
 
             # Update translation stats
             self.translation.update_stats()
@@ -978,7 +978,7 @@ class Unit(models.Model):
         has_comment = len(self.get_comments()) > 0
         if has_comment != self.has_comment:
             self.has_comment = has_comment
-            self.save()
+            self.save(backend=True)
 
             # Update translation stats
             self.translation.update_stats()
