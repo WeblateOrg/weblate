@@ -136,6 +136,18 @@ class BasicViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
+    def test_review_source(self):
+        response = self.client.get(
+            reverse('review_source', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Test/Test')
+
+    def test_view_source(self):
+        response = self.client.get(
+            reverse('show_source', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Test/Test')
+
     def test_view_unit(self):
         unit = self.get_translation().unit_set.get(source='Hello, world!\n')
         response = self.client.get(
