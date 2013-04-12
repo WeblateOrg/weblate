@@ -409,11 +409,12 @@ def translate(request, project, subproject, lang):
         return response
 
     # Grab actual unit
+    unit = None
     if 'checksum' in request.GET:
         try:
             unit = obj.unit_set.get(checksum=request.GET['checksum'])
         except Unit.DoesNotExist:
-            unit = None
+            pass
 
     if unit is None:
         try:
