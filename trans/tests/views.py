@@ -358,6 +358,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!')
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
+        self.assertEqual(len(unit.active_checks()), 2)
 
         # Ignore one of checks
         check_id = unit.checks()[0].id
@@ -368,7 +369,8 @@ class EditTest(ViewTestCase):
         # Should have one less check
         unit = self.translation.unit_set.get(source='Hello, world!\n')
         self.assertTrue(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 1)
+        self.assertEqual(len(unit.checks()), 2)
+        self.assertEqual(len(unit.active_checks()), 1)
 
         # Save with no failing checks
         response = self.edit_unit(
