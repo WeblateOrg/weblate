@@ -159,7 +159,7 @@ def search(translation, request):
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,
-        'offset': 0,
+        'offset': offset,
     }
 
     request.session['search_%s' % search_id] = search_result
