@@ -75,9 +75,9 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
     def delete(self, *args, **kwargs):
         super(Suggestion, self).delete(*args, **kwargs)
-        # Update suggestion stats
-        for unit in self.get_related_units():
-            unit.translation.update_stats()
+        # Update unit flags
+        for unit in suggestion.get_related_units():
+            unit.update_has_suggestion()
 
     def get_matching_unit(self):
         '''

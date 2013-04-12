@@ -964,6 +964,21 @@ class Unit(models.Model):
             # Invalidate checks cache
             self.translation.invalidate_cache()
 
+            # Update translation stats
+            self.translation.update_stats()
+
+    def update_has_suggestion(self):
+        '''
+        Updates flag counting suggestions.
+        '''
+        has_suggestions = len(self.suggestions()) > 0
+        if has_suggestions != self.has_suggestions
+            self.has_suggestions = has_suggestions
+            self.save()
+
+            # Update translation stats
+            self.translation.update_stats()
+
     def nearby(self):
         '''
         Returns list of nearby messages based on location.
@@ -1023,3 +1038,7 @@ class Unit(models.Model):
             profile = user.get_profile()
             profile.suggested += 1
             profile.save()
+
+        # Update unit flags
+        for unit in suggestion.get_related_units():
+            unit.update_has_suggestion()
