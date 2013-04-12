@@ -140,6 +140,15 @@ def search(translation, request):
         messages.warning(request, _('No string matched your search!'))
         return HttpResponseRedirect(translation.get_absolute_url())
 
+    # Checksum unit access
+    offset = 0
+    if 'checksum' in request.GET:
+        try:
+            unit = allunits.get(checksum=request.GET['checksum'])
+            offset = unit_ids.index(unit.id)
+        except (Unit.DoesNotExist, ValueError):
+            pass
+
     # Remove old search results
     cleanup_session(request.session)
 
@@ -410,20 +419,12 @@ def translate(request, project, subproject, lang):
         return response
 
     # Grab actual unit
-    unit = None
-    if 'checksum' in request.GET:
-        try:
-            unit = obj.unit_set.get(checksum=request.GET['checksum'])
-        except Unit.DoesNotExist:
-            pass
-
-    if unit is None:
-        try:
-            unit = obj.unit_set.get(pk=search_result['ids'][offset])
-        except Unit.DoesNotExist:
-            # Can happen when using SID for other translation
-            messages.error(request, _('Invalid search string!'))
-            return HttpResponseRedirect(obj.get_absolute_url())
+    try:
+        unit = obj.unit_set.get(pk=search_result['ids'][offset])
+    except Unit.DoesNotExist:
+        # Can happen when using SID for other translation
+        messages.error(request, _('Invalid search string!'))
+        return HttpResponseRedirect(obj.get_absolute_url())
 
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
