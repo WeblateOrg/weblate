@@ -956,9 +956,9 @@ class Unit(models.Model):
         '''
         Updates flag counting failing checks.
         '''
-        has_failing_checks = len(self.active_checks()) > 0
-        if has_failing_checks != self.has_failing_checks
-            self.has_failing_checks = has_failing_checks
+        has_failing_check = len(self.active_checks()) > 0
+        if has_failing_check != self.has_failing_check
+            self.has_failing_check = has_failing_check
             self.save()
 
             # Invalidate checks cache
@@ -971,9 +971,21 @@ class Unit(models.Model):
         '''
         Updates flag counting suggestions.
         '''
-        has_suggestions = len(self.suggestions()) > 0
-        if has_suggestions != self.has_suggestions
-            self.has_suggestions = has_suggestions
+        has_suggestion = len(self.suggestions()) > 0
+        if has_suggestion != self.has_suggestion
+            self.has_suggestion = has_suggestion
+            self.save()
+
+            # Update translation stats
+            self.translation.update_stats()
+
+    def update_has_comment(self):
+        '''
+        Updates flag counting comments.
+        '''
+        has_comment = len(self.get_comments()) > 0
+        if has_comment != self.has_comment
+            self.has_comment = has_comment
             self.save()
 
             # Update translation stats
