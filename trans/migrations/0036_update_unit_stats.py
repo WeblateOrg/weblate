@@ -58,7 +58,7 @@ class Migration(DataMigration):
                 print 'Migrated %d of %d, ETA: %d min' % (
                     done,
                     total,
-                    ((time.time() - start) * total / done) / 60
+                    ((time.time() - start) * (total - done) / done) / 60
                 )
 
     def backwards(self, orm):
