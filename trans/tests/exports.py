@@ -58,3 +58,13 @@ class ExportsViewTest(ViewTestCase):
         )
         parsed = simplejson.loads(response.content)
         self.assertEqual(parsed[0]['name'], 'Czech')
+
+    def test_data(self):
+        response = self.client.get(
+            reverse('data_root')
+        )
+        self.assertContains(response, 'Test')
+        response = self.client.get(
+            reverse('data_project', kwargs=self.kw_project)
+        )
+        self.assertContains(response, 'Test')
