@@ -446,6 +446,12 @@ class Unit(models.Model):
     translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
 
+    has_suggestion = models.BooleanField(default=False, db_index=True)
+    has_comment = models.BooleanField(default=False, db_index=True)
+    has_failing_check = models.BooleanField(default=False, db_index=True)
+
+    num_words = models.IntegerField(default=0)
+
     objects = UnitManager()
 
     class Meta:
