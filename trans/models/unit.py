@@ -726,6 +726,10 @@ class Unit(models.Model):
         # Keep the force_insert for parent save
         force_insert = kwargs.get('force_insert', False)
 
+        # Store number of words
+        if not same_content:
+            self.num_words = len(self.get_source_plurals()[0].split())
+
         # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
 
