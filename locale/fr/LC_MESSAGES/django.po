@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-11 16:12+0200\n"
+"POT-Creation-Date: 2013-04-12 16:50+0200\n"
 "PO-Revision-Date: 2013-04-09 08:19+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -279,39 +279,45 @@ msgstr "Changements récents dans %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Tous les changements récents faits via Weblate dans %s."
 
-#: trans/formats.py:415
+#: trans/formats.py:422
 msgid "Automatic detection"
 msgstr "Détection automatique"
 
-#: trans/formats.py:429
+#: trans/formats.py:436
 msgid "Gettext PO file"
 msgstr "Fichier PO Gettext"
 
-#: trans/formats.py:438
+#: trans/formats.py:445
+#, fuzzy
+#| msgid "Gettext PO file"
+msgid "Gettext PO file (monolingual)"
+msgstr "Fichier PO Gettext"
+
+#: trans/formats.py:454
 msgid "Qt Linguist Translation File"
 msgstr "Fichier de traduction Qt Linguist"
 
-#: trans/formats.py:446
+#: trans/formats.py:462
 msgid "XLIFF Translation File"
 msgstr "Fichier de traduction XLIFF"
 
-#: trans/formats.py:454
+#: trans/formats.py:470
 msgid "OS X Strings"
 msgstr "Chaînes OS X"
 
-#: trans/formats.py:463
+#: trans/formats.py:479
 msgid "Java Properties"
 msgstr "Propriétés Java"
 
-#: trans/formats.py:481
+#: trans/formats.py:497
 msgid "Java Properties (UTF-8)"
 msgstr "Propriétés Java (UTF-8)"
 
-#: trans/formats.py:490
+#: trans/formats.py:506
 msgid "PHP strings"
 msgstr "Chaînes PHP"
 
-#: trans/formats.py:498 ttkit/aresource.py:311
+#: trans/formats.py:514 ttkit/aresource.py:311
 msgid "Android String Resource"
 msgstr "Ressource chaîne Android"
 
@@ -727,6 +733,39 @@ msgstr ""
 "Cette chaîne utilise trois points (...) au lieu d'un caractère de points de "
 "suspension (…)"
 
+#: trans/models/changes.py:121
+msgid "Resource update"
+msgstr "Mise à jour de la ressource"
+
+#: trans/models/changes.py:122
+msgid "Translation completed"
+msgstr "Traduction complétée"
+
+#: trans/models/changes.py:123
+msgid "Translation changed"
+msgstr "Traduction modifiée"
+
+#: trans/models/changes.py:124
+msgid "New translation"
+msgstr "Nouvelle traduction"
+
+#: trans/models/changes.py:125
+msgid "Comment added"
+msgstr "Commentaire ajouté"
+
+#: trans/models/changes.py:126
+msgid "Suggestion added"
+msgstr "Suggestion ajoutée"
+
+#: trans/models/changes.py:127 weblate/html/translation.html:39
+msgid "Automatic translation"
+msgstr "Traduction automatique"
+
+#: trans/models/changes.py:146
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
+
 #: trans/models/project.py:44
 msgid "Use contact form"
 msgstr "Utilisez le formulaire de contact"
@@ -955,29 +994,35 @@ msgstr "Échec de la refonte de notre branche sur la branche distance %s."
 msgid "Failed to merge remote branch into %s."
 msgstr "Échec de la fusion de la branche distante dans %s."
 
-#: trans/models/subproject.py:743
+#: trans/models/subproject.py:747
 msgid "Push URL is not used when repository is linked!"
 msgstr "Le URL pour pousser n'est pas utilisé quand le dépôt est lié !"
 
-#: trans/models/subproject.py:747
+#: trans/models/subproject.py:751
 #, fuzzy
 #| msgid "Push URL is not used when repository is linked!"
 msgid "Export URL is not used when repository is linked!"
 msgstr "Le URL pour pousser n'est pas utilisé quand le dépôt est lié !"
 
-#: trans/models/subproject.py:759
+#: trans/models/subproject.py:762
+msgid "Template file not found!"
+msgstr ""
+
+#: trans/models/subproject.py:768
 msgid "Format of translation template could not be recognized."
 msgstr "Le format du modèle de traduction n'a pu être reconnu."
 
-#: trans/models/subproject.py:763
-msgid "Failed to parse translation template."
+#: trans/models/subproject.py:772
+#, fuzzy, python-format
+#| msgid "Failed to parse translation template."
+msgid "Failed to parse translation template: %s"
 msgstr "Échec d'analyse du modèle de traduction."
 
-#: trans/models/subproject.py:784
+#: trans/models/subproject.py:793
 msgid "The mask did not match any files!"
 msgstr "Le masque ne correspond à aucun fichier !"
 
-#: trans/models/subproject.py:790
+#: trans/models/subproject.py:799
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -985,17 +1030,26 @@ msgstr ""
 "Il y a plusieurs fichiers pour un même langage, veuillez ajuster le masque "
 "et utiliser des sous-projets pour traduire différentes ressources."
 
-#: trans/models/subproject.py:810
+#: trans/models/subproject.py:819
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Le format de %d fichiers correspondants n'a pu être reconnu."
 
-#: trans/models/subproject.py:819
+#: trans/models/subproject.py:828
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Échec d'analyse de %d fichiers correspondants !"
 
-#: trans/models/translation.py:183
+#: trans/models/subproject.py:837
+#, fuzzy
+#| msgid ""
+#| "You can share comments about this translation with other translators."
+msgid "You can not use monolingual translation without template!"
+msgstr ""
+"Vous pouvez partager vos commentaires sur cette traduction avec les autres "
+"traducteurs."
+
+#: trans/models/translation.py:185
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1004,102 +1058,69 @@ msgstr ""
 "Le fichier %s n'a pas été trouvé dans le dépôt ! Pour ajouter de nouvelles "
 "traductions, ajoutez un fichier de langue dans le dépôt."
 
-#: trans/models/translation.py:192
+#: trans/models/translation.py:194
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Le format de %s n'est pas reconnu."
 
-#: trans/models/translation.py:197
+#: trans/models/translation.py:199
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 
-#: trans/models/translation.py:221
+#: trans/models/translation.py:232
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Cette traduction est verrouillée par %(user)s !"
 
-#: trans/models/translation.py:914 trans/models/translation.py:947
+#: trans/models/translation.py:946 trans/models/translation.py:979
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models/translation.py:921 trans/models/translation.py:977
+#: trans/models/translation.py:953 trans/models/translation.py:1009
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Chaînes ayant au moins une vérification en échec (%d)"
 
-#: trans/models/translation.py:938 trans/models/translation.py:994
+#: trans/models/translation.py:970 trans/models/translation.py:1026
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Chaînes avec commentaires (%d)"
 
-#: trans/models/translation.py:954
+#: trans/models/translation.py:986
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models/translation.py:962
+#: trans/models/translation.py:994
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models/translation.py:969
+#: trans/models/translation.py:1001
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
 
-#: trans/models/unit.py:430
+#: trans/models/unit.py:420
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Le message que vous vouliez traduire n'est plus disponible !"
 
-#: trans/models/unit.py:598
+#: trans/models/unit.py:594
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Impossible de stocker le message dans la base de données, un verrou a "
 "expiré !"
 
-#: trans/models/unit.py:610
+#: trans/models/unit.py:606
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Le message n'a pas été trouvé dans le stock, il est probablement corrompu."
 
-#: trans/models/unit.py:749
+#: trans/models/unit.py:750
 #, python-format
 msgid "unit ID %s"
 msgstr "identification d'unité %s"
-
-#: trans/models/unitdata.py:236
-msgid "Resource update"
-msgstr "Mise à jour de la ressource"
-
-#: trans/models/unitdata.py:237
-msgid "Translation completed"
-msgstr "Traduction complétée"
-
-#: trans/models/unitdata.py:238
-msgid "Translation changed"
-msgstr "Traduction modifiée"
-
-#: trans/models/unitdata.py:239
-msgid "New translation"
-msgstr "Nouvelle traduction"
-
-#: trans/models/unitdata.py:240
-msgid "Comment added"
-msgstr "Commentaire ajouté"
-
-#: trans/models/unitdata.py:241
-msgid "Suggestion added"
-msgstr "Suggestion ajoutée"
-
-#: trans/models/unitdata.py:242 weblate/html/translation.html:39
-msgid "Automatic translation"
-msgstr "Traduction automatique"
-
-#: trans/models/unitdata.py:261
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
@@ -1293,65 +1314,65 @@ msgid "File upload has failed: %s"
 msgstr "Échec d'envoi du fichier : %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:544
+#: trans/views/edit.py:543
 msgid "Failed to process form!"
 msgstr "Échec du traitement du formulaire !"
 
-#: trans/views/edit.py:48 weblate/html/list-translations.html:63
+#: trans/views/edit.py:47 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Chaînes floues"
 
-#: trans/views/edit.py:50
+#: trans/views/edit.py:49
 msgid "Untranslated strings"
 msgstr "Chaînes non traduites"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:51
 msgid "Strings with suggestions"
 msgstr "Chaînes avec suggestions"
 
-#: trans/views/edit.py:54 weblate/html/list-translations.html:62
+#: trans/views/edit.py:53 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications échouées"
 
-#: trans/views/edit.py:64
+#: trans/views/edit.py:63
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Recherche de \"%s\""
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:65
 #, fuzzy, python-format
 #| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Chercher dans les chaînes de contexte"
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:67
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Recherche de \"%s\""
 
-#: trans/views/edit.py:93 trans/views/edit.py:417
+#: trans/views/edit.py:92 trans/views/edit.py:416
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
 msgstr "Suggestion invalide !"
 
-#: trans/views/edit.py:115
+#: trans/views/edit.py:114
 #, fuzzy, python-format
 #| msgid "Review source strings in %s"
 msgid "Review of translations since %s"
 msgstr "Passer en revue les chaînes sources de %s"
 
-#: trans/views/edit.py:141
+#: trans/views/edit.py:140
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:192
+#: trans/views/edit.py:191
 msgid "Your suggestion is empty!"
 msgstr "Votre suggestion est vide !"
 
-#: trans/views/edit.py:203
+#: trans/views/edit.py:202
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1361,53 +1382,53 @@ msgstr ""
 "vous impliquer en tant que traducteur, sinon votre suggestion pourrait "
 "demeurer non évaluée."
 
-#: trans/views/edit.py:216
+#: trans/views/edit.py:215
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 "Vous devez vous connecter afin de pouvoir sauvegarder les traductions !"
 
-#: trans/views/edit.py:222 trans/views/edit.py:261
+#: trans/views/edit.py:221 trans/views/edit.py:260
 msgid "You don't have privileges to save translations!"
 msgstr ""
 "Vous n'avez pas les autorisations requises pour sauvegarder des traductions !"
 
-#: trans/views/edit.py:244
+#: trans/views/edit.py:243
 msgid "Some checks have failed on your translation!"
 msgstr "Certaines vérifications de votre traduction ont échoué !"
 
-#: trans/views/edit.py:285
+#: trans/views/edit.py:284
 msgid "Can not merge different messages!"
 msgstr "Impossible de fusionner des messages différents !"
 
-#: trans/views/edit.py:309
+#: trans/views/edit.py:308
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions !"
 
-#: trans/views/edit.py:318
+#: trans/views/edit.py:317
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Vous n'avez pas l'autorisation d'accepter les suggestions !"
 
-#: trans/views/edit.py:326
+#: trans/views/edit.py:325
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Vous n'avez pas l'autorisation de supprimer les suggestions !"
 
-#: trans/views/edit.py:344
+#: trans/views/edit.py:343
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
-#: trans/views/edit.py:378
+#: trans/views/edit.py:377
 msgid "You have reached end of translating."
 msgstr "Vous avez terminé la traduction."
 
-#: trans/views/edit.py:542
+#: trans/views/edit.py:541
 msgid "Automatic translation completed."
 msgstr "Traduction automatique terminée."
 
-#: trans/views/edit.py:583
+#: trans/views/edit.py:564
 msgid "Posted new comment"
 msgstr "Nouveau commentaire envoyé"
 
-#: trans/views/edit.py:608
+#: trans/views/edit.py:566
 msgid "Failed to add comment!"
 msgstr "Échec lors de l'ajout du commentaire !"
 
@@ -2650,53 +2671,68 @@ msgid "Ignore: %(check)s"
 msgstr "Ignorer : %(check)s"
 
 #: weblate/html/list-translations.html:9
+#, fuzzy
+#| msgid "Words"
+msgctxt "Number of translated words"
+msgid "Words"
+msgstr "Mots"
+
+#: weblate/html/list-translations.html:10
 msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Floues"
 
-#: weblate/html/list-translations.html:10
+#: weblate/html/list-translations.html:11
 msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "Vérifications"
 
-#: weblate/html/list-translations.html:11
+#: weblate/html/list-translations.html:12
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "Nombre de suggestions"
 
-#: weblate/html/list-translations.html:24
+#: weblate/html/list-translations.html:23
+#, fuzzy, python-format
+#| msgid "Copy word to translation"
+msgid "%(words)s word to translate!"
+msgid_plural "%(words)s words to translate!"
+msgstr[0] "Copier le mot vers la traduction"
+msgstr[1] "Copier le mot vers la traduction"
+
+#: weblate/html/list-translations.html:26
 #, python-format
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Il y a %(count)s chaîne floue."
 msgstr[1] "Il y a %(count)s chaînes floues."
 
-#: weblate/html/list-translations.html:33
+#: weblate/html/list-translations.html:35
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "Il y a %(count)s vérification échouée."
 msgstr[1] "Il y a %(count)s vérifications échouées."
 
-#: weblate/html/list-translations.html:42
+#: weblate/html/list-translations.html:44
 #, python-format
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "Il y a %(count)s suggestion."
 msgstr[1] "Il y a %(count)s suggestions."
 
-#: weblate/html/list-translations.html:51
+#: weblate/html/list-translations.html:53
 #, python-format
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "Il y a %(count)s chaîne non traduite."
 msgstr[1] "Il y a %(count)s chaînes non traduites."
 
-#: weblate/html/list-translations.html:51 weblate/html/translate.html:24
+#: weblate/html/list-translations.html:53 weblate/html/translate.html:24
 msgid "Translate"
 msgstr "Traduire"
 
-#: weblate/html/list-translations.html:61
+#: weblate/html/list-translations.html:63
 msgid "Translated strings"
 msgstr "Chaînes traduites"
 
@@ -3139,6 +3175,18 @@ msgstr "Verrouiller"
 msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
+msgstr ""
+"Il y a %(count)s chaînes, parmi lesquelles %(translated)s&#37; sont "
+"traduites et %(fuzzy)s&#37; sont floues."
+
+#: weblate/html/translation_info.html:10
+#, fuzzy, python-format
+#| msgid ""
+#| "There are %(count)s strings, out of which %(translated)s&#37; is "
+#| "translated and %(fuzzy)s&#37; is fuzzy."
+msgid ""
+"There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
+"translated."
 msgstr ""
 "Il y a %(count)s chaînes, parmi lesquelles %(translated)s&#37; sont "
 "traduites et %(fuzzy)s&#37; sont floues."

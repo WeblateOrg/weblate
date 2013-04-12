@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-11 16:12+0200\n"
+"POT-Creation-Date: 2013-04-12 16:50+0200\n"
 "PO-Revision-Date: 2013-04-12 14:42+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
@@ -278,39 +278,45 @@ msgstr "השינויים האחרונים ב־%s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "כל השינויים האחרונים בוצעו בעזרת Weblate ב־%s."
 
-#: trans/formats.py:415
+#: trans/formats.py:422
 msgid "Automatic detection"
 msgstr "זיהוי אוטומטי"
 
-#: trans/formats.py:429
+#: trans/formats.py:436
 msgid "Gettext PO file"
 msgstr "קובץ PO לפי Gettext"
 
-#: trans/formats.py:438
+#: trans/formats.py:445
+#, fuzzy
+#| msgid "Gettext PO file"
+msgid "Gettext PO file (monolingual)"
+msgstr "קובץ PO לפי Gettext"
+
+#: trans/formats.py:454
 msgid "Qt Linguist Translation File"
 msgstr "קובץ תרגום של Qt Linguist"
 
-#: trans/formats.py:446
+#: trans/formats.py:462
 msgid "XLIFF Translation File"
 msgstr "קובץ תרגום XLIFF"
 
-#: trans/formats.py:454
+#: trans/formats.py:470
 msgid "OS X Strings"
 msgstr "מחרוזות OS X"
 
-#: trans/formats.py:463
+#: trans/formats.py:479
 msgid "Java Properties"
 msgstr "קובץ מאפיינים של Java"
 
-#: trans/formats.py:481
+#: trans/formats.py:497
 msgid "Java Properties (UTF-8)"
 msgstr "קובץ מאפיינים של Java (UTF-8)‎"
 
-#: trans/formats.py:490
+#: trans/formats.py:506
 msgid "PHP strings"
 msgstr "מחרוזות PHP"
 
-#: trans/formats.py:498 ttkit/aresource.py:311
+#: trans/formats.py:514 ttkit/aresource.py:311
 msgid "Android String Resource"
 msgstr "משאב מחרוזות של Android"
 
@@ -706,6 +712,39 @@ msgstr "השמטה"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "המחרוזת משתמשת בשלוש נקודות (...) במקום תו של שלוש נקודות (…)"
 
+#: trans/models/changes.py:121
+msgid "Resource update"
+msgstr "עדכון משאב"
+
+#: trans/models/changes.py:122
+msgid "Translation completed"
+msgstr "התרגום הושלם"
+
+#: trans/models/changes.py:123
+msgid "Translation changed"
+msgstr "התרגום השתנה"
+
+#: trans/models/changes.py:124
+msgid "New translation"
+msgstr "תרגום חדש"
+
+#: trans/models/changes.py:125
+msgid "Comment added"
+msgstr "נוספה הערה"
+
+#: trans/models/changes.py:126
+msgid "Suggestion added"
+msgstr "נוספה הצעה"
+
+#: trans/models/changes.py:127 weblate/html/translation.html:39
+msgid "Automatic translation"
+msgstr "תרגום אוטומטי"
+
+#: trans/models/changes.py:146
+#, python-format
+msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
+
 #: trans/models/project.py:44
 msgid "Use contact form"
 msgstr "שימוש בטופס יצירת קשר"
@@ -841,8 +880,8 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"נתיב הקבצים לתרגום, ניתן להשתמש ב־* במקום קוד השפה, למשל: po/*.po או "
-"locale/*/LC_MESSAGES/django.po."
+"נתיב הקבצים לתרגום, ניתן להשתמש ב־* במקום קוד השפה, למשל: po/*.po או locale/"
+"*/LC_MESSAGES/django.po."
 
 #: trans/models/subproject.py:128
 msgid ""
@@ -910,27 +949,33 @@ msgstr "החלפת בסיס הענף שלנו לענף המרוחק %s נכשל�
 msgid "Failed to merge remote branch into %s."
 msgstr "מיזוג הענף המרוחק לתוך %s נכשל."
 
-#: trans/models/subproject.py:743
+#: trans/models/subproject.py:747
 msgid "Push URL is not used when repository is linked!"
 msgstr "לא נעשה שימוש בכתובת הדחיפה כאשר המאגר מקושר!"
 
-#: trans/models/subproject.py:747
+#: trans/models/subproject.py:751
 msgid "Export URL is not used when repository is linked!"
 msgstr "לא נעשה שימוש בכתובת הייצוא כאשר המאגר מקושר!"
 
-#: trans/models/subproject.py:759
+#: trans/models/subproject.py:762
+msgid "Template file not found!"
+msgstr ""
+
+#: trans/models/subproject.py:768
 msgid "Format of translation template could not be recognized."
 msgstr "לא ניתן לזהות את מבנה תבנית התרגום."
 
-#: trans/models/subproject.py:763
-msgid "Failed to parse translation template."
+#: trans/models/subproject.py:772
+#, fuzzy, python-format
+#| msgid "Failed to parse translation template."
+msgid "Failed to parse translation template: %s"
 msgstr "פענוח תבנית התרגום נכשל."
 
-#: trans/models/subproject.py:784
+#: trans/models/subproject.py:793
 msgid "The mask did not match any files!"
 msgstr "המסכה אינה תואמת קבצים כלשהם!"
 
-#: trans/models/subproject.py:790
+#: trans/models/subproject.py:799
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -938,17 +983,21 @@ msgstr ""
 "יש יותר מדי קבצים לשפה אחת, נא להתאים את המסכה לשימוש בתת מיזמים לצורך תרגום "
 "של משאבים שונים."
 
-#: trans/models/subproject.py:810
+#: trans/models/subproject.py:819
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "התבנית של %d ההתאמות אינה ניתנת לזיהוי."
 
-#: trans/models/subproject.py:819
+#: trans/models/subproject.py:828
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "ניתוח %d הקבצים שנמצאו נכשל!"
 
-#: trans/models/translation.py:183
+#: trans/models/subproject.py:837
+msgid "You can not use monolingual translation without template!"
+msgstr ""
+
+#: trans/models/translation.py:185
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -956,99 +1005,66 @@ msgid ""
 msgstr ""
 "שם הקובץ %s לא נמצא במאגר! כדי להוסיף תרגום חדש, יש להוסיף קובץ שפה למאגר."
 
-#: trans/models/translation.py:192
+#: trans/models/translation.py:194
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "לא ניתן לזהות את המבנה של %s."
 
-#: trans/models/translation.py:197
+#: trans/models/translation.py:199
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 
-#: trans/models/translation.py:221
+#: trans/models/translation.py:232
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "תרגום זה נעול על ידי %(user)s!"
 
-#: trans/models/translation.py:914 trans/models/translation.py:947
+#: trans/models/translation.py:946 trans/models/translation.py:979
 msgid "All strings"
 msgstr "כל המחרוזות"
 
-#: trans/models/translation.py:921 trans/models/translation.py:977
+#: trans/models/translation.py:953 trans/models/translation.py:1009
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "מחרוזות עם בדיקות שלא צלחו (%d)"
 
-#: trans/models/translation.py:938 trans/models/translation.py:994
+#: trans/models/translation.py:970 trans/models/translation.py:1026
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "מחרוזות עם הערות (%d)"
 
-#: trans/models/translation.py:954
+#: trans/models/translation.py:986
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "מחרוזות שלא תורגמו (%d)"
 
-#: trans/models/translation.py:962
+#: trans/models/translation.py:994
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "מחרוזות בספק (%d)"
 
-#: trans/models/translation.py:969
+#: trans/models/translation.py:1001
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "מחרוזות עם הצעות (%d)"
 
-#: trans/models/unit.py:430
+#: trans/models/unit.py:420
 msgid "Message you wanted to translate is no longer available!"
 msgstr "ההודעה שרצית לתרגם אינה זמינה עוד!"
 
-#: trans/models/unit.py:598
+#: trans/models/unit.py:594
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "אחסון ההודעה במנגנון נכשל, התרחשה חריגת נעילה מהזמן הקצוב!"
 
-#: trans/models/unit.py:610
+#: trans/models/unit.py:606
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "המחרוזת לא נמצאה באחסון המנגנון, כנראה שהיא פגומה."
 
-#: trans/models/unit.py:749
+#: trans/models/unit.py:750
 #, python-format
 msgid "unit ID %s"
 msgstr "מזהה יחידה %s"
-
-#: trans/models/unitdata.py:236
-msgid "Resource update"
-msgstr "עדכון משאב"
-
-#: trans/models/unitdata.py:237
-msgid "Translation completed"
-msgstr "התרגום הושלם"
-
-#: trans/models/unitdata.py:238
-msgid "Translation changed"
-msgstr "התרגום השתנה"
-
-#: trans/models/unitdata.py:239
-msgid "New translation"
-msgstr "תרגום חדש"
-
-#: trans/models/unitdata.py:240
-msgid "Comment added"
-msgstr "נוספה הערה"
-
-#: trans/models/unitdata.py:241
-msgid "Suggestion added"
-msgstr "נוספה הצעה"
-
-#: trans/models/unitdata.py:242 weblate/html/translation.html:39
-msgid "Automatic translation"
-msgstr "תרגום אוטומטי"
-
-#: trans/models/unitdata.py:261
-#, python-format
-msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
@@ -1178,9 +1194,9 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">מיזם התרגום של %(project)s</a> מכיל כרגע %(total)s מחרוזות "
-"לתרגום <a href=\"%(url)s\">והוא מתורגם ל־%(languages)s שפות</a>. באופן כללי, "
-"%(percent)s%% מהתרגומים האלה הושלמו."
+"<a href=\"%(url)s\">מיזם התרגום של %(project)s</a> מכיל כרגע %(total)s "
+"מחרוזות לתרגום <a href=\"%(url)s\">והוא מתורגם ל־%(languages)s שפות</a>. "
+"באופן כללי, %(percent)s%% מהתרגומים האלה הושלמו."
 
 #: trans/views/basic.py:152
 #, python-format
@@ -1189,8 +1205,8 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">מיזם התרגום של %(project)s</a> לעברית מכיל כרגע %(total)s "
-"מחרוזות לתרגום ו־%(percent)s%% ממנו הושלמו."
+"<a href=\"%(url)s\">מיזם התרגום של %(project)s</a> לעברית מכיל כרגע "
+"%(total)s מחרוזות לתרגום ו־%(percent)s%% ממנו הושלמו."
 
 #: trans/views/basic.py:241
 #, python-format
@@ -1240,59 +1256,59 @@ msgid "File upload has failed: %s"
 msgstr "העלאת הקובץ נכשלה: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:544
+#: trans/views/edit.py:543
 msgid "Failed to process form!"
 msgstr "עיבוד הטופס נכשל!"
 
-#: trans/views/edit.py:48 weblate/html/list-translations.html:63
+#: trans/views/edit.py:47 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "מחרוזות בספק"
 
-#: trans/views/edit.py:50
+#: trans/views/edit.py:49
 msgid "Untranslated strings"
 msgstr "מחרוזות בלתי מתורגמות"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:51
 msgid "Strings with suggestions"
 msgstr "מחרוזות עם הצעות"
 
-#: trans/views/edit.py:54 weblate/html/list-translations.html:62
+#: trans/views/edit.py:53 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
 
-#: trans/views/edit.py:64
+#: trans/views/edit.py:63
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "חיפוש טקסט מלא אחר „%s“"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:65
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "חיפוש אחר המחרוזת המדויקת „%s“"
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:67
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "חיפוש תת מחרוזת אחר „%s“"
 
-#: trans/views/edit.py:93 trans/views/edit.py:417
+#: trans/views/edit.py:92 trans/views/edit.py:416
 msgid "Invalid search string!"
 msgstr "המחרוזת לחיפוש שגויה!"
 
-#: trans/views/edit.py:115
+#: trans/views/edit.py:114
 #, python-format
 msgid "Review of translations since %s"
 msgstr "סקירת התרגומים מאז %s"
 
-#: trans/views/edit.py:141
+#: trans/views/edit.py:140
 msgid "No string matched your search!"
 msgstr "אין מחרוזות שתואמות לחיפוש שלך!"
 
-#: trans/views/edit.py:192
+#: trans/views/edit.py:191
 msgid "Your suggestion is empty!"
 msgstr "ההצעה שלך ריקה!"
 
-#: trans/views/edit.py:203
+#: trans/views/edit.py:202
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1301,51 +1317,51 @@ msgstr ""
 "אין מתרגמים פעילים לתרגום זה, נבקשך לשקול להפוך למתרגם כיוון שאחרת ההצעות "
 "שלך לא יעברו סקירה."
 
-#: trans/views/edit.py:216
+#: trans/views/edit.py:215
 msgid "You need to log in to be able to save translations!"
 msgstr "עליך להיכנס כדי לשמור תרגומים!"
 
-#: trans/views/edit.py:222 trans/views/edit.py:261
+#: trans/views/edit.py:221 trans/views/edit.py:260
 msgid "You don't have privileges to save translations!"
 msgstr "אין לך הרשאות לשמור תרגומים!"
 
-#: trans/views/edit.py:244
+#: trans/views/edit.py:243
 msgid "Some checks have failed on your translation!"
 msgstr "חלק מהבדיקות נכשלו בתרגום שלך!"
 
-#: trans/views/edit.py:285
+#: trans/views/edit.py:284
 msgid "Can not merge different messages!"
 msgstr "לא ניתן למזג הודעות שונות!"
 
-#: trans/views/edit.py:309
+#: trans/views/edit.py:308
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "עליך להיכנס כדי לנהל הצעות!"
 
-#: trans/views/edit.py:318
+#: trans/views/edit.py:317
 msgid "You do not have privilege to accept suggestions!"
 msgstr "אין לך הרשאות לאשר הצעות!"
 
-#: trans/views/edit.py:326
+#: trans/views/edit.py:325
 msgid "You do not have privilege to delete suggestions!"
 msgstr "אין לך הרשאות למחוק הצעות!"
 
-#: trans/views/edit.py:344
+#: trans/views/edit.py:343
 msgid "Invalid suggestion!"
 msgstr "ההצעה שגויה!"
 
-#: trans/views/edit.py:378
+#: trans/views/edit.py:377
 msgid "You have reached end of translating."
 msgstr "הגעת לסוף התרגום."
 
-#: trans/views/edit.py:542
+#: trans/views/edit.py:541
 msgid "Automatic translation completed."
 msgstr "התרגום האוטומטי הושלם."
 
-#: trans/views/edit.py:583
+#: trans/views/edit.py:564
 msgid "Posted new comment"
 msgstr "פורסמה הערה חדשה"
 
-#: trans/views/edit.py:608
+#: trans/views/edit.py:566
 msgid "Failed to add comment!"
 msgstr "הוספת ההערה נכשלה!"
 
@@ -1462,8 +1478,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
-"נוכל לארח גם את המיזם שלך, אם בא לך, ניתן <a href=\"%"
-"(contact_url)s?subject=Project hosting\">ליצור אתנו קשר</a>."
+"נוכל לארח גם את המיזם שלך, אם בא לך, ניתן <a href=\"%(contact_url)s?"
+"subject=Project hosting\">ליצור אתנו קשר</a>."
 
 #: weblate/html/about.html:25
 msgid ""
@@ -1623,8 +1639,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"למידע נוסף על הזנות RSS מיוצאות ניתן לפנות ל<a href=\"%"
-"(rss_docs)s\">תיעוד</a>."
+"למידע נוסף על הזנות RSS מיוצאות ניתן לפנות ל<a href=\"%(rss_docs)s\">תיעוד</"
+"a>."
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60
@@ -2545,53 +2561,68 @@ msgid "Ignore: %(check)s"
 msgstr ""
 
 #: weblate/html/list-translations.html:9
+#, fuzzy
+#| msgid "Words"
+msgctxt "Number of translated words"
+msgid "Words"
+msgstr "מילים"
+
+#: weblate/html/list-translations.html:10
 msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr ""
 
-#: weblate/html/list-translations.html:10
+#: weblate/html/list-translations.html:11
 msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr ""
 
-#: weblate/html/list-translations.html:11
+#: weblate/html/list-translations.html:12
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr ""
 
-#: weblate/html/list-translations.html:24
+#: weblate/html/list-translations.html:23
+#, fuzzy, python-format
+#| msgid "Strings to translate"
+msgid "%(words)s word to translate!"
+msgid_plural "%(words)s words to translate!"
+msgstr[0] "מחרוזות לתרגום"
+msgstr[1] "מחרוזות לתרגום"
+
+#: weblate/html/list-translations.html:26
 #, python-format
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/html/list-translations.html:33
+#: weblate/html/list-translations.html:35
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/html/list-translations.html:42
+#: weblate/html/list-translations.html:44
 #, python-format
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/html/list-translations.html:51
+#: weblate/html/list-translations.html:53
 #, python-format
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/html/list-translations.html:51 weblate/html/translate.html:24
+#: weblate/html/list-translations.html:53 weblate/html/translate.html:24
 msgid "Translate"
 msgstr ""
 
-#: weblate/html/list-translations.html:61
+#: weblate/html/list-translations.html:63
 msgid "Translated strings"
 msgstr ""
 
@@ -3001,6 +3032,13 @@ msgstr ""
 msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
+msgstr ""
+
+#: weblate/html/translation_info.html:10
+#, python-format
+msgid ""
+"There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
+"translated."
 msgstr ""
 
 #: weblate/html/unit-details.html:4
