@@ -466,7 +466,7 @@ class Translation(models.Model, URLMixin):
         Updates translation data from blob.
         '''
         from trans.models.unit import Unit
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
 
         # Check if we're not already up to date
         if self.revision != self.get_git_blob_hash():
@@ -638,7 +638,7 @@ class Translation(models.Model, URLMixin):
         '''
         Returns last autor of change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(translation=self)[0]
             return self.get_author_name(change.user, email)
@@ -649,7 +649,7 @@ class Translation(models.Model, URLMixin):
         '''
         Returns date of last change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(translation=self)[0]
             return change.timestamp

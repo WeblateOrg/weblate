@@ -186,7 +186,7 @@ class UnitManager(models.Manager):
         '''
         if user.is_anonymous():
             return self.none()
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         sample = self.all()[0]
         changes = Change.objects.filter(
             translation=sample.translation,
@@ -580,7 +580,7 @@ class Unit(models.Model):
         Stores unit to backend.
         '''
         from accounts.models import Profile
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
 
         # Update lock timestamp
         self.translation.update_lock(request)
@@ -997,7 +997,8 @@ class Unit(models.Model):
         '''
         Creates new suggestion for this unit.
         '''
-        from trans.models.unitdata import Suggestion, Change
+        from trans.models.unitdata import Suggestion
+        from trans.models.changes import Change
         from accounts.models import Profile
 
         if not user.is_authenticated():
@@ -1047,7 +1048,8 @@ class Unit(models.Model):
         '''
         Adds comment to this unit.
         '''
-        from trans.models.unitdata import Comment, Change
+        from trans.models.unitdata import Comment
+        from trans.models.changes import Change
         from accounts.models import Profile
 
         new_comment = Comment.objects.create(

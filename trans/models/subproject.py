@@ -964,7 +964,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         Returns date of last change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(
                 translation__subproject=self
