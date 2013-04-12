@@ -114,7 +114,7 @@ class Comment(models.Model, RelatedUnitMixin):
         return get_user_display(self.user, link=True)
 
     def delete(self, *args, **kwargs):
-        super(Suggestion, self).delete(*args, **kwargs)
+        super(Comment, self).delete(*args, **kwargs)
         # Update unit flags
         for unit in self.get_related_units():
             unit.update_has_comment()

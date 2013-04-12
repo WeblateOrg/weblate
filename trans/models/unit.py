@@ -139,8 +139,6 @@ class UnitManager(models.Manager):
             return self.filter(checksum__in=coms)
         elif rqtype == 'targetcomments':
             return self.filter(has_comment=True)
-        elif rqtype == 'allchecks':
-            return self.filter(has_failing_check=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation)
         else:
