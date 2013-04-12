@@ -723,6 +723,7 @@ class Unit(models.Model):
         # Pop parameter indicating that we don't have to process content
         same_content = kwargs.pop('same_content', False)
         same_state = kwargs.pop('same_state', False)
+        # Keep the force_insert for parent save
         force_insert = kwargs.get('force_insert', False)
 
         # Actually save the unit
