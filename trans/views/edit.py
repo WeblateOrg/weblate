@@ -378,7 +378,7 @@ def translate(request, project, subproject, lang):
 
     # Search offset
     try:
-        offset = int(request.GET.get('offset', search_result['offset']))
+        offset = int(request.GET.get('offset', search_result.get('offset', 0)))
     except ValueError:
         offset = 0
 
