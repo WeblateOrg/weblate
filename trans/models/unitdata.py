@@ -31,7 +31,7 @@ from trans.models.translation import Translation
 from trans.util import get_user_display
 
 
-class RelatedUnitMixin(self):
+class RelatedUnitMixin(object):
     '''
     Mixin to provide access to related units for checksum referenced objects.
     '''

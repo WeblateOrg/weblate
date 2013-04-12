@@ -1066,7 +1066,7 @@ class Unit(models.Model):
             user=user,
             checksum=self.checksum,
             project=self.translation.subproject.project,
-            comment=text
+            comment=text,
             language=lang
         )
         Change.objects.create(
