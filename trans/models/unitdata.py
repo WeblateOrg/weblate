@@ -138,6 +138,7 @@ class Check(models.Model, RelatedUnitMixin):
             ('ignore_check', "Can ignore check results"),
         )
         app_label = 'trans'
+        unique_together = ('checksum', 'project', 'language', 'check')
 
     def __unicode__(self):
         return '%s/%s: %s' % (
