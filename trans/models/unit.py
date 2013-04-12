@@ -1020,10 +1020,6 @@ class Unit(models.Model):
             user=user
         )
 
-        # Update suggestion count
-        self.translation.have_suggestion += 1
-        self.translation.save()
-
         # Notify subscribed users
         subscriptions = Profile.objects.subscribed_new_suggestion(
             self.translation.subproject.project,
