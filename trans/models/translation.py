@@ -593,12 +593,12 @@ class Translation(models.Model, URLMixin):
         '''
         Updates translation statistics.
         '''
-        self.total_words = self.unit_set.aggegate(
+        self.total_words = self.unit_set.aggregate(
             Sum('num_words')
         )['num_words']
         self.translated_words = self.unit_set.filter(
             translated=True
-        ).aggegate(
+        ).aggregate(
             Sum('num_words')
         )['num_words']
 
