@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-04-12 16:50+0200\n"
-"PO-Revision-Date: 2013-04-12 14:42+0200\n"
+"PO-Revision-Date: 2013-04-13 07:40+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
 "Language: he\n"
@@ -287,10 +287,9 @@ msgid "Gettext PO file"
 msgstr "קובץ PO לפי Gettext"
 
 #: trans/formats.py:445
-#, fuzzy
 #| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
-msgstr "קובץ PO לפי Gettext"
+msgstr "קובץ PO לפי Gettext (חד־לשוני)"
 
 #: trans/formats.py:454
 msgid "Qt Linguist Translation File"
@@ -959,17 +958,17 @@ msgstr "לא נעשה שימוש בכתובת הייצוא כאשר המאגר �
 
 #: trans/models/subproject.py:762
 msgid "Template file not found!"
-msgstr ""
+msgstr "קובץ התבנית לא נמצא!"
 
 #: trans/models/subproject.py:768
 msgid "Format of translation template could not be recognized."
 msgstr "לא ניתן לזהות את מבנה תבנית התרגום."
 
 #: trans/models/subproject.py:772
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
-msgstr "פענוח תבנית התרגום נכשל."
+msgstr "פענוח תבנית התרגום נכשל: %s"
 
 #: trans/models/subproject.py:793
 msgid "The mask did not match any files!"
@@ -995,7 +994,7 @@ msgstr "ניתוח %d הקבצים שנמצאו נכשל!"
 
 #: trans/models/subproject.py:837
 msgid "You can not use monolingual translation without template!"
-msgstr ""
+msgstr "לא ניתן להשתמש בתרגום חד־לשוני ללא תבנית!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1673,6 +1672,8 @@ msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
+"ישנן גם הזנות RSS לפי שפה, ניתן להרכיב אותן על ידי הוספת קוד השפה לכתובות "
+"הבאות."
 
 #: weblate/html/data.html:53
 #, python-format
@@ -1681,6 +1682,8 @@ msgid ""
 "these data in other websites or tools. Format of the data is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
+"סטטיסטיקת התרגום עבור כל תת־מיזם ב־JSON מאפשרת לך להשתמש בנתונים באתרים או "
+"בכלים שונים. מבנה הנתונים מתואר ב<a href=\"%(api_docs)s\">תיעוד</a>."
 
 #: weblate/html/data.html:68 weblate/html/translation.html:58
 msgid "Download"
@@ -1794,21 +1797,21 @@ msgstr "TermBase eXchange - זיכרון תרגום נייד (TBX)"
 
 #: weblate/html/edit_dictionary.html:7
 msgid "dictionaries"
-msgstr ""
+msgstr "מילונים"
 
 #: weblate/html/edit_dictionary.html:14
 msgid "Change word"
-msgstr ""
+msgstr "החלפת מילה"
 
 #: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
 #: weblate/html/translate.html:147
 msgid "Save"
-msgstr ""
+msgstr "שמירה"
 
 #: weblate/html/engage.html:11 weblate/html/engage.html.py:25
 #, python-format
 msgid "Get involved in %(project)s!"
-msgstr ""
+msgstr "להתחיל לפעול למען %(project)s!"
 
 #: weblate/html/engage.html:12
 #, python-format
@@ -1816,10 +1819,12 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
+"להתחיל לפעול למען %(project)s, שמתורגם כרגע ל־%(languages)s שפות באמצעות "
+"Weblate."
 
 #: weblate/html/engage.html:28
 msgid "Hi, and thank you for your interest!"
-msgstr ""
+msgstr "היי ותודה לך על שהבעת עניין!"
 
 #: weblate/html/engage.html:31
 #, python-format
@@ -1828,6 +1833,8 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
+"המיזם %(project)s מתורגם באמצעות <a href=\"%(weblate_url)s\">Weblate</a>, לכי "
+"מקוון שתוכן כדי להקל על מלאכת התרגום הן למתכנתים והן למתרגמים."
 
 #: weblate/html/engage.html:38
 #, python-format
@@ -1835,6 +1842,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
+"אם ברצונך לתרגום לתרגום המיזם %(project)s, עליך <a href=\"%(reg_url)s\">להירשם "
+"לשרת זה</a>."
 
 #: weblate/html/engage.html:41
 #, python-format
@@ -1842,69 +1851,72 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
+"לאחר שהפעלת את החשבון שלך, עליך פשוט להמשיך ל<a href=\"%(url)s\">אגף "
+"התרגום</a>."
 
 #: weblate/html/footer.html:6
 #, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
-msgstr ""
+msgstr "מופעל על גבי <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: weblate/html/footer.html:8
 msgid "Contact us"
-msgstr ""
+msgstr "יצירת קשר"
 
 #: weblate/html/footer.html:9 weblate/html/admin/performance.html:22
 #: weblate/html/admin/performance.html:30
 msgid "Documentation"
-msgstr ""
+msgstr "תיעוד"
 
 #: weblate/html/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
-msgstr ""
+msgstr "הגשה %(hash)s"
 
 #: weblate/html/git-commit-info.html:4
 #, python-format
 msgid "Authored by %(author)s on %(date)s"
-msgstr ""
+msgstr "נוצרה ע״י %(author)s ב־%(date)s"
 
 #: weblate/html/i18n.html:8
 msgid "This username is already taken. Please choose another."
-msgstr ""
+msgstr "שם משתמש זה כבר תפוס. נא לבחור באחד אחר."
 
 #: weblate/html/i18n.html:9
 msgid "You must type the same password each time"
-msgstr ""
+msgstr "עליך להקליד את אותה הססמה בכל פעם"
 
 #: weblate/html/i18n.html:10
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
-msgstr ""
+msgstr "כתובת דוא״ל זו כבר בשימוש. נא לציין כתובת דוא״ל אחרת."
 
 #: weblate/html/i18n.html:11
 msgid "Old password"
-msgstr ""
+msgstr "ססמה ישנה"
 
 #: weblate/html/i18n.html:12
 msgid "New password"
-msgstr ""
+msgstr "ססמה חדשה"
 
 #: weblate/html/i18n.html:13
 msgid "New password confirmation"
-msgstr ""
+msgstr "אימות הססמה החדשה"
 
 #: weblate/html/i18n.html:14
 msgid "The two password fields didn't match."
-msgstr ""
+msgstr "שתי הססמאות אינן תואמות."
 
 #: weblate/html/i18n.html:18
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
+"יש להחזיר את המקשים „Control“, או „Command“ ב־Mac, כדי לבחור ביותר מאחד."
 
 #: weblate/html/i18n.html:28
 msgid "Afrikaans"
-msgstr ""
+msgstr "אפריקאנס"
 
 #: weblate/html/i18n.html:29
 msgid "Akan"
@@ -2561,7 +2573,6 @@ msgid "Ignore: %(check)s"
 msgstr ""
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -2583,12 +2594,12 @@ msgid "Suggestions"
 msgstr ""
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Strings to translate"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "מחרוזות לתרגום"
-msgstr[1] "מחרוזות לתרגום"
+msgstr[0] "מילה אחת לתרגום!"
+msgstr[1] "%(words)s מילים לתרגום!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
