@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-04-12 16:50+0200\n"
-"PO-Revision-Date: 2013-04-12 09:42+0200\n"
+"PO-Revision-Date: 2013-04-13 10:38+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -288,10 +288,9 @@ msgid "Gettext PO file"
 msgstr "Αρχείο Gettext PO"
 
 #: trans/formats.py:445
-#, fuzzy
 #| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
-msgstr "Αρχείο Gettext PO"
+msgstr "Αρχείο Gettext PO (μονόγλωσσο)"
 
 #: trans/formats.py:454
 msgid "Qt Linguist Translation File"
@@ -991,17 +990,17 @@ msgstr "Η εξαγωγή URL δεν χρησιμοποιείται όταν τ�
 
 #: trans/models/subproject.py:762
 msgid "Template file not found!"
-msgstr ""
+msgstr "Το αρχείο προτύπου δεν βρέθηκε!"
 
 #: trans/models/subproject.py:768
 msgid "Format of translation template could not be recognized."
 msgstr "Η μορφή του προτύπου μετάφρασης δεν μπορεί να αναγνωριστεί."
 
 #: trans/models/subproject.py:772
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
-msgstr "Απέτυχε η ανάλυση του προτύπου μετάφρασης."
+msgstr "Απέτυχε η ανάλυση του προτύπου μετάφρασης: %s"
 
 #: trans/models/subproject.py:793
 msgid "The mask did not match any files!"
@@ -1026,12 +1025,10 @@ msgid "Failed to parse %d matched files!"
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
 
 #: trans/models/subproject.py:837
-#, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "You can not use monolingual translation without template!"
-msgstr ""
-"Μπορείτε να μοιραστείτε σχόλια για αυτή τη μετάφραση με άλλους μεταφραστές."
+msgstr "Δεν μπορείτε να χρησιμοποιήσετε μονόγλωσση μετάφραση χωρίς πρότυπο!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -2638,7 +2635,6 @@ msgid "Ignore: %(check)s"
 msgstr "Αγνόηση: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -2660,12 +2656,12 @@ msgid "Suggestions"
 msgstr "Προτάσεις"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Copy word to translation"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "Αντιγραφή λέξης στη μετάφραση"
-msgstr[1] "Αντιγραφή λέξης στη μετάφραση"
+msgstr[0] "%(words)s λέξη για μετάφραση!"
+msgstr[1] "%(words)s λέξεις για μετάφραση!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -3140,7 +3136,7 @@ msgstr ""
 "μεταφρασμένα και το %(fuzzy)s&#37; είναι ασαφή."
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "There are %(count)s strings, out of which %(translated)s&#37; is "
 #| "translated and %(fuzzy)s&#37; is fuzzy."
@@ -3148,8 +3144,8 @@ msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
 msgstr ""
-"Υπάρχουν %(count)s κείμενα, από τα οποία το %(translated)s&#37; είναι "
-"μεταφρασμένα και το %(fuzzy)s&#37; είναι ασαφή."
+"Υπάρχουν %(words)s λέξεις, από συνολικά %(percent)s&#37; (%(translated)s) "
+"που μεταφράστηκαν."
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
