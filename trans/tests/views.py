@@ -557,6 +557,30 @@ class SearchViewTest(ViewTestCase):
             self.translation.get_absolute_url()
         )
 
+    def test_seach_checksum(self):
+        unit = self.translation.unit_set.get(
+            source='Try Weblate at <http://demo.weblate.org/>!\n'
+        )
+        response = self.do_search(
+            {'checksum': unit.checksum},
+            '3 / 4'
+        )
+        # Extract search ID
+        search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
+        # Navigation
+        response = self.do_search(
+            {'sid': search_id, 'offset': 0},
+            '1 / 4'
+        )
+        response = self.do_search(
+            {'sid': search_id, 'offset': 3},
+            '4 / 4'
+        )
+        response = self.do_search(
+            {'sid': search_id, 'offset': 4},
+            None
+        )
+
     def test_search_type(self):
         self.do_search(
             {'type': 'untranslated'},

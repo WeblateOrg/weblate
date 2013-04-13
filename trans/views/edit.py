@@ -144,7 +144,7 @@ def search(translation, request):
     offset = 0
     if 'checksum' in request.GET:
         try:
-            unit = allunits.get(checksum=request.GET['checksum'])
+            unit = allunits.filter(checksum=request.GET['checksum'])[0]
             offset = unit_ids.index(unit.id)
         except (Unit.DoesNotExist, ValueError):
             pass
