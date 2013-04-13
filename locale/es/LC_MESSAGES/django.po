@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-04-12 16:50+0200\n"
-"PO-Revision-Date: 2013-04-12 13:24+0200\n"
+"PO-Revision-Date: 2013-04-13 16:13+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -287,10 +287,9 @@ msgid "Gettext PO file"
 msgstr "Archivo PO Gettext"
 
 #: trans/formats.py:445
-#, fuzzy
 #| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
-msgstr "Archivo PO Gettext"
+msgstr "Archivo PO Gettext (monolenguaje)"
 
 #: trans/formats.py:454
 msgid "Qt Linguist Translation File"
@@ -987,17 +986,17 @@ msgstr "¡No se utiliza la URL de exportación cuando se enlaza el repositorio!"
 
 #: trans/models/subproject.py:762
 msgid "Template file not found!"
-msgstr ""
+msgstr "¡No se encontró el archivo de plantilla!"
 
 #: trans/models/subproject.py:768
 msgid "Format of translation template could not be recognized."
 msgstr "No se reconoció el formato de la plantilla de traducción."
 
 #: trans/models/subproject.py:772
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
-msgstr "No se pudo procesar la plantilla de traducción."
+msgstr "No se pudo procesar la plantilla de traducción: %s"
 
 #: trans/models/subproject.py:793
 msgid "The mask did not match any files!"
@@ -1022,12 +1021,10 @@ msgid "Failed to parse %d matched files!"
 msgstr "¡No se pudieron procesar %d archivos encontrados!"
 
 #: trans/models/subproject.py:837
-#, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "You can not use monolingual translation without template!"
-msgstr ""
-"Puede compartir comentarios sobre esta traducción con otros traductores."
+msgstr "¡No puede utilizar una traducción monolenguaje sin una plantilla!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -2636,7 +2633,6 @@ msgid "Ignore: %(check)s"
 msgstr "Ignorar: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -2658,12 +2654,12 @@ msgid "Suggestions"
 msgstr "Sugerencias"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Copy word to translation"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "Copiar la palabra a la traducción"
-msgstr[1] "Copiar la palabra a la traducción"
+msgstr[0] "¡%(words)s palabra para traducir!"
+msgstr[1] "¡%(words)s palabras para traducir!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -3136,7 +3132,7 @@ msgstr ""
 "%(fuzzy)s&#37; son parciales."
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "There are %(count)s strings, out of which %(translated)s&#37; is "
 #| "translated and %(fuzzy)s&#37; is fuzzy."
@@ -3144,8 +3140,8 @@ msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
 msgstr ""
-"Hay %(count)s cadenas, de las cuales %(translated)s&#37; están traducidas y "
-"%(fuzzy)s&#37; son parciales."
+"Hay %(words)s palabras, de las cuales %(percent)s&#37; (%(translated)s) "
+"están traducidas."
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
