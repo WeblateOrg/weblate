@@ -212,7 +212,10 @@ class EditTest(ViewTestCase):
         self.assertEqual(path, exp_path)
 
         exp_offset = 'offset=%d' % exp_offset
-        self.assertTrue(exp_offset in query, 'Offset %s not in %s' % (exp_offset, query))
+        self.assertTrue(
+            exp_offset in query,
+            'Offset %s not in %s' % (exp_offset, query)
+        )
 
     def test_edit(self):
         response = self.edit_unit(
