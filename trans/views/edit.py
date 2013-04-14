@@ -146,8 +146,9 @@ def search(translation, request):
         try:
             unit = allunits.filter(checksum=request.GET['checksum'])[0]
             offset = unit_ids.index(unit.id)
-        except (Unit.DoesNotExist, ValueError):
-            pass
+        except (Unit.DoesNotExist, IndexError):
+            messages.warning(request, _('No string matched your search!'))
+            return HttpResponseRedirect(translation.get_absolute_url())
 
     # Remove old search results
     cleanup_session(request.session)
