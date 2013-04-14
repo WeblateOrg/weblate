@@ -146,7 +146,7 @@ def search(translation, request):
         try:
             unit = allunits.filter(checksum=request.GET['checksum'])[0]
             offset = unit_ids.index(unit.id)
-        except (Unit.DoesNotExist, ValueError):
+        except (Unit.DoesNotExist, IndexError):
             pass
 
     # Remove old search results
