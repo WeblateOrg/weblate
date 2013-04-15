@@ -682,3 +682,16 @@ class CommentViewTest(ViewTestCase):
             translation.unit_set.count_type('sourcecomments', translation),
             1
         )
+
+
+class LanguagesViewTest(ViewTestCase):
+    def test_languages(self):
+        response = self.client.get(reverse('languages'))
+        self.assertContains(response, 'Czech')
+
+        response = self.client.get(reverse(
+            'show_language',
+            kwargs={'lang': 'cs'}
+        ))
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, 'Test/Test')
