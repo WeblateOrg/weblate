@@ -330,8 +330,10 @@ def not_found(request):
 
 
 def about(request):
+    '''
+    Shows about page with version information.
+    '''
     context = {}
-    versions = get_versions()
     totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
     for project in SubProject.objects.iterator():
@@ -349,7 +351,7 @@ def about(request):
     ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-    context['versions'] = versions
+    context['versions'] = get_versions()
 
     return render_to_response('about.html', RequestContext(request, context))
 
