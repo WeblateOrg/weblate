@@ -28,6 +28,7 @@ from django.contrib import messages
 from django.conf import settings
 from weblate import appsettings
 from trans.util import HAS_LIBRAVATAR
+from accounts.forms import HAS_ICU
 import weblate
 
 import os
@@ -117,6 +118,11 @@ def performance(request):
         _('Federated avatar support'),
         HAS_LIBRAVATAR,
         'production-avatar',
+    ))
+    checks.append((
+        _('PyICU library'),
+        HAS_ICU,
+        'production-pyicu',
     ))
     return render_to_response(
         "admin/performance.html",
