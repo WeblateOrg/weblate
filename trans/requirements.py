@@ -143,7 +143,7 @@ def get_versions(optional=False):
     if optional:
         name = 'ICU'
         url = 'https://pypi.python.org/pypi/PyICU'
-        mod = get_version_module('icu', name, url)
+        mod = get_version_module('icu', name, url, True)
         if mod is not None:
             result.append((
                 name,
@@ -154,7 +154,7 @@ def get_versions(optional=False):
 
         name = 'pyLibravatar'
         url = 'https://pypi.python.org/pypi/pyLibravatar'
-        mod = get_version_module('libravatar', name, url)
+        mod = get_version_module('libravatar', name, url, True)
         if mod is not None:
             result.append((
                 name,
