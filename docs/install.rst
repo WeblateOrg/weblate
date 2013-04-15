@@ -41,7 +41,7 @@ On Debian or Ubuntu, all requirements are already packaged, to install them you 
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git python-django-registration \
-        python-whoosh python-cairo python-gtk2 python-django-south
+        python-whoosh python-cairo python-gtk2 python-django-south python-libravatar python-pyicu
 
     # Optional for database backend
 
