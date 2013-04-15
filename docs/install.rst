@@ -300,6 +300,18 @@ you install `pyLibavatar`_, you will get proper support for federated avatars.
 
 .. _pyLibavatar: https://pypi.python.org/pypi/pyLibravatar
 
+
+.. _production-pyicu:
+
+PyICU library
++++++++++++++
+
+`PyICU`_ library is optionally used by Weblate to sort unicode strings. This
+way language names are properly sorted even in non-ascii languages like
+Japanese, Chinese or Arabic or for languages with accented letters.
+
+.. _PyICU: https://pypi.python.org/pypi/PyICU
+
 .. _server:
 
 Running server
