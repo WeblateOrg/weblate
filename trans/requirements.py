@@ -21,7 +21,7 @@
 from distutils.version import LooseVersion
 
 
-def get_version_module(module, name, url):
+def get_version_module(module, name, url, optional=False):
     '''
     Returns module object, on error raises verbose
     exception with name and URL.
@@ -29,15 +29,18 @@ def get_version_module(module, name, url):
     try:
         mod = __import__(module)
     except ImportError:
-        raise Exception('Failed to import %s, please install %s from %s' % (
-            module,
-            name,
-            url,
-        ))
+        if not optional:
+            raise Exception(
+                'Failed to import %s, please install %s from %s' % (
+                    module,
+                    name,
+                    url,
+                )
+            )
     return mod
 
 
-def get_versions():
+def get_versions(optional=False):
     '''
     Returns list of used versions.
     '''
@@ -136,6 +139,29 @@ def get_versions():
         mod.__version__,
         '0.7',
     ))
+
+    if optional:
+        name = 'ICU'
+        url = 'https://pypi.python.org/pypi/PyICU'
+        mod = get_version_module('icu', name, url)
+        if mod is not None:
+            result.append((
+                name,
+                url,
+                mod.VERSION,
+                '1.0',
+            ))
+
+        name = 'pyLibravatar'
+        url = 'https://pypi.python.org/pypi/pyLibravatar'
+        mod = get_version_module('libravatar', name, url)
+        if mod is not None:
+            result.append((
+                name,
+                url,
+                'N/A',
+                '',
+            ))
 
     return result
 

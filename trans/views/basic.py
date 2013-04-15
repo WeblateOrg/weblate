@@ -351,7 +351,7 @@ def about(request):
     ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-    context['versions'] = get_versions()
+    context['versions'] = get_versions(True)
 
     return render_to_response('about.html', RequestContext(request, context))
 
