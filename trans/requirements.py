@@ -29,14 +29,15 @@ def get_version_module(module, name, url, optional=False):
     try:
         mod = __import__(module)
     except ImportError:
-        if not optional:
-            raise Exception(
-                'Failed to import %s, please install %s from %s' % (
-                    module,
-                    name,
-                    url,
-                )
+        if optional:
+            return None
+        raise Exception(
+            'Failed to import %s, please install %s from %s' % (
+                module,
+                name,
+                url,
             )
+        )
     return mod
 
 
