@@ -4,7 +4,7 @@ Changes
 weblate 1.5
 -----------
 
-Released on ? 2013.
+Released on April 16th 2013.
 
 * Please check manual for upgrade instructions.
 * Added public user pages.
