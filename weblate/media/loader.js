@@ -1,6 +1,6 @@
 jQuery.fn.extend({
-    insertAtCaret: function(myValue){
-        return this.each(function(i) {
+    insertAtCaret: function (myValue) {
+        return this.each(function (i) {
             if (document.selection) {
                 // For browsers like Internet Explorer
                 this.focus();
@@ -12,7 +12,7 @@ jQuery.fn.extend({
                 var startPos = this.selectionStart;
                 var endPos = this.selectionEnd;
                 var scrollTop = this.scrollTop;
-                this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+                this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
                 this.focus();
                 this.selectionStart = startPos + myValue.length;
                 this.selectionEnd = startPos + myValue.length;
@@ -54,7 +54,7 @@ function dec_loading() {
 
 function get_source_string(callback) {
     $('#loading').show();
-    $.get($('#js-get').attr('href'), function(data) {
+    $.get($('#js-get').attr('href'), function (data) {
         callback(data);
         $('#loading').hide();
     });
@@ -63,8 +63,8 @@ function get_source_string(callback) {
 function process_machine_translation(data, textStatus, jqXHR) {
     dec_loading();
     if (data.responseStatus == 200) {
-        var lang=$('.translation_html_markup').attr('lang');
-        var dir=$('.translation_html_markup').attr('dir');
+        var lang = $('.translation_html_markup').attr('lang');
+        var dir = $('.translation_html_markup').attr('dir');
         data.translations.forEach(function (el, idx, ar) {
             var new_row = $('<tr/>').data('quality', el.quality);
             var done = false;
@@ -121,7 +121,7 @@ function load_machine_translations() {
 }
 
 function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function cell_cmp(a, b) {
@@ -135,19 +135,23 @@ function cell_cmp(a, b) {
         a = a.toLowerCase();
         b = b.toLowerCase();
     }
-    if (a == b) return 0;
-    if (a > b) return 1;
+    if (a == b) {
+        return 0;
+    }
+    if (a > b) {
+        return 1;
+    }
     return -1;
 }
 
 function load_table_sorting() {
-    $('table.sort').each(function() {
+    $('table.sort').each(function () {
         var table = $(this),
             tbody = table.find('tbody'),
             thead = table.find('thead'),
             thIndex = 0;
         $(this).find('thead th')
-            .each(function(){
+            .each(function () {
 
             var th = $(this),
                 inverse = 1;
@@ -163,13 +167,13 @@ function load_table_sorting() {
                 th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort ui-icon ui-icon-carat-2-n-s" />');
 
                 // Click handler
-                th.click(function(){
+                th.click(function () {
 
-                    tbody.find('td,th').filter(function(){
+                    tbody.find('td,th').filter(function () {
                         return $(this).index() === myIndex;
-                    }).sortElements(function(a, b){
+                    }).sortElements(function (a, b) {
                         return inverse * cell_cmp($.text([a]), $.text([b]));
-                    }, function(){
+                    }, function () {
 
                         // parentNode is the element we want to move
                         return this.parentNode;
@@ -226,7 +230,7 @@ function load_progress() {
     $('div.progress .good').attr('title', gettext('Translated strings'));
 }
 
-$(function() {
+$(function () {
     $('.button').button();
     $('#breadcrumbs').buttonset();
     load_progress();
@@ -242,16 +246,16 @@ $(function() {
     $('#navi .button-disabled').button('disable');
     $('.translation-editor').change(text_change).keypress(text_change).autogrow();
     $('.translation-editor').focus();
-    $('#toggle-direction').buttonset().change(function(e) {
+    $('#toggle-direction').buttonset().change(function (e) {
         $('.translation-editor').attr('dir', $("#toggle-direction :radio:checked").attr('value')).focus();
     });
     $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
-        get_source_string(function(data) {
+        get_source_string(function (data) {
             mt_set(data);
         });
         return false;
     });
-    $('.specialchar').button().click(function() {
+    $('.specialchar').button().click(function () {
         var text = $(this).text();
         if (text == '\\t') {
             text = '\t';
@@ -265,7 +269,7 @@ $(function() {
     $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
         var parent_id = $(this).parent()[0].id;
         var check_id = parent_id.substring(6);
-        $.get($(this).attr('href'), function() {
+        $.get($(this).attr('href'), function () {
             $('#' + parent_id).remove();
         });
         return false;
@@ -273,7 +277,7 @@ $(function() {
     load_table_sorting();
     $("#translate-tabs").tabs({
         ajaxOptions: {
-            error: function(xhr, status, index, anchor) {
+            error: function (xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
@@ -289,7 +293,7 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
-            ui.jqXHR.error(function() {
+            ui.jqXHR.error(function () {
                 $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
             });
         },
@@ -316,7 +320,7 @@ $(function() {
     });
     $("div.tabs").tabs({
         ajaxOptions: {
-            error: function(xhr, status, index, anchor) {
+            error: function (xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
@@ -328,7 +332,7 @@ $(function() {
             $('.buttons').buttonset();
             $('.buttons .disabled').button('disable');
             $('.details-accordion').accordion({collapsible: true, active: false});
-            $('.confirm-reset').click(function() {
+            $('.confirm-reset').click(function () {
 
                 $('<div title="' + gettext('Confirm resetting repository') + '"><p>' + gettext('Resetting the repository will throw away all local changes!') + '</p></div>').dialog({
                     modal: true,
@@ -336,14 +340,14 @@ $(function() {
                     buttons: [
                         {
                             text: gettext("Ok"),
-                            click: function() {
+                            click: function () {
                                 window.location = $('.confirm-reset').attr('href');
                                 $(this).dialog("close");
                             }
                         },
                         {
                             text: gettext("Cancel"),
-                            click: function() {
+                            click: function () {
                                 $(this).dialog("close");
                             }
                         }
@@ -358,27 +362,27 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
-            ui.jqXHR.error(function() {
+            ui.jqXHR.error(function () {
                 $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
             });
 
         }
     });
     $("#id_date").datepicker({ dateFormat: "yy-mm-dd" });
-    $("form.autosubmit select").change(function() {
+    $("form.autosubmit select").change(function () {
         $("form.autosubmit").submit();
     });
     $('#s_content').hide();
     $('#id_content').parent('td').parent('tr').hide();
-    $('.expander').click(function() {
+    $('.expander').click(function () {
         $(this).parent().find('.expander-icon').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
         $(this).parent().next().toggle();
     });
-    $('.code-example').focus(function() {
+    $('.code-example').focus(function () {
         $(this).select();
     });
     $(document).tooltip({
-        content: function() {
+        content: function () {
             var element = $(this);
             if (element.is('span.git-commit')) {
                 element = $(this).find('.git-details');
@@ -388,7 +392,7 @@ $(function() {
         items: "span.tooltip, span.git-commit"
     });
     if (update_lock) {
-        window.setInterval(function() {
+        window.setInterval(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
     }
