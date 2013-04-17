@@ -128,14 +128,14 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
     '''
     subscriptions = Profile.objects.subscribed_new_comment(
         unit.translation.subproject.project,
-        comment.lang,
+        comment.language,
         user
     )
     for subscription in subscriptions:
         subscription.notify_new_comment(unit, comment)
 
     # Notify upstream
-    if comment.lang is None and report_source_bugs != '':
+    if comment.language is None and report_source_bugs != '':
         send_notification_email(
             'en',
             report_source_bugs,
