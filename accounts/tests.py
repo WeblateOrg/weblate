@@ -29,6 +29,8 @@ from django.core import mail
 from django.conf import settings
 from django.core.management import call_command
 from accounts.models import Profile
+from trans.tests.views import ViewTestCase
+from lang.models import Language
 
 
 class RegistrationTest(TestCase):
@@ -175,6 +177,23 @@ class ViewTest(TestCase):
         )
         self.assertContains(response, 'src="/activity')
 
+
+class ProfileTest(ViewTestCase):
+    def test_profile(self):
         # Get profile page
         response = self.client.get(reverse('profile'))
         self.assertContains(response, 'class="tabs preferences"')
+
+        # Save profile
+        response = self.client.post(
+            reverse('profile'),
+            {
+                'language': 'cs',
+                'languages': Language.objects.get(code='cs').id,
+                'secondary_languages': Language.objects.get(code='cs').id,
+                'first_name': 'First',
+                'last_name': 'Last',
+                'email': 'noreply@weblate.org',
+            }
+        )
+        self.assertRedirects(response, reverse('profile'))
