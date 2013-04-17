@@ -150,6 +150,11 @@ urlpatterns = patterns(
         name='download_translation',
     ),
     url(
+        r'^projects/' + TRANSLATION + 'language_pack/$',
+        'trans.views.files.download_language_pack',
+        name='download_language_pack',
+    ),
+    url(
         r'^projects/' + TRANSLATION + 'upload/$',
         'trans.views.files.upload_translation',
         name='upload_translation',

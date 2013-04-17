@@ -167,6 +167,9 @@ class ExportTest(ViewTestCase):
     '''
     Testing of file export.
     '''
+    def create_subproject(self):
+        return self.create_po()
+
     def test_export(self):
         response = self.client.get(
             reverse(
@@ -175,3 +178,20 @@ class ExportTest(ViewTestCase):
             )
         )
         self.assertContains(response, 'Weblate Hello World 2012')
+        self.assertEqual(
+            response['Content-Disposition'],
+            'attachment; filename=test-test-cs.po'
+        )
+
+    def test_language_pack(self):
+        response = self.client.get(
+            reverse(
+                'download_language_pack',
+                kwargs=self.kw_translation
+            )
+        )
+        self.assertContains(response, 'Weblate Hello World 2012')
+        self.assertEqual(
+            response['Content-Disposition'],
+            'attachment; filename=cs.mo'
+        )

@@ -25,9 +25,11 @@ from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit
 from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit
+from translate.storage import mo
 from translate.storage import factory
 from trans.util import get_string
 from translate.misc import quote
+import os.path
 import re
 import hashlib
 import importlib
@@ -418,6 +420,12 @@ class FileFormat(object):
         else:
             return self.store.Extensions[0]
 
+    def supports_language_pack(self):
+        '''
+        Checks whether backend store supports generating language pack.
+        '''
+        return hasattr(self, 'get_language_pack')
+
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
@@ -438,6 +446,39 @@ class PoFormat(FileFormat):
     format_id = 'po'
     loader = ('po', 'pofile')
     monolingual = False
+
+    def get_language_pack(self):
+        '''
+        Generates compiled messages file.
+        '''
+        outputfile = mo.mofile()
+        for unit in self.store.units:
+            if not unit.istranslated() and not unit.isheader():
+                continue
+            mounit = mo.mounit()
+            if unit.isheader():
+                mounit.source = ""
+            else:
+                mounit.source = unit.source
+                context = unit.getcontext()
+                mounit.msgctxt = [unit.getcontext()]
+            mounit.target = unit.target
+            outputfile.addunit(mounit)
+        return str(outputfile)
+
+    def get_language_pack_meta(self):
+        '''
+        Returns language pack filename and mime type.
+        '''
+
+        basefile = os.path.splitext(
+            os.path.basename(self.storefile)
+        )[0]
+
+        return (
+            '%s.mo' % basefile,
+            'application/x-gettext-catalog'
+        )
 
 register_fileformat(PoFormat)
 

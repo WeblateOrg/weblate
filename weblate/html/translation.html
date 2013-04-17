@@ -59,6 +59,11 @@
 {% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code as download_url %}
 <p>{% blocktrans %}You can <a href="{{ download_url }}">download</a> file for offline translation.{% endblocktrans %}</p>
 
+{% if object.store.supports_language_pack %}
+{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code as pack_download_url %}
+<p>{% blocktrans %}You can also <a href="{{ pack_download_url }}">download</a> compiled file to use within the application.{% endblocktrans %}</p>
+{% endif %}
+
 {% if perms.trans.upload_translation %}
 <h3>{% trans "Upload" %}</h3>
 {% if perms.trans.overwrite_translation %}

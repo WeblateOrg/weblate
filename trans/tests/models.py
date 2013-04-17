@@ -118,6 +118,13 @@ class RepoTestCase(TestCase):
             'po/*.po',
         )
 
+    def create_po(self):
+        return self._create_subproject(
+            'po',
+            'po/*.po',
+            'po/en.po',
+        )
+
     def create_po_mono(self):
         return self._create_subproject(
             'po-mono',
