@@ -313,21 +313,11 @@ def show_translation(request, project, subproject, lang):
         'search_form': search_form,
         'review_form': review_form,
         'last_changes': last_changes,
-        'last_changes_url': urlencode(
-            {
-                'lang': obj.language.code,
-                'subproject': obj.subproject.slug,
-                'project': obj.subproject.project.slug
-            }
-        ),
         'last_changes_rss': reverse(
             'rss-translation',
-            kwargs={
-                'lang': obj.language.code,
-                'subproject': obj.subproject.slug,
-                'project': obj.subproject.project.slug
-            }
+            kwargs=obj.get_kwargs(),
         ),
+        'last_changes_url': urlencode(obj.get_kwargs()),
     }))
 
 
