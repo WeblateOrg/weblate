@@ -26,6 +26,7 @@ from trans.models.changes import Change
 from trans.views.helper import get_project_translation
 from lang.models import Language
 
+
 class ChangesView(ListView):
     '''
     Browser for changes.

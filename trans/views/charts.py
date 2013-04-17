@@ -25,6 +25,7 @@ from trans.models import Change
 from lang.models import Language
 from trans.views.helper import get_project_translation
 from django.shortcuts import render_to_response, get_object_or_404
+from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.models import User
