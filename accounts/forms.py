@@ -211,10 +211,12 @@ class RegistrationForm(RegistrationFormUniqueEmail):
     Registration form, please note it does not save first/last name
     this is done by signal handler in accounts.models.
     '''
+    required_css_class = "required"
+    error_css_class = "error"
+
     username = forms.RegexField(
         regex=r'^[\w.@+-]+$',
         max_length=30,
-        widget=forms.TextInput(attrs={'class': 'required'}),
         label=_("Username"),
         error_messages={
             'invalid': _(
@@ -223,14 +225,8 @@ class RegistrationForm(RegistrationFormUniqueEmail):
             )
         }
     )
-    first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'required'}),
-        label=_('First name')
-    )
-    last_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'required'}),
-        label=_('Last name')
-    )
+    first_name = forms.CharField(label=_('First name'))
+    last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
