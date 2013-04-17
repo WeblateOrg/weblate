@@ -137,6 +137,24 @@ class ViewTest(TestCase):
         )
         self.assertContains(response, 'Weblate test message')
 
+    def test_contact_user(self):
+        user = User.objects.create_user(
+            username='testuser',
+            password='testpassword',
+        )
+        user.first_name='First'
+        user.last_name='Second'
+        user.email='noreply@weblate.org'
+        user.save()
+        Profile.objects.get_or_create(user=user)
+        # Login
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(
+            reverse('contact'),
+        )
+        self.assertContains(response, 'value="First Second"')
+        self.assertContains(response, 'noreply@weblate.org')
+
     def test_user(self):
         '''
         Test user pages.
