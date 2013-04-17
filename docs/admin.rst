@@ -433,6 +433,9 @@ limited set of languages.
 
 You should get API key from them, otherwise number of requests is rate limited.
 
+To enable this service, add ``trans.machine.apertium.ApertiumTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
 .. seealso::
 
     :setting:`MT_APERTIUM_KEY`, http://www.apertium.org/
@@ -446,6 +449,9 @@ API is free to use, regarding indicated data source license. There is a limit
 of call that may be done from one IP in fixed period of time, to prevent from
 abuse.
 
+To enable this service, add ``trans.machine.glosbe.GlosbeTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
 .. seealso::
 
     http://glosbe.com/
@@ -458,6 +464,9 @@ Machine translation service provided by Google.
 Please note that this does not use (paid) Translation API but rather web based
 translation interface.
 
+To enable this service, add ``trans.machine.google.GoogleTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
 .. seealso::
 
     http://translate.google.com/
@@ -468,6 +477,9 @@ Microsoft Translator
 Machine translation service provided by Microsoft.
 
 You need to register at Azure market and use Client ID and secret from there.
+
+To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
 
@@ -483,6 +495,9 @@ Huge translation memory with machine translation.
 Free, anonymous usage is currently limited to 100 requests/day, you can ask for
 more.
 
+To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
 .. seealso::
 
     http://mymemory.translated.net/
@@ -491,6 +506,9 @@ Open-Tran
 +++++++++
 
 Database of open source translations.
+
+To enable this service, add ``trans.machine.opentran.OpenTranTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
 
@@ -505,6 +523,9 @@ You can run your own translation memory server which is bundled with
 Translate-toolkit and let Weblate talk to it.
 
 First you will want to import some data to the translation memory:
+
+To enable this service, add ``trans.machine.tmserver.TMServerTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. code-block:: sh
 
@@ -531,6 +552,11 @@ similar strings.
 
 First one is useful for full string translations, the second one for finding
 individual phrases or words to keep the translation consistent.
+
+To enable these services, add
+``trans.machine.weblatetm.WeblateSimilarTranslation`` (for similar string
+maching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
+string maching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. _custom-checks:
 
