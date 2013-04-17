@@ -441,7 +441,7 @@ class PoFormat(FileFormat):
 register_fileformat(PoFormat)
 
 
-class PoMonoFormat(FileFormat):
+class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
     loader = ('po', 'pofile')
