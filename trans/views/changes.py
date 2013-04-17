@@ -20,6 +20,7 @@
 
 from django.views.generic.list import ListView
 from trans.models.changes import Change
+from trans.views.helper import get_project_translation
 
 class ChangesView(ListView):
     '''
@@ -31,4 +32,20 @@ class ChangesView(ListView):
         '''
         Returns list of changes to browse.
         '''
-        return Change.objects.all()
+        project, subproject, translation = get_project_translation(
+            self.request,
+            self.request.GET.get('project', None),
+            self.request.GET.get('subproject', None),
+            self.request.GET.get('lang', None),
+        )
+
+        result = Change.objects.all()
+
+        if translation is not None:
+            result = result.filter(translation=translation)
+        elif subproject is not None:
+            result = result.filter(translation__subproject=subproject)
+        elif project is not None:
+            result = result.filter(translation__subproject__project=project)
+
+        return result
