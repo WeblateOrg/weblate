@@ -37,16 +37,25 @@ class ChangesTest(ViewTestCase):
             {'project': 'test'}
         )
         self.assertContains(response, 'Resource update')
+        self.assertNotContains(response, 'Invalid search string!')
         response = self.client.get(
             reverse('changes'),
             {'project': 'test', 'subproject': 'test'}
         )
         self.assertContains(response, 'Resource update')
+        self.assertNotContains(response, 'Invalid search string!')
         response = self.client.get(
             reverse('changes'),
             {'project': 'test', 'subproject': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
+        self.assertNotContains(response, 'Invalid search string!')
+        response = self.client.get(
+            reverse('changes'),
+            {'lang': 'cs'}
+        )
+        self.assertContains(response, 'Resource update')
+        self.assertNotContains(response, 'Invalid search string!')
         response = self.client.get(
             reverse('changes'),
             {'project': 'testx', 'subproject': 'test', 'lang': 'cs'}

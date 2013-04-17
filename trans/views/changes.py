@@ -23,6 +23,7 @@ from django.http import Http404
 from django.contrib import messages
 from trans.models.changes import Change
 from trans.views.helper import get_project_translation
+from lang.models import Language
 
 class ChangesView(ListView):
     '''
@@ -34,18 +35,31 @@ class ChangesView(ListView):
         '''
         Returns list of changes to browse.
         '''
-        try:
-            project, subproject, translation = get_project_translation(
-                self.request,
-                self.request.GET.get('project', None),
-                self.request.GET.get('subproject', None),
-                self.request.GET.get('lang', None),
-            )
-        except Http404:
-            messages.error(self.request, _('Invalid search string!'))
-            project = None
-            subproject = None
-            translation = None
+        project = None
+        subproject = None
+        translation = None
+        language = None
+
+        # Filtering by translation/project
+        if 'project' in self.request.GET:
+            try:
+                project, subproject, translation = get_project_translation(
+                    self.request,
+                    self.request.GET.get('project', None),
+                    self.request.GET.get('subproject', None),
+                    self.request.GET.get('lang', None),
+                )
+            except Http404:
+                messages.error(self.request, _('Invalid search string!'))
+
+        # Filtering by language
+        if translation is None and 'lang' in self.request.GET:
+            try:
+                language = Language.objects.get(
+                    code=self.request.GET['lang']
+                )
+            except Language.DoesNotExist:
+                messages.error(self.request, _('Invalid search string!'))
 
         result = Change.objects.all()
 
@@ -55,5 +69,8 @@ class ChangesView(ListView):
             result = result.filter(translation__subproject=subproject)
         elif project is not None:
             result = result.filter(translation__subproject__project=project)
+
+        if language is not None:
+            result = result.filter(translation__language=language)
 
         return result
