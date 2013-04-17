@@ -297,6 +297,7 @@ class FileFormat(object):
         Creates file format object, wrapping up translate-toolkit's
         store.
         '''
+        self.storefile = storefile
         # Load store
         self.store = self.load(storefile)
         # Remember template
