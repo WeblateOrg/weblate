@@ -100,14 +100,14 @@ class ViewTestCase(RepoTestCase):
         unit.save_backend(self.get_request('/'))
 
     def edit_unit(self, source, target, **kwargs):
-        unit = self.translation.unit_set.get(source=source)
+        unit = self.get_translation().unit_set.get(source=source)
         params = {
             'checksum': unit.checksum,
             'target': target,
         }
         params.update(kwargs)
         return self.client.post(
-            self.translate_url,
+            self.get_translation().get_translate_url(),
             params
         )
 
