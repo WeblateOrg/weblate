@@ -19,6 +19,8 @@
 #
 
 from django.views.generic.list import ListView
+from django.http import Http404
+from django.contrib import messages
 from trans.models.changes import Change
 from trans.views.helper import get_project_translation
 
@@ -32,12 +34,18 @@ class ChangesView(ListView):
         '''
         Returns list of changes to browse.
         '''
-        project, subproject, translation = get_project_translation(
-            self.request,
-            self.request.GET.get('project', None),
-            self.request.GET.get('subproject', None),
-            self.request.GET.get('lang', None),
-        )
+        try:
+            project, subproject, translation = get_project_translation(
+                self.request,
+                self.request.GET.get('project', None),
+                self.request.GET.get('subproject', None),
+                self.request.GET.get('lang', None),
+            )
+        except Http404:
+            messages.error(self.request, _('Invalid search string!'))
+            project = None
+            subproject = None
+            translation = None
 
         result = Change.objects.all()
 
