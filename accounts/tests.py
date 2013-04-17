@@ -240,7 +240,7 @@ class NotificationTest(ViewTestCase):
             'Error\nstatus'
         )
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
@@ -250,7 +250,7 @@ class NotificationTest(ViewTestCase):
     def test_notify_new_string(self):
         notify_new_string(self.get_translation())
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
@@ -268,7 +268,7 @@ class NotificationTest(ViewTestCase):
             self.second_user()
         )
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
@@ -282,7 +282,7 @@ class NotificationTest(ViewTestCase):
             self.second_user()
         )
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
@@ -302,7 +302,7 @@ class NotificationTest(ViewTestCase):
             self.second_user()
         )
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
@@ -323,7 +323,7 @@ class NotificationTest(ViewTestCase):
             ''
         )
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
@@ -344,7 +344,7 @@ class NotificationTest(ViewTestCase):
             'noreply@weblate.org'
         )
 
-        # Check  mail
+        # Check mail
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(
             mail.outbox[0].subject,
