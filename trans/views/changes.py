@@ -22,6 +22,7 @@ from django.views.generic.list import ListView
 from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext as _
 from trans.models.changes import Change
 from trans.views.helper import get_project_translation
 from lang.models import Language
