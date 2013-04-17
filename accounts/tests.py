@@ -329,3 +329,28 @@ class NotificationTest(ViewTestCase):
             mail.outbox[0].subject,
             '[Weblate] New comment in Test/Test'
         )
+
+    def test_notify_new_comment_report(self):
+        unit = self.get_unit()
+        notify_new_comment(
+            unit,
+            Comment.objects.create(
+                checksum=unit.checksum,
+                project=unit.translation.subproject.project,
+                language=None,
+                comment='Foo'
+            ),
+            self.second_user(),
+            'noreply@weblate.org'
+        )
+
+        # Check  mail
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New comment in Test/Test'
+        )
+        self.assertEqual(
+            mail.outbox[1].subject,
+            '[Weblate] New comment in Test/Test'
+        )
