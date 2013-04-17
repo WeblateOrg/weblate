@@ -234,7 +234,6 @@ $(function () {
     $('.button').button();
     $('#breadcrumbs').buttonset();
     load_progress();
-    $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
     $('#navi').buttonset();
