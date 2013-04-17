@@ -190,7 +190,6 @@ class ExportTest(ViewTestCase):
                 kwargs=self.kw_translation
             )
         )
-        self.assertContains(response, 'Weblate Hello World 2012')
         self.assertEqual(
             response['Content-Disposition'],
             'attachment; filename=cs.mo'
