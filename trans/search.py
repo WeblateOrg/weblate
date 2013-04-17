@@ -200,7 +200,8 @@ class Index(object):
         '''
         Commits pending changes.
         '''
-        self._source_writer.commit()
+        if self._source_writer is not None:
+            self._source_writer.commit()
         for lang in self._target_writer:
             self._target_writer[lang].commit()
 
