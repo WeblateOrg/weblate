@@ -374,6 +374,7 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
         self.assertEqual(len(unit.active_checks()), 2)
+        self.assertEqual(unit.translation.failing_checks, 1)
 
         # Ignore one of checks
         check_id = unit.checks()[0].id
@@ -386,6 +387,7 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
         self.assertEqual(len(unit.active_checks()), 1)
+        self.assertEqual(unit.translation.failing_checks, 1)
 
         # Ignore second checks
         check_id = unit.active_checks()[0].id
@@ -398,6 +400,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 2)
         self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(unit.translation.failing_checks, 0)
 
         # Save with no failing checks
         response = self.edit_unit(
@@ -410,6 +413,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(unit.translation.failing_checks, 0)
 
     def test_commit_push(self):
         response = self.edit_unit(
