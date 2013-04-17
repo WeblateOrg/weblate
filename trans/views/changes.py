@@ -21,6 +21,7 @@
 from django.views.generic.list import ListView
 from django.http import Http404
 from django.contrib import messages
+from django.contrib.auth.models import User
 from trans.models.changes import Change
 from trans.views.helper import get_project_translation
 from lang.models import Language
@@ -39,6 +40,7 @@ class ChangesView(ListView):
         subproject = None
         translation = None
         language = None
+        user = None
 
         # Filtering by translation/project
         if 'project' in self.request.GET:
@@ -61,6 +63,15 @@ class ChangesView(ListView):
             except Language.DoesNotExist:
                 messages.error(self.request, _('Invalid search string!'))
 
+        # Filtering by user
+        if 'user' in self.request.GET:
+            try:
+                user = User.objects.get(
+                    username=self.request.GET['user']
+                )
+            except User.DoesNotExist:
+                messages.error(self.request, _('Invalid search string!'))
+
         result = Change.objects.all()
 
         if translation is not None:
@@ -72,5 +83,8 @@ class ChangesView(ListView):
 
         if language is not None:
             result = result.filter(translation__language=language)
+
+        if user is not None:
+            result = result.filter(user=user)
 
         return result

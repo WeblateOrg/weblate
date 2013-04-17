@@ -62,3 +62,15 @@ class ChangesTest(ViewTestCase):
         )
         self.assertContains(response, 'Resource update')
         self.assertContains(response, 'Invalid search string!')
+
+    def test_user(self):
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        response = self.client.get(
+            reverse('changes'),
+            {'user': self.user.username}
+        )
+        self.assertContains(response, 'New translation')
+        self.assertNotContains(response, 'Invalid search string!')
