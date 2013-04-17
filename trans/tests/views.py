@@ -387,6 +387,18 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 2)
         self.assertEqual(len(unit.active_checks()), 1)
 
+        # Ignore second checks
+        check_id = unit.active_checks()[0].id
+        response = self.client.get(
+            reverse('js-ignore-check', kwargs={'check_id': check_id})
+        )
+        self.assertContains(response, 'ok')
+        # Should have one less check
+        unit = self.get_unit()
+        self.assertFalse(unit.has_failing_check)
+        self.assertEqual(len(unit.checks()), 2)
+        self.assertEqual(len(unit.active_checks()), 0)
+
         # Save with no failing checks
         response = self.edit_unit(
             'Hello, world!\n',
