@@ -211,6 +211,18 @@ class RegistrationForm(RegistrationFormUniqueEmail):
     Registration form, please note it does not save first/last name
     this is done by signal handler in accounts.models.
     '''
+    username = forms.RegexField(
+        regex=r'^[\w.@+-]+$',
+        max_length=30,
+        widget=forms.TextInput(attrs=attrs_dict),
+        label=_("Username"),
+        error_messages={
+            'invalid': _(
+                'This value may contain only letters, '
+                'numbers and following characters: @ . + - _'
+            )
+        }
+    )
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)
