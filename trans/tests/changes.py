@@ -30,3 +30,20 @@ class ChangesTest(ViewTestCase):
     def test_basic(self):
         response = self.client.get(reverse('changes'))
         self.assertContains(response, 'Resource update')
+
+    def test_filter(self):
+        response = self.client.get(
+            reverse('changes'),
+            {'project': 'test'}
+        )
+        self.assertContains(response, 'Resource update')
+        response = self.client.get(
+            reverse('changes'),
+            {'project': 'test', 'subproject': 'test'}
+        )
+        self.assertContains(response, 'Resource update')
+        response = self.client.get(
+            reverse('changes'),
+            {'project': 'test', 'subproject': 'test', 'lang': 'cs'}
+        )
+        self.assertContains(response, 'Resource update')
