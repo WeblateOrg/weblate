@@ -577,7 +577,9 @@ class Unit(models.Model):
         '''
         Stores unit to backend.
         '''
-        from accounts.models import Profile
+        from accounts.models import (
+            notify_new_translation, notify_new_contributor
+        )
         from trans.models.changes import Change
 
         # Update lock timestamp
@@ -636,13 +638,7 @@ class Unit(models.Model):
         self.translation.update_stats()
 
         # Notify subscribed users about new translation
-        subscriptions = Profile.objects.subscribed_any_translation(
-            self.translation.subproject.project,
-            self.translation.language,
-            request.user
-        )
-        for subscription in subscriptions:
-            subscription.notify_any_translation(self, oldunit)
+        notify_new_translation(self, oldunit, request.user)
 
         # Update user stats
         profile = request.user.get_profile()
@@ -655,16 +651,7 @@ class Unit(models.Model):
             user=request.user
         )
         if not user_changes.exists():
-            # Get list of subscribers for new contributor
-            subscriptions = Profile.objects.subscribed_new_contributor(
-                self.translation.subproject.project,
-                self.translation.language,
-                request.user
-            )
-            for subscription in subscriptions:
-                subscription.notify_new_contributor(
-                    self.translation, request.user
-                )
+            notify_new_contributor(self, request.user)
 
         # Generate Change object for this change
         if gen_change:
@@ -997,7 +984,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Suggestion
         from trans.models.changes import Change
-        from accounts.models import Profile
+        from accounts.models import notify_new_suggestion
 
         if not user.is_authenticated():
             user = None
@@ -1020,17 +1007,7 @@ class Unit(models.Model):
         )
 
         # Notify subscribed users
-        subscriptions = Profile.objects.subscribed_new_suggestion(
-            self.translation.subproject.project,
-            self.translation.language,
-            user
-        )
-        for subscription in subscriptions:
-            subscription.notify_new_suggestion(
-                self.translation,
-                suggestion,
-                self
-            )
+        notify_new_suggestion(self, suggestion, user)
 
         # Update suggestion stats
         if user is not None:
@@ -1048,7 +1025,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Comment
         from trans.models.changes import Change
-        from accounts.models import Profile, send_notification_email
+        from accounts.models import notify_new_comment
 
         new_comment = Comment.objects.create(
             user=user,
@@ -1075,26 +1052,9 @@ class Unit(models.Model):
             unit.update_has_comment()
 
         # Notify subscribed users
-        subscriptions = Profile.objects.subscribed_new_comment(
-            self.translation.subproject.project,
-            lang,
-            user
+        notify_new_comment(
+            self,
+            new_comment,
+            user,
+            self.translation.subproject.report_source_bugs
         )
-        for subscription in subscriptions:
-            subscription.notify_new_comment(self, new_comment)
-
-        # Notify upstream
-        report_source_bugs = self.translation.subproject.report_source_bugs
-        if lang is None and report_source_bugs != '':
-            send_notification_email(
-                'en',
-                report_source_bugs,
-                'new_comment',
-                self.translation,
-                {
-                    'unit': self,
-                    'comment': new_comment,
-                    'subproject': self.translation.subproject,
-                },
-                from_email=user.email,
-            )

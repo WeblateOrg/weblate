@@ -561,12 +561,8 @@ class Translation(models.Model, URLMixin):
 
         # Notify subscribed users
         if was_new:
-            from accounts.models import Profile
-            subscriptions = Profile.objects.subscribed_new_string(
-                self.subproject.project, self.language
-            )
-            for subscription in subscriptions:
-                subscription.notify_new_string(self)
+            from accounts.models import notify_new_string
+            notify_new_string(self)
 
     @property
     def git_repo(self):
