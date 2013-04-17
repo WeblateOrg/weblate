@@ -99,6 +99,36 @@ class ViewTestCase(RepoTestCase):
         unit.target = target
         unit.save_backend(self.get_request('/'))
 
+    def edit_unit(self, source, target, **kwargs):
+        unit = self.translation.unit_set.get(source=source)
+        params = {
+            'checksum': unit.checksum,
+            'target': target,
+        }
+        params.update(kwargs)
+        return self.client.post(
+            self.translate_url,
+            params
+        )
+
+    def assertRedirectsOffset(self, response, exp_path, exp_offset):
+        '''
+        Asserts that offset in response matches expected one.
+        '''
+        self.assertEqual(response.status_code, 302)
+
+        # We don't use all variables
+        # pylint: disable=W0612
+        scheme, netloc, path, query, fragment = urlsplit(response['Location'])
+
+        self.assertEqual(path, exp_path)
+
+        exp_offset = 'offset=%d' % exp_offset
+        self.assertTrue(
+            exp_offset in query,
+            'Offset %s not in %s' % (exp_offset, query)
+        )
+
     def assertPNG(self, response):
         '''
         Checks whether response contains valid PNG image.
@@ -186,36 +216,6 @@ class EditTest(ViewTestCase):
             language_code='cs'
         )
         self.translate_url = self.translation.get_translate_url()
-
-    def edit_unit(self, source, target, **kwargs):
-        unit = self.translation.unit_set.get(source=source)
-        params = {
-            'checksum': unit.checksum,
-            'target': target,
-        }
-        params.update(kwargs)
-        return self.client.post(
-            self.translate_url,
-            params
-        )
-
-    def assertRedirectsOffset(self, response, exp_path, exp_offset):
-        '''
-        Asserts that offset in response matches expected one.
-        '''
-        self.assertEqual(response.status_code, 302)
-
-        # We don't use all variables
-        # pylint: disable=W0612
-        scheme, netloc, path, query, fragment = urlsplit(response['Location'])
-
-        self.assertEqual(path, exp_path)
-
-        exp_offset = 'offset=%d' % exp_offset
-        self.assertTrue(
-            exp_offset in query,
-            'Offset %s not in %s' % (exp_offset, query)
-        )
 
     def test_edit(self):
         response = self.edit_unit(
