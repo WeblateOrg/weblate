@@ -25,7 +25,7 @@ class ChangesView(ListView):
     '''
     Browser for changes.
     '''
-    paginate_by = 5
+    paginate_by = 20
 
     def get_queryset(self):
         '''
