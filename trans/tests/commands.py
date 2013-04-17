@@ -118,6 +118,10 @@ class ImportProjectTest(RepoTestCase):
 
 
 class PeriodicTest(RepoTestCase):
+    def setUp(self):
+        super(PeriodicTest, self).setUp()
+        self.create_subproject()
+
     def test_cleanup(self):
         call_command(
             'cleanuptrans'
