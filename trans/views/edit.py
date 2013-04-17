@@ -480,19 +480,9 @@ def translate(request, project, subproject, lang):
                 'last_changes': unit.change_set.all()[:10],
                 'last_changes_rss': reverse(
                     'rss-translation',
-                    kwargs={
-                        'lang': obj.language.code,
-                        'subproject': obj.subproject.slug,
-                        'project': obj.subproject.project.slug
-                    }
+                    kwargs=obj.get_kwargs(),
                 ),
-                'last_changes_url': urlencode(
-                    {
-                        'lang': obj.language.code,
-                        'subproject': obj.subproject.slug,
-                        'project': obj.subproject.project.slug
-                    }
-                ),
+                'last_changes_url': urlencode(obj.get_kwargs()),
                 'total': obj.unit_set.all().count(),
                 'search_id': search_result['search_id'],
                 'offset': offset,
