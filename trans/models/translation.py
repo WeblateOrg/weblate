@@ -1204,7 +1204,7 @@ class Translation(models.Model, URLMixin):
             cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
             cache.delete(cache_key)
 
-    def get_gwargs(self):
+    def get_kwargs(self):
         return {
             'lang': self.language.code,
             'subproject': self.subproject.slug,
