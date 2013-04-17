@@ -119,6 +119,13 @@ class MachineTranslation(object):
     def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
+
+        Should return tuple - (translation text, translation quality, source of
+        translation, source string).
+
+        You can use self.name as source of translation, if you can not give
+        better hint and text parameter as source string if you do no fuzzy
+        matching.
         '''
         raise NotImplementedError()
 

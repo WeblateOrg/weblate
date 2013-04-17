@@ -558,6 +558,16 @@ To enable these services, add
 maching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
 string maching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
 
+Custom machine translation
+++++++++++++++++++++++++++
+
+You can also implement own machine translation services using few lines of
+Python code. Following example implements translation to fixed list of
+languages using ``dictionary`` Python module:
+
+.. literalinclude:: ../examples/mt_service.py
+    :language: python
+
 .. _custom-checks:
 
 Customizing checks
