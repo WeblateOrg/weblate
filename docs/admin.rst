@@ -568,6 +568,9 @@ languages using ``dictionary`` Python module:
 .. literalinclude:: ../examples/mt_service.py
     :language: python
 
+You can list own class in :setting:`MACHINE_TRANSLATION_SERVICES` and Weblate
+will start using that.
+
 .. _custom-checks:
 
 Customizing checks
@@ -587,25 +590,8 @@ Checking translation text does not contain "foo"
 This is pretty simple check which just checks whether translation does not
 contain string "foo".
 
-.. code-block:: python
-
-    from trans.checks import TargetCheck
-    from django.utils.translation import ugettext_lazy as _
-
-    class FooCheck(TargetCheck):
-
-        # Used as identifier for check, should be unique
-        check_id = 'foo'
-
-        # Short name used to display failing check
-        name = _('Foo check')
-
-        # Description for failing check
-        description = _('Your translation is foo')
-
-        # Real check code
-        def check_single(self, source, target, unit):
-            return 'foo' in target
+.. literalinclude:: ../examples/check_foo.py
+    :language: python
 
 Checking Czech translation text plurals differ
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -613,24 +599,5 @@ Checking Czech translation text plurals differ
 Check using language information to verify that two plural forms in Czech
 language are not same.
 
-.. code-block:: python
-
-    from trans.checks import TargetCheck
-    from django.utils.translation import ugettext_lazy as _
-
-    class PluralCzechCheck(TargetCheck):
-
-        # Used as identifier for check, should be unique
-        check_id = 'foo'
-
-        # Short name used to display failing check
-        name = _('Foo check')
-
-        # Description for failing check
-        description = _('Your translation is foo')
-
-        # Real check code
-        def check(self, sources, targets, unit):
-            if self.is_language(unit, ['cs']):
-                return targets[1] == targets[2]
-            return False
+.. literalinclude:: ../examples/check_czech.py
+    :language: python
