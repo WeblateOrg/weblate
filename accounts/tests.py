@@ -154,9 +154,9 @@ class ViewTest(TestCase):
             username='testuser',
             password='testpassword',
         )
-        user.first_name='First'
-        user.last_name='Second'
-        user.email='noreply@weblate.org'
+        user.first_name = 'First'
+        user.last_name = 'Second'
+        user.email = 'noreply@weblate.org'
         user.save()
         Profile.objects.get_or_create(user=user)
         # Login
