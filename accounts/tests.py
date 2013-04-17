@@ -129,6 +129,14 @@ class ViewTest(TestCase):
             '[Weblate] Message from dark side'
         )
 
+    def test_contact_subject(self):
+        # With set subject
+        response = self.client.get(
+            reverse('contact'),
+            {'subject': 'Weblate test message'}
+        )
+        self.assertContains(response, 'Weblate test message')
+
     def test_user(self):
         '''
         Test user pages.
