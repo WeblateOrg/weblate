@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-04-17 14:23+0200\n"
-"PO-Revision-Date: 2013-04-10 17:01+0200\n"
+"PO-Revision-Date: 2013-04-17 14:51+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
-">\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,6 +56,7 @@ msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
 msgstr ""
+"Ta vrednost lahko vsebuje samo črke, številke in naslednje znake: @ . + - _"
 
 #: accounts/forms.py:240
 msgid "At least five characters long."
@@ -311,10 +311,9 @@ msgid "Gettext PO file"
 msgstr "Datoteka Gettext PO"
 
 #: trans/formats.py:487
-#, fuzzy
 #| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
-msgstr "Datoteka Gettext PO"
+msgstr "Datoteka Gettext PO (enojezična)"
 
 #: trans/formats.py:496
 msgid "Qt Linguist Translation File"
@@ -1010,10 +1009,10 @@ msgid "Format of translation template could not be recognized."
 msgstr "Oblike predloge prevoda ni mogoče prepoznati."
 
 #: trans/models/subproject.py:772
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
-msgstr "Razčlenjevanje predloge prevoda ni uspelo."
+msgstr "Razčlenjevanje predloge prevoda je spodletelo: %s"
 
 #: trans/models/subproject.py:793
 msgid "The mask did not match any files!"
@@ -2674,7 +2673,6 @@ msgid "Ignore: %(check)s"
 msgstr "Prezri: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -2696,14 +2694,14 @@ msgid "Suggestions"
 msgstr "Predlogi"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Copy word to translation"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "Kopiraj besedo v prevod"
-msgstr[1] "Kopiraj besedo v prevod"
-msgstr[2] "Kopiraj besedo v prevod"
-msgstr[3] "Kopiraj besedo v prevod"
+msgstr[0] "%(words)s beseda za prevod!"
+msgstr[1] "%(words)s besedi za prevod!"
+msgstr[2] "%(words)s besede za prevod!"
+msgstr[3] "%(words)s besed za prevod!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -3105,7 +3103,7 @@ msgstr ""
 "povezave."
 
 #: weblate/html/translation.html:64
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "You can <a href=\"%(download_url)s\">download</a> file for offline "
 #| "translation."
@@ -3113,8 +3111,8 @@ msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
-"<a href=\"%(download_url)s\">Prenesete</a> lahko datoteko za prevajanje brez "
-"povezave."
+"<a href=\"%(pack_download_url)s\">Prenesete</a> lahko tudi prevedeno datoteko "
+"za uporabo s programom."
 
 #: weblate/html/translation.html:68 weblate/html/translation.html.py:80
 msgid "Upload"
@@ -3194,7 +3192,7 @@ msgstr ""
 "%(fuzzy)s &#37; neurejenih."
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "There are %(count)s strings, out of which %(translated)s&#37; is "
 #| "translated and %(fuzzy)s&#37; is fuzzy."
@@ -3202,8 +3200,8 @@ msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
 msgstr ""
-"Tukaj je %(count)s nizov, od katerih je %(translated)s &#37; prevedenih in "
-"%(fuzzy)s &#37; neurejenih."
+"Tukaj je %(words)s besed, od katerih je %(percent)s &#37; (%(translated)s) "
+"prevedenih."
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
@@ -3938,22 +3936,19 @@ msgstr ""
 "kot prevedena vsebina."
 
 #: weblate/html/trans/change_list.html:7
-#, fuzzy
 #| msgid "Recent changes"
 msgid "changes"
-msgstr "Nedavne spremembe"
+msgstr "spremembe"
 
 #: weblate/html/trans/change_list.html:12
-#, fuzzy
 #| msgid "Change word"
 msgid "Changes"
-msgstr "Spremeni besedo"
+msgstr "Spremembe"
 
 #: weblate/html/trans/change_list.html:42
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
-msgstr "Zabeležil nisem nobene nedavne dejavnosti."
+msgstr "Ni bilo najti nobene ustrezne dejavnosti."
 
 #~ msgid "%(branch)s branch"
 #~ msgstr "Podveja %(branch)s"
