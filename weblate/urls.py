@@ -27,6 +27,7 @@ from trans.feeds import (
     TranslationChangesFeed, SubProjectChangesFeed,
     ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 )
+from trans.views.changes import ChangesView
 from weblate.sitemaps import sitemaps
 import accounts.urls
 
@@ -393,6 +394,13 @@ urlpatterns = patterns(
         r'^checks/(?P<name>[^/]+)/' + SUBPROJECT + '$',
         'trans.views.checks.show_check_subproject',
         name='show_check_subproject',
+    ),
+
+    # Changes browsing
+    url(
+        r'^changes/$',
+        ChangesView.as_view(),
+        name='changes',
     ),
 
     # Notification hooks
