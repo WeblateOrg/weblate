@@ -46,6 +46,7 @@ from trans.views.helper import (
 import weblate
 
 import datetime
+from urllib import urlencode
 
 
 def home(request):
@@ -90,6 +91,7 @@ def home(request):
         'top_suggestions': top_suggestions,
         'last_changes': last_changes,
         'last_changes_rss': reverse('rss'),
+        'last_changes_url': '',
         'usertranslations': usertranslations,
     }))
 
@@ -114,6 +116,7 @@ def show_language(request, lang):
         'object': obj,
         'last_changes': last_changes,
         'last_changes_rss': reverse('rss-language', kwargs={'lang': obj.code}),
+        'last_changes_url': urlencode({'lang': obj.code}),
         'dicts': Project.objects.filter(id__in=dicts),
     }))
 
@@ -182,6 +185,9 @@ def show_project(request, project):
             'rss-project',
             kwargs={'project': obj.slug}
         ),
+        'last_changes_url': urlencode(
+            {'project': obj.slug}
+        ),
     }))
 
 
@@ -198,6 +204,9 @@ def show_subproject(request, project, subproject):
         'last_changes_rss': reverse(
             'rss-subproject',
             kwargs={'subproject': obj.slug, 'project': obj.project.slug}
+        ),
+        'last_changes_url': urlencode(
+            {'subproject': obj.slug, 'project': obj.project.slug}
         ),
     }))
 
@@ -307,6 +316,13 @@ def show_translation(request, project, subproject, lang):
         'last_changes_rss': reverse(
             'rss-translation',
             kwargs={
+                'lang': obj.language.code,
+                'subproject': obj.subproject.slug,
+                'project': obj.subproject.project.slug
+            }
+        ),
+        'last_changes_url': urlencode(
+            {
                 'lang': obj.language.code,
                 'subproject': obj.subproject.slug,
                 'project': obj.subproject.project.slug

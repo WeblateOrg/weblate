@@ -24,9 +24,11 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.urlresolvers import reverse
 from django.utils import formats
 import uuid
 import time
+from urllib import urlencode
 
 from trans.models import SubProject, Unit, Suggestion, Change
 from trans.forms import (
@@ -476,6 +478,21 @@ def translate(request, project, subproject, lang):
                 'object': obj,
                 'unit': unit,
                 'last_changes': unit.change_set.all()[:10],
+                'last_changes_rss': reverse(
+                    'rss-translation',
+                    kwargs={
+                        'lang': obj.language.code,
+                        'subproject': obj.subproject.slug,
+                        'project': obj.subproject.project.slug
+                    }
+                ),
+                'last_changes_url': urlencode(
+                    {
+                        'lang': obj.language.code,
+                        'subproject': obj.subproject.slug,
+                        'project': obj.subproject.project.slug
+                    }
+                ),
                 'total': obj.unit_set.all().count(),
                 'search_id': search_result['search_id'],
                 'offset': offset,

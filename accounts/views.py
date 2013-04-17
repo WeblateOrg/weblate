@@ -30,6 +30,7 @@ from django.utils import translation
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
+from urllib import urlencode
 
 from accounts.models import set_lang
 from trans.models import Change, Project
@@ -205,6 +206,7 @@ def user_page(request, user):
                 'page_profile': profile,
                 'page_user': user,
                 'last_changes': last_changes,
+                'last_changes_url': urlencode({'user': user.username}),
                 'user_projects': user_projects,
             }
         )
