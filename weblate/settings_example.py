@@ -380,6 +380,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.machine.microsoft.MicrosoftTranslation',
 #    'trans.machine.mymemory.MyMemoryTranslation',
 #    'trans.machine.opentran.OpenTranTranslation',
+#    'trans.machine.tmserver.AmagamaTranslation',
 #    'trans.machine.tmserver.TMServerTranslation',
 #    'trans.machine.weblatetm.WeblateSimilarTranslation',
 #    'trans.machine.weblatetm.WeblateTranslation',

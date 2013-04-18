@@ -27,6 +27,7 @@ from trans.machine.glosbe import GlosbeTranslation
 from trans.machine.mymemory import MyMemoryTranslation
 from trans.machine.opentran import OpenTranTranslation
 from trans.machine.apertium import ApertiumTranslation
+from trans.machine.tmserver import AmagamaTranslation
 from trans.machine.microsoft import (
     MicrosoftTranslation, microsoft_translation_supported
 )
@@ -80,6 +81,10 @@ class MachineTranslationTest(TestCase):
 
     def test_google(self):
         machine = GoogleTranslation()
+        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+
+    def test_amagama(self):
+        machine = AmagamaTranslation()
         self.assertIsInstance(machine.translate('cs', 'world', None), list)
 
 

@@ -73,3 +73,11 @@ class TMServerTranslation(MachineTranslation):
 
         return [(line['target'], line['quality'], self.name, line['source'])
                 for line in response]
+
+
+class AmagamaTranslation(TMServerTranslation):
+    '''
+    Specific instance of tmserver ran by Virtaal authors.
+    '''
+    def get_server_url(self):
+        return 'http://amagama.locamotion.org'

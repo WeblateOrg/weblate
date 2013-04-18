@@ -425,6 +425,16 @@ up to adminitrator to enable them. The services have different terms of use, so
 please check whether you are allowed to use them before enabling in Weblate.
 The individual services are enabled using :setting:`MACHINE_TRANSLATION_SERVICES`.
 
+Amagama
++++++++
+
+Special installation of :ref:`tmserver` run by Virtaal authors.
+
+To enable this service, add ``trans.machine.tmserver.AmagamaTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. seealso:: http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html
+
 Apertium
 ++++++++
 
