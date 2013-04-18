@@ -17,7 +17,7 @@
 <th>{% trans "Translation" %}</th>
 </tr>
 <tbody>
-{% for c in last_changes.select_related %}
+{% for c in last_changes %}
 <tr>
 <td>{{ c.timestamp|naturaltime }}</td>
 <td>{{ c.get_user_display }}</td>

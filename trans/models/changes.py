@@ -107,6 +107,23 @@ class ChangeManager(models.Manager):
         '''
         return self.base_stats(365, 7, *args, **kwargs)
 
+    def all_related(self):
+        '''
+        Includes all related tables in select.
+        '''
+        return self.select_related(
+            'unit',
+            'unit__translation',
+            'unit__translation__subproject',
+            'unit__translation__subproject__project',
+            'unit__translation__language',
+            'translation',
+            'translation__language',
+            'translation__subproject',
+            'translation__subproject__project',
+            'user',
+        )
+
 
 class Change(models.Model):
     ACTION_UPDATE = 0
