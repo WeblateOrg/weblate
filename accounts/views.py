@@ -184,7 +184,7 @@ def user_page(request, user):
     acl_projects = Project.objects.all_acl(request.user)
 
     # Filter all user activity
-    all_changes = Change.objects.filter(
+    all_changes = Change.objects.all_related().filter(
         user=user,
         translation__subproject__project__in=acl_projects,
     )
@@ -193,9 +193,9 @@ def user_page(request, user):
     last_changes = all_changes[:10]
 
     # Filter where project is active
-    user_projects_ids = list(all_changes.values_list(
+    user_projects_ids = set(all_changes.values_list(
         'translation__subproject__project', flat=True
-    ).distinct())
+    ))
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 
     return render_to_response(
