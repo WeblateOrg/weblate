@@ -57,7 +57,7 @@ def home(request):
     projects = Project.objects.all_acl(request.user)
     acl_projects = projects
     if projects.count() == 1:
-        projects = SubProject.objects.filter(project=projects[0])
+        projects = SubProject.objects.filter(project=projects[0]).select_related()
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
