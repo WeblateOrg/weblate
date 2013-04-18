@@ -33,6 +33,7 @@ class ChangesView(ListView):
     Browser for changes.
     '''
     paginate_by = 20
+
     def get_context_data(self, **kwargs):
         '''
         Creates context for rendering page.
