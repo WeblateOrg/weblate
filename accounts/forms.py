@@ -26,7 +26,6 @@ from lang.models import Language
 from trans.models import Project
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
-from django.utils.html import escape
 from django.utils.encoding import force_unicode
 from itertools import chain
 
