@@ -66,7 +66,7 @@ class MyMemoryTranslation(MachineTranslation):
 
     def download_translations(self, language, text, unit):
         '''
-        Downloads list of possible translations from a service.
+        Downloads list of possible translations from MyMemory.
         '''
         args = {
             'q': text,
