@@ -98,6 +98,48 @@ class Suggestion(models.Model, RelatedUnitMixin):
         return get_user_display(self.user, link=True)
 
 
+class CommentManager(models.Manager):
+    def add(self, unit, user, lang, text):
+        '''
+        Adds comment to this unit.
+        '''
+        from trans.models.unitdata import Comment
+        from trans.models.changes import Change
+        from accounts.models import notify_new_comment
+
+        new_comment = Comment.objects.create(
+            user=user,
+            checksum=unit.checksum,
+            project=unit.translation.subproject.project,
+            comment=text,
+            language=lang
+        )
+        Change.objects.create(
+            unit=unit,
+            action=Change.ACTION_COMMENT,
+            translation=unit.translation,
+            user=user
+        )
+
+        # Invalidate counts cache
+        if lang is None:
+            unit.translation.invalidate_cache('sourcecomments')
+        else:
+            unit.translation.invalidate_cache('targetcomments')
+
+        # Update unit stats
+        for unit in new_comment.get_related_units():
+            unit.update_has_comment()
+
+        # Notify subscribed users
+        notify_new_comment(
+            unit,
+            new_comment,
+            user,
+            unit.translation.subproject.report_source_bugs
+        )
+
+
 class Comment(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
@@ -105,6 +147,8 @@ class Comment(models.Model, RelatedUnitMixin):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = CommentManager()
 
     class Meta:
         ordering = ['timestamp']

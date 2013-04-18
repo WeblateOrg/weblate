@@ -31,6 +31,7 @@ import time
 from urllib import urlencode
 
 from trans.models import SubProject, Unit, Suggestion, Change
+from trans.models.unitdata import Comment
 from trans.forms import (
     TranslationForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
@@ -578,7 +579,12 @@ def comment(request, pk):
     form = CommentForm(request.POST)
 
     if form.is_valid():
-        obj.add_comment(request.user, lang, form.cleaned_data['comment'])
+        Comment.objects.add(
+            obj,
+            request.user,
+            lang,
+            form.cleaned_data['comment']
+        )
         messages.info(request, _('Posted new comment'))
     else:
         messages.error(request, _('Failed to add comment!'))
