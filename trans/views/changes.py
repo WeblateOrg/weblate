@@ -33,6 +33,15 @@ class ChangesView(ListView):
     Browser for changes.
     '''
     paginate_by = 20
+    def get_context_data(self, **kwargs):
+        '''
+        Creates context for rendering page.
+        '''
+        context = super(ChangesView, self).get_context_data(
+            **kwargs
+        )
+        context['title'] = _('Changes')
+        return context
 
     def get_queryset(self):
         '''
