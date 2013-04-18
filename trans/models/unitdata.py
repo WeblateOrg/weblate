@@ -51,7 +51,6 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
-        from trans.models.unitdata import Suggestion
         from trans.models.changes import Change
         from accounts.models import notify_new_suggestion
 
@@ -148,7 +147,6 @@ class CommentManager(models.Manager):
         '''
         Adds comment to this unit.
         '''
-        from trans.models.unitdata import Comment
         from trans.models.changes import Change
         from accounts.models import notify_new_comment
 
