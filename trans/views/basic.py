@@ -315,11 +315,11 @@ def show_translation(request, project, subproject, lang):
         'search_form': search_form,
         'review_form': review_form,
         'last_changes': last_changes,
+        'last_changes_url': urlencode(obj.get_kwargs()),
         'last_changes_rss': reverse(
             'rss-translation',
             kwargs=obj.get_kwargs(),
         ),
-        'last_changes_url': urlencode(obj.get_kwargs()),
     }))
 
 
