@@ -73,7 +73,7 @@ function process_machine_translation(data, textStatus, jqXHR) {
             new_row.append($('<td/>').text(el.service));
             new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
             $('#machine-translations').children('tr').each(function (idx) {
-                if ($(this).data('quality') < el.quality) {
+                if ($(this).data('quality') < el.quality && !done) {
                     $(this).before(new_row);
                     done = true;
                 }
