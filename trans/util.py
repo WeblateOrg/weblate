@@ -25,6 +25,7 @@ from django.utils.translation import ugettext as _
 from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 from django.conf import settings
 from importlib import import_module
 import urllib
@@ -104,7 +105,6 @@ def get_user_display(user, icon=True, link=False):
         # None user, probably remotely triggered action
         full_name = _('None')
         email = ''
-        profile = None
     else:
         # Get full name
         full_name = user.get_full_name()
@@ -114,7 +114,6 @@ def get_user_display(user, icon=True, link=False):
             full_name = user.username
 
         email = user.email
-        profile = user.get_profile()
 
     # Escape HTML
     full_name = escape(full_name)
@@ -129,10 +128,10 @@ def get_user_display(user, icon=True, link=False):
             'avatar': avatar
         }
 
-    if link and profile is not None:
+    if link and user is not None:
         return mark_safe('<a href="%(link)s">%(name)s</a>' % {
             'name': full_name,
-            'link': profile.get_absolute_url(),
+            'link': reverse('user_page', kwargs={'user': user.username}),
         })
     else:
         return mark_safe(full_name)
