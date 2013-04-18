@@ -39,7 +39,7 @@ from trans.forms import (
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
-from trans.util import join_plural
+from trans.util import join_plural, get_distinct_translations
 
 
 def get_filter_name(rqtype):
@@ -438,22 +438,14 @@ def translate(request, project, subproject, lang):
             id=unit.translation.language.id
         )
         project = unit.translation.subproject.project
-        secondary = Unit.objects.filter(
-            checksum=unit.checksum,
-            translated=True,
-            translation__subproject__project=project,
-            translation__language__in=secondary_langs,
+        secondary = get_distinct_translations(
+            Unit.objects.filter(
+                checksum=unit.checksum,
+                translated=True,
+                translation__subproject__project=project,
+                translation__language__in=secondary_langs,
+            )
         )
-        # distinct('target') works with Django 1.4 so let's emulate that
-        # based on presumption we won't get too many results
-        targets = {}
-        res = []
-        for lang in secondary:
-            if lang.target in targets:
-                continue
-            targets[lang.target] = 1
-            res.append(lang)
-        secondary = res
         antispam = None
     else:
         secondary = None

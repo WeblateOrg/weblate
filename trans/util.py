@@ -217,3 +217,19 @@ def get_script_name(name):
     parameters.
     '''
     return os.path.basename(name).split()[0]
+
+
+def get_distinct_translations(units):
+    '''
+    Returns list of distinct translations. It should be possible to use
+    distinct('target') since Django 1.4, but it is not supported with MySQL, so
+    let's emulate that based on presumption we won't get too many results.
+    '''
+    targets = {}
+    result = []
+    for unit in units:
+        if unit.target in targets:
+            continue
+        targets[unit.target] = 1
+        result.append(lang)
+    return result
