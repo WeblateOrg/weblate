@@ -28,7 +28,19 @@ from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.conf import settings
 from django.core.management import call_command
-from accounts.models import Profile
+from accounts.models import (
+    Profile,
+    notify_merge_failure,
+    notify_new_string,
+    notify_new_suggestion,
+    notify_new_comment,
+    notify_new_translation,
+    notify_new_contributor,
+)
+
+from trans.tests.views import ViewTestCase
+from trans.models.unitdata import Suggestion, Comment
+from lang.models import Language
 
 
 class RegistrationTest(TestCase):
@@ -129,6 +141,32 @@ class ViewTest(TestCase):
             '[Weblate] Message from dark side'
         )
 
+    def test_contact_subject(self):
+        # With set subject
+        response = self.client.get(
+            reverse('contact'),
+            {'subject': 'Weblate test message'}
+        )
+        self.assertContains(response, 'Weblate test message')
+
+    def test_contact_user(self):
+        user = User.objects.create_user(
+            username='testuser',
+            password='testpassword',
+        )
+        user.first_name = 'First'
+        user.last_name = 'Second'
+        user.email = 'noreply@weblate.org'
+        user.save()
+        Profile.objects.get_or_create(user=user)
+        # Login
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(
+            reverse('contact'),
+        )
+        self.assertContains(response, 'value="First Second"')
+        self.assertContains(response, 'noreply@weblate.org')
+
     def test_user(self):
         '''
         Test user pages.
@@ -149,6 +187,170 @@ class ViewTest(TestCase):
         )
         self.assertContains(response, 'src="/activity')
 
+
+class ProfileTest(ViewTestCase):
+    def test_profile(self):
         # Get profile page
         response = self.client.get(reverse('profile'))
         self.assertContains(response, 'class="tabs preferences"')
+
+        # Save profile
+        response = self.client.post(
+            reverse('profile'),
+            {
+                'language': 'cs',
+                'languages': Language.objects.get(code='cs').id,
+                'secondary_languages': Language.objects.get(code='cs').id,
+                'first_name': 'First',
+                'last_name': 'Last',
+                'email': 'noreply@weblate.org',
+            }
+        )
+        self.assertRedirects(response, reverse('profile'))
+
+
+class NotificationTest(ViewTestCase):
+    def setUp(self):
+        super(NotificationTest, self).setUp()
+        self.user.email = 'noreply@weblate.org'
+        self.user.save()
+        profile = Profile.objects.get(user=self.user)
+        profile.subscribe_any_translation = True
+        profile.subscribe_new_string = True
+        profile.subscribe_new_suggestion = True
+        profile.subscribe_new_contributor = True
+        profile.subscribe_new_comment = True
+        profile.subscribe_merge_failure = True
+        profile.subscriptions.add(self.project)
+        profile.languages.add(
+            Language.objects.get(code='cs')
+        )
+        profile.save()
+
+    def second_user(self):
+        return User.objects.create_user(
+            username='seconduser',
+            password='secondpassword'
+        )
+
+    def test_notify_merge_failure(self):
+        notify_merge_failure(
+            self.subproject,
+            'Failed merge',
+            'Error\nstatus'
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Merge failure in Test/Test'
+        )
+
+    def test_notify_new_string(self):
+        notify_new_string(self.get_translation())
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New string to translate in Test/Test - Czech'
+        )
+
+    def test_notify_new_translation(self):
+        unit = self.get_unit()
+        unit2 = self.get_translation().unit_set.get(
+            source='Thank you for using Weblate.'
+        )
+        notify_new_translation(
+            unit,
+            unit2,
+            self.second_user()
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New translation in Test/Test - Czech'
+        )
+
+    def test_notify_new_contributor(self):
+        unit = self.get_unit()
+        notify_new_contributor(
+            unit,
+            self.second_user()
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New contributor in Test/Test - Czech'
+        )
+
+    def test_notify_new_suggestion(self):
+        unit = self.get_unit()
+        notify_new_suggestion(
+            unit,
+            Suggestion.objects.create(
+                checksum=unit.checksum,
+                project=unit.translation.subproject.project,
+                language=unit.translation.language,
+                target='Foo'
+            ),
+            self.second_user()
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New suggestion in Test/Test - Czech'
+        )
+
+    def test_notify_new_comment(self):
+        unit = self.get_unit()
+        notify_new_comment(
+            unit,
+            Comment.objects.create(
+                checksum=unit.checksum,
+                project=unit.translation.subproject.project,
+                language=unit.translation.language,
+                comment='Foo'
+            ),
+            self.second_user(),
+            ''
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New comment in Test/Test'
+        )
+
+    def test_notify_new_comment_report(self):
+        unit = self.get_unit()
+        notify_new_comment(
+            unit,
+            Comment.objects.create(
+                checksum=unit.checksum,
+                project=unit.translation.subproject.project,
+                language=None,
+                comment='Foo'
+            ),
+            self.second_user(),
+            'noreply@weblate.org'
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New comment in Test/Test'
+        )
+        self.assertEqual(
+            mail.outbox[1].subject,
+            '[Weblate] New comment in Test/Test'
+        )

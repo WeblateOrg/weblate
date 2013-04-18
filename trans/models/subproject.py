@@ -593,25 +593,8 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         Sends out notifications on merge failure.
         '''
         # Notify subscribed users about failure
-        from accounts.models import Profile, send_notification_email
-        subscriptions = Profile.objects.subscribed_merge_failure(
-            self.project,
-        )
-        for subscription in subscriptions:
-            subscription.notify_merge_failure(self, error, status)
-
-        # Notify admins
-        send_notification_email(
-            'en',
-            'ADMINS',
-            'merge_failure',
-            self,
-            {
-                'subproject': self,
-                'status': status,
-                'error': error,
-            }
-        )
+        from accounts.models import notify_merge_failure
+        notify_merge_failure(self, error, status)
 
     def update_branch(self, request=None):
         '''
