@@ -43,6 +43,10 @@ MT_APERTIUM_KEY = get('MT_APERTIUM_KEY', None)
 MT_MICROSOFT_ID = get('MT_MICROSOFT_ID', None)
 MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)
 
+# MyMemory identification email, see
+# http://mymemory.translated.net/doc/spec.php
+MT_MYMEMORY_EMAIL = get('MT_MYMEMORY_EMAIL', None)
+
 # tmserver URL
 MT_TMSERVER = get('MT_TMSERVER', None)
 
