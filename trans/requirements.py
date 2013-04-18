@@ -41,7 +41,38 @@ def get_version_module(module, name, url, optional=False):
     return mod
 
 
-def get_versions(optional=False):
+def get_optional_versions():
+    '''
+    Returns versions of optional modules.
+    '''
+    result = []
+
+    name = 'ICU'
+    url = 'https://pypi.python.org/pypi/PyICU'
+    mod = get_version_module('icu', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            mod.VERSION,
+            '1.0',
+        ))
+
+    name = 'pyLibravatar'
+    url = 'https://pypi.python.org/pypi/pyLibravatar'
+    mod = get_version_module('libravatar', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            'N/A',
+            '',
+        ))
+
+    return result
+
+
+def get_versions():
     '''
     Returns list of used versions.
     '''
@@ -140,29 +171,6 @@ def get_versions(optional=False):
         mod.__version__,
         '0.7',
     ))
-
-    if optional:
-        name = 'ICU'
-        url = 'https://pypi.python.org/pypi/PyICU'
-        mod = get_version_module('icu', name, url, True)
-        if mod is not None:
-            result.append((
-                name,
-                url,
-                mod.VERSION,
-                '1.0',
-            ))
-
-        name = 'pyLibravatar'
-        url = 'https://pypi.python.org/pypi/pyLibravatar'
-        mod = get_version_module('libravatar', name, url, True)
-        if mod is not None:
-            result.append((
-                name,
-                url,
-                'N/A',
-                '',
-            ))
 
     return result
 

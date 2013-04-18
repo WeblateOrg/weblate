@@ -32,7 +32,7 @@ from trans.models import (
     Project, SubProject, Translation, Check,
     Dictionary, Change,
 )
-from trans.requirements import get_versions
+from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
 from trans.forms import (
     UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
@@ -359,7 +359,7 @@ def about(request):
     ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-    context['versions'] = get_versions(True)
+    context['versions'] = get_versions() + get_optional_versions()
 
     return render_to_response('about.html', RequestContext(request, context))
 
