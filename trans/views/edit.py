@@ -30,8 +30,8 @@ import uuid
 import time
 from urllib import urlencode
 
-from trans.models import SubProject, Unit, Suggestion, Change
-from trans.models.unitdata import Comment
+from trans.models import SubProject, Unit, Change
+from trans.models.unitdata import Comment, Suggestion
 from trans.forms import (
     TranslationForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
@@ -218,7 +218,8 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
                 'as your suggestion might otherwise remain unreviewed.'
             ))
         # Create the suggestion
-        unit.add_suggestion(
+        Suggestion.objects.add(
+            unit,
             join_plural(form.cleaned_data['target']),
             user,
         )

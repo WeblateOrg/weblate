@@ -46,12 +46,57 @@ class RelatedUnitMixin(object):
         return related_units
 
 
+class SuggestionManager(models.Manager):
+    def add(self, unit, target, user):
+        '''
+        Creates new suggestion for this unit.
+        '''
+        from trans.models.unitdata import Suggestion
+        from trans.models.changes import Change
+        from accounts.models import notify_new_suggestion
+
+        if not user.is_authenticated():
+            user = None
+
+        # Create the suggestion
+        suggestion = Suggestion.objects.create(
+            target=target,
+            checksum=unit.checksum,
+            language=unit.translation.language,
+            project=unit.translation.subproject.project,
+            user=user
+        )
+
+        # Record in change
+        Change.objects.create(
+            unit=unit,
+            action=Change.ACTION_SUGGESTION,
+            translation=unit.translation,
+            user=user
+        )
+
+        # Notify subscribed users
+        notify_new_suggestion(unit, suggestion, user)
+
+        # Update suggestion stats
+        if user is not None:
+            profile = user.get_profile()
+            profile.suggested += 1
+            profile.save()
+
+        # Update unit flags
+        for relunit in suggestion.get_related_units():
+            relunit.update_has_suggestion()
+
+
 class Suggestion(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
+
+    objects = SuggestionManager()
 
     class Meta:
         permissions = (
