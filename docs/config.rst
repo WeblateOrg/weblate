@@ -208,6 +208,15 @@ Client secret for Microsoft Translator service.
 
 .. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
 
+.. setting:: MT_MYMEMORY_EMAIL
+
+MT_MYMEMORY_EMAIL
+-----------------
+
+MyMemory identification email, you can get 1000 requests per day with this.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/spec.php
+
 .. setting:: MT_TMSERVER
 
 MT_TMSERVER

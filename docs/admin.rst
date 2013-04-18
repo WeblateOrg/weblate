@@ -492,14 +492,15 @@ MyMemory
 
 Huge translation memory with machine translation.
 
-Free, anonymous usage is currently limited to 100 requests/day, you can ask for
-more.
+Free, anonymous usage is currently limited to 100 requests/day, or to 1000 with
+:setting:`MT_MYMEMORY_EMAIL`, you can ask for more.
 
 To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
 
+    :setting:`MT_MYMEMORY_EMAIL`,
     http://mymemory.translated.net/
 
 Open-Tran

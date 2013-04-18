@@ -19,6 +19,7 @@
 #
 
 from trans.machine.base import MachineTranslation
+from weblate import appsettings
 
 
 class MyMemoryTranslation(MachineTranslation):
@@ -67,10 +68,16 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         Downloads list of possible translations from a service.
         '''
+        args = {
+            'q': text,
+            'langpair': 'en|%s' % language,
+        }
+        if appsettings.MT_MYMEMORY_EMAIL is not None:
+            args['de'] = appsettings.MT_MYMEMORY_EMAIL
+
         response = self.json_status_req(
             'http://mymemory.translated.net/api/get',
-            q=text,
-            langpair='en|%s' % language,
+            **args
         )
 
         return [self.format_match(match) for match in response['matches']]
