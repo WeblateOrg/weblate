@@ -31,7 +31,7 @@
 <th>{% trans "Translation" %}</th>
 </tr>
 <tbody>
-{% for c in object_list.select_related %}
+{% for c in object_list %}
 <tr>
 <td>{{ c.timestamp|naturaltime }}</td>
 <td>{{ c.get_user_display }}</td>
