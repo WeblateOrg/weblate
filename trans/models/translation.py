@@ -1080,6 +1080,7 @@ class Translation(models.Model, URLMixin):
         '''
         Merges contect of translate-toolkit store as a suggestions.
         '''
+        from trans.models.unitdata import Suggestion
         ret = False
         for unit in store.all_units():
 

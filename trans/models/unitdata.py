@@ -173,8 +173,8 @@ class CommentManager(models.Manager):
             unit.translation.invalidate_cache('targetcomments')
 
         # Update unit stats
-        for unit in new_comment.get_related_units():
-            unit.update_has_comment()
+        for relunit in new_comment.get_related_units():
+            relunit.update_has_comment()
 
         # Notify subscribed users
         notify_new_comment(
