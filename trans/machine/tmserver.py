@@ -35,10 +35,18 @@ class TMServerTranslation(MachineTranslation):
         Checks configuration.
         '''
         super(TMServerTranslation, self).__init__()
+        self.url = self.get_server_url()
+
+    def get_server_url(self):
+        '''
+        Returns URL of a server.
+        '''
         if MT_TMSERVER is None:
             raise ImproperlyConfigured(
                 'Not configured tmserver URL'
             )
+
+        return MT_TMSERVER.rstrip('/')
 
     def convert_language(self, language):
         '''
@@ -57,7 +65,7 @@ class TMServerTranslation(MachineTranslation):
         Downloads list of possible translations from a service.
         '''
         url = '%s/tmserver/en/%s/unit/%s' % (
-            MT_TMSERVER.rstrip('/'),
+            self.url,
             urllib.quote(language),
             urllib.quote(text.encode('utf-8')),
         )
