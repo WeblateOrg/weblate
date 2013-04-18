@@ -6,6 +6,13 @@ weblate 1.6
 
 Released on ? 2013.
 
+* Nicer error handling on registration.
+* Browsing of changes.
+* Fixed sorting of machine translation suggestions.
+* Improved support for MyMemory machine translation.
+* Added support for Amagama machine translation.
+* Various optimizations on frequently used pages.
+
 weblate 1.5
 -----------
 
