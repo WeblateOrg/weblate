@@ -79,5 +79,7 @@ class AmagamaTranslation(TMServerTranslation):
     '''
     Specific instance of tmserver ran by Virtaal authors.
     '''
+    name = 'Amagama'
+
     def get_server_url(self):
         return 'http://amagama.locamotion.org'
