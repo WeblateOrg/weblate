@@ -87,8 +87,8 @@ def home(request):
 
     return render_to_response('index.html', RequestContext(request, {
         'projects': projects,
-        'top_translations': top_translations,
-        'top_suggestions': top_suggestions,
+        'top_translations': top_translations.select_related('user'),
+        'top_suggestions': top_suggestions.select_related('user'),
         'last_changes': last_changes,
         'last_changes_rss': reverse('rss'),
         'last_changes_url': '',
