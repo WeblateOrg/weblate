@@ -47,6 +47,10 @@ MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)
 # http://mymemory.translated.net/doc/spec.php
 MT_MYMEMORY_EMAIL = get('MT_MYMEMORY_EMAIL', None)
 
+# Optional MyMemory credentials to access private translation memory
+MT_MYMEMORY_USER = get('MT_MYMEMORY_USER', None)
+MT_MYMEMORY_KEY = get('MT_MYMEMORY_KEY', None)
+
 # tmserver URL
 MT_TMSERVER = get('MT_TMSERVER', None)
 

@@ -501,6 +501,8 @@ To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
 .. seealso::
 
     :setting:`MT_MYMEMORY_EMAIL`,
+    :setting:`MT_MYMEMORY_USER`,
+    :setting:`MT_MYMEMORY_KEY`,
     http://mymemory.translated.net/
 
 Open-Tran

@@ -74,6 +74,10 @@ class MyMemoryTranslation(MachineTranslation):
         }
         if appsettings.MT_MYMEMORY_EMAIL is not None:
             args['de'] = appsettings.MT_MYMEMORY_EMAIL
+        if appsettings.MT_MYMEMORY_USER is not None:
+            args['user'] = appsettings.MT_MYMEMORY_USER
+        if appsettings.MT_MYMEMORY_KEY is not None:
+            args['key'] = appsettings.MT_MYMEMORY_KEY
 
         response = self.json_status_req(
             'http://mymemory.translated.net/api/get',
