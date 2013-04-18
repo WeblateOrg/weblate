@@ -533,7 +533,8 @@ tmserver
 ++++++++
 
 You can run your own translation memory server which is bundled with
-Translate-toolkit and let Weblate talk to it.
+Translate-toolkit and let Weblate talk to it. You can also use it with 
+amaGama server, which is enhanced version of tmserver.
 
 First you will want to import some data to the translation memory:
 
@@ -554,7 +555,9 @@ Now you can start tmserver to listen to your requests:
 
 .. seealso::
 
-    :setting:`MT_TMSERVER`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
+    :setting:`MT_TMSERVER`, 
+    http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html, 
+    http://amagama.translatehouse.org/
 
 Weblate
 +++++++
