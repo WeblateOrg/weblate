@@ -231,5 +231,5 @@ def get_distinct_translations(units):
         if unit.target in targets:
             continue
         targets[unit.target] = 1
-        result.append(lang)
+        result.append(unit)
     return result
