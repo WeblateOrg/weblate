@@ -626,6 +626,15 @@ class SearchViewTest(ViewTestCase):
             '1 / 4'
         )
 
+    def test_search_plural(self):
+        response = self.do_search(
+            {'q': 'banana'},
+            'banana'
+        )
+        self.assertContains(response, 'One')
+        self.assertContains(response, 'Few')
+        self.assertContains(response, 'Other')
+
 
 class CommentViewTest(ViewTestCase):
     def setUp(self):
