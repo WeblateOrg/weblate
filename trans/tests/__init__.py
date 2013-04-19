@@ -44,3 +44,4 @@ from trans.tests.git_views import *
 from trans.tests.js_views import *
 from trans.tests.machine import *
 from trans.tests.changes import *
+from trans.tests.admin import *
