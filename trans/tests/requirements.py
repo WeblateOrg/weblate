@@ -24,7 +24,7 @@ from trans.requirements import check_version
 
 class RequirementsTest(TestCase):
     '''
-    Testing of HTML diff function.
+    Testing of requirements checking code.
     '''
     def test_check(self):
         self.assertFalse(check_version(
