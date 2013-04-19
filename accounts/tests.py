@@ -129,6 +129,7 @@ class RegistrationTest(TestCase):
             'Invalid value'
         )
 
+
 class CommandTest(TestCase):
     '''
     Tests for management commands.
