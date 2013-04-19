@@ -184,7 +184,7 @@ def user_page(request, user):
     acl_projects = Project.objects.all_acl(request.user)
 
     # Filter all user activity
-    all_changes = Change.objects.all_related().filter(
+    all_changes = Change.objects.filter(
         user=user,
         translation__subproject__project__in=acl_projects,
     )

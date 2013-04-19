@@ -470,7 +470,7 @@ def translate(request, project, subproject, lang):
                 'prev_unit_url': base_unit_url + str(offset - 1),
                 'object': obj,
                 'unit': unit,
-                'last_changes': unit.change_set.all_related()[:10],
+                'last_changes': unit.change_set.all()[:10],
                 'last_changes_rss': reverse(
                     'rss-translation',
                     kwargs=obj.get_kwargs(),
