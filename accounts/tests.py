@@ -42,19 +42,21 @@ from trans.tests.views import ViewTestCase
 from trans.models.unitdata import Suggestion, Comment
 from lang.models import Language
 
+REGISTRATION_DATA = {
+    'username': 'username',
+    'email': 'noreply@weblate.org',
+    'password1': 'password',
+    'password2': 'password',
+    'first_name': 'First',
+    'last_name': 'Last',
+}
+
 
 class RegistrationTest(TestCase):
     def test_register(self):
         response = self.client.post(
             reverse('weblate_register'),
-            {
-                'username': 'username',
-                'email': 'noreply@weblate.org',
-                'password1': 'password',
-                'password2': 'password',
-                'first_name': 'First',
-                'last_name': 'Last',
-            }
+            REGISTRATION_DATA
         )
         # Check we did succeed
         self.assertRedirects(response, reverse('registration_complete'))
@@ -86,6 +88,41 @@ class RegistrationTest(TestCase):
         self.assertEqual(user.first_name, 'First')
         self.assertEqual(user.last_name, 'Last')
 
+    def test_wrong_username(self):
+        data = REGISTRATION_DATA.copy()
+        data['username'] = 'u'
+        response = self.client.post(
+            reverse('weblate_register'),
+            data
+        )
+        self.assertContains(
+            response,
+            'Username needs to have at least five characters.'
+        )
+
+    def test_wrong_mail(self):
+        data = REGISTRATION_DATA.copy()
+        data['email'] = 'x'
+        response = self.client.post(
+            reverse('weblate_register'),
+            data
+        )
+        self.assertContains(
+            response,
+            'Enter a valid e-mail address.'
+        )
+
+    def test_spam(self):
+        data = REGISTRATION_DATA.copy()
+        data['content'] = 'x'
+        response = self.client.post(
+            reverse('weblate_register'),
+            data
+        )
+        self.assertContains(
+            response,
+            'Invalid value'
+        )
 
 class CommandTest(TestCase):
     '''
