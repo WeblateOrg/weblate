@@ -569,9 +569,21 @@ urlpatterns = patterns(
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/report/$', 'trans.admin_views.report'),
-    url(r'^admin/ssh/$', 'trans.admin_views.ssh'),
-    url(r'^admin/performance/$', 'trans.admin_views.performance'),
+    url(
+        r'^admin/report/$',
+        'trans.admin_views.report',
+        name='admin-report'
+    ),
+    url(
+        r'^admin/ssh/$',
+        'trans.admin_views.ssh',
+        name='admin-ssh'
+    ),
+    url(
+        r'^admin/performance/$',
+        'trans.admin_views.performance',
+        name='admin-performance'
+    ),
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
