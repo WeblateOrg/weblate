@@ -31,7 +31,7 @@ import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
-from trans.models.mixins import PercentMixin, URLMixin
+from trans.mixins import PercentMixin, URLMixin
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url

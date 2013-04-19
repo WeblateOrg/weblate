@@ -30,7 +30,7 @@ import os
 import os.path
 from lang.models import Language
 from trans.validators import validate_commit_message
-from trans.models.mixins import PercentMixin, URLMixin
+from trans.mixins import PercentMixin, URLMixin
 from trans.util import get_site_url
 
 
