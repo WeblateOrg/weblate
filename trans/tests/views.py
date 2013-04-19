@@ -634,6 +634,7 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, 'One')
         self.assertContains(response, 'Few')
         self.assertContains(response, 'Other')
+        self.assertNotContains(response, 'Plural form ')
 
 
 class CommentViewTest(ViewTestCase):
