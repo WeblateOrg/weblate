@@ -215,7 +215,7 @@ class LanguageManager(models.Manager):
             lang.set_direction()
 
             # Get plural type
-            lang.plural_tupe = get_plural_type(
+            lang.plural_type = get_plural_type(
                 lang.code,
                 lang.pluralequation
             )
