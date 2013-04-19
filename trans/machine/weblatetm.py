@@ -85,4 +85,4 @@ class WeblateSimilarTranslation(MachineTranslation):
         '''
         matching_units = Unit.objects.more_like_this(unit)
 
-        return [format_unit_match(unit, 80) for unit in matching_units]
+        return [format_unit_match(unit, 50) for unit in matching_units]
