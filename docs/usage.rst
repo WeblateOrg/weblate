@@ -201,33 +201,9 @@ Machine translation
 Based on configuration and your language, Weblate provides buttons for following
 machine translation tools.
 
-MyMemory
-++++++++
+All machine translations are available on single tab on translation page.
 
-Huge translation memory with machine translation.
-
-.. seealso::
-
-    http://mymemory.translated.net/
-
-Apertium
-++++++++
-
-A free/open-source machine translation platform providing translation to
-limited set of languages.
-
-.. seealso::
-
-    http://www.apertium.org/
-
-Microsoft Translator
-++++++++++++++++++++
-
-Machine translation service provided by Microsoft.
-
-.. seealso::
-
-    http://www.microsofttranslator.com/
+.. seealso:: :ref:`machine-translation-setup`
 
 .. _checks:
 

@@ -25,11 +25,11 @@
 
 <span class="navi-toolbar ui-widget-header ui-corner-all">
 <span id="navi">
-<a id="button-first" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos=1&amp;dir=stay{{ search_url }}">{% trans "First" %}</a>
-<a id="button-prev" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;dir=back{{ search_url }}">{% trans "Previous" %}</a>
+<a id="button-first" href="{{ first_unit_url }}">{% trans "First" %}</a>
+<a id="button-prev" href="{{ prev_unit_url }}">{% trans "Previous" %}</a>
 <a id="button-pos" class="textbutton">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
-<a id="button-next" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}">{% trans "Next" %}</a>
-<a id="button-end" href="{{ unit.translation.get_translate_url }}?type={{ type }}&amp;pos={{ total }}&amp;dir=stay{{ search_url }}">{% trans "Last" %}</a>
+<a id="button-next" href="{{ next_unit_url }}">{% trans "Next" %}</a>
+<a id="button-end" href="{{ last_unit_url }}">{% trans "Last" %}</a>
 </span>
 
 {% if filter_name %}
@@ -37,18 +37,12 @@
 {% endif %}
 </span>
 
-<form action="{{ unit.translation.get_translate_url }}" method="post">
+<form action="{{ this_unit_url }}" method="post">
 <a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
+<a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
 <a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
 {% csrf_token %}
 {% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
-<input type="hidden" name="type" value="{{ type }}" />
-<input type="hidden" name="pos" value="{{ unit.position }}" />
-<input type="hidden" name="q" value="{{ search_query }}" />
-<input type="hidden" name="search" value="{{ search_type }}" />
-<input type="hidden" name="src" value="{{ search_source }}" />
-<input type="hidden" name="tgt" value="{{ search_target }}" />
-<input type="hidden" name="ctx" value="{{ search_context }}" />
 <table>
 {% if secondary %}
 {% for unit in secondary %}
@@ -127,10 +121,10 @@
 {% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
 <div class="menu-float action-buttons">
 {% if perms.trans.accept_suggestion %}
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;accept={{ suggestion.id }}{{ search_url }}" class="sug-accept">{% trans "Accept" %}</a>
+<a href="{{ this_unit_url }}&amp;accept={{ suggestion.id }}" class="sug-accept">{% trans "Accept" %}</a>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
-<a href="{{ suggestion.get_translate_url }}?type={{ type }}&amp;pos={{ unit.position }}&amp;delete={{ suggestion.id }}{{ search_url }}" class="sug-delete">{% trans "Delete" %}</a>
+<a href="{{ this_unit_url }}&amp;delete={{ suggestion.id }}" class="sug-delete">{% trans "Delete" %}</a>
 {% endif %}
 </div>
 {% endif %}
@@ -168,13 +162,15 @@
 <div id="translate-tabs">
     <ul>
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
-        <li><a href="{% url 'js-similar' unit_id=unit.id %}" title="{% trans "Similar messages" %}">{% trans "Similar messages" %}</a></li>
-        <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;pos={{ unit.position }}{{ search_url }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
+        <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;offset={{ offset }}&amp;sid={{ search_id }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
         <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
+        {% if mt_enabled and user.is_authenticated %}
+        <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+        {% endif %}
         <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">{% trans "Comments" %}</a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "Recent edits" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">{% trans "Source" %}</a></li>
-        <li><a href="#tab-project" title="{% trans "Information about project" %}">{% trans "Project" %}</a></li>
+        <li><a href="#tab-search">{% trans "Search" %}</a></li>
     </ul>
     <div id="tab-nearby">
     <table>
@@ -186,13 +182,32 @@
     <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
     <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
-    <td class="translatetext" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
+    <td class="translatetext translation_html_markup" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
     <td>{% include "unit-state.html" %}</td>
     </tr>
     {% endfor %}
     </tbody>
     </table>
     </div>
+    {% if mt_enabled and user.is_authenticated %}
+    <div id="tab-machine">
+    <img src="{% get_media_prefix %}loading.gif" id="mt-loading" style="display: none" />
+    <table>
+    <thead>
+    <tr>
+    <th>{% trans "Translation" %}</th>
+    <th>{% trans "Source" %}</th>
+    <th>{% trans "Service" %}</th>
+    <th></th>
+    <tr>
+    </thead>
+    <tbody id="machine-translations">
+    </tbody>
+    </table>
+    <ul id="mt-errors">
+    </ul>
+    </div>
+    {% endif %}
     <div id="tab-changes">
     {% include "last-changes.html" %}
     </div>
@@ -252,9 +267,13 @@
     </tr>
     </table>
     </div>
-    <div id="tab-project">
-    {% include "translation_info.html" %}
+    <div id="tab-search">
+    <form action="{{ unit.translation.get_translate_url }}" method="GET">
+    {{ search_form.as_p }}
+    <input type="submit" value="{% trans "Search" %}" class="button" />
+    </form>
     </div>
+
 </div>
 
 {% endblock %}

@@ -77,6 +77,7 @@ LANGUAGES = (
     ('fi', 'Suomi'),
     ('fr', u'Français'),
     ('gl', 'Galego'),
+    ('he', u'עִבְרִית'),
     ('hu', 'Magyar'),
     ('id', 'Indonesia'),
     ('ja', u'日本語'),
@@ -273,13 +274,20 @@ LOGGING = {
 MT_APERTIUM_KEY = None
 
 # Microsoft Translator service, register at
-# http://www.bing.com/developers/createapp.aspx
-MT_MICROSOFT_KEY = None
-
-# Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = None
 MT_MICROSOFT_SECRET = None
+
+# MyMemory identification email, see
+# http://mymemory.translated.net/doc/spec.php
+MT_MYMEMORY_EMAIL = None
+
+# Optional MyMemory credentials to access private translation memory
+MT_MYMEMORY_USER = None
+MT_MYMEMORY_KEY = None
+
+# tmserver URL
+MT_TMSERVER = None
 
 # Path where git repositories are stored, it needs to be writable
 GIT_ROOT = '%s/repos/' % WEB_ROOT
@@ -319,9 +327,6 @@ BACKGROUND_HOOKS = True
 
 # Number of nearby messages to show in each direction
 NEARBY_MESSAGES = 5
-
-# Minimal number of similar messages to show
-SIMILAR_MESSAGES = 5
 
 # Enable lazy commits
 LAZY_COMMITS = True
@@ -363,11 +368,23 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.source.EllipsisCheck',
 #)
 
-
-# List of machine translations
-# MACHINE_TRANSLATION_SERVICES = (
+# List of scripts to use in custom processing
+#PRE_COMMIT_SCRIPTS = (
 #)
 
+# List of machine translations
+#MACHINE_TRANSLATION_SERVICES = (
+#    'trans.machine.apertium.ApertiumTranslation',
+#    'trans.machine.glosbe.GlosbeTranslation',
+#    'trans.machine.google.GoogleTranslation',
+#    'trans.machine.microsoft.MicrosoftTranslation',
+#    'trans.machine.mymemory.MyMemoryTranslation',
+#    'trans.machine.opentran.OpenTranTranslation',
+#    'trans.machine.tmserver.AmagamaTranslation',
+#    'trans.machine.tmserver.TMServerTranslation',
+#    'trans.machine.weblatetm.WeblateSimilarTranslation',
+#    'trans.machine.weblatetm.WeblateTranslation',
+#)
 
 # E-mail address that error messages come from.
 SERVER_EMAIL = 'noreply@weblate.org'

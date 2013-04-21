@@ -39,7 +39,7 @@ class GlosbeTranslation(MachineTranslation):
         '''
         return True
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -47,7 +47,7 @@ class GlosbeTranslation(MachineTranslation):
             'from': 'en',
             'dest': language,
             'format': 'json',
-            'phrase': text,
+            'phrase': text.strip(',.:?! ')
         }
         response = self.json_req(
             'http://glosbe.com/gapi/translate',
@@ -57,6 +57,6 @@ class GlosbeTranslation(MachineTranslation):
         if not 'tuc' in response:
             return []
 
-        return [(match['phrase']['text'], 100)
+        return [(match['phrase']['text'], 100, self.name, text)
                 for match in response['tuc']
                 if match['phrase'] is not None]

@@ -133,6 +133,44 @@ How do I provide feedback on source string?
 On context tabs below translation, you can use :guilabel:`Source` tab to
 provide feedback on source string or discuss it with other translators.
 
+How can I use existing translations while translating?
+------------------------------------------------------
+
+Weblate provides you several ways to utilize existing translations while
+translating:
+
+- You can use import functionality to load compendium as translations,
+  suggestions or fuzzy translations. This is best approach for one time
+  translation using compedium or similar translation database.
+- You can setup :ref:`tmserver` with all databases you have and let Weblate use
+  it. This is good for case when you want to use it for several times during
+  translating.
+- Another option is to translate all related projects in single Weblate
+  instance, what will make it automatically pick up translation from other
+  projects as well.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+Does Weblate update translation files besides translations?
+-----------------------------------------------------------
+
+Weblate tries to limit changes in translation files to minimum. For some file
+formats it might unfortunately lead to reformatting the file. If you want to
+keep the file formattted in your way, please use pre commit hook for that.
+
+For monolingual files (see :ref:`formats`) Weblate might add new translation
+units which are present in the :guilabel:`template` and not in actual
+translations. It does not however perform any automatic cleanup of stale
+strings as it might have unexpected outcome. If you want to do this, please
+install pre commit hook which will handle the cleanup according to your needs.
+
+Weblate also will not try to update bilingual files in any way, so if you need
+:file:`po` files being updated from :file:`pot`, you need to do it on
+your own.
+
+.. seealso:: :ref:`processing`
+
+
 Where do language definition come from and how can I add own?
 -------------------------------------------------------------
 

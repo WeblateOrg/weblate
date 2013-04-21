@@ -22,10 +22,7 @@ Helper methods for views.
 '''
 
 from trans.models import Project, SubProject, Translation
-from trans.forms import SearchForm
-from trans.checks import CHECKS
 from lang.models import Language
-from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 import django.utils.translation
 
@@ -95,107 +92,6 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
 
     # Return tuple
     return project, subproject, translation
-
-
-def bool2str(val):
-    '''
-    Returns string to use in URL for boolean value.
-    '''
-    if val:
-        return 'on'
-    return ''
-
-
-class SearchOptions(object):
-    '''
-    Wrapper to search options supplied by user.
-    '''
-    def __init__(self, request):
-        '''
-        Parses request and fills in search options.
-        '''
-        # Default values
-        self.query = ''
-        self.type = 'ftx'
-        self.source = True
-        self.target = True
-        self.context = False
-        self.url = ''
-
-        # Search type
-        self.rqtype = request.REQUEST.get('type', 'all')
-
-        # Browsing direction
-        self.direction = request.REQUEST.get('dir', 'forward')
-
-        # Current position
-        pos = request.REQUEST.get('pos', '-1')
-        try:
-            self.pos = int(pos)
-        except:
-            self.pos = -1
-
-        # Process search form
-        if request.method == 'POST':
-            search_form = SearchForm(request.POST)
-        else:
-            search_form = SearchForm(request.GET)
-        if search_form.is_valid():
-            self.load_form(search_form)
-
-        # Include date for review search
-        if 'date' in request.REQUEST:
-            self.url += '&date=%s' % request.REQUEST['date']
-
-    def load_form(self, search_form):
-        '''
-        Loads data from (valid) search form.
-        '''
-        # Search query
-        self.query = search_form.cleaned_data['q']
-
-        # Search type
-        self.type = search_form.cleaned_data['search']
-        if self.type == '':
-            self.type = 'ftx'
-
-        # Search options
-        self.source = search_form.cleaned_data['src']
-        self.target = search_form.cleaned_data['tgt']
-        self.context = search_form.cleaned_data['ctx']
-        # Sane defaults
-        if not self.context and not self.source and not self.target:
-            self.source = True
-            self.target = True
-
-        # Generate URL
-        self.url = '&q=%s&src=%s&tgt=%s&ctx=%s&search=%s' % (
-            self.query,
-            bool2str(self.source),
-            bool2str(self.target),
-            bool2str(self.context),
-            self.type,
-        )
-
-
-def get_filter_name(rqtype, search_query):
-    '''
-    Returns name of current filter.
-    '''
-    if search_query != '':
-        return _('Search for "%s"') % search_query
-    elif rqtype == 'fuzzy':
-        return _('Fuzzy strings')
-    elif rqtype == 'untranslated':
-        return _('Untranslated strings')
-    elif rqtype == 'suggestions':
-        return _('Strings with suggestions')
-    elif rqtype == 'allchecks':
-        return _('Strings with any failing checks')
-    elif rqtype in CHECKS:
-        return CHECKS[rqtype].name
-    else:
-        return None
 
 
 def try_set_language(lang):

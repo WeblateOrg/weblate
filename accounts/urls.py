@@ -21,12 +21,12 @@
 from django.conf.urls import patterns, url
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import views as auth_views
-from django.views.generic import TemplateView
 from django.conf import settings
 
 from registration.views import activate, register
 
 from accounts.forms import RegistrationForm
+from accounts.views import RegistrationTemplateView
 
 
 urlpatterns = patterns(
@@ -41,21 +41,21 @@ urlpatterns = patterns(
     ),
     url(
         r'^register/complete/$',
-        TemplateView.as_view(
+        RegistrationTemplateView.as_view(
             template_name='registration/registration_complete.html'
         ),
         name='registration_complete'
     ),
     url(
         r'^register/closed/$',
-        TemplateView.as_view(
+        RegistrationTemplateView.as_view(
             template_name='registration/registration_closed.html'
         ),
         name='registration_disallowed'
     ),
     url(
         r'^activate/complete/$',
-        TemplateView.as_view(
+        RegistrationTemplateView.as_view(
             template_name='registration/activation_complete.html',
         ),
         name='registration_activation_complete'

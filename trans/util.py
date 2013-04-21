@@ -25,11 +25,13 @@ from django.utils.translation import ugettext as _
 from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
 from django.conf import settings
 from importlib import import_module
 import urllib
 import time
 import random
+import os.path
 
 try:
     import libravatar
@@ -103,7 +105,6 @@ def get_user_display(user, icon=True, link=False):
         # None user, probably remotely triggered action
         full_name = _('None')
         email = ''
-        profile = None
     else:
         # Get full name
         full_name = user.get_full_name()
@@ -113,7 +114,6 @@ def get_user_display(user, icon=True, link=False):
             full_name = user.username
 
         email = user.email
-        profile = user.get_profile()
 
     # Escape HTML
     full_name = escape(full_name)
@@ -128,10 +128,10 @@ def get_user_display(user, icon=True, link=False):
             'avatar': avatar
         }
 
-    if link and profile is not None:
+    if link and user is not None:
         return mark_safe('<a href="%(link)s">%(name)s</a>' % {
             'name': full_name,
-            'link': profile.get_absolute_url(),
+            'link': reverse('user_page', kwargs={'user': user.username}),
         })
     else:
         return mark_safe(full_name)
@@ -209,3 +209,27 @@ def load_class(name):
             (module, attr)
         )
     return cls
+
+
+def get_script_name(name):
+    '''
+    Returns script name from string possibly containing full path and
+    parameters.
+    '''
+    return os.path.basename(name).split()[0]
+
+
+def get_distinct_translations(units):
+    '''
+    Returns list of distinct translations. It should be possible to use
+    distinct('target') since Django 1.4, but it is not supported with MySQL, so
+    let's emulate that based on presumption we won't get too many results.
+    '''
+    targets = {}
+    result = []
+    for unit in units:
+        if unit.target in targets:
+            continue
+        targets[unit.target] = 1
+        result.append(unit)
+    return result

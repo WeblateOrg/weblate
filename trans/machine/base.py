@@ -116,9 +116,16 @@ class MachineTranslation(object):
         '''
         return []
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
+
+        Should return tuple - (translation text, translation quality, source of
+        translation, source string).
+
+        You can use self.name as source of translation, if you can not give
+        better hint and text parameter as source string if you do no fuzzy
+        matching.
         '''
         raise NotImplementedError()
 
@@ -145,8 +152,9 @@ class MachineTranslation(object):
             languages = self.download_languages()
         except Exception as exc:
             weblate.logger.error(
-                'Failed to fetch languages from %s, using defaults (%s)',
+                'Failed to fetch languages from %s, using defaults (%s: %s)',
                 self.name,
+                exc.__class__.__name__,
                 str(exc)
             )
             if settings.DEBUG:
@@ -164,7 +172,7 @@ class MachineTranslation(object):
         '''
         return language in self.supported_languages
 
-    def translate(self, language, text):
+    def translate(self, language, text, unit):
         '''
         Returns list of machine translations.
         '''
@@ -173,16 +181,22 @@ class MachineTranslation(object):
             return []
 
         try:
-            translations = self.download_translations(language, text)
+            translations = self.download_translations(language, text, unit)
 
-            return [{'t': trans[0], 'q': trans[1], 's': self.name}
-                    for trans in translations]
+            return [
+                {
+                    'text': trans[0],
+                    'quality': trans[1],
+                    'service': trans[2],
+                    'source': trans[3]
+                }
+                for trans in translations
+            ]
         except Exception as exc:
             weblate.logger.error(
-                'Failed to fetch translations from %s (%s)',
+                'Failed to fetch translations from %s (%s: %s)',
                 self.name,
+                exc.__class__.__name__,
                 str(exc)
             )
-            if settings.DEBUG:
-                raise
-            return []
+            raise

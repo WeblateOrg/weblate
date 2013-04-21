@@ -25,7 +25,7 @@ class GoogleTranslation(MachineTranslation):
     '''
     Google machine translation support.
     '''
-    name = 'Google'
+    name = 'Google Translate'
 
     def is_supported(self, language):
         '''
@@ -33,7 +33,7 @@ class GoogleTranslation(MachineTranslation):
         '''
         return True
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -43,6 +43,11 @@ class GoogleTranslation(MachineTranslation):
             text=text,
             sl='en',
             tl=language,
+            ie='UTF-8',
+            oe='UTF-8'
         )
 
-        return [(response[0][0][0], 100)]
+        translation = ' '.join([sentence[0] for sentence in response[0]])
+        source = ' '.join([sentence[1] for sentence in response[0]])
+
+        return [(translation, 100, self.name, source)]

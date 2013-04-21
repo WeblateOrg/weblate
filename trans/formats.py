@@ -24,9 +24,12 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit
 from translate.storage.xliff import xliffunit
+from translate.storage.po import pounit
+from translate.storage import mo
 from translate.storage import factory
 from trans.util import get_string
 from translate.misc import quote
+import os.path
 import re
 import hashlib
 import importlib
@@ -123,7 +126,10 @@ class FileUnit(object):
                 return quote.propertiesdecode(self.mainunit.name)
             return self.mainunit.name
         else:
-            return get_string(self.mainunit.source)
+            if self.template is not None:
+                return get_string(self.template.target)
+            else:
+                return get_string(self.unit.source)
 
     def get_target(self):
         '''
@@ -157,6 +163,9 @@ class FileUnit(object):
                 return ''
             else:
                 return context[0]
+        elif isinstance(self.mainunit, pounit) and self.template is not None:
+            # Monolingual PO files
+            return self.template.source
         else:
             context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
@@ -290,6 +299,7 @@ class FileFormat(object):
         Creates file format object, wrapping up translate-toolkit's
         store.
         '''
+        self.storefile = storefile
         # Load store
         self.store = self.load(storefile)
         # Remember template
@@ -309,48 +319,48 @@ class FileFormat(object):
         '''
         Finds unit by context and source.
 
-        Returns tuple (pounit, created) indicating whether returned
+        Returns tuple (ttkit_unit, created) indicating whether returned
         unit is new one.
         '''
         if self.has_template:
             # Need to create new unit based on template
-            template_pounit = self.template_store.findid(context)
+            template_ttkit_unit = self.template_store.findid(context)
             # We search by ID when using template
-            pounit = self.store.findid(context)
+            ttkit_unit = self.store.findid(context)
             # We always need new unit to translate
-            if pounit is None:
-                pounit = template_pounit
+            if ttkit_unit is None:
+                ttkit_unit = template_ttkit_unit
                 add = True
             else:
                 add = False
 
-            return (FileUnit(pounit, template_pounit), add)
+            return (FileUnit(ttkit_unit, template_ttkit_unit), add)
         else:
             # Find all units with same source
             found_units = self.store.findunits(source)
             if len(found_units) > 0:
-                for pounit in found_units:
+                for ttkit_unit in found_units:
                     # Does context match?
-                    if pounit.getcontext() == context:
-                        return (FileUnit(pounit), False)
+                    if ttkit_unit.getcontext() == context:
+                        return (FileUnit(ttkit_unit), False)
             else:
                 # Fallback to manual find for value based files
-                for pounit in self.store.units:
-                    pounit = FileUnit(pounit)
-                    if pounit.get_source() == source:
-                        return (pounit, False)
+                for ttkit_unit in self.store.units:
+                    ttkit_unit = FileUnit(ttkit_unit)
+                    if ttkit_unit.get_source() == source:
+                        return (ttkit_unit, False)
 
         return (None, False)
 
-    def add_unit(self, pounit):
+    def add_unit(self, ttkit_unit):
         '''
         Adds new unit to underlaying store.
         '''
         if isinstance(self.store, LISAfile):
             # LISA based stores need to know this
-            self.store.addunit(pounit.unit, new=True)
+            self.store.addunit(ttkit_unit.unit, new=True)
         else:
-            self.store.addunit(pounit.unit)
+            self.store.addunit(ttkit_unit.unit)
 
     def update_header(self, **kwargs):
         '''
@@ -410,6 +420,12 @@ class FileFormat(object):
         else:
             return self.store.Extensions[0]
 
+    def supports_language_pack(self):
+        '''
+        Checks whether backend store supports generating language pack.
+        '''
+        return hasattr(self, 'get_language_pack')
+
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
@@ -431,7 +447,48 @@ class PoFormat(FileFormat):
     loader = ('po', 'pofile')
     monolingual = False
 
+    def get_language_pack(self):
+        '''
+        Generates compiled messages file.
+        '''
+        outputfile = mo.mofile()
+        for unit in self.store.units:
+            if not unit.istranslated() and not unit.isheader():
+                continue
+            mounit = mo.mounit()
+            if unit.isheader():
+                mounit.source = ""
+            else:
+                mounit.source = unit.source
+                mounit.msgctxt = [unit.getcontext()]
+            mounit.target = unit.target
+            outputfile.addunit(mounit)
+        return str(outputfile)
+
+    def get_language_pack_meta(self):
+        '''
+        Returns language pack filename and mime type.
+        '''
+
+        basefile = os.path.splitext(
+            os.path.basename(self.storefile)
+        )[0]
+
+        return (
+            '%s.mo' % basefile,
+            'application/x-gettext-catalog'
+        )
+
 register_fileformat(PoFormat)
+
+
+class PoMonoFormat(PoFormat):
+    name = _('Gettext PO file (monolingual)')
+    format_id = 'po-mono'
+    loader = ('po', 'pofile')
+    monolingual = True
+
+register_fileformat(PoMonoFormat)
 
 
 class TSFormat(FileFormat):

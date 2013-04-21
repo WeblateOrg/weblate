@@ -232,7 +232,7 @@ def export_stats(request, project, subproject):
         json.dumps(
             response,
             default=json_dt_handler,
-            indent = indent,
+            indent=indent,
         ),
         mimetype='application/json'
     )

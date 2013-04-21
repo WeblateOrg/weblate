@@ -19,8 +19,6 @@
 #
 
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.decorators.cache import cache_page
-from weblate import appsettings
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required, login_required
@@ -28,15 +26,11 @@ from django.db.models import Q
 
 from trans.models import Unit, Check, Dictionary
 from trans.machine import MACHINE_TRANSLATION_SERVICES
-from trans.views.helper import SearchOptions
 from trans.decorators import any_permission_required
 from trans.views.helper import get_project, get_subproject, get_translation
-import weblate
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 import json
-from xml.etree import ElementTree
-import urllib2
 
 
 def get_string(request, checksum):
@@ -49,31 +43,6 @@ def get_string(request, checksum):
     units[0].check_acl(request)
 
     return HttpResponse(units[0].get_source_plurals()[0])
-
-
-def get_similar(request, unit_id):
-    '''
-    AJAX handler for getting similar strings.
-    '''
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
-
-    similar_units = Unit.objects.similar(unit)
-
-    # distinct('target') works with Django 1.4 so let's emulate that
-    # based on presumption we won't get too many results
-    targets = {}
-    res = []
-    for similar in similar_units:
-        if similar.target in targets:
-            continue
-        targets[similar.target] = 1
-        res.append(similar)
-    similar = res
-
-    return render_to_response('js/similar.html', RequestContext(request, {
-        'similar': similar,
-    }))
 
 
 @login_required
@@ -89,10 +58,28 @@ def translate(request, unit_id):
     if not service_name in MACHINE_TRANSLATION_SERVICES:
         return HttpResponseBadRequest('Invalid service specified')
 
-    response = MACHINE_TRANSLATION_SERVICES[service_name].translate(
-        unit.translation.language.code,
-        unit.get_source_plurals()[0]
-    )
+    translation_service = MACHINE_TRANSLATION_SERVICES[service_name]
+
+    # Error response
+    response = {
+        'responseStatus': 500,
+        'service': translation_service.name,
+        'responseDetails': '',
+        'translations': [],
+    }
+
+    try:
+        response['translations'] = translation_service.translate(
+            unit.translation.language.code,
+            unit.get_source_plurals()[0],
+            unit
+        )
+        response['responseStatus'] = 200
+    except Exception as exc:
+        response['responseDetails'] = '%s: %s' % (
+            exc.__class__.__name__,
+            str(exc)
+        )
 
     return HttpResponse(
         json.dumps(response),
@@ -109,13 +96,11 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
-    search_options = SearchOptions(request)
-
     return render_to_response('js/other.html', RequestContext(request, {
-        'other': other,
+        'other': other.select_related(),
         'unit': unit,
-        'type': search_options.rqtype,
-        'search_url': search_options.url,
+        'search_id': request.GET.get('sid', ''),
+        'offset': request.GET.get('offset', ''),
     }))
 
 
@@ -165,11 +150,7 @@ def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     obj.project.check_acl(request)
     # Mark check for ignoring
-    obj.ignore = True
-    obj.save()
-    # Invalidate caches
-    for unit in Unit.objects.filter(checksum=obj.checksum):
-        unit.translation.invalidate_cache()
+    obj.set_ignore()
     # response for AJAX
     return HttpResponse('ok')
 
@@ -210,52 +191,20 @@ def git_status_translation(request, project, subproject, lang):
     }))
 
 
-# Cache this page for one month, it should not really change much
-@cache_page(30 * 24 * 3600)
 def js_config(request):
     '''
     Generates settings for javascript. Includes things like
-    API keys for translaiton services or list of languages they
-    support.
+    translaiton services.
     '''
-    # Apertium support
-    if appsettings.MT_APERTIUM_KEY is not None and appsettings.MT_APERTIUM_KEY != '':
-        try:
-            listpairs = urllib2.urlopen('http://api.apertium.org/json/listPairs?key=%s' % appsettings.MT_APERTIUM_KEY)
-            pairs = listpairs.read()
-            parsed = json.loads(pairs)
-            apertium_langs = [p['targetLanguage'] for p in parsed['responseData'] if p['sourceLanguage'] == 'en']
-        except Exception as e:
-            weblate.logger.error('failed to get supported languages from Apertium, using defaults (%s)', str(e))
-            apertium_langs = ['gl', 'ca', 'es', 'eo']
-    else:
-        apertium_langs = None
-
-    # Microsoft translator support
-    if appsettings.MT_MICROSOFT_KEY is not None and appsettings.MT_MICROSOFT_KEY != '':
-        try:
-            listpairs = urllib2.urlopen('http://api.microsofttranslator.com/V2/Http.svc/GetLanguagesForTranslate?appID=%s' % appsettings.MT_MICROSOFT_KEY)
-            data = listpairs.read()
-            parsed = ElementTree.fromstring(data)
-            microsoft_langs = [p.text for p in parsed.getchildren()]
-        except Exception as e:
-            weblate.logger.error('failed to get supported languages from Microsoft, using defaults (%s)', str(e))
-            microsoft_langs = [
-                'ar', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'cs', 'da', 'nl', 'en',
-                'et', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww', 'hu',
-                'id', 'it', 'ja', 'ko', 'lv', 'lt', 'no', 'fa', 'pl', 'pt',
-                'ro', 'ru', 'sk', 'sl', 'es', 'sv', 'th', 'tr', 'uk', 'vi'
-            ]
-    else:
-        microsoft_langs = None
+    # Machine translation
+    machine_services = MACHINE_TRANSLATION_SERVICES.keys()
 
     return render_to_response(
         'js/config.js',
         RequestContext(
             request,
             {
-                'apertium_langs': apertium_langs,
-                'microsoft_langs': microsoft_langs,
+                'machine_services': machine_services,
             }
         ),
         mimetype='application/javascript'

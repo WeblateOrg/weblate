@@ -1,11 +1,24 @@
 Changes
 =======
 
-weblate 1.5
+weblate 1.6
 -----------
 
 Released on ? 2013.
 
+* Nicer error handling on registration.
+* Browsing of changes.
+* Fixed sorting of machine translation suggestions.
+* Improved support for MyMemory machine translation.
+* Added support for Amagama machine translation.
+* Various optimizations on frequently used pages.
+
+weblate 1.5
+-----------
+
+Released on April 16th 2013.
+
+* Please check manual for upgrade instructions.
 * Added public user pages.
 * Better naming of plural forms.
 * Added support for TBX export of glossary.
@@ -15,6 +28,14 @@ Released on ? 2013.
 * Compatible with Django 1.5.
 * Avatars are now shown using libravatar.
 * Added possibility to pretty print JSON export.
+* Various performance improvements.
+* Indicate failing checks or fuzzy strings in progress bars for projects or languages as well.
+* Added support for custom pre-commit hooks and commiting additional files.
+* Rewritten search for better performance and user experience.
+* New interface for machine translations.
+* Added support for monolingual po files.
+* Extend amount of cached metadata to improve speed of various searches.
+* Now shows word counts as well.
 
 weblate 1.4
 -----------

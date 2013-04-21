@@ -19,7 +19,6 @@
 #
 
 from django.db import models
-from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
@@ -32,11 +31,16 @@ import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
+from trans.mixins import PercentMixin, URLMixin
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
-from trans.validators import validate_repoweb, validate_filemask, validate_repo
+from trans.validators import (
+    validate_repoweb, validate_filemask, validate_repo,
+    validate_extra_file,
+)
+from weblate.appsettings import SCRIPT_CHOICES
 
 
 class SubProjectManager(models.Manager):
@@ -59,7 +63,7 @@ class SubProjectManager(models.Manager):
         return self.get(slug=subproject, project__slug=project)
 
 
-class SubProject(models.Model):
+class SubProject(models.Model, PercentMixin, URLMixin):
     name = models.CharField(
         max_length=100,
         help_text=ugettext_lazy('Name to display')
@@ -89,6 +93,13 @@ class SubProject(models.Model):
         ),
         validators=[validate_repoweb],
         blank=True,
+    )
+    git_export = models.CharField(
+        max_length=200,
+        help_text=ugettext_lazy(
+            'URL of Git repository where users can fetch changes from Weblate'
+        ),
+        blank=True
     )
     report_source_bugs = models.EmailField(
         help_text=ugettext_lazy(
@@ -128,6 +139,27 @@ class SubProject(models.Model):
             'and is slightly slower.'
         ),
     )
+    extra_commit_file = models.CharField(
+        max_length=200,
+        default='',
+        blank=True,
+        validators=[validate_extra_file],
+        help_text=ugettext_lazy(
+            'Additional file to include in commits, please check '
+            'documentation for more details.',
+        )
+    )
+    pre_commit_script = models.CharField(
+        max_length=200,
+        default='',
+        blank=True,
+        choices=SCRIPT_CHOICES,
+        help_text=ugettext_lazy(
+            'Script to be executed before commiting translation, '
+            'please check documentation for more details.'
+        ),
+    )
+
     locked = models.BooleanField(
         default=False,
         help_text=ugettext_lazy(
@@ -165,6 +197,7 @@ class SubProject(models.Model):
         self._git_repo = None
         self._file_format = None
         self._template_store = None
+        self._percents = None
 
     def has_acl(self, user):
         '''
@@ -179,12 +212,20 @@ class SubProject(models.Model):
         '''
         self.project.check_acl(request)
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('subproject', (), {
+    def _reverse_url_name(self):
+        '''
+        Returns base name for URL reversing.
+        '''
+        return 'subproject'
+
+    def _reverse_url_kwargs(self):
+        '''
+        Returns kwargs for URL reversing.
+        '''
+        return {
             'project': self.project.slug,
             'subproject': self.slug
-        })
+        }
 
     def get_share_url(self):
         '''
@@ -194,53 +235,11 @@ class SubProject(models.Model):
             reverse('engage', kwargs={'project': self.project.slug})
         )
 
-    @models.permalink
-    def get_commit_url(self):
-        return ('commit_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_update_url(self):
-        return ('update_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_push_url(self):
-        return ('push_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_reset_url(self):
-        return ('reset_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
     def is_git_lockable(self):
         return True
 
     def is_git_locked(self):
         return self.locked
-
-    @models.permalink
-    def get_lock_url(self):
-        return ('lock_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
-
-    @models.permalink
-    def get_unlock_url(self):
-        return ('unlock_subproject', (), {
-            'project': self.project.slug,
-            'subproject': self.slug
-        })
 
     def __unicode__(self):
         return '%s/%s' % (self.project.__unicode__(), self.name)
@@ -322,6 +321,30 @@ class SubProject(models.Model):
         Returns latest remote commit we know.
         '''
         return self.git_repo.commit('origin/%s' % self.branch)
+
+    def get_repo_url(self):
+        '''
+        Returns link to repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.repo
+        return self.repo
+
+    def get_repo_branch(self):
+        '''
+        Returns branch in repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.branch
+        return self.branch
+
+    def get_export_url(self):
+        '''
+        Returns URL of exported git repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.git_export
+        return self.git_export
 
     def get_repoweb_link(self, filename, line):
         '''
@@ -571,25 +594,8 @@ class SubProject(models.Model):
         Sends out notifications on merge failure.
         '''
         # Notify subscribed users about failure
-        from accounts.models import Profile, send_notification_email
-        subscriptions = Profile.objects.subscribed_merge_failure(
-            self.project,
-        )
-        for subscription in subscriptions:
-            subscription.notify_merge_failure(self, error, status)
-
-        # Notify admins
-        send_notification_email(
-            'en',
-            'ADMINS',
-            'merge_failure',
-            self,
-            {
-                'subproject': self,
-                'status': status,
-                'error': error,
-            }
-        )
+        from accounts.models import notify_merge_failure
+        notify_merge_failure(self, error, status)
 
     def update_branch(self, request=None):
         '''
@@ -647,7 +653,11 @@ class SubProject(models.Model):
         '''
         prefix = os.path.join(self.get_path(), '')
         matches = glob(os.path.join(self.get_path(), self.filemask))
-        return [f.replace(prefix, '') for f in matches]
+        matches = [f.replace(prefix, '') for f in matches]
+        # Template can have possibly same name as translations
+        if self.has_template() and self.template in matches:
+            matches.remove(self.template)
+        return matches
 
     def create_translations(self, force=False, langs=None, request=None):
         '''
@@ -720,21 +730,30 @@ class SubProject(models.Model):
             raise ValidationError(
                 _('Push URL is not used when repository is linked!')
             )
+        if self.git_export != '':
+            raise ValidationError(
+                _('Export URL is not used when repository is linked!')
+            )
         validate_repo(self.repo)
 
     def clean_template(self):
         '''
         Validates whether template can be loaded.
         '''
+
+        full_path = os.path.join(self.get_path(), self.template)
+        if not os.path.exists(full_path):
+            raise ValidationError(_('Template file not found!'))
+
         try:
             self.load_template_store()
         except ValueError:
             raise ValidationError(
                 _('Format of translation template could not be recognized.')
             )
-        except Exception:
+        except Exception as exc:
             raise ValidationError(
-                _('Failed to parse translation template.')
+                _('Failed to parse translation template: %s') % str(exc)
             )
 
     def clean(self):
@@ -797,6 +816,10 @@ class SubProject(models.Model):
         # Validate template
         if self.has_template():
             self.clean_template()
+        elif self.file_format_cls.monolingual:
+            raise ValidationError(
+                _('You can not use monolingual translation without template!')
+            )
 
     def get_template_filename(self):
         '''
@@ -837,21 +860,21 @@ class SubProject(models.Model):
         if changed_git:
             self.create_translations()
 
-    def get_translated_percent(self):
+    def _get_percents(self):
         '''
-        Returns percent of translated strings.
+        Returns percentages of translation status.
         '''
-        translations = self.translation_set.aggregate(
-            Sum('translated'), Sum('total')
-        )
+        # Use cache if available
+        if self._percents is not None:
+            return self._percents
 
-        total = translations['total__sum']
-        translated = translations['translated__sum']
+        # Get prercents
+        result = self.translation_set.get_percents()
 
-        if total == 0:
-            return 0
+        # Update cache
+        self._percents = result
 
-        return round(translated * 100.0 / total, 1)
+        return result
 
     def git_needs_commit(self):
         '''
@@ -925,7 +948,7 @@ class SubProject(models.Model):
         '''
         Returns date of last change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(
                 translation__subproject=self

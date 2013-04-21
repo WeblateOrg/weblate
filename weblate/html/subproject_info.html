@@ -5,19 +5,19 @@
 {% endwith %}
 {% if perms.trans.can_see_git_repository %}
 <p>{% trans "Git repository:" %} 
-<code>{% if object.is_repo_link %}{{ object.linked_subproject.repo }}{% else %}{{ object.repo }}{% endif %}</code> (
-{% if object.is_repo_link %}
-{% blocktrans with object.linked_subproject.branch as branch %}{{ branch }} branch{% endblocktrans %}
-{% else %}
-{% blocktrans with object.branch as branch %}{{ branch }} branch{% endblocktrans %}
+<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code> ({{ object.get_repo_branch }}
  @ 
 {% with object.get_last_remote_commit as commit %}
-<span class="git-commit">
-{{ commit.hexsha|slice:":7" }}
 {% include "git-commit-info.html" %}
-</span>
 {% endwith %}
 )
-{% endif %}
 </p>
+{% with object.get_export_url as export_url %}
+{% if export_url %}
+<p>
+{% trans "Git repository with Weblate translations:" %}
+<code class="git-repo ui-corner-all">{{ export_url }}</code>
+</p>
+{% endif %}
+{% endwith %}
 {% endif %}

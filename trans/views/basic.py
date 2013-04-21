@@ -32,7 +32,7 @@ from trans.models import (
     Project, SubProject, Translation, Check,
     Dictionary, Change,
 )
-from trans.requirements import get_versions
+from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
 from trans.forms import (
     UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
@@ -46,6 +46,7 @@ from trans.views.helper import (
 import weblate
 
 import datetime
+from urllib import urlencode
 
 
 def home(request):
@@ -56,7 +57,9 @@ def home(request):
     projects = Project.objects.all_acl(request.user)
     acl_projects = projects
     if projects.count() == 1:
-        projects = SubProject.objects.filter(project=projects[0])
+        projects = SubProject.objects.filter(
+            project=projects[0]
+        ).select_related()
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
@@ -75,7 +78,7 @@ def home(request):
             language__in=profile.languages.all()
         ).order_by(
             'subproject__project__name', 'subproject__name'
-        )
+        ).select_related()
 
     # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
@@ -86,10 +89,11 @@ def home(request):
 
     return render_to_response('index.html', RequestContext(request, {
         'projects': projects,
-        'top_translations': top_translations,
-        'top_suggestions': top_suggestions,
+        'top_translations': top_translations.select_related('user'),
+        'top_suggestions': top_suggestions.select_related('user'),
         'last_changes': last_changes,
         'last_changes_rss': reverse('rss'),
+        'last_changes_url': '',
         'usertranslations': usertranslations,
     }))
 
@@ -114,6 +118,7 @@ def show_language(request, lang):
         'object': obj,
         'last_changes': last_changes,
         'last_changes_rss': reverse('rss-language', kwargs={'lang': obj.code}),
+        'last_changes_url': urlencode({'lang': obj.code}),
         'dicts': Project.objects.filter(id__in=dicts),
     }))
 
@@ -182,6 +187,9 @@ def show_project(request, project):
             'rss-project',
             kwargs={'project': obj.slug}
         ),
+        'last_changes_url': urlencode(
+            {'project': obj.slug}
+        ),
     }))
 
 
@@ -198,6 +206,9 @@ def show_subproject(request, project, subproject):
         'last_changes_rss': reverse(
             'rss-subproject',
             kwargs={'subproject': obj.slug, 'project': obj.project.slug}
+        ),
+        'last_changes_url': urlencode(
+            {'subproject': obj.slug, 'project': obj.project.slug}
         ),
     }))
 
@@ -304,13 +315,10 @@ def show_translation(request, project, subproject, lang):
         'search_form': search_form,
         'review_form': review_form,
         'last_changes': last_changes,
+        'last_changes_url': urlencode(obj.get_kwargs()),
         'last_changes_rss': reverse(
             'rss-translation',
-            kwargs={
-                'lang': obj.language.code,
-                'subproject': obj.subproject.slug,
-                'project': obj.subproject.project.slug
-            }
+            kwargs=obj.get_kwargs(),
         ),
     }))
 
@@ -330,8 +338,10 @@ def not_found(request):
 
 
 def about(request):
+    '''
+    Shows about page with version information.
+    '''
     context = {}
-    versions = get_versions()
     totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
     for project in SubProject.objects.iterator():
@@ -349,7 +359,7 @@ def about(request):
     ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-    context['versions'] = versions
+    context['versions'] = get_versions() + get_optional_versions()
 
     return render_to_response('about.html', RequestContext(request, context))
 

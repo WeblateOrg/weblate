@@ -33,13 +33,13 @@ class DummyTranslation(MachineTranslation):
         '''
         return set(('cs',))
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Dummy translation supports just single phrase.
         '''
         if text.strip() == 'Hello, world!':
             return [
-                ('Nazdar světe!', 100),
-                ('Ahoj světe!', 100),
+                ('Nazdar světe!', 100, 'Dummy', text),
+                ('Ahoj světe!', 100, 'Dummy', text),
             ]
         return []

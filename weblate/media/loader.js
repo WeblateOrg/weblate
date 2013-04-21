@@ -1,6 +1,6 @@
 jQuery.fn.extend({
-    insertAtCaret: function(myValue){
-        return this.each(function(i) {
+    insertAtCaret: function (myValue) {
+        return this.each(function (i) {
             if (document.selection) {
                 // For browsers like Internet Explorer
                 this.focus();
@@ -12,7 +12,7 @@ jQuery.fn.extend({
                 var startPos = this.selectionStart;
                 var endPos = this.selectionEnd;
                 var scrollTop = this.scrollTop;
-                this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+                this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
                 this.focus();
                 this.selectionStart = startPos + myValue.length;
                 this.selectionEnd = startPos + myValue.length;
@@ -36,10 +36,11 @@ function mt_set(txt) {
 }
 
 var loading = 0;
+var mt_loaded = false;
 
 function inc_loading() {
     if (loading === 0) {
-        $('#loading').show();
+        $('#mt-loading').show();
     }
     loading++;
 }
@@ -47,95 +48,80 @@ function inc_loading() {
 function dec_loading() {
     loading--;
     if (loading === 0) {
-        $('#loading').hide();
+        $('#mt-loading').hide();
     }
 }
 
 function get_source_string(callback) {
-    inc_loading();
-    $.get($('#js-get').attr('href'), function(data) {
+    $('#loading').show();
+    $.get($('#js-get').attr('href'), function (data) {
         callback(data);
-        dec_loading();
+        $('#loading').hide();
     });
 }
 
-function failed_mt(jqXHR, textStatus, errorThrown) {
+function process_machine_translation(data, textStatus, jqXHR) {
     dec_loading();
-    $('<div title="' + gettext('Failed translation') + '"><p>' + gettext('The request for machine translation has failed.') + '</p><p>' + gettext('Error details:') + ' ' + textStatus + '</p></div>').dialog();
+    if (data.responseStatus == 200) {
+        var lang = $('.translation_html_markup').attr('lang');
+        var dir = $('.translation_html_markup').attr('dir');
+        data.translations.forEach(function (el, idx, ar) {
+            var new_row = $('<tr/>').data('quality', el.quality);
+            var done = false;
+            new_row.append($('<td/>').attr('class', 'translatetext target').attr('lang', lang).attr('dir', dir).text(el.text));
+            new_row.append($('<td/>').attr('class', 'translatetext').text(el.source));
+            new_row.append($('<td/>').text(el.service));
+            new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
+            $('#machine-translations').children('tr').each(function (idx) {
+                if ($(this).data('quality') < el.quality && !done) {
+                    $(this).before(new_row);
+                    done = true;
+                }
+            });
+            if (! done) {
+                $('#machine-translations').append(new_row);
+            }
+        });
+        $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
+            var text = $(this).parent().parent().find('.target').text();
+            mt_set(text);
+        });
+    } else {
+        var msg = interpolate(
+            gettext('The request for machine translation using %s has failed:'),
+            [data.service]
+        );
+        $('#mt-errors').append(
+            $('<li>' + msg + ' ' + data.responseDetails + '</li>')
+        );
+    }
 }
 
-function process_mt(data, textStatus, jqXHR) {
-    if (typeof(data.responseData) == 'undefined') {
-        mt_set(data);
-    } else if (data.responseData !== '') {
-        if (data.responseStatus == 200) {
-            mt_set(data.responseData.translatedText);
-        } else {
-            failed_mt(null, data.responseDetails, null);
-        }
-    }
+function failed_machine_translation(jqXHR, textStatus, errorThrown) {
     dec_loading();
+    $('#mt-errors').append(
+        $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
+    );
 }
 
-function add_translate_button(id, text, callback) {
-    $('#copy-text').after('<a href="#" id="translate-' + id + '">' + text + '</a>');
-    $('#translate-' + id).button({text: true, icons: { primary: "ui-icon-shuffle" }}).click(callback);
-}
-
-function load_translate_apis() {
-    if (typeof(APERTIUM_LANGS) != 'undefined' && APERTIUM_LANGS.indexOf(target_language) != -1) {
-        add_translate_button('apertium', gettext('Translate using Apertium'), function () {
-            get_source_string(function(data) {
-                inc_loading();
-                $.ajax({
-                    url: "http://api.apertium.org/json/translate?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language + "&key=" + APERTIUM_API_KEY,
-                    success: process_mt,
-                    error: failed_mt,
-                    timeout: 10000,
-                    dataType: 'json'
-                });
-            });
-            return false;
-        });
+function load_machine_translations() {
+    if (mt_loaded) {
+        return;
     }
-
-    var microsoft_language = target_language;
-    if (microsoft_language == 'zh-tw') {
-        microsoft_language = 'zh-CHT';
-    } else if (microsoft_language == 'zh-cn') {
-        microsoft_language = 'zh-CHS';
-    }
-    if (typeof(MICROSOFT_LANGS) != 'undefined' && MICROSOFT_LANGS.indexOf(microsoft_language) != -1) {
-        add_translate_button('apertium', gettext('Translate using Microsoft Translator'), function () {
-            get_source_string(function(data) {
-                inc_loading();
-                $.ajax({
-                    url: "http://api.microsofttranslator.com/V2/Ajax.svc/Translate?appID=" + MICROSOFT_API_KEY + "&text=" + encodeURIComponent(data) + "&from=en&to=" + microsoft_language,
-                    success: process_mt,
-                    error: failed_mt,
-                    dataType: 'jsonp',
-                    jsonp: "oncomplete"
-                });
-            });
-            return false;
+    mt_loaded = true;
+    MACHINE_TRANSLATION_SERVICES.forEach(function (el, idx, ar) {
+        inc_loading();
+        $.ajax({
+            url: $('#js-translate').attr('href') + '?service=' + el,
+            success: process_machine_translation,
+            error: failed_machine_translation,
+            dataType: 'json'
         });
-    }
-    add_translate_button('mymemory', gettext('Translate using MyMemory'), function () {
-        get_source_string(function(data) {
-            inc_loading();
-            $.ajax({
-                url: "http://mymemory.translated.net/api/get?q=" + encodeURIComponent(data) + "&langpair=en|" + target_language,
-                success: process_mt,
-                error: failed_mt,
-                dataType: 'json'
-            });
-        });
-        return false;
     });
 }
 
 function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function cell_cmp(a, b) {
@@ -149,19 +135,23 @@ function cell_cmp(a, b) {
         a = a.toLowerCase();
         b = b.toLowerCase();
     }
-    if (a == b) return 0;
-    if (a > b) return 1;
+    if (a == b) {
+        return 0;
+    }
+    if (a > b) {
+        return 1;
+    }
     return -1;
 }
 
 function load_table_sorting() {
-    $('table.sort').each(function() {
+    $('table.sort').each(function () {
         var table = $(this),
             tbody = table.find('tbody'),
             thead = table.find('thead'),
             thIndex = 0;
         $(this).find('thead th')
-            .each(function(){
+            .each(function () {
 
             var th = $(this),
                 inverse = 1;
@@ -177,13 +167,13 @@ function load_table_sorting() {
                 th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort ui-icon ui-icon-carat-2-n-s" />');
 
                 // Click handler
-                th.click(function(){
+                th.click(function () {
 
-                    tbody.find('td,th').filter(function(){
+                    tbody.find('td,th').filter(function () {
                         return $(this).index() === myIndex;
-                    }).sortElements(function(a, b){
+                    }).sortElements(function (a, b) {
                         return inverse * cell_cmp($.text([a]), $.text([b]));
-                    }, function(){
+                    }, function () {
 
                         // parentNode is the element we want to move
                         return this.parentNode;
@@ -209,10 +199,10 @@ function load_table_sorting() {
 function load_progress() {
     $('div.progress').each(function f(i, e) {
         var $e = $(e);
-        var good = parseFloat($e.attr('value'));
+        var good = parseFloat($e.data('value'));
         var checks = -1;
-        if ($e.attr('checks')) {
-            checks = parseFloat($e.attr('checks'));
+        if ($e.data('checks')) {
+            checks = parseFloat($e.data('checks'));
             good = good - checks;
         }
         var parts = [{
@@ -225,9 +215,9 @@ function load_progress() {
                 barClass: 'checks'
             });
         }
-        if ($e.attr('fuzzy')) {
+        if ($e.data('fuzzy')) {
             parts.push({
-                value: parseFloat($e.attr('fuzzy')),
+                value: parseFloat($e.data('fuzzy')),
                 barClass: 'fuzzy'
             });
         }
@@ -240,11 +230,10 @@ function load_progress() {
     $('div.progress .good').attr('title', gettext('Translated strings'));
 }
 
-$(function() {
+$(function () {
     $('.button').button();
     $('#breadcrumbs').buttonset();
     load_progress();
-    $('.errorlist').addClass('ui-state-error ui-corner-all');
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
     $('#navi').buttonset();
@@ -256,16 +245,16 @@ $(function() {
     $('#navi .button-disabled').button('disable');
     $('.translation-editor').change(text_change).keypress(text_change).autogrow();
     $('.translation-editor').focus();
-    $('#toggle-direction').buttonset().change(function(e) {
+    $('#toggle-direction').buttonset().change(function (e) {
         $('.translation-editor').attr('dir', $("#toggle-direction :radio:checked").attr('value')).focus();
     });
     $('#copy-text').button({text: true, icons: { primary: "ui-icon-arrow-1-s" }}).click(function f() {
-        get_source_string(function(data) {
+        get_source_string(function (data) {
             mt_set(data);
         });
         return false;
     });
-    $('.specialchar').button().click(function() {
+    $('.specialchar').button().click(function () {
         var text = $(this).text();
         if (text == '\\t') {
             text = '\t';
@@ -276,13 +265,10 @@ $(function() {
         }
         $('#id_target').insertAtCaret(text);
     });
-    if (typeof(target_language) != 'undefined') {
-        load_translate_apis();
-    }
     $('.ignorecheck').button({text: false, icons: { primary: "ui-icon-close" }}).click(function () {
         var parent_id = $(this).parent()[0].id;
         var check_id = parent_id.substring(6);
-        $.get($(this).attr('href'), function() {
+        $.get($(this).attr('href'), function () {
             $('#' + parent_id).remove();
         });
         return false;
@@ -290,7 +276,7 @@ $(function() {
     load_table_sorting();
     $("#translate-tabs").tabs({
         ajaxOptions: {
-            error: function(xhr, status, index, anchor) {
+            error: function (xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
@@ -306,7 +292,7 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
-            ui.jqXHR.error(function() {
+            ui.jqXHR.error(function () {
                 $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
             });
         },
@@ -317,11 +303,23 @@ $(function() {
                 var text = $(this).parent().parent().find('.target').text();
                 $('#id_target').insertAtCaret(text);
             });
+        },
+        create: function (e, ui) {
+            /* Machine translations loading */
+            if (ui.panel.attr('id') == 'tab-machine') {
+                load_machine_translations();
+            }
+        },
+        activate: function (e, ui) {
+            /* Machine translations loading */
+            if (ui.newPanel.attr('id') == 'tab-machine') {
+                load_machine_translations();
+            }
         }
     });
     $("div.tabs").tabs({
         ajaxOptions: {
-            error: function(xhr, status, index, anchor) {
+            error: function (xhr, status, index, anchor) {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
@@ -333,7 +331,7 @@ $(function() {
             $('.buttons').buttonset();
             $('.buttons .disabled').button('disable');
             $('.details-accordion').accordion({collapsible: true, active: false});
-            $('.confirm-reset').click(function() {
+            $('.confirm-reset').click(function () {
 
                 $('<div title="' + gettext('Confirm resetting repository') + '"><p>' + gettext('Resetting the repository will throw away all local changes!') + '</p></div>').dialog({
                     modal: true,
@@ -341,14 +339,14 @@ $(function() {
                     buttons: [
                         {
                             text: gettext("Ok"),
-                            click: function() {
+                            click: function () {
                                 window.location = $('.confirm-reset').attr('href');
                                 $(this).dialog("close");
                             }
                         },
                         {
                             text: gettext("Cancel"),
-                            click: function() {
+                            click: function () {
                                 $(this).dialog("close");
                             }
                         }
@@ -363,27 +361,27 @@ $(function() {
             if ($panel.is(":empty")) {
                 $panel.append("<div class='tab-loading'>" + gettext("Loading…") + "</div>");
             }
-            ui.jqXHR.error(function() {
+            ui.jqXHR.error(function () {
                 $panel.find('.tab-loading').html(gettext("AJAX request to load this content has failed!"));
             });
 
         }
     });
-    $("#id_date").datepicker();
-    $("form.autosubmit select").change(function() {
+    $("#id_date").datepicker({ dateFormat: "yy-mm-dd" });
+    $("form.autosubmit select").change(function () {
         $("form.autosubmit").submit();
     });
     $('#s_content').hide();
     $('#id_content').parent('td').parent('tr').hide();
-    $('.expander').click(function() {
+    $('.expander').click(function () {
         $(this).parent().find('.expander-icon').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
         $(this).parent().next().toggle();
     });
-    $('.code-example').focus(function() {
+    $('.code-example').focus(function () {
         $(this).select();
     });
     $(document).tooltip({
-        content: function() {
+        content: function () {
             var element = $(this);
             if (element.is('span.git-commit')) {
                 element = $(this).find('.git-details');
@@ -393,7 +391,7 @@ $(function() {
         items: "span.tooltip, span.git-commit"
     });
     if (update_lock) {
-        window.setInterval(function() {
+        window.setInterval(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
     }

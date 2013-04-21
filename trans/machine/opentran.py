@@ -47,9 +47,11 @@ class OpenTranTranslation(MachineTranslation):
         return (
             match['text'],
             100 - (match['value'] - 1) * 20,
+            '%s (%s)' % (self.name, match['projects'][0]['name']),
+            match['projects'][0]['orig_phrase'],
         )
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
         '''

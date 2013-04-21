@@ -41,7 +41,7 @@ class MicrosoftTranslation(MachineTranslation):
     '''
     Microsoft Translator machine translation support.
     '''
-    name = 'Microsoft'
+    name = 'Microsoft Translator'
 
     def __init__(self):
         '''
@@ -98,6 +98,10 @@ class MicrosoftTranslation(MachineTranslation):
             return 'zh-CHT'
         if language == 'zh-cn':
             return 'zh-CHS'
+        if language == 'nb':
+            return 'no'
+        if language == 'pt-br':
+            return 'pt'
         return language
 
     def download_languages(self):
@@ -107,7 +111,7 @@ class MicrosoftTranslation(MachineTranslation):
         data = self.json_req(LIST_URL)
         return data
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -119,4 +123,4 @@ class MicrosoftTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.json_req(TRANSLATE_URL, **args)
-        return [(response, 100)]
+        return [(response, 100, self.name, text)]

@@ -180,3 +180,31 @@ class DictionaryTest(ViewTestCase):
             response,
             u'msgid "wizard"\nmsgstr "průvodce"'
         )
+
+    def test_list(self):
+        '''
+        Test for listing dictionaries.
+        '''
+        self.import_tbx()
+
+        # List dictionaries
+        response = self.client.get(reverse(
+            'show_dictionaries',
+            kwargs=self.kw_project
+        ))
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, 'Italian')
+
+        dict_url = self.get_url('show_dictionary')
+
+        # List all words
+        response = self.client.get(dict_url)
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, '1 / 7')
+        self.assertContains(response, u'datový tok')
+
+        # Filtering by letter
+        response = self.client.get(dict_url, {'letter': 'b'})
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, '1 / 1')
+        self.assertContains(response, u'datový tok')

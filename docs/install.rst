@@ -28,6 +28,8 @@ south
     http://south.aeracode.org/
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
+PyICU (optional for proper sorting of strings)
+    https://pypi.python.org/pypi/PyICU
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
@@ -39,7 +41,7 @@ On Debian or Ubuntu, all requirements are already packaged, to install them you 
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git python-django-registration \
-        python-whoosh python-cairo python-gtk2 python-django-south
+        python-whoosh python-cairo python-gtk2 python-django-south python-libravatar python-pyicu
 
     # Optional for database backend
 
@@ -298,6 +300,18 @@ you install `pyLibavatar`_, you will get proper support for federated avatars.
 
 .. _pyLibavatar: https://pypi.python.org/pypi/pyLibravatar
 
+
+.. _production-pyicu:
+
+PyICU library
++++++++++++++
+
+`PyICU`_ library is optionally used by Weblate to sort unicode strings. This
+way language names are properly sorted even in non-ascii languages like
+Japanese, Chinese or Arabic or for languages with accented letters.
+
+.. _PyICU: https://pypi.python.org/pypi/PyICU
+
 .. _server:
 
 Running server
@@ -490,9 +504,20 @@ Several internal modules and paths have been renamed and changed, please adjust
 your :file:`settings.py` to match that (consult :file:`settings_example.py` for
 correct values).
 
-* Many modules lost their `weblate.` prefix.
+* Many modules lost their ``weblate.`` prefix.
 * Checks were moved to submodules.
 * Locales were moved to top level directory.
+
+The migration of database structure to 1.5 might take quite long, it is
+recommended to put your site offline, while the migration is going on.
+
+
+.. note::
+
+    If you have update in same directory, stale :file:`*.pyc` files might be
+    left around and cause various import errors. To recover from this, delete
+    all of them in Weblate's directory, for example by 
+    ``find . -name '*.pyc' - delete``.
 
 Migrating from Pootle
 ---------------------

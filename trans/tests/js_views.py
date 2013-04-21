@@ -40,12 +40,11 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'Hello')
         self.assertEquals(response.content, unit.get_source_plurals()[0])
 
-    def test_get_similar(self):
-        unit = self.get_unit()
         response = self.client.get(
-            reverse('js-similar', kwargs={'unit_id': unit.id}),
+            reverse('js-get', kwargs={'checksum': 'x'}),
         )
-        self.assertContains(response, 'No similar strings found')
+        self.assertEqual(response.status_code, 200)
+        self.assertEquals(response.content, '')
 
     def test_translate(self):
         unit = self.get_unit()
@@ -56,12 +55,29 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'Ahoj')
         data = simplejson.loads(response.content)
         self.assertEqual(
-            data,
+            data['translations'],
             [
-                {'q': 100, 's': 'Dummy', 't': 'Nazdar světe!'},
-                {'q': 100, 's': 'Dummy', 't': 'Ahoj světe!'},
+                {
+                    'quality': 100,
+                    'service': 'Dummy',
+                    'text': 'Nazdar světe!',
+                    'source': u'Hello, world!\n',
+                },
+                {
+                    'quality': 100,
+                    'service': 'Dummy',
+                    'text': 'Ahoj světe!',
+                    'source': u'Hello, world!\n',
+                },
             ]
         )
+
+        # Invalid service
+        response = self.client.get(
+            reverse('js-translate', kwargs={'unit_id': unit.id}),
+            {'service': 'invalid'}
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_get_other(self):
         unit = self.get_unit()
@@ -78,4 +94,12 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(
             response,
             'No related strings found in dictionary.'
+        )
+
+    def test_js_config(self):
+        response = self.client.get(reverse('js-config'))
+        # Check we have dummy service listed
+        self.assertContains(
+            response,
+            "'dummy'"
         )

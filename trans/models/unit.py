@@ -26,12 +26,10 @@ from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.core.cache import cache
 from whoosh import qparser
-import itertools
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
 from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
-from trans.data import IGNORE_SIMILAR
 
 from trans.filelock import FileLockException
 from trans.util import is_plural, split_plural
@@ -95,7 +93,7 @@ class UnitManager(models.Manager):
 
         # Filter by language
         if rqtype == 'allchecks':
-            checks = checks.filter(language=translation.language)
+            return self.filter(has_failing_check=True)
         elif rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
             filter_translated = False
@@ -124,19 +122,14 @@ class UnitManager(models.Manager):
         '''
         Basic filtering based on unit state or failed checks.
         '''
-        from trans.models.unitdata import Suggestion, Comment
+        from trans.models.unitdata import Comment
 
         if rqtype == 'fuzzy':
             return self.filter(fuzzy=True)
         elif rqtype == 'untranslated':
             return self.filter(translated=False)
         elif rqtype == 'suggestions':
-            sugs = Suggestion.objects.filter(
-                language=translation.language,
-                project=translation.subproject.project
-            )
-            sugs = sugs.values_list('checksum', flat=True)
-            return self.filter(checksum__in=sugs)
+            return self.filter(has_suggestion=True)
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
@@ -145,12 +138,7 @@ class UnitManager(models.Manager):
             coms = coms.values_list('checksum', flat=True)
             return self.filter(checksum__in=coms)
         elif rqtype == 'targetcomments':
-            coms = Comment.objects.filter(
-                language=translation.language,
-                project=translation.subproject.project
-            )
-            coms = coms.values_list('checksum', flat=True)
-            return self.filter(checksum__in=coms)
+            return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation)
         else:
@@ -168,6 +156,10 @@ class UnitManager(models.Manager):
             return translation.fuzzy
         elif rqtype == 'untranslated':
             return translation.total - translation.translated
+        elif rqtype == 'allchecks':
+            return translation.failing_checks
+        elif rqtype == 'suggestions':
+            return translation.have_suggestion
 
         # Try to get value from cache
         cache_key = 'counts-%s-%s-%s' % (
@@ -192,7 +184,7 @@ class UnitManager(models.Manager):
         '''
         if user.is_anonymous():
             return self.none()
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         sample = self.all()[0]
         changes = Change.objects.filter(
             translation=sample.translation,
@@ -253,8 +245,40 @@ class UnitManager(models.Manager):
         return [searcher.stored_fields(d)['checksum']
                 for d in searcher.docs_for_query(parsed)]
 
-    def search(self, query, source=True, context=True, translation=True,
-               checksums=False):
+    def search(self, search_type, search_query,
+               search_source=True, search_context=True, search_target=True):
+        '''
+        High level wrapper for searching.
+        '''
+
+        if search_type == 'exact':
+            query = Q()
+            if search_source:
+                query |= Q(source=search_query)
+            if search_target:
+                query |= Q(target=search_query)
+            if search_context:
+                query |= Q(context=search_query)
+            return self.filter(query)
+        elif search_type == 'substring':
+            query = Q()
+            if search_source:
+                query |= Q(source__icontains=search_query)
+            if search_target:
+                query |= Q(target__icontains=search_query)
+            if search_context:
+                query |= Q(context__icontains=search_query)
+            return self.filter(query)
+        else:
+            return self.fulltext(
+                search_query,
+                search_source,
+                search_context,
+                search_target
+            )
+
+    def fulltext(self, query, source=True, context=True, translation=True,
+                 checksums=False):
         '''
         Performs full text search on defined set of fields.
 
@@ -306,46 +330,67 @@ class UnitManager(models.Manager):
 
         return self.filter(checksum__in=ret)
 
-    def similar(self, unit):
+    def same_source(self, unit):
         '''
-        Finds similar units to current unit.
+        Finds units with same source.
         '''
-        ret = set([unit.checksum])
         index = FULLTEXT_INDEX.source_searcher(
             not appsettings.OFFLOAD_INDEXING
         )
+        source_string = unit.get_source_plurals()[0]
+        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
+        parsed = parser.parse(source_string)
+        checksums = set()
         with index as searcher:
-            # Extract up to 10 terms from the source
-            key_terms = searcher.key_terms_from_text(
-                'source',
-                unit.source,
-                numterms=10
-            )
-            terms = [kw[0] for kw in key_terms if not kw in IGNORE_SIMILAR]
-            cnt = len(terms)
-            # Try to find at least configured number of similar strings,
-            # remove up to 4 words
-            while (len(ret) < appsettings.SIMILAR_MESSAGES
-                    and cnt > 0
-                    and len(terms) - cnt < 4):
-                for search in itertools.combinations(terms, cnt):
-                    results = self.search(
-                        ' '.join(search),
-                        True,
-                        False,
-                        False,
-                        True
-                    )
-                    ret = ret.union(results)
-                cnt -= 1
+            # Search for same string
+            results = searcher.search(parsed)
+            for result in results:
+                checksums.add(result['checksum'])
 
-        project = unit.translation.subproject.project
         return self.filter(
-            translation__subproject__project=project,
+            checksum__in=checksums,
             translation__language=unit.translation.language,
-            checksum__in=ret
+            translated=True
         ).exclude(
-            target__in=['', unit.target]
+            pk=unit.id
+        )
+
+    def more_like_this(self, unit):
+        '''
+        Finds closely similar units.
+        '''
+        index = FULLTEXT_INDEX.source_searcher(
+            not appsettings.OFFLOAD_INDEXING
+        )
+        source_string = unit.get_source_plurals()[0]
+        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
+        parsed = parser.parse(source_string)
+        checksums = set()
+        with index as searcher:
+            # Search for same string
+            results = searcher.search(parsed)
+            if len(results) == 0:
+                return self.none()
+            first_hit = results[0]
+            # Find similar results to first one
+            more_results = first_hit.more_like_this(
+                'source',
+                source_string,
+                500
+            )
+            # Include all more like this results
+            for result in more_results:
+                checksums.add(result['checksum'])
+            # Remove all original matches
+            for result in results:
+                checksums.discard(result['checksum'])
+
+        return self.filter(
+            checksum__in=checksums,
+            translation__language=unit.translation.language,
+            translated=True
+        ).exclude(
+            pk=unit.id
         )
 
     def same(self, unit):
@@ -358,6 +403,23 @@ class UnitManager(models.Manager):
             translation__subproject__project=project,
             translation__language=unit.translation.language
         )
+
+    def get_checksum(self, request, translation, checksum):
+        '''
+        Returns unit based on checksum.
+        '''
+        try:
+            return Unit.objects.filter(
+                checksum=checksum,
+                translation=translation
+            )[0]
+        except Unit.DoesNotExist:
+            weblate.logger.error('message %s disappeared!', checksum)
+            messages.error(
+                request,
+                _('Message you wanted to translate is no longer available!')
+            )
+            raise
 
 
 class Unit(models.Model):
@@ -373,6 +435,12 @@ class Unit(models.Model):
     fuzzy = models.BooleanField(default=False, db_index=True)
     translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
+
+    has_suggestion = models.BooleanField(default=False, db_index=True)
+    has_comment = models.BooleanField(default=False, db_index=True)
+    has_failing_check = models.BooleanField(default=False, db_index=True)
+
+    num_words = models.IntegerField(default=0)
 
     objects = UnitManager()
 
@@ -422,13 +490,17 @@ class Unit(models.Model):
 
         # Update checks on fuzzy update or on content change
         same_content = (target == self.target)
-        same_fuzzy = (fuzzy == self.fuzzy)
+        same_state = (
+            fuzzy == self.fuzzy
+            and translated == self.translated
+            and not created
+        )
 
         # Check if we actually need to change anything
         if (not created and
                 location == self.location and
                 flags == self.flags and
-                same_content and same_fuzzy and
+                same_content and same_state and
                 translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
@@ -448,7 +520,7 @@ class Unit(models.Model):
             force_insert=created,
             backend=True,
             same_content=same_content,
-            same_fuzzy=same_fuzzy
+            same_state=same_state
         )
 
     def is_plural(self):
@@ -505,8 +577,10 @@ class Unit(models.Model):
         '''
         Stores unit to backend.
         '''
-        from accounts.models import Profile
-        from trans.models.unitdata import Change
+        from accounts.models import (
+            notify_new_translation, notify_new_contributor
+        )
+        from trans.models.changes import Change
 
         # Update lock timestamp
         self.translation.update_lock(request)
@@ -564,13 +638,7 @@ class Unit(models.Model):
         self.translation.update_stats()
 
         # Notify subscribed users about new translation
-        subscriptions = Profile.objects.subscribed_any_translation(
-            self.translation.subproject.project,
-            self.translation.language,
-            request.user
-        )
-        for subscription in subscriptions:
-            subscription.notify_any_translation(self, oldunit)
+        notify_new_translation(self, oldunit, request.user)
 
         # Update user stats
         profile = request.user.get_profile()
@@ -583,16 +651,7 @@ class Unit(models.Model):
             user=request.user
         )
         if not user_changes.exists():
-            # Get list of subscribers for new contributor
-            subscriptions = Profile.objects.subscribed_new_contributor(
-                self.translation.subproject.project,
-                self.translation.language,
-                request.user
-            )
-            for subscription in subscriptions:
-                subscription.notify_new_contributor(
-                    self.translation, request.user
-                )
+            notify_new_contributor(self, request.user)
 
         # Generate Change object for this change
         if gen_change:
@@ -640,14 +699,19 @@ class Unit(models.Model):
 
         # Pop parameter indicating that we don't have to process content
         same_content = kwargs.pop('same_content', False)
-        same_fuzzy = kwargs.pop('same_fuzzy', False)
+        same_state = kwargs.pop('same_state', False)
+        # Keep the force_insert for parent save
         force_insert = kwargs.get('force_insert', False)
+
+        # Store number of words
+        if not same_content:
+            self.num_words = len(self.get_source_plurals()[0].split())
 
         # Actually save the unit
         super(Unit, self).save(*args, **kwargs)
 
         # Update checks if content or fuzzy flag has changed
-        if not same_content or not same_fuzzy:
+        if not same_content or not same_state:
             self.check()
 
         # Update fulltext index if content has changed or this is a new unit
@@ -700,6 +764,21 @@ class Unit(models.Model):
             project=self.translation.subproject.project,
             language=self.translation.language
         )
+
+    def cleanup_checks(self, source, target):
+        '''
+        Cleanups listed source and target checks.
+        '''
+        from trans.models.unitdata import Check
+        if len(source) == 0 and len(target) == 0:
+            return
+        Check.objects.filter(
+            checksum=self.checksum,
+            project=self.translation.subproject.project
+        ).filter(
+            (Q(language=self.translation.language) & Q(check__in=target)) |
+            (Q(language=None) & Q(check__in=source))
+        ).delete()
 
     def checks(self):
         '''
@@ -793,6 +872,7 @@ class Unit(models.Model):
             # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
                 self.checks().delete()
+                self.translation.invalidate_cache()
                 return
 
             # If there is no consistency checking, we can return
@@ -805,64 +885,88 @@ class Unit(models.Model):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        failing_target = []
-        failing_source = []
-
-        change = False
+        old_target_checks = set(self.checks().values_list('check', flat=True))
+        old_source_checks = set(self.source_checks().values_list(
+            'check', flat=True
+        ))
 
         # Run all checks
         for check in checks_to_run:
             check_obj = CHECKS[check]
             # Target check
             if check_obj.target and check_obj.check(src, tgt, self):
-                failing_target.append(check)
+                if check in old_target_checks:
+                    # We already have this check
+                    old_target_checks.remove(check)
+                else:
+                    # Create new check
+                    Check.objects.create(
+                        checksum=self.checksum,
+                        project=self.translation.subproject.project,
+                        language=self.translation.language,
+                        ignore=False,
+                        check=check
+                    )
             # Source check
             if check_obj.source and check_obj.check_source(src, self):
-                failing_source.append(check)
+                if check in old_source_checks:
+                    # We already have this check
+                    old_source_checks.remove(check)
+                else:
+                    # Create new check
+                    Check.objects.create(
+                        checksum=self.checksum,
+                        project=self.translation.subproject.project,
+                        language=None,
+                        ignore=False,
+                        check=check
+                    )
 
-        # Compare to existing checks, delete non failing ones
-        for check in self.checks():
-            if check.check in failing_target:
-                failing_target.remove(check.check)
-                continue
-            if cleanup_checks:
-                check.delete()
-                change = True
+        # Delete no longer failing checks
+        if cleanup_checks:
+            self.cleanup_checks(old_source_checks, old_target_checks)
 
-        # Compare to existing source checks, delete non failing ones
-        for check in self.source_checks():
-            if check.check in failing_source:
-                failing_source.remove(check.check)
-                continue
-            if cleanup_checks:
-                check.delete()
-                change = True
+        # Update failing checks flag
+        self.update_has_failing_check()
 
-        # Store new checks in database
-        for check in failing_target:
-            Check.objects.create(
-                checksum=self.checksum,
-                project=self.translation.subproject.project,
-                language=self.translation.language,
-                ignore=False,
-                check=check
-            )
-            change = True
+    def update_has_failing_check(self):
+        '''
+        Updates flag counting failing checks.
+        '''
+        has_failing_check = len(self.active_checks()) > 0
+        if has_failing_check != self.has_failing_check:
+            self.has_failing_check = has_failing_check
+            self.save(backend=True)
 
-        # Store new checks in database
-        for check in failing_source:
-            Check.objects.create(
-                checksum=self.checksum,
-                project=self.translation.subproject.project,
-                language=None,
-                ignore=False,
-                check=check
-            )
-            change = True
-
-        # Invalidate checks cache
-        if change:
+            # Invalidate checks cache
             self.translation.invalidate_cache()
+
+            # Update translation stats
+            self.translation.update_stats()
+
+    def update_has_suggestion(self):
+        '''
+        Updates flag counting suggestions.
+        '''
+        has_suggestion = len(self.suggestions()) > 0
+        if has_suggestion != self.has_suggestion:
+            self.has_suggestion = has_suggestion
+            self.save(backend=True)
+
+            # Update translation stats
+            self.translation.update_stats()
+
+    def update_has_comment(self):
+        '''
+        Updates flag counting comments.
+        '''
+        has_comment = len(self.get_comments()) > 0
+        if has_comment != self.has_comment:
+            self.has_comment = has_comment
+            self.save(backend=True)
+
+            # Update translation stats
+            self.translation.update_stats()
 
     def nearby(self):
         '''
@@ -872,4 +976,4 @@ class Unit(models.Model):
             translation=self.translation,
             position__gte=self.position - appsettings.NEARBY_MESSAGES,
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
-        )
+        ).select_related()

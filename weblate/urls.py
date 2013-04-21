@@ -27,6 +27,7 @@ from trans.feeds import (
     TranslationChangesFeed, SubProjectChangesFeed,
     ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 )
+from trans.views.changes import ChangesView
 from weblate.sitemaps import sitemaps
 import accounts.urls
 
@@ -147,6 +148,11 @@ urlpatterns = patterns(
         r'^projects/' + TRANSLATION + 'download/$',
         'trans.views.files.download_translation',
         name='download_translation',
+    ),
+    url(
+        r'^projects/' + TRANSLATION + 'language_pack/$',
+        'trans.views.files.download_language_pack',
+        name='download_language_pack',
     ),
     url(
         r'^projects/' + TRANSLATION + 'upload/$',
@@ -395,6 +401,13 @@ urlpatterns = patterns(
         name='show_check_subproject',
     ),
 
+    # Changes browsing
+    url(
+        r'^changes/$',
+        ChangesView.as_view(),
+        name='changes',
+    ),
+
     # Notification hooks
     url(
         r'^hooks/update/' + SUBPROJECT + '$',
@@ -524,11 +537,6 @@ urlpatterns = patterns(
         name='js-config',
     ),
     url(
-        r'^js/similar/(?P<unit_id>[0-9]+)/$',
-        'trans.views.js.get_similar',
-        name='js-similar',
-    ),
-    url(
         r'^js/translate/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.translate',
         name='js-translate',
@@ -561,9 +569,21 @@ urlpatterns = patterns(
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^admin/report/$', 'trans.admin_views.report'),
-    url(r'^admin/ssh/$', 'trans.admin_views.ssh'),
-    url(r'^admin/performance/$', 'trans.admin_views.performance'),
+    url(
+        r'^admin/report/$',
+        'trans.admin_views.report',
+        name='admin-report'
+    ),
+    url(
+        r'^admin/ssh/$',
+        'trans.admin_views.ssh',
+        name='admin-ssh'
+    ),
+    url(
+        r'^admin/performance/$',
+        'trans.admin_views.performance',
+        name='admin-performance'
+    ),
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth

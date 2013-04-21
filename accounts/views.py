@@ -30,6 +30,7 @@ from django.utils import translation
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
+from urllib import urlencode
 
 from accounts.models import set_lang
 from trans.models import Change, Project
@@ -192,9 +193,9 @@ def user_page(request, user):
     last_changes = all_changes[:10]
 
     # Filter where project is active
-    user_projects_ids = list(all_changes.values_list(
+    user_projects_ids = set(all_changes.values_list(
         'translation__subproject__project', flat=True
-    ).distinct())
+    ))
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 
     return render_to_response(
@@ -205,6 +206,7 @@ def user_page(request, user):
                 'page_profile': profile,
                 'page_user': user,
                 'last_changes': last_changes,
+                'last_changes_url': urlencode({'user': user.username}),
                 'user_projects': user_projects,
             }
         )

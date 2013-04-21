@@ -20,23 +20,82 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Count
-from django.utils.translation import ugettext as _, ugettext_lazy
-from django.utils import timezone
 from lang.models import Language
 from trans.checks import CHECKS
 from trans.models.unit import Unit
 from trans.models.project import Project
-from trans.models.translation import Translation
 from trans.util import get_user_display
 
 
-class Suggestion(models.Model):
+class RelatedUnitMixin(object):
+    '''
+    Mixin to provide access to related units for checksum referenced objects.
+    '''
+    def get_related_units(self):
+        '''
+        Returns queryset with related units.
+        '''
+        related_units = Unit.objects.filter(
+            checksum=self.checksum,
+            translation__subproject__project=self.project,
+        )
+        if self.language is not None:
+            related_units = related_units.filter(
+                translation__language=self.language
+            )
+        return related_units
+
+
+class SuggestionManager(models.Manager):
+    def add(self, unit, target, user):
+        '''
+        Creates new suggestion for this unit.
+        '''
+        from trans.models.changes import Change
+        from accounts.models import notify_new_suggestion
+
+        if not user.is_authenticated():
+            user = None
+
+        # Create the suggestion
+        suggestion = Suggestion.objects.create(
+            target=target,
+            checksum=unit.checksum,
+            language=unit.translation.language,
+            project=unit.translation.subproject.project,
+            user=user
+        )
+
+        # Record in change
+        Change.objects.create(
+            unit=unit,
+            action=Change.ACTION_SUGGESTION,
+            translation=unit.translation,
+            user=user
+        )
+
+        # Notify subscribed users
+        notify_new_suggestion(unit, suggestion, user)
+
+        # Update suggestion stats
+        if user is not None:
+            profile = user.get_profile()
+            profile.suggested += 1
+            profile.save()
+
+        # Update unit flags
+        for relunit in suggestion.get_related_units():
+            relunit.update_has_suggestion()
+
+
+class Suggestion(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
+
+    objects = SuggestionManager()
 
     class Meta:
         permissions = (
@@ -44,27 +103,28 @@ class Suggestion(models.Model):
         )
         app_label = 'trans'
 
-    def accept(self, request):
-        allunits = Unit.objects.filter(
+    def accept(self, translation, request):
+        allunits = translation.unit_set.filter(
             checksum=self.checksum,
-            translation__subproject__project=self.project,
-            translation__language=self.language
         )
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = False
-            unit.save_backend(request, False)
+            unit.save_backend(request)
+        self.delete()
+
+    def delete(self, *args, **kwargs):
+        super(Suggestion, self).delete(*args, **kwargs)
+        # Update unit flags
+        for unit in self.get_related_units():
+            unit.update_has_suggestion()
 
     def get_matching_unit(self):
         '''
         Retrieves one (possibly out of several) unit matching
         this suggestion.
         '''
-        return Unit.objects.filter(
-            checksum=self.checksum,
-            translation__subproject__project=self.project,
-            translation__language=self.language,
-        )[0]
+        return self.get_related_units()[0]
 
     def get_source(self):
         '''
@@ -82,13 +142,56 @@ class Suggestion(models.Model):
         return get_user_display(self.user, link=True)
 
 
-class Comment(models.Model):
+class CommentManager(models.Manager):
+    def add(self, unit, user, lang, text):
+        '''
+        Adds comment to this unit.
+        '''
+        from trans.models.changes import Change
+        from accounts.models import notify_new_comment
+
+        new_comment = Comment.objects.create(
+            user=user,
+            checksum=unit.checksum,
+            project=unit.translation.subproject.project,
+            comment=text,
+            language=lang
+        )
+        Change.objects.create(
+            unit=unit,
+            action=Change.ACTION_COMMENT,
+            translation=unit.translation,
+            user=user
+        )
+
+        # Invalidate counts cache
+        if lang is None:
+            unit.translation.invalidate_cache('sourcecomments')
+        else:
+            unit.translation.invalidate_cache('targetcomments')
+
+        # Update unit stats
+        for relunit in new_comment.get_related_units():
+            relunit.update_has_comment()
+
+        # Notify subscribed users
+        notify_new_comment(
+            unit,
+            new_comment,
+            user,
+            unit.translation.subproject.report_source_bugs
+        )
+
+
+class Comment(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = CommentManager()
 
     class Meta:
         ordering = ['timestamp']
@@ -97,10 +200,16 @@ class Comment(models.Model):
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 
+    def delete(self, *args, **kwargs):
+        super(Comment, self).delete(*args, **kwargs)
+        # Update unit flags
+        for unit in self.get_related_units():
+            unit.update_has_comment()
+
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
-class Check(models.Model):
+class Check(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
@@ -112,6 +221,7 @@ class Check(models.Model):
             ('ignore_check', "Can ignore check results"),
         )
         app_label = 'trans'
+        unique_together = ('checksum', 'project', 'language', 'check')
 
     def __unicode__(self):
         return '%s/%s: %s' % (
@@ -132,140 +242,16 @@ class Check(models.Model):
         except:
             return ''
 
-
-class ChangeManager(models.Manager):
-    def content(self):
+    def set_ignore(self):
         '''
-        Retuns queryset with content changes.
+        Sets ignore flag.
         '''
-        return self.filter(
-            action__in=(Change.ACTION_CHANGE, Change.ACTION_NEW),
-            user__isnull=False,
-        )
+        self.ignore = True
+        self.save()
 
-    def count_stats(self, days, step, dtstart, base):
-        '''
-        Counts number of changes in given dataset and period groupped by
-        step days.
-        '''
-
-        # Count number of changes
-        result = []
-        for dummy in xrange(0, days, step):
-            # Calculate interval
-            int_start = dtstart
-            int_end = int_start + timezone.timedelta(days=step)
-
-            # Count changes
-            int_base = base.filter(timestamp__range=(int_start, int_end))
-            count = int_base.aggregate(Count('id'))
-
-            # Append to result
-            result.append((int_start, count['id__count']))
-
-            # Advance to next interval
-            dtstart = int_end
-
-        return result
-
-    def base_stats(self, days, step,
-                   project=None, subproject=None, translation=None,
-                   language=None, user=None):
-        '''
-        Core of daily/weekly/monthly stats calculation.
-        '''
-
-        # Get range (actually start)
-        dtend = timezone.now().date()
-        dtstart = dtend - timezone.timedelta(days=days)
-
-        # Base for filtering
-        base = self.all()
-
-        # Filter by translation/project
-        if translation is not None:
-            base = base.filter(translation=translation)
-        elif subproject is not None:
-            base = base.filter(translation__subproject=subproject)
-        elif project is not None:
-            base = base.filter(translation__subproject__project=project)
-
-        # Filter by language
-        if language is not None:
-            base = base.filter(translation__language=language)
-
-        # Filter by language
-        if user is not None:
-            base = base.filter(user=user)
-
-        return self.count_stats(days, step, dtstart, base)
-
-    def month_stats(self, *args, **kwargs):
-        '''
-        Reports daily stats for changes.
-        '''
-        return self.base_stats(30, 1, *args, **kwargs)
-
-    def year_stats(self, *args, **kwargs):
-        '''
-        Reports monthly stats for changes.
-        '''
-        return self.base_stats(365, 7, *args, **kwargs)
-
-
-class Change(models.Model):
-    ACTION_UPDATE = 0
-    ACTION_COMPLETE = 1
-    ACTION_CHANGE = 2
-    ACTION_COMMENT = 3
-    ACTION_SUGGESTION = 4
-    ACTION_NEW = 5
-    ACTION_AUTO = 6
-
-    ACTION_CHOICES = (
-        (ACTION_UPDATE, ugettext_lazy('Resource update')),
-        (ACTION_COMPLETE, ugettext_lazy('Translation completed')),
-        (ACTION_CHANGE, ugettext_lazy('Translation changed')),
-        (ACTION_NEW, ugettext_lazy('New translation')),
-        (ACTION_COMMENT, ugettext_lazy('Comment added')),
-        (ACTION_SUGGESTION, ugettext_lazy('Suggestion added')),
-        (ACTION_AUTO, ugettext_lazy('Automatic translation')),
-    )
-
-    unit = models.ForeignKey(Unit, null=True)
-    translation = models.ForeignKey(Translation)
-    user = models.ForeignKey(User, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
-    action = models.IntegerField(
-        choices=ACTION_CHOICES,
-        default=ACTION_CHANGE
-    )
-
-    objects = ChangeManager()
-
-    class Meta:
-        ordering = ['-timestamp']
-        app_label = 'trans'
-
-    def __unicode__(self):
-        return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
-            'action': self.get_action_display(),
-            'time': self.timestamp,
-            'translation': self.translation,
-            'user': self.get_user_display(False),
-        }
-
-    def get_user_display(self, icon=True):
-        return get_user_display(self.user, icon, link=True)
-
-    def get_absolute_url(self):
-        '''
-        Returns link either to unit or translation.
-        '''
-        if self.unit is not None:
-            return self.unit.get_absolute_url()
-        else:
-            return self.translation.get_absolute_url()
+        # Update related unit flags
+        for unit in self.get_related_units():
+            unit.update_has_failing_check()
 
 
 class IndexUpdate(models.Model):

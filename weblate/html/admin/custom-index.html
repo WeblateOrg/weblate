@@ -1,5 +1,6 @@
 {% extends "admin/index.html" %}
 {% load i18n %}
+{% load url from future %}
 
 {% block content %}
 <div id="content-extra" style="float: left; width: 100%;">
@@ -10,19 +11,19 @@
     <caption>{% trans "Reports" %}</caption>
     
         <tr>
-            <th scope="row"><a href="report/">{% trans "Status of repositories" %}</a></th>
+            <th scope="row"><a href="{% url 'admin-report' %}">{% trans "Status of repositories" %}</a></th>
             <th></th>
             <th></th>
         </tr>
 
         <tr>
-            <th scope="row"><a href="ssh/">{% trans "SSH keys" %}</a></th>
+            <th scope="row"><a href="{% url 'admin-ssh' %}">{% trans "SSH keys" %}</a></th>
             <th></th>
             <th></th>
         </tr>
 
         <tr>
-            <th scope="row"><a href="performance/">{% trans "Performance report" %}</a></th>
+            <th scope="row"><a href="{% url 'admin-performance' %}">{% trans "Performance report" %}</a></th>
             <th></th>
             <th></th>
         </tr>

@@ -16,10 +16,10 @@
 </tr>
 <tbody>
 {% for lang in languages %}
-{% with lang.get_translated_percent as percent %}
+{% with lang.get_translated_percent as percent and lang.get_fuzzy_percent as fuzzy and lang.get_failing_checks_percent as check_percent %}
 <tr>
 <th><a href="{{ lang.get_absolute_url }}">{{ lang }}</a></th>
-<td><div class="progress" value="{{ percent|floatformat:0 }}"></div></td>
+<td><div class="progress" data-value="{{ percent|floatformat:0 }}" data-fuzzy="{{ fuzzy|floatformat:0 }}" data-checks="{{ check_percent|floatformat:0 }}"></div></td>
 <td class="percent">{{ percent }}%</td>
 </tr>
 {% endwith %}

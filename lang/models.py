@@ -20,9 +20,10 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _, pgettext_lazy
-from django.db.models import Sum
+from django.utils.safestring import mark_safe
 from translate.lang.data import languages
 from lang import data
+from trans.mixins import PercentMixin
 
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
@@ -92,6 +93,16 @@ def get_plural_type(code, pluralequation):
 
 
 class LanguageManager(models.Manager):
+    _default_lang = None
+
+    def get_default(self):
+        '''
+        Returns default source language object.
+        '''
+        if self._default_lang is None:
+            self._default_lang = self.get(code='en')
+        return self._default_lang
+
     def auto_get_or_create(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
@@ -204,7 +215,7 @@ class LanguageManager(models.Manager):
             lang.set_direction()
 
             # Get plural type
-            lang.plural_tupe = get_plural_type(
+            lang.plural_type = get_plural_type(
                 lang.code,
                 lang.pluralequation
             )
@@ -311,7 +322,7 @@ PLURAL_NAMES = {
 }
 
 
-class Language(models.Model):
+class Language(models.Model, PercentMixin):
     PLURAL_CHOICES = (
         (PLURAL_NONE, 'None'),
         (PLURAL_ONE_OTHER, 'One/other (classic plural)'),
@@ -345,6 +356,13 @@ class Language(models.Model):
     class Meta:
         ordering = ['name']
 
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Language, self).__init__(*args, **kwargs)
+        self._percents = None
+
     def __unicode__(self):
         if (not '(' in self.name
                 and ('_' in self.code or '-' in self.code)
@@ -377,33 +395,31 @@ class Language(models.Model):
             'lang': self.code
         })
 
-    def get_translated_percent(self):
+    def _get_percents(self):
         '''
-        Returns status of translations in this language.
+        Returns percentages of translation status.
         '''
-        from trans.models import Translation
+        # Use cache if available
+        if self._percents is not None:
+            return self._percents
 
-        translations = Translation.objects.filter(
-            language=self
-        ).aggregate(
-            Sum('translated'),
-            Sum('total')
-        )
+        # Import translations
+        from trans.models.translation import Translation
 
-        translated = translations['translated__sum']
-        total = translations['total__sum']
+        # Get prercents
+        result = Translation.objects.get_percents(language=self)
 
-        # Prevent division by zero on no translations
-        if total == 0:
-            return 0
-        return round(translated * 100.0 / total, 1)
+        # Update cache
+        self._percents = result
+
+        return result
 
     def get_html(self):
         '''
         Returns html attributes for markup in this language, includes
         language and direction.
         '''
-        return 'lang="%s" dir="%s"' % (self.code, self.direction)
+        return mark_safe('lang="%s" dir="%s"' % (self.code, self.direction))
 
     def fixup_name(self):
         '''

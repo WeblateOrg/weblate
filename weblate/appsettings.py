@@ -19,6 +19,7 @@
 #
 
 from django.conf import settings
+from trans.util import get_script_name
 import os
 
 
@@ -38,13 +39,20 @@ WEB_ROOT = get('WEB_ROOT', os.path.dirname(os.path.abspath(__file__)))
 MT_APERTIUM_KEY = get('MT_APERTIUM_KEY', None)
 
 # Microsoft Translator service, register at
-# http://www.bing.com/developers/createapp.aspx
-MT_MICROSOFT_KEY = get('MT_MICROSOFT_KEY', None)
-
-# Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = get('MT_MICROSOFT_ID', None)
 MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)
+
+# MyMemory identification email, see
+# http://mymemory.translated.net/doc/spec.php
+MT_MYMEMORY_EMAIL = get('MT_MYMEMORY_EMAIL', None)
+
+# Optional MyMemory credentials to access private translation memory
+MT_MYMEMORY_USER = get('MT_MYMEMORY_USER', None)
+MT_MYMEMORY_KEY = get('MT_MYMEMORY_KEY', None)
+
+# tmserver URL
+MT_TMSERVER = get('MT_TMSERVER', None)
 
 # Path where git repositories are stored, it needs to be writable
 GIT_ROOT = get('GIT_ROOT', '%s/repos/' % WEB_ROOT)
@@ -107,7 +115,16 @@ CHECK_LIST = get('CHECK_LIST', (
 ))
 
 # List of machine translations
-MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', ())
+MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', (
+    'trans.machine.weblatetm.WeblateSimilarTranslation',
+    'trans.machine.weblatetm.WeblateTranslation',
+))
 
 # Whether machine translations are enabled
 MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
+
+# List of scripts to use in custom processing
+PRE_COMMIT_SCRIPTS = get('PRE_COMMIT_SCRIPTS', ())
+SCRIPT_CHOICES = [
+    (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
+] + [('', '')]

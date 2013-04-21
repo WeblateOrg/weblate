@@ -9,11 +9,11 @@
 
 {% block content %}
 
-<h2>{{ page_profile.get_user_name }}</h2>
-
-<div class="border">
+<div class="border menu-float">
 {% avatar page_user 128 %}
 </div>
+
+<h2>{{ page_profile.get_user_name }}</h2>
 
 {% if user_projects %}
 <h3>{% trans "Projects" %}</h3>

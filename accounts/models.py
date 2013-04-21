@@ -42,6 +42,114 @@ from trans.util import get_user_display, get_site_url
 import weblate
 
 
+def notify_merge_failure(subproject, error, status):
+    '''
+    Notification on merge failure.
+    '''
+    subscriptions = Profile.objects.subscribed_merge_failure(
+        subproject.project,
+    )
+    for subscription in subscriptions:
+        subscription.notify_merge_failure(subproject, error, status)
+
+    # Notify admins
+    send_notification_email(
+        'en',
+        'ADMINS',
+        'merge_failure',
+        subproject,
+        {
+            'subproject': subproject,
+            'status': status,
+            'error': error,
+        }
+    )
+
+
+def notify_new_string(translation):
+    '''
+    Notification on new string to translate.
+    '''
+    subscriptions = Profile.objects.subscribed_new_string(
+        translation.subproject.project, translation.language
+    )
+    for subscription in subscriptions:
+        subscription.notify_new_string(translation)
+
+
+def notify_new_translation(unit, oldunit, user):
+    '''
+    Notify subscribed users about new translation
+    '''
+    subscriptions = Profile.objects.subscribed_any_translation(
+        unit.translation.subproject.project,
+        unit.translation.language,
+        user
+    )
+    for subscription in subscriptions:
+        subscription.notify_any_translation(unit, oldunit)
+
+
+def notify_new_contributor(unit, user):
+    '''
+    Notify about new contributor.
+    '''
+    subscriptions = Profile.objects.subscribed_new_contributor(
+        unit.translation.subproject.project,
+        unit.translation.language,
+        user
+    )
+    for subscription in subscriptions:
+        subscription.notify_new_contributor(
+            unit.translation, user
+        )
+
+
+def notify_new_suggestion(unit, suggestion, user):
+    '''
+    Notify about new suggestion.
+    '''
+    subscriptions = Profile.objects.subscribed_new_suggestion(
+        unit.translation.subproject.project,
+        unit.translation.language,
+        user
+    )
+    for subscription in subscriptions:
+        subscription.notify_new_suggestion(
+            unit.translation,
+            suggestion,
+            unit
+        )
+
+
+def notify_new_comment(unit, comment, user, report_source_bugs):
+    '''
+    Notify about new comment.
+    '''
+    subscriptions = Profile.objects.subscribed_new_comment(
+        unit.translation.subproject.project,
+        comment.language,
+        user
+    )
+    for subscription in subscriptions:
+        subscription.notify_new_comment(unit, comment)
+
+    # Notify upstream
+    if comment.language is None and report_source_bugs != '':
+        send_notification_email(
+            'en',
+            report_source_bugs,
+            'new_comment',
+            unit.translation,
+            {
+                'unit': unit,
+                'comment': comment,
+                'subproject': unit.translation.subproject,
+            },
+            from_email=user.email,
+        )
+
+
 def send_notification_email(language, email, notification, translation_obj,
                             context=None, headers=None, from_email=None):
     '''
@@ -145,7 +253,7 @@ class ProfileManager(models.Manager):
             languages=language
         )
         # We don't want to filter out anonymous user
-        if user.is_authenticated():
+        if user is not None and user.is_authenticated():
             ret = ret.exclude(user=user)
         return ret
 

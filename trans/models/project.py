@@ -20,7 +20,6 @@
 
 from django.db import models
 from weblate import appsettings
-from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
@@ -30,9 +29,8 @@ from django.contrib.contenttypes.models import ContentType
 import os
 import os.path
 from lang.models import Language
-from trans.validators import (
-    validate_commit_message,
-)
+from trans.validators import validate_commit_message
+from trans.mixins import PercentMixin, URLMixin
 from trans.util import get_site_url
 
 
@@ -74,7 +72,7 @@ class ProjectManager(models.Manager):
         return self.filter(id__in=project_ids), True
 
 
-class Project(models.Model):
+class Project(models.Model, PercentMixin, URLMixin):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(db_index=True, unique=True)
     web = models.URLField(
@@ -154,6 +152,13 @@ class Project(models.Model):
         ordering = ['name']
         app_label = 'trans'
 
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Project, self).__init__(*args, **kwargs)
+        self._percents = None
+
     def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
@@ -185,11 +190,19 @@ class Project(models.Model):
                 'or use different option for adding new language.'
             ))
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('project', (), {
+    def _reverse_url_name(self):
+        '''
+        Returns base name for URL reversing.
+        '''
+        return 'project'
+
+    def _reverse_url_kwargs(self):
+        '''
+        Returns kwargs for URL reversing.
+        '''
+        return {
             'project': self.slug
-        })
+        }
 
     def get_share_url(self):
         '''
@@ -199,30 +212,6 @@ class Project(models.Model):
             reverse('engage', kwargs={'project': self.slug})
         )
 
-    @models.permalink
-    def get_commit_url(self):
-        return ('commit_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_update_url(self):
-        return ('update_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_push_url(self):
-        return ('push_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_reset_url(self):
-        return ('reset_project', (), {
-            'project': self.slug
-        })
-
     def is_git_lockable(self):
         return True
 
@@ -230,18 +219,6 @@ class Project(models.Model):
         return max(
             [subproject.locked for subproject in self.subproject_set.all()]
         )
-
-    @models.permalink
-    def get_lock_url(self):
-        return ('lock_project', (), {
-            'project': self.slug
-        })
-
-    @models.permalink
-    def get_unlock_url(self):
-        return ('unlock_project', (), {
-            'project': self.slug
-        })
 
     def get_path(self):
         return os.path.join(appsettings.GIT_ROOT, self.slug)
@@ -282,22 +259,37 @@ class Project(models.Model):
                     content_type=content_type
                 )
 
-    def get_translated_percent(self, lang=None):
+    # Arguments number differs from overridden method
+    # pylint: disable=W0221
+
+    def _get_percents(self, lang=None):
+        '''
+        Returns percentages of translation status.
+        '''
+        # Use cache if no filtering
+        if lang is None and self._percents is not None:
+            return self._percents
+
+        # Import translations
         from trans.models.translation import Translation
-        # Filter all translations
-        translations = Translation.objects.filter(subproject__project=self)
-        # Filter by language
-        if lang is not None:
-            translations = translations.filter(language=lang)
-        # Aggregate
-        translations = translations.aggregate(Sum('translated'), Sum('total'))
-        total = translations['total__sum']
-        translated = translations['translated__sum']
-        # Catch no translations
-        if total == 0 or total is None:
-            return 0
-        # Return percent
-        return round(translated * 100.0 / total, 1)
+
+        # Get prercents
+        result = Translation.objects.get_percents(project=self, language=lang)
+
+        # Update cache
+        if lang is None:
+            self._percents = result
+
+        return result
+
+    # Arguments number differs from overridden method
+    # pylint: disable=W0221
+
+    def get_translated_percent(self, lang=None):
+        '''
+        Returns percent of translated strings.
+        '''
+        return self._get_percents(lang)[0]
 
     def get_total(self):
         '''
@@ -395,7 +387,7 @@ class Project(models.Model):
         '''
         Returns date of last change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(
                 translation__subproject__project=self

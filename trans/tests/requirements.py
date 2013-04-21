@@ -18,61 +18,36 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.test import TestCase
+from trans.requirements import check_version
 
-# Set of ignored words
-IGNORE_WORDS = frozenset([
-    'a',
-    'an',
-    'and',
-    'are',
-    'as',
-    'at',
-    'be',
-    'but',
-    'by',
-    'for',
-    'if',
-    'in',
-    'into',
-    'is',
-    'it',
-    'no',
-    'not',
-    'of',
-    'on',
-    'or',
-    's',
-    'such',
-    't',
-    'that',
-    'the',
-    'their',
-    'then',
-    'there',
-    'these',
-    'they',
-    'this',
-    'to',
-    'was',
-    'will',
-    'with',
-])
 
-# Set of words to ignore in similar lookup
-IGNORE_SIMILAR = frozenset([
-    'also',
-    'class',
-    'href',
-    'http',
-    'me',
-    'most',
-    'net',
-    'per',
-    'span',
-    'their',
-    'theirs',
-    'you',
-    'your',
-    'yours',
-    'www',
-]) | IGNORE_WORDS
+class RequirementsTest(TestCase):
+    '''
+    Testing of requirements checking code.
+    '''
+    def test_check(self):
+        self.assertFalse(check_version(
+            'Test',
+            'http://example.net',
+            '1.0',
+            '1.0'
+        ))
+        self.assertFalse(check_version(
+            'Test',
+            'http://example.net',
+            '1.1',
+            '1.0'
+        ))
+        self.assertTrue(check_version(
+            'Test',
+            'http://example.net',
+            '0.9',
+            '1.0'
+        ))
+        self.assertFalse(check_version(
+            'Test',
+            'http://example.net',
+            '1.0',
+            None
+        ))

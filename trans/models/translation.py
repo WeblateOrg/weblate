@@ -21,15 +21,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 from weblate import appsettings
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-import os.path
+import os
 import git
+import traceback
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -40,6 +41,7 @@ from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
+from trans.mixins import URLMixin
 
 
 class TranslationManager(models.Manager):
@@ -65,7 +67,7 @@ class TranslationManager(models.Manager):
         '''
         Filters enabled translations.
         '''
-        return self.filter(enabled=True)
+        return self.filter(enabled=True).select_related()
 
     def all_acl(self, user):
         '''
@@ -76,8 +78,45 @@ class TranslationManager(models.Manager):
             return self.all()
         return self.filter(subproject__project__in=projects)
 
+    def get_percents(self, project=None, subproject=None, language=None):
+        '''
+        Returns tuple consting of status percents -
+        (translated, fuzzy, failing checks)
+        '''
+        # Filter translations
+        translations = self
+        if project is not None:
+            translations = translations.filter(subproject__project=project)
+        if subproject is not None:
+            translations = translations.filter(subproject=subproject)
+        if language is not None:
+            translations = translations.filter(language=language)
 
-class Translation(models.Model):
+        # Aggregate
+        translations = translations.aggregate(
+            Sum('translated'),
+            Sum('fuzzy'),
+            Sum('failing_checks'),
+            Sum('total'),
+        )
+
+        total = translations['total__sum']
+
+        # Catch no translations (division by zero)
+        if total == 0 or total is None:
+            return (0, 0, 0)
+
+        # Fetch values
+        result = [
+            translations['translated__sum'],
+            translations['fuzzy__sum'],
+            translations['failing_checks__sum'],
+        ]
+        # Calculate percent
+        return tuple([round(value * 100.0 / total, 1) for value in result])
+
+
+class Translation(models.Model, URLMixin):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -86,6 +125,10 @@ class Translation(models.Model):
     translated = models.IntegerField(default=0, db_index=True)
     fuzzy = models.IntegerField(default=0, db_index=True)
     total = models.IntegerField(default=0, db_index=True)
+    translated_words = models.IntegerField(default=0)
+    total_words = models.IntegerField(default=0)
+    failing_checks = models.IntegerField(default=0, db_index=True)
+    have_suggestion = models.IntegerField(default=0, db_index=True)
 
     enabled = models.BooleanField(default=True, db_index=True)
 
@@ -168,6 +211,15 @@ class Translation(models.Model):
         if self.total == 0:
             return 0
         return round(self.translated * 100.0 / self.total, 1)
+
+    def get_words_percent(self):
+        if self.total_words == 0:
+            return 0
+        return round(self.translated_words * 100.0 / self.total_words, 1)
+
+    @property
+    def untranslated_words(self):
+        return self.total_words - self.translated_words
 
     def get_lock_user_display(self):
         '''
@@ -273,13 +325,21 @@ class Translation(models.Model):
     def get_non_translated(self):
         return self.total - self.translated
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('translation', (), {
+    def _reverse_url_name(self):
+        '''
+        Returns base name for URL reversing.
+        '''
+        return 'translation'
+
+    def _reverse_url_kwargs(self):
+        '''
+        Returns kwargs for URL reversing.
+        '''
+        return {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
-        })
+        }
 
     def get_share_url(self):
         '''
@@ -295,64 +355,8 @@ class Translation(models.Model):
             )
         )
 
-    @models.permalink
-    def get_commit_url(self):
-        return ('commit_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_update_url(self):
-        return ('update_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_push_url(self):
-        return ('push_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_reset_url(self):
-        return ('reset_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
     def is_git_lockable(self):
         return False
-
-    @models.permalink
-    def get_lock_url(self):
-        return ('lock_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_unlock_url(self):
-        return ('unlock_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_download_url(self):
-        return ('download_translation', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
 
     @models.permalink
     def get_translate_url(self):
@@ -360,13 +364,6 @@ class Translation(models.Model):
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
             'lang': self.language.code
-        })
-
-    @models.permalink
-    def get_source_review_url(self):
-        return ('review_source', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
         })
 
     def __unicode__(self):
@@ -396,7 +393,19 @@ class Translation(models.Model):
         Returns translate-toolkit storage object for a translation.
         '''
         if self._store is None:
-            self._store = self.load_store()
+            try:
+                self._store = self.load_store()
+            except Exception as exc:
+                weblate.logger.warning(
+                    'failed parsing store %s: %s',
+                    self.__unicode__(),
+                    str(exc)
+                )
+                self.subproject.notify_merge_failure(
+                    str(exc),
+                    ''.join(traceback.format_stack()),
+                )
+                raise
         return self._store
 
     def check_sync(self):
@@ -417,55 +426,56 @@ class Translation(models.Model):
                 translation__subproject__project=self.subproject.project,
                 checksum=checksum
             )
-            if not units.exists():
-                # Last unit referencing to these checks
-                Check.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Delete suggestons referencing this unit
-                Suggestion.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Delete translation comments referencing this unit
-                Comment.objects.filter(
-                    project=self.subproject.project,
-                    language=self.language,
-                    checksum=checksum
-                ).delete()
-                # Check for other units with same source
-                other_units = Unit.objects.filter(
-                    translation__subproject__project=self.subproject.project,
-                    checksum=checksum
-                )
-                if not other_units.exists():
-                    # Delete source comments as well if this was last reference
-                    Comment.objects.filter(
-                        project=self.subproject.project,
-                        language=None,
-                        checksum=checksum
-                    ).delete()
-                    # Delete source checks as well if this was last reference
-                    Check.objects.filter(
-                        project=self.subproject.project,
-                        language=None,
-                        checksum=checksum
-                    ).delete()
-            else:
+            if units.exists():
                 # There are other units as well, but some checks
                 # (eg. consistency) needs update now
                 for unit in units:
                     unit.check()
+                continue
+
+            # Last unit referencing to these checks
+            Check.objects.filter(
+                project=self.subproject.project,
+                language=self.language,
+                checksum=checksum
+            ).delete()
+            # Delete suggestons referencing this unit
+            Suggestion.objects.filter(
+                project=self.subproject.project,
+                language=self.language,
+                checksum=checksum
+            ).delete()
+            # Delete translation comments referencing this unit
+            Comment.objects.filter(
+                project=self.subproject.project,
+                language=self.language,
+                checksum=checksum
+            ).delete()
+            # Check for other units with same source
+            other_units = Unit.objects.filter(
+                translation__subproject__project=self.subproject.project,
+                checksum=checksum
+            )
+            if not other_units.exists():
+                # Delete source comments as well if this was last reference
+                Comment.objects.filter(
+                    project=self.subproject.project,
+                    language=None,
+                    checksum=checksum
+                ).delete()
+                # Delete source checks as well if this was last reference
+                Check.objects.filter(
+                    project=self.subproject.project,
+                    language=None,
+                    checksum=checksum
+                ).delete()
 
     def update_from_blob(self, force=False, request=None):
         '''
         Updates translation data from blob.
         '''
         from trans.models.unit import Unit
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
 
         # Check if we're not already up to date
         if self.revision != self.get_git_blob_hash():
@@ -534,6 +544,10 @@ class Translation(models.Model):
         # Update revision and stats
         self.update_stats()
 
+        # Cleanup checks cache if there were some deleted units
+        if len(deleted_checksums) > 0:
+            self.invalidate_cache()
+
         # Store change entry
         if request is None:
             user = None
@@ -547,12 +561,8 @@ class Translation(models.Model):
 
         # Notify subscribed users
         if was_new:
-            from accounts.models import Profile
-            subscriptions = Profile.objects.subscribed_new_string(
-                self.subproject.project, self.language
-            )
-            for subscription in subscriptions:
-                subscription.notify_new_string(self)
+            from accounts.models import notify_new_string
+            notify_new_string(self)
 
     @property
     def git_repo(self):
@@ -588,9 +598,36 @@ class Translation(models.Model):
         '''
         Updates translation statistics.
         '''
+        self.total_words = self.unit_set.aggregate(
+            Sum('num_words')
+        )['num_words__sum']
+        # Nothing matches filter
+        if self.total_words is None:
+            self.total_words = 0
+        self.translated_words = self.unit_set.filter(
+            translated=True
+        ).aggregate(
+            Sum('num_words')
+        )['num_words__sum']
+        # Nothing matches filter
+        if self.translated_words is None:
+            self.translated_words = 0
+
         self.total = self.unit_set.count()
-        self.fuzzy = self.unit_set.filter(fuzzy=True).count()
-        self.translated = self.unit_set.filter(translated=True).count()
+        self.fuzzy = self.unit_set.filter(
+            fuzzy=True
+        ).count()
+        self.translated = self.unit_set.filter(
+            translated=True
+        ).count()
+
+        self.failing_checks = self.unit_set.filter(
+            has_failing_check=True
+        ).count()
+        self.have_suggestion = self.unit_set.filter(
+            has_suggestion=True
+        ).count()
+
         self.save()
         self.store_hash()
 
@@ -606,7 +643,7 @@ class Translation(models.Model):
         '''
         Returns last autor of change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(translation=self)[0]
             return self.get_author_name(change.user, email)
@@ -617,7 +654,7 @@ class Translation(models.Model):
         '''
         Returns date of last change done in Weblate.
         '''
-        from trans.models.unitdata import Change
+        from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(translation=self)[0]
             return change.timestamp
@@ -721,9 +758,29 @@ class Translation(models.Model):
         # Format commit message
         msg = self.get_commit_message()
 
+        # Pre commit hook
+        if self.subproject.pre_commit_script != '':
+            ret = os.system('%s "%s"' % (
+                self.subproject.pre_commit_script,
+                self.get_filename()
+            ))
+            if ret != 0:
+                weblate.logger.error(
+                    'Failed to run pre commit script (%d): %s',
+                    ret,
+                    self.subproject.pre_commit_script
+                )
+
+        # Create list of files to commit
+        files = [self.filename]
+        if self.subproject.extra_commit_file != '':
+            files.append(self.subproject.extra_commit_file % {
+                'language': self.language_code,
+            })
+
         # Do actual commit
         gitrepo.git.commit(
-            self.filename,
+            *files,
             author=author.encode('utf-8'),
             date=timestamp.isoformat(),
             m=msg
@@ -934,11 +991,10 @@ class Translation(models.Model):
             ))
 
         # Translations with suggestions
-        suggestions = self.unit_set.count_type('suggestions', self)
-        if suggestions > 0:
+        if self.have_suggestion > 0:
             result.append((
                 'suggestions',
-                _('Strings with suggestions (%d)') % suggestions
+                _('Strings with suggestions (%d)') % self.have_suggestion
             ))
 
         # All checks
@@ -1038,20 +1094,18 @@ class Translation(models.Model):
             # Calculate unit checksum
             checksum = unit.get_checksum()
 
-            # Create suggestion objects.
-            # We don't care about duplicates or non existing strings here
-            # this is better handled in cleanup.
-            Suggestion.objects.create(
-                target=unit.get_target(),
-                checksum=checksum,
-                language=self.language,
-                project=self.subproject.project,
-                user=request.user
-            )
+            # Grab database unit
+            dbunit = self.unit_set.filter(checksum=checksum)
+            if not dbunit.exists():
+                continue
+            dbunit = dbunit[0]
 
-        # Invalidate cache if we've added something
+            # Add suggestion
+            Suggestion.objects.add(dbunit, unit.get_target(), request.user)
+
+        # Update suggestion count
         if ret:
-            self.invalidate_cache('suggestions')
+            self.update_stats()
 
         return ret
 
@@ -1108,7 +1162,7 @@ class Translation(models.Model):
         '''
         Returns number of units with suggestions.
         '''
-        return self.unit_set.count_type('suggestions', self)
+        return self.have_suggestion
 
     def get_failing_checks(self, check='allchecks'):
         '''
@@ -1116,6 +1170,8 @@ class Translation(models.Model):
 
         By default for all checks or check type can be specified.
         '''
+        if check == 'allchecks':
+            return self.failing_checks
         return self.unit_set.count_type(check, self)
 
     def get_failing_checks_percent(self, check='allchecks'):
@@ -1136,7 +1192,7 @@ class Translation(models.Model):
 
         # Are we asked for specific cache key?
         if cache_type is None:
-            keys = ['allchecks'] + list(CHECKS)
+            keys = list(CHECKS)
         else:
             keys = [cache_type]
 
@@ -1144,3 +1200,10 @@ class Translation(models.Model):
         for rqtype in keys:
             cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
             cache.delete(cache_key)
+
+    def get_kwargs(self):
+        return {
+            'lang': self.language.code,
+            'subproject': self.subproject.slug,
+            'project': self.subproject.project.slug
+        }

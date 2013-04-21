@@ -245,6 +245,25 @@ class SearchForm(forms.Form):
         initial=False
     )
 
+    def clean(self):
+        '''
+        Sanity checking for search type.
+        '''
+        cleaned_data = super(SearchForm, self).clean()
+
+        # Default to fulltext
+        if cleaned_data['search'] == '':
+            cleaned_data['search'] = 'ftx'
+
+        # Default to source and target search
+        if (not cleaned_data['src']
+                and not cleaned_data['tgt']
+                and not cleaned_data['ctx']):
+            cleaned_data['src'] = True
+            cleaned_data['tgt'] = True
+
+        return cleaned_data
+
 
 class MergeForm(forms.Form):
     '''

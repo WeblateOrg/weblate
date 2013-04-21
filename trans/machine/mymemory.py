@@ -19,6 +19,7 @@
 #
 
 from trans.machine.base import MachineTranslation
+from weblate import appsettings
 
 
 class MyMemoryTranslation(MachineTranslation):
@@ -48,19 +49,39 @@ class MyMemoryTranslation(MachineTranslation):
         else:
             quality = 0
 
+        if match['last-updated-by'] != '':
+            source = '%s (%s)' % (
+                self.name,
+                match['last-updated-by']
+            )
+        else:
+            source = self.name
+
         return (
             match['translation'],
-            quality * match['match']
+            quality * match['match'],
+            source,
+            match['segment'],
         )
 
-    def download_translations(self, language, text):
+    def download_translations(self, language, text, unit):
         '''
-        Downloads list of possible translations from a service.
+        Downloads list of possible translations from MyMemory.
         '''
+        args = {
+            'q': text,
+            'langpair': 'en|%s' % language,
+        }
+        if appsettings.MT_MYMEMORY_EMAIL is not None:
+            args['de'] = appsettings.MT_MYMEMORY_EMAIL
+        if appsettings.MT_MYMEMORY_USER is not None:
+            args['user'] = appsettings.MT_MYMEMORY_USER
+        if appsettings.MT_MYMEMORY_KEY is not None:
+            args['key'] = appsettings.MT_MYMEMORY_KEY
+
         response = self.json_status_req(
             'http://mymemory.translated.net/api/get',
-            q=text,
-            langpair='en|%s' % language,
+            **args
         )
 
         return [self.format_match(match) for match in response['matches']]

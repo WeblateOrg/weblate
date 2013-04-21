@@ -22,6 +22,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.http import Http404
 
 from trans.forms import UploadForm, SimpleUploadForm, ExtraUploadForm
 from trans.views.helper import get_translation
@@ -40,6 +41,25 @@ def download_translation(request, project, subproject, lang):
     response = HttpResponse(
         file(srcfilename).read(),
         mimetype=obj.store.mimetype
+    )
+
+    # Fill in response headers
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response
+
+
+def download_language_pack(request, project, subproject, lang):
+    obj = get_translation(request, project, subproject, lang)
+    if not obj.store.supports_language_pack():
+        raise Http404('Language pack download not supported')
+
+    filename, mime = obj.store.get_language_pack_meta()
+
+    # Create response
+    response = HttpResponse(
+        obj.store.get_language_pack(),
+        mimetype=mime
     )
 
     # Fill in response headers

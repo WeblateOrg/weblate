@@ -19,13 +19,79 @@
 #
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, get_language
 
 from accounts.models import Profile
 from lang.models import Language
 from trans.models import Project
 from django.contrib.auth.models import User
 from registration.forms import RegistrationFormUniqueEmail
+from django.utils.encoding import force_unicode
+from itertools import chain
+
+try:
+    from icu import Locale, Collator
+    HAS_ICU = True
+except ImportError:
+    HAS_ICU = False
+
+
+def sort_choices(choices):
+    '''
+    Sorts choices alphabetically.
+
+    Either using cmp or ICU.
+    '''
+    if not HAS_ICU:
+        sorter = cmp
+    else:
+        sorter = Collator.createInstance(Locale(get_language())).compare
+
+    # Actually sort values
+    return sorted(
+        choices,
+        key=lambda tup: tup[1],
+        cmp=sorter
+    )
+
+
+class SortedSelectMixin(object):
+    '''
+    Mixin for Select widgets to sort choices alphabetically.
+    '''
+    def render_options(self, choices, selected_choices):
+        '''
+        Renders sorted options.
+        '''
+        # Normalize to strings.
+        selected_choices = set(force_unicode(v) for v in selected_choices)
+        output = []
+
+        # Actually sort values
+        all_choices = sort_choices(list(chain(self.choices, choices)))
+
+        # Stolen from Select.render_options
+        for option_value, option_label in all_choices:
+            output.append(
+                self.render_option(
+                    selected_choices, option_value, option_label
+                )
+            )
+        return u'\n'.join(output)
+
+
+class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
+    '''
+    Wrapper class to sort choices alphabetically.
+    '''
+    pass
+
+
+class SortedSelect(SortedSelectMixin, forms.Select):
+    '''
+    Wrapper class to sort choices alphabetically.
+    '''
+    pass
 
 
 class ProfileForm(forms.ModelForm):
@@ -39,6 +105,11 @@ class ProfileForm(forms.ModelForm):
             'languages',
             'secondary_languages',
         )
+        widgets = {
+            'language': SortedSelect,
+            'languages': SortedSelectMultiple,
+            'secondary_languages': SortedSelectMultiple,
+        }
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -128,6 +199,20 @@ class RegistrationForm(RegistrationFormUniqueEmail):
     Registration form, please note it does not save first/last name
     this is done by signal handler in accounts.models.
     '''
+    required_css_class = "required"
+    error_css_class = "error"
+
+    username = forms.RegexField(
+        regex=r'^[\w.@+-]+$',
+        max_length=30,
+        label=_("Username"),
+        error_messages={
+            'invalid': _(
+                'This value may contain only letters, '
+                'numbers and following characters: @ . + - _'
+            )
+        }
+    )
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)

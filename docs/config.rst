@@ -65,6 +65,19 @@ CHECK_LIST
 
 List of quality checks to perform on translation.
 
+Some of the checks are not useful for all projects, so you are welcome to
+adjust list of performed on your installation.
+
+For example you can enable only few of them:
+
+.. code-block:: python
+
+    CHECK_LIST = (
+        'trans.checks.same.SameCheck',
+        'trans.checks.format.CFormatCheck',
+        'trans.checks.chars.ZeroWidthSpaceCheck',
+    )
+
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
 
 .. setting:: ENABLE_HOOKS
@@ -140,6 +153,34 @@ Some of exceptions you might want to include:
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
     )
 
+.. setting:: MACHINE_TRANSLATION_SERVICES
+
+MACHINE_TRANSLATION_SERVICES
+----------------------------
+
+List of enabled machine translation services to use.
+
+.. note::
+
+    Many of services need additional configuration like API keys, please check
+    their documentation for more details.
+
+.. code-block:: python
+
+    MACHINE_TRANSLATION_SERVICES = (
+        'trans.machine.apertium.ApertiumTranslation',
+        'trans.machine.glosbe.GlosbeTranslation',
+        'trans.machine.google.GoogleTranslation',
+        'trans.machine.microsoft.MicrosoftTranslation',
+        'trans.machine.mymemory.MyMemoryTranslation',
+        'trans.machine.opentran.OpenTranTranslation',
+        'trans.machine.tmserver.TMServerTranslation',
+        'trans.machine.weblatetm.WeblateSimilarTranslation',
+        'trans.machine.weblatetm.WeblateTranslation',
+    )
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_APERTIUM_KEY
 
 MT_APERTIUM_KEY
@@ -147,16 +188,7 @@ MT_APERTIUM_KEY
 
 API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
 
-.. seealso:: :ref:`machine-translation`
-
-.. setting:: MT_MICROSOFT_KEY
-
-MT_MICROSOFT_KEY
-----------------
-
-API key for Microsoft Translator service, you can register at http://www.bing.com/developers/createapp.aspx
-
-.. seealso:: :ref:`machine-translation`
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_MICROSOFT_ID
 
@@ -165,16 +197,52 @@ MT_MICROSOFT_ID
 
 Cliend ID for Microsoft Translator service.
 
-.. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
 
-.. setting:: MT_MICROSOFT_KEY
+.. setting:: MT_MICROSOFT_SECRET
 
 MT_MICROSOFT_SECRET
 -------------------
 
 Client secret for Microsoft Translator service.
 
-.. seealso:: :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+
+.. setting:: MT_MYMEMORY_EMAIL
+
+MT_MYMEMORY_EMAIL
+-----------------
+
+MyMemory identification email, you can get 1000 requests per day with this.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/spec.php
+
+.. setting:: MT_MYMEMORY_KEY
+
+MT_MYMEMORY_KEY
+---------------
+
+MyMemory access key for private translation memory, use together with :setting:`MT_MYMEMORY_USER`.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/keygen.php
+
+.. setting:: MT_MYMEMORY_USER
+
+MT_MYMEMORY_USER
+----------------
+
+MyMemory user id for private translation memory, use together with :setting:`MT_MYMEMORY_KEY`.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/keygen.php
+
+.. setting:: MT_TMSERVER
+
+MT_TMSERVER
+-----------
+
+URL where tmserver is running.
+
+.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
 
 .. setting:: NEARBY_MESSAGES
 
@@ -199,6 +267,28 @@ This is recommended setup for production use.
 
 .. seealso:: :ref:`fulltext`
 
+.. setting:: PRE_COMMIT_SCRIPTS
+
+PRE_COMMIT_SCRIPTS
+------------------
+
+List of scripts which are allowed as pre commit scripts. The script needs to be
+later enabled in subproject configuration.
+
+For example you can allow script which does some cleanup:
+
+.. code-block:: python
+
+    PRE_COMMIT_SCRIPTS = (
+        '/usr/local/bin/cleanup-translation',
+    )
+
+.. note:: 
+   
+    The hook is executed using system() call, so it is evaluated in a shell.
+
+.. seealso:: :ref:`processing`
+
 .. setting:: REGISTRATION_OPEN
 
 REGISTRATION_OPEN
@@ -211,14 +301,6 @@ True will be assumed if it is not supplied.
 .. note::
 
     This is actually django-registration settings.
-
-.. setting:: SIMILAR_MESSAGES
-
-SIMILAR_MESSAGES
-----------------
-
-Number of similar messages to lookup. This is not a hard limit, just a
-number Weblate tries to find if it is possible.
 
 .. setting:: SITE_TITLE
 
@@ -233,4 +315,3 @@ WHOOSH_INDEX
 ------------
 
 Directory where Whoosh fulltext indices will be stored. Defaults to :file:`whoosh-index` subdirectory.
-
