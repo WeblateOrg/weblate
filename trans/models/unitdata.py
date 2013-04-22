@@ -52,7 +52,6 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
-        from trans.models.changes import Change
         from accounts.models import notify_new_suggestion
 
         if not user.is_authenticated():
@@ -157,7 +156,6 @@ class CommentManager(models.Manager):
         '''
         Adds comment to this unit.
         '''
-        from trans.models.changes import Change
         from accounts.models import notify_new_comment
 
         new_comment = Comment.objects.create(
