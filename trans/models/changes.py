@@ -116,6 +116,7 @@ class Change(models.Model):
     ACTION_SUGGESTION = 4
     ACTION_NEW = 5
     ACTION_AUTO = 6
+    ACTION_ACCEPT = 7
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -125,6 +126,7 @@ class Change(models.Model):
         (ACTION_COMMENT, ugettext_lazy('Comment added')),
         (ACTION_SUGGESTION, ugettext_lazy('Suggestion added')),
         (ACTION_AUTO, ugettext_lazy('Automatic translation')),
+        (ACTION_ACCEPT, ugettext_lazy('Suggestion accepted')),
     )
 
     unit = models.ForeignKey(Unit, null=True)
