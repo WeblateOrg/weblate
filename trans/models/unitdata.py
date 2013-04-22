@@ -25,7 +25,6 @@ from trans.checks import CHECKS
 from trans.models.unit import Unit
 from trans.models.project import Project
 from trans.models.changes import Change
-from accounts.models import notify_new_comment, notify_new_suggestion
 from trans.util import get_user_display
 
 
@@ -53,6 +52,8 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
+        from trans.models.changes import Change
+        from accounts.models import notify_new_suggestion
 
         if not user.is_authenticated():
             user = None
@@ -156,6 +157,8 @@ class CommentManager(models.Manager):
         '''
         Adds comment to this unit.
         '''
+        from trans.models.changes import Change
+        from accounts.models import notify_new_comment
 
         new_comment = Comment.objects.create(
             user=user,
