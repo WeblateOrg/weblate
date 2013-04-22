@@ -24,6 +24,7 @@ from lang.models import Language
 from trans.checks import CHECKS
 from trans.models.unit import Unit
 from trans.models.project import Project
+from trans.models.changes import Change
 from trans.util import get_user_display
 
 
