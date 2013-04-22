@@ -573,7 +573,7 @@ class Unit(models.Model):
             unit.fuzzy = self.fuzzy
             unit.save_backend(request, False)
 
-    def save_backend(self, request, propagate=True, gen_change=True):
+    def save_backend(self, request, propagate=True, gen_change=True, user=None):
         '''
         Stores unit to backend.
         '''
@@ -587,7 +587,7 @@ class Unit(models.Model):
 
         # Store to backend
         try:
-            (saved, pounit) = self.translation.update_unit(self, request)
+            (saved, pounit) = self.translation.update_unit(self, request, user)
         except FileLockException:
             weblate.logger.error('failed to lock backend for %s!', self)
             messages.error(

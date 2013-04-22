@@ -856,10 +856,12 @@ class Translation(models.Model, URLMixin):
 
         return True
 
-    def update_unit(self, unit, request):
+    def update_unit(self, unit, request, user=None):
         '''
         Updates backend file and unit.
         '''
+        if user is None:
+            user = request.user
         # Save with lock acquired
         with self.subproject.git_lock:
 
@@ -891,7 +893,7 @@ class Translation(models.Model, URLMixin):
                 self.store.add_unit(pounit)
 
             # We need to update backend now
-            author = self.get_author_name(request.user)
+            author = self.get_author_name(user)
 
             # Update po file header
             po_revision_date = (
