@@ -110,7 +110,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = False
-            unit.save_backend(request)
+            unit.save_backend(request, user=self.user)
         self.delete()
 
     def delete(self, *args, **kwargs):
