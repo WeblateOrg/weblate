@@ -29,6 +29,7 @@ from trans.tests.util import get_test_file
 
 TEST_TBX = get_test_file('terms.tbx')
 TEST_CSV = get_test_file('terms.csv')
+TEST_CSV_HEADER = get_test_file('terms-header.csv')
 TEST_PO = get_test_file('terms.po')
 
 
@@ -103,6 +104,16 @@ class DictionaryTest(ViewTestCase):
     def test_import_csv(self):
         # Import file
         response = self.import_file(TEST_CSV)
+
+        # Check correct response
+        self.assertRedirects(response, self.get_url('show_dictionary'))
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 164)
+
+    def test_import_csv_header(self):
+        # Import file
+        response = self.import_file(TEST_CSV_HEADER)
 
         # Check correct response
         self.assertRedirects(response, self.get_url('show_dictionary'))
