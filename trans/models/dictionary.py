@@ -22,6 +22,7 @@ from django.db import models
 from lang.models import Language
 from trans.formats import AutoFormat
 from trans.models.project import Project
+from translate.storage.csvl10n import csvfile
 
 
 class DictionaryManager(models.Manager):
@@ -29,15 +30,31 @@ class DictionaryManager(models.Manager):
         '''
         Handles dictionary update.
         '''
-        ret = 0
-
         # Load file using translate-toolkit
         store = AutoFormat.load(fileobj)
+
+        ret, skipped = self.import_store(project, language, store, method)
+
+        if ret == 0 and skipped > 0 and isinstance(store, csvfile):
+            # Retry with different CSV scheme
+            fileobj.seek(0)
+            store = csvfile(fileobj, ('source', 'target'))
+            ret, skipped = self.import_store(project, language, store, method)
+
+        return ret
+
+    def import_store(self, project, language, store, method):
+        '''
+        Actual importer
+        '''
+        ret = 0
+        skipped = 0
 
         # process all units
         for unit in store.units:
             # We care only about translated things
             if not unit.istranslatable() or not unit.istranslated():
+                skipped += 1
                 continue
 
             # Ignore too long words
@@ -73,7 +90,7 @@ class DictionaryManager(models.Manager):
 
             ret += 1
 
-        return ret
+        return ret, skipped
 
 
 class Dictionary(models.Model):
