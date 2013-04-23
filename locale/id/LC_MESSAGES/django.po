@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
+"POT-Creation-Date: 2013-04-23 14:55+0200\n"
 "PO-Revision-Date: 2013-04-19 11:57+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
-"Language-Team: Indonesian "
-"<http://l10n.cihar.com/projects/weblate/master/id/>\n"
+"Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
+">\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -736,35 +736,41 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "String menggunakan tiga tanda koma (,,,) bukan tanda karakter ellipsis (...)"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr "Mutakhir Sumber"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 msgid "Translation completed"
 msgstr "Penerjemahan rampung"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 msgid "Translation changed"
 msgstr "Penerjemahan telah dirubah"
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 msgid "New translation"
 msgstr "Penerjemahan baru"
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 msgid "Comment added"
 msgstr "Komentar ditambahkan"
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 msgid "Suggestion added"
 msgstr "Saran ditambahkan"
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Penerjemahan otomatis"
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+#, fuzzy
+#| msgid "Suggestion added"
+msgid "Suggestion accepted"
+msgstr "Saran ditambahkan"
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s pada waktu %(time)s di %(translation)s oleh %(user)s"
@@ -1061,31 +1067,31 @@ msgstr "Gagal untuk men-parsing berkas %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Penerjemahan ini dikunci oleh %(user)s!"
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr "Semua string"
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "String dengan pemeriksaan gagal (%d)"
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "String dengan komentar (%d)"
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "String tidak diterjemahkan (%d)"
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "String samar (%d)"
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "String dengan saran (%d)"
@@ -1094,15 +1100,15 @@ msgstr "String dengan saran (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Pesan yang anda ingin menerjemahkan ini tidak lagi tersedia!"
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Gagal menyimpan pesan didalam backend, kunci timeout terjadi!"
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Pesan tidak ditemukan di penyimpanan backend, kemungkinan rusak."
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr "ID unit %s"
@@ -1257,12 +1263,11 @@ msgid "About Weblate"
 msgstr "Tentang Weblate"
 
 #: trans/views/changes.py:44 weblate/html/trans/change_list.html:12
-#| msgid "Change word"
 msgid "Changes"
 msgstr "Ganti"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 msgid "Invalid search string!"
 msgstr "Pencarian string tidak valid!"
 
@@ -1295,55 +1300,55 @@ msgid "File upload has failed: %s"
 msgstr "Berkas yang gagal diunggah: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr "Gagal untuk memproses formulir!"
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "String samar"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "String tidak diterjemahkan"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "String dengan saran"
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "String dengan pemeriksaan yang gagal"
 
-#: trans/views/edit.py:65
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Pencarian teks penuh untuk \"%s\""
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Mencari untuk string yang sama \"%s\""
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Pencarian substring untuk \"%s\""
 
-#: trans/views/edit.py:116
+#: trans/views/edit.py:117
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Ulasan penerjemahan sejak %s"
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
 msgstr "Tidak ada string yang cocok dalam pencarian anda!"
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr "Saran anda kosong!"
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1353,51 +1358,51 @@ msgstr ""
 "untuk menjadi penerjemah karena kemungkinan saran Anda ini akan selalu tidak "
 "terperiksa."
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr "Anda harus log masuk untuk dapat menyimpan penerjemahan!"
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr "Anda tidak memiliki kewenangan untuk menyimpan penerjemahan!"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr "Beberapa pemeriksaan telah gagal pada penerjemahan anda!"
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr "Tidak dapat menggabungkan pesan yang berbeda!"
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Anda harus log masuk untuk dapat mengelola saran!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Anda tidak memiliki kewenangan untuk menerima saran!"
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Anda tidak memiliki kewenangan untuk menghapus saran!"
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr "Saran tidak valid!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr "Anda telah mencapai akhir dari menerjemahkan."
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr "Penerjemahan otomatis selesai."
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr "Komentar baru direkam"
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr "Gagal menambah komentar!"
 
@@ -2629,7 +2634,6 @@ msgid "No recent activity has been recorded."
 msgstr "Tidak ada kegiatan baru-baru ini telah direkam."
 
 #: weblate/html/last-changes.html:34
-#| msgid "Source change"
 msgid "Browse changes"
 msgstr "Jelajahi perubahan"
 
@@ -3056,9 +3060,6 @@ msgstr ""
 
 #: weblate/html/translation.html:64
 #, python-format
-#| msgid ""
-#| "You can <a href=\"%(download_url)s\">download</a> file for offline "
-#| "translation."
 msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
@@ -3276,21 +3277,21 @@ msgstr "Kode Textile"
 msgid "Translation status"
 msgstr "Status penerjemahan"
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr "Laporan"
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "Status repositori"
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr "Kunci SSH"
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"
@@ -3882,12 +3883,10 @@ msgstr ""
 "lisensi yang sama dengan konten yang diterjemahkannya."
 
 #: weblate/html/trans/change_list.html:7
-#| msgid "Recent changes"
 msgid "changes"
 msgstr "perubahan"
 
 #: weblate/html/trans/change_list.html:42
-#| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
 msgstr "Kegiatan yang tidak cocok telah ditemukan."
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
+"POT-Creation-Date: 2013-04-23 14:55+0200\n"
 "PO-Revision-Date: 2013-02-05 13:36+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
@@ -705,35 +705,39 @@ msgstr ""
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr ""
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 msgid "Translation completed"
 msgstr ""
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 msgid "Translation changed"
 msgstr ""
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 msgid "New translation"
 msgstr ""
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 msgid "Comment added"
 msgstr ""
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 msgid "Suggestion added"
 msgstr ""
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr ""
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+msgid "Suggestion accepted"
+msgstr ""
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -995,31 +999,31 @@ msgstr ""
 msgid "This translation is locked by %(user)s!"
 msgstr ""
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr ""
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr ""
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr ""
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr ""
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
@@ -1028,15 +1032,15 @@ msgstr ""
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -1230,7 +1234,7 @@ msgid "Changes"
 msgstr "Zmena hesla"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 msgid "Invalid search string!"
 msgstr ""
 
@@ -1263,106 +1267,106 @@ msgid "File upload has failed: %s"
 msgstr ""
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr ""
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr ""
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr ""
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr ""
 
-#: trans/views/edit.py:65
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr ""
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr ""
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr ""
 
-#: trans/views/edit.py:116
+#: trans/views/edit.py:117
 #, python-format
 msgid "Review of translations since %s"
 msgstr ""
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr ""
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr ""
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr ""
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr ""
 
@@ -3150,21 +3154,21 @@ msgstr ""
 msgid "Translation status"
 msgstr ""
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr ""
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr ""
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr ""
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"
