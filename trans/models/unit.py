@@ -496,7 +496,7 @@ class Unit(models.Model):
                 if previous_source == '':
                     previous_source = self.source
                 fuzzy = True
-            elif target == self.target
+            elif target == self.target:
                 # We should keep calculated flags if translation was
                 # not changed outside
                 previous_source = self.previous_source
