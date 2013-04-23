@@ -489,9 +489,11 @@ class Unit(models.Model):
         translated = unit.is_translated()
         previous_source = unit.get_previous_source()
 
-        # Store previous source for monolingual files
-        if source != self.source and previous_source == '':
-            previous_source = self.source
+        # Store previous source and fuzzy flag for monolingual files
+        if source != self.source and unit.template is not None:
+            if previous_source == '':
+                previous_source = self.source
+            fuzzy = True
 
         # Update checks on fuzzy update or on content change
         same_content = (
