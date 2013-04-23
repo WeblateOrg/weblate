@@ -489,6 +489,10 @@ class Unit(models.Model):
         translated = unit.is_translated()
         previous_source = unit.get_previous_source()
 
+        # Store previous source for monolingual files
+        if source != self.source and previous_source == '':
+            previous_source = self.source
+
         # Update checks on fuzzy update or on content change
         same_content = (
             target == self.target
@@ -515,6 +519,7 @@ class Unit(models.Model):
         self.position = pos
         self.location = location
         self.flags = flags
+        self.source = source
         self.target = target
         self.fuzzy = fuzzy
         self.translated = translated
