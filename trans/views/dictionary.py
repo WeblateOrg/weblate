@@ -237,6 +237,9 @@ def download_dictionary(request, project, lang):
 
     writer = csv.writer(response)
 
+    # Add header
+    writer.writerow(('source', 'target'))
+
     for word in words.iterator():
         writer.writerow((
             word.source.encode('utf8'), word.target.encode('utf8')
