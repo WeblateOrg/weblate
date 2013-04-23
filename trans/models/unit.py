@@ -483,13 +483,17 @@ class Unit(models.Model):
         location = unit.get_locations()
         flags = unit.get_flags()
         target = unit.get_target()
+        source = unit.get_source()
         comment = unit.get_comments()
         fuzzy = unit.is_fuzzy()
         translated = unit.is_translated()
         previous_source = unit.get_previous_source()
 
         # Update checks on fuzzy update or on content change
-        same_content = (target == self.target)
+        same_content = (
+            target == self.target
+            and source == self.source
+        )
         same_state = (
             fuzzy == self.fuzzy
             and translated == self.translated
