@@ -636,7 +636,7 @@ class Unit(models.Model):
         if not saved:
             # Propagate if we should
             if propagate:
-                self.propagate(request)
+                self.propagate(request, change_action)
             return False
 
         # Update translated flag
