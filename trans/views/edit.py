@@ -39,7 +39,7 @@ from trans.forms import (
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
-from trans.util import join_plural, get_distinct_translations
+from trans.util import join_plural
 
 
 def get_filter_name(rqtype):
