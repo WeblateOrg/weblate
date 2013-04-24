@@ -38,7 +38,9 @@ from south.signals import post_migrate
 
 from lang.models import Language
 from trans.models import Project, Change
-from trans.util import get_user_display, get_site_url
+from trans.util import (
+    get_user_display, get_site_url, get_distinct_translations
+)
 import weblate
 
 
@@ -475,6 +477,24 @@ class Profile(models.Model):
         Returns user's full name.
         '''
         return self.user.get_full_name()
+
+    def get_secondary_units(self, unit):
+        '''
+        Returns list of secondary units.
+        '''
+        from trans.models.unit import Unit
+        secondary_langs = self.secondary_languages.exclude(
+            id=unit.translation.language.id
+        )
+        project = unit.translation.subproject.project
+        return get_distinct_translations(
+            Unit.objects.filter(
+                checksum=unit.checksum,
+                translated=True,
+                translation__subproject__project=project,
+                translation__language__in=secondary_langs,
+            )
+        )
 
 
 @receiver(user_logged_in)

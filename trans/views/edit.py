@@ -434,18 +434,7 @@ def translate(request, project, subproject, lang):
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
         profile = request.user.get_profile()
-        secondary_langs = profile.secondary_languages.exclude(
-            id=unit.translation.language.id
-        )
-        project = unit.translation.subproject.project
-        secondary = get_distinct_translations(
-            Unit.objects.filter(
-                checksum=unit.checksum,
-                translated=True,
-                translation__subproject__project=project,
-                translation__language__in=secondary_langs,
-            )
-        )
+        secondary = profile.get_secondary_units(unit)
         antispam = None
     else:
         secondary = None
