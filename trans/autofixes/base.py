@@ -12,19 +12,15 @@ class AutoFix(object):
         self.unit = unit
         self.target = target
         self.source = unit.source
-    
+
     def fix_target(self, single_target):
         '''
         fix a single target, implement this method with subclasses
         '''
         return single_target
-        
+
     def new_target(self):
         '''
         returns a target translation array with a single fix applied
         '''
-        new_target = []
-        for t in self.target:
-            t = self.fix_target(t)
-            new_target.append(t)
-        return new_target
+        return [self.fix_target(t) for t in self.target]

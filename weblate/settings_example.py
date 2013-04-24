@@ -343,10 +343,10 @@ LOCK_TIME = 15 * 60
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
-AUTOFIX_LIST = (
-    'trans.autofixes.whitespace.SameBookendingWhitespace',
-    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-)
+#AUTOFIX_LIST = (
+#    'trans.autofixes.whitespace.SameBookendingWhitespace',
+#    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+#)
 #CHECK_LIST = (
 #    'trans.checks.same.SameCheck',
 #    'trans.checks.chars.BeginNewlineCheck',
