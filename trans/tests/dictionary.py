@@ -38,14 +38,11 @@ class DictionaryTest(ViewTestCase):
     Testing of dictionary manipulations.
     '''
 
-    def get_kwargs(self):
-        return {
+    def get_url(self, url):
+        return reverse(url, kwargs={
             'lang': 'cs',
             'project': self.subproject.project.slug,
-        }
-
-    def get_url(self, url):
-        return reverse(url, kwargs=self.get_kwargs())
+        })
 
     def import_file(self, filename, **kwargs):
         with open(filename) as handle:
