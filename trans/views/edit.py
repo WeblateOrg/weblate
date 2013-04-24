@@ -39,6 +39,7 @@ from trans.forms import (
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
+from trans.autofixes import fix_target
 from trans.util import join_plural
 
 
@@ -236,12 +237,16 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             _('You don\'t have privileges to save translations!')
         )
     elif not user_locked:
+        # Run AutoFixes on user input
+        cleaned_target = form.cleaned_data['target']
+        cleaned_target = fix_target(cleaned_target, unit)
+
         # Remember old checks
         oldchecks = set(
             unit.active_checks().values_list('check', flat=True)
         )
         # Update unit and save it
-        unit.target = join_plural(form.cleaned_data['target'])
+        unit.target = join_plural(cleaned_target)
         unit.fuzzy = form.cleaned_data['fuzzy']
         saved = unit.save_backend(request)
 
