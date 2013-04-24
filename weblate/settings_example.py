@@ -345,6 +345,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 # List of quality checks
 AUTOFIX_LIST = (
     'trans.autofixes.whitespace.SameBookendingWhitespace',
+    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
 )
 #CHECK_LIST = (
 #    'trans.checks.same.SameCheck',
