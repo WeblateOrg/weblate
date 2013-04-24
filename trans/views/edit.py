@@ -39,7 +39,7 @@ from trans.forms import (
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
-from trans.util import join_plural, get_distinct_translations
+from trans.util import join_plural
 
 
 def get_filter_name(rqtype):
@@ -433,8 +433,7 @@ def translate(request, project, subproject, lang):
 
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
-        profile = request.user.get_profile()
-        secondary = profile.get_secondary_units(unit)
+        secondary =  request.user.get_profile().get_secondary_units(unit)
         antispam = None
     else:
         secondary = None
