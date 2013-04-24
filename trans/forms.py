@@ -122,7 +122,7 @@ class PluralTextarea(forms.Textarea):
 class PluralField(forms.CharField):
     '''
     Renderer for plural field. The only difference
-    from CharFied is that it does not force value to be
+    from CharField is that it does not force value to be
     string.
     '''
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
