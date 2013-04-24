@@ -948,7 +948,8 @@ class Unit(models.Model):
             self.cleanup_checks(old_source_checks, old_target_checks)
 
         # Update failing checks flag
-        for unit in Unit.objects.same(self):
+        self.update_has_failing_check()
+        for unit in Unit.objects.same(self).exclude(id=self.id):
             unit.update_has_failing_check()
 
     def update_has_failing_check(self):
