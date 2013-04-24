@@ -579,7 +579,7 @@ class Unit(models.Model):
 
         return ret
 
-    def propagate(self, request):
+    def propagate(self, request, change_action=None):
         '''
         Propagates current translation to all others.
         '''
@@ -589,9 +589,10 @@ class Unit(models.Model):
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = self.fuzzy
-            unit.save_backend(request, False)
+            unit.save_backend(request, False, change_action=change_action)
 
-    def save_backend(self, request, propagate=True, gen_change=True, user=None):
+    def save_backend(self, request, propagate=True, gen_change=True,
+                     change_action=None, user=None):
         '''
         Stores unit to backend.
         '''
@@ -673,7 +674,9 @@ class Unit(models.Model):
 
         # Generate Change object for this change
         if gen_change:
-            if oldunit.translated:
+            if change_action is not None:
+                action = change_action
+            elif oldunit.translated:
                 action = Change.ACTION_CHANGE
             else:
                 action = Change.ACTION_NEW
@@ -697,7 +700,7 @@ class Unit(models.Model):
 
         # Propagate to other projects
         if propagate:
-            self.propagate(request)
+            self.propagate(request, change_action)
 
         return True
 
