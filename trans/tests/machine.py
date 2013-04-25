@@ -76,8 +76,7 @@ class MachineTranslationTest(TestCase):
         machine = ApertiumTranslation()
         self.assertIsInstance(machine.translate('es', 'world', None), list)
 
-    @skipUnless(microsoft_translation_supported(),
-                         'missing credentials')
+    @skipUnless(microsoft_translation_supported(), 'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
         self.assertIsInstance(machine.translate('cs', 'world', None), list)
