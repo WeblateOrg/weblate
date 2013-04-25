@@ -99,7 +99,7 @@ class XMLTagsCheck(TargetCheck):
             # Check if source is XML
             try:
                 source_tree = self.parse_xml(source)
-                source_tags = [x.tag for x in source_tree.iter()]
+                source_tags = [x.tag for x in source_tree]
                 self.set_cache(unit, source_tags, cache_slot)
             except:
                 # Source is not valid XML, we give up
@@ -109,7 +109,7 @@ class XMLTagsCheck(TargetCheck):
         # Check target
         try:
             target_tree = self.parse_xml(target)
-            target_tags = [x.tag for x in target_tree.iter()]
+            target_tags = [x.tag for x in target_tree]
         except:
             # Target is not valid XML
             return True
