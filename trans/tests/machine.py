@@ -21,7 +21,7 @@
 from django.test import TestCase
 from trans.tests.views import ViewTestCase
 from trans.models.unit import Unit
-import unittest
+import unittest2
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
 from trans.machine.mymemory import MyMemoryTranslation
@@ -73,7 +73,7 @@ class MachineTranslationTest(TestCase):
         machine = ApertiumTranslation()
         self.assertIsInstance(machine.translate('es', 'world', None), list)
 
-    @unittest.skipUnless(microsoft_translation_supported(),
+    @unittest2.skipUnless(microsoft_translation_supported(),
                          'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
