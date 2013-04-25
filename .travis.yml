@@ -11,7 +11,7 @@ before_install:
 install: 
   - pip install --use-mirrors Django==$DJANGO_VERSION
   - pip install --use-mirrors -r requirements.txt
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install -r requirements-2.6.txt ; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors -r requirements-2.6.txt ; fi
 # Environment setup
   - export VIRT_ROOT=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION
   - export PKG_CONFIG_PATH=$VIRT_ROOT/lib/pkgconfig
