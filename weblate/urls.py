@@ -529,7 +529,7 @@ urlpatterns = patterns(
     url(
         r'^js/i18n/$',
         'django.views.i18n.javascript_catalog',
-        {'packages': ('weblate',)}
+        {'packages': ('weblate',)},
         name='js-catalog'
     ),
     url(
