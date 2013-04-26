@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-04-23 17:04+0200\n"
-"PO-Revision-Date: 2013-04-25 18:11+0200\n"
+"PO-Revision-Date: 2013-04-26 16:49+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -55,6 +55,8 @@ msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
 msgstr ""
+"Cette valeur peut contenir uniquement des lettres, des chiffres et des "
+"caractères suivants: @ . + - _"
 
 #: accounts/forms.py:228
 msgid "At least five characters long."
@@ -269,7 +271,7 @@ msgstr "Soutien pour avatar en mode fédéré"
 
 #: trans/admin_views.py:123
 msgid "PyICU library"
-msgstr ""
+msgstr "Bibliothèque PyICU"
 
 #: trans/admin_views.py:160 trans/admin_views.py:164
 msgid "Failed to generate key!"
@@ -501,11 +503,11 @@ msgstr ""
 
 #: trans/validators.py:83
 msgid "Can not link to linked repository!"
-msgstr "Impossible d'établir un lien vers un dépôt lié !"
+msgstr "Impossible d'établir un lien vers un référenciel lié !"
 
 #: trans/validators.py:85
 msgid "Invalid link to repository!"
-msgstr "Lien vers le dépôt invalide !"
+msgstr "Lien vers le référentiel invalide !"
 
 #: trans/widgets.py:260
 #, python-format
@@ -829,8 +831,8 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Définir si Weblate doit fusionner le dépôt amont ou refonder les changements "
-"sur le dépôt amont."
+"Définir si Weblate doit fusionner le référentiel amont ou refonder les "
+"changements sur le référentiel amont."
 
 #: trans/models/project.py:112
 msgid ""
@@ -842,7 +844,7 @@ msgstr ""
 
 #: trans/models/project.py:129
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Le dépôt doit être poussé en amont à chaque commit."
+msgstr "Le référentiel doit être poussé en amont à chaque commit."
 
 #: trans/models/project.py:136
 msgid ""
@@ -885,12 +887,12 @@ msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
-"URL du dépôt Git, utilisez weblate://projet/sousprojet pour le partager avec "
-"un autre sous-projet."
+"URL du référentiel Git, utilisez weblate://projet/sousprojet pour le "
+"partager avec un autre sous-projet."
 
 #: trans/models/subproject.py:86
 msgid "URL of push Git repository"
-msgstr "URL du dépôt Git pour l'envoi"
+msgstr "URL du référentiel Git pour l'envoi"
 
 #: trans/models/subproject.py:91
 #, python-format
@@ -905,6 +907,8 @@ msgstr ""
 #: trans/models/subproject.py:100
 msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr ""
+"URL du référentiel Git où les utilisateurs peuvent récupérer les changements "
+"depuis Weblate"
 
 #: trans/models/subproject.py:106
 msgid ""
@@ -954,7 +958,6 @@ msgstr ""
 "documentation pour plus de détails."
 
 #: trans/models/subproject.py:158
-#, fuzzy
 #| msgid ""
 #| "You can use format strings for various information, please check "
 #| "documentation for more details."
@@ -962,8 +965,8 @@ msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
 msgstr ""
-"Vous pouvez utiliser des chaines de format pour différentes informations, "
-"veuillez consulter la documentation pour plus de détails."
+"Script à exécuter avant d'effectuer le commit de la traduction, veuillez "
+"consulter la documentation pour plus de détails."
 
 #: trans/models/subproject.py:166
 msgid "Whether subproject is locked for translation updates."
@@ -980,7 +983,7 @@ msgstr ""
 #: trans/models/subproject.py:387
 #, python-format
 msgid "Failed to fetch git repository: %s"
-msgstr "Impossible de récupérer les modifications sur le dépôt git : %s"
+msgstr "Impossible de récupérer les modifications sur le référentiel git : %s"
 
 #: trans/models/subproject.py:477
 #, python-format
@@ -1009,27 +1012,26 @@ msgstr "Échec de la fusion de la branche distante dans %s."
 
 #: trans/models/subproject.py:730
 msgid "Push URL is not used when repository is linked!"
-msgstr "Le URL pour pousser n'est pas utilisé quand le dépôt est lié !"
+msgstr "Le URL pour pousser n'est pas utilisé quand le référentiel est lié !"
 
 #: trans/models/subproject.py:734
-#, fuzzy
 #| msgid "Push URL is not used when repository is linked!"
 msgid "Export URL is not used when repository is linked!"
-msgstr "Le URL pour pousser n'est pas utilisé quand le dépôt est lié !"
+msgstr "Le URL pour exporter n'est pas utilisé quand le référentiel est lié !"
 
 #: trans/models/subproject.py:745
 msgid "Template file not found!"
-msgstr ""
+msgstr "Fichier de modèle non trouvé !"
 
 #: trans/models/subproject.py:751
 msgid "Format of translation template could not be recognized."
 msgstr "Le format du modèle de traduction n'a pu être reconnu."
 
 #: trans/models/subproject.py:755
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
-msgstr "Échec d'analyse du modèle de traduction."
+msgstr "Échec d'analyse du modèle de traduction : %s"
 
 #: trans/models/subproject.py:776
 msgid "The mask did not match any files!"
@@ -1054,13 +1056,10 @@ msgid "Failed to parse %d matched files!"
 msgstr "Échec d'analyse de %d fichiers correspondants !"
 
 #: trans/models/subproject.py:820
-#, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "You can not use monolingual translation without template!"
-msgstr ""
-"Vous pouvez partager vos commentaires sur cette traduction avec les autres "
-"traducteurs."
+msgstr "Vous ne pouvez utiliser une traduction unilingue sans un modèle !"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1068,8 +1067,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Le fichier %s n'a pas été trouvé dans le dépôt ! Pour ajouter de nouvelles "
-"traductions, ajoutez un fichier de langue dans le dépôt."
+"Le fichier %s n'a pas été trouvé dans le référentiel ! Pour ajouter de "
+"nouvelles traductions, ajoutez un fichier de langue dans le référentiel."
 
 #: trans/models/translation.py:194
 #, python-format
@@ -1299,17 +1298,15 @@ msgid "About Weblate"
 msgstr "À propos de Weblate"
 
 #: trans/views/changes.py:44 weblate/html/trans/change_list.html:12
-#, fuzzy
 #| msgid "Change word"
 msgid "Changes"
-msgstr "Changer le mot"
+msgstr "Changements"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
 #: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
-#, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
-msgstr "Suggestion invalide !"
+msgstr "Chaîne de recherche invalide !"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:241
@@ -1361,32 +1358,32 @@ msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications échouées"
 
 #: trans/views/edit.py:66
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
-msgstr "Recherche de \"%s\""
+msgstr "Recherche plein texte de «%s»"
 
 #: trans/views/edit.py:68
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
-msgstr "Chercher dans les chaînes de contexte"
+msgstr "Chercher la chaîne exacte «%s»"
 
 #: trans/views/edit.py:70
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
-msgstr "Recherche de \"%s\""
+msgstr "Chercher la sous-chaîne «%s»"
 
 #: trans/views/edit.py:117
-#, fuzzy, python-format
+#, python-format
 #| msgid "Review source strings in %s"
 msgid "Review of translations since %s"
-msgstr "Passer en revue les chaînes sources de %s"
+msgstr "Passer en revue les traductions depuis le %s"
 
 #: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
-msgstr ""
+msgstr "Pas de chaîne correspondant à votre recherche !"
 
 #: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
@@ -2686,10 +2683,9 @@ msgid "No recent activity has been recorded."
 msgstr "Aucune activité récente n'a été enregistrée."
 
 #: weblate/html/last-changes.html:34
-#, fuzzy
 #| msgid "Source change"
 msgid "Browse changes"
-msgstr "Changement dans la chaîne originale"
+msgstr "Afficher les changements"
 
 #: weblate/html/list-checks.html:6
 #, python-format
@@ -2697,7 +2693,6 @@ msgid "Ignore: %(check)s"
 msgstr "Ignorer : %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -2719,12 +2714,12 @@ msgid "Suggestions"
 msgstr "Nombre de suggestions"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Copy word to translation"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "Copier le mot vers la traduction"
-msgstr[1] "Copier le mot vers la traduction"
+msgstr[0] "Un mot à traduire !"
+msgstr[1] "%(words)s mots à traduire !"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -2928,13 +2923,12 @@ msgstr "Revue des chaînes source"
 
 #: weblate/html/subproject_info.html:6
 msgid "Git repository:"
-msgstr "Dépôt Git : "
+msgstr "Référentiel Git : "
 
 #: weblate/html/subproject_info.html:17
-#, fuzzy
 #| msgid "Sent by Weblate translation system"
 msgid "Git repository with Weblate translations:"
-msgstr "Envoyé par le système de traduction Weblate"
+msgstr "Référentiel Git contenant des traductions Weblate : "
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -3041,16 +3035,14 @@ msgid "Words extracted from glossary"
 msgstr "Mots extraits du glossaire"
 
 #: weblate/html/translate.html:168
-#, fuzzy
 #| msgid "Point to translation instructions URL"
 msgid "Machine translation suggestions"
-msgstr "Pointer vers l'URL des directives de traduction"
+msgstr "Suggestions de traduction automatisée"
 
 #: weblate/html/translate.html:168
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Machine translation"
-msgstr "Échec de traduction"
+msgstr "Traduction automatisée"
 
 #: weblate/html/translate.html:170
 msgid "Comments about this translation"
@@ -3083,7 +3075,7 @@ msgstr "État"
 
 #: weblate/html/translate.html:200
 msgid "Service"
-msgstr ""
+msgstr "Service"
 
 #: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
@@ -3125,7 +3117,7 @@ msgstr ""
 "traduire hors-ligne."
 
 #: weblate/html/translation.html:64
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "You can <a href=\"%(download_url)s\">download</a> file for offline "
 #| "translation."
@@ -3133,8 +3125,8 @@ msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
-"Vous pouvez <a href=\"%(download_url)s\">télécharger</a> un fichier pour le "
-"traduire hors-ligne."
+"Vous pouvez aussi <a href=\"%(pack_download_url)s\">télécharger</a> un fichier "
+"compilé pour l'utiliser avec l'application."
 
 #: weblate/html/translation.html:68 weblate/html/translation.html.py:80
 msgid "Upload"
@@ -3218,7 +3210,7 @@ msgstr ""
 "traduites et %(fuzzy)s&#37; sont floues."
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "There are %(count)s strings, out of which %(translated)s&#37; is "
 #| "translated and %(fuzzy)s&#37; is fuzzy."
@@ -3226,8 +3218,7 @@ msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
 msgstr ""
-"Il y a %(count)s chaînes, parmi lesquelles %(translated)s&#37; sont "
-"traduites et %(fuzzy)s&#37; sont floues."
+"Il y a %(words)s mots, dont %(percent)s&#37; (%(translated)s) est traduit."
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
@@ -3446,7 +3437,7 @@ msgstr "Enregistrer"
 
 #: weblate/html/js/git-status.html:9
 msgid "Pull changes from remote repository"
-msgstr "Récupérer les changements depuis le dépôt distant"
+msgstr "Récupérer les changements depuis le référentiel distant"
 
 #: weblate/html/js/git-status.html:9
 msgid "Pull"
@@ -3454,7 +3445,7 @@ msgstr "Récupérer"
 
 #: weblate/html/js/git-status.html:10
 msgid "Push changes to remote repository"
-msgstr "Envoyer les changements vers le dépôt distant"
+msgstr "Envoyer les changements vers le référentiel distant"
 
 #: weblate/html/js/git-status.html:10
 msgid "Push"
@@ -3462,7 +3453,7 @@ msgstr "Envoyer"
 
 #: weblate/html/js/git-status.html:12
 msgid "Reset all changes in local repository"
-msgstr "Réinitialiser tous les changements dans le dépôt local"
+msgstr "Réinitialiser tous les changements dans le référentiel local"
 
 #: weblate/html/js/git-status.html:12
 msgid "Reset"
@@ -3470,11 +3461,11 @@ msgstr "Réinitialiser"
 
 #: weblate/html/js/git-status.html:16
 msgid "Allow changes in the repository"
-msgstr "Permettre les changements dans le dépôt"
+msgstr "Permettre les changements dans le référentiel"
 
 #: weblate/html/js/git-status.html:18
 msgid "Prevent any changes in the repository"
-msgstr "Empêcher les changements dans le dépôt"
+msgstr "Empêcher les changements dans le référentiel"
 
 #: weblate/html/js/git-status.html:24
 msgid "There are some not commited changes!"
@@ -3482,11 +3473,11 @@ msgstr "Il y a des changements non enregistrés !"
 
 #: weblate/html/js/git-status.html:27
 msgid "Remote Git repository needs to be merged!"
-msgstr "Le dépôt Git distant a besoin d'être fusionné !"
+msgstr "Le référentiel Git distant a besoin d'être fusionné !"
 
 #: weblate/html/js/git-status.html:30
 msgid "There are some new commits in local Git repository!"
-msgstr "De nouveaux enregistrements se trouvent dans le dépôt Git local !"
+msgstr "De nouveaux enregistrements se trouvent dans le référentiel Git local !"
 
 #: weblate/html/js/git-status.html:38
 msgid "Last remote commit:"
@@ -3616,7 +3607,7 @@ msgstr "Message d'erreur"
 
 #: weblate/html/mail/merge_failure.html:22
 msgid "Repository status"
-msgstr "État du dépôt"
+msgstr "État du référentiel"
 
 #: weblate/html/mail/merge_failure.html:28
 #: weblate/html/mail/merge_failure.txt:13
@@ -3629,7 +3620,7 @@ msgstr "Message d'erreur : "
 
 #: weblate/html/mail/merge_failure.txt:9
 msgid "Repository status:"
-msgstr "Statut du dépôt : "
+msgstr "État du référentiel : "
 
 #: weblate/html/mail/merge_failure_subject.txt:1
 #, python-format
@@ -3964,16 +3955,14 @@ msgstr ""
 "même licence que celle utilisée pour le contenu traduit."
 
 #: weblate/html/trans/change_list.html:7
-#, fuzzy
 #| msgid "Recent changes"
 msgid "changes"
-msgstr "Changements récents"
+msgstr "changements"
 
 #: weblate/html/trans/change_list.html:42
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
-msgstr "Aucune activité récente n'a été enregistrée."
+msgstr "Aucune activité correspondante n'a été trouvée."
 
 #, fuzzy
 #~| msgid "checks"
