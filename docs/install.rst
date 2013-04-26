@@ -33,6 +33,14 @@ PyICU (optional for proper sorting of strings)
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
+If you want to run Weblate with Python 2.6, you should also install following
+modules:
+
+importlib
+    https://pypi.python.org/pypi/importlib
+unittest2
+    https://pypi.python.org/pypi/unittest2
+
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
 

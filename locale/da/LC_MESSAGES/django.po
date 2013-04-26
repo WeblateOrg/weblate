@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
-"PO-Revision-Date: 2013-04-09 03:38+0200\n"
+"POT-Creation-Date: 2013-04-23 17:04+0200\n"
+"PO-Revision-Date: 2013-04-25 11:14+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.5-dev\n"
+"X-Generator: Weblate 1.6-dev\n"
 
 #: accounts/forms.py:169 accounts/forms.py:216
 msgid "First name"
@@ -54,7 +54,7 @@ msgstr "Brugernavn"
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
-msgstr ""
+msgstr "Denne værdi må kun indeholde bogstaver, tal og følgende tegn: @.+-_"
 
 #: accounts/forms.py:228
 msgid "At least five characters long."
@@ -269,7 +269,7 @@ msgstr "Fødereret avatar-understøttelse"
 
 #: trans/admin_views.py:123
 msgid "PyICU library"
-msgstr ""
+msgstr "PyICU-bibliotek"
 
 #: trans/admin_views.py:160 trans/admin_views.py:164
 msgid "Failed to generate key!"
@@ -298,10 +298,9 @@ msgid "Gettext PO file"
 msgstr "Gettext PO-fil"
 
 #: trans/formats.py:486
-#, fuzzy
 #| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
-msgstr "Gettext PO-fil"
+msgstr "Gettext PO-fil (enkeltsproget)"
 
 #: trans/formats.py:495
 msgid "Qt Linguist Translation File"
@@ -728,35 +727,40 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Tekststrengen bruger tre prikker (...) i stedet for udeladelsestegnet (...)"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr "Ressource-opdatering"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 msgid "Translation completed"
 msgstr "Oversættelse er færdiggjort"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 msgid "Translation changed"
 msgstr "Oversættelse er ændret"
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 msgid "New translation"
 msgstr "Ny oversættelse"
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 msgid "Comment added"
 msgstr "Kommentar tilføjet"
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 msgid "Suggestion added"
 msgstr "Forslag tilføjet"
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automatisk oversættelse"
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+#| msgid "Suggestion added"
+msgid "Suggestion accepted"
+msgstr "Forslag er accepteret"
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
@@ -882,7 +886,7 @@ msgstr ""
 
 #: trans/models/subproject.py:100
 msgid "URL of Git repository where users can fetch changes from Weblate"
-msgstr ""
+msgstr "URL for Git-arkivet, hvor brugere kan hente ændringer fra Weblate"
 
 #: trans/models/subproject.py:106
 msgid ""
@@ -921,7 +925,6 @@ msgstr ""
 "langsommere."
 
 #: trans/models/subproject.py:148
-#, fuzzy
 #| msgid ""
 #| "You can use format strings for various information, please check "
 #| "documentation for more details."
@@ -929,11 +932,10 @@ msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
 msgstr ""
-"Du kan anvende format-strenge til diverse information, tjek venligst "
+"Ekstra fil som skal inkluderes ved indsendelser, tjek venligst "
 "dokumentationen for flere detaljer."
 
 #: trans/models/subproject.py:158
-#, fuzzy
 #| msgid ""
 #| "You can use format strings for various information, please check "
 #| "documentation for more details."
@@ -941,7 +943,7 @@ msgid ""
 "Script to be executed before commiting translation, please check "
 "documentation for more details."
 msgstr ""
-"Du kan anvende format-strenge til diverse information, tjek venligst "
+"Skript som skal udføres før oversættelsen indsendes, tjek venligst "
 "dokumentationen for flere detaljer."
 
 #: trans/models/subproject.py:166
@@ -993,24 +995,23 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL anvendes ikke når arkivet er sammenkædet!"
 
 #: trans/models/subproject.py:734
-#, fuzzy
 #| msgid "Push URL is not used when repository is linked!"
 msgid "Export URL is not used when repository is linked!"
-msgstr "Push URL anvendes ikke når arkivet er sammenkædet!"
+msgstr "Eksport af URL anvendes ikke når arkivet er sammenkædet!"
 
 #: trans/models/subproject.py:745
 msgid "Template file not found!"
-msgstr ""
+msgstr "Skabelonfil blev ikke fundet!"
 
 #: trans/models/subproject.py:751
 msgid "Format of translation template could not be recognized."
 msgstr "Format på oversættelsesskabelon kunne ikke genkendes."
 
 #: trans/models/subproject.py:755
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
-msgstr "Mislykkedes med at fortolke oversættelsesskabelon."
+msgstr "Mislykkedes med at fortolke oversættelsesskabelon: %s"
 
 #: trans/models/subproject.py:776
 msgid "The mask did not match any files!"
@@ -1035,11 +1036,10 @@ msgid "Failed to parse %d matched files!"
 msgstr "Mislykkedes med at fortolke %d matchede filer!"
 
 #: trans/models/subproject.py:820
-#, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "You can not use monolingual translation without template!"
-msgstr "Du kan dele kommentarer til denne oversættelser med andre oversættere."
+msgstr "Du kan ikke dele enkeltsprogede oversættelse uden skabelon!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1065,31 +1065,31 @@ msgstr "Mislykkedes med at fortolke filen %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Denne oversættelse er låst af %(user)s!"
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr "Alle strenge"
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Alle strenge med tjekfejl (%d)"
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Strenge med kommentarer (%d)"
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Ikke-oversatte strenge (%d)"
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Uklare strenge (%d)"
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Strenge med forslag (%d)"
@@ -1098,16 +1098,16 @@ msgstr "Strenge med forslag (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Beskeden du ønsker at oversætte er ikke længere tilgængelig!"
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Mislykkedes med at lagre besked i motoren. Der opstod låst tidsudløb!"
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Beskeden blev ikke fundet i bagendens lager. Den er sandsynligvis beskadiget."
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr "enheds-ID %s"
@@ -1276,17 +1276,15 @@ msgid "About Weblate"
 msgstr "Om Weblate"
 
 #: trans/views/changes.py:44 weblate/html/trans/change_list.html:12
-#, fuzzy
 #| msgid "Change word"
 msgid "Changes"
-msgstr "Tilret ord"
+msgstr "Ændringer"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
-#, fuzzy
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
-msgstr "Ugyldigt forslag!"
+msgstr "Ugyldigt søgestreng!"
 
 #: trans/views/checks.py:41 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:241
@@ -1297,7 +1295,7 @@ msgstr "Mislykkede tjek"
 msgid "Dictionaries"
 msgstr "Ordbøger"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:297
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s-ordbog for %(project)s"
@@ -1317,59 +1315,59 @@ msgid "File upload has failed: %s"
 msgstr "Filoverførsel mislykkedes: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr "Mislykkedes med at behandle formular!"
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Uklare strenge"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Ikke-oversatte strenge"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Strenge med forslag"
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Strenge med enhver slags mislykkede tjek"
 
-#: trans/views/edit.py:65
-#, fuzzy, python-format
+#: trans/views/edit.py:66
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
-msgstr "Søg efter \"%s\""
+msgstr "Fultekst-søgning efter \"%s\""
 
-#: trans/views/edit.py:67
-#, fuzzy, python-format
+#: trans/views/edit.py:68
+#, python-format
 #| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
-msgstr "Søg i kontekst-strenge"
+msgstr "Søg efter den eksakte streng \"%s\""
 
-#: trans/views/edit.py:69
-#, fuzzy, python-format
+#: trans/views/edit.py:70
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
-msgstr "Søg efter \"%s\""
+msgstr "Delstreng-søgning efter \"%s\""
 
-#: trans/views/edit.py:116
-#, fuzzy, python-format
+#: trans/views/edit.py:117
+#, python-format
 #| msgid "Review source strings in %s"
 msgid "Review of translations since %s"
-msgstr "Gennemgå kildestrenge i %s"
+msgstr "Gennemgang af ændringer siden %s"
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
-msgstr ""
+msgstr "Ingen strenge passede til din søgning!"
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr "Dit forslag er tomt!"
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1379,51 +1377,51 @@ msgstr ""
 "venligst at blive oversætter da dit forslag muligvis ikke vil blive "
 "gennemlæst ellers."
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr "Du skal logge ind for at kunne gemme oversættelser!"
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr "Du har ikke rettigheder til at gemme oversættelser!"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr "Nogle tjek mislykkedes for din oversættelse!"
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr "Kan ikke flette forskellige beskeder!"
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Du skal være logget ind for at håndtere forslag!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Du har ikke rettigheder til at godkende forslag!"
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Du har ikke rettigheder til at slette forslag!"
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr "Ugyldigt forslag!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr "Du er nået til slutningen af oversættelsen."
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr "Automatisk oversættelse fuldført."
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr "Indsendte ny kommentar"
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr "Mislykkedes med at tilføje kommentar!"
 
@@ -2652,10 +2650,9 @@ msgid "No recent activity has been recorded."
 msgstr "Der er ikke registreret aktivitet for nylig."
 
 #: weblate/html/last-changes.html:34
-#, fuzzy
 #| msgid "Source change"
 msgid "Browse changes"
-msgstr "Kildeændring"
+msgstr "Gennemse ændringer"
 
 #: weblate/html/list-checks.html:6
 #, python-format
@@ -2663,7 +2660,6 @@ msgid "Ignore: %(check)s"
 msgstr "Ignorér: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -2685,12 +2681,12 @@ msgid "Suggestions"
 msgstr "Forslag"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Copy word to translation"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "Kopier ord til oversættelse"
-msgstr[1] "Kopier ord til oversættelse"
+msgstr[0] "%(words)s ord til oversættelse!"
+msgstr[1] "%(words)s ord til oversættelse!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -2894,10 +2890,9 @@ msgid "Git repository:"
 msgstr "Git-depot:"
 
 #: weblate/html/subproject_info.html:17
-#, fuzzy
 #| msgid "Sent by Weblate translation system"
 msgid "Git repository with Weblate translations:"
-msgstr "Sendt af oversættelsessystemet Weblate"
+msgstr "Git-arkiv med Weblate-oversættelser:"
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -3004,16 +2999,14 @@ msgid "Words extracted from glossary"
 msgstr "Ord udtrukket fra ordliste"
 
 #: weblate/html/translate.html:168
-#, fuzzy
 #| msgid "Point to translation instructions URL"
 msgid "Machine translation suggestions"
-msgstr "Henvis til URL for oversættelses-instrukser"
+msgstr "Forslag fra maskinoversætter"
 
 #: weblate/html/translate.html:168
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Machine translation"
-msgstr "Oversættelse mislykkedes"
+msgstr "Maskinoversættelse"
 
 #: weblate/html/translate.html:170
 msgid "Comments about this translation"
@@ -3046,7 +3039,7 @@ msgstr "Tilstand"
 
 #: weblate/html/translate.html:200
 msgid "Service"
-msgstr ""
+msgstr "Tjeneste"
 
 #: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
@@ -3085,7 +3078,7 @@ msgstr ""
 "Du kan <a href=\"%(download_url)s\">hente</a> filen til oversættelse offline."
 
 #: weblate/html/translation.html:64
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "You can <a href=\"%(download_url)s\">download</a> file for offline "
 #| "translation."
@@ -3093,7 +3086,8 @@ msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
-"Du kan <a href=\"%(download_url)s\">hente</a> filen til oversættelse offline."
+"Du kan også <a href=\"%(pack_download_url)s\">hente</a> en kompileret fil brug "
+"sammen med applikationen."
 
 #: weblate/html/translation.html:68 weblate/html/translation.html.py:80
 msgid "Upload"
@@ -3176,7 +3170,7 @@ msgstr ""
 "%(fuzzy)s&#37; er uklar(e)."
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "There are %(count)s strings, out of which %(translated)s&#37; is "
 #| "translated and %(fuzzy)s&#37; is fuzzy."
@@ -3184,8 +3178,8 @@ msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
 msgstr ""
-"Der er %(count)s strenge, hvoraf %(translated)s&#37; er oversat(te) og "
-"%(fuzzy)s&#37; er uklar(e)."
+"Der er %(words)s ord, hvoraf %(percent)s&#37; (%(translated)s) er "
+"oversat(te)."
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
@@ -3308,21 +3302,21 @@ msgstr "Textile-kode"
 msgid "Translation status"
 msgstr "Status på oversættelse"
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr "Rapporter"
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "Status over arkiver"
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr "SSH-nøgler"
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"
@@ -3913,16 +3907,14 @@ msgstr ""
 "oversatte indhold."
 
 #: weblate/html/trans/change_list.html:7
-#, fuzzy
 #| msgid "Recent changes"
 msgid "changes"
-msgstr "Seneste ændringer"
+msgstr "ændringer"
 
 #: weblate/html/trans/change_list.html:42
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
-msgstr "Der er ikke registreret aktivitet for nylig."
+msgstr "Der blev ikke fundet matchende aktiviteter."
 
 #, fuzzy
 #~| msgid "checks"

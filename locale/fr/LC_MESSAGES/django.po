@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
+"POT-Creation-Date: 2013-04-23 17:04+0200\n"
 "PO-Revision-Date: 2013-04-09 08:19+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -743,35 +743,41 @@ msgstr ""
 "Cette chaîne utilise trois points (...) au lieu d'un caractère de points de "
 "suspension (…)"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr "Mise à jour de la ressource"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 msgid "Translation completed"
 msgstr "Traduction complétée"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 msgid "Translation changed"
 msgstr "Traduction modifiée"
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 msgid "New translation"
 msgstr "Nouvelle traduction"
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 msgid "Comment added"
 msgstr "Commentaire ajouté"
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 msgid "Suggestion added"
 msgstr "Suggestion ajoutée"
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Traduction automatique"
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+#, fuzzy
+#| msgid "Suggestion added"
+msgid "Suggestion accepted"
+msgstr "Suggestion ajoutée"
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
@@ -1083,31 +1089,31 @@ msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Cette traduction est verrouillée par %(user)s !"
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Chaînes ayant au moins une vérification en échec (%d)"
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Chaînes avec commentaires (%d)"
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
@@ -1116,18 +1122,18 @@ msgstr "Chaînes avec suggestions (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Le message que vous vouliez traduire n'est plus disponible !"
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Impossible de stocker le message dans la base de données, un verrou a "
 "expiré !"
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Le message n'a pas été trouvé dans le stock, il est probablement corrompu."
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr "identification d'unité %s"
@@ -1302,7 +1308,7 @@ msgid "Changes"
 msgstr "Changer le mot"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
@@ -1317,7 +1323,7 @@ msgstr "Vérifications en échec"
 msgid "Dictionaries"
 msgstr "Dictionnaires"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:297
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Dictionnaire %(language)s pour %(project)s"
@@ -1337,59 +1343,59 @@ msgid "File upload has failed: %s"
 msgstr "Échec d'envoi du fichier : %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr "Échec du traitement du formulaire !"
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Chaînes floues"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Chaînes non traduites"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Chaînes avec suggestions"
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications échouées"
 
-#: trans/views/edit.py:65
+#: trans/views/edit.py:66
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Recherche de \"%s\""
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:68
 #, fuzzy, python-format
 #| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Chercher dans les chaînes de contexte"
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:70
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Recherche de \"%s\""
 
-#: trans/views/edit.py:116
+#: trans/views/edit.py:117
 #, fuzzy, python-format
 #| msgid "Review source strings in %s"
 msgid "Review of translations since %s"
 msgstr "Passer en revue les chaînes sources de %s"
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr "Votre suggestion est vide !"
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1399,53 +1405,53 @@ msgstr ""
 "vous impliquer en tant que traducteur, sinon votre suggestion pourrait "
 "demeurer non évaluée."
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 "Vous devez vous connecter afin de pouvoir sauvegarder les traductions !"
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr ""
 "Vous n'avez pas les autorisations requises pour sauvegarder des traductions !"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr "Certaines vérifications de votre traduction ont échoué !"
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr "Impossible de fusionner des messages différents !"
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Vous devez vous connecter afin de pouvoir gérer les suggestions !"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Vous n'avez pas l'autorisation d'accepter les suggestions !"
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Vous n'avez pas l'autorisation de supprimer les suggestions !"
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr "Vous avez terminé la traduction."
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr "Traduction automatique terminée."
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr "Nouveau commentaire envoyé"
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr "Échec lors de l'ajout du commentaire !"
 
@@ -3347,21 +3353,21 @@ msgstr "Code Textile"
 msgid "Translation status"
 msgstr "État de la traduction"
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr "Rapports"
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "État des dépôts"
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr "Clés SSH"
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"

@@ -49,15 +49,11 @@ class UnitManager(models.Manager):
         # Try getting existing unit
         dbunit = None
         try:
-            dbunit = translation.unit_set.get(
-                checksum=checksum
-            )
+            dbunit = translation.unit_set.get(checksum=checksum)
             created = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
-            dbunit = translation.unit_set.filter(
-                checksum=checksum
-            ).delete()
+            dbunit = translation.unit_set.filter(checksum=checksum).delete()
         except Unit.DoesNotExist:
             pass
 
@@ -483,13 +479,30 @@ class Unit(models.Model):
         location = unit.get_locations()
         flags = unit.get_flags()
         target = unit.get_target()
+        source = unit.get_source()
         comment = unit.get_comments()
         fuzzy = unit.is_fuzzy()
         translated = unit.is_translated()
         previous_source = unit.get_previous_source()
 
+        # Monolingual files handling
+        if unit.template is not None:
+            if source != self.source:
+                # Store previous source and fuzzy flag for monolingual files
+                if previous_source == '':
+                    previous_source = self.source
+                fuzzy = True
+            elif target == self.target:
+                # We should keep calculated flags if translation was
+                # not changed outside
+                previous_source = self.previous_source
+                fuzzy = self.fuzzy
+
         # Update checks on fuzzy update or on content change
-        same_content = (target == self.target)
+        same_content = (
+            target == self.target
+            and source == self.source
+        )
         same_state = (
             fuzzy == self.fuzzy
             and translated == self.translated
@@ -511,6 +524,7 @@ class Unit(models.Model):
         self.position = pos
         self.location = location
         self.flags = flags
+        self.source = source
         self.target = target
         self.fuzzy = fuzzy
         self.translated = translated
@@ -561,7 +575,7 @@ class Unit(models.Model):
 
         return ret
 
-    def propagate(self, request):
+    def propagate(self, request, change_action=None):
         '''
         Propagates current translation to all others.
         '''
@@ -571,9 +585,10 @@ class Unit(models.Model):
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = self.fuzzy
-            unit.save_backend(request, False)
+            unit.save_backend(request, False, change_action=change_action)
 
-    def save_backend(self, request, propagate=True, gen_change=True):
+    def save_backend(self, request, propagate=True, gen_change=True,
+                     change_action=None, user=None):
         '''
         Stores unit to backend.
         '''
@@ -587,7 +602,7 @@ class Unit(models.Model):
 
         # Store to backend
         try:
-            (saved, pounit) = self.translation.update_unit(self, request)
+            (saved, pounit) = self.translation.update_unit(self, request, user)
         except FileLockException:
             weblate.logger.error('failed to lock backend for %s!', self)
             messages.error(
@@ -617,7 +632,7 @@ class Unit(models.Model):
         if not saved:
             # Propagate if we should
             if propagate:
-                self.propagate(request)
+                self.propagate(request, change_action)
             return False
 
         # Update translated flag
@@ -655,7 +670,9 @@ class Unit(models.Model):
 
         # Generate Change object for this change
         if gen_change:
-            if oldunit.translated:
+            if change_action is not None:
+                action = change_action
+            elif oldunit.translated:
                 action = Change.ACTION_CHANGE
             else:
                 action = Change.ACTION_NEW
@@ -679,7 +696,7 @@ class Unit(models.Model):
 
         # Propagate to other projects
         if propagate:
-            self.propagate(request)
+            self.propagate(request, change_action)
 
         return True
 
@@ -712,7 +729,7 @@ class Unit(models.Model):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.check()
+            self.check(same_state)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert:
@@ -848,7 +865,7 @@ class Unit(models.Model):
             language=None,
         )
 
-    def check(self):
+    def check(self, same_state=True):
         '''
         Updates checks for this unit.
         '''
@@ -857,7 +874,7 @@ class Unit(models.Model):
         checks_to_run = CHECKS
         cleanup_checks = True
 
-        if self.fuzzy or not self.translated:
+        if same_state and (self.fuzzy or not self.translated):
             # Check whether there is any message with same source
             project = self.translation.subproject.project
             same_source = Unit.objects.filter(
@@ -928,6 +945,8 @@ class Unit(models.Model):
 
         # Update failing checks flag
         self.update_has_failing_check()
+        for unit in Unit.objects.same(self).exclude(id=self.id):
+            unit.update_has_failing_check()
 
     def update_has_failing_check(self):
         '''

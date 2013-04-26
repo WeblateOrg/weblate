@@ -24,6 +24,7 @@ from lang.models import Language
 from trans.checks import CHECKS
 from trans.models.unit import Unit
 from trans.models.project import Project
+from trans.models.changes import Change
 from trans.util import get_user_display
 
 
@@ -51,7 +52,6 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
-        from trans.models.changes import Change
         from accounts.models import notify_new_suggestion
 
         if not user.is_authenticated():
@@ -110,7 +110,10 @@ class Suggestion(models.Model, RelatedUnitMixin):
         for unit in allunits:
             unit.target = self.target
             unit.fuzzy = False
-            unit.save_backend(request)
+            unit.save_backend(
+                request, change_action=Change.ACTION_ACCEPT, user=self.user
+            )
+
         self.delete()
 
     def delete(self, *args, **kwargs):
@@ -147,7 +150,6 @@ class CommentManager(models.Manager):
         '''
         Adds comment to this unit.
         '''
-        from trans.models.changes import Change
         from accounts.models import notify_new_comment
 
         new_comment = Comment.objects.create(

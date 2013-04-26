@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
-"PO-Revision-Date: 2013-04-19 14:15+0200\n"
+"POT-Creation-Date: 2013-04-23 17:04+0200\n"
+"PO-Revision-Date: 2013-04-24 09:47+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
 "Language: nl\n"
@@ -733,35 +733,40 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "De tekenreeks gebruikt drie puntjes (...) in plaats van een beletselteken (…)"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr "Aanpassen van de hulpbron"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 msgid "Translation completed"
 msgstr "Vertaling afgewerkt"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 msgid "Translation changed"
 msgstr "Vertaling aangepast"
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 msgid "New translation"
 msgstr "Nieuwe vertaling"
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 msgid "Comment added"
 msgstr "Opmerking toegevoegd"
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 msgid "Suggestion added"
 msgstr "Suggestie toegevoegd"
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automatische vertaling"
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+#| msgid "Suggestion added"
+msgid "Suggestion accepted"
+msgstr "Suggestie aanvaard"
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
@@ -1057,31 +1062,31 @@ msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Deze vertaling is geblokeerd door %(user)s!"
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Tekenreeksen met gefaalde controles (%d)"
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Tekenreeksen met opmerkingen (%d)"
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Niet vertaalde tekenreeksen (%d)"
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Vage tekenreeksen (%d)"
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
@@ -1090,19 +1095,19 @@ msgstr "Tekenreeksen met suggesties (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Het bericht dat u wilde vertalen is niet langer beschikbaar!"
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Opslaan van bericht in achterliggende databank is mislukt, een timeout is "
 "opgetreden!"
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Bericht niet gevonden in achterliggende opslagruimte, deze is waarschijnlijk "
 "beschadigd."
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr "eenheid-ID %s"
@@ -1271,12 +1276,11 @@ msgid "About Weblate"
 msgstr "Over Weblate"
 
 #: trans/views/changes.py:44 weblate/html/trans/change_list.html:12
-#| msgid "Change word"
 msgid "Changes"
 msgstr "Wijzigingen"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 msgid "Invalid search string!"
 msgstr "Ongeldige zoekterm!"
 
@@ -1289,7 +1293,7 @@ msgstr "Gefaalde controles"
 msgid "Dictionaries"
 msgstr "Woordenboeken"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:297
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s woordenboek voor %(project)s"
@@ -1309,55 +1313,55 @@ msgid "File upload has failed: %s"
 msgstr "Bestand uploaden is mislukt : %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr "Het formulier kon niet verwerkt worden!"
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Vage tekenreeksen"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Niet-vertaalde tekenreeksen"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Tekenreeksen met suggesties"
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Tekenreeksen met gefaalde controles"
 
-#: trans/views/edit.py:65
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Full text-zoeken naar \"%s\""
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Zoeken naar exacte tekenreeks \"%s\""
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Zoeken naar subtekenreeks \"%s\""
 
-#: trans/views/edit.py:116
+#: trans/views/edit.py:117
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Beoordeling van vertalingen sinds %s"
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
 msgstr "Geen enkele tekenreeks kwam overeen met uw zoekterm!"
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr "Uw suggestie is leeg!"
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1367,51 +1371,51 @@ msgstr ""
 "overwegen om ​​vertaler te worden, omdat uw suggestie anders onbeoordeeld zou "
 "kunnen blijven."
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr "U moet aanmelden om vertalingen te kunnen opslaan!"
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr "U heeft niet de juiste rechten om vertalingen op te slaan!"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr "Sommige controles zijn mislukt bij uw vertaling!"
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr "De verschillende berichten konden niet samengevoegd worden!"
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "U moet aanmelden om suggesties te kunnen beheren!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr "U heeft niet de juiste rechten om suggesties te aanvaarden!"
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
-msgstr "U heeft niet de juiste rechten om suggesties te verwijderen!"
+msgstr "U heeft niet voldoende rechten om suggesties te verwijderen!"
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr "Ongeldige suggestie!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr "U heeft de vertaling afgewerkt."
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr "Automatische vertaling is klaar."
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr "Nieuwe opmerking toegevoegd"
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr "Opmerking toevoegen is mislukt!"
 
@@ -2640,9 +2644,8 @@ msgid "No recent activity has been recorded."
 msgstr "Geen recente activiteit geregistreerd."
 
 #: weblate/html/last-changes.html:34
-#| msgid "Source change"
 msgid "Browse changes"
-msgstr "Wijziging doorbladeren"
+msgstr "Wijzigingen doorbladeren"
 
 #: weblate/html/list-checks.html:6
 #, python-format
@@ -3026,7 +3029,7 @@ msgstr "Status"
 
 #: weblate/html/translate.html:200
 msgid "Service"
-msgstr "Dienst"
+msgstr "Service"
 
 #: weblate/html/translate.html:215
 msgid "You can share comments about this translation with other translators."
@@ -3067,15 +3070,12 @@ msgstr ""
 
 #: weblate/html/translation.html:64
 #, python-format
-#| msgid ""
-#| "You can <a href=\"%(download_url)s\">download</a> file for offline "
-#| "translation."
 msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
-"U kan ook een gecompileerd bestand <a href=\"%"
-"(pack_download_url)s\">downloaden</a> om te gebruiken in de applicatie."
+"U kan ook een gecompileerd bestand <a href=\"%(pack_download_url)s"
+"\">downloaden</a> om te gebruiken in de applicatie."
 
 #: weblate/html/translation.html:68 weblate/html/translation.html.py:80
 msgid "Upload"
@@ -3288,21 +3288,21 @@ msgstr "Textile code"
 msgid "Translation status"
 msgstr "Status van de vertaling"
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr "Rapporten"
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "Status van de repositories"
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr "SSH sleutels"
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"
@@ -3900,12 +3900,10 @@ msgstr ""
 "beschikbaar gesteld zal worden als vertaalde inhoud."
 
 #: weblate/html/trans/change_list.html:7
-#| msgid "Recent changes"
 msgid "changes"
 msgstr "wijzigingen"
 
 #: weblate/html/trans/change_list.html:42
-#| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
 msgstr "Er werd geen overeenkomende activiteit gevonden."
 

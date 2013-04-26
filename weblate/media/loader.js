@@ -71,6 +71,7 @@ function process_machine_translation(data, textStatus, jqXHR) {
             new_row.append($('<td/>').attr('class', 'translatetext target').attr('lang', lang).attr('dir', dir).text(el.text));
             new_row.append($('<td/>').attr('class', 'translatetext').text(el.source));
             new_row.append($('<td/>').text(el.service));
+            /* Translators: Verb for copy operation */
             new_row.append($('<td><a class="copymt small-button">' + gettext('Copy') + '</a></td>'));
             $('#machine-translations').children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality && !done) {

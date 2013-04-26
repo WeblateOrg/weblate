@@ -37,7 +37,7 @@ urlpatterns = patterns(
             'form_class': RegistrationForm,
             'extra_context': {'title': _('User registration')}
         },
-        name='weblate_register'
+        name='registration_register'
     ),
     url(
         r'^register/complete/$',

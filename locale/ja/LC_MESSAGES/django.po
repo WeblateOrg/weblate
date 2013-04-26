@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
-"PO-Revision-Date: 2013-04-18 01:57+0200\n"
+"POT-Creation-Date: 2013-04-23 17:04+0200\n"
+"PO-Revision-Date: 2013-04-22 06:20+0200\n"
 "Last-Translator: Satoru KURASHIKI <lurdan@gmail.com>\n"
 "Language-Team: Japanese <http://l10n.cihar.com/projects/weblate/master/ja/>\n"
 "Language: ja\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 1.5-dev\n"
+"X-Generator: Weblate 1.6-dev\n"
 
 #: accounts/forms.py:169 accounts/forms.py:216
 msgid "First name"
@@ -419,7 +419,7 @@ msgstr "翻訳先内を検索する"
 
 #: trans/forms.py:243
 msgid "Search in context strings"
-msgstr "状況・場面の文字を検索する"
+msgstr "コンテキスト文字列を検索する"
 
 #: trans/forms.py:281
 msgid "Overwrite strings"
@@ -715,40 +715,45 @@ msgstr ""
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr ""
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 #, fuzzy
 msgid "Translation completed"
 msgstr "翻訳関連"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 #, fuzzy
 msgid "Translation changed"
 msgstr "翻訳関連"
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 #, fuzzy
 msgid "New translation"
 msgstr "翻訳"
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 #, fuzzy
 msgid "Comment added"
 msgstr "コメント"
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 #, fuzzy
 msgid "Suggestion added"
 msgstr "提案"
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "自動翻訳"
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+#, fuzzy
+msgid "Suggestion accepted"
+msgstr "提案"
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -1021,31 +1026,31 @@ msgstr ""
 msgid "This translation is locked by %(user)s!"
 msgstr "自動翻訳"
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr "すべて"
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, fuzzy, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "提案があるもの (%d)"
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "提案があるもの (%d)"
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "未翻訳 (%d)"
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "あいまい (%d)"
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "提案があるもの (%d)"
@@ -1054,15 +1059,15 @@ msgstr "提案があるもの (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -1229,7 +1234,7 @@ msgid "Changes"
 msgstr "単語の変更"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
@@ -1244,7 +1249,7 @@ msgstr "不完全性"
 msgid "Dictionaries"
 msgstr "辞書"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:297
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(project)s 用の %(language)s 辞書"
@@ -1265,109 +1270,108 @@ msgid "File upload has failed: %s"
 msgstr "ファイル内容のマージに失敗しました：%s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "あいまい"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "未翻訳"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "提案があるもの"
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "何らかのチェックに失敗した文字列"
 
-#: trans/views/edit.py:65
+#: trans/views/edit.py:66
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "検索ワード「%s」"
 
-#: trans/views/edit.py:67
-#, fuzzy, python-format
-#| msgid "Search in context strings"
+#: trans/views/edit.py:68
+#, python-format
 msgid "Search for exact string \"%s\""
-msgstr "状況・場面の文字を検索する"
+msgstr "\"%s\"と一致する文字列を検索する"
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:70
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "検索ワード「%s」"
 
-#: trans/views/edit.py:116
+#: trans/views/edit.py:117
 #, fuzzy, python-format
 msgid "Review of translations since %s"
 msgstr "翻訳元内を検索する"
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr "提案内容がありません！"
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr "翻訳を保存するには、ログインする必要があります！"
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr "翻訳を保存できる権限がありません！"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr "翻訳の中に不完全なところがあります！"
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "提案を管理するには、ログインする必要があります！"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
 msgstr "提案を削除できる権限がありません！"
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr "翻訳すべきものは以上です。"
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr "自動翻訳が完了しました。"
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr ""
 
@@ -2870,7 +2874,7 @@ msgstr "最近の更新"
 
 #: weblate/html/translate.html:67
 msgid "Context"
-msgstr "状況・場面"
+msgstr "コンテキスト"
 
 #: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
 msgid "Copy"
@@ -3257,21 +3261,21 @@ msgstr ""
 msgid "Translation status"
 msgstr "翻訳状況"
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr "レポート"
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "リポジトリの状態"
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr ""
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"

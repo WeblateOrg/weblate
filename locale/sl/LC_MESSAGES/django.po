@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-04-18 17:59+0200\n"
-"PO-Revision-Date: 2013-04-20 13:51+0200\n"
-"Last-Translator: Domen <dbc334@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"POT-Creation-Date: 2013-04-23 17:04+0200\n"
+"PO-Revision-Date: 2013-04-23 15:37+0200\n"
+"Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -724,35 +725,39 @@ msgstr "Tripičje"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Niz uporablja tri pike (...) namesto znaka za tripičje (…)"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:122
 msgid "Resource update"
 msgstr "Posodobitev vira"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:123
 msgid "Translation completed"
 msgstr "Dokončanje prevoda"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:124
 msgid "Translation changed"
 msgstr "Sprememba prevoda"
 
-#: trans/models/changes.py:141
+#: trans/models/changes.py:125
 msgid "New translation"
 msgstr "Nov prevod"
 
-#: trans/models/changes.py:142
+#: trans/models/changes.py:126
 msgid "Comment added"
 msgstr "Dodan komentar"
 
-#: trans/models/changes.py:143
+#: trans/models/changes.py:127
 msgid "Suggestion added"
 msgstr "Podan predlog"
 
-#: trans/models/changes.py:144 weblate/html/translation.html:39
+#: trans/models/changes.py:128 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Samodejni prevod"
 
-#: trans/models/changes.py:163
+#: trans/models/changes.py:129
+msgid "Suggestion accepted"
+msgstr "Predlog sprejet"
+
+#: trans/models/changes.py:148
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s je ob %(time)s %(action)s na %(translation)s"
@@ -980,7 +985,6 @@ msgstr ""
 "repository)!"
 
 #: trans/models/subproject.py:734
-#| msgid "Push URL is not used when repository is linked!"
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 "URL za izvoz se ne uporablja, ko je skladišče povezano (linked repository)!"
@@ -1021,8 +1025,6 @@ msgid "Failed to parse %d matched files!"
 msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
 
 #: trans/models/subproject.py:820
-#| msgid ""
-#| "You can share comments about this translation with other translators."
 msgid "You can not use monolingual translation without template!"
 msgstr "Ne morete uporabljati enojezičnega prevoda brez predloge!"
 
@@ -1050,31 +1052,31 @@ msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Ta prevod je zaklenil %(user)s!"
 
-#: trans/models/translation.py:942 trans/models/translation.py:975
+#: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models/translation.py:949 trans/models/translation.py:1005
+#: trans/models/translation.py:951 trans/models/translation.py:1007
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Nizi s katerim koli spodletelim preverjanjem (%d)"
 
-#: trans/models/translation.py:966 trans/models/translation.py:1022
+#: trans/models/translation.py:968 trans/models/translation.py:1024
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Nizi s pripombami (%d)"
 
-#: trans/models/translation.py:982
+#: trans/models/translation.py:984
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models/translation.py:990
+#: trans/models/translation.py:992
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models/translation.py:997
+#: trans/models/translation.py:999
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
@@ -1083,15 +1085,15 @@ msgstr "Nizi s predlogi (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
 
-#: trans/models/unit.py:596
+#: trans/models/unit.py:614
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Ni bilo mogoče shraniti sporočila v zaledje, zaklep je potekel!"
 
-#: trans/models/unit.py:608
+#: trans/models/unit.py:626
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Sporočila nisem našel v zaledni shrambi; najverjetneje je pokvarjeno."
 
-#: trans/models/unit.py:737
+#: trans/models/unit.py:755
 #, python-format
 msgid "unit ID %s"
 msgstr "ID enote %s"
@@ -1290,7 +1292,7 @@ msgid "Changes"
 msgstr "Spremembe"
 
 #: trans/views/changes.py:67 trans/views/changes.py:76
-#: trans/views/changes.py:85 trans/views/edit.py:94 trans/views/edit.py:429
+#: trans/views/changes.py:85 trans/views/edit.py:95 trans/views/edit.py:431
 msgid "Invalid search string!"
 msgstr "Neveljaven iskalni niz!"
 
@@ -1303,7 +1305,7 @@ msgstr "Spodletela preverjanja"
 msgid "Dictionaries"
 msgstr "Slovarji"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:297
+#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Slovar jezika %(language)s za %(project)s"
@@ -1323,58 +1325,55 @@ msgid "File upload has failed: %s"
 msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:561
+#: trans/views/edit.py:554
 msgid "Failed to process form!"
 msgstr "Nisem uspel obdelati obrazca!"
 
-#: trans/views/edit.py:49 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Neurejeni nizi"
 
-#: trans/views/edit.py:51
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Neprevedeni nizi"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Nizi s predlogi"
 
-#: trans/views/edit.py:55 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Nizi s katerim koli spodletelim preverjanjem"
 
-#: trans/views/edit.py:65
+#: trans/views/edit.py:66
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Iskanje »%s« po celotnem besedilu"
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:68
 #, python-format
-#| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Iskanje točnega niza »%s«"
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:70
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Iskanje »%s« v podnizih"
 
-#: trans/views/edit.py:116
+#: trans/views/edit.py:117
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Pregled prevodov od %s"
 
-#: trans/views/edit.py:142 trans/views/edit.py:152
+#: trans/views/edit.py:143 trans/views/edit.py:153
 msgid "No string matched your search!"
 msgstr "Iskalnim pogojem ne ustreza noben niz!"
 
-#: trans/views/edit.py:204
+#: trans/views/edit.py:205
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views/edit.py:215
+#: trans/views/edit.py:216
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1383,51 +1382,51 @@ msgstr ""
 "Na tem prevodu trenutno ni aktivnega prevajalca. Prosimo, razmislite o tem, "
 "da bi postali prevajalec, sicer bo vaš predlog ostal nepregledan."
 
-#: trans/views/edit.py:228
+#: trans/views/edit.py:230
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views/edit.py:234 trans/views/edit.py:273
+#: trans/views/edit.py:236 trans/views/edit.py:275
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views/edit.py:256
+#: trans/views/edit.py:258
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views/edit.py:297
+#: trans/views/edit.py:299
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različnih sporočil!"
 
-#: trans/views/edit.py:321
+#: trans/views/edit.py:323
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:332
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views/edit.py:338
+#: trans/views/edit.py:340
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views/edit.py:356
+#: trans/views/edit.py:358
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:392
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views/edit.py:559
+#: trans/views/edit.py:552
 msgid "Automatic translation completed."
 msgstr "Samodejno prevajanje je končano."
 
-#: trans/views/edit.py:582
+#: trans/views/edit.py:580
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views/edit.py:584
+#: trans/views/edit.py:582
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 
@@ -2649,7 +2648,6 @@ msgid "No recent activity has been recorded."
 msgstr "Zabeležil nisem nobene nedavne dejavnosti."
 
 #: weblate/html/last-changes.html:34
-#| msgid "Source change"
 msgid "Browse changes"
 msgstr "Brskanje po spremembah"
 
@@ -2897,7 +2895,6 @@ msgid "Git repository:"
 msgstr "Shramba Git:"
 
 #: weblate/html/subproject_info.html:17
-#| msgid "Sent by Weblate translation system"
 msgid "Git repository with Weblate translations:"
 msgstr "Shramba Git za prevode Weblate:"
 
@@ -3006,7 +3003,6 @@ msgid "Words extracted from glossary"
 msgstr "Besede, izvlečene iz slovarja"
 
 #: weblate/html/translate.html:168
-#| msgid "Point to translation instructions URL"
 msgid "Machine translation suggestions"
 msgstr "Predlogi strojnih prevodov"
 
@@ -3300,21 +3296,21 @@ msgstr "Textile koda"
 msgid "Translation status"
 msgstr "Stanje prevoda"
 
-#: weblate/html/admin/custom-index.html:10
+#: weblate/html/admin/custom-index.html:11
 msgid "Reports"
 msgstr "Poročila"
 
-#: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
+#: weblate/html/admin/custom-index.html:14 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
 msgstr "Stanje shramb"
 
-#: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
+#: weblate/html/admin/custom-index.html:20 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html.py:8
 msgid "SSH keys"
 msgstr "Ključi SSH"
 
-#: weblate/html/admin/custom-index.html:25
+#: weblate/html/admin/custom-index.html:26
 #: weblate/html/admin/performance.html:5
 #: weblate/html/admin/performance.html:14
 msgid "Performance report"

@@ -55,7 +55,7 @@ REGISTRATION_DATA = {
 class RegistrationTest(TestCase):
     def test_register(self):
         response = self.client.post(
-            reverse('weblate_register'),
+            reverse('registration_register'),
             REGISTRATION_DATA
         )
         # Check we did succeed
@@ -92,7 +92,7 @@ class RegistrationTest(TestCase):
         data = REGISTRATION_DATA.copy()
         data['username'] = 'u'
         response = self.client.post(
-            reverse('weblate_register'),
+            reverse('registration_register'),
             data
         )
         self.assertContains(
@@ -104,7 +104,7 @@ class RegistrationTest(TestCase):
         data = REGISTRATION_DATA.copy()
         data['email'] = 'x'
         response = self.client.post(
-            reverse('weblate_register'),
+            reverse('registration_register'),
             data
         )
         self.assertContains(
@@ -121,7 +121,7 @@ class RegistrationTest(TestCase):
         data = REGISTRATION_DATA.copy()
         data['content'] = 'x'
         response = self.client.post(
-            reverse('weblate_register'),
+            reverse('registration_register'),
             data
         )
         self.assertContains(

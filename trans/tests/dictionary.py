@@ -28,6 +28,9 @@ from django.core.urlresolvers import reverse
 from trans.tests.util import get_test_file
 
 TEST_TBX = get_test_file('terms.tbx')
+TEST_CSV = get_test_file('terms.csv')
+TEST_CSV_HEADER = get_test_file('terms-header.csv')
+TEST_PO = get_test_file('terms.po')
 
 
 class DictionaryTest(ViewTestCase):
@@ -35,17 +38,14 @@ class DictionaryTest(ViewTestCase):
     Testing of dictionary manipulations.
     '''
 
-    def get_kwargs(self):
-        return {
+    def get_url(self, url):
+        return reverse(url, kwargs={
             'lang': 'cs',
             'project': self.subproject.project.slug,
-        }
+        })
 
-    def get_url(self, url):
-        return reverse(url, kwargs=self.get_kwargs())
-
-    def import_tbx(self, **kwargs):
-        with open(TEST_TBX) as handle:
+    def import_file(self, filename, **kwargs):
+        with open(filename) as handle:
             params = {'file': handle}
             params.update(kwargs)
             return self.client.post(
@@ -60,7 +60,7 @@ class DictionaryTest(ViewTestCase):
         show_url = self.get_url('show_dictionary')
 
         # Import file
-        response = self.import_tbx()
+        response = self.import_file(TEST_TBX)
 
         # Check correct response
         self.assertRedirects(response, show_url)
@@ -78,7 +78,7 @@ class DictionaryTest(ViewTestCase):
         word.save()
 
         # Import file again with orverwriting
-        response = self.import_tbx(method='overwrite')
+        response = self.import_file(TEST_TBX, method='overwrite')
 
         # Check number of imported objects
         self.assertEquals(Dictionary.objects.count(), 164)
@@ -93,10 +93,40 @@ class DictionaryTest(ViewTestCase):
         word.save()
 
         # Import file again with adding
-        response = self.import_tbx(method='add')
+        response = self.import_file(TEST_TBX, method='add')
 
         # Check number of imported objects
         self.assertEquals(Dictionary.objects.count(), 165)
+
+    def test_import_csv(self):
+        # Import file
+        response = self.import_file(TEST_CSV)
+
+        # Check correct response
+        self.assertRedirects(response, self.get_url('show_dictionary'))
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 164)
+
+    def test_import_csv_header(self):
+        # Import file
+        response = self.import_file(TEST_CSV_HEADER)
+
+        # Check correct response
+        self.assertRedirects(response, self.get_url('show_dictionary'))
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 164)
+
+    def test_import_po(self):
+        # Import file
+        response = self.import_file(TEST_PO)
+
+        # Check correct response
+        self.assertRedirects(response, self.get_url('show_dictionary'))
+
+        # Check number of imported objects
+        self.assertEquals(Dictionary.objects.count(), 164)
 
     def test_edit(self):
         '''
@@ -152,7 +182,7 @@ class DictionaryTest(ViewTestCase):
         Test for downloading files.
         '''
         # Import test data
-        self.import_tbx()
+        self.import_file(TEST_TBX)
 
         download_url = self.get_url('download_dictionary')
 
@@ -185,7 +215,7 @@ class DictionaryTest(ViewTestCase):
         '''
         Test for listing dictionaries.
         '''
-        self.import_tbx()
+        self.import_file(TEST_TBX)
 
         # List dictionaries
         response = self.client.get(reverse(
