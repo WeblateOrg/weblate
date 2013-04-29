@@ -518,7 +518,7 @@ class Translation(models.Model, URLMixin):
             # Check for possible duplicate units
             if newunit.id in created_units:
                 weblate.logger.error(
-                    'Duplicite string to translate in %s: %s',
+                    'Duplicate string to translate in %s: %s',
                     self,
                     newunit
                 )
