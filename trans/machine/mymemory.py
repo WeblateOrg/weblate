@@ -69,7 +69,7 @@ class MyMemoryTranslation(MachineTranslation):
         Downloads list of possible translations from MyMemory.
         '''
         args = {
-            'q': text,
+            'q': text[:500],
             'langpair': 'en|%s' % language,
         }
         if appsettings.MT_MYMEMORY_EMAIL is not None:
