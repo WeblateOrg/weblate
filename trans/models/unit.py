@@ -729,7 +729,7 @@ class Unit(models.Model):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.check(same_state)
+            self.check(same_state, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert:
@@ -865,7 +865,7 @@ class Unit(models.Model):
             language=None,
         )
 
-    def check(self, same_state=True):
+    def check(self, same_state=True, is_new=False):
         '''
         Updates checks for this unit.
         '''
@@ -874,7 +874,7 @@ class Unit(models.Model):
         checks_to_run = CHECKS
         cleanup_checks = True
 
-        if same_state and (self.fuzzy or not self.translated):
+        if (same_state or not is_new) and (self.fuzzy or not self.translated):
             # Check whether there is any message with same source
             project = self.translation.subproject.project
             same_source = Unit.objects.filter(
