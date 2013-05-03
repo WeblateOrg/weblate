@@ -397,7 +397,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         # Get/Create origin remote
         try:
             origin = self.git_repo.remotes.origin
-        except:
+        except AttributeError:
             self.git_repo.git.remote('add', 'origin', self.repo)
             origin = self.git_repo.remotes.origin
         # Check remote source
