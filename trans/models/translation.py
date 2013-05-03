@@ -170,7 +170,7 @@ class Translation(models.Model, URLMixin):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         self.subproject.project.check_acl(request)
 

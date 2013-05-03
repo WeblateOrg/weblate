@@ -31,7 +31,7 @@ from trans.util import get_user_display
 class ChangeManager(models.Manager):
     def content(self):
         '''
-        Retuns queryset with content changes.
+        Returns queryset with content changes.
         '''
         return self.filter(
             action__in=(Change.ACTION_CHANGE, Change.ACTION_NEW),
@@ -40,7 +40,7 @@ class ChangeManager(models.Manager):
 
     def count_stats(self, days, step, dtstart, base):
         '''
-        Counts number of changes in given dataset and period groupped by
+        Counts number of changes in given dataset and period grouped by
         step days.
         '''
 
