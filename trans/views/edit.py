@@ -103,6 +103,7 @@ def search(translation, request):
     search_form = SearchForm(request.GET)
     review_form = ReviewForm(request.GET)
 
+    search_query = None
     if review_form.is_valid():
         # Review
         allunits = translation.unit_set.review(
@@ -125,9 +126,10 @@ def search(translation, request):
             search_form.cleaned_data['tgt'],
         )
 
+        search_query = search_form.cleaned_data['q']
         name = get_search_name(
             search_form.cleaned_data['search'],
-            search_form.cleaned_data['q'],
+            search_query,
         )
     else:
         # Filtering by type
@@ -159,6 +161,7 @@ def search(translation, request):
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
+        'query': search_query,
         'name': name,
         'ids': unit_ids,
         'search_id': search_id,
@@ -466,6 +469,7 @@ def translate(request, project, subproject, lang):
                 'last_changes_url': urlencode(obj.get_kwargs()),
                 'total': obj.unit_set.all().count(),
                 'search_id': search_result['search_id'],
+                'search_query': search_result['query'],
                 'offset': offset,
                 'filter_name': search_result['name'],
                 'filter_count': num_results,
