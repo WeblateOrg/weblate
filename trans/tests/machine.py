@@ -21,9 +21,12 @@
 from django.test import TestCase
 from trans.tests.views import ViewTestCase
 from trans.models.unit import Unit
+# At least one of following imports is needed
 try:
+    # pylint: disable=F0401
     from unittest import skipUnless
 except ImportError:
+    # pylint: disable=F0401
     from unittest2 import skipUnless
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
