@@ -404,7 +404,9 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
         # Set branch to track
         # We first need to add one to ensure there is at least one branch
-        self.git_repo.git.remote('set-branches', '--add', 'origin', self.branch)
+        self.git_repo.git.remote(
+            'set-branches', '--add', 'origin', self.branch
+        )
         # Then we can set to track just one
         self.git_repo.git.remote('set-branches', 'origin', self.branch)
 
