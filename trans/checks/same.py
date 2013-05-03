@@ -161,7 +161,7 @@ class SameCheck(TargetCheck):
     name = _('Not translated')
     description = _('Source and translated strings are same')
 
-    def is_format_only(self, msg, flags):
+    def strip_format(self, msg, flags):
         '''
         Checks whether given string contains only format strings
         and possible punctation. These are quite often not changed
@@ -174,9 +174,9 @@ class SameCheck(TargetCheck):
         elif 'c-format' in flags:
             regex = C_PRINTF_MATCH
         else:
-            return False
+            return msg
         stripped = regex.sub('', msg)
-        return stripped.strip(' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+') == ''
+        return stripped
 
     def check_single(self, source, target, unit, cache_slot):
         # English variants will have most things not translated
@@ -199,12 +199,18 @@ class SameCheck(TargetCheck):
                 or u'©' in source):
             return False
 
+        # Strip format strings
+        stripped = self.strip_format(lower_source, unit.flags)
+        stripped = stripped.strip(
+            ' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789'
+        )
+
         # Ignore strings which don't contain any string to translate
-        if self.is_format_only(source, unit.flags):
+        if stripped == '':
             return False
 
         # Ignore words which are often same in foreigh language
-        if lower_source.strip('-+_&: 0123456789/,.') in SAME_BLACKLIST:
+        if stripped  in SAME_BLACKLIST:
             return False
 
         return (source == target)

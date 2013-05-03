@@ -65,3 +65,22 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_format(self):
+        self.do_test(
+            False,
+            (
+                '%d.%m.%Y, %H:%M',
+                '%d.%m.%Y, %H:%M',
+                'php-format'
+            )
+        )
+
+        self.do_test(
+            True,
+            (
+                '%d byte',
+                '%d byte',
+                'php-format'
+            )
+        )
