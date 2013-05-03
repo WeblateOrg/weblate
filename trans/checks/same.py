@@ -37,6 +37,7 @@ SAME_BLACKLIST = frozenset((
     'blog',
     'bluetooth',
     'bzip2',
+    'chat',
     'cm',
     'csv',
     'cvs',
