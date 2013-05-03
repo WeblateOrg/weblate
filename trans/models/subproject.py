@@ -207,7 +207,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         self.project.check_acl(request)
 
@@ -283,7 +283,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
     def is_repo_link(self):
         '''
-        Checks whethere repository is just a link for other one.
+        Checks whether repository is just a link for other one.
         '''
         return is_repo_link(self.repo)
 
