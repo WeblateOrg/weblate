@@ -22,10 +22,7 @@
 
 from lxml import etree
 
-from StringIO import StringIO
-
 import re
-import pdb
 
 from translate.storage import lisa
 from translate.storage import base
@@ -41,7 +38,7 @@ class AndroidResourceUnit(base.TranslationUnit):
     rootNode = "string"
     languageNode = "string"
 
-    def __init__(self, source, empty=False, xmlelement = None, **kwargs):
+    def __init__(self, source, empty=False, xmlelement=None, **kwargs):
         if xmlelement is not None:
             self.xmlelement = xmlelement
         else:
@@ -236,7 +233,7 @@ class AndroidResourceUnit(base.TranslationUnit):
             target = self.escape(target).replace('&', '&amp;')
             target = OPEN_TAG_TO_ESCAPE.sub('&lt;', target)
             # Parse new XML
-            newstring = etree.parse(StringIO('<string>' + target + '</string>')).getroot()
+            newstring = etree.fromstring('<string>%s</string>' % target)
             # Update text
             self.xmlelement.text = newstring.text
             # Remove old elements
@@ -254,11 +251,10 @@ class AndroidResourceUnit(base.TranslationUnit):
         # Grab inner text
         target = (self.xmlelement.text or u'')
         # Include markup as well
-        target += u''.join([data.forceunicode(etree.tostring(child, encoding = 'utf-8')) for child in self.xmlelement.iterchildren()])
-        return self.unescape(data.forceunicode(target))
+        target += u''.join([data.forceunicode(etree.tostring(child, encoding='utf-8')) for child in self.xmlelement.iterchildren()])
+        return self.unescape(target)
 
     target = property(gettarget, settarget)
-
 
     def getlanguageNode(self, lang=None, index=None):
         return self.xmlelement
@@ -304,6 +300,7 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def __eq__(self, other):
         return (str(self) == str(other))
+
 
 class AndroidResourceFile(lisa.LISAfile):
     """Class representing a Android resource file store."""
