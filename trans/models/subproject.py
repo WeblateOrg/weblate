@@ -394,22 +394,32 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         if self.is_repo_link():
             return self.linked_subproject.configure_repo(validate)
-        # Get/Create origin remote
-        try:
-            origin = self.git_repo.remotes.origin
-        except AttributeError:
+
+        # Create origin remote if it does not exist
+        if 'origin' not in self.git_repo.git.remote().split():
             self.git_repo.git.remote('add', 'origin', self.repo)
-            origin = self.git_repo.remotes.origin
-        # Check remote source
-        if origin.url != self.repo:
-            self.git_repo.git.remote('set-url', 'origin', self.repo)
+
+        # Set remote URL
+        self.git_repo.git.remote('set-url', 'origin', self.repo)
+
+        # Set branch to track
+        # We first need to add one to ensure there is at least one branch
+        self.git_repo.git.remote('set-branches', '--add', 'origin', self.branch)
+        # Then we can set to track just one
+        self.git_repo.git.remote('set-branches', 'origin', self.branch)
+
+        # Get object for remote
+        origin = self.git_repo.remotes.origin
+
         # Check push url
         try:
             pushurl = origin.pushurl
         except AttributeError:
             pushurl = ''
+
         if pushurl != self.push:
             self.git_repo.git.remote('set-url', 'origin', '--push', self.push)
+
         # Update
         self.update_remote_branch(validate)
 
