@@ -54,7 +54,7 @@
 {% endif %}
 <tr>
 <th class="source">{% trans "Source" %}</th>
-<td class="translatetext">{{ unit.source|fmttranslation }}</td>
+<td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
 </tr>
 {% if unit.previous_source %}
 <tr>
