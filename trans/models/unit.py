@@ -372,7 +372,7 @@ class UnitManager(models.Manager):
             more_results = first_hit.more_like_this(
                 'source',
                 source_string,
-                500
+                8
             )
             # Include all more like this results
             for result in more_results:
