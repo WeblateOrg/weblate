@@ -70,7 +70,7 @@ def fmt_whitespace(value):
 
 @register.filter
 @stringfilter
-def fmttranslation(value, language=None, diff=None):
+def fmttranslation(value, language=None, diff=None, search_match=None):
     '''
     Formats translation to show whitespace, plural forms or diff.
     '''
@@ -100,6 +100,19 @@ def fmttranslation(value, language=None, diff=None):
         if diff is not None:
             diffvalue = escape(force_unicode(diff[idx]))
             value = html_diff(diffvalue, value)
+
+        # Format search term
+        if search_match is not None:
+            # Since the search ignored case, we need to highlight any
+            # combination of upper and lower case we find. This is too
+            # advanced for str.replace().
+            caseless = re.compile(re.escape(search_match), re.IGNORECASE)
+            for variation in re.findall(caseless, value):
+                value = re.sub(
+                    caseless,
+                    '<span class="hlmatch">%s</span>' % (variation),
+                    value,
+                )
 
         # Normalize newlines
         value = NEWLINES_RE.sub('\n', value)
@@ -141,6 +154,15 @@ def fmttranslationdiff(value, other):
     Formats diff between two translations.
     '''
     return fmttranslation(value, other.translation.language, other.target)
+
+
+@register.filter
+@stringfilter
+def fmtsearchmatch(value, term):
+    '''
+    Formats terms matching a search query.
+    '''
+    return fmttranslation(value, search_match=term)
 
 
 @register.filter
