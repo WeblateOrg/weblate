@@ -30,6 +30,7 @@ SAME_BLACKLIST = frozenset((
     'action',
     'active',
     'alarm',
+    'amazon',
     'audio',
     'auto',
     'avatar',
@@ -55,8 +56,10 @@ SAME_BLACKLIST = frozenset((
     'fax',
     'firmware',
     'flash',
+    'flattr',
     'fulltext',
     'gammu',
+    'google',
     'gib',
     'git',
     'gtk',
@@ -64,6 +67,7 @@ SAME_BLACKLIST = frozenset((
     'headset',
     'hardware',
     'help',
+    'horizontal',
     'id',
     'in',
     'irc',
@@ -87,6 +91,7 @@ SAME_BLACKLIST = frozenset((
     'maildir',
     'media',
     'model',
+    'monitor',
     'motif',
     'mib',
     'mm',
@@ -102,14 +107,18 @@ SAME_BLACKLIST = frozenset((
     'operator',
     'orientation',
     'pager',
+    'paypal',
     'pdf',
     'pib',
     'port',
+    'position',
     'python-gammu',
     'program',
     'proxy',
     'pt',
     'px',
+    'rebase',
+    'reset',
     'rss',
     'rtl',
     'script',
@@ -123,10 +132,12 @@ SAME_BLACKLIST = frozenset((
     'system',
     'text',
     'tib',
+    'ukolovnik',
     'unicode',
     'vcalendar',
     'vcard',
     'version',
+    'vertical',
     'video',
     'wammu',
     'web',
@@ -189,7 +200,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Ignore words which are often same in foreigh language
-        if lower_source.strip('_&: ') in SAME_BLACKLIST:
+        if lower_source.strip('-+_&: 0123456789/,.') in SAME_BLACKLIST:
             return False
 
         return (source == target)
