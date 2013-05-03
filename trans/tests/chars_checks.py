@@ -129,6 +129,15 @@ class EndQuestionCheckTest(CheckTestCase):
     def test_french_wrong(self):
         self.do_test(True, ('Text?', u'Texte?', ''), 'fr')
 
+    def test_greek(self):
+        self.do_test(False, ('Text?', u'Texte;', ''), 'el')
+
+    def test_greek_ignore(self):
+        self.do_test(False, ('Text', u'Texte', ''), 'el')
+
+    def test_greek_wrong(self):
+        self.do_test(True, ('Text?', u'Texte', ''), 'el')
+
 
 class EndExclamationCheckTest(CheckTestCase):
     def setUp(self):

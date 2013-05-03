@@ -161,15 +161,21 @@ class EndQuestionCheck(TargetCheck):
         'or it is not correctly spaced'
     )
     question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
+    question_el = ('?', ';', ';')
 
     def check_single(self, source, target, unit, cache_slot):
-        if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0 or len(source) == 0:
-                return False
-            if source[-1] == '?':
-                if target[-2:] not in self.question_fr:
-                    return True
+        if len(target) == 0 or len(source) == 0:
             return False
+        if self.is_language(unit, ['fr', 'br']):
+            if source[-1] != '?':
+                return False
+            return target[-2:] not in self.question_fr
+
+        if self.is_language(unit, ['el']):
+            if source[-1] != '?':
+                return False
+            return target[-1] not in self.question_el
+
         return self.check_chars(
             source,
             target,
