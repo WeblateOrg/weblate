@@ -213,7 +213,7 @@ class SameCheck(TargetCheck):
         # Strip format strings
         stripped = self.strip_format(lower_source, unit.flags)
         stripped = stripped.strip(
-            ' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789'
+            ' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r'
         )
 
         # Ignore strings which don't contain any string to translate
