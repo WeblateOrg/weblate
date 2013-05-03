@@ -112,7 +112,7 @@ Locked
     You can lock the translation to prevent updates by users.
 Allow translation propagation
     You can disable propagation of translations to this subproject from other
-    subprojects withing same project. This really depends on what you are
+    subprojects within same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 Pre commit script
     One of scripts defined in :setting:`PRE_COMMIT_SCRIPTS` which is executed
@@ -340,7 +340,7 @@ Per project access control
 
 .. note::
 
-    By enabling ACL, all users are prohibited to access anything withing given
+    By enabling ACL, all users are prohibited to access anything within given
     project unless you add them the permission to do that.
 
 Additionally you can limit users access to individual projects. This feature is

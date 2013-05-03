@@ -166,7 +166,7 @@ def get_string(text):
 
 def is_repo_link(val):
     '''
-    Checks whethere repository is just a link for other one.
+    Checks whether repository is just a link for other one.
     '''
     return val.startswith('weblate://')
 

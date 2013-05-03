@@ -104,7 +104,7 @@ class PluralTextarea(forms.Textarea):
 
     def value_from_datadict(self, data, files, name):
         '''
-        Retuns processed plurals - either list of plural strings or single
+        Returns processed plurals - either list of plural strings or single
         string if no plurals are in use.
         '''
         ret = [data.get(name, None)]

@@ -391,7 +391,7 @@ class UnitManager(models.Manager):
 
     def same(self, unit):
         '''
-        Units with same source withing same project.
+        Units with same source within same project.
         '''
         project = unit.translation.subproject.project
         return self.filter(
@@ -456,7 +456,7 @@ class Unit(models.Model):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         self.translation.subproject.project.check_acl(request)
 
@@ -545,7 +545,7 @@ class Unit(models.Model):
 
     def get_source_plurals(self):
         '''
-        Retuns source plurals in array.
+        Returns source plurals in array.
         '''
         return split_plural(self.source)
 

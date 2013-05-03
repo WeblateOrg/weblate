@@ -82,7 +82,7 @@ def cleanup_session(session):
 
 def search(translation, request):
     '''
-    Performs search or retuns cached search results.
+    Performs search or returns cached search results.
     '''
 
     # Already performed search
