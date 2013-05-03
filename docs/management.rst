@@ -20,7 +20,7 @@ commitgit <project|project/subproject>
 
 .. django-admin:: commitgit
 
-Commits any possible pending changes to  backend git repository.
+Commits any possible pending changes to backend git repository.
 
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
