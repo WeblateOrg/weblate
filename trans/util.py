@@ -52,7 +52,7 @@ AVATAR_DEFAULT_IMAGE = getattr(
     'identicon'
 )
 
-PLURAL_SEPARATOR = '\x00\x00'
+PLURAL_SEPARATOR = '\x1e\x1e'
 
 
 def avatar_for_email(email, size=80):

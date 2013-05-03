@@ -19,7 +19,6 @@
 #
 
 import datetime
-import time
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
@@ -27,41 +26,16 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        '''
-        Updates various statistic fields for Unit.
-        '''
-        total = orm['trans.Unit'].objects.count()
-        start = time.time()
-        done = 0
-        for unit in orm['trans.Unit'].objects.iterator():
-            unit.has_suggestion = orm['trans.Suggestion'].objects.filter(
-                project=unit.translation.subproject.project,
-                language=unit.translation.language,
-                checksum=unit.checksum
-            ).exists()
-            unit.has_comment = orm['trans.Comment'].objects.filter(
-                project=unit.translation.subproject.project,
-                language=unit.translation.language,
-                checksum=unit.checksum
-            ).exists()
-            unit.has_failing_check = orm['trans.Check'].objects.filter(
-                project=unit.translation.subproject.project,
-                language=unit.translation.language,
-                checksum=unit.checksum,
-                ignore=False
-            ).exists()
-            unit.num_words = len(unit.source.split('\x00\x00')[0].split())
+        for unit in orm['trans.Unit'].objects.filter(source__contains='\x00\x00').iterator():
+            unit.source = unit.source.replace('\x00\x00', '\x1e\x1e')
+            unit.target = unit.target.replace('\x00\x00', '\x1e\x1e')
             unit.save()
-            done += 1
-            if done % 1000 == 0:
-                print 'Migrated %d of %d, ETA: %d min' % (
-                    done,
-                    total,
-                    ((time.time() - start) * (total - done) / done) / 60
-                )
 
     def backwards(self, orm):
-        "Write your backwards methods here."
+        for unit in orm['trans.Unit'].objects.filter(source__contains='\x1e\x1e').iterator():
+            unit.source = unit.source.replace('\x1e\x1e', '\x00\x00')
+            unit.target = unit.target.replace('\x1e\x1e', '\x00\x00')
+            unit.save()
 
     models = {
         'auth.group': {
@@ -120,7 +94,7 @@ class Migration(DataMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'})
         },
         'trans.check': {
-            'Meta': {'object_name': 'Check'},
+            'Meta': {'unique_together': "(('checksum', 'project', 'language', 'check'),)", 'object_name': 'Check'},
             'check': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'checksum': ('django.db.models.fields.CharField', [], {'max_length': '40', 'db_index': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -213,7 +187,9 @@ class Migration(DataMigration):
             'revision': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100', 'blank': 'True'}),
             'subproject': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['trans.SubProject']"}),
             'total': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'}),
-            'translated': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'})
+            'total_words': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'translated': ('django.db.models.fields.IntegerField', [], {'default': '0', 'db_index': 'True'}),
+            'translated_words': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'trans.unit': {
             'Meta': {'ordering': "['position']", 'object_name': 'Unit'},
