@@ -133,7 +133,11 @@ def search(translation, request):
         )
     else:
         # Filtering by type
-        allunits = translation.unit_set.filter_type(rqtype, translation)
+        allunits = translation.unit_set.filter_type(
+            rqtype,
+            translation,
+            ignored='ignored' in request.GET
+        )
 
         name = get_filter_name(rqtype)
 

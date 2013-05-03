@@ -73,7 +73,7 @@ class UnitManager(models.Manager):
         # Return result
         return dbunit, created
 
-    def filter_checks(self, rqtype, translation):
+    def filter_checks(self, rqtype, translation, ignored=False):
         '''
         Filtering for checks.
         '''
@@ -82,7 +82,7 @@ class UnitManager(models.Manager):
         # Filter checks for current project
         checks = Check.objects.filter(
             project=translation.subproject.project,
-            ignore=False
+            ignore=ignored
         )
 
         filter_translated = True
@@ -114,7 +114,7 @@ class UnitManager(models.Manager):
             ret = ret.filter(translated=True)
         return ret
 
-    def filter_type(self, rqtype, translation):
+    def filter_type(self, rqtype, translation, ignored=False):
         '''
         Basic filtering based on unit state or failed checks.
         '''
@@ -136,7 +136,7 @@ class UnitManager(models.Manager):
         elif rqtype == 'targetcomments':
             return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
-            return self.filter_checks(rqtype, translation)
+            return self.filter_checks(rqtype, translation, ignored)
         else:
             # Catch anything not matching including 'all'
             return self.all()
