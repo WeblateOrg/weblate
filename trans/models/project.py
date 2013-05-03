@@ -174,7 +174,7 @@ class Project(models.Model, PercentMixin, URLMixin):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         if not self.has_acl(request.user):
             messages.error(
