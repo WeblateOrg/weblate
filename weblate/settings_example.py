@@ -268,6 +268,10 @@ LOGGING = {
     }
 }
 
+# Logging of management commands to console
+if os.environ.get('DJANGO_IS_MANAGEMENT_COMMAND', False):
+    LOGGING['loggers']['weblate']['handlers'].append('console')
+
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
