@@ -42,6 +42,7 @@ SAME_BLACKLIST = frozenset((
     'bzip2',
     'chat',
     'cm',
+    'copyright',
     'csv',
     'cvs',
     'data',
@@ -161,6 +162,32 @@ SAME_BLACKLIST = frozenset((
     'www',
     'xml',
     'zip',
+
+    # Months are same in some languages
+    'january',
+    'february',
+    'march',
+    'april',
+    'may',
+    'june',
+    'july',
+    'august',
+    'september',
+    'october',
+    'november',
+    'december',
+
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec',
 ))
 
 
