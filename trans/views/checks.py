@@ -34,7 +34,7 @@ def show_checks(request):
     List of failing checks.
     '''
     allchecks = Check.objects.filter(
-        ignore=False
+        ignore=('ignored' in request.GET)
     ).values('check').annotate(count=Count('id'))
     return render_to_response('checks.html', RequestContext(request, {
         'checks': allchecks,
@@ -52,7 +52,8 @@ def show_check(request, name):
         raise Http404('No check matches the given query.')
 
     checks = Check.objects.filter(
-        check=name, ignore=False
+        check=name,
+        ignore=('ignored' in request.GET)
     ).values('project__slug').annotate(count=Count('id'))
 
     return render_to_response('check.html', RequestContext(request, {
@@ -74,11 +75,16 @@ def show_check_project(request, name, project):
     units = Unit.objects.none()
     if check.target:
         langs = Check.objects.filter(
-            check=name, project=prj, ignore=False
+            check=name,
+            project=prj,
+            ignore=('ignored' in request.GET)
         ).values_list('language', flat=True).distinct()
         for lang in langs:
             checks = Check.objects.filter(
-                check=name, project=prj, language=lang, ignore=False
+                check=name,
+                project=prj,
+                language=lang,
+                ignore=('ignored' in request.GET)
             ).values_list('checksum', flat=True)
             res = Unit.objects.filter(
                 checksum__in=checks,
@@ -95,7 +101,7 @@ def show_check_project(request, name, project):
             check=name,
             project=prj,
             language=None,
-            ignore=False
+            ignore=('ignored' in request.GET)
         ).values_list(
             'checksum', flat=True
         )
@@ -133,7 +139,7 @@ def show_check_subproject(request, name, project, subproject):
         langs = Check.objects.filter(
             check=name,
             project=subprj.project,
-            ignore=False
+            ignore=('ignored' in request.GET)
         ).values_list(
             'language', flat=True
         ).distinct()
@@ -142,7 +148,7 @@ def show_check_subproject(request, name, project, subproject):
                 check=name,
                 project=subprj.project,
                 language=lang,
-                ignore=False
+                ignore=('ignored' in request.GET)
             ).values_list('checksum', flat=True)
             res = Unit.objects.filter(
                 translation__subproject=subprj,
@@ -158,7 +164,7 @@ def show_check_subproject(request, name, project, subproject):
         checks = Check.objects.filter(
             check=name, project=subprj.project,
             language=None,
-            ignore=False
+            ignore=('ignored' in request.GET)
         ).values_list('checksum', flat=True)
         lang = subprj.translation_set.all()[0].language
         res = Unit.objects.filter(
