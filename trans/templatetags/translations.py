@@ -103,10 +103,16 @@ def fmttranslation(value, language=None, diff=None, search_match=None):
 
         # Format search term
         if search_match is not None:
-            value = value.replace(
-                search_match,
-                "<span class='hlmatch'>%s</span>" % (search_match)
-            )
+            # Since the search ignored case, we need to highlight any
+            # combination of upper and lower case we find. This is too
+            # advanced for str.replace().
+            caseless = re.compile(re.escape(search_match), re.IGNORECASE)
+            for variation in re.findall(caseless, value):
+                value = re.sub(
+                    caseless,
+                    '<span class="hlmatch">%s</span>' % (variation),
+                    value,
+                )
 
         # Normalize newlines
         value = NEWLINES_RE.sub('\n', value)
