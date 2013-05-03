@@ -198,7 +198,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             obj,
             form.cleaned_data['checksum'],
         )
-    except Unit.DoesNotExist:
+    except (Unit.DoesNotExist, IndexError):
         return
 
     if 'suggest' in request.POST:
