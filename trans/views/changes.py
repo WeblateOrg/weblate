@@ -37,8 +37,8 @@ class ChangesView(ListView):
 
     def __init__(self, **kwargs):
         super(ChangesView, self).__init__(**kwargs)
-        self.project= None
-        self.subproject= None
+        self.project = None
+        self.subproject = None
         self.translation = None
         self.language = None
         self.user = None
