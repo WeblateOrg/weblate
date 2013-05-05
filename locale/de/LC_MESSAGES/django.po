@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-04 21:50+0200\n"
+"POT-Creation-Date: 2013-05-05 19:30+0200\n"
 "PO-Revision-Date: 2013-05-05 07:44+0200\n"
 "Last-Translator: Chris Oelmueller <chris.oelmueller@gmail.com>\n"
 "Language-Team: German <http://l10n.cihar.com/projects/weblate/master/de/>\n"
@@ -302,7 +302,6 @@ msgid "Gettext PO file"
 msgstr "Gettext PO Datei"
 
 #: trans/formats.py:486
-#| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO Datei (einsprachig)"
 
@@ -476,19 +475,25 @@ msgstr "Als andere Übersetzung hinzufügen"
 msgid "Starting date"
 msgstr "Startdatum"
 
-#: trans/forms.py:358
-msgid "Starting letter"
-msgstr "Startbuchstabe"
-
-#: trans/forms.py:359
+#: trans/forms.py:357
+#, fuzzy
+#| msgid "Any"
+msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Beliebig"
 
-#: trans/forms.py:377
+#: trans/forms.py:359
+msgid "Starting letter"
+msgstr "Startbuchstabe"
+
+#: trans/forms.py:378
 msgid "Whole project"
 msgstr "Gesamtes Projekt"
 
 #: trans/util.py:106
+#, fuzzy
+#| msgid "None"
+msgctxt "No known user"
 msgid "None"
 msgstr "Keiner"
 
@@ -518,7 +523,8 @@ msgstr ""
 "Übersetze %(count)d Zeichenketten in %(languages)d Sprachen\n"
 "%(percent)d%% fertig, hilf uns!"
 
-#: trans/widgets.py:265
+#. Translators: please use your language name instead of English
+#: trans/widgets.py:264
 #, python-format
 msgid ""
 "translating %(count)d strings into English\n"
@@ -527,7 +533,7 @@ msgstr ""
 "Übersetze %(count)d Zeichenketten nach Englisch\n"
 "%(percent)d%% fertig, hilf uns!"
 
-#: trans/widgets.py:286
+#: trans/widgets.py:283
 #, python-format
 msgid ""
 "translation\n"
@@ -537,7 +543,7 @@ msgstr ""
 "%(percent)d%% fertig"
 
 #. Translators: please use your language name instead of English
-#: trans/widgets.py:288
+#: trans/widgets.py:285
 #, python-format
 msgid ""
 "English translation\n"
@@ -834,7 +840,8 @@ msgstr ""
 
 #: trans/models/project.py:129
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Ob nach jedem Commit ein Upstream-Push des Repository stattfinden soll."
+msgstr ""
+"Ob nach jedem Commit ein Upstream-Push des Repository stattfinden soll."
 
 #: trans/models/project.py:136
 msgid ""
@@ -996,7 +1003,6 @@ msgstr "Format der Übersetzungs-Vorlage konnte nicht erkannt werden."
 
 #: trans/models/subproject.py:767
 #, python-format
-#| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
 msgstr "Fehler beim Verarbeiten der Übersetzungs-Vorlage: %s"
 
@@ -1110,8 +1116,6 @@ msgstr "Profilbild von \"%s\""
 
 #: trans/templatetags/translations.py:308
 #, python-format
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "vor einem Jahr"
@@ -1119,8 +1123,6 @@ msgstr[1] "vor %(count)s Jahren"
 
 #: trans/templatetags/translations.py:313
 #, python-format
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "vor einem Monat"
@@ -1128,8 +1130,6 @@ msgstr[1] "vor %(count)s Monaten"
 
 #: trans/templatetags/translations.py:318
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "vor einer Woche"
@@ -1170,8 +1170,6 @@ msgstr[1] "vor %(count)s Stunden"
 
 #: trans/templatetags/translations.py:345
 #, python-format
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "in einem Jahr"
@@ -1179,8 +1177,6 @@ msgstr[1] "in %(count)s Jahren"
 
 #: trans/templatetags/translations.py:350
 #, python-format
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "in einem Monat"
@@ -1188,8 +1184,6 @@ msgstr[1] "in %(count)s Monaten"
 
 #: trans/templatetags/translations.py:355
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "in einer Woche"
@@ -1236,8 +1230,8 @@ msgid ""
 "%(percent)s%% complete."
 msgstr ""
 "Das <a href=\"%(url)s\">Übersetzungsprojekt für %(project)s</a> enthält "
-"derzeit %(total)s Zeichenketten zur Übersetzung und wird <a href=\"%"
-"(url)s\">in %(languages)s Sprachen übersetzt</a>. Insgesamt sind diese "
+"derzeit %(total)s Zeichenketten zur Übersetzung und wird <a href=\"%(url)s"
+"\">in %(languages)s Sprachen übersetzt</a>. Insgesamt sind diese "
 "Übersetzungen zu %(percent)s%% abgeschlossen."
 
 #: trans/views/basic.py:157
@@ -1248,8 +1242,8 @@ msgid ""
 "complete."
 msgstr ""
 "Das <a href=\"%(url)s\">Übersetzungsprojekt für %(project)s</a> ins Deutsche "
-"enthält derzeit %(total)s Zeichenketten zur Übersetzung und ist zu %"
-"(percent)s%% abgeschlossen."
+"enthält derzeit %(total)s Zeichenketten zur Übersetzung und ist zu "
+"%(percent)s%% abgeschlossen."
 
 #: trans/views/basic.py:253
 #, python-format
@@ -1271,13 +1265,11 @@ msgid "About Weblate"
 msgstr "Über Weblate"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
-#| msgid "Change word"
 msgid "Changes"
 msgstr "Änderungen"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
 #: trans/views/changes.py:110 trans/views/edit.py:95 trans/views/edit.py:438
-#| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
 msgstr "Ungültiger Suchbegriff!"
 
@@ -1306,7 +1298,6 @@ msgstr "%d Wörter aus Datei importiert."
 
 #: trans/views/dictionary.py:138
 #, python-format
-#| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"
 msgstr "Hochladen der Datei fehlgeschlagen: %s"
 
@@ -1333,19 +1324,16 @@ msgstr "Zeichenketten mit fehlgeschlagenen Überprüfungen"
 
 #: trans/views/edit.py:66
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Volltextsuche nach \"%s\""
 
 #: trans/views/edit.py:68
 #, python-format
-#| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Nach genauer Zeichenkette\"%s\" suchen"
 
 #: trans/views/edit.py:70
 #, python-format
-#| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Nach \"%s\" in anderen Zeichenketten suchen"
 
@@ -1506,11 +1494,6 @@ msgid "about"
 msgstr ""
 
 #: weblate/html/about.html:13
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across subprojects, consistency checks and automatic linking to source "
-#| "files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -1655,7 +1638,6 @@ msgid "Check"
 msgstr "Überprüfung"
 
 #: weblate/html/contact.html:6
-#| msgid "Contact"
 msgid "contact"
 msgstr "Kontakt"
 
@@ -2474,7 +2456,6 @@ msgid "Tigrinya"
 msgstr "Tigrinya"
 
 #: weblate/html/i18n.html:152
-#| msgid "dictionaries"
 msgid "Traditional Chinese"
 msgstr "Chinesisch (traditionell)"
 
@@ -2644,7 +2625,6 @@ msgid "Ignore: %(check)s"
 msgstr "Ignorieren: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
 msgstr "Wörter"
@@ -2660,14 +2640,12 @@ msgid "Checks"
 msgstr "Überprüfungen"
 
 #: weblate/html/list-translations.html:12
-#| msgid "Suggestions"
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "Vorschläge"
 
 #: weblate/html/list-translations.html:23
 #, python-format
-#| msgid "Your translations"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
 msgstr[0] "%(words)s Wort zu übersetzen!"
@@ -2675,8 +2653,6 @@ msgstr[1] "%(words)s Wörter zu übersetzen!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Es gibt %(count)s fragwürdige Zeichenkette."
@@ -2691,8 +2667,6 @@ msgstr[1] "Es gibt %(count)s fehlgeschlagene Überprüfungen."
 
 #: weblate/html/list-translations.html:44
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "Es gibt %(count)s Vorschlag."
@@ -3069,9 +3043,6 @@ msgstr ""
 
 #: weblate/html/translation.html:64
 #, python-format
-#| msgid ""
-#| "You can <a href=\"%(download_url)s\">download</a> file for offline "
-#| "translation."
 msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
@@ -3161,9 +3132,6 @@ msgstr ""
 
 #: weblate/html/translation_info.html:10
 #, python-format
-#| msgid ""
-#| "There are %(count)s strings, out of which %(translated)s&#37; is "
-#| "translated and %(fuzzy)s&#37; is fuzzy."
 msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
@@ -3204,7 +3172,6 @@ msgid "Activity in last year"
 msgstr ""
 
 #: weblate/html/user.html:40
-#| msgid "Recent edits"
 msgid "Recent contributions"
 msgstr "Aktuelle Beiträge"
 
@@ -3363,7 +3330,6 @@ msgstr ""
 "href=\"%(ssh_docs)s\">Weblate-Handbuch</a>."
 
 #: weblate/html/js/dictionary.html:19
-#| msgid "Your translations"
 msgid "Copy word to translation"
 msgstr "Wort in Übersetzung kopieren"
 
@@ -3614,7 +3580,6 @@ msgstr "Automatische Übersetzung"
 
 #: weblate/html/mail/new_suggestion.html:29
 #: weblate/html/mail/new_suggestion.txt:9
-#| msgid "Suggestions"
 msgid "Suggestion:"
 msgstr "Vorschlag:"
 
@@ -3691,15 +3656,6 @@ msgid ""
 msgstr ""
 
 #: weblate/html/registration/activation_email.txt:5
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "This is an automatic email to help you complete your registration\n"
-#| "with %(site_title)s.\n"
-#| "\n"
-#| "Please open the following link in your web browser. If the link\n"
-#| "is split over several lines, you may need to copy it in the\n"
-#| "address bar."
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
@@ -3709,13 +3665,6 @@ msgstr ""
 "kopieren."
 
 #: weblate/html/registration/activation_email.txt:9
-#| msgid ""
-#| "\n"
-#| "If there is a problem with your registration, please reply to\n"
-#| "this email.\n"
-#| "\n"
-#| "Best regards,\n"
-#| "%(site_title)s\n"
 msgid "If there is a problem with your registration, please contact us:"
 msgstr ""
 "Falls es ein Problem mit Ihrer Registrierung gibt, kontaktieren Sie uns "
@@ -3892,12 +3841,10 @@ msgstr ""
 "Lizenz wie die zu übersetzenden Inhalte lizenziert werden."
 
 #: weblate/html/trans/change_list.html:7
-#| msgid "Recent changes"
 msgid "changes"
 msgstr "Änderungen"
 
 #: weblate/html/trans/change_list.html:42
-#| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
 msgstr "Keine entsprechenden Aktivitäten wurden aufgezeichnet."
 
