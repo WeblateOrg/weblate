@@ -248,7 +248,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Ignore words which are often same in foreigh language
-        if stripped  in SAME_BLACKLIST:
+        if stripped in SAME_BLACKLIST:
             return False
 
         return (source == target)

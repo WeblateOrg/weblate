@@ -33,7 +33,7 @@ def show_checks(request):
     '''
     List of failing checks.
     '''
-    ignore=('ignored' in request.GET)
+    ignore = ('ignored' in request.GET)
     ignore_string = ''
     if ignore:
         ignore_string = '?ignored=true'
@@ -57,7 +57,7 @@ def show_check(request, name):
     except KeyError:
         raise Http404('No check matches the given query.')
 
-    ignore=('ignored' in request.GET)
+    ignore = ('ignored' in request.GET)
     ignore_string = ''
     if ignore:
         ignore_string = '?ignored=true'
@@ -85,7 +85,7 @@ def show_check_project(request, name, project):
     except KeyError:
         raise Http404('No check matches the given query.')
 
-    ignore=('ignored' in request.GET)
+    ignore = ('ignored' in request.GET)
     ignore_string = ''
     if ignore:
         ignore_string = '?ignored=true'
@@ -154,7 +154,7 @@ def show_check_subproject(request, name, project, subproject):
     except KeyError:
         raise Http404('No check matches the given query.')
 
-    ignore=('ignored' in request.GET)
+    ignore = ('ignored' in request.GET)
     ignore_string = ''
     if ignore:
         ignore_string = '?ignored=true'
