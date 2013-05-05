@@ -354,9 +354,10 @@ class LetterForm(forms.Form):
     Form for choosing starting letter in a glossary.
     '''
     LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
+    any_letter = pgettext_lazy('Select starting letter in glossary', 'Any')
     letter = forms.ChoiceField(
         label=_('Starting letter'),
-        choices=[('', _('Any'))] + LETTER_CHOICES,
+        choices=[('', any_letter)] + LETTER_CHOICES,
         required=False
     )
 
