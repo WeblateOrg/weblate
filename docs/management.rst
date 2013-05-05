@@ -106,7 +106,7 @@ pushgit <project|project/subproject>
 
 .. django-admin:: pushgit
 
-Pushes commited changes to upstream Git repository. With ``--force-commit`` 
+Pushes committed changes to upstream Git repository. With ``--force-commit``
 it also commits any pending changes.
 
 You can either define which project or subproject to update (eg.
@@ -157,7 +157,7 @@ setuplang
 Setups list of languages (it has own list and all defined in
 translate-toolkit).
 
-The option ``--no-update`` disables update of existing languages (only add 
+The option ``--no-update`` disables update of existing languages (only adds
 new ones).
 
 updatechecks <project|project/subproject>

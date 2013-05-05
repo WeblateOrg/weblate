@@ -711,7 +711,7 @@ class Translation(models.Model, URLMixin):
 
     def __configure_git(self, gitrepo, section, key, expected):
         '''
-        Adjysts git config to ensure that section.key is set to expected.
+        Adjusts git config to ensure that section.key is set to expected.
         '''
         cnf = gitrepo.config_writer()
         try:
@@ -792,7 +792,7 @@ class Translation(models.Model, URLMixin):
 
     def git_needs_commit(self):
         '''
-        Checks whether there are some not commited changes.
+        Checks whether there are some not committed changes.
         '''
         status = self.git_repo.git.status('--porcelain', '--', self.filename)
         if status == '':

@@ -238,7 +238,7 @@ Pre commit processing of translations
 -------------------------------------
 
 In many cases you might want to automatically do some changes to translation
-before it is commited to the repository. The pre commit script is exactly the
+before it is committed to the repository. The pre commit script is exactly the
 place to achieve this.
 
 Before using any scripts, you need to list them in
@@ -421,7 +421,7 @@ Machine translation setup
 -------------------------
 
 Weblate has builtin support for several machine translation services and it's
-up to adminitrator to enable them. The services have different terms of use, so
+up to administrator to enable them. The services have different terms of use, so
 please check whether you are allowed to use them before enabling in Weblate.
 The individual services are enabled using :setting:`MACHINE_TRANSLATION_SERVICES`.
 
