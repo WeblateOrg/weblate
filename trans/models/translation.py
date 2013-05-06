@@ -875,7 +875,8 @@ class Translation(models.Model, URLMixin):
                 return False, None
 
             # Check for changes
-            if (unit.target == pounit.get_target()
+            if (not add
+                    and unit.target == pounit.get_target()
                     and unit.fuzzy == pounit.is_fuzzy()):
                 return False, pounit
 
