@@ -23,7 +23,7 @@ class AutoFix(object):
     '''
     Base class for AutoFixes
     '''
-    def fix_single_target(self, target, unit):
+    def fix_single_target(self, target, source, unit):
         '''
         Fix a single target, implement this method in subclasses.
         '''
