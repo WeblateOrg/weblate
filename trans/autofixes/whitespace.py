@@ -31,7 +31,7 @@ class SameBookendingWhitespace(AutoFix):
 
     name = _('Trailing and leading whitespace')
 
-    def fix_single_target(self, target, source , unit):
+    def fix_single_target(self, target, source, unit):
         # normalize newlines of source
         source = re.compile(r'\r\n|\r|\n').sub('\n', source)
 

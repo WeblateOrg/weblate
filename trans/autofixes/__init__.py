@@ -36,7 +36,7 @@ def fix_target(target, unit):
     '''
     fixups = []
     for fix in autofixes:
-        target, fixed  = fix.fix_target(target, unit)
+        target, fixed = fix.fix_target(target, unit)
         if fixed:
             fixups.append(fix.name)
 
