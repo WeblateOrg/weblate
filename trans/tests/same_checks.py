@@ -147,3 +147,37 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_domain(self):
+        self.do_test(
+            False,
+            (
+                'weblate.org',
+                'weblate.org',
+                ''
+            )
+        )
+        self.do_test(
+            False,
+            (
+                'demo.weblate.org',
+                'demo.weblate.org',
+                ''
+            )
+        )
+        self.do_test(
+            False,
+            (
+                '#weblate @ irc.freenode.net',
+                '#weblate @ irc.freenode.net',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'Please see demo.weblate.org',
+                'Please see demo.weblate.org',
+                ''
+            )
+        )

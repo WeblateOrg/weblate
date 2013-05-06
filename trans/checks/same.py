@@ -205,6 +205,11 @@ URL_RE = re.compile(
 
 HASH_RE = re.compile(r'#[A-Za-z0-9_-]*')
 
+DOMAIN_RE = re.compile(
+    r'(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)',
+    re.IGNORECASE
+)
+
 
 class SameCheck(TargetCheck):
     '''
@@ -246,6 +251,9 @@ class SameCheck(TargetCheck):
 
         # Strip hash tags / IRC channels
         stripped = HASH_RE.sub('', stripped)
+
+        # Strip domain names/URLs
+        stripped = DOMAIN_RE.sub('', stripped)
 
         # Remove some html entities
         stripped = stripped.replace('&nbsp;', ' ')
