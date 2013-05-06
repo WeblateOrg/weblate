@@ -40,7 +40,7 @@ class RemoveZeroSpace(AutoFix):
     Remove zero width space if there is none in the source.
     '''
 
-    name = _('Zero width space')
+    name = _('Zero-width space')
 
     def fix_single_target(self, target, source, unit):
         if u'\u200b' not in source and u'\u200b' in target:
