@@ -248,6 +248,13 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         new_target = form.cleaned_data['target']
         new_target, fixups = fix_target(new_target, unit)
 
+        if len(fixups) > 0:
+            messages.info(
+                request,
+                _('Following fixups were applied to translation: %s') %
+                ', '.join(fixups)
+            )
+
         # Remember old checks
         oldchecks = set(
             unit.active_checks().values_list('check', flat=True)
