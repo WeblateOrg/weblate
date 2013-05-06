@@ -86,6 +86,7 @@ SAME_BLACKLIST = frozenset((
     'import',
     'info',
     'information',
+    'isbn',
     'jabber',
     'kib',
     'km',
