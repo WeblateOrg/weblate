@@ -252,7 +252,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             messages.info(
                 request,
                 _('Following fixups were applied to translation: %s') %
-                ', '.join(fixups)
+                ', '.join([unicode(f) for f in fixups])
             )
 
         # Remember old checks
