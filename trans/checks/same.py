@@ -263,6 +263,10 @@ class SameCheck(TargetCheck):
         ).replace(
             '&rsaquo;', '"'
         ).replace(
+            '&lt;', '<'
+        ).replace(
+            '&gt;', '>'
+        ).replace(
             '&ldquo;', '"'
         ).replace(
             '&rdquo;', '"'
