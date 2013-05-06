@@ -347,10 +347,6 @@ LOCK_TIME = 15 * 60
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
-#AUTOFIX_LIST = (
-#    'trans.autofixes.whitespace.SameBookendingWhitespace',
-#    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-#)
 #CHECK_LIST = (
 #    'trans.checks.same.SameCheck',
 #    'trans.checks.chars.BeginNewlineCheck',
@@ -374,6 +370,12 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.markup.XMLTagsCheck',
 #    'trans.checks.source.OptionalPluralCheck',
 #    'trans.checks.source.EllipsisCheck',
+#)
+
+# List of automatic fixups
+#AUTOFIX_LIST = (
+#    'trans.autofixes.whitespace.SameBookendingWhitespace',
+#    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
 #)
 
 # List of scripts to use in custom processing
