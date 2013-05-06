@@ -215,6 +215,7 @@ DOMAIN_RE = re.compile(
     re.IGNORECASE
 )
 
+PATH_RE = re.compile(r'(/[a-zA-Z0-9=:?._-]+)+')
 
 class SameCheck(TargetCheck):
     '''
@@ -259,6 +260,9 @@ class SameCheck(TargetCheck):
 
         # Strip domain names/URLs
         stripped = DOMAIN_RE.sub('', stripped)
+
+        # Strip file/URL paths
+        stripped = PATH_RE.sub('', stripped)
 
         # Remove some html entities
         stripped = stripped.replace(

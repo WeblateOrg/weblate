@@ -199,3 +199,21 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_path(self):
+        self.do_test(
+            False,
+            (
+                '/cgi-bin/koha/catalogue/search.pl?q=',
+                '/cgi-bin/koha/catalogue/search.pl?q=',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'File/directory',
+                'File/directory',
+                ''
+            )
+        )
