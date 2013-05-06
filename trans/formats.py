@@ -22,7 +22,7 @@ File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
-from translate.storage.properties import propunit
+from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit
 from translate.storage import mo
@@ -354,7 +354,8 @@ class FileFormat(object):
         else:
             # Find all units with same source
             found_units = self.store.findunits(source)
-            if len(found_units) > 0:
+            # Find is broken for propfile, ignore results
+            if len(found_units) > 0 and not isinstance(self.store, propfile):
                 for ttkit_unit in found_units:
                     # Does context match?
                     if ttkit_unit.getcontext() == context:
