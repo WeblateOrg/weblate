@@ -111,3 +111,21 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_url(self):
+        self.do_test(
+            False,
+            (
+                'http://weblate.org/',
+                'http://weblate.org/',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'Please see http://weblate.org/',
+                'Please see http://weblate.org/',
+                ''
+            )
+        )

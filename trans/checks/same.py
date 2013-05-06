@@ -24,6 +24,7 @@ from trans.checks.format import (
     PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH
 )
 from django.core.validators import email_re
+import re
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
@@ -192,6 +193,17 @@ SAME_BLACKLIST = frozenset((
     'dec',
 ))
 
+URL_RE = re.compile(
+    r'^(?:http|ftp)s?://' # http:// or https://
+    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+    r'localhost|' #localhost...
+    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+    r'(?::\d+)?' # optional port
+    r'(?:/?|[/?]\S+)$',
+    re.IGNORECASE
+)
+
+
 
 class SameCheck(TargetCheck):
     '''
@@ -227,6 +239,9 @@ class SameCheck(TargetCheck):
 
         # Remove email addresses
         stripped = email_re.sub('', stripped)
+
+        # Strip full URLs
+        stripped = URL_RE.sub('', stripped)
 
         # Remove some html entities
         stripped = stripped.replace('&nbsp;', ' ')
