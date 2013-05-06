@@ -215,6 +215,8 @@ errors in translated strings. This can be quite powerful feature to prevent
 common mistakes in translations, however use it with caution as it can cause
 silent corruption as well.
 
+.. seealso:: :setting:`AUTOFIX_LIST`
+
 .. _checks:
 
 Checks
@@ -223,6 +225,8 @@ Checks
 Weblate does wide range of quality checks on messages. The following section
 describes them in more detail. The checks take account also special rules for
 different languages, so if you think the result is wrong, please report a bug.
+
+.. seealso:: :setting:`CHECK_LIST`
 
 Translation checks
 ++++++++++++++++++
