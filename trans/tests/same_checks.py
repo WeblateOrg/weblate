@@ -103,6 +103,15 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+        self.do_test(
+            False,
+            (
+                '%s %s Fax: %s',
+                '%s %s Fax: %s',
+                'c-format',
+            )
+        )
+
     def test_same_email(self):
         self.do_test(
             False,
