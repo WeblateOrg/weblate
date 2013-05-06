@@ -87,6 +87,13 @@ For example:
 
     ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
 
+importusers <file.json>
+-----------------------
+
+.. django-admin:: importusers
+
+Imports users from JSON dump of Django auth_users database.
+
 loadpo <project|project/subproject>
 -----------------------------------
 
