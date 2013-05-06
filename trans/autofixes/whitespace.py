@@ -20,7 +20,6 @@
 
 import re
 from django.utils.translation import ugettext_lazy as _
-
 from trans.autofixes.base import AutoFix
 
 
