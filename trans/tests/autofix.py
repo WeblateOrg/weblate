@@ -109,3 +109,4 @@ class AutoFixTest(TestCase):
         fixed, fixups = fix_target(['Bar...'], unit)
         self.assertEquals(fixed, [u'Bar…'])
         self.assertEquals(len(fixups), 1)
+        self.assertEquals(unicode(fixups[0]), u'Trailing ellipsis')
