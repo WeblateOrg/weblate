@@ -8,14 +8,14 @@ a sortable data object so fixes are applied in desired order.
 '''
 autofixes = []
 for path in appsettings.AUTOFIX_LIST:
-    autofixes.append(load_class(path))
+    autofixes.append(load_class(path)())
 
 
 def fix_target(target, unit):
     '''
     Apply each autofix to the target translation.
     '''
-    for Fix in autofixes:
-        fix = Fix(target, unit)
-        target = fix.new_target()
+    for fix in autofixes:
+        target = fix.fix_target(target, unit)
+
     return target

@@ -5,14 +5,13 @@ from base import AutoFix
 
 
 class SameBookendingWhitespace(AutoFix):
+    '''
+    Help non-techy translators with their whitespace
+    '''
 
-    def bookend_whitespace(self, target):
-        '''
-        Help non-techy translators with their whitespace
-        '''
-
+    def fix_single_target(self, target, unit):
         # normalize newlines of source
-        source = re.compile(r'\r\n|\r|\n').sub('\n', self.source)
+        source = re.compile(r'\r\n|\r|\n').sub('\n', unit.get_source_plurals()[0])
 
         #capture preceding and tailing whitespace
         start = re.compile(r'^(\s+)').search(source)
@@ -25,6 +24,3 @@ class SameBookendingWhitespace(AutoFix):
         if stripped:
             target = '%s%s%s' % (head, stripped, tail)
         return target
-
-    def fix_target(self, single_target):
-        return self.bookend_whitespace(single_target)

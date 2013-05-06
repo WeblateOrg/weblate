@@ -9,8 +9,8 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     Replace Trailing Dots with an Ellipsis.
     Ignore and maintain exisiting trailing whitespace
     '''
-    def fix_target(self, target):
-        source_match = re.compile(u'…(\s*)$').search(self.source)
+    def fix_single_target(self, target, unit):
+        source_match = re.compile(u'…(\s*)$').search(unit.get_source_plurals()[0])
         re_dots = re.compile(u'\.\.\.(\s*)$')
         target_match = re_dots.search(target)
         if source_match and target_match:
