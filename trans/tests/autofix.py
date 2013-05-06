@@ -24,6 +24,7 @@ Tests for automatix fixups.
 
 from django.test import TestCase
 from trans.models.unit import Unit
+from trans.autofixes import fix_target
 from trans.autofixes.chars import (
     ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace,
 )
@@ -102,3 +103,9 @@ class AutoFixTest(TestCase):
             fix.fix_target([u'Bar\u200b'], unit),
             ([u'Bar'], True)
         )
+
+    def test_fix_target(self):
+        unit = Unit(source=u'Foo…')
+        fixed, fixups = fix_target(['Bar...'], unit)
+        self.assertEquals(fixed, [u'Bar…'])
+        self.assertEquals(len(fixups), 1)
