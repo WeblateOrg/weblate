@@ -17,14 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-from weblate import appsettings
-from trans.util import load_class
-
 '''
 Import all the autofixes defined in settings.  Note, unlike checks, using
 a sortable data object so fixes are applied in desired order.
 '''
+
+from weblate import appsettings
+from trans.util import load_class
+
 autofixes = []
 for path in appsettings.AUTOFIX_LIST:
     autofixes.append(load_class(path)())
