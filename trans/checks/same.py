@@ -216,6 +216,23 @@ class SameCheck(TargetCheck):
         stripped = regex.sub('', msg)
         return stripped
 
+    def strip_string(self, msg, flags):
+        '''
+        Strips (usually) not translated parts from the string.
+        '''
+        # Strip format strings
+        stripped = self.strip_format(msg, flags)
+
+        # Remove some html entities
+        stripped = stripped.replace('&nbsp;', ' ')
+
+        # Cleanup trailing/leading chars
+        stripped = stripped.strip(
+            ' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r'
+        )
+
+        return stripped
+
     def check_single(self, source, target, unit, cache_slot):
         # English variants will have most things not translated
         if self.is_language(unit, ['en']):
@@ -238,10 +255,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Strip format strings
-        stripped = self.strip_format(lower_source, unit.flags)
-        stripped = stripped.strip(
-            ' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r'
-        )
+        stripped = self.strip_string(lower_source, unit.flags)
 
         # Ignore strings which don't contain any string to translate
         if stripped == '':
