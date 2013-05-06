@@ -30,7 +30,10 @@ class SameBookendingWhitespace(AutoFix):
 
     def fix_single_target(self, target, unit):
         # normalize newlines of source
-        source = re.compile(r'\r\n|\r|\n').sub('\n', unit.get_source_plurals()[0])
+        source = re.compile(r'\r\n|\r|\n').sub(
+            '\n',
+            unit.get_source_plurals()[0]
+        )
 
         #capture preceding and tailing whitespace
         start = re.compile(r'^(\s+)').search(source)
