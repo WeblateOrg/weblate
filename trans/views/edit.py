@@ -246,7 +246,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     elif not user_locked:
         # Run AutoFixes on user input
         new_target = form.cleaned_data['target']
-        new_target = fix_target(new_target, unit)
+        new_target, fixups = fix_target(new_target, unit)
 
         # Remember old checks
         oldchecks = set(

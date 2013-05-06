@@ -34,7 +34,10 @@ def fix_target(target, unit):
     '''
     Apply each autofix to the target translation.
     '''
+    fixups = []
     for fix in autofixes:
-        target = fix.fix_target(target, unit)
+        target, fixed  = fix.fix_target(target, unit)
+        if fixed:
+            fixups.append(fix.__name__)
 
-    return target
+    return target, fixups

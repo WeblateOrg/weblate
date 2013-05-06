@@ -27,8 +27,8 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     '''
     def fix_single_target(self, target, source, unit):
         if (source[-1] == u'…' and target.endswith('...')):
-            target = u'%s…' % target[:-3]
-        return target
+            return u'%s…' % target[:-3], True
+        return target, False
 
 
 class RemoveZeroSpace(AutoFix):
@@ -37,5 +37,5 @@ class RemoveZeroSpace(AutoFix):
     '''
     def fix_single_target(self, target, source, unit):
         if u'\u200b' not in source and u'\u200b' in target:
-            return target.replace(u'\u200b', '')
-        return target
+            return target.replace(u'\u200b', ''), True
+        return target, False

@@ -36,11 +36,11 @@ class AutoFixTest(TestCase):
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEquals(
             fix.fix_target(['Bar...'], unit),
-            [u'Bar…']
+            ([u'Bar…'], True)
         )
         self.assertEquals(
             fix.fix_target(['Bar... '], unit),
-            [u'Bar... ']
+            ([u'Bar... '], False)
         )
 
     def test_no_ellipsis(self):
@@ -48,11 +48,11 @@ class AutoFixTest(TestCase):
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEquals(
             fix.fix_target(['Bar...'], unit),
-            [u'Bar...']
+            ([u'Bar...'], False)
         )
         self.assertEquals(
             fix.fix_target([u'Bar…'], unit),
-            [u'Bar…']
+            ([u'Bar…'], False)
         )
 
     def test_whitespace(self):
@@ -60,11 +60,11 @@ class AutoFixTest(TestCase):
         fix = SameBookendingWhitespace()
         self.assertEquals(
             fix.fix_target(['Bar'], unit),
-            [u'Bar\n']
+            ([u'Bar\n'], True)
         )
         self.assertEquals(
             fix.fix_target(['Bar\n'], unit),
-            [u'Bar\n']
+            ([u'Bar\n'], False)
         )
 
     def test_no_whitespace(self):
@@ -72,11 +72,11 @@ class AutoFixTest(TestCase):
         fix = SameBookendingWhitespace()
         self.assertEquals(
             fix.fix_target(['Bar'], unit),
-            [u'Bar']
+            ([u'Bar'], False)
         )
         self.assertEquals(
             fix.fix_target(['Bar\n'], unit),
-            [u'Bar']
+            ([u'Bar'], True)
         )
 
     def test_zerospace(self):
@@ -84,11 +84,11 @@ class AutoFixTest(TestCase):
         fix = RemoveZeroSpace()
         self.assertEquals(
             fix.fix_target(['Bar'], unit),
-            [u'Bar']
+            ([u'Bar'], False)
         )
         self.assertEquals(
             fix.fix_target([u'Bar\u200b'], unit),
-            [u'Bar\u200b']
+            ([u'Bar\u200b'], False)
         )
 
     def test_no_zerospace(self):
@@ -96,9 +96,9 @@ class AutoFixTest(TestCase):
         fix = RemoveZeroSpace()
         self.assertEquals(
             fix.fix_target(['Bar'], unit),
-            [u'Bar']
+            ([u'Bar'], False)
         )
         self.assertEquals(
             fix.fix_target([u'Bar\u200b'], unit),
-            [u'Bar']
+            ([u'Bar'], True)
         )
