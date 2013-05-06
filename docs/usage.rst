@@ -226,8 +226,9 @@ Not translated
 ~~~~~~~~~~~~~~
 
 The source and translated strings are same at least in one of plural forms.
-This checks ignores some strings which are quite usually same in all
-languages.
+This checks ignores some strings which are quite usually same in all languages
+and strips various markup, which can occur in the string, to reduce number of
+false positives.
 
 .. _check-begin-newline:
 
