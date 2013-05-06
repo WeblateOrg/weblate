@@ -17,7 +17,7 @@ class AutoFix(object):
         '''
         fix a single target, implement this method with subclasses
         '''
-        return single_target
+        raise NotImplementedError()
 
     def new_target(self):
         '''
