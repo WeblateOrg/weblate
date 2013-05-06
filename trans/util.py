@@ -21,7 +21,7 @@
 import hashlib
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import pgettext
 from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -103,7 +103,7 @@ def get_user_display(user, icon=True, link=False):
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
-        full_name = pgettext_lazy('No known user', 'None')
+        full_name = pgettext('No known user', 'None')
         email = ''
     else:
         # Get full name
