@@ -13,6 +13,7 @@ Released on ? 2013.
 * Added support for Amagama machine translation.
 * Various optimizations on frequently used pages.
 * Highlights searched phrase in search results.
+* Support for automatic fixups while saving the message.
 
 weblate 1.5
 -----------
