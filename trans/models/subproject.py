@@ -889,7 +889,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
     def git_needs_commit(self):
         '''
-        Checks whether there are some not commited changes.
+        Checks whether there are some not committed changes.
         '''
         status = self.git_repo.git.status('--porcelain')
         if status == '':

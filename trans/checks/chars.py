@@ -56,7 +56,7 @@ class BeginSpaceCheck(TargetCheck):
         'Source and translation do not both start with same number of spaces'
     )
 
-    def check_single(self, source, target,  unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -77,7 +77,7 @@ class EndSpaceCheck(TargetCheck):
     name = _('Trailing space')
     description = _('Source and translation do not both end with a space')
 
-    def check_single(self, source, target,  unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False

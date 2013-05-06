@@ -20,7 +20,7 @@ commitgit <project|project/subproject>
 
 .. django-admin:: commitgit
 
-Commits any possible pending changes to  backend git repository.
+Commits any possible pending changes to backend git repository.
 
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
@@ -106,7 +106,7 @@ pushgit <project|project/subproject>
 
 .. django-admin:: pushgit
 
-Pushes commited changes to upstream Git repository. With ``--force-commit`` 
+Pushes committed changes to upstream Git repository. With ``--force-commit``
 it also commits any pending changes.
 
 You can either define which project or subproject to update (eg.
@@ -144,7 +144,7 @@ setupgroups
 Configures default groups and (if called with ``--move``) assigns all users
 to default group.
 
-The option ``--no-update`` disables update of existing groups (only adds 
+The option ``--no-update`` disables update of existing groups (only adds
 new ones).
 
 .. seealso:: :ref:`privileges`
@@ -157,7 +157,7 @@ setuplang
 Setups list of languages (it has own list and all defined in
 translate-toolkit).
 
-The option ``--no-update`` disables update of existing languages (only add 
+The option ``--no-update`` disables update of existing languages (only adds
 new ones).
 
 updatechecks <project|project/subproject>
