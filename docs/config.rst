@@ -50,6 +50,22 @@ Time in seconds for how long the automatic lock for translation will be active.
 
 .. seealso:: :ref:`locking`
 
+.. setting:: AUTOFIX_LIST
+
+AUTOFIX_LIST
+------------
+
+List of automatic fixups to apply when saving the message.
+
+For example you can enable only few of them:
+
+.. code-block:: python
+
+    AUTOFIX_LIST = (
+        'trans.autofixes.whitespace.SameBookendingWhitespace',
+        'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+    )
+
 .. setting:: BACKGROUND_HOOKS
 
 BACKGROUND_HOOKS

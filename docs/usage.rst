@@ -205,6 +205,16 @@ All machine translations are available on single tab on translation page.
 
 .. seealso:: :ref:`machine-translation-setup`
 
+.. _autofix:
+
+Automatic fixups
+----------------
+
+In addition to :ref:`checks`, Weblate can also automatically fix some common
+errors in translated strings. This can be quite powerful feature to prevent
+common mistakes in translations, however use it with caution as it can cause
+silent corruption as well.
+
 .. _checks:
 
 Checks
