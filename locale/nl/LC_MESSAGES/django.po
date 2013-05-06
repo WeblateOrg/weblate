@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-06 12:01+0200\n"
+"POT-Creation-Date: 2013-05-06 17:40+0200\n"
 "PO-Revision-Date: 2013-05-03 15:28+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -293,43 +293,43 @@ msgstr "Recente wijzigingen in %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alle recente wijzigingen door middel van Weblate in %s."
 
-#: trans/formats.py:447
+#: trans/formats.py:448
 msgid "Automatic detection"
 msgstr "Automatische herkenning"
 
-#: trans/formats.py:461
+#: trans/formats.py:462
 msgid "Gettext PO file"
 msgstr "Gettext PO bestand"
 
-#: trans/formats.py:502
+#: trans/formats.py:503
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO bestand (enkeltalig)"
 
-#: trans/formats.py:511
+#: trans/formats.py:512
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist vertaalbestand"
 
-#: trans/formats.py:519
+#: trans/formats.py:520
 msgid "XLIFF Translation File"
 msgstr "XLIFF vertaalbestand"
 
-#: trans/formats.py:527
+#: trans/formats.py:528
 msgid "OS X Strings"
 msgstr "OS X tekenreeksen"
 
-#: trans/formats.py:536
+#: trans/formats.py:537
 msgid "Java Properties"
 msgstr "Java-eigenschappen"
 
-#: trans/formats.py:554
+#: trans/formats.py:555
 msgid "Java Properties (UTF-8)"
 msgstr "Java-eigenschappen (UTF-8)"
 
-#: trans/formats.py:563
+#: trans/formats.py:564
 msgid "PHP strings"
 msgstr "PHP tekenreeksen"
 
-#: trans/formats.py:571 ttkit/aresource.py:308
+#: trans/formats.py:572 ttkit/aresource.py:308
 msgid "Android String Resource"
 msgstr "Android tekenreeks hulpbron"
 
@@ -552,6 +552,20 @@ msgstr ""
 "Engelse vertaling\n"
 "%(percent)d%% voltooid"
 
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:226
+msgid "Trailing ellipsis"
+msgstr "Beletselteken (…) op het einde"
+
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:248
+msgid "Zero-width space"
+msgstr "Spatie zonder lengte"
+
+#: trans/autofixes/whitespace.py:32
+#, fuzzy
+#| msgid "Trailing space"
+msgid "Trailing and leading whitespace"
+msgstr "Spatie op het einde"
+
 #: trans/checks/chars.py:30
 msgid "Starting newline"
 msgstr "Begint met een nieuwe regel"
@@ -629,10 +643,6 @@ msgstr ""
 "Bron en vertaalde tekst eindigen niet allebei met een uitroepingsteken of "
 "het uitroepingsteken is niet correct omgeven met spaties"
 
-#: trans/checks/chars.py:226
-msgid "Trailing ellipsis"
-msgstr "Beletselteken (…) op het einde"
-
 #: trans/checks/chars.py:227
 msgid "Source and translation do not both end with an ellipsis"
 msgstr ""
@@ -645,10 +655,6 @@ msgstr "Geen overeenkomst \\n"
 #: trans/checks/chars.py:240
 msgid "Number of \\n in translation does not match source"
 msgstr "Het aantal \\n in de vertaling komt niet overeen met de bron"
-
-#: trans/checks/chars.py:248
-msgid "Zero-width space"
-msgstr "Spatie zonder lengte"
 
 #: trans/checks/chars.py:249
 msgid "Translation contains extra zero-width space character"
@@ -713,11 +719,11 @@ msgstr "Niet-overeenkomende XML-tags"
 msgid "XML tags in translation do not match source"
 msgstr "XML tags in de vertaling komt niet overeen met de bron"
 
-#: trans/checks/same.py:199
+#: trans/checks/same.py:239
 msgid "Not translated"
 msgstr "Niet vertaald"
 
-#: trans/checks/same.py:200
+#: trans/checks/same.py:240
 msgid "Source and translated strings are same"
 msgstr "Bron en vertaalde tekenreeks zijn dezelfde"
 
@@ -1068,31 +1074,31 @@ msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Deze vertaling is geblokeerd door %(user)s!"
 
-#: trans/models/translation.py:944 trans/models/translation.py:977
+#: trans/models/translation.py:945 trans/models/translation.py:978
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: trans/models/translation.py:951 trans/models/translation.py:1007
+#: trans/models/translation.py:952 trans/models/translation.py:1008
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Tekenreeksen met gefaalde controles (%d)"
 
-#: trans/models/translation.py:968 trans/models/translation.py:1024
+#: trans/models/translation.py:969 trans/models/translation.py:1025
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Tekenreeksen met opmerkingen (%d)"
 
-#: trans/models/translation.py:984
+#: trans/models/translation.py:985
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Niet vertaalde tekenreeksen (%d)"
 
-#: trans/models/translation.py:992
+#: trans/models/translation.py:993
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Vage tekenreeksen (%d)"
 
-#: trans/models/translation.py:999
+#: trans/models/translation.py:1000
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Tekenreeksen met suggesties (%d)"
@@ -1286,7 +1292,7 @@ msgid "Changes"
 msgstr "Wijzigingen"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:95 trans/views/edit.py:438
+#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:450
 msgid "Invalid search string!"
 msgstr "Ongeldige zoekterm!"
 
@@ -1319,55 +1325,55 @@ msgid "File upload has failed: %s"
 msgstr "Bestand uploaden is mislukt : %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:550
+#: trans/views/edit.py:562
 msgid "Failed to process form!"
 msgstr "Het formulier kon niet verwerkt worden!"
 
-#: trans/views/edit.py:50 weblate/html/list-translations.html:65
+#: trans/views/edit.py:51 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Vage tekenreeksen"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:53
 msgid "Untranslated strings"
 msgstr "Niet-vertaalde tekenreeksen"
 
-#: trans/views/edit.py:54
+#: trans/views/edit.py:55
 msgid "Strings with suggestions"
 msgstr "Tekenreeksen met suggesties"
 
-#: trans/views/edit.py:56 weblate/html/list-translations.html:64
+#: trans/views/edit.py:57 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Tekenreeksen met gefaalde controles"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:67
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Full text-zoeken naar \"%s\""
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:69
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Zoeken naar exacte tekenreeks \"%s\""
 
-#: trans/views/edit.py:70
+#: trans/views/edit.py:71
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Zoeken naar subtekenreeks \"%s\""
 
-#: trans/views/edit.py:118
+#: trans/views/edit.py:119
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Beoordeling van vertalingen sinds %s"
 
-#: trans/views/edit.py:149 trans/views/edit.py:159
+#: trans/views/edit.py:150 trans/views/edit.py:160
 msgid "No string matched your search!"
 msgstr "Geen enkele tekenreeks kwam overeen met uw zoekterm!"
 
-#: trans/views/edit.py:212
+#: trans/views/edit.py:213
 msgid "Your suggestion is empty!"
 msgstr "Uw suggestie is leeg!"
 
-#: trans/views/edit.py:223
+#: trans/views/edit.py:224
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1377,51 +1383,56 @@ msgstr ""
 "overwegen om vertaler te worden, omdat uw suggestie anders onbeoordeeld zou "
 "kunnen blijven."
 
-#: trans/views/edit.py:237
+#: trans/views/edit.py:238
 msgid "You need to log in to be able to save translations!"
 msgstr "U moet aanmelden om vertalingen te kunnen opslaan!"
 
-#: trans/views/edit.py:243 trans/views/edit.py:282
+#: trans/views/edit.py:244 trans/views/edit.py:294
 msgid "You don't have privileges to save translations!"
 msgstr "U heeft niet de juiste rechten om vertalingen op te slaan!"
 
-#: trans/views/edit.py:265
+#: trans/views/edit.py:254
+#, python-format
+msgid "Following fixups were applied to translation: %s"
+msgstr ""
+
+#: trans/views/edit.py:277
 msgid "Some checks have failed on your translation!"
 msgstr "Sommige controles zijn mislukt bij uw vertaling!"
 
-#: trans/views/edit.py:306
+#: trans/views/edit.py:318
 msgid "Can not merge different messages!"
 msgstr "De verschillende berichten konden niet samengevoegd worden!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:342
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "U moet aanmelden om suggesties te kunnen beheren!"
 
-#: trans/views/edit.py:339
+#: trans/views/edit.py:351
 msgid "You do not have privilege to accept suggestions!"
 msgstr "U heeft niet de juiste rechten om suggesties te aanvaarden!"
 
-#: trans/views/edit.py:347
+#: trans/views/edit.py:359
 msgid "You do not have privilege to delete suggestions!"
 msgstr "U heeft niet voldoende rechten om suggesties te verwijderen!"
 
-#: trans/views/edit.py:365
+#: trans/views/edit.py:377
 msgid "Invalid suggestion!"
 msgstr "Ongeldige suggestie!"
 
-#: trans/views/edit.py:399
+#: trans/views/edit.py:411
 msgid "You have reached end of translating."
 msgstr "U heeft de vertaling afgewerkt."
 
-#: trans/views/edit.py:548
+#: trans/views/edit.py:560
 msgid "Automatic translation completed."
 msgstr "Automatische vertaling is klaar."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:588
 msgid "Posted new comment"
 msgstr "Nieuwe opmerking toegevoegd"
 
-#: trans/views/edit.py:578
+#: trans/views/edit.py:590
 msgid "Failed to add comment!"
 msgstr "Opmerking toevoegen is mislukt!"
 

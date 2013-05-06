@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-06 12:01+0200\n"
+"POT-Creation-Date: 2013-05-06 17:40+0200\n"
 "PO-Revision-Date: 2013-05-01 15:49+0200\n"
 "Last-Translator: Satoru KURASHIKI <lurdan@gmail.com>\n"
 "Language-Team: Japanese <http://l10n.cihar.com/projects/weblate/master/ja/>\n"
@@ -288,43 +288,43 @@ msgstr "%sにおける最近の更新"
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s で Weblate を利用して最近おこわなれた全ての変更。"
 
-#: trans/formats.py:447
+#: trans/formats.py:448
 msgid "Automatic detection"
 msgstr "自動検出"
 
-#: trans/formats.py:461
+#: trans/formats.py:462
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/formats.py:502
+#: trans/formats.py:503
 msgid "Gettext PO file (monolingual)"
 msgstr ""
 
-#: trans/formats.py:511
+#: trans/formats.py:512
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻訳ファイル"
 
-#: trans/formats.py:519
+#: trans/formats.py:520
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻訳ファイル"
 
-#: trans/formats.py:527
+#: trans/formats.py:528
 msgid "OS X Strings"
 msgstr "OS X の Strings"
 
-#: trans/formats.py:536
+#: trans/formats.py:537
 msgid "Java Properties"
 msgstr ""
 
-#: trans/formats.py:554
+#: trans/formats.py:555
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/formats.py:563
+#: trans/formats.py:564
 msgid "PHP strings"
 msgstr "PHP の strings"
 
-#: trans/formats.py:571 ttkit/aresource.py:308
+#: trans/formats.py:572 ttkit/aresource.py:308
 msgid "Android String Resource"
 msgstr ""
 
@@ -537,6 +537,20 @@ msgid ""
 "%(percent)d%% done"
 msgstr ""
 
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:226
+msgid "Trailing ellipsis"
+msgstr "文末の省略記号"
+
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:248
+msgid "Zero-width space"
+msgstr ""
+
+#: trans/autofixes/whitespace.py:32
+#, fuzzy
+#| msgid "Trailing space"
+msgid "Trailing and leading whitespace"
+msgstr "文末の空白"
+
 #: trans/checks/chars.py:30
 msgid "Starting newline"
 msgstr "文頭の改行"
@@ -613,10 +627,6 @@ msgstr ""
 "翻訳前後で、感嘆符の有無が異なるもの、もしくは文末感嘆符の前後空白が正しくな"
 "いもの"
 
-#: trans/checks/chars.py:226
-msgid "Trailing ellipsis"
-msgstr "文末の省略記号"
-
 #: trans/checks/chars.py:227
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "翻訳前後で文末の省略記号の有無が異なるもの"
@@ -628,10 +638,6 @@ msgstr ""
 #: trans/checks/chars.py:240
 msgid "Number of \\n in translation does not match source"
 msgstr "改行(\\n)の数が翻訳元と一致しないもの"
-
-#: trans/checks/chars.py:248
-msgid "Zero-width space"
-msgstr ""
 
 #: trans/checks/chars.py:249
 msgid "Translation contains extra zero-width space character"
@@ -695,11 +701,11 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr "XMLタグがが翻訳元と一致しないもの"
 
-#: trans/checks/same.py:199
+#: trans/checks/same.py:239
 msgid "Not translated"
 msgstr "未翻訳"
 
-#: trans/checks/same.py:200
+#: trans/checks/same.py:240
 msgid "Source and translated strings are same"
 msgstr "翻訳前後でメッセージが同じもの"
 
@@ -1014,31 +1020,31 @@ msgstr ""
 msgid "This translation is locked by %(user)s!"
 msgstr "この翻訳は %(user)s にロックされています！"
 
-#: trans/models/translation.py:944 trans/models/translation.py:977
+#: trans/models/translation.py:945 trans/models/translation.py:978
 msgid "All strings"
 msgstr "すべて"
 
-#: trans/models/translation.py:951 trans/models/translation.py:1007
+#: trans/models/translation.py:952 trans/models/translation.py:1008
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "何らかのチェックに失敗している文字列 (%d)"
 
-#: trans/models/translation.py:968 trans/models/translation.py:1024
+#: trans/models/translation.py:969 trans/models/translation.py:1025
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "コメントのついている文字列 (%d)"
 
-#: trans/models/translation.py:984
+#: trans/models/translation.py:985
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "未翻訳 (%d)"
 
-#: trans/models/translation.py:992
+#: trans/models/translation.py:993
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "あいまい (%d)"
 
-#: trans/models/translation.py:999
+#: trans/models/translation.py:1000
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "提案があるもの (%d)"
@@ -1207,7 +1213,7 @@ msgid "Changes"
 msgstr "変更点"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:95 trans/views/edit.py:438
+#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:450
 msgid "Invalid search string!"
 msgstr "無効な検索文字列です！"
 
@@ -1240,106 +1246,111 @@ msgid "File upload has failed: %s"
 msgstr "ファイルのアップロードに失敗しました：%s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:550
+#: trans/views/edit.py:562
 msgid "Failed to process form!"
 msgstr ""
 
-#: trans/views/edit.py:50 weblate/html/list-translations.html:65
+#: trans/views/edit.py:51 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "あいまい"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:53
 msgid "Untranslated strings"
 msgstr "未翻訳"
 
-#: trans/views/edit.py:54
+#: trans/views/edit.py:55
 msgid "Strings with suggestions"
 msgstr "提案があるもの"
 
-#: trans/views/edit.py:56 weblate/html/list-translations.html:64
+#: trans/views/edit.py:57 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "何らかのチェックに失敗した文字列"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:67
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "\"%s\" で全文検索"
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:69
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "\"%s\" で完全一致検索"
 
-#: trans/views/edit.py:70
+#: trans/views/edit.py:71
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "\"%s\" で部分文字列検索"
 
-#: trans/views/edit.py:118
+#: trans/views/edit.py:119
 #, python-format
 msgid "Review of translations since %s"
 msgstr "%s 以降の訳文をレビューする"
 
-#: trans/views/edit.py:149 trans/views/edit.py:159
+#: trans/views/edit.py:150 trans/views/edit.py:160
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:212
+#: trans/views/edit.py:213
 msgid "Your suggestion is empty!"
 msgstr "提案内容がありません！"
 
-#: trans/views/edit.py:223
+#: trans/views/edit.py:224
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:237
+#: trans/views/edit.py:238
 msgid "You need to log in to be able to save translations!"
 msgstr "翻訳を保存するには、ログインする必要があります！"
 
-#: trans/views/edit.py:243 trans/views/edit.py:282
+#: trans/views/edit.py:244 trans/views/edit.py:294
 msgid "You don't have privileges to save translations!"
 msgstr "翻訳を保存できる権限がありません！"
 
-#: trans/views/edit.py:265
+#: trans/views/edit.py:254
+#, python-format
+msgid "Following fixups were applied to translation: %s"
+msgstr ""
+
+#: trans/views/edit.py:277
 msgid "Some checks have failed on your translation!"
 msgstr "翻訳の中に不完全なところがあります！"
 
-#: trans/views/edit.py:306
+#: trans/views/edit.py:318
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:342
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "提案を管理するには、ログインする必要があります！"
 
-#: trans/views/edit.py:339
+#: trans/views/edit.py:351
 msgid "You do not have privilege to accept suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: trans/views/edit.py:347
+#: trans/views/edit.py:359
 msgid "You do not have privilege to delete suggestions!"
 msgstr "提案を削除できる権限がありません！"
 
-#: trans/views/edit.py:365
+#: trans/views/edit.py:377
 msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
-#: trans/views/edit.py:399
+#: trans/views/edit.py:411
 msgid "You have reached end of translating."
 msgstr "翻訳すべきものは以上です。"
 
-#: trans/views/edit.py:548
+#: trans/views/edit.py:560
 msgid "Automatic translation completed."
 msgstr "自動翻訳が完了しました。"
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:588
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:578
+#: trans/views/edit.py:590
 msgid "Failed to add comment!"
 msgstr ""
 

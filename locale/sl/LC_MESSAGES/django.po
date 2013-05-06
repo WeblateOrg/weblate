@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-06 12:01+0200\n"
+"POT-Creation-Date: 2013-05-06 17:40+0200\n"
 "PO-Revision-Date: 2013-05-06 05:50+0200\n"
 "Last-Translator: Chris Oelmueller <chris.oelmueller@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -291,43 +291,43 @@ msgstr "Nedavne spremembe v %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Vse nedavne spremembe, narejene z Weblate v %s."
 
-#: trans/formats.py:447
+#: trans/formats.py:448
 msgid "Automatic detection"
 msgstr "Samodejno zaznavanje"
 
-#: trans/formats.py:461
+#: trans/formats.py:462
 msgid "Gettext PO file"
 msgstr "Datoteka Gettext PO"
 
-#: trans/formats.py:502
+#: trans/formats.py:503
 msgid "Gettext PO file (monolingual)"
 msgstr "Datoteka Gettext PO (enojezična)"
 
-#: trans/formats.py:511
+#: trans/formats.py:512
 msgid "Qt Linguist Translation File"
 msgstr "Datoteka s prevodom Qt Linguist"
 
-#: trans/formats.py:519
+#: trans/formats.py:520
 msgid "XLIFF Translation File"
 msgstr "Datoteka s prevodom XLIFF"
 
-#: trans/formats.py:527
+#: trans/formats.py:528
 msgid "OS X Strings"
 msgstr "Nizi OS X"
 
-#: trans/formats.py:536
+#: trans/formats.py:537
 msgid "Java Properties"
 msgstr "Lastnosti Java"
 
-#: trans/formats.py:554
+#: trans/formats.py:555
 msgid "Java Properties (UTF-8)"
 msgstr "Lastnosti Java (UTF-8)"
 
-#: trans/formats.py:563
+#: trans/formats.py:564
 msgid "PHP strings"
 msgstr "Nizi PHP"
 
-#: trans/formats.py:571 ttkit/aresource.py:308
+#: trans/formats.py:572 ttkit/aresource.py:308
 msgid "Android String Resource"
 msgstr "Vir nizov Android"
 
@@ -545,6 +545,20 @@ msgstr ""
 "Slovenščina\n"
 "%(percent)d%% končana"
 
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:226
+msgid "Trailing ellipsis"
+msgstr "Končno tripičje"
+
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:248
+msgid "Zero-width space"
+msgstr "Presledki ničelne širine"
+
+#: trans/autofixes/whitespace.py:32
+#, fuzzy
+#| msgid "Trailing space"
+msgid "Trailing and leading whitespace"
+msgstr "Končni presledek"
+
 #: trans/checks/chars.py:30
 msgid "Starting newline"
 msgstr "Začetna nova vrstica"
@@ -621,10 +635,6 @@ msgstr ""
 "Izvirnik in prevod se ne končata s klicajem ali pa ni pravilno obdan s "
 "presledki"
 
-#: trans/checks/chars.py:226
-msgid "Trailing ellipsis"
-msgstr "Končno tripičje"
-
 #: trans/checks/chars.py:227
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Izvirnik in prevod se ne končata s tripičjem"
@@ -636,10 +646,6 @@ msgstr "Neujemanje \\n"
 #: trans/checks/chars.py:240
 msgid "Number of \\n in translation does not match source"
 msgstr "Število \\n v prevodu se ne ujema z izvirnikom"
-
-#: trans/checks/chars.py:248
-msgid "Zero-width space"
-msgstr "Presledki ničelne širine"
 
 #: trans/checks/chars.py:249
 msgid "Translation contains extra zero-width space character"
@@ -702,11 +708,11 @@ msgstr "Razlika v XML oznakah"
 msgid "XML tags in translation do not match source"
 msgstr "XML oznake v prevodu se ne ujemajo z izvirnikom"
 
-#: trans/checks/same.py:199
+#: trans/checks/same.py:239
 msgid "Not translated"
 msgstr "Ni prevedeno"
 
-#: trans/checks/same.py:200
+#: trans/checks/same.py:240
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
@@ -1055,31 +1061,31 @@ msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Ta prevod je zaklenil %(user)s!"
 
-#: trans/models/translation.py:944 trans/models/translation.py:977
+#: trans/models/translation.py:945 trans/models/translation.py:978
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models/translation.py:951 trans/models/translation.py:1007
+#: trans/models/translation.py:952 trans/models/translation.py:1008
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Nizi s katerim koli spodletelim preverjanjem (%d)"
 
-#: trans/models/translation.py:968 trans/models/translation.py:1024
+#: trans/models/translation.py:969 trans/models/translation.py:1025
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Nizi s pripombami (%d)"
 
-#: trans/models/translation.py:984
+#: trans/models/translation.py:985
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models/translation.py:992
+#: trans/models/translation.py:993
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models/translation.py:999
+#: trans/models/translation.py:1000
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
@@ -1295,7 +1301,7 @@ msgid "Changes"
 msgstr "Spremembe"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:95 trans/views/edit.py:438
+#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:450
 msgid "Invalid search string!"
 msgstr "Neveljaven iskalni niz!"
 
@@ -1328,55 +1334,55 @@ msgid "File upload has failed: %s"
 msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:550
+#: trans/views/edit.py:562
 msgid "Failed to process form!"
 msgstr "Nisem uspel obdelati obrazca!"
 
-#: trans/views/edit.py:50 weblate/html/list-translations.html:65
+#: trans/views/edit.py:51 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Neurejeni nizi"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:53
 msgid "Untranslated strings"
 msgstr "Neprevedeni nizi"
 
-#: trans/views/edit.py:54
+#: trans/views/edit.py:55
 msgid "Strings with suggestions"
 msgstr "Nizi s predlogi"
 
-#: trans/views/edit.py:56 weblate/html/list-translations.html:64
+#: trans/views/edit.py:57 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Nizi s katerim koli spodletelim preverjanjem"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:67
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Iskanje »%s« po celotnem besedilu"
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:69
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Iskanje točnega niza »%s«"
 
-#: trans/views/edit.py:70
+#: trans/views/edit.py:71
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Iskanje »%s« v podnizih"
 
-#: trans/views/edit.py:118
+#: trans/views/edit.py:119
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Pregled prevodov od %s"
 
-#: trans/views/edit.py:149 trans/views/edit.py:159
+#: trans/views/edit.py:150 trans/views/edit.py:160
 msgid "No string matched your search!"
 msgstr "Iskalnim pogojem ne ustreza noben niz!"
 
-#: trans/views/edit.py:212
+#: trans/views/edit.py:213
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views/edit.py:223
+#: trans/views/edit.py:224
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1385,51 +1391,56 @@ msgstr ""
 "Na tem prevodu trenutno ni aktivnega prevajalca. Prosimo, razmislite o tem, "
 "da bi postali prevajalec, sicer bo vaš predlog ostal nepregledan."
 
-#: trans/views/edit.py:237
+#: trans/views/edit.py:238
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views/edit.py:243 trans/views/edit.py:282
+#: trans/views/edit.py:244 trans/views/edit.py:294
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views/edit.py:265
+#: trans/views/edit.py:254
+#, python-format
+msgid "Following fixups were applied to translation: %s"
+msgstr ""
+
+#: trans/views/edit.py:277
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views/edit.py:306
+#: trans/views/edit.py:318
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različnih sporočil!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:342
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views/edit.py:339
+#: trans/views/edit.py:351
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views/edit.py:347
+#: trans/views/edit.py:359
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views/edit.py:365
+#: trans/views/edit.py:377
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views/edit.py:399
+#: trans/views/edit.py:411
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views/edit.py:548
+#: trans/views/edit.py:560
 msgid "Automatic translation completed."
 msgstr "Samodejno prevajanje je končano."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:588
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views/edit.py:578
+#: trans/views/edit.py:590
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 

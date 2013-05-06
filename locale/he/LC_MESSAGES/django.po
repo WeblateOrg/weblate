@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-06 12:01+0200\n"
+"POT-Creation-Date: 2013-05-06 17:40+0200\n"
 "PO-Revision-Date: 2013-05-05 19:40+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
@@ -288,43 +288,43 @@ msgstr "השינויים האחרונים ב־%s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "כל השינויים האחרונים בוצעו בעזרת Weblate ב־%s."
 
-#: trans/formats.py:447
+#: trans/formats.py:448
 msgid "Automatic detection"
 msgstr "זיהוי אוטומטי"
 
-#: trans/formats.py:461
+#: trans/formats.py:462
 msgid "Gettext PO file"
 msgstr "קובץ PO לפי Gettext"
 
-#: trans/formats.py:502
+#: trans/formats.py:503
 msgid "Gettext PO file (monolingual)"
 msgstr "קובץ PO לפי Gettext (חד־לשוני)"
 
-#: trans/formats.py:511
+#: trans/formats.py:512
 msgid "Qt Linguist Translation File"
 msgstr "קובץ תרגום של Qt Linguist"
 
-#: trans/formats.py:519
+#: trans/formats.py:520
 msgid "XLIFF Translation File"
 msgstr "קובץ תרגום XLIFF"
 
-#: trans/formats.py:527
+#: trans/formats.py:528
 msgid "OS X Strings"
 msgstr "מחרוזות OS X"
 
-#: trans/formats.py:536
+#: trans/formats.py:537
 msgid "Java Properties"
 msgstr "קובץ מאפיינים של Java"
 
-#: trans/formats.py:554
+#: trans/formats.py:555
 msgid "Java Properties (UTF-8)"
 msgstr "קובץ מאפיינים של Java (UTF-8)‎"
 
-#: trans/formats.py:563
+#: trans/formats.py:564
 msgid "PHP strings"
 msgstr "מחרוזות PHP"
 
-#: trans/formats.py:571 ttkit/aresource.py:308
+#: trans/formats.py:572 ttkit/aresource.py:308
 msgid "Android String Resource"
 msgstr "משאב מחרוזות של Android"
 
@@ -546,6 +546,20 @@ msgstr ""
 "תרגום לעברית\n"
 "%(percent)d%% הושלמו"
 
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:226
+msgid "Trailing ellipsis"
+msgstr "סימן השמטה בסוף"
+
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:248
+msgid "Zero-width space"
+msgstr "רווח ללא רוחב"
+
+#: trans/autofixes/whitespace.py:32
+#, fuzzy
+#| msgid "Trailing space"
+msgid "Trailing and leading whitespace"
+msgstr "רווח בסוף"
+
 #: trans/checks/chars.py:30
 msgid "Starting newline"
 msgstr "פתיחה בשורה חדשה"
@@ -622,10 +636,6 @@ msgstr ""
 "המקור והתרגום אינן מסתיימות שתיהן בסימן קריאה או שהריווח בסביבת סימן הקריאה "
 "שגוי"
 
-#: trans/checks/chars.py:226
-msgid "Trailing ellipsis"
-msgstr "סימן השמטה בסוף"
-
 #: trans/checks/chars.py:227
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "המקור והתרגום אינן מסתיימות שתיהן בסימן השמטה (שלוש נקודות)"
@@ -637,10 +647,6 @@ msgstr "כמות ה־‎\\n אינה תואמת"
 #: trans/checks/chars.py:240
 msgid "Number of \\n in translation does not match source"
 msgstr "מספר ה־‎\\n בתרגום אינה תואמת למקור"
-
-#: trans/checks/chars.py:248
-msgid "Zero-width space"
-msgstr "רווח ללא רוחב"
 
 #: trans/checks/chars.py:249
 msgid "Translation contains extra zero-width space character"
@@ -703,11 +709,11 @@ msgstr "תגי ה־XML אינם תואמים"
 msgid "XML tags in translation do not match source"
 msgstr "תגי ה־XML בתרגום אינם תואמים למקור"
 
-#: trans/checks/same.py:199
+#: trans/checks/same.py:239
 msgid "Not translated"
 msgstr "אין תרגום"
 
-#: trans/checks/same.py:200
+#: trans/checks/same.py:240
 msgid "Source and translated strings are same"
 msgstr "מחרוזות המקור והתרגום זהות"
 
@@ -1038,31 +1044,31 @@ msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "תרגום זה נעול על ידי %(user)s!"
 
-#: trans/models/translation.py:944 trans/models/translation.py:977
+#: trans/models/translation.py:945 trans/models/translation.py:978
 msgid "All strings"
 msgstr "כל המחרוזות"
 
-#: trans/models/translation.py:951 trans/models/translation.py:1007
+#: trans/models/translation.py:952 trans/models/translation.py:1008
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "מחרוזות עם בדיקות שלא צלחו (%d)"
 
-#: trans/models/translation.py:968 trans/models/translation.py:1024
+#: trans/models/translation.py:969 trans/models/translation.py:1025
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "מחרוזות עם הערות (%d)"
 
-#: trans/models/translation.py:984
+#: trans/models/translation.py:985
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "מחרוזות שלא תורגמו (%d)"
 
-#: trans/models/translation.py:992
+#: trans/models/translation.py:993
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "מחרוזות בספק (%d)"
 
-#: trans/models/translation.py:999
+#: trans/models/translation.py:1000
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "מחרוזות עם הצעות (%d)"
@@ -1250,7 +1256,7 @@ msgid "Changes"
 msgstr "שינויים"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:95 trans/views/edit.py:438
+#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:450
 msgid "Invalid search string!"
 msgstr "המחרוזת לחיפוש שגויה!"
 
@@ -1283,55 +1289,55 @@ msgid "File upload has failed: %s"
 msgstr "העלאת הקובץ נכשלה: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:550
+#: trans/views/edit.py:562
 msgid "Failed to process form!"
 msgstr "עיבוד הטופס נכשל!"
 
-#: trans/views/edit.py:50 weblate/html/list-translations.html:65
+#: trans/views/edit.py:51 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "מחרוזות בספק"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:53
 msgid "Untranslated strings"
 msgstr "מחרוזות בלתי מתורגמות"
 
-#: trans/views/edit.py:54
+#: trans/views/edit.py:55
 msgid "Strings with suggestions"
 msgstr "מחרוזות עם הצעות"
 
-#: trans/views/edit.py:56 weblate/html/list-translations.html:64
+#: trans/views/edit.py:57 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:67
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "חיפוש טקסט מלא אחר „%s“"
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:69
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "חיפוש אחר המחרוזת המדויקת „%s“"
 
-#: trans/views/edit.py:70
+#: trans/views/edit.py:71
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "חיפוש תת מחרוזת אחר „%s“"
 
-#: trans/views/edit.py:118
+#: trans/views/edit.py:119
 #, python-format
 msgid "Review of translations since %s"
 msgstr "סקירת התרגומים מאז %s"
 
-#: trans/views/edit.py:149 trans/views/edit.py:159
+#: trans/views/edit.py:150 trans/views/edit.py:160
 msgid "No string matched your search!"
 msgstr "אין מחרוזות שתואמות לחיפוש שלך!"
 
-#: trans/views/edit.py:212
+#: trans/views/edit.py:213
 msgid "Your suggestion is empty!"
 msgstr "ההצעה שלך ריקה!"
 
-#: trans/views/edit.py:223
+#: trans/views/edit.py:224
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1340,51 +1346,56 @@ msgstr ""
 "אין מתרגמים פעילים לתרגום זה, נבקשך לשקול להפוך למתרגם כיוון שאחרת ההצעות "
 "שלך לא יעברו סקירה."
 
-#: trans/views/edit.py:237
+#: trans/views/edit.py:238
 msgid "You need to log in to be able to save translations!"
 msgstr "עליך להיכנס כדי לשמור תרגומים!"
 
-#: trans/views/edit.py:243 trans/views/edit.py:282
+#: trans/views/edit.py:244 trans/views/edit.py:294
 msgid "You don't have privileges to save translations!"
 msgstr "אין לך הרשאות לשמור תרגומים!"
 
-#: trans/views/edit.py:265
+#: trans/views/edit.py:254
+#, python-format
+msgid "Following fixups were applied to translation: %s"
+msgstr ""
+
+#: trans/views/edit.py:277
 msgid "Some checks have failed on your translation!"
 msgstr "חלק מהבדיקות נכשלו בתרגום שלך!"
 
-#: trans/views/edit.py:306
+#: trans/views/edit.py:318
 msgid "Can not merge different messages!"
 msgstr "לא ניתן למזג הודעות שונות!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:342
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "עליך להיכנס כדי לנהל הצעות!"
 
-#: trans/views/edit.py:339
+#: trans/views/edit.py:351
 msgid "You do not have privilege to accept suggestions!"
 msgstr "אין לך הרשאות לאשר הצעות!"
 
-#: trans/views/edit.py:347
+#: trans/views/edit.py:359
 msgid "You do not have privilege to delete suggestions!"
 msgstr "אין לך הרשאות למחוק הצעות!"
 
-#: trans/views/edit.py:365
+#: trans/views/edit.py:377
 msgid "Invalid suggestion!"
 msgstr "ההצעה שגויה!"
 
-#: trans/views/edit.py:399
+#: trans/views/edit.py:411
 msgid "You have reached end of translating."
 msgstr "הגעת לסוף התרגום."
 
-#: trans/views/edit.py:548
+#: trans/views/edit.py:560
 msgid "Automatic translation completed."
 msgstr "התרגום האוטומטי הושלם."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:588
 msgid "Posted new comment"
 msgstr "פורסמה הערה חדשה"
 
-#: trans/views/edit.py:578
+#: trans/views/edit.py:590
 msgid "Failed to add comment!"
 msgstr "הוספת ההערה נכשלה!"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-06 12:01+0200\n"
+"POT-Creation-Date: 2013-05-06 17:40+0200\n"
 "PO-Revision-Date: 2013-05-06 05:57+0200\n"
 "Last-Translator: Chris Oelmueller <chris.oelmueller@gmail.com>\n"
 "Language-Team: Galician <http://l10n.cihar.com/projects/weblate/master/gl/>\n"
@@ -293,48 +293,48 @@ msgstr "Cambios recentes"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Lista de cambios recentes feitos no Weblate"
 
-#: trans/formats.py:447
+#: trans/formats.py:448
 #, fuzzy
 msgid "Automatic detection"
 msgstr "Tradución automática"
 
-#: trans/formats.py:461
+#: trans/formats.py:462
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/formats.py:502
+#: trans/formats.py:503
 msgid "Gettext PO file (monolingual)"
 msgstr ""
 
-#: trans/formats.py:511
+#: trans/formats.py:512
 #, fuzzy
 msgid "Qt Linguist Translation File"
 msgstr "Cadeas para traducir"
 
-#: trans/formats.py:519
+#: trans/formats.py:520
 #, fuzzy
 msgid "XLIFF Translation File"
 msgstr "Traducións feitas"
 
-#: trans/formats.py:527
+#: trans/formats.py:528
 #, fuzzy
 msgid "OS X Strings"
 msgstr "Todas as cadeas"
 
-#: trans/formats.py:536
+#: trans/formats.py:537
 msgid "Java Properties"
 msgstr ""
 
-#: trans/formats.py:554
+#: trans/formats.py:555
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/formats.py:563
+#: trans/formats.py:564
 #, fuzzy
 msgid "PHP strings"
 msgstr "Todas as cadeas"
 
-#: trans/formats.py:571 ttkit/aresource.py:308
+#: trans/formats.py:572 ttkit/aresource.py:308
 msgid "Android String Resource"
 msgstr ""
 
@@ -564,6 +564,21 @@ msgid ""
 "%(percent)d%% done"
 msgstr ""
 
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:226
+#, fuzzy
+msgid "Trailing ellipsis"
+msgstr "Nova liña"
+
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:248
+msgid "Zero-width space"
+msgstr ""
+
+#: trans/autofixes/whitespace.py:32
+#, fuzzy
+#| msgid "Trailing space"
+msgid "Trailing and leading whitespace"
+msgstr "Espazo final"
+
 #: trans/checks/chars.py:30
 msgid "Starting newline"
 msgstr "Iniciar nova liña"
@@ -642,11 +657,6 @@ msgstr ""
 "Orixe e tradución non terminan ambas cun signo de admiración ou non está "
 "correctamente espazado"
 
-#: trans/checks/chars.py:226
-#, fuzzy
-msgid "Trailing ellipsis"
-msgstr "Nova liña"
-
 #: trans/checks/chars.py:227
 #, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
@@ -660,10 +670,6 @@ msgstr ""
 #, fuzzy
 msgid "Number of \\n in translation does not match source"
 msgstr "O formato da cadea non casa coa orixe"
-
-#: trans/checks/chars.py:248
-msgid "Zero-width space"
-msgstr ""
 
 #: trans/checks/chars.py:249
 msgid "Translation contains extra zero-width space character"
@@ -728,11 +734,11 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: trans/checks/same.py:199
+#: trans/checks/same.py:239
 msgid "Not translated"
 msgstr "Non traducida"
 
-#: trans/checks/same.py:200
+#: trans/checks/same.py:240
 msgid "Source and translated strings are same"
 msgstr "As cadeas de orixe e as traducidas son as mesmas"
 
@@ -1082,31 +1088,31 @@ msgid "This translation is locked by %(user)s!"
 msgstr ""
 "Ata %(time)s, esta tradución está bloqueada por %(user)s para traducila!"
 
-#: trans/models/translation.py:944 trans/models/translation.py:977
+#: trans/models/translation.py:945 trans/models/translation.py:978
 msgid "All strings"
 msgstr "Todas as cadeas"
 
-#: trans/models/translation.py:951 trans/models/translation.py:1007
+#: trans/models/translation.py:952 trans/models/translation.py:1008
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
 
-#: trans/models/translation.py:968 trans/models/translation.py:1024
+#: trans/models/translation.py:969 trans/models/translation.py:1025
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "Cadeas con suxestións (%d)"
 
-#: trans/models/translation.py:984
+#: trans/models/translation.py:985
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Cadeas non traducidas (%d)"
 
-#: trans/models/translation.py:992
+#: trans/models/translation.py:993
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadeas revisábeis (%d)"
 
-#: trans/models/translation.py:999
+#: trans/models/translation.py:1000
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadeas con suxestións (%d)"
@@ -1306,7 +1312,7 @@ msgid "Changes"
 msgstr "Cambiar a palabra"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:95 trans/views/edit.py:438
+#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:450
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
@@ -1342,110 +1348,115 @@ msgid "File upload has failed: %s"
 msgstr "Fallou a fusión do contido do ficheiro: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:550
+#: trans/views/edit.py:562
 msgid "Failed to process form!"
 msgstr "Fallou o procesamento do formulario!"
 
-#: trans/views/edit.py:50 weblate/html/list-translations.html:65
+#: trans/views/edit.py:51 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Cadeas revisábeis"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:53
 msgid "Untranslated strings"
 msgstr "Cadeas non traducidas"
 
-#: trans/views/edit.py:54
+#: trans/views/edit.py:55
 msgid "Strings with suggestions"
 msgstr "Cadeas con suxestións"
 
-#: trans/views/edit.py:56 weblate/html/list-translations.html:64
+#: trans/views/edit.py:57 weblate/html/list-translations.html:64
 #, fuzzy
 msgid "Strings with any failing checks"
 msgstr "Cadeas nas que as comprobacións detectaron fallos (%d)"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:67
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
 msgstr "Buscar \"%s\""
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:69
 #, fuzzy, python-format
 #| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
 msgstr "Buscar nas cadeas de contexto"
 
-#: trans/views/edit.py:70
+#: trans/views/edit.py:71
 #, fuzzy, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
 msgstr "Buscar \"%s\""
 
-#: trans/views/edit.py:118
+#: trans/views/edit.py:119
 #, fuzzy, python-format
 msgid "Review of translations since %s"
 msgstr "Buscar nas cadeas de orixe"
 
-#: trans/views/edit.py:149 trans/views/edit.py:159
+#: trans/views/edit.py:150 trans/views/edit.py:160
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:212
+#: trans/views/edit.py:213
 msgid "Your suggestion is empty!"
 msgstr "A súa suxestión está vadía!"
 
-#: trans/views/edit.py:223
+#: trans/views/edit.py:224
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:237
+#: trans/views/edit.py:238
 msgid "You need to log in to be able to save translations!"
 msgstr "Cómpre acceder para poder gardar as traducións!"
 
-#: trans/views/edit.py:243 trans/views/edit.py:282
+#: trans/views/edit.py:244 trans/views/edit.py:294
 msgid "You don't have privileges to save translations!"
 msgstr "Non ten permisos para gardar as traducións!"
 
-#: trans/views/edit.py:265
+#: trans/views/edit.py:254
+#, python-format
+msgid "Following fixups were applied to translation: %s"
+msgstr ""
+
+#: trans/views/edit.py:277
 msgid "Some checks have failed on your translation!"
 msgstr "Fallaron algunhas comprobacións na súa tradución!"
 
-#: trans/views/edit.py:306
+#: trans/views/edit.py:318
 msgid "Can not merge different messages!"
 msgstr "Non se poden fusionar diferentes mensaxes!"
 
-#: trans/views/edit.py:330
+#: trans/views/edit.py:342
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Cómpre acceder para xestionar as suxestións!"
 
-#: trans/views/edit.py:339
+#: trans/views/edit.py:351
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Non ten permiso para aceptar suxestións!"
 
-#: trans/views/edit.py:347
+#: trans/views/edit.py:359
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Non ten permiso para eliminar suxestións!"
 
-#: trans/views/edit.py:365
+#: trans/views/edit.py:377
 msgid "Invalid suggestion!"
 msgstr "Suxestión incorrecta!"
 
-#: trans/views/edit.py:399
+#: trans/views/edit.py:411
 msgid "You have reached end of translating."
 msgstr "Rematou a tradución."
 
-#: trans/views/edit.py:548
+#: trans/views/edit.py:560
 msgid "Automatic translation completed."
 msgstr "Tradución automática completada."
 
-#: trans/views/edit.py:576
+#: trans/views/edit.py:588
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:578
+#: trans/views/edit.py:590
 #, fuzzy
 msgid "Failed to add comment!"
 msgstr "Fallou o procesamento do formulario!"
