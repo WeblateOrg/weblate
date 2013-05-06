@@ -94,6 +94,15 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+        self.do_test(
+            False,
+            (
+                '%s%s, %s%s (',
+                '%s%s, %s%s (',
+                'c-format',
+            )
+        )
+
     def test_same_email(self):
         self.do_test(
             False,
