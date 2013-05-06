@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-05 19:30+0200\n"
-"PO-Revision-Date: 2013-05-05 07:44+0200\n"
+"PO-Revision-Date: 2013-05-06 04:28+0200\n"
 "Last-Translator: Chris Oelmueller <chris.oelmueller@gmail.com>\n"
 "Language-Team: German <http://l10n.cihar.com/projects/weblate/master/de/>\n"
 "Language: de\n"
@@ -476,7 +476,6 @@ msgid "Starting date"
 msgstr "Startdatum"
 
 #: trans/forms.py:357
-#, fuzzy
 #| msgid "Any"
 msgctxt "Select starting letter in glossary"
 msgid "Any"
@@ -491,11 +490,10 @@ msgid "Whole project"
 msgstr "Gesamtes Projekt"
 
 #: trans/util.py:106
-#, fuzzy
 #| msgid "None"
 msgctxt "No known user"
 msgid "None"
-msgstr "Keiner"
+msgstr "Alle"
 
 #: trans/validators.py:32 trans/validators.py:42 trans/validators.py:62
 #, python-format
@@ -945,9 +943,9 @@ msgid ""
 msgstr ""
 
 #: trans/models/subproject.py:166
-#, fuzzy
 msgid "Whether subproject is locked for translation updates."
-msgstr "Automatische Übersetzung"
+msgstr ""
+"Ob das Unterprojekt für eine Aktualisierung der Übersetzung gesperrt ist."
 
 #: trans/models/subproject.py:172
 msgid ""
@@ -1051,9 +1049,9 @@ msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Fehler beim Verarbeiten der Datei %(file)s: %(error)s"
 
 #: trans/models/translation.py:232
-#, fuzzy, python-format
+#, python-format
 msgid "This translation is locked by %(user)s!"
-msgstr "Automatische Übersetzung"
+msgstr "Diese Übersetzung ist von %(user)s gesperrt!"
 
 #: trans/models/translation.py:944 trans/models/translation.py:977
 msgid "All strings"
@@ -1447,9 +1445,8 @@ msgid "Translation is now locked for you."
 msgstr ""
 
 #: trans/views/lock.py:60
-#, fuzzy
 msgid "Translation is now open for translation updates."
-msgstr "Automatische Übersetzung"
+msgstr "Übersetzung ist nun entsperrt und bereit für Aktualisierungen."
 
 #: trans/views/lock.py:78
 msgid "Subproject is now locked for translation updates!"
@@ -2962,16 +2959,14 @@ msgid "Words extracted from glossary"
 msgstr "Aus Glossar extrahierte Wörter"
 
 #: weblate/html/translate.html:168
-#, fuzzy
 #| msgid "Point to translation instructions URL"
 msgid "Machine translation suggestions"
-msgstr "Gebe die URL für die Übersetzungsanweisungen an"
+msgstr "Vorschläge aus automatischer Übersetzung"
 
 #: weblate/html/translate.html:168
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Machine translation"
-msgstr "Fehlerhafte Übersetzung"
+msgstr "Automatische Übersetzung"
 
 #: weblate/html/translate.html:170
 msgid "Comments about this translation"
@@ -3180,9 +3175,8 @@ msgid "widgets"
 msgstr ""
 
 #: weblate/html/widgets-root.html:11 weblate/html/widgets.html:16
-#, fuzzy
 msgid "Promoting translation projects"
-msgstr "Diese Übersetzung für alle Unterprojekte verwenden"
+msgstr "Übersetzungsprojekte bewerben"
 
 #: weblate/html/widgets-root.html:14
 msgid ""
@@ -3198,9 +3192,8 @@ msgid ""
 msgstr ""
 
 #: weblate/html/widgets.html:22
-#, fuzzy
 msgid "Promoting specific translations"
-msgstr "Automatische Übersetzung"
+msgstr "Bestimmte Übersetzungen bewerben"
 
 #: weblate/html/widgets.html:25
 msgid ""
@@ -3600,9 +3593,8 @@ msgid "there has been a new translation on %(translation)s at %(site_title)s."
 msgstr "Automatische Übersetzung"
 
 #: weblate/html/mail/new_translation.txt:13
-#, fuzzy
 msgid "Previously not translated"
-msgstr "Ihre Übersetzungen"
+msgstr "Zuvor nicht übersetzt"
 
 #: weblate/html/mail/new_translation_subject.txt:1
 #, python-format
