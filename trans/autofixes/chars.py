@@ -30,3 +30,13 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
                 and target.endswith('...')):
             target = u'%s…' % target[:-3]
         return target
+
+
+class RemoveZeroSpace(AutoFix):
+    '''
+    Remove zero width space if there is none in the source.
+    '''
+    def fix_single_target(self, target, unit):
+        if u'\u200b' not in unit.get_source_plurals()[0] and u'\u200b' in target:
+            return target.replace(u'\u200b', '')
+        return target

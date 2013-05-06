@@ -24,7 +24,9 @@ Tests for automatix fixups.
 
 from django.test import TestCase
 from trans.models.unit import Unit
-from trans.autofixes.chars import ReplaceTrailingDotsWithEllipsis
+from trans.autofixes.chars import (
+    ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace,
+)
 from trans.autofixes.whitespace import SameBookendingWhitespace
 
 
@@ -74,5 +76,29 @@ class AutoFixTest(TestCase):
         )
         self.assertEquals(
             fix.fix_target(['Bar\n'], unit),
+            [u'Bar']
+        )
+
+    def test_zerospace(self):
+        unit = Unit(source=u'Foo\u200b')
+        fix = RemoveZeroSpace()
+        self.assertEquals(
+            fix.fix_target(['Bar'], unit),
+            [u'Bar']
+        )
+        self.assertEquals(
+            fix.fix_target([u'Bar\u200b'], unit),
+            [u'Bar\u200b']
+        )
+
+    def test_no_zerospace(self):
+        unit = Unit(source=u'Foo')
+        fix = RemoveZeroSpace()
+        self.assertEquals(
+            fix.fix_target(['Bar'], unit),
+            [u'Bar']
+        )
+        self.assertEquals(
+            fix.fix_target([u'Bar\u200b'], unit),
             [u'Bar']
         )

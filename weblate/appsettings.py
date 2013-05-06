@@ -118,6 +118,7 @@ CHECK_LIST = get('CHECK_LIST', (
 AUTOFIX_LIST = get('AUTOFIX_LIST', (
     'trans.autofixes.whitespace.SameBookendingWhitespace',
     'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+    'trans.autofixes.chars.RemoveZeroSpace',
 ))
 
 # List of machine translations

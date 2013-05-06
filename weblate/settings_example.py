@@ -376,6 +376,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #AUTOFIX_LIST = (
 #    'trans.autofixes.whitespace.SameBookendingWhitespace',
 #    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+#    'trans.autofixes.chars.RemoveZeroSpace',
 #)
 
 # List of scripts to use in custom processing
