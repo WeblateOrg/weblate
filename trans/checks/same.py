@@ -258,7 +258,15 @@ class SameCheck(TargetCheck):
         stripped = DOMAIN_RE.sub('', stripped)
 
         # Remove some html entities
-        stripped = stripped.replace('&nbsp;', ' ')
+        stripped = stripped.replace(
+            '&nbsp;', ' '
+        ).replace(
+            '&rsaquo;', '"'
+        ).replace(
+            '&ldquo;', '"'
+        ).replace(
+            '&rdquo;', '"'
+        )
 
         # Cleanup trailing/leading chars
         stripped = stripped.strip(
