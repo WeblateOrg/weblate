@@ -588,6 +588,23 @@ languages using ``dictionary`` Python module:
 You can list own class in :setting:`MACHINE_TRANSLATION_SERVICES` and Weblate
 will start using that.
 
+.. _custom-autofix:
+
+Custom automatic fixups
+-----------------------
+
+You can also implement own automatic fixup in addition to standard ones and
+include them in :setting:`AUTOFIX_LIST`.
+
+The automatic fixes are powerful, but can also cause damage, be careful when
+writing one.
+
+For example following automatic fixup would replace every occurence of string
+``foo`` in translation with ``bar``:
+
+.. literalinclude:: ../examples/fix_foo.py
+    :language: python
+
 .. _custom-checks:
 
 Customizing checks

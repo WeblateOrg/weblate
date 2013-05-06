@@ -75,6 +75,8 @@ For example you can enable only few of them:
         'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
     )
 
+.. seealso:: :ref:`autofix`, :ref:`custom-autofix`
+
 .. setting:: BACKGROUND_HOOKS
 
 BACKGROUND_HOOKS
