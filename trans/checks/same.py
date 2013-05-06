@@ -23,6 +23,7 @@ from trans.checks.base import TargetCheck
 from trans.checks.format import (
     PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH
 )
+from django.core.validators import email_re
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
@@ -222,6 +223,9 @@ class SameCheck(TargetCheck):
         '''
         # Strip format strings
         stripped = self.strip_format(msg, flags)
+
+        # Remove email addresses
+        stripped = email_re.sub('', stripped)
 
         # Remove some html entities
         stripped = stripped.replace('&nbsp;', ' ')

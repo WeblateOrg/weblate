@@ -93,3 +93,21 @@ class SameCheckTest(CheckTestCase):
                 'c-format',
             )
         )
+
+    def test_same_email(self):
+        self.do_test(
+            False,
+            (
+                'michal@cihar.com',
+                'michal@cihar.com',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'Please contact michal@cihar.com',
+                'Please contact michal@cihar.com',
+                ''
+            )
+        )
