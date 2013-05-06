@@ -380,18 +380,18 @@ class EditTest(ViewTestCase):
         # Save with failing check
         response = self.edit_unit(
             'Hello, world!\n',
-            'Nazdar svete!'
+            'Hello, world!\n',
         )
         # We should stay on current message
         self.assertRedirectsOffset(response, self.translate_url, 0)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!')
+        self.assertEqual(unit.target, 'Hello, world!\n')
         self.assertTrue(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 2)
-        self.assertEqual(len(unit.active_checks()), 2)
+        self.assertEqual(len(unit.checks()), 1)
+        self.assertEqual(len(unit.active_checks()), 1)
         self.assertEqual(unit.translation.failing_checks, 1)
 
-        # Ignore one of checks
+        # Ignore check
         check_id = unit.checks()[0].id
         response = self.client.get(
             reverse('js-ignore-check', kwargs={'check_id': check_id})
@@ -399,21 +399,8 @@ class EditTest(ViewTestCase):
         self.assertContains(response, 'ok')
         # Should have one less check
         unit = self.get_unit()
-        self.assertTrue(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 2)
-        self.assertEqual(len(unit.active_checks()), 1)
-        self.assertEqual(unit.translation.failing_checks, 1)
-
-        # Ignore second checks
-        check_id = unit.active_checks()[0].id
-        response = self.client.get(
-            reverse('js-ignore-check', kwargs={'check_id': check_id})
-        )
-        self.assertContains(response, 'ok')
-        # Should have one less check
-        unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 2)
+        self.assertEqual(len(unit.checks()), 1)
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
 
