@@ -55,6 +55,7 @@ SAME_BLACKLIST = frozenset((
     'dpi',
     'dummy',
     'e-mail',
+    'editor',
     'eib',
     'email',
     'esperanto',
@@ -88,6 +89,7 @@ SAME_BLACKLIST = frozenset((
     'info',
     'information',
     'isbn',
+    'issn',
     'jabber',
     'kib',
     'km',
@@ -123,6 +125,7 @@ SAME_BLACKLIST = frozenset((
     'pdf',
     'personal',
     'pib',
+    'png',
     'port',
     'position',
     'python-gammu',
@@ -270,6 +273,10 @@ class SameCheck(TargetCheck):
             '&ldquo;', '"'
         ).replace(
             '&rdquo;', '"'
+        ).replace(
+            '&times;', '.'
+        ).replace(
+            '&quot;', '"'
         )
 
         # Cleanup trailing/leading chars
