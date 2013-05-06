@@ -223,6 +223,8 @@ DOMAIN_RE = re.compile(
 
 PATH_RE = re.compile(r'(/[a-zA-Z0-9=:?._-]+)+')
 
+TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
+
 class SameCheck(TargetCheck):
     '''
     Check for not translated entries.
@@ -269,6 +271,9 @@ class SameCheck(TargetCheck):
 
         # Strip file/URL paths
         stripped = PATH_RE.sub('', stripped)
+
+        # Strip template markup
+        stripped = TEMPLATE_RE.sub('', stripped)
 
         # Remove some html entities
         stripped = stripped.replace(

@@ -217,3 +217,21 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_template(self):
+        self.do_test(
+            False,
+            (
+                '{building}: {description}',
+                '{building}: {description}',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                '{building}: some description',
+                '{building}: some description',
+                ''
+            )
+        )
