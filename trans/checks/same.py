@@ -296,7 +296,7 @@ class SameCheck(TargetCheck):
 
         # Cleanup trailing/leading chars
         stripped = stripped.strip(
-            u' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r✓'
+            u' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r✓—'
         )
 
         return stripped
