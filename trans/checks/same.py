@@ -203,6 +203,7 @@ URL_RE = re.compile(
     re.IGNORECASE
 )
 
+HASH_RE = re.compile(r'#[A-Za-z0-9_-]*')
 
 
 class SameCheck(TargetCheck):
@@ -242,6 +243,9 @@ class SameCheck(TargetCheck):
 
         # Strip full URLs
         stripped = URL_RE.sub('', stripped)
+
+        # Strip hash tags / IRC channels
+        stripped = HASH_RE.sub('', stripped)
 
         # Remove some html entities
         stripped = stripped.replace('&nbsp;', ' ')

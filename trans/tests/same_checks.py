@@ -129,3 +129,21 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_channel(self):
+        self.do_test(
+            False,
+            (
+                '#weblate',
+                '#weblate',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'Please use #weblate',
+                'Please use #weblate',
+                ''
+            )
+        )
