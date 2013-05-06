@@ -76,14 +76,27 @@ class FileUnit(object):
     def get_flags(self):
         '''
         Returns flags (typecomments) from units.
+
+        Removes 'fuzzy' from returned string because this uses a checkbox
+        and is stored in a different way internally (unit.is_fuzzy).
         '''
         # Merge flags
         if hasattr(self.unit, 'typecomments'):
-            return ', '.join(self.unit.typecomments)
+            flags = self.unit.typecomments
         elif hasattr(self.template, 'typecomments'):
-            return ', '.join(self.template.typecomments)
+            flags = self.template.typecomments
         else:
             return ''
+        # Strip trailing newline
+        flags = flags.rstrip()
+        # Join multiple lines if present
+        flags = flags.replace('\n', ', ')
+        # Remove '#, ' prefix for nicer display
+        # (can be present more than once due to multiple lines joined)
+        flags = flags.replace('#, ', '')
+        # Split and join again to find and remove 'fuzzy'
+        flags = flags.split(',')
+        return ', '.join(f.strip() for f in flags if f != 'fuzzy')
 
     def get_comments(self):
         '''
