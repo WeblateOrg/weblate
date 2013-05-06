@@ -245,15 +245,15 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         )
     elif not user_locked:
         # Run AutoFixes on user input
-        cleaned_target = form.cleaned_data['target']
-        cleaned_target = fix_target(cleaned_target, unit)
+        new_target = form.cleaned_data['target']
+        new_target = fix_target(new_target, unit)
 
         # Remember old checks
         oldchecks = set(
             unit.active_checks().values_list('check', flat=True)
         )
         # Update unit and save it
-        unit.target = join_plural(cleaned_target)
+        unit.target = join_plural(new_target)
         unit.fuzzy = form.cleaned_data['fuzzy']
         saved = unit.save_backend(request)
 
