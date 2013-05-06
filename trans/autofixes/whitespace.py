@@ -28,12 +28,9 @@ class SameBookendingWhitespace(AutoFix):
     Help non-techy translators with their whitespace
     '''
 
-    def fix_single_target(self, target, unit):
+    def fix_single_target(self, target, source , unit):
         # normalize newlines of source
-        source = re.compile(r'\r\n|\r|\n').sub(
-            '\n',
-            unit.get_source_plurals()[0]
-        )
+        source = re.compile(r'\r\n|\r|\n').sub('\n', source)
 
         # capture preceding and tailing whitespace
         start = re.compile(r'^(\s+)').search(source)

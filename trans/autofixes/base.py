@@ -33,4 +33,5 @@ class AutoFix(object):
         '''
         Returns a target translation array with a single fix applied.
         '''
-        return [self.fix_single_target(t, unit) for t in target]
+        source = unit.get_source_plurals()[0]
+        return [self.fix_single_target(t, source, unit) for t in target]
