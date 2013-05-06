@@ -321,7 +321,7 @@ class Project(models.Model, PercentMixin, URLMixin):
 
     def git_needs_commit(self):
         '''
-        Checks whether there are some not commited changes.
+        Checks whether there are some not committed changes.
         '''
         for resource in self.subproject_set.all():
             if resource.git_needs_commit():
