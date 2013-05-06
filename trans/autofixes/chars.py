@@ -18,21 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import re
-
 from base import AutoFix
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
     '''
     Replace Trailing Dots with an Ellipsis.
-    Ignore and maintain exisiting trailing whitespace
     '''
     def fix_single_target(self, target, unit):
-        source_match = re.compile(u'…(\s*)$').search(unit.get_source_plurals()[0])
-        re_dots = re.compile(u'\.\.\.(\s*)$')
-        target_match = re_dots.search(target)
-        if source_match and target_match:
-            elip_whitespace = u'…' + target_match.group(1)
-            target = re_dots.sub(elip_whitespace, target)
+        if (unit.get_source_plurals()[0][-1] == u'…'
+                and target.endswith('...')):
+            target = u'%s…' % target[:-3]
         return target
