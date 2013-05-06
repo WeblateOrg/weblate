@@ -37,6 +37,7 @@ import __builtin__
 
 
 FILE_FORMATS = {}
+FLAGS_RE = re.compile(r'\b[-\w]+\b')
 
 
 def register_fileformat(fileformat):
@@ -73,15 +74,30 @@ class FileUnit(object):
             return ''
         return ', '.join(self.mainunit.getlocations())
 
+    def reformat_flags(self, typecomments):
+        '''
+        Processes flags from PO file to nicer form.
+        '''
+        # Grab flags
+        flags = set(FLAGS_RE.findall('\n'.join(typecomments)))
+
+        # Discard fuzzy flag, we don't care about that one
+        flags.discard('fuzzy')
+
+        # Join into string
+        return ', '.join(flags)
+
     def get_flags(self):
         '''
         Returns flags (typecomments) from units.
+
+        This is Gettext (po) specific feature.
         '''
         # Merge flags
         if hasattr(self.unit, 'typecomments'):
-            return ', '.join(self.unit.typecomments)
+            return self.reformat_flags(self.unit.typecomments)
         elif hasattr(self.template, 'typecomments'):
-            return ', '.join(self.template.typecomments)
+            return self.reformat_flags(self.template.typecomments)
         else:
             return ''
 
