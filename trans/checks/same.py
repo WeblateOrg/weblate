@@ -267,6 +267,41 @@ class SameCheck(TargetCheck):
 
         return stripped
 
+    def should_ignore(self, source, unit, cache_slot):
+        '''
+        Check whether given unit should be ignored.
+        '''
+        # Use cache if available
+        result = self.get_cache(unit, cache_slot)
+        if result is not None:
+            return result
+
+        # Lower case source
+        lower_source = source.lower()
+
+        # Check special things like 1:4 1/2 or copyright
+        if (len(source.strip('0123456789:/,.')) <= 1
+                or '(c) copyright' in lower_source
+                or u'©' in source):
+            result = True
+        else:
+            # Strip format strings
+            stripped = self.strip_string(lower_source, unit.flags)
+
+            # Ignore strings which don't contain any string to translate
+            if stripped == '':
+                result = True
+            # Ignore words which are often same in foreigh language
+            elif stripped in SAME_BLACKLIST:
+                result = True
+            else:
+                result = False
+
+        # Store in cache
+        self.set_cache(unit, result, cache_slot)
+
+        return result
+
     def check_single(self, source, target, unit, cache_slot):
         # English variants will have most things not translated
         if self.is_language(unit, ['en']):
@@ -280,23 +315,8 @@ class SameCheck(TargetCheck):
         if source.isupper() and target.isupper():
             return False
 
-        lower_source = source.lower()
-
-        # Check special things like 1:4 1/2 or copyright
-        if (len(source.strip('0123456789:/,.')) <= 1
-                or '(c) copyright' in lower_source
-                or u'©' in source):
-            return False
-
-        # Strip format strings
-        stripped = self.strip_string(lower_source, unit.flags)
-
-        # Ignore strings which don't contain any string to translate
-        if stripped == '':
-            return False
-
-        # Ignore words which are often same in foreigh language
-        if stripped in SAME_BLACKLIST:
+        # Check for ignoring
+        if self.should_ignore(source, unit, cache_slot):
             return False
 
         return (source == target)
