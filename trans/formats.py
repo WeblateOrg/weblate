@@ -94,7 +94,9 @@ class FileUnit(object):
         # Remove '#, ' prefix for nicer display
         # (can be present more than once due to multiple lines joined)
         flags = flags.replace('#, ', '')
-        return flags
+        # Split and join again to find and remove 'fuzzy'
+        flags = flags.split(',')
+        return ', '.join(f.strip() for f in flags if f != 'fuzzy')
 
     def get_comments(self):
         '''
