@@ -57,6 +57,15 @@ AUTOFIX_LIST
 
 List of automatic fixups to apply when saving the message.
 
+Available fixes:
+
+``trans.autofixes.whitespace.SameBookendingWhitespace``
+    Fixes up whitespace in beginning and end of the string to match source.
+``trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
+    Replaces traling dots with ellipsis if source string has it.
+``trans.autofixes.chars.RemoveZeroSpace``
+    Removes zero width space char if source does not contain it.
+
 For example you can enable only few of them:
 
 .. code-block:: python
