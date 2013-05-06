@@ -35,7 +35,7 @@ class SameBookendingWhitespace(AutoFix):
             unit.get_source_plurals()[0]
         )
 
-        #capture preceding and tailing whitespace
+        # capture preceding and tailing whitespace
         start = re.compile(r'^(\s+)').search(source)
         end = re.compile(r'(\s+)$').search(source)
         head = start.group() if start else ''
