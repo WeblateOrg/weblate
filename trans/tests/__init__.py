@@ -46,3 +46,4 @@ from trans.tests.machine import *
 from trans.tests.changes import *
 from trans.tests.admin import *
 from trans.tests.requirements import *
+from trans.tests.autofix import *
