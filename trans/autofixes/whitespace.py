@@ -19,6 +19,7 @@
 #
 
 import re
+from django.utils.translation import ugettext_lazy as _
 
 from trans.autofixes.base import AutoFix
 
@@ -27,6 +28,8 @@ class SameBookendingWhitespace(AutoFix):
     '''
     Help non-techy translators with their whitespace
     '''
+
+    name = _('Trailing and leading whitespace')
 
     def fix_single_target(self, target, source , unit):
         # normalize newlines of source

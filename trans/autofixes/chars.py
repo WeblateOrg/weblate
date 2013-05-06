@@ -19,12 +19,16 @@
 #
 
 from trans.autofixes.base import AutoFix
+from django.utils.translation import ugettext_lazy as _
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
     '''
     Replace Trailing Dots with an Ellipsis.
     '''
+
+    name = _('Trailing ellipsis')
+
     def fix_single_target(self, target, source, unit):
         if (source[-1] == u'…' and target.endswith('...')):
             return u'%s…' % target[:-3], True
@@ -35,6 +39,9 @@ class RemoveZeroSpace(AutoFix):
     '''
     Remove zero width space if there is none in the source.
     '''
+
+    name = _('Zero width space')
+
     def fix_single_target(self, target, source, unit):
         if u'\u200b' not in source and u'\u200b' in target:
             return target.replace(u'\u200b', ''), True
