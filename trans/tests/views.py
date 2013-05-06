@@ -361,6 +361,21 @@ class EditTest(ViewTestCase):
         )
         self.assertContains(response, 'Can not merge different messages!')
 
+    def test_edit_fixup(self):
+        # Save with failing check
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!'
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(unit.translation.failing_checks, 0)
+
     def test_edit_check(self):
         # Save with failing check
         response = self.edit_unit(
