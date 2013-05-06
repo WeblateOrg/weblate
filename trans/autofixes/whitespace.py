@@ -20,7 +20,7 @@
 
 import re
 
-from base import AutoFix
+from trans.autofixes.base import AutoFix
 
 
 class SameBookendingWhitespace(AutoFix):
