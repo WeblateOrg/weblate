@@ -99,3 +99,27 @@ class LockTest(ViewTestCase):
             reverse('project', kwargs=self.kw_project)
         )
         self.assertSubprojectNotLocked()
+
+    def test_translation(self):
+        response = self.client.get(
+            reverse('lock_translation', kwargs=self.kw_translation)
+        )
+        self.assertRedirects(
+            response,
+            reverse('translation', kwargs=self.kw_translation)
+        )
+        self.assertTrue(self.get_translation().is_user_locked())
+
+        response = self.client.get(
+            reverse('unlock_translation', kwargs=self.kw_translation)
+        )
+        self.assertRedirects(
+            response,
+            reverse('translation', kwargs=self.kw_translation)
+        )
+        self.assertFalse(self.get_translation().is_user_locked())
+
+        response = self.client.get(
+            reverse('js-lock', kwargs=self.kw_translation)
+        )
+        self.assertFalse(self.get_translation().is_user_locked())
