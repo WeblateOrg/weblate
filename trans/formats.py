@@ -139,8 +139,14 @@ class FileUnit(object):
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.unit, propunit):
-                return quote.propertiesdecode(self.mainunit.name)
-            return self.mainunit.name
+                if self.template is not None:
+                    return quote.propertiesdecode(self.template.value)
+                else:
+                    return quote.propertiesdecode(self.unit.name)
+            if self.template is not None:
+                return self.template.value
+            else:
+                return self.unit.name
         else:
             if self.template is not None:
                 return get_string(self.template.target)
