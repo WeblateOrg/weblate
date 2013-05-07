@@ -184,11 +184,10 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     Saves translation or suggestion to database and backend.
     '''
     # Antispam protection
-    if not request.user.is_authenticated():
-        antispam = AntispamForm(request.POST)
-        if not antispam.is_valid():
-            # Silently redirect to next entry
-            return HttpResponseRedirect(next_unit_url)
+    antispam = AntispamForm(request.POST)
+    if not request.user.is_authenticated() and not antispam.is_valid():
+        # Silently redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
     form = TranslationForm(request.POST)
     if not form.is_valid():
