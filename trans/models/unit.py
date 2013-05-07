@@ -487,7 +487,7 @@ class Unit(models.Model):
 
         # Monolingual files handling
         if unit.template is not None:
-            if source != self.source:
+            if source != self.source and translated:
                 # Store previous source and fuzzy flag for monolingual files
                 if previous_source == '':
                     previous_source = self.source
