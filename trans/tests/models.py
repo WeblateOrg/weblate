@@ -253,7 +253,7 @@ class SubProjectTest(RepoTestCase):
         project = self.create_java()
         project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 1)
+        self.assertEqual(project.translation_set.count(), 2)
 
     def test_create_xliff(self):
         project = self.create_xliff()
