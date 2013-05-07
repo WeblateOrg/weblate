@@ -112,6 +112,15 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+        self.do_test(
+            False,
+            (
+                '%i C',
+                '%i C',
+                'c-format',
+            )
+        )
+
     def test_same_email(self):
         self.do_test(
             False,
