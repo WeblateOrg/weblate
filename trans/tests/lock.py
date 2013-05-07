@@ -23,6 +23,7 @@ Tests for locking.
 """
 
 from trans.tests.views import ViewTestCase
+from trans.models.subproject import SubProject
 from django.core.urlresolvers import reverse
 
 
@@ -35,7 +36,11 @@ class LockTest(ViewTestCase):
         self.user.save()
 
     def assertSubprojectLocked(self):
-        self.assertTrue(self.get_translation().subproject.locked)
+        subproject = SubProject.objects.get(
+            slug=self.subproject.slug,
+            project__slug=self.project.slug,
+        )
+        self.assertTrue(subproject.locked)
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
@@ -45,7 +50,11 @@ class LockTest(ViewTestCase):
         )
 
     def assertSubprojectNotLocked(self):
-        self.assertFalse(self.get_translation().subproject.locked)
+        subproject = SubProject.objects.get(
+            slug=self.subproject.slug,
+            project__slug=self.project.slug,
+        )
+        self.assertFalse(subproject.locked)
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
