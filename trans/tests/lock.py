@@ -34,6 +34,26 @@ class LockTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
+    def assertSubprojectLocked(self):
+        self.assertTrue(self.get_translation().subproject.locked)
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(
+            response,
+            'This translation is currently locked for updates!'
+        )
+
+    def assertSubprojectNotLocked(self):
+        self.assertFalse(self.get_translation().subproject.locked)
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertNotContains(
+            response,
+            'This translation is currently locked for updates!'
+        )
+
     def test_subproject(self):
         response = self.client.get(
             reverse('lock_subproject', kwargs=self.kw_subproject)
@@ -42,7 +62,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertTrue(self.get_translation().subproject.locked)
+        self.assertSubprojectLocked()
 
         response = self.client.get(
             reverse('unlock_subproject', kwargs=self.kw_subproject)
@@ -51,7 +71,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertFalse(self.get_translation().subproject.locked)
+        self.assertSubprojectNotLocked()
 
     def test_project(self):
         response = self.client.get(
@@ -61,7 +81,15 @@ class LockTest(ViewTestCase):
             response,
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertTrue(self.get_translation().subproject.locked)
+        self.assertSubprojectLocked()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(
+            response,
+            'This translation is currently locked for updates!'
+        )
 
         response = self.client.get(
             reverse('unlock_project', kwargs=self.kw_project)
@@ -70,4 +98,4 @@ class LockTest(ViewTestCase):
             response,
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertFalse(self.get_translation().subproject.locked)
+        self.assertSubprojectNotLocked()
