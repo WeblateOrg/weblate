@@ -329,7 +329,8 @@ class SameCheck(TargetCheck):
             stripped = self.strip_string(lower_source, unit.flags)
 
             # Ignore strings which don't contain any string to translate
-            if stripped == '':
+            # or just single letter (usually unit or something like that)
+            if len(stripped) <= 1:
                 result = True
             # Ignore words which are often same in foreigh language
             elif stripped in SAME_BLACKLIST:
