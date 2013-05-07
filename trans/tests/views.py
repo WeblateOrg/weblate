@@ -201,6 +201,11 @@ class BasicIphoneViewTest(BasicViewTest):
         return self.create_iphone()
 
 
+class BasicJavaViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_java()
+
+
 class BasicLinkViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_link()
@@ -473,6 +478,11 @@ class EditPoMonoTest(EditTest):
 class EditIphoneTest(EditTest):
     def create_subproject(self):
         return self.create_iphone()
+
+
+class EditJavaTest(EditTest):
+    def create_subproject(self):
+        return self.create_java()
 
 
 class EditLinkTest(EditTest):
