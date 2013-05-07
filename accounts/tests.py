@@ -39,6 +39,7 @@ from accounts.models import (
 )
 
 from trans.tests.views import ViewTestCase
+from trans.tests.util import get_test_file
 from trans.models.unitdata import Suggestion, Comment
 from lang.models import Language
 
@@ -149,6 +150,18 @@ class CommandTest(TestCase):
             ).exists()
         )
         call_command('setupgroups', move=True)
+
+    def test_importusers(self):
+        # First import
+        call_command('importusers', get_test_file('users.json'))
+
+        # Test that second import does not change anything
+        user = User.objects.get(username='weblate')
+        user.first_name = 'Weblate test user'
+        user.save()
+        call_command('importusers', get_test_file('users.json'))
+        user2 = User.objects.get(username='weblate')
+        self.assertEquals(user.first_name, user2.first_name)
 
 
 class ViewTest(TestCase):
