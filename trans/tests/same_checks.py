@@ -35,7 +35,7 @@ class SameCheckTest(CheckTestCase):
         self.test_good_none = ('%(source)s', '%(source)s', 'python-format')
         self.test_good_matching = ('source', 'translation', '')
         self.test_good_ignore = ('alarm', 'alarm', '')
-        self.test_failure_1 = ('string', 'string', '')
+        self.test_failure_1 = ('retezec', 'retezec', '')
 
     def test_same_english(self):
         self.assertFalse(self.check.check_single(
@@ -79,8 +79,8 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             True,
             (
-                '%d byte',
-                '%d byte',
+                '%d bajt',
+                '%d bajt',
                 'php-format'
             )
         )
