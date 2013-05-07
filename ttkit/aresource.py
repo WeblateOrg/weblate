@@ -31,7 +31,6 @@ from translate.lang import data
 EOF = None
 WHITESPACE = ' \n\t' # Whitespace that we collapse
 MULTIWHITESPACE = re.compile('[ \n\t]{2}')
-OPEN_TAG_TO_ESCAPE = re.compile('<(?!/?\S*>)')
 
 class AndroidResourceUnit(base.TranslationUnit):
     """A single term in the Android resource file."""
@@ -229,13 +228,17 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def settarget(self, target):
         if '<' in target:
-            # Handle text with markup
-            target = self.escape(target).replace('&', '&amp;')
-            target = OPEN_TAG_TO_ESCAPE.sub('&lt;', target)
-            # Parse new XML
-            newstring = etree.fromstring('<string>%s</string>' % target)
+            # Handle text with possible markup
+            target = target.replace('&', '&amp;')
+            try:
+                # Try as XML
+                newstring = etree.fromstring('<string>%s</string>' % target)
+            except:
+                # Fallback to string with XML escaping
+                target = target.replace('<', '&lt;')
+                newstring = etree.fromstring('<string>%s</string>' % target)
             # Update text
-            self.xmlelement.text = newstring.text
+            self.xmlelement.text = self.escape(newstring.text)
             # Remove old elements
             for x in self.xmlelement.iterchildren():
                 self.xmlelement.remove(x)
