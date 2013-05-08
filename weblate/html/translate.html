@@ -56,7 +56,7 @@
 <th class="source">{% trans "Source" %}</th>
 <td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
 </tr>
-{% if unit.previous_source %}
+{% if unit.previous_source and unit.fuzzy %}
 <tr>
 <th>{% trans "Source change" %}</th>
 <td>{{ unit.previous_source|fmtsourcediff:unit }}</td>
