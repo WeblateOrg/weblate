@@ -116,7 +116,7 @@ class MicrosoftTranslation(MachineTranslation):
         Downloads list of possible translations from a service.
         '''
         args = {
-            'text': text,
+            'text': text[:5000],
             'from': 'en',
             'to': language,
             'contentType': 'text/plain',
