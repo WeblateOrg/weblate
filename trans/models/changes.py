@@ -34,7 +34,12 @@ class ChangeManager(models.Manager):
         Returns queryset with content changes.
         '''
         return self.filter(
-            action__in=(Change.ACTION_CHANGE, Change.ACTION_NEW),
+            action__in=(
+                Change.ACTION_CHANGE,
+                Change.ACTION_NEW,
+                Change.ACTION_AUTO,
+                Change.ACTION_ACCEPT,
+            ),
             user__isnull=False,
         )
 
