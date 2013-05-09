@@ -118,6 +118,17 @@ options:
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#admins
 
+``ALLOWED_HOSTS``
+
+    If you are running Django 1.5 or newer, you need to set this to list of
+    hosts your site is supposed to serve. For example:
+
+    .. code-block:: python
+
+        ALLOWED_HOSTS = ['demo.weblate.org']
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
+
 ``DATABASES``
 
     Connectivity to database server, please check Django's documentation for more
