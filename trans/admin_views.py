@@ -126,7 +126,7 @@ def performance(request):
         'production-pyicu',
     ))
     if django.VERSION > (1, 5):
-        checks_append((
+        checks.append((
             _('Allowed hosts'),
             len(settings.ALLOWED_HOSTS) > 0,
             'production-hosts',
