@@ -309,6 +309,16 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
 .. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
 
+.. _production-hosts:
+
+Allowed hosts setup
++++++++++++++++++++
+
+Django 1.5 and newer require ``ALLOWED_HOSTS`` to hold list of domain names
+your site is allowed to serve, having it empty will block any request.
+
+.. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
+
 .. _production-avatar:
 
 Federated avatar support

@@ -30,6 +30,7 @@ from weblate import appsettings
 from trans.util import HAS_LIBRAVATAR
 from accounts.forms import HAS_ICU
 import weblate
+import django
 
 import os
 
@@ -124,6 +125,12 @@ def performance(request):
         HAS_ICU,
         'production-pyicu',
     ))
+    if django.VERSION > (1, 5):
+        checks_append((
+            _('Allowed hosts'),
+            len(settings.ALLOWED_HOSTS) > 0,
+            'production-hosts',
+        ))
     return render_to_response(
         "admin/performance.html",
         RequestContext(
