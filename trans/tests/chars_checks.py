@@ -105,6 +105,9 @@ class EndColonCheckTest(CheckTestCase):
     def test_french(self):
         self.do_test(False, ('Text:', u'Texte : ', ''), 'fr')
 
+    def test_french(self):
+        self.do_test(False, ('Text:', u'Texte :', ''), 'fr')
+
     def test_french_ignore(self):
         self.do_test(False, ('Text', u'Texte', ''), 'fr')
 

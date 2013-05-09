@@ -127,13 +127,19 @@ class EndColonCheck(TargetCheck):
         'Source and translation do not both end with a colon '
         'or colon is not correctly spaced'
     )
+    colon_fr = (' :', '&nbsp;:', u' :')
 
     def check_single(self, source, target, unit, cache_slot):
         if self.is_language(unit, ['fr', 'br']):
             if len(target) == 0 or len(source) == 0:
                 return False
             if source[-1] == ':':
-                if target[-3:] not in [' : ', '&nbsp;: ', u' : ']:
+                # Accept variant with trailing space as well
+                if target[-1] == ' ':
+                    check_string = target[-3:-1]
+                else:
+                    check_string = target[-2:]
+                if check_string not in self.colon_fr:
                     return True
             return False
         if self.is_language(unit, ['ja']):
