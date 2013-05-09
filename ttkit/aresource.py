@@ -238,7 +238,10 @@ class AndroidResourceUnit(base.TranslationUnit):
                 target = target.replace('<', '&lt;')
                 newstring = etree.fromstring('<string>%s</string>' % target)
             # Update text
-            self.xmlelement.text = self.escape(newstring.text)
+            if newstring.text is None:
+                self.xmlelement.text = ''
+            else:
+                self.xmlelement.text = newstring.text
             # Remove old elements
             for x in self.xmlelement.iterchildren():
                 self.xmlelement.remove(x)
@@ -252,10 +255,10 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def gettarget(self, lang=None):
         # Grab inner text
-        target = (self.xmlelement.text or u'')
+        target = self.unescape(self.xmlelement.text or u'')
         # Include markup as well
         target += u''.join([data.forceunicode(etree.tostring(child, encoding='utf-8')) for child in self.xmlelement.iterchildren()])
-        return self.unescape(target)
+        return target
 
     target = property(gettarget, settarget)
 
