@@ -26,6 +26,7 @@ from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
+from trans.models.changes import Change
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
 import cairo
@@ -365,6 +366,42 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'merge': unit2.id}
         )
         self.assertContains(response, 'Can not merge different messages!')
+
+    def test_revert(self):
+        source = 'Hello, world!\n'
+        target = 'Nazdar svete!\n'
+        target_2 = 'Hei maailma!\n'
+        self.edit_unit(
+            source,
+            target
+        )
+        self.edit_unit(
+            source,
+            target_2
+        )
+        unit = self.get_unit()
+        changes = Change.objects.filter(unit=unit)
+        self.assertEqual(changes[1].target, target)
+        self.assertEqual(changes[0].target, target_2)
+        # revert it
+        self.client.get(
+            self.translate_url,
+            {'checksum': unit.checksum, 'revert': changes[1].id}
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.target, target)
+        # check that we cannot revert to string from another translation
+        self.edit_unit(
+            'Thank you for using Weblate.',
+            'Kiitoksia Weblaten kaytosta.'
+        )
+        unit2 = self.get_translation().unit_set.get(source='Thank you for using Weblate.')
+        change = Change.objects.filter(unit=unit2)[0]
+        response = self.client.get(
+            self.translate_url,
+            {'checksum': unit.checksum, 'revert': change.id}
+        )
+        self.assertContains(response, "Can not revert to different unit")
 
     def test_edit_fixup(self):
         # Save with failing check

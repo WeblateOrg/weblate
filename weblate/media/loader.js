@@ -237,6 +237,7 @@ $(function () {
     load_progress();
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
+    $('.historybutton').button({text: true, icons: { primary: "ui-icon-arrowreturn-1-w" }});
     $('#navi').buttonset();
     $('#button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
     $('#button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
