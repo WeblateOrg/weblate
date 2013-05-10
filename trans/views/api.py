@@ -33,10 +33,15 @@ import weblate
 import threading
 
 
-BITBUCKET_REPOS = (
+BITBUCKET_GIT_REPOS = (
     'ssh://git@bitbucket.org/%(owner)s/%(slug)s.git',
     'git@bitbucket.org:%(owner)s/%(slug)s.git',
     'https://bitbucket.org/%(owner)s/%(slug)s.git',
+)
+
+BITBUCKET_HG_REPOS = (
+    'hg::ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
+    'hg::https://bitbucket.org/%(owner)s/%(slug)s',
 )
 
 GITHUB_REPOS = (
@@ -153,23 +158,26 @@ def bitbucket_hook_helper(data):
     '''
     API to handle commit hooks from Bitbucket.
     '''
+    # Parse owner, branch and repository name
+    owner = data['repository']['owner']
+    slug = data['repository']['slug']
+    branch = data['commits'][-1]['branch']
+    params = {'owner': owner, 'slug': slug}
+
+    # Construct possible repository URLs
     if data['repository']['scm'] == 'git':
-        # Parse owner, branch and repository name
-        owner = data['repository']['owner']
-        slug = data['repository']['slug']
-        branch = data['commits'][-1]['branch']
-
-        # Construct possible repository URLs
-        repos = [repo % {'owner': owner, 'slug': slug} for repo in BITBUCKET_REPOS]
-
-        return {
-            'service_long_name': 'Bitbucket',
-            'repos': repos,
-            'branch': branch,
-        }
+        repos = [repo % params for repo in BITBUCKET_GIT_REPOS]
+    elif data['repository']['scm'] == 'hg':
+        repos = [repo % params for repo in BITBUCKET_HG_REPOS]
     else:
-        weblate.logger.error('unsupported repository', repr(data['repositoru']))
+        weblate.logger.error('unsupported repository: %s', repr(data['repositoru']))
         raise ValueError('unsupported repository')
+
+    return {
+        'service_long_name': 'Bitbucket',
+        'repos': repos,
+        'branch': branch,
+    }
 
 
 @csrf_exempt
