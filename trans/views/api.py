@@ -34,6 +34,7 @@ import threading
 
 
 BITBUCKET_REPOS = (
+    'ssh://git@bitbucket.org/%(owner)s/%(slug)s.git',
     'git@bitbucket.org:%(owner)s/%(slug)s.git',
     'https://bitbucket.org/%(owner)s/%(slug)s.git',
 )
