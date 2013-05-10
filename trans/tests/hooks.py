@@ -69,7 +69,7 @@ GITHUB_PAYLOAD = '''
 }
 '''
 
-BITBUCKET_PAYLOAD = '''
+BITBUCKET_PAYLOAD_GIT = '''
 {
     "canon_url": "https://bitbucket.org",
     "commits": [
@@ -110,6 +110,47 @@ BITBUCKET_PAYLOAD = '''
 '''
 
 
+BITBUCKET_PAYLOAD_HG = '''
+{
+    "canon_url": "https://bitbucket.org",
+    "commits": [
+        {
+            "author": "marcus",
+            "branch": "featureA",
+            "files": [
+                {
+                    "file": "somefile.py",
+                    "type": "modified"
+                }
+            ],
+            "message": "Added some featureA things",
+            "node": "d14d26a93fd2",
+            "parents": [
+                "1b458191f31a"
+            ],
+            "raw_author": "Marcus Bertrand <marcus@somedomain.com>",
+            "raw_node": "d14d26a93fd28d3166fa81c0cd3b6f339bb95bfe",
+            "revision": 3,
+            "size": -1,
+            "timestamp": "2012-05-30 06:07:03",
+            "utctimestamp": "2012-05-30 04:07:03+00:00"
+        }
+    ],
+    "repository": {
+        "absolute_url": "/marcus/project-x/",
+        "fork": false,
+        "is_private": true,
+        "name": "Project X",
+        "owner": "marcus",
+        "scm": "hg",
+        "slug": "project-x",
+        "website": ""
+    },
+    "user": "marcus"
+}
+'''
+
+
 class HooksViewTest(ViewTestCase):
     def test_view_hook_project(self):
         appsettings.BACKGROUND_HOOKS = False
@@ -138,10 +179,18 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'update triggered')
 
-    def test_view_hook_bitbucket(self):
+    def test_view_hook_bitbucket_git(self):
         appsettings.BACKGROUND_HOOKS = False
         response = self.client.post(
             reverse('hook-bitbucket'),
-            {'payload': BITBUCKET_PAYLOAD}
+            {'payload': BITBUCKET_PAYLOAD_GIT}
+        )
+        self.assertContains(response, 'update triggered')
+
+    def test_view_hook_bitbucket_hg(self):
+        appsettings.BACKGROUND_HOOKS = False
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD_HG}
         )
         self.assertContains(response, 'update triggered')
