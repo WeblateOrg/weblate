@@ -173,7 +173,7 @@ def ssh(request):
     # Read key data if it exists
     if os.path.exists(key_path):
         key_data = file(key_path).read()
-        key_type, key_fingerprint, key_id = key_data.strip().split()
+        key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
         key = {
             'key': key_data,
             'type': key_type,
