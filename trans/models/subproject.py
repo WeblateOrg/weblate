@@ -173,6 +173,12 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             'will cause automatic translation in this project'
         )
     )
+    save_history = models.BooleanField(
+        default=True,
+        help_text=ugettext_lazy(
+            'Whether Weblate should keep history of translations'
+        )
+    )
 
     objects = SubProjectManager()
 

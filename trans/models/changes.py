@@ -39,6 +39,7 @@ class ChangeManager(models.Manager):
                 Change.ACTION_NEW,
                 Change.ACTION_AUTO,
                 Change.ACTION_ACCEPT,
+                Change.ACTION_REVERT,
             ),
             user__isnull=False,
         )
@@ -122,6 +123,7 @@ class Change(models.Model):
     ACTION_NEW = 5
     ACTION_AUTO = 6
     ACTION_ACCEPT = 7
+    ACTION_REVERT = 8
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -132,6 +134,7 @@ class Change(models.Model):
         (ACTION_SUGGESTION, ugettext_lazy('Suggestion added')),
         (ACTION_AUTO, ugettext_lazy('Automatic translation')),
         (ACTION_ACCEPT, ugettext_lazy('Suggestion accepted')),
+        (ACTION_REVERT, ugettext_lazy('Translation reverted')),
     )
 
     unit = models.ForeignKey(Unit, null=True)
@@ -142,6 +145,7 @@ class Change(models.Model):
         choices=ACTION_CHOICES,
         default=ACTION_CHANGE
     )
+    target = models.TextField(default='', blank=True)
 
     objects = ChangeManager()
 

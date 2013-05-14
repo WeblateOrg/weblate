@@ -681,7 +681,8 @@ class Unit(models.Model):
                 unit=self,
                 translation=self.translation,
                 action=action,
-                user=request.user
+                user=request.user,
+                target=self.target if self.translation.subproject.save_history else ''
             )
 
         # Force commiting on completing translation
