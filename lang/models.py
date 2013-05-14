@@ -107,6 +107,8 @@ class LanguageManager(models.Manager):
         '''
         Gets matching language for code (the code does not have to be exactly
         same, cs_CZ is same as cs-CZ) or creates new one.
+
+        It also handles Android special naming of regional locales like pt-rBR
         '''
 
         # First try getting langauge as is
@@ -118,6 +120,9 @@ class LanguageManager(models.Manager):
         # Parse the string
         if '-' in code:
             lang, country = code.split('-', 1)
+            # Android regional locales
+            if len(country) > 2 and country[0] == 'r':
+                country = country[1:]
         elif '_' in code:
             lang, country = code.split('_', 1)
         else:

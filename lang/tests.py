@@ -32,6 +32,7 @@ class LanguagesTest(TestCase):
         ('cs_CZ', 'cs', 'ltr'),
         ('de-DE', 'de', 'ltr'),
         ('de_AT', 'de_AT', 'ltr'),
+        ('pt-rBR', 'pt_BR', 'ltr'),
         ('ar', 'ar', 'rtl'),
         ('ar_AA', 'ar', 'rtl'),
         ('ar_XX', 'ar_XX', 'rtl'),
