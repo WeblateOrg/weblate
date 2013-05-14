@@ -131,7 +131,12 @@ class LanguageManager(models.Manager):
 
         # Try "corrected" code
         if country is not None:
-            newcode = '%s_%s' % (lang.lower(), country.upper())
+            if '@' in country:
+                region, variant = country.split('@', 1)
+                country = '%s@%s' % (region.upper(), variant.lower())
+            else:
+                country = country.upper()
+            newcode = '%s_%s' % (lang.lower(), country)
         else:
             newcode = lang.lower()
         try:

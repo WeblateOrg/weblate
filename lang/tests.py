@@ -33,6 +33,8 @@ class LanguagesTest(TestCase):
         ('de-DE', 'de', 'ltr'),
         ('de_AT', 'de_AT', 'ltr'),
         ('pt-rBR', 'pt_BR', 'ltr'),
+        ('sr_RS@latin', 'sr_RS@latin', 'ltr'),
+        ('sr-RS@latin', 'sr_RS@latin', 'ltr'),
         ('ar', 'ar', 'rtl'),
         ('ar_AA', 'ar', 'rtl'),
         ('ar_XX', 'ar_XX', 'rtl'),
