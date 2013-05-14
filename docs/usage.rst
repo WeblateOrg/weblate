@@ -146,6 +146,13 @@ Project
     Project information like instructions for translators or information about
     Git repository.
 
+Translation history
++++++++++++++++++++
+
+Every change is by default (unless disabled in subproject settings) saved in
+the database and can be reverted. Of course you can still also revert anything
+in underlaying version control system.
+
 Glossary
 --------
 

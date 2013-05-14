@@ -14,6 +14,7 @@ Released on ? 2013.
 * Various optimizations on frequently used pages.
 * Highlights searched phrase in search results.
 * Support for automatic fixups while saving the message.
+* Tracking of translation history and option to revert it.
 
 weblate 1.5
 -----------
