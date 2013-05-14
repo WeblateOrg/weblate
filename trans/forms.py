@@ -273,6 +273,11 @@ class MergeForm(forms.Form):
     merge = forms.IntegerField()
 
 
+class RevertForm(forms.Form):
+    checksum = forms.CharField()
+    revert = forms.IntegerField()
+
+
 class AutoForm(forms.Form):
     '''
     Automatic translation form.
