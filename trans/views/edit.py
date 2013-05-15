@@ -369,7 +369,7 @@ def handle_revert(obj, request, next_unit_url):
     else:
         # Store unit
         unit.target = change.target
-        saved = unit.save_backend(request, change_action=Change.ACTION_REVERT)
+        unit.save_backend(request, change_action=Change.ACTION_REVERT)
         # Redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
