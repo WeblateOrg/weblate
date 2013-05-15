@@ -676,13 +676,18 @@ class Unit(models.Model):
                 action = Change.ACTION_CHANGE
             else:
                 action = Change.ACTION_NEW
+            if self.translation.subproject.save_history:
+                history_target = self.target
+            else:
+                history_target = ''
+
             # Create change object
             Change.objects.create(
                 unit=self,
                 translation=self.translation,
                 action=action,
                 user=request.user,
-                target=self.target if self.translation.subproject.save_history else ''
+                target=history_target
             )
 
         # Force commiting on completing translation
