@@ -102,10 +102,10 @@ class EndColonCheckTest(CheckTestCase):
     def test_japanese_ignore(self):
         self.do_test(False, ('Text', u'Texte', ''), 'ja')
 
-    def test_french(self):
+    def test_french_1(self):
         self.do_test(False, ('Text:', u'Texte : ', ''), 'fr')
 
-    def test_french(self):
+    def test_french_2(self):
         self.do_test(False, ('Text:', u'Texte :', ''), 'fr')
 
     def test_french_ignore(self):
