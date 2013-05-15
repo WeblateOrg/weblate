@@ -28,6 +28,7 @@ try:
 except ImportError:
     # pylint: disable=F0401
     from unittest2 import skipUnless
+from trans.machine.base import MachineTranslationError
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
 from trans.machine.mymemory import MyMemoryTranslation
@@ -63,34 +64,41 @@ class MachineTranslationTest(TestCase):
             2
         )
 
+    def assertTranslate(self, machine, lang='cs', word='world'):
+        try:
+            translation = machine.translate(lang, word, None)
+            self.assertIsInstance(translation, list)
+        except MachineTranslationError as exc:
+            self.skipTest(str(exc))
+
     def test_glosbe(self):
         machine = GlosbeTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_mymemory(self):
         machine = MyMemoryTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_opentran(self):
         machine = OpenTranTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_apertium(self):
         machine = ApertiumTranslation()
-        self.assertIsInstance(machine.translate('es', 'world', None), list)
+        self.assertTranslate(machine, 'es')
 
     @skipUnless(microsoft_translation_supported(), 'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_google(self):
         machine = GoogleTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_amagama(self):
         machine = AmagamaTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
 
 class WeblateTranslationTest(ViewTestCase):
