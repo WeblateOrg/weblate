@@ -91,9 +91,9 @@ class ViewTestCase(RepoTestCase):
             language_code='cs'
         )
 
-    def get_unit(self):
+    def get_unit(self, source='Hello, world!\n'):
         translation = self.get_translation()
-        return translation.unit_set.get(source='Hello, world!\n')
+        return translation.unit_set.get(source=source)
 
     def change_unit(self, target):
         unit = self.get_unit()
@@ -395,7 +395,9 @@ class EditTest(ViewTestCase):
             'Thank you for using Weblate.',
             'Kiitoksia Weblaten kaytosta.'
         )
-        unit2 = self.get_translation().unit_set.get(source='Thank you for using Weblate.')
+        unit2 = self.get_unit(
+            source='Thank you for using Weblate.'
+        )
         change = Change.objects.filter(unit=unit2)[0]
         response = self.client.get(
             self.translate_url,
