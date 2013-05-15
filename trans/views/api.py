@@ -170,7 +170,10 @@ def bitbucket_hook_helper(data):
     elif data['repository']['scm'] == 'hg':
         repos = [repo % params for repo in BITBUCKET_HG_REPOS]
     else:
-        weblate.logger.error('unsupported repository: %s', repr(data['repositoru']))
+        weblate.logger.error(
+            'unsupported repository: %s',
+            repr(data['repositoru'])
+        )
         raise ValueError('unsupported repository')
 
     return {
