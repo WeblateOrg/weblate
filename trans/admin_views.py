@@ -35,7 +35,6 @@ import django
 import subprocess
 import hashlib
 import os
-from itertools import izip_longest
 
 # List of default domain names on which warn user
 DEFAULT_DOMAINS = ('example.net', 'example.com')
