@@ -588,7 +588,20 @@ class Translation(models.Model, URLMixin):
         Returns current Git blob hash for file.
         '''
         tree = self.git_repo.tree()
-        ret = tree[self.filename].hexsha
+        try:
+            ret = tree[self.filename].hexsha
+        except KeyError:
+            # Try to resolve symlinks
+            real_path = os.path.realpath(self.get_filename())
+            project_path = os.path.realpath(self.subproject.get_path())
+
+            if not real_path.startswith(project_path):
+                raise ValueError('Too many symlinks or link outside tree')
+
+            real_path = real_path[len(project_path):].lstrip('/')
+
+            ret = tree[real_path].hexsha
+
         if self.subproject.has_template():
             ret += ','
             ret += tree[self.subproject.template].hexsha
