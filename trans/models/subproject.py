@@ -392,8 +392,8 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             if validate:
                 if 'Host key verification failed' in error_text:
                     raise ValidationError(_(
-                        'Failed to verify SSH host key, please check '
-                        'documentation for information how to fix this.'
+                        'Failed to verify SSH host key, please add '
+                        'them in SSH page in the admin interface.'
                     ))
                 raise ValidationError(
                     _('Failed to fetch git repository: %s') % error_text
