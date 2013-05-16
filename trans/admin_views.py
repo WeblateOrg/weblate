@@ -178,8 +178,11 @@ def ssh(request):
     except:
         can_generate = False
 
+    # Grab action type
+    action = request.POST.get('action', None)
+
     # Generate key if it does not exist yet
-    if can_generate and request.method == 'POST':
+    if can_generate and action == 'generate':
         try:
             ret = os.system(
                 'ssh-keygen -q -N \'\' -C Weblate -t rsa -f %s' % key_path[:-4]
