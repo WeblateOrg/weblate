@@ -58,7 +58,11 @@ class WeblateTranslation(MachineTranslation):
         '''
         matching_units = Unit.objects.same_source(unit)
 
-        return [format_unit_match(unit, 100) for unit in matching_units]
+        return [
+            format_unit_match(unit, 100)
+            for unit in matching_units
+            if unit.has_acl(user)
+        ]
 
 
 class WeblateSimilarTranslation(MachineTranslation):
@@ -85,4 +89,8 @@ class WeblateSimilarTranslation(MachineTranslation):
         '''
         matching_units = Unit.objects.more_like_this(unit)
 
-        return [format_unit_match(unit, 50) for unit in matching_units]
+        return [
+            format_unit_match(unit, 50)
+            for unit in matching_units
+            if unit.has_acl(user)
+        ]
