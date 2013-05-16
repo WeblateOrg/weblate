@@ -46,7 +46,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
         )
         # We should have loaded three subprojects
-        self.assertEqual(project.subproject_set.count(), 3)
+        self.assertEqual(project.subproject_set.count(), 4)
 
     def test_re_import(self):
         project = self.create_project()
@@ -58,7 +58,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
         )
         # We should have loaded three subprojects
-        self.assertEqual(project.subproject_set.count(), 3)
+        self.assertEqual(project.subproject_set.count(), 4)
 
         # We should load no more subprojects
         call_command(
@@ -68,7 +68,7 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        self.assertEqual(project.subproject_set.count(), 3)
+        self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_against_existing(self):
         '''
@@ -85,7 +85,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
         )
         # We should have loaded four subprojects
-        self.assertEqual(project.subproject_set.count(), 4)
+        self.assertEqual(project.subproject_set.count(), 5)
 
     def test_import_missing_project(self):
         '''
