@@ -52,6 +52,10 @@ class GoogleTranslation(MachineTranslation):
             'https://www.googleapis.com/language/translate/v2/languages',
             key=appsettings.MT_GOOGLE_KEY
         )
+
+        if 'error' in response:
+            raise MachineTranslationError(response['error']['message'])
+
         return [d['language'] for d in response['data']['languages']]
 
     def download_translations(self, language, text, unit, user):
@@ -66,8 +70,8 @@ class GoogleTranslation(MachineTranslation):
             target=language,
         )
 
-        if 'errors' in response:
-            raise MachineTranslationError(response['errors'])
+        if 'error' in response:
+            raise MachineTranslationError(response['error']['message'])
 
         translation = response['data']['translations'][0]['translatedText']
 
