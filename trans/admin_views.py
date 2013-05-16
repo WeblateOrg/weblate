@@ -32,6 +32,7 @@ from accounts.forms import HAS_ICU
 import weblate
 import django
 
+import subprocess
 import hashlib
 import os
 from itertools import izip_longest
@@ -144,6 +145,18 @@ def performance(request):
     )
 
 
+def parse_hosts_line(line):
+    '''
+    Parses single hosts line into tuple host, key fingerprint.
+    '''
+    host, ignore, key = line.strip().partition(' ssh-rsa ')
+    fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
+    fingerprint = ':'.join(
+        [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
+    )
+    return (host, fingerprint)
+
+
 def get_host_keys():
     '''
     Returns list of host keys.
@@ -153,12 +166,7 @@ def get_host_keys():
         for line in handle:
             if ' ssh-rsa ' not in line:
                 continue
-            host, ignore, key = line.strip().partition(' ssh-rsa ')
-            fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
-            fingerprint = ':'.join(
-                [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
-            )
-            result.append((host, fingerprint))
+            result.append(parse_hosts_line(line))
 
     return result
 
@@ -206,6 +214,30 @@ def ssh(request):
         }
     else:
         key = None
+
+    # Add host key
+    if action == 'add-host':
+        host = request.POST.get('host', '')
+        if len(host) == 0:
+            messages.error(request, _('Invalid host name given!'))
+        else:
+            output = subprocess.check_output(['ssh-keyscan', host])
+            keys = [line for line in output.splitlines() if ' ssh-rsa ' in line]
+            for key in keys:
+                host, fingerprint = parse_hosts_line(key)
+                messages.warning(
+                    request,
+                    _(
+                        'Added host key for %(host)s with fingerprint '
+                        '%(fingerprint)s, please verify that it is correct.'
+                    ) % {
+                        'host': host,
+                        'fingerprint': fingerprint,
+                    }
+                )
+            with open(os.path.expanduser('~/.ssh/known_hosts'), 'a') as handle:
+                for key in keys:
+                    handle.write('%s\n' % key)
 
     return render_to_response("admin/ssh.html", RequestContext(request, {
         'public_key': key,

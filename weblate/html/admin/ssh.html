@@ -39,6 +39,15 @@
     </table>
     {% endif %}
 
+    <h1>{% trans "Add host key" %}</h1>
+    <p>{% trans "To access SSH hosts, it's host key needs to be verified. You can check host key using form below." %}</p>
+    <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="add-host" />
+    <input type="text" name="host" /><br />
+    <input type="submit" value="{% trans "Submit" %}" />
+    </form>
+
     <h1>{% trans "More information" %}</h1>
 
     <p>{% blocktrans %}You can find more information about setting up SSH keys in <a href="{{ ssh_docs }}">the Weblate manual</a>.{% endblocktrans %}</p>
