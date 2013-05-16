@@ -29,6 +29,16 @@
     {% endif %}
     <br />
 
+    {% if host_keys %}
+    <h1>{% trans "Known host keys" %}</h1>
+
+    <table>
+    {% for key in host_keys %}
+    <tr><td>{{ key.0 }}</td><td>{{ key.1 }}</td></tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+
     <h1>{% trans "More information" %}</h1>
 
     <p>{% blocktrans %}You can find more information about setting up SSH keys in <a href="{{ ssh_docs }}">the Weblate manual</a>.{% endblocktrans %}</p>

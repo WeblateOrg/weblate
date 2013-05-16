@@ -32,7 +32,9 @@ from accounts.forms import HAS_ICU
 import weblate
 import django
 
+import hashlib
 import os
+from itertools import izip_longest
 
 # List of default domain names on which warn user
 DEFAULT_DOMAINS = ('example.net', 'example.com')
@@ -142,6 +144,25 @@ def performance(request):
     )
 
 
+def get_host_keys():
+    '''
+    Returns list of host keys.
+    '''
+    result = []
+    with open(os.path.expanduser('~/.ssh/known_hosts'), 'r') as handle:
+        for line in handle:
+            if ' ssh-rsa ' not in line:
+                continue
+            host, ignore, key = line.strip().partition(' ssh-rsa ')
+            fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
+            fingerprint = ':'.join(
+                [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
+            )
+            result.append((host, fingerprint))
+
+    return result
+
+
 @staff_member_required
 def ssh(request):
     '''
@@ -186,5 +207,6 @@ def ssh(request):
     return render_to_response("admin/ssh.html", RequestContext(request, {
         'public_key': key,
         'can_generate': can_generate,
+        'host_keys': get_host_keys(),
         'ssh_docs': weblate.get_doc_url('admin', 'private'),
     }))
