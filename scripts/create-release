@@ -32,6 +32,9 @@ git archive --format=tar $rev | tar xf - -C $build_dir
 
 cd $build_dir
 
+# Include repos and whoosh dirs
+mkdir weblate/repos weblate/whoosh-index
+
 # Compile po files
 cp weblate/settings_example.py weblate/settings.py
 ../../scripts/generate-locales
