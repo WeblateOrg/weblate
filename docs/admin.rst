@@ -155,6 +155,8 @@ somehow. Most frequently used method here is based on SSH. To have access to
 such repository, you generate SSH key for Weblate and authorize it to access
 the repository.
 
+You also need to verify SSH host keys of servers you are going to access.
+
 You can generate or display key currently used by Weblate in the admin
 interface (follow :guilabel:`SSH keys` link on main admin page).
 
