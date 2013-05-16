@@ -56,17 +56,17 @@ class MachineTranslationTest(TestCase):
     def test_translate(self):
         machine_translation = DummyTranslation()
         self.assertEqual(
-            machine_translation.translate('cs', 'Hello', None),
+            machine_translation.translate('cs', 'Hello', None, None),
             []
         )
         self.assertEqual(
-            len(machine_translation.translate('cs', 'Hello, world!', None)),
+            len(machine_translation.translate('cs', 'Hello, world!', None, None)),
             2
         )
 
     def assertTranslate(self, machine, lang='cs', word='world'):
         try:
-            translation = machine.translate(lang, word, None)
+            translation = machine.translate(lang, word, None, None)
             self.assertIsInstance(translation, list)
         except MachineTranslationError as exc:
             self.skipTest(str(exc))
@@ -108,7 +108,8 @@ class WeblateTranslationTest(ViewTestCase):
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
-            unit
+            unit,
+            self.user
         )
         self.assertEquals(results, [])
 
@@ -118,6 +119,7 @@ class WeblateTranslationTest(ViewTestCase):
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
-            unit
+            unit,
+            self.user
         )
         self.assertEquals(results, [])

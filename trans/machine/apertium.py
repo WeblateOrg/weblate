@@ -43,7 +43,7 @@ class ApertiumTranslation(MachineTranslation):
                 for item in data['responseData']
                 if item['sourceLanguage'] == 'en']
 
-    def download_translations(self, language, text, unit):
+    def download_translations(self, language, text, unit, user):
         '''
         Downloads list of possible translations from Apertium.
         '''

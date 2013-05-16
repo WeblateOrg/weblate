@@ -33,7 +33,7 @@ class DummyTranslation(MachineTranslation):
         '''
         return set(('cs',))
 
-    def download_translations(self, language, text, unit):
+    def download_translations(self, language, text, unit, user):
         '''
         Dummy translation supports just single phrase.
         '''

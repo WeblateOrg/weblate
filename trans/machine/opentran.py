@@ -51,7 +51,7 @@ class OpenTranTranslation(MachineTranslation):
             match['projects'][0]['orig_phrase'],
         )
 
-    def download_translations(self, language, text, unit):
+    def download_translations(self, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
