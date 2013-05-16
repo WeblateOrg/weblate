@@ -19,6 +19,7 @@
 #
 
 from trans.machine.base import MachineTranslation
+from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
 
 
