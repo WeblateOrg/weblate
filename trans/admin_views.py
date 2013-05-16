@@ -154,6 +154,9 @@ def parse_hosts_line(line):
     fingerprint = ':'.join(
         [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
     )
+    if host.startswith('|1|'):
+        # Translators: placeholder SSH hashed hostname
+        host = _('[hostname hashed]')
     return (host, fingerprint)
 
 
