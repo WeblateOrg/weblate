@@ -387,10 +387,11 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 sleep_while_git_locked()
                 self.git_repo.git.remote('update', 'origin')
         except Exception as e:
-            weblate.logger.error('Failed to update Git repo: %s', str(e))
+            error_text = str(e)
+            weblate.logger.error('Failed to update Git repo: %s', error_text)
             if validate:
                 raise ValidationError(
-                    _('Failed to fetch git repository: %s') % str(e)
+                    _('Failed to fetch git repository: %s') % error_text
                 )
 
     def configure_repo(self, validate=False):
