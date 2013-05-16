@@ -163,12 +163,15 @@ def get_host_keys():
     '''
     Returns list of host keys.
     '''
-    result = []
-    with open(os.path.expanduser('~/.ssh/known_hosts'), 'r') as handle:
-        for line in handle:
-            if ' ssh-rsa ' not in line:
-                continue
-            result.append(parse_hosts_line(line))
+    try:
+        result = []
+        with open(os.path.expanduser('~/.ssh/known_hosts'), 'r') as handle:
+            for line in handle:
+                if ' ssh-rsa ' not in line:
+                    continue
+                result.append(parse_hosts_line(line))
+    except IOError:
+        return []
 
     return result
 
