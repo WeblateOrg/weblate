@@ -390,6 +390,11 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             error_text = str(e)
             weblate.logger.error('Failed to update Git repo: %s', error_text)
             if validate:
+                if 'Host key verification failed' in error_text:
+                    raise ValidationError(_(
+                        'Failed to verify SSH host key, please check '
+                        'documentation for information how to fix this.'
+                    ))
                 raise ValidationError(
                     _('Failed to fetch git repository: %s') % error_text
                 )
