@@ -125,6 +125,12 @@ class RepoTestCase(TestCase):
             'po/en.po',
         )
 
+    def create_po_link(self):
+        return self._create_subproject(
+            'po',
+            'po-link/*.po',
+        )
+
     def create_po_mono(self):
         return self._create_subproject(
             'po-mono',
@@ -236,6 +242,12 @@ class SubProjectTest(RepoTestCase):
         project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
+
+    def test_create_po_link(self):
+        project = self.create_po_link()
+        project.full_clean()
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual(project.translation_set.count(), 3)
 
     def test_create_po_mono(self):
         project = self.create_po_mono()
