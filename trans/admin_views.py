@@ -225,7 +225,11 @@ def ssh(request):
             messages.error(request, _('Invalid host name given!'))
         else:
             output = subprocess.check_output(['ssh-keyscan', host])
-            keys = [line for line in output.splitlines() if ' ssh-rsa ' in line]
+            keys = [
+                line
+                for line in output.splitlines()
+                if ' ssh-rsa ' in line
+            ]
             for key in keys:
                 host, fingerprint = parse_hosts_line(key)
                 messages.warning(
