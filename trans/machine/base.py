@@ -181,7 +181,9 @@ class MachineTranslation(object):
             return []
 
         try:
-            translations = self.download_translations(language, text, unit, user)
+            translations = self.download_translations(
+                language, text, unit, user
+            )
 
             return [
                 {
