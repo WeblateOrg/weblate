@@ -32,11 +32,23 @@
     {% if host_keys %}
     <h1>{% trans "Known host keys" %}</h1>
 
-    <table>
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list">
+  <thead>
+  <tr>
+    <th>{% trans "Hostname" %}</th>
+    <th>{% trans "Fingerprint" %}</th>
+  </tr>
+  </thead>
+  <tbody>
     {% for key in host_keys %}
-    <tr><td>{{ key.0 }}</td><td>{{ key.1 }}</td></tr>
+    <tr class="row{% cycle 1,2 %}"><td>{{ key.0 }}</td><td>{{ key.1 }}</td></tr>
     {% endfor %}
+  </tbody>
     </table>
+</div>
+</div>
     {% endif %}
 
     <h1>{% trans "Add host key" %}</h1>
