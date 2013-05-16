@@ -290,6 +290,9 @@ MT_MYMEMORY_EMAIL = None
 MT_MYMEMORY_USER = None
 MT_MYMEMORY_KEY = None
 
+# Google API key for Google Translate API
+MT_GOOGLE_KEY = None
+
 # tmserver URL
 MT_TMSERVER = None
 
@@ -388,6 +391,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.machine.apertium.ApertiumTranslation',
 #    'trans.machine.glosbe.GlosbeTranslation',
 #    'trans.machine.google.GoogleTranslation',
+#    'trans.machine.google.GoogleWebTranslation',
 #    'trans.machine.microsoft.MicrosoftTranslation',
 #    'trans.machine.mymemory.MyMemoryTranslation',
 #    'trans.machine.opentran.OpenTranTranslation',

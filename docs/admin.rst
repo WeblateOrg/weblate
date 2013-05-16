@@ -475,10 +475,26 @@ Google Translate
 
 Machine translation service provided by Google.
 
-Please note that this does not use (paid) Translation API but rather web based
-translation interface.
+This service uses Translation API and you need to obtain API key and enable
+billing on Google API console.
 
 To enable this service, add ``trans.machine.google.GoogleTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. seealso::
+
+    :setting:`MT_GOOGLE_KEY`,
+    https://developers.google.com/translate/
+
+Google Web Translate
+++++++++++++++++++++
+
+Machine translation service provided by Google.
+
+Please note that this does not use official Translation API but rather web
+based translation interface.
+
+To enable this service, add ``trans.machine.google.GoogleWebTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::

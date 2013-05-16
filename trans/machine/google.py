@@ -19,9 +19,62 @@
 #
 
 from trans.machine.base import MachineTranslation
+from weblate import appsettings
 
 
 class GoogleTranslation(MachineTranslation):
+    '''
+    Google Translate API v2 machine translation support.
+    '''
+    name = 'Google Translate'
+
+    def __init__(self):
+        '''
+        Checks configuration.
+        '''
+        super(GoogleTranslation, self).__init__()
+        if appsettings.MT_GOOGLE_KEY is None:
+            raise ImproperlyConfigured(
+                'Google Translate requires API key'
+            )
+
+    def convert_language(self, language):
+        '''
+        Converts language to service specific code.
+        '''
+        return language.replace('_', '-').split('@')[0]
+
+    def download_languages(self):
+        '''
+        List of supported languages.
+        '''
+        response = self.json_req(
+            'https://www.googleapis.com/language/translate/v2/languages',
+            key=appsettings.MT_GOOGLE_KEY
+        )
+        return [d['language'] for d in response['data']['languages']]
+
+    def download_translations(self, language, text, unit, user):
+        '''
+        Downloads list of possible translations from a service.
+        '''
+        response = self.json_req(
+            'https://www.googleapis.com/language/translate/v2/',
+            key=appsettings.MT_GOOGLE_KEY,
+            q=text,
+            source='en',
+            target=language,
+        )
+
+        if 'errors' in response:
+            raise MachineTranslationError(response['errors'])
+
+        translation = response['data']['translations'][0]['translatedText']
+
+        return [(translation, 100, self.name, text)]
+
+
+class GoogleWebTranslation(MachineTranslation):
     '''
     Google machine translation support.
     '''

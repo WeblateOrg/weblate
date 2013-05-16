@@ -38,7 +38,7 @@ from trans.machine.tmserver import AmagamaTranslation
 from trans.machine.microsoft import (
     MicrosoftTranslation, microsoft_translation_supported
 )
-from trans.machine.google import GoogleTranslation
+from trans.machine.google import GoogleWebTranslation
 from trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
@@ -93,7 +93,7 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     def test_google(self):
-        machine = GoogleTranslation()
+        machine = GoogleWebTranslation()
         self.assertTranslate(machine)
 
     def test_amagama(self):
