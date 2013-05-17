@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-17 16:28+0200\n"
-"PO-Revision-Date: 2013-05-06 19:48+0200\n"
+"PO-Revision-Date: 2013-05-18 01:24+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
@@ -273,12 +273,12 @@ msgstr "PyICU-bibliotek"
 
 #: trans/admin_views.py:132
 msgid "Allowed hosts"
-msgstr ""
+msgstr "Tilladte værter"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[værtsnavn hash-fordelt]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -289,10 +289,9 @@ msgid "Created new SSH key."
 msgstr "Oprettede ny SSH-nøgle."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "Ugyldig tekstretning"
+msgstr "Ugyldigt værtsnavn angivet!"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -300,6 +299,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s - tjek "
+"venligst at dette er korrekt."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -788,10 +789,9 @@ msgid "Suggestion accepted"
 msgstr "Forslag er accepteret"
 
 #: trans/models/changes.py:137
-#, fuzzy
 #| msgid "Translation completed"
 msgid "Translation reverted"
-msgstr "Oversættelse er færdiggjort"
+msgstr "Oversættelse er tilbagekaldt"
 
 #: trans/models/changes.py:157
 #, python-format
@@ -986,20 +986,19 @@ msgstr ""
 "til automatisk oversættelse i dette projekt"
 
 #: trans/models/subproject.py:179
-#, fuzzy
 #| msgid ""
 #| "Define whether Weblate should merge upstream repository or rebase changes "
 #| "onto it."
 msgid "Whether Weblate should keep history of translations"
-msgstr ""
-"Tag stilling til om Weblate skal flette opstrømsarkiv eller flytte "
-"forgreningspunkt for ændringer ovenpå det."
+msgstr "Om hvorvidt Weblate skal bevare en historik over oversættelser"
 
 #: trans/models/subproject.py:395
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Mislykkedes med verificering af SSH-værtsnøgle - tilføj dem venligst på SSH-"
+"siden i adminstrationsfladen."
 
 #: trans/models/subproject.py:399
 #, python-format
@@ -1432,16 +1431,14 @@ msgid "Can not merge different messages!"
 msgstr "Kan ikke flette forskellige beskeder!"
 
 #: trans/views/edit.py:362
-#, fuzzy
 #| msgid "Can not merge different messages!"
 msgid "Can not revert to different unit!"
-msgstr "Kan ikke flette forskellige beskeder!"
+msgstr "Kan ikke tilbagerulle til en anden enhed!"
 
 #: trans/views/edit.py:367
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
-msgstr "Kopier ord til oversættelse"
+msgstr "Kan ikke rulle tilbage til en tom oversættelse!"
 
 #: trans/views/edit.py:385
 msgid "You need to log in to be able to manage suggestions!"
@@ -2639,7 +2636,7 @@ msgstr "Oversigter"
 #: weblate/html/translate.html:171 weblate/html/translation.html:35
 #: weblate/html/translation.html.py:87
 msgid "History"
-msgstr ""
+msgstr "Historik"
 
 #: weblate/html/index.html:66
 msgid "Most active translators"
@@ -2697,14 +2694,13 @@ msgid "Action"
 msgstr "Handling"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
-#, fuzzy
 #| msgid "Tweet this translation!"
 msgid "Revert to this translation"
-msgstr "Tweet denne oversættelse!"
+msgstr "Rul denne oversættelse tilbage"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
 msgid "Revert"
-msgstr ""
+msgstr "Rul tilbage"
 
 #: weblate/html/last-changes.html:38
 msgid "No recent activity has been recorded."
@@ -3414,31 +3410,32 @@ msgstr "Opret"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Kendte værtsnøgler"
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "Efternavn"
+msgstr "Værtsnavn"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
-msgstr ""
+msgstr "Fingeraftryk"
 
 #: weblate/html/admin/ssh.html:54
 msgid "Add host key"
-msgstr ""
+msgstr "Tilføj værtsnøgle"
 
 #: weblate/html/admin/ssh.html:55
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
 msgstr ""
+"For at tilgå SSH-værter, så kræves der verificering af værtsnøglerne. Du kan "
+"tjekke værtsnøgler med formularen neden for."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
-msgstr ""
+msgstr "Send"
 
 #: weblate/html/admin/ssh.html:63
 msgid "More information"
