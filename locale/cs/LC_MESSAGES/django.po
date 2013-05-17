@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-17 16:28+0200\n"
-"PO-Revision-Date: 2013-05-15 09:22+0200\n"
+"PO-Revision-Date: 2013-05-17 16:37+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -280,7 +280,7 @@ msgstr "Povolené servery"
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[jméno hostitele je skryto]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -291,10 +291,9 @@ msgid "Created new SSH key."
 msgstr "Byl vytvořen nový SSH klíč."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "Chybný směr textu"
+msgstr "Zadáno chybné jméno hostitele!"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -302,6 +301,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Přidán klíč pro hostitele %(host)s s otiskem %(fingerprint)s, prosím ověřte, "
+"že je tento otisk správný."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -982,6 +983,8 @@ msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Nepodařilo se ověřit SSH klíč hostitele, prosím přidejte ho na SSH stránce "
+"správcovského rozhraní."
 
 #: trans/models/subproject.py:399
 #, python-format
@@ -3396,31 +3399,32 @@ msgstr "Vytvořit"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Známé klíče hostitelů"
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "Příjmení"
+msgstr "Jméno hostitele"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
-msgstr ""
+msgstr "Otisk"
 
 #: weblate/html/admin/ssh.html:54
 msgid "Add host key"
-msgstr ""
+msgstr "Přidat klíč hostitele"
 
 #: weblate/html/admin/ssh.html:55
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
 msgstr ""
+"Pro přístup k SSH hostitelům musí být jejich klíče ověřeny. K přidání "
+"dalšího klíče slouží formulář níže na stránce."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
-msgstr ""
+msgstr "Odeslat"
 
 #: weblate/html/admin/ssh.html:63
 msgid "More information"
