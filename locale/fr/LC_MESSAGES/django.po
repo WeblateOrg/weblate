@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-17 16:28+0200\n"
-"PO-Revision-Date: 2013-05-07 22:33+0200\n"
+"PO-Revision-Date: 2013-05-17 19:35+0200\n"
 "Last-Translator: Jean-Noël AVILA <jn.avila@free.fr>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -275,12 +275,12 @@ msgstr "Bibliothèque PyICU"
 
 #: trans/admin_views.py:132
 msgid "Allowed hosts"
-msgstr ""
+msgstr "Hôtes autorisés"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[nom d'hôte haché]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -291,10 +291,9 @@ msgid "Created new SSH key."
 msgstr "Nouvelle clé SSH créée."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "Direction du texte invalide"
+msgstr "Nom d'hôte incorrect !"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -302,6 +301,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Clé de l'hôte ajoutée pour %(host)s avec l'empreinte %(fingerprint)s, "
+"veuillez vérifier qu'elle est correcte."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -805,10 +806,9 @@ msgid "Suggestion accepted"
 msgstr "Suggestion acceptée"
 
 #: trans/models/changes.py:137
-#, fuzzy
 #| msgid "Translation completed"
 msgid "Translation reverted"
-msgstr "Traduction complétée"
+msgstr "Traduction rétablie"
 
 #: trans/models/changes.py:157
 #, python-format
@@ -1008,20 +1008,19 @@ msgstr ""
 "des traductions automatiques dans ce projet"
 
 #: trans/models/subproject.py:179
-#, fuzzy
 #| msgid ""
 #| "Define whether Weblate should merge upstream repository or rebase changes "
 #| "onto it."
 msgid "Whether Weblate should keep history of translations"
-msgstr ""
-"Définir si Weblate doit fusionner le référentiel amont ou refonder les "
-"changements sur le référentiel amont."
+msgstr "Définir si Weblate doit conserver un historique des traductions"
 
 #: trans/models/subproject.py:395
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Impossible de vérifier la clé de l'hôte SSH, veuillez les ajouter sur la "
+"page SSH de l'interface d'administration."
 
 #: trans/models/subproject.py:399
 #, python-format
@@ -1456,16 +1455,14 @@ msgid "Can not merge different messages!"
 msgstr "Impossible de fusionner des messages différents !"
 
 #: trans/views/edit.py:362
-#, fuzzy
 #| msgid "Can not merge different messages!"
 msgid "Can not revert to different unit!"
-msgstr "Impossible de fusionner des messages différents !"
+msgstr "Impossible de rétablir vers une unité différente !"
 
 #: trans/views/edit.py:367
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
-msgstr "Copier le mot vers la traduction"
+msgstr "Impossible de rétablir vers une traduction vide !"
 
 #: trans/views/edit.py:385
 msgid "You need to log in to be able to manage suggestions!"
@@ -2672,7 +2669,7 @@ msgstr "En bref"
 #: weblate/html/translate.html:171 weblate/html/translation.html:35
 #: weblate/html/translation.html.py:87
 msgid "History"
-msgstr ""
+msgstr "Histoire"
 
 #: weblate/html/index.html:66
 msgid "Most active translators"
@@ -2730,14 +2727,13 @@ msgid "Action"
 msgstr "Action"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
-#, fuzzy
 #| msgid "Tweet this translation!"
 msgid "Revert to this translation"
-msgstr "Partagez cette traduction via Twitter !"
+msgstr "Rétablir cette traduction"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
 msgid "Revert"
-msgstr ""
+msgstr "Rétablir"
 
 #: weblate/html/last-changes.html:38
 msgid "No recent activity has been recorded."
@@ -3453,31 +3449,32 @@ msgstr "Générer"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Clés d'hôte connues"
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "Nom"
+msgstr "Nom d'hôte"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
-msgstr ""
+msgstr "Empreinte"
 
 #: weblate/html/admin/ssh.html:54
 msgid "Add host key"
-msgstr ""
+msgstr "Ajouter une clé d'hôte"
 
 #: weblate/html/admin/ssh.html:55
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
 msgstr ""
+"Pour accéder à un hôte SSH, sa clé SSH doit être vérifiée. Vous pouvez "
+"vérifier la clé SSH en utilisant le formulaire ci-dessous."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
-msgstr ""
+msgstr "Soumettre"
 
 #: weblate/html/admin/ssh.html:63
 msgid "More information"
