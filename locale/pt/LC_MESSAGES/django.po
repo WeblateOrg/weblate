@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-15 09:09+0200\n"
+"POT-Creation-Date: 2013-05-17 16:28+0200\n"
 "PO-Revision-Date: 2013-04-18 11:24+0200\n"
 "Last-Translator: Jonadabe PT <jonadabe@hotmail.com>\n"
 "Language-Team: Portuguese <http://l10n.cihar.com/projects/weblate/master/pt/"
@@ -238,54 +238,72 @@ msgstr "Plural"
 msgid "Plural form %d"
 msgstr "Forma plural %d"
 
-#: trans/admin_views.py:59
+#: trans/admin_views.py:61
 msgid "Debug mode"
 msgstr "Modo debug"
 
-#: trans/admin_views.py:65
+#: trans/admin_views.py:67
 msgid "Site domain"
 msgstr "Domínio do site"
 
-#: trans/admin_views.py:71
+#: trans/admin_views.py:73
 msgid "Database backend"
 msgstr "Backend base de dados"
 
-#: trans/admin_views.py:77
+#: trans/admin_views.py:79
 msgid "Site administrator"
 msgstr "Administrador do site"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:84
+#: trans/admin_views.py:86
 msgid "Indexing offloading"
 msgstr ""
 
-#: trans/admin_views.py:100
+#: trans/admin_views.py:102
 msgid "Django caching"
 msgstr "Caching do Django"
 
-#: trans/admin_views.py:111
+#: trans/admin_views.py:113
 msgid "Email addresses"
 msgstr "Endereços de email"
 
-#: trans/admin_views.py:119
+#: trans/admin_views.py:121
 msgid "Federated avatar support"
 msgstr "Suporte para federated avatar"
 
-#: trans/admin_views.py:124
+#: trans/admin_views.py:126
 msgid "PyICU library"
 msgstr "Libraria PyICU"
 
-#: trans/admin_views.py:130
+#: trans/admin_views.py:132
 msgid "Allowed hosts"
 msgstr ""
 
-#: trans/admin_views.py:167 trans/admin_views.py:171
+#. Translators: placeholder SSH hashed hostname
+#: trans/admin_views.py:158
+msgid "[hostname hashed]"
+msgstr ""
+
+#: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
 msgstr "Falha ao gerar a chave!"
 
-#: trans/admin_views.py:169
+#: trans/admin_views.py:206
 msgid "Created new SSH key."
 msgstr "Criada nova chave SSH."
+
+#: trans/admin_views.py:227
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid host name given!"
+msgstr "Direção do texto inválida"
+
+#: trans/admin_views.py:240
+#, python-format
+msgid ""
+"Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
+"that it is correct."
+msgstr ""
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -986,63 +1004,69 @@ msgstr ""
 "Defina se o Weblate deve fundir repositório a montante ou rebasear "
 "alterações para ele"
 
-#: trans/models/subproject.py:393
+#: trans/models/subproject.py:395
+msgid ""
+"Failed to verify SSH host key, please add them in SSH page in the admin "
+"interface."
+msgstr ""
+
+#: trans/models/subproject.py:399
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Falha na busca do repositório Git: %s"
 
-#: trans/models/subproject.py:495
+#: trans/models/subproject.py:501
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "O envio está desactivado para %s."
 
-#: trans/models/subproject.py:539
+#: trans/models/subproject.py:545
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Falha ao enviar para o ramo remoto em %s."
 
-#: trans/models/subproject.py:575
+#: trans/models/subproject.py:581
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Falha ao redefinir o ramo remoto em %s."
 
-#: trans/models/subproject.py:627
+#: trans/models/subproject.py:633
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Falha ao rebasear o nosso ramo no ramo remoto %s."
 
-#: trans/models/subproject.py:630
+#: trans/models/subproject.py:636
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Falha ao fundir ramo remoto em %s."
 
-#: trans/models/subproject.py:748
+#: trans/models/subproject.py:754
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:752
+#: trans/models/subproject.py:758
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:763
+#: trans/models/subproject.py:769
 msgid "Template file not found!"
 msgstr ""
 
-#: trans/models/subproject.py:769
+#: trans/models/subproject.py:775
 msgid "Format of translation template could not be recognized."
 msgstr "Formato do modelo de tradução não foi reconhecido."
 
-#: trans/models/subproject.py:773
+#: trans/models/subproject.py:779
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
 msgstr "Falha ao analisar o modelo de tradução."
 
-#: trans/models/subproject.py:794
+#: trans/models/subproject.py:800
 msgid "The mask did not match any files!"
 msgstr "A máscara não encontrou ficheiros correspondentes!"
 
-#: trans/models/subproject.py:800
+#: trans/models/subproject.py:806
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1050,17 +1074,17 @@ msgstr ""
 "Existem mais ficheiros para idioma único, por favor ajuste a máscara e "
 "utilize subprojetos para traduzir diferentes recursos."
 
-#: trans/models/subproject.py:820
+#: trans/models/subproject.py:826
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formato dos %d ficheiros encontrados não é reconhecido."
 
-#: trans/models/subproject.py:829
+#: trans/models/subproject.py:835
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Falha ao analisar %d ficheiros encontrados!"
 
-#: trans/models/subproject.py:838
+#: trans/models/subproject.py:844
 msgid "You can not use monolingual translation without template!"
 msgstr ""
 
@@ -1090,31 +1114,31 @@ msgstr "Falha ao analisar ficheiro %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Esta tradução está bloqueada por %(user)s para tradução até %(time)s!"
 
-#: trans/models/translation.py:945 trans/models/translation.py:978
+#: trans/models/translation.py:958 trans/models/translation.py:991
 msgid "All strings"
 msgstr "Todas as cadeias"
 
-#: trans/models/translation.py:952 trans/models/translation.py:1008
+#: trans/models/translation.py:965 trans/models/translation.py:1021
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadeias com alguma falha de verificação (%d)"
 
-#: trans/models/translation.py:969 trans/models/translation.py:1025
+#: trans/models/translation.py:982 trans/models/translation.py:1038
 #, fuzzy, python-format
 msgid "Strings with comments (%d)"
 msgstr "Cadeias com sugestões (%d)"
 
-#: trans/models/translation.py:985
+#: trans/models/translation.py:998
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Cadeias não traduzidas (%d)"
 
-#: trans/models/translation.py:993
+#: trans/models/translation.py:1006
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadeias vagas (%d)"
 
-#: trans/models/translation.py:1000
+#: trans/models/translation.py:1013
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadeias com sugestões (%d)"
@@ -1133,7 +1157,7 @@ msgstr ""
 "Mensagem não encontrada no armazenamento de backend, provavelmente está "
 "corrompido."
 
-#: trans/models/unit.py:755
+#: trans/models/unit.py:760
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidade %s"
@@ -3451,15 +3475,43 @@ msgstr ""
 "Você não parece ter chave SSH existente, pressionando o botão abaixo o "
 "Weblate irá gerá-la para si."
 
-#: weblate/html/admin/ssh.html:26
+#: weblate/html/admin/ssh.html:27
 msgid "Generate"
 msgstr "Gerar"
 
-#: weblate/html/admin/ssh.html:32
+#: weblate/html/admin/ssh.html:33
+msgid "Known host keys"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:40
+#, fuzzy
+#| msgid "Last name"
+msgid "Hostname"
+msgstr "Último Nome"
+
+#: weblate/html/admin/ssh.html:41
+msgid "Fingerprint"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:54
+msgid "Add host key"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:55
+msgid ""
+"To access SSH hosts, it's host key needs to be verified. You can check host "
+"key using form below."
+msgstr ""
+
+#: weblate/html/admin/ssh.html:60
+msgid "Submit"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:63
 msgid "More information"
 msgstr "Mais informação"
 
-#: weblate/html/admin/ssh.html:34
+#: weblate/html/admin/ssh.html:65
 #, python-format
 msgid ""
 "You can find more information about setting up SSH keys in <a href="
