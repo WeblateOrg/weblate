@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-17 16:28+0200\n"
-"PO-Revision-Date: 2013-05-13 14:23+0200\n"
+"PO-Revision-Date: 2013-05-17 17:50+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
 "Language: he\n"
@@ -272,12 +272,12 @@ msgstr "ספריית PyICU"
 
 #: trans/admin_views.py:132
 msgid "Allowed hosts"
-msgstr ""
+msgstr "מארחים מורשים"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[שם המארח מוצפן]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -288,10 +288,9 @@ msgid "Created new SSH key."
 msgstr "נוצר מפתח SSH חדש."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "כיוון הטקסט שגוי"
+msgstr "שם המארח שגוי!"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -299,6 +298,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"נוסף מפתח למארח %(host)s עם החותמת %(fingerprint)s, נא לוודא שהפרטים האלה "
+"נכונים."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -782,10 +783,9 @@ msgid "Suggestion accepted"
 msgstr "ההצעה התקבלה"
 
 #: trans/models/changes.py:137
-#, fuzzy
 #| msgid "Translation completed"
 msgid "Translation reverted"
-msgstr "התרגום הושלם"
+msgstr "התרגום שוחזר"
 
 #: trans/models/changes.py:157
 #, python-format
@@ -967,12 +967,11 @@ msgid ""
 msgstr "האם עדכוני תרגום בתת מיזמים אחרים אמורים לגרום לתרגום אוטומטי במיזם זה"
 
 #: trans/models/subproject.py:179
-#, fuzzy
 #| msgid ""
 #| "Define whether Weblate should merge upstream repository or rebase changes "
 #| "onto it."
 msgid "Whether Weblate should keep history of translations"
-msgstr "להגדיר האם Weblate אמור למזג אל מיזם המקור או לבסס את השינויים עליו."
+msgstr "להגדיר האם Weblate אמור לשמור היסטוריה של התרגומים"
 
 #: trans/models/subproject.py:395
 msgid ""
@@ -1404,16 +1403,14 @@ msgid "Can not merge different messages!"
 msgstr "לא ניתן למזג הודעות שונות!"
 
 #: trans/views/edit.py:362
-#, fuzzy
 #| msgid "Can not merge different messages!"
 msgid "Can not revert to different unit!"
-msgstr "לא ניתן למזג הודעות שונות!"
+msgstr "לא ניתן לשחזר ליחידה אחרת!"
 
 #: trans/views/edit.py:367
-#, fuzzy
 #| msgid "Tweet this translation!"
 msgid "Can not revert to empty translation!"
-msgstr "שליחת ציוץ על התרגום הזה!"
+msgstr "לא ניתן לשחזר לתרגום ריק!"
 
 #: trans/views/edit.py:385
 msgid "You need to log in to be able to manage suggestions!"
@@ -2653,10 +2650,9 @@ msgid "Action"
 msgstr "פעולה"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
-#, fuzzy
 #| msgid "Tweet this translation!"
 msgid "Revert to this translation"
-msgstr "שליחת ציוץ על התרגום הזה!"
+msgstr "שחזור לתרגום זה"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
 msgid "Revert"
@@ -3347,10 +3343,9 @@ msgid "Known host keys"
 msgstr ""
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "שם משפחה"
+msgstr "שם המארח"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
