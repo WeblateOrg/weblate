@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-17 16:28+0200\n"
-"PO-Revision-Date: 2013-05-15 09:43+0200\n"
+"PO-Revision-Date: 2013-05-18 17:34+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -280,7 +280,7 @@ msgstr "Επιτρεπόμενοι φιλοξενητές"
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[hostname hashed]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -291,10 +291,9 @@ msgid "Created new SSH key."
 msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "Μη έγκυρη κατεύθυνση κειμένου"
+msgstr "Δόθηκε μη έγκυρο όνομα φιλοξενητή!"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -302,6 +301,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Προστέθηκε κλειδί φιλοξενίας για %(host)s με το αποτύπωμα %(fingerprint)s, "
+"επιβεβαιώστε ότι είναι σωστό."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -1005,6 +1006,8 @@ msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Αδύνατη η επιβεβαίωση του κλειδιού φιλοξενίας SSH, προσθέστε τα στη σελίδα "
+"SSH στο περιβάλλον διαχείρισης."
 
 #: trans/models/subproject.py:399
 #, python-format
@@ -3421,31 +3424,33 @@ msgstr "Δημιουργία"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Γνωστά κλειδιά φιλοξενίας"
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "Επώνυμο"
+msgstr "Όνομα φιλοξενητή"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
-msgstr ""
+msgstr "Αποτύπωμα"
 
 #: weblate/html/admin/ssh.html:54
 msgid "Add host key"
-msgstr ""
+msgstr "Προσθήκη κλειδιού φιλοξενίας"
 
 #: weblate/html/admin/ssh.html:55
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
 msgstr ""
+"Για πρόσβαση σε φιλοξενίες SSH, το κλειδί φιλοξενίας πρέπει να επιβεβαιωθεί. "
+"Μπορείτε να ελέγξετε το κλειδί φιλοξενίας χρησιμοποιώντας την παρακάτω "
+"φόρμα."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
-msgstr ""
+msgstr "Υποβολή"
 
 #: weblate/html/admin/ssh.html:63
 msgid "More information"
