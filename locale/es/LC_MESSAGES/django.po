@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-17 16:28+0200\n"
-"PO-Revision-Date: 2013-05-15 23:47+0200\n"
+"PO-Revision-Date: 2013-05-18 05:42+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -279,7 +279,7 @@ msgstr "Servidores permitidos"
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[nombre de servidor cifrado]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -290,10 +290,9 @@ msgid "Created new SSH key."
 msgstr "Se creó una nueva llave SSH."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "Dirección de texto inválida"
+msgstr "¡Nombre de servidor inválido!"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -301,6 +300,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Se agregó la llave de servidor para %(host)s con la huella %(fingerprint)s, "
+"verifique que sea correcta."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -1003,6 +1004,8 @@ msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"No se pudo verificar la llave de servidor SSH, agrégela en en la interfaz de "
+"administración."
 
 #: trans/models/subproject.py:399
 #, python-format
@@ -3417,31 +3420,32 @@ msgstr "Generar"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Llaves de servidor conocidas"
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "Apellido"
+msgstr "Nombre de servidor"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
-msgstr ""
+msgstr "Huella"
 
 #: weblate/html/admin/ssh.html:54
 msgid "Add host key"
-msgstr ""
+msgstr "Agrega llave de servidor"
 
 #: weblate/html/admin/ssh.html:55
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
 msgstr ""
+"Para acceder a servidores SSH, necesita verificar su llave de servidor. "
+"Puede revisar la llave del servidor con el formulario a continuación."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: weblate/html/admin/ssh.html:63
 msgid "More information"
