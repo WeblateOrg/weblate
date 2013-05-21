@@ -11,7 +11,7 @@
     <td>{{ item.translation.subproject }}</td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
     <td class="translatetext" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslationdiff:unit }}</a></td>
-    <td>{% include "unit-state.html" %}</td>
+    {% include "unit-state.html" %}
     <td>
     {% if perms.trans.save_translation %}
     <a class="mergebutton small-button" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>

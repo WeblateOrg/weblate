@@ -196,7 +196,7 @@
     <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
     <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
     <td class="translatetext translation_html_markup" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
-    <td>{% include "unit-state.html" %}</td>
+    {% include "unit-state.html" %}
     </tr>
     {% endfor %}
     </tbody>
