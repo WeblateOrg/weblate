@@ -503,6 +503,39 @@ class EditTest(ViewTestCase):
         )
         self.assertRedirects(response, self.translation_url)
 
+    def test_fuzzy(self):
+        '''
+        Test for fuzzy flag handling.
+        '''
+        unit = self.get_unit()
+        self.assertFalse(unit.fuzzy)
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy='yes'
+        )
+        unit = self.get_unit()
+        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+        )
+        unit = self.get_unit()
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy='yes'
+        )
+        unit = self.get_unit()
+        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+
 
 class EditResourceTest(EditTest):
     def create_subproject(self):

@@ -266,7 +266,6 @@ class FileFormat(object):
     format_id = ''
     loader = None
     monolingual = None
-    mark_fuzzy = None
 
     @classmethod
     def fixup(cls, store):
@@ -579,7 +578,6 @@ class AndroidFormat(FileFormat):
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
-    mark_fuzzy = True
 
 register_fileformat(AndroidFormat)
 
