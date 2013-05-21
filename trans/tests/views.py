@@ -509,7 +509,7 @@ class EditTest(ViewTestCase):
         '''
         unit = self.get_unit()
         self.assertFalse(unit.fuzzy)
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
             fuzzy='yes'
@@ -518,7 +518,7 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.fuzzy)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
         )
@@ -526,7 +526,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n',
             fuzzy='yes'
