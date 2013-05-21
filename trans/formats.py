@@ -533,7 +533,6 @@ class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
-    monolingual = False
 
 register_fileformat(StringsFormat)
 
