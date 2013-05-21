@@ -60,9 +60,11 @@ class MachineTranslationTest(TestCase):
             []
         )
         self.assertEqual(
-            len(machine_translation.translate(
-                'cs', 'Hello, world!', None, None
-            )),
+            len(
+                machine_translation.translate(
+                    'cs', 'Hello, world!', None, None
+                )
+            ),
             2
         )
 
