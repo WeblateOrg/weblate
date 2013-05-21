@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from trans.machine.base import MachineTranslation
+from trans.machine.base import MachineTranslation, MachineTranslationError
 from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
 
