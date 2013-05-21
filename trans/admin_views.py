@@ -148,7 +148,7 @@ def parse_hosts_line(line):
     '''
     Parses single hosts line into tuple host, key fingerprint.
     '''
-    host, ignore, key = line.strip().partition(' ssh-rsa ')
+    host, dummy, key = line.strip().partition(' ssh-rsa ')
     fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
     fingerprint = ':'.join(
         [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
