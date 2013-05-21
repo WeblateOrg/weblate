@@ -159,6 +159,7 @@
 
 <h2>{% trans "Translation context" %}</h2>
 
+{% with unit.get_comments as comments and unit.get_source_comments as source_comments %}
 <div id="translate-tabs">
     <ul>
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
@@ -167,9 +168,21 @@
         {% if mt_enabled and user.is_authenticated %}
         <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
         {% endif %}
-        <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">{% trans "Comments" %}</a></li>
+        <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">
+        {% if comments.exists %}
+        {% blocktrans with comments.count as  count %}Comments ({{ count }}){% endblocktrans %}
+        {% else %}
+        {% trans "Comments" %}
+        {% endif %}
+        </a></li>
         <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
-        <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">{% trans "Source" %}</a></li>
+        <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">
+        {% if source_comments.exists %}
+        {% blocktrans with source_comments.count as  count %}Source ({{ count }}){% endblocktrans %}
+        {% else %}
+        {% trans "Source" %}
+        {% endif %}
+        </a></li>
         <li><a href="#tab-search">{% trans "Search" %}</a></li>
     </ul>
     <div id="tab-nearby">
@@ -214,9 +227,7 @@
     <div id="tab-comments">
     <p>{% trans "You can share comments about this translation with other translators." %}</p>
     <table>
-    {% with unit.get_comments as comments %}
     {% include "list-comments.html" %}
-    {% endwith %}
     <tr>
     <th>{% trans "New comment" %}</th>
     <td>
@@ -246,7 +257,7 @@
     <h4>{% trans "User comments" %}</h4>
     <p>{% trans "You can share comments about source string for this translation with other translators and developers." %}</p>
     <table>
-    {% with unit.get_source_comments as comments %}
+    {% with source_comments as comments %}
     {% include "list-comments.html" %}
     {% endwith %}
     <tr>
@@ -275,5 +286,6 @@
     </div>
 
 </div>
+{% endwith %}
 
 {% endblock %}
