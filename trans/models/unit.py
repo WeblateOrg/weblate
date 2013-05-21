@@ -628,8 +628,13 @@ class Unit(models.Model):
             self.translation.update_from_blob(True)
             return False
 
+        # Get old unit from database (for notifications)
+        oldunit = Unit.objects.get(id=self.id)
+
         # Return if there was no change
-        if not saved:
+        # We have to explicitly check for fuzzy flag change on monolingual
+        # files, where we handle it ourselves without storing to backend
+        if not saved and oldunit.fuzzy == self.fuzzy:
             # Propagate if we should
             if propagate:
                 self.propagate(request, change_action)
@@ -641,9 +646,6 @@ class Unit(models.Model):
         # Update comments as they might have been changed (eg, fuzzy flag
         # removed)
         self.flags = pounit.get_flags()
-
-        # Get old unit from database (for notifications)
-        oldunit = Unit.objects.get(id=self.id)
 
         # Save updated unit to database
         self.save(backend=True)
