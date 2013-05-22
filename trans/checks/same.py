@@ -47,6 +47,7 @@ SAME_BLACKLIST = frozenset((
     'block',
     'blog',
     'bluetooth',
+    'bootloader',
     'byte',
     'bytes',
     'bzip2',
@@ -121,9 +122,11 @@ SAME_BLACKLIST = frozenset((
     'isbn',
     'issn',
     'jabber',
+    'kernel',
     'kib',
     'km',
     'latex',
+    'latin',
     'layout',
     'level',
     'linestring',
@@ -131,6 +134,7 @@ SAME_BLACKLIST = frozenset((
     'lithium ion',
     'lithium polymer',
     'local',
+    'locales',
     'ltr',
     'ma',
     'mah',
@@ -197,6 +201,7 @@ SAME_BLACKLIST = frozenset((
     'script',
     'sergeant',
     'server',
+    'shell',
     'sim',
     'smsc',
     'software',
@@ -398,7 +403,7 @@ class SameCheck(TargetCheck):
             # or just single letter (usually unit or something like that)
             if len(stripped) <= 1:
                 result = True
-            # Ignore words which are often same in foreigh language
+            # Ignore words which are often same in foreign language
             elif stripped in SAME_BLACKLIST:
                 result = True
             else:
