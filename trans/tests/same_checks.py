@@ -60,8 +60,8 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             True,
             (
-                u'Linux kernel image',
-                u'Linux kernel image',
+                u'Linux kernel testing image',
+                u'Linux kernel testing image',
                 ''
             )
         )
