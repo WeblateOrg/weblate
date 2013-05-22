@@ -51,6 +51,6 @@ class Command(BaseCommand):
                     'check': check.check,
                     'source': units[0].source,
                 }
-        results = sorted(results.values(), key=lambda x:x['count'])
+        results = sorted(results.values(), key=lambda x: -x['count'])
         for result in results[:options['count']]:
             print '%(count)5d %(check)20s %(source)s' % result
