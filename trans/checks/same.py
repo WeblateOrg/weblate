@@ -347,8 +347,10 @@ SAME_BLACKLIST = frozenset((
 
     # Architectures
     'alpha',
+    'amd',
     'amd64',
     'arm',
+    'aarch',
     'aarch64',
     'hppa',
     'i386',
