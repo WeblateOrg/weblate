@@ -186,7 +186,7 @@ def ssh(request):
 
     # Check whether we can generate SSH key
     try:
-        ret = os.system('which ssh-keygen > /dev/null 2>&1')
+        ret = subprocess.check_call(['which', 'ssh-keygen'])
         can_generate = (ret == 0 and not os.path.exists(key_path))
     except:
         can_generate = False
