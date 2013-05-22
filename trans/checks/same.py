@@ -65,6 +65,8 @@ SAME_BLACKLIST = frozenset((
     'copyright',
     'criteria',
     'csv',
+    'ctrl+d',
+    'ctrl+z',
     'cvs',
     'data',
     'database',
