@@ -196,6 +196,12 @@ def ssh(request):
 
     # Generate key if it does not exist yet
     if can_generate and action == 'generate':
+        # Create directory if it does not exist
+        key_dir = os.path.dirname(key_path)
+        if not os.path.exists(key_dir):
+            os.makedirs(key_dir)
+
+        # Try generating key
         try:
             subprocess.check_output(
                 [
