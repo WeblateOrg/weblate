@@ -96,7 +96,7 @@ class Check(object):
         '''
         return 'check-%s-%d-%s-%d' % (
             self.check_id,
-            unit.translation.subproject.id,
+            unit.translation.subproject.project.id,
             unit.checksum,
             cache_slot
         )

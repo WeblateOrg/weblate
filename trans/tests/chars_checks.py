@@ -166,7 +166,11 @@ class EndEllipsisCheckTest(CheckTestCase):
         self.check = EndEllipsisCheck()
         self.test_good_matching = (u'string…', u'string…', '')
         self.test_failure_1 = (u'string…', 'string...', '')
-        self.test_failure_2 = ('string...', u'string…', '')
+        self.test_failure_2 = ('string.', u'string…', '')
+        self.test_failure_3 = ('string..', u'string…', '')
+
+    def test_translate(self):
+        self.do_test(False, ('string...', u'string…', ''))
 
 
 class NewlineCountingCheckTest(CheckTestCase):

@@ -233,6 +233,9 @@ class EndEllipsisCheck(TargetCheck):
     description = _('Source and translation do not both end with an ellipsis')
 
     def check_single(self, source, target, unit, cache_slot):
+        # Allow ... to be translated into ellipsis
+        if source.endswith('...') and target[-1] == u'…':
+            return False
         return self.check_chars(source, target, -1, [u'…'])
 
 
