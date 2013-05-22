@@ -73,6 +73,14 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+        self.do_test(
+            False,
+            (
+                'powerpc, m68k, i386, amd64'
+                'powerpc, m68k, i386, amd64'
+                ''
+            )
+        )
 
     def test_same_copyright(self):
         self.do_test(
