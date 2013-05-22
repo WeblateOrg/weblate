@@ -153,6 +153,7 @@ SAME_BLACKLIST = frozenset((
     'layout',
     'level',
     'logo',
+    'libgammu',
     'linestring',
     'link',
     'linux',
