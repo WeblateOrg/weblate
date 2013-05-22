@@ -198,7 +198,13 @@ def ssh(request):
     if can_generate and action == 'generate':
         try:
             subprocess.check_output(
-                ['ssh-keygen', '-q', '-N', '', '-C', 'Weblate', '-t', 'rsa', '-f', key_path[:-4]],
+                [
+                    'ssh-keygen', '-q',
+                    '-N', '',
+                    '-C', 'Weblate',
+                    '-t', 'rsa',
+                    '-f', key_path[:-4]
+                ],
                 stderr=subprocess.STDOUT,
             )
             messages.info(request, _('Created new SSH key.'))
