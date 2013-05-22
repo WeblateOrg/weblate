@@ -473,7 +473,8 @@ class SameCheck(TargetCheck):
         '''
         Test whether word should be ignored.
         '''
-        return self.strip_chars(word) in SAME_BLACKLIST
+        stripped = self.strip_chars(word)
+        return len(stripped) <= 1 or stripped in SAME_BLACKLIST
 
     def should_ignore(self, source, unit, cache_slot):
         '''
