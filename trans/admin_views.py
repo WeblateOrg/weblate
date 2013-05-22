@@ -197,15 +197,13 @@ def ssh(request):
     # Generate key if it does not exist yet
     if can_generate and action == 'generate':
         try:
-            ret = os.system(
-                'ssh-keygen -q -N \'\' -C Weblate -t rsa -f %s' % key_path[:-4]
+            subprocess.check_output(
+                ['ssh-keygen', '-q', '-N', '', '-C', 'Weblate', '-t', 'rsa', '-f', key_path[:-4]],
+                stderr=subprocess.STDOUT,
             )
-            if ret != 0:
-                messages.error(request, _('Failed to generate key!'))
-            else:
-                messages.info(request, _('Created new SSH key.'))
-        except:
-            messages.error(request, _('Failed to generate key!'))
+            messages.info(request, _('Created new SSH key.'))
+        except subprocess.CalledProcessError as exc:
+            messages.error(request, _('Failed to generate key: %s') % exc.output)
 
     # Read key data if it exists
     if os.path.exists(key_path):
