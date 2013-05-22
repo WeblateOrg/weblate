@@ -94,7 +94,12 @@ class Check(object):
         '''
         Generates key for a cache.
         '''
-        return 'check-%s-%s-%d' % (self.check_id, unit.checksum, cache_slot)
+        return 'check-%s-%d-%s-%d' % (
+            self.check_id,
+            unit.translation.subproject.id,
+            unit.checksum,
+            cache_slot
+        )
 
     def get_cache(self, unit, cache_slot=0):
         '''
