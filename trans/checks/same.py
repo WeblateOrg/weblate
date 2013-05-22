@@ -428,11 +428,23 @@ class SameCheck(TargetCheck):
         )
 
         # Cleanup trailing/leading chars
-        stripped = stripped.strip(
+        stripped = self.strip_chars(stripped)
+
+        return stripped
+
+    def strip_chars(self, word):
+        '''
+        Strip chars not useful for translating.
+        '''
+        return word.strip(
             u' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r✓—'
         )
 
-        return stripped
+    def test_word(self, word):
+        '''
+        Test whether word should be ignored.
+        '''
+        return self.strip_chars(word) in SAME_BLACKLIST
 
     def should_ignore(self, source, unit, cache_slot):
         '''
@@ -463,7 +475,7 @@ class SameCheck(TargetCheck):
                 # Check if we have any word which is not in blacklist
                 # (words which are often same in foreign language)
                 result = min(
-                    (word in SAME_BLACKLIST for word in stripped.split())
+                    (self.test_word(word) for word in stripped.split())
                 )
 
         # Store in cache

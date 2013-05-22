@@ -65,6 +65,14 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+        self.do_test(
+            False,
+            (
+                'Gettext (PO)',
+                'Gettext (PO)',
+                ''
+            )
+        )
 
     def test_same_copyright(self):
         self.do_test(
