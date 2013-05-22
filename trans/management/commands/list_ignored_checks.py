@@ -33,11 +33,21 @@ class Command(BaseCommand):
             default=100,
             help='Number of top checks to list',
         ),
+        make_option(
+            '--all',
+            action='store_true',
+            dest='all',
+            default=False,
+            help='Process all checks (not only ignored)',
+        ),
     )
 
     def handle(self, *args, **options):
         results = {}
-        checks = Check.objects.filter(ignore=True)
+        if options['all']:
+            checks = Check.objects.all()
+        else:
+            checks = Check.objects.filter(ignore=True)
         for check in checks:
             units = check.get_related_units()
             if not units.exists():
