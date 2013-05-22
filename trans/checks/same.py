@@ -147,7 +147,7 @@ SAME_BLACKLIST = frozenset((
     'interlingua',
     'ion',
     'ios',
-    'irix'
+    'irix',
     'isbn',
     'issn',
     'jabber',
@@ -189,6 +189,7 @@ SAME_BLACKLIST = frozenset((
     'mib',
     'min',
     'minimum',
+    'mint',
     'mm',
     'multiplayer',
     'mv',
@@ -357,7 +358,7 @@ SAME_BLACKLIST = frozenset((
     'i586',
     'm68k',
     'powerpc',
-    'sparc'
+    'sparc',
     'x86_64',
 ))
 
