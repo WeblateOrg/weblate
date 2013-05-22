@@ -34,11 +34,11 @@ class Command(BaseCommand):
             help='Number of top checks to list',
         ),
         make_option(
-            '--all',
+            '--list-all',
             action='store_true',
             dest='all',
             default=False,
-            help='Process all checks (not only ignored)',
+            help='List all checks (not only ignored)',
         ),
     )
 
