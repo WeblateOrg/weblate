@@ -117,9 +117,9 @@ class ImportProjectTest(RepoTestCase):
         )
 
 
-class PeriodicTest(RepoTestCase):
+class PeriodicCommandTest(RepoTestCase):
     def setUp(self):
-        super(PeriodicTest, self).setUp()
+        super(PeriodicCommandTest, self).setUp()
         self.create_subproject()
 
     def test_cleanup(self):
@@ -133,6 +133,19 @@ class PeriodicTest(RepoTestCase):
         # Test the command
         call_command(
             'update_index'
+        )
+
+    def test_list_checks(self):
+        call_command(
+            'list_ignored_checks'
+        )
+        call_command(
+            'list_ignored_checks',
+            list_all=True
+        )
+        call_command(
+            'list_ignored_checks',
+            count=10
         )
 
 
