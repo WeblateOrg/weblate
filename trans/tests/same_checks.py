@@ -190,6 +190,14 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+        self.do_test(
+            False,
+            (
+                '[2]: https://sourceforge.net/projects/pywin32/',
+                '[2]: https://sourceforge.net/projects/pywin32/',
+                ''
+            )
+        )
 
     def test_same_channel(self):
         self.do_test(
