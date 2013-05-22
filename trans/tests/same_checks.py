@@ -76,9 +76,18 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                'powerpc, m68k, i386, amd64'
-                'powerpc, m68k, i386, amd64'
-                ''
+                'powerpc, m68k, i386, amd64',
+                'powerpc, m68k, i386, amd64',
+                '',
+            )
+        )
+
+        self.do_test(
+            False,
+            (
+                'Fedora &amp; openSUSE',
+                'Fedora &amp; openSUSE',
+                '',
             )
         )
 
