@@ -392,7 +392,7 @@ class SameCheck(TargetCheck):
             result = True
         else:
             # Strip format strings
-            stripped = self.strip_string(lower_source, unit.flags)
+            stripped = self.strip_string(lower_source, unit.flags.split(', '))
 
             # Ignore strings which don't contain any string to translate
             # or just single letter (usually unit or something like that)
