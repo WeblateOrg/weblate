@@ -174,6 +174,14 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+        self.do_test(
+            False,
+            (
+                '[2]: http://code.google.com/p/pybluez/',
+                '[2]: http://code.google.com/p/pybluez/',
+                ''
+            )
+        )
 
     def test_same_channel(self):
         self.do_test(
