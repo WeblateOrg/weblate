@@ -282,11 +282,6 @@ $(function () {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
-        cookie: {
-            expires: 31,
-            name: 'translate-tab',
-            path: '/'
-        },
         cache: true,
         beforeLoad: function (e, ui) {
             var $panel = $(ui.panel);
@@ -317,7 +312,9 @@ $(function () {
             if (ui.newPanel.attr('id') == 'tab-machine') {
                 load_machine_translations();
             }
-        }
+            $.cookie('translate-tab', ui.newTab.index(), {path: '/', expires: 31});
+        },
+        active: $.cookie('translate-tab')
     });
     $("div.tabs").tabs({
         ajaxOptions: {
