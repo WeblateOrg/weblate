@@ -40,6 +40,7 @@ SAME_BLACKLIST = frozenset((
     'applet',
     'appliance',
     'appliances',
+    'attribute',
     'atom',
     'audio',
     'auto',
@@ -162,6 +163,7 @@ SAME_BLACKLIST = frozenset((
     'ltr',
     'ma',
     'mah',
+    'manager',
     'mailbox',
     'maildir',
     'max',
@@ -298,6 +300,7 @@ SAME_BLACKLIST = frozenset((
     'windows',
     'word',
     'www',
+    'xhtml',
     'xml',
     'zip',
 
