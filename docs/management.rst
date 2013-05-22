@@ -94,6 +94,14 @@ importusers <file.json>
 
 Imports users from JSON dump of Django auth_users database.
 
+list_ignored_checks
+-------------------
+
+.. django-admin:: list_ignored_checks
+
+Lists most frequently ignored checks. This can be useful for tuning your setup,
+if users have to ignore too many of consistency checks.
+
 loadpo <project|project/subproject>
 -----------------------------------
 
