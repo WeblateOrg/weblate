@@ -141,6 +141,7 @@ SAME_BLACKLIST = frozenset((
     'index',
     'info',
     'information',
+    'interlingua',
     'ion',
     'isbn',
     'issn',
