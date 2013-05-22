@@ -48,6 +48,24 @@ class SameCheckTest(CheckTestCase):
     def test_same_numbers(self):
         self.do_test(False, ('1:4', '1:4', ''))
 
+    def test_same_multi(self):
+        self.do_test(
+            False,
+            (
+                u'Linux kernel',
+                u'Linux kernel',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                u'Linux kernel image',
+                u'Linux kernel image',
+                ''
+            )
+        )
+
     def test_same_copyright(self):
         self.do_test(
             False,

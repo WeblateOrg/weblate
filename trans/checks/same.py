@@ -403,11 +403,12 @@ class SameCheck(TargetCheck):
             # or just single letter (usually unit or something like that)
             if len(stripped) <= 1:
                 result = True
-            # Ignore words which are often same in foreign language
-            elif stripped in SAME_BLACKLIST:
-                result = True
             else:
-                result = False
+                # Check if we have any word which is not in blacklist
+                # (words which are often same in foreign language)
+                result = min(
+                    (word in SAME_BLACKLIST for word in stripped.split())
+                )
 
         # Store in cache
         self.set_cache(unit, result, cache_slot)
