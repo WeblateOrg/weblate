@@ -49,7 +49,7 @@ class MockSubProject(object):
     '''
     def __init__(self):
         self.id = 1
-        self.project= MockProject()
+        self.project = MockProject()
 
 
 class MockTranslation(object):
@@ -58,7 +58,7 @@ class MockTranslation(object):
     '''
     def __init__(self, code='cs'):
         self.language = MockLanguage(code)
-        self.subproject= MockSubProject()
+        self.subproject = MockSubProject()
 
 
 class MockUnit(object):
