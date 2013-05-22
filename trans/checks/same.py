@@ -221,6 +221,7 @@ SAME_BLACKLIST = frozenset((
     'system',
     'table',
     'test',
+    'texy',
     'text',
     'tib',
     'timer',
