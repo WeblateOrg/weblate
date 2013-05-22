@@ -445,6 +445,8 @@ class SameCheck(TargetCheck):
         ).replace(
             '&gt;', '>'
         ).replace(
+            '&amp;', '&'
+        ).replace(
             '&ldquo;', '"'
         ).replace(
             '&rdquo;', '"'
