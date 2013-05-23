@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-22 14:33+0200\n"
-"PO-Revision-Date: 2013-05-07 18:33+0200\n"
+"PO-Revision-Date: 2013-05-23 17:36+0200\n"
 "Last-Translator: Rodrigo Souza <rodrigo.chrome@live.com>\n"
-"Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
-"master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,12 +275,12 @@ msgstr "Biblioteca PyICU"
 
 #: trans/admin_views.py:132
 msgid "Allowed hosts"
-msgstr ""
+msgstr "Hosts permitidos"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[hostname com hash]"
 
 #: trans/admin_views.py:204 trans/admin_views.py:208
 msgid "Failed to generate key!"
@@ -291,10 +291,9 @@ msgid "Created new SSH key."
 msgstr "Nova chave SSH criada."
 
 #: trans/admin_views.py:227
-#, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
-msgstr "Direção do texto inválida"
+msgstr "Hostname fornecido inválido!"
 
 #: trans/admin_views.py:240
 #, python-format
@@ -302,6 +301,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Foi adicionada uma chave de host para %(host)s com a identidade %"
+"(fingerprint)s, favor verifique se está correto."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -787,10 +788,9 @@ msgid "Suggestion accepted"
 msgstr "Sugestões aceita"
 
 #: trans/models/changes.py:137
-#, fuzzy
 #| msgid "Translation completed"
 msgid "Translation reverted"
-msgstr "Tradução Completada"
+msgstr "Tradução revertida"
 
 #: trans/models/changes.py:157
 #, python-format
@@ -989,20 +989,19 @@ msgstr ""
 "traduções neste projeto"
 
 #: trans/models/subproject.py:179
-#, fuzzy
 #| msgid ""
 #| "Define whether Weblate should merge upstream repository or rebase changes "
 #| "onto it."
 msgid "Whether Weblate should keep history of translations"
-msgstr ""
-"Definir quando Weblate deve mesclar o repositório de origem ou se rebasear "
-"nele mesmo."
+msgstr "Define se o Weblate deve manter um histórico de traduções"
 
 #: trans/models/subproject.py:395
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Falha em verificar a chave de host SSH, favor adicione-a na página SSH na "
+"interface do administrador."
 
 #: trans/models/subproject.py:399
 #, python-format
@@ -1433,16 +1432,14 @@ msgid "Can not merge different messages!"
 msgstr "Não pode mesclar mensagens diferentes!"
 
 #: trans/views/edit.py:362
-#, fuzzy
 #| msgid "Can not merge different messages!"
 msgid "Can not revert to different unit!"
-msgstr "Não pode mesclar mensagens diferentes!"
+msgstr "Não pode reverter para uma unidade diferente!"
 
 #: trans/views/edit.py:367
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
-msgstr "Copiar palavra para a tradução"
+msgstr "Não pode reverter para uma tradução vazia!"
 
 #: trans/views/edit.py:385
 msgid "You need to log in to be able to manage suggestions!"
@@ -2641,7 +2638,7 @@ msgstr "Resumos"
 #: weblate/html/translate.html:178 weblate/html/translation.html:35
 #: weblate/html/translation.html.py:87
 msgid "History"
-msgstr ""
+msgstr "Histórico"
 
 #: weblate/html/index.html:66
 msgid "Most active translators"
@@ -2699,14 +2696,13 @@ msgid "Action"
 msgstr "Ação"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
-#, fuzzy
 #| msgid "Tweet this translation!"
 msgid "Revert to this translation"
-msgstr "Tweet esta tradução!"
+msgstr "Reverter para esta tradução"
 
 #: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
 msgid "Revert"
-msgstr ""
+msgstr "Reverter"
 
 #: weblate/html/last-changes.html:38
 msgid "No recent activity has been recorded."
@@ -3076,7 +3072,7 @@ msgstr "Comentários sobre esta tradução"
 #: weblate/html/translate.html:173
 #, python-format
 msgid "Comments (%(count)s)"
-msgstr ""
+msgstr "(%(count)s) comentário(s)"
 
 #: weblate/html/translate.html:175 weblate/html/unit-details.html:10
 msgid "Comments"
@@ -3093,7 +3089,7 @@ msgstr "Detalhes sobre os termos fonte e opinião"
 #: weblate/html/translate.html:181
 #, python-format
 msgid "Source (%(count)s)"
-msgstr ""
+msgstr "(%(count)s) fonte(s)"
 
 #: weblate/html/translate.html:186 weblate/html/translate.html.py:284
 #: weblate/html/translation.html:36 weblate/html/translation.html.py:52
@@ -3258,10 +3254,9 @@ msgid "Message is translated"
 msgstr "Mensagem esta traduzida"
 
 #: weblate/html/unit-state.html:7
-#, fuzzy
 #| msgid "User comments"
 msgid "Message has comments"
-msgstr "Comentários do Usuário"
+msgstr "A mensagem possui comentários"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
@@ -3435,31 +3430,32 @@ msgstr "Gerar"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Chaves de host conhecidas"
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "Último nome"
+msgstr "Nome de host"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
-msgstr ""
+msgstr "Identidade"
 
 #: weblate/html/admin/ssh.html:54
 msgid "Add host key"
-msgstr ""
+msgstr "Adicionar chave de host"
 
 #: weblate/html/admin/ssh.html:55
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
 msgstr ""
+"Para acessar hosts SSH, sua chave de host precisa ser verificada. Você pode "
+"verificar a chave de host usando o formulário abaixo."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: weblate/html/admin/ssh.html:63
 msgid "More information"
