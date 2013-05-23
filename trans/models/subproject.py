@@ -480,6 +480,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
         # Push after possible merge
         if (self.git_needs_push()
+                and ret
                 and self.project.push_on_commit
                 and self.can_push()):
             self.do_push(request, force_commit=False, do_update=False)
