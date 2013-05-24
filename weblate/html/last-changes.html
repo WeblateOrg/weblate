@@ -16,7 +16,6 @@
 <th>{% trans "Action" %}</th>
 <th>{% trans "Translation" %}</th>
 <th></th>
-<th></th>
 </tr>
 <tbody>
 {% for c in last_changes %}
@@ -25,14 +24,14 @@
 <td>{{ c.get_user_display }}</td>
 <td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
 <td><a href="{{ c.translation.get_absolute_url }}">{{ c.translation }}</a></td>
-{% if c.target %}
-<td class="translatetext">{{ c.target|fmttranslation }}</td>
-<td>{% if perms.trans.save_translation and c.target != c.unit.target %}<a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>{% endif %}</td>
-{% else %}
 <td></td>
-<td></td>
-{% endif %}
 </tr>
+{% if c.target %}
+<tr>
+<td colspan="4" class="translatetext">{{ c.target|fmttranslation }}</td>
+<td>{% if perms.trans.save_translation and c.target != c.unit.target %}<a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>{% endif %}</td>
+</tr>
+{% endif %}
 {% empty %}
 <tr><td colspan="4" class="tablenotice">
 {% trans "No recent activity has been recorded." %}
