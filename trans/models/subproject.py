@@ -411,16 +411,17 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         if 'origin' not in self.git_repo.git.remote().split():
             self.git_repo.git.remote('add', 'origin', self.repo)
 
-        # Set remote URL
-        self.git_repo.git.remote('set-url', 'origin', self.repo)
+        if not self.repo.startswith('hg::'):
+            # Set remote URL
+            self.git_repo.git.remote('set-url', 'origin', self.repo)
 
-        # Set branch to track
-        # We first need to add one to ensure there is at least one branch
-        self.git_repo.git.remote(
-            'set-branches', '--add', 'origin', self.branch
-        )
-        # Then we can set to track just one
-        self.git_repo.git.remote('set-branches', 'origin', self.branch)
+            # Set branch to track
+            # We first need to add one to ensure there is at least one branch
+            self.git_repo.git.remote(
+                'set-branches', '--add', 'origin', self.branch
+            )
+            # Then we can set to track just one
+            self.git_repo.git.remote('set-branches', 'origin', self.branch)
 
         # Get object for remote
         origin = self.git_repo.remotes.origin
@@ -525,10 +526,15 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 'pushing to remote repo %s',
                 self.__unicode__()
             )
-            self.git_repo.git.push(
-                'origin',
-                '%s:%s' % (self.branch, self.branch)
-            )
+            if not self.repo.startswith('hg::'):
+                self.git_repo.git.push(
+                    'origin',
+                    '%s:%s' % (self.branch, self.branch)
+                )
+            else:
+                self.git_repo.git.push(
+                    'origin'
+                )
             return True
         except Exception as e:
             weblate.logger.warning(
