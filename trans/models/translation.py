@@ -1081,7 +1081,7 @@ class Translation(models.Model, URLMixin):
             self.commit_pending(request, author)
             store1.save()
             ret = self.git_commit(request, author, timezone.now(), True)
-            self.check_sync()
+            self.check_sync(request=request)
 
         return ret
 
