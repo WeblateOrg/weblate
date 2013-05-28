@@ -463,12 +463,15 @@ class Translation(models.Model, URLMixin):
                     checksum=checksum
                 ).delete()
 
-    def check_sync(self, force=False, request=None):
+    def check_sync(self, force=False, request=None, change=None):
         '''
         Checks whether database is in sync with git and possibly does update.
         '''
         from trans.models.unit import Unit
         from trans.models.changes import Change
+
+        if change is None:
+            change = Change.ACTION_UPDATE
 
         # Check if we're not already up to date
         if self.revision != self.get_git_blob_hash():
@@ -548,7 +551,7 @@ class Translation(models.Model, URLMixin):
             user = request.user
         Change.objects.create(
             translation=self,
-            action=Change.ACTION_UPDATE,
+            action=change,
             user=user
         )
 
@@ -1038,6 +1041,8 @@ class Translation(models.Model, URLMixin):
         '''
         Merges translate-toolkit store into current translation.
         '''
+        from trans.models.changes import Change
+
         # Merge with lock acquired
         with self.subproject.git_lock:
 
@@ -1081,7 +1086,7 @@ class Translation(models.Model, URLMixin):
             self.commit_pending(request, author)
             store1.save()
             ret = self.git_commit(request, author, timezone.now(), True)
-            self.check_sync(request=request)
+            self.check_sync(request=request, change=Change.ACTION_UPLOAD)
 
         return ret
 
