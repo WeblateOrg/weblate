@@ -351,7 +351,7 @@ class UnitManager(models.Manager):
             pk=unit.id
         )
 
-    def more_like_this(self, unit):
+    def more_like_this(self, unit, top=5):
         '''
         Finds closely similar units.
         '''
@@ -372,7 +372,7 @@ class UnitManager(models.Manager):
             more_results = first_hit.more_like_this(
                 'source',
                 source_string,
-                8
+                top
             )
             # Include all more like this results
             for result in more_results:
