@@ -83,8 +83,22 @@ class Project(models.Model, PercentMixin, URLMixin):
         help_text=ugettext_lazy('Email conference for translators'),
     )
     instructions = models.URLField(
+        ugettext_lazy('Instructions'),
         blank=True,
         help_text=ugettext_lazy('URL with instructions for translators'),
+    )
+    license = models.CharField(
+        ugettext_lazy('License'),
+        max_length=150,
+        blank=True,
+        help_text=ugettext_lazy(
+            'Optional short summary of license used for translations.'
+        ),
+    )
+    license_url = models.URLField(
+        ugettext_lazy('License URL'),
+        blank=True,
+        help_text=ugettext_lazy('Optional URL with license details'),
     )
     new_lang = models.CharField(
         ugettext_lazy('New language'),
