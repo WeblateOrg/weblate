@@ -132,6 +132,7 @@ def user_profile(request):
         'subscriptionform': subscriptionform,
         'profile': profile,
         'title': _('User profile'),
+        'licenses': Project.objects.exclude(license=''),
     }))
     response.set_cookie(
         settings.LANGUAGE_COOKIE_NAME,

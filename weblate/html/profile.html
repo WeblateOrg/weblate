@@ -24,6 +24,7 @@
 <li><a href="#account">{% trans "Account" %}</a></li>
 <li><a href="#password">{% trans "Password" %}</a></li>
 <li><a href="#info">{% trans "Information" %}</a></li>
+<li><a href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a href="#avatar">{% trans "Avatar" %}</a></li>
 </ul>
 <div id="preferences">
@@ -56,6 +57,27 @@
 {% trans "Your public profile:" %}
 <a href="{{ user_page }}">{{ user_page }}</a>
 </p>
+</div>
+<div id="licenses">
+<p>
+{% trans "By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project." %}
+</p>
+
+{% if licenses %}
+<p>{% trans "Following projects have explicitely specified their licensing and copyright conditions:" %}</p>
+<dl>
+{% for project in licenses %}
+<dt><strong>{{ project.name }}</strong></dt>
+<dd>
+{% if project.license_url %}
+<a href="{{ project.license_url }}">{{ project.license }}</a></p>
+{% else %}
+{{ project.license }}
+{% endif %}
+</dd>
+{% endfor %}
+</dl>
+{% endif %}
 </div>
 <div id="avatar">
 <p class="border">{% avatar request.user 128 %}</p>
