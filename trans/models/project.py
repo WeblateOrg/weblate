@@ -98,7 +98,7 @@ class Project(models.Model, PercentMixin, URLMixin):
     license_url = models.URLField(
         ugettext_lazy('License URL'),
         blank=True,
-        help_text=ugettext_lazy('Optional URL with license details'),
+        help_text=ugettext_lazy('Optional URL with license details.'),
     )
     new_lang = models.CharField(
         ugettext_lazy('New language'),
