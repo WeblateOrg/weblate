@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-28 10:25+0200\n"
+"POT-Creation-Date: 2013-05-28 15:55+0200\n"
 "PO-Revision-Date: 2013-05-28 10:33+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -174,11 +174,11 @@ msgstr "Το προφίλ σας έχει ενημερωθεί."
 msgid "User profile"
 msgstr "Προφίλ χρήστη"
 
-#: accounts/views.py:158
+#: accounts/views.py:159
 msgid "Message has been sent to administrator."
 msgstr "Το μήνυμα εστάλει στον διαχειριστή."
 
-#: accounts/views.py:172
+#: accounts/views.py:173
 msgid "Contact"
 msgstr "Επικοινωνία"
 
@@ -288,7 +288,6 @@ msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
 #: trans/admin_views.py:218
 #, python-format
-#| msgid "Failed to generate key!"
 msgid "Failed to generate key: %s"
 msgstr "Απέτυχε η δημιουργία κλειδιού: %s"
 
@@ -803,7 +802,6 @@ msgid "Translation reverted"
 msgstr "Η μετάφραση επανήλθε"
 
 #: trans/models/changes.py:140
-#| msgid "Translations made"
 msgid "Translation uploaded"
 msgstr "Η μετάφραση απεστάλει"
 
@@ -840,23 +838,45 @@ msgstr "Ιστοσελίδα έργου"
 msgid "Email conference for translators"
 msgstr "Συνέδριο αλληλογραφίας για μεταφραστές"
 
-#: trans/models/project.py:87
+#: trans/models/project.py:86
+#, fuzzy
+#| msgid "Information"
+msgid "Instructions"
+msgstr "Πληροφορίες"
+
+#: trans/models/project.py:88
 msgid "URL with instructions for translators"
 msgstr "URL με Οδηγίες για μεταφραστές"
 
-#: trans/models/project.py:90 weblate/html/subproject.html:32
+#: trans/models/project.py:91
+msgid "License"
+msgstr ""
+
+#: trans/models/project.py:95
+msgid "Optional short summary of license used for translations."
+msgstr ""
+
+#: trans/models/project.py:99
+msgid "License URL"
+msgstr ""
+
+#: trans/models/project.py:101
+msgid "Optional URL with license details"
+msgstr ""
+
+#: trans/models/project.py:104 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "Νέα Γλώσσα"
 
-#: trans/models/project.py:95
+#: trans/models/project.py:109
 msgid "How to handle requests for creating new languages."
 msgstr "Πως να χειρίζεστε αιτήσεις για δημιουργία νέων γνωσσών."
 
-#: trans/models/project.py:99
+#: trans/models/project.py:113
 msgid "Merge style"
 msgstr "Ένωση στυλ"
 
-#: trans/models/project.py:104
+#: trans/models/project.py:118
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -864,7 +884,7 @@ msgstr ""
 "Ορίστε αν το Weblate θα πρέπει να συγχωνεύσει αποστέλοντας το χώρο φύλαξης ή "
 "να αναβαθμίσει τις αλλαγές σε αυτό."
 
-#: trans/models/project.py:112
+#: trans/models/project.py:126
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -872,18 +892,18 @@ msgstr ""
 "Μπορείτε να χρησιμιοποιήσετε μορφοποιημένα κείμενα για διάφορες πληροφορίες, "
 "για περισσότερες λεπτομέρειες δείτε την τεκμηρίωση."
 
-#: trans/models/project.py:129
+#: trans/models/project.py:143
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Αν το αποθετήριο πρέπει να προωθηθεί προς τα πάνω σε κάθε πράξη."
 
-#: trans/models/project.py:136
+#: trans/models/project.py:150
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "Αν θα πρέπει η Μεταφραστική Ομάδα στις κεφαλίδες αρχείου να ενημερώνετε από "
 "το Weblate."
 
-#: trans/models/project.py:144
+#: trans/models/project.py:158
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
@@ -891,18 +911,22 @@ msgstr ""
 "Προκειμένου να ενεργοποιήσετε το ACL για αυτό το έργο, ελέξτε την τεκμηρίωση "
 "πριν το ενεργοποιήσετε αυτό."
 
-#: trans/models/project.py:182
+#: trans/models/project.py:196
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "Δεν σας επιτρέπεται η πρόσβαση στο έργο %s."
 
-#: trans/models/project.py:189
+#: trans/models/project.py:203
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 "Είτε συμπληρώστε το URL οδηγιών ή χρησιμοποιήστε διαφορετική επιλογή για "
 "προσθήκη νέας γλώσσας."
+
+#: trans/models/project.py:209
+msgid "License URL can not be used without license summary."
+msgstr ""
 
 #: trans/models/subproject.py:69
 msgid "Name to display"
@@ -1941,7 +1965,7 @@ msgstr "λεξικά"
 msgid "Change word"
 msgstr "Αλλαγή λέξης"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
+#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:88
 #: weblate/html/translate.html:147
 msgid "Save"
 msgstr "Αποθήκευση"
@@ -2809,32 +2833,56 @@ msgid "Information"
 msgstr "Πληροφορίες"
 
 #: weblate/html/profile.html:27
+msgid "Licenses"
+msgstr ""
+
+#: weblate/html/profile.html:28
 msgid "Avatar"
 msgstr "Είδωλο"
 
-#: weblate/html/profile.html:35
+#: weblate/html/profile.html:36
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 "θα λάβετε τις επιλεγμένες ειδοποιήσεις μέσω ηλεκτρονικού ταχυδρομείου για "
 "όλες σας τις γλώσσες."
 
-#: weblate/html/profile.html:44
+#: weblate/html/profile.html:45
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 "Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζεται ως δημιουργός "
 "στους συμμετέχοντες του Git."
 
-#: weblate/html/profile.html:48
+#: weblate/html/profile.html:49
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Μπορείτε να αλλάξετε κωδικό σε <a href=\"%(pw_url)s\">διαφορετική σελίδα</a>."
 
-#: weblate/html/profile.html:56
+#: weblate/html/profile.html:57
 msgid "Your public profile:"
 msgstr "Το δημόσιό σας προφίλ:"
 
-#: weblate/html/profile.html:62
+#: weblate/html/profile.html:63
+#: weblate/html/registration/registration_form.html:23
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "your contribution to be licensed under same license as translated content."
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η διεύθυνσή "
+"σας στους συμμετέχοντες του Git και η συνεισφορά σας να αδειοδοτηθεί υπό την "
+"ίδια άδεια όπως το μεταφρασμένο περιεχόμενο."
+
+#: weblate/html/profile.html:67
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr ""
+
+#: weblate/html/profile.html:84
 msgid "Avatars are provided using libravatar."
 msgstr "Τα είδωλα παρέχονται με χρήτη του libravatar."
 
@@ -2876,6 +2924,12 @@ msgstr "Λίστα αλληλογραφίας για μεταφραστές:"
 #: weblate/html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Οδηγίες για μεταφραστές:"
+
+#: weblate/html/project_info.html:10
+#, fuzzy
+#| msgid "Translation change:"
+msgid "Translation license:"
+msgstr "Αλλαγή μετάφρασης:"
 
 #: weblate/html/share.html:5
 msgid "Share on Facebook!"
@@ -4001,15 +4055,6 @@ msgstr ""
 #: weblate/html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
 msgstr "Διορθώστε τα σφάλματα στη φόρμα εγγραφής."
-
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and your "
-"contribution to be licensed under same license as translated content."
-msgstr ""
-"Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η διεύθυνσή "
-"σας στους συμμετέχοντες του Git και η συνεισφορά σας να αδειοδοτηθεί υπό την "
-"ίδια άδεια όπως το μεταφρασμένο περιεχόμενο."
 
 #: weblate/html/trans/change_list.html:7
 msgid "changes"

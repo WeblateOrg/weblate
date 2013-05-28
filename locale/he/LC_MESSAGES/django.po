@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-28 10:25+0200\n"
+"POT-Creation-Date: 2013-05-28 15:55+0200\n"
 "PO-Revision-Date: 2013-05-17 19:55+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
@@ -171,11 +171,11 @@ msgstr "הפרופיל שלך עודכן."
 msgid "User profile"
 msgstr "פרופיל המשתמש"
 
-#: accounts/views.py:158
+#: accounts/views.py:159
 msgid "Message has been sent to administrator."
 msgstr "נשלחה הודעה אל המנהל."
 
-#: accounts/views.py:172
+#: accounts/views.py:173
 msgid "Contact"
 msgstr "יצירת קשר"
 
@@ -826,62 +826,88 @@ msgstr "אתר המיזם"
 msgid "Email conference for translators"
 msgstr "דיון בדוא״ל לטובת המתרגמים"
 
-#: trans/models/project.py:87
+#: trans/models/project.py:86
+#, fuzzy
+#| msgid "Information"
+msgid "Instructions"
+msgstr "פרטים"
+
+#: trans/models/project.py:88
 msgid "URL with instructions for translators"
 msgstr "כתובת עם הנחיות למתרגמים"
 
-#: trans/models/project.py:90 weblate/html/subproject.html:32
+#: trans/models/project.py:91
+msgid "License"
+msgstr ""
+
+#: trans/models/project.py:95
+msgid "Optional short summary of license used for translations."
+msgstr ""
+
+#: trans/models/project.py:99
+msgid "License URL"
+msgstr ""
+
+#: trans/models/project.py:101
+msgid "Optional URL with license details"
+msgstr ""
+
+#: trans/models/project.py:104 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "שפה חדשה"
 
-#: trans/models/project.py:95
+#: trans/models/project.py:109
 msgid "How to handle requests for creating new languages."
 msgstr "כיצד לטפל בבקשות ליצירת שפה חדשה."
 
-#: trans/models/project.py:99
+#: trans/models/project.py:113
 msgid "Merge style"
 msgstr "סגנון המיזוג"
 
-#: trans/models/project.py:104
+#: trans/models/project.py:118
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr "להגדיר האם Weblate אמור למזג אל מיזם המקור או לבסס את השינויים עליו."
 
-#: trans/models/project.py:112
+#: trans/models/project.py:126
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
 "ניתן להשתמש במחרוזות תבנית להצגת מגוון פרטים, נא לחפש פרטים נוספים בתיעוד."
 
-#: trans/models/project.py:129
+#: trans/models/project.py:143
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "האם יש לדחוף את המאגר בחזרה למקור עם כל שמירה של תרגום."
 
-#: trans/models/project.py:136
+#: trans/models/project.py:150
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 "האם יש לעדכן את צוות התרגום (Translation-Team) בכותרות הקבצים ע״י Weblate."
 
-#: trans/models/project.py:144
+#: trans/models/project.py:158
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
 "האם להפעיל ACL (הגבלת גישה) על מיזם זה, נא לבדוק בתיעוד לפני הפעלת תכונה זו."
 
-#: trans/models/project.py:182
+#: trans/models/project.py:196
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "אין לך הרשאה לגשת למיזם %s."
 
-#: trans/models/project.py:189
+#: trans/models/project.py:203
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr "נא למלא את כתובת ההנחיות או להשתמש באפשרות אחרת להוספת שפה חדשה."
+
+#: trans/models/project.py:209
+msgid "License URL can not be used without license summary."
+msgstr ""
 
 #: trans/models/subproject.py:69
 msgid "Name to display"
@@ -1887,7 +1913,7 @@ msgstr "מילונים"
 msgid "Change word"
 msgstr "החלפת מילה"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
+#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:88
 #: weblate/html/translate.html:147
 msgid "Save"
 msgstr "שמירה"
@@ -2751,27 +2777,44 @@ msgid "Information"
 msgstr "פרטים"
 
 #: weblate/html/profile.html:27
+msgid "Licenses"
+msgstr ""
+
+#: weblate/html/profile.html:28
 msgid "Avatar"
 msgstr "תמונת משתמש"
 
-#: weblate/html/profile.html:35
+#: weblate/html/profile.html:36
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr "ההתרעות הנבחרות יגיעו אליך לתיבת הדוא״ל עבור כל השפות שלך."
 
-#: weblate/html/profile.html:44
+#: weblate/html/profile.html:45
 msgid "Your name and email will appear as author on Git commits."
 msgstr "השם וכתובת הדוא״ל שלך יופיעו כשם המחבר בהגשות ל־Git."
 
-#: weblate/html/profile.html:48
+#: weblate/html/profile.html:49
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr "ניתן לשנות ססמה ב<a href=\"%(pw_url)s\">עמוד נפרד</a>."
 
-#: weblate/html/profile.html:56
+#: weblate/html/profile.html:57
 msgid "Your public profile:"
 msgstr "הפרופיל הציבורי שלך:"
 
-#: weblate/html/profile.html:62
+#: weblate/html/profile.html:63
+#: weblate/html/registration/registration_form.html:23
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+
+#: weblate/html/profile.html:67
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr ""
+
+#: weblate/html/profile.html:84
 msgid "Avatars are provided using libravatar."
 msgstr "תמונות המשתמש מסופקות באמצעות libravatar."
 
@@ -2813,6 +2856,12 @@ msgstr "רשימת התפוצה למתרגמים:"
 #: weblate/html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "הנחיות למתרגמים:"
+
+#: weblate/html/project_info.html:10
+#, fuzzy
+#| msgid "Translation changed"
+msgid "Translation license:"
+msgstr "התרגום השתנה"
 
 #: weblate/html/share.html:5
 msgid "Share on Facebook!"
@@ -3863,12 +3912,6 @@ msgstr ""
 #: weblate/html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
 msgstr "אנא תיקן שגויים בתופס הרשמה."
-
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and your "
-"contribution to be licensed under same license as translated content."
-msgstr ""
 
 #: weblate/html/trans/change_list.html:7
 msgid "changes"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-28 10:25+0200\n"
+"POT-Creation-Date: 2013-05-28 15:55+0200\n"
 "PO-Revision-Date: 2013-05-28 10:31+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -174,11 +174,11 @@ msgstr "Váš profil byl aktualizován."
 msgid "User profile"
 msgstr "Uživatelský profil"
 
-#: accounts/views.py:158
+#: accounts/views.py:159
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:172
+#: accounts/views.py:173
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -288,7 +288,6 @@ msgstr "Byl vytvořen nový SSH klíč."
 
 #: trans/admin_views.py:218
 #, python-format
-#| msgid "Failed to generate key!"
 msgid "Failed to generate key: %s"
 msgstr "Nepodařilo se vytvořit klíč: %s"
 
@@ -786,7 +785,6 @@ msgid "Translation reverted"
 msgstr "Překlad vrácen"
 
 #: trans/models/changes.py:140
-#| msgid "Translations made"
 msgid "Translation uploaded"
 msgstr "Nahrán překlad"
 
@@ -823,30 +821,52 @@ msgstr "Stránky projektu"
 msgid "Email conference for translators"
 msgstr "Emailová konference pro překladatele"
 
-#: trans/models/project.py:87
+#: trans/models/project.py:86
+#, fuzzy
+#| msgid "Information"
+msgid "Instructions"
+msgstr "Informace"
+
+#: trans/models/project.py:88
 msgid "URL with instructions for translators"
 msgstr "URL návodu pro překladatele"
 
-#: trans/models/project.py:90 weblate/html/subproject.html:32
+#: trans/models/project.py:91
+msgid "License"
+msgstr ""
+
+#: trans/models/project.py:95
+msgid "Optional short summary of license used for translations."
+msgstr ""
+
+#: trans/models/project.py:99
+msgid "License URL"
+msgstr ""
+
+#: trans/models/project.py:101
+msgid "Optional URL with license details"
+msgstr ""
+
+#: trans/models/project.py:104 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "Nový jazyk"
 
-#: trans/models/project.py:95
+#: trans/models/project.py:109
 msgid "How to handle requests for creating new languages."
 msgstr "Jak se mají řešit požadavky na nové překlady."
 
-#: trans/models/project.py:99
+#: trans/models/project.py:113
 msgid "Merge style"
 msgstr "Způsob slučování"
 
-#: trans/models/project.py:104
+#: trans/models/project.py:118
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 "Zvolte zda má Weblate sloučit vzdálený repozitář nebo přeskládat změny."
 
-#: trans/models/project.py:112
+#: trans/models/project.py:126
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -854,16 +874,16 @@ msgstr ""
 "Můžete použít formátovací řetězce pro začlenění různých informace, další "
 "informace naleznete v dokumentaci."
 
-#: trans/models/project.py:129
+#: trans/models/project.py:143
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Zda má být repozitář odeslán při každém zapsání změn."
 
-#: trans/models/project.py:136
+#: trans/models/project.py:150
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Jestli má být hlavička Translation-Team aktualizována Weblate."
 
-#: trans/models/project.py:144
+#: trans/models/project.py:158
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
@@ -871,18 +891,22 @@ msgstr ""
 "Jestli se mají pro tento projekt povolit ACL. Před zapnutím si prosím "
 "přečtěte dokumentaci."
 
-#: trans/models/project.py:182
+#: trans/models/project.py:196
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "Nemáte oprávnění pro přístup k projektu %s."
 
-#: trans/models/project.py:189
+#: trans/models/project.py:203
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 "Prosím zadejte URL s instrukcemi nebo zvolte jinou možnost přidávání nového "
 "jazyka."
+
+#: trans/models/project.py:209
+msgid "License URL can not be used without license summary."
+msgstr ""
 
 #: trans/models/subproject.py:69
 msgid "Name to display"
@@ -1922,7 +1946,7 @@ msgstr "slovníky"
 msgid "Change word"
 msgstr "Změna slova"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:66
+#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:88
 #: weblate/html/translate.html:147
 msgid "Save"
 msgstr "Uložit"
@@ -2794,28 +2818,51 @@ msgid "Information"
 msgstr "Informace"
 
 #: weblate/html/profile.html:27
+msgid "Licenses"
+msgstr ""
+
+#: weblate/html/profile.html:28
 msgid "Avatar"
 msgstr "Avatar"
 
-#: weblate/html/profile.html:35
+#: weblate/html/profile.html:36
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr "Vybraná upozornění vám budou chodit pro všechny vaše jazyky."
 
-#: weblate/html/profile.html:44
+#: weblate/html/profile.html:45
 msgid "Your name and email will appear as author on Git commits."
 msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
 
-#: weblate/html/profile.html:48
+#: weblate/html/profile.html:49
 #, python-format
 msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 msgstr ""
 "Heslo si můžete změnit na <a href=\"%(pw_url)s\">samostatné stránce</a>."
 
-#: weblate/html/profile.html:56
+#: weblate/html/profile.html:57
 msgid "Your public profile:"
 msgstr "Váš veřejný profil:"
 
-#: weblate/html/profile.html:62
+#: weblate/html/profile.html:63
+#: weblate/html/registration/registration_form.html:23
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "your contribution to be licensed under same license as translated content."
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Registrací souhlasíte s použitím vašeho jména a emailu v commitech do Gitu a "
+"licencováním vašich příspěvků pod stejnou licencí jako byl překládaný obsah."
+
+#: weblate/html/profile.html:67
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr ""
+
+#: weblate/html/profile.html:84
 msgid "Avatars are provided using libravatar."
 msgstr "Avatary jsou získávány prostřednictvím služby libravatar."
 
@@ -2857,6 +2904,12 @@ msgstr "Emailová konference pro překladatele:"
 #: weblate/html/project_info.html:7
 msgid "Instructions for translators:"
 msgstr "Návod pro překladatele:"
+
+#: weblate/html/project_info.html:10
+#, fuzzy
+#| msgid "Translation change:"
+msgid "Translation license:"
+msgstr "Změna v překladu:"
 
 #: weblate/html/share.html:5
 msgid "Share on Facebook!"
@@ -3966,14 +4019,6 @@ msgstr ""
 #: weblate/html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."
 msgstr "Prosím opravte chyby v registračním formuláři."
-
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and your "
-"contribution to be licensed under same license as translated content."
-msgstr ""
-"Registrací souhlasíte s použitím vašeho jména a emailu v commitech do Gitu a "
-"licencováním vašich příspěvků pod stejnou licencí jako byl překládaný obsah."
 
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
