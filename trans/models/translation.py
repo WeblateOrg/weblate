@@ -45,8 +45,7 @@ from trans.mixins import URLMixin
 
 
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, force=False,
-                         request=None):
+    def check_sync(self, subproject, code, path, force=False, request=None):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -59,7 +58,7 @@ class TranslationManager(models.Manager):
         if translation.filename != path:
             force = True
             translation.filename = path
-        translation.update_from_blob(force, request=request)
+        translation.check_sync(force, request=request)
 
         return translation
 
@@ -408,12 +407,6 @@ class Translation(models.Model, URLMixin):
                 raise
         return self._store
 
-    def check_sync(self):
-        '''
-        Checks whether database is in sync with git and possibly does update.
-        '''
-        self.update_from_blob()
-
     def cleanup_deleted(self, deleted_checksums):
         '''
         Removes stale checks/comments/suggestions for deleted units.
@@ -470,9 +463,9 @@ class Translation(models.Model, URLMixin):
                     checksum=checksum
                 ).delete()
 
-    def update_from_blob(self, force=False, request=None):
+    def check_sync(self, force=False, request=None):
         '''
-        Updates translation data from blob.
+        Checks whether database is in sync with git and possibly does update.
         '''
         from trans.models.unit import Unit
         from trans.models.changes import Change

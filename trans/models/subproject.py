@@ -702,7 +702,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 continue
 
             weblate.logger.info('checking %s', path)
-            translation = Translation.objects.update_from_blob(
+            translation = Translation.objects.check_sync(
                 self, code, path, force, request=request
             )
             translations.append(translation.id)

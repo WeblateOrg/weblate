@@ -625,7 +625,7 @@ class Unit(models.Model):
                 )
             )
             # Try reloading from backend
-            self.translation.update_from_blob(True)
+            self.translation.check_sync(True)
             return False
 
         # Get old unit from database (for notifications)
