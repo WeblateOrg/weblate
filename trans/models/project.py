@@ -204,6 +204,11 @@ class Project(models.Model, PercentMixin, URLMixin):
                 'or use different option for adding new language.'
             ))
 
+        if self.license == '' and self.license_url != '':
+            raise ValidationError(_(
+                'License URL can not be used without license summary.'
+            ))
+
     def _reverse_url_name(self):
         '''
         Returns base name for URL reversing.
