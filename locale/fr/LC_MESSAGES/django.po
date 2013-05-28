@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-22 14:33+0200\n"
+"POT-Creation-Date: 2013-05-28 10:25+0200\n"
 "PO-Revision-Date: 2013-05-23 09:29+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -282,19 +282,21 @@ msgstr "Hôtes autorisés"
 msgid "[hostname hashed]"
 msgstr "[nom d'hôte haché]"
 
-#: trans/admin_views.py:204 trans/admin_views.py:208
-msgid "Failed to generate key!"
-msgstr "Échec de la génération de clé !"
-
-#: trans/admin_views.py:206
+#: trans/admin_views.py:216
 msgid "Created new SSH key."
 msgstr "Nouvelle clé SSH créée."
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:218
+#, fuzzy, python-format
+#| msgid "Failed to generate key!"
+msgid "Failed to generate key: %s"
+msgstr "Échec de la génération de clé !"
+
+#: trans/admin_views.py:237
 msgid "Invalid host name given!"
 msgstr "Nom d'hôte incorrect !"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:250
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -744,11 +746,11 @@ msgstr "Disparité des balises XML"
 msgid "XML tags in translation do not match source"
 msgstr "Les balises XML dans la traduction ne correspondent pas à la source"
 
-#: trans/checks/same.py:368
+#: trans/checks/same.py:432
 msgid "Not translated"
 msgstr "Non traduit"
 
-#: trans/checks/same.py:369
+#: trans/checks/same.py:433
 msgid "Source and translated strings are same"
 msgstr "La chaîne source est identique à la chaîne traduite"
 
@@ -772,43 +774,49 @@ msgstr ""
 "Cette chaîne utilise trois points (...) au lieu d'un caractère de points de "
 "suspension (…)"
 
-#: trans/models/changes.py:129
+#: trans/models/changes.py:131
 msgid "Resource update"
 msgstr "Mise à jour de la ressource"
 
-#: trans/models/changes.py:130
+#: trans/models/changes.py:132
 msgid "Translation completed"
 msgstr "Traduction complétée"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:133
 msgid "Translation changed"
 msgstr "Traduction modifiée"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:134
 msgid "New translation"
 msgstr "Nouvelle traduction"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:135
 msgid "Comment added"
 msgstr "Commentaire ajouté"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:136
 msgid "Suggestion added"
 msgstr "Suggestion ajoutée"
 
-#: trans/models/changes.py:135 weblate/html/translation.html:39
+#: trans/models/changes.py:137 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Traduction automatique"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:138
 msgid "Suggestion accepted"
 msgstr "Suggestion acceptée"
 
-#: trans/models/changes.py:137
+#: trans/models/changes.py:139
 msgid "Translation reverted"
 msgstr "Traduction rétablie"
 
-#: trans/models/changes.py:157
+#: trans/models/changes.py:140
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation uploaded"
+msgstr "Traductions réalisées"
+
+#: trans/models/changes.py:160
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
@@ -1022,57 +1030,57 @@ msgstr ""
 msgid "Failed to fetch git repository: %s"
 msgstr "Impossible de récupérer les modifications sur le référentiel git : %s"
 
-#: trans/models/subproject.py:501
+#: trans/models/subproject.py:503
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "L'envoi des modifications est désactivé pour %s."
 
-#: trans/models/subproject.py:545
+#: trans/models/subproject.py:552
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "L'envoi des modifications à la branche distante sur %s a échoué."
 
-#: trans/models/subproject.py:581
+#: trans/models/subproject.py:588
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Échec de réinitialisation vers la branche distance sur %s."
 
-#: trans/models/subproject.py:633
+#: trans/models/subproject.py:640
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Échec de la refonte de notre branche sur la branche distance %s."
 
-#: trans/models/subproject.py:636
+#: trans/models/subproject.py:643
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Échec de la fusion de la branche distante dans %s."
 
-#: trans/models/subproject.py:754
+#: trans/models/subproject.py:761
 msgid "Push URL is not used when repository is linked!"
 msgstr "Le URL pour pousser n'est pas utilisé quand le référentiel est lié !"
 
-#: trans/models/subproject.py:758
+#: trans/models/subproject.py:765
 msgid "Export URL is not used when repository is linked!"
 msgstr "Le URL pour exporter n'est pas utilisé quand le référentiel est lié !"
 
-#: trans/models/subproject.py:769
+#: trans/models/subproject.py:776
 msgid "Template file not found!"
 msgstr "Fichier de modèle non trouvé !"
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:782
 msgid "Format of translation template could not be recognized."
 msgstr "Le format du modèle de traduction n'a pu être reconnu."
 
-#: trans/models/subproject.py:779
+#: trans/models/subproject.py:786
 #, python-format
 msgid "Failed to parse translation template: %s"
 msgstr "Échec d'analyse du modèle de traduction : %s"
 
-#: trans/models/subproject.py:800
+#: trans/models/subproject.py:807
 msgid "The mask did not match any files!"
 msgstr "Le masque ne correspond à aucun fichier !"
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:813
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1080,21 +1088,21 @@ msgstr ""
 "Il y a plusieurs fichiers pour un même langage, veuillez ajuster le masque "
 "et utiliser des sous-projets pour traduire différentes ressources."
 
-#: trans/models/subproject.py:826
+#: trans/models/subproject.py:833
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Le format de %d fichiers correspondants n'a pu être reconnu."
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:842
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Échec d'analyse de %d fichiers correspondants !"
 
-#: trans/models/subproject.py:844
+#: trans/models/subproject.py:851
 msgid "You can not use monolingual translation without template!"
 msgstr "Vous ne pouvez utiliser une traduction unilingue sans un modèle !"
 
-#: trans/models/translation.py:185
+#: trans/models/translation.py:184
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1103,46 +1111,46 @@ msgstr ""
 "Le fichier %s n'a pas été trouvé dans le référentiel ! Pour ajouter de "
 "nouvelles traductions, ajoutez un fichier de langue dans le référentiel."
 
-#: trans/models/translation.py:194
+#: trans/models/translation.py:193
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Le format de %s n'est pas reconnu."
 
-#: trans/models/translation.py:199
+#: trans/models/translation.py:198
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 
-#: trans/models/translation.py:232
+#: trans/models/translation.py:231
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Cette traduction est verrouillée par %(user)s !"
 
-#: trans/models/translation.py:958 trans/models/translation.py:991
+#: trans/models/translation.py:954 trans/models/translation.py:987
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: trans/models/translation.py:965 trans/models/translation.py:1021
+#: trans/models/translation.py:961 trans/models/translation.py:1017
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Chaînes ayant au moins une vérification en échec (%d)"
 
-#: trans/models/translation.py:982 trans/models/translation.py:1038
+#: trans/models/translation.py:978 trans/models/translation.py:1034
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Chaînes avec commentaires (%d)"
 
-#: trans/models/translation.py:998
+#: trans/models/translation.py:994
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Chaînes non traduites (%d)"
 
-#: trans/models/translation.py:1006
+#: trans/models/translation.py:1002
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Chaînes floues (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1009
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Chaînes avec suggestions (%d)"
@@ -2719,19 +2727,19 @@ msgstr "Moment"
 msgid "Action"
 msgstr "Action"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert to this translation"
 msgstr "Rétablir cette traduction"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert"
 msgstr "Rétablir"
 
-#: weblate/html/last-changes.html:38
+#: weblate/html/last-changes.html:37
 msgid "No recent activity has been recorded."
 msgstr "Aucune activité récente n'a été enregistrée."
 
-#: weblate/html/last-changes.html:43
+#: weblate/html/last-changes.html:42
 msgid "Browse changes"
 msgstr "Afficher les changements"
 
@@ -3280,7 +3288,6 @@ msgid "Message is translated"
 msgstr "Le message est traduit"
 
 #: weblate/html/unit-state.html:7
-#| msgid "User comments"
 msgid "Message has comments"
 msgstr "Des commentaires existent pour ce message"
 

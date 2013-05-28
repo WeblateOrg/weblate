@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-22 14:33+0200\n"
+"POT-Creation-Date: 2013-05-28 10:25+0200\n"
 "PO-Revision-Date: 2013-05-28 08:20+0200\n"
 "Last-Translator: Stanislaw Krukowski <ntmxcda@riseup.net>\n"
 "Language-Team: Polish <http://l10n.cihar.com/projects/weblate/master/pl/>\n"
@@ -284,21 +284,23 @@ msgstr ""
 msgid "[hostname hashed]"
 msgstr ""
 
-#: trans/admin_views.py:204 trans/admin_views.py:208
-msgid "Failed to generate key!"
-msgstr "Nie można wygenerować klucz!"
-
-#: trans/admin_views.py:206
+#: trans/admin_views.py:216
 msgid "Created new SSH key."
 msgstr "Stworzył nowy klucz SSH."
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:218
+#, fuzzy, python-format
+#| msgid "Failed to generate key!"
+msgid "Failed to generate key: %s"
+msgstr "Nie można wygenerować klucz!"
+
+#: trans/admin_views.py:237
 #, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
 msgstr "Nieprawidłowy kierunek tekstu"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:250
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -739,11 +741,11 @@ msgstr "Tagi XML niedopasowanie"
 msgid "XML tags in translation do not match source"
 msgstr "Tagi XML w tłumaczeniu nie pasują do źródła"
 
-#: trans/checks/same.py:368
+#: trans/checks/same.py:432
 msgid "Not translated"
 msgstr "Nie przetłumaczony"
 
-#: trans/checks/same.py:369
+#: trans/checks/same.py:433
 msgid "Source and translated strings are same"
 msgstr "Napisy: źródłowy i tłumaczenie są takie same"
 
@@ -764,47 +766,53 @@ msgstr "Wielokropek"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Ciąg używa trzy kropki (...) zamiast znaku wielokropka (...)"
 
-#: trans/models/changes.py:129
+#: trans/models/changes.py:131
 msgid "Resource update"
 msgstr "Aktualizacja zasobów"
 
-#: trans/models/changes.py:130
+#: trans/models/changes.py:132
 msgid "Translation completed"
 msgstr "Tłumaczenie zakończone"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:133
 msgid "Translation changed"
 msgstr "Tłumaczenie zmienione"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:134
 msgid "New translation"
 msgstr "Nowe tłumaczenie"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:135
 msgid "Comment added"
 msgstr "Komentarz dodany"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:136
 msgid "Suggestion added"
 msgstr "Sugestia dodana"
 
-#: trans/models/changes.py:135 weblate/html/translation.html:39
+#: trans/models/changes.py:137 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Tłumaczenie automatyczne"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:138
 #, fuzzy
 #| msgid "Suggestion added"
 msgid "Suggestion accepted"
 msgstr "Sugestia dodana"
 
-#: trans/models/changes.py:137
+#: trans/models/changes.py:139
 #, fuzzy
 #| msgid "Translation completed"
 msgid "Translation reverted"
 msgstr "Tłumaczenie zakończone"
 
-#: trans/models/changes.py:157
+#: trans/models/changes.py:140
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation uploaded"
+msgstr "Tłumaczenia"
+
+#: trans/models/changes.py:160
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s o %(time)s na %(translation)s przez %(user)s"
@@ -1031,60 +1039,60 @@ msgstr ""
 msgid "Failed to fetch git repository: %s"
 msgstr "Pobranie repozytorium git nie powiodło się: %s"
 
-#: trans/models/subproject.py:501
+#: trans/models/subproject.py:503
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Przesyłanie dla %s jest wyłączone."
 
-#: trans/models/subproject.py:545
+#: trans/models/subproject.py:552
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Przesłanie do zdalnej gałęzi dla %s nie powiodło się."
 
-#: trans/models/subproject.py:581
+#: trans/models/subproject.py:588
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Resetowanie zdalnej gałęzi na %s nie powiodło się."
 
-#: trans/models/subproject.py:633
+#: trans/models/subproject.py:640
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Resetowanie zdalnej gałęzi na %s nie powiodło się."
 
-#: trans/models/subproject.py:636
+#: trans/models/subproject.py:643
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Scalenie zdalnej gałęzi z %s nie powiodło się."
 
-#: trans/models/subproject.py:754
+#: trans/models/subproject.py:761
 msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL nie jest używane, gdy repozytorium jest powiązane!"
 
-#: trans/models/subproject.py:758
+#: trans/models/subproject.py:765
 #, fuzzy
 #| msgid "Push URL is not used when repository is linked!"
 msgid "Export URL is not used when repository is linked!"
 msgstr "Push URL nie jest używane, gdy repozytorium jest powiązane!"
 
-#: trans/models/subproject.py:769
+#: trans/models/subproject.py:776
 msgid "Template file not found!"
 msgstr ""
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:782
 msgid "Format of translation template could not be recognized."
 msgstr "Nie można było rozpoznać format szablonu tłumaczenia."
 
-#: trans/models/subproject.py:779
+#: trans/models/subproject.py:786
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation template: %s"
 msgstr "Analiza szablonu tłumaczenia nie powiodła się."
 
-#: trans/models/subproject.py:800
+#: trans/models/subproject.py:807
 msgid "The mask did not match any files!"
 msgstr "Maska nie pasuje do żadnych plików!"
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:813
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1092,17 +1100,17 @@ msgstr ""
 "Istnieje więcej plików dla jednego języka, proszę poprawić maskę i używać "
 "podprojektów do tłumaczenia różnych zasobów."
 
-#: trans/models/subproject.py:826
+#: trans/models/subproject.py:833
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nie można było rozpoznać formatu %d pasujących plików."
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:842
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Analiza %d dopasowanych plików nie powiodła się!"
 
-#: trans/models/subproject.py:844
+#: trans/models/subproject.py:851
 #, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
@@ -1111,7 +1119,7 @@ msgstr ""
 "Możesz podzielić się komentarzem na temat tego tłumaczenia z innymi "
 "tłumaczami."
 
-#: trans/models/translation.py:185
+#: trans/models/translation.py:184
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1120,46 +1128,46 @@ msgstr ""
 "Nie znaleziono nazwy pliku %s w repozytorium! Aby dodać nowe tłumaczenie, "
 "dodaj plik języka do repozytorium."
 
-#: trans/models/translation.py:194
+#: trans/models/translation.py:193
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format %s nie mógł być rozpoznany."
 
-#: trans/models/translation.py:199
+#: trans/models/translation.py:198
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nie powiodła się analiza pliku %(file)s: %(error)s"
 
-#: trans/models/translation.py:232
+#: trans/models/translation.py:231
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "To tłumaczenie jest zablokowane przez %(user)s!"
 
-#: trans/models/translation.py:958 trans/models/translation.py:991
+#: trans/models/translation.py:954 trans/models/translation.py:987
 msgid "All strings"
 msgstr "Wszystkie napisy"
 
-#: trans/models/translation.py:965 trans/models/translation.py:1021
+#: trans/models/translation.py:961 trans/models/translation.py:1017
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Napisy z nieudanymi testami (%d)"
 
-#: trans/models/translation.py:982 trans/models/translation.py:1038
+#: trans/models/translation.py:978 trans/models/translation.py:1034
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Ciągi z komentarzami (%d)"
 
-#: trans/models/translation.py:998
+#: trans/models/translation.py:994
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Nieprzetłumaczone napisy (%d)"
 
-#: trans/models/translation.py:1006
+#: trans/models/translation.py:1002
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Napisy niepewne (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1009
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Napisy z sugestiami (%d)"
@@ -2753,21 +2761,21 @@ msgstr "Kiedy"
 msgid "Action"
 msgstr "Akcja"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 #, fuzzy
 #| msgid "Tweet this translation!"
 msgid "Revert to this translation"
 msgstr "Tweet to tłumaczenie!"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert"
 msgstr ""
 
-#: weblate/html/last-changes.html:38
+#: weblate/html/last-changes.html:37
 msgid "No recent activity has been recorded."
 msgstr "Nie zarejestrowano żadnej ostatniej aktywności."
 
-#: weblate/html/last-changes.html:43
+#: weblate/html/last-changes.html:42
 #, fuzzy
 #| msgid "Source change"
 msgid "Browse changes"

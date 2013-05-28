@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-22 14:33+0200\n"
+"POT-Creation-Date: 2013-05-28 10:25+0200\n"
 "PO-Revision-Date: 2013-05-24 08:23+0200\n"
 "Last-Translator: Rodrigo Souza <rodrigo.chrome@live.com>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
+"master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,27 +282,28 @@ msgstr "Hosts permitidos"
 msgid "[hostname hashed]"
 msgstr "[hostname com hash]"
 
-#: trans/admin_views.py:204 trans/admin_views.py:208
-msgid "Failed to generate key!"
-msgstr "Falha ao gerar chave!"
-
-#: trans/admin_views.py:206
+#: trans/admin_views.py:216
 msgid "Created new SSH key."
 msgstr "Nova chave SSH criada."
 
-#: trans/admin_views.py:227
-#| msgid "Invalid text direction"
+#: trans/admin_views.py:218
+#, fuzzy, python-format
+#| msgid "Failed to generate key!"
+msgid "Failed to generate key: %s"
+msgstr "Falha ao gerar chave!"
+
+#: trans/admin_views.py:237
 msgid "Invalid host name given!"
 msgstr "Hostname fornecido inválido!"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:250
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
-"Foi adicionada uma chave de host para %(host)s com a identidade %"
-"(fingerprint)s, favor verifique se está correto."
+"Foi adicionada uma chave de host para %(host)s com a identidade "
+"%(fingerprint)s, favor verifique se está correto."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -730,11 +731,11 @@ msgstr "Tags XML não coincidem"
 msgid "XML tags in translation do not match source"
 msgstr "Tags XML na tradução não combinam com a fonte"
 
-#: trans/checks/same.py:368
+#: trans/checks/same.py:432
 msgid "Not translated"
 msgstr "Não traduzido"
 
-#: trans/checks/same.py:369
+#: trans/checks/same.py:433
 msgid "Source and translated strings are same"
 msgstr "Fonte e strings traduzidas estão iguais"
 
@@ -755,44 +756,49 @@ msgstr "Reticências"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "A string usa três pontos (...) ao invés do caractere reticências (...)"
 
-#: trans/models/changes.py:129
+#: trans/models/changes.py:131
 msgid "Resource update"
 msgstr "Atualização de Recurso"
 
-#: trans/models/changes.py:130
+#: trans/models/changes.py:132
 msgid "Translation completed"
 msgstr "Tradução completada"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:133
 msgid "Translation changed"
 msgstr "Tradução modificada"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:134
 msgid "New translation"
 msgstr "Nova tradução"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:135
 msgid "Comment added"
 msgstr "Comentário adicionado"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:136
 msgid "Suggestion added"
 msgstr "Sugestões adicionadas"
 
-#: trans/models/changes.py:135 weblate/html/translation.html:39
+#: trans/models/changes.py:137 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Tradução automática"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:138
 msgid "Suggestion accepted"
 msgstr "Sugestão aceita"
 
-#: trans/models/changes.py:137
-#| msgid "Translation completed"
+#: trans/models/changes.py:139
 msgid "Translation reverted"
 msgstr "Tradução revertida"
 
-#: trans/models/changes.py:157
+#: trans/models/changes.py:140
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation uploaded"
+msgstr "Traduções feitas"
+
+#: trans/models/changes.py:160
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -989,9 +995,6 @@ msgstr ""
 "automáticas neste projeto"
 
 #: trans/models/subproject.py:179
-#| msgid ""
-#| "Define whether Weblate should merge upstream repository or rebase changes "
-#| "onto it."
 msgid "Whether Weblate should keep history of translations"
 msgstr "Define se o Weblate deve manter um histórico de traduções"
 
@@ -1008,57 +1011,57 @@ msgstr ""
 msgid "Failed to fetch git repository: %s"
 msgstr "Falha ao importar do repositório Git: %s"
 
-#: trans/models/subproject.py:501
+#: trans/models/subproject.py:503
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Envio está desativado para %s."
 
-#: trans/models/subproject.py:545
+#: trans/models/subproject.py:552
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Falha ao enviar para o ramo remoto em %s."
 
-#: trans/models/subproject.py:581
+#: trans/models/subproject.py:588
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Falha ao resetar para o ramo remoto em %s."
 
-#: trans/models/subproject.py:633
+#: trans/models/subproject.py:640
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Falhou em realocar nosso ramo no ramo remoto %s."
 
-#: trans/models/subproject.py:636
+#: trans/models/subproject.py:643
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Falhou em mesclar o ramo remoto em %s."
 
-#: trans/models/subproject.py:754
+#: trans/models/subproject.py:761
 msgid "Push URL is not used when repository is linked!"
 msgstr "Não é utilizado URL \"Push\" quando o repositório está associado!"
 
-#: trans/models/subproject.py:758
+#: trans/models/subproject.py:765
 msgid "Export URL is not used when repository is linked!"
 msgstr "Não é utilizado URL de exportação quando o repositório está associado!"
 
-#: trans/models/subproject.py:769
+#: trans/models/subproject.py:776
 msgid "Template file not found!"
 msgstr "Não foi encontrado o modelo de arquivo!"
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:782
 msgid "Format of translation template could not be recognized."
 msgstr "Formato do template da tradução não foi reconhecido."
 
-#: trans/models/subproject.py:779
+#: trans/models/subproject.py:786
 #, python-format
 msgid "Failed to parse translation template: %s"
 msgstr "Falha ao analisar o modelo de tradução: %s"
 
-#: trans/models/subproject.py:800
+#: trans/models/subproject.py:807
 msgid "The mask did not match any files!"
 msgstr "Não foram encontrados arquivos com a máscara dada!"
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:813
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1066,21 +1069,21 @@ msgstr ""
 "Existem mais arquivos para um único idioma, por favor, ajuste a máscara e "
 "use os subprojetos para traduzir recursos diferentes."
 
-#: trans/models/subproject.py:826
+#: trans/models/subproject.py:833
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formato dos %d arquivos encontrados não pode ser reconhecido."
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:842
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Falha ao analisar %d arquivos encontrados!"
 
-#: trans/models/subproject.py:844
+#: trans/models/subproject.py:851
 msgid "You can not use monolingual translation without template!"
 msgstr "Não se pode usar tradução mono lingual sem um modelo!"
 
-#: trans/models/translation.py:185
+#: trans/models/translation.py:184
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1089,46 +1092,46 @@ msgstr ""
 "O nome de arquivo %s não foi encontrado no repositório! Para adicionar uma "
 "nova tradução, adicione um novo arquivo de idioma no repositório."
 
-#: trans/models/translation.py:194
+#: trans/models/translation.py:193
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Formato dos %s não foi reconhecido."
 
-#: trans/models/translation.py:199
+#: trans/models/translation.py:198
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Falha ao analisar arquivo %(file)s: %(error)s"
 
-#: trans/models/translation.py:232
+#: trans/models/translation.py:231
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Esta tradução está bloqueada por %(user)s!"
 
-#: trans/models/translation.py:958 trans/models/translation.py:991
+#: trans/models/translation.py:954 trans/models/translation.py:987
 msgid "All strings"
 msgstr "Todas as strings"
 
-#: trans/models/translation.py:965 trans/models/translation.py:1021
+#: trans/models/translation.py:961 trans/models/translation.py:1017
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Strings com alguma falha de verificação (%d)"
 
-#: trans/models/translation.py:982 trans/models/translation.py:1038
+#: trans/models/translation.py:978 trans/models/translation.py:1034
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Strings com comentários (%d)"
 
-#: trans/models/translation.py:998
+#: trans/models/translation.py:994
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Strings não traduzidas (%d)"
 
-#: trans/models/translation.py:1006
+#: trans/models/translation.py:1002
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Strings confusas (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1009
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Strings com sugestões (%d)"
@@ -1283,8 +1286,8 @@ msgid ""
 msgstr ""
 "<a href=\"%(url)s\">O projeto de tradução para %(project)s</a> atualmente "
 "contém %(total)s strings para traduzir e está sendo <a href=\"%(url)s\">s "
-"traduzido para %(languages)s idiomas</a>. No geral, estas traduções estão %"
-"(percent)s%% completas."
+"traduzido para %(languages)s idiomas</a>. No geral, estas traduções estão "
+"%(percent)s%% completas."
 
 #: trans/views/basic.py:157
 #, python-format
@@ -1432,12 +1435,10 @@ msgid "Can not merge different messages!"
 msgstr "Não pode mesclar mensagens diferentes!"
 
 #: trans/views/edit.py:362
-#| msgid "Can not merge different messages!"
 msgid "Can not revert to different unit!"
 msgstr "Não pode reverter para uma unidade diferente!"
 
 #: trans/views/edit.py:367
-#| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
 msgstr "Não pode reverter para uma tradução vazia!"
 
@@ -1685,8 +1686,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Mais informações sobre esta verificação estão disponíveis na <a href=\"%"
-"(link)s\">documentação</a>."
+"Mais informações sobre esta verificação estão disponíveis na <a href="
+"\"%(link)s\">documentação</a>."
 
 #: weblate/html/check.html:26 weblate/html/check_project.html:26
 #: weblate/html/data.html:28 weblate/html/data.html.py:59
@@ -1740,7 +1741,8 @@ msgstr "Exportar dados"
 
 #: weblate/html/data-root.html:14 weblate/html/data.html:15
 msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr "Você pode obter vários dados do Weblate em formato legível por máquina."
+msgstr ""
+"Você pode obter vários dados do Weblate em formato legível por máquina."
 
 #: weblate/html/data-root.html:17 weblate/html/data.html:18
 msgid "RSS feeds"
@@ -1760,8 +1762,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"Mais informações sobre feeds RSS exportados estão disponíveis na <a href=\"%"
-"(rss_docs)s\">documentação</a>."
+"Mais informações sobre feeds RSS exportados estão disponíveis na <a href="
+"\"%(rss_docs)s\">documentação</a>."
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60
@@ -1943,8 +1945,8 @@ msgid ""
 "Get involved in %(project)s, which is currently being translated into "
 "%(languages)s languages using Weblate."
 msgstr ""
-"Envolva-se com o %(project)s, que está atualmente sendo traduzido em %"
-"(languages)s idiomas usando Weblate."
+"Envolva-se com o %(project)s, que está atualmente sendo traduzido em "
+"%(languages)s idiomas usando Weblate."
 
 #: weblate/html/engage.html:28
 msgid "Hi, and thank you for your interest!"
@@ -1967,8 +1969,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Se deseja colaborar com a tradução do %(project)s, você precisa <a href=\"%"
-"(reg_url)s\">se registrar neste servidor</a>."
+"Se deseja colaborar com a tradução do %(project)s, você precisa <a href="
+"\"%(reg_url)s\">se registrar neste servidor</a>."
 
 #: weblate/html/engage.html:41
 #, python-format
@@ -2693,20 +2695,19 @@ msgstr "Quando"
 msgid "Action"
 msgstr "Ação"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
-#| msgid "Tweet this translation!"
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert to this translation"
 msgstr "Reverter para esta tradução"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert"
 msgstr "Reverter"
 
-#: weblate/html/last-changes.html:38
+#: weblate/html/last-changes.html:37
 msgid "No recent activity has been recorded."
 msgstr "Nenhuma atividade recente registrada."
 
-#: weblate/html/last-changes.html:43
+#: weblate/html/last-changes.html:42
 msgid "Browse changes"
 msgstr "Visualizar mudanças"
 
@@ -2890,8 +2891,8 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
-"Várias <a href=\"%(data_url)s\">exportações de dados</a> estão disponíveis em "
-"formato legível por máquina."
+"Várias <a href=\"%(data_url)s\">exportações de dados</a> estão disponíveis "
+"em formato legível por máquina."
 
 #: weblate/html/source-review.html:9 weblate/html/source.html:8
 msgid "source"
@@ -2936,9 +2937,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Se seu idioma estiver faltando, favor <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">fale "
-"conosco</a>."
+"Se seu idioma estiver faltando, favor <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">fale conosco</a>."
 
 #: weblate/html/subproject.html:63
 msgid "Source strings review"
@@ -3254,7 +3254,6 @@ msgid "Message is translated"
 msgstr "Mensagem esta traduzida"
 
 #: weblate/html/unit-state.html:7
-#| msgid "User comments"
 msgid "Message has comments"
 msgstr "A mensagem possui comentários"
 
@@ -3433,7 +3432,6 @@ msgid "Known host keys"
 msgstr "Chaves de host conhecidas"
 
 #: weblate/html/admin/ssh.html:40
-#| msgid "Last name"
 msgid "Hostname"
 msgstr "Nome de host"
 
@@ -3785,9 +3783,9 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Se não é este o caso, favor contate o <a href=\"%"
-"(contact_url)s\">administrador do site</a>. Caso contrário, <a href=\"%"
-"(reg_url)s\">cadastre-se novamente</a>."
+"Se não é este o caso, favor contate o <a href=\"%(contact_url)s"
+"\">administrador do site</a>. Caso contrário, <a href=\"%(reg_url)s"
+"\">cadastre-se novamente</a>."
 
 #: weblate/html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -3952,8 +3950,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Desculpe, mas os cadastros neste site estão desativados. Você pode <a href=\""
-"%(contact_url)s\">entrar em contato conosco</a> para mais detalhes."
+"Desculpe, mas os cadastros neste site estão desativados. Você pode <a href="
+"\"%(contact_url)s\">entrar em contato conosco</a> para mais detalhes."
 
 #: weblate/html/registration/registration_complete.html:7
 msgid ""

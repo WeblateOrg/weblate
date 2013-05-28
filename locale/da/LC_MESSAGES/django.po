@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-05-22 14:33+0200\n"
+"POT-Creation-Date: 2013-05-28 10:25+0200\n"
 "PO-Revision-Date: 2013-05-18 01:27+0200\n"
 "Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -280,19 +280,21 @@ msgstr "Tilladte værter"
 msgid "[hostname hashed]"
 msgstr "[værtsnavn hash-fordelt]"
 
-#: trans/admin_views.py:204 trans/admin_views.py:208
-msgid "Failed to generate key!"
-msgstr "Oprettelse af nøgle mislykkedes!"
-
-#: trans/admin_views.py:206
+#: trans/admin_views.py:216
 msgid "Created new SSH key."
 msgstr "Oprettede ny SSH-nøgle."
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:218
+#, fuzzy, python-format
+#| msgid "Failed to generate key!"
+msgid "Failed to generate key: %s"
+msgstr "Oprettelse af nøgle mislykkedes!"
+
+#: trans/admin_views.py:237
 msgid "Invalid host name given!"
 msgstr "Ugyldigt værtsnavn angivet!"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:250
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -728,11 +730,11 @@ msgstr "Uoverstemmelse mellem XML-mærker"
 msgid "XML tags in translation do not match source"
 msgstr "XML-mærkerne i oversættelsen matcher ikke med kildens"
 
-#: trans/checks/same.py:368
+#: trans/checks/same.py:432
 msgid "Not translated"
 msgstr "Ikke oversat"
 
-#: trans/checks/same.py:369
+#: trans/checks/same.py:433
 msgid "Source and translated strings are same"
 msgstr "Kilde og oversatte strenge er ens"
 
@@ -755,43 +757,49 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Tekststrengen bruger tre prikker (...) i stedet for udeladelsestegnet (...)"
 
-#: trans/models/changes.py:129
+#: trans/models/changes.py:131
 msgid "Resource update"
 msgstr "Ressource-opdatering"
 
-#: trans/models/changes.py:130
+#: trans/models/changes.py:132
 msgid "Translation completed"
 msgstr "Oversættelse er færdiggjort"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:133
 msgid "Translation changed"
 msgstr "Oversættelse er ændret"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:134
 msgid "New translation"
 msgstr "Ny oversættelse"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:135
 msgid "Comment added"
 msgstr "Kommentar tilføjet"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:136
 msgid "Suggestion added"
 msgstr "Forslag tilføjet"
 
-#: trans/models/changes.py:135 weblate/html/translation.html:39
+#: trans/models/changes.py:137 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automatisk oversættelse"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:138
 msgid "Suggestion accepted"
 msgstr "Forslag er accepteret"
 
-#: trans/models/changes.py:137
+#: trans/models/changes.py:139
 msgid "Translation reverted"
 msgstr "Oversættelse er rullet tilbage"
 
-#: trans/models/changes.py:157
+#: trans/models/changes.py:140
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation uploaded"
+msgstr "Foretagne oversættelser"
+
+#: trans/models/changes.py:160
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
@@ -1000,59 +1008,59 @@ msgstr ""
 msgid "Failed to fetch git repository: %s"
 msgstr "Mislykkedes med at hente git-arkiv: %s"
 
-#: trans/models/subproject.py:501
+#: trans/models/subproject.py:503
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Skub/push er deaktiveret for %s."
 
-#: trans/models/subproject.py:545
+#: trans/models/subproject.py:552
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
 
-#: trans/models/subproject.py:581
+#: trans/models/subproject.py:588
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
 
-#: trans/models/subproject.py:633
+#: trans/models/subproject.py:640
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Mislykkedes med at flytte forgreningspunkt ovenpå fjernt beliggende "
 "forgrening %s."
 
-#: trans/models/subproject.py:636
+#: trans/models/subproject.py:643
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Mislykkedes med at flette fjern forgrening i ind %s."
 
-#: trans/models/subproject.py:754
+#: trans/models/subproject.py:761
 msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL anvendes ikke når arkivet er sammenkædet!"
 
-#: trans/models/subproject.py:758
+#: trans/models/subproject.py:765
 msgid "Export URL is not used when repository is linked!"
 msgstr "Eksport af URL anvendes ikke når arkivet er sammenkædet!"
 
-#: trans/models/subproject.py:769
+#: trans/models/subproject.py:776
 msgid "Template file not found!"
 msgstr "Skabelonfil blev ikke fundet!"
 
-#: trans/models/subproject.py:775
+#: trans/models/subproject.py:782
 msgid "Format of translation template could not be recognized."
 msgstr "Format på oversættelsesskabelon kunne ikke genkendes."
 
-#: trans/models/subproject.py:779
+#: trans/models/subproject.py:786
 #, python-format
 msgid "Failed to parse translation template: %s"
 msgstr "Mislykkedes med at fortolke oversættelsesskabelon: %s"
 
-#: trans/models/subproject.py:800
+#: trans/models/subproject.py:807
 msgid "The mask did not match any files!"
 msgstr "Denne maske matchede ingen filer!"
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:813
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1060,21 +1068,21 @@ msgstr ""
 "Der er flere filer for enkelt sprog. Tilpas venligst masken og brug "
 "delprojekter til oversættelse af forskellige ressourcer."
 
-#: trans/models/subproject.py:826
+#: trans/models/subproject.py:833
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format på %d matchede filer, kunne ikke genkendes."
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:842
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Mislykkedes med at fortolke %d matchede filer!"
 
-#: trans/models/subproject.py:844
+#: trans/models/subproject.py:851
 msgid "You can not use monolingual translation without template!"
 msgstr "Du kan ikke dele enkeltsprogede oversættelse uden skabelon!"
 
-#: trans/models/translation.py:185
+#: trans/models/translation.py:184
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1083,46 +1091,46 @@ msgstr ""
 "Filnavnet %s blev ikke fundet i arkivet. For at tilføje en ny oversættelse, "
 "så tilføj sprogfil i arkivet."
 
-#: trans/models/translation.py:194
+#: trans/models/translation.py:193
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format fra %s kunne ikke genkendes."
 
-#: trans/models/translation.py:199
+#: trans/models/translation.py:198
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Mislykkedes med at fortolke filen %(file)s: %(error)s"
 
-#: trans/models/translation.py:232
+#: trans/models/translation.py:231
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Denne oversættelse er låst af %(user)s!"
 
-#: trans/models/translation.py:958 trans/models/translation.py:991
+#: trans/models/translation.py:954 trans/models/translation.py:987
 msgid "All strings"
 msgstr "Alle strenge"
 
-#: trans/models/translation.py:965 trans/models/translation.py:1021
+#: trans/models/translation.py:961 trans/models/translation.py:1017
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Alle strenge med tjekfejl (%d)"
 
-#: trans/models/translation.py:982 trans/models/translation.py:1038
+#: trans/models/translation.py:978 trans/models/translation.py:1034
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Strenge med kommentarer (%d)"
 
-#: trans/models/translation.py:998
+#: trans/models/translation.py:994
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Ikke-oversatte strenge (%d)"
 
-#: trans/models/translation.py:1006
+#: trans/models/translation.py:1002
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Uklare strenge (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1009
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Strenge med forslag (%d)"
@@ -2686,19 +2694,19 @@ msgstr "Hvornår"
 msgid "Action"
 msgstr "Handling"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert to this translation"
 msgstr "Rul denne oversættelse tilbage"
 
-#: weblate/html/last-changes.html:30 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert"
 msgstr "Rul tilbage"
 
-#: weblate/html/last-changes.html:38
+#: weblate/html/last-changes.html:37
 msgid "No recent activity has been recorded."
 msgstr "Der er ikke registreret aktivitet for nylig."
 
-#: weblate/html/last-changes.html:43
+#: weblate/html/last-changes.html:42
 msgid "Browse changes"
 msgstr "Gennemse ændringer"
 
