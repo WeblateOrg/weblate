@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-29 09:39+0200\n"
-"PO-Revision-Date: 2013-05-23 09:29+0200\n"
+"PO-Revision-Date: 2013-05-29 23:54+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -287,10 +287,10 @@ msgid "Created new SSH key."
 msgstr "Nouvelle clé SSH créée."
 
 #: trans/admin_views.py:218
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key!"
 msgid "Failed to generate key: %s"
-msgstr "Échec de la génération de clé !"
+msgstr "Échec de génération de la clé %s"
 
 #: trans/admin_views.py:237
 msgid "Invalid host name given!"
@@ -811,10 +811,9 @@ msgid "Translation reverted"
 msgstr "Traduction rétablie"
 
 #: trans/models/changes.py:140
-#, fuzzy
 #| msgid "Translations made"
 msgid "Translation uploaded"
-msgstr "Traductions réalisées"
+msgstr "Traduction téléchargée"
 
 #: trans/models/changes.py:160
 #, python-format
@@ -850,10 +849,9 @@ msgid "Email conference for translators"
 msgstr "Liste de discussion pour les traducteurs"
 
 #: trans/models/project.py:86
-#, fuzzy
 #| msgid "Information"
 msgid "Instructions"
-msgstr "Informations"
+msgstr "Consignes"
 
 #: trans/models/project.py:88
 msgid "URL with instructions for translators"
@@ -861,19 +859,19 @@ msgstr "URL avec les directives pour les traducteurs"
 
 #: trans/models/project.py:91
 msgid "License"
-msgstr ""
+msgstr "Licence"
 
 #: trans/models/project.py:95
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "Court résumé de la licence utilisée pour les traductions (optionnel)."
 
 #: trans/models/project.py:99
 msgid "License URL"
-msgstr ""
+msgstr "URL de la licence"
 
 #: trans/models/project.py:101
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "URL pour les détails de la licence (optionnel)."
 
 #: trans/models/project.py:104 weblate/html/subproject.html:32
 msgid "New language"
@@ -938,6 +936,8 @@ msgstr ""
 #: trans/models/project.py:209
 msgid "License URL can not be used without license summary."
 msgstr ""
+"Il n'est pas possible d'avoir un URL de licence sans un résumé de cette "
+"licence."
 
 #: trans/models/subproject.py:69
 msgid "Name to display"
@@ -2855,7 +2855,7 @@ msgstr "Informations"
 
 #: weblate/html/profile.html:27
 msgid "Licenses"
-msgstr ""
+msgstr "Licences"
 
 #: weblate/html/profile.html:28
 msgid "Avatar"
@@ -2883,7 +2883,6 @@ msgstr "Votre profil public : "
 
 #: weblate/html/profile.html:63
 #: weblate/html/registration/registration_form.html:23
-#, fuzzy
 #| msgid ""
 #| "By registering you agree to use your name and email in Git commits and "
 #| "your contribution to be licensed under same license as translated content."
@@ -2892,14 +2891,16 @@ msgid ""
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "En vous enregistrant, vous acceptez que votre nom et adresse courriel fasse "
-"partie des enregistrements Git et que vos contributions soient soumises la "
-"même licence que celle utilisée pour le contenu traduit."
+"partie des enregistrements Git et que vos contributions soient soumises à la "
+"même licence que celle utilisée par chacun des projets."
 
 #: weblate/html/profile.html:67
 msgid ""
 "Following projects have explicitely specified their licensing and copyright "
 "conditions:"
 msgstr ""
+"Les projets suivants ont explicitement défini leurs conditions de licence et "
+"de droit d'auteur : "
 
 #: weblate/html/profile.html:84
 msgid "Avatars are provided using libravatar."
@@ -2945,10 +2946,9 @@ msgid "Instructions for translators:"
 msgstr "Directives pour les traducteurs : "
 
 #: weblate/html/project_info.html:10
-#, fuzzy
 #| msgid "Translation change:"
 msgid "Translation license:"
-msgstr "Changement dans la traduction : "
+msgstr "Licence associée à cette traduction : "
 
 #: weblate/html/share.html:5
 msgid "Share on Facebook!"
