@@ -27,12 +27,12 @@ jQuery.fn.extend({
 
 
 function text_change(e) {
-    $('#id_fuzzy').attr('checked', false);
+    $('#id_fuzzy').prop('checked', false);
 }
 
 function mt_set(txt) {
     $('#id_target').val(txt).change();
-    $('#id_fuzzy').attr('checked', true);
+    $('#id_fuzzy').prop('checked', true);
 }
 
 var loading = 0;
