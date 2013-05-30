@@ -960,7 +960,7 @@ class Unit(models.Model):
         '''
         Updates flag counting failing checks.
         '''
-        has_failing_check = len(self.active_checks()) > 0
+        has_failing_check = not self.fuzzy and len(self.active_checks()) > 0
         if has_failing_check != self.has_failing_check:
             self.has_failing_check = has_failing_check
             self.save(backend=True, same_content=True, same_state=True)
