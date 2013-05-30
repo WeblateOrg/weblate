@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-29 09:39+0200\n"
-"PO-Revision-Date: 2013-05-30 13:33+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2013-05-30 21:29+0200\n"
+"Last-Translator: Stanislaw Krukowski <ntmxcda@riseup.net>\n"
 "Language-Team: Polish <http://l10n.cihar.com/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: accounts/forms.py:228
 msgid "At least five characters long."
-msgstr "Przynajmniej pięć znaków długa."
+msgstr "Przynajmniej pięć znaków."
 
 #: accounts/forms.py:232
 msgid "Activation email will be sent here."
@@ -74,7 +74,7 @@ msgstr "Hasło"
 
 #: accounts/forms.py:236
 msgid "At least six characters long."
-msgstr "Przynajmniej sześć znaków długie."
+msgstr "Przynajmniej sześć znaków."
 
 #: accounts/forms.py:238
 msgid "Password (again)"
@@ -110,11 +110,11 @@ msgstr "Projekty subskrybowane"
 
 #: accounts/models.py:317
 msgid "Notification on any translation"
-msgstr "Powiadomienie o tłumaczeniach"
+msgstr "Powiadomienie o jakimkolwiek tłumaczeniu"
 
 #: accounts/models.py:321
 msgid "Notification on new string to translate"
-msgstr "Powiadomienie o nowym napisie do przetłumaczenia"
+msgstr "Powiadomienie o nowym ciagu znaków do przetłumaczenia"
 
 #: accounts/models.py:325
 msgid "Notification on new suggestion"
@@ -122,7 +122,7 @@ msgstr "Powiadomienie o nowej sugestii"
 
 #: accounts/models.py:329
 msgid "Notification on new contributor"
-msgstr "Powiadomienie o nowym współpracowniku"
+msgstr "Powiadomienie o nowym uczestniku (współautorze tłumaczenia)"
 
 #: accounts/models.py:333
 msgid "Notification on new comment"
@@ -130,12 +130,12 @@ msgstr "Powiadomienie o nowym komentarzu"
 
 #: accounts/models.py:337
 msgid "Notification on merge failure"
-msgstr "Powiadomienie o nieudanym scalaniu"
+msgstr "Powiadomienie o nieudanym scaleniu"
 
 #: accounts/models.py:515
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr ""
-"Twój profil został przeniesiony. Możesz, jeśli chcesz, dostosować "
+"Twój profil został przeniesiony. Jeśli chcesz, możesz dostosować "
 "preferencje."
 
 #: accounts/urls.py:38 accounts/views.py:53
@@ -153,11 +153,11 @@ msgstr "Logowanie"
 
 #: accounts/urls.py:89
 msgid "Logged out"
-msgstr "Wylogowany"
+msgstr "Wylogowany/-a"
 
 #: accounts/urls.py:96
 msgid "Change password"
-msgstr "Zmiana hasła"
+msgstr "Zmień hasło"
 
 #: accounts/urls.py:102
 msgid "Password changed"
@@ -189,7 +189,7 @@ msgstr "Kontakt"
 #: lang/models.py:322
 msgctxt "Plural form description"
 msgid "One"
-msgstr "Jeden"
+msgstr "Jedne"
 
 #: lang/models.py:278 lang/models.py:283 lang/models.py:291 lang/models.py:296
 #: lang/models.py:302 lang/models.py:308 lang/models.py:312 lang/models.py:319
@@ -236,7 +236,7 @@ msgstr "Liczba mnoga"
 #: lang/models.py:400
 #, python-format
 msgid "Plural form %d"
-msgstr "Forma liczby mnogiej dla %d"
+msgstr "Forma liczby mnogiej %d"
 
 #: trans/admin_views.py:61
 msgid "Debug mode"
@@ -244,7 +244,7 @@ msgstr "Tryb debugowania"
 
 #: trans/admin_views.py:67
 msgid "Site domain"
-msgstr "Strona domeny"
+msgstr "Domena witryny"
 
 #: trans/admin_views.py:73
 msgid "Database backend"
@@ -252,7 +252,7 @@ msgstr "Końcówka bazy danych"
 
 #: trans/admin_views.py:79
 msgid "Site administrator"
-msgstr "Administrator strony"
+msgstr "Administrator witryny"
 
 #. Translators: Indexing is postponed to cron job
 #: trans/admin_views.py:86
@@ -277,7 +277,7 @@ msgstr "Biblioteka PyICU"
 
 #: trans/admin_views.py:132
 msgid "Allowed hosts"
-msgstr "Hosty dopuszczalne"
+msgstr "Hosty dozwolone"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:158
@@ -286,7 +286,7 @@ msgstr "[haszowana nazwa hosta]"
 
 #: trans/admin_views.py:216
 msgid "Created new SSH key."
-msgstr "Stworzył nowy klucz SSH."
+msgstr "Nowy klucz SSH został utworzony."
 
 #: trans/admin_views.py:218
 #, python-format
@@ -313,7 +313,7 @@ msgstr "Ostatnie zmiany w %s"
 #: trans/feeds.py:41 trans/feeds.py:79
 #, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "Wszystkie ostatnie zmiany wprowadzone za pomocą Weblate w %s."
+msgstr "Wszystkie ostatnie zmiany wprowadzono za pomocą Weblate w %s."
 
 #: trans/formats.py:453
 msgid "Automatic detection"
@@ -321,17 +321,16 @@ msgstr "Automatyczne wykrywanie"
 
 #: trans/formats.py:467
 msgid "Gettext PO file"
-msgstr "Gettext PO pliku"
+msgstr "Gettext pliku PO"
 
 #: trans/formats.py:508
-#, fuzzy
 #| msgid "Gettext PO file"
 msgid "Gettext PO file (monolingual)"
-msgstr "Gettext PO pliku"
+msgstr "Gettext pliku PO (wielojęzycznego)"
 
 #: trans/formats.py:517
 msgid "Qt Linguist Translation File"
-msgstr "Qt lingwistyczny plik tłumaczenia"
+msgstr "Lingwistyczny plik tłumaczenia Qt"
 
 #: trans/formats.py:525
 msgid "XLIFF Translation File"
@@ -339,7 +338,7 @@ msgstr "Plik tłumaczenia XLIFF"
 
 #: trans/formats.py:533
 msgid "OS X Strings"
-msgstr "Ciągi OS X"
+msgstr "Ciągi znaków OS X"
 
 #: trans/formats.py:541
 msgid "Java Properties"
@@ -351,19 +350,19 @@ msgstr "Właściwości Java (UTF-8)"
 
 #: trans/formats.py:568
 msgid "PHP strings"
-msgstr "Ciągi PHP"
+msgstr "Ciągi znaków PHP"
 
 #: trans/formats.py:576 ttkit/aresource.py:314
 msgid "Android String Resource"
-msgstr "Zasób ciągu Androida"
+msgstr "Zasób ciągu znaków Android"
 
 #: trans/forms.py:94
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Równanie to służy do określenia, która forma liczby mnogiej zostanie użyta w "
-"zależności od liczebności (n)."
+"To równanie służy do określenia, która forma liczby mnogiej zostanie użyta  "
+"na podstawie danej liczebności (n)."
 
 #: trans/forms.py:97
 msgid "Plural equation"
@@ -372,7 +371,7 @@ msgstr "Równanie liczby mnogiej"
 #: trans/forms.py:149
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
-msgstr "Pole wyboru do zaznaczania napisu jako tłumaczenie watpliwe"
+msgstr "Pole wyboru do zaznaczania tłumaczenia jako niepewne"
 
 #: trans/forms.py:173 trans/forms.py:331
 msgid "File"
@@ -384,15 +383,15 @@ msgstr "Metoda scalania"
 
 #: trans/forms.py:177
 msgid "Add as translation"
-msgstr "Dodaj jako Tłumaczenie"
+msgstr "Dodaj jako tłumaczenie"
 
 #: trans/forms.py:178
 msgid "Add as a suggestion"
-msgstr "Dodaj jako sugestie"
+msgstr "Dodaj jako sugestia"
 
 #: trans/forms.py:179
 msgid "Add as fuzzy translation"
-msgstr "Dodaj jako niepewne tłumaczenie"
+msgstr "Dodaj jako tłumaczenie niepewne"
 
 #: trans/forms.py:184
 msgid "Merge file header"
@@ -408,7 +407,7 @@ msgstr "Nadpisz istniejące tłumaczenia"
 
 #: trans/forms.py:206
 msgid "Author name"
-msgstr "Dane autora (imię, nazwisko)"
+msgstr "Imię i nazwisko autora"
 
 #: trans/forms.py:208 trans/forms.py:213
 msgid "Keep empty for using currently logged in user."
@@ -436,27 +435,27 @@ msgstr "Dokładne dopasowanie"
 
 #: trans/forms.py:228
 msgid "Substring"
-msgstr "Podciąg"
+msgstr "Podciąg znaków"
 
 #: trans/forms.py:233
 msgid "Search in source strings"
-msgstr "Szukaj w ciągach źródłowych"
+msgstr "Szukaj w źródłowych ciągach znaków"
 
 #: trans/forms.py:238
 msgid "Search in target strings"
-msgstr "Szukaj w ciągach docelowych"
+msgstr "Szukaj w docelowych ciagach znaków"
 
 #: trans/forms.py:243
 msgid "Search in context strings"
-msgstr "Szukaj w ciągach kontekstowych"
+msgstr "Szukaj w kontekstowych ciągach znaków"
 
 #: trans/forms.py:286
 msgid "Overwrite strings"
-msgstr "Nadpisz ciągi"
+msgstr "Nadpisz ciągi znaków"
 
 #: trans/forms.py:291
 msgid "Replace inconsistent"
-msgstr "Podmień niespójność"
+msgstr "Zastąp niespójność"
 
 #: trans/forms.py:296
 msgid "Subproject to use"
