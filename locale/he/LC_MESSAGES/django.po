@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-05-29 09:39+0200\n"
-"PO-Revision-Date: 2013-05-17 19:55+0200\n"
+"PO-Revision-Date: 2013-06-02 07:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
 "Language: he\n"
@@ -284,10 +284,10 @@ msgid "Created new SSH key."
 msgstr "נוצר מפתח SSH חדש."
 
 #: trans/admin_views.py:218
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key!"
 msgid "Failed to generate key: %s"
-msgstr "יצירת המפתח נכשלה!"
+msgstr "יצירת המפתח נכשלה: %s"
 
 #: trans/admin_views.py:237
 msgid "Invalid host name given!"
@@ -788,10 +788,9 @@ msgid "Translation reverted"
 msgstr "התרגום שוחזר"
 
 #: trans/models/changes.py:140
-#, fuzzy
 #| msgid "Translations made"
 msgid "Translation uploaded"
-msgstr "תרגומים שהוגשו"
+msgstr "התרגום הועלה"
 
 #: trans/models/changes.py:160
 #, python-format
@@ -827,10 +826,9 @@ msgid "Email conference for translators"
 msgstr "דיון בדוא״ל לטובת המתרגמים"
 
 #: trans/models/project.py:86
-#, fuzzy
 #| msgid "Information"
 msgid "Instructions"
-msgstr "פרטים"
+msgstr "הנחיות"
 
 #: trans/models/project.py:88
 msgid "URL with instructions for translators"
@@ -838,19 +836,19 @@ msgstr "כתובת עם הנחיות למתרגמים"
 
 #: trans/models/project.py:91
 msgid "License"
-msgstr ""
+msgstr "רישיון"
 
 #: trans/models/project.py:95
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "תקציר הרישיון המשמש את התרגומים (רשות)."
 
 #: trans/models/project.py:99
 msgid "License URL"
-msgstr ""
+msgstr "כתובת הרישיון"
 
 #: trans/models/project.py:101
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "כתובת עם פרטי הרישוי כרשות."
 
 #: trans/models/project.py:104 weblate/html/subproject.html:32
 msgid "New language"
@@ -907,7 +905,7 @@ msgstr "נא למלא את כתובת ההנחיות או להשתמש באפש�
 
 #: trans/models/project.py:209
 msgid "License URL can not be used without license summary."
-msgstr ""
+msgstr "לא ניתן להשתמש בכתובת רישיון ללא תקציר רישיון."
 
 #: trans/models/subproject.py:69
 msgid "Name to display"
@@ -2778,7 +2776,7 @@ msgstr "פרטים"
 
 #: weblate/html/profile.html:27
 msgid "Licenses"
-msgstr ""
+msgstr "רישיונות"
 
 #: weblate/html/profile.html:28
 msgid "Avatar"
@@ -2812,7 +2810,7 @@ msgstr ""
 msgid ""
 "Following projects have explicitely specified their licensing and copyright "
 "conditions:"
-msgstr ""
+msgstr "המיזמים הבאים ציינו באופן מפורש את תנאי הרישוי וזכויות היוצרים שלהם:"
 
 #: weblate/html/profile.html:84
 msgid "Avatars are provided using libravatar."
@@ -2858,10 +2856,9 @@ msgid "Instructions for translators:"
 msgstr "הנחיות למתרגמים:"
 
 #: weblate/html/project_info.html:10
-#, fuzzy
 #| msgid "Translation changed"
 msgid "Translation license:"
-msgstr "התרגום השתנה"
+msgstr "רישיון התרגום:"
 
 #: weblate/html/share.html:5
 msgid "Share on Facebook!"
@@ -3070,7 +3067,7 @@ msgstr "הערות על התרגום הזה"
 #: weblate/html/translate.html:173
 #, python-format
 msgid "Comments (%(count)s)"
-msgstr ""
+msgstr "הערות (%(count)s)"
 
 #: weblate/html/translate.html:175 weblate/html/unit-details.html:10
 msgid "Comments"
@@ -3087,7 +3084,7 @@ msgstr "פרטים ומשוב על מחרוזת המקור"
 #: weblate/html/translate.html:181
 #, python-format
 msgid "Source (%(count)s)"
-msgstr ""
+msgstr "מקור (%(count)s)"
 
 #: weblate/html/translate.html:186 weblate/html/translate.html.py:284
 #: weblate/html/translation.html:36 weblate/html/translation.html.py:52
@@ -3160,19 +3157,19 @@ msgstr ""
 
 #: weblate/html/translation.html:72
 msgid "Uploaded file will be merged with current translation."
-msgstr ""
+msgstr "הקובץ שהועלה ימוזג עם התרגום הנוכחי."
 
 #: weblate/html/translation.html:91
 msgid "Review"
-msgstr ""
+msgstr "סקירה"
 
 #: weblate/html/translation.html:93
 msgid "Review translations touched by other users."
-msgstr ""
+msgstr "סקירת התרגומים שנערכו על ידי משתמשים אחרים."
 
 #: weblate/html/translation.html:98
 msgid "Start review"
-msgstr ""
+msgstr "התחלת הסקירה"
 
 #: weblate/html/translation.html:105
 msgid ""
@@ -3243,10 +3240,9 @@ msgid "Message is translated"
 msgstr ""
 
 #: weblate/html/unit-state.html:7
-#, fuzzy
 #| msgid "User comments"
 msgid "Message has comments"
-msgstr "הערות משתמשים"
+msgstr "להודעה יש הערות"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
@@ -3919,7 +3915,7 @@ msgstr "שינויים"
 
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
-msgstr ""
+msgstr "לא נמצאה פעילות תואמת."
 
 #~ msgid "Recent changes"
 #~ msgstr "השינויים האחרונים"
