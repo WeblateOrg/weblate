@@ -442,11 +442,12 @@ class FileFormat(object):
         else:
             return self.store.Extensions[0]
 
-    def supports_language_pack(self):
+    @classmethod
+    def supports_language_pack(cls):
         '''
         Checks whether backend store supports generating language pack.
         '''
-        return hasattr(self, 'get_language_pack')
+        return hasattr(cls, 'get_language_pack')
 
 
 class AutoFormat(FileFormat):
