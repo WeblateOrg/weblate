@@ -386,6 +386,12 @@ class Translation(models.Model, URLMixin):
             self.subproject.template_store
         )
 
+    def supports_language_pack(self):
+        '''
+        Checks whether we support language pack download.
+        '''
+        return self.subproject.file_format_cls.supports_language_pack()
+
     @property
     def store(self):
         '''
