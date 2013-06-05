@@ -96,6 +96,7 @@ def get_versions():
         url,
         mod.get_version(),
         '0.8',
+        '0.8',
     ))
 
     name = 'Translate Toolkit'
@@ -175,14 +176,20 @@ def get_versions():
     return result
 
 
-def check_version(name, url, version, expected):
+def check_version(name, url, version, expected, highest=None):
     '''
     Check for single module version.
     '''
     if expected is None:
         return
-    if LooseVersion(version) < expected:
+    looseversion = LooseVersion(version)
+    if looseversion < expected:
         print '*** %s <%s> is too old! ***' % (name, url)
         print 'Installed version %s, required %s' % (version, expected)
         return True
+    if highest is not None and looseversion > highest:
+        print '*** %s <%s> is not supported! ***' % (name, url)
+        print 'Installed version %s, required %s' % (version, highest)
+        return True
+
     return False

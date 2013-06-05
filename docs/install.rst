@@ -16,7 +16,7 @@ GitPython (>= 0.3)
     https://github.com/gitpython-developers/GitPython
 Git (>= 1.0)
     http://git-scm.com/
-Django-registration (>= 0.8)
+Django-registration (= 0.8, 0.9 is not supported)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
     http://bitbucket.org/mchaput/whoosh/
