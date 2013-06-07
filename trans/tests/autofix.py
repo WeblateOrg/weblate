@@ -67,6 +67,11 @@ class AutoFixTest(TestCase):
             fix.fix_target(['Bar\n'], unit),
             ([u'Bar\n'], False)
         )
+        unit = Unit(source=u' ')
+        self.assertEquals(
+            fix.fix_target(['  '], unit),
+            (['  '], False)
+        )
 
     def test_no_whitespace(self):
         unit = Unit(source=u'Foo')
