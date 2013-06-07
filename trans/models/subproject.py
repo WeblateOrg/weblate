@@ -747,8 +747,8 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         if self.is_repo_link():
             return
         self.configure_repo(validate)
-        self.configure_branch()
         self.commit_pending(None)
+        self.configure_branch()
         self.update_remote_branch()
         self.update_branch()
 
