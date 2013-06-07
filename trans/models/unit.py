@@ -284,9 +284,7 @@ class UnitManager(models.Manager):
 
         # Search in source or context
         if source or context:
-            index = FULLTEXT_INDEX.source_searcher(
-                not appsettings.OFFLOAD_INDEXING
-            )
+            index = FULLTEXT_INDEX.source_searcher()
             with index as searcher:
                 if source:
                     results = self.__search(
@@ -310,7 +308,6 @@ class UnitManager(models.Manager):
             sample = self.all()[0]
             index = FULLTEXT_INDEX.target_searcher(
                 sample.translation.language.code,
-                not appsettings.OFFLOAD_INDEXING
             )
             with index as searcher:
                 results = self.__search(
@@ -330,9 +327,7 @@ class UnitManager(models.Manager):
         '''
         Finds units with same source.
         '''
-        index = FULLTEXT_INDEX.source_searcher(
-            not appsettings.OFFLOAD_INDEXING
-        )
+        index = FULLTEXT_INDEX.source_searcher()
         source_string = unit.get_source_plurals()[0]
         parser = qparser.QueryParser('source', SOURCE_SCHEMA)
         parsed = parser.parse(source_string)
@@ -355,9 +350,7 @@ class UnitManager(models.Manager):
         '''
         Finds closely similar units.
         '''
-        index = FULLTEXT_INDEX.source_searcher(
-            not appsettings.OFFLOAD_INDEXING
-        )
+        index = FULLTEXT_INDEX.source_searcher()
         source_string = unit.get_source_plurals()[0]
         parser = qparser.QueryParser('source', SOURCE_SCHEMA)
         parsed = parser.parse(source_string)

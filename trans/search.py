@@ -28,7 +28,7 @@ from whoosh.fields import Schema, TEXT, ID
 from django.db.models.signals import post_syncdb
 from weblate import appsettings
 from whoosh.index import create_in, open_dir
-from whoosh.writing import BufferedWriter
+from whoosh.writing import AsyncWriter
 from django.dispatch import receiver
 from lang.models import Language
 
@@ -67,13 +67,6 @@ def create_index(sender=None, **kwargs):
         create_source_index()
 
 
-def flush_index():
-    '''
-    Flushes any possibly buffered writes to index.
-    '''
-    FULLTEXT_INDEX.commit()
-
-
 def update_index(units, source_units=None):
     '''
     Updates fulltext index for given set of units.
@@ -86,7 +79,7 @@ def update_index(units, source_units=None):
         source_units = units
 
     # Update source index
-    with FULLTEXT_INDEX.source_writer(buffered=False) as writer:
+    with FULLTEXT_INDEX.source_writer(async=False) as writer:
         source_units = source_units.values('checksum', 'source', 'context')
         for unit in source_units.iterator():
             Unit.objects.add_to_source_index(
@@ -99,7 +92,7 @@ def update_index(units, source_units=None):
     # Update per language indices
     for lang in languages:
         index = FULLTEXT_INDEX.target_writer(
-            lang=lang.code, buffered=False
+            lang=lang.code, async=False
         )
         with index as writer:
 
@@ -126,8 +119,6 @@ class Index(object):
 
     _source = None
     _target = {}
-    _source_writer = None
-    _target_writer = {}
 
     def source(self):
         '''
@@ -160,49 +151,33 @@ class Index(object):
                 self._target[lang] = create_target_index(lang)
         return self._target[lang]
 
-    def source_writer(self, buffered=True):
+    def source_writer(self, async=True):
         '''
         Returns source index writer (by default buffered).
         '''
-        if not buffered:
-            return self.source().writer()
-        if self._source_writer is None:
-            self._source_writer = BufferedWriter(self.source())
-        return self._source_writer
+        if async:
+            return AsyncWriter(self.source())
+        return self.source().writer()
 
-    def target_writer(self, lang, buffered=True):
+    def target_writer(self, lang, async=True):
         '''
         Returns target index writer (by default buffered) for given language.
         '''
-        if not buffered:
-            return self.target(lang).writer()
-        if not lang in self._target_writer:
-            self._target_writer[lang] = BufferedWriter(self.target(lang))
-        return self._target_writer[lang]
+        if async:
+            return AsyncWriter(self.target(lang))
+        return self.target(lang).writer()
 
-    def source_searcher(self, buffered=True):
+    def source_searcher(self):
         '''
         Returns source index searcher (on buffered writer).
         '''
-        if not buffered:
-            return self.source().searcher()
-        return self.source_writer(buffered).searcher()
+        return self.source().searcher()
 
-    def target_searcher(self, lang, buffered=True):
+    def target_searcher(self, lang):
         '''
         Returns target index searcher (on buffered writer) for given language.
         '''
-        if not buffered:
-            return self.target(lang).searcher()
-        return self.target_writer(lang, buffered).searcher()
+        return self.target(lang).searcher()
 
-    def commit(self):
-        '''
-        Commits pending changes.
-        '''
-        if self._source_writer is not None:
-            self._source_writer.commit()
-        for lang in self._target_writer:
-            self._target_writer[lang].commit()
 
 FULLTEXT_INDEX = Index()

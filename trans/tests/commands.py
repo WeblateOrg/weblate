@@ -26,7 +26,6 @@ from trans.tests.models import RepoTestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
 import django
-from trans.search import flush_index
 
 # Django 1.5 changes behavior here
 if django.VERSION >= (1, 5):
@@ -128,8 +127,6 @@ class PeriodicCommandTest(RepoTestCase):
         )
 
     def test_update_index(self):
-        # Flush possible caches
-        flush_index()
         # Test the command
         call_command(
             'update_index'
@@ -223,11 +220,6 @@ class UpdateGitTest(CheckGitTest):
 
 class RebuildIndexTest(CheckGitTest):
     command_name = 'rebuild_index'
-
-    def setUp(self):
-        super(RebuildIndexTest, self).setUp()
-        # Flush possible caches
-        flush_index()
 
     def test_all_clean(self):
         self.do_test(
