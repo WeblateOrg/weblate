@@ -130,10 +130,8 @@ class Index(object):
                     appsettings.WHOOSH_INDEX,
                     indexname='source'
                 )
-            except whoosh.index.EmptyIndexError:
-                self._source = create_source_index()
-            except IOError:
-                # eg. path does not exist
+            except (whoosh.index.EmptyIndexError, IOError):
+                # eg. path or index does not exist
                 self._source = create_source_index()
         return self._source
 
@@ -147,7 +145,7 @@ class Index(object):
                     appsettings.WHOOSH_INDEX,
                     indexname='target-%s' % lang
                 )
-            except whoosh.index.EmptyIndexError:
+            except (whoosh.index.EmptyIndexError, IOError):
                 self._target[lang] = create_target_index(lang)
         return self._target[lang]
 
