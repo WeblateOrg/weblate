@@ -786,6 +786,36 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 _('Failed to parse translation template: %s') % str(exc)
             )
 
+    def clean_files(self, matches):
+        '''
+        Validates whether we can parse translation files.
+        '''
+        notrecognized = []
+        errors = []
+        for match in matches:
+            try:
+                self.file_format_cls.load(
+                    os.path.join(self.get_path(), match),
+                )
+            except ValueError:
+                notrecognized.append(match)
+            except Exception as e:
+                errors.append('%s: %s' % (match, str(e)))
+        if len(notrecognized) > 0:
+            msg = (
+                _('Format of %d matched files could not be recognized.') %
+                len(notrecognized)
+            )
+            raise ValidationError('%s\n%s' % (
+                msg,
+                '\n'.join(notrecognized)
+            ))
+        if len(errors) > 0:
+            raise ValidationError('%s\n%s' % (
+                (_('Failed to parse %d matched files!') % len(errors)),
+                '\n'.join(errors)
+            ))
+
     def clean(self):
         '''
         Validator fetches repository and tries to find translation files.
@@ -820,31 +850,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             langs.add(code)
 
         # Try parsing files
-        notrecognized = []
-        errors = []
-        for match in matches:
-            try:
-                self.file_format_cls.load(
-                    os.path.join(self.get_path(), match),
-                )
-            except ValueError:
-                notrecognized.append(match)
-            except Exception as e:
-                errors.append('%s: %s' % (match, str(e)))
-        if len(notrecognized) > 0:
-            msg = (
-                _('Format of %d matched files could not be recognized.') %
-                len(notrecognized)
-            )
-            raise ValidationError('%s\n%s' % (
-                msg,
-                '\n'.join(notrecognized)
-            ))
-        if len(errors) > 0:
-            raise ValidationError('%s\n%s' % (
-                (_('Failed to parse %d matched files!') % len(errors)),
-                '\n'.join(errors)
-            ))
+        self.clean_files(matches)
 
         # Validate template
         if self.has_template():
