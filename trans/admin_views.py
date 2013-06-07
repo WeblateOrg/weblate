@@ -215,7 +215,10 @@ def ssh(request):
             )
             messages.info(request, _('Created new SSH key.'))
         except subprocess.CalledProcessError as exc:
-            messages.error(request, _('Failed to generate key: %s') % exc.output)
+            messages.error(
+                request,
+                _('Failed to generate key: %s') % exc.output
+            )
 
     # Read key data if it exists
     if os.path.exists(key_path):
