@@ -796,7 +796,10 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             return
 
         # Validate git repo
-        self.sync_git_repo(True)
+        try:
+            self.sync_git_repo(True)
+        except git.GitCommandError as exc:
+            raise ValidationError(_('Failed to update git: %s') % exc.status)
 
         # Push repo is not used with link
         if self.is_repo_link():
