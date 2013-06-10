@@ -58,6 +58,8 @@ class Command(WeblateLangCommand):
                     continue
 
                 last_change = translation.get_last_change()
+                if last_change is None:
+                    continue
                 if last_change > age:
                     continue
 
