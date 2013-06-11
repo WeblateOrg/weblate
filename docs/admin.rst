@@ -439,6 +439,8 @@ To enable this service, add ``trans.machine.tmserver.AmagamaTranslation`` to
 
 .. seealso:: http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html
 
+.. _apertium:
+
 Apertium
 ++++++++
 
@@ -469,6 +471,8 @@ To enable this service, add ``trans.machine.glosbe.GlosbeTranslation`` to
 .. seealso::
 
     http://glosbe.com/
+
+.. _google-translate:
 
 Google Translate
 ++++++++++++++++
@@ -501,6 +505,8 @@ To enable this service, add ``trans.machine.google.GoogleWebTranslation`` to
 
     http://translate.google.com/
 
+.. _ms-translate:
+
 Microsoft Translator
 ++++++++++++++++++++
 
@@ -516,6 +522,8 @@ To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
     :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`, 
     http://www.microsofttranslator.com/, 
     https://datamarket.azure.com/developer/applications/
+
+.. _mymemory:
 
 MyMemory
 ++++++++
