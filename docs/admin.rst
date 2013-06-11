@@ -574,6 +574,12 @@ Now you can start tmserver to listen to your requests:
 
     tmserver -d /var/lib/tm/db
 
+And configure Weblate to talk to it:
+
+.. code-block:: python
+
+    MT_TMSERVER = 'http://localhost:8888/'
+
 .. seealso::
 
     :setting:`MT_TMSERVER`, 
