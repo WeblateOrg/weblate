@@ -26,6 +26,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('lang', '0002_auto__add_field_language_direction'),
+    )
+
     def forwards(self, orm):
         # Adding field 'Translation.failing_checks'
         db.add_column('trans_translation', 'failing_checks',

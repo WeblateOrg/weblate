@@ -26,6 +26,10 @@ from django.db import models
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('lang', '0004_fill_in_plural_type'),
+    )
+
     def forwards(self, orm):
         # Adding field 'Project.license'
         db.add_column(u'trans_project', 'license',
