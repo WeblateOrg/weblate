@@ -19,6 +19,17 @@
 #
 
 #
+# Safety check for running with too old Django version
+#
+
+import django
+if django.VERSION < (1, 4, 0):
+    raise Exception(
+        'Weblate needs Django 1.4 or newer, you are using %s!' %
+        django.get_version()
+    )
+
+#
 # Django settings for weblate project.
 #
 
