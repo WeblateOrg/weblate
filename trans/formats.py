@@ -296,14 +296,14 @@ class FileFormat(object):
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
         try:
-            module = importlib.import_module(
-                'translate.storage.%s' % module_name
-            )
-        except ImportError:
-            # Fallback to bultin ttkit copy
+            # Try bultin ttkit copy
             # (only valid for aresource)
             module = importlib.import_module(
                 'ttkit.%s' % module_name
+            )
+        except ImportError:
+            module = importlib.import_module(
+                'translate.storage.%s' % module_name
             )
 
         # Get the class
