@@ -21,6 +21,7 @@
 from django.core.management.base import BaseCommand
 from trans.requirements import get_versions
 
+
 class Command(BaseCommand):
     help = 'lists versions of required software components'
 
