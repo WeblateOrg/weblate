@@ -102,6 +102,21 @@ However you need to get PyCairo and PyGtk for your platform elsewhere as they
 do not support this easy installation method. Check their website for options
 for getting appropriate binaries.
 
+Also you will need header files for ``libxml2`` and ``libxslt`` to compile some
+of the required Python modules.
+
+On Debian or Ubuntu you can install them using:
+
+.. code-block:: sh
+
+    apt-get install libxml2-dev libxslt-dev
+
+On openSUSE or SLES you can install them using:
+
+.. code-block:: sh
+
+    zypper install libxslt-devel libxml2-devel
+
 .. _installation:
 
 Installation
