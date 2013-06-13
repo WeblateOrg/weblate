@@ -787,15 +787,20 @@ class Translation(models.Model, URLMixin):
                 )
 
         # Create list of files to commit
-        files = [self.filename]
+        gitrepo.git.add(self.filename)
         if self.subproject.extra_commit_file != '':
-            files.append(self.subproject.extra_commit_file % {
+            extra_file = self.subproject.extra_commit_file % {
                 'language': self.language_code,
-            })
+            }
+            full_path_extra = os.path.join(
+                self.subproject.get_path(),
+                extra_file
+            )
+            if os.path.exists(full_path_extra):
+                gitrepo.git.add(extra_file)
 
         # Do actual commit
         gitrepo.git.commit(
-            *files,
             author=author.encode('utf-8'),
             date=timestamp.isoformat(),
             m=msg
