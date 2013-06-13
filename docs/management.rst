@@ -102,6 +102,13 @@ list_ignored_checks
 Lists most frequently ignored checks. This can be useful for tuning your setup,
 if users have to ignore too many of consistency checks.
 
+list_versions
+-------------
+
+.. django-admin:: list_versions
+
+Lists versions of Weblate dependencies.
+
 loadpo <project|project/subproject>
 -----------------------------------
 

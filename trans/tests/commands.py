@@ -22,6 +22,7 @@
 Tests for management commands.
 """
 
+from django.test import TestCase
 from trans.tests.models import RepoTestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -114,6 +115,11 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '*/*.po',
         )
+
+
+class BasicCommandTest(TestCase):
+    def test_versions(self):
+        call_command('list_versions')
 
 
 class PeriodicCommandTest(RepoTestCase):
