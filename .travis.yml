@@ -56,3 +56,8 @@ script:
   - ./manage.py syncdb --noinput --settings weblate.settings_test_$DATABASE
   - ./manage.py migrate --settings weblate.settings_test_$DATABASE
   - ./manage.py test --settings weblate.settings_test_$DATABASE trans lang accounts
+notifications:
+  irc:
+    channels: "irc.freenode.org#weblate"
+    on_success: change
+    on_failure: change
