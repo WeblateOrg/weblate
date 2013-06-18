@@ -31,6 +31,7 @@ from trans.tests.models import RepoTestCase
 from accounts.models import Profile
 import cairo
 import re
+import time
 from urlparse import urlsplit
 from cStringIO import StringIO
 
@@ -375,6 +376,8 @@ class EditTest(ViewTestCase):
             source,
             target
         )
+        # Ensure other edit gets different timestamp
+        time.sleep(1)
         self.edit_unit(
             source,
             target_2
