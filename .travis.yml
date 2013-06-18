@@ -11,13 +11,13 @@ env:
   - DJANGO_VERSION=1.5.1 DATABASE=sqlite
 matrix:
   exclude:
-    - python: 2.6
+    - python: "2.6"
       env: DJANGO_VERSION=1.4.5 DATABASE=mysql
-    - python: 2.6
+    - python: "2.6"
       env: DJANGO_VERSION=1.4.5 DATABASE=postgresql
-    - python: 2.6
+    - python: "2.6"
       env: DJANGO_VERSION=1.5.1 DATABASE=mysql
-    - python: 2.6
+    - python: "2.6"
       env: DJANGO_VERSION=1.5.1 DATABASE=postgresql
 before_install:
   - sudo apt-get update -qq
