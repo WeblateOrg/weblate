@@ -171,8 +171,21 @@ class LanguageManager(models.Manager):
             pluralequation='(n != 1)',
         )
 
-        # In case this is just a different variant of known language, get
-        # params from that
+        # Check for different variant
+        if '@' in code:
+            parts = code.split('@')
+            try:
+                baselang = Language.objects.get(code=parts[0])
+                lang.name = baselang.name
+                lang.nplurals = baselang.nplurals
+                lang.pluralequation = baselang.pluralequation
+                lang.direction = baselang.direction
+                lang.save()
+                return lang
+            except Language.DoesNotExist:
+                pass
+
+        # Check for different country
         if '_' in code or '-' in code:
             parts = code.replace('-', '_').split('_')
             try:
