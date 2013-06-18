@@ -5,6 +5,9 @@ python:
 env:
   - DJANGO_VERSION=1.4.5
   - DJANGO_VERSION=1.5.1
+  - DATABASE=mysql
+  - DATABASE=postgresql
+  - DATABASE=sqlite
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libcairo2-dev libgtk2.0-dev libglib2.0-dev libtool libpango1.0-dev libatk1.0-dev libffi-dev
@@ -40,13 +43,15 @@ install:
   - make > /dev/null
   - make install > /dev/null
   - cd ..
-# generate configuration
+# generate configuration and create databases
 before_script:
   - cp weblate/settings_example.py weblate/settings.py
+  - if [[ $DATABASE = mysql ]] ; then mysql -e 'create database weblate;' ; fi
+  - if [[ $DATABASE = postgresql ]] ; then psql -c 'create database weblate;' -U postgres ; fi
 # commands to run tests
 script: 
   - ./scripts/generate-locales
-  - ./manage.py validate
-  - ./manage.py syncdb --noinput
-  - ./manage.py migrate
-  - ./manage.py test --settings weblate.settings_test trans lang accounts
+  - ./manage.py validate --settings weblate.settings_test_$DATABASE
+  - ./manage.py syncdb --noinput --settings weblate.settings_test_$DATABASE
+  - ./manage.py migrate --settings weblate.settings_test_$DATABASE
+  - ./manage.py test --settings weblate.settings_test_$DATABASE trans lang accounts
