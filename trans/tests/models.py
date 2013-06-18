@@ -164,6 +164,18 @@ class RepoTestCase(TestCase):
             'xliff/*/DPH.xlf',
         )
 
+    def create_xliff_resname(self):
+        return self._create_subproject(
+            'xliff',
+            'xliff/*/Resname.xlf',
+        )
+
+    def create_xliff_empty(self):
+        return self._create_subproject(
+            'xliff',
+            'xliff/*/EMPTY.xlf',
+        )
+
     def create_link(self):
         parent = self.create_iphone()
         return SubProject.objects.create(
@@ -274,6 +286,22 @@ class SubProjectTest(RepoTestCase):
         self.assertEqual(project.translation_set.count(), 1)
         translation = project.translation_set.all()[0]
         self.assertEqual(translation.unit_set.count(), 9)
+
+    def test_create_xliff_empty(self):
+        project = self.create_xliff_empty()
+        project.full_clean()
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual(project.translation_set.count(), 1)
+        translation = project.translation_set.all()[0]
+        self.assertEqual(translation.unit_set.count(), 6)
+
+    def test_create_xliff_resname(self):
+        project = self.create_xliff_resname()
+        project.full_clean()
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual(project.translation_set.count(), 1)
+        translation = project.translation_set.all()[0]
+        self.assertEqual(translation.unit_set.count(), 2)
 
     def test_link(self):
         project = self.create_link()
