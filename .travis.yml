@@ -11,11 +11,12 @@ env:
   - DJANGO_VERSION=1.5.1 DATABASE=sqlite
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install git libcairo2-dev libgtk2.0-dev libglib2.0-dev libtool libpango1.0-dev libatk1.0-dev libffi-dev
+  - sudo apt-get install git libcairo2-dev libgtk2.0-dev libglib2.0-dev libtool libpango1.0-dev libatk1.0-dev libffi-dev libpq-dev libmysqlclient-dev
 # commands to install dependencies
 install: 
   - pip install --use-mirrors Django==$DJANGO_VERSION
   - pip install --use-mirrors -r requirements.txt
+  - pip install --use-mirrors mysql-python psycopg
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors -r requirements-2.6.txt ; fi
 # Environment setup
   - export VIRT_ROOT=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION
@@ -47,8 +48,8 @@ install:
 # generate configuration and create databases
 before_script:
   - cp weblate/settings_example.py weblate/settings.py
-  - if [[ $DATABASE = mysql ]] ; then mysql -e 'create database weblate;' ; fi
-  - if [[ $DATABASE = postgresql ]] ; then psql -c 'create database weblate;' -U postgres ; fi
+  - mysql -e 'create database weblate;'
+  - psql -c 'create database weblate;' -U postgres
 # commands to run tests
 script: 
   - ./scripts/generate-locales
