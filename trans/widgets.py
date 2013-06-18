@@ -261,7 +261,8 @@ class NormalWidget(Widget):
                 '%(percent)d%% complete, help us improve!'
             ),
             # Translators: please use your language name instead of English
-            _('translating %(count)d strings into English\n%(percent)d%% complete, help us improve!'),
+            _('translating %(count)d strings into English\n%(percent)d%%'
+              ' complete, help us improve!'),
             'Sans', 8,
             72, 22
         )
