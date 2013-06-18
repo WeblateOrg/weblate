@@ -35,6 +35,7 @@ class LanguagesTest(TestCase):
         ('pt-rBR', 'pt_BR', 'ltr'),
         ('sr_RS@latin', 'sr_RS@latin', 'ltr'),
         ('sr-RS@latin', 'sr_RS@latin', 'ltr'),
+        ('sr_RS_Latin', 'sr_RS@latin', 'ltr'),
         ('zh_CN', 'zh_CN', 'ltr'),
         ('zh-CN', 'zh_CN', 'ltr'),
         ('zh-rCN', 'zh_CN', 'ltr'),

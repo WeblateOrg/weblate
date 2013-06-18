@@ -134,6 +134,10 @@ class LanguageManager(models.Manager):
             if '@' in country:
                 region, variant = country.split('@', 1)
                 country = '%s@%s' % (region.upper(), variant.lower())
+            elif '_' in country:
+                # Xliff way of defining variants
+                region, variant = country.split('_', 1)
+                country = '%s@%s' % (region.upper(), variant.lower())
             else:
                 country = country.upper()
             newcode = '%s_%s' % (lang.lower(), country)
