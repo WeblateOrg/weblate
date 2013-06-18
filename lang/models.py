@@ -170,17 +170,6 @@ class LanguageManager(models.Manager):
             nplurals=2,
             pluralequation='(n != 1)',
         )
-        # Try cs_CZ instead of cs-CZ
-        if '-' in code:
-            try:
-                baselang = Language.objects.get(code=code.replace('-', '_'))
-                lang.name = baselang.name
-                lang.nplurals = baselang.nplurals
-                lang.pluralequation = baselang.pluralequation
-                lang.save()
-                return lang
-            except Language.DoesNotExist:
-                pass
 
         # In case this is just a different variant of known language, get
         # params from that
