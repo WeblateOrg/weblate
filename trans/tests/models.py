@@ -158,7 +158,7 @@ class RepoTestCase(TestCase):
             'java/swing_messages.properties',
         )
 
-    def create_xliff(self, name='DPH'):
+    def create_xliff(self, name='default'):
         return self._create_subproject(
             'xliff',
             'xliff/*/%s.xlf' % name,
@@ -271,6 +271,10 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_xliff(self):
         project = self.create_xliff()
+        self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_xliff_dph(self):
+        project = self.create_xliff('DPH')
         self.verify_subproject(project, 1, 'en', 9)
 
     def test_create_xliff_empty(self):

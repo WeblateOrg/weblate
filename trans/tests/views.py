@@ -208,6 +208,11 @@ class BasicJavaViewTest(BasicViewTest):
         return self.create_java()
 
 
+class BasicXliffViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_xliff()
+
+
 class BasicLinkViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_link()
@@ -561,6 +566,11 @@ class EditIphoneTest(EditTest):
 class EditJavaTest(EditTest):
     def create_subproject(self):
         return self.create_java()
+
+
+class EditXliffTest(EditTest):
+    def create_subproject(self):
+        return self.create_xliff()
 
 
 class EditLinkTest(EditTest):
