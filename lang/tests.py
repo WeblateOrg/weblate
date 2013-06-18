@@ -137,6 +137,12 @@ class LanguagesTest(TestCase):
             'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
             ': n%100>=11 ? 4 : 5',
         ),
+        (
+            'xx',
+            'xx',
+            'ltr',
+            'n != 1',
+        ),
     )
 
     def test_auto_create(self):
