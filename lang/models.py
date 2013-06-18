@@ -111,7 +111,6 @@ class LanguageManager(models.Manager):
             return self.get(code=code)
         except Language.DoesNotExist:
             return None
-            pass
 
     def auto_get_or_create(self, code):
         '''
