@@ -3,11 +3,12 @@ python:
   - "2.6"
   - "2.7"
 env:
-  - DJANGO_VERSION=1.4.5
-  - DJANGO_VERSION=1.5.1
-  - DATABASE=mysql
-  - DATABASE=postgresql
-  - DATABASE=sqlite
+  matrix:
+    - DJANGO_VERSION=1.4.5
+    - DJANGO_VERSION=1.5.1
+    - DATABASE=mysql
+    - DATABASE=postgresql
+    - DATABASE=sqlite
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libcairo2-dev libgtk2.0-dev libglib2.0-dev libtool libpango1.0-dev libatk1.0-dev libffi-dev
