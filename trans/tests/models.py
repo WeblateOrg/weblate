@@ -272,6 +272,8 @@ class SubProjectTest(RepoTestCase):
         project.full_clean()
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual(project.translation_set.count(), 1)
+        translation = project.translation_set.all()[0]
+        self.assertEqual(translation.unit_set.count(), 9)
 
     def test_link(self):
         project = self.create_link()
