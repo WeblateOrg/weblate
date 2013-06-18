@@ -304,10 +304,13 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
 
+        # Get ids of created suggestions
+        suggestions = [sug.pk for sug in unit.suggestions()]
+
         # Delete one of suggestions
         self.client.get(
             self.translate_url,
-            {'delete': 1},
+            {'delete': suggestions[0]},
         )
 
         # Reload from database
@@ -326,7 +329,7 @@ class EditTest(ViewTestCase):
         # Accept one of suggestions
         self.client.get(
             self.translate_url,
-            {'accept': 2},
+            {'accept': suggestions[1]},
         )
 
         # Reload from database
