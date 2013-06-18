@@ -270,7 +270,7 @@ class EditTest(ViewTestCase):
             '',
             suggest='yes'
         )
-        # We should get to second message
+        # We should stay on same message
         self.assertRedirectsOffset(response, self.translate_url, 0)
 
         # Add first suggestion
