@@ -156,7 +156,7 @@ class LanguageManager(models.Manager):
                 pass
 
         # Create new one
-        return self.auto_create(code)
+        return self.auto_create(newcode)
 
     def auto_create(self, code):
         '''
