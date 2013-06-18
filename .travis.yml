@@ -27,6 +27,7 @@ install:
   - pip install --use-mirrors Django==$DJANGO_VERSION
   - pip install --use-mirrors -r requirements.txt
   - pip install --use-mirrors mysql-python psycopg2
+  - pip install --use-mirrors pep8
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors -r requirements-2.6.txt ; fi
 # Environment setup
   - export VIRT_ROOT=/home/travis/virtualenv/python$TRAVIS_PYTHON_VERSION
@@ -60,6 +61,7 @@ before_script:
   - cp weblate/settings_example.py weblate/settings.py
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
+  - pep8 --exclude migrations accounts trans lang
 # commands to run tests
 script: 
   - ./scripts/generate-locales
