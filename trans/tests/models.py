@@ -243,39 +243,43 @@ class SubProjectTest(RepoTestCase):
     '''
     SubProject object testing.
     '''
-    def verify_subproject(self, project, translations, lang=None, units=0):
+    def verify_subproject(self, project, translations, lang, units):
+        # Validation
         project.full_clean()
+        # Correct path
         self.assertTrue(os.path.exists(project.get_path()))
+        # Count translations
         self.assertEqual(
             project.translation_set.count(), translations
         )
-        if lang is not None:
-            translation = project.translation_set.get(language_code=lang)
-            self.assertEqual(translation.unit_set.count(), units)
+        # Grab translation
+        translation = project.translation_set.get(language_code=lang)
+        # Count units in it
+        self.assertEqual(translation.unit_set.count(), units)
 
     def test_create(self):
         project = self.create_subproject()
-        self.verify_subproject(project, 3)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_iphone(self):
         project = self.create_iphone()
-        self.verify_subproject(project, 1)
+        self.verify_subproject(project, 1, 'cs', 4)
 
     def test_create_po_link(self):
         project = self.create_po_link()
-        self.verify_subproject(project, 3)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_po_mono(self):
         project = self.create_po_mono()
-        self.verify_subproject(project, 3)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_android(self):
         project = self.create_android()
-        self.verify_subproject(project, 1)
+        self.verify_subproject(project, 1, 'cs', 4)
 
     def test_create_java(self):
         project = self.create_java()
-        self.verify_subproject(project, 2)
+        self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_xliff(self):
         project = self.create_xliff()
@@ -291,7 +295,7 @@ class SubProjectTest(RepoTestCase):
 
     def test_link(self):
         project = self.create_link()
-        self.verify_subproject(project, 3)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_validation(self):
         project = self.create_subproject()
