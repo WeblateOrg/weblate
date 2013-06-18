@@ -36,6 +36,8 @@ class LanguagesTest(TestCase):
         ('sr_RS@latin', 'sr_RS@latin', 'ltr'),
         ('sr-RS@latin', 'sr_RS@latin', 'ltr'),
         ('sr_RS_Latin', 'sr_RS@latin', 'ltr'),
+        ('en_CA_MyVariant', 'en_CA@myvariant', 'ltr'),
+        ('en_CZ', 'en_CZ', 'ltr'),
         ('zh_CN', 'zh_CN', 'ltr'),
         ('zh-CN', 'zh_CN', 'ltr'),
         ('zh-rCN', 'zh_CN', 'ltr'),
