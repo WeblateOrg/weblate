@@ -158,22 +158,10 @@ class RepoTestCase(TestCase):
             'java/swing_messages.properties',
         )
 
-    def create_xliff(self):
+    def create_xliff(self, name='DPH'):
         return self._create_subproject(
             'xliff',
-            'xliff/*/DPH.xlf',
-        )
-
-    def create_xliff_resname(self):
-        return self._create_subproject(
-            'xliff',
-            'xliff/*/Resname.xlf',
-        )
-
-    def create_xliff_empty(self):
-        return self._create_subproject(
-            'xliff',
-            'xliff/*/EMPTY.xlf',
+            'xliff/*/%s.xlf' % name,
         )
 
     def create_link(self):
@@ -286,11 +274,11 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 1, 'en', 9)
 
     def test_create_xliff_empty(self):
-        project = self.create_xliff_empty()
+        project = self.create_xliff('EMPTY')
         self.verify_subproject(project, 1, 'en', 6)
 
     def test_create_xliff_resname(self):
-        project = self.create_xliff_resname()
+        project = self.create_xliff('Resname')
         self.verify_subproject(project, 1, 'en', 2)
 
     def test_link(self):
