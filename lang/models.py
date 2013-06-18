@@ -168,7 +168,7 @@ class LanguageManager(models.Manager):
             code=code,
             name='%s (generated)' % code,
             nplurals=2,
-            pluralequation='(n != 1)',
+            pluralequation='n != 1',
         )
 
         # Check for different variant
