@@ -28,7 +28,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Change.translation'
-        db.alter_column('trans_change', 'translation_id', self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['trans.Translation']))
+        db.alter_column('trans_change', 'translation_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['trans.Translation']))
 
         # Changing field 'Change.unit'
         db.alter_column('trans_change', 'unit_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['trans.Unit'], null=True))
