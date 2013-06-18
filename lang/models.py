@@ -174,9 +174,7 @@ class LanguageManager(models.Manager):
         # In case this is just a different variant of known language, get
         # params from that
         if '_' in code or '-' in code:
-            parts = code.split('_')
-            if len(parts) == 1:
-                parts = code.split('-')
+            parts = code.replace('-', '_').split('_')
             try:
                 baselang = Language.objects.get(code=parts[0])
                 lang.name = baselang.name
