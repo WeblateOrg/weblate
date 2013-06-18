@@ -36,6 +36,12 @@ class LanguagesTest(TestCase):
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
         ),
         (
+            'cs_CZ@hantec',
+            'cs_CZ@hantec',
+            'ltr',
+            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        ),
+        (
             'de-DE',
             'de',
             'ltr',
@@ -95,6 +101,12 @@ class LanguagesTest(TestCase):
         (
             'zh-CN',
             'zh_CN',
+            'ltr',
+            '0',
+        ),
+        (
+            'zh-CN@test',
+            'zh_CN@test',
             'ltr',
             '0',
         ),
