@@ -103,6 +103,16 @@ class LanguageManager(models.Manager):
             self._default_lang = self.get(code='en')
         return self._default_lang
 
+    def try_get(self, code):
+        '''
+        Tries to get language by code.
+        '''
+        try:
+            return self.get(code=code)
+        except Language.DoesNotExist:
+            return None
+            pass
+
     def auto_get_or_create(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
@@ -112,10 +122,9 @@ class LanguageManager(models.Manager):
         '''
 
         # First try getting langauge as is
-        try:
-            return self.get(code=code)
-        except Language.DoesNotExist:
-            pass
+        ret = self.try_get(code)
+        if ret is not None:
+            return ret
 
         # Parse the string
         if '-' in code:
@@ -143,17 +152,16 @@ class LanguageManager(models.Manager):
             newcode = '%s_%s' % (lang.lower(), country)
         else:
             newcode = lang.lower()
-        try:
-            return self.get(code=newcode)
-        except Language.DoesNotExist:
-            pass
+
+        ret = self.try_get(newcode)
+        if ret is not None:
+            return ret
 
         # Try canonical variant
         if newcode in data.DEFAULT_LANGS:
-            try:
-                return self.get(code=lang.lower())
-            except Language.DoesNotExist:
-                pass
+            ret = self.try_get(lang.lower())
+            if ret is not None:
+                return ret
 
         # Create new one
         return self.auto_create(newcode)
@@ -171,33 +179,25 @@ class LanguageManager(models.Manager):
             pluralequation='n != 1',
         )
 
+        baselang = None
+
         # Check for different variant
-        if '@' in code:
+        if baselang is None and'@' in code:
             parts = code.split('@')
-            try:
-                baselang = Language.objects.get(code=parts[0])
-                lang.name = baselang.name
-                lang.nplurals = baselang.nplurals
-                lang.pluralequation = baselang.pluralequation
-                lang.direction = baselang.direction
-                lang.save()
-                return lang
-            except Language.DoesNotExist:
-                pass
+            baselang = self.try_get(parts[0])
 
         # Check for different country
-        if '_' in code or '-' in code:
+        if baselang is None and'_' in code or '-' in code:
             parts = code.replace('-', '_').split('_')
-            try:
-                baselang = Language.objects.get(code=parts[0])
-                lang.name = baselang.name
-                lang.nplurals = baselang.nplurals
-                lang.pluralequation = baselang.pluralequation
-                lang.direction = baselang.direction
-                lang.save()
-                return lang
-            except Language.DoesNotExist:
-                pass
+            baselang = self.try_get(parts[0])
+
+        if baselang is not None:
+            lang.name = baselang.name
+            lang.nplurals = baselang.nplurals
+            lang.pluralequation = baselang.pluralequation
+            lang.direction = baselang.direction
+            lang.save()
+
         return lang
 
     def setup(self, update):
