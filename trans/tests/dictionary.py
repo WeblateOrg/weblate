@@ -177,24 +177,33 @@ class DictionaryTest(ViewTestCase):
         # Check number of objects
         self.assertEquals(Dictionary.objects.count(), 0)
 
-    def test_download(self):
+    def test_download_csv(self):
         '''
-        Test for downloading files.
+        Test for downloading CVS file.
         '''
         # Import test data
         self.import_file(TEST_TBX)
 
-        download_url = self.get_url('download_dictionary')
-
-        # CSV download
-        response = self.client.get(download_url + '?format=csv')
+        response = self.client.get(
+            self.get_url('download_dictionary'),
+            {'format': 'csv'}
+        )
         self.assertContains(
             response,
             u'addon,doplněk'
         )
 
-        # TBX download
-        response = self.client.get(download_url + '?format=tbx')
+    def test_download_tbx(self):
+        '''
+        Test for downloading TBX file.
+        '''
+        # Import test data
+        self.import_file(TEST_TBX)
+
+        response = self.client.get(
+            self.get_url('download_dictionary'),
+            {'format': 'tbx'}
+        )
         self.assertContains(
             response,
             u'<term>website</term>'
@@ -204,8 +213,17 @@ class DictionaryTest(ViewTestCase):
             u'<term>webové stránky</term>'
         )
 
-        # PO download
-        response = self.client.get(download_url + '?format=po')
+    def test_download_po(self):
+        '''
+        Test for downloading PO file.
+        '''
+        # Import test data
+        self.import_file(TEST_TBX)
+
+        response = self.client.get(
+            self.get_url('download_dictionary'),
+            {'format': 'po'}
+        )
         self.assertContains(
             response,
             u'msgid "wizard"\nmsgstr "průvodce"'
