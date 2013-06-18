@@ -186,3 +186,7 @@ class CommandTest(TestCase):
     def test_setuplang(self):
         call_command('setuplang')
         self.assertTrue(Language.objects.exists())
+
+    def test_setuplang_noupdate(self):
+        call_command('setuplang', update=False)
+        self.assertTrue(Language.objects.exists())
