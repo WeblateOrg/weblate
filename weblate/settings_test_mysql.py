@@ -27,3 +27,4 @@ from weblate.settings_test import *
 DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
 DATABASES['default']['NAME'] = 'weblate'
 DATABASES['default']['USER'] = 'root'
+DATABASES['default']['PASSWORD'] = ''

@@ -27,3 +27,4 @@ from weblate.settings_test import *
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 DATABASES['default']['NAME'] = 'weblate'
 DATABASES['default']['USER'] = 'postgres'
+DATABASES['default']['PASSWORD'] = ''
