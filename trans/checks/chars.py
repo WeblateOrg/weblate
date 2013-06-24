@@ -81,9 +81,9 @@ class EndSpaceCheck(TargetCheck):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
-        if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0:
+        if not source or not target:
                 return False
+        if self.is_language(unit, ['fr', 'br']):
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
                 return False
 
@@ -105,6 +105,8 @@ class EndStopCheck(TargetCheck):
 
     def check_single(self, source, target, unit, cache_slot):
         if len(source) <= 4 and len(target) <= 4:
+            return False
+        if not source:
             return False
         if self.is_language(unit, ['ja']) and source[-1] in [':', ';']:
             # Japanese sentence might need to end with full stop
@@ -136,9 +138,9 @@ class EndColonCheck(TargetCheck):
     colon_fr = (' :', '&nbsp;:', u' :')
 
     def check_single(self, source, target, unit, cache_slot):
+        if not source or not target:
+            return False
         if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0 or len(source) == 0:
-                return False
             if source[-1] == ':':
                 # Accept variant with trailing space as well
                 if target[-1] == ' ':
@@ -176,7 +178,7 @@ class EndQuestionCheck(TargetCheck):
     question_el = ('?', ';', ';')
 
     def check_single(self, source, target, unit, cache_slot):
-        if len(target) == 0 or len(source) == 0:
+        if not source or not target:
             return False
         if self.is_language(unit, ['fr', 'br']):
             if source[-1] != '?':
@@ -209,15 +211,13 @@ class EndExclamationCheck(TargetCheck):
     exclamation_fr = (' !', '&nbsp;!', u' !', ' ! ', '&nbsp;! ', u' ! ')
 
     def check_single(self, source, target, unit, cache_slot):
-        if len(source) == 0:
+        if not source or not target:
             return False
         if self.is_language(unit, ['eu']):
             if source[-1] == '!':
                 if u'¡' in target and u'!' in target:
                     return False
         if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0:
-                return False
             if source[-1] == '!':
                 if target[-2:] not in self.exclamation_fr:
                     return True
@@ -239,6 +239,8 @@ class EndEllipsisCheck(TargetCheck):
     description = _('Source and translation do not both end with an ellipsis')
 
     def check_single(self, source, target, unit, cache_slot):
+        if not target:
+            return False
         # Allow ... to be translated into ellipsis
         if source.endswith('...') and target[-1] == u'…':
             return False
