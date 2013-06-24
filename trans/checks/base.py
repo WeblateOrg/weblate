@@ -65,10 +65,11 @@ class Check(object):
         '''
         Generic checker for chars presence.
         '''
-        if len(target) == 0 or len(source) == 0:
+        try:
+            src = source[pos]
+            tgt = target[pos]
+        except:
             return False
-        src = source[pos]
-        tgt = target[pos]
         return (
             (src in chars and tgt not in chars)
             or (src not in chars and tgt in chars)
