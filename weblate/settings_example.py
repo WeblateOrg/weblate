@@ -156,6 +156,13 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6('
 
+LDAP_URI = 'ldaps://ldap.example.com'
+LDAP_BASE_DN = 'ou=users,dc=example,dc=com'
+
+AUTHENTICATION_BACKENDS = {
+#    'accounts.auth.LdapModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+}
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
