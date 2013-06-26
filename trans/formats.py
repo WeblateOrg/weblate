@@ -351,6 +351,10 @@ class FileFormat(object):
             # We always need new unit to translate
             if ttkit_unit is None:
                 ttkit_unit = template_ttkit_unit
+                if template_ttkit_unit is None:
+                    raise Exception(
+                        'Could not find template unit for new unit!'
+                    )
                 add = True
             else:
                 add = False
