@@ -794,9 +794,13 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         errors = []
         for match in matches:
             try:
-                self.file_format_cls.load(
+                parsed = self.file_format_cls.load(
                     os.path.join(self.get_path(), match),
                 )
+                if not self.file_format_cls.is_valid(parsed):
+                    errors.append('%s: %s' % (
+                        match, _('File does not seem to be valid!')
+                    ))
             except ValueError:
                 notrecognized.append(match)
             except Exception as e:

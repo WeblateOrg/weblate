@@ -453,6 +453,18 @@ class FileFormat(object):
         '''
         return hasattr(cls, 'get_language_pack')
 
+    @staticmethod
+    def is_valid(store):
+        '''
+        Checks whether store seems to be valid.
+
+        In some cases ttkit happily "parses" the file, even though it
+        really did not do so (eg. Gettext parser on random text file).
+        '''
+        if store is None or str(store) == '':
+            return False
+        return True
+
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
