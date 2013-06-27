@@ -82,7 +82,7 @@ class EndSpaceCheck(TargetCheck):
         if len(source) <= 1 and len(target) <= 1:
             return False
         if not source or not target:
-                return False
+            return False
         if self.is_language(unit, ['fr', 'br']):
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
                 return False
