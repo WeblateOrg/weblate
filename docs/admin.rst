@@ -4,6 +4,18 @@ Administration
 Administration of Weblate is done through standard Django admin interface,
 which is available under :file:`/admin/` URL.
 
+Translation organization
+------------------------
+
+Weblate organizes translatable content into tree like structure. The toplevel
+object is :ref:`project`, which should hold all translations which belong
+together (for example translation of an application in serveral versions
+and/or documentation). On the next level, there is :ref:`subproject`, which is
+actually the resource to translate. Here you define Git repository to use and
+mask of files to translate. Bellow :ref:`subproject` there are individual
+translations, which are handled automatically by Weblate as the translation
+files (matching mask defined in :ref:`subproject`) appear in Git repository.
+
 Adding new resources
 --------------------
 
