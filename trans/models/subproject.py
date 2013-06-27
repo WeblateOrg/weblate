@@ -126,8 +126,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         blank=True,
         help_text=ugettext_lazy(
             'Filename of translations template, this is recommended to use '
-            'for translations which store only translated string like '
-            'Android resource strings.'
+            'for monolingual translation formats.'
         )
     )
     file_format = models.CharField(
