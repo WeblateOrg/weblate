@@ -211,6 +211,12 @@ class Project(models.Model, PercentMixin, URLMixin):
             raise ValidationError(_(
                 'License URL can not be used without license summary.'
             ))
+        try:
+            self.create_path()
+        except OSError as exc:
+            raise ValidationError(
+                _('Could not create project directory: %s') % str(exc)
+            )
 
     def _reverse_url_name(self):
         '''
@@ -248,11 +254,16 @@ class Project(models.Model, PercentMixin, URLMixin):
     def __unicode__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        # Create filesystem directory for storing data
+    def create_path(self):
+        '''
+        Create filesystem directory for storing data
+        '''
         path = self.get_path()
         if not os.path.exists(path):
             os.makedirs(path)
+
+    def save(self, *args, **kwargs):
+        self.create_path()
 
         super(Project, self).save(*args, **kwargs)
 

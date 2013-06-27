@@ -32,6 +32,7 @@ import git
 from trans.models import (
     Project, SubProject
 )
+from weblate import appsettings
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
@@ -195,6 +196,20 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.get_path()))
         Project.objects.all().delete()
         self.assertFalse(os.path.exists(project.get_path()))
+
+    def test_wrong_path(self):
+        project = self.create_project()
+
+        backup = appsettings.GIT_ROOT
+        appsettings.GIT_ROOT = '/weblate-nonexisting-path'
+
+        self.assertRaisesMessage(
+            ValidationError,
+            'Could not create project directory',
+            project.full_clean
+        )
+
+        appsettings.GIT_ROOT = backup
 
     def test_validation(self):
         project = self.create_project()
