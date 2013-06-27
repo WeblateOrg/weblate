@@ -25,7 +25,6 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from glob import glob
-import os
 import os.path
 import weblate
 import git
