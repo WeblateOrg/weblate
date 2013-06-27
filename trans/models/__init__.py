@@ -41,7 +41,7 @@ def delete_object_dir(sender, instance, **kwargs):
     '''
     project_path = instance.get_path()
 
-    # Do not delete liked subprojects
+    # Do not delete linked subprojects
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link():
         return
 
