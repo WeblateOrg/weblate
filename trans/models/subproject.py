@@ -31,7 +31,7 @@ import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
-from trans.mixins import PercentMixin, URLMixin
+from trans.mixins import PercentMixin, URLMixin, PathMixin
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
@@ -63,7 +63,7 @@ class SubProjectManager(models.Manager):
         return self.get(slug=subproject, project__slug=project)
 
 
-class SubProject(models.Model, PercentMixin, URLMixin):
+class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
         max_length=100,
         help_text=ugettext_lazy('Name to display')
@@ -887,11 +887,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 or (old.filemask != self.filemask)
             )
             # Detect slug changes and rename git repo
-            if old.slug != self.slug:
-                os.rename(
-                    old.get_path(),
-                    self.get_path()
-                )
+            self.check_rename(old)
 
         # Configure git repo if there were changes
         if changed_git:

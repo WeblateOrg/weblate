@@ -30,7 +30,7 @@ import os
 import os.path
 from lang.models import Language
 from trans.validators import validate_commit_message
-from trans.mixins import PercentMixin, URLMixin
+from trans.mixins import PercentMixin, URLMixin, PathMixin
 from trans.util import get_site_url
 
 
@@ -72,7 +72,7 @@ class ProjectManager(models.Manager):
         return self.filter(id__in=project_ids), True
 
 
-class Project(models.Model, PercentMixin, URLMixin):
+class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(
         db_index=True, unique=True,
@@ -268,11 +268,7 @@ class Project(models.Model, PercentMixin, URLMixin):
         if self.id:
             old = Project.objects.get(pk=self.id)
             # Detect slug changes and rename directory
-            if old.slug != self.slug:
-                os.rename(
-                    old.get_path(),
-                    self.get_path()
-                )
+            self.check_rename(old)
 
         self.create_path()
 
