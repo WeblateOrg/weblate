@@ -109,7 +109,7 @@ class Command(BaseCommand):
         Automatic import of project.
         '''
         if len(args) != 4:
-            raise CommandError('Not enough parameters!')
+            raise CommandError('Invalid number of parameters!')
 
         # Read params
         prjname, repo, branch, filemask = args
