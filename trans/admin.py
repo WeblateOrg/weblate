@@ -200,5 +200,6 @@ class ChangeAdmin(admin.ModelAdmin):
         'unit__translation__subproject__project',
         'unit__translation__language'
     ]
+    raw_id_fields = ('unit',)
 
 admin.site.register(Change, ChangeAdmin)
