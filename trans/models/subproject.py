@@ -736,7 +736,10 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         if len(parts) == 1:
             return 'INVALID'
         # Get part matching to first wildcard
-        code = path[len(parts[0]):-len(parts[1])].split('/')[0]
+        if len(parts[1]) == 0:
+            code = path[len(parts[0]):].split('/')[0]
+        else:
+            code = path[len(parts[0]):-len(parts[1])].split('/')[0]
         # Remove possible encoding part
         return code.split('.')[0]
 
