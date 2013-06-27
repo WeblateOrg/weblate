@@ -263,6 +263,17 @@ class Project(models.Model, PercentMixin, URLMixin):
             os.makedirs(path)
 
     def save(self, *args, **kwargs):
+
+        # Renaming detection
+        if self.id:
+            old = Project.objects.get(pk=self.id)
+            # Detect slug changes and rename directory
+            if old.slug != self.slug:
+                os.rename(
+                    old.get_path(),
+                    self.get_path()
+                )
+
         self.create_path()
 
         super(Project, self).save(*args, **kwargs)

@@ -185,6 +185,15 @@ class ProjectTest(RepoTestCase):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
 
+    def test_rename(self):
+        project = self.create_project()
+        old_path = project.get_path()
+        self.assertTrue(os.path.exists(old_path))
+        project.slug = 'changed'
+        project.save()
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(project.get_path()))
+
     def test_delete(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
