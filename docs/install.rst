@@ -277,7 +277,8 @@ Enable indexing offloading
 ++++++++++++++++++++++++++
 
 Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
-performance.
+performance. Don't forget to schedule indexing in background job to keep the
+index up to date.
 
 .. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`
 
