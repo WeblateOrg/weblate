@@ -38,8 +38,6 @@ modules:
 
 importlib
     https://pypi.python.org/pypi/importlib
-unittest2
-    https://pypi.python.org/pypi/unittest2
 
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
