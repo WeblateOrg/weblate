@@ -184,6 +184,18 @@ class ProjectTest(RepoTestCase):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
 
+    def test_delete(self):
+        project = self.create_project()
+        self.assertTrue(os.path.exists(project.get_path()))
+        project.delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
+    def test_delete_all(self):
+        project = self.create_project()
+        self.assertTrue(os.path.exists(project.get_path()))
+        Project.objects.all().delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
     def test_validation(self):
         project = self.create_project()
         # Correct project
@@ -248,6 +260,19 @@ class SubProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_subproject()
         self.verify_subproject(project, 3, 'cs', 4)
+        self.assertTrue(os.path.exists(project.get_path()))
+
+    def test_delete(self):
+        project = self.create_subproject()
+        self.assertTrue(os.path.exists(project.get_path()))
+        project.delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
+    def test_delete_all(self):
+        project = self.create_subproject()
+        self.assertTrue(os.path.exists(project.get_path()))
+        SubProject.objects.all().delete()
+        self.assertFalse(os.path.exists(project.get_path()))
 
     def test_create_iphone(self):
         project = self.create_iphone()
