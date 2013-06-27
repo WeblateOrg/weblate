@@ -108,7 +108,6 @@ class SubProjectAdmin(admin.ModelAdmin):
         )
 
 
-
 class TranslationAdmin(admin.ModelAdmin):
     list_display = [
         'subproject', 'language', 'translated', 'total',
