@@ -301,6 +301,13 @@ class SubProjectTest(RepoTestCase):
         project.delete()
         self.assertFalse(os.path.exists(project.get_path()))
 
+    def test_delete_link(self):
+        project = self.create_link()
+        main_project = SubProject.objects.get(slug='test')
+        self.assertTrue(os.path.exists(main_project.get_path()))
+        project.delete()
+        self.assertTrue(os.path.exists(main_project.get_path()))
+
     def test_delete_all(self):
         project = self.create_subproject()
         self.assertTrue(os.path.exists(project.get_path()))
