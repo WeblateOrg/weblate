@@ -9,4 +9,8 @@
 {% else %}
 <p class="errornote">{% blocktrans %}Do not change this object here, please use Weblate interface instead.{% endblocktrans %}</p>
 {% endif %}
+{% if add and opts.module_name == 'subproject' %}
+{% doc_url 'admin' 'import-speed' as url %}
+<p>{% blocktrans %}Importing new translation can take some time, please check <a href="{{ url }}">our documentation</a> for information how to improve this.{% endblocktrans %}</p>
+{% endif %}
 {% endblock %}

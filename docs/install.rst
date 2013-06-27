@@ -222,6 +222,8 @@ default site name to match your domain.
 
 .. seealso:: :ref:`config`, :ref:`privileges`, :ref:`faq-site`
 
+.. _production:
+
 Production setup
 ----------------
 

@@ -137,12 +137,51 @@ Save history
 
 .. seealso:: :ref:`faq-vcs`, :ref:`processing`
 
-.. note::
-   
-    As setup of translation project includes fetching Git repositories, you
-    might want to preseed these, repos are stored in path defined by
-    :setting:`GIT_ROOT` in :file:`settings.py` in :file:`<project>/<subproject>`
-    directories.
+.. _import-speed:
+
+Importing speed
+---------------
+
+Fetching Git repository and importing translations to Weblate can be lenghty
+process depending on size of your translations. Here are some tips to improve
+this situation:
+
+Clone Git repository in advance
++++++++++++++++++++++++++++++++
+
+You can put in place Git repository which will be used by Weblate. The
+repositories are stored in path defined by :setting:`GIT_ROOT` in
+:file:`settings.py` in :file:`<project>/<subproject>` directories.
+
+This can be especially useful if you already have local clone of this
+repository and you can use ``--reference`` option while cloning:
+
+.. code-block:: sh
+
+    git clone \
+        --reference /path/to/checkout \
+        git://github.com/nijel/weblate.git \
+        weblate/repos/project/subproject
+
+Optimize configuration
+++++++++++++++++++++++
+
+The default configuration is useful for testing and debugging Weblate, while
+for production setup, you should do some adjustments. Many of them have quite
+big impact on performance. Please check :ref:`production` for more details,
+especially:
+
+* :ref:`production-indexing`
+* :ref:`production-cache`
+* :ref:`production-database`
+* :ref:`production-debug`
+
+Disable not needed checks
++++++++++++++++++++++++++
+
+Some quality checks can be quite expensive and if you don't need them, they
+can save you some time during import. See :setting:`CHECK_LIST` for more
+information how to configure this.
 
 .. _autocreate:
 
