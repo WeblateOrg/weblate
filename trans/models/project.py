@@ -76,7 +76,7 @@ class Project(models.Model, PercentMixin, URLMixin):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(
         db_index=True, unique=True,
-        help_text=ugettext_lazy('Name used in URLs')
+        help_text=ugettext_lazy('Name used in URLs and file names')
     )
     web = models.URLField(
         help_text=ugettext_lazy('Project website'),

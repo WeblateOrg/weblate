@@ -70,7 +70,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
     )
     slug = models.SlugField(
         db_index=True,
-        help_text=ugettext_lazy('Name used in URLs')
+        help_text=ugettext_lazy('Name used in URLs and file names')
     )
     project = models.ForeignKey(Project)
     repo = models.CharField(
