@@ -286,6 +286,15 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.get_path()))
 
+    def test_rename(self):
+        subproject = self.create_subproject()
+        old_path = subproject.get_path()
+        self.assertTrue(os.path.exists(old_path))
+        subproject.slug = 'changed'
+        subproject.save()
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(subproject.get_path()))
+
     def test_delete(self):
         project = self.create_subproject()
         self.assertTrue(os.path.exists(project.get_path()))
