@@ -19,6 +19,7 @@
 #
 
 from django.contrib import admin
+from django.conf import settings
 from trans.models import (
     Project, SubProject, Translation,
     Unit, Suggestion, Comment, Check, Dictionary, Change
@@ -63,8 +64,6 @@ class ProjectAdmin(admin.ModelAdmin):
             "Flushed changes in %d git repos." % queryset.count()
         )
 
-admin.site.register(Project, ProjectAdmin)
-
 
 class SubProjectAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'project', 'repo', 'branch']
@@ -108,7 +107,6 @@ class SubProjectAdmin(admin.ModelAdmin):
             "Flushed changes in %d git repos." % queryset.count()
         )
 
-admin.site.register(SubProject, SubProjectAdmin)
 
 
 class TranslationAdmin(admin.ModelAdmin):
@@ -142,8 +140,6 @@ class TranslationAdmin(admin.ModelAdmin):
             "Disabled %d translations." % queryset.count()
         )
 
-admin.site.register(Translation, TranslationAdmin)
-
 
 class UnitAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
@@ -155,15 +151,11 @@ class UnitAdmin(admin.ModelAdmin):
         'translated'
     ]
 
-admin.site.register(Unit, UnitAdmin)
-
 
 class SuggestionAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'target', 'project', 'language', 'user']
     list_filter = ['project', 'language']
     search_fields = ['checksum', 'target']
-
-admin.site.register(Suggestion, SuggestionAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
@@ -173,23 +165,17 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['project', 'language']
     search_fields = ['checksum', 'comment']
 
-admin.site.register(Comment, CommentAdmin)
-
 
 class CheckAdmin(admin.ModelAdmin):
     list_display = ['checksum', 'check', 'project', 'language', 'ignore']
     search_fields = ['checksum', 'check']
     list_filter = ['check', 'project', 'ignore']
 
-admin.site.register(Check, CheckAdmin)
-
 
 class DictionaryAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'project', 'language']
     search_fields = ['source', 'target']
     list_filter = ['project', 'language']
-
-admin.site.register(Dictionary, DictionaryAdmin)
 
 
 class ChangeAdmin(admin.ModelAdmin):
@@ -202,4 +188,16 @@ class ChangeAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = ('unit',)
 
-admin.site.register(Change, ChangeAdmin)
+# Register in admin interface
+admin.site.register(Project, ProjectAdmin)
+admin.site.register(SubProject, SubProjectAdmin)
+
+# Show some controls only in debug mode
+if settings.DEBUG:
+    admin.site.register(Translation, TranslationAdmin)
+    admin.site.register(Unit, UnitAdmin)
+    admin.site.register(Suggestion, SuggestionAdmin)
+    admin.site.register(Comment, CommentAdmin)
+    admin.site.register(Check, CheckAdmin)
+    admin.site.register(Dictionary, DictionaryAdmin)
+    admin.site.register(Change, ChangeAdmin)
