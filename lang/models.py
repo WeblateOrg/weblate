@@ -112,6 +112,24 @@ class LanguageManager(models.Manager):
         except Language.DoesNotExist:
             return None
 
+    def parse_lang_country(self, code):
+        '''
+        Parses language and country from locale code.
+        '''
+        # Parse the string
+        if '-' in code:
+            lang, country = code.split('-', 1)
+            # Android regional locales
+            if len(country) > 2 and country[0] == 'r':
+                country = country[1:]
+        elif '_' in code:
+            lang, country = code.split('_', 1)
+        else:
+            lang = code
+            country = None
+
+        return lang, country
+
     def auto_get_or_create(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
@@ -126,16 +144,7 @@ class LanguageManager(models.Manager):
             return ret
 
         # Parse the string
-        if '-' in code:
-            lang, country = code.split('-', 1)
-            # Android regional locales
-            if len(country) > 2 and country[0] == 'r':
-                country = country[1:]
-        elif '_' in code:
-            lang, country = code.split('_', 1)
-        else:
-            lang = code
-            country = None
+        lang, country = self.parse_lang_country(code)
 
         # Try "corrected" code
         if country is not None:
