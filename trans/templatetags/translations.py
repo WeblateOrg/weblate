@@ -245,6 +245,14 @@ def documentation(page, anchor=''):
     return weblate.get_doc_url(page, anchor)
 
 
+@register.assignment_tag
+def doc_url(page, anchor=''):
+    '''
+    Returns link to Weblate documentation.
+    '''
+    return weblate.get_doc_url(page, anchor)
+
+
 @register.simple_tag
 def admin_boolean_icon(val):
     '''
