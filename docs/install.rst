@@ -117,6 +117,26 @@ On openSUSE or SLES you can install them using:
 
     zypper install libxslt-devel libxml2-devel
 
+.. _file-permissions:
+
+Filesystem permissions
+----------------------
+
+Weblate process needs to be able to read and write to two directories where it
+keeps data. The :setting:`GIT_ROOT` is used for storing Git repositories and
+:setting:`WHOOSH_INDEX` is used for fulltext search data.
+
+The default configuration places them in same tree as Weblate sources, however
+you might prefer to move these to better location such as
+:file:`/var/lib/weblate`.
+
+Weblate tries to create these directiories automatically, but it will fail
+when it does not have permissions to do so.
+
+You should also take care when running :ref:`manage`, as they should be run
+under same user as Weblate itself is running, otherwise permissions on some
+files might be wrong.
+
 .. _installation:
 
 Installation

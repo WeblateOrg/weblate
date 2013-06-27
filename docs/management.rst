@@ -3,6 +3,12 @@
 Management commands
 ===================
 
+.. note::
+
+    Running management commands under different user than is running your
+    webserver can cause wrong permissions on some files, please check 
+    :ref:`file-permissions` for more details.
+
 The ./manage.py is extended with following commands:
 
 checkgit <project|project/subproject>
