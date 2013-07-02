@@ -43,6 +43,7 @@ DEFAULT_DOMAINS = ('example.net', 'example.com')
 KNOWN_HOSTS_FILE = os.path.expanduser('~/.ssh/known_hosts')
 RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
 
+
 @staff_member_required
 def report(request):
     '''
