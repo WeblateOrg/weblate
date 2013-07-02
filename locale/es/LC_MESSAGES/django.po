@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-06-24 16:14+0200\n"
+"POT-Creation-Date: 2013-07-02 09:55+0200\n"
 "PO-Revision-Date: 2013-06-24 18:03+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -181,56 +181,56 @@ msgstr "El mensaje fue enviado al administrador."
 msgid "Contact"
 msgstr "Contacto"
 
-#: lang/models.py:280 lang/models.py:284 lang/models.py:290 lang/models.py:297
-#: lang/models.py:302 lang/models.py:308 lang/models.py:314 lang/models.py:319
-#: lang/models.py:325
+#: lang/models.py:289 lang/models.py:293 lang/models.py:299 lang/models.py:306
+#: lang/models.py:311 lang/models.py:317 lang/models.py:323 lang/models.py:328
+#: lang/models.py:334
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Uno"
 
-#: lang/models.py:281 lang/models.py:286 lang/models.py:294 lang/models.py:299
-#: lang/models.py:305 lang/models.py:311 lang/models.py:315 lang/models.py:322
-#: lang/models.py:329 lang/models.py:333
+#: lang/models.py:290 lang/models.py:295 lang/models.py:303 lang/models.py:308
+#: lang/models.py:314 lang/models.py:320 lang/models.py:324 lang/models.py:331
+#: lang/models.py:338 lang/models.py:342
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Otro"
 
-#: lang/models.py:285 lang/models.py:292 lang/models.py:310 lang/models.py:320
-#: lang/models.py:327
+#: lang/models.py:294 lang/models.py:301 lang/models.py:319 lang/models.py:329
+#: lang/models.py:336
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Pocos"
 
-#: lang/models.py:289 lang/models.py:316
+#: lang/models.py:298 lang/models.py:325
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Cero"
 
-#: lang/models.py:291 lang/models.py:298 lang/models.py:303 lang/models.py:309
-#: lang/models.py:326 lang/models.py:332
+#: lang/models.py:300 lang/models.py:307 lang/models.py:312 lang/models.py:318
+#: lang/models.py:335 lang/models.py:341
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Dos"
 
-#: lang/models.py:293 lang/models.py:321 lang/models.py:328
+#: lang/models.py:302 lang/models.py:330 lang/models.py:337
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Muchos"
 
-#: lang/models.py:304
+#: lang/models.py:313
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tres"
 
-#: lang/models.py:400
+#: lang/models.py:409
 msgid "Singular"
 msgstr "Singular"
 
-#: lang/models.py:402
+#: lang/models.py:411
 msgid "Plural"
 msgstr "Plural"
 
-#: lang/models.py:403
+#: lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -313,43 +313,43 @@ msgstr "Cambios recientes en %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Todos los cambios recientes hechos utilizando Weblate en %s."
 
-#: trans/formats.py:454
+#: trans/formats.py:474
 msgid "Automatic detection"
 msgstr "Detección automática"
 
-#: trans/formats.py:468
+#: trans/formats.py:488
 msgid "Gettext PO file"
 msgstr "Archivo PO Gettext"
 
-#: trans/formats.py:509
+#: trans/formats.py:529
 msgid "Gettext PO file (monolingual)"
 msgstr "Archivo PO Gettext (monolenguaje)"
 
-#: trans/formats.py:518
+#: trans/formats.py:538
 msgid "Qt Linguist Translation File"
 msgstr "Archivo de traducción Qt Linguist"
 
-#: trans/formats.py:526
+#: trans/formats.py:546
 msgid "XLIFF Translation File"
 msgstr "Archivo de traducción XLIFF"
 
-#: trans/formats.py:534
+#: trans/formats.py:554
 msgid "OS X Strings"
 msgstr "Cadenas OS X"
 
-#: trans/formats.py:542
+#: trans/formats.py:562
 msgid "Java Properties"
 msgstr "Propiedades Java"
 
-#: trans/formats.py:560
+#: trans/formats.py:580
 msgid "Java Properties (UTF-8)"
 msgstr "Propiedades Java (UTF-8)"
 
-#: trans/formats.py:569
+#: trans/formats.py:589
 msgid "PHP strings"
 msgstr "Cadenas PHP"
 
-#: trans/formats.py:577 ttkit/aresource.py:314
+#: trans/formats.py:597 ttkit/aresource.py:314
 msgid "Android String Resource"
 msgstr "Recurso de cadenas Android"
 
@@ -829,51 +829,89 @@ msgstr "Fusionar («merge»)"
 msgid "Rebase"
 msgstr "Cambiar base («rebase»)"
 
-#: trans/models/project.py:79
+#: trans/models/project.py:77
+#, fuzzy
+#| msgid "Project"
+msgid "Project name"
+msgstr "Proyecto"
+
+#: trans/models/project.py:80 trans/models/subproject.py:69
+msgid "Name to display"
+msgstr "Nombre a mostrar"
+
+#: trans/models/project.py:83 trans/models/subproject.py:72
+msgid "URL slug"
+msgstr ""
+
+#: trans/models/project.py:85
+#, fuzzy
+#| msgid "Name used in URLs"
+msgid "Name used in URLs and file names."
+msgstr "Nombre a utilizar en URLs"
+
+#: trans/models/project.py:88
 msgid "Project website"
 msgstr "Sitio web del proyecto"
 
-#: trans/models/project.py:83
-msgid "Email conference for translators"
+#: trans/models/project.py:89
+msgid "Main website of translated project."
+msgstr ""
+
+#: trans/models/project.py:92
+#, fuzzy
+#| msgid "Email addresses"
+msgid "Email address"
+msgstr "Direcciones de correo electrónico"
+
+#: trans/models/project.py:94
+#, fuzzy
+#| msgid "Email conference for translators"
+msgid "Email conference for translators."
 msgstr "Lista de correo para traductores"
 
-#: trans/models/project.py:86
-msgid "Instructions"
-msgstr "Instrucciones"
+#: trans/models/project.py:97
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation instructions"
+msgstr "Estado de la traducción"
 
-#: trans/models/project.py:88
-msgid "URL with instructions for translators"
+#: trans/models/project.py:99
+#, fuzzy
+#| msgid "URL with instructions for translators"
+msgid "URL with instructions for translators."
 msgstr "Instrucciones para traductores"
 
-#: trans/models/project.py:91
-msgid "License"
-msgstr "Licencia"
+#: trans/models/project.py:102
+#, fuzzy
+#| msgid "Translation license:"
+msgid "Translation license"
+msgstr "Licencia de la traducción:"
 
-#: trans/models/project.py:95
+#: trans/models/project.py:106
 msgid "Optional short summary of license used for translations."
 msgstr "Resumen corto opcional de la licencia utilizada para las traducciones."
 
-#: trans/models/project.py:99
+#: trans/models/project.py:110
 msgid "License URL"
 msgstr "URL de la licencia"
 
-#: trans/models/project.py:101
+#: trans/models/project.py:112
 msgid "Optional URL with license details."
 msgstr "URL opcional con los detalles de la licencia."
 
-#: trans/models/project.py:104 weblate/html/subproject.html:32
+#: trans/models/project.py:115 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "Nuevo idioma"
 
-#: trans/models/project.py:109
+#: trans/models/project.py:120
 msgid "How to handle requests for creating new languages."
 msgstr "Cómo manejar pedidos para crear nuevos idiomas."
 
-#: trans/models/project.py:113
+#: trans/models/project.py:124
 msgid "Merge style"
 msgstr "Estilo de fusión"
 
-#: trans/models/project.py:118
+#: trans/models/project.py:129
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -881,7 +919,13 @@ msgstr ""
 "Define si Weblate fusiona el repositorio de origen («merge») o cambia la "
 "base de los cambios en el mismo («rebase»)."
 
-#: trans/models/project.py:126
+#: trans/models/project.py:136
+#, fuzzy
+#| msgid "Error message"
+msgid "Commit message"
+msgstr "Mensaje de error"
+
+#: trans/models/project.py:138
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -889,16 +933,44 @@ msgstr ""
 "Puede utilizar cadenas de formato para diferente información, revise la "
 "documentación para más detalles."
 
-#: trans/models/project.py:143
+#: trans/models/project.py:145
+#, fuzzy
+#| msgid "Your name"
+msgid "Committer name"
+msgstr "Su nombre"
+
+#: trans/models/project.py:150
+#, fuzzy
+#| msgid "Your email"
+msgid "Committer email"
+msgstr "Su correo electrónico"
+
+#: trans/models/project.py:155
+#, fuzzy
+#| msgid "Posted new comment"
+msgid "Push on commit"
+msgstr "Nuevo comentario publicado"
+
+#: trans/models/project.py:158
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Si el repositorio debe ser enviado a origen con cada «commit»."
 
-#: trans/models/project.py:150
+#: trans/models/project.py:163
+#, fuzzy
+#| msgid "Translations made"
+msgid "Set Translation-Team header"
+msgstr "Traducciones realizadas"
+
+#: trans/models/project.py:166
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr "Si Weblate debe actualizar la cabecera «Translation-Team» del archivo."
 
-#: trans/models/project.py:158
+#: trans/models/project.py:172
+msgid "Enable ACL"
+msgstr ""
+
+#: trans/models/project.py:175
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
@@ -906,12 +978,12 @@ msgstr ""
 "Especifica si se habilita el ACL para este proyecto, consulte la "
 "documentación antes de habilitarlo."
 
-#: trans/models/project.py:196
+#: trans/models/project.py:213
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "No tiene permitido acceder al proyecto %s."
 
-#: trans/models/project.py:203
+#: trans/models/project.py:220
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -919,19 +991,41 @@ msgstr ""
 "Complete la URL de instrucciones o utilice una opción diferente para agregar "
 "un idioma."
 
-#: trans/models/project.py:209
+#: trans/models/project.py:226
 msgid "License URL can not be used without license summary."
 msgstr "No puede utilizar el URL de la licencia sin un resumen de la misma."
 
-#: trans/models/subproject.py:69
-msgid "Name to display"
-msgstr "Nombre a mostrar"
+#: trans/models/project.py:232
+#, python-format
+msgid "Could not create project directory: %s"
+msgstr ""
 
-#: trans/models/subproject.py:73
-msgid "Name used in URLs"
+#: trans/models/subproject.py:67
+#, fuzzy
+#| msgid "Subproject"
+msgid "Subproject name"
+msgstr "Subproyecto"
+
+#: trans/models/subproject.py:74
+#, fuzzy
+#| msgid "Name used in URLs"
+msgid "Name used in URLs and file names"
 msgstr "Nombre a utilizar en URLs"
 
-#: trans/models/subproject.py:79
+#: trans/models/subproject.py:78 weblate/html/check.html:26
+#: weblate/html/check_project.html:26 weblate/html/data.html:28
+#: weblate/html/data.html.py:59 weblate/html/index.html:37
+#: weblate/html/list-translations.html:6 weblate/html/js/other.html:6
+msgid "Project"
+msgstr "Proyecto"
+
+#: trans/models/subproject.py:81
+#, fuzzy
+#| msgid "Git repository:"
+msgid "Git repository"
+msgstr "Repositorio Git:"
+
+#: trans/models/subproject.py:84
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
@@ -939,11 +1033,21 @@ msgstr ""
 "URL del repositorio Git, utilice weblate://proyecto/subproyecto para "
 "compartirlo con otro subproyecto."
 
-#: trans/models/subproject.py:86
+#: trans/models/subproject.py:90
+msgid "Git push URL"
+msgstr ""
+
+#: trans/models/subproject.py:92
 msgid "URL of push Git repository"
 msgstr "URL de repositorio GIT remoto"
 
-#: trans/models/subproject.py:91
+#: trans/models/subproject.py:96
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository browser"
+msgstr "Estado del repositorio"
+
+#: trans/models/subproject.py:98
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -953,13 +1057,23 @@ msgstr ""
 "como reemplazos para nombres de rama, nombres de archivo y números de línea "
 "respectivamente."
 
-#: trans/models/subproject.py:100
+#: trans/models/subproject.py:105
+msgid "Exported Git URL"
+msgstr ""
+
+#: trans/models/subproject.py:108
 msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr ""
 "URL del repositorio Git donde los usuarios pueden obtener los cambios de "
 "Weblate"
 
-#: trans/models/subproject.py:106
+#: trans/models/subproject.py:113
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Source string bug report address"
+msgstr "Revision de cadenas originales"
+
+#: trans/models/subproject.py:115
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -967,11 +1081,23 @@ msgstr ""
 "Dirección de correo electrónico al que se reportarán errores en cadenas de "
 "origen, si está vacío no se generarán correos."
 
-#: trans/models/subproject.py:113
+#: trans/models/subproject.py:121
+#, fuzzy
+#| msgid "Git branch to translate"
+msgid "Git branch"
+msgstr "Rama Git a traducir"
+
+#: trans/models/subproject.py:123
 msgid "Git branch to translate"
 msgstr "Rama Git a traducir"
 
-#: trans/models/subproject.py:120
+#: trans/models/subproject.py:127
+#, fuzzy
+#| msgid "Files"
+msgid "File mask"
+msgstr "Archivos"
+
+#: trans/models/subproject.py:131
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -979,23 +1105,41 @@ msgstr ""
 "Ruta de los archivos a traducir, utilice * en lugar del código de idioma; "
 "por ejemplo: «po/*.po» o «locale/*/LC_MESSAGES/django.po»."
 
-#: trans/models/subproject.py:128
+#: trans/models/subproject.py:136
+msgid "Monolingual base language file"
+msgstr ""
+
+#: trans/models/subproject.py:140
+#, fuzzy
+#| msgid ""
+#| "Filename of translations template, this is recommended to use for "
+#| "translations which store only translated string like Android resource "
+#| "strings."
 msgid ""
 "Filename of translations template, this is recommended to use for "
-"translations which store only translated string like Android resource "
-"strings."
+"monolingual translation formats."
 msgstr ""
 "Nombres de archivo de las plantillas de traducción, es recomendable "
 "utilizarlos para traducciones que sólo guardan las cadenas traducidas como "
 "las cadenas de recursos Android."
 
-#: trans/models/subproject.py:138
+#: trans/models/subproject.py:145
+#, fuzzy
+#| msgid "C format"
+msgid "File format"
+msgstr "Formato C"
+
+#: trans/models/subproject.py:150
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "La detección automática puede fallar para algunos formatos y es ligeramente "
 "más lenta."
 
-#: trans/models/subproject.py:148
+#: trans/models/subproject.py:155
+msgid "Additional commit file"
+msgstr ""
+
+#: trans/models/subproject.py:161
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
@@ -1003,7 +1147,11 @@ msgstr ""
 "Acrhivo adicional para incluir en los «commit», revise la documentación para "
 "más detalles."
 
-#: trans/models/subproject.py:158
+#: trans/models/subproject.py:166
+msgid "Pre-commit script"
+msgstr ""
+
+#: trans/models/subproject.py:172
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -1011,11 +1159,23 @@ msgstr ""
 "Script a ejecutar antes de confirmar la transacción, revise la documentación "
 "para más detalles."
 
-#: trans/models/subproject.py:166
+#: trans/models/subproject.py:178
+#, fuzzy
+#| msgid "Lock"
+msgid "Locked"
+msgstr "Bloquear"
+
+#: trans/models/subproject.py:181
 msgid "Whether subproject is locked for translation updates."
 msgstr "Si el subproyecto está bloqueado para actualizaciones de traducción."
 
-#: trans/models/subproject.py:172
+#: trans/models/subproject.py:185
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "Allow translation propagation"
+msgstr "Nueva traducción en %(translation)s"
+
+#: trans/models/subproject.py:188
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -1023,11 +1183,17 @@ msgstr ""
 "Si actualizar traducciones en otro subproyecto causará traducciones en este "
 "proyecto automáticamente"
 
-#: trans/models/subproject.py:179
+#: trans/models/subproject.py:193
+#, fuzzy
+#| msgid "Your translations"
+msgid "Save translation history"
+msgstr "Sus traducciones"
+
+#: trans/models/subproject.py:196
 msgid "Whether Weblate should keep history of translations"
 msgstr "Si Weblate debe guardar el historial de las traducciones"
 
-#: trans/models/subproject.py:395
+#: trans/models/subproject.py:412
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -1035,77 +1201,84 @@ msgstr ""
 "No se pudo verificar la llave de servidor SSH, agrégela en en la interfaz de "
 "administración."
 
-#: trans/models/subproject.py:399
+#: trans/models/subproject.py:416
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "No se pudieron importar los cambios del repositorio git: %s"
 
-#: trans/models/subproject.py:503
+#: trans/models/subproject.py:520
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "«Push» desactivado para %s."
 
-#: trans/models/subproject.py:552
+#: trans/models/subproject.py:569
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 
-#: trans/models/subproject.py:588
+#: trans/models/subproject.py:605
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "No se pudieron deshacer los cambios a la rama remota en %s."
 
-#: trans/models/subproject.py:640
+#: trans/models/subproject.py:657
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "No se pudo cambiar la base sobre la rama remota %s."
 
-#: trans/models/subproject.py:643
+#: trans/models/subproject.py:660
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: trans/models/subproject.py:761
+#: trans/models/subproject.py:781
 msgid "Push URL is not used when repository is linked!"
 msgstr "¡No se utiliza la URL de «Push» cuando se enlaza el repositorio!"
 
-#: trans/models/subproject.py:765
+#: trans/models/subproject.py:785
 msgid "Export URL is not used when repository is linked!"
 msgstr "¡No se utiliza la URL de exportación cuando se enlaza el repositorio!"
 
-#: trans/models/subproject.py:776
+#: trans/models/subproject.py:796
 msgid "Template file not found!"
 msgstr "¡No se encontró el archivo de plantilla!"
 
-#: trans/models/subproject.py:782
-msgid "Format of translation template could not be recognized."
+#: trans/models/subproject.py:802
+#, fuzzy
+#| msgid "Format of translation template could not be recognized."
+msgid "Format of translation base file could not be recognized."
 msgstr "No se reconoció el formato de la plantilla de traducción."
 
-#: trans/models/subproject.py:786
-#, python-format
-msgid "Failed to parse translation template: %s"
+#: trans/models/subproject.py:806
+#, fuzzy, python-format
+#| msgid "Failed to parse translation template: %s"
+msgid "Failed to parse translation base file: %s"
 msgstr "No se pudo procesar la plantilla de traducción: %s"
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:822
+msgid "File does not seem to be valid!"
+msgstr ""
+
+#: trans/models/subproject.py:830
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "No se reconoció el formato de %d archivos encontrados."
 
-#: trans/models/subproject.py:815
+#: trans/models/subproject.py:839
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "¡No se pudieron procesar %d archivos encontrados!"
 
-#: trans/models/subproject.py:832
+#: trans/models/subproject.py:856
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "No se pudo actualizar git: %s"
 
-#: trans/models/subproject.py:840
+#: trans/models/subproject.py:864
 msgid "The mask did not match any files!"
 msgstr "¡No se encontraron archivos en la ruta provista!"
 
-#: trans/models/subproject.py:846
+#: trans/models/subproject.py:870
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1113,8 +1286,16 @@ msgstr ""
 "Existen más archivos por idioma individual, ajuste la ruta y utilice "
 "subproyectos para traducir diferentes recursos."
 
-#: trans/models/subproject.py:860
-msgid "You can not use monolingual translation without template!"
+#: trans/models/subproject.py:882 trans/models/subproject.py:888
+#, fuzzy
+#| msgid "You can not use monolingual translation without template!"
+msgid "You can not base file with bilingual translation!"
+msgstr "¡No puede utilizar una traducción monolenguaje sin una plantilla!"
+
+#: trans/models/subproject.py:896
+#, fuzzy
+#| msgid "You can not use monolingual translation without template!"
+msgid "You can not use monolingual translation without base file!"
 msgstr "¡No puede utilizar una traducción monolenguaje sin una plantilla!"
 
 #: trans/models/translation.py:184
@@ -1199,108 +1380,108 @@ msgstr "Caracter de tabulación"
 msgid "New line"
 msgstr "Nueva línea"
 
-#: trans/templatetags/translations.py:269
+#: trans/templatetags/translations.py:277
 #, python-format
 msgid "Avatar for %s"
 msgstr "Avatar para %s"
 
-#: trans/templatetags/translations.py:308
+#: trans/templatetags/translations.py:316
 #, python-format
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "hace un año"
 msgstr[1] "hace %(count)s años"
 
-#: trans/templatetags/translations.py:313
+#: trans/templatetags/translations.py:321
 #, python-format
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "hace un mes"
 msgstr[1] "hace %(count)s meses"
 
-#: trans/templatetags/translations.py:318
+#: trans/templatetags/translations.py:326
 #, python-format
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "hace una semana"
 msgstr[1] "hace %(count)s semanas"
 
-#: trans/templatetags/translations.py:322
+#: trans/templatetags/translations.py:330
 #, python-format
 msgid "yesterday"
 msgid_plural "%(count)s days ago"
 msgstr[0] "ayer"
 msgstr[1] "hace %(count)s días"
 
-#: trans/templatetags/translations.py:325
-#: trans/templatetags/translations.py:362
+#: trans/templatetags/translations.py:333
+#: trans/templatetags/translations.py:370
 msgid "now"
 msgstr "ahora"
 
-#: trans/templatetags/translations.py:328
+#: trans/templatetags/translations.py:336
 #, python-format
 msgid "a second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "hace un segundo"
 msgstr[1] "hace %(count)s segundos"
 
-#: trans/templatetags/translations.py:333
+#: trans/templatetags/translations.py:341
 #, python-format
 msgid "a minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "hace un minuto"
 msgstr[1] "hace %(count)s minutos"
 
-#: trans/templatetags/translations.py:338
+#: trans/templatetags/translations.py:346
 #, python-format
 msgid "an hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "hace una hora"
 msgstr[1] "hace %(count)s horas"
 
-#: trans/templatetags/translations.py:345
+#: trans/templatetags/translations.py:353
 #, python-format
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "en un año"
 msgstr[1] "en %(count)s años"
 
-#: trans/templatetags/translations.py:350
+#: trans/templatetags/translations.py:358
 #, python-format
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "en un mes"
 msgstr[1] "en %(count)s meses"
 
-#: trans/templatetags/translations.py:355
+#: trans/templatetags/translations.py:363
 #, python-format
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "en una semana"
 msgstr[1] "en %(count)s semanas"
 
-#: trans/templatetags/translations.py:359
+#: trans/templatetags/translations.py:367
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
 msgstr[0] "mañana"
 msgstr[1] "en %(count)s días"
 
-#: trans/templatetags/translations.py:365
+#: trans/templatetags/translations.py:373
 #, python-format
 msgid "a second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "en un segundo"
 msgstr[1] "en %(count)s segundos"
 
-#: trans/templatetags/translations.py:372
+#: trans/templatetags/translations.py:380
 #, python-format
 msgid "a minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "en un minuto"
 msgstr[1] "en %(count)s minutos"
 
-#: trans/templatetags/translations.py:377
+#: trans/templatetags/translations.py:385
 #, python-format
 msgid "an hour from now"
 msgid_plural "%(count)s hours from now"
@@ -1725,13 +1906,6 @@ msgid ""
 msgstr ""
 "Encontrará más información sobre esta comprobación en la <a href=\"%(link)s"
 "\">documentación</a>."
-
-#: weblate/html/check.html:26 weblate/html/check_project.html:26
-#: weblate/html/data.html:28 weblate/html/data.html.py:59
-#: weblate/html/index.html:37 weblate/html/list-translations.html:6
-#: weblate/html/js/other.html:6
-msgid "Project"
-msgstr "Proyecto"
 
 #: weblate/html/check.html:27 weblate/html/check_project.html:27
 #: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
@@ -3310,7 +3484,6 @@ msgid "Message is fuzzy"
 msgstr "Mensaje parcial"
 
 #: weblate/html/unit-state.html:4
-#| msgid "Message is translated"
 msgid "Message is not translated"
 msgstr "Mensaje no traducido"
 
@@ -3536,6 +3709,29 @@ msgid ""
 msgstr ""
 "Puede encontrar más información sobre la configuración de claves SSH en <a "
 "href=\"%(ssh_docs)s\">el manual de Weblate</a>."
+
+#: weblate/html/admin/trans/change_form.html:8
+#, fuzzy, python-format
+#| msgid ""
+#| "More information about this check is available in the <a href=\"%(link)s"
+#| "\">documentation</a>."
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Encontrará más información sobre esta comprobación en la <a href=\"%(link)s"
+"\">documentación</a>."
+
+#: weblate/html/admin/trans/change_form.html:10
+msgid "Do not change this object here, please use Weblate interface instead."
+msgstr ""
+
+#: weblate/html/admin/trans/change_form.html:14
+#, python-format
+msgid ""
+"Importing new translation can take some time, please check <a href=\"%(url)s"
+"\">our documentation</a> for information how to improve this."
+msgstr ""
 
 #: weblate/html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -4055,6 +4251,12 @@ msgstr "cambios"
 msgid "No matching activity has been found."
 msgstr "No se encontró la actividad buscada."
 
+#~ msgid "Instructions"
+#~ msgstr "Instrucciones"
+
+#~ msgid "License"
+#~ msgstr "Licencia"
+
 #~ msgid "Recent changes"
 #~ msgstr "Cambios recientes"
 
@@ -4065,11 +4267,6 @@ msgstr "No se encontró la actividad buscada."
 #~| msgid "checks"
 #~ msgid "Foo check"
 #~ msgstr "chequeos"
-
-#, fuzzy
-#~| msgid "Your translations"
-#~ msgid "Your translation is foo"
-#~ msgstr "Sus traducciones"
 
 #~ msgid "%(branch)s branch"
 #~ msgstr "rama %(branch)s"
