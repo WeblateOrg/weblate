@@ -71,7 +71,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     slug = models.SlugField(
         verbose_name=ugettext_lazy('URL slug'),
         db_index=True,
-        help_text=ugettext_lazy('Name used in URLs and file names')
+        help_text=ugettext_lazy('Name used in URLs and file names.')
     )
     project = models.ForeignKey(
         Project,
