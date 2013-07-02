@@ -91,7 +91,7 @@ By format string passed by the ``--base-file-template`` option you can customize
 base file for monolingual translations.
 
 You can also specify file format to use (see :ref:`formats`) by the
-`--file-format` parameter. The default is autodetection.
+``--file-format`` parameter. The default is autodetection.
 
 For example:
 
