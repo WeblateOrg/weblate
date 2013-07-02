@@ -137,7 +137,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=200,
         blank=True,
         help_text=ugettext_lazy(
-            'Filename of translations template, this is recommended to use '
+            'Filename of translations base file, which contains all strings '
+            'and their source, this is recommended to use '
             'for monolingual translation formats.'
         )
     )
