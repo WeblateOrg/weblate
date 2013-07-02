@@ -799,11 +799,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.load_template_store()
         except ValueError:
             raise ValidationError(
-                _('Format of translation template could not be recognized.')
+                _('Format of translation base file could not be recognized.')
             )
         except Exception as exc:
             raise ValidationError(
-                _('Failed to parse translation template: %s') % str(exc)
+                _('Failed to parse translation base file: %s') % str(exc)
             )
 
     def clean_files(self, matches):
@@ -880,12 +880,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.has_template():
             if self.file_format_cls.monolingual:
                 raise ValidationError(
-                    _('You can not use bilingual translation with template!')
+                    _('You can not base file with bilingual translation!')
                 )
             self.clean_template()
         elif self.file_format_cls.monolingual:
             raise ValidationError(
-                _('You can not use monolingual translation without template!')
+                _('You can not use monolingual translation without base file!')
             )
 
     def get_template_filename(self):
