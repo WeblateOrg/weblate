@@ -953,7 +953,7 @@ class Unit(models.Model):
         for unit in Unit.objects.same(self).exclude(id=self.id):
             unit.update_has_failing_check(was_change)
 
-    def update_has_failing_check(self):
+    def update_has_failing_check(self, was_change):
         '''
         Updates flag counting failing checks.
         '''
