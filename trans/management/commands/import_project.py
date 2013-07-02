@@ -132,7 +132,9 @@ class Command(BaseCommand):
             raise CommandError('Invalid number of parameters!')
 
         if options['file_format'] not in FILE_FORMATS:
-            raise CommandError('Invalid file format: %s' % options['file_format'])
+            raise CommandError(
+                'Invalid file format: %s' % options['file_format']
+            )
 
         # Read params
         prjname, repo, branch, filemask = args
