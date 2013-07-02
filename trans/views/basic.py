@@ -345,9 +345,11 @@ def about(request):
     context = {}
     totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
     total_strings = 0
+    total_words = 0
     for project in SubProject.objects.iterator():
         try:
             total_strings += project.translation_set.all()[0].total
+            total_words += project.translation_set.all()[0].total_words
         except Translation.DoesNotExist:
             pass
     context['title'] = _('About Weblate')
@@ -355,6 +357,7 @@ def about(request):
     context['total_suggestions'] = totals['suggested__sum']
     context['total_users'] = Profile.objects.count()
     context['total_strings'] = total_strings
+    context['total_words'] = total_words
     context['total_languages'] = Language.objects.filter(
         translation__total__gt=0
     ).distinct().count()
