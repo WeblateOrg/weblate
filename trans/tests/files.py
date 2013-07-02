@@ -172,6 +172,17 @@ class ImportMoTest(ImportTest):
     test_file = TEST_MO
 
 
+class ImportMoPoTest(ImportTest):
+    '''
+    Testing of mo file imports.
+    '''
+    test_file = TEST_MO
+
+    def create_subproject(self):
+        # Needs to create PO file to have language pack option
+        return self.create_po()
+
+
 class ExportTest(ViewTestCase):
     '''
     Testing of file export.

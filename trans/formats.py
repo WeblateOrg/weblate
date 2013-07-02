@@ -323,6 +323,9 @@ class FileFormat(object):
         self.storefile = storefile
         # Load store
         self.store = self.load(storefile)
+        # Check store validity
+        if not self.is_valid(self.store):
+            raise ValueError('Invalid file format')
         # Remember template
         self.template_store = template_store
 

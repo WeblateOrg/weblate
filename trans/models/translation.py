@@ -1148,6 +1148,7 @@ class Translation(models.Model, URLMixin):
             )
         except:
             # Fallback to automatic detection
+            fileobj.seek(0)
             store = AutoFormat(fileobj)
 
         # Optionally set authorship
