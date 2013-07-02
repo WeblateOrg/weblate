@@ -83,11 +83,11 @@ Each of these is then added as a subproject, named after the matched
 directory.
 Existing subprojects will be skipped.
 
-To customise the subproject's name, use the `--name-template` option.
+To customise the subproject's name, use the ``--name-template`` option.
 Its parameter is a python formatting string, which will expect the
 match from `<filemask>`.
 
-By format string passed by the `--base-file-template` option you can customize
+By format string passed by the ``--base-file-template`` option you can customize
 base file for monolingual translations.
 
 You can also specify file format to use (see :ref:`formats`) by the
