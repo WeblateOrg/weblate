@@ -19,7 +19,12 @@
 #
 
 from trans.tests.views import ViewTestCase
+import trans.admin_views
+from django.test import TestCase
 from django.core.urlresolvers import reverse
+from trans.tests.util import get_test_file
+
+TEST_HOSTS = get_test_file('known_hosts')
 
 
 class AdminTest(ViewTestCase):
@@ -47,3 +52,10 @@ class AdminTest(ViewTestCase):
     def test_report(self):
         response = self.client.get(reverse('admin-report'))
         self.assertContains(response, 'On branch master')
+
+
+class SSHKeysTest(TestCase):
+    def test_parse(self):
+        trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
+        hosts = trans.admin_views.get_host_keys()
+        self.assertEquals(len(hosts), 50)

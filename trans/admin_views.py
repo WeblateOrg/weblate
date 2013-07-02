@@ -39,6 +39,9 @@ import os
 # List of default domain names on which warn user
 DEFAULT_DOMAINS = ('example.net', 'example.com')
 
+# SSH key files
+KNOWN_HOSTS_FILE = os.path.expanduser('~/.ssh/known_hosts')
+RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
 
 @staff_member_required
 def report(request):
@@ -165,7 +168,7 @@ def get_host_keys():
     '''
     try:
         result = []
-        with open(os.path.expanduser('~/.ssh/known_hosts'), 'r') as handle:
+        with open(KNOWN_HOSTS_FILE, 'r') as handle:
             for line in handle:
                 if ' ssh-rsa ' not in line:
                     continue
@@ -181,13 +184,10 @@ def ssh(request):
     '''
     Show information and manipulate with SSH key.
     '''
-    # Path to key, we default to RSA keys
-    key_path = os.path.expanduser('~/.ssh/id_rsa.pub')
-
     # Check whether we can generate SSH key
     try:
         ret = subprocess.check_call(['which', 'ssh-keygen'])
-        can_generate = (ret == 0 and not os.path.exists(key_path))
+        can_generate = (ret == 0 and not os.path.exists(RSA_KEY_FILE))
     except:
         can_generate = False
 
@@ -197,7 +197,7 @@ def ssh(request):
     # Generate key if it does not exist yet
     if can_generate and action == 'generate':
         # Create directory if it does not exist
-        key_dir = os.path.dirname(key_path)
+        key_dir = os.path.dirname(RSA_KEY_FILE)
         if not os.path.exists(key_dir):
             os.makedirs(key_dir)
 
@@ -209,7 +209,7 @@ def ssh(request):
                     '-N', '',
                     '-C', 'Weblate',
                     '-t', 'rsa',
-                    '-f', key_path[:-4]
+                    '-f', RSA_KEY_FILE[:-4]
                 ],
                 stderr=subprocess.STDOUT,
             )
@@ -221,8 +221,8 @@ def ssh(request):
             )
 
     # Read key data if it exists
-    if os.path.exists(key_path):
-        key_data = file(key_path).read()
+    if os.path.exists(RSA_KEY_FILE):
+        key_data = file(RSA_KEY_FILE).read()
         key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
         key = {
             'key': key_data,
