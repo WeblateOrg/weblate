@@ -112,7 +112,7 @@ class RepoTestCase(TestCase):
 
     def create_subproject(self):
         '''
-        Wrapper method for proving test subproject.
+        Wrapper method for providing test subproject.
         '''
         return self._create_subproject(
             'auto',
