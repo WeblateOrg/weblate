@@ -430,6 +430,18 @@ Additionally you will have to adjust :file:`weblate/settings.py`::
 
 .. note:: This is supported since Weblate 1.3.
 
+
+Authentication
+--------------
+
+By default Weblate uses Django built-in user database. Thanks to this, you can
+also import user database from other Django based projects (see
+:ref:`pootle-migration`). 
+
+But Django can be configured to authenticate against other means as well.
+Currently you have to register and confirm your email even when using other
+authentication backend.
+
 .. _appliance:
 
 Prebuilt appliance
@@ -583,6 +595,8 @@ recommended to put your site offline, while the migration is going on.
     left around and cause various import errors. To recover from this, delete
     all of them in Weblate's directory, for example by 
     ``find . -name '*.pyc' - delete``.
+
+.. _migration-pootle:
 
 Migrating from Pootle
 ---------------------
