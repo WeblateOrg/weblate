@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-02 11:52+0200\n"
-"PO-Revision-Date: 2013-07-02 10:53+0200\n"
-"Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
+"PO-Revision-Date: 2013-07-02 23:50+0200\n"
+"Last-Translator: Bert Massop <bert.massop@gmail.com>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -838,7 +838,7 @@ msgstr "Weer te geven naam"
 
 #: trans/models/project.py:83 trans/models/subproject.py:72
 msgid "URL slug"
-msgstr ""
+msgstr "URL-slug"
 
 #: trans/models/project.py:85 trans/models/subproject.py:74
 msgid "Name used in URLs and file names."
@@ -850,7 +850,7 @@ msgstr "Project website"
 
 #: trans/models/project.py:89
 msgid "Main website of translated project."
-msgstr ""
+msgstr "Hoofdwebsite van het vertaalde project."
 
 #: trans/models/project.py:92
 msgid "Email address"
@@ -926,20 +926,18 @@ msgid "Committer email"
 msgstr "Committer e-mail"
 
 #: trans/models/project.py:155
-#, fuzzy
 #| msgid "Posted new comment"
 msgid "Push on commit"
-msgstr "Nieuwe opmerking toegevoegd"
+msgstr "Pushen na commit"
 
 #: trans/models/project.py:158
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Of de repository upstream gepushed moet worden bij iedere commit."
 
 #: trans/models/project.py:163
-#, fuzzy
 #| msgid "Translations made"
 msgid "Set Translation-Team header"
-msgstr "Aantal vertalingen"
+msgstr "Wijzig Translation-Team header"
 
 #: trans/models/project.py:166
 msgid ""
@@ -949,7 +947,7 @@ msgstr ""
 
 #: trans/models/project.py:172
 msgid "Enable ACL"
-msgstr ""
+msgstr "ACL inschakelen"
 
 #: trans/models/project.py:175
 msgid ""
@@ -981,7 +979,7 @@ msgstr ""
 #: trans/models/project.py:232
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr ""
+msgstr "Kon projectmap niet aanmaken: %s"
 
 #: trans/models/subproject.py:67
 msgid "Subproject name"
@@ -995,10 +993,9 @@ msgid "Project"
 msgstr "Project"
 
 #: trans/models/subproject.py:81
-#, fuzzy
 #| msgid "Git repository:"
 msgid "Git repository"
-msgstr "Git repository:"
+msgstr "Git repository"
 
 #: trans/models/subproject.py:84
 msgid ""
@@ -1010,17 +1007,16 @@ msgstr ""
 
 #: trans/models/subproject.py:90
 msgid "Git push URL"
-msgstr ""
+msgstr "Git push URL"
 
 #: trans/models/subproject.py:92
 msgid "URL of push Git repository"
 msgstr "URL van push Git repository"
 
 #: trans/models/subproject.py:96
-#, fuzzy
 #| msgid "Repository status"
 msgid "Repository browser"
-msgstr "Repository status"
+msgstr "Repository browser"
 
 #: trans/models/subproject.py:98
 #, python-format
@@ -1033,7 +1029,7 @@ msgstr ""
 
 #: trans/models/subproject.py:105
 msgid "Exported Git URL"
-msgstr ""
+msgstr "Geëxporteerde Git URL"
 
 #: trans/models/subproject.py:108
 msgid "URL of Git repository where users can fetch changes from Weblate"
@@ -1042,10 +1038,9 @@ msgstr ""
 "afhalen"
 
 #: trans/models/subproject.py:113
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Source string bug report address"
-msgstr "Beoordeling brontekenreeksen"
+msgstr "Adres voor rapporteren foutieve brontekenreeksen"
 
 #: trans/models/subproject.py:115
 msgid ""
@@ -1056,20 +1051,18 @@ msgstr ""
 "voor geen E-mails."
 
 #: trans/models/subproject.py:121
-#, fuzzy
 #| msgid "Git branch to translate"
 msgid "Git branch"
-msgstr "Git tak om te vertalen"
+msgstr "Git branch"
 
 #: trans/models/subproject.py:123
 msgid "Git branch to translate"
 msgstr "Git tak om te vertalen"
 
 #: trans/models/subproject.py:127
-#, fuzzy
 #| msgid "Files"
 msgid "File mask"
-msgstr "Bestanden"
+msgstr "Bestandsmasker"
 
 #: trans/models/subproject.py:131
 msgid ""
@@ -1081,10 +1074,9 @@ msgstr ""
 
 #: trans/models/subproject.py:136
 msgid "Monolingual base language file"
-msgstr ""
+msgstr "Eentalig basistaalbestand"
 
 #: trans/models/subproject.py:140
-#, fuzzy
 #| msgid ""
 #| "Filename of translations template, this is recommended to use for "
 #| "translations which store only translated string like Android resource "
@@ -1093,14 +1085,13 @@ msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source, this is recommended to use for monolingual translation formats."
 msgstr ""
-"Bestandsnaam van vertaalsjabloon, dit is aangewezen voor vertalingen die "
-"enkel de vertaalde tekenreeks opslaan, zoals Android hulpbrontekenreeksen."
+"Bestandsnaam van vertaalbasisbestand die alle tekenreeksen en de bron bevat. "
+"Dit wordt aangeraden voor enkeltalige vertaalformaten."
 
 #: trans/models/subproject.py:146
-#, fuzzy
 #| msgid "C format"
 msgid "File format"
-msgstr "C formaat"
+msgstr "Bestandsformaat"
 
 #: trans/models/subproject.py:151
 msgid "Automatic detection might fail for some formats and is slightly slower."
@@ -1110,7 +1101,7 @@ msgstr ""
 
 #: trans/models/subproject.py:156
 msgid "Additional commit file"
-msgstr ""
+msgstr "Extra te committen bestand"
 
 #: trans/models/subproject.py:162
 msgid ""
@@ -1122,7 +1113,7 @@ msgstr ""
 
 #: trans/models/subproject.py:167
 msgid "Pre-commit script"
-msgstr ""
+msgstr "Pre-commit script"
 
 #: trans/models/subproject.py:173
 msgid ""
@@ -1133,20 +1124,18 @@ msgstr ""
 "documentatie te bekijken voor verdere details."
 
 #: trans/models/subproject.py:179
-#, fuzzy
 #| msgid "Lock"
 msgid "Locked"
-msgstr "Vergrendel"
+msgstr "Vergrendeld"
 
 #: trans/models/subproject.py:182
 msgid "Whether subproject is locked for translation updates."
 msgstr "Of het subproject geblokkeerd is voor vertaalaanpassingen."
 
 #: trans/models/subproject.py:186
-#, fuzzy
 #| msgid "New translation in %(translation)s"
 msgid "Allow translation propagation"
-msgstr "Nieuwe vertaling in %(translation)s"
+msgstr "Sta propageren van vertalingen toe"
 
 #: trans/models/subproject.py:189
 msgid ""
@@ -1157,10 +1146,9 @@ msgstr ""
 "vertaling in dit project"
 
 #: trans/models/subproject.py:194
-#, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
-msgstr "Uw vertalingen"
+msgstr "Vertalingsgeschiedenis opslaan"
 
 #: trans/models/subproject.py:197
 msgid "Whether Weblate should keep history of translations"
@@ -1217,20 +1205,19 @@ msgid "Template file not found!"
 msgstr "Bestand met sjabloon niet gevonden!"
 
 #: trans/models/subproject.py:803
-#, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
-msgstr "Het formaat van de vertaalsjabloon werd niet herkend."
+msgstr "Het formaat van het vertaalbasisbestand werd niet herkend."
 
 #: trans/models/subproject.py:807
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
-msgstr "Verwerken van vertaalsjabloon is mislukt: %s"
+msgstr "Verwerken van vertaalbasisbestand is mislukt: %s"
 
 #: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
-msgstr ""
+msgstr "Bestand lijkt ongeldig!"
 
 #: trans/models/subproject.py:831
 #, python-format
@@ -1261,16 +1248,14 @@ msgstr ""
 "vertalen."
 
 #: trans/models/subproject.py:883 trans/models/subproject.py:889
-#, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
-msgstr "Je kan geen enkeltalige vertalingen gebruiken zonder sjabloon!"
+msgstr "Je kan geen basisbestand gebruiken voor tweetalige vertaling!"
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
-msgstr "Je kan geen enkeltalige vertalingen gebruiken zonder sjabloon!"
+msgstr "Je kan geen enkeltalige vertalingen gebruiken zonder basisbestand!"
 
 #: trans/models/translation.py:184
 #, python-format
@@ -1822,10 +1807,9 @@ msgid "Strings to translate"
 msgstr "Te vertalen tekenreeksen"
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Words to translate"
-msgstr "Te vertalen tekenreeksen"
+msgstr "Te vertalen woorden"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
@@ -3690,7 +3674,7 @@ msgstr ""
 "\"%(ssh_docs)s\">de Weblate handleiding</a>."
 
 #: weblate/html/admin/trans/change_form.html:8
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "More information about this check is available in the <a href=\"%(link)s"
 #| "\">documentation</a>."
@@ -3698,12 +3682,14 @@ msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
 msgstr ""
-"Meer informatie over deze controle is beschikbaar in de <a href=\"%(link)s"
-"\">documentatie</a>."
+"Vereiste velden zijn vetgedrukt, meer informatie is beschikbaar in de <a "
+"href=\"%(url)s\">documentatie</a>."
 
 #: weblate/html/admin/trans/change_form.html:10
 msgid "Do not change this object here, please use Weblate interface instead."
 msgstr ""
+"Verander dit object niet hier, gebruik hiervoor alstublieft de Weblate-"
+"interface."
 
 #: weblate/html/admin/trans/change_form.html:14
 #, python-format
@@ -3711,6 +3697,8 @@ msgid ""
 "Importing new translation can take some time, please check <a href=\"%(url)s"
 "\">our documentation</a> for information how to improve this."
 msgstr ""
+"Het importeren van een nieuwe vertaling kan enige tijd duren, zie <a href=\"%"
+"(url)s\">onze documentatie</a> voor informatie over hoe dit te verbeteren."
 
 #: weblate/html/js/dictionary.html:19
 msgid "Copy word to translation"
