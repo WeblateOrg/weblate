@@ -168,6 +168,7 @@ class ExportTest(ViewTestCase):
     Testing of file export.
     '''
     def create_subproject(self):
+        # Needs to create PO file to have language pack option
         return self.create_po()
 
     def test_export(self):
