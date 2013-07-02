@@ -343,7 +343,9 @@ def about(request):
     Shows about page with version information.
     '''
     context = {}
-    totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'), Count('id'))
+    totals = Profile.objects.aggregate(
+        Sum('translated'), Sum('suggested'), Count('id')
+    )
     total_strings = 0
     total_words = 0
     for project in SubProject.objects.iterator():
