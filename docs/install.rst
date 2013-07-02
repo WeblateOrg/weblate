@@ -436,11 +436,54 @@ Authentication
 
 By default Weblate uses Django built-in user database. Thanks to this, you can
 also import user database from other Django based projects (see
-:ref:`pootle-migration`). 
+:ref:`pootle-migration`).
 
 But Django can be configured to authenticate against other means as well.
 Currently you have to register and confirm your email even when using other
 authentication backend.
+
+LDAP authentication
++++++++++++++++++++
+
+LDAP authentication can be best achieved using `django-auth-ldap` package. You
+can install it by usual means:
+
+.. code-block:: sh
+
+    # Using PyPI
+    pip install django-auth-ldap
+
+    # Using apt-get
+    apt-get install python-django-auth-ldap
+
+Once you have the package installed, you can hook it to Django authentication:
+
+.. code-block:: python
+
+    # Add LDAP backed, keep Django one if you want to be able to login
+    # even without LDAP for admin account
+    AUTHENTICATION_BACKENDS = (
+        'django_auth_ldap.backend.LDAPBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+    # LDAP server address
+    AUTH_LDAP_SERVER_URI = 'ldaps://ldap.example.net'
+
+    # DN to use for authentication
+    AUTH_LDAP_USER_DN_TEMPLATE = 'cn=%(user)s,o=Example'
+    # Depending on your LDAP server, you might use different DN
+    # like:
+    # AUTH_LDAP_USER_DN_TEMPLATE = 'ou=users,dc=example,dc=com'
+
+    # List of attributes to import from LDAP on login
+    AUTH_LDAP_USER_ATTR_MAP = {
+        'first_name': 'givenName',
+        'last_name': 'sn',
+        'email': 'mail',
+    }
+
+.. seealso:: http://pythonhosted.org/django-auth-ldap/
 
 .. _appliance:
 
