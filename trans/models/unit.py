@@ -874,6 +874,7 @@ class Unit(models.Model):
 
         checks_to_run = CHECKS
         cleanup_checks = True
+        was_change = False
 
         if (same_state or is_new) and (self.fuzzy or not self.translated):
             # Check whether there is any message with same source
@@ -925,6 +926,7 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
+                    was_change = True
             # Source check
             if check_obj.source and check_obj.check_source(src, self):
                 if check in old_source_checks:
@@ -939,30 +941,37 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
+                    was_change = True
 
         # Delete no longer failing checks
         if cleanup_checks:
             self.cleanup_checks(old_source_checks, old_target_checks)
+            was_change = True
 
         # Update failing checks flag
-        self.update_has_failing_check()
+        self.update_has_failing_check(was_change)
         for unit in Unit.objects.same(self).exclude(id=self.id):
-            unit.update_has_failing_check()
+            unit.update_has_failing_check(was_change)
 
     def update_has_failing_check(self):
         '''
         Updates flag counting failing checks.
         '''
         has_failing_check = not self.fuzzy and len(self.active_checks()) > 0
+
+        # Change attribute if it has changed
         if has_failing_check != self.has_failing_check:
             self.has_failing_check = has_failing_check
             self.save(backend=True, same_content=True, same_state=True)
 
-            # Invalidate checks cache
-            self.translation.invalidate_cache()
-
             # Update translation stats
             self.translation.update_stats()
+
+        # Invalidate checks cache if there was any change
+        # (avove code cares only about whether there is failing check
+        # while here we care about any changed in checks)
+        if was_change:
+            self.translation.invalidate_cache()
 
     def update_has_suggestion(self):
         '''
