@@ -45,6 +45,11 @@ class Command(BaseCommand):
             help='Python formatting string, transforming the filemask '
                  'match to a project name'
         ),
+        make_option(
+            '--file-format',
+            default='auto',
+            help='File format type, defaults to autodetection',
+        ),
     )
 
     def get_name(self, maskre, path):
@@ -148,7 +153,8 @@ class Command(BaseCommand):
             )
         else:
             matches, sharedrepo = self.import_initial(
-                project, repo, branch, filemask, options['name_template']
+                project, repo, branch, filemask, options['name_template'],
+                options['file_format']
             )
 
         # Create remaining subprojects sharing git repository
@@ -173,10 +179,12 @@ class Command(BaseCommand):
                 project=project,
                 repo=sharedrepo,
                 branch=branch,
+                file_format=options['file_format'],
                 filemask=filemask.replace('**', match)
             )
 
-    def import_initial(self, project, repo, branch, filemask, name_template):
+    def import_initial(self, project, repo, branch, filemask, name_template,
+                       file_format):
         '''
         Import the first repository of a project
         '''
@@ -212,6 +220,7 @@ class Command(BaseCommand):
             project=project,
             repo=repo,
             branch=branch,
+            file_format=file_format,
             filemask=filemask.replace('**', match)
         )
 

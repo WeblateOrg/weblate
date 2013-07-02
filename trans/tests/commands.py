@@ -48,6 +48,19 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded three subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
+    def test_import_po(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+            file_format='po'
+        )
+        # We should have loaded three subprojects
+        self.assertEqual(project.subproject_set.count(), 4)
+
     def test_re_import(self):
         project = self.create_project()
         call_command(

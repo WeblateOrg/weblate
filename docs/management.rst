@@ -87,6 +87,9 @@ To customise the subproject's name, use the `--name-template` option.
 Its parameter is a python formatting string, which will expect the
 match from `<filemask>`.
 
+You can also specify file format to use (see :ref:`formats`) by the
+`--file-format` parameter. The default is autodetection.
+
 For example:
 
 .. code-block:: bash
