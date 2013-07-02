@@ -66,7 +66,7 @@ class MachineTranslationTest(TestCase):
         try:
             translation = machine.translate(lang, word, None, None)
             self.assertIsInstance(translation, list)
-        except MachineTranslationError as exc:
+        except (MachineTranslationError, IOError) as exc:
             self.skipTest(str(exc))
 
     def test_glosbe(self):
