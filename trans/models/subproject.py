@@ -878,7 +878,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Validate template
         if self.has_template():
-            if self.file_format_cls.monolingual:
+            if self.file_format_cls.monolingual is False:
                 raise ValidationError(
                     _('You can not base file with bilingual translation!')
                 )
