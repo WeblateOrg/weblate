@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 from trans.tests.util import get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_MO = get_test_file('cs.mo')
 
 TRANSLATION_OURS = u'Nazdar světe!\n'
 TRANSLATION_PO = u'Ahoj světe!\n'
@@ -36,6 +37,7 @@ class ImportTest(ViewTestCase):
     '''
     Testing of file imports.
     '''
+    test_file = TEST_PO
 
     def setUp(self):
         super(ImportTest, self).setUp()
@@ -47,7 +49,7 @@ class ImportTest(ViewTestCase):
         '''
         Helper to perform file import.
         '''
-        with open(TEST_PO) as handle:
+        with open(self.test_file) as handle:
             params = {'file': handle}
             params.update(kwargs)
             return self.client.post(
@@ -161,6 +163,13 @@ class ImportTest(ViewTestCase):
             translation.have_suggestion,
             1
         )
+
+
+class ImportMoTest(ImportTest):
+    '''
+    Testing of mo file imports.
+    '''
+    test_file = TEST_MO
 
 
 class ExportTest(ViewTestCase):
