@@ -23,6 +23,7 @@ from django.db.models import Q
 # In Django 1.5, this should come from django.utils.text
 from django.template.defaultfilters import slugify
 from trans.models import SubProject, Project
+from trans.formats import FILE_FORMATS
 from trans.util import is_repo_link
 from glob import glob
 from optparse import make_option
@@ -129,6 +130,9 @@ class Command(BaseCommand):
         '''
         if len(args) != 4:
             raise CommandError('Invalid number of parameters!')
+
+        if options['file_format'] not in FILE_FORMATS:
+            raise CommandError('Invalid file format: %s' % options['file_format'])
 
         # Read params
         prjname, repo, branch, filemask = args

@@ -61,6 +61,21 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded three subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
+    def test_import_invalid(self):
+        project = self.create_project()
+        self.assertRaises(
+            COMMAND_EXCEPTION,
+            call_command,
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+            file_format='INVALID'
+        )
+        # We should have loaded three subprojects
+        self.assertEqual(project.subproject_set.count(), 0)
+
     def test_import_aresource(self):
         project = self.create_project()
         call_command(
