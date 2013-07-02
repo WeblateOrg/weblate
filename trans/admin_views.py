@@ -257,7 +257,7 @@ def ssh(request):
                         'fingerprint': fingerprint,
                     }
                 )
-            with open(os.path.expanduser('~/.ssh/known_hosts'), 'a') as handle:
+            with open(KNOWN_HOSTS_FILE, 'a') as handle:
                 for key in keys:
                     handle.write('%s\n' % key)
 
