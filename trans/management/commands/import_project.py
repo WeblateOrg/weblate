@@ -46,11 +46,25 @@ class Command(BaseCommand):
                  'match to a project name'
         ),
         make_option(
+            '--base-file-template',
+            default='%s',
+            help='Python formatting string, transforming the filemask '
+                 'match to a monolingual base file name'
+        ),
+        make_option(
             '--file-format',
             default='auto',
             help='File format type, defaults to autodetection',
         ),
     )
+
+    def format_string(self, template, match):
+        '''
+        Formats template string with match.
+        '''
+        if '%s' in template:
+            return template % match
+        return template
 
     def get_name(self, maskre, path):
         matches = maskre.match(path)
@@ -154,12 +168,12 @@ class Command(BaseCommand):
         else:
             matches, sharedrepo = self.import_initial(
                 project, repo, branch, filemask, options['name_template'],
-                options['file_format']
+                options['file_format'], options['base_file_template']
             )
 
         # Create remaining subprojects sharing git repository
         for match in matches:
-            name = options['name_template'] % match
+            name = self.format_string(options['name_template'], match)
             slug = slugify(name)
             subprojects = SubProject.objects.filter(
                 Q(name=name) | Q(slug=slug),
@@ -180,11 +194,12 @@ class Command(BaseCommand):
                 repo=sharedrepo,
                 branch=branch,
                 file_format=options['file_format'],
+                template=self.format_string(options['base_file_template'], match),
                 filemask=filemask.replace('**', match)
             )
 
     def import_initial(self, project, repo, branch, filemask, name_template,
-                       file_format):
+                       file_format, base_file_template):
         '''
         Import the first repository of a project
         '''
@@ -194,7 +209,7 @@ class Command(BaseCommand):
 
         # Create first subproject (this one will get full git repo)
         match = matches.pop()
-        name = name_template % match
+        name = self.format_string(name_template, match)
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
@@ -221,6 +236,7 @@ class Command(BaseCommand):
             repo=repo,
             branch=branch,
             file_format=file_format,
+            template=self.format_string(base_file_template, match),
             filemask=filemask.replace('**', match)
         )
 
