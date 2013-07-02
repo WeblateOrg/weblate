@@ -267,9 +267,15 @@ class SubProjectTest(RepoTestCase):
     SubProject object testing.
     '''
     def verify_subproject(self, project, translations, lang, units,
-                          unit='Hello, world!\n'):
+                          unit='Hello, world!\n', fail=False):
         # Validation
-        project.full_clean()
+        if fail:
+            self.assertRaises(
+                ValidationError,
+                project.full_clean
+            )
+        else:
+            project.full_clean()
         # Correct path
         self.assertTrue(os.path.exists(project.get_path()))
         # Count translations
@@ -319,6 +325,22 @@ class SubProjectTest(RepoTestCase):
     def test_create_iphone(self):
         project = self.create_iphone()
         self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_po_pot(self):
+        project = self._create_subproject(
+            'po',
+            'po/*.po',
+            'po/project.pot'
+        )
+        self.verify_subproject(project, 3, 'cs', 4, fail=True)
+
+    def test_create_auto_pot(self):
+        project = self._create_subproject(
+            'auto',
+            'po/*.po',
+            'po/project.pot'
+        )
+        self.verify_subproject(project, 3, 'cs', 4, fail=True)
 
     def test_create_po(self):
         project = self.create_po()

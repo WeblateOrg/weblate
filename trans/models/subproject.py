@@ -876,12 +876,20 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Try parsing files
         self.clean_files(matches)
 
+        # Test for unexpected template usage
+        if self.template != '' and self.file_format_cls.monolingual is False:
+            raise ValidationError(
+                _('You can not base file with bilingual translation!')
+            )
+
+        # Special case for Gettext
+        if self.template.endswith('.pot') and self.filemask.endswith('.po'):
+            raise ValidationError(
+                _('You can not base file with bilingual translation!')
+            )
+
         # Validate template
         if self.has_template():
-            if self.file_format_cls.monolingual is False:
-                raise ValidationError(
-                    _('You can not base file with bilingual translation!')
-                )
             self.clean_template()
         elif self.file_format_cls.monolingual:
             raise ValidationError(
@@ -983,6 +991,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return (
             (monolingual or monolingual is None)
             and len(self.template) > 0
+            and not self.template.endswith('.pot')
         )
 
     def load_template_store(self):
