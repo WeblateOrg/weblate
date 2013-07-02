@@ -47,7 +47,7 @@ class Command(BaseCommand):
         ),
         make_option(
             '--base-file-template',
-            default='%s',
+            default='',
             help='Python formatting string, transforming the filemask '
                  'match to a monolingual base file name'
         ),
@@ -174,6 +174,7 @@ class Command(BaseCommand):
         # Create remaining subprojects sharing git repository
         for match in matches:
             name = self.format_string(options['name_template'], match)
+            template = self.format_string(options['base_file_template'], match)
             slug = slugify(name)
             subprojects = SubProject.objects.filter(
                 Q(name=name) | Q(slug=slug),
@@ -193,8 +194,8 @@ class Command(BaseCommand):
                 project=project,
                 repo=sharedrepo,
                 branch=branch,
+                template=template,
                 file_format=options['file_format'],
-                template=self.format_string(options['base_file_template'], match),
                 filemask=filemask.replace('**', match)
             )
 
@@ -210,6 +211,7 @@ class Command(BaseCommand):
         # Create first subproject (this one will get full git repo)
         match = matches.pop()
         name = self.format_string(name_template, match)
+        template = self.format_string(base_file_template, match)
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
@@ -236,7 +238,7 @@ class Command(BaseCommand):
             repo=repo,
             branch=branch,
             file_format=file_format,
-            template=self.format_string(base_file_template, match),
+            template=template,
             filemask=filemask.replace('**', match)
         )
 
