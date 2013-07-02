@@ -167,6 +167,9 @@ class ExportTest(ViewTestCase):
     '''
     Testing of file export.
     '''
+    def create_subproject(self):
+        return self.create_po()
+
     def test_export(self):
         response = self.client.get(
             reverse(
