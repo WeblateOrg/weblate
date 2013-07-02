@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-02 11:52+0200\n"
-"PO-Revision-Date: 2013-07-02 14:18+0200\n"
+"PO-Revision-Date: 2013-07-02 21:32+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
 "Language: tr\n"
@@ -1071,8 +1071,8 @@ msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source, this is recommended to use for monolingual translation formats."
 msgstr ""
-"Tüm satırları ve kanaklarını içeren çeviri tabanlı dosyanın dosya adı, bu, "
-"tek dilli çeviri biçimlerinin kullanılması için önerilir."
+"Tüm satırları ve kanaklarını içeren çevirilerin temel dosyasının dosya adı, "
+"bu, tek dilli çeviri biçimlerinin kullanılması için önerilir."
 
 #: trans/models/subproject.py:146
 #| msgid "C format"
@@ -1192,13 +1192,13 @@ msgstr "Şablon dosyası bulunamadı!"
 #: trans/models/subproject.py:803
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
-msgstr "Çeviri tabanlı dosyanın biçimi tanınamadı."
+msgstr "Çeviri temel dosyasının biçimi tanınamadı."
 
 #: trans/models/subproject.py:807
 #, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
-msgstr "Çeviri tabanlı dosyayı ayrıştırma başarısız: %s"
+msgstr "Çeviri temel dosyasını ayrıştırma başarısız: %s"
 
 #: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
@@ -1232,16 +1232,14 @@ msgstr ""
 "kaynakların çevirisi için alt projeleri kullanın."
 
 #: trans/models/subproject.py:883 trans/models/subproject.py:889
-#, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
-msgstr "Şablonsuz tek dilli çeviri kullanamazsınız!"
+msgstr "İki dilli çevirisi olan temel dosyayı kullanamazsınız!"
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
-msgstr "Şablonsuz tek dilli çeviri kullanamazsınız!"
+msgstr "Temel dosyasız tek dilli çeviriyi kullanamazsınız!"
 
 #: trans/models/translation.py:184
 #, python-format
@@ -1772,10 +1770,9 @@ msgid "Strings to translate"
 msgstr "Çevirmek için satır"
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Words to translate"
-msgstr "Çevirmek için satır"
+msgstr "Çevirmek için kelime"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
