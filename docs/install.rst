@@ -639,7 +639,7 @@ recommended to put your site offline, while the migration is going on.
     all of them in Weblate's directory, for example by 
     ``find . -name '*.pyc' - delete``.
 
-.. _migration-pootle:
+.. _pootle-migration:
 
 Migrating from Pootle
 ---------------------
