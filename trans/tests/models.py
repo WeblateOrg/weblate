@@ -123,7 +123,6 @@ class RepoTestCase(TestCase):
         return self._create_subproject(
             'po',
             'po/*.po',
-            'po/en.po',
         )
 
     def create_po_link(self):
@@ -317,6 +316,10 @@ class SubProjectTest(RepoTestCase):
     def test_create_iphone(self):
         project = self.create_iphone()
         self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_po(self):
+        project = self.create_po()
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_po_link(self):
         project = self.create_po_link()
