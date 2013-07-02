@@ -266,7 +266,8 @@ class SubProjectTest(RepoTestCase):
     '''
     SubProject object testing.
     '''
-    def verify_subproject(self, project, translations, lang, units):
+    def verify_subproject(self, project, translations, lang, units,
+                          unit='Hello, world!\n'):
         # Validation
         project.full_clean()
         # Correct path
@@ -279,6 +280,8 @@ class SubProjectTest(RepoTestCase):
         translation = project.translation_set.get(language_code=lang)
         # Count units in it
         self.assertEqual(translation.unit_set.count(), units)
+        # Check whether unit exists
+        self.assertTrue(translation.unit_set.filter(source=unit).exists())
 
     def test_create(self):
         project = self.create_subproject()
@@ -343,15 +346,15 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_xliff_dph(self):
         project = self.create_xliff('DPH')
-        self.verify_subproject(project, 1, 'en', 9)
+        self.verify_subproject(project, 1, 'en', 9, 'DPH')
 
     def test_create_xliff_empty(self):
         project = self.create_xliff('EMPTY')
-        self.verify_subproject(project, 1, 'en', 6)
+        self.verify_subproject(project, 1, 'en', 6, 'DPH')
 
     def test_create_xliff_resname(self):
         project = self.create_xliff('Resname')
-        self.verify_subproject(project, 1, 'en', 2)
+        self.verify_subproject(project, 1, 'en', 2, 'Hi')
 
     def test_link(self):
         project = self.create_link()
