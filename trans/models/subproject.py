@@ -64,15 +64,21 @@ class SubProjectManager(models.Manager):
 
 class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
+        verbose_name=ugettext_lazy('Subproject name'),
         max_length=100,
         help_text=ugettext_lazy('Name to display')
     )
     slug = models.SlugField(
+        verbose_name=ugettext_lazy('URL slug'),
         db_index=True,
         help_text=ugettext_lazy('Name used in URLs and file names')
     )
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(
+        Project,
+        verbose_name=ugettext_lazy('Project'),
+    )
     repo = models.CharField(
+        verbose_name=ugettext_lazy('Git repository'),
         max_length=200,
         help_text=ugettext_lazy(
             'URL of Git repository, use weblate://project/subproject '
@@ -81,11 +87,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         validators=[validate_repo],
     )
     push = models.CharField(
+        verbose_name=ugettext_lazy('Git push URL'),
         max_length=200,
         help_text=ugettext_lazy('URL of push Git repository'),
         blank=True
     )
     repoweb = models.URLField(
+        verbose_name=ugettext_lazy('Repository browser'),
         help_text=ugettext_lazy(
             'Link to repository browser, use %(branch)s for branch, '
             '%(file)s and %(line)s as filename and line placeholders.'
@@ -94,6 +102,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
     )
     git_export = models.CharField(
+        verbose_name=ugettext_lazy('Exported Git URL'),
         max_length=200,
         help_text=ugettext_lazy(
             'URL of Git repository where users can fetch changes from Weblate'
@@ -101,6 +110,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True
     )
     report_source_bugs = models.EmailField(
+        verbose_name=ugettext_lazy('Source string bug report address'),
         help_text=ugettext_lazy(
             'Email address where errors in source string will be reported, '
             'keep empty for no emails.'
@@ -108,11 +118,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
     )
     branch = models.CharField(
+        verbose_name=ugettext_lazy('Git branch'),
         max_length=50,
         help_text=ugettext_lazy('Git branch to translate'),
         default='master'
     )
     filemask = models.CharField(
+        verbose_name=ugettext_lazy('File mask'),
         max_length=200,
         validators=[validate_filemask],
         help_text=ugettext_lazy(
@@ -121,6 +133,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
     )
     template = models.CharField(
+        verbose_name=ugettext_lazy('Monolingual base language file'),
         max_length=200,
         blank=True,
         help_text=ugettext_lazy(
@@ -129,6 +142,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
     )
     file_format = models.CharField(
+        verbose_name=ugettext_lazy('File format'),
         max_length=50,
         default='auto',
         choices=FILE_FORMAT_CHOICES,
@@ -138,6 +152,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
     extra_commit_file = models.CharField(
+        verbose_name=ugettext_lazy('Additional commit file'),
         max_length=200,
         default='',
         blank=True,
@@ -148,6 +163,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
     )
     pre_commit_script = models.CharField(
+        verbose_name=ugettext_lazy('Pre-commit script'),
         max_length=200,
         default='',
         blank=True,
@@ -159,12 +175,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     )
 
     locked = models.BooleanField(
+        verbose_name=ugettext_lazy('Locked'),
         default=False,
         help_text=ugettext_lazy(
             'Whether subproject is locked for translation updates.'
         )
     )
     allow_translation_propagation = models.BooleanField(
+        verbose_name=ugettext_lazy('Allow translation propagation'),
         default=True,
         help_text=ugettext_lazy(
             'Whether translation updates in other subproject '
@@ -172,6 +190,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
     )
     save_history = models.BooleanField(
+        verbose_name=ugettext_lazy('Save translation history'),
         default=True,
         help_text=ugettext_lazy(
             'Whether Weblate should keep history of translations'

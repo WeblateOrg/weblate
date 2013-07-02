@@ -73,25 +73,33 @@ class ProjectManager(models.Manager):
 
 
 class Project(models.Model, PercentMixin, URLMixin, PathMixin):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(
+        verbose_name=ugettext_lazy('Project name'),
+        max_length=100,
+        unique=True,
+        help_text=ugettext_lazy('Name to display')
+    )
     slug = models.SlugField(
+        verbose_name=ugettext_lazy('URL slug'),
         db_index=True, unique=True,
-        help_text=ugettext_lazy('Name used in URLs and file names')
+        help_text=ugettext_lazy('Name used in URLs and file names.')
     )
     web = models.URLField(
-        help_text=ugettext_lazy('Project website'),
+        verbose_name=ugettext_lazy('Project website'),
+        help_text=ugettext_lazy('Main website of translated project.'),
     )
     mail = models.EmailField(
+        verbose_name=ugettext_lazy('Email address'),
         blank=True,
-        help_text=ugettext_lazy('Email conference for translators'),
+        help_text=ugettext_lazy('Email conference for translators.'),
     )
     instructions = models.URLField(
-        ugettext_lazy('Instructions'),
+        verbose_name=ugettext_lazy('Translation instructions'),
         blank=True,
-        help_text=ugettext_lazy('URL with instructions for translators'),
+        help_text=ugettext_lazy('URL with instructions for translators.'),
     )
     license = models.CharField(
-        ugettext_lazy('License'),
+        verbose_name=ugettext_lazy('Translation license'),
         max_length=150,
         blank=True,
         help_text=ugettext_lazy(
@@ -99,12 +107,12 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
     license_url = models.URLField(
-        ugettext_lazy('License URL'),
+        verbose_name=ugettext_lazy('License URL'),
         blank=True,
         help_text=ugettext_lazy('Optional URL with license details.'),
     )
     new_lang = models.CharField(
-        ugettext_lazy('New language'),
+        verbose_name=ugettext_lazy('New language'),
         max_length=10,
         choices=NEW_LANG_CHOICES,
         default='contact',
@@ -113,7 +121,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
     merge_style = models.CharField(
-        ugettext_lazy('Merge style'),
+        verbose_name=ugettext_lazy('Merge style'),
         max_length=10,
         choices=MERGE_CHOICES,
         default='merge',
@@ -125,6 +133,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     # VCS config
     commit_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message'),
         help_text=ugettext_lazy(
             'You can use format strings for various information, '
             'please check documentation for more details.'
@@ -133,14 +142,17 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         default=DEFAULT_COMMIT_MESSAGE,
     )
     committer_name = models.CharField(
+        verbose_name=ugettext_lazy('Committer name'),
         max_length=200,
         default='Weblate'
     )
     committer_email = models.EmailField(
+        verbose_name=ugettext_lazy('Committer email'),
         default='noreply@weblate.org'
     )
 
     push_on_commit = models.BooleanField(
+        verbose_name=ugettext_lazy('Push on commit'),
         default=False,
         help_text=ugettext_lazy(
             'Whether the repository should be pushed upstream on every commit.'
@@ -148,6 +160,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     )
 
     set_translation_team = models.BooleanField(
+        verbose_name=ugettext_lazy('Set Translation-Team header'),
         default=True,
         help_text=ugettext_lazy(
             'Whether the Translation-Team in file headers should be '
@@ -156,6 +169,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     )
 
     enable_acl = models.BooleanField(
+        verbose_name=ugettext_lazy('Enable ACL'),
         default=False,
         help_text=ugettext_lazy(
             'Whether to enable ACL for this project, please check '
