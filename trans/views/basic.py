@@ -23,7 +23,7 @@ from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
 from django.http import HttpResponseNotFound, Http404
 from django.contrib import messages
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
@@ -343,19 +343,20 @@ def about(request):
     Shows about page with version information.
     '''
     context = {}
-    totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'))
+    totals = Profile.objects.aggregate(Sum('translated'), Sum('suggested'), Count('id'))
     total_strings = 0
     total_words = 0
     for project in SubProject.objects.iterator():
         try:
-            total_strings += project.translation_set.all()[0].total
-            total_words += project.translation_set.all()[0].total_words
+            translation = project.translation_set.all()[0]
+            total_strings += translation.total
+            total_words += translation.total_words
         except Translation.DoesNotExist:
             pass
     context['title'] = _('About Weblate')
     context['total_translations'] = totals['translated__sum']
     context['total_suggestions'] = totals['suggested__sum']
-    context['total_users'] = Profile.objects.count()
+    context['total_users'] = totals['id__count']
     context['total_strings'] = total_strings
     context['total_words'] = total_words
     context['total_languages'] = Language.objects.filter(
