@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 09:55+0200\n"
+"POT-Creation-Date: 2013-07-02 11:52+0200\n"
 "PO-Revision-Date: 2013-07-02 11:11+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
@@ -347,7 +347,7 @@ msgstr ""
 msgid "PHP strings"
 msgstr "PHP-strängar"
 
-#: trans/formats.py:597 ttkit/aresource.py:314
+#: trans/formats.py:597 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr ""
 
@@ -727,11 +727,11 @@ msgstr "XML-taggar matchar ej"
 msgid "XML tags in translation do not match source"
 msgstr "XML-taggarna i översättningen matchar ej källan"
 
-#: trans/checks/same.py:482
+#: trans/checks/same.py:484
 msgid "Not translated"
 msgstr "Inte översatt"
 
-#: trans/checks/same.py:483
+#: trans/checks/same.py:485
 msgid "Source and translated strings are same"
 msgstr "Strängar för källa och översättning är samma"
 
@@ -818,7 +818,6 @@ msgid "Rebase"
 msgstr ""
 
 #: trans/models/project.py:77
-#| msgid "Project"
 msgid "Project name"
 msgstr "Projektnamn"
 
@@ -830,8 +829,7 @@ msgstr "Namn att visa"
 msgid "URL slug"
 msgstr ""
 
-#: trans/models/project.py:85
-#| msgid "Name used in URLs"
+#: trans/models/project.py:85 trans/models/subproject.py:74
 msgid "Name used in URLs and file names."
 msgstr "Namn använt i URL:er och filnamn."
 
@@ -844,27 +842,22 @@ msgid "Main website of translated project."
 msgstr ""
 
 #: trans/models/project.py:92
-#| msgid "Email addresses"
 msgid "Email address"
 msgstr "E-postadress"
 
 #: trans/models/project.py:94
-#| msgid "Email conference for translators"
 msgid "Email conference for translators."
 msgstr "E-postkonferens för översättare."
 
 #: trans/models/project.py:97
-#| msgid "Translation status"
 msgid "Translation instructions"
 msgstr "Översättningsinstruktioner"
 
 #: trans/models/project.py:99
-#| msgid "URL with instructions for translators"
 msgid "URL with instructions for translators."
 msgstr "URL med instruktioner för översättare."
 
 #: trans/models/project.py:102
-#| msgid "Translation license:"
 msgid "Translation license"
 msgstr "Översättningslicens"
 
@@ -980,14 +973,8 @@ msgid "Could not create project directory: %s"
 msgstr ""
 
 #: trans/models/subproject.py:67
-#| msgid "Subproject"
 msgid "Subproject name"
 msgstr "Namn på underprojekt"
-
-#: trans/models/subproject.py:74
-#| msgid "Name used in URLs"
-msgid "Name used in URLs and file names"
-msgstr "Namn använt i URL:er och filnamn"
 
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -997,7 +984,6 @@ msgid "Project"
 msgstr "Projekt"
 
 #: trans/models/subproject.py:81
-#| msgid "Git repository:"
 msgid "Git repository"
 msgstr "Git-förråd"
 
@@ -1039,7 +1025,6 @@ msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr "URL till Git-förråd där användare kan hämta ändringar från Weblate"
 
 #: trans/models/subproject.py:113
-#| msgid "Source strings review"
 msgid "Source string bug report address"
 msgstr "Adress för felrapport av källsträngar"
 
@@ -1051,7 +1036,6 @@ msgstr ""
 "E-postadress dit fel i källsträngen rapporteras, behåll tom för inga mail."
 
 #: trans/models/subproject.py:121
-#| msgid "Git branch to translate"
 msgid "Git branch"
 msgstr "Git-gren"
 
@@ -1078,44 +1062,43 @@ msgid "Monolingual base language file"
 msgstr ""
 
 #: trans/models/subproject.py:140
+#, fuzzy
 #| msgid ""
 #| "Filename of translations template, this is recommended to use for "
-#| "translations which store only translated string like Android resource "
-#| "strings."
+#| "monolingual translation formats."
 msgid ""
-"Filename of translations template, this is recommended to use for "
-"monolingual translation formats."
+"Filename of translations base file, which contains all strings and their "
+"source, this is recommended to use for monolingual translation formats."
 msgstr ""
 "Filnamn på översättningsmall, detta rekommenderas för enspråkiga "
 "översättningsformat."
 
-#: trans/models/subproject.py:145
-#| msgid "C format"
+#: trans/models/subproject.py:146
 msgid "File format"
 msgstr "Filformat"
 
-#: trans/models/subproject.py:150
+#: trans/models/subproject.py:151
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatisk igenkänning kan misslyckas för vissa format och är något "
 "långsammare."
 
-#: trans/models/subproject.py:155
+#: trans/models/subproject.py:156
 msgid "Additional commit file"
 msgstr ""
 
-#: trans/models/subproject.py:161
+#: trans/models/subproject.py:162
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
 msgstr ""
 "Extra fil att inkludera i incheckningar, se dokumentationen för mer detaljer."
 
-#: trans/models/subproject.py:166
+#: trans/models/subproject.py:167
 msgid "Pre-commit script"
 msgstr ""
 
-#: trans/models/subproject.py:172
+#: trans/models/subproject.py:173
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -1123,22 +1106,21 @@ msgstr ""
 "Skript att utföra innan översättningen checkas in, se dokumentationen för "
 "mer detaljer."
 
-#: trans/models/subproject.py:178
-#| msgid "Lock"
+#: trans/models/subproject.py:179
 msgid "Locked"
 msgstr "Låst"
 
-#: trans/models/subproject.py:181
+#: trans/models/subproject.py:182
 msgid "Whether subproject is locked for translation updates."
 msgstr "Om underprojektet är låst för översättningsuppdateringar eller inte."
 
-#: trans/models/subproject.py:185
+#: trans/models/subproject.py:186
 #, fuzzy
 #| msgid "New translation in %(translation)s"
 msgid "Allow translation propagation"
 msgstr "Ny översättning i %(translation)s"
 
-#: trans/models/subproject.py:188
+#: trans/models/subproject.py:189
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -1146,99 +1128,98 @@ msgstr ""
 "Om översättningsuppdateringar i andra underprojekt ska orsaka automatisk "
 "översättning i detta projekt eller inte"
 
-#: trans/models/subproject.py:193
-#| msgid "Your translations"
+#: trans/models/subproject.py:194
 msgid "Save translation history"
 msgstr "Spara översättningshistorik"
 
-#: trans/models/subproject.py:196
+#: trans/models/subproject.py:197
 msgid "Whether Weblate should keep history of translations"
 msgstr ""
 
-#: trans/models/subproject.py:412
+#: trans/models/subproject.py:413
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: trans/models/subproject.py:416
+#: trans/models/subproject.py:417
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Kunde inte hämta git-förråd: %s"
 
-#: trans/models/subproject.py:520
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models/subproject.py:569
+#: trans/models/subproject.py:570
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models/subproject.py:605
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models/subproject.py:657
+#: trans/models/subproject.py:658
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: trans/models/subproject.py:660
+#: trans/models/subproject.py:661
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:782
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:785
+#: trans/models/subproject.py:786
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:796
+#: trans/models/subproject.py:797
 msgid "Template file not found!"
 msgstr "Mallfil ej funnen!"
 
-#: trans/models/subproject.py:802
+#: trans/models/subproject.py:803
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "Formatet på översättningsmallen kändes inte igen."
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:807
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
 msgstr "Kunde inte tolka översättningsmall: %s"
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: trans/models/subproject.py:830
+#: trans/models/subproject.py:831
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Formatet på %d matchande filer kändes inte igen."
 
-#: trans/models/subproject.py:839
+#: trans/models/subproject.py:840
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Kunde inte tolka %d matchade filer!"
 
-#: trans/models/subproject.py:856
+#: trans/models/subproject.py:857
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "Misslyckades med att uppdatera git: %s"
 
-#: trans/models/subproject.py:864
+#: trans/models/subproject.py:865
 msgid "The mask did not match any files!"
 msgstr "Masken matchade inte några filer!"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1246,13 +1227,13 @@ msgstr ""
 "Det finns fler filer för enskilda språk, justera masken och använd "
 "underprojekt för att översätta olika resurser."
 
-#: trans/models/subproject.py:882 trans/models/subproject.py:888
+#: trans/models/subproject.py:883 trans/models/subproject.py:889
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
 msgstr "Du kan inte använda enspråkig översättning utan en mall!"
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
@@ -1486,7 +1467,7 @@ msgstr "Källsträngar i %s"
 msgid "Page Not Found"
 msgstr "Sidan hittades inte"
 
-#: trans/views/basic.py:353 weblate/html/about.html:11
+#: trans/views/basic.py:356 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Om Weblate"
@@ -1804,26 +1785,32 @@ msgid "Strings to translate"
 msgstr "Strängar att översätta"
 
 #: weblate/html/about.html:57
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Words to translate"
+msgstr "Strängar att översätta"
+
+#: weblate/html/about.html:61
 msgid "Used languages"
 msgstr "Använda språk"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:65
 msgid "Registered users"
 msgstr "Registrerade användare"
 
-#: weblate/html/about.html:65 weblate/html/user-activity.html:4
+#: weblate/html/about.html:69 weblate/html/user-activity.html:4
 msgid "Suggestions made"
 msgstr "Givna förslag"
 
-#: weblate/html/about.html:69 weblate/html/user-activity.html:8
+#: weblate/html/about.html:73 weblate/html/user-activity.html:8
 msgid "Translations made"
 msgstr "Översättningar"
 
-#: weblate/html/about.html:73
+#: weblate/html/about.html:77
 msgid "Failing checks found"
 msgstr "Misslyckade kontroller funna"
 
-#: weblate/html/about.html:77
+#: weblate/html/about.html:81
 msgid "Ignored checks"
 msgstr "Ignorerade kontroller"
 
@@ -3655,15 +3642,12 @@ msgstr ""
 
 #: weblate/html/admin/trans/change_form.html:8
 #, python-format
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
 msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
 msgstr ""
-"Obligatoriska fält är i fetstil, du kan hitta mer information i <a href=\"%"
-"(url)s\">dokumentationen</a>."
+"Obligatoriska fält är i fetstil, du kan hitta mer information i <a href="
+"\"%(url)s\">dokumentationen</a>."
 
 #: weblate/html/admin/trans/change_form.html:10
 msgid "Do not change this object here, please use Weblate interface instead."
@@ -4192,6 +4176,10 @@ msgstr "ändringar"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Ingen matchande aktivitet hittades."
+
+#~| msgid "Name used in URLs"
+#~ msgid "Name used in URLs and file names"
+#~ msgstr "Namn använt i URL:er och filnamn"
 
 #~ msgid "Instructions"
 #~ msgstr "Instruktioner"

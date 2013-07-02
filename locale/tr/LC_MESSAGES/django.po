@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 09:55+0200\n"
+"POT-Creation-Date: 2013-07-02 11:52+0200\n"
 "PO-Revision-Date: 2013-07-02 11:23+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -350,7 +350,7 @@ msgstr "Java Özellikleri (UTF-8)"
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: trans/formats.py:597 ttkit/aresource.py:314
+#: trans/formats.py:597 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Android Dizgi Kaynağı"
 
@@ -727,11 +727,11 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: trans/checks/same.py:482
+#: trans/checks/same.py:484
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: trans/checks/same.py:483
+#: trans/checks/same.py:485
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
@@ -820,7 +820,6 @@ msgid "Rebase"
 msgstr "Yeniden Uyarla"
 
 #: trans/models/project.py:77
-#| msgid "Project"
 msgid "Project name"
 msgstr "Proje adı"
 
@@ -832,8 +831,7 @@ msgstr "Görüntülemek için isim"
 msgid "URL slug"
 msgstr "URL kısaltması"
 
-#: trans/models/project.py:85
-#| msgid "Name used in URLs"
+#: trans/models/project.py:85 trans/models/subproject.py:74
 msgid "Name used in URLs and file names."
 msgstr "URL'ler ve dosya adları içinde kullanılan isim."
 
@@ -846,27 +844,22 @@ msgid "Main website of translated project."
 msgstr "Çevrilen projenin ana web sitesi."
 
 #: trans/models/project.py:92
-#| msgid "Email addresses"
 msgid "Email address"
 msgstr "Eposta adresi"
 
 #: trans/models/project.py:94
-#| msgid "Email conference for translators"
 msgid "Email conference for translators."
 msgstr "Çevirmenler için eposta toplantısı."
 
 #: trans/models/project.py:97
-#| msgid "Translation status"
 msgid "Translation instructions"
 msgstr "Çeviri talimatları"
 
 #: trans/models/project.py:99
-#| msgid "URL with instructions for translators"
 msgid "URL with instructions for translators."
 msgstr "Çevirmenler için talimat URL'si."
 
 #: trans/models/project.py:102
-#| msgid "Translation license:"
 msgid "Translation license"
 msgstr "Çeviri lisansı"
 
@@ -903,7 +896,6 @@ msgstr ""
 "yeniden uyarlamasını tanımlar."
 
 #: trans/models/project.py:136
-#| msgid "Error message"
 msgid "Commit message"
 msgstr "İletiyi işle"
 
@@ -916,17 +908,14 @@ msgstr ""
 "ayrıntı için belgeleri kontrol edin."
 
 #: trans/models/project.py:145
-#| msgid "Your name"
 msgid "Committer name"
 msgstr "İşleyen adı"
 
 #: trans/models/project.py:150
-#| msgid "Your email"
 msgid "Committer email"
 msgstr "İşleyen epostası"
 
 #: trans/models/project.py:155
-#| msgid "Posted new comment"
 msgid "Push on commit"
 msgstr "İşlemeye zorla"
 
@@ -935,7 +924,6 @@ msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Her işlemede havuz ters yönde yollannmalıysa."
 
 #: trans/models/project.py:163
-#| msgid "Translations made"
 msgid "Set Translation-Team header"
 msgstr "Çeviri-Takım başlığını ayarla"
 
@@ -984,12 +972,6 @@ msgstr ""
 #| msgid "Subproject"
 msgid "Subproject name"
 msgstr "Alt proje"
-
-#: trans/models/subproject.py:74
-#, fuzzy
-#| msgid "Name used in URLs"
-msgid "Name used in URLs and file names"
-msgstr "URL'ler içinde kullanılan isim"
 
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -1093,28 +1075,28 @@ msgstr ""
 #| "translations which store only translated string like Android resource "
 #| "strings."
 msgid ""
-"Filename of translations template, this is recommended to use for "
-"monolingual translation formats."
+"Filename of translations base file, which contains all strings and their "
+"source, this is recommended to use for monolingual translation formats."
 msgstr ""
 "Çeviri şablonunun dosya adı, bu Android kaynak satırları gibi sadece "
 "çevrilmiş satırın saklandığı çeviriler için kullanılması önerilir."
 
-#: trans/models/subproject.py:145
+#: trans/models/subproject.py:146
 #, fuzzy
 #| msgid "C format"
 msgid "File format"
 msgstr "C biçimi"
 
-#: trans/models/subproject.py:150
+#: trans/models/subproject.py:151
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Otomatik algılama bazı biçimlerde başarısız olabilir ve biraz yavaştır."
 
-#: trans/models/subproject.py:155
+#: trans/models/subproject.py:156
 msgid "Additional commit file"
 msgstr ""
 
-#: trans/models/subproject.py:161
+#: trans/models/subproject.py:162
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
@@ -1122,11 +1104,11 @@ msgstr ""
 "İşlenenlere dahil etmek için ilave dosya, lütfen daha fazla ayrıntı için "
 "belgeleri kontrol edin."
 
-#: trans/models/subproject.py:166
+#: trans/models/subproject.py:167
 msgid "Pre-commit script"
 msgstr ""
 
-#: trans/models/subproject.py:172
+#: trans/models/subproject.py:173
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -1134,23 +1116,23 @@ msgstr ""
 "Çeviri işlenmesinden önce çalıştırılması için betik, lütfen daha fazla "
 "ayrıntı için belgeleri kontrol edin."
 
-#: trans/models/subproject.py:178
+#: trans/models/subproject.py:179
 #, fuzzy
 #| msgid "Lock"
 msgid "Locked"
 msgstr "Kilitle"
 
-#: trans/models/subproject.py:181
+#: trans/models/subproject.py:182
 msgid "Whether subproject is locked for translation updates."
 msgstr "Çeviri güncellemeleri için alt projenin kilitlenip kilitlenmemesi."
 
-#: trans/models/subproject.py:185
+#: trans/models/subproject.py:186
 #, fuzzy
 #| msgid "New translation in %(translation)s"
 msgid "Allow translation propagation"
 msgstr "%(translation)s içinde yeni çeviri"
 
-#: trans/models/subproject.py:188
+#: trans/models/subproject.py:189
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -1158,17 +1140,17 @@ msgstr ""
 "Diğer alt projedeki çeviri güncellemelerinin bu projede otomatik çeviriye "
 "neden olup olmayacağı"
 
-#: trans/models/subproject.py:193
+#: trans/models/subproject.py:194
 #, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
 msgstr "Çevirileriniz"
 
-#: trans/models/subproject.py:196
+#: trans/models/subproject.py:197
 msgid "Whether Weblate should keep history of translations"
 msgstr "Weblate'in çeviri geçmişini tutup tutmaması"
 
-#: trans/models/subproject.py:412
+#: trans/models/subproject.py:413
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -1176,84 +1158,84 @@ msgstr ""
 "SSH anamakine anahtarını doğrulama başarısız, lütfen yönetici arayüzünde SSH "
 "sayfasında bunları ekleyin."
 
-#: trans/models/subproject.py:416
+#: trans/models/subproject.py:417
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git havuzunu getirme başarısız: %s"
 
-#: trans/models/subproject.py:520
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s için yollama etkisiz."
 
-#: trans/models/subproject.py:569
+#: trans/models/subproject.py:570
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s projesindeki uzak dala yollama başarısız."
 
-#: trans/models/subproject.py:605
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s projesindeki uzak dalı sıfırlama başarısız."
 
-#: trans/models/subproject.py:657
+#: trans/models/subproject.py:658
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s uzak dalındaki dalın yeniden uyarlanması başarısız."
 
-#: trans/models/subproject.py:660
+#: trans/models/subproject.py:661
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s projesi içindeki uzak dala birleştirme başarısız."
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:782
 msgid "Push URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 
-#: trans/models/subproject.py:785
+#: trans/models/subproject.py:786
 msgid "Export URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
 
-#: trans/models/subproject.py:796
+#: trans/models/subproject.py:797
 msgid "Template file not found!"
 msgstr "Şablon dosyası bulunamadı!"
 
-#: trans/models/subproject.py:802
+#: trans/models/subproject.py:803
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "Çeviri şablonu biçimi tanınamadı."
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:807
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri şablonu ayrıştırma başarısız: %s"
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: trans/models/subproject.py:830
+#: trans/models/subproject.py:831
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d eşleşen dosya biçimi tanınamadı."
 
-#: trans/models/subproject.py:839
+#: trans/models/subproject.py:840
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d eşleşen dosya ayrıştırması başarısız!"
 
-#: trans/models/subproject.py:856
+#: trans/models/subproject.py:857
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "Git'i güncelleme başarısız: %s"
 
-#: trans/models/subproject.py:864
+#: trans/models/subproject.py:865
 msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1261,13 +1243,13 @@ msgstr ""
 "Tek dil için daha fazla dosya var, lütfen maskeyi ayarlayın ve farklı "
 "kaynakların çevirisi için alt projeleri kullanın."
 
-#: trans/models/subproject.py:882 trans/models/subproject.py:888
+#: trans/models/subproject.py:883 trans/models/subproject.py:889
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
 msgstr "Şablonsuz tek dilli çeviri kullanamazsınız!"
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
@@ -1486,7 +1468,7 @@ msgstr "%s içindeki kaynak satır"
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
-#: trans/views/basic.py:353 weblate/html/about.html:11
+#: trans/views/basic.py:356 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Weblate hakkında"
@@ -1802,26 +1784,32 @@ msgid "Strings to translate"
 msgstr "Çevirmek için satır"
 
 #: weblate/html/about.html:57
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Words to translate"
+msgstr "Çevirmek için satır"
+
+#: weblate/html/about.html:61
 msgid "Used languages"
 msgstr "Kullanılan dil"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:65
 msgid "Registered users"
 msgstr "Kayıtlı kullanıcı"
 
-#: weblate/html/about.html:65 weblate/html/user-activity.html:4
+#: weblate/html/about.html:69 weblate/html/user-activity.html:4
 msgid "Suggestions made"
 msgstr "Yapılmış öneri"
 
-#: weblate/html/about.html:69 weblate/html/user-activity.html:8
+#: weblate/html/about.html:73 weblate/html/user-activity.html:8
 msgid "Translations made"
 msgstr "Yapılmış çeviri"
 
-#: weblate/html/about.html:73
+#: weblate/html/about.html:77
 msgid "Failing checks found"
 msgstr "Bulunan başarısız kontrolü"
 
-#: weblate/html/about.html:77
+#: weblate/html/about.html:81
 msgid "Ignored checks"
 msgstr "Yoksayılan kontrol"
 
@@ -4196,6 +4184,11 @@ msgstr "değişiklikler"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Bulunmuş eşleşen etkinlik yok."
+
+#, fuzzy
+#~| msgid "Name used in URLs"
+#~ msgid "Name used in URLs and file names"
+#~ msgstr "URL'ler içinde kullanılan isim"
 
 #~ msgid "Instructions"
 #~ msgstr "Talimatlar"

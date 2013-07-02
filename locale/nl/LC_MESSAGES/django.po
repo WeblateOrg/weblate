@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 09:55+0200\n"
+"POT-Creation-Date: 2013-07-02 11:52+0200\n"
 "PO-Revision-Date: 2013-07-02 10:53+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -352,7 +352,7 @@ msgstr "Java-eigenschappen (UTF-8)"
 msgid "PHP strings"
 msgstr "PHP tekenreeksen"
 
-#: trans/formats.py:597 ttkit/aresource.py:314
+#: trans/formats.py:597 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Android tekenreeks hulpbron"
 
@@ -736,11 +736,11 @@ msgstr "Niet-overeenkomende XML-tags"
 msgid "XML tags in translation do not match source"
 msgstr "XML tags in de vertaling komt niet overeen met de bron"
 
-#: trans/checks/same.py:482
+#: trans/checks/same.py:484
 msgid "Not translated"
 msgstr "Niet vertaald"
 
-#: trans/checks/same.py:483
+#: trans/checks/same.py:485
 msgid "Source and translated strings are same"
 msgstr "Bron en vertaalde tekenreeks zijn dezelfde"
 
@@ -829,7 +829,6 @@ msgid "Rebase"
 msgstr "Herbaseren"
 
 #: trans/models/project.py:77
-#| msgid "Project"
 msgid "Project name"
 msgstr "Projectnaam"
 
@@ -841,8 +840,7 @@ msgstr "Weer te geven naam"
 msgid "URL slug"
 msgstr ""
 
-#: trans/models/project.py:85
-#| msgid "Name used in URLs"
+#: trans/models/project.py:85 trans/models/subproject.py:74
 msgid "Name used in URLs and file names."
 msgstr "Naam gebruikt in URL's en bestandsnamen."
 
@@ -855,27 +853,22 @@ msgid "Main website of translated project."
 msgstr ""
 
 #: trans/models/project.py:92
-#| msgid "Email addresses"
 msgid "Email address"
 msgstr "Email-adres"
 
 #: trans/models/project.py:94
-#| msgid "Email conference for translators"
 msgid "Email conference for translators."
 msgstr "Mailinglist voor vertalers."
 
 #: trans/models/project.py:97
-#| msgid "Translation status"
 msgid "Translation instructions"
 msgstr "Vertaalrichtlijnen"
 
 #: trans/models/project.py:99
-#| msgid "URL with instructions for translators"
 msgid "URL with instructions for translators."
 msgstr "URL met richtlijnen voor vertalers."
 
 #: trans/models/project.py:102
-#| msgid "Translation license:"
 msgid "Translation license"
 msgstr "Licentie van de vertaling"
 
@@ -913,7 +906,6 @@ msgstr ""
 "repository of deze erop moet herbaseren (rebase)."
 
 #: trans/models/project.py:136
-#| msgid "Error message"
 msgid "Commit message"
 msgstr "Commit-bericht"
 
@@ -926,12 +918,10 @@ msgstr ""
 "documentatie te bekijken voor verdere details."
 
 #: trans/models/project.py:145
-#| msgid "Your name"
 msgid "Committer name"
 msgstr "Committer naam"
 
 #: trans/models/project.py:150
-#| msgid "Your email"
 msgid "Committer email"
 msgstr "Committer e-mail"
 
@@ -994,15 +984,8 @@ msgid "Could not create project directory: %s"
 msgstr ""
 
 #: trans/models/subproject.py:67
-#| msgid "Subproject"
 msgid "Subproject name"
 msgstr "Subproject naam"
-
-#: trans/models/subproject.py:74
-#, fuzzy
-#| msgid "Name used in URLs"
-msgid "Name used in URLs and file names"
-msgstr "Naam gebruikt in URL's"
 
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -1107,29 +1090,29 @@ msgstr ""
 #| "translations which store only translated string like Android resource "
 #| "strings."
 msgid ""
-"Filename of translations template, this is recommended to use for "
-"monolingual translation formats."
+"Filename of translations base file, which contains all strings and their "
+"source, this is recommended to use for monolingual translation formats."
 msgstr ""
 "Bestandsnaam van vertaalsjabloon, dit is aangewezen voor vertalingen die "
 "enkel de vertaalde tekenreeks opslaan, zoals Android hulpbrontekenreeksen."
 
-#: trans/models/subproject.py:145
+#: trans/models/subproject.py:146
 #, fuzzy
 #| msgid "C format"
 msgid "File format"
 msgstr "C formaat"
 
-#: trans/models/subproject.py:150
+#: trans/models/subproject.py:151
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatische detectie kan mislukken bij bepaalde formaten en is lichtjes "
 "trager."
 
-#: trans/models/subproject.py:155
+#: trans/models/subproject.py:156
 msgid "Additional commit file"
 msgstr ""
 
-#: trans/models/subproject.py:161
+#: trans/models/subproject.py:162
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
@@ -1137,11 +1120,11 @@ msgstr ""
 "Bijkomend bestand om te gebruiken bij commits, gelieve de documentatie te "
 "bekijken voor verdere details."
 
-#: trans/models/subproject.py:166
+#: trans/models/subproject.py:167
 msgid "Pre-commit script"
 msgstr ""
 
-#: trans/models/subproject.py:172
+#: trans/models/subproject.py:173
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -1149,23 +1132,23 @@ msgstr ""
 "Script dat uitgevoerd wordt alvorens een vertaling te committen, gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: trans/models/subproject.py:178
+#: trans/models/subproject.py:179
 #, fuzzy
 #| msgid "Lock"
 msgid "Locked"
 msgstr "Vergrendel"
 
-#: trans/models/subproject.py:181
+#: trans/models/subproject.py:182
 msgid "Whether subproject is locked for translation updates."
 msgstr "Of het subproject geblokkeerd is voor vertaalaanpassingen."
 
-#: trans/models/subproject.py:185
+#: trans/models/subproject.py:186
 #, fuzzy
 #| msgid "New translation in %(translation)s"
 msgid "Allow translation propagation"
 msgstr "Nieuwe vertaling in %(translation)s"
 
-#: trans/models/subproject.py:188
+#: trans/models/subproject.py:189
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
@@ -1173,17 +1156,17 @@ msgstr ""
 "Of vertalingsaanpassingen in andere subprojecten resulteren in automatische "
 "vertaling in dit project"
 
-#: trans/models/subproject.py:193
+#: trans/models/subproject.py:194
 #, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
 msgstr "Uw vertalingen"
 
-#: trans/models/subproject.py:196
+#: trans/models/subproject.py:197
 msgid "Whether Weblate should keep history of translations"
 msgstr "Definieer of Weblate een historiek van vertalingen moet bijhouden"
 
-#: trans/models/subproject.py:412
+#: trans/models/subproject.py:413
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -1191,84 +1174,84 @@ msgstr ""
 "Verificatie van de SSH host sleutel is mislukt, gelieve deze toe te voegen "
 "op de SSH pagina in de admin interface."
 
-#: trans/models/subproject.py:416
+#: trans/models/subproject.py:417
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Ophalen van git repository is mislukt: %s"
 
-#: trans/models/subproject.py:520
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: trans/models/subproject.py:569
+#: trans/models/subproject.py:570
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe tak op %s is mislukt."
 
-#: trans/models/subproject.py:605
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Opnieuw instellen van externe tak op %s is mislukt."
 
-#: trans/models/subproject.py:657
+#: trans/models/subproject.py:658
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Mislukt onze branche te rebasen op externe branch %s."
 
-#: trans/models/subproject.py:660
+#: trans/models/subproject.py:661
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe tak met %s is mislukt."
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:782
 msgid "Push URL is not used when repository is linked!"
 msgstr "De push URL wordt niet gebruikt wanneer het repository gekoppeld is!"
 
-#: trans/models/subproject.py:785
+#: trans/models/subproject.py:786
 msgid "Export URL is not used when repository is linked!"
 msgstr "De export URL wordt niet gebruikt wanneer het repository gekoppeld is!"
 
-#: trans/models/subproject.py:796
+#: trans/models/subproject.py:797
 msgid "Template file not found!"
 msgstr "Bestand met sjabloon niet gevonden!"
 
-#: trans/models/subproject.py:802
+#: trans/models/subproject.py:803
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "Het formaat van de vertaalsjabloon werd niet herkend."
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:807
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
 msgstr "Verwerken van vertaalsjabloon is mislukt: %s"
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: trans/models/subproject.py:830
+#: trans/models/subproject.py:831
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Het formaat van %d overeenkomende bestanden werd niet herkend."
 
-#: trans/models/subproject.py:839
+#: trans/models/subproject.py:840
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
 
-#: trans/models/subproject.py:856
+#: trans/models/subproject.py:857
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "Bijwerken van git is mislukt: %s"
 
-#: trans/models/subproject.py:864
+#: trans/models/subproject.py:865
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1277,13 +1260,13 @@ msgstr ""
 "aan te passen en subprojecten te gebruiken om verschillende bronnen te "
 "vertalen."
 
-#: trans/models/subproject.py:882 trans/models/subproject.py:888
+#: trans/models/subproject.py:883 trans/models/subproject.py:889
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
 msgstr "Je kan geen enkeltalige vertalingen gebruiken zonder sjabloon!"
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
@@ -1521,7 +1504,7 @@ msgstr "Brontekenreeksen in %s"
 msgid "Page Not Found"
 msgstr "Pagina niet gevonden"
 
-#: trans/views/basic.py:353 weblate/html/about.html:11
+#: trans/views/basic.py:356 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Over Weblate"
@@ -1839,26 +1822,32 @@ msgid "Strings to translate"
 msgstr "Te vertalen tekenreeksen"
 
 #: weblate/html/about.html:57
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Words to translate"
+msgstr "Te vertalen tekenreeksen"
+
+#: weblate/html/about.html:61
 msgid "Used languages"
 msgstr "Gebruikte talen"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:65
 msgid "Registered users"
 msgstr "Geregistreerde gebruikers"
 
-#: weblate/html/about.html:65 weblate/html/user-activity.html:4
+#: weblate/html/about.html:69 weblate/html/user-activity.html:4
 msgid "Suggestions made"
 msgstr "Gedane voorstellen"
 
-#: weblate/html/about.html:69 weblate/html/user-activity.html:8
+#: weblate/html/about.html:73 weblate/html/user-activity.html:8
 msgid "Translations made"
 msgstr "Aantal vertalingen"
 
-#: weblate/html/about.html:73
+#: weblate/html/about.html:77
 msgid "Failing checks found"
 msgstr "Gefaalde controles gevonden"
 
-#: weblate/html/about.html:77
+#: weblate/html/about.html:81
 msgid "Ignored checks"
 msgstr "genegeerde controles"
 
@@ -4254,6 +4243,11 @@ msgstr "wijzigingen"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Er werd geen overeenkomende activiteit gevonden."
+
+#, fuzzy
+#~| msgid "Name used in URLs"
+#~ msgid "Name used in URLs and file names"
+#~ msgstr "Naam gebruikt in URL's"
 
 #~ msgid "Instructions"
 #~ msgstr "Instructies"

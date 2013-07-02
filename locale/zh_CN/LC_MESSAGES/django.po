@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 09:55+0200\n"
+"POT-Creation-Date: 2013-07-02 11:52+0200\n"
 "PO-Revision-Date: 2012-11-30 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Chinese (China) <http://l10n.cihar.com/projects/weblate/"
@@ -353,7 +353,7 @@ msgstr "Java 属性 (UTF-8)"
 msgid "PHP strings"
 msgstr "PHP 字符串"
 
-#: trans/formats.py:597 ttkit/aresource.py:314
+#: trans/formats.py:597 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
@@ -741,11 +741,11 @@ msgstr "XML 标签不一致"
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: trans/checks/same.py:482
+#: trans/checks/same.py:484
 msgid "Not translated"
 msgstr "未翻译"
 
-#: trans/checks/same.py:483
+#: trans/checks/same.py:485
 msgid "Source and translated strings are same"
 msgstr "源条目和已翻译条目相同"
 
@@ -854,7 +854,7 @@ msgstr "要显示的姓名"
 msgid "URL slug"
 msgstr ""
 
-#: trans/models/project.py:85
+#: trans/models/project.py:85 trans/models/subproject.py:74
 #, fuzzy
 #| msgid "Name used in URLs"
 msgid "Name used in URLs and file names."
@@ -1009,12 +1009,6 @@ msgstr ""
 msgid "Subproject name"
 msgstr "子项目"
 
-#: trans/models/subproject.py:74
-#, fuzzy
-#| msgid "Name used in URLs"
-msgid "Name used in URLs and file names"
-msgstr "用在地址中的姓名"
-
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
 #: weblate/html/data.html.py:59 weblate/html/index.html:37
@@ -1112,171 +1106,171 @@ msgstr ""
 #| "translations which store only translated string like Android resource "
 #| "strings."
 msgid ""
-"Filename of translations template, this is recommended to use for "
-"monolingual translation formats."
+"Filename of translations base file, which contains all strings and their "
+"source, this is recommended to use for monolingual translation formats."
 msgstr ""
 "翻译模板文件名，推荐在翻译像 Android 资源字符串这样只存储译文的格式时使用。"
 
-#: trans/models/subproject.py:145
+#: trans/models/subproject.py:146
 #, fuzzy
 #| msgid "C format"
 msgid "File format"
 msgstr "C 格式"
 
-#: trans/models/subproject.py:150
+#: trans/models/subproject.py:151
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: trans/models/subproject.py:155
+#: trans/models/subproject.py:156
 msgid "Additional commit file"
 msgstr ""
 
-#: trans/models/subproject.py:161
+#: trans/models/subproject.py:162
 msgid ""
 "Additional file to include in commits, please check documentation for more "
 "details."
 msgstr ""
 
-#: trans/models/subproject.py:166
+#: trans/models/subproject.py:167
 msgid "Pre-commit script"
 msgstr ""
 
-#: trans/models/subproject.py:172
+#: trans/models/subproject.py:173
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models/subproject.py:178
+#: trans/models/subproject.py:179
 #, fuzzy
 #| msgid "Lock"
 msgid "Locked"
 msgstr "锁定"
 
-#: trans/models/subproject.py:181
+#: trans/models/subproject.py:182
 msgid "Whether subproject is locked for translation updates."
 msgstr "更新翻译时是否锁定子项目。"
 
-#: trans/models/subproject.py:185
+#: trans/models/subproject.py:186
 #, fuzzy
 #| msgid "New translation in %(translation)s"
 msgid "Allow translation propagation"
 msgstr "%(translation)s 的新翻译"
 
-#: trans/models/subproject.py:188
+#: trans/models/subproject.py:189
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr "更新其它子项目翻译时是否自动翻译此项目"
 
-#: trans/models/subproject.py:193
+#: trans/models/subproject.py:194
 #, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
 msgstr "我的翻译项目"
 
-#: trans/models/subproject.py:196
+#: trans/models/subproject.py:197
 msgid "Whether Weblate should keep history of translations"
 msgstr ""
 
-#: trans/models/subproject.py:412
+#: trans/models/subproject.py:413
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: trans/models/subproject.py:416
+#: trans/models/subproject.py:417
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "获取 Git 代码库失败：%s"
 
-#: trans/models/subproject.py:520
+#: trans/models/subproject.py:521
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s 已经禁用上传。"
 
-#: trans/models/subproject.py:569
+#: trans/models/subproject.py:570
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "上传至远程分支 %s 失败。"
 
-#: trans/models/subproject.py:605
+#: trans/models/subproject.py:606
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "重设至远程分支 %s 失败。"
 
-#: trans/models/subproject.py:657
+#: trans/models/subproject.py:658
 #, fuzzy, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "重设至远程分支 %s 失败。"
 
-#: trans/models/subproject.py:660
+#: trans/models/subproject.py:661
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "合并入远程分支 %s 上失败。"
 
-#: trans/models/subproject.py:781
+#: trans/models/subproject.py:782
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:785
+#: trans/models/subproject.py:786
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:796
+#: trans/models/subproject.py:797
 msgid "Template file not found!"
 msgstr ""
 
-#: trans/models/subproject.py:802
+#: trans/models/subproject.py:803
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "无法识别译文模板的格式。"
 
-#: trans/models/subproject.py:806
+#: trans/models/subproject.py:807
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation base file: %s"
 msgstr "解析译文模板失败。"
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: trans/models/subproject.py:830
+#: trans/models/subproject.py:831
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "无法识别匹配 %d 格式的文件。"
 
-#: trans/models/subproject.py:839
+#: trans/models/subproject.py:840
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "解析 %d 匹配文件失败！"
 
-#: trans/models/subproject.py:856
+#: trans/models/subproject.py:857
 #, fuzzy, python-format
 #| msgid "Failed to generate key!"
 msgid "Failed to update git: %s"
 msgstr "生成密钥失败！"
 
-#: trans/models/subproject.py:864
+#: trans/models/subproject.py:865
 msgid "The mask did not match any files!"
 msgstr "此掩码不和任何文件匹配！"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr "每种语言都有其它文件，请调整掩码并使用子项目翻译不同的源条目。"
 
-#: trans/models/subproject.py:882 trans/models/subproject.py:888
+#: trans/models/subproject.py:883 trans/models/subproject.py:889
 #, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "You can not base file with bilingual translation!"
 msgstr "您可以分享关于此条目的注释给其它翻译。"
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 #, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
@@ -1507,7 +1501,7 @@ msgstr "%s 的源条目"
 msgid "Page Not Found"
 msgstr "页面未找到"
 
-#: trans/views/basic.py:353 weblate/html/about.html:11
+#: trans/views/basic.py:356 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "关于 Weblate"
@@ -1837,26 +1831,32 @@ msgid "Strings to translate"
 msgstr "原文总数"
 
 #: weblate/html/about.html:57
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Words to translate"
+msgstr "原文总数"
+
+#: weblate/html/about.html:61
 msgid "Used languages"
 msgstr "涉及语言"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:65
 msgid "Registered users"
 msgstr "注册用户"
 
-#: weblate/html/about.html:65 weblate/html/user-activity.html:4
+#: weblate/html/about.html:69 weblate/html/user-activity.html:4
 msgid "Suggestions made"
 msgstr "作出建议"
 
-#: weblate/html/about.html:69 weblate/html/user-activity.html:8
+#: weblate/html/about.html:73 weblate/html/user-activity.html:8
 msgid "Translations made"
 msgstr "完成翻译"
 
-#: weblate/html/about.html:73
+#: weblate/html/about.html:77
 msgid "Failing checks found"
 msgstr "未通过检查"
 
-#: weblate/html/about.html:77
+#: weblate/html/about.html:81
 msgid "Ignored checks"
 msgstr "已忽略检查"
 
@@ -4277,6 +4277,11 @@ msgstr "最近的修改"
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
 msgstr "没有最近活动的记录。"
+
+#, fuzzy
+#~| msgid "Name used in URLs"
+#~ msgid "Name used in URLs and file names"
+#~ msgstr "用在地址中的姓名"
 
 #, fuzzy
 #~| msgid "Information"
