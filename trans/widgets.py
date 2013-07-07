@@ -31,17 +31,17 @@ COLOR_DATA = {
     'grey': {
         'bar': (0, 67.0 / 255, 118.0 / 255),
         'border': (0, 0, 0),
-        'text':  (0, 0, 0),
+        'text': (0, 0, 0),
     },
     'white': {
         'bar': (0, 67.0 / 255, 118.0 / 255),
         'border': (0, 0, 0),
-        'text':  (0, 0, 0),
+        'text': (0, 0, 0),
     },
     'black': {
         'bar': (0, 67.0 / 255, 118.0 / 255),
         'border': (255, 255, 255),
-        'text':  (255, 255, 255),
+        'text': (255, 255, 255),
     },
 }
 
@@ -261,10 +261,8 @@ class NormalWidget(Widget):
                 '%(percent)d%% complete, help us improve!'
             ),
             # Translators: please use your language name instead of English
-            _(
-                'translating %(count)d strings into English\n'
-                '%(percent)d%% complete, help us improve!'
-            ),
+            _('translating %(count)d strings into English\n%(percent)d%%'
+              ' complete, help us improve!'),
             'Sans', 8,
             72, 22
         )

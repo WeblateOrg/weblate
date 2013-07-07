@@ -1,6 +1,9 @@
 {% load i18n %}
-
-{% if item.fuzzy %}<span title="{% trans "Message is fuzzy" %}" class="ui-icon ui-icon-help"></span>{% else %}
-{% if item.has_failing_checks %}<span title="{% trans "Message has failing checks" %}" class="ui-icon ui-icon-notice"></span>{% else %}
-{% if item.translated %}<span title="{% trans "Message is translated" %}" class="ui-icon ui-icon-check"></span>{% endif %}
-{% endif %}{% endif %}</td>
+<td>
+{% if item.fuzzy %}<span title="{% trans "Message is fuzzy" %}" class="flag-icon ui-icon ui-icon-help"></span>{% else %}
+{% if not item.translated %}<span title="{% trans "Message is not translated" %}" class="flag-icon ui-icon ui-icon-document-b"></span>{% else %}
+{% if item.has_failing_check %}<span title="{% trans "Message has failing checks" %}" class="flag-icon ui-icon ui-icon-notice"></span>{% else %}
+{% if item.translated %}<span title="{% trans "Message is translated" %}" class="flag-icon ui-icon ui-icon-check"></span>{% endif %}
+{% endif %}{% endif %}{% endif %}
+{% if item.has_comment %}<span title="{% trans "Message has comments" %}" class="flag-icon ui-icon ui-icon-comment"></span>{% endif %}
+</td>

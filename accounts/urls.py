@@ -86,7 +86,7 @@ urlpatterns = patterns(
         auth_views.logout,
         {
             'template_name': 'registration/logout.html',
-            'extra_context': {'title': _('Logged out')},
+            'extra_context': {'title': _('Logged out'), 'skip_next': True},
         },
         name='auth_logout'
     ),

@@ -45,8 +45,7 @@ from trans.mixins import URLMixin
 
 
 class TranslationManager(models.Manager):
-    def update_from_blob(self, subproject, code, path, force=False,
-                         request=None):
+    def check_sync(self, subproject, code, path, force=False, request=None):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
@@ -59,7 +58,7 @@ class TranslationManager(models.Manager):
         if translation.filename != path:
             force = True
             translation.filename = path
-        translation.update_from_blob(force, request=request)
+        translation.check_sync(force, request=request)
 
         return translation
 
@@ -170,7 +169,7 @@ class Translation(models.Model, URLMixin):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         self.subproject.project.check_acl(request)
 
@@ -387,6 +386,12 @@ class Translation(models.Model, URLMixin):
             self.subproject.template_store
         )
 
+    def supports_language_pack(self):
+        '''
+        Checks whether we support language pack download.
+        '''
+        return self.subproject.file_format_cls.supports_language_pack()
+
     @property
     def store(self):
         '''
@@ -407,12 +412,6 @@ class Translation(models.Model, URLMixin):
                 )
                 raise
         return self._store
-
-    def check_sync(self):
-        '''
-        Checks whether database is in sync with git and possibly does update.
-        '''
-        self.update_from_blob()
 
     def cleanup_deleted(self, deleted_checksums):
         '''
@@ -470,12 +469,15 @@ class Translation(models.Model, URLMixin):
                     checksum=checksum
                 ).delete()
 
-    def update_from_blob(self, force=False, request=None):
+    def check_sync(self, force=False, request=None, change=None):
         '''
-        Updates translation data from blob.
+        Checks whether database is in sync with git and possibly does update.
         '''
         from trans.models.unit import Unit
         from trans.models.changes import Change
+
+        if change is None:
+            change = Change.ACTION_UPDATE
 
         # Check if we're not already up to date
         if self.revision != self.get_git_blob_hash():
@@ -518,7 +520,7 @@ class Translation(models.Model, URLMixin):
             # Check for possible duplicate units
             if newunit.id in created_units:
                 weblate.logger.error(
-                    'Duplicite string to translate in %s: %s',
+                    'Duplicate string to translate in %s: %s',
                     self,
                     newunit
                 )
@@ -555,7 +557,7 @@ class Translation(models.Model, URLMixin):
             user = request.user
         Change.objects.create(
             translation=self,
-            action=Change.ACTION_UPDATE,
+            action=change,
             user=user
         )
 
@@ -588,7 +590,20 @@ class Translation(models.Model, URLMixin):
         Returns current Git blob hash for file.
         '''
         tree = self.git_repo.tree()
-        ret = tree[self.filename].hexsha
+        try:
+            ret = tree[self.filename].hexsha
+        except KeyError:
+            # Try to resolve symlinks
+            real_path = os.path.realpath(self.get_filename())
+            project_path = os.path.realpath(self.subproject.get_path())
+
+            if not real_path.startswith(project_path):
+                raise ValueError('Too many symlinks or link outside tree')
+
+            real_path = real_path[len(project_path):].lstrip('/')
+
+            ret = tree[real_path].hexsha
+
         if self.subproject.has_template():
             ret += ','
             ret += tree[self.subproject.template].hexsha
@@ -711,7 +726,7 @@ class Translation(models.Model, URLMixin):
 
     def __configure_git(self, gitrepo, section, key, expected):
         '''
-        Adjysts git config to ensure that section.key is set to expected.
+        Adjusts git config to ensure that section.key is set to expected.
         '''
         cnf = gitrepo.config_writer()
         try:
@@ -772,15 +787,20 @@ class Translation(models.Model, URLMixin):
                 )
 
         # Create list of files to commit
-        files = [self.filename]
+        gitrepo.git.add(self.filename)
         if self.subproject.extra_commit_file != '':
-            files.append(self.subproject.extra_commit_file % {
+            extra_file = self.subproject.extra_commit_file % {
                 'language': self.language_code,
-            })
+            }
+            full_path_extra = os.path.join(
+                self.subproject.get_path(),
+                extra_file
+            )
+            if os.path.exists(full_path_extra):
+                gitrepo.git.add(extra_file)
 
         # Do actual commit
         gitrepo.git.commit(
-            *files,
             author=author.encode('utf-8'),
             date=timestamp.isoformat(),
             m=msg
@@ -792,7 +812,7 @@ class Translation(models.Model, URLMixin):
 
     def git_needs_commit(self):
         '''
-        Checks whether there are some not commited changes.
+        Checks whether there are some not committed changes.
         '''
         status = self.git_repo.git.status('--porcelain', '--', self.filename)
         if status == '':
@@ -875,7 +895,8 @@ class Translation(models.Model, URLMixin):
                 return False, None
 
             # Check for changes
-            if (unit.target == pounit.get_target()
+            if (not add
+                    and unit.target == pounit.get_target()
                     and unit.fuzzy == pounit.is_fuzzy()):
                 return False, pounit
 
@@ -1031,6 +1052,8 @@ class Translation(models.Model, URLMixin):
         '''
         Merges translate-toolkit store into current translation.
         '''
+        from trans.models.changes import Change
+
         # Merge with lock acquired
         with self.subproject.git_lock:
 
@@ -1074,7 +1097,7 @@ class Translation(models.Model, URLMixin):
             self.commit_pending(request, author)
             store1.save()
             ret = self.git_commit(request, author, timezone.now(), True)
-            self.check_sync()
+            self.check_sync(request=request, change=Change.ACTION_UPLOAD)
 
         return ret
 
@@ -1125,6 +1148,7 @@ class Translation(models.Model, URLMixin):
             )
         except:
             # Fallback to automatic detection
+            fileobj.seek(0)
             store = AutoFormat(fileobj)
 
         # Optionally set authorship

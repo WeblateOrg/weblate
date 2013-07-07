@@ -23,6 +23,7 @@ from django.db.models import Q
 # In Django 1.5, this should come from django.utils.text
 from django.template.defaultfilters import slugify
 from trans.models import SubProject, Project
+from trans.formats import FILE_FORMATS
 from trans.util import is_repo_link
 from glob import glob
 from optparse import make_option
@@ -45,7 +46,26 @@ class Command(BaseCommand):
             help='Python formatting string, transforming the filemask '
                  'match to a project name'
         ),
+        make_option(
+            '--base-file-template',
+            default='',
+            help='Python formatting string, transforming the filemask '
+                 'match to a monolingual base file name'
+        ),
+        make_option(
+            '--file-format',
+            default='auto',
+            help='File format type, defaults to autodetection',
+        ),
     )
+
+    def format_string(self, template, match):
+        '''
+        Formats template string with match.
+        '''
+        if '%s' in template:
+            return template % match
+        return template
 
     def get_name(self, maskre, path):
         matches = maskre.match(path)
@@ -109,7 +129,12 @@ class Command(BaseCommand):
         Automatic import of project.
         '''
         if len(args) != 4:
-            raise CommandError('Not enough parameters!')
+            raise CommandError('Invalid number of parameters!')
+
+        if options['file_format'] not in FILE_FORMATS:
+            raise CommandError(
+                'Invalid file format: %s' % options['file_format']
+            )
 
         # Read params
         prjname, repo, branch, filemask = args
@@ -148,12 +173,14 @@ class Command(BaseCommand):
             )
         else:
             matches, sharedrepo = self.import_initial(
-                project, repo, branch, filemask, options['name_template']
+                project, repo, branch, filemask, options['name_template'],
+                options['file_format'], options['base_file_template']
             )
 
         # Create remaining subprojects sharing git repository
         for match in matches:
-            name = options['name_template'] % match
+            name = self.format_string(options['name_template'], match)
+            template = self.format_string(options['base_file_template'], match)
             slug = slugify(name)
             subprojects = SubProject.objects.filter(
                 Q(name=name) | Q(slug=slug),
@@ -173,10 +200,13 @@ class Command(BaseCommand):
                 project=project,
                 repo=sharedrepo,
                 branch=branch,
+                template=template,
+                file_format=options['file_format'],
                 filemask=filemask.replace('**', match)
             )
 
-    def import_initial(self, project, repo, branch, filemask, name_template):
+    def import_initial(self, project, repo, branch, filemask, name_template,
+                       file_format, base_file_template):
         '''
         Import the first repository of a project
         '''
@@ -186,7 +216,8 @@ class Command(BaseCommand):
 
         # Create first subproject (this one will get full git repo)
         match = matches.pop()
-        name = name_template % match
+        name = self.format_string(name_template, match)
+        template = self.format_string(base_file_template, match)
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
@@ -212,6 +243,8 @@ class Command(BaseCommand):
             project=project,
             repo=repo,
             branch=branch,
+            file_format=file_format,
+            template=template,
             filemask=filemask.replace('**', match)
         )
 

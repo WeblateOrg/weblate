@@ -21,6 +21,11 @@ without interaction unless some merge conflict occurs.
    Weblate push changes to your repository whenever they are committed at Weblate.
 4. Optionally setup cron job for :djadmin:`commit_pending`.
 
+How to access repositories over SSH?
+------------------------------------
+
+Please see :ref:`private` for information about setting up SSH keys.
+
 .. _merge:
 
 How to fix merge conflicts in translations?
@@ -56,7 +61,7 @@ any other special actions.
 How do I translate several branches at once?
 --------------------------------------------
 
-Weblate supports pushing translation changes withing one :ref:`project`. For
+Weblate supports pushing translation changes within one :ref:`project`. For
 every :ref:`subproject` which has it enabled (the default behavior), the change
 made is automatically propagated to others. This way the translations are kept
 synchronized even if the branches themselves have already diverged quite a lot

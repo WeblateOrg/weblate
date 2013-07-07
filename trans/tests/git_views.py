@@ -96,10 +96,10 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 
 class GitChangeProjectTest(GitNoChangeProjectTest):
     '''
-    Testing of project git manipulations with not commited change in repo.
+    Testing of project git manipulations with not committed change in repo.
     '''
 
-    STATUS_CHECK = 'There are some not commited changes!'
+    STATUS_CHECK = 'There are some not committed changes!'
 
     def setUp(self):
         super(GitChangeProjectTest, self).setUp()
@@ -108,40 +108,40 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
 
 class GitChangeSubProjectTest(GitChangeProjectTest):
     '''
-    Testing of subproject git manipulations with not commited change in repo.
+    Testing of subproject git manipulations with not committed change in repo.
     '''
     TEST_TYPE = 'subproject'
 
 
 class GitChangeTranslationTest(GitChangeProjectTest):
     '''
-    Testing of translation git manipulations with not commited change in repo.
+    Testing of translation git manipulations with not committed change in repo.
     '''
     TEST_TYPE = 'translation'
 
 
-class GitCommitedChangeProjectTest(GitNoChangeProjectTest):
+class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     '''
-    Testing of project git manipulations with commited change in repo.
+    Testing of project git manipulations with committed change in repo.
     '''
 
     STATUS_CHECK = 'There are some new commits in local Git repository!'
 
     def setUp(self):
-        super(GitCommitedChangeProjectTest, self).setUp()
+        super(GitCommittedChangeProjectTest, self).setUp()
         self.change_unit(u'Ahoj světe!\n')
         self.project.commit_pending(self.get_request('/'))
 
 
-class GitCommitedChangeSubProjectTest(GitCommitedChangeProjectTest):
+class GitCommittedChangeSubProjectTest(GitCommittedChangeProjectTest):
     '''
-    Testing of subproject git manipulations with commited change in repo.
+    Testing of subproject git manipulations with committed change in repo.
     '''
     TEST_TYPE = 'subproject'
 
 
-class GitCommitedChangeTranslationTest(GitCommitedChangeProjectTest):
+class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):
     '''
-    Testing of translation git manipulations with commited change in repo.
+    Testing of translation git manipulations with committed change in repo.
     '''
     TEST_TYPE = 'translation'

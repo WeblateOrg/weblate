@@ -23,7 +23,6 @@ import time
 from south.db import db
 from south.v2 import DataMigration
 from django.db import models
-from trans.util import PLURAL_SEPARATOR
 
 class Migration(DataMigration):
 
@@ -51,7 +50,7 @@ class Migration(DataMigration):
                 checksum=unit.checksum,
                 ignore=False
             ).exists()
-            unit.num_words = len(unit.source.split(PLURAL_SEPARATOR)[0].split())
+            unit.num_words = len(unit.source.split('\x00\x00')[0].split())
             unit.save()
             done += 1
             if done % 1000 == 0:

@@ -19,8 +19,8 @@ formats are used in both variants, see detailed description below.
 
 For correct use of monolingual files, Weblate requires access to file
 containing complete list of strings to translate with their source - this file
-is called :guilabel:`template` within Weblate, though the naming might vary in
-your application.
+is called :guilabel:`Monolingual base language file` within Weblate, though the
+naming might vary in your application.
 
 .. _gettext:
 
@@ -80,8 +80,9 @@ Android string resources
 
 Android specific file format for translating applications.
 
-Android string resources are monolingual, the :guilabel:`template` file being
-stored in different location than others :file:`res/values/strings.xml`.
+Android string resources are monolingual, the 
+:guilabel:`Monolingual base language file` file being stored in different
+location than others :file:`res/values/strings.xml`.
 
 .. seealso:: https://developer.android.com/guide/topics/resources/string-resource.html
 

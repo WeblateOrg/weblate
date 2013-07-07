@@ -3,6 +3,12 @@
 Management commands
 ===================
 
+.. note::
+
+    Running management commands under different user than is running your
+    webserver can cause wrong permissions on some files, please check 
+    :ref:`file-permissions` for more details.
+
 The ./manage.py is extended with following commands:
 
 checkgit <project|project/subproject>
@@ -20,7 +26,7 @@ commitgit <project|project/subproject>
 
 .. django-admin:: commitgit
 
-Commits any possible pending changes to  backend git repository.
+Commits any possible pending changes to backend git repository.
 
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
@@ -77,15 +83,43 @@ Each of these is then added as a subproject, named after the matched
 directory.
 Existing subprojects will be skipped.
 
-To customise the subproject's name, use the `--name-template` option.
+To customise the subproject's name, use the ``--name-template`` option.
 Its parameter is a python formatting string, which will expect the
 match from `<filemask>`.
+
+By format string passed by the ``--base-file-template`` option you can customize
+base file for monolingual translations.
+
+You can also specify file format to use (see :ref:`formats`) by the
+``--file-format`` parameter. The default is autodetection.
 
 For example:
 
 .. code-block:: bash
 
     ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
+
+importusers <file.json>
+-----------------------
+
+.. django-admin:: importusers
+
+Imports users from JSON dump of Django auth_users database.
+
+list_ignored_checks
+-------------------
+
+.. django-admin:: list_ignored_checks
+
+Lists most frequently ignored checks. This can be useful for tuning your setup,
+if users have to ignore too many of consistency checks.
+
+list_versions
+-------------
+
+.. django-admin:: list_versions
+
+Lists versions of Weblate dependencies.
 
 loadpo <project|project/subproject>
 -----------------------------------
@@ -106,7 +140,7 @@ pushgit <project|project/subproject>
 
 .. django-admin:: pushgit
 
-Pushes commited changes to upstream Git repository. With ``--force-commit`` 
+Pushes committed changes to upstream Git repository. With ``--force-commit``
 it also commits any pending changes.
 
 You can either define which project or subproject to update (eg.
@@ -144,7 +178,7 @@ setupgroups
 Configures default groups and (if called with ``--move``) assigns all users
 to default group.
 
-The option ``--no-update`` disables update of existing groups (only adds 
+The option ``--no-update`` disables update of existing groups (only adds
 new ones).
 
 .. seealso:: :ref:`privileges`
@@ -157,7 +191,7 @@ setuplang
 Setups list of languages (it has own list and all defined in
 translate-toolkit).
 
-The option ``--no-update`` disables update of existing languages (only add 
+The option ``--no-update`` disables update of existing languages (only adds
 new ones).
 
 updatechecks <project|project/subproject>

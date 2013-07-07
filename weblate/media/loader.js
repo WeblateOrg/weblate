@@ -27,12 +27,12 @@ jQuery.fn.extend({
 
 
 function text_change(e) {
-    $('#id_fuzzy').attr('checked', false);
+    $('#id_fuzzy').prop('checked', false);
 }
 
 function mt_set(txt) {
     $('#id_target').val(txt).change();
-    $('#id_fuzzy').attr('checked', true);
+    $('#id_fuzzy').prop('checked', true);
 }
 
 var loading = 0;
@@ -237,6 +237,7 @@ $(function () {
     load_progress();
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
+    $('.historybutton').button({text: true, icons: { primary: "ui-icon-arrowreturn-1-w" }});
     $('#navi').buttonset();
     $('#button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
     $('#button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
@@ -281,11 +282,6 @@ $(function () {
                 $(anchor.hash).html(gettext("AJAX request to load this content has failed!"));
             }
         },
-        cookie: {
-            expires: 31,
-            name: 'translate-tab',
-            path: '/'
-        },
         cache: true,
         beforeLoad: function (e, ui) {
             var $panel = $(ui.panel);
@@ -316,7 +312,9 @@ $(function () {
             if (ui.newPanel.attr('id') == 'tab-machine') {
                 load_machine_translations();
             }
-        }
+            $.cookie('translate-tab', ui.newTab.index(), {path: '/', expires: 31});
+        },
+        active: $.cookie('translate-tab')
     });
     $("div.tabs").tabs({
         ajaxOptions: {

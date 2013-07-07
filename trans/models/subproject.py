@@ -25,13 +25,12 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from glob import glob
-import os
 import os.path
 import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from trans.models.project import Project
-from trans.mixins import PercentMixin, URLMixin
+from trans.mixins import PercentMixin, URLMixin, PathMixin
 from trans.filelock import FileLock
 from trans.util import is_repo_link
 from trans.util import get_site_url
@@ -63,17 +62,23 @@ class SubProjectManager(models.Manager):
         return self.get(slug=subproject, project__slug=project)
 
 
-class SubProject(models.Model, PercentMixin, URLMixin):
+class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
+        verbose_name=ugettext_lazy('Subproject name'),
         max_length=100,
         help_text=ugettext_lazy('Name to display')
     )
     slug = models.SlugField(
+        verbose_name=ugettext_lazy('URL slug'),
         db_index=True,
-        help_text=ugettext_lazy('Name used in URLs')
+        help_text=ugettext_lazy('Name used in URLs and file names.')
     )
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(
+        Project,
+        verbose_name=ugettext_lazy('Project'),
+    )
     repo = models.CharField(
+        verbose_name=ugettext_lazy('Git repository'),
         max_length=200,
         help_text=ugettext_lazy(
             'URL of Git repository, use weblate://project/subproject '
@@ -82,11 +87,13 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         validators=[validate_repo],
     )
     push = models.CharField(
+        verbose_name=ugettext_lazy('Git push URL'),
         max_length=200,
         help_text=ugettext_lazy('URL of push Git repository'),
         blank=True
     )
     repoweb = models.URLField(
+        verbose_name=ugettext_lazy('Repository browser'),
         help_text=ugettext_lazy(
             'Link to repository browser, use %(branch)s for branch, '
             '%(file)s and %(line)s as filename and line placeholders.'
@@ -95,6 +102,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         blank=True,
     )
     git_export = models.CharField(
+        verbose_name=ugettext_lazy('Exported Git URL'),
         max_length=200,
         help_text=ugettext_lazy(
             'URL of Git repository where users can fetch changes from Weblate'
@@ -102,6 +110,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         blank=True
     )
     report_source_bugs = models.EmailField(
+        verbose_name=ugettext_lazy('Source string bug report address'),
         help_text=ugettext_lazy(
             'Email address where errors in source string will be reported, '
             'keep empty for no emails.'
@@ -109,11 +118,13 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         blank=True,
     )
     branch = models.CharField(
+        verbose_name=ugettext_lazy('Git branch'),
         max_length=50,
         help_text=ugettext_lazy('Git branch to translate'),
         default='master'
     )
     filemask = models.CharField(
+        verbose_name=ugettext_lazy('File mask'),
         max_length=200,
         validators=[validate_filemask],
         help_text=ugettext_lazy(
@@ -122,15 +133,17 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         )
     )
     template = models.CharField(
+        verbose_name=ugettext_lazy('Monolingual base language file'),
         max_length=200,
         blank=True,
         help_text=ugettext_lazy(
-            'Filename of translations template, this is recommended to use '
-            'for translations which store only translated string like '
-            'Android resource strings.'
+            'Filename of translations base file, which contains all strings '
+            'and their source, this is recommended to use '
+            'for monolingual translation formats.'
         )
     )
     file_format = models.CharField(
+        verbose_name=ugettext_lazy('File format'),
         max_length=50,
         default='auto',
         choices=FILE_FORMAT_CHOICES,
@@ -140,6 +153,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         ),
     )
     extra_commit_file = models.CharField(
+        verbose_name=ugettext_lazy('Additional commit file'),
         max_length=200,
         default='',
         blank=True,
@@ -150,27 +164,37 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         )
     )
     pre_commit_script = models.CharField(
+        verbose_name=ugettext_lazy('Pre-commit script'),
         max_length=200,
         default='',
         blank=True,
         choices=SCRIPT_CHOICES,
         help_text=ugettext_lazy(
-            'Script to be executed before commiting translation, '
+            'Script to be executed before committing translation, '
             'please check documentation for more details.'
         ),
     )
 
     locked = models.BooleanField(
+        verbose_name=ugettext_lazy('Locked'),
         default=False,
         help_text=ugettext_lazy(
             'Whether subproject is locked for translation updates.'
         )
     )
     allow_translation_propagation = models.BooleanField(
+        verbose_name=ugettext_lazy('Allow translation propagation'),
         default=True,
         help_text=ugettext_lazy(
             'Whether translation updates in other subproject '
             'will cause automatic translation in this project'
+        )
+    )
+    save_history = models.BooleanField(
+        verbose_name=ugettext_lazy('Save translation history'),
+        default=True,
+        help_text=ugettext_lazy(
+            'Whether Weblate should keep history of translations'
         )
     )
 
@@ -208,7 +232,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         self.project.check_acl(request)
 
@@ -284,7 +308,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
     def is_repo_link(self):
         '''
-        Checks whethere repository is just a link for other one.
+        Checks whether repository is just a link for other one.
         '''
         return is_repo_link(self.repo)
 
@@ -382,10 +406,16 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 sleep_while_git_locked()
                 self.git_repo.git.remote('update', 'origin')
         except Exception as e:
-            weblate.logger.error('Failed to update Git repo: %s', str(e))
+            error_text = str(e)
+            weblate.logger.error('Failed to update Git repo: %s', error_text)
             if validate:
+                if 'Host key verification failed' in error_text:
+                    raise ValidationError(_(
+                        'Failed to verify SSH host key, please add '
+                        'them in SSH page in the admin interface.'
+                    ))
                 raise ValidationError(
-                    _('Failed to fetch git repository: %s') % str(e)
+                    _('Failed to fetch git repository: %s') % error_text
                 )
 
     def configure_repo(self, validate=False):
@@ -395,22 +425,35 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         '''
         if self.is_repo_link():
             return self.linked_subproject.configure_repo(validate)
-        # Get/Create origin remote
-        try:
-            origin = self.git_repo.remotes.origin
-        except:
+
+        # Create origin remote if it does not exist
+        if 'origin' not in self.git_repo.git.remote().split():
             self.git_repo.git.remote('add', 'origin', self.repo)
-            origin = self.git_repo.remotes.origin
-        # Check remote source
-        if origin.url != self.repo:
+
+        if not self.repo.startswith('hg::'):
+            # Set remote URL
             self.git_repo.git.remote('set-url', 'origin', self.repo)
+
+            # Set branch to track
+            # We first need to add one to ensure there is at least one branch
+            self.git_repo.git.remote(
+                'set-branches', '--add', 'origin', self.branch
+            )
+            # Then we can set to track just one
+            self.git_repo.git.remote('set-branches', 'origin', self.branch)
+
+        # Get object for remote
+        origin = self.git_repo.remotes.origin
+
         # Check push url
         try:
             pushurl = origin.pushurl
         except AttributeError:
             pushurl = ''
+
         if pushurl != self.push:
             self.git_repo.git.remote('set-url', 'origin', '--push', self.push)
+
         # Update
         self.update_remote_branch(validate)
 
@@ -457,6 +500,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
         # Push after possible merge
         if (self.git_needs_push()
+                and ret
                 and self.project.push_on_commit
                 and self.can_push()):
             self.do_push(request, force_commit=False, do_update=False)
@@ -501,10 +545,15 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 'pushing to remote repo %s',
                 self.__unicode__()
             )
-            self.git_repo.git.push(
-                'origin',
-                '%s:%s' % (self.branch, self.branch)
-            )
+            if not self.repo.startswith('hg::'):
+                self.git_repo.git.push(
+                    'origin',
+                    '%s:%s' % (self.branch, self.branch)
+                )
+            else:
+                self.git_repo.git.push(
+                    'origin'
+                )
             return True
         except Exception as e:
             weblate.logger.warning(
@@ -672,7 +721,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 continue
 
             weblate.logger.info('checking %s', path)
-            translation = Translation.objects.update_from_blob(
+            translation = Translation.objects.check_sync(
                 self, code, path, force, request=request
             )
             translations.append(translation.id)
@@ -706,7 +755,10 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         if len(parts) == 1:
             return 'INVALID'
         # Get part matching to first wildcard
-        code = path[len(parts[0]):-len(parts[1])].split('/')[0]
+        if len(parts[1]) == 0:
+            code = path[len(parts[0]):].split('/')[0]
+        else:
+            code = path[len(parts[0]):-len(parts[1])].split('/')[0]
         # Remove possible encoding part
         return code.split('.')[0]
 
@@ -717,8 +769,8 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         if self.is_repo_link():
             return
         self.configure_repo(validate)
-        self.configure_branch()
         self.commit_pending(None)
+        self.configure_branch()
         self.update_remote_branch()
         self.update_branch()
 
@@ -749,12 +801,46 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             self.load_template_store()
         except ValueError:
             raise ValidationError(
-                _('Format of translation template could not be recognized.')
+                _('Format of translation base file could not be recognized.')
             )
         except Exception as exc:
             raise ValidationError(
-                _('Failed to parse translation template: %s') % str(exc)
+                _('Failed to parse translation base file: %s') % str(exc)
             )
+
+    def clean_files(self, matches):
+        '''
+        Validates whether we can parse translation files.
+        '''
+        notrecognized = []
+        errors = []
+        for match in matches:
+            try:
+                parsed = self.file_format_cls.load(
+                    os.path.join(self.get_path(), match),
+                )
+                if not self.file_format_cls.is_valid(parsed):
+                    errors.append('%s: %s' % (
+                        match, _('File does not seem to be valid!')
+                    ))
+            except ValueError:
+                notrecognized.append(match)
+            except Exception as e:
+                errors.append('%s: %s' % (match, str(e)))
+        if len(notrecognized) > 0:
+            msg = (
+                _('Format of %d matched files could not be recognized.') %
+                len(notrecognized)
+            )
+            raise ValidationError('%s\n%s' % (
+                msg,
+                '\n'.join(notrecognized)
+            ))
+        if len(errors) > 0:
+            raise ValidationError('%s\n%s' % (
+                (_('Failed to parse %d matched files!') % len(errors)),
+                '\n'.join(errors)
+            ))
 
     def clean(self):
         '''
@@ -766,7 +852,10 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             return
 
         # Validate git repo
-        self.sync_git_repo(True)
+        try:
+            self.sync_git_repo(True)
+        except git.GitCommandError as exc:
+            raise ValidationError(_('Failed to update git: %s') % exc.status)
 
         # Push repo is not used with link
         if self.is_repo_link():
@@ -787,38 +876,26 @@ class SubProject(models.Model, PercentMixin, URLMixin):
             langs.add(code)
 
         # Try parsing files
-        notrecognized = []
-        errors = []
-        for match in matches:
-            try:
-                self.file_format_cls.load(
-                    os.path.join(self.get_path(), match),
-                )
-            except ValueError:
-                notrecognized.append(match)
-            except Exception as e:
-                errors.append('%s: %s' % (match, str(e)))
-        if len(notrecognized) > 0:
-            msg = (
-                _('Format of %d matched files could not be recognized.') %
-                len(notrecognized)
+        self.clean_files(matches)
+
+        # Test for unexpected template usage
+        if self.template != '' and self.file_format_cls.monolingual is False:
+            raise ValidationError(
+                _('You can not base file with bilingual translation!')
             )
-            raise ValidationError('%s\n%s' % (
-                msg,
-                '\n'.join(notrecognized)
-            ))
-        if len(errors) > 0:
-            raise ValidationError('%s\n%s' % (
-                (_('Failed to parse %d matched files!') % len(errors)),
-                '\n'.join(errors)
-            ))
+
+        # Special case for Gettext
+        if self.template.endswith('.pot') and self.filemask.endswith('.po'):
+            raise ValidationError(
+                _('You can not base file with bilingual translation!')
+            )
 
         # Validate template
         if self.has_template():
             self.clean_template()
         elif self.file_format_cls.monolingual:
             raise ValidationError(
-                _('You can not use monolingual translation without template!')
+                _('You can not use monolingual translation without base file!')
             )
 
     def get_template_filename(self):
@@ -842,11 +919,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
                 or (old.filemask != self.filemask)
             )
             # Detect slug changes and rename git repo
-            if old.slug != self.slug:
-                os.rename(
-                    old.get_path(),
-                    self.get_path()
-                )
+            self.check_rename(old)
 
         # Configure git repo if there were changes
         if changed_git:
@@ -878,7 +951,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
 
     def git_needs_commit(self):
         '''
-        Checks whether there are some not commited changes.
+        Checks whether there are some not committed changes.
         '''
         status = self.git_repo.git.status('--porcelain')
         if status == '':
@@ -920,6 +993,7 @@ class SubProject(models.Model, PercentMixin, URLMixin):
         return (
             (monolingual or monolingual is None)
             and len(self.template) > 0
+            and not self.template.endswith('.pot')
         )
 
     def load_template_store(self):

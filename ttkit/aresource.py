@@ -22,10 +22,7 @@
 
 from lxml import etree
 
-from StringIO import StringIO
-
 import re
-import pdb
 
 from translate.storage import lisa
 from translate.storage import base
@@ -34,14 +31,13 @@ from translate.lang import data
 EOF = None
 WHITESPACE = ' \n\t' # Whitespace that we collapse
 MULTIWHITESPACE = re.compile('[ \n\t]{2}')
-OPEN_TAG_TO_ESCAPE = re.compile('<(?!/?\S*>)')
 
 class AndroidResourceUnit(base.TranslationUnit):
     """A single term in the Android resource file."""
     rootNode = "string"
     languageNode = "string"
 
-    def __init__(self, source, empty=False, xmlelement = None, **kwargs):
+    def __init__(self, source, empty=False, xmlelement=None, **kwargs):
         if xmlelement is not None:
             self.xmlelement = xmlelement
         else:
@@ -50,6 +46,12 @@ class AndroidResourceUnit(base.TranslationUnit):
         if source is not None:
             self.setid(source)
         super(AndroidResourceUnit, self).__init__(source)
+
+    def istranslatable(self):
+        return (
+            bool(self.source)
+            and self.xmlelement.get('translatable') != 'false'
+        )
 
     def getid(self):
         return self.xmlelement.get("name")
@@ -232,13 +234,20 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def settarget(self, target):
         if '<' in target:
-            # Handle text with markup
-            target = self.escape(target).replace('&', '&amp;')
-            target = OPEN_TAG_TO_ESCAPE.sub('&lt;', target)
-            # Parse new XML
-            newstring = etree.parse(StringIO('<string>' + target + '</string>')).getroot()
+            # Handle text with possible markup
+            target = target.replace('&', '&amp;')
+            try:
+                # Try as XML
+                newstring = etree.fromstring('<string>%s</string>' % target)
+            except:
+                # Fallback to string with XML escaping
+                target = target.replace('<', '&lt;')
+                newstring = etree.fromstring('<string>%s</string>' % target)
             # Update text
-            self.xmlelement.text = newstring.text
+            if newstring.text is None:
+                self.xmlelement.text = ''
+            else:
+                self.xmlelement.text = newstring.text
             # Remove old elements
             for x in self.xmlelement.iterchildren():
                 self.xmlelement.remove(x)
@@ -252,13 +261,12 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def gettarget(self, lang=None):
         # Grab inner text
-        target = (self.xmlelement.text or u'')
+        target = self.unescape(self.xmlelement.text or u'')
         # Include markup as well
-        target += u''.join([data.forceunicode(etree.tostring(child, encoding = 'utf-8')) for child in self.xmlelement.iterchildren()])
-        return self.unescape(data.forceunicode(target))
+        target += u''.join([data.forceunicode(etree.tostring(child, encoding='utf-8')) for child in self.xmlelement.iterchildren()])
+        return target
 
     target = property(gettarget, settarget)
-
 
     def getlanguageNode(self, lang=None, index=None):
         return self.xmlelement
@@ -304,6 +312,7 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     def __eq__(self, other):
         return (str(self) == str(other))
+
 
 class AndroidResourceFile(lisa.LISAfile):
     """Class representing a Android resource file store."""

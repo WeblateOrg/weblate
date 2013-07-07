@@ -33,9 +33,15 @@ import weblate
 import threading
 
 
-BITBUCKET_REPOS = (
+BITBUCKET_GIT_REPOS = (
+    'ssh://git@bitbucket.org/%(owner)s/%(slug)s.git',
     'git@bitbucket.org:%(owner)s/%(slug)s.git',
     'https://bitbucket.org/%(owner)s/%(slug)s.git',
+)
+
+BITBUCKET_HG_REPOS = (
+    'hg::ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
+    'hg::https://bitbucket.org/%(owner)s/%(slug)s',
 )
 
 GITHUB_REPOS = (
@@ -156,9 +162,19 @@ def bitbucket_hook_helper(data):
     owner = data['repository']['owner']
     slug = data['repository']['slug']
     branch = data['commits'][-1]['branch']
+    params = {'owner': owner, 'slug': slug}
 
     # Construct possible repository URLs
-    repos = [repo % {'owner': owner, 'slug': slug} for repo in BITBUCKET_REPOS]
+    if data['repository']['scm'] == 'git':
+        repos = [repo % params for repo in BITBUCKET_GIT_REPOS]
+    elif data['repository']['scm'] == 'hg':
+        repos = [repo % params for repo in BITBUCKET_HG_REPOS]
+    else:
+        weblate.logger.error(
+            'unsupported repository: %s',
+            repr(data['repositoru'])
+        )
+        raise ValueError('unsupported repository')
 
     return {
         'service_long_name': 'Bitbucket',
@@ -217,9 +233,11 @@ def export_stats(request, project, subproject):
             'code': trans.language.code,
             'name': trans.language.name,
             'total': trans.total,
+            'total_words': trans.total_words,
             'last_change': trans.get_last_change(),
             'last_author': trans.get_last_author(False),
             'translated': trans.translated,
+            'translated_words': trans.translated_words,
             'translated_percent': trans.get_translated_percent(),
             'fuzzy': trans.fuzzy,
             'fuzzy_percent': trans.get_fuzzy_percent(),

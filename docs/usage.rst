@@ -146,6 +146,13 @@ Project
     Project information like instructions for translators or information about
     Git repository.
 
+Translation history
++++++++++++++++++++
+
+Every change is by default (unless disabled in subproject settings) saved in
+the database and can be reverted. Of course you can still also revert anything
+in underlaying version control system.
+
 Glossary
 --------
 
@@ -205,14 +212,28 @@ All machine translations are available on single tab on translation page.
 
 .. seealso:: :ref:`machine-translation-setup`
 
+.. _autofix:
+
+Automatic fixups
+----------------
+
+In addition to :ref:`checks`, Weblate can also automatically fix some common
+errors in translated strings. This can be quite powerful feature to prevent
+common mistakes in translations, however use it with caution as it can cause
+silent corruption as well.
+
+.. seealso:: :setting:`AUTOFIX_LIST`
+
 .. _checks:
 
 Checks
 ------
 
-Weblate does wide range of quality checks on  messages. The following section
+Weblate does wide range of quality checks on messages. The following section
 describes them in more detail. The checks take account also special rules for
 different languages, so if you think the result is wrong, please report a bug.
+
+.. seealso:: :setting:`CHECK_LIST`
 
 Translation checks
 ++++++++++++++++++
@@ -226,8 +247,9 @@ Not translated
 ~~~~~~~~~~~~~~
 
 The source and translated strings are same at least in one of plural forms.
-This checks ignores some strings which are quite usually same in all
-languages.
+This checks ignores some strings which are quite usually same in all languages
+and strips various markup, which can occur in the string, to reduce number of
+false positives.
 
 .. _check-begin-newline:
 

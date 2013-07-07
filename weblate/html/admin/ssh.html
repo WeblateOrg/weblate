@@ -23,11 +23,42 @@
     <p>{% trans "You don't seem to have existing SSH key, by pressing button below Weblate will generate it for you." %}</p>
     <form method="post">
     {% csrf_token %}
+    <input type="hidden" name="action" value="generate" />
     <input type="submit" value="{% trans "Generate" %}" />
     </form>
 
     {% endif %}
-    <br />
+
+    {% if host_keys %}
+    <h1>{% trans "Known host keys" %}</h1>
+
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list">
+  <thead>
+  <tr>
+    <th>{% trans "Hostname" %}</th>
+    <th>{% trans "Fingerprint" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for key in host_keys %}
+    <tr class="row{% cycle 1,2 %}"><td>{{ key.0 }}</td><td>{{ key.1 }}</td></tr>
+    {% endfor %}
+  </tbody>
+    </table>
+</div>
+</div>
+    {% endif %}
+
+    <h1>{% trans "Add host key" %}</h1>
+    <p>{% trans "To access SSH hosts, it's host key needs to be verified. You can check host key using form below." %}</p>
+    <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="add-host" />
+    <input type="text" name="host" /><br />
+    <input type="submit" value="{% trans "Submit" %}" />
+    </form>
 
     <h1>{% trans "More information" %}</h1>
 

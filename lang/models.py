@@ -103,46 +103,76 @@ class LanguageManager(models.Manager):
             self._default_lang = self.get(code='en')
         return self._default_lang
 
-    def auto_get_or_create(self, code):
+    def try_get(self, code):
         '''
-        Gets matching language for code (the code does not have to be exactly
-        same, cs_CZ is same as cs-CZ) or creates new one.
+        Tries to get language by code.
         '''
-
-        # First try getting langauge as is
         try:
             return self.get(code=code)
         except Language.DoesNotExist:
-            pass
+            return None
 
+    def parse_lang_country(self, code):
+        '''
+        Parses language and country from locale code.
+        '''
         # Parse the string
         if '-' in code:
             lang, country = code.split('-', 1)
+            # Android regional locales
+            if len(country) > 2 and country[0] == 'r':
+                country = country[1:]
         elif '_' in code:
             lang, country = code.split('_', 1)
         else:
             lang = code
             country = None
 
+        return lang, country
+
+    def auto_get_or_create(self, code):
+        '''
+        Gets matching language for code (the code does not have to be exactly
+        same, cs_CZ is same as cs-CZ) or creates new one.
+
+        It also handles Android special naming of regional locales like pt-rBR
+        '''
+
+        # First try getting langauge as is
+        ret = self.try_get(code)
+        if ret is not None:
+            return ret
+
+        # Parse the string
+        lang, country = self.parse_lang_country(code)
+
         # Try "corrected" code
         if country is not None:
-            newcode = '%s_%s' % (lang.lower(), country.upper())
+            if '@' in country:
+                region, variant = country.split('@', 1)
+                country = '%s@%s' % (region.upper(), variant.lower())
+            elif '_' in country:
+                # Xliff way of defining variants
+                region, variant = country.split('_', 1)
+                country = '%s@%s' % (region.upper(), variant.lower())
+            else:
+                country = country.upper()
+            newcode = '%s_%s' % (lang.lower(), country)
         else:
             newcode = lang.lower()
-        try:
-            return self.get(code=newcode)
-        except Language.DoesNotExist:
-            pass
+
+        ret = self.try_get(newcode)
+        if ret is not None:
+            return ret
 
         # Try canonical variant
         if newcode in data.DEFAULT_LANGS:
-            try:
-                return self.get(code=lang.lower())
-            except Language.DoesNotExist:
-                pass
+            ret = self.try_get(lang.lower())
+            if ret is not None:
+                return ret
 
         # Create new one
-        return self.auto_create(code)
+        return self.auto_create(newcode)
 
     def auto_create(self, code):
         '''
@@ -154,36 +184,28 @@ class LanguageManager(models.Manager):
             code=code,
             name='%s (generated)' % code,
             nplurals=2,
-            pluralequation='(n != 1)',
+            pluralequation='n != 1',
         )
-        # Try cs_CZ instead of cs-CZ
-        if '-' in code:
-            try:
-                baselang = Language.objects.get(code=code.replace('-', '_'))
-                lang.name = baselang.name
-                lang.nplurals = baselang.nplurals
-                lang.pluralequation = baselang.pluralequation
-                lang.save()
-                return lang
-            except Language.DoesNotExist:
-                pass
 
-        # In case this is just a different variant of known language, get
-        # params from that
-        if '_' in code or '-' in code:
-            parts = code.split('_')
-            if len(parts) == 1:
-                parts = code.split('-')
-            try:
-                baselang = Language.objects.get(code=parts[0])
-                lang.name = baselang.name
-                lang.nplurals = baselang.nplurals
-                lang.pluralequation = baselang.pluralequation
-                lang.direction = baselang.direction
-                lang.save()
-                return lang
-            except Language.DoesNotExist:
-                pass
+        baselang = None
+
+        # Check for different variant
+        if baselang is None and'@' in code:
+            parts = code.split('@')
+            baselang = self.try_get(parts[0])
+
+        # Check for different country
+        if baselang is None and'_' in code or '-' in code:
+            parts = code.replace('-', '_').split('_')
+            baselang = self.try_get(parts[0])
+
+        if baselang is not None:
+            lang.name = baselang.name
+            lang.nplurals = baselang.nplurals
+            lang.pluralequation = baselang.pluralequation
+            lang.direction = baselang.direction
+            lang.save()
+
         return lang
 
     def setup(self, update):

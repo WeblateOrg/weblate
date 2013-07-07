@@ -5,7 +5,7 @@ profile=no
 
 # Add files or directories to the blacklist. They should be base names, not
 # paths.
-ignore=migrations,settings_jenkins.py,settings_test.py,.git,test-repos,repos
+ignore=migrations,settings_jenkins.py,settings_test.py,settings_test_mysql.py,settings_test_postgresql.py,settings_test_sqlite.py,.git,test-repos,repos
 
 # Pickle collected data for later comparisons.
 persistent=yes
@@ -26,7 +26,8 @@ cache-size=500
 # E1103 does not work with WSGIRequest or file objects
 # W0703 Catching too general exception Exception
 # R0921,R0922 Is raised when abstract classes are used in different module
-disable=C0111,I0011,I0012,W0704,W0142,W0232,W0613,W0702,R0201,E1101,E1120,E1103,W0703,R0921,R0922
+# E1002 Produces lot of false positives with Django 1.5
+disable=C0111,I0011,I0012,W0704,W0142,W0232,W0613,W0702,R0201,E1101,E1120,E1103,W0703,R0921,R0922,E1002
 
 [REPORTS]
 
@@ -117,7 +118,7 @@ function-rgx=[a-zA_][a-zA-Z0-9_]{2,70}$
 method-rgx=[a-z_][a-zA-Z0-9_]{2,70}$
 
 # Good variable names which should always be accepted, separated by a comma
-good-names=_,i,j,k,e,qs,pk,setUp,tearDown
+good-names=_,i,j,k,e,qs,pk,setUp,tearDown,id
 
 # Regular expression which should only match functions or classes name which do
 # not require a docstring
@@ -161,4 +162,4 @@ max-attributes=25
 min-public-methods=0
 
 # Maximum number of public methods for a class (see R0904).
-max-public-methods=85
+max-public-methods=100

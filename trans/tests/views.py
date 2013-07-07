@@ -26,10 +26,12 @@ from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
+from trans.models.changes import Change
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
 import cairo
 import re
+import time
 from urlparse import urlsplit
 from cStringIO import StringIO
 
@@ -90,9 +92,9 @@ class ViewTestCase(RepoTestCase):
             language_code='cs'
         )
 
-    def get_unit(self):
+    def get_unit(self, source='Hello, world!\n'):
         translation = self.get_translation()
-        return translation.unit_set.get(source='Hello, world!\n')
+        return translation.unit_set.get(source=source)
 
     def change_unit(self, target):
         unit = self.get_unit()
@@ -201,6 +203,16 @@ class BasicIphoneViewTest(BasicViewTest):
         return self.create_iphone()
 
 
+class BasicJavaViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_java()
+
+
+class BasicXliffViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_xliff()
+
+
 class BasicLinkViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_link()
@@ -263,7 +275,7 @@ class EditTest(ViewTestCase):
             '',
             suggest='yes'
         )
-        # We should get to second message
+        # We should stay on same message
         self.assertRedirectsOffset(response, self.translate_url, 0)
 
         # Add first suggestion
@@ -297,10 +309,13 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
 
+        # Get ids of created suggestions
+        suggestions = [sug.pk for sug in unit.suggestions()]
+
         # Delete one of suggestions
         self.client.get(
             self.translate_url,
-            {'delete': 1},
+            {'delete': suggestions[0]},
         )
 
         # Reload from database
@@ -319,7 +334,7 @@ class EditTest(ViewTestCase):
         # Accept one of suggestions
         self.client.get(
             self.translate_url,
-            {'accept': 2},
+            {'accept': suggestions[1]},
         )
 
         # Reload from database
@@ -361,22 +376,77 @@ class EditTest(ViewTestCase):
         )
         self.assertContains(response, 'Can not merge different messages!')
 
-    def test_edit_check(self):
+    def test_revert(self):
+        source = 'Hello, world!\n'
+        target = 'Nazdar svete!\n'
+        target_2 = 'Hei maailma!\n'
+        self.edit_unit(
+            source,
+            target
+        )
+        # Ensure other edit gets different timestamp
+        time.sleep(1)
+        self.edit_unit(
+            source,
+            target_2
+        )
+        unit = self.get_unit()
+        changes = Change.objects.filter(unit=unit)
+        self.assertEqual(changes[1].target, target)
+        self.assertEqual(changes[0].target, target_2)
+        # revert it
+        self.client.get(
+            self.translate_url,
+            {'checksum': unit.checksum, 'revert': changes[1].id}
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.target, target)
+        # check that we cannot revert to string from another translation
+        self.edit_unit(
+            'Thank you for using Weblate.',
+            'Kiitoksia Weblaten kaytosta.'
+        )
+        unit2 = self.get_unit(
+            source='Thank you for using Weblate.'
+        )
+        change = Change.objects.filter(unit=unit2)[0]
+        response = self.client.get(
+            self.translate_url,
+            {'checksum': unit.checksum, 'revert': change.id}
+        )
+        self.assertContains(response, "Can not revert to different unit")
+
+    def test_edit_fixup(self):
         # Save with failing check
         response = self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!'
         )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(unit.translation.failing_checks, 0)
+
+    def test_edit_check(self):
+        # Save with failing check
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Hello, world!\n',
+        )
         # We should stay on current message
         self.assertRedirectsOffset(response, self.translate_url, 0)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!')
+        self.assertEqual(unit.target, 'Hello, world!\n')
         self.assertTrue(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 2)
-        self.assertEqual(len(unit.active_checks()), 2)
+        self.assertEqual(len(unit.checks()), 1)
+        self.assertEqual(len(unit.active_checks()), 1)
         self.assertEqual(unit.translation.failing_checks, 1)
 
-        # Ignore one of checks
+        # Ignore check
         check_id = unit.checks()[0].id
         response = self.client.get(
             reverse('js-ignore-check', kwargs={'check_id': check_id})
@@ -384,21 +454,8 @@ class EditTest(ViewTestCase):
         self.assertContains(response, 'ok')
         # Should have one less check
         unit = self.get_unit()
-        self.assertTrue(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 2)
-        self.assertEqual(len(unit.active_checks()), 1)
-        self.assertEqual(unit.translation.failing_checks, 1)
-
-        # Ignore second checks
-        check_id = unit.active_checks()[0].id
-        response = self.client.get(
-            reverse('js-ignore-check', kwargs={'check_id': check_id})
-        )
-        self.assertContains(response, 'ok')
-        # Should have one less check
-        unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 2)
+        self.assertEqual(len(unit.checks()), 1)
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
 
@@ -457,6 +514,39 @@ class EditTest(ViewTestCase):
         )
         self.assertRedirects(response, self.translation_url)
 
+    def test_fuzzy(self):
+        '''
+        Test for fuzzy flag handling.
+        '''
+        unit = self.get_unit()
+        self.assertFalse(unit.fuzzy)
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy='yes'
+        )
+        unit = self.get_unit()
+        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+        )
+        unit = self.get_unit()
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy='yes'
+        )
+        unit = self.get_unit()
+        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertFalse(unit.has_failing_check)
+
 
 class EditResourceTest(EditTest):
     def create_subproject(self):
@@ -471,6 +561,16 @@ class EditPoMonoTest(EditTest):
 class EditIphoneTest(EditTest):
     def create_subproject(self):
         return self.create_iphone()
+
+
+class EditJavaTest(EditTest):
+    def create_subproject(self):
+        return self.create_java()
+
+
+class EditXliffTest(EditTest):
+    def create_subproject(self):
+        return self.create_xliff()
 
 
 class EditLinkTest(EditTest):

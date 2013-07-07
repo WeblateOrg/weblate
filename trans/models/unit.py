@@ -73,7 +73,7 @@ class UnitManager(models.Manager):
         # Return result
         return dbunit, created
 
-    def filter_checks(self, rqtype, translation):
+    def filter_checks(self, rqtype, translation, ignored=False):
         '''
         Filtering for checks.
         '''
@@ -82,7 +82,7 @@ class UnitManager(models.Manager):
         # Filter checks for current project
         checks = Check.objects.filter(
             project=translation.subproject.project,
-            ignore=False
+            ignore=ignored
         )
 
         filter_translated = True
@@ -114,7 +114,7 @@ class UnitManager(models.Manager):
             ret = ret.filter(translated=True)
         return ret
 
-    def filter_type(self, rqtype, translation):
+    def filter_type(self, rqtype, translation, ignored=False):
         '''
         Basic filtering based on unit state or failed checks.
         '''
@@ -136,7 +136,7 @@ class UnitManager(models.Manager):
         elif rqtype == 'targetcomments':
             return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
-            return self.filter_checks(rqtype, translation)
+            return self.filter_checks(rqtype, translation, ignored)
         else:
             # Catch anything not matching including 'all'
             return self.all()
@@ -284,9 +284,7 @@ class UnitManager(models.Manager):
 
         # Search in source or context
         if source or context:
-            index = FULLTEXT_INDEX.source_searcher(
-                not appsettings.OFFLOAD_INDEXING
-            )
+            index = FULLTEXT_INDEX.source_searcher()
             with index as searcher:
                 if source:
                     results = self.__search(
@@ -310,7 +308,6 @@ class UnitManager(models.Manager):
             sample = self.all()[0]
             index = FULLTEXT_INDEX.target_searcher(
                 sample.translation.language.code,
-                not appsettings.OFFLOAD_INDEXING
             )
             with index as searcher:
                 results = self.__search(
@@ -330,9 +327,7 @@ class UnitManager(models.Manager):
         '''
         Finds units with same source.
         '''
-        index = FULLTEXT_INDEX.source_searcher(
-            not appsettings.OFFLOAD_INDEXING
-        )
+        index = FULLTEXT_INDEX.source_searcher()
         source_string = unit.get_source_plurals()[0]
         parser = qparser.QueryParser('source', SOURCE_SCHEMA)
         parsed = parser.parse(source_string)
@@ -351,13 +346,11 @@ class UnitManager(models.Manager):
             pk=unit.id
         )
 
-    def more_like_this(self, unit):
+    def more_like_this(self, unit, top=5):
         '''
         Finds closely similar units.
         '''
-        index = FULLTEXT_INDEX.source_searcher(
-            not appsettings.OFFLOAD_INDEXING
-        )
+        index = FULLTEXT_INDEX.source_searcher()
         source_string = unit.get_source_plurals()[0]
         parser = qparser.QueryParser('source', SOURCE_SCHEMA)
         parsed = parser.parse(source_string)
@@ -372,7 +365,7 @@ class UnitManager(models.Manager):
             more_results = first_hit.more_like_this(
                 'source',
                 source_string,
-                500
+                top
             )
             # Include all more like this results
             for result in more_results:
@@ -391,7 +384,7 @@ class UnitManager(models.Manager):
 
     def same(self, unit):
         '''
-        Units with same source withing same project.
+        Units with same source within same project.
         '''
         project = unit.translation.subproject.project
         return self.filter(
@@ -456,7 +449,7 @@ class Unit(models.Model):
 
     def check_acl(self, request):
         '''
-        Raises an error if user is not allowed to acces s this project.
+        Raises an error if user is not allowed to access this project.
         '''
         self.translation.subproject.project.check_acl(request)
 
@@ -487,7 +480,7 @@ class Unit(models.Model):
 
         # Monolingual files handling
         if unit.template is not None:
-            if source != self.source:
+            if source != self.source and translated:
                 # Store previous source and fuzzy flag for monolingual files
                 if previous_source == '':
                     previous_source = self.source
@@ -545,7 +538,7 @@ class Unit(models.Model):
 
     def get_source_plurals(self):
         '''
-        Retuns source plurals in array.
+        Returns source plurals in array.
         '''
         return split_plural(self.source)
 
@@ -625,11 +618,16 @@ class Unit(models.Model):
                 )
             )
             # Try reloading from backend
-            self.translation.update_from_blob(True)
+            self.translation.check_sync(True)
             return False
 
+        # Get old unit from database (for notifications)
+        oldunit = Unit.objects.get(id=self.id)
+
         # Return if there was no change
-        if not saved:
+        # We have to explicitly check for fuzzy flag change on monolingual
+        # files, where we handle it ourselves without storing to backend
+        if not saved and oldunit.fuzzy == self.fuzzy:
             # Propagate if we should
             if propagate:
                 self.propagate(request, change_action)
@@ -641,9 +639,6 @@ class Unit(models.Model):
         # Update comments as they might have been changed (eg, fuzzy flag
         # removed)
         self.flags = pounit.get_flags()
-
-        # Get old unit from database (for notifications)
-        oldunit = Unit.objects.get(id=self.id)
 
         # Save updated unit to database
         self.save(backend=True)
@@ -676,12 +671,18 @@ class Unit(models.Model):
                 action = Change.ACTION_CHANGE
             else:
                 action = Change.ACTION_NEW
+            if self.translation.subproject.save_history:
+                history_target = self.target
+            else:
+                history_target = ''
+
             # Create change object
             Change.objects.create(
                 unit=self,
                 translation=self.translation,
                 action=action,
-                user=request.user
+                user=request.user,
+                target=history_target
             )
 
         # Force commiting on completing translation
@@ -729,7 +730,7 @@ class Unit(models.Model):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.check(same_state)
+            self.check(same_state, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert:
@@ -865,7 +866,7 @@ class Unit(models.Model):
             language=None,
         )
 
-    def check(self, same_state=True):
+    def check(self, same_state=True, is_new=False):
         '''
         Updates checks for this unit.
         '''
@@ -873,8 +874,9 @@ class Unit(models.Model):
 
         checks_to_run = CHECKS
         cleanup_checks = True
+        was_change = False
 
-        if same_state and (self.fuzzy or not self.translated):
+        if (same_state or is_new) and (self.fuzzy or not self.translated):
             # Check whether there is any message with same source
             project = self.translation.subproject.project
             same_source = Unit.objects.filter(
@@ -924,6 +926,7 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
+                    was_change = True
             # Source check
             if check_obj.source and check_obj.check_source(src, self):
                 if check in old_source_checks:
@@ -938,30 +941,37 @@ class Unit(models.Model):
                         ignore=False,
                         check=check
                     )
+                    was_change = True
 
         # Delete no longer failing checks
         if cleanup_checks:
             self.cleanup_checks(old_source_checks, old_target_checks)
+            was_change = True
 
         # Update failing checks flag
-        self.update_has_failing_check()
+        self.update_has_failing_check(was_change)
         for unit in Unit.objects.same(self).exclude(id=self.id):
-            unit.update_has_failing_check()
+            unit.update_has_failing_check(was_change)
 
-    def update_has_failing_check(self):
+    def update_has_failing_check(self, was_change):
         '''
         Updates flag counting failing checks.
         '''
-        has_failing_check = len(self.active_checks()) > 0
+        has_failing_check = not self.fuzzy and len(self.active_checks()) > 0
+
+        # Change attribute if it has changed
         if has_failing_check != self.has_failing_check:
             self.has_failing_check = has_failing_check
-            self.save(backend=True)
-
-            # Invalidate checks cache
-            self.translation.invalidate_cache()
+            self.save(backend=True, same_content=True, same_state=True)
 
             # Update translation stats
             self.translation.update_stats()
+
+        # Invalidate checks cache if there was any change
+        # (avove code cares only about whether there is failing check
+        # while here we care about any changed in checks)
+        if was_change:
+            self.translation.invalidate_cache()
 
     def update_has_suggestion(self):
         '''
@@ -970,7 +980,7 @@ class Unit(models.Model):
         has_suggestion = len(self.suggestions()) > 0
         if has_suggestion != self.has_suggestion:
             self.has_suggestion = has_suggestion
-            self.save(backend=True)
+            self.save(backend=True, same_content=True, same_state=True)
 
             # Update translation stats
             self.translation.update_stats()
@@ -982,7 +992,7 @@ class Unit(models.Model):
         has_comment = len(self.get_comments()) > 0
         if has_comment != self.has_comment:
             self.has_comment = has_comment
-            self.save(backend=True)
+            self.save(backend=True, same_content=True, same_state=True)
 
             # Update translation stats
             self.translation.update_stats()

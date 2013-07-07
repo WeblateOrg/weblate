@@ -32,6 +32,7 @@ import git
 from trans.models import (
     Project, SubProject
 )
+from weblate import appsettings
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
@@ -111,7 +112,7 @@ class RepoTestCase(TestCase):
 
     def create_subproject(self):
         '''
-        Wrapper method for proving test subproject.
+        Wrapper method for providing test subproject.
         '''
         return self._create_subproject(
             'auto',
@@ -122,7 +123,12 @@ class RepoTestCase(TestCase):
         return self._create_subproject(
             'po',
             'po/*.po',
-            'po/en.po',
+        )
+
+    def create_po_link(self):
+        return self._create_subproject(
+            'po',
+            'po-link/*.po',
         )
 
     def create_po_mono(self):
@@ -152,10 +158,10 @@ class RepoTestCase(TestCase):
             'java/swing_messages.properties',
         )
 
-    def create_xliff(self):
+    def create_xliff(self, name='default'):
         return self._create_subproject(
             'xliff',
-            'xliff/*/DPH.xlf',
+            'xliff/*/%s.xlf' % name,
         )
 
     def create_link(self):
@@ -177,6 +183,41 @@ class ProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
+
+    def test_rename(self):
+        project = self.create_project()
+        old_path = project.get_path()
+        self.assertTrue(os.path.exists(old_path))
+        project.slug = 'changed'
+        project.save()
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(project.get_path()))
+
+    def test_delete(self):
+        project = self.create_project()
+        self.assertTrue(os.path.exists(project.get_path()))
+        project.delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
+    def test_delete_all(self):
+        project = self.create_project()
+        self.assertTrue(os.path.exists(project.get_path()))
+        Project.objects.all().delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
+    def test_wrong_path(self):
+        project = self.create_project()
+
+        backup = appsettings.GIT_ROOT
+        appsettings.GIT_ROOT = '/weblate-nonexisting-path'
+
+        self.assertRaisesMessage(
+            ValidationError,
+            'Could not create project directory',
+            project.full_clean
+        )
+
+        appsettings.GIT_ROOT = backup
 
     def test_validation(self):
         project = self.create_project()
@@ -225,47 +266,121 @@ class SubProjectTest(RepoTestCase):
     '''
     SubProject object testing.
     '''
+    def verify_subproject(self, project, translations, lang, units,
+                          unit='Hello, world!\n', fail=False):
+        # Validation
+        if fail:
+            self.assertRaises(
+                ValidationError,
+                project.full_clean
+            )
+        else:
+            project.full_clean()
+        # Correct path
+        self.assertTrue(os.path.exists(project.get_path()))
+        # Count translations
+        self.assertEqual(
+            project.translation_set.count(), translations
+        )
+        # Grab translation
+        translation = project.translation_set.get(language_code=lang)
+        # Count units in it
+        self.assertEqual(translation.unit_set.count(), units)
+        # Check whether unit exists
+        self.assertTrue(translation.unit_set.filter(source=unit).exists())
+
     def test_create(self):
         project = self.create_subproject()
-        project.full_clean()
+        self.verify_subproject(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 3)
+
+    def test_rename(self):
+        subproject = self.create_subproject()
+        old_path = subproject.get_path()
+        self.assertTrue(os.path.exists(old_path))
+        subproject.slug = 'changed'
+        subproject.save()
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(subproject.get_path()))
+
+    def test_delete(self):
+        project = self.create_subproject()
+        self.assertTrue(os.path.exists(project.get_path()))
+        project.delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
+    def test_delete_link(self):
+        project = self.create_link()
+        main_project = SubProject.objects.get(slug='test')
+        self.assertTrue(os.path.exists(main_project.get_path()))
+        project.delete()
+        self.assertTrue(os.path.exists(main_project.get_path()))
+
+    def test_delete_all(self):
+        project = self.create_subproject()
+        self.assertTrue(os.path.exists(project.get_path()))
+        SubProject.objects.all().delete()
+        self.assertFalse(os.path.exists(project.get_path()))
 
     def test_create_iphone(self):
         project = self.create_iphone()
-        project.full_clean()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 1)
+        self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_po_pot(self):
+        project = self._create_subproject(
+            'po',
+            'po/*.po',
+            'po/project.pot'
+        )
+        self.verify_subproject(project, 3, 'cs', 4, fail=True)
+
+    def test_create_auto_pot(self):
+        project = self._create_subproject(
+            'auto',
+            'po/*.po',
+            'po/project.pot'
+        )
+        self.verify_subproject(project, 3, 'cs', 4, fail=True)
+
+    def test_create_po(self):
+        project = self.create_po()
+        self.verify_subproject(project, 3, 'cs', 4)
+
+    def test_create_po_link(self):
+        project = self.create_po_link()
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_po_mono(self):
         project = self.create_po_mono()
-        project.full_clean()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 3)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_android(self):
         project = self.create_android()
-        project.full_clean()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 1)
+        self.verify_subproject(project, 1, 'cs', 4)
 
     def test_create_java(self):
         project = self.create_java()
-        project.full_clean()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 1)
+        self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_xliff(self):
         project = self.create_xliff()
-        project.full_clean()
-        self.assertTrue(os.path.exists(project.get_path()))
-        self.assertEqual(project.translation_set.count(), 1)
+        self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_xliff_dph(self):
+        project = self.create_xliff('DPH')
+        self.verify_subproject(project, 1, 'en', 9, 'DPH')
+
+    def test_create_xliff_empty(self):
+        project = self.create_xliff('EMPTY')
+        self.verify_subproject(project, 1, 'en', 6, 'DPH')
+
+    def test_create_xliff_resname(self):
+        project = self.create_xliff('Resname')
+        self.verify_subproject(project, 1, 'en', 2, 'Hi')
 
     def test_link(self):
         project = self.create_link()
-        project.full_clean()
-        self.assertTrue(project.is_repo_link())
-        self.assertEqual(project.translation_set.count(), 3)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_validation(self):
         project = self.create_subproject()

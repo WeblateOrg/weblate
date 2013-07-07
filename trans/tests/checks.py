@@ -27,7 +27,7 @@ import uuid
 from trans.checks.base import Check
 
 
-class Language(object):
+class MockLanguage(object):
     '''
     Mock language object.
     '''
@@ -35,15 +35,33 @@ class Language(object):
         self.code = code
 
 
-class Translation(object):
+class MockProject(object):
+    '''
+    Mock project object.
+    '''
+    def __init__(self):
+        self.id = 1
+
+
+class MockSubProject(object):
+    '''
+    Mock subproject object.
+    '''
+    def __init__(self):
+        self.id = 1
+        self.project = MockProject()
+
+
+class MockTranslation(object):
     '''
     Mock translation object.
     '''
     def __init__(self, code='cs'):
-        self.language = Language(code)
+        self.language = MockLanguage(code)
+        self.subproject = MockSubProject()
 
 
-class Unit(object):
+class MockUnit(object):
     '''
     Mock unit object.
     '''
@@ -52,7 +70,7 @@ class Unit(object):
             checksum = str(uuid.uuid1())
         self.checksum = checksum
         self.flags = flags
-        self.translation = Translation(code)
+        self.translation = MockTranslation(code)
 
 
 class CheckTestCase(TestCase):
@@ -79,7 +97,7 @@ class CheckTestCase(TestCase):
             self.check.check_single(
                 data[0],
                 data[1],
-                Unit(None, data[2], lang),
+                MockUnit(None, data[2], lang),
                 0
             ),
             expected
@@ -111,7 +129,7 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                Unit(None, self.test_good_matching[2])
+                MockUnit(None, self.test_good_matching[2])
             )
         )
 
@@ -120,7 +138,7 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_good_matching[0]] * 2,
                 [self.test_good_matching[1]] * 3,
-                Unit(None, self.test_good_matching[2])
+                MockUnit(None, self.test_good_matching[2])
             )
         )
 
@@ -131,7 +149,7 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_failure_1[0]],
                 [self.test_failure_1[1]],
-                Unit(None, self.test_failure_1[2])
+                MockUnit(None, self.test_failure_1[2])
             )
         )
 
@@ -142,6 +160,6 @@ class CheckTestCase(TestCase):
             self.check.check(
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
-                Unit(None, self.test_failure_1[2])
+                MockUnit(None, self.test_failure_1[2])
             )
         )

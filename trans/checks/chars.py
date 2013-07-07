@@ -56,7 +56,7 @@ class BeginSpaceCheck(TargetCheck):
         'Source and translation do not both start with same number of spaces'
     )
 
-    def check_single(self, source, target,  unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -77,13 +77,13 @@ class EndSpaceCheck(TargetCheck):
     name = _('Trailing space')
     description = _('Source and translation do not both end with a space')
 
-    def check_single(self, source, target,  unit, cache_slot):
+    def check_single(self, source, target, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
+        if not source or not target:
+            return False
         if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0:
-                return False
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
                 return False
 
@@ -106,14 +106,22 @@ class EndStopCheck(TargetCheck):
     def check_single(self, source, target, unit, cache_slot):
         if len(source) <= 4 and len(target) <= 4:
             return False
+        if not source:
+            return False
         if self.is_language(unit, ['ja']) and source[-1] in [':', ';']:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(
                 source, target, -1, [u':', u'：', u'.', u'。']
             )
+        if self.is_language(unit, ['hi']):
+            # Using | instead of । is not typographically correct, but
+            # seems to be quite usual
+            return self.check_chars(
+                source, target, -1, [u'.', u'।', u'|']
+            )
         return self.check_chars(
-            source, target, -1, [u'.', u'。', u'।', u'۔']
+            source, target, -1, [u'.', u'。', u'।', u'۔', u'։', u'·']
         )
 
 
@@ -127,13 +135,19 @@ class EndColonCheck(TargetCheck):
         'Source and translation do not both end with a colon '
         'or colon is not correctly spaced'
     )
+    colon_fr = (' :', '&nbsp;:', u' :')
 
     def check_single(self, source, target, unit, cache_slot):
+        if not source or not target:
+            return False
         if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0 or len(source) == 0:
-                return False
             if source[-1] == ':':
-                if target[-3:] not in [' : ', '&nbsp;: ', u' : ']:
+                # Accept variant with trailing space as well
+                if target[-1] == ' ':
+                    check_string = target[-3:-1]
+                else:
+                    check_string = target[-2:]
+                if check_string not in self.colon_fr:
                     return True
             return False
         if self.is_language(unit, ['ja']):
@@ -161,15 +175,21 @@ class EndQuestionCheck(TargetCheck):
         'or it is not correctly spaced'
     )
     question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
+    question_el = ('?', ';', ';')
 
     def check_single(self, source, target, unit, cache_slot):
-        if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0 or len(source) == 0:
-                return False
-            if source[-1] == '?':
-                if target[-2:] not in self.question_fr:
-                    return True
+        if not source or not target:
             return False
+        if self.is_language(unit, ['fr', 'br']):
+            if source[-1] != '?':
+                return False
+            return target[-2:] not in self.question_fr
+
+        if self.is_language(unit, ['el']):
+            if source[-1] != '?':
+                return False
+            return target[-1] not in self.question_el
+
         return self.check_chars(
             source,
             target,
@@ -191,15 +211,13 @@ class EndExclamationCheck(TargetCheck):
     exclamation_fr = (' !', '&nbsp;!', u' !', ' ! ', '&nbsp;! ', u' ! ')
 
     def check_single(self, source, target, unit, cache_slot):
-        if len(source) == 0:
+        if not source or not target:
             return False
         if self.is_language(unit, ['eu']):
             if source[-1] == '!':
                 if u'¡' in target and u'!' in target:
                     return False
         if self.is_language(unit, ['fr', 'br']):
-            if len(target) == 0:
-                return False
             if source[-1] == '!':
                 if target[-2:] not in self.exclamation_fr:
                     return True
@@ -221,6 +239,11 @@ class EndEllipsisCheck(TargetCheck):
     description = _('Source and translation do not both end with an ellipsis')
 
     def check_single(self, source, target, unit, cache_slot):
+        if not target:
+            return False
+        # Allow ... to be translated into ellipsis
+        if source.endswith('...') and target[-1] == u'…':
+            return False
         return self.check_chars(source, target, -1, [u'…'])
 
 

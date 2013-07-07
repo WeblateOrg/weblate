@@ -18,6 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+import shutil
+
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
 from trans.models.project import Project
 from trans.models.subproject import SubProject
 from trans.models.translation import Translation
@@ -25,3 +31,20 @@ from trans.models.unit import Unit
 from trans.models.unitdata import Check, Suggestion, Comment, IndexUpdate
 from trans.models.changes import Change
 from trans.models.dictionary import Dictionary
+
+
+@receiver(post_delete, sender=Project)
+@receiver(post_delete, sender=SubProject)
+def delete_object_dir(sender, instance, **kwargs):
+    '''
+    Handler to delete (sub)project directory on project deletion.
+    '''
+    project_path = instance.get_path()
+
+    # Do not delete linked subprojects
+    if hasattr(instance, 'is_repo_link') and instance.is_repo_link():
+        return
+
+    # Remove path if it exists
+    if os.path.exists(project_path):
+        shutil.rmtree(project_path)

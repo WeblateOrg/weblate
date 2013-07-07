@@ -27,7 +27,7 @@ from trans.checks.source import (
     OptionalPluralCheck,
     EllipsisCheck,
 )
-from trans.tests.checks import Unit
+from trans.tests.checks import MockUnit
 
 
 class OptionalPluralCheckTest(TestCase):
@@ -38,7 +38,7 @@ class OptionalPluralCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 ['text'],
-                Unit(),
+                MockUnit(),
             )
         )
 
@@ -46,7 +46,7 @@ class OptionalPluralCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 ['text', 'texts'],
-                Unit(),
+                MockUnit(),
             )
         )
 
@@ -54,7 +54,7 @@ class OptionalPluralCheckTest(TestCase):
         self.assertTrue(
             self.check.check_source(
                 ['text(s)'],
-                Unit(),
+                MockUnit(),
             )
         )
 
@@ -67,7 +67,7 @@ class EllipsisCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 ['text'],
-                Unit(),
+                MockUnit(),
             )
         )
 
@@ -75,7 +75,7 @@ class EllipsisCheckTest(TestCase):
         self.assertFalse(
             self.check.check_source(
                 [u'text…'],
-                Unit(),
+                MockUnit(),
             )
         )
 
@@ -83,6 +83,6 @@ class EllipsisCheckTest(TestCase):
         self.assertTrue(
             self.check.check_source(
                 ['text...'],
-                Unit(),
+                MockUnit(),
             )
         )

@@ -50,6 +50,33 @@ Time in seconds for how long the automatic lock for translation will be active.
 
 .. seealso:: :ref:`locking`
 
+.. setting:: AUTOFIX_LIST
+
+AUTOFIX_LIST
+------------
+
+List of automatic fixups to apply when saving the message.
+
+Available fixes:
+
+``trans.autofixes.whitespace.SameBookendingWhitespace``
+    Fixes up whitespace in beginning and end of the string to match source.
+``trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
+    Replaces traling dots with ellipsis if source string has it.
+``trans.autofixes.chars.RemoveZeroSpace``
+    Removes zero width space char if source does not contain it.
+
+For example you can enable only few of them:
+
+.. code-block:: python
+
+    AUTOFIX_LIST = (
+        'trans.autofixes.whitespace.SameBookendingWhitespace',
+        'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+    )
+
+.. seealso:: :ref:`autofix`, :ref:`custom-autofix`
+
 .. setting:: BACKGROUND_HOOKS
 
 BACKGROUND_HOOKS
@@ -188,7 +215,16 @@ MT_APERTIUM_KEY
 
 API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
+.. seealso:: :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_GOOGLE_KEY
+
+MT_GOOGLE_KEY
+-------------
+
+API key for Google Translate API, you can register at https://developers.google.com/translate/
+
+.. seealso:: :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_MICROSOFT_ID
 
@@ -197,7 +233,7 @@ MT_MICROSOFT_ID
 
 Cliend ID for Microsoft Translator service.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+.. seealso:: :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
 
 .. setting:: MT_MICROSOFT_SECRET
 
@@ -206,7 +242,7 @@ MT_MICROSOFT_SECRET
 
 Client secret for Microsoft Translator service.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
+.. seealso:: :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`, https://datamarket.azure.com/developer/applications/
 
 .. setting:: MT_MYMEMORY_EMAIL
 
@@ -215,7 +251,7 @@ MT_MYMEMORY_EMAIL
 
 MyMemory identification email, you can get 1000 requests per day with this.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/spec.php
+.. seealso:: :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/spec.php
 
 .. setting:: MT_MYMEMORY_KEY
 
@@ -224,7 +260,7 @@ MT_MYMEMORY_KEY
 
 MyMemory access key for private translation memory, use together with :setting:`MT_MYMEMORY_USER`.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/keygen.php
+.. seealso:: :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/keygen.php
 
 .. setting:: MT_MYMEMORY_USER
 
@@ -233,7 +269,7 @@ MT_MYMEMORY_USER
 
 MyMemory user id for private translation memory, use together with :setting:`MT_MYMEMORY_KEY`.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/keygen.php
+.. seealso:: :ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`, http://mymemory.translated.net/doc/keygen.php
 
 .. setting:: MT_TMSERVER
 
@@ -242,7 +278,7 @@ MT_TMSERVER
 
 URL where tmserver is running.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
+.. seealso:: :ref:`tmserver`, :ref:`machine-translation-setup`, :ref:`machine-translation`, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html
 
 .. setting:: NEARBY_MESSAGES
 

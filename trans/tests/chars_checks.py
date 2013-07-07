@@ -102,8 +102,11 @@ class EndColonCheckTest(CheckTestCase):
     def test_japanese_ignore(self):
         self.do_test(False, ('Text', u'Texte', ''), 'ja')
 
-    def test_french(self):
+    def test_french_1(self):
         self.do_test(False, ('Text:', u'Texte : ', ''), 'fr')
+
+    def test_french_2(self):
+        self.do_test(False, ('Text:', u'Texte :', ''), 'fr')
 
     def test_french_ignore(self):
         self.do_test(False, ('Text', u'Texte', ''), 'fr')
@@ -128,6 +131,15 @@ class EndQuestionCheckTest(CheckTestCase):
 
     def test_french_wrong(self):
         self.do_test(True, ('Text?', u'Texte?', ''), 'fr')
+
+    def test_greek(self):
+        self.do_test(False, ('Text?', u'Texte;', ''), 'el')
+
+    def test_greek_ignore(self):
+        self.do_test(False, ('Text', u'Texte', ''), 'el')
+
+    def test_greek_wrong(self):
+        self.do_test(True, ('Text?', u'Texte', ''), 'el')
 
 
 class EndExclamationCheckTest(CheckTestCase):
@@ -154,7 +166,11 @@ class EndEllipsisCheckTest(CheckTestCase):
         self.check = EndEllipsisCheck()
         self.test_good_matching = (u'string…', u'string…', '')
         self.test_failure_1 = (u'string…', 'string...', '')
-        self.test_failure_2 = ('string...', u'string…', '')
+        self.test_failure_2 = ('string.', u'string…', '')
+        self.test_failure_3 = ('string..', u'string…', '')
+
+    def test_translate(self):
+        self.do_test(False, ('string...', u'string…', ''))
 
 
 class NewlineCountingCheckTest(CheckTestCase):

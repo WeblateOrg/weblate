@@ -64,12 +64,12 @@ class MyMemoryTranslation(MachineTranslation):
             match['segment'],
         )
 
-    def download_translations(self, language, text, unit):
+    def download_translations(self, language, text, unit, user):
         '''
         Downloads list of possible translations from MyMemory.
         '''
         args = {
-            'q': text,
+            'q': text.split('. ')[0][:500],
             'langpair': 'en|%s' % language,
         }
         if appsettings.MT_MYMEMORY_EMAIL is not None:

@@ -104,7 +104,7 @@ class PluralTextarea(forms.Textarea):
 
     def value_from_datadict(self, data, files, name):
         '''
-        Retuns processed plurals - either list of plural strings or single
+        Returns processed plurals - either list of plural strings or single
         string if no plurals are in use.
         '''
         ret = [data.get(name, None)]
@@ -273,6 +273,11 @@ class MergeForm(forms.Form):
     merge = forms.IntegerField()
 
 
+class RevertForm(forms.Form):
+    checksum = forms.CharField()
+    revert = forms.IntegerField()
+
+
 class AutoForm(forms.Form):
     '''
     Automatic translation form.
@@ -354,9 +359,10 @@ class LetterForm(forms.Form):
     Form for choosing starting letter in a glossary.
     '''
     LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
+    any_letter = pgettext_lazy('Select starting letter in glossary', 'Any')
     letter = forms.ChoiceField(
         label=_('Starting letter'),
-        choices=[('', _('Any'))] + LETTER_CHOICES,
+        choices=[('', any_letter)] + LETTER_CHOICES,
         required=False
     )
 

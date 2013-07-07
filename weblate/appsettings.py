@@ -51,6 +51,9 @@ MT_MYMEMORY_EMAIL = get('MT_MYMEMORY_EMAIL', None)
 MT_MYMEMORY_USER = get('MT_MYMEMORY_USER', None)
 MT_MYMEMORY_KEY = get('MT_MYMEMORY_KEY', None)
 
+# Google API key for Google Translate API
+MT_GOOGLE_KEY = get('MT_GOOGLE_KEY', None)
+
 # tmserver URL
 MT_TMSERVER = get('MT_TMSERVER', None)
 
@@ -112,6 +115,13 @@ CHECK_LIST = get('CHECK_LIST', (
     'trans.checks.markup.XMLTagsCheck',
     'trans.checks.source.OptionalPluralCheck',
     'trans.checks.source.EllipsisCheck',
+))
+
+# List of automatic fixups
+AUTOFIX_LIST = get('AUTOFIX_LIST', (
+    'trans.autofixes.whitespace.SameBookendingWhitespace',
+    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+    'trans.autofixes.chars.RemoveZeroSpace',
 ))
 
 # List of machine translations

@@ -18,6 +18,7 @@
 {% if offer_hosting %}
 <p>
 {% trans "This Weblate instance hosts translations for various free software projects." %}
+{% url 'contact' as contact_url %}
 {% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}
 </p>
 {% endif %}
@@ -51,6 +52,10 @@
 <tr>
 <th>{% trans "Strings to translate" %}</th>
 <td>{{ total_strings }}</td>
+</tr>
+<tr>
+<th>{% trans "Words to translate" %}</th>
+<td>{{ total_words }}</td>
 </tr>
 <tr>
 <th>{% trans "Used languages" %}</th>

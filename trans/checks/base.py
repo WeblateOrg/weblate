@@ -65,10 +65,11 @@ class Check(object):
         '''
         Generic checker for chars presence.
         '''
-        if len(target) == 0 or len(source) == 0:
+        try:
+            src = source[pos]
+            tgt = target[pos]
+        except:
             return False
-        src = source[pos]
-        tgt = target[pos]
         return (
             (src in chars and tgt not in chars)
             or (src not in chars and tgt in chars)
@@ -94,7 +95,12 @@ class Check(object):
         '''
         Generates key for a cache.
         '''
-        return 'check-%s-%s-%d' % (self.check_id, unit.checksum, cache_slot)
+        return 'check-%s-%d-%s-%d' % (
+            self.check_id,
+            unit.translation.subproject.project.id,
+            unit.checksum,
+            cache_slot
+        )
 
     def get_cache(self, unit, cache_slot=0):
         '''

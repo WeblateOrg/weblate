@@ -21,10 +21,8 @@
 from django.test import TestCase
 from trans.tests.views import ViewTestCase
 from trans.models.unit import Unit
-try:
-    from unittest import skipUnless
-except ImportError:
-    from unittest2 import skipUnless
+from django.utils.unittest import skipUnless
+from trans.machine.base import MachineTranslationError
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
 from trans.machine.mymemory import MyMemoryTranslation
@@ -34,7 +32,7 @@ from trans.machine.tmserver import AmagamaTranslation
 from trans.machine.microsoft import (
     MicrosoftTranslation, microsoft_translation_supported
 )
-from trans.machine.google import GoogleTranslation
+from trans.machine.google import GoogleWebTranslation
 from trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
@@ -52,42 +50,53 @@ class MachineTranslationTest(TestCase):
     def test_translate(self):
         machine_translation = DummyTranslation()
         self.assertEqual(
-            machine_translation.translate('cs', 'Hello', None),
+            machine_translation.translate('cs', 'Hello', None, None),
             []
         )
         self.assertEqual(
-            len(machine_translation.translate('cs', 'Hello, world!', None)),
+            len(
+                machine_translation.translate(
+                    'cs', 'Hello, world!', None, None
+                )
+            ),
             2
         )
 
+    def assertTranslate(self, machine, lang='cs', word='world'):
+        try:
+            translation = machine.translate(lang, word, None, None)
+            self.assertIsInstance(translation, list)
+        except (MachineTranslationError, IOError) as exc:
+            self.skipTest(str(exc))
+
     def test_glosbe(self):
         machine = GlosbeTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_mymemory(self):
         machine = MyMemoryTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_opentran(self):
         machine = OpenTranTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_apertium(self):
         machine = ApertiumTranslation()
-        self.assertIsInstance(machine.translate('es', 'world', None), list)
+        self.assertTranslate(machine, 'es')
 
     @skipUnless(microsoft_translation_supported(), 'missing credentials')
     def test_microsoft(self):
         machine = MicrosoftTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
     def test_google(self):
-        machine = GoogleTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        machine = GoogleWebTranslation()
+        self.assertTranslate(machine)
 
     def test_amagama(self):
         machine = AmagamaTranslation()
-        self.assertIsInstance(machine.translate('cs', 'world', None), list)
+        self.assertTranslate(machine)
 
 
 class WeblateTranslationTest(ViewTestCase):
@@ -97,7 +106,8 @@ class WeblateTranslationTest(ViewTestCase):
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
-            unit
+            unit,
+            self.user
         )
         self.assertEquals(results, [])
 
@@ -107,6 +117,7 @@ class WeblateTranslationTest(ViewTestCase):
         results = machine.translate(
             unit.translation.language.code,
             unit.get_source_plurals()[0],
-            unit
+            unit,
+            self.user
         )
         self.assertEquals(results, [])

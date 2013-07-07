@@ -6,4 +6,11 @@
 {% if object.instructions %}
 <p>{% trans "Instructions for translators:" %} <a href="{{ object.instructions }}">{{ object.instructions }}</a></p>
 {% endif %}
-
+{% if object.license %}
+<p>{% trans "Translation license:" %} 
+{% if object.license_url %}
+<a href="{{ object.license_url }}">{{ object.license }}</a></p>
+{% else %}
+{{ object.license }}
+{% endif %}
+{% endif %}

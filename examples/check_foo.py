@@ -24,6 +24,7 @@ Simple quality check example.
 from trans.checks import TargetCheck
 from django.utils.translation import ugettext_lazy as _
 
+
 class FooCheck(TargetCheck):
 
     # Used as identifier for check, should be unique

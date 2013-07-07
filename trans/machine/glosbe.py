@@ -39,7 +39,7 @@ class GlosbeTranslation(MachineTranslation):
         '''
         return True
 
-    def download_translations(self, language, text, unit):
+    def download_translations(self, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -59,4 +59,4 @@ class GlosbeTranslation(MachineTranslation):
 
         return [(match['phrase']['text'], 100, self.name, text)
                 for match in response['tuc']
-                if match['phrase'] is not None]
+                if 'phrase' in match and match['phrase'] is not None]

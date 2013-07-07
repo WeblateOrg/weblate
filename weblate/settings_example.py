@@ -19,6 +19,17 @@
 #
 
 #
+# Safety check for running with too old Django version
+#
+
+import django
+if django.VERSION < (1, 4, 0):
+    raise Exception(
+        'Weblate needs Django 1.4 or newer, you are using %s!' %
+        django.get_version()
+    )
+
+#
 # Django settings for weblate project.
 #
 
@@ -36,7 +47,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        # Use 'postgresql_psycopg2',  'mysql', 'sqlite3' or 'oracle'.
+        # Use 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.db.backends.sqlite3',
         # Database name or path to database file if using sqlite3.
         'NAME': 'weblate.db',
@@ -268,6 +279,10 @@ LOGGING = {
     }
 }
 
+# Logging of management commands to console
+if os.environ.get('DJANGO_IS_MANAGEMENT_COMMAND', False):
+    LOGGING['loggers']['weblate']['handlers'].append('console')
+
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
@@ -285,6 +300,9 @@ MT_MYMEMORY_EMAIL = None
 # Optional MyMemory credentials to access private translation memory
 MT_MYMEMORY_USER = None
 MT_MYMEMORY_KEY = None
+
+# Google API key for Google Translate API
+MT_GOOGLE_KEY = None
 
 # tmserver URL
 MT_TMSERVER = None
@@ -368,6 +386,13 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.source.EllipsisCheck',
 #)
 
+# List of automatic fixups
+#AUTOFIX_LIST = (
+#    'trans.autofixes.whitespace.SameBookendingWhitespace',
+#    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+#    'trans.autofixes.chars.RemoveZeroSpace',
+#)
+
 # List of scripts to use in custom processing
 #PRE_COMMIT_SCRIPTS = (
 #)
@@ -377,6 +402,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.machine.apertium.ApertiumTranslation',
 #    'trans.machine.glosbe.GlosbeTranslation',
 #    'trans.machine.google.GoogleTranslation',
+#    'trans.machine.google.GoogleWebTranslation',
 #    'trans.machine.microsoft.MicrosoftTranslation',
 #    'trans.machine.mymemory.MyMemoryTranslation',
 #    'trans.machine.opentran.OpenTranTranslation',
@@ -392,6 +418,9 @@ SERVER_EMAIL = 'noreply@weblate.org'
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
 DEFAULT_FROM_EMAIL = 'noreply@weblate.org'
+
+# List of URLs your site is supposed to serve, required since Django 1.5
+ALLOWED_HOSTS = []
 
 # Example configuration to use memcached for caching
 #CACHES = {

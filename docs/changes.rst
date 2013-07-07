@@ -12,6 +12,11 @@ Released on ? 2013.
 * Improved support for MyMemory machine translation.
 * Added support for Amagama machine translation.
 * Various optimizations on frequently used pages.
+* Highlights searched phrase in search results.
+* Support for automatic fixups while saving the message.
+* Tracking of translation history and option to revert it.
+* Added support for Google Translate API.
+* Added support for managing SSH host keys.
 
 weblate 1.5
 -----------

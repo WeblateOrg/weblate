@@ -22,7 +22,7 @@ File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
-from translate.storage.properties import propunit
+from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit
 from translate.storage import mo
@@ -37,6 +37,7 @@ import __builtin__
 
 
 FILE_FORMATS = {}
+FLAGS_RE = re.compile(r'\b[-\w]+\b')
 
 
 def register_fileformat(fileformat):
@@ -73,15 +74,30 @@ class FileUnit(object):
             return ''
         return ', '.join(self.mainunit.getlocations())
 
+    def reformat_flags(self, typecomments):
+        '''
+        Processes flags from PO file to nicer form.
+        '''
+        # Grab flags
+        flags = set(FLAGS_RE.findall('\n'.join(typecomments)))
+
+        # Discard fuzzy flag, we don't care about that one
+        flags.discard('fuzzy')
+
+        # Join into string
+        return ', '.join(flags)
+
     def get_flags(self):
         '''
         Returns flags (typecomments) from units.
+
+        This is Gettext (po) specific feature.
         '''
         # Merge flags
         if hasattr(self.unit, 'typecomments'):
-            return ', '.join(self.unit.typecomments)
+            return self.reformat_flags(self.unit.typecomments)
         elif hasattr(self.template, 'typecomments'):
-            return ', '.join(self.template.typecomments)
+            return self.reformat_flags(self.template.typecomments)
         else:
             return ''
 
@@ -122,9 +138,15 @@ class FileUnit(object):
         '''
         if self.is_unit_key_value():
             # Need to decode property encoded string
-            if isinstance(self.unit, propunit):
-                return quote.propertiesdecode(self.mainunit.name)
-            return self.mainunit.name
+            if isinstance(self.mainunit, propunit):
+                if self.template is not None:
+                    return quote.propertiesdecode(self.template.value)
+                else:
+                    return quote.propertiesdecode(self.unit.name)
+            if self.template is not None:
+                return self.template.value
+            else:
+                return self.unit.name
         else:
             if self.template is not None:
                 return get_string(self.template.target)
@@ -244,7 +266,6 @@ class FileFormat(object):
     format_id = ''
     loader = None
     monolingual = None
-    mark_fuzzy = None
 
     @classmethod
     def fixup(cls, store):
@@ -275,14 +296,14 @@ class FileFormat(object):
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
         try:
-            module = importlib.import_module(
-                'translate.storage.%s' % module_name
-            )
-        except ImportError:
-            # Fallback to bultin ttkit copy
+            # Try bultin ttkit copy
             # (only valid for aresource)
             module = importlib.import_module(
                 'ttkit.%s' % module_name
+            )
+        except ImportError:
+            module = importlib.import_module(
+                'translate.storage.%s' % module_name
             )
 
         # Get the class
@@ -302,6 +323,9 @@ class FileFormat(object):
         self.storefile = storefile
         # Load store
         self.store = self.load(storefile)
+        # Check store validity
+        if not self.is_valid(self.store):
+            raise ValueError('Invalid file format')
         # Remember template
         self.template_store = template_store
 
@@ -330,6 +354,10 @@ class FileFormat(object):
             # We always need new unit to translate
             if ttkit_unit is None:
                 ttkit_unit = template_ttkit_unit
+                if template_ttkit_unit is None:
+                    raise Exception(
+                        'Could not find template unit for new unit!'
+                    )
                 add = True
             else:
                 add = False
@@ -338,7 +366,8 @@ class FileFormat(object):
         else:
             # Find all units with same source
             found_units = self.store.findunits(source)
-            if len(found_units) > 0:
+            # Find is broken for propfile, ignore results
+            if len(found_units) > 0 and not isinstance(self.store, propfile):
                 for ttkit_unit in found_units:
                     # Does context match?
                     if ttkit_unit.getcontext() == context:
@@ -420,11 +449,28 @@ class FileFormat(object):
         else:
             return self.store.Extensions[0]
 
-    def supports_language_pack(self):
+    @classmethod
+    def supports_language_pack(cls):
         '''
         Checks whether backend store supports generating language pack.
         '''
-        return hasattr(self, 'get_language_pack')
+        return hasattr(cls, 'get_language_pack')
+
+    @classmethod
+    def is_valid(cls, store):
+        '''
+        Checks whether store seems to be valid.
+
+        In some cases ttkit happily "parses" the file, even though it
+        really did not do so (eg. Gettext parser on random text file).
+        '''
+        if store is None:
+            return False
+
+        if cls.monolingual is False and str(store) == '':
+            return False
+
+        return True
 
 
 class AutoFormat(FileFormat):
@@ -511,7 +557,6 @@ class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
-    monolingual = False
 
 register_fileformat(StringsFormat)
 
@@ -556,7 +601,6 @@ class AndroidFormat(FileFormat):
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
-    mark_fuzzy = True
 
 register_fileformat(AndroidFormat)
 

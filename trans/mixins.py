@@ -19,6 +19,7 @@
 #
 
 from django.core.urlresolvers import reverse
+import os
 
 
 class PercentMixin(object):
@@ -103,3 +104,24 @@ class URLMixin(object):
 
     def get_unlock_url(self):
         return self.reverse_url('unlock')
+
+
+class PathMixin(object):
+    '''
+    Mixin for path manipulations.
+    '''
+    def get_path(self):
+        '''
+        Return path to directory.
+        '''
+        raise NotImplementedError()
+
+    def check_rename(self, old):
+        '''
+        Detects slug changes and possibly renames underlaying directory.
+        '''
+        if old.slug != self.slug:
+            os.rename(
+                old.get_path(),
+                self.get_path()
+            )

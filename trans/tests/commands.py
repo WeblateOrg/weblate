@@ -22,11 +22,11 @@
 Tests for management commands.
 """
 
+from django.test import TestCase
 from trans.tests.models import RepoTestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
 import django
-from trans.search import flush_index
 
 # Django 1.5 changes behavior here
 if django.VERSION >= (1, 5):
@@ -46,7 +46,63 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
         )
         # We should have loaded three subprojects
-        self.assertEqual(project.subproject_set.count(), 3)
+        self.assertEqual(project.subproject_set.count(), 4)
+
+    def test_import_po(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+            file_format='po'
+        )
+        # We should have loaded three subprojects
+        self.assertEqual(project.subproject_set.count(), 4)
+
+    def test_import_invalid(self):
+        project = self.create_project()
+        self.assertRaises(
+            COMMAND_EXCEPTION,
+            call_command,
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/*.po',
+            file_format='INVALID'
+        )
+        # We should have loaded three subprojects
+        self.assertEqual(project.subproject_set.count(), 0)
+
+    def test_import_aresource(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/values-*/strings.xml',
+            file_format='aresource',
+            base_file_template='android/values/strings.xml',
+        )
+        # We should have loaded one subproject
+        self.assertEqual(project.subproject_set.count(), 1)
+
+    def test_import_aresource_format(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.repo_path,
+            'master',
+            '**/values-*/strings.xml',
+            file_format='aresource',
+            base_file_template='%s/values/strings.xml',
+        )
+        # We should have loaded one subproject
+        self.assertEqual(project.subproject_set.count(), 1)
 
     def test_re_import(self):
         project = self.create_project()
@@ -58,7 +114,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
         )
         # We should have loaded three subprojects
-        self.assertEqual(project.subproject_set.count(), 3)
+        self.assertEqual(project.subproject_set.count(), 4)
 
         # We should load no more subprojects
         call_command(
@@ -68,7 +124,7 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        self.assertEqual(project.subproject_set.count(), 3)
+        self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_against_existing(self):
         '''
@@ -85,7 +141,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
         )
         # We should have loaded four subprojects
-        self.assertEqual(project.subproject_set.count(), 4)
+        self.assertEqual(project.subproject_set.count(), 5)
 
     def test_import_missing_project(self):
         '''
@@ -117,9 +173,14 @@ class ImportProjectTest(RepoTestCase):
         )
 
 
-class PeriodicTest(RepoTestCase):
+class BasicCommandTest(TestCase):
+    def test_versions(self):
+        call_command('list_versions')
+
+
+class PeriodicCommandTest(RepoTestCase):
     def setUp(self):
-        super(PeriodicTest, self).setUp()
+        super(PeriodicCommandTest, self).setUp()
         self.create_subproject()
 
     def test_cleanup(self):
@@ -128,11 +189,22 @@ class PeriodicTest(RepoTestCase):
         )
 
     def test_update_index(self):
-        # Flush possible caches
-        flush_index()
         # Test the command
         call_command(
             'update_index'
+        )
+
+    def test_list_checks(self):
+        call_command(
+            'list_ignored_checks'
+        )
+        call_command(
+            'list_ignored_checks',
+            list_all=True
+        )
+        call_command(
+            'list_ignored_checks',
+            count=10
         )
 
 
@@ -210,11 +282,6 @@ class UpdateGitTest(CheckGitTest):
 
 class RebuildIndexTest(CheckGitTest):
     command_name = 'rebuild_index'
-
-    def setUp(self):
-        super(RebuildIndexTest, self).setUp()
-        # Flush possible caches
-        flush_index()
 
     def test_all_clean(self):
         self.do_test(

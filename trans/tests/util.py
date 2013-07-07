@@ -29,6 +29,6 @@ TEST_DATA = os.path.join(
 
 def get_test_file(name):
     '''
-    Retuns filename of test file.
+    Returns filename of test file.
     '''
     return os.path.join(TEST_DATA, name)

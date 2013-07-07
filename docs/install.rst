@@ -10,13 +10,13 @@ Requirements
 
 Django (>= 1.4)
     https://www.djangoproject.com/
-Translate-toolkit (>= 1.9.0)
+Translate-toolkit (>= 1.9.0, 1.10.0 or newer strong recommended)
     http://toolkit.translatehouse.org/
 GitPython (>= 0.3)
     https://github.com/gitpython-developers/GitPython
 Git (>= 1.0)
     http://git-scm.com/
-Django-registration (>= 0.8)
+Django-registration (= 0.8, 0.9 is not supported)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
     http://bitbucket.org/mchaput/whoosh/
@@ -38,8 +38,6 @@ modules:
 
 importlib
     https://pypi.python.org/pypi/importlib
-unittest2
-    https://pypi.python.org/pypi/unittest2
 
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
@@ -102,6 +100,41 @@ However you need to get PyCairo and PyGtk for your platform elsewhere as they
 do not support this easy installation method. Check their website for options
 for getting appropriate binaries.
 
+Also you will need header files for ``libxml2`` and ``libxslt`` to compile some
+of the required Python modules.
+
+On Debian or Ubuntu you can install them using:
+
+.. code-block:: sh
+
+    apt-get install libxml2-dev libxslt-dev
+
+On openSUSE or SLES you can install them using:
+
+.. code-block:: sh
+
+    zypper install libxslt-devel libxml2-devel
+
+.. _file-permissions:
+
+Filesystem permissions
+----------------------
+
+Weblate process needs to be able to read and write to two directories where it
+keeps data. The :setting:`GIT_ROOT` is used for storing Git repositories and
+:setting:`WHOOSH_INDEX` is used for fulltext search data.
+
+The default configuration places them in same tree as Weblate sources, however
+you might prefer to move these to better location such as
+:file:`/var/lib/weblate`.
+
+Weblate tries to create these directiories automatically, but it will fail
+when it does not have permissions to do so.
+
+You should also take care when running :ref:`manage`, as they should be run
+under same user as Weblate itself is running, otherwise permissions on some
+files might be wrong.
+
 .. _installation:
 
 Installation
@@ -117,6 +150,17 @@ options:
     wrong, for example notifications on failed merge or Django errors.
 
     .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#admins
+
+``ALLOWED_HOSTS``
+
+    If you are running Django 1.5 or newer, you need to set this to list of
+    hosts your site is supposed to serve. For example:
+
+    .. code-block:: python
+
+        ALLOWED_HOSTS = ['demo.weblate.org']
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
 
 ``DATABASES``
 
@@ -176,6 +220,8 @@ default site name to match your domain.
 
 .. seealso:: :ref:`config`, :ref:`privileges`, :ref:`faq-site`
 
+.. _production:
+
 Production setup
 ----------------
 
@@ -229,7 +275,8 @@ Enable indexing offloading
 ++++++++++++++++++++++++++
 
 Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
-performance.
+performance. Don't forget to schedule indexing in background job to keep the
+index up to date.
 
 .. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`
 
@@ -297,6 +344,16 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
 .. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
 .. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
 
+
+.. _production-hosts:
+
+Allowed hosts setup
++++++++++++++++++++
+
+Django 1.5 and newer require ``ALLOWED_HOSTS`` to hold list of domain names
+your site is allowed to serve, having it empty will block any request.
+
+.. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
 
 .. _production-avatar:
 
@@ -372,6 +429,61 @@ Additionally you will have to adjust :file:`weblate/settings.py`::
     URL_PREFIX = '/weblate'
 
 .. note:: This is supported since Weblate 1.3.
+
+
+Authentication
+--------------
+
+By default Weblate uses Django built-in user database. Thanks to this, you can
+also import user database from other Django based projects (see
+:ref:`pootle-migration`).
+
+But Django can be configured to authenticate against other means as well.
+Currently you have to register and confirm your email even when using other
+authentication backend.
+
+LDAP authentication
++++++++++++++++++++
+
+LDAP authentication can be best achieved using `django-auth-ldap` package. You
+can install it by usual means:
+
+.. code-block:: sh
+
+    # Using PyPI
+    pip install django-auth-ldap
+
+    # Using apt-get
+    apt-get install python-django-auth-ldap
+
+Once you have the package installed, you can hook it to Django authentication:
+
+.. code-block:: python
+
+    # Add LDAP backed, keep Django one if you want to be able to login
+    # even without LDAP for admin account
+    AUTHENTICATION_BACKENDS = (
+        'django_auth_ldap.backend.LDAPBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+    # LDAP server address
+    AUTH_LDAP_SERVER_URI = 'ldaps://ldap.example.net'
+
+    # DN to use for authentication
+    AUTH_LDAP_USER_DN_TEMPLATE = 'cn=%(user)s,o=Example'
+    # Depending on your LDAP server, you might use different DN
+    # like:
+    # AUTH_LDAP_USER_DN_TEMPLATE = 'ou=users,dc=example,dc=com'
+
+    # List of attributes to import from LDAP on login
+    AUTH_LDAP_USER_ATTR_MAP = {
+        'first_name': 'givenName',
+        'last_name': 'sn',
+        'email': 'mail',
+    }
+
+.. seealso:: http://pythonhosted.org/django-auth-ldap/
 
 .. _appliance:
 
@@ -527,6 +639,8 @@ recommended to put your site offline, while the migration is going on.
     all of them in Weblate's directory, for example by 
     ``find . -name '*.pyc' - delete``.
 
+.. _pootle-migration:
+
 Migrating from Pootle
 ---------------------
 
@@ -534,3 +648,5 @@ As Weblate was originally written as replacement from Pootle, it is supported
 to migrate user accounts from Pootle. All you need to do is to copy
 ``auth_user`` table from Pootle, user profiles will be automatically created
 for users as they log in and they will be asked to update their settings.
+Alternatively you can use :djadmin:`importusers` to import dumped user
+credentials.

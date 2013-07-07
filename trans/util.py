@@ -21,7 +21,7 @@
 import hashlib
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
-from django.utils.translation import ugettext as _
+from django.utils.translation import pgettext
 from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -52,7 +52,7 @@ AVATAR_DEFAULT_IMAGE = getattr(
     'identicon'
 )
 
-PLURAL_SEPARATOR = '\x00\x00'
+PLURAL_SEPARATOR = '\x1e\x1e'
 
 
 def avatar_for_email(email, size=80):
@@ -103,7 +103,7 @@ def get_user_display(user, icon=True, link=False):
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
-        full_name = _('None')
+        full_name = pgettext('No known user', 'None')
         email = ''
     else:
         # Get full name
@@ -166,7 +166,7 @@ def get_string(text):
 
 def is_repo_link(val):
     '''
-    Checks whethere repository is just a link for other one.
+    Checks whether repository is just a link for other one.
     '''
     return val.startswith('weblate://')
 

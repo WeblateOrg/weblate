@@ -35,10 +35,11 @@ from trans.models.unitdata import Comment, Suggestion
 from trans.forms import (
     TranslationForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
-    AntispamForm, CommentForm
+    AntispamForm, CommentForm, RevertForm
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
+from trans.autofixes import fix_target
 from trans.util import join_plural
 
 
@@ -82,7 +83,7 @@ def cleanup_session(session):
 
 def search(translation, request):
     '''
-    Performs search or retuns cached search results.
+    Performs search or returns cached search results.
     '''
 
     # Already performed search
@@ -103,6 +104,7 @@ def search(translation, request):
     search_form = SearchForm(request.GET)
     review_form = ReviewForm(request.GET)
 
+    search_query = None
     if review_form.is_valid():
         # Review
         allunits = translation.unit_set.review(
@@ -125,13 +127,18 @@ def search(translation, request):
             search_form.cleaned_data['tgt'],
         )
 
+        search_query = search_form.cleaned_data['q']
         name = get_search_name(
             search_form.cleaned_data['search'],
-            search_form.cleaned_data['q'],
+            search_query,
         )
     else:
         # Filtering by type
-        allunits = translation.unit_set.filter_type(rqtype, translation)
+        allunits = translation.unit_set.filter_type(
+            rqtype,
+            translation,
+            ignored='ignored' in request.GET
+        )
 
         name = get_filter_name(rqtype)
 
@@ -159,6 +166,7 @@ def search(translation, request):
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
+        'query': search_query,
         'name': name,
         'ids': unit_ids,
         'search_id': search_id,
@@ -176,11 +184,10 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     Saves translation or suggestion to database and backend.
     '''
     # Antispam protection
-    if not request.user.is_authenticated():
-        antispam = AntispamForm(request.POST)
-        if not antispam.is_valid():
-            # Silently redirect to next entry
-            return HttpResponseRedirect(next_unit_url)
+    antispam = AntispamForm(request.POST)
+    if not request.user.is_authenticated() and not antispam.is_valid():
+        # Silently redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
 
     form = TranslationForm(request.POST)
     if not form.is_valid():
@@ -195,7 +202,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             obj,
             form.cleaned_data['checksum'],
         )
-    except Unit.DoesNotExist:
+    except (Unit.DoesNotExist, IndexError):
         return
 
     if 'suggest' in request.POST:
@@ -236,12 +243,23 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             _('You don\'t have privileges to save translations!')
         )
     elif not user_locked:
+        # Run AutoFixes on user input
+        new_target = form.cleaned_data['target']
+        new_target, fixups = fix_target(new_target, unit)
+
+        if len(fixups) > 0:
+            messages.info(
+                request,
+                _('Following fixups were applied to translation: %s') %
+                ', '.join([unicode(f) for f in fixups])
+            )
+
         # Remember old checks
         oldchecks = set(
             unit.active_checks().values_list('check', flat=True)
         )
         # Update unit and save it
-        unit.target = join_plural(form.cleaned_data['target'])
+        unit.target = join_plural(new_target)
         unit.fuzzy = form.cleaned_data['fuzzy']
         saved = unit.save_backend(request)
 
@@ -308,6 +326,50 @@ def handle_merge(obj, request, next_unit_url):
             profile = request.user.get_profile()
             profile.translated += 1
             profile.save()
+        # Redirect to next entry
+        return HttpResponseRedirect(next_unit_url)
+
+
+def handle_revert(obj, request, next_unit_url):
+    if not request.user.has_perm('trans.save_translation'):
+        # Need privilege to save
+        messages.error(
+            request,
+            _('You don\'t have privileges to save translations!')
+        )
+        return
+
+    revertform = RevertForm(request.GET)
+    if not revertform.is_valid():
+        return
+
+    try:
+        unit = Unit.objects.get_checksum(
+            request,
+            obj,
+            revertform.cleaned_data['checksum'],
+        )
+    except Unit.DoesNotExist:
+        return
+
+    change = Change.objects.get(
+        pk=revertform.cleaned_data['revert']
+    )
+
+    if unit.checksum != change.unit.checksum:
+        messages.error(
+            request,
+            _('Can not revert to different unit!')
+        )
+    elif change.target == "":
+        messages.error(
+            request,
+            _('Can not revert to empty translation!')
+        )
+    else:
+        # Store unit
+        unit.target = change.target
+        unit.save_backend(request, change_action=Change.ACTION_REVERT)
         # Redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
@@ -415,6 +477,10 @@ def translate(request, project, subproject, lang):
     elif 'merge' in request.GET and not locked:
         response = handle_merge(obj, request, next_unit_url)
 
+    # Handle reverting
+    elif 'revert' in request.GET and not locked:
+        response = handle_revert(obj, request, this_unit_url)
+
     # Handle accepting/deleting suggestions
     elif not locked and ('accept' in request.GET or 'delete' in request.GET):
         response = handle_suggestions(obj, request, this_unit_url)
@@ -466,6 +532,7 @@ def translate(request, project, subproject, lang):
                 'last_changes_url': urlencode(obj.get_kwargs()),
                 'total': obj.unit_set.all().count(),
                 'search_id': search_result['search_id'],
+                'search_query': search_result['query'],
                 'offset': offset,
                 'filter_name': search_result['name'],
                 'filter_count': num_results,

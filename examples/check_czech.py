@@ -24,6 +24,7 @@ Quality check example for Czech plurals.
 from trans.checks import TargetCheck
 from django.utils.translation import ugettext_lazy as _
 
+
 class PluralCzechCheck(TargetCheck):
 
     # Used as identifier for check, should be unique
