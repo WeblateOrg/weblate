@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-02 11:52+0200\n"
-"PO-Revision-Date: 2013-07-01 14:35+0200\n"
-"Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
-">\n"
+"PO-Revision-Date: 2013-07-07 17:53+0200\n"
+"Last-Translator: Domen <dbc334@gmail.com>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -821,10 +820,9 @@ msgid "Rebase"
 msgstr "Rebase"
 
 #: trans/models/project.py:77
-#, fuzzy
 #| msgid "Project"
 msgid "Project name"
-msgstr "Projekt"
+msgstr "Ime projekta"
 
 #: trans/models/project.py:80 trans/models/subproject.py:69
 msgid "Name to display"
@@ -832,13 +830,12 @@ msgstr "Prikazno ime"
 
 #: trans/models/project.py:83 trans/models/subproject.py:72
 msgid "URL slug"
-msgstr ""
+msgstr "Lepši URL"
 
 #: trans/models/project.py:85 trans/models/subproject.py:74
-#, fuzzy
 #| msgid "Name used in URLs"
 msgid "Name used in URLs and file names."
-msgstr "Ime, uporabljeno v URL-jih"
+msgstr "Ime, uporabljeno v URL-jih in imenih datotek."
 
 #: trans/models/project.py:88
 msgid "Project website"
@@ -846,37 +843,32 @@ msgstr "Spletna stran projekta"
 
 #: trans/models/project.py:89
 msgid "Main website of translated project."
-msgstr ""
+msgstr "Glavna spletna stran prevedenega projekta."
 
 #: trans/models/project.py:92
-#, fuzzy
 #| msgid "Email addresses"
 msgid "Email address"
 msgstr "Naslov elektronske pošte"
 
 #: trans/models/project.py:94
-#, fuzzy
 #| msgid "Email conference for translators"
 msgid "Email conference for translators."
-msgstr "Poštna konferenca za prevajalce"
+msgstr "E-poštna konferenca za prevajalce."
 
 #: trans/models/project.py:97
-#, fuzzy
 #| msgid "Translation status"
 msgid "Translation instructions"
-msgstr "Stanje prevoda"
+msgstr "Navodila za prevajanje"
 
 #: trans/models/project.py:99
-#, fuzzy
 #| msgid "URL with instructions for translators"
 msgid "URL with instructions for translators."
-msgstr "URL z navodili za prevajalce"
+msgstr "URL z navodili za prevajalce."
 
 #: trans/models/project.py:102
-#, fuzzy
 #| msgid "Translation license:"
 msgid "Translation license"
-msgstr "Licenca prevoda:"
+msgstr "Dovoljenje prevoda"
 
 #: trans/models/project.py:106
 msgid "Optional short summary of license used for translations."
@@ -947,10 +939,9 @@ msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Ali naj bo shramba potisnjena navzgor (push upstream) po vsaki objavi."
 
 #: trans/models/project.py:163
-#, fuzzy
 #| msgid "Translations made"
 msgid "Set Translation-Team header"
-msgstr "Oddani prevodi"
+msgstr "Nastavi glavo Translation-Team"
 
 #: trans/models/project.py:166
 msgid ""
@@ -959,7 +950,7 @@ msgstr "Ali naj Weblate posodobi Translation-Team v glavah datotek."
 
 #: trans/models/project.py:172
 msgid "Enable ACL"
-msgstr ""
+msgstr "Omogoči ACL"
 
 #: trans/models/project.py:175
 msgid ""
@@ -989,13 +980,12 @@ msgstr "URL naslova licence ni mogoče uporabiti brez povzetka licence."
 #: trans/models/project.py:232
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr ""
+msgstr "Ne morem ustvariti mape projekta: %s"
 
 #: trans/models/subproject.py:67
-#, fuzzy
 #| msgid "Subproject"
 msgid "Subproject name"
-msgstr "Podprojekt"
+msgstr "Ime podprojekta"
 
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -1005,10 +995,9 @@ msgid "Project"
 msgstr "Projekt"
 
 #: trans/models/subproject.py:81
-#, fuzzy
 #| msgid "Git repository:"
 msgid "Git repository"
-msgstr "Shramba Git:"
+msgstr "Shramba Git"
 
 #: trans/models/subproject.py:84
 msgid ""
@@ -1027,10 +1016,9 @@ msgid "URL of push Git repository"
 msgstr "URL shrambe Git za potiskanje"
 
 #: trans/models/subproject.py:96
-#, fuzzy
 #| msgid "Repository status"
 msgid "Repository browser"
-msgstr "Stanje shrambe Git"
+msgstr "Brskalnik shrambe"
 
 #: trans/models/subproject.py:98
 #, python-format
@@ -1043,17 +1031,16 @@ msgstr ""
 
 #: trans/models/subproject.py:105
 msgid "Exported Git URL"
-msgstr ""
+msgstr "URL izvoženega Git"
 
 #: trans/models/subproject.py:108
 msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr "URL shrambe Git, kjer lahko uporabniki pridobijo spremembe z Weblate"
 
 #: trans/models/subproject.py:113
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Source string bug report address"
-msgstr "Pregled izvirnih nizov"
+msgstr "Naslov za prijavo napake v izvirnem nizu"
 
 #: trans/models/subproject.py:115
 msgid ""
@@ -1064,20 +1051,18 @@ msgstr ""
 "za izklop pošiljanja sporočil."
 
 #: trans/models/subproject.py:121
-#, fuzzy
 #| msgid "Git branch to translate"
 msgid "Git branch"
-msgstr "Podveja Git za prevajanje"
+msgstr "Podveja Git"
 
 #: trans/models/subproject.py:123
 msgid "Git branch to translate"
 msgstr "Podveja Git za prevajanje"
 
 #: trans/models/subproject.py:127
-#, fuzzy
 #| msgid "Files"
 msgid "File mask"
-msgstr "Datoteke"
+msgstr "Maska datoteke"
 
 #: trans/models/subproject.py:131
 msgid ""
@@ -1092,7 +1077,6 @@ msgid "Monolingual base language file"
 msgstr ""
 
 #: trans/models/subproject.py:140
-#, fuzzy
 #| msgid ""
 #| "Filename of translations template, this is recommended to use for "
 #| "translations which store only translated string like Android resource "
@@ -1101,14 +1085,13 @@ msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source, this is recommended to use for monolingual translation formats."
 msgstr ""
-"Ime datoteke predloge prevodov; priporočljivo za prevode, ki shranjujejo "
-"samo preveden niz, kot so nizi virov Android."
+"Ime datoteke temeljne datoteke prevodov, ki vsebuje vse nize in njihov vir; "
+"priporočljivo za oblike enojezičnih prevodov."
 
 #: trans/models/subproject.py:146
-#, fuzzy
 #| msgid "C format"
 msgid "File format"
-msgstr "Oblika C"
+msgstr "Oblika datoteke"
 
 #: trans/models/subproject.py:151
 msgid "Automatic detection might fail for some formats and is slightly slower."
@@ -1141,10 +1124,9 @@ msgstr ""
 "dokumentacijo."
 
 #: trans/models/subproject.py:179
-#, fuzzy
 #| msgid "Lock"
 msgid "Locked"
-msgstr "Zakleni"
+msgstr "Zaklenjeno"
 
 #: trans/models/subproject.py:182
 msgid "Whether subproject is locked for translation updates."
@@ -1165,10 +1147,9 @@ msgstr ""
 "prevod v tem projektu"
 
 #: trans/models/subproject.py:194
-#, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
-msgstr "Vaši prevodi"
+msgstr "Shrani zgodovino prevodov"
 
 #: trans/models/subproject.py:197
 msgid "Whether Weblate should keep history of translations"
@@ -1228,20 +1209,19 @@ msgid "Template file not found!"
 msgstr "Ne najdem datoteke predloge!"
 
 #: trans/models/subproject.py:803
-#, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
-msgstr "Oblike predloge prevoda ni mogoče prepoznati."
+msgstr "Ne morem prepoznati oblike temeljne datoteke prevoda."
 
 #: trans/models/subproject.py:807
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
-msgstr "Razčlenjevanje predloge prevoda je spodletelo: %s"
+msgstr "Razčlenjevanje temeljne datoteke prevoda je spodletelo: %s"
 
 #: trans/models/subproject.py:823
 msgid "File does not seem to be valid!"
-msgstr ""
+msgstr "Kot kaže, datoteka ni veljavna!"
 
 #: trans/models/subproject.py:831
 #, python-format
@@ -1277,10 +1257,9 @@ msgid "You can not base file with bilingual translation!"
 msgstr "Ne morete uporabljati enojezičnega prevoda brez predloge!"
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
-msgstr "Ne morete uporabljati enojezičnega prevoda brez predloge!"
+msgstr "Ne morete uporabljati enojezičnega prevoda brez temeljne datoteke!"
 
 #: trans/models/translation.py:184
 #, python-format
@@ -1851,10 +1830,9 @@ msgid "Strings to translate"
 msgstr "Nizi za prevajanje"
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Words to translate"
-msgstr "Nizi za prevajanje"
+msgstr "Besede za prevajanje"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
@@ -2955,10 +2933,10 @@ msgstr "Predlogi"
 #, python-format
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "%(words)s beseda za prevod!"
-msgstr[1] "%(words)s besedi za prevod!"
-msgstr[2] "%(words)s besede za prevod!"
-msgstr[3] "%(words)s besed za prevod!"
+msgstr[0] "%(words)s beseda za prevesti!"
+msgstr[1] "%(words)s besedi za prevesti!"
+msgstr[2] "%(words)s besede za prevesti!"
+msgstr[3] "%(words)s besed za prevesti!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -3717,7 +3695,7 @@ msgstr ""
 "\"%(ssh_docs)s\">priročniku Weblate</a>."
 
 #: weblate/html/admin/trans/change_form.html:8
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "More information about this check is available in the <a href=\"%(link)s"
 #| "\">documentation</a>."
@@ -3725,12 +3703,12 @@ msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
 msgstr ""
-"Več informacij o preverjanju je na voljo v <a href=\"%(link)s"
-"\">dokumentaciji</a>."
+"Obvezna polja so označena krepko; več informacij je na voljo v <a href=\"%"
+"(url)s\">dokumentaciji</a>."
 
 #: weblate/html/admin/trans/change_form.html:10
 msgid "Do not change this object here, please use Weblate interface instead."
-msgstr ""
+msgstr "Ne spreminjajte objekta tukaj; uporabite vmesnik Weblate."
 
 #: weblate/html/admin/trans/change_form.html:14
 #, python-format
@@ -3738,6 +3716,8 @@ msgid ""
 "Importing new translation can take some time, please check <a href=\"%(url)s"
 "\">our documentation</a> for information how to improve this."
 msgstr ""
+"Uvažanje novih prevodov lahko traja nekaj časa; prosimo, oglejte si <a "
+"href=\"%(url)s\">našo dokumentacijo</a> za informacije, kako to izboljšati."
 
 #: weblate/html/js/dictionary.html:19
 msgid "Copy word to translation"
