@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 11:52+0200\n"
+"POT-Creation-Date: 2013-07-08 15:32+0200\n"
 "PO-Revision-Date: 2013-05-06 05:55+0200\n"
 "Last-Translator: Chris Oelmueller <chris.oelmueller@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
@@ -241,68 +241,68 @@ msgstr "Monikko"
 msgid "Plural form %d"
 msgstr "Monikkomuoto %d"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:65
 msgid "Debug mode"
 msgstr ""
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:71
 msgid "Site domain"
 msgstr ""
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:77
 msgid "Database backend"
 msgstr ""
 
-#: trans/admin_views.py:79
+#: trans/admin_views.py:83
 msgid "Site administrator"
 msgstr ""
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:86
+#: trans/admin_views.py:90
 msgid "Indexing offloading"
 msgstr ""
 
-#: trans/admin_views.py:102
+#: trans/admin_views.py:106
 msgid "Django caching"
 msgstr ""
 
-#: trans/admin_views.py:113
+#: trans/admin_views.py:117
 msgid "Email addresses"
 msgstr ""
 
-#: trans/admin_views.py:121
+#: trans/admin_views.py:125
 msgid "Federated avatar support"
 msgstr ""
 
-#: trans/admin_views.py:126
+#: trans/admin_views.py:130
 msgid "PyICU library"
 msgstr ""
 
-#: trans/admin_views.py:132
+#: trans/admin_views.py:136
 msgid "Allowed hosts"
 msgstr ""
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:158
+#: trans/admin_views.py:162
 msgid "[hostname hashed]"
 msgstr ""
 
-#: trans/admin_views.py:216
+#: trans/admin_views.py:217
 msgid "Created new SSH key."
 msgstr ""
 
-#: trans/admin_views.py:220
+#: trans/admin_views.py:221
 #, fuzzy, python-format
 msgid "Failed to generate key: %s"
 msgstr "Lomakkeen käsittely epäonnistui!"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:241
 #, fuzzy
 #| msgid "Invalid text direction"
 msgid "Invalid host name given!"
 msgstr "Väärä tekstin suunta"
 
-#: trans/admin_views.py:253
+#: trans/admin_views.py:254
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -319,48 +319,48 @@ msgstr "Viimeaikaiset muutokset"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Luettelo viimeaikaisista muutoksista Weblatessa"
 
-#: trans/formats.py:474
+#: trans/formats.py:479
 #, fuzzy
 msgid "Automatic detection"
 msgstr "Automaattinen käännös"
 
-#: trans/formats.py:488
+#: trans/formats.py:493
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/formats.py:529
+#: trans/formats.py:534
 msgid "Gettext PO file (monolingual)"
 msgstr ""
 
-#: trans/formats.py:538
+#: trans/formats.py:543
 #, fuzzy
 msgid "Qt Linguist Translation File"
 msgstr "Git haara käännettäväksi"
 
-#: trans/formats.py:546
+#: trans/formats.py:551
 #, fuzzy
 msgid "XLIFF Translation File"
 msgstr "Käännökset"
 
-#: trans/formats.py:554
+#: trans/formats.py:559
 #, fuzzy
 msgid "OS X Strings"
 msgstr "Kaikki merkkijonot"
 
-#: trans/formats.py:562
+#: trans/formats.py:567
 msgid "Java Properties"
 msgstr ""
 
-#: trans/formats.py:580
+#: trans/formats.py:585
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/formats.py:589
+#: trans/formats.py:594
 #, fuzzy
 msgid "PHP strings"
 msgstr "Kaikki merkkijonot"
 
-#: trans/formats.py:597 ttkit/aresource.py:320
+#: trans/formats.py:602 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr ""
 
@@ -886,12 +886,15 @@ msgid "Main website of translated project."
 msgstr ""
 
 #: trans/models/project.py:92
-msgid "Email address"
-msgstr ""
+#, fuzzy
+#| msgid "Trailing stop"
+msgid "Mailing list"
+msgstr "Tekstin jälkeen piste"
 
 #: trans/models/project.py:94
 #, fuzzy
-msgid "Email conference for translators."
+#| msgid "Mailing list for translators:"
+msgid "Mailing list for translators."
 msgstr "Sähköpostituslista kääntäjille:"
 
 #: trans/models/project.py:97
@@ -1110,7 +1113,7 @@ msgstr ""
 #: trans/models/subproject.py:140
 msgid ""
 "Filename of translations base file, which contains all strings and their "
-"source, this is recommended to use for monolingual translation formats."
+"source; this is recommended to use for monolingual translation formats."
 msgstr ""
 
 #: trans/models/subproject.py:146
@@ -1129,7 +1132,7 @@ msgstr ""
 
 #: trans/models/subproject.py:162
 msgid ""
-"Additional file to include in commits, please check documentation for more "
+"Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 
@@ -1504,7 +1507,7 @@ msgstr "Etsi lähdemerkkijonoista"
 msgid "Page Not Found"
 msgstr "Sivua ei löydy"
 
-#: trans/views/basic.py:356 weblate/html/about.html:11
+#: trans/views/basic.py:358 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Tietoa Weblatesta"
@@ -3758,8 +3761,8 @@ msgstr ""
 #: weblate/html/admin/trans/change_form.html:14
 #, python-format
 msgid ""
-"Importing new translation can take some time, please check <a href=\"%(url)s"
-"\">our documentation</a> for information how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
 #: weblate/html/js/dictionary.html:19
@@ -4322,6 +4325,10 @@ msgstr "Viimeaikaiset muutokset"
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
 msgstr "Viimeaikaista aktiivisuutta ei ole tallennettu."
+
+#, fuzzy
+#~ msgid "Email conference for translators."
+#~ msgstr "Sähköpostituslista kääntäjille:"
 
 #, fuzzy
 #~| msgid "Name used in URLs"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 11:52+0200\n"
+"POT-Creation-Date: 2013-07-08 15:32+0200\n"
 "PO-Revision-Date: 2013-05-30 13:36+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: German <http://l10n.cihar.com/projects/weblate/master/de/>\n"
@@ -237,68 +237,68 @@ msgstr "Mehrzahl"
 msgid "Plural form %d"
 msgstr "Plural-Form %d"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:65
 msgid "Debug mode"
 msgstr "Debugmodus"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:71
 msgid "Site domain"
 msgstr "Seitendomain"
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:77
 msgid "Database backend"
 msgstr "Datenbank Backend"
 
-#: trans/admin_views.py:79
+#: trans/admin_views.py:83
 msgid "Site administrator"
 msgstr "Seitenadministrator"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:86
+#: trans/admin_views.py:90
 msgid "Indexing offloading"
 msgstr "Indizieren auslagern"
 
-#: trans/admin_views.py:102
+#: trans/admin_views.py:106
 msgid "Django caching"
 msgstr "Caching von Django"
 
-#: trans/admin_views.py:113
+#: trans/admin_views.py:117
 msgid "Email addresses"
 msgstr "E-Mail-Adressen"
 
-#: trans/admin_views.py:121
+#: trans/admin_views.py:125
 #, fuzzy
 msgid "Federated avatar support"
 msgstr "Federated avatar support"
 
-#: trans/admin_views.py:126
+#: trans/admin_views.py:130
 msgid "PyICU library"
 msgstr "PyICU-Programmbibliothek"
 
-#: trans/admin_views.py:132
+#: trans/admin_views.py:136
 msgid "Allowed hosts"
 msgstr ""
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:158
+#: trans/admin_views.py:162
 msgid "[hostname hashed]"
 msgstr ""
 
-#: trans/admin_views.py:216
+#: trans/admin_views.py:217
 msgid "Created new SSH key."
 msgstr "Neuer SSH Schlüssel wurde erzeugt."
 
-#: trans/admin_views.py:220
+#: trans/admin_views.py:221
 #, fuzzy, python-format
 #| msgid "Failed to generate key!"
 msgid "Failed to generate key: %s"
 msgstr "Fehler beim Generieren des Schlüssels!"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:241
 msgid "Invalid host name given!"
 msgstr "Ungültiger Hostname angegeben!"
 
-#: trans/admin_views.py:253
+#: trans/admin_views.py:254
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -315,43 +315,43 @@ msgstr "Letzte Änderungen in %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Liste der letzten mit Weblate gemachten Änderungen in %s."
 
-#: trans/formats.py:474
+#: trans/formats.py:479
 msgid "Automatic detection"
 msgstr "Automatische Detektion"
 
-#: trans/formats.py:488
+#: trans/formats.py:493
 msgid "Gettext PO file"
 msgstr "Gettext PO Datei"
 
-#: trans/formats.py:529
+#: trans/formats.py:534
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO Datei (einsprachig)"
 
-#: trans/formats.py:538
+#: trans/formats.py:543
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Übersetzungsdatei"
 
-#: trans/formats.py:546
+#: trans/formats.py:551
 msgid "XLIFF Translation File"
 msgstr "XLIFF Übersetzungsdatei"
 
-#: trans/formats.py:554
+#: trans/formats.py:559
 msgid "OS X Strings"
 msgstr "OS X Strings"
 
-#: trans/formats.py:562
+#: trans/formats.py:567
 msgid "Java Properties"
 msgstr "Java Properties"
 
-#: trans/formats.py:580
+#: trans/formats.py:585
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: trans/formats.py:589
+#: trans/formats.py:594
 msgid "PHP strings"
 msgstr "PHP strings"
 
-#: trans/formats.py:597 ttkit/aresource.py:320
+#: trans/formats.py:602 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Android String Resource"
 
@@ -862,15 +862,15 @@ msgstr ""
 
 #: trans/models/project.py:92
 #, fuzzy
-#| msgid "Email addresses"
-msgid "Email address"
-msgstr "E-Mail-Adressen"
+#| msgid "Trailing stop"
+msgid "Mailing list"
+msgstr "Punkt am Ende"
 
 #: trans/models/project.py:94
 #, fuzzy
-#| msgid "Email conference for translators"
-msgid "Email conference for translators."
-msgstr "Mailingliste für Übersetzer"
+#| msgid "Mailing list for translators:"
+msgid "Mailing list for translators."
+msgstr "Mailingliste für Übersetzer:"
 
 #: trans/models/project.py:97
 #, fuzzy
@@ -1102,7 +1102,7 @@ msgstr ""
 #: trans/models/subproject.py:140
 msgid ""
 "Filename of translations base file, which contains all strings and their "
-"source, this is recommended to use for monolingual translation formats."
+"source; this is recommended to use for monolingual translation formats."
 msgstr ""
 
 #: trans/models/subproject.py:146
@@ -1120,10 +1120,16 @@ msgid "Additional commit file"
 msgstr ""
 
 #: trans/models/subproject.py:162
+#, fuzzy
+#| msgid ""
+#| "You can use format strings for various information, please check "
+#| "documentation for more details."
 msgid ""
-"Additional file to include in commits, please check documentation for more "
+"Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
+"Diverse Informationen stehen als Format-Strings zur Verfügung, was in der "
+"Dokumentation genauer erläutert ist."
 
 #: trans/models/subproject.py:167
 msgid "Pre-commit script"
@@ -1495,7 +1501,7 @@ msgstr "Ausgangs-Zeichenketten in %s"
 msgid "Page Not Found"
 msgstr "Seite nicht gefunden"
 
-#: trans/views/basic.py:356 weblate/html/about.html:11
+#: trans/views/basic.py:358 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Über Weblate"
@@ -3667,8 +3673,8 @@ msgstr ""
 #: weblate/html/admin/trans/change_form.html:14
 #, python-format
 msgid ""
-"Importing new translation can take some time, please check <a href=\"%(url)s"
-"\">our documentation</a> for information how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
 #: weblate/html/js/dictionary.html:19
@@ -4182,6 +4188,16 @@ msgstr "Änderungen"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Keine entsprechenden Aktivitäten wurden aufgezeichnet."
+
+#, fuzzy
+#~| msgid "Email addresses"
+#~ msgid "Email address"
+#~ msgstr "E-Mail-Adressen"
+
+#, fuzzy
+#~| msgid "Email conference for translators"
+#~ msgid "Email conference for translators."
+#~ msgstr "Mailingliste für Übersetzer"
 
 #, fuzzy
 #~| msgid "Name used in URLs"

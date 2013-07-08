@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 11:52+0200\n"
+"POT-Creation-Date: 2013-07-08 15:32+0200\n"
 "PO-Revision-Date: 2013-07-03 07:13+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -236,66 +236,66 @@ msgstr "Çoğul"
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:65
 msgid "Debug mode"
 msgstr "Hata ayıklama kipi"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:71
 msgid "Site domain"
 msgstr "Site etki alanı"
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:77
 msgid "Database backend"
 msgstr "Veritabanı arka ucu"
 
-#: trans/admin_views.py:79
+#: trans/admin_views.py:83
 msgid "Site administrator"
 msgstr "Site yöneticisi"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:86
+#: trans/admin_views.py:90
 msgid "Indexing offloading"
 msgstr "İndeksleme boşaltılıyor"
 
-#: trans/admin_views.py:102
+#: trans/admin_views.py:106
 msgid "Django caching"
 msgstr "Django önbellekleme"
 
-#: trans/admin_views.py:113
+#: trans/admin_views.py:117
 msgid "Email addresses"
 msgstr "Eposta adresleri"
 
-#: trans/admin_views.py:121
+#: trans/admin_views.py:125
 msgid "Federated avatar support"
 msgstr "Birleşmiş avatar desteği"
 
-#: trans/admin_views.py:126
+#: trans/admin_views.py:130
 msgid "PyICU library"
 msgstr "PyICU kütüphanesi"
 
-#: trans/admin_views.py:132
+#: trans/admin_views.py:136
 msgid "Allowed hosts"
 msgstr "İzin verilen anamakineler"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:158
+#: trans/admin_views.py:162
 msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
-#: trans/admin_views.py:216
+#: trans/admin_views.py:217
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/admin_views.py:220
+#: trans/admin_views.py:221
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Anahtar üretme başarısız: %s"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:241
 msgid "Invalid host name given!"
 msgstr "Verilen geçersiz anamakine adı!"
 
-#: trans/admin_views.py:253
+#: trans/admin_views.py:254
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -314,43 +314,43 @@ msgstr "%s içindeki son değişiklikler"
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
 
-#: trans/formats.py:474
+#: trans/formats.py:479
 msgid "Automatic detection"
 msgstr "Otomatik algılama"
 
-#: trans/formats.py:488
+#: trans/formats.py:493
 msgid "Gettext PO file"
 msgstr "Gettext PO dosyası"
 
-#: trans/formats.py:529
+#: trans/formats.py:534
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO dosyası (tek dilli)"
 
-#: trans/formats.py:538
+#: trans/formats.py:543
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Çeviri Dosyası"
 
-#: trans/formats.py:546
+#: trans/formats.py:551
 msgid "XLIFF Translation File"
 msgstr "XLIFF Çeviri Dosyası"
 
-#: trans/formats.py:554
+#: trans/formats.py:559
 msgid "OS X Strings"
 msgstr "OS X Satırları"
 
-#: trans/formats.py:562
+#: trans/formats.py:567
 msgid "Java Properties"
 msgstr "Java Özellikleri"
 
-#: trans/formats.py:580
+#: trans/formats.py:585
 msgid "Java Properties (UTF-8)"
 msgstr "Java Özellikleri (UTF-8)"
 
-#: trans/formats.py:589
+#: trans/formats.py:594
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: trans/formats.py:597 ttkit/aresource.py:320
+#: trans/formats.py:602 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Android Dizgi Kaynağı"
 
@@ -844,12 +844,16 @@ msgid "Main website of translated project."
 msgstr "Çevrilen projenin ana web sitesi."
 
 #: trans/models/project.py:92
-msgid "Email address"
-msgstr "Eposta adresi"
+#, fuzzy
+#| msgid "Trailing stop"
+msgid "Mailing list"
+msgstr "Sondaki nokta işareti"
 
 #: trans/models/project.py:94
-msgid "Email conference for translators."
-msgstr "Çevirmenler için eposta toplantısı."
+#, fuzzy
+#| msgid "Mailing list for translators:"
+msgid "Mailing list for translators."
+msgstr "Çevirmenler için postalama listesi:"
 
 #: trans/models/project.py:97
 msgid "Translation instructions"
@@ -968,7 +972,6 @@ msgid "Could not create project directory: %s"
 msgstr "Proje dizini oluşturulamadı: %s"
 
 #: trans/models/subproject.py:67
-#| msgid "Subproject"
 msgid "Subproject name"
 msgstr "Alt proje adı"
 
@@ -980,7 +983,6 @@ msgid "Project"
 msgstr "Proje"
 
 #: trans/models/subproject.py:81
-#| msgid "Git repository:"
 msgid "Git repository"
 msgstr "Git havuzu"
 
@@ -1001,7 +1003,6 @@ msgid "URL of push Git repository"
 msgstr "Git havuzuna yollama URL'si"
 
 #: trans/models/subproject.py:96
-#| msgid "Repository status"
 msgid "Repository browser"
 msgstr "Havuz tarayıcısı"
 
@@ -1024,7 +1025,6 @@ msgstr ""
 "Kullanıcıların Weblate'ten değişiklikleri getirebileceği Git havuzunun URL'si"
 
 #: trans/models/subproject.py:113
-#| msgid "Source strings review"
 msgid "Source string bug report address"
 msgstr "Kaynak satır hata bildirme adresi"
 
@@ -1037,7 +1037,6 @@ msgstr ""
 "boş bırakın."
 
 #: trans/models/subproject.py:121
-#| msgid "Git branch to translate"
 msgid "Git branch"
 msgstr "Git dalı"
 
@@ -1046,7 +1045,6 @@ msgid "Git branch to translate"
 msgstr "Çevirmek için Git dalı"
 
 #: trans/models/subproject.py:127
-#| msgid "Files"
 msgid "File mask"
 msgstr "Dosya maskesi"
 
@@ -1063,19 +1061,18 @@ msgid "Monolingual base language file"
 msgstr "Tek dil tabanlı dil dosyası"
 
 #: trans/models/subproject.py:140
+#, fuzzy
 #| msgid ""
-#| "Filename of translations template, this is recommended to use for "
-#| "translations which store only translated string like Android resource "
-#| "strings."
+#| "Filename of translations base file, which contains all strings and their "
+#| "source, this is recommended to use for monolingual translation formats."
 msgid ""
 "Filename of translations base file, which contains all strings and their "
-"source, this is recommended to use for monolingual translation formats."
+"source; this is recommended to use for monolingual translation formats."
 msgstr ""
 "Tüm satırları ve kanaklarını içeren çevirilerin temel dosyasının dosya adı, "
 "bu, tek dilli çeviri biçimlerinin kullanılması için önerilir."
 
 #: trans/models/subproject.py:146
-#| msgid "C format"
 msgid "File format"
 msgstr "Dosya biçimi"
 
@@ -1089,8 +1086,12 @@ msgid "Additional commit file"
 msgstr "İlave işleme dosyası"
 
 #: trans/models/subproject.py:162
+#, fuzzy
+#| msgid ""
+#| "Additional file to include in commits, please check documentation for "
+#| "more details."
 msgid ""
-"Additional file to include in commits, please check documentation for more "
+"Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 "İşlenenlere dahil etmek için ilave dosya, lütfen daha fazla ayrıntı için "
@@ -1109,7 +1110,6 @@ msgstr ""
 "ayrıntı için belgeleri kontrol edin."
 
 #: trans/models/subproject.py:179
-#| msgid "Lock"
 msgid "Locked"
 msgstr "Kilitlendi"
 
@@ -1118,7 +1118,6 @@ msgid "Whether subproject is locked for translation updates."
 msgstr "Çeviri güncellemeleri için alt projenin kilitlenip kilitlenmemesi."
 
 #: trans/models/subproject.py:186
-#| msgid "New translation in %(translation)s"
 msgid "Allow translation propagation"
 msgstr "Çeviri yaymaya izin ver"
 
@@ -1131,7 +1130,6 @@ msgstr ""
 "neden olup olmayacağı"
 
 #: trans/models/subproject.py:194
-#| msgid "Your translations"
 msgid "Save translation history"
 msgstr "Çeviri geçmişini kaydet"
 
@@ -1190,13 +1188,11 @@ msgid "Template file not found!"
 msgstr "Şablon dosyası bulunamadı!"
 
 #: trans/models/subproject.py:803
-#| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "Çeviri temel dosyasının biçimi tanınamadı."
 
 #: trans/models/subproject.py:807
 #, python-format
-#| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri temel dosyasını ayrıştırma başarısız: %s"
 
@@ -1232,12 +1228,10 @@ msgstr ""
 "kaynakların çevirisi için alt projeleri kullanın."
 
 #: trans/models/subproject.py:883 trans/models/subproject.py:889
-#| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
 msgstr "İki dilli çevirisi olan temel dosyayı kullanamazsınız!"
 
 #: trans/models/subproject.py:897
-#| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
 msgstr "Temel dosyasız tek dilli çeviriyi kullanamazsınız!"
 
@@ -1454,7 +1448,7 @@ msgstr "%s içindeki kaynak satır"
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
-#: trans/views/basic.py:356 weblate/html/about.html:11
+#: trans/views/basic.py:358 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Weblate hakkında"
@@ -1770,7 +1764,6 @@ msgid "Strings to translate"
 msgstr "Çevirmek için satır"
 
 #: weblate/html/about.html:57
-#| msgid "Strings to translate"
 msgid "Words to translate"
 msgstr "Çevirmek için kelime"
 
@@ -3629,15 +3622,12 @@ msgstr ""
 
 #: weblate/html/admin/trans/change_form.html:8
 #, python-format
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
 msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
 msgstr ""
-"Gerekli alanlar koyu olarak işaretlenir, daha fazla bilgiyi <a href=\"%"
-"(url)s\">belgelerde</a> bulabilirsiniz."
+"Gerekli alanlar koyu olarak işaretlenir, daha fazla bilgiyi <a href=\"%(url)s"
+"\">belgelerde</a> bulabilirsiniz."
 
 #: weblate/html/admin/trans/change_form.html:10
 msgid "Do not change this object here, please use Weblate interface instead."
@@ -3646,10 +3636,13 @@ msgstr ""
 "kullanın."
 
 #: weblate/html/admin/trans/change_form.html:14
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Importing new translation can take some time, please check <a href="
+#| "\"%(url)s\">our documentation</a> for information how to improve this."
 msgid ""
-"Importing new translation can take some time, please check <a href=\"%(url)s"
-"\">our documentation</a> for information how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 "Yeni çevirinin içe aktarılması biraz zaman alabilir, lütfen bunu nasıl "
 "geliştireceğiniz bilgisi için <a href=\"%(url)s\">belgelerimize</a> bakın."
@@ -4173,6 +4166,12 @@ msgstr "değişiklikler"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Bulunmuş eşleşen etkinlik yok."
+
+#~ msgid "Email address"
+#~ msgstr "Eposta adresi"
+
+#~ msgid "Email conference for translators."
+#~ msgstr "Çevirmenler için eposta toplantısı."
 
 #, fuzzy
 #~| msgid "Name used in URLs"

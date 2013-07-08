@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 11:52+0200\n"
+"POT-Creation-Date: 2013-07-08 15:32+0200\n"
 "PO-Revision-Date: 2013-07-02 11:56+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -236,66 +236,66 @@ msgstr "Množné číslo"
 msgid "Plural form %d"
 msgstr "Množný tvar %d"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:65
 msgid "Debug mode"
 msgstr "Ladicí režim"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:71
 msgid "Site domain"
 msgstr "Doména stránek"
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:77
 msgid "Database backend"
 msgstr "Použitá databáze"
 
-#: trans/admin_views.py:79
+#: trans/admin_views.py:83
 msgid "Site administrator"
 msgstr "Správce stránek"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:86
+#: trans/admin_views.py:90
 msgid "Indexing offloading"
 msgstr "Odložení indexování"
 
-#: trans/admin_views.py:102
+#: trans/admin_views.py:106
 msgid "Django caching"
 msgstr "Mezipaměť Djanga"
 
-#: trans/admin_views.py:113
+#: trans/admin_views.py:117
 msgid "Email addresses"
 msgstr "Emailové adresy"
 
-#: trans/admin_views.py:121
+#: trans/admin_views.py:125
 msgid "Federated avatar support"
 msgstr "Podpora distribuovaných avatarů"
 
-#: trans/admin_views.py:126
+#: trans/admin_views.py:130
 msgid "PyICU library"
 msgstr "Knihovna PyICU"
 
-#: trans/admin_views.py:132
+#: trans/admin_views.py:136
 msgid "Allowed hosts"
 msgstr "Povolené servery"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:158
+#: trans/admin_views.py:162
 msgid "[hostname hashed]"
 msgstr "[jméno hostitele je skryto]"
 
-#: trans/admin_views.py:216
+#: trans/admin_views.py:217
 msgid "Created new SSH key."
 msgstr "Byl vytvořen nový SSH klíč."
 
-#: trans/admin_views.py:220
+#: trans/admin_views.py:221
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nepodařilo se vytvořit klíč: %s"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:241
 msgid "Invalid host name given!"
 msgstr "Zadáno chybné jméno hostitele!"
 
-#: trans/admin_views.py:253
+#: trans/admin_views.py:254
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -314,43 +314,43 @@ msgstr "Nedávné změny v %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Seznam nedávných změn provedených za pomocí Weblate v %s."
 
-#: trans/formats.py:474
+#: trans/formats.py:479
 msgid "Automatic detection"
 msgstr "Automaticky"
 
-#: trans/formats.py:488
+#: trans/formats.py:493
 msgid "Gettext PO file"
 msgstr "PO soubor Gettextu"
 
-#: trans/formats.py:529
+#: trans/formats.py:534
 msgid "Gettext PO file (monolingual)"
 msgstr "PO soubor Gettextu (jednojazyčný)"
 
-#: trans/formats.py:538
+#: trans/formats.py:543
 msgid "Qt Linguist Translation File"
 msgstr "Překladový soubor Qt Linguistu"
 
-#: trans/formats.py:546
+#: trans/formats.py:551
 msgid "XLIFF Translation File"
 msgstr "Překladový soubor XLIFF"
 
-#: trans/formats.py:554
+#: trans/formats.py:559
 msgid "OS X Strings"
 msgstr "Řetězce OS X"
 
-#: trans/formats.py:562
+#: trans/formats.py:567
 msgid "Java Properties"
 msgstr "Vlastnosti Javy"
 
-#: trans/formats.py:580
+#: trans/formats.py:585
 msgid "Java Properties (UTF-8)"
 msgstr "Vlastnosti Javy (UTF-8)"
 
-#: trans/formats.py:589
+#: trans/formats.py:594
 msgid "PHP strings"
 msgstr "PHP řetězce"
 
-#: trans/formats.py:597 ttkit/aresource.py:320
+#: trans/formats.py:602 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Textové zdroje pro Android"
 
@@ -838,12 +838,16 @@ msgid "Main website of translated project."
 msgstr "Webové stránky překládaného projektu."
 
 #: trans/models/project.py:92
-msgid "Email address"
-msgstr "Emailová adresa"
+#, fuzzy
+#| msgid "Trailing stop"
+msgid "Mailing list"
+msgstr "Koncová tečka"
 
 #: trans/models/project.py:94
-msgid "Email conference for translators."
-msgstr "Emailová konference pro překladatele."
+#, fuzzy
+#| msgid "Mailing list for translators:"
+msgid "Mailing list for translators."
+msgstr "Emailová konference pro překladatele:"
 
 #: trans/models/project.py:97
 msgid "Translation instructions"
@@ -1048,12 +1052,13 @@ msgid "Monolingual base language file"
 msgstr "Základní soubor pro monolinguální překlady"
 
 #: trans/models/subproject.py:140
+#, fuzzy
 #| msgid ""
-#| "Filename of translations template, this is recommended to use for "
-#| "monolingual translation formats."
+#| "Filename of translations base file, which contains all strings and their "
+#| "source, this is recommended to use for monolingual translation formats."
 msgid ""
 "Filename of translations base file, which contains all strings and their "
-"source, this is recommended to use for monolingual translation formats."
+"source; this is recommended to use for monolingual translation formats."
 msgstr ""
 "Jméno souboru s základním souborem překladu, který obsahuje všechny řetězce "
 "a jejich zdroj, toto je doporučené pro monolinguální překlady."
@@ -1073,8 +1078,12 @@ msgid "Additional commit file"
 msgstr "Další soubor do commitu"
 
 #: trans/models/subproject.py:162
+#, fuzzy
+#| msgid ""
+#| "Additional file to include in commits, please check documentation for "
+#| "more details."
 msgid ""
-"Additional file to include in commits, please check documentation for more "
+"Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 "Další soubor, který má být obsažen v comitech, více informací naleznete v "
@@ -1460,7 +1469,7 @@ msgstr "Zdrojové řetězce v %s"
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
-#: trans/views/basic.py:356 weblate/html/about.html:11
+#: trans/views/basic.py:358 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "O Weblate"
@@ -1774,7 +1783,6 @@ msgid "Strings to translate"
 msgstr "Řetězců k překladu"
 
 #: weblate/html/about.html:57
-#| msgid "Strings to translate"
 msgid "Words to translate"
 msgstr "Slov k překladu"
 
@@ -3646,10 +3654,13 @@ msgid "Do not change this object here, please use Weblate interface instead."
 msgstr "Neměňte zde tento objekt, prosím použijte rozhraní Weblate."
 
 #: weblate/html/admin/trans/change_form.html:14
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "Importing new translation can take some time, please check <a href="
+#| "\"%(url)s\">our documentation</a> for information how to improve this."
 msgid ""
-"Importing new translation can take some time, please check <a href=\"%(url)s"
-"\">our documentation</a> for information how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 "Nahrávání nových překladů může trvat poměrně dlouho, v <a href=\"%(url)s"
 "\">naší dokumentaci</a> naleznete několik tipů, jak ho urychlit."
@@ -4170,6 +4181,12 @@ msgstr "změny"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Nebyla nalezena žádná odpovídající aktivita."
+
+#~ msgid "Email address"
+#~ msgstr "Emailová adresa"
+
+#~ msgid "Email conference for translators."
+#~ msgstr "Emailová konference pro překladatele."
 
 #~| msgid "Name used in URLs"
 #~ msgid "Name used in URLs and file names"

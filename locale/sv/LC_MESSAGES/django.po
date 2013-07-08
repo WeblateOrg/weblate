@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 11:52+0200\n"
+"POT-Creation-Date: 2013-07-08 15:32+0200\n"
 "PO-Revision-Date: 2013-07-02 11:11+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
@@ -235,66 +235,66 @@ msgstr "Plural"
 msgid "Plural form %d"
 msgstr "Pluralform %d"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:65
 msgid "Debug mode"
 msgstr "Felsökningsläge"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:71
 msgid "Site domain"
 msgstr ""
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:77
 msgid "Database backend"
 msgstr ""
 
-#: trans/admin_views.py:79
+#: trans/admin_views.py:83
 msgid "Site administrator"
 msgstr ""
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:86
+#: trans/admin_views.py:90
 msgid "Indexing offloading"
 msgstr "Avlastning av indexering"
 
-#: trans/admin_views.py:102
+#: trans/admin_views.py:106
 msgid "Django caching"
 msgstr ""
 
-#: trans/admin_views.py:113
+#: trans/admin_views.py:117
 msgid "Email addresses"
 msgstr "E-postadresser"
 
-#: trans/admin_views.py:121
+#: trans/admin_views.py:125
 msgid "Federated avatar support"
 msgstr ""
 
-#: trans/admin_views.py:126
+#: trans/admin_views.py:130
 msgid "PyICU library"
 msgstr "PyICU-bibliotek"
 
-#: trans/admin_views.py:132
+#: trans/admin_views.py:136
 msgid "Allowed hosts"
 msgstr ""
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:158
+#: trans/admin_views.py:162
 msgid "[hostname hashed]"
 msgstr ""
 
-#: trans/admin_views.py:216
+#: trans/admin_views.py:217
 msgid "Created new SSH key."
 msgstr "Skapade ny SSH-nyckel."
 
-#: trans/admin_views.py:220
+#: trans/admin_views.py:221
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Misslyckades med att skapa nyckel: %s"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:241
 msgid "Invalid host name given!"
 msgstr "Ogiltigt värdnamn angivet!"
 
-#: trans/admin_views.py:253
+#: trans/admin_views.py:254
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -311,43 +311,43 @@ msgstr "Senaste ändringar i %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Alla de senaste ändringarna gjorda med Weblate i %s."
 
-#: trans/formats.py:474
+#: trans/formats.py:479
 msgid "Automatic detection"
 msgstr "Automatisk igenkänning"
 
-#: trans/formats.py:488
+#: trans/formats.py:493
 msgid "Gettext PO file"
 msgstr "Gettext po-fil"
 
-#: trans/formats.py:529
+#: trans/formats.py:534
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext po-fil (enspråkig)"
 
-#: trans/formats.py:538
+#: trans/formats.py:543
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist-översättningsfil"
 
-#: trans/formats.py:546
+#: trans/formats.py:551
 msgid "XLIFF Translation File"
 msgstr "XLIFF-översättningsfil"
 
-#: trans/formats.py:554
+#: trans/formats.py:559
 msgid "OS X Strings"
 msgstr ""
 
-#: trans/formats.py:562
+#: trans/formats.py:567
 msgid "Java Properties"
 msgstr ""
 
-#: trans/formats.py:580
+#: trans/formats.py:585
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/formats.py:589
+#: trans/formats.py:594
 msgid "PHP strings"
 msgstr "PHP-strängar"
 
-#: trans/formats.py:597 ttkit/aresource.py:320
+#: trans/formats.py:602 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr ""
 
@@ -842,12 +842,16 @@ msgid "Main website of translated project."
 msgstr ""
 
 #: trans/models/project.py:92
-msgid "Email address"
-msgstr "E-postadress"
+#, fuzzy
+#| msgid "Trailing stop"
+msgid "Mailing list"
+msgstr "Avslutande punkt"
 
 #: trans/models/project.py:94
-msgid "Email conference for translators."
-msgstr "E-postkonferens för översättare."
+#, fuzzy
+#| msgid "Mailing list for translators:"
+msgid "Mailing list for translators."
+msgstr "Sändlista för översättare:"
 
 #: trans/models/project.py:97
 msgid "Translation instructions"
@@ -1068,7 +1072,7 @@ msgstr ""
 #| "monolingual translation formats."
 msgid ""
 "Filename of translations base file, which contains all strings and their "
-"source, this is recommended to use for monolingual translation formats."
+"source; this is recommended to use for monolingual translation formats."
 msgstr ""
 "Filnamn på översättningsmall, detta rekommenderas för enspråkiga "
 "översättningsformat."
@@ -1088,8 +1092,12 @@ msgid "Additional commit file"
 msgstr ""
 
 #: trans/models/subproject.py:162
+#, fuzzy
+#| msgid ""
+#| "Additional file to include in commits, please check documentation for "
+#| "more details."
 msgid ""
-"Additional file to include in commits, please check documentation for more "
+"Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 "Extra fil att inkludera i incheckningar, se dokumentationen för mer detaljer."
@@ -1467,7 +1475,7 @@ msgstr "Källsträngar i %s"
 msgid "Page Not Found"
 msgstr "Sidan hittades inte"
 
-#: trans/views/basic.py:356 weblate/html/about.html:11
+#: trans/views/basic.py:358 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Om Weblate"
@@ -3656,8 +3664,8 @@ msgstr ""
 #: weblate/html/admin/trans/change_form.html:14
 #, python-format
 msgid ""
-"Importing new translation can take some time, please check <a href=\"%(url)s"
-"\">our documentation</a> for information how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
 #: weblate/html/js/dictionary.html:19
@@ -4176,6 +4184,12 @@ msgstr "ändringar"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Ingen matchande aktivitet hittades."
+
+#~ msgid "Email address"
+#~ msgstr "E-postadress"
+
+#~ msgid "Email conference for translators."
+#~ msgstr "E-postkonferens för översättare."
 
 #~| msgid "Name used in URLs"
 #~ msgid "Name used in URLs and file names"

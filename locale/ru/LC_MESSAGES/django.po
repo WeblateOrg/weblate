@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-02 11:52+0200\n"
+"POT-Creation-Date: 2013-07-08 15:32+0200\n"
 "PO-Revision-Date: 2013-05-17 17:09+0200\n"
 "Last-Translator: Dmitri GOULIAEV <dmitri+weblate@gouliaev.info>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
@@ -236,67 +236,67 @@ msgstr "Множественное число"
 msgid "Plural form %d"
 msgstr "Форма множественного числа %d"
 
-#: trans/admin_views.py:61
+#: trans/admin_views.py:65
 msgid "Debug mode"
 msgstr "Режим отладки"
 
-#: trans/admin_views.py:67
+#: trans/admin_views.py:71
 msgid "Site domain"
 msgstr "Домен сайта"
 
-#: trans/admin_views.py:73
+#: trans/admin_views.py:77
 msgid "Database backend"
 msgstr "Серверная часть базы данных"
 
-#: trans/admin_views.py:79
+#: trans/admin_views.py:83
 msgid "Site administrator"
 msgstr "Администратор сайта"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:86
+#: trans/admin_views.py:90
 msgid "Indexing offloading"
 msgstr ""
 
-#: trans/admin_views.py:102
+#: trans/admin_views.py:106
 msgid "Django caching"
 msgstr "Кеширование Django"
 
-#: trans/admin_views.py:113
+#: trans/admin_views.py:117
 msgid "Email addresses"
 msgstr "Адреса эл. почты"
 
-#: trans/admin_views.py:121
+#: trans/admin_views.py:125
 msgid "Federated avatar support"
 msgstr ""
 
-#: trans/admin_views.py:126
+#: trans/admin_views.py:130
 msgid "PyICU library"
 msgstr "Библиотека PyICU"
 
-#: trans/admin_views.py:132
+#: trans/admin_views.py:136
 msgid "Allowed hosts"
 msgstr ""
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:158
+#: trans/admin_views.py:162
 msgid "[hostname hashed]"
 msgstr ""
 
-#: trans/admin_views.py:216
+#: trans/admin_views.py:217
 msgid "Created new SSH key."
 msgstr "Создан новый SSH-ключ."
 
-#: trans/admin_views.py:220
+#: trans/admin_views.py:221
 #, fuzzy, python-format
 #| msgid "Failed to generate key!"
 msgid "Failed to generate key: %s"
 msgstr "Не удалось создать ключ!"
 
-#: trans/admin_views.py:240
+#: trans/admin_views.py:241
 msgid "Invalid host name given!"
 msgstr "Некорректное имя хоста!"
 
-#: trans/admin_views.py:253
+#: trans/admin_views.py:254
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -313,43 +313,43 @@ msgstr "Недавние изменения в %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Все недавние изменения, внесенные с помощью Weblate, в %s."
 
-#: trans/formats.py:474
+#: trans/formats.py:479
 msgid "Automatic detection"
 msgstr "Автоматическое обнаружение"
 
-#: trans/formats.py:488
+#: trans/formats.py:493
 msgid "Gettext PO file"
 msgstr "Файл Gettext PO"
 
-#: trans/formats.py:529
+#: trans/formats.py:534
 msgid "Gettext PO file (monolingual)"
 msgstr "Файл Gettext PO (один язык)"
 
-#: trans/formats.py:538
+#: trans/formats.py:543
 msgid "Qt Linguist Translation File"
 msgstr "Файл Qt Linguist Translation"
 
-#: trans/formats.py:546
+#: trans/formats.py:551
 msgid "XLIFF Translation File"
 msgstr "Файл XLIFF Translation"
 
-#: trans/formats.py:554
+#: trans/formats.py:559
 msgid "OS X Strings"
 msgstr "Строки OS X"
 
-#: trans/formats.py:562
+#: trans/formats.py:567
 msgid "Java Properties"
 msgstr "Свойства Java"
 
-#: trans/formats.py:580
+#: trans/formats.py:585
 msgid "Java Properties (UTF-8)"
 msgstr "Свойства Java (UTF-8)"
 
-#: trans/formats.py:589
+#: trans/formats.py:594
 msgid "PHP strings"
 msgstr "PHP-строки"
 
-#: trans/formats.py:597 ttkit/aresource.py:320
+#: trans/formats.py:602 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Строковый ресурс Android"
 
@@ -849,13 +849,15 @@ msgstr ""
 
 #: trans/models/project.py:92
 #, fuzzy
-#| msgid "Email addresses"
-msgid "Email address"
-msgstr "Адреса эл. почты"
+#| msgid "Trailing stop"
+msgid "Mailing list"
+msgstr "Завершающая точка"
 
 #: trans/models/project.py:94
-msgid "Email conference for translators."
-msgstr ""
+#, fuzzy
+#| msgid "Some plural forms are not translated"
+msgid "Mailing list for translators."
+msgstr "Некоторые формы множественного числа не переведены"
 
 #: trans/models/project.py:97
 #, fuzzy
@@ -1065,7 +1067,7 @@ msgstr ""
 #: trans/models/subproject.py:140
 msgid ""
 "Filename of translations base file, which contains all strings and their "
-"source, this is recommended to use for monolingual translation formats."
+"source; this is recommended to use for monolingual translation formats."
 msgstr ""
 
 #: trans/models/subproject.py:146
@@ -1084,7 +1086,7 @@ msgstr ""
 
 #: trans/models/subproject.py:162
 msgid ""
-"Additional file to include in commits, please check documentation for more "
+"Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 
@@ -1457,7 +1459,7 @@ msgstr ""
 msgid "Page Not Found"
 msgstr ""
 
-#: trans/views/basic.py:356 weblate/html/about.html:11
+#: trans/views/basic.py:358 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr ""
@@ -3565,8 +3567,8 @@ msgstr ""
 #: weblate/html/admin/trans/change_form.html:14
 #, python-format
 msgid ""
-"Importing new translation can take some time, please check <a href=\"%(url)s"
-"\">our documentation</a> for information how to improve this."
+"Importing a new translation can take some time, please check <a href="
+"\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
 #: weblate/html/js/dictionary.html:19
@@ -4045,6 +4047,11 @@ msgstr "Изменения"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Email addresses"
+#~ msgid "Email address"
+#~ msgstr "Адреса эл. почты"
 
 #, fuzzy
 #~| msgid "Information"
