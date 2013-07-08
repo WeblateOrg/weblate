@@ -25,6 +25,7 @@ from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit
+from translate.storage.php import phpunit
 from translate.storage import mo
 from translate.storage import factory
 from trans.util import get_string
@@ -68,9 +69,10 @@ class FileUnit(object):
         '''
         Returns comma separated list of locations.
         '''
-        # XLIFF is special in ttkit - it uses locations for what
+        # XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if isinstance(self.mainunit, xliffunit):
+        if (isinstance(self.mainunit, xliffunit)
+                or isinstance(self.mainunit, phpunit)):
             return ''
         return ', '.join(self.mainunit.getlocations())
 
