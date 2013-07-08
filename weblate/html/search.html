@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'search' %}">{% trans "Search" %}</a></li>
+{% endblock %}
+
+{% block content %}
+{% regroup units by translation as translation_units %}
+{% for translation_unit in translation_units %}
+    <h2>{{ translation_unit.grouper }}</h2>
+    <table class="ui-widget-content">
+    {% for unit in translation_unit.list %}
+        <tr>
+        <th class="source">{% trans "Source" %}</th>
+        <td class="translatetext"><a href="{{ unit.get_absolute_url }}">{{ unit.source|fmtsearchmatch:search_query }}</a></td>
+        </tr>
+        <tr>
+        <th class="source">{{ unit.translation.language }}</th>
+        <td class="translatetext"><a href="{{ unit.get_absolute_url }}">{{ unit.target|fmtsearchmatch:search_query }}</a></td>
+        </tr>
+        {% if not forloop.last %}
+            <tr><td colspan="2">&nbsp;</td></tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+{% endfor %}
+{% endblock %}
