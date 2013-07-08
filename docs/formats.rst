@@ -116,6 +116,9 @@ PHP files can be processed directly, though currently Translate-toolkit has
 some problems writing them properly, so please double check that your files
 won't get corrupted.
 
+PHP translations are usually monolingual, so it is recommended to specify base
+file with English strings.
+
 Sample file which should work:
 
 .. code-block:: php
