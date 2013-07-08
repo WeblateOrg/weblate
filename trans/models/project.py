@@ -89,9 +89,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         help_text=ugettext_lazy('Main website of translated project.'),
     )
     mail = models.EmailField(
-        verbose_name=ugettext_lazy('Email address'),
+        verbose_name=ugettext_lazy('Mailing list'),
         blank=True,
-        help_text=ugettext_lazy('Email reference for translators.'),
+        help_text=ugettext_lazy('Mailing list for translators.'),
     )
     instructions = models.URLField(
         verbose_name=ugettext_lazy('Translation instructions'),
