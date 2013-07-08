@@ -138,7 +138,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
         help_text=ugettext_lazy(
             'Filename of translations base file, which contains all strings '
-            'and their source, this is recommended to use '
+            'and their source; this is recommended to use '
             'for monolingual translation formats.'
         )
     )
@@ -159,7 +159,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
         validators=[validate_extra_file],
         help_text=ugettext_lazy(
-            'Additional file to include in commits, please check '
+            'Additional file to include in commits; please check '
             'documentation for more details.',
         )
     )
