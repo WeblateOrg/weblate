@@ -20,6 +20,7 @@
 
 from django.core.management.base import BaseCommand
 from trans.requirements import get_versions
+from weblate import VERSION, RUNNING_GIT, GIT_VERSION
 
 
 class Command(BaseCommand):
@@ -29,6 +30,7 @@ class Command(BaseCommand):
         '''
         Prints versions of dependencies.
         '''
+        print ' * Weblate %s' % GIT_VERSION
         for version in get_versions():
             print ' * %s %s' % (
                 version[0],

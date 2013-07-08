@@ -44,6 +44,7 @@ VERSION = '1.6'
 # Are we running git
 RUNNING_GIT = is_running_git()
 GIT_RELEASE = False
+GIT_VERSION = VERSION
 
 # Grab some information from git
 if RUNNING_GIT:
