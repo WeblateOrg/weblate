@@ -1113,9 +1113,6 @@ class Translation(models.Model, URLMixin):
             if not unit.is_translatable() or not unit.is_translated():
                 continue
 
-            # Indicate something new
-            ret = True
-
             # Calculate unit checksum
             checksum = unit.get_checksum()
 
@@ -1124,6 +1121,9 @@ class Translation(models.Model, URLMixin):
             if not dbunit.exists():
                 continue
             dbunit = dbunit[0]
+
+            # Indicate something new
+            ret = True
 
             # Add suggestion
             Suggestion.objects.add(dbunit, unit.get_target(), request.user)
