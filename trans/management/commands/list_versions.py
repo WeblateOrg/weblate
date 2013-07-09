@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 from trans.requirements import get_versions
-from weblate import VERSION, RUNNING_GIT, GIT_VERSION
+from weblate import GIT_VERSION
 
 
 class Command(BaseCommand):
