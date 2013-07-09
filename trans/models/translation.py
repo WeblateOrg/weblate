@@ -1182,7 +1182,7 @@ class Translation(models.Model, URLMixin):
             # Add as sugestions
             ret = self.merge_suggestions(request, store)
 
-        return ret
+        return ret, store.count_units()
 
     def get_suggestions_count(self):
         '''

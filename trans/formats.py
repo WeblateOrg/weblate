@@ -425,6 +425,15 @@ class FileFormat(object):
                     template_unit
                 )
 
+    def count_units(self):
+        '''
+        Returns count of units.
+        '''
+        if not self.has_template:
+            return len(self.store.units)
+        else:
+            return len(self.template_store.units)
+
     @property
     def mimetype(self):
         '''
