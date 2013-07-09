@@ -125,8 +125,14 @@ def upload_translation(request, project, subproject, lang):
             messages.info(
                 request,
                 ungettext(
-                    _('File content successfully merged into translation, processed %d string.'),
-                    _('File content successfully merged into translation, processed %d strings.'),
+                    _(
+                        'File content successfully merged into translation, '
+                        'processed %d string.'
+                    ),
+                    _(
+                        'File content successfully merged into translation, '
+                        'processed %d strings.'
+                    ),
                     count
                 ) % count
             )
@@ -134,8 +140,14 @@ def upload_translation(request, project, subproject, lang):
             messages.info(
                 request,
                 ungettext(
-                    _('There were no new strings in uploaded file, processed %d string.'),
-                    _('There were no new strings in uploaded file, processed %d strings.'),
+                    _(
+                        'There were no new strings in uploaded file, '
+                        'processed %d string.'
+                    ),
+                    _(
+                        'There were no new strings in uploaded file, '
+                        'processed %d strings.'
+                    ),
                     count
                 ) % count
             )
