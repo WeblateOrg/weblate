@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ungettext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -113,7 +113,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Do actual import
     try:
-        ret = obj.merge_upload(
+        ret, count = obj.merge_upload(
             request,
             request.FILES['file'],
             overwrite,
@@ -124,12 +124,20 @@ def upload_translation(request, project, subproject, lang):
         if ret:
             messages.info(
                 request,
-                _('File content successfully merged into translation.')
+                ungettext(
+                    _('File content successfully merged into translation, processed %d string.'),
+                    _('File content successfully merged into translation, processed %d strings.'),
+                    count
+                ) % count
             )
         else:
             messages.info(
                 request,
-                _('There were no new strings in uploaded file.')
+                ungettext(
+                    _('There were no new strings in uploaded file, processed %d string.'),
+                    _('There were no new strings in uploaded file, processed %d strings.'),
+                    count
+                ) % count
             )
     except Exception as e:
         messages.error(
