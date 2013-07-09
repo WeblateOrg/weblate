@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-08 15:32+0200\n"
+"POT-Creation-Date: 2013-07-09 11:44+0200\n"
 "PO-Revision-Date: 2013-07-02 21:33+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -314,43 +314,43 @@ msgstr "Πρόσφατες αλλαγές στο %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Όλες οι πρόσβατες αλλαγές που έγιναν με χρήση του Weblate στο %s."
 
-#: trans/formats.py:479
+#: trans/formats.py:488
 msgid "Automatic detection"
 msgstr "Αυτόματη ανίχνευση"
 
-#: trans/formats.py:493
+#: trans/formats.py:502
 msgid "Gettext PO file"
 msgstr "Αρχείο Gettext PO"
 
-#: trans/formats.py:534
+#: trans/formats.py:543
 msgid "Gettext PO file (monolingual)"
 msgstr "Αρχείο Gettext PO (μονόγλωσσο)"
 
-#: trans/formats.py:543
+#: trans/formats.py:552
 msgid "Qt Linguist Translation File"
 msgstr "Αρχείο Μετάφρασης Qt Linguist"
 
-#: trans/formats.py:551
+#: trans/formats.py:560
 msgid "XLIFF Translation File"
 msgstr "Αρχείο Μετάφρασης XLIFF"
 
-#: trans/formats.py:559
+#: trans/formats.py:568
 msgid "OS X Strings"
 msgstr "Κείμενα OS X"
 
-#: trans/formats.py:567
+#: trans/formats.py:576
 msgid "Java Properties"
 msgstr "Ιδιότητες Java"
 
-#: trans/formats.py:585
+#: trans/formats.py:594
 msgid "Java Properties (UTF-8)"
 msgstr "Ιδιότητες Java (UTF-8)"
 
-#: trans/formats.py:594
+#: trans/formats.py:603
 msgid "PHP strings"
 msgstr "Κείμενα PHP"
 
-#: trans/formats.py:602 ttkit/aresource.py:320
+#: trans/formats.py:611 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "Προέλευση Κειμένου Android"
 
@@ -1654,15 +1654,32 @@ msgstr "Η πρόσβαση δεν επιτρέπεται."
 msgid "Please fix errors in the form."
 msgstr "Διορθώστε σφάλματα στη φόρμα."
 
-#: trans/views/files.py:127
-msgid "File content successfully merged into translation."
+#: trans/views/files.py:128
+#, fuzzy, python-format
+#| msgid "File content successfully merged into translation."
+msgid "File content successfully merged into translation, processed %d string."
 msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
 
-#: trans/views/files.py:132
-msgid "There were no new strings in uploaded file."
-msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
+#: trans/views/files.py:129
+#, fuzzy, python-format
+#| msgid "File content successfully merged into translation."
+msgid ""
+"File content successfully merged into translation, processed %d strings."
+msgstr "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση."
 
 #: trans/views/files.py:137
+#, fuzzy, python-format
+#| msgid "There were no new strings in uploaded file."
+msgid "There were no new strings in uploaded file, processed %d string."
+msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
+
+#: trans/views/files.py:138
+#, fuzzy, python-format
+#| msgid "There were no new strings in uploaded file."
+msgid "There were no new strings in uploaded file, processed %d strings."
+msgstr "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο."
+
+#: trans/views/files.py:145
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"

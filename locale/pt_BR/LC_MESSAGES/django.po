@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-08 15:32+0200\n"
+"POT-Creation-Date: 2013-07-09 11:44+0200\n"
 "PO-Revision-Date: 2013-07-03 18:24+0200\n"
 "Last-Translator: Jean Nunes <jeannunes@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
@@ -314,43 +314,43 @@ msgstr "Modificações recentes em %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Todas mudanças recentes feitas usando Weblate em %s."
 
-#: trans/formats.py:479
+#: trans/formats.py:488
 msgid "Automatic detection"
 msgstr "Detecção automática"
 
-#: trans/formats.py:493
+#: trans/formats.py:502
 msgid "Gettext PO file"
 msgstr "Arquivo Gettext PO"
 
-#: trans/formats.py:534
+#: trans/formats.py:543
 msgid "Gettext PO file (monolingual)"
 msgstr "Arquivo Gettext PO (mono-idioma)"
 
-#: trans/formats.py:543
+#: trans/formats.py:552
 msgid "Qt Linguist Translation File"
 msgstr "Arquivo de Tradução Qt Linguistic"
 
-#: trans/formats.py:551
+#: trans/formats.py:560
 msgid "XLIFF Translation File"
 msgstr "Arquivo de Tradução XLIFF"
 
-#: trans/formats.py:559
+#: trans/formats.py:568
 msgid "OS X Strings"
 msgstr "Strings OS X"
 
-#: trans/formats.py:567
+#: trans/formats.py:576
 msgid "Java Properties"
 msgstr "Propriedades Java"
 
-#: trans/formats.py:585
+#: trans/formats.py:594
 msgid "Java Properties (UTF-8)"
 msgstr "Propriedades Java (UTF-8)"
 
-#: trans/formats.py:594
+#: trans/formats.py:603
 msgid "PHP strings"
 msgstr "Strings PHP"
 
-#: trans/formats.py:602 ttkit/aresource.py:320
+#: trans/formats.py:611 ttkit/aresource.py:320
 msgid "Android String Resource"
 msgstr "String Recurso Android"
 
@@ -1675,15 +1675,32 @@ msgstr "Acesso negado."
 msgid "Please fix errors in the form."
 msgstr "Por favor, corrija os erros no formulário."
 
-#: trans/views/files.py:127
-msgid "File content successfully merged into translation."
+#: trans/views/files.py:128
+#, fuzzy, python-format
+#| msgid "File content successfully merged into translation."
+msgid "File content successfully merged into translation, processed %d string."
 msgstr "O conteúdo do arquivo foi mesclado na tradução com sucesso."
 
-#: trans/views/files.py:132
-msgid "There were no new strings in uploaded file."
-msgstr "Não há novas strings no arquivo enviado."
+#: trans/views/files.py:129
+#, fuzzy, python-format
+#| msgid "File content successfully merged into translation."
+msgid ""
+"File content successfully merged into translation, processed %d strings."
+msgstr "O conteúdo do arquivo foi mesclado na tradução com sucesso."
 
 #: trans/views/files.py:137
+#, fuzzy, python-format
+#| msgid "There were no new strings in uploaded file."
+msgid "There were no new strings in uploaded file, processed %d string."
+msgstr "Não há novas strings no arquivo enviado."
+
+#: trans/views/files.py:138
+#, fuzzy, python-format
+#| msgid "There were no new strings in uploaded file."
+msgid "There were no new strings in uploaded file, processed %d strings."
+msgstr "Não há novas strings no arquivo enviado."
+
+#: trans/views/files.py:145
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao mesclar o conteúdo do arquivo: %s"
