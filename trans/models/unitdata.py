@@ -95,6 +95,12 @@ class Suggestion(models.Model, RelatedUnitMixin):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
 
+    votes = models.ManyToManyField(
+        User,
+        through='Vote',
+        related_name='user_votes'
+    )
+
     objects = SuggestionManager()
 
     class Meta:
@@ -143,6 +149,19 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
     def get_user_display(self):
         return get_user_display(self.user, link=True)
+
+
+class Vote(models.Model):
+    '''
+    Suggestion voting.
+    '''
+    suggestion = models.ForeignKey(Suggestion)
+    user = models.ForeignKey(User)
+    positive = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('suggestion', 'user')
+        app_label = 'trans'
 
 
 class CommentManager(models.Manager):
