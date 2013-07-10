@@ -93,15 +93,22 @@ class CheckTestCase(TestCase):
         '''
         if data is None:
             return
-        self.assertEqual(
-            self.check.check_single(
-                data[0],
-                data[1],
-                MockUnit(None, data[2], lang),
-                0
-            ),
-            expected
+        result = self.check.check_single(
+            data[0],
+            data[1],
+            MockUnit(None, data[2], lang),
+            0
         )
+        if expected:
+            self.assertTrue(
+                result,
+                'Check did not fire for "%s"/"%s" (%s)' % data
+            )
+        else:
+            self.assertFalse(
+                result,
+                'Check did fire for "%s"/"%s" (%s)' % data
+            )
 
     def test_single_good_matching(self):
         self.do_test(False, self.test_good_matching)
