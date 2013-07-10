@@ -161,9 +161,9 @@ class BaseFormatCheck(TargetCheck):
 
         # We ignore %% as this is really not relevant. However it needs
         # to be matched to prevent handling %%s as %s.
-        if '%' in src_matches:
+        while '%' in src_matches:
             src_matches.remove('%')
-        if '%' in tgt_matches:
+        while '%' in tgt_matches:
             tgt_matches.remove('%')
 
         if not uses_position:
