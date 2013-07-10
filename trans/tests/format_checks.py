@@ -105,11 +105,29 @@ class PythonFormatCheckTest(TestCase):
             False
         ))
 
+    def test_reordered_format(self):
+        self.assertTrue(self.check.check_format(
+            u'%s %d string',
+            u'%d %s string',
+            MockUnit('python_wrong_format'),
+            0,
+            False
+        ))
+
     def test_wrong_named_format(self):
         self.assertTrue(self.check.check_format(
             u'%(name)s string',
             u'%(jmeno)s string',
             MockUnit('python_wrong_named_format'),
+            0,
+            False
+        ))
+
+    def test_reordered_named_format(self):
+        self.assertFalse(self.check.check_format(
+            u'%(name)s %(foo)s string',
+            u'%(foo)s %(name)s string',
+            MockUnit('python_reordered_named_format'),
             0,
             False
         ))
@@ -178,6 +196,24 @@ class PHPFormatCheckTest(TestCase):
             u'%s string',
             u'%c string',
             MockUnit('php_wrong_format'),
+            0,
+            False
+        ))
+
+    def test_double_format(self):
+        self.assertTrue(self.check.check_format(
+            u'%s string',
+            u'%s%s string',
+            MockUnit('php_double_format'),
+            0,
+            False
+        ))
+
+    def test_reorder_format(self):
+        self.assertFalse(self.check.check_format(
+            u'%1$s %2$s string',
+            u'%2$s %1$s string',
+            MockUnit('php_reorder_format'),
             0,
             False
         ))

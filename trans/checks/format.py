@@ -138,19 +138,37 @@ class BaseFormatCheck(TargetCheck):
         '''
         if len(target) == 0 or len(source) == 0:
             return False
+
+        uses_position = True
+
         # Try geting source parsing from cache
         src_matches = self.get_cache(unit, cache_slot)
-        # Cache miss
+
+        # New style cache
+        if type(src_matches) is tuple:
+            uses_position, src_matches = src_matches
+        else:
+            src_matches = None
+
+        # Cache miss, so calculate value
         if src_matches is None:
-            src_matches = set([x[0] for x in self.regexp.findall(source)])
-            self.set_cache(unit, src_matches, cache_slot)
-        tgt_matches = set([x[0] for x in self.regexp.findall(target)])
+            src_matches = [x[0] for x in self.regexp.findall(source)]
+            if src_matches:
+                uses_position = max([self.is_position_based(x) for x in src_matches])
+            self.set_cache(unit, (uses_position, src_matches), cache_slot)
+
+        tgt_matches = [x[0] for x in self.regexp.findall(target)]
+
         # We ignore %% as this is really not relevant. However it needs
         # to be matched to prevent handling %%s as %s.
         if '%' in src_matches:
             src_matches.remove('%')
         if '%' in tgt_matches:
             tgt_matches.remove('%')
+
+        if not uses_position:
+            src_matches = set(src_matches)
+            tgt_matches = set(tgt_matches)
 
         if src_matches != tgt_matches:
             # We can ignore missing format strings
@@ -160,6 +178,9 @@ class BaseFormatCheck(TargetCheck):
             return True
 
         return False
+
+    def is_position_based(self, string):
+        return True
 
 
 class PythonFormatCheck(BaseFormatCheck):
@@ -172,6 +193,9 @@ class PythonFormatCheck(BaseFormatCheck):
     flag = 'python-format'
     regexp = PYTHON_PRINTF_MATCH
 
+    def is_position_based(self, string):
+        return '(' not in string
+
 
 class PHPFormatCheck(BaseFormatCheck):
     '''
@@ -182,6 +206,9 @@ class PHPFormatCheck(BaseFormatCheck):
     description = _('Format string does not match source')
     flag = 'php-format'
     regexp = PHP_PRINTF_MATCH
+
+    def is_position_based(self, string):
+        return '$' not in string
 
 
 class CFormatCheck(BaseFormatCheck):
