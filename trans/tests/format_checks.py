@@ -238,8 +238,8 @@ class PHPFormatCheckTest(TestCase):
 
     def test_missing_percent_format(self):
         self.assertFalse(self.check.check_format(
-            u'%s%%',
-            u'%s percent',
+            u'%s%% %%',
+            u'%s%% percent',
             MockUnit('php_missing_percent_format'),
             0,
             False
