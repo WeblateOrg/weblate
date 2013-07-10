@@ -227,6 +227,24 @@ class PHPFormatCheckTest(TestCase):
             False
         ))
 
+    def test_wrong_percent_format(self):
+        self.assertTrue(self.check.check_format(
+            u'%s%% (0.1%%)',
+            u'%s%% (0.1%)',
+            MockUnit('php_wrong_percent_format'),
+            0,
+            False
+        ))
+
+    def test_missing_percent_format(self):
+        self.assertFalse(self.check.check_format(
+            u'%s%%',
+            u'%s percent',
+            MockUnit('php_missing_percent_format'),
+            0,
+            False
+        ))
+
 
 class CFormatCheckTest(TestCase):
     def setUp(self):
