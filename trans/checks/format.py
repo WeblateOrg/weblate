@@ -154,7 +154,9 @@ class BaseFormatCheck(TargetCheck):
         if src_matches is None:
             src_matches = [x[0] for x in self.regexp.findall(source)]
             if src_matches:
-                uses_position = max([self.is_position_based(x) for x in src_matches])
+                uses_position = max(
+                    [self.is_position_based(x) for x in src_matches]
+                )
             self.set_cache(unit, (uses_position, src_matches), cache_slot)
 
         tgt_matches = [x[0] for x in self.regexp.findall(target)]
