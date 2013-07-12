@@ -885,7 +885,8 @@ class Unit(models.Model):
                 checksum=self.checksum,
                 translated=True,
             ).exclude(
-                id=self.id
+                id=self.id,
+                translation__subproject__allow_translation_propagation=False,
             )
 
             # Delete all checks if only message with this source is fuzzy
