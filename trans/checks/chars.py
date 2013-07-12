@@ -150,6 +150,15 @@ class EndColonCheck(TargetCheck):
                 if check_string not in self.colon_fr:
                     return True
             return False
+        if self.is_language(unit, ['hy']):
+            if source[-1] == ':':
+                return self.check_chars(
+                    source,
+                    target,
+                    -1,
+                    [u':', u'՝', u'`']
+                )
+            return False
         if self.is_language(unit, ['ja']):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
@@ -185,6 +194,15 @@ class EndQuestionCheck(TargetCheck):
                 return False
             return target[-2:] not in self.question_fr
 
+        if self.is_language(unit, ['hy']):
+            if source[-1] == '?':
+                return self.check_chars(
+                    source,
+                    target,
+                    -1,
+                    [u'?', u'՞']
+                )
+            return False
         if self.is_language(unit, ['el']):
             if source[-1] != '?':
                 return False
@@ -217,6 +235,15 @@ class EndExclamationCheck(TargetCheck):
             if source[-1] == '!':
                 if u'¡' in target and u'!' in target:
                     return False
+        if self.is_language(unit, ['hy']):
+            if source[-1] == '!':
+                return self.check_chars(
+                    source,
+                    target,
+                    -1,
+                    [u'!', u'՜', u'~']
+                )
+            return False
         if self.is_language(unit, ['fr', 'br']):
             if source[-1] == '!':
                 if target[-2:] not in self.exclamation_fr:
