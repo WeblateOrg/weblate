@@ -132,6 +132,15 @@ class PythonFormatCheckTest(TestCase):
             False
         ))
 
+    def test_reordered_named_format_long(self):
+        self.assertFalse(self.check.check_format(
+            u'%(count)d strings into %(languages)d languages %(percent)d%%',
+            u'%(languages)d dil içinde %(count)d satır %%%(percent)d',
+            MockUnit('python_reordered_named_format_long'),
+            0,
+            False
+        ))
+
 
 class PHPFormatCheckTest(TestCase):
     def setUp(self):

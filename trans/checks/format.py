@@ -196,7 +196,7 @@ class PythonFormatCheck(BaseFormatCheck):
     regexp = PYTHON_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return '(' not in string
+        return '(' not in string and string != '%'
 
 
 class PHPFormatCheck(BaseFormatCheck):
@@ -210,7 +210,7 @@ class PHPFormatCheck(BaseFormatCheck):
     regexp = PHP_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return '$' not in string
+        return '$' not in string and string != '%'
 
 
 class CFormatCheck(BaseFormatCheck):
