@@ -197,6 +197,20 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'Whether Weblate should keep history of translations'
         )
     )
+    suggestion_voting = models.BooleanField(
+        verbose_name=ugettext_lazy('Suggestion voting'),
+        default=False,
+        help_text=ugettext_lazy(
+            'Whether users can vote for suggestions.'
+        )
+    )
+    suggestion_autoaccept = models.PositiveSmallIntegerField(
+        verbose_name=ugettext_lazy('Autoaccept suggestions'),
+        default=0,
+        help_text=ugettext_lazy(
+            'Automatically accept suggestions with this amount of votes.'
+        )
+    )
 
     objects = SubProjectManager()
 
