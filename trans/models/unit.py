@@ -665,25 +665,7 @@ class Unit(models.Model):
 
         # Generate Change object for this change
         if gen_change:
-            if change_action is not None:
-                action = change_action
-            elif oldunit.translated:
-                action = Change.ACTION_CHANGE
-            else:
-                action = Change.ACTION_NEW
-            if self.translation.subproject.save_history:
-                history_target = self.target
-            else:
-                history_target = ''
-
-            # Create change object
-            Change.objects.create(
-                unit=self,
-                translation=self.translation,
-                action=action,
-                user=request.user,
-                target=history_target
-            )
+            self.generate_change(request, oldunit, change_action)
 
         # Force commiting on completing translation
         if (old_translated < self.translation.translated
@@ -700,6 +682,32 @@ class Unit(models.Model):
             self.propagate(request, change_action)
 
         return True
+
+    def generate_change(self, request, oldunit, change_action):
+        '''
+        Creates Change entry for saving unit.
+        '''
+        from trans.models.changes import Change
+
+        if change_action is not None:
+            action = change_action
+        elif oldunit.translated:
+            action = Change.ACTION_CHANGE
+        else:
+            action = Change.ACTION_NEW
+        if self.translation.subproject.save_history:
+            history_target = self.target
+        else:
+            history_target = ''
+
+        # Create change object
+        Change.objects.create(
+            unit=self,
+            translation=self.translation,
+            action=action,
+            user=request.user,
+            target=history_target
+        )
 
     def save(self, *args, **kwargs):
         '''
