@@ -883,7 +883,7 @@ class Unit(models.Model):
                 translation__language=self.translation.language,
                 translation__subproject__project=project,
                 checksum=self.checksum,
-                fuzzy=False,
+                translated=True,
             ).exclude(
                 id=self.id
             )
