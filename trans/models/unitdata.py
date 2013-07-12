@@ -272,7 +272,7 @@ class Check(models.Model, RelatedUnitMixin):
 
         # Update related unit flags
         for unit in self.get_related_units():
-            unit.update_has_failing_check(True)
+            unit.update_has_failing_check(True, False)
 
 
 class IndexUpdate(models.Model):

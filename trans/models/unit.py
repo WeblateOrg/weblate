@@ -894,7 +894,7 @@ class Unit(models.Model):
             if not same_source.exists():
                 if checks.exists():
                     checks.delete()
-                    self.update_has_failing_check(True)
+                    self.update_has_failing_check(True, True)
                 return
 
             # If there is no consistency checking, we can return
@@ -952,11 +952,9 @@ class Unit(models.Model):
             was_change = True
 
         # Update failing checks flag
-        self.update_has_failing_check(was_change)
-        for unit in Unit.objects.same(self).exclude(id=self.id):
-            unit.update_has_failing_check(was_change)
+        self.update_has_failing_check(was_change, True)
 
-    def update_has_failing_check(self, was_change):
+    def update_has_failing_check(self, was_change, recurse=False):
         '''
         Updates flag counting failing checks.
         '''
@@ -975,6 +973,10 @@ class Unit(models.Model):
         # while here we care about any changed in checks)
         if was_change:
             self.translation.invalidate_cache()
+
+        if recurse:
+            for unit in Unit.objects.same(self).exclude(id=self.id):
+                unit.update_has_failing_check(was_change, False)
 
     def update_has_suggestion(self):
         '''
