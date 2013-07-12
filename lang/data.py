@@ -209,6 +209,7 @@ DEFAULT_LANGS = (
 RTL_LANGS = set((
     'ar',
     'arc',
+    'ckb',
     'dv',
     'fa',
     'ha',
