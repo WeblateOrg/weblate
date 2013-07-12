@@ -876,7 +876,7 @@ class Unit(models.Model):
         cleanup_checks = True
         was_change = False
 
-        if (same_state or is_new) and (self.fuzzy or not self.translated):
+        if (same_state or is_new) and not self.translated:
             # Check whether there is any message with same source
             project = self.translation.subproject.project
             same_source = Unit.objects.filter(
