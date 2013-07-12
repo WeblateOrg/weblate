@@ -67,9 +67,7 @@ class ConsistencyCheck(TargetCheck):
             translation__subproject__allow_translation_propagation=False,
         )
         if not unit.translated:
-            related.filter(translated=True)
-        if unit.fuzzy:
-            related = related.exclude(fuzzy=True)
+            related = related.filter(translated=True)
         for unit2 in related.iterator():
             if unit2.target != unit.target:
                 return True
