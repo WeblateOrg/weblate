@@ -112,7 +112,7 @@ class EndStopCheck(TargetCheck):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(
-                source, target, -1, [u':', u'：', u'.', u'。']
+                source, target, -1, [u';', u':', u'：', u'.', u'。']
             )
         if self.is_language(unit, ['hi']):
             # Using | instead of । is not typographically correct, but
@@ -158,7 +158,7 @@ class EndColonCheck(TargetCheck):
                     source,
                     target,
                     -1,
-                    [u':', u'：', u'.', u'。']
+                    [u';', u':', u'：', u'.', u'。']
                 )
             return False
         return self.check_chars(source, target, -1, [u':', u'：'])
