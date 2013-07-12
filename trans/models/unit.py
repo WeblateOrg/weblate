@@ -875,6 +875,7 @@ class Unit(models.Model):
         checks_to_run = CHECKS
         cleanup_checks = True
         was_change = False
+        checks = self.checks()
 
         if (same_state or is_new) and not self.translated:
             # Check whether there is any message with same source
@@ -891,7 +892,6 @@ class Unit(models.Model):
 
             # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
-                checks = self.checks()
                 if checks.exists():
                     checks.delete()
                     self.update_has_failing_check(True)
@@ -907,7 +907,7 @@ class Unit(models.Model):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        old_target_checks = set(self.checks().values_list('check', flat=True))
+        old_target_checks = set(checks.values_list('check', flat=True))
         old_source_checks = set(self.source_checks().values_list(
             'check', flat=True
         ))
