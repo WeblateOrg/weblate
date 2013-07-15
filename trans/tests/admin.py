@@ -58,4 +58,4 @@ class SSHKeysTest(TestCase):
     def test_parse(self):
         trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
         hosts = trans.admin_views.get_host_keys()
-        self.assertEquals(len(hosts), 50)
+        self.assertEqual(len(hosts), 50)

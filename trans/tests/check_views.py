@@ -47,7 +47,7 @@ class ChecksViewTest(ViewTestCase):
         response = self.client.get(
             reverse('show_check', kwargs={'name': 'not-existing'})
         )
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
         response = self.client.get(
             reverse(
@@ -71,7 +71,7 @@ class ChecksViewTest(ViewTestCase):
                 kwargs={'name': 'non-existing', 'project': self.project.slug}
             )
         )
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
         response = self.client.get(
             reverse(
@@ -107,4 +107,4 @@ class ChecksViewTest(ViewTestCase):
                 }
             )
         )
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)

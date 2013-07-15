@@ -161,7 +161,7 @@ class CommandTest(TestCase):
         user.save()
         call_command('importusers', get_test_file('users.json'))
         user2 = User.objects.get(username='weblate')
-        self.assertEquals(user.first_name, user2.first_name)
+        self.assertEqual(user.first_name, user2.first_name)
 
 
 class ViewTest(TestCase):
