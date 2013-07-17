@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-17 18:12+0200\n"
-"PO-Revision-Date: 2013-07-09 15:47+0200\n"
+"PO-Revision-Date: 2013-07-18 00:02+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -536,6 +536,8 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"No se acepta el valor 1 para autoaceptar ya que cada usuario puede votar su "
+"propia sugerencia."
 
 #: trans/widgets.py:260
 #, python-format
@@ -1144,27 +1146,24 @@ msgid "Whether Weblate should keep history of translations"
 msgstr "Si Weblate debe guardar el historial de las traducciones"
 
 #: trans/models/subproject.py:201
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Sugerencias"
+msgstr "Votar sugerencias"
 
 #: trans/models/subproject.py:204
-#, fuzzy
 #| msgid "There is %(count)s suggestion."
 #| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
-msgstr "Hay %(count)s sugerencia."
+msgstr "Si los usuarios puede votar sugerencias."
 
 #: trans/models/subproject.py:208
-#, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
-msgstr "Agregar como sugerencia"
+msgstr "Autoaceptar sugerencias"
 
 #: trans/models/subproject.py:211
 msgid "Automatically accept suggestions with this amount of votes."
-msgstr ""
+msgstr "Aceptar automáticamente sugerencias con esta cantidad de votos."
 
 #: trans/models/subproject.py:428
 msgid ""
@@ -1271,6 +1270,8 @@ msgstr ""
 #: trans/models/subproject.py:918
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
+"¡La aceptación automática de sugerencias sólo funcionará cuando active los "
+"votos!"
 
 #: trans/models/translation.py:184
 #, python-format
@@ -1614,10 +1615,9 @@ msgid "You don't have privileges to save translations!"
 msgstr "¡No posee suficientes permisos para guardar traducciones!"
 
 #: trans/views/edit.py:248
-#, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
-msgstr "Nueva sugerencia en %(translation)s"
+msgstr "¡Sólo se permiten sugerencias en esta traducción!"
 
 #: trans/views/edit.py:258
 #, python-format
@@ -1653,10 +1653,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "¡No tiene suficientes permisos para eliminar sugerencias!"
 
 #: trans/views/edit.py:417 trans/views/edit.py:425
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "¡No tiene suficientes permisos para eliminar sugerencias!"
+msgstr "¡No tiene suficientes permisos para votar sugerencias!"
 
 #: trans/views/edit.py:447
 msgid "Invalid suggestion!"
@@ -3260,16 +3259,16 @@ msgstr "Sugerido por un usuario anónimo"
 #, python-format
 msgid ", %(count)s vote"
 msgid_plural ", %(count)s votes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %(count)s voto"
+msgstr[1] ", %(count)s votos"
 
 #: weblate/html/translate.html:126
 msgid "+1 vote"
-msgstr ""
+msgstr "voto +1"
 
 #: weblate/html/translate.html:127
 msgid "-1 vote"
-msgstr ""
+msgstr "voto -1"
 
 #: weblate/html/translate.html:131
 msgid "Accept"
