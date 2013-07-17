@@ -435,9 +435,9 @@ def handle_suggestions(obj, request, this_unit_url):
             # Delete suggestion
             suggestion.delete()
         elif 'upvote' in request.POST:
-            suggestion.add_vote(request.user, True)
+            suggestion.add_vote(obj, request, True)
         elif 'downvote' in request.POST:
-            suggestion.add_vote(request.user, False)
+            suggestion.add_vote(obj, request, False)
     else:
         messages.error(request, _('Invalid suggestion!'))
 
