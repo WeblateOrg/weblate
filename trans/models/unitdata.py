@@ -19,6 +19,7 @@
 #
 
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 from lang.models import Language
 from trans.checks import CHECKS
@@ -150,6 +151,15 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
     def get_user_display(self):
         return get_user_display(self.user, link=True)
+
+    def get_num_votes(self):
+        '''
+        Returns number of votes.
+        '''
+        votes = Vote.objects.filter(suggestion=self)
+        positive = votes.filter(positive=True).aggregate(Count('id'))
+        negative = votes.filter(positive=False).aggregate(Count('id'))
+        return positive['id__count'] - negative['id__count']
 
 
 class Vote(models.Model):

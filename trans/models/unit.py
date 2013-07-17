@@ -1019,3 +1019,18 @@ class Unit(models.Model):
             position__gte=self.position - appsettings.NEARBY_MESSAGES,
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         ).select_related()
+
+    def can_vote_suggestions(self):
+        '''
+        Whether we can vote for suggestions.
+        '''
+        return self.translation.subproject.suggestion_voting
+
+    def only_vote_suggestions(self):
+        '''
+        Whether we can vote for suggestions.
+        '''
+        return (
+            self.translation.subproject.suggestion_voting
+            and self.translation.subproject.suggestion_autoaccept > 0
+        )

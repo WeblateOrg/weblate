@@ -118,6 +118,9 @@
 {% else %}
 {% trans "Suggested by anonymous user" %}
 {% endif %}
+{% if unit.can_vote_suggestions %}
+{% blocktrans count count=suggestion.get_num_votes %}, {{ count }} vote{% plural %}, {{ count }} votes{% endblocktrans %}
+{% endif %}
 {% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
 <div class="menu-float action-buttons">
 {% if perms.trans.accept_suggestion %}
