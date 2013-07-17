@@ -142,6 +142,37 @@ class ViewTestCase(RepoTestCase):
             StringIO(response.content)
         )
 
+    def assertBackend(self, expected_translated):
+        '''
+        Checks that backend has correct data.
+        '''
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        store = translation.subproject.file_format_cls(
+            translation.get_filename(),
+            None
+        )
+        messages = set()
+        translated = 0
+
+        for unit in store.all_units():
+            if not unit.is_translatable():
+                continue
+            checksum = unit.get_checksum()
+            self.assertFalse(
+                checksum in messages,
+                'Duplicate string in in backend file!'
+            )
+            if unit.is_translated():
+                translated += 1
+
+        self.assertEqual(
+            translated,
+            expected_translated,
+            'Did not found expected number of translations.'
+        )
+
 
 class BasicViewTest(ViewTestCase):
     def test_view_home(self):
@@ -229,37 +260,6 @@ class EditTest(ViewTestCase):
         )
         self.translate_url = self.translation.get_translate_url()
 
-    def assertBackend(self, expected_translated):
-        '''
-        Checks that backend has correct data.
-        '''
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        store = translation.subproject.file_format_cls(
-            translation.get_filename(),
-            None
-        )
-        messages = set()
-        translated = 0
-
-        for unit in store.all_units():
-            if not unit.is_translatable():
-                continue
-            checksum = unit.get_checksum()
-            self.assertFalse(
-                checksum in messages,
-                'Duplicate string in in backend file!'
-            )
-            if unit.is_translated():
-                translated += 1
-
-        self.assertEqual(
-            translated,
-            expected_translated,
-            'Did not found expected number of translations.'
-        )
-
     def test_edit(self):
         response = self.edit_unit(
             'Hello, world!\n',
@@ -300,92 +300,6 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertBackend(1)
-
-    def test_suggest(self):
-        # Try empty suggestion (should not be added)
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            suggest='yes'
-        )
-        # We should stay on same message
-        self.assertRedirectsOffset(response, self.translate_url, 0)
-
-        # Add first suggestion
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            suggest='yes'
-        )
-        # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
-
-        # Add second suggestion
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Ahoj svete!\n',
-            suggest='yes'
-        )
-        # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
-
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
-        self.assertBackend(0)
-
-        # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertFalse(unit.translated)
-        self.assertFalse(unit.fuzzy)
-
-        # Get ids of created suggestions
-        suggestions = [sug.pk for sug in unit.suggestions()]
-
-        # Delete one of suggestions
-        self.client.post(
-            self.translate_url,
-            {'delete': suggestions[0]},
-        )
-
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
-        self.assertBackend(0)
-
-        # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertFalse(unit.translated)
-        self.assertFalse(unit.fuzzy)
-
-        # Accept one of suggestions
-        self.client.post(
-            self.translate_url,
-            {'accept': suggestions[1]},
-        )
-
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 0)
-
-        # Unit should be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
-        self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertBackend(1)
 
     def test_merge(self):
@@ -618,6 +532,118 @@ class EditXliffTest(EditTest):
 class EditLinkTest(EditTest):
     def create_subproject(self):
         return self.create_link()
+
+
+class SuggestionsTest(ViewTestCase):
+    def add_suggestion_1(self):
+        return self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            suggest='yes'
+        )
+
+    def add_suggestion_2(self):
+        return self.edit_unit(
+            'Hello, world!\n',
+            'Ahoj svete!\n',
+            suggest='yes'
+        )
+
+    def test_add(self):
+        translate_url = self.get_translation().get_translate_url()
+        # Try empty suggestion (should not be added)
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            suggest='yes'
+        )
+        # We should stay on same message
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Add first suggestion
+        response = self.add_suggestion_1()
+        # We should get to second message
+        self.assertRedirectsOffset(response, translate_url, 1)
+
+        # Add second suggestion
+        response = self.add_suggestion_2()
+        # We should get to second message
+        self.assertRedirectsOffset(response, translate_url, 1)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+        self.assertBackend(0)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
+
+    def test_delete(self):
+        # Create two suggestions
+        self.add_suggestion_1()
+        self.add_suggestion_2()
+
+        # Get ids of created suggestions
+        suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+
+        # Delete one of suggestions
+        self.edit_unit(
+            'Hello, world!\n',
+            '',
+            delete=suggestions[0],
+        )
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+        self.assertBackend(0)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
+
+    def test_accept(self):
+        # Create two suggestions
+        self.add_suggestion_1()
+        self.add_suggestion_2()
+
+        # Get ids of created suggestions
+        suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+
+        # Accept one of suggestions
+        self.edit_unit(
+            'Hello, world!\n',
+            '',
+            accept=suggestions[1],
+        )
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+
+        # Unit should be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Ahoj svete!\n')
+        self.assertBackend(1)
 
 
 class SearchViewTest(ViewTestCase):
