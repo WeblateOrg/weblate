@@ -359,6 +359,7 @@ Weblate uses privileges system based on Django. It defines following extra privi
 * Can save translation [Users, Managers]
 * Can accept suggestion [Users, Managers]
 * Can accept suggestion [Users, Managers]
+* Can override suggestion state [Managers]
 * Can import dictionary [Users, Managers]
 * Can add dictionary [Users, Managers]
 * Can change dictionary [Users, Managers]

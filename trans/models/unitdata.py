@@ -106,6 +106,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
     class Meta:
         permissions = (
             ('accept_suggestion', "Can accept suggestion"),
+            ('override_suggestion', 'Can override suggestion state'),
         )
         app_label = 'trans'
 

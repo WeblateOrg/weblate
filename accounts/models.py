@@ -554,6 +554,7 @@ def create_groups(update):
             Permission.objects.get(codename='automatic_translation'),
             Permission.objects.get(codename='save_translation'),
             Permission.objects.get(codename='accept_suggestion'),
+            Permission.objects.get(codename='override_suggestion'),
             Permission.objects.get(codename='delete_suggestion'),
             Permission.objects.get(codename='ignore_check'),
             Permission.objects.get(codename='upload_dictionary'),
