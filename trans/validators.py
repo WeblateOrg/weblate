@@ -83,3 +83,13 @@ def validate_repo(val):
             raise ValidationError(_('Can not link to linked repository!'))
     except SubProject.DoesNotExist:
         raise ValidationError(_('Invalid link to repository!'))
+
+
+def validate_autoaccept(val):
+    '''
+    Validates correct value for autoaccept.
+    '''
+    if val == 1:
+        raise ValidationError(_(
+            'Value of 1 is not allowed for autoaccept as every user gives vote to his suggestion.'
+        ))

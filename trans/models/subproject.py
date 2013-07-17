@@ -37,7 +37,7 @@ from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
 from trans.validators import (
     validate_repoweb, validate_filemask, validate_repo,
-    validate_extra_file,
+    validate_extra_file, validate_autoaccept,
 )
 from weblate.appsettings import SCRIPT_CHOICES
 
@@ -209,7 +209,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         default=0,
         help_text=ugettext_lazy(
             'Automatically accept suggestions with this amount of votes.'
-        )
+        ),
+        validators=[validate_autoaccept],
     )
 
     objects = SubProjectManager()
@@ -910,6 +911,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(
                 _('You can not use monolingual translation without base file!')
             )
+
+        # Suggestions
+        if self.suggestion_autoaccept and not self.suggestion_voting:
+            raise ValidationError(_(
+                'Automatically accepting suggestions can work only with '
+                'voting enabled!'
+            ))
 
     def get_template_filename(self):
         '''
