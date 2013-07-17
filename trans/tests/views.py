@@ -681,6 +681,38 @@ class SuggestionsTest(ViewTestCase):
             -1
         )
 
+    def test_vote_autoaccept(self):
+        self.add_suggestion_1()
+
+        translate_url = self.get_translation().get_translate_url()
+        self.subproject.suggestion_voting = True
+        self.subproject.suggestion_autoaccept = 1
+        self.subproject.save()
+
+        suggestion_id = self.get_unit().suggestions()[0].pk
+
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            upvote=suggestion_id,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 0)
+
+        # Unit should be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertBackend(1)
+
 
 class SearchViewTest(ViewTestCase):
     def setUp(self):
