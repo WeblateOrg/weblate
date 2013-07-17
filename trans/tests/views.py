@@ -588,7 +588,6 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.fuzzy)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
-        self.assertBackend(0)
 
 
 class EditResourceTest(EditTest):
