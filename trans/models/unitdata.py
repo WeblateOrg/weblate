@@ -161,6 +161,26 @@ class Suggestion(models.Model, RelatedUnitMixin):
         negative = votes.filter(positive=False).aggregate(Count('id'))
         return positive['id__count'] - negative['id__count']
 
+    def add_vote(self, user, positive):
+        '''
+        Adds (or updates) vote for a suggestion.
+        '''
+        votes = Vote.objects.filter(
+            suggestion=self,
+            user=user
+        )
+        if votes.exists():
+            vote = votes[0]
+            if vote.positive != positive:
+                vote.positive = positive
+                vote.save()
+        else:
+            Vote.objects.create(
+                suggestion=self,
+                user=user,
+                positive=positive,
+            )
+
 
 class Vote(models.Model):
     '''

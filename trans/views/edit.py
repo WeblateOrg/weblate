@@ -386,6 +386,8 @@ def handle_suggestions(obj, request, this_unit_url):
         )
         return HttpResponseRedirect(this_unit_url)
 
+    sugid = None
+
     # Parse suggestion ID
     if 'accept' in request.POST:
         if not request.user.has_perm('trans.accept_suggestion'):
@@ -395,7 +397,7 @@ def handle_suggestions(obj, request, this_unit_url):
             )
             return HttpResponseRedirect(this_unit_url)
         sugid = request.POST['accept']
-    else:
+    elif 'delete' in request.POST:
         if not request.user.has_perm('trans.delete_suggestion'):
             messages.error(
                 request,
@@ -403,6 +405,22 @@ def handle_suggestions(obj, request, this_unit_url):
             )
             return HttpResponseRedirect(this_unit_url)
         sugid = request.POST['delete']
+    elif 'upvote' in request.POST:
+        if not request.user.has_perm('trans.delete_suggestion'):
+            messages.error(
+                request,
+                _('You do not have privilege to vote for suggestions!')
+            )
+            return HttpResponseRedirect(this_unit_url)
+        sugid = request.POST['upvote']
+    elif 'downvote' in request.POST:
+        if not request.user.has_perm('trans.delete_suggestion'):
+            messages.error(
+                request,
+                _('You do not have privilege to vote for suggestions!')
+            )
+            return HttpResponseRedirect(this_unit_url)
+        sugid = request.POST['downvote']
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
@@ -413,9 +431,13 @@ def handle_suggestions(obj, request, this_unit_url):
         if 'accept' in request.POST:
             # Accept suggesion
             suggestion.accept(obj, request)
-        else:
+        elif 'delete' in request.POST:
             # Delete suggestion
             suggestion.delete()
+        elif 'upvote' in request.POST:
+            suggestion.add_vote(request.user, True)
+        elif 'downvote' in request.POST:
+            suggestion.add_vote(request.user, False)
     else:
         messages.error(request, _('Invalid suggestion!'))
 
@@ -471,7 +493,10 @@ def translate(request, project, subproject, lang):
     if request.method == 'POST' and not project_locked:
 
         # Handle accepting/deleting suggestions
-        if 'accept' in request.POST or 'delete' in request.POST:
+        if ('accept' in request.POST
+                or 'delete' in request.POST
+                or 'upvote' in request.POST
+                or 'downvote' in request.POST):
             if not locked:
                 response = handle_suggestions(obj, request, this_unit_url)
         else:

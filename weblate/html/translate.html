@@ -122,6 +122,10 @@
 {% blocktrans count count=suggestion.get_num_votes %}, {{ count }} vote{% plural %}, {{ count }} votes{% endblocktrans %}
 {% endif %}
 <div class="menu-float action-buttons">
+{% if unit.can_vote_suggestions %}
+<button type="submit" class="sug-upvote" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
+<button type="submit" class="sug-downvote" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
+{% endif %}
 {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.accept_suggestion %}
 <button type="submit" class="sug-accept" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
