@@ -647,6 +647,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertBackend(1)
 
     def test_vote(self):
+        translate_url = self.get_translation().get_translate_url()
         self.subproject.suggestion_voting = True
         self.subproject.save()
 
@@ -654,11 +655,12 @@ class SuggestionsTest(ViewTestCase):
 
         suggestion_id = self.get_unit().suggestions()[0].pk
 
-        self.edit_unit(
+        response = self.edit_unit(
             'Hello, world!\n',
             '',
             upvote=suggestion_id,
         )
+        self.assertRedirectsOffset(response, translate_url, 0)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(
@@ -666,11 +668,12 @@ class SuggestionsTest(ViewTestCase):
             1
         )
 
-        self.edit_unit(
+        response = self.edit_unit(
             'Hello, world!\n',
             '',
             downvote=suggestion_id,
         )
+        self.assertRedirectsOffset(response, translate_url, 0)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
         self.assertEqual(
