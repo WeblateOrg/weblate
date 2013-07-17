@@ -241,6 +241,12 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             request,
             _('You don\'t have privileges to save translations!')
         )
+    elif (unit.only_vote_suggestions()
+            and not request.user.has_perm('trans.save_translation')):
+        messages.error(
+            request,
+            _('Only suggestions are allowed in this translation!')
+        )
     elif not user_locked:
         # Run AutoFixes on user input
         new_target = form.cleaned_data['target']

@@ -150,6 +150,7 @@
 </tr>
 {% endif %}
 <tr><td></td><td>
+{% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.save_translation %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
 {% else %}
@@ -157,6 +158,7 @@
 {% with unit.translation.get_translate_url as translate_url %}
 {% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
 {% endwith %}
+{% endif %}
 {% endif %}
 <input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
 </td></tr>
