@@ -1126,7 +1126,7 @@ class Translation(models.Model, URLMixin):
             ret = True
 
             # Add suggestion
-            Suggestion.objects.add(dbunit, unit.get_target(), request.user)
+            Suggestion.objects.add(dbunit, unit.get_target(), request)
 
         # Update suggestion count
         if ret:
