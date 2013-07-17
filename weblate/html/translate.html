@@ -121,10 +121,10 @@
 {% if perms.trans.accept_suggestion or perms.trans.delete_suggestion %}
 <div class="menu-float action-buttons">
 {% if perms.trans.accept_suggestion %}
-<a href="{{ this_unit_url }}&amp;accept={{ suggestion.id }}" class="sug-accept">{% trans "Accept" %}</a>
+<button type="submit" class="sug-accept" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
-<a href="{{ this_unit_url }}&amp;delete={{ suggestion.id }}" class="sug-delete">{% trans "Delete" %}</a>
+<button type="submit" class="sug-delete" name="delete" value="{{ suggestion.id }}">{% trans "Delete" %}</button>
 {% endif %}
 </div>
 {% endif %}

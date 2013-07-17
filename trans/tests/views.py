@@ -348,7 +348,7 @@ class EditTest(ViewTestCase):
         suggestions = [sug.pk for sug in unit.suggestions()]
 
         # Delete one of suggestions
-        self.client.get(
+        self.client.post(
             self.translate_url,
             {'delete': suggestions[0]},
         )
@@ -368,7 +368,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
 
         # Accept one of suggestions
-        self.client.get(
+        self.client.post(
             self.translate_url,
             {'accept': suggestions[1]},
         )

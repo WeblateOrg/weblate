@@ -387,14 +387,14 @@ def handle_suggestions(obj, request, this_unit_url):
         return HttpResponseRedirect(this_unit_url)
 
     # Parse suggestion ID
-    if 'accept' in request.GET:
+    if 'accept' in request.POST:
         if not request.user.has_perm('trans.accept_suggestion'):
             messages.error(
                 request,
                 _('You do not have privilege to accept suggestions!')
             )
             return HttpResponseRedirect(this_unit_url)
-        sugid = request.GET['accept']
+        sugid = request.POST['accept']
     else:
         if not request.user.has_perm('trans.delete_suggestion'):
             messages.error(
@@ -402,7 +402,7 @@ def handle_suggestions(obj, request, this_unit_url):
                 _('You do not have privilege to delete suggestions!')
             )
             return HttpResponseRedirect(this_unit_url)
-        sugid = request.GET['delete']
+        sugid = request.POST['delete']
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
@@ -410,7 +410,7 @@ def handle_suggestions(obj, request, this_unit_url):
         suggestion = None
 
     if suggestion is not None:
-        if 'accept' in request.GET:
+        if 'accept' in request.POST:
             # Accept suggesion
             suggestion.accept(obj, request)
         else:
@@ -469,9 +469,15 @@ def translate(request, project, subproject, lang):
 
     # Any form submitted?
     if request.method == 'POST' and not project_locked:
-        response = handle_translate(
-            obj, request, user_locked, this_unit_url, next_unit_url
-        )
+
+        # Handle accepting/deleting suggestions
+        if 'accept' in request.POST or 'delete' in request.POST:
+            if not locked:
+                response = handle_suggestions(obj, request, this_unit_url)
+        else:
+            response = handle_translate(
+                obj, request, user_locked, this_unit_url, next_unit_url
+            )
 
     # Handle translation merging
     elif 'merge' in request.GET and not locked:
@@ -480,10 +486,6 @@ def translate(request, project, subproject, lang):
     # Handle reverting
     elif 'revert' in request.GET and not locked:
         response = handle_revert(obj, request, this_unit_url)
-
-    # Handle accepting/deleting suggestions
-    elif not locked and ('accept' in request.GET or 'delete' in request.GET):
-        response = handle_suggestions(obj, request, this_unit_url)
 
     # Pass possible redirect further
     if response is not None:
