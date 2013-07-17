@@ -229,6 +229,37 @@ class EditTest(ViewTestCase):
         )
         self.translate_url = self.translation.get_translate_url()
 
+    def assertBackend(self, expected_translated):
+        '''
+        Checks that backend has correct data.
+        '''
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        store = translation.subproject.file_format_cls(
+            translation.get_filename(),
+            None
+        )
+        messages = set()
+        translated = 0
+
+        for unit in store.all_units():
+            if not unit.is_translatable():
+                continue
+            checksum = unit.get_checksum()
+            self.assertFalse(
+                checksum in messages,
+                'Duplicate string in in backend file!'
+            )
+            if unit.is_translated():
+                translated += 1
+
+        self.assertEqual(
+            translated,
+            expected_translated,
+            'Did not found expected number of translations.'
+        )
+
     def test_edit(self):
         response = self.edit_unit(
             'Hello, world!\n',
@@ -241,6 +272,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertBackend(1)
 
         # Test that second edit with no change does not break anything
         response = self.edit_unit(
@@ -254,6 +286,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertBackend(1)
 
         # Test that third edit still works
         response = self.edit_unit(
@@ -267,6 +300,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertBackend(1)
 
     def test_suggest(self):
         # Try empty suggestion (should not be added)
@@ -303,6 +337,7 @@ class EditTest(ViewTestCase):
         )
         # Check number of suggestions
         self.assertEqual(translation.have_suggestion, 1)
+        self.assertBackend(0)
 
         # Unit should not be translated
         self.assertEqual(len(unit.checks()), 0)
@@ -325,6 +360,7 @@ class EditTest(ViewTestCase):
         )
         # Check number of suggestions
         self.assertEqual(translation.have_suggestion, 1)
+        self.assertBackend(0)
 
         # Unit should not be translated
         self.assertEqual(len(unit.checks()), 0)
@@ -345,11 +381,12 @@ class EditTest(ViewTestCase):
         # Check number of suggestions
         self.assertEqual(translation.have_suggestion, 0)
 
-        # Unit should not be translated
+        # Unit should be translated
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
+        self.assertBackend(1)
 
     def test_merge(self):
         # Translate unit to have something to start with
@@ -363,6 +400,7 @@ class EditTest(ViewTestCase):
             self.translate_url,
             {'checksum': unit.checksum, 'merge': unit.id}
         )
+        self.assertBackend(1)
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
 
@@ -415,6 +453,7 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'revert': change.id}
         )
         self.assertContains(response, "Can not revert to different unit")
+        self.assertBackend(1)
 
     def test_edit_fixup(self):
         # Save with failing check
@@ -430,6 +469,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
+        self.assertBackend(1)
 
     def test_edit_check(self):
         # Save with failing check
@@ -471,6 +511,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
+        self.assertBackend(1)
 
     def test_commit_push(self):
         response = self.edit_unit(
@@ -546,6 +587,7 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.fuzzy)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
+        self.assertBackend(0)
 
 
 class EditResourceTest(EditTest):
