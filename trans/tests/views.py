@@ -432,6 +432,7 @@ class EditTest(ViewTestCase):
         changes = Change.objects.filter(unit=unit)
         self.assertEqual(changes[1].target, target)
         self.assertEqual(changes[0].target, target_2)
+        self.assertBackend(1)
         # revert it
         self.client.get(
             self.translate_url,
@@ -453,7 +454,7 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'revert': change.id}
         )
         self.assertContains(response, "Can not revert to different unit")
-        self.assertBackend(1)
+        self.assertBackend(2)
 
     def test_edit_fixup(self):
         # Save with failing check
