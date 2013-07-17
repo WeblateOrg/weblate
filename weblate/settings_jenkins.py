@@ -39,19 +39,19 @@ JENKINS_TASKS = (
     'django_jenkins.tasks.django_tests',
 )
 
+PROJECT_APPS = (
+    'trans',
+    'lang',
+    'accounts',
+    'weblate',
+)
+
 CSSLINT_CHECKED_FILES = (
     os.path.join(WEB_ROOT, 'media/style.css'),
 )
 
 JSHINT_CHECKED_FILES = (
     os.path.join(WEB_ROOT, 'media/loader.js'),
-)
-
-PROJECT_APPS = (
-    'trans',
-    'lang',
-    'accounts',
-    'weblate',
 )
 
 PYLINT_RCFILE = os.path.join(WEB_ROOT, '..', 'pylint.rc')
