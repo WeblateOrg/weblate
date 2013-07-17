@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.models.changes import Change
+from trans.models.unitdata import Suggestion
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
 import cairo
@@ -644,6 +645,38 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertBackend(1)
+
+    def test_vote(self):
+        self.subproject.suggestion_voting = True
+        self.subproject.save()
+
+        self.add_suggestion_1()
+
+        suggestion_id = self.get_unit().suggestions()[0].pk
+
+        self.edit_unit(
+            'Hello, world!\n',
+            '',
+            upvote=suggestion_id,
+        )
+
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+        self.assertEqual(
+            suggestion.get_num_votes(),
+            1
+        )
+
+        self.edit_unit(
+            'Hello, world!\n',
+            '',
+            downvote=suggestion_id,
+        )
+
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+        self.assertEqual(
+            suggestion.get_num_votes(),
+            -1
+        )
 
 
 class SearchViewTest(ViewTestCase):
