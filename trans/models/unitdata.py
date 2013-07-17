@@ -49,14 +49,16 @@ class RelatedUnitMixin(object):
 
 
 class SuggestionManager(models.Manager):
-    def add(self, unit, target, user):
+    def add(self, unit, target, request):
         '''
         Creates new suggestion for this unit.
         '''
         from accounts.models import notify_new_suggestion
 
-        if not user.is_authenticated():
+        if not request.user.is_authenticated():
             user = None
+        else:
+            user = request.user
 
         # Create the suggestion
         suggestion = Suggestion.objects.create(
@@ -74,6 +76,14 @@ class SuggestionManager(models.Manager):
             translation=unit.translation,
             user=user
         )
+
+        # Add unit vote
+        if user is not None and unit.can_vote_suggestions():
+            suggestion.add_vote(
+                unit.translation,
+                request,
+                True
+            )
 
         # Notify subscribed users
         notify_new_suggestion(unit, suggestion, user)

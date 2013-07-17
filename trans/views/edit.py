@@ -207,7 +207,6 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
 
     if 'suggest' in request.POST:
         # Handle suggesion saving
-        user = request.user
         if form.cleaned_data['target'][0] == '':
             messages.error(request, _('Your suggestion is empty!'))
             # Stay on same entry
@@ -228,7 +227,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         Suggestion.objects.add(
             unit,
             join_plural(form.cleaned_data['target']),
-            user,
+            request,
         )
     elif not request.user.is_authenticated():
         # We accept translations only from authenticated
