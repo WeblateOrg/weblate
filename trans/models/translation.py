@@ -643,7 +643,7 @@ class Translation(models.Model, URLMixin):
             has_suggestion=True
         ).count()
 
-        self.save()
+        # Store hash will save object
         self.store_hash()
 
     def store_hash(self):
