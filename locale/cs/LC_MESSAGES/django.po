@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-18 10:56+0200\n"
-"PO-Revision-Date: 2013-07-09 11:48+0200\n"
+"PO-Revision-Date: 2013-07-18 11:25+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -536,6 +536,8 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"Hodnota 1 není povolena pro automatické přijmutí, protože každý uživatel dá "
+"svému návrhu jeden hlas."
 
 #: trans/widgets.py:260
 #, python-format
@@ -1130,21 +1132,19 @@ msgid "Suggestion voting"
 msgstr "Návrhy"
 
 #: trans/models/subproject.py:204
-#, fuzzy
 #| msgid "There is %(count)s suggestion."
 #| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
-msgstr "V překladu je %(count)s návrh."
+msgstr "Jestli mohou uživatelé hlasovat o návrzích."
 
 #: trans/models/subproject.py:208
-#, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
-msgstr "Přidat jako návrh"
+msgstr "Automaticky přijímat návrhy"
 
 #: trans/models/subproject.py:211
 msgid "Automatically accept suggestions with this amount of votes."
-msgstr ""
+msgstr "Automaticky přijímat návrhy pokud získají tento počet hlasů."
 
 #: trans/models/subproject.py:428
 msgid ""
@@ -1605,10 +1605,9 @@ msgid "You don't have privileges to save translations!"
 msgstr "Pro ukládání překladů nemáte oprávnění!"
 
 #: trans/views/edit.py:270
-#, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
-msgstr "Nový návrh překladu v %(translation)s"
+msgstr "V tomto překladu jsou povoleny jen návrhy!"
 
 #: trans/views/edit.py:280
 #, python-format
