@@ -262,7 +262,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             [subproject.locked for subproject in self.subproject_set.all()]
         )
 
-    def get_path(self):
+    def _get_path(self):
         return os.path.join(appsettings.GIT_ROOT, self.slug)
 
     def __unicode__(self):

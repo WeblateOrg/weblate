@@ -110,18 +110,33 @@ class PathMixin(object):
     '''
     Mixin for path manipulations.
     '''
+    _dir_path = None
+
+    def _get_path(self):
+        '''
+        Actual calculation of path.
+        '''
+        raise NotImplementedError()
+
     def get_path(self):
         '''
         Return path to directory.
+
+        Caching is really necessary for linked project, otherwise
+        we end up fetching linked subproject again and again.
         '''
-        raise NotImplementedError()
+        if self._dir_path is None:
+            self._dir_path = self._get_path()
+
+        return self._dir_path
 
     def check_rename(self, old):
         '''
         Detects slug changes and possibly renames underlaying directory.
         '''
         if old.slug != self.slug:
-            os.rename(
-                old.get_path(),
-                self.get_path()
-            )
+            old_path = old.get_path()
+            # Invalidate cache
+            self._dir_path = None
+            new_path = self.get_path()
+            os.rename(old_path, new_path)
