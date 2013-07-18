@@ -255,7 +255,7 @@ class SearchForm(forms.Form):
         cleaned_data = super(SearchForm, self).clean()
 
         # Default to fulltext
-        if cleaned_data['search'] == '':
+        if 'search' in cleaned_data and cleaned_data['search'] == '':
             cleaned_data['search'] = 'ftx'
 
         # Default to source and target search

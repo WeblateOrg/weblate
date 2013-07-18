@@ -762,10 +762,27 @@ class SearchViewTest(ViewTestCase):
             {'q': 'Thank you for using Weblate.', 'search': 'exact'},
             'Current filter: Search for exact string'
         )
+        # Short string
+        self.do_search(
+            {'q': 'x'},
+            'Ensure this value has at least 5 characters (it has 1).'
+        )
+        # Wrong type
+        self.do_search(
+            {'q': 'xxxxx', 'search': 'xxxx'},
+            'Select a valid choice. xxxx is not one of the available choices.'
+        )
+
+    def test_review(self):
         # Review
         self.do_search(
             {'date': '2010-01-10', 'type': 'review'},
             None
+        )
+        # Review, invalid date
+        self.do_search(
+            {'date': '2010-01-', 'type': 'review'},
+            'Enter a valid date.'
         )
 
     def test_search_links(self):

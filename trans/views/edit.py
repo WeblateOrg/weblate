@@ -81,6 +81,22 @@ def cleanup_session(session):
             del session[key]
 
 
+def show_form_errors(request, form):
+    '''
+    Shows all form errors as a message.
+    '''
+    for error in form.non_field_errors():
+        messages.error(request, error)
+    for field in form:
+        for error in field.errors:
+            messages.error(
+                request,
+                _('Error in parameter %s: %s') % (
+                    field.name,
+                    error
+                )
+            )
+
 def search(translation, request):
     '''
     Performs search or returns cached search results.
@@ -133,6 +149,12 @@ def search(translation, request):
             search_query,
         )
     else:
+        # Error reporting
+        if 'date' in request.GET:
+            show_form_errors(request, review_form)
+        elif 'q' in request.GET:
+            show_form_errors(request, search_form)
+
         # Filtering by type
         allunits = translation.unit_set.filter_type(
             rqtype,
