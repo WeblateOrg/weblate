@@ -988,7 +988,7 @@ class Unit(models.Model):
             self.translation.update_stats()
 
         # Invalidate checks cache if there was any change
-        # (avove code cares only about whether there is failing check
+        # (above code cares only about whether there is failing check
         # while here we care about any changed in checks)
         self.translation.invalidate_cache()
 
