@@ -21,6 +21,7 @@
 from django.db import models
 from weblate import appsettings
 from django.db.models import Q
+from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.contrib import messages
@@ -214,7 +215,10 @@ class UnitManager(models.Manager):
         '''
         if appsettings.OFFLOAD_INDEXING:
             from trans.models.unitdata import IndexUpdate
-            IndexUpdate.objects.get_or_create(unit=unit, source=source)
+            try:
+                IndexUpdate.objects.create(unit=unit, source=source)
+            except IntegrityError:
+                pass
             return
 
         writer_target = FULLTEXT_INDEX.target_writer(
