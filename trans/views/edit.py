@@ -452,7 +452,7 @@ def handle_suggestions(obj, request, this_unit_url):
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
-    except Suggestion.DoesNotExist:
+    except (Suggestion.DoesNotExist, ValueError):
         suggestion = None
 
     if suggestion is not None:
