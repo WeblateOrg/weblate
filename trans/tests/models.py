@@ -183,6 +183,7 @@ class ProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(project.slug in project.get_path())
 
     def test_rename(self):
         project = self.create_project()
@@ -210,6 +211,9 @@ class ProjectTest(RepoTestCase):
 
         backup = appsettings.GIT_ROOT
         appsettings.GIT_ROOT = '/weblate-nonexisting-path'
+
+        # Invalidate cache
+        project._dir_path = None
 
         self.assertRaisesMessage(
             ValidationError,
