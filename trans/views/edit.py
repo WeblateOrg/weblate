@@ -97,6 +97,7 @@ def show_form_errors(request, form):
                 }
             )
 
+
 def search(translation, request):
     '''
     Performs search or returns cached search results.
@@ -413,59 +414,53 @@ def handle_suggestions(obj, request, this_unit_url):
         )
         return HttpResponseRedirect(this_unit_url)
 
-    sugid = None
+    sugid = ''
 
     # Parse suggestion ID
-    if 'accept' in request.POST:
-        if not request.user.has_perm('trans.accept_suggestion'):
-            messages.error(
-                request,
-                _('You do not have privilege to accept suggestions!')
-            )
-            return HttpResponseRedirect(this_unit_url)
-        sugid = request.POST['accept']
-    elif 'delete' in request.POST:
-        if not request.user.has_perm('trans.delete_suggestion'):
-            messages.error(
-                request,
-                _('You do not have privilege to delete suggestions!')
-            )
-            return HttpResponseRedirect(this_unit_url)
-        sugid = request.POST['delete']
-    elif 'upvote' in request.POST:
-        if not request.user.has_perm('trans.vote_suggestion'):
-            messages.error(
-                request,
-                _('You do not have privilege to vote for suggestions!')
-            )
-            return HttpResponseRedirect(this_unit_url)
-        sugid = request.POST['upvote']
-    elif 'downvote' in request.POST:
-        if not request.user.has_perm('trans.vote_suggestion'):
-            messages.error(
-                request,
-                _('You do not have privilege to vote for suggestions!')
-            )
-            return HttpResponseRedirect(this_unit_url)
-        sugid = request.POST['downvote']
+    for param in ('accept', 'delete', 'upvote', 'downvote'):
+        if param in request.POST:
+            sugid = request.POST[param]
+            break
+
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
-    except Suggestion.DoesNotExist:
-        suggestion = None
 
-    if suggestion is not None:
         if 'accept' in request.POST:
             # Accept suggesion
+            if not request.user.has_perm('trans.accept_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to accept suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
             suggestion.accept(obj, request)
         elif 'delete' in request.POST:
             # Delete suggestion
+            if not request.user.has_perm('trans.delete_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to delete suggestions!')
+                )
+            return HttpResponseRedirect(this_unit_url)
             suggestion.delete()
         elif 'upvote' in request.POST:
+            if not request.user.has_perm('trans.vote_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to vote for suggestions!')
+                )
             suggestion.add_vote(obj, request, True)
         elif 'downvote' in request.POST:
+            if not request.user.has_perm('trans.vote_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to vote for suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
             suggestion.add_vote(obj, request, False)
-    else:
+
+    except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
 
     # Redirect to same entry for possible editing
