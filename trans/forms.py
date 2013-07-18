@@ -218,7 +218,10 @@ class SearchForm(forms.Form):
     '''
     Text searching form.
     '''
-    q = forms.CharField(label=_('Query'))
+    q = forms.CharField(
+        label=_('Query'),
+        min_length=5,
+    )
     search = forms.ChoiceField(
         label=_('Search type'),
         required=False,
