@@ -442,7 +442,7 @@ def handle_suggestions(obj, request, this_unit_url):
                     request,
                     _('You do not have privilege to delete suggestions!')
                 )
-            return HttpResponseRedirect(this_unit_url)
+                return HttpResponseRedirect(this_unit_url)
             suggestion.delete()
         elif 'upvote' in request.POST:
             if not request.user.has_perm('trans.vote_suggestion'):
