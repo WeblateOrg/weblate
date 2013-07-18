@@ -17,6 +17,10 @@ Released on ? 2013.
 * Tracking of translation history and option to revert it.
 * Added support for Google Translate API.
 * Added support for managing SSH host keys.
+* Various form validation improvements.
+* Various quality checks improvements.
+* Performance improvements for import.
+* Added support for voting on suggestions.
 
 weblate 1.5
 -----------
