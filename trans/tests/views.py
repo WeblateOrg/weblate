@@ -649,6 +649,7 @@ class SuggestionsTest(ViewTestCase):
     def test_vote(self):
         translate_url = self.get_translation().get_translate_url()
         self.subproject.suggestion_voting = True
+        self.subproject.suggestion_autoaccept = 0
         self.subproject.save()
 
         self.add_suggestion_1()

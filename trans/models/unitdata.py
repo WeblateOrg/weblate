@@ -194,7 +194,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
         # Automatic accepting
         required_votes = translation.subproject.suggestion_autoaccept
-        if self.get_num_votes() >= required_votes:
+        if required_votes and self.get_num_votes() >= required_votes:
             self.accept(translation, request)
 
 
