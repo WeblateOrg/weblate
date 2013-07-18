@@ -835,10 +835,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         notrecognized = []
         errors = []
+        dir_path = self.get_path()
         for match in matches:
             try:
                 parsed = self.file_format_cls.load(
-                    os.path.join(self.get_path(), match),
+                    os.path.join(dir_path, match),
                 )
                 if not self.file_format_cls.is_valid(parsed):
                     errors.append('%s: %s' % (
