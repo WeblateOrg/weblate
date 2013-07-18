@@ -585,7 +585,6 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
 
-
     def test_delete(self):
         # Create two suggestions
         self.add_suggestion_1()
@@ -614,7 +613,6 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
-
 
     def test_accept(self):
         # Create two suggestions
