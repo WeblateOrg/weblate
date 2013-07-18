@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-17 18:12+0200\n"
+"POT-Creation-Date: 2013-07-18 10:56+0200\n"
 "PO-Revision-Date: 2013-07-09 11:50+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -370,11 +370,11 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Neurejeno"
 
-#: trans/forms.py:173 trans/forms.py:331
+#: trans/forms.py:173 trans/forms.py:334
 msgid "File"
 msgstr "Datoteka"
 
-#: trans/forms.py:175 trans/forms.py:334
+#: trans/forms.py:175 trans/forms.py:337
 msgid "Merge method"
 msgstr "Način združevanja"
 
@@ -414,55 +414,55 @@ msgstr "Pustite prazno, da uporabite trenutno prijavljenega uporabnika."
 msgid "Author email"
 msgstr "E-poštni naslov avtorja"
 
-#: trans/forms.py:221
+#: trans/forms.py:222
 msgid "Query"
 msgstr "Poizvedba"
 
-#: trans/forms.py:223
+#: trans/forms.py:226
 msgid "Search type"
 msgstr "Način iskanja"
 
-#: trans/forms.py:226
+#: trans/forms.py:229
 msgid "Fulltext"
 msgstr "Polno besedilo"
 
-#: trans/forms.py:227
+#: trans/forms.py:230
 msgid "Exact match"
 msgstr "Točno ujemanje"
 
-#: trans/forms.py:228
+#: trans/forms.py:231
 msgid "Substring"
 msgstr "Podniz"
 
-#: trans/forms.py:233
+#: trans/forms.py:236
 msgid "Search in source strings"
 msgstr "Išči v izvirnih nizih"
 
-#: trans/forms.py:238
+#: trans/forms.py:241
 msgid "Search in target strings"
 msgstr "Išči v ciljnih nizih"
 
-#: trans/forms.py:243
+#: trans/forms.py:246
 msgid "Search in context strings"
 msgstr "Išči v sobesedilnih nizih"
 
-#: trans/forms.py:286
+#: trans/forms.py:289
 msgid "Overwrite strings"
 msgstr "Prepiši nize"
 
-#: trans/forms.py:291
+#: trans/forms.py:294
 msgid "Replace inconsistent"
 msgstr "Zamenjaj neskladne"
 
-#: trans/forms.py:296
+#: trans/forms.py:299
 msgid "Subproject to use"
 msgstr "Uporabi podprojekt"
 
-#: trans/forms.py:315
+#: trans/forms.py:318
 msgid "All subprojects"
 msgstr "Vsi podprojekti"
 
-#: trans/forms.py:322 weblate/html/check_subproject.html:39
+#: trans/forms.py:325 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:192 weblate/html/translate.html:200
@@ -471,7 +471,7 @@ msgstr "Vsi podprojekti"
 msgid "Source"
 msgstr "Vir"
 
-#: trans/forms.py:323 weblate/html/check_subproject.html:27
+#: trans/forms.py:326 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:200
 #: weblate/html/translate.html:220 weblate/html/js/dictionary.html:8
@@ -479,32 +479,32 @@ msgstr "Vir"
 msgid "Translation"
 msgstr "Prevod"
 
-#: trans/forms.py:336
+#: trans/forms.py:339
 msgid "Keep current"
 msgstr "Ohrani trenutno"
 
-#: trans/forms.py:337
+#: trans/forms.py:340
 msgid "Overwrite existing"
 msgstr "Prepiši obstoječe"
 
-#: trans/forms.py:338
+#: trans/forms.py:341
 msgid "Add as other translation"
 msgstr "Dodaj kot drug prevod"
 
-#: trans/forms.py:348
+#: trans/forms.py:351
 msgid "Starting date"
 msgstr "Začetni datum"
 
-#: trans/forms.py:362
+#: trans/forms.py:365
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Katera koli"
 
-#: trans/forms.py:364
+#: trans/forms.py:367
 msgid "Starting letter"
 msgstr "Začetna črka"
 
-#: trans/forms.py:383
+#: trans/forms.py:386
 msgid "Whole project"
 msgstr "Celoten podprojekti"
 
@@ -1545,7 +1545,7 @@ msgid "Changes"
 msgstr "Spremembe"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:529
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:551
 msgid "Invalid search string!"
 msgstr "Neveljaven iskalni niz!"
 
@@ -1578,7 +1578,7 @@ msgid "File upload has failed: %s"
 msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:641
+#: trans/views/edit.py:663
 msgid "Failed to process form!"
 msgstr "Nisem uspel obdelati obrazca!"
 
@@ -1613,20 +1613,26 @@ msgstr "Iskanje točnega niza »%s«"
 msgid "Substring search for \"%s\""
 msgstr "Iskanje »%s« v podnizih"
 
-#: trans/views/edit.py:119
+#: trans/views/edit.py:94
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "Error in parameter %(field)s: %(error)s"
+msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
+
+#: trans/views/edit.py:135
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Pregled prevodov od %s"
 
-#: trans/views/edit.py:150 trans/views/edit.py:160
+#: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
 msgstr "Iskalnim pogojem ne ustreza noben niz!"
 
-#: trans/views/edit.py:211
+#: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views/edit.py:222
+#: trans/views/edit.py:244
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1635,76 +1641,76 @@ msgstr ""
 "Na tem prevodu trenutno ni aktivnega prevajalca. Prosimo, razmislite o tem, "
 "da bi postali prevajalec, sicer bo vaš predlog ostal nepregledan."
 
-#: trans/views/edit.py:236
+#: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views/edit.py:242 trans/views/edit.py:298 trans/views/edit.py:343
+#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views/edit.py:248
+#: trans/views/edit.py:270
 #, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
 msgstr "Nov predlog pri %(translation)s"
 
-#: trans/views/edit.py:258
+#: trans/views/edit.py:280
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Na prevodu so bili uporabljeni naslednji popravki: %s"
 
-#: trans/views/edit.py:281
+#: trans/views/edit.py:303
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views/edit.py:322
+#: trans/views/edit.py:344
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različnih sporočil!"
 
-#: trans/views/edit.py:367
+#: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
 msgstr "Ni mogoče vrniti na drugo enoto!"
 
-#: trans/views/edit.py:372
+#: trans/views/edit.py:394
 msgid "Can not revert to empty translation!"
 msgstr "Ni mogoče vrniti na prazen prevod!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views/edit.py:401
+#: trans/views/edit.py:423
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views/edit.py:409
+#: trans/views/edit.py:431
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views/edit.py:417 trans/views/edit.py:425
+#: trans/views/edit.py:439 trans/views/edit.py:447
 #, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views/edit.py:447
+#: trans/views/edit.py:469
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views/edit.py:481
+#: trans/views/edit.py:503
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views/edit.py:639
+#: trans/views/edit.py:661
 msgid "Automatic translation completed."
 msgstr "Samodejno prevajanje je končano."
 
-#: trans/views/edit.py:667
+#: trans/views/edit.py:689
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views/edit.py:669
+#: trans/views/edit.py:691
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 

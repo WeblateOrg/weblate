@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-17 18:12+0200\n"
+"POT-Creation-Date: 2013-07-18 10:56+0200\n"
 "PO-Revision-Date: 2013-07-09 11:50+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
@@ -370,11 +370,11 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Нечётко"
 
-#: trans/forms.py:173 trans/forms.py:331
+#: trans/forms.py:173 trans/forms.py:334
 msgid "File"
 msgstr "Файл"
 
-#: trans/forms.py:175 trans/forms.py:334
+#: trans/forms.py:175 trans/forms.py:337
 msgid "Merge method"
 msgstr "Метод слияния"
 
@@ -415,55 +415,55 @@ msgstr ""
 msgid "Author email"
 msgstr "Адрес электронной почты автора"
 
-#: trans/forms.py:221
+#: trans/forms.py:222
 msgid "Query"
 msgstr "Запрос"
 
-#: trans/forms.py:223
+#: trans/forms.py:226
 msgid "Search type"
 msgstr "Тип поиска"
 
-#: trans/forms.py:226
+#: trans/forms.py:229
 msgid "Fulltext"
 msgstr "Весь текст"
 
-#: trans/forms.py:227
+#: trans/forms.py:230
 msgid "Exact match"
 msgstr "Точное совпадение"
 
-#: trans/forms.py:228
+#: trans/forms.py:231
 msgid "Substring"
 msgstr "Подстрока"
 
-#: trans/forms.py:233
+#: trans/forms.py:236
 msgid "Search in source strings"
 msgstr "Поиск в строках исходника"
 
-#: trans/forms.py:238
+#: trans/forms.py:241
 msgid "Search in target strings"
 msgstr "Поиск в строках перевода"
 
-#: trans/forms.py:243
+#: trans/forms.py:246
 msgid "Search in context strings"
 msgstr "Поиск в строках контекста"
 
-#: trans/forms.py:286
+#: trans/forms.py:289
 msgid "Overwrite strings"
 msgstr "Перезаписать существующие переводы"
 
-#: trans/forms.py:291
+#: trans/forms.py:294
 msgid "Replace inconsistent"
 msgstr "Заменить несовместимые"
 
-#: trans/forms.py:296
+#: trans/forms.py:299
 msgid "Subproject to use"
 msgstr "Использовать подпроект"
 
-#: trans/forms.py:315
+#: trans/forms.py:318
 msgid "All subprojects"
 msgstr "Все подпроекты"
 
-#: trans/forms.py:322 weblate/html/check_subproject.html:39
+#: trans/forms.py:325 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:192 weblate/html/translate.html:200
@@ -472,7 +472,7 @@ msgstr "Все подпроекты"
 msgid "Source"
 msgstr "Источник"
 
-#: trans/forms.py:323 weblate/html/check_subproject.html:27
+#: trans/forms.py:326 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:200
 #: weblate/html/translate.html:220 weblate/html/js/dictionary.html:8
@@ -480,32 +480,32 @@ msgstr "Источник"
 msgid "Translation"
 msgstr "Перевод"
 
-#: trans/forms.py:336
+#: trans/forms.py:339
 msgid "Keep current"
 msgstr "Сохранить текущий"
 
-#: trans/forms.py:337
+#: trans/forms.py:340
 msgid "Overwrite existing"
 msgstr "Перезаписать существующий"
 
-#: trans/forms.py:338
+#: trans/forms.py:341
 msgid "Add as other translation"
 msgstr "Добавить как другой перевод"
 
-#: trans/forms.py:348
+#: trans/forms.py:351
 msgid "Starting date"
 msgstr "Дата начала"
 
-#: trans/forms.py:362
+#: trans/forms.py:365
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Любая"
 
-#: trans/forms.py:364
+#: trans/forms.py:367
 msgid "Starting letter"
 msgstr "Начальная буква"
 
-#: trans/forms.py:383
+#: trans/forms.py:386
 msgid "Whole project"
 msgstr "Весь проект"
 
@@ -1495,7 +1495,7 @@ msgid "Changes"
 msgstr "Изменения"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:96 trans/views/edit.py:529
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:551
 msgid "Invalid search string!"
 msgstr ""
 
@@ -1528,7 +1528,7 @@ msgid "File upload has failed: %s"
 msgstr ""
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:641
+#: trans/views/edit.py:663
 msgid "Failed to process form!"
 msgstr ""
 
@@ -1563,92 +1563,97 @@ msgstr "Поиск точного совпадения с \"%s\""
 msgid "Substring search for \"%s\""
 msgstr ""
 
-#: trans/views/edit.py:119
+#: trans/views/edit.py:94
+#, python-format
+msgid "Error in parameter %(field)s: %(error)s"
+msgstr ""
+
+#: trans/views/edit.py:135
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Обзор переводов с %s"
 
-#: trans/views/edit.py:150 trans/views/edit.py:160
+#: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:211
+#: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: trans/views/edit.py:222
+#: trans/views/edit.py:244
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:236
+#: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:242 trans/views/edit.py:298 trans/views/edit.py:343
+#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
 msgid "You don't have privileges to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:248
+#: trans/views/edit.py:270
 msgid "Only suggestions are allowed in this translation!"
 msgstr ""
 
-#: trans/views/edit.py:258
+#: trans/views/edit.py:280
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
-#: trans/views/edit.py:281
+#: trans/views/edit.py:303
 msgid "Some checks have failed on your translation!"
 msgstr ""
 
-#: trans/views/edit.py:322
+#: trans/views/edit.py:344
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views/edit.py:367
+#: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
 msgstr ""
 
-#: trans/views/edit.py:372
+#: trans/views/edit.py:394
 msgid "Can not revert to empty translation!"
 msgstr "Невозможно откатить к пустому переводу!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:401
+#: trans/views/edit.py:423
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:409
+#: trans/views/edit.py:431
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:417 trans/views/edit.py:425
+#: trans/views/edit.py:439 trans/views/edit.py:447
 msgid "You do not have privilege to vote for suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:447
+#: trans/views/edit.py:469
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: trans/views/edit.py:481
+#: trans/views/edit.py:503
 msgid "You have reached end of translating."
 msgstr ""
 
-#: trans/views/edit.py:639
+#: trans/views/edit.py:661
 msgid "Automatic translation completed."
 msgstr ""
 
-#: trans/views/edit.py:667
+#: trans/views/edit.py:689
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:669
+#: trans/views/edit.py:691
 msgid "Failed to add comment!"
 msgstr ""
 
