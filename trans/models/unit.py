@@ -970,10 +970,8 @@ class Unit(models.Model):
             )
 
         # Update failing checks flag
-        if was_change:
-            self.update_has_failing_check(True)
-        elif is_new:
-            self.update_has_failing_check(False)
+        if was_change or is_new:
+            self.update_has_failing_check(was_change)
 
     def update_has_failing_check(self, recurse=False):
         '''
