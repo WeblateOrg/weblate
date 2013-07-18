@@ -965,7 +965,9 @@ class Unit(models.Model):
 
         # Delete no longer failing checks
         if cleanup_checks:
-            was_change |= self.cleanup_checks(old_source_checks, old_target_checks)
+            was_change |= self.cleanup_checks(
+                old_source_checks, old_target_checks
+            )
 
         # Update failing checks flag
         if was_change:
