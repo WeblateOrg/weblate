@@ -297,7 +297,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if self.is_repo_link():
                 self._dir_path = self.linked_subproject.get_path()
             else:
-                self._dir_path = os.path.join(self.project.get_path(), self.slug)
+                self._dir_path = os.path.join(
+                    self.project.get_path(), self.slug
+                )
 
         return self._dir_path
 
