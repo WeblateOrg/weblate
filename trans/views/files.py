@@ -125,14 +125,10 @@ def upload_translation(request, project, subproject, lang):
             messages.info(
                 request,
                 ungettext(
-                    _(
-                        'File content successfully merged into translation, '
-                        'processed %d string.'
-                    ),
-                    _(
-                        'File content successfully merged into translation, '
-                        'processed %d strings.'
-                    ),
+                    'File content successfully merged into translation, '
+                    'processed %d string.',
+                    'File content successfully merged into translation, '
+                    'processed %d strings.',
                     count
                 ) % count
             )
