@@ -21,7 +21,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from weblate import appsettings
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
@@ -613,12 +613,33 @@ class Translation(models.Model, URLMixin):
         '''
         Updates translation statistics.
         '''
-        self.total_words = self.unit_set.aggregate(
-            Sum('num_words')
-        )['num_words__sum']
-        # Nothing matches filter
-        if self.total_words is None:
+        # Grab stats
+        stats = self.unit_set.aggregate(
+            Sum('num_words'),
+            Sum('fuzzy'),
+            Sum('translated'),
+            Sum('has_failing_check'),
+            Sum('has_suggestion'),
+            Count('id'),
+        )
+
+        # Check if we have any units
+        if stats['num_words__sum'] is None:
             self.total_words = 0
+            self.total = 0
+            self.fuzzy = 0
+            self.translated = 0
+            self.failing_checks = 0
+            self.have_suggestion = 0
+        else:
+            self.total_words = stats['num_words__sum']
+            self.total = stats['id__count']
+            self.fuzzy = stats['fuzzy__sum']
+            self.translated = stats['translated__sum']
+            self.failing_checks = stats['has_failing_check__sum']
+            self.have_suggestion = stats['has_suggestion__sum']
+
+        # Count translated words
         self.translated_words = self.unit_set.filter(
             translated=True
         ).aggregate(
@@ -627,21 +648,6 @@ class Translation(models.Model, URLMixin):
         # Nothing matches filter
         if self.translated_words is None:
             self.translated_words = 0
-
-        self.total = self.unit_set.count()
-        self.fuzzy = self.unit_set.filter(
-            fuzzy=True
-        ).count()
-        self.translated = self.unit_set.filter(
-            translated=True
-        ).count()
-
-        self.failing_checks = self.unit_set.filter(
-            has_failing_check=True
-        ).count()
-        self.have_suggestion = self.unit_set.filter(
-            has_suggestion=True
-        ).count()
 
         # Store hash will save object
         self.store_hash()
