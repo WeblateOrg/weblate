@@ -91,5 +91,6 @@ def validate_autoaccept(val):
     '''
     if val == 1:
         raise ValidationError(_(
-            'Value of 1 is not allowed for autoaccept as every user gives vote to his suggestion.'
+            'Value of 1 is not allowed for autoaccept as '
+            'every user gives vote to his suggestion.'
         ))
