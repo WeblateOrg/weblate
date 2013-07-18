@@ -136,14 +136,10 @@ def upload_translation(request, project, subproject, lang):
             messages.info(
                 request,
                 ungettext(
-                    _(
-                        'There were no new strings in uploaded file, '
-                        'processed %d string.'
-                    ),
-                    _(
-                        'There were no new strings in uploaded file, '
-                        'processed %d strings.'
-                    ),
+                    'There were no new strings in uploaded file, '
+                    'processed %d string.',
+                    'There were no new strings in uploaded file, '
+                    'processed %d strings.',
                     count
                 ) % count
             )
