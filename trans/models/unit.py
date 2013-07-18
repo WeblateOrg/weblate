@@ -802,14 +802,18 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         if len(source) == 0 and len(target) == 0:
-            return
-        Check.objects.filter(
+            return False
+        todelete = Check.objects.filter(
             checksum=self.checksum,
             project=self.translation.subproject.project
         ).filter(
             (Q(language=self.translation.language) & Q(check__in=target)) |
             (Q(language=None) & Q(check__in=source))
-        ).delete()
+        )
+        if todelete.exists():
+            todelete.delete()
+            return True
+        return False
 
     def checks(self):
         '''
@@ -907,7 +911,7 @@ class Unit(models.Model):
             if not same_source.exists():
                 if checks.exists():
                     checks.delete()
-                    self.update_has_failing_check(True, True)
+                    self.update_has_failing_check(True)
                 return
 
             # If there is no consistency checking, we can return
@@ -961,13 +965,15 @@ class Unit(models.Model):
 
         # Delete no longer failing checks
         if cleanup_checks:
-            self.cleanup_checks(old_source_checks, old_target_checks)
-            was_change = True
+            was_change |= self.cleanup_checks(old_source_checks, old_target_checks)
 
         # Update failing checks flag
-        self.update_has_failing_check(was_change, True)
+        if was_change:
+            self.update_has_failing_check(True)
+        elif is_new:
+            self.update_has_failing_check(False)
 
-    def update_has_failing_check(self, was_change, recurse=False):
+    def update_has_failing_check(self, recurse=False):
         '''
         Updates flag counting failing checks.
         '''
@@ -984,12 +990,11 @@ class Unit(models.Model):
         # Invalidate checks cache if there was any change
         # (avove code cares only about whether there is failing check
         # while here we care about any changed in checks)
-        if was_change:
-            self.translation.invalidate_cache()
+        self.translation.invalidate_cache()
 
         if recurse:
             for unit in Unit.objects.same(self).exclude(id=self.id):
-                unit.update_has_failing_check(was_change, False)
+                unit.update_has_failing_check(False)
 
     def update_has_suggestion(self):
         '''
