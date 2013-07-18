@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-18 11:27+0200\n"
-"PO-Revision-Date: 2013-07-18 11:26+0200\n"
+"PO-Revision-Date: 2013-07-18 11:50+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -1126,10 +1126,9 @@ msgid "Whether Weblate should keep history of translations"
 msgstr "Zvolte zda má Weblate ukládat historii překladů"
 
 #: trans/models/subproject.py:201
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Návrhy"
+msgstr "Hlasování o návrzích"
 
 #: trans/models/subproject.py:204
 msgid "Whether users can vote for suggestions."
@@ -1244,6 +1243,8 @@ msgstr "Nelze vytvořit jednojazyčný překlad bez základního soubor!"
 #: trans/models/subproject.py:918
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
+"Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
+"návrzích!"
 
 #: trans/models/translation.py:184
 #, python-format
@@ -1566,10 +1567,10 @@ msgid "Substring search for \"%s\""
 msgstr "Vyhledávání částečného řetězce „%s“"
 
 #: trans/views/edit.py:94
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
+msgstr "Chyba v parametru %(field)s: %(error)s"
 
 #: trans/views/edit.py:136
 #, python-format
@@ -1639,10 +1640,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Pro odstranění návrhu nemáte oprávnění!"
 
 #: trans/views/edit.py:451 trans/views/edit.py:458
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Pro odstranění návrhu nemáte oprávnění!"
+msgstr "Pro hlasování o návrhu nemáte oprávnění!"
 
 #: trans/views/edit.py:464
 msgid "Invalid suggestion!"
@@ -1673,21 +1673,21 @@ msgid "Please fix errors in the form."
 msgstr "Prosím opravte chyby ve formuláři."
 
 #: trans/views/files.py:128
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "File content successfully merged into translation, processed %d string."
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
 msgstr[0] "Obsah souboru byl úspěšně přidán do překladu, zpracován %d řetězec."
-msgstr[1] "Obsah souboru byl úspěšně přidán do překladu, zpracován %d řetězec."
-msgstr[2] "Obsah souboru byl úspěšně přidán do překladu, zpracován %d řetězec."
+msgstr[1] "Obsah souboru byl úspěšně přidán do překladu, zpracovány %d řetězce."
+msgstr[2] "Obsah souboru byl úspěšně přidán do překladu, zpracováno %d řetězců."
 
 #: trans/views/files.py:140
-#, fuzzy, python-format
+#, python-format
 #| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d string."
-msgstr "V nahraném souboru nebyly žádné nové řetězce."
+msgstr "V nahraném souboru nebyly žádné nové řetězce, zpracován %d řetězec."
 
 #: trans/views/files.py:144
 #, fuzzy, python-format
