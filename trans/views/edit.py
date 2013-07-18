@@ -91,10 +91,10 @@ def show_form_errors(request, form):
         for error in field.errors:
             messages.error(
                 request,
-                _('Error in parameter %s: %s') % (
-                    field.name,
-                    error
-                )
+                _('Error in parameter %(field)s: %(error)s') % {
+                    'field': field.name,
+                    'error': error
+                }
             )
 
 def search(translation, request):
