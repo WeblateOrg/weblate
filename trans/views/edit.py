@@ -450,6 +450,7 @@ def handle_suggestions(obj, request, this_unit_url):
                     request,
                     _('You do not have privilege to vote for suggestions!')
                 )
+                return HttpResponseRedirect(this_unit_url)
             suggestion.add_vote(obj, request, True)
         elif 'downvote' in request.POST:
             if not request.user.has_perm('trans.vote_suggestion'):
