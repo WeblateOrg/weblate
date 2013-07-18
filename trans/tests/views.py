@@ -584,21 +584,25 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertEquals(len(self.get_unit().suggestions()), 2)
 
     def test_delete(self):
+        translate_url = self.get_translation().get_translate_url()
         # Create two suggestions
         self.add_suggestion_1()
         self.add_suggestion_2()
 
         # Get ids of created suggestions
         suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+        self.assertEquals(len(suggestions), 2)
 
         # Delete one of suggestions
-        self.edit_unit(
+        response = self.edit_unit(
             'Hello, world!\n',
             '',
             delete=suggestions[0],
         )
+        self.assertRedirectsOffset(response, translate_url, 0)
 
         # Reload from database
         unit = self.get_unit()
@@ -613,21 +617,25 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertEquals(len(self.get_unit().suggestions()), 1)
 
     def test_accept(self):
+        translate_url = self.get_translation().get_translate_url()
         # Create two suggestions
         self.add_suggestion_1()
         self.add_suggestion_2()
 
         # Get ids of created suggestions
         suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+        self.assertEquals(len(suggestions), 2)
 
         # Accept one of suggestions
-        self.edit_unit(
+        response = self.edit_unit(
             'Hello, world!\n',
             '',
             accept=suggestions[1],
         )
+        self.assertRedirectsOffset(response, translate_url, 0)
 
         # Reload from database
         unit = self.get_unit()
@@ -643,6 +651,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertBackend(1)
+        self.assertEquals(len(self.get_unit().suggestions()), 1)
 
     def test_vote(self):
         translate_url = self.get_translation().get_translate_url()
