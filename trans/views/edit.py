@@ -515,16 +515,15 @@ def translate(request, project, subproject, lang):
     if request.method == 'POST' and not project_locked:
 
         # Handle accepting/deleting suggestions
-        if ('accept' in request.POST
-                or 'delete' in request.POST
-                or 'upvote' in request.POST
-                or 'downvote' in request.POST):
-            if not locked:
-                response = handle_suggestions(obj, request, this_unit_url)
-        else:
+        if ('accept' not in request.POST
+                and 'delete' not in request.POST
+                and 'upvote' not in request.POST
+                and 'downvote' not in request.POST):
             response = handle_translate(
                 obj, request, user_locked, this_unit_url, next_unit_url
             )
+        elif not locked:
+            response = handle_suggestions(obj, request, this_unit_url)
 
     # Handle translation merging
     elif 'merge' in request.GET and not locked:
