@@ -30,9 +30,10 @@ import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
 from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
+from trans.autofixes import fix_target
 
 from trans.filelock import FileLockException
-from trans.util import is_plural, split_plural
+from trans.util import is_plural, split_plural, join_plural
 import weblate
 
 
@@ -1034,3 +1035,17 @@ class Unit(models.Model):
             self.translation.subproject.suggestion_voting
             and self.translation.subproject.suggestion_autoaccept > 0
         )
+
+    def translate(self, request, new_target, new_fuzzy):
+        '''
+        Stores new translation of a unit.
+        '''
+        # Run AutoFixes on user input
+        new_target, fixups = fix_target(new_target, self)
+
+        # Update unit and save it
+        self.target = join_plural(new_target)
+        self.fuzzy = new_fuzzy
+        saved = self.save_backend(request)
+
+        return saved, fixups

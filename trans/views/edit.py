@@ -39,7 +39,6 @@ from trans.forms import (
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
-from trans.autofixes import fix_target
 from trans.util import join_plural
 
 
@@ -271,10 +270,19 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             _('Only suggestions are allowed in this translation!')
         )
     elif not user_locked:
-        # Run AutoFixes on user input
-        new_target = form.cleaned_data['target']
-        new_target, fixups = fix_target(new_target, unit)
+        # Remember old checks
+        oldchecks = set(
+            unit.active_checks().values_list('check', flat=True)
+        )
 
+        # Save
+        saved, fixups = unit.translate(
+            request,
+            form.cleaned_data['target'],
+            form.cleaned_data['fuzzy']
+        )
+
+        # Warn about applied fixups
         if len(fixups) > 0:
             messages.info(
                 request,
@@ -282,29 +290,20 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
                 ', '.join([unicode(f) for f in fixups])
             )
 
-        # Remember old checks
-        oldchecks = set(
+        # Get new set of checks
+        newchecks = set(
             unit.active_checks().values_list('check', flat=True)
         )
-        # Update unit and save it
-        unit.target = join_plural(new_target)
-        unit.fuzzy = form.cleaned_data['fuzzy']
-        saved = unit.save_backend(request)
 
-        if saved:
-            # Get new set of checks
-            newchecks = set(
-                unit.active_checks().values_list('check', flat=True)
+        # Did we introduce any new failures?
+        if saved and newchecks > oldchecks:
+            # Show message to user
+            messages.error(
+                request,
+                _('Some checks have failed on your translation!')
             )
-            # Did we introduce any new failures?
-            if newchecks > oldchecks:
-                # Show message to user
-                messages.error(
-                    request,
-                    _('Some checks have failed on your translation!')
-                )
-                # Stay on same entry
-                return HttpResponseRedirect(this_unit_url)
+            # Stay on same entry
+            return HttpResponseRedirect(this_unit_url)
 
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
