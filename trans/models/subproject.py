@@ -807,7 +807,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(
                 _('Export URL is not used when repository is linked!')
             )
-        validate_repo(self.repo)
 
     def clean_template(self):
         '''
