@@ -236,6 +236,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._file_format = None
         self._template_store = None
         self._percents = None
+        self._dir_path = None
 
     def has_acl(self, user):
         '''
@@ -288,11 +289,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_path(self):
         '''
         Returns full path to subproject git repository.
-        '''
-        if self.is_repo_link():
-            return self.linked_subproject.get_path()
 
-        return os.path.join(self.project.get_path(), self.slug)
+        Caching is really necessary for linked project, otherwise
+        we end up fetching linked subproject again and again.
+        '''
+        if self._dir_path is None:
+            if self.is_repo_link():
+                self._dir_path = self.linked_subproject.get_path()
+            else:
+                self._dir_path = os.path.join(self.project.get_path(), self.slug)
+
+        return self._dir_path
 
     def get_git_lock_path(self):
         '''
