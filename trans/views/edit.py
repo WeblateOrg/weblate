@@ -449,13 +449,11 @@ def handle_suggestions(obj, request, this_unit_url):
             )
             return HttpResponseRedirect(this_unit_url)
         sugid = request.POST['downvote']
+
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
-    except (Suggestion.DoesNotExist, ValueError):
-        suggestion = None
 
-    if suggestion is not None:
         if 'accept' in request.POST:
             # Accept suggesion
             suggestion.accept(obj, request)
@@ -466,7 +464,8 @@ def handle_suggestions(obj, request, this_unit_url):
             suggestion.add_vote(obj, request, True)
         elif 'downvote' in request.POST:
             suggestion.add_vote(obj, request, False)
-    else:
+
+    except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
 
     # Redirect to same entry for possible editing
