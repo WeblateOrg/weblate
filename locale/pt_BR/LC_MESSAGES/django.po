@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-18 10:56+0200\n"
+"POT-Creation-Date: 2013-07-18 11:27+0200\n"
 "PO-Revision-Date: 2013-07-18 01:58+0200\n"
 "Last-Translator: Rodrigo Souza <rodrigo.chrome@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
@@ -1497,7 +1497,7 @@ msgid "Changes"
 msgstr "Mudanças"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:551
+#: trans/views/changes.py:110 trans/views/edit.py:113 trans/views/edit.py:546
 msgid "Invalid search string!"
 msgstr "Busca de string inválida!"
 
@@ -1530,7 +1530,7 @@ msgid "File upload has failed: %s"
 msgstr "Falha de upload do arquivo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:663
+#: trans/views/edit.py:658
 msgid "Failed to process form!"
 msgstr "Falha ao processar o formulário!"
 
@@ -1571,20 +1571,20 @@ msgstr "Procurar dentro de string por \"%s\""
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Falha ao analisar arquivo %(file)s: %(error)s"
 
-#: trans/views/edit.py:135
+#: trans/views/edit.py:136
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Revisão de traduções desde %s"
 
-#: trans/views/edit.py:172 trans/views/edit.py:182
+#: trans/views/edit.py:173 trans/views/edit.py:183
 msgid "No string matched your search!"
 msgstr "Nenhuma string encontrada para sua pesquisa!"
 
-#: trans/views/edit.py:233
+#: trans/views/edit.py:234
 msgid "Your suggestion is empty!"
 msgstr "Sua sugestão está vazia!"
 
-#: trans/views/edit.py:244
+#: trans/views/edit.py:245
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1593,74 +1593,74 @@ msgstr ""
 "Atualmente não existem tradutores ativos para esta tradução, considere "
 "tornar-se um tradutor já que suas sugestões poderiam não ser revisadas."
 
-#: trans/views/edit.py:258
+#: trans/views/edit.py:259
 msgid "You need to log in to be able to save translations!"
 msgstr "Você precisa se conectar para poder salvar as traduções!"
 
-#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
+#: trans/views/edit.py:265 trans/views/edit.py:321 trans/views/edit.py:366
 msgid "You don't have privileges to save translations!"
 msgstr "Você não tem permissão para salvar as traduções!"
 
-#: trans/views/edit.py:270
+#: trans/views/edit.py:271
 #, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
 msgstr "Nova sugestão em %(translation)s"
 
-#: trans/views/edit.py:280
+#: trans/views/edit.py:281
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Os consertos a seguir foram aplicados na tradução: %s"
 
-#: trans/views/edit.py:303
+#: trans/views/edit.py:304
 msgid "Some checks have failed on your translation!"
 msgstr "Algumas verificações falharam na sua tradução!"
 
-#: trans/views/edit.py:344
+#: trans/views/edit.py:345
 msgid "Can not merge different messages!"
 msgstr "Não pode mesclar mensagens diferentes!"
 
-#: trans/views/edit.py:389
+#: trans/views/edit.py:390
 msgid "Can not revert to different unit!"
 msgstr "Não pode reverter para uma unidade diferente!"
 
-#: trans/views/edit.py:394
+#: trans/views/edit.py:395
 msgid "Can not revert to empty translation!"
 msgstr "Não pode reverter para uma tradução vazia!"
 
-#: trans/views/edit.py:412
+#: trans/views/edit.py:413
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Você precisa iniciar a sessão para gerenciar sugestões!"
 
-#: trans/views/edit.py:423
+#: trans/views/edit.py:434
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Você não tem permissões para aceitar sugestões!"
 
-#: trans/views/edit.py:431
+#: trans/views/edit.py:443
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Você não tem permissões para excluir sugestões!"
 
-#: trans/views/edit.py:439 trans/views/edit.py:447
+#: trans/views/edit.py:451 trans/views/edit.py:458
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Você não tem permissão de votar sobre as sugestões!"
 
-#: trans/views/edit.py:469
+#: trans/views/edit.py:464
 msgid "Invalid suggestion!"
 msgstr "Sugestão inválida!"
 
-#: trans/views/edit.py:503
+#: trans/views/edit.py:498
 msgid "You have reached end of translating."
 msgstr "Você chegou no final da tradução."
 
-#: trans/views/edit.py:661
+#: trans/views/edit.py:656
 msgid "Automatic translation completed."
 msgstr "Tradução automática completada."
 
-#: trans/views/edit.py:689
+#: trans/views/edit.py:684
 msgid "Posted new comment"
 msgstr "Novo comentário postado"
 
-#: trans/views/edit.py:691
+#: trans/views/edit.py:686
 msgid "Failed to add comment!"
 msgstr "Falha ao adicionar comentário!"
 
@@ -1672,33 +1672,32 @@ msgstr "Acesso negado."
 msgid "Please fix errors in the form."
 msgstr "Por favor, corrija os erros no formulário."
 
-#: trans/views/files.py:129
-#, python-format
+#: trans/views/files.py:128
+#, fuzzy, python-format
+#| msgid ""
+#| "File content successfully merged into translation, processed %d string."
 msgid "File content successfully merged into translation, processed %d string."
-msgstr ""
+msgid_plural ""
+"File content successfully merged into translation, processed %d strings."
+msgstr[0] ""
+"O conteúdo do arquivo foi mesclado na tradução com sucesso, na string %d "
+"processada."
+msgstr[1] ""
 "O conteúdo do arquivo foi mesclado na tradução com sucesso, na string %d "
 "processada."
 
-#: trans/views/files.py:133
-#, python-format
-msgid ""
-"File content successfully merged into translation, processed %d strings."
-msgstr ""
-"O conteúdo do arquivo foi mesclado na tradução com sucesso, nas strings %d "
-"processadas."
-
-#: trans/views/files.py:144
+#: trans/views/files.py:140
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgstr "Não haviam novas strings no arquivo enviado, na string %d processada."
 
-#: trans/views/files.py:148
+#: trans/views/files.py:144
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d strings."
 msgstr ""
 "Não haviam novas strings no arquivo enviado, nas strings %d processadas."
 
-#: trans/views/files.py:157
+#: trans/views/files.py:153
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao mesclar o conteúdo do arquivo: %s"
@@ -4258,6 +4257,12 @@ msgstr "modificações"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Nenhuma atividade relacionada foi encontrada."
+
+#~ msgid ""
+#~ "File content successfully merged into translation, processed %d strings."
+#~ msgstr ""
+#~ "O conteúdo do arquivo foi mesclado na tradução com sucesso, nas strings "
+#~ "%d processadas."
 
 #~| msgid "Email addresses"
 #~ msgid "Email address"

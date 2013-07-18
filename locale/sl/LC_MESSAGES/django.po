@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-18 10:56+0200\n"
+"POT-Creation-Date: 2013-07-18 11:27+0200\n"
 "PO-Revision-Date: 2013-07-09 11:50+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -1545,7 +1545,7 @@ msgid "Changes"
 msgstr "Spremembe"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:551
+#: trans/views/changes.py:110 trans/views/edit.py:113 trans/views/edit.py:546
 msgid "Invalid search string!"
 msgstr "Neveljaven iskalni niz!"
 
@@ -1578,7 +1578,7 @@ msgid "File upload has failed: %s"
 msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:663
+#: trans/views/edit.py:658
 msgid "Failed to process form!"
 msgstr "Nisem uspel obdelati obrazca!"
 
@@ -1619,20 +1619,20 @@ msgstr "Iskanje »%s« v podnizih"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
 
-#: trans/views/edit.py:135
+#: trans/views/edit.py:136
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Pregled prevodov od %s"
 
-#: trans/views/edit.py:172 trans/views/edit.py:182
+#: trans/views/edit.py:173 trans/views/edit.py:183
 msgid "No string matched your search!"
 msgstr "Iskalnim pogojem ne ustreza noben niz!"
 
-#: trans/views/edit.py:233
+#: trans/views/edit.py:234
 msgid "Your suggestion is empty!"
 msgstr "Vaš predlog je prazen!"
 
-#: trans/views/edit.py:244
+#: trans/views/edit.py:245
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1641,76 +1641,76 @@ msgstr ""
 "Na tem prevodu trenutno ni aktivnega prevajalca. Prosimo, razmislite o tem, "
 "da bi postali prevajalec, sicer bo vaš predlog ostal nepregledan."
 
-#: trans/views/edit.py:258
+#: trans/views/edit.py:259
 msgid "You need to log in to be able to save translations!"
 msgstr "Za shranjevanje prevodov se morate prijaviti!"
 
-#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
+#: trans/views/edit.py:265 trans/views/edit.py:321 trans/views/edit.py:366
 msgid "You don't have privileges to save translations!"
 msgstr "Nimate pravic za shranjevanje prevodov!"
 
-#: trans/views/edit.py:270
+#: trans/views/edit.py:271
 #, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
 msgstr "Nov predlog pri %(translation)s"
 
-#: trans/views/edit.py:280
+#: trans/views/edit.py:281
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Na prevodu so bili uporabljeni naslednji popravki: %s"
 
-#: trans/views/edit.py:303
+#: trans/views/edit.py:304
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja!"
 
-#: trans/views/edit.py:344
+#: trans/views/edit.py:345
 msgid "Can not merge different messages!"
 msgstr "Ne morem združiti različnih sporočil!"
 
-#: trans/views/edit.py:389
+#: trans/views/edit.py:390
 msgid "Can not revert to different unit!"
 msgstr "Ni mogoče vrniti na drugo enoto!"
 
-#: trans/views/edit.py:394
+#: trans/views/edit.py:395
 msgid "Can not revert to empty translation!"
 msgstr "Ni mogoče vrniti na prazen prevod!"
 
-#: trans/views/edit.py:412
+#: trans/views/edit.py:413
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Za upravljanje predlogov se morate prijaviti!"
 
-#: trans/views/edit.py:423
+#: trans/views/edit.py:434
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nimate pravic za sprejemanje predlogov!"
 
-#: trans/views/edit.py:431
+#: trans/views/edit.py:443
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views/edit.py:439 trans/views/edit.py:447
+#: trans/views/edit.py:451 trans/views/edit.py:458
 #, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Nimate pravic za brisanje predlogov!"
 
-#: trans/views/edit.py:469
+#: trans/views/edit.py:464
 msgid "Invalid suggestion!"
 msgstr "Neveljaven predlog!"
 
-#: trans/views/edit.py:503
+#: trans/views/edit.py:498
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views/edit.py:661
+#: trans/views/edit.py:656
 msgid "Automatic translation completed."
 msgstr "Samodejno prevajanje je končano."
 
-#: trans/views/edit.py:689
+#: trans/views/edit.py:684
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views/edit.py:691
+#: trans/views/edit.py:686
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 
@@ -1722,32 +1722,30 @@ msgstr "Dostop zavrnjen."
 msgid "Please fix errors in the form."
 msgstr "Prosimo, odpravite napake na obrazcu."
 
-#: trans/views/files.py:129
+#: trans/views/files.py:128
 #, fuzzy, python-format
 #| msgid "File content successfully merged into translation."
 msgid "File content successfully merged into translation, processed %d string."
-msgstr "Vsebino datoteke sem uspešno združil s prevodom."
-
-#: trans/views/files.py:133
-#, fuzzy, python-format
-#| msgid "File content successfully merged into translation."
-msgid ""
+msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
-msgstr "Vsebino datoteke sem uspešno združil s prevodom."
+msgstr[0] "Vsebino datoteke sem uspešno združil s prevodom."
+msgstr[1] "Vsebino datoteke sem uspešno združil s prevodom."
+msgstr[2] "Vsebino datoteke sem uspešno združil s prevodom."
+msgstr[3] "Vsebino datoteke sem uspešno združil s prevodom."
 
-#: trans/views/files.py:144
+#: trans/views/files.py:140
 #, fuzzy, python-format
 #| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgstr "V naloženi datoteki ni bilo novih nizov."
 
-#: trans/views/files.py:148
+#: trans/views/files.py:144
 #, fuzzy, python-format
 #| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d strings."
 msgstr "V naloženi datoteki ni bilo novih nizov."
 
-#: trans/views/files.py:157
+#: trans/views/files.py:153
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Združitev vsebine datoteke je spodletelo: %s"
@@ -4321,6 +4319,12 @@ msgstr "spremembe"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Ni bilo najti nobene ustrezne dejavnosti."
+
+#, fuzzy
+#~| msgid "File content successfully merged into translation."
+#~ msgid ""
+#~ "File content successfully merged into translation, processed %d strings."
+#~ msgstr "Vsebino datoteke sem uspešno združil s prevodom."
 
 #~| msgid "Email addresses"
 #~ msgid "Email address"
