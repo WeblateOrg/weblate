@@ -58,13 +58,17 @@ class ConsistencyCheck(TargetCheck):
             return False
         related = Unit.objects.same(unit).exclude(
             id=unit.id,
-            translation__subproject__allow_translation_propagation=False,
         )
+        if not related.exists():
+            return False
+
         if not unit.translated:
             related = related.filter(translated=True)
+
         for unit2 in related.iterator():
             if unit2.target != unit.target:
-                return True
+                if unit2.translation.subproject.allow_translation_propagation:
+                    return True
 
         return False
 
