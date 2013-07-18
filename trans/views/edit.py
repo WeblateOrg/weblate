@@ -97,6 +97,7 @@ def show_form_errors(request, form):
                 }
             )
 
+
 def search(translation, request):
     '''
     Performs search or returns cached search results.
