@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-19 09:02+0200\n"
-"PO-Revision-Date: 2013-07-15 07:51+0200\n"
+"PO-Revision-Date: 2013-07-19 13:12+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -536,6 +536,8 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"Η τιμή 1 δεν επιτρέπεται για αυτόματη αποδοχή καθώς κάθε χρήστης δίνει ψήφο "
+"για την πρότασή του."
 
 #: trans/widgets.py:260
 #, python-format
@@ -1016,10 +1018,11 @@ msgid "Git push URL"
 msgstr "URL προώθησης Git"
 
 #: trans/models/subproject.py:92
-#, fuzzy
 #| msgid "URL of push Git repository"
 msgid "URL of push Git repository, pushing is disabled if empty."
-msgstr "URL για προώθηση του αποθετηρίου Git"
+msgstr ""
+"URL για προώθηση του αποθετηρίου Git, η προώθηση είναι απενεργοποιημένη αν "
+"είναι άδειο."
 
 #: trans/models/subproject.py:96
 msgid "Repository browser"
@@ -1152,27 +1155,24 @@ msgid "Whether Weblate should keep history of translations"
 msgstr "Ορίστε αν το Weblate θα πρέπει να ιστορικό των μεταφράσεων"
 
 #: trans/models/subproject.py:201
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Προτάσεις"
+msgstr "Ψηφοφορία πρότασης"
 
 #: trans/models/subproject.py:204
-#, fuzzy
 #| msgid "There is %(count)s suggestion."
 #| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
-msgstr "Υπάρχει %(count)s πρόταση."
+msgstr "Ορίστε αν οι χρήστες μπορούν να ψηφίσουν για προτάσεις."
 
 #: trans/models/subproject.py:208
-#, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
-msgstr "Προσθήκη ως μια πρόταση"
+msgstr "Αυτόματη αποδοχή προτάσεων"
 
 #: trans/models/subproject.py:211
 msgid "Automatically accept suggestions with this amount of votes."
-msgstr ""
+msgstr "Αυτόματη αποδοχή προτάσεων με αυτό τον αριθμό ψήφων."
 
 #: trans/models/subproject.py:428
 msgid ""
@@ -1277,7 +1277,7 @@ msgstr ""
 
 #: trans/models/subproject.py:918
 msgid "Automatically accepting suggestions can work only with voting enabled!"
-msgstr ""
+msgstr "Η αυτόματη αποδοχή προτάσεων λειτουργεί μόνο με ενεργές τις ψήφους!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1587,10 +1587,10 @@ msgid "Substring search for \"%s\""
 msgstr "Αναζήτηση μερικού κειμένου για «%s»"
 
 #: trans/views/edit.py:93
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error)s"
+msgstr "Σφάλμα στην παράμετρο %(field)s: %(error)s"
 
 #: trans/views/edit.py:135
 #, python-format
@@ -1623,10 +1623,9 @@ msgid "You don't have privileges to save translations!"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
 #: trans/views/edit.py:270
-#, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
-msgstr "Αυτόματη πρόταση στο %(translation)s"
+msgstr "Μόνο προτάσεις επιτρέπονται για αυτή τη μετάφραση!"
 
 #: trans/views/edit.py:289
 #, python-format
@@ -1662,10 +1661,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
 #: trans/views/edit.py:450 trans/views/edit.py:458
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
+msgstr "Δεν έχετε δικαίωμα να ψηφίσετε για προτάσεις!"
 
 #: trans/views/edit.py:464
 msgid "Invalid suggestion!"
@@ -1696,29 +1694,29 @@ msgid "Please fix errors in the form."
 msgstr "Διορθώστε σφάλματα στη φόρμα."
 
 #: trans/views/files.py:128
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "File content successfully merged into translation, processed %d string."
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
 msgstr[0] ""
-"Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση, δρομολογήθηκαν %d "
-"κείμενα."
+"Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση, δρομολογήθηκε %d "
+"κείμενο."
 msgstr[1] ""
 "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση, δρομολογήθηκαν %d "
 "κείμενα."
 
 #: trans/views/files.py:139
-#, fuzzy, python-format
+#, python-format
 #| msgid "There were no new strings in uploaded file, processed %d string."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
 msgstr[0] ""
-"Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο, δρομολογήθηκαν %d κείμενα.."
+"Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο, δρομολογήθηκε %d κείμενο."
 msgstr[1] ""
-"Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο, δρομολογήθηκαν %d κείμενα.."
+"Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο, δρομολογήθηκαν %d κείμενα."
 
 #: trans/views/files.py:149
 #, python-format
@@ -3273,16 +3271,16 @@ msgstr "Προτάθηκε από ανώνυμο χρήστη"
 #, python-format
 msgid ", %(count)s vote"
 msgid_plural ", %(count)s votes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %(count)s ψήφος"
+msgstr[1] ", %(count)s ψήφοι"
 
 #: weblate/html/translate.html:126
 msgid "+1 vote"
-msgstr ""
+msgstr "+1 ψήφος"
 
 #: weblate/html/translate.html:127
 msgid "-1 vote"
-msgstr ""
+msgstr "-1 ψήφος"
 
 #: weblate/html/translate.html:131
 msgid "Accept"
