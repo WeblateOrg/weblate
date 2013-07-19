@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-19 09:02+0200\n"
-"PO-Revision-Date: 2013-07-18 14:09+0200\n"
+"PO-Revision-Date: 2013-07-19 09:45+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
 "Language: tr\n"
@@ -535,6 +535,8 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"Her kullanıcının kişinin önerisine verdiği oy gibi 1 değerine otomatik kabul "
+"için izin verilmez."
 
 #: trans/widgets.py:260
 #, python-format
@@ -1001,10 +1003,9 @@ msgid "Git push URL"
 msgstr "Git yollama URL'si"
 
 #: trans/models/subproject.py:92
-#, fuzzy
 #| msgid "URL of push Git repository"
 msgid "URL of push Git repository, pushing is disabled if empty."
-msgstr "Git havuzuna yollama URL'si"
+msgstr "Git havuzuna yollama URL'si, boşsa yollama etkisizleştirilir."
 
 #: trans/models/subproject.py:96
 msgid "Repository browser"
@@ -1250,6 +1251,8 @@ msgstr "Temel dosyasız tek dilli çeviriyi kullanamazsınız!"
 #: trans/models/subproject.py:918
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
+"Önerileri otomatik olarak kabul etme sadece oylama etkinleştirilmişse "
+"çalışabilir!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1543,10 +1546,10 @@ msgid "Substring search for \"%s\""
 msgstr "\"%s\" için alt dizgi arama"
 
 #: trans/views/edit.py:93
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
+msgstr "%(field)s parametresinde hata: %(error)s"
 
 #: trans/views/edit.py:135
 #, python-format
@@ -1616,10 +1619,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
 #: trans/views/edit.py:450 trans/views/edit.py:458
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Önerileri silmek için yetkiniz yok!"
+msgstr "Önerileri oylamak için yetkiniz yok!"
 
 #: trans/views/edit.py:464
 msgid "Invalid suggestion!"
@@ -1650,12 +1652,13 @@ msgid "Please fix errors in the form."
 msgstr "Lütfen formdaki hataları düzeltin."
 
 #: trans/views/files.py:128
-#, fuzzy, python-format
+#, python-format
 #| msgid "File content successfully merged into translation."
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
-msgstr[0] "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
+msgstr[0] ""
+"Dosya içeriği başarılı olarak çeviri içine birleştirildi, %d satır işlendi."
 
 #: trans/views/files.py:139
 #, python-format
@@ -3204,7 +3207,7 @@ msgstr "İsimsiz kullanıcı tarafından önerildi"
 #, python-format
 msgid ", %(count)s vote"
 msgid_plural ", %(count)s votes"
-msgstr[0] ""
+msgstr[0] ", %(count)s oy"
 
 #: weblate/html/translate.html:126
 msgid "+1 vote"
