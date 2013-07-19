@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-18 12:45+0200\n"
+"POT-Creation-Date: 2013-07-19 09:02+0200\n"
 "PO-Revision-Date: 2013-07-18 14:09+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -692,11 +692,11 @@ msgstr "Tutarsız"
 msgid "This message has more than one translation in this project"
 msgstr "Bu ileti bu projede birden fazla çeviriye sahip"
 
-#: trans/checks/consistency.py:83
+#: trans/checks/consistency.py:81
 msgid "Invalid text direction"
 msgstr "Geçersiz metin yönü"
 
-#: trans/checks/consistency.py:84
+#: trans/checks/consistency.py:82
 msgid "Text direction can be either LTR or RTL"
 msgstr "Metin yönü ya LTR ya da RTL olabilir"
 
@@ -1001,7 +1001,9 @@ msgid "Git push URL"
 msgstr "Git yollama URL'si"
 
 #: trans/models/subproject.py:92
-msgid "URL of push Git repository"
+#, fuzzy
+#| msgid "URL of push Git repository"
+msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr "Git havuzuna yollama URL'si"
 
 #: trans/models/subproject.py:96
@@ -1136,8 +1138,6 @@ msgid "Suggestion voting"
 msgstr "Öneri oylaması"
 
 #: trans/models/subproject.py:204
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
 msgstr "Kullanıcıların öneriler için oy verip veremeyeceği."
 
@@ -1195,15 +1195,15 @@ msgstr "Havuz bağlantılandığında URL yolla kullanılmaz!"
 msgid "Export URL is not used when repository is linked!"
 msgstr "Havuz bağlantılandığında dışa aktarma URL'si kullanılmaz!"
 
-#: trans/models/subproject.py:812
+#: trans/models/subproject.py:811
 msgid "Template file not found!"
 msgstr "Şablon dosyası bulunamadı!"
 
-#: trans/models/subproject.py:818
+#: trans/models/subproject.py:817
 msgid "Format of translation base file could not be recognized."
 msgstr "Çeviri temel dosyasının biçimi tanınamadı."
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:821
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Çeviri temel dosyasını ayrıştırma başarısız: %s"
@@ -1251,7 +1251,7 @@ msgstr "Temel dosyasız tek dilli çeviriyi kullanamazsınız!"
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: trans/models/translation.py:184
+#: trans/models/translation.py:185
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1260,64 +1260,64 @@ msgstr ""
 "%s dosya adı havuz içinde bulunamadı! Yeni çeviri eklemek için, havuz "
 "içerisine dil dosyasını ekleyin."
 
-#: trans/models/translation.py:193
+#: trans/models/translation.py:194
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "%s dosya biçimi tanınamadı."
 
-#: trans/models/translation.py:198
+#: trans/models/translation.py:199
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/models/translation.py:231
+#: trans/models/translation.py:232
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
 
-#: trans/models/translation.py:965 trans/models/translation.py:998
+#: trans/models/translation.py:972 trans/models/translation.py:1005
 msgid "All strings"
 msgstr "Tüm satırlar"
 
-#: trans/models/translation.py:972 trans/models/translation.py:1028
+#: trans/models/translation.py:979 trans/models/translation.py:1035
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Herhangi bir başarısız kontrolü olan satır (%d)"
 
-#: trans/models/translation.py:989 trans/models/translation.py:1045
+#: trans/models/translation.py:996 trans/models/translation.py:1052
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Yorumları olan satır (%d)"
 
-#: trans/models/translation.py:1005
+#: trans/models/translation.py:1012
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Çevrilmemiş satır (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1020
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Belirsiz satır (%d)"
 
-#: trans/models/translation.py:1020
+#: trans/models/translation.py:1027
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Önerileri olan satır (%d)"
 
-#: trans/models/unit.py:409
+#: trans/models/unit.py:414
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
-#: trans/models/unit.py:604
+#: trans/models/unit.py:609
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: trans/models/unit.py:616
+#: trans/models/unit.py:621
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
-#: trans/models/unit.py:763
+#: trans/models/unit.py:768
 #, python-format
 msgid "unit ID %s"
 msgstr "birim ID %s"
@@ -1474,7 +1474,7 @@ msgid "Changes"
 msgstr "Değişiklikler"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:113 trans/views/edit.py:546
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:545
 msgid "Invalid search string!"
 msgstr "Geçersiz arama dizgisi!"
 
@@ -1507,61 +1507,61 @@ msgid "File upload has failed: %s"
 msgstr "Dosya gönderme başarısız oldu: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:658
+#: trans/views/edit.py:657
 msgid "Failed to process form!"
 msgstr "İşlem formu başarısız!"
 
-#: trans/views/edit.py:51 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Belirsiz satır"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Çevrilmemiş satır"
 
-#: trans/views/edit.py:55
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Önerileri olan satır"
 
-#: trans/views/edit.py:57 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Herhangi bir başarısız kontrolü olan satır"
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "\"%s\" için tam metin arama"
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Tam dizgi \"%s\" için arama"
 
-#: trans/views/edit.py:71
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "\"%s\" için alt dizgi arama"
 
-#: trans/views/edit.py:94
+#: trans/views/edit.py:93
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "%(file)s dosyasını ayrıştırma başarısız: %(error)s"
 
-#: trans/views/edit.py:136
+#: trans/views/edit.py:135
 #, python-format
 msgid "Review of translations since %s"
 msgstr "%s tarihinden bu yana çevirilerin gözden geçirilmesi"
 
-#: trans/views/edit.py:173 trans/views/edit.py:183
+#: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
 msgstr "Aramanızla eşleşmiş dizgi yok!"
 
-#: trans/views/edit.py:234
+#: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
-#: trans/views/edit.py:245
+#: trans/views/edit.py:244
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1570,52 +1570,52 @@ msgstr ""
 "Şu anda bu çeviri için aktif bir çevirmen yok, lütfen çevirmen olmayı "
 "düşünün aksi halde öneriniz gözden geçirilmeden kalabilir."
 
-#: trans/views/edit.py:259
+#: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
 msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
 
-#: trans/views/edit.py:265 trans/views/edit.py:321 trans/views/edit.py:366
+#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
 msgid "You don't have privileges to save translations!"
 msgstr "Çevirileri kaydetmek için yetkileriniz yok!"
 
-#: trans/views/edit.py:271
+#: trans/views/edit.py:270
 msgid "Only suggestions are allowed in this translation!"
 msgstr "Bu çeviride sadece önerilere izin verilir!"
 
-#: trans/views/edit.py:281
+#: trans/views/edit.py:289
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Aşağıdaki düzeltmeler şu çeviriye uygulandı: %s"
 
-#: trans/views/edit.py:304
+#: trans/views/edit.py:303
 msgid "Some checks have failed on your translation!"
 msgstr "Çevirinizde bazı kontroller başarısız oldu!"
 
-#: trans/views/edit.py:345
+#: trans/views/edit.py:344
 msgid "Can not merge different messages!"
 msgstr "Faklı iletiler birleştirilemez!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
 msgstr "Faklı birime geri alınamaz!"
 
-#: trans/views/edit.py:395
+#: trans/views/edit.py:394
 msgid "Can not revert to empty translation!"
 msgstr "Boş çeviriye geri alınamaz!"
 
-#: trans/views/edit.py:413
+#: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Önerileri yönetebilmek için oturum açmanız gerekli!"
 
-#: trans/views/edit.py:434
+#: trans/views/edit.py:433
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Önerileri kabul etmek için yetkiniz yok!"
 
-#: trans/views/edit.py:443
+#: trans/views/edit.py:442
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Önerileri silmek için yetkiniz yok!"
 
-#: trans/views/edit.py:451 trans/views/edit.py:458
+#: trans/views/edit.py:450 trans/views/edit.py:458
 #, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
@@ -1629,15 +1629,15 @@ msgstr "Geçersiz öneri!"
 msgid "You have reached end of translating."
 msgstr "Çevirme işleminin sonuna geldiniz."
 
-#: trans/views/edit.py:656
+#: trans/views/edit.py:655
 msgid "Automatic translation completed."
 msgstr "Otomatik çeviri tamamlandı."
 
-#: trans/views/edit.py:684
+#: trans/views/edit.py:683
 msgid "Posted new comment"
 msgstr "Gönderilen yeni yorum"
 
-#: trans/views/edit.py:686
+#: trans/views/edit.py:685
 msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
@@ -1659,7 +1659,6 @@ msgstr[0] "Dosya içeriği başarılı olarak çeviri içine birleştirildi."
 
 #: trans/views/files.py:139
 #, python-format
-#| msgid "There were no new strings in uploaded file, processed %d string."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."

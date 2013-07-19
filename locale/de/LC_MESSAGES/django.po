@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-18 12:45+0200\n"
+"POT-Creation-Date: 2013-07-19 09:02+0200\n"
 "PO-Revision-Date: 2013-07-09 11:50+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: German <http://l10n.cihar.com/projects/weblate/master/de/>\n"
@@ -704,11 +704,11 @@ msgstr "Inkonsistent"
 msgid "This message has more than one translation in this project"
 msgstr "Diese Nachricht hat mehr als eine Übersetzung in diesem Projekt"
 
-#: trans/checks/consistency.py:83
+#: trans/checks/consistency.py:81
 msgid "Invalid text direction"
 msgstr "Ungültige Leserichtung"
 
-#: trans/checks/consistency.py:84
+#: trans/checks/consistency.py:82
 msgid "Text direction can be either LTR or RTL"
 msgstr "Leserichtung kann entweder LTR oder RTL sein"
 
@@ -1037,7 +1037,9 @@ msgid "Git push URL"
 msgstr ""
 
 #: trans/models/subproject.py:92
-msgid "URL of push Git repository"
+#, fuzzy
+#| msgid "URL of push Git repository"
+msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr "URL des Push-Git-Repositories"
 
 #: trans/models/subproject.py:96
@@ -1243,17 +1245,17 @@ msgstr ""
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:812
+#: trans/models/subproject.py:811
 msgid "Template file not found!"
 msgstr ""
 
-#: trans/models/subproject.py:818
+#: trans/models/subproject.py:817
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "Format der Übersetzungs-Vorlage konnte nicht erkannt werden."
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:821
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
@@ -1306,70 +1308,70 @@ msgstr ""
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: trans/models/translation.py:184
+#: trans/models/translation.py:185
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models/translation.py:193
+#: trans/models/translation.py:194
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format von %s wurde nicht erkannt."
 
-#: trans/models/translation.py:198
+#: trans/models/translation.py:199
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Fehler beim Verarbeiten der Datei %(file)s: %(error)s"
 
-#: trans/models/translation.py:231
+#: trans/models/translation.py:232
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Diese Übersetzung ist von %(user)s gesperrt!"
 
-#: trans/models/translation.py:965 trans/models/translation.py:998
+#: trans/models/translation.py:972 trans/models/translation.py:1005
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
-#: trans/models/translation.py:972 trans/models/translation.py:1028
+#: trans/models/translation.py:979 trans/models/translation.py:1035
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Zeichenketten mit fehlgeschlagenen Überprüfungen (%d)"
 
-#: trans/models/translation.py:989 trans/models/translation.py:1045
+#: trans/models/translation.py:996 trans/models/translation.py:1052
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Zeichenketten mit Kommentaren (%d)"
 
-#: trans/models/translation.py:1005
+#: trans/models/translation.py:1012
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Nicht übersetzte Zeichenketten (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1020
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Ungenaue Zeichenketten (%d)"
 
-#: trans/models/translation.py:1020
+#: trans/models/translation.py:1027
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Zeichenketten mit Vorschlägen (%d)"
 
-#: trans/models/unit.py:409
+#: trans/models/unit.py:414
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Die Nachricht, die Sie übersetzen wollten, ist nicht mehr verfügbar!"
 
-#: trans/models/unit.py:604
+#: trans/models/unit.py:609
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:616
+#: trans/models/unit.py:621
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models/unit.py:763
+#: trans/models/unit.py:768
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -1542,7 +1544,7 @@ msgid "Changes"
 msgstr "Änderungen"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:113 trans/views/edit.py:546
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:545
 msgid "Invalid search string!"
 msgstr "Ungültiger Suchbegriff!"
 
@@ -1575,115 +1577,115 @@ msgid "File upload has failed: %s"
 msgstr "Hochladen der Datei fehlgeschlagen: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:658
+#: trans/views/edit.py:657
 msgid "Failed to process form!"
 msgstr "Fehler beim Verarbeiten des Formulars!"
 
-#: trans/views/edit.py:51 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Ungenaue Zeichenketten"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Nicht übersetzte Zeichenketten"
 
-#: trans/views/edit.py:55
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Zeichenketten mit Vorschlägen"
 
-#: trans/views/edit.py:57 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Zeichenketten mit fehlgeschlagenen Überprüfungen"
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Volltextsuche nach \"%s\""
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Nach genauer Zeichenkette\"%s\" suchen"
 
-#: trans/views/edit.py:71
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Nach \"%s\" in anderen Zeichenketten suchen"
 
-#: trans/views/edit.py:94
+#: trans/views/edit.py:93
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Fehler beim Verarbeiten der Datei %(file)s: %(error)s"
 
-#: trans/views/edit.py:136
+#: trans/views/edit.py:135
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Übersetzungen seit %s begutachten"
 
-#: trans/views/edit.py:173 trans/views/edit.py:183
+#: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
 msgstr ""
 
-#: trans/views/edit.py:234
+#: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
 msgstr "Ihr Vorschlag ist leer!"
 
-#: trans/views/edit.py:245
+#: trans/views/edit.py:244
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: trans/views/edit.py:259
+#: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
 msgstr "Sie müssen sich einloggen, um Übersetzungen sichern zu können!"
 
-#: trans/views/edit.py:265 trans/views/edit.py:321 trans/views/edit.py:366
+#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
 msgid "You don't have privileges to save translations!"
 msgstr "Sie haben nicht die Berechtigungen zum Speichern von Übersetzungen!"
 
-#: trans/views/edit.py:271
+#: trans/views/edit.py:270
 #, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
 msgstr "Neuer Vorschlag in %(translation)s"
 
-#: trans/views/edit.py:281
+#: trans/views/edit.py:289
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
-#: trans/views/edit.py:304
+#: trans/views/edit.py:303
 msgid "Some checks have failed on your translation!"
 msgstr "Einige Prüfungen bei Ihrer Übersetzung fehlgeschlagen!"
 
-#: trans/views/edit.py:345
+#: trans/views/edit.py:344
 msgid "Can not merge different messages!"
 msgstr "Verschiedene Nachrichten können nicht zusammengeführt werden!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
 msgstr "Kann nicht auf andere Einheit zurücksetzen!"
 
-#: trans/views/edit.py:395
+#: trans/views/edit.py:394
 msgid "Can not revert to empty translation!"
 msgstr "Kann nicht auf leere Übersetzung zurücksetzen!"
 
-#: trans/views/edit.py:413
+#: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Sie müssen sich einloggen, um Vorschläge verwalten zu können!"
 
-#: trans/views/edit.py:434
+#: trans/views/edit.py:433
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen!"
 
-#: trans/views/edit.py:443
+#: trans/views/edit.py:442
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Sie haben nicht die Berechtigung, Vorschläge zu löschen!"
 
-#: trans/views/edit.py:451 trans/views/edit.py:458
+#: trans/views/edit.py:450 trans/views/edit.py:458
 #, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
@@ -1697,15 +1699,15 @@ msgstr "Ungültiger Vorschlag!"
 msgid "You have reached end of translating."
 msgstr "Sie haben das Ende der Übersetzung erreicht."
 
-#: trans/views/edit.py:656
+#: trans/views/edit.py:655
 msgid "Automatic translation completed."
 msgstr "Automatische Übersetzung abgeschlossen."
 
-#: trans/views/edit.py:684
+#: trans/views/edit.py:683
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:686
+#: trans/views/edit.py:685
 msgid "Failed to add comment!"
 msgstr "Fehler beim Hinzufügen des Kommentars!"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-18 12:45+0200\n"
+"POT-Creation-Date: 2013-07-19 09:02+0200\n"
 "PO-Revision-Date: 2013-06-03 10:11+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
@@ -691,11 +691,11 @@ msgstr "חוסר אחידות"
 msgid "This message has more than one translation in this project"
 msgstr "להודעה זו יש יותר מתרגום אחד במיזם זה"
 
-#: trans/checks/consistency.py:83
+#: trans/checks/consistency.py:81
 msgid "Invalid text direction"
 msgstr "כיוון הטקסט שגוי"
 
-#: trans/checks/consistency.py:84
+#: trans/checks/consistency.py:82
 msgid "Text direction can be either LTR or RTL"
 msgstr "כיוון הטקסט יכול להיות RTL (ימין לשמאל) או LTR (שמאל לימין)"
 
@@ -1019,7 +1019,9 @@ msgid "Git push URL"
 msgstr ""
 
 #: trans/models/subproject.py:92
-msgid "URL of push Git repository"
+#, fuzzy
+#| msgid "URL of push Git repository"
+msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr "כתובת מאגר ה־Git לדחיפה"
 
 #: trans/models/subproject.py:96
@@ -1232,17 +1234,17 @@ msgstr "לא נעשה שימוש בכתובת הדחיפה כאשר המאגר �
 msgid "Export URL is not used when repository is linked!"
 msgstr "לא נעשה שימוש בכתובת הייצוא כאשר המאגר מקושר!"
 
-#: trans/models/subproject.py:812
+#: trans/models/subproject.py:811
 msgid "Template file not found!"
 msgstr "קובץ התבנית לא נמצא!"
 
-#: trans/models/subproject.py:818
+#: trans/models/subproject.py:817
 #, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
 msgstr "לא ניתן לזהות את מבנה תבנית התרגום."
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:821
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
@@ -1296,7 +1298,7 @@ msgstr "לא ניתן להשתמש בתרגום חד־לשוני ללא תבני
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: trans/models/translation.py:184
+#: trans/models/translation.py:185
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1304,63 +1306,63 @@ msgid ""
 msgstr ""
 "שם הקובץ %s לא נמצא במאגר! כדי להוסיף תרגום חדש, יש להוסיף קובץ שפה למאגר."
 
-#: trans/models/translation.py:193
+#: trans/models/translation.py:194
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "לא ניתן לזהות את המבנה של %s."
 
-#: trans/models/translation.py:198
+#: trans/models/translation.py:199
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 
-#: trans/models/translation.py:231
+#: trans/models/translation.py:232
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "תרגום זה נעול על ידי %(user)s!"
 
-#: trans/models/translation.py:965 trans/models/translation.py:998
+#: trans/models/translation.py:972 trans/models/translation.py:1005
 msgid "All strings"
 msgstr "כל המחרוזות"
 
-#: trans/models/translation.py:972 trans/models/translation.py:1028
+#: trans/models/translation.py:979 trans/models/translation.py:1035
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "מחרוזות עם בדיקות שלא צלחו (%d)"
 
-#: trans/models/translation.py:989 trans/models/translation.py:1045
+#: trans/models/translation.py:996 trans/models/translation.py:1052
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "מחרוזות עם הערות (%d)"
 
-#: trans/models/translation.py:1005
+#: trans/models/translation.py:1012
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "מחרוזות שלא תורגמו (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1020
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "מחרוזות בספק (%d)"
 
-#: trans/models/translation.py:1020
+#: trans/models/translation.py:1027
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "מחרוזות עם הצעות (%d)"
 
-#: trans/models/unit.py:409
+#: trans/models/unit.py:414
 msgid "Message you wanted to translate is no longer available!"
 msgstr "ההודעה שרצית לתרגם אינה זמינה עוד!"
 
-#: trans/models/unit.py:604
+#: trans/models/unit.py:609
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "אחסון ההודעה במנגנון נכשל, התרחשה חריגת נעילה מהזמן הקצוב!"
 
-#: trans/models/unit.py:616
+#: trans/models/unit.py:621
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "המחרוזת לא נמצאה באחסון המנגנון, כנראה שהיא פגומה."
 
-#: trans/models/unit.py:763
+#: trans/models/unit.py:768
 #, python-format
 msgid "unit ID %s"
 msgstr "מזהה יחידה %s"
@@ -1531,7 +1533,7 @@ msgid "Changes"
 msgstr "שינויים"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:113 trans/views/edit.py:546
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:545
 msgid "Invalid search string!"
 msgstr "המחרוזת לחיפוש שגויה!"
 
@@ -1564,61 +1566,61 @@ msgid "File upload has failed: %s"
 msgstr "העלאת הקובץ נכשלה: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:658
+#: trans/views/edit.py:657
 msgid "Failed to process form!"
 msgstr "עיבוד הטופס נכשל!"
 
-#: trans/views/edit.py:51 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "מחרוזות בספק"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "מחרוזות בלתי מתורגמות"
 
-#: trans/views/edit.py:55
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "מחרוזות עם הצעות"
 
-#: trans/views/edit.py:57 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "חיפוש טקסט מלא אחר „%s“"
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "חיפוש אחר המחרוזת המדויקת „%s“"
 
-#: trans/views/edit.py:71
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "חיפוש תת מחרוזת אחר „%s“"
 
-#: trans/views/edit.py:94
+#: trans/views/edit.py:93
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 
-#: trans/views/edit.py:136
+#: trans/views/edit.py:135
 #, python-format
 msgid "Review of translations since %s"
 msgstr "סקירת התרגומים מאז %s"
 
-#: trans/views/edit.py:173 trans/views/edit.py:183
+#: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
 msgstr "אין מחרוזות שתואמות לחיפוש שלך!"
 
-#: trans/views/edit.py:234
+#: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
 msgstr "ההצעה שלך ריקה!"
 
-#: trans/views/edit.py:245
+#: trans/views/edit.py:244
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1627,52 +1629,52 @@ msgstr ""
 "אין מתרגמים פעילים לתרגום זה, נבקשך לשקול להפוך למתרגם כיוון שאחרת ההצעות "
 "שלך לא יעברו סקירה."
 
-#: trans/views/edit.py:259
+#: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
 msgstr "עליך להיכנס כדי לשמור תרגומים!"
 
-#: trans/views/edit.py:265 trans/views/edit.py:321 trans/views/edit.py:366
+#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
 msgid "You don't have privileges to save translations!"
 msgstr "אין לך הרשאות לשמור תרגומים!"
 
-#: trans/views/edit.py:271
+#: trans/views/edit.py:270
 msgid "Only suggestions are allowed in this translation!"
 msgstr ""
 
-#: trans/views/edit.py:281
+#: trans/views/edit.py:289
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "בתרגום בוצעו התיקונים הבאים: %s"
 
-#: trans/views/edit.py:304
+#: trans/views/edit.py:303
 msgid "Some checks have failed on your translation!"
 msgstr "חלק מהבדיקות נכשלו בתרגום שלך!"
 
-#: trans/views/edit.py:345
+#: trans/views/edit.py:344
 msgid "Can not merge different messages!"
 msgstr "לא ניתן למזג הודעות שונות!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
 msgstr "לא ניתן לשחזר ליחידה אחרת!"
 
-#: trans/views/edit.py:395
+#: trans/views/edit.py:394
 msgid "Can not revert to empty translation!"
 msgstr "לא ניתן לשחזר לתרגום ריק!"
 
-#: trans/views/edit.py:413
+#: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "עליך להיכנס כדי לנהל הצעות!"
 
-#: trans/views/edit.py:434
+#: trans/views/edit.py:433
 msgid "You do not have privilege to accept suggestions!"
 msgstr "אין לך הרשאות לאשר הצעות!"
 
-#: trans/views/edit.py:443
+#: trans/views/edit.py:442
 msgid "You do not have privilege to delete suggestions!"
 msgstr "אין לך הרשאות למחוק הצעות!"
 
-#: trans/views/edit.py:451 trans/views/edit.py:458
+#: trans/views/edit.py:450 trans/views/edit.py:458
 #, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
@@ -1686,15 +1688,15 @@ msgstr "ההצעה שגויה!"
 msgid "You have reached end of translating."
 msgstr "הגעת לסוף התרגום."
 
-#: trans/views/edit.py:656
+#: trans/views/edit.py:655
 msgid "Automatic translation completed."
 msgstr "התרגום האוטומטי הושלם."
 
-#: trans/views/edit.py:684
+#: trans/views/edit.py:683
 msgid "Posted new comment"
 msgstr "פורסמה הערה חדשה"
 
-#: trans/views/edit.py:686
+#: trans/views/edit.py:685
 msgid "Failed to add comment!"
 msgstr "הוספת ההערה נכשלה!"
 

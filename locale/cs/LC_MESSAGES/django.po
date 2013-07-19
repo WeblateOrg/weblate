@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-18 12:45+0200\n"
+"POT-Creation-Date: 2013-07-19 09:02+0200\n"
 "PO-Revision-Date: 2013-07-18 13:22+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -691,11 +691,11 @@ msgstr "Nekonzistentní"
 msgid "This message has more than one translation in this project"
 msgstr "Řetězec má v tomto projektu více rozdílných překladů"
 
-#: trans/checks/consistency.py:83
+#: trans/checks/consistency.py:81
 msgid "Invalid text direction"
 msgstr "Chybný směr textu"
 
-#: trans/checks/consistency.py:84
+#: trans/checks/consistency.py:82
 msgid "Text direction can be either LTR or RTL"
 msgstr "Směr textu musí být LTR nebo RTL"
 
@@ -995,7 +995,9 @@ msgid "Git push URL"
 msgstr "URL pro odesílání Gïtu"
 
 #: trans/models/subproject.py:92
-msgid "URL of push Git repository"
+#, fuzzy
+#| msgid "URL of push Git repository"
+msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr "URL pro odesílání do Git repozitáře"
 
 #: trans/models/subproject.py:96
@@ -1187,15 +1189,15 @@ msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL pro export se nepoužije pro odkazované repozitáře!"
 
-#: trans/models/subproject.py:812
+#: trans/models/subproject.py:811
 msgid "Template file not found!"
 msgstr "Soubor s šablonou nemohl být nalezen!"
 
-#: trans/models/subproject.py:818
+#: trans/models/subproject.py:817
 msgid "Format of translation base file could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát základního souboru překladů."
 
-#: trans/models/subproject.py:822
+#: trans/models/subproject.py:821
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Nepodařilo se zpracovat základní soubor překladů: %s"
@@ -1245,7 +1247,7 @@ msgstr ""
 "Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
 "návrzích!"
 
-#: trans/models/translation.py:184
+#: trans/models/translation.py:185
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -1254,65 +1256,65 @@ msgstr ""
 "Soubor %s nebyl nalezen v repozitáři! Chcete-li přidat nový překlad, "
 "přidejte soubor s překladem do repozitáře."
 
-#: trans/models/translation.py:193
+#: trans/models/translation.py:194
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát souboru %s."
 
-#: trans/models/translation.py:198
+#: trans/models/translation.py:199
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
 
-#: trans/models/translation.py:231
+#: trans/models/translation.py:232
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Tento překlad je uzamčen pro uživatele %(user)s!"
 
-#: trans/models/translation.py:965 trans/models/translation.py:998
+#: trans/models/translation.py:972 trans/models/translation.py:1005
 msgid "All strings"
 msgstr "Všechny řetězce"
 
-#: trans/models/translation.py:972 trans/models/translation.py:1028
+#: trans/models/translation.py:979 trans/models/translation.py:1035
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Řetězců s jakoukoliv selhavší kontrolou (%d)"
 
-#: trans/models/translation.py:989 trans/models/translation.py:1045
+#: trans/models/translation.py:996 trans/models/translation.py:1052
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Řetězců s komentáři (%d)"
 
-#: trans/models/translation.py:1005
+#: trans/models/translation.py:1012
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Nepřeložených řetězců (%d)"
 
-#: trans/models/translation.py:1013
+#: trans/models/translation.py:1020
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Nejasných řetězců (%d)"
 
-#: trans/models/translation.py:1020
+#: trans/models/translation.py:1027
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models/unit.py:409
+#: trans/models/unit.py:414
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/models/unit.py:604
+#: trans/models/unit.py:609
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
 
-#: trans/models/unit.py:616
+#: trans/models/unit.py:621
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
 "poškození."
 
-#: trans/models/unit.py:763
+#: trans/models/unit.py:768
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
@@ -1497,7 +1499,7 @@ msgid "Changes"
 msgstr "Změny"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:113 trans/views/edit.py:546
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:545
 msgid "Invalid search string!"
 msgstr "Chybný vyhledávací řetězec!"
 
@@ -1530,60 +1532,60 @@ msgid "File upload has failed: %s"
 msgstr "Selhalo nahrání obsahu souboru: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:658
+#: trans/views/edit.py:657
 msgid "Failed to process form!"
 msgstr "Nepodařilo se zpracovat formulář!"
 
-#: trans/views/edit.py:51 weblate/html/list-translations.html:65
+#: trans/views/edit.py:50 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Nejasné řetězce"
 
-#: trans/views/edit.py:53
+#: trans/views/edit.py:52
 msgid "Untranslated strings"
 msgstr "Nepřeložené řetězce"
 
-#: trans/views/edit.py:55
+#: trans/views/edit.py:54
 msgid "Strings with suggestions"
 msgstr "Řetězce s návrhy"
 
-#: trans/views/edit.py:57 weblate/html/list-translations.html:64
+#: trans/views/edit.py:56 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Řetězce s jakoukoliv selhavší kontrolou"
 
-#: trans/views/edit.py:67
+#: trans/views/edit.py:66
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Fulltextové vyhledávání „%s“"
 
-#: trans/views/edit.py:69
+#: trans/views/edit.py:68
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Vyhledávání celého řetězce „%s“"
 
-#: trans/views/edit.py:71
+#: trans/views/edit.py:70
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Vyhledávání částečného řetězce „%s“"
 
-#: trans/views/edit.py:94
+#: trans/views/edit.py:93
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Chyba v parametru %(field)s: %(error)s"
 
-#: trans/views/edit.py:136
+#: trans/views/edit.py:135
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Kontrola překladů od %s"
 
-#: trans/views/edit.py:173 trans/views/edit.py:183
+#: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
 msgstr "Žádný řetězec neodpovídá vašemu vyhledávání!"
 
-#: trans/views/edit.py:234
+#: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
 msgstr "Váš návrh je prázdný!"
 
-#: trans/views/edit.py:245
+#: trans/views/edit.py:244
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1592,52 +1594,52 @@ msgstr ""
 "Na tomto překladu momentálně nikdo nepracuje, prosím zvažte, že se jím "
 "stanete, protože jinak může zůstat váš návrh nepoužitý."
 
-#: trans/views/edit.py:259
+#: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views/edit.py:265 trans/views/edit.py:321 trans/views/edit.py:366
+#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
 msgid "You don't have privileges to save translations!"
 msgstr "Pro ukládání překladů nemáte oprávnění!"
 
-#: trans/views/edit.py:271
+#: trans/views/edit.py:270
 msgid "Only suggestions are allowed in this translation!"
 msgstr "V tomto překladu jsou povoleny jen návrhy!"
 
-#: trans/views/edit.py:281
+#: trans/views/edit.py:289
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Na vašem překladu byly provedeny následující opravy: %s"
 
-#: trans/views/edit.py:304
+#: trans/views/edit.py:303
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem překladu selhaly některé kontroly!"
 
-#: trans/views/edit.py:345
+#: trans/views/edit.py:344
 msgid "Can not merge different messages!"
 msgstr "Nelze sloučit rozdílné řetězce!"
 
-#: trans/views/edit.py:390
+#: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
 msgstr "Nelze vrátit rozdílné řetězce!"
 
-#: trans/views/edit.py:395
+#: trans/views/edit.py:394
 msgid "Can not revert to empty translation!"
 msgstr "Nelze se vrátit k prázdnému překladu!"
 
-#: trans/views/edit.py:413
+#: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views/edit.py:434
+#: trans/views/edit.py:433
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Pro přijmutí návrhu nemáte oprávnění!"
 
-#: trans/views/edit.py:443
+#: trans/views/edit.py:442
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Pro odstranění návrhu nemáte oprávnění!"
 
-#: trans/views/edit.py:451 trans/views/edit.py:458
+#: trans/views/edit.py:450 trans/views/edit.py:458
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Pro hlasování o návrhu nemáte oprávnění!"
 
@@ -1649,15 +1651,15 @@ msgstr "Chybný návrh!"
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views/edit.py:656
+#: trans/views/edit.py:655
 msgid "Automatic translation completed."
 msgstr "Automatický překlad byl dokončen."
 
-#: trans/views/edit.py:684
+#: trans/views/edit.py:683
 msgid "Posted new comment"
 msgstr "Přidán nový komentář"
 
-#: trans/views/edit.py:686
+#: trans/views/edit.py:685
 msgid "Failed to add comment!"
 msgstr "Nepodařilo se vytvořit komentář!"
 
@@ -1682,13 +1684,14 @@ msgstr[2] ""
 
 #: trans/views/files.py:139
 #, python-format
-#| msgid "There were no new strings in uploaded file, processed %d string."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
 msgstr[0] "V nahraném souboru nebyly žádné nové řetězce, zpracován %d řetězec."
-msgstr[1] "V nahraném souboru nebyly žádné nové řetězce, zpracovány %d řetězce."
-msgstr[2] "V nahraném souboru nebyly žádné nové řetězce, zpracováno %d řetězců."
+msgstr[1] ""
+"V nahraném souboru nebyly žádné nové řetězce, zpracovány %d řetězce."
+msgstr[2] ""
+"V nahraném souboru nebyly žádné nové řetězce, zpracováno %d řetězců."
 
 #: trans/views/files.py:149
 #, python-format
