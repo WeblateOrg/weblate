@@ -89,7 +89,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     push = models.CharField(
         verbose_name=ugettext_lazy('Git push URL'),
         max_length=200,
-        help_text=ugettext_lazy('URL of push Git repository, pushing is disabled if empty.'),
+        help_text=ugettext_lazy(
+            'URL of push Git repository, pushing is disabled if empty.'
+        ),
         blank=True
     )
     repoweb = models.URLField(
