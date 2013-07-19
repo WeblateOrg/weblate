@@ -21,6 +21,7 @@ Released on ? 2013.
 * Various quality checks improvements.
 * Performance improvements for import.
 * Added support for voting on suggestions.
+* Cleanup of admin interface.
 
 weblate 1.5
 -----------
