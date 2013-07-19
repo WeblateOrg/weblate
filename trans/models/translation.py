@@ -42,6 +42,7 @@ from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
 from trans.mixins import URLMixin
+from trans.boolean_sum import BooleanSum
 
 
 class TranslationManager(models.Manager):
@@ -616,10 +617,10 @@ class Translation(models.Model, URLMixin):
         # Grab stats
         stats = self.unit_set.aggregate(
             Sum('num_words'),
-            Sum('fuzzy'),
-            Sum('translated'),
-            Sum('has_failing_check'),
-            Sum('has_suggestion'),
+            BooleanSum('fuzzy'),
+            BooleanSum('translated'),
+            BooleanSum('has_failing_check'),
+            BooleanSum('has_suggestion'),
             Count('id'),
         )
 
