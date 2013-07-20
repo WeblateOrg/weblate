@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-19 09:02+0200\n"
-"PO-Revision-Date: 2013-07-09 14:55+0200\n"
+"PO-Revision-Date: 2013-07-20 13:51+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -538,6 +538,8 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"Il n'est pas possible d'utiliser la valeur 1 pour autoaccept puisque chaque "
+"utilisateur donne un vote pour sa suggestion."
 
 #: trans/widgets.py:260
 #, python-format
@@ -1023,10 +1025,11 @@ msgid "Git push URL"
 msgstr "URL pour la transmission Git"
 
 #: trans/models/subproject.py:92
-#, fuzzy
 #| msgid "URL of push Git repository"
 msgid "URL of push Git repository, pushing is disabled if empty."
-msgstr "URL du référentiel Git pour l'envoi"
+msgstr ""
+"URL du référentiel Git pour l'envoi, la transmission est désactivée si ceci "
+"est vide."
 
 #: trans/models/subproject.py:96
 msgid "Repository browser"
@@ -1159,27 +1162,24 @@ msgid "Whether Weblate should keep history of translations"
 msgstr "Définir si Weblate doit conserver un historique des traductions"
 
 #: trans/models/subproject.py:201
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Suggestions"
+msgstr "Vote pour la suggestion"
 
 #: trans/models/subproject.py:204
-#, fuzzy
 #| msgid "There is %(count)s suggestion."
 #| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
-msgstr "Il y a %(count)s suggestion."
+msgstr "Si les utilisateurs peuvent voter pour des suggestions."
 
 #: trans/models/subproject.py:208
-#, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
-msgstr "Ajouter comme suggestion"
+msgstr "Accepter automatiquement les suggestions"
 
 #: trans/models/subproject.py:211
 msgid "Automatically accept suggestions with this amount of votes."
-msgstr ""
+msgstr "Accepter automatiquement les suggestions ayant ce nombre de votes."
 
 #: trans/models/subproject.py:428
 msgid ""
@@ -1284,6 +1284,8 @@ msgstr ""
 #: trans/models/subproject.py:918
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
+"L'acceptation automatique des suggestions ne peut fonctionner que si le vote "
+"est activé !"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1595,10 +1597,10 @@ msgid "Substring search for \"%s\""
 msgstr "Chercher la sous-chaîne «%s»"
 
 #: trans/views/edit.py:93
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
+msgstr "Erreur dans le paramètre %(field)s : %(error)s"
 
 #: trans/views/edit.py:135
 #, python-format
@@ -1634,10 +1636,9 @@ msgstr ""
 "Vous n'avez pas les autorisations requises pour sauvegarder des traductions !"
 
 #: trans/views/edit.py:270
-#, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
-msgstr "Nouvelle suggestion pour %(translation)s"
+msgstr "Seulement des suggestions sont permises pour cette traduction !"
 
 #: trans/views/edit.py:289
 #, python-format
@@ -1673,10 +1674,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Vous n'avez pas l'autorisation de supprimer les suggestions !"
 
 #: trans/views/edit.py:450 trans/views/edit.py:458
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Vous n'avez pas l'autorisation de supprimer les suggestions !"
+msgstr "Vous n'avez pas l'autorisation de voter pour les suggestions !"
 
 #: trans/views/edit.py:464
 msgid "Invalid suggestion!"
@@ -1707,7 +1707,7 @@ msgid "Please fix errors in the form."
 msgstr "Veuillez corriger les erreurs dans le formulaire."
 
 #: trans/views/files.py:128
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "File content successfully merged into translation, processed %d string."
 msgid "File content successfully merged into translation, processed %d string."
@@ -1717,11 +1717,11 @@ msgstr[0] ""
 "Le contenu du fichier a été correctement fusionné à la traduction, %d chaîne "
 "a été traitée."
 msgstr[1] ""
-"Le contenu du fichier a été correctement fusionné à la traduction, %d chaîne "
-"a été traitée."
+"Le contenu du fichier a été correctement fusionné à la traduction, %d "
+"chaînes ont été traitées."
 
 #: trans/views/files.py:139
-#, fuzzy, python-format
+#, python-format
 #| msgid "There were no new strings in uploaded file, processed %d string."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -1730,8 +1730,8 @@ msgstr[0] ""
 "Le fichier téléversé ne comportait pas de nouvelles chaînes, %d chaîne a été "
 "traitée."
 msgstr[1] ""
-"Le fichier téléversé ne comportait pas de nouvelles chaînes, %d chaîne a été "
-"traitée."
+"Le fichier téléversé ne comportait pas de nouvelles chaînes, %d chaînes ont "
+"été traitées."
 
 #: trans/views/files.py:149
 #, python-format
@@ -3289,16 +3289,16 @@ msgstr "Suggéré par un utilisateur anonyme"
 #, python-format
 msgid ", %(count)s vote"
 msgid_plural ", %(count)s votes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %(count)s vote"
+msgstr[1] ", %(count)s votes"
 
 #: weblate/html/translate.html:126
 msgid "+1 vote"
-msgstr ""
+msgstr "vote en faveur"
 
 #: weblate/html/translate.html:127
 msgid "-1 vote"
-msgstr ""
+msgstr "vote en défaveur"
 
 #: weblate/html/translate.html:131
 msgid "Accept"
