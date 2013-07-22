@@ -351,25 +351,46 @@ Access control
 
 Weblate uses privileges system based on Django. It defines following extra privileges:
 
-* Can upload translation [Users, Managers]
-* Can overwrite with translation upload [Users, Managers]
-* Can define author of translation upload [Managers]
-* Can force committing of translation [Managers]
-* Can update translation from git [Managers]
-* Can push translations to remote git [Managers]
-* Can do automatic translation using other project strings [Managers]
-* Can lock whole translation project [Managers]
-* Can reset translations to match remote git [Managers]
-* Can save translation [Users, Managers]
-* Can accept suggestion [Users, Managers]
-* Can accept suggestion [Users, Managers]
-* Can vote for suggestion [Users, Managers]
-* Can override suggestion state [Managers]
-* Can import dictionary [Users, Managers]
-* Can add dictionary [Users, Managers]
-* Can change dictionary [Users, Managers]
-* Can delete dictionary [Users, Managers]
-* Can lock translation for translating [Users, Managers]
+Can upload translation [Users, Managers]
+    Uploading of translation files.
+Can overwrite with translation upload [Users, Managers]
+    Overwriting existing translations by uploading translation file.
+Can define author of translation upload [Managers]
+    Allows to define custom authorship when uploading translation file.
+Can force committing of translation [Managers]
+    Can force Git commit in the web interface.
+Can update translation from git [Managers]
+    Can force Git pull in the web interface.
+Can push translations to remote git [Managers]
+    Can force Git push in the web interface.
+Can do automatic translation using other project strings [Managers]
+    Can do automatic translation based on strings from other subprojects.
+Can lock whole translation project [Managers]
+    Can lock translation for updates, useful while doing some major changes 
+    in the project.
+Can reset translations to match remote git [Managers]
+    Can reset Git repository to match remote git.
+Can save translation [Users, Managers]
+    Can save translation (might be disabled with :ref:`voting`).
+Can accept suggestion [Users, Managers]
+    Can accept suggestion (might be disabled with :ref:`voting`).
+Can delete suggestion [Users, Managers]
+    Can delete suggestion (might be disabled with :ref:`voting`).
+Can vote for suggestion [Users, Managers]
+    Can vote for suggestion (see :ref:`voting`).
+Can override suggestion state [Managers]
+    Can save translation, accept or delete suggestion when automatic accepting
+    by voting for suggestions is enabled (see :ref:`voting`).
+Can import dictionary [Users, Managers]
+    Can import dictionary from translation file.
+Can add dictionary [Users, Managers]
+    Can add dictionary entries.
+Can change dictionary [Users, Managers]
+    Can change dictionary entries.
+Can delete dictionary [Users, Managers]
+    Can delete dictionary entries.
+Can lock translation for translating [Users, Managers]
+    Can lock translation while translating (see :ref:`locking`).
 
 The default setup (after you run :djadmin:`setupgroups`) consists
 of two groups `Users` and `Managers` which have privileges as described above.
