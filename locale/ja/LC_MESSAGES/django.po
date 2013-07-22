@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-19 09:02+0200\n"
+"POT-Creation-Date: 2013-07-22 10:47+0200\n"
 "PO-Revision-Date: 2013-07-12 15:02+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Japanese <http://l10n.cihar.com/projects/weblate/master/ja/>\n"
@@ -1009,257 +1009,257 @@ msgstr ""
 msgid "Git push URL"
 msgstr ""
 
-#: trans/models/subproject.py:92
+#: trans/models/subproject.py:93
 #, fuzzy
 #| msgid "URL of push Git repository"
 msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr "プッシュする Git リポジトリの URL"
 
-#: trans/models/subproject.py:96
+#: trans/models/subproject.py:98
 #, fuzzy
 msgid "Repository browser"
 msgstr "Git リポジトリ:"
 
-#: trans/models/subproject.py:98
+#: trans/models/subproject.py:100
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
 
-#: trans/models/subproject.py:105
+#: trans/models/subproject.py:107
 msgid "Exported Git URL"
 msgstr ""
 
-#: trans/models/subproject.py:108
+#: trans/models/subproject.py:110
 msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr ""
 
-#: trans/models/subproject.py:113
+#: trans/models/subproject.py:115
 #, fuzzy
 msgid "Source string bug report address"
 msgstr "翻訳元内を検索する"
 
-#: trans/models/subproject.py:115
+#: trans/models/subproject.py:117
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
 
-#: trans/models/subproject.py:121
+#: trans/models/subproject.py:123
 #, fuzzy
 #| msgid "Git branch to translate"
 msgid "Git branch"
 msgstr "翻訳する Git ブランチ"
 
-#: trans/models/subproject.py:123
+#: trans/models/subproject.py:125
 msgid "Git branch to translate"
 msgstr "翻訳する Git ブランチ"
 
-#: trans/models/subproject.py:127
+#: trans/models/subproject.py:129
 #, fuzzy
 msgid "File mask"
 msgstr "ファイル"
 
-#: trans/models/subproject.py:131
+#: trans/models/subproject.py:133
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 
-#: trans/models/subproject.py:136
+#: trans/models/subproject.py:138
 msgid "Monolingual base language file"
 msgstr ""
 
-#: trans/models/subproject.py:140
+#: trans/models/subproject.py:142
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
 
-#: trans/models/subproject.py:146
+#: trans/models/subproject.py:148
 #, fuzzy
 #| msgid "C format"
 msgid "File format"
 msgstr "C 言語書式"
 
-#: trans/models/subproject.py:151
+#: trans/models/subproject.py:153
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: trans/models/subproject.py:156
+#: trans/models/subproject.py:158
 msgid "Additional commit file"
 msgstr ""
 
-#: trans/models/subproject.py:162
+#: trans/models/subproject.py:164
 msgid ""
 "Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 
-#: trans/models/subproject.py:167
+#: trans/models/subproject.py:169
 msgid "Pre-commit script"
 msgstr ""
 
-#: trans/models/subproject.py:173
+#: trans/models/subproject.py:175
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models/subproject.py:179
+#: trans/models/subproject.py:181
 msgid "Locked"
 msgstr ""
 
-#: trans/models/subproject.py:182
+#: trans/models/subproject.py:184
 msgid "Whether subproject is locked for translation updates."
 msgstr "訳文の更新時に、サブプロジェクトをロックするかどうか。"
 
-#: trans/models/subproject.py:186
+#: trans/models/subproject.py:188
 #, fuzzy
 msgid "Allow translation propagation"
 msgstr "自動翻訳"
 
-#: trans/models/subproject.py:189
+#: trans/models/subproject.py:191
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
 
-#: trans/models/subproject.py:194
+#: trans/models/subproject.py:196
 #, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
 msgstr "対象言語が存在しているプロジェクト"
 
-#: trans/models/subproject.py:197
+#: trans/models/subproject.py:199
 msgid "Whether Weblate should keep history of translations"
 msgstr ""
 
-#: trans/models/subproject.py:201
+#: trans/models/subproject.py:203
 #, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
 msgstr "提案"
 
-#: trans/models/subproject.py:204
+#: trans/models/subproject.py:206
 #, fuzzy
 #| msgid "There is %(count)s suggestion."
 #| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
 msgstr "提案が %(count)s 個あります。"
 
-#: trans/models/subproject.py:208
+#: trans/models/subproject.py:210
 #, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
 msgstr "提案として追加"
 
-#: trans/models/subproject.py:211
+#: trans/models/subproject.py:213
 msgid "Automatically accept suggestions with this amount of votes."
 msgstr ""
 
-#: trans/models/subproject.py:428
+#: trans/models/subproject.py:430
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: trans/models/subproject.py:432
+#: trans/models/subproject.py:434
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Git リポジトリの取得に失敗しました： %s"
 
-#: trans/models/subproject.py:536
+#: trans/models/subproject.py:538
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s に対するプッシュは無効でした。"
 
-#: trans/models/subproject.py:585
+#: trans/models/subproject.py:587
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "ブランチ %s のリモートへのプッシュに失敗しました。"
 
-#: trans/models/subproject.py:621
+#: trans/models/subproject.py:623
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s のリモートブランチへのリセットが失敗しました。"
 
-#: trans/models/subproject.py:673
+#: trans/models/subproject.py:675
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "リモートブランチ %s にこちらのブランチをリベースできませんでした。"
 
-#: trans/models/subproject.py:676
+#: trans/models/subproject.py:678
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "リモートからブランチ %s へのマージに失敗しました。"
 
-#: trans/models/subproject.py:797
+#: trans/models/subproject.py:799
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:801
+#: trans/models/subproject.py:803
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:811
+#: trans/models/subproject.py:813
 msgid "Template file not found!"
 msgstr ""
 
-#: trans/models/subproject.py:817
+#: trans/models/subproject.py:819
 msgid "Format of translation base file could not be recognized."
 msgstr ""
 
-#: trans/models/subproject.py:821
+#: trans/models/subproject.py:823
 #, fuzzy, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
 msgstr "翻訳テンプレートのパースに失敗しました：%s"
 
-#: trans/models/subproject.py:838
+#: trans/models/subproject.py:840
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: trans/models/subproject.py:846
+#: trans/models/subproject.py:848
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models/subproject.py:855
+#: trans/models/subproject.py:857
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models/subproject.py:872
+#: trans/models/subproject.py:874
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update git: %s"
 msgstr "Git リポジトリの取得に失敗しました： %s"
 
-#: trans/models/subproject.py:880
+#: trans/models/subproject.py:882
 msgid "The mask did not match any files!"
 msgstr "マスクがどのファイルにもマッチしませんでした！"
 
-#: trans/models/subproject.py:886
+#: trans/models/subproject.py:888
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models/subproject.py:898 trans/models/subproject.py:904
+#: trans/models/subproject.py:900 trans/models/subproject.py:906
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
 msgstr "テンプレートなしで単一言語の翻訳をすることはできません！"
 
-#: trans/models/subproject.py:912
+#: trans/models/subproject.py:914
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not use monolingual translation without base file!"
 msgstr "テンプレートなしで単一言語の翻訳をすることはできません！"
 
-#: trans/models/subproject.py:918
+#: trans/models/subproject.py:920
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
@@ -2387,362 +2387,384 @@ msgid "Gun"
 msgstr "ガン語"
 
 #: weblate/html/i18n.html:76
+#, fuzzy
+#| msgid "Croatian"
+msgid "Haitian"
+msgstr "クロアチア語"
+
+#: weblate/html/i18n.html:77
 msgid "Hausa"
 msgstr "ハウサ語"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:78
 msgid "Hebrew"
 msgstr "ヘブライ語"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:79
 msgid "Hindi"
 msgstr "ヒンディー語"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:80
 msgid "Hungarian"
 msgstr "ハンガリー語"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:81
 msgid "Icelandic"
 msgstr "アイスランド語"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:82
 msgid "Indonesian"
 msgstr "インドネシア語"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:83
 msgid "Interlingua"
 msgstr "インターリングア語"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:84
 msgid "Irish"
 msgstr "アイルランド語"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:85
 msgid "Italian"
 msgstr "イタリア語"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:86
 msgid "Japanese"
 msgstr "日本語"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:87
 msgid "Javanese"
 msgstr "ジャワ語"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:88
 msgid "Kannada"
 msgstr "カンナダ語"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:89
 msgid "Kashubian"
 msgstr "カシュビアン語"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:90
 msgid "Kazakh"
 msgstr "カザフ語"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:91
 msgid "Kirghiz"
 msgstr "キルギス語"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:92
 msgid "Korean"
 msgstr "朝鮮語"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:93
 msgid "Kurdish"
 msgstr "クルド語"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:94
 msgid "Kurdish Sorani"
 msgstr "クルド語 (ソラニー)"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:95
 msgid "Lao"
 msgstr "ラオ語"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:96
 msgid "Latvian"
 msgstr "ラトヴィア語"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:97
 msgid "Lingala"
 msgstr "リンガラ語"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:98
 msgid "Lithuanian"
 msgstr "リトアニア語"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:99
 msgid "Luxembourgish"
 msgstr "ルクセンブルク語"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:100
 msgid "Macedonian"
 msgstr "マケドニア語"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:101
 msgid "Maithili"
 msgstr "マイティリー語"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:102
 msgid "Malagasy"
 msgstr "マダガスカル語"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:103
 msgid "Malay"
 msgstr "マレー語"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:104
 msgid "Malayalam"
 msgstr "マラヤーラム語"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:105
 msgid "Maltese"
 msgstr "マルタ語"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:106
 msgid "Maori"
 msgstr "マオリ語"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:107
 msgid "Mapudungun"
 msgstr "マプチェ語"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:108
 msgid "Marathi"
 msgstr "マラーティー語"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:109
 msgid "Mongolian"
 msgstr "モンゴル語"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:110
 msgid "Morisyen"
 msgstr "モーリシャス語"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:111
+msgid "N'Ko"
+msgstr ""
+
+#: weblate/html/i18n.html:112
 msgid "Nahuatl languages"
 msgstr "ナワトル語"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:113
 msgid "Neapolitan"
 msgstr "ナポリ語"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:114
 msgid "Nepali"
 msgstr "ネパール語"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:115
 msgid "Norwegian Bokmål"
 msgstr "ノルウェー語 (ブークモール)"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:116
 msgid "Norwegian Nynorsk"
 msgstr "ノルウェー語 (ニーノシュク)"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:117
 msgid "Occitan"
 msgstr "オック語"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:118
 msgid "Oriya"
 msgstr "オリヤー語"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:119
 msgid "Papiamento"
 msgstr "パピアメント語"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:120
 msgid "Pedi"
 msgstr "ペディ語"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:121
 msgid "Persian"
 msgstr "ペルシア語"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:122
 msgid "Piemontese"
 msgstr "ピエモンテ語"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:123
 msgid "Polish"
 msgstr "ポーランド語"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:124
 msgid "Portuguese"
 msgstr "ポルトガル語"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:125
 msgid "Portuguese (Brazil)"
 msgstr "ポルトガル語 (ブラジル)"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:126
 msgid "Portuguese (Portugal)"
 msgstr "ポルトガル語 (ポルトガル)"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:127
 msgid "Punjabi"
 msgstr "パンジャブ語"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:128
 msgid "Pushto"
 msgstr "パシュトゥ語"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:129
 msgid "Romanian"
 msgstr "ルーマニア語"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:130
 msgid "Romansh"
 msgstr "ロマンシュ語"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:131
 msgid "Russian"
 msgstr "ロシア語"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:132
 msgid "Scots"
 msgstr "スコットランド語"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:133
 msgid "Serbian"
 msgstr "セルビア語"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:134
 msgid "Serbian (cyrillic)"
 msgstr "セルビア語 (キリル文字)"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:135
 msgid "Serbian (latin)"
 msgstr "セルビア語 (ラテン文字)"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:136
 msgid "Simplified Chinese"
 msgstr ""
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:137
 msgid "Sinhala"
 msgstr "シンハラ語"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:138
 msgid "Slovak"
 msgstr "スロバキア語"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:139
 msgid "Slovenian"
 msgstr "スロベニア語"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:140
 msgid "Somali"
 msgstr "ソマリ語"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:141
 msgid "Songhai languages"
 msgstr "ソンガイ語"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:142
 msgid "Sotho"
 msgstr "ソト語"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:143
 msgid "Spanish"
 msgstr "スペイン語"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:144
 msgid "Sundanese"
 msgstr "スンダ語"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:145
 msgid "Swahili"
 msgstr "スワヒリ語"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:146
 msgid "Swedish"
 msgstr "スウェーデン語"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:147
 msgid "Tajik"
 msgstr "タジク語"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:148
 msgid "Tamil"
 msgstr "タミール語"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:149
 msgid "Tatar"
 msgstr "タタール語"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:150
 msgid "Telugu"
 msgstr "テルグ語"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:151
 msgid "Thai"
 msgstr "タイ語"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:152
 msgid "Tibetan"
 msgstr "チベット語"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:153
 msgid "Tigrinya"
 msgstr "ティグリニャ語"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:154
 msgid "Traditional Chinese"
 msgstr "繁体字中国語"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:155
 msgid "Turkish"
 msgstr "トルコ語"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:156
 msgid "Turkmen"
 msgstr "トルクメン語"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:157
 msgid "Uighur"
 msgstr "ウイグル語"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:158
 msgid "Ukrainian"
 msgstr "ウクライナ語"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:159
 msgid "Urdu"
 msgstr "ウルドゥー語"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:160
 msgid "Uzbek"
 msgstr "ウズベク語"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:161
 msgid "Uzbek (latin)"
 msgstr "ウズベク語 (ラテン文字)"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:162
+msgid "Venda"
+msgstr ""
+
+#: weblate/html/i18n.html:163
 msgid "Vietnamese"
 msgstr "ベトナム語"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:164
 msgid "Walloon"
 msgstr "ワロン語"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:165
 msgid "Welsh"
 msgstr "ウェールズ語"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:166
+msgid "West Flemish"
+msgstr ""
+
+#: weblate/html/i18n.html:167
+msgid "Wolof"
+msgstr ""
+
+#: weblate/html/i18n.html:168
 msgid "Yakut"
 msgstr ""
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:169
 msgid "Yoruba"
 msgstr "ヨルバ語"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:170
 msgid "Zulu"
 msgstr "ズールー語"
 
