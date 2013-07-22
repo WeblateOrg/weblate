@@ -1,0 +1,18 @@
+# Python commands used for benchmarking
+
+from trans.models import SubProject, Project
+import cProfile
+profiler = cProfile.Profile()
+
+
+project = Project.objects.get(slug='test')
+subproject = SubProject.objects.create(name='Benchmark', slug='benchmark', repo='weblate://test/android', filemask='po/*.po', project=project)
+subproject = profiler.runcall(SubProject.objects.create, name='Benchmark', slug='benchmark', repo='weblate://test/android', filemask='po/*.po', project=project)
+
+SubProject.objects.filter(slug='benchmark').delete()
+
+
+subproject = profiler.runcall(SubProject.objects.create, name='Benchmark', slug='benchmark', repo='weblate://phpmyadmin/master', filemask='po/*.po', project=project)
+
+subproject = profiler.runcall(SubProject.objects.create, name='Benchmark', slug='benchmark', repo='weblate://weblate/master', filemask='locale/*/LC_MESSAGES/djangojs.po', project=project)
+``
