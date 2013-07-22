@@ -298,6 +298,15 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.get_path()))
 
+    def test_create_dot(self):
+        project = self._create_subproject(
+            'auto',
+            './po/*.po',
+        )
+        self.verify_subproject(project, 3, 'cs', 4)
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual('po/*.po', project.filemask)
+
     def test_rename(self):
         subproject = self.create_subproject()
         old_path = subproject.get_path()

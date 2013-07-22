@@ -949,6 +949,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if changed_git:
             self.sync_git_repo()
 
+        # Remove leading ./ from paths
+        if self.filemask.startswith('./'):
+            self.filemask = self.filemask[2:]
+        if self.template.startswith('./'):
+            self.template = self.template[2:]
+        if self.extra_commit_file.startswith('./'):
+            self.extra_commit_file = self.extra_commit_file[2:]
+
         # Save/Create object
         super(SubProject, self).save(*args, **kwargs)
 
