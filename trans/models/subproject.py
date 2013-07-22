@@ -210,7 +210,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Autoaccept suggestions'),
         default=0,
         help_text=ugettext_lazy(
-            'Automatically accept suggestions with this amount of votes.'
+            'Automatically accept suggestions with this amount of votes, use 0 to disable.'
         ),
         validators=[validate_autoaccept],
     )
