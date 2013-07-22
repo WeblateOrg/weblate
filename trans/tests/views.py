@@ -774,7 +774,7 @@ class SearchViewTest(ViewTestCase):
         # Short string
         self.do_search(
             {'q': 'x'},
-            'Ensure this value has at least 5 characters (it has 1).'
+            'Ensure this value has at least 4 characters (it has 1).'
         )
         # Wrong type
         self.do_search(
