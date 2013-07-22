@@ -432,6 +432,13 @@ one enables voting feature, while the latter allows you to configure threshold
 at which suggestion will gets automatically accepted (this includes own vote from
 suggesting user).
 
+.. note::
+
+    Once you enable automatic accepting, normal users lose privilege to
+    directly save translations or accept suggestions. This can be overriden
+    by :guilabel:`Can override suggestion state` privilege
+    (see :ref:`privileges`).
+
 You can combine these with :ref:`privileges` into one of following setups:
 
 * Users can suggest and vote for features, limited group controls what is
