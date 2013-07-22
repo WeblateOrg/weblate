@@ -462,12 +462,12 @@ suggesting user).
 
 You can combine these with :ref:`privileges` into one of following setups:
 
-* Users can suggest and vote for features, limited group controls what is
-  accepted - enable voting but not autoaccepting and remove privilege from
-  users to save translations.
-* Users can suggest and vote for features, which get automatically accepted 
+* Users can suggest and vote for suggestions, limited group controls what is
+  accepted - enable voting but not automatic accepting and remove privilege
+  from users to save translations.
+* Users can suggest and vote for suggestions, which get automatically accepted
   once defined number of users agree on this - enable voting and set desired 
-  number of votes for autoaccepting.
+  number of votes for automatic accepting.
 * Optional voting for suggestions - you can also only enable voting and in 
   this case it can be optionally used by users when they are not sure about 
   translation (they can suggest more of them).
