@@ -184,7 +184,7 @@ class Index(object):
         '''
         return self.target(lang).searcher()
 
-    def flush_caches():
+    def flush_caches(self):
         '''
         Flushes internal caches.
         '''
