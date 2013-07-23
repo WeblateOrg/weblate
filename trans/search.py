@@ -112,6 +112,13 @@ def update_index(units, source_units=None):
                 )
 
 
+def flush_caches():
+    '''
+    Flushes internal caches.
+    '''
+    FULLTEXT_INDEX.flush_caches()
+
+
 class Index(object):
     '''
     Class to manage index readers and writers.
@@ -177,5 +184,11 @@ class Index(object):
         '''
         return self.target(lang).searcher()
 
+    def flush_caches():
+        '''
+        Flushes internal caches.
+        '''
+        self._source = None
+        self._target = {}
 
 FULLTEXT_INDEX = Index()
