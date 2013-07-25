@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-22 10:51+0200\n"
-"PO-Revision-Date: 2013-07-24 14:13+0200\n"
+"PO-Revision-Date: 2013-07-25 11:59+0200\n"
 "Last-Translator: Alaksiej Nieścieraŭ <alaksiej@screencustoms.com>\n"
 "Language-Team: Belarusian "
 "<http://l10n.cihar.com/projects/weblate/master/be/>\n"
@@ -111,7 +111,7 @@ msgstr "Праекты, на якія вы падпісаныя"
 
 #: accounts/models.py:317
 msgid "Notification on any translation"
-msgstr "Апавяшчэнне пра любы пераклад"
+msgstr "Апавяшчэнне на любы пераклад"
 
 #: accounts/models.py:321
 msgid "Notification on new string to translate"
@@ -131,7 +131,7 @@ msgstr "Апавяшэнне пра новы каментарый"
 
 #: accounts/models.py:337
 msgid "Notification on merge failure"
-msgstr "Апавяшчэнне пры няўдалым мерджынгу"
+msgstr "Апавяшчэнне пры няўдалым зліцці"
 
 #: accounts/models.py:515
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -269,7 +269,7 @@ msgstr "Адрасы эл. пошты"
 
 #: trans/admin_views.py:125
 msgid "Federated avatar support"
-msgstr ""
+msgstr "Інтэграваная падтрымка аватараў"
 
 #: trans/admin_views.py:130
 msgid "PyICU library"
@@ -282,7 +282,7 @@ msgstr "Дазволеныя хасты"
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:162
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[імя хаста схаванае]"
 
 #: trans/admin_views.py:217
 msgid "Created new SSH key."
@@ -303,6 +303,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
+"Даданы ключ хаста для %(host)s з адбіткам %(fingerprint)s. Калі ласка, "
+"праверце яго карэктнасць."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -340,11 +342,11 @@ msgstr "Радкі OS X"
 
 #: trans/formats.py:576
 msgid "Java Properties"
-msgstr "Java-проперці"
+msgstr "Уласцівасці Явы"
 
 #: trans/formats.py:594
 msgid "Java Properties (UTF-8)"
-msgstr "Java-проперці (UTF-8)"
+msgstr "Уласцівасці Явы (UTF-8)"
 
 #: trans/formats.py:603
 msgid "PHP strings"
@@ -359,12 +361,12 @@ msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Роўнасць вызначае, якая форма множнага ліку будзе ўжывацца пры зададзеным "
+"Формула вызначае, якая форма множнага ліку будзе ўжывацца пры зададзеным "
 "ліку (n)."
 
 #: trans/forms.py:97
 msgid "Plural equation"
-msgstr "Роўнасць множнага ліку"
+msgstr "Формула множнага ліку"
 
 #: trans/forms.py:149
 msgctxt "Checkbox for marking translation fuzzy"
@@ -377,7 +379,7 @@ msgstr "Файл"
 
 #: trans/forms.py:175 trans/forms.py:337
 msgid "Merge method"
-msgstr "Спосаб мерджа"
+msgstr "Спосаб зліцця"
 
 #: trans/forms.py:177
 msgid "Add as translation"
@@ -393,11 +395,11 @@ msgstr "Дадаць як няпэўны пераклад"
 
 #: trans/forms.py:184
 msgid "Merge file header"
-msgstr ""
+msgstr "Зліць загаловак файла"
 
 #: trans/forms.py:185
 msgid "Merges content of file header into the translation."
-msgstr ""
+msgstr "Злівае загаловак файла з перакладам."
 
 #: trans/forms.py:196
 msgid "Overwrite existing translations"
@@ -437,16 +439,15 @@ msgstr "Падрадок"
 
 #: trans/forms.py:236
 msgid "Search in source strings"
-msgstr "Шукаць у зыходным кодзе"
+msgstr "Шукаць у зыходных радках"
 
 #: trans/forms.py:241
-#, fuzzy
 msgid "Search in target strings"
-msgstr "Шукаць у радках таргета"
+msgstr "Шукаць у перакладзеных радках"
 
 #: trans/forms.py:246
 msgid "Search in context strings"
-msgstr ""
+msgstr "Шукаць у кантэкстуальных радках"
 
 #: trans/forms.py:289
 msgid "Overwrite strings"
@@ -454,7 +455,7 @@ msgstr "Перазапісаць радкі"
 
 #: trans/forms.py:294
 msgid "Replace inconsistent"
-msgstr ""
+msgstr "Замяніць супярэчлівыя"
 
 #: trans/forms.py:299
 msgid "Subproject to use"
@@ -471,7 +472,7 @@ msgstr "Усе падпраекты"
 #: weblate/html/translate.html.py:221 weblate/html/js/dictionary.html:7
 #: weblate/html/js/other.html:6
 msgid "Source"
-msgstr "Заходны код"
+msgstr "Зыходны тэкст"
 
 #: trans/forms.py:326 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
@@ -482,12 +483,10 @@ msgid "Translation"
 msgstr "Пераклад"
 
 #: trans/forms.py:339
-#, fuzzy
 msgid "Keep current"
 msgstr "Захаваць бягучы"
 
 #: trans/forms.py:340
-#, fuzzy
 msgid "Overwrite existing"
 msgstr "Перазапісаць існуючы"
 
@@ -520,25 +519,27 @@ msgstr "Жадны"
 #: trans/validators.py:32 trans/validators.py:42 trans/validators.py:62
 #, python-format
 msgid "Bad format string (%s)"
-msgstr ""
+msgstr "Няслушны фармат радка (%s)"
 
 #: trans/validators.py:71
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Маска файла не ўтрымоўвае * у якасці запаўняльніка для мовы!"
 
 #: trans/validators.py:83
 msgid "Can not link to linked repository!"
-msgstr ""
+msgstr "Немагчыма злучыцца са звязаным рэпазіторыем!"
 
 #: trans/validators.py:85
 msgid "Invalid link to repository!"
-msgstr "Няслушная спасылка на рэпазітарый!"
+msgstr "Няслушная спасылка на рэпазіторый!"
 
 #: trans/validators.py:94
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"Значэнне 1 не дазваляецца для аўта-прыняцця, бо кожны карыстальнік галасуе "
+"за сваю прапанову."
 
 #: trans/widgets.py:260
 #, python-format
@@ -546,6 +547,8 @@ msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"пераклад %(count)d радкоў на %(languages)d моваў\n"
+"%(percent)d%% зроблена, дапамажыце палепшыць!"
 
 #. Translators: please use your language name instead of English
 #: trans/widgets.py:264
@@ -554,6 +557,8 @@ msgid ""
 "translating %(count)d strings into English\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"пераклад %(count)d радкоў на беларускую\n"
+"%(percent)d%% зроблена, дапамажыце палепшыць!"
 
 #: trans/widgets.py:284
 #, python-format
@@ -561,6 +566,8 @@ msgid ""
 "translation\n"
 "%(percent)d%% done"
 msgstr ""
+"пераклад\n"
+"%(percent)d%% зроблена"
 
 #. Translators: please use your language name instead of English
 #: trans/widgets.py:286
@@ -569,274 +576,284 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
+"Беларускі пераклад\n"
+"%(percent)d%% зроблена"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
-msgstr ""
+msgstr "Канцавыя кропкі"
 
 #: trans/autofixes/chars.py:43 trans/checks/chars.py:293
 msgid "Zero-width space"
-msgstr ""
+msgstr "Прагал нулявой шырыні"
 
 #: trans/autofixes/whitespace.py:31
 msgid "Trailing and leading whitespace"
-msgstr ""
+msgstr "Канцавы і пачатковы прагалы"
 
 #: trans/checks/chars.py:30
 msgid "Starting newline"
-msgstr ""
+msgstr "Пачатковы перавод радка"
 
 #: trans/checks/chars.py:31
 msgid "Source and translation do not both start with a newline"
-msgstr ""
+msgstr "Зыходны тэкст і пераклад не пачынаюцца з пераводу радка"
 
 #: trans/checks/chars.py:42
 msgid "Trailing newline"
-msgstr ""
+msgstr "Канцавы перавод радка"
 
 #: trans/checks/chars.py:43
 msgid "Source and translation do not both end with a newline"
-msgstr ""
+msgstr "Зыходны тэкст і пераклад не канчаюцца пераводам радка"
 
 #: trans/checks/chars.py:54
 msgid "Starting spaces"
-msgstr ""
+msgstr "Пачатныя прагалы"
 
 #: trans/checks/chars.py:56
 msgid "Source and translation do not both start with same number of spaces"
-msgstr ""
+msgstr "Зыходны тэкст і пераклад не пачынаюцца з аднолькавай колькасці прагалаў"
 
 #: trans/checks/chars.py:77
 msgid "Trailing space"
-msgstr ""
+msgstr "Канцавы прагал"
 
 #: trans/checks/chars.py:78
 msgid "Source and translation do not both end with a space"
-msgstr ""
+msgstr "Зыходны тэкст і пераклад не канчаюцца прагалам"
 
 #: trans/checks/chars.py:103
 msgid "Trailing stop"
-msgstr ""
+msgstr "Канцавая кропка"
 
 #: trans/checks/chars.py:104
 msgid "Source and translation do not both end with a full stop"
-msgstr ""
+msgstr "Зыходны тэкст і пераклад не канчаюцца кропкаю"
 
 #: trans/checks/chars.py:134
 msgid "Trailing colon"
-msgstr ""
+msgstr "Канцавое двукроп'е"
 
 #: trans/checks/chars.py:136
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
+"Зыходны тэкст і пераклад не канчаюцца двукроп'ем альбо двукроп'е няправільна "
+"адбіта прагаламі"
 
 #: trans/checks/chars.py:182
 msgid "Trailing question"
-msgstr ""
+msgstr "Канцавы пытальнік"
 
 #: trans/checks/chars.py:184
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
+"Зыходны тэкст і пераклад не канчаюцца пытальнікам альбо пытальнік "
+"няправільна адбіты прагаламі"
 
 #: trans/checks/chars.py:225
 msgid "Trailing exclamation"
-msgstr ""
+msgstr "Канцавы клічнік"
 
 #: trans/checks/chars.py:227
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
+"Зыходны тэкст і пераклад не канчаюцца клічнікам альбо клічнік няправільна "
+"адбіты прабеламі"
 
 #: trans/checks/chars.py:267
 msgid "Source and translation do not both end with an ellipsis"
-msgstr ""
+msgstr "Зыходны тэкст і пераклад не канчаюцца кропкамі"
 
 #: trans/checks/chars.py:284
 msgid "Mismatched \\n"
-msgstr ""
+msgstr "Неадпаведнасць \\n"
 
 #: trans/checks/chars.py:285
 msgid "Number of \\n in translation does not match source"
-msgstr ""
+msgstr "Колькасць \\n у перакладзе не супадае з колькасцю ў зыходным тэксце"
 
 #: trans/checks/chars.py:294
 msgid "Translation contains extra zero-width space character"
-msgstr ""
+msgstr "Пераклад утрымоўвае лішнія прагалы нулявой шырыні"
 
 #: trans/checks/consistency.py:30
 msgid "Missing plurals"
-msgstr ""
+msgstr "Хібны множны лік"
 
 #: trans/checks/consistency.py:31
 msgid "Some plural forms are not translated"
-msgstr ""
+msgstr "Некаторыя формы множнага ліку не перакладзеныя"
 
 #: trans/checks/consistency.py:49
 msgid "Inconsistent"
-msgstr ""
+msgstr "Неадпаведны"
 
 #: trans/checks/consistency.py:51
 msgid "This message has more than one translation in this project"
-msgstr ""
+msgstr "Гэтае паведамленне мае больш за адзін пераклад у праекце"
 
 #: trans/checks/consistency.py:81
 msgid "Invalid text direction"
-msgstr ""
+msgstr "Няслушны накірунак тэксту"
 
 #: trans/checks/consistency.py:82
 msgid "Text direction can be either LTR or RTL"
-msgstr ""
+msgstr "Накірунак тэксту можа быць альбо злева-направа альбо справа-налева"
 
 #: trans/checks/format.py:193
 msgid "Python format"
-msgstr ""
+msgstr "Фармат Python"
 
 #: trans/checks/format.py:194 trans/checks/format.py:208
 #: trans/checks/format.py:222
 msgid "Format string does not match source"
-msgstr ""
+msgstr "Радок фарматавання не адпавядае зыходнаму"
 
 #: trans/checks/format.py:207
 msgid "PHP format"
-msgstr ""
+msgstr "Фармат PHP"
 
 #: trans/checks/format.py:221
 msgid "C format"
-msgstr ""
+msgstr "Фармат C"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
-msgstr ""
+msgstr "Неадпаведны BB-код"
 
 #: trans/checks/markup.py:41
 msgid "BBcode in translation does not match source"
-msgstr ""
+msgstr "BB-код у перакладзе не адпавядае зыходнаму"
 
 #: trans/checks/markup.py:69
 msgid "XML tags mismatch"
-msgstr ""
+msgstr "Неадпаведнасць XML-тагаў"
 
 #: trans/checks/markup.py:70
 msgid "XML tags in translation do not match source"
-msgstr ""
+msgstr "XML-тагі ў перакладзе не адпавядаюць зыходным"
 
 #: trans/checks/same.py:493
 msgid "Not translated"
-msgstr ""
+msgstr "Не перакладзена"
 
 #: trans/checks/same.py:494
 msgid "Source and translated strings are same"
-msgstr ""
+msgstr "Зыходны і перакладзены тэксты аднолькавыя"
 
 #: trans/checks/source.py:34
 msgid "Optional plural"
-msgstr ""
+msgstr "Дадатковая форма множнага ліку"
 
 #: trans/checks/source.py:36
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
+"Радок апцыянальна ўжываецца у якасці множнага ліку, але не ўтрымоўвае формаў "
+"множнага ліку"
 
 #: trans/checks/source.py:50
 msgid "Ellipsis"
-msgstr ""
+msgstr "Кропкі"
 
 #: trans/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr ""
+msgstr "У радку ўжытыя тры кропкі (...) заместа знака кропак (…)"
 
 #: trans/models/changes.py:131
 msgid "Resource update"
-msgstr ""
+msgstr "Абнаўленне рэсурсаў"
 
 #: trans/models/changes.py:132
 msgid "Translation completed"
-msgstr ""
+msgstr "Пераклад скончаны"
 
 #: trans/models/changes.py:133
 msgid "Translation changed"
-msgstr ""
+msgstr "Пераклад зменены"
 
 #: trans/models/changes.py:134
 msgid "New translation"
-msgstr ""
+msgstr "Новы пераклад"
 
 #: trans/models/changes.py:135
 msgid "Comment added"
-msgstr ""
+msgstr "Дададзены каментарый"
 
 #: trans/models/changes.py:136
 msgid "Suggestion added"
-msgstr ""
+msgstr "Дададзена прапанова"
 
 #: trans/models/changes.py:137 weblate/html/translation.html:39
 msgid "Automatic translation"
-msgstr ""
+msgstr "Аўтаматычны пераклад"
 
 #: trans/models/changes.py:138
 msgid "Suggestion accepted"
-msgstr ""
+msgstr "Прапанова прынятая"
 
 #: trans/models/changes.py:139
 msgid "Translation reverted"
-msgstr ""
+msgstr "Пераклад вернуты"
 
 #: trans/models/changes.py:140
 msgid "Translation uploaded"
-msgstr ""
+msgstr "Пераклад загружаны"
 
 #: trans/models/changes.py:160
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s а %(time)s над %(translation)s правёў %(user)s"
 
 #: trans/models/project.py:44
 msgid "Use contact form"
-msgstr ""
+msgstr "Ужыць кантактны фармуляр"
 
 #: trans/models/project.py:45
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "Пазначце URL з інструкцыямі перакладу"
 
 #: trans/models/project.py:46
 msgid "No adding of language"
-msgstr ""
+msgstr "Немагчыма дадаць мову"
 
 #: trans/models/project.py:49
 msgid "Merge"
-msgstr ""
+msgstr "Зліць"
 
 #: trans/models/project.py:50
 msgid "Rebase"
-msgstr ""
+msgstr "Перабазіраваць"
 
 #: trans/models/project.py:77
 msgid "Project name"
-msgstr ""
+msgstr "Імя праекта"
 
 #: trans/models/project.py:80 trans/models/subproject.py:69
 msgid "Name to display"
-msgstr ""
+msgstr "Паказваемае імя"
 
 #: trans/models/project.py:83 trans/models/subproject.py:72
 msgid "URL slug"
-msgstr ""
+msgstr "URL slug"
 
 #: trans/models/project.py:85 trans/models/subproject.py:74
 msgid "Name used in URLs and file names."
-msgstr ""
+msgstr "Імя для ўжыцця ў URL-ах і імёнах файлаў."
 
 #: trans/models/project.py:88
 msgid "Project website"
-msgstr ""
+msgstr "Сайт праекта"
 
 #: trans/models/project.py:89
 msgid "Main website of translated project."
-msgstr ""
+msgstr "Галоўны сайт перакладанага праекту."
 
 #: trans/models/project.py:92
 msgid "Mailing list"
@@ -844,147 +861,159 @@ msgstr "Рассылка"
 
 #: trans/models/project.py:94
 msgid "Mailing list for translators."
-msgstr ""
+msgstr "Спіс рассылкі для перакладчыкаў."
 
 #: trans/models/project.py:97
 msgid "Translation instructions"
-msgstr ""
+msgstr "Інструкцыі для перакладу"
 
 #: trans/models/project.py:99
 msgid "URL with instructions for translators."
-msgstr ""
+msgstr "URL з інструкцыямі для перакладчыкаў."
 
 #: trans/models/project.py:102
 msgid "Translation license"
-msgstr ""
+msgstr "Ліцэнзія перакладу"
 
 #: trans/models/project.py:106
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "Неабавязковая сціслая вытрымка з ліцэнзіі для перакладаў."
 
 #: trans/models/project.py:110
 msgid "License URL"
-msgstr ""
+msgstr "URL ліцэнзіі"
 
 #: trans/models/project.py:112
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "Неабавязковы URL з падрабязнасцямі па ліцэнзіі."
 
 #: trans/models/project.py:115 weblate/html/subproject.html:32
 msgid "New language"
-msgstr ""
+msgstr "Новая мова"
 
 #: trans/models/project.py:120
 msgid "How to handle requests for creating new languages."
-msgstr ""
+msgstr "Як апрацоўваць запросы на стварэнне новых моваў."
 
 #: trans/models/project.py:124
 msgid "Merge style"
-msgstr ""
+msgstr "Спосаб зліцця"
 
 #: trans/models/project.py:129
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
+"Вызначыць, ці павінен Weblate зліваць змены з аддаленым рэпазіторыем альбо "
+"перабазіраваць яго."
 
 #: trans/models/project.py:136
 msgid "Commit message"
-msgstr ""
+msgstr "Апісанне каміта"
 
 #: trans/models/project.py:138
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
+"Радкі фарматавання можна ўжываць па-рознаму. Калі ласка, звярніцеся да "
+"дакументацыі."
 
 #: trans/models/project.py:145
 msgid "Committer name"
-msgstr ""
+msgstr "Імя камітара"
 
 #: trans/models/project.py:150
 msgid "Committer email"
-msgstr ""
+msgstr "Эл. пошта камітара"
 
 #: trans/models/project.py:155
 msgid "Push on commit"
-msgstr ""
+msgstr "Адсылаць пры каміце"
 
 #: trans/models/project.py:158
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Ці трэба адсылаць рэпазіторый пры кожным каміце."
 
 #: trans/models/project.py:163
 msgid "Set Translation-Team header"
-msgstr ""
+msgstr "Наставіць загаловак Translation-Team"
 
 #: trans/models/project.py:166
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
+msgstr "Ці мае Weblate абнаўляць загалоўкі Translation-Team."
 
 #: trans/models/project.py:172
 msgid "Enable ACL"
-msgstr ""
+msgstr "Дазволіць ACL"
 
 #: trans/models/project.py:175
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
+"Ці дазваляць ACL для праекта. Калі ласка, азнаёмцеся з дакументацыяй перш, "
+"чым ужываць гэтую функцыю."
 
 #: trans/models/project.py:213
 #, python-format
 msgid "You are not allowed to access project %s."
-msgstr ""
+msgstr "Вы не маеце доступу да праекта %s."
 
 #: trans/models/project.py:220
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Альбо задайце URL з інструкцыямі, альбо скарыстайце з іншага спосабу дадання "
+"новай мовы."
 
 #: trans/models/project.py:226
 msgid "License URL can not be used without license summary."
-msgstr ""
+msgstr "Не можна задаваць URL ліцэнзіі без сціслага яе апісання."
 
 #: trans/models/project.py:232
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr ""
+msgstr "Не ўдалося стварыць дырэкторыю праекта: %s"
 
 #: trans/models/subproject.py:67
 msgid "Subproject name"
-msgstr ""
+msgstr "Імя падпраекта"
 
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
 #: weblate/html/data.html.py:59 weblate/html/index.html:37
 #: weblate/html/list-translations.html:6 weblate/html/js/other.html:6
 msgid "Project"
-msgstr ""
+msgstr "Праект"
 
 #: trans/models/subproject.py:81
 msgid "Git repository"
-msgstr ""
+msgstr "Git-рэпазіторый"
 
 #: trans/models/subproject.py:84
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
+"URL на Git-рэпазіторый, ужывайце weblate://project/subproject для сумеснага "
+"карыстання з іншымі падпраектамі."
 
 #: trans/models/subproject.py:90
 msgid "Git push URL"
-msgstr ""
+msgstr "URL для адсылання ў Git"
 
 #: trans/models/subproject.py:93
 msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr ""
+"URL для адсылання ў Git-рэпазіторый. Адсыланне не дзейнічае, калі URL не "
+"зададзены."
 
 #: trans/models/subproject.py:98
 msgid "Repository browser"
-msgstr ""
+msgstr "Браўзар рэпазіторыя"
 
 #: trans/models/subproject.py:100
 #, python-format
@@ -992,84 +1021,99 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
+"Спасылка на браўзар рэпазіторыя, ужывайце %(branch)s для веткі, %(file)s і %"
+"(line)s у якасці запаўняльнікаў для імя файла і радка."
 
 #: trans/models/subproject.py:107
 msgid "Exported Git URL"
-msgstr ""
+msgstr "URL экспартаванага Git-a"
 
 #: trans/models/subproject.py:110
 msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr ""
+"URL Git-рэпазіторыя, адкуль карыстальнікі могуць сцягнуць змены з Weblate"
 
 #: trans/models/subproject.py:115
 msgid "Source string bug report address"
-msgstr ""
+msgstr "Адрас для паведамленняў пра памылкі ў зыходным тэксце"
 
 #: trans/models/subproject.py:117
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"Адрас эл. пошты, куды адпраўляць паведамленні пра памылкі ў зыходным тэксце. "
+"Пакіньце пустым, каб не атрымоўваць лістоў."
 
 #: trans/models/subproject.py:123
 msgid "Git branch"
-msgstr ""
+msgstr "Ветка Git"
 
 #: trans/models/subproject.py:125
 msgid "Git branch to translate"
-msgstr ""
+msgstr "Ветка Git на пераклад"
 
 #: trans/models/subproject.py:129
 msgid "File mask"
-msgstr ""
+msgstr "Маска файла"
 
 #: trans/models/subproject.py:133
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
+"Пуць файлаў на пераклад, ужывайце * заместа ідэнтыфікатара мовы, прыкладам: "
+"po/*.po or locale/*/LC_MESSAGES/django.po."
 
 #: trans/models/subproject.py:138
 msgid "Monolingual base language file"
-msgstr ""
+msgstr "Базавы файл для аднамоўнага перакладу"
 
 #: trans/models/subproject.py:142
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
+"Імя базавага файлу перакладаў, які ўтрымоўвае ўсе радкі і зыходны тэкст. "
+"Рэкамендавана для аднамоўных фарматаў."
 
 #: trans/models/subproject.py:148
 msgid "File format"
-msgstr ""
+msgstr "Фармат файла"
 
 #: trans/models/subproject.py:153
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
+"Аўтаматычная ідэнтыфікацыя можа выдаваць памылку для некаторых фарматаў і "
+"ёсць трошкі маруднейшай."
 
 #: trans/models/subproject.py:158
 msgid "Additional commit file"
-msgstr ""
+msgstr "Дадатковы файл для каміта"
 
 #: trans/models/subproject.py:164
 msgid ""
 "Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
+"Дадатковы файл для ўключэння ў каміт. Калі ласка, звярніцеся да дакументацыі "
+"па падрабязнасці."
 
 #: trans/models/subproject.py:169
 msgid "Pre-commit script"
-msgstr ""
+msgstr "Скрыпт перад камітам"
 
 #: trans/models/subproject.py:175
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
+"Скрыпт, які выконваецца перад камітам перакладаў. Калі ласка, звярніцеся да "
+"дакументацыі па падрабязнасці."
 
 #: trans/models/subproject.py:181
 msgid "Locked"
-msgstr ""
+msgstr "Замкнута"
 
 #: trans/models/subproject.py:184
 msgid "Whether subproject is locked for translation updates."
@@ -1123,12 +1167,12 @@ msgstr ""
 #: trans/models/subproject.py:538
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "Адсыланне выключана для %s."
 
 #: trans/models/subproject.py:587
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "Не ўдалося адаслаць у аддаленую ветку рэпазіторыя %s."
 
 #: trans/models/subproject.py:623
 #, python-format
@@ -1143,11 +1187,11 @@ msgstr ""
 #: trans/models/subproject.py:678
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "Не ўдалося зліць аддаленыя веткі з %s."
 
 #: trans/models/subproject.py:799
 msgid "Push URL is not used when repository is linked!"
-msgstr ""
+msgstr "URL для адсылання не выкарыстоўваецца для звязанага рэпазіторыя!"
 
 #: trans/models/subproject.py:803
 msgid "Export URL is not used when repository is linked!"
@@ -1552,7 +1596,7 @@ msgstr ""
 
 #: trans/views/edit.py:344
 msgid "Can not merge different messages!"
-msgstr ""
+msgstr "Немагчыма зліць розныя паведамленні!"
 
 #: trans/views/edit.py:389
 msgid "Can not revert to different unit!"
@@ -1611,8 +1655,9 @@ msgstr ""
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Змесціва файла паспяхова зліта з перакладам, апрацаваны %d радок."
+msgstr[1] "Змесціва файла паспяхова зліта з перакладам, апрацавана %d радкоў."
+msgstr[2] "Змесціва файла паспяхова зліта з перакладам, апрацавана %d радкі."
 
 #: trans/views/files.py:139
 #, python-format
@@ -1625,7 +1670,7 @@ msgstr[1] ""
 #: trans/views/files.py:149
 #, python-format
 msgid "File content merge failed: %s"
-msgstr ""
+msgstr "Не ўдалося зліць змесціва файла: %s"
 
 #: trans/views/git.py:34 trans/views/git.py:45 trans/views/git.py:56
 msgid "All pending translations were committed."
@@ -3301,6 +3346,10 @@ msgid ""
 "a different branch, to fix inconsistent translations or to translate new "
 "subproject using translation memory."
 msgstr ""
+"Аўтаматычны пераклад бярэ існуючыя пераклады ў праекце і дастасоўвае іх да "
+"бягучага падпраекта. Пры гэтым можна адсылаць пераклады ў іншую ветку, каб "
+"паправіць неадпаведныя пераклады альбо перакласці новы падпраект пры "
+"дапамозе памяці пераклада."
 
 #: weblate/html/translation.html:111
 msgid "Process"
@@ -3606,7 +3655,7 @@ msgstr ""
 
 #: weblate/html/js/git-status.html:10
 msgid "Push changes to remote repository"
-msgstr ""
+msgstr "Адаслаць змены ў аддалены рэпазіторый"
 
 #: weblate/html/js/git-status.html:10
 msgid "Push"
