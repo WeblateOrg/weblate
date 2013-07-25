@@ -4,7 +4,7 @@ Changes
 weblate 1.6
 -----------
 
-Released on ? 2013.
+Released on July 25th 2013.
 
 * Nicer error handling on registration.
 * Browsing of changes.
