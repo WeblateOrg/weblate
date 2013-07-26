@@ -41,11 +41,11 @@ def delete_object_dir(sender, instance, **kwargs):
     '''
     Handler to delete (sub)project directory on project deletion.
     '''
-    project_path = instance.get_path()
-
     # Do not delete linked subprojects
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link():
         return
+
+    project_path = instance.get_path()
 
     # Remove path if it exists
     if os.path.exists(project_path):
