@@ -1,5 +1,5 @@
 Name:           weblate
-Version: 1.6
+Version: 1.7
 Release:        1
 License:        GPL-3+
 Summary:        Web-based translation tool
