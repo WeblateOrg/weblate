@@ -361,27 +361,23 @@ class UnitManager(models.Manager):
         parsed = parser.parse(source_string)
         checksums = set()
         with index as searcher:
-            # Search for same string
-            results = searcher.search(parsed)
-            if len(results) == 0:
-                return self.none()
-            first_hit = results[0]
-            try:
-                unit = self.filter(checksum=first_hit['checksum'])[0]
-            except Exception as error:
-                weblate.logger.error('failed more like this: %s', str(error))
+            docnum = searcher.document_number(checksum=unit.checksum)
+            if docnum is None:
+                # Not yet indexed
                 return self.none()
 
-            # Find similar results to first one
-            more_results = first_hit.more_like_this(
+            more_results = searcher.more_like(
+                docnum,
                 'source',
-                unit.get_source_plurals()[0],
+                source_string,
                 top
             )
             # Include all more like this results
             for result in more_results:
                 checksums.add(result['checksum'])
-            # Remove all original matches
+
+            # Remove all found by same_source
+            results = searcher.search(parsed)
             for result in results:
                 checksums.discard(result['checksum'])
 
