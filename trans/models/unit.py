@@ -366,10 +366,16 @@ class UnitManager(models.Manager):
             if len(results) == 0:
                 return self.none()
             first_hit = results[0]
+            try:
+                unit = self.filter(checksum=first_hit['checksum'])[0]
+            except Exception as error:
+                weblate.logger.error('failed more like this: %s', str(error))
+                return self.none()
+
             # Find similar results to first one
             more_results = first_hit.more_like_this(
                 'source',
-                source_string,
+                unit.get_source_plurals()[0],
                 top
             )
             # Include all more like this results
