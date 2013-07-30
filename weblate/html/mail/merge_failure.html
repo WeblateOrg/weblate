@@ -25,6 +25,15 @@
 {{ status }}
 </pre>
 
+{% with object.get_export_url as export_url %}
+{% if export_url %}
+<p>
+{% trans "Git repository with Weblate translations:" %}
+<code class="git-repo">{{ export_url }}</code>
+</p>
+{% endif %}
+{% endwith %}
+
 <p><a href="{% documentation "faq" "merge" %}">{% trans "Check our FAQ for information how to resolve this." %}</a></p>
 
 
