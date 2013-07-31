@@ -217,13 +217,6 @@ def more_like(checksum, source, top=5):
         return set([result['checksum'] for result in results])
 
 
-def flush_caches():
-    '''
-    Flushes internal caches.
-    '''
-    FULLTEXT_INDEX.flush_caches()
-
-
 class Index(object):
     '''
     Class to manage index readers and writers.
@@ -295,11 +288,5 @@ class Index(object):
         '''
         return self.target(lang).searcher()
 
-    def flush_caches(self):
-        '''
-        Flushes internal caches.
-        '''
-        self._source = None
-        self._target = {}
 
 FULLTEXT_INDEX = Index()

@@ -20,10 +20,7 @@
 
 from trans.management.commands import WeblateCommand
 from lang.models import Language
-from trans.search import (
-    update_index, create_source_index, create_target_index,
-    flush_caches
-)
+from trans.search import update_index, create_source_index, create_target_index
 from optparse import make_option
 
 
@@ -47,7 +44,5 @@ class Command(WeblateCommand):
                 create_target_index(lang=lang.code)
 
         units = self.get_units(*args, **options)
-
-        flush_caches()
 
         update_index(units)
