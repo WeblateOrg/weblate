@@ -26,6 +26,7 @@ import whoosh
 import os
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.filedb.filestore import FileStorage
+from whoosh import qparser
 from django.db.models.signals import post_syncdb
 from weblate import appsettings
 from whoosh.index import create_in, open_dir
@@ -164,6 +165,43 @@ def update_index_unit(unit, source=True):
         index = get_target_index(unit.translation.language.code)
         with AsyncWriter(index) as writer:
             update_target_unit_index(writer, unit)
+
+
+def base_search(searcher, field, schema, query):
+    '''
+    Wrapper for fulltext search.
+    '''
+    parser = qparser.QueryParser(field, schema)
+    parsed = parser.parse(query)
+    return [result['checksum'] for result in searcher.search(parsed)]
+
+
+def fulltext_search(query, lang, source=True, context=True, target=True):
+    '''
+    Performs fulltext search in given areas, returns set of checksums.
+    '''
+    checksums = set()
+
+    if source or context:
+        index = get_source_index()
+        with index.searcher() as searcher:
+            if source:
+                checksums.update(
+                    base_search(searcher, 'source', SOURCE_SCHEMA, query)
+                )
+            if context:
+                checksums.update(
+                    base_search(searcher, 'context', SOURCE_SCHEMA, query)
+                )
+
+    if target:
+        index = get_target_index(lang)
+        with index.searcher() as searcher:
+            checksums.update(
+                base_search(searcher, 'target', TARGET_SCHEMA, query)
+            )
+
+    return checksums
 
 
 def flush_caches():

@@ -30,7 +30,10 @@ from whoosh import qparser
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
-from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA, update_index_unit
+from trans.search import (
+    FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA,
+    update_index_unit, fulltext_search
+)
 from trans.autofixes import fix_target
 
 from trans.filelock import FileLockException
@@ -190,15 +193,6 @@ class UnitManager(models.Manager):
         ).exclude(user=user)
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
-    def __search(self, searcher, field, schema, query):
-        '''
-        Wrapper for fulltext search.
-        '''
-        parser = qparser.QueryParser(field, schema)
-        parsed = parser.parse(query)
-        return [searcher.stored_fields(d)['checksum']
-                for d in searcher.docs_for_query(parsed)]
-
     def search(self, search_type, search_query,
                search_source=True, search_context=True, search_target=True):
         '''
@@ -238,43 +232,9 @@ class UnitManager(models.Manager):
 
         Returns queryset unless checksums is set.
         '''
-        ret = set()
 
-        # Search in source or context
-        if source or context:
-            index = FULLTEXT_INDEX.source_searcher()
-            with index as searcher:
-                if source:
-                    results = self.__search(
-                        searcher,
-                        'source',
-                        SOURCE_SCHEMA,
-                        query
-                    )
-                    ret = ret.union(results)
-                if context:
-                    results = self.__search(
-                        searcher,
-                        'context',
-                        SOURCE_SCHEMA,
-                        query
-                    )
-                    ret = ret.union(results)
-
-        # Search in target
-        if translation:
-            sample = self.all()[0]
-            index = FULLTEXT_INDEX.target_searcher(
-                sample.translation.language.code,
-            )
-            with index as searcher:
-                results = self.__search(
-                    searcher,
-                    'target',
-                    TARGET_SCHEMA,
-                    query
-                )
-                ret = ret.union(results)
+        lang = self.all()[0].translation.language.code
+        ret = fulltext_search(query, lang, source, context, translation)
 
         if checksums:
             return ret
