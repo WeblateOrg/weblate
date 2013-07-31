@@ -121,16 +121,15 @@ def update_index(units, source_units=None):
         source_units = units
 
     # Update source index
-    with FULLTEXT_INDEX.source_writer(async=False) as writer:
+    index = get_source_index()
+    with BufferedWriter(index) as writer:
         for unit in source_units.iterator():
             update_source_unit_index(writer, unit)
 
     # Update per language indices
     for lang in languages:
-        index = FULLTEXT_INDEX.target_writer(
-            lang=lang.code, async=False
-        )
-        with index as writer:
+        index = get_target_index(lang.code)
+        with BufferedWriter(index) as writer:
 
             language_units = units.filter(
                 translation__language=lang
