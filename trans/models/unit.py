@@ -369,7 +369,7 @@ class UnitManager(models.Manager):
             more_results = searcher.more_like(
                 docnum,
                 'source',
-                source_string,
+                unit.source,
                 top
             )
             # Include all more like this results
