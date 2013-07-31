@@ -190,53 +190,6 @@ class UnitManager(models.Manager):
         ).exclude(user=user)
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
-    def add_to_source_index(self, checksum, source, context, writer):
-        '''
-        Updates/Adds to source index given unit.
-        '''
-        writer.update_document(
-            checksum=unicode(checksum),
-            source=unicode(source),
-            context=unicode(context),
-        )
-
-    def add_to_target_index(self, checksum, target, writer):
-        '''
-        Updates/Adds to target index given unit.
-        '''
-        writer.update_document(
-            checksum=unicode(checksum),
-            target=unicode(target),
-        )
-
-    def add_to_index(self, unit, source=True):
-        '''
-        Updates/Adds to all indices given unit.
-        '''
-        if appsettings.OFFLOAD_INDEXING:
-            from trans.models.unitdata import IndexUpdate
-            try:
-                IndexUpdate.objects.create(unit=unit, source=source)
-            except IntegrityError:
-                pass
-            return
-
-        writer_target = FULLTEXT_INDEX.target_writer(
-            unit.translation.language.code
-        )
-        writer_source = FULLTEXT_INDEX.source_writer()
-
-        if source:
-            self.add_to_source_index(
-                unit.checksum,
-                unit.source,
-                unit.context,
-                writer_source)
-        self.add_to_target_index(
-            unit.checksum,
-            unit.target,
-            writer_target)
-
     def __search(self, searcher, field, schema, query):
         '''
         Wrapper for fulltext search.
