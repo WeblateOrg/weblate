@@ -146,13 +146,11 @@ def update_index_unit(unit, source=True):
     '''
     Adds single unit to index.
     '''
-
     # Should this happen in background?
     if appsettings.OFFLOAD_INDEXING:
         from trans.models.unitdata import IndexUpdate
         IndexUpdate.objects.create(unit=unit, source=source)
         return
-
 
     # Update source
     if source:
