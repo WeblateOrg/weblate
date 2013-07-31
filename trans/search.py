@@ -29,7 +29,7 @@ from whoosh.filedb.filestore import FileStorage
 from django.db.models.signals import post_syncdb
 from weblate import appsettings
 from whoosh.index import create_in, open_dir
-from whoosh.writing import AsyncWriter
+from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
 from lang.models import Language
 
@@ -88,6 +88,25 @@ def update_target_unit_index(writer, unit):
         checksum=unicode(unit.checksum),
         target=unicode(unit.target)
     )
+
+
+def get_source_index():
+    '''
+    Returns source index object.
+    '''
+    if not STORAGE.index_exists('source'):
+        create_source_index()
+    return STORAGE.open_index('source')
+
+
+def get_target_index(lang):
+    '''
+    Returns target index object.
+    '''
+    name = 'target-%s' % lang
+    if not STORAGE.index_exists(name):
+        create_target_index(lang)
+    return STORAGE.open_index(name)
 
 
 def update_index(units, source_units=None):
