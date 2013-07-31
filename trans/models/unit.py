@@ -245,15 +245,11 @@ class UnitManager(models.Manager):
         '''
         Finds units with same source.
         '''
-        source_string = unit.get_source_plurals()[0]
-        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
-        parsed = parser.parse(source_string)
-        checksums = set()
-        with FULLTEXT_INDEX.source_searcher() as searcher:
-            # Search for same string
-            results = searcher.search(parsed)
-            for result in results:
-                checksums.add(result['checksum'])
+        checksums = fulltext_search(
+            unit.get_source_plurals()[0],
+            unit.translation.language.code,
+            True, False, False
+        )
 
         return self.filter(
             checksum__in=checksums,
