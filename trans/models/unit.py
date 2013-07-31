@@ -30,7 +30,7 @@ from whoosh import qparser
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
-from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
+from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA, update_index_unit
 from trans.autofixes import fix_target
 
 from trans.filelock import FileLockException
@@ -746,12 +746,8 @@ class Unit(models.Model):
             self.check(same_state, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
-        if force_insert:
-            # New unit, need to update both source and target index
-            Unit.objects.add_to_index(self, True)
-        else:
-            # We only update target index here
-            Unit.objects.add_to_index(self, False)
+        if force_insert or not same_content:
+            update_index_unit(self, force_insert)
 
     def get_location_links(self):
         '''

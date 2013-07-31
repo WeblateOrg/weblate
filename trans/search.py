@@ -141,6 +141,31 @@ def update_index(units, source_units=None):
                 update_target_unit_index(writer, unit)
 
 
+def update_index_unit(unit, source=True):
+    '''
+    Adds single unit to index.
+    '''
+
+    # Should this happen in background?
+    if appsettings.OFFLOAD_INDEXING:
+        from trans.models.unitdata import IndexUpdate
+        IndexUpdate.objects.create(unit=unit, source=source)
+        return
+
+
+    # Update source
+    if source:
+        index = get_source_index()
+        with AsyncWriter(index) as writer:
+            update_source_unit_index(writer, unit)
+
+    # Update target
+    if unit.translated:
+        index = get_target_index(unit.translation.language.code)
+        with AsyncWriter(index) as writer:
+            update_target_unit_index(writer, unit)
+
+
 def flush_caches():
     '''
     Flushes internal caches.
