@@ -332,12 +332,11 @@ class UnitManager(models.Manager):
         '''
         Finds units with same source.
         '''
-        index = FULLTEXT_INDEX.source_searcher()
         source_string = unit.get_source_plurals()[0]
         parser = qparser.QueryParser('source', SOURCE_SCHEMA)
         parsed = parser.parse(source_string)
         checksums = set()
-        with index as searcher:
+        with FULLTEXT_INDEX.source_searcher() as searcher:
             # Search for same string
             results = searcher.search(parsed)
             for result in results:
@@ -355,18 +354,17 @@ class UnitManager(models.Manager):
         '''
         Finds closely similar units.
         '''
-        index = FULLTEXT_INDEX.source_searcher()
         source_string = unit.get_source_plurals()[0]
         parser = qparser.QueryParser('source', SOURCE_SCHEMA)
         parsed = parser.parse(source_string)
         checksums = set()
-        with index as searcher:
-            docnum = index.document_number(checksum=unit.checksum)
+        with FULLTEXT_INDEX.source_searcher() as searcher:
+            docnum = searcher.document_number(checksum=unit.checksum)
             if docnum is None:
                 # Not yet indexed
                 return self.none()
 
-            more_results = index.more_like(
+            more_results = searcher.more_like(
                 docnum,
                 'source',
                 unit.source,
