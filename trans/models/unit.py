@@ -32,7 +32,7 @@ from trans.checks import CHECKS
 from trans.models.translation import Translation
 from trans.search import (
     FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA,
-    update_index_unit, fulltext_search
+    update_index_unit, fulltext_search, more_like
 )
 from trans.autofixes import fix_target
 
@@ -263,30 +263,15 @@ class UnitManager(models.Manager):
         '''
         Finds closely similar units.
         '''
-        source_string = unit.get_source_plurals()[0]
-        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
-        parsed = parser.parse(source_string)
-        checksums = set()
-        with FULLTEXT_INDEX.source_searcher() as searcher:
-            docnum = searcher.document_number(checksum=unit.checksum)
-            if docnum is None:
-                # Not yet indexed
-                return self.none()
+        more_results = more_like(unit.checksum, unit.source, top)
 
-            more_results = searcher.more_like(
-                docnum,
-                'source',
-                unit.source,
-                top
-            )
-            # Include all more like this results
-            for result in more_results:
-                checksums.add(result['checksum'])
+        same_results = fulltext_search(
+            unit.get_source_plurals()[0],
+            unit.translation.language.code,
+            True, False, False
+        )
 
-            # Remove all found by same_source
-            results = searcher.search(parsed)
-            for result in results:
-                checksums.discard(result['checksum'])
+        checksums = more_results - same_results
 
         return self.filter(
             checksum__in=checksums,

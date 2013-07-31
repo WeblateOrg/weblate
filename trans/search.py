@@ -204,6 +204,21 @@ def fulltext_search(query, lang, source=True, context=True, target=True):
     return checksums
 
 
+def more_like(checksum, source, top=5):
+    '''
+    Finds similar units.
+    '''
+    index = get_source_index()
+    with index.searcher() as searcher:
+        docnum = searcher.document_number(checksum=checksum)
+        if docnum is None:
+            return set()
+
+        results = searcher.more_like(docnum, 'source', source, top)
+
+        return set([result['checksum'] for result in results])
+
+
 def flush_caches():
     '''
     Flushes internal caches.
