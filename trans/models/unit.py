@@ -361,15 +361,15 @@ class UnitManager(models.Manager):
         parsed = parser.parse(source_string)
         checksums = set()
         with index as searcher:
-            docnum = searcher.document_number(checksum=unit.checksum)
+            docnum = index.document_number(checksum=unit.checksum)
             if docnum is None:
                 # Not yet indexed
                 return self.none()
 
-            more_results = searcher.more_like(
+            more_results = index.more_like(
                 docnum,
                 'source',
-                source_string,
+                unit.source,
                 top
             )
             # Include all more like this results
