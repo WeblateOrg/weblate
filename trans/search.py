@@ -69,6 +69,27 @@ def create_target_index(lang):
     return STORAGE.create_index(TARGET_SCHEMA, 'target-%s' % lang)
 
 
+def update_source_unit_index(writer, unit):
+    '''
+    Updates source index for given unit.
+    '''
+    writer.update_document(
+        checksum=unicode(unit.checksum),
+        source=unicode(unit.source),
+        context=unicode(unit.context),
+    )
+
+
+def update_target_unit_index(writer, unit):
+    '''
+    Updates target index for given unit.
+    '''
+    writer.update_document(
+        checksum=unicode(unit.checksum),
+        target=unicode(unit.target)
+    )
+
+
 def update_index(units, source_units=None):
     '''
     Updates fulltext index for given set of units.
