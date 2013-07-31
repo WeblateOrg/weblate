@@ -30,10 +30,7 @@ from whoosh import qparser
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
-from trans.search import (
-    FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA,
-    update_index_unit, fulltext_search, more_like
-)
+from trans.search import update_index_unit, fulltext_search, more_like
 from trans.autofixes import fix_target
 
 from trans.filelock import FileLockException
