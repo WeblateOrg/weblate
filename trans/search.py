@@ -25,6 +25,7 @@ Whoosh based full text search.
 import whoosh
 import os
 from whoosh.fields import Schema, TEXT, ID
+from whoosh.filedb.filestore import FileStorage
 from django.db.models.signals import post_syncdb
 from weblate import appsettings
 from whoosh.index import create_in, open_dir
@@ -127,15 +128,21 @@ class Index(object):
     _source = None
     _target = {}
 
+    def __init__(self):
+        '''
+        Creates searcher object.
+        '''
+        self.storage = FileStorage(appsettings.WHOOSH_INDEX)
+
     def source(self):
         '''
         Returns source index.
         '''
         if self._source is None:
             try:
-                self._source = open_dir(
-                    appsettings.WHOOSH_INDEX,
-                    indexname='source'
+                self._source = self.storage.open_index(
+                    indexname='source',
+                    schema=SOURCE_SCHEMA,
                 )
             except (whoosh.index.EmptyIndexError, IOError):
                 # eg. path or index does not exist
@@ -148,9 +155,9 @@ class Index(object):
         '''
         if not lang in self._target:
             try:
-                self._target[lang] = open_dir(
-                    appsettings.WHOOSH_INDEX,
-                    indexname='target-%s' % lang
+                self._target[lang] = self.storage.open_index(
+                    indexname='target-%s' % lang,
+                    schema=TARGET_SCHEMA,
                 )
             except (whoosh.index.EmptyIndexError, IOError):
                 self._target[lang] = create_target_index(lang)
