@@ -44,28 +44,29 @@ SOURCE_SCHEMA = Schema(
     context=TEXT
 )
 
-
-def create_source_index():
-    return create_in(
-        appsettings.WHOOSH_INDEX,
-        schema=SOURCE_SCHEMA,
-        indexname='source'
-    )
-
-
-def create_target_index(lang):
-    return create_in(
-        appsettings.WHOOSH_INDEX,
-        schema=TARGET_SCHEMA,
-        indexname='target-%s' % lang
-    )
+STORAGE = FileStorage(appsettings.WHOOSH_INDEX)
 
 
 @receiver(post_syncdb)
 def create_index(sender=None, **kwargs):
-    if not os.path.exists(appsettings.WHOOSH_INDEX):
-        os.mkdir(appsettings.WHOOSH_INDEX)
-        create_source_index()
+    '''
+    Automatically creates storage directory.
+    '''
+    STORAGE.create()
+
+
+def create_source_index():
+    '''
+    Creates source string index.
+    '''
+    return STORAGE.create_index(SOURCE_SCHEMA, 'source')
+
+
+def create_target_index(lang):
+    '''
+    Creates traget string index for given language.
+    '''
+    return STORAGE.create_index(TARGET_SCHEMA, 'target-%s' % lang)
 
 
 def update_index(units, source_units=None):
