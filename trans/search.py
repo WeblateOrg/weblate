@@ -123,14 +123,15 @@ def update_index(units, source_units=None):
 
     # Update source index
     index = get_source_index()
-    with index.writer() as writer:
+    with BufferedWriter(index) as writer:
         for unit in source_units.iterator():
             update_source_unit_index(writer, unit)
+    writer.close()
 
     # Update per language indices
     for lang in languages:
         index = get_target_index(lang.code)
-        with index.writer() as writer:
+        with BufferedWriter(index) as writer:
 
             language_units = units.filter(
                 translation__language=lang
@@ -140,6 +141,7 @@ def update_index(units, source_units=None):
 
             for unit in language_units.iterator():
                 update_target_unit_index(writer, unit)
+        writer.close()
 
 
 def update_index_unit(unit, source=True):
