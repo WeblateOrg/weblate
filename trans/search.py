@@ -126,6 +126,7 @@ def update_index(units, source_units=None):
     with BufferedWriter(index) as writer:
         for unit in source_units.iterator():
             update_source_unit_index(writer, unit)
+    writer.close()
 
     # Update per language indices
     for lang in languages:
@@ -140,6 +141,7 @@ def update_index(units, source_units=None):
 
             for unit in language_units.iterator():
                 update_target_unit_index(writer, unit)
+        writer.close()
 
 
 def update_index_unit(unit, source=True):
