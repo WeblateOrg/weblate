@@ -103,14 +103,8 @@ def update_index(units, source_units=None):
 
     # Update source index
     with FULLTEXT_INDEX.source_writer(async=False) as writer:
-        source_units = source_units.values('checksum', 'source', 'context')
         for unit in source_units.iterator():
-            Unit.objects.add_to_source_index(
-                unit['checksum'],
-                unit['source'],
-                unit['context'],
-                writer
-            )
+            update_source_unit_index(writer, unit)
 
     # Update per language indices
     for lang in languages:
@@ -123,16 +117,10 @@ def update_index(units, source_units=None):
                 translation__language=lang
             ).exclude(
                 target=''
-            ).values(
-                'checksum', 'target'
             )
 
             for unit in language_units.iterator():
-                Unit.objects.add_to_target_index(
-                    unit['checksum'],
-                    unit['target'],
-                    writer
-                )
+                update_target_unit_index(writer, unit)
 
 
 def flush_caches():
