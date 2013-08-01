@@ -26,15 +26,24 @@ rm -rf /usr/share/man
 
 # Configure Apache
 sed -i 's/^\(APACHE_MODULES=".*\)"/\1 wsgi"/' /etc/sysconfig/apache2
+
+# Enable servers
 chkconfig -a apache2
+chkconfig -a mysql
+
+# Start MySQL for setup
+rcmysql start
 
 # Configure MySQL
-chkconfig -a mysql
-rcmysql start
 mysql -u root --execute="CREATE USER 'weblate'@'localhost' IDENTIFIED BY 'weblate'"
 mysql -u root --execute="GRANT ALL ON weblate.* TO 'weblate'@'localhost'"
-mysql -u root --execute="CREATE DATABASE `weblate` CHARACTER SET utf8;"
+mysql -u root --execute="CREATE DATABASE weblate CHARACTER SET utf8;"
+
+# Database setup
+su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py syncdb --noinput'
+su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py migrate'
+su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py createadmin'
+
+# Stop MySQL
 rcmysql stop
 
-# Enable Weblate
-chkconfig -a weblate
