@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-22 10:51+0200\n"
-"PO-Revision-Date: 2013-08-01 14:13+0200\n"
+"PO-Revision-Date: 2013-08-01 15:27+0200\n"
 "Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
 "Language: fi\n"
@@ -585,19 +585,17 @@ msgstr ""
 "%(percent)d%% tehty"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
-#, fuzzy
 msgid "Trailing ellipsis"
-msgstr "Tekstin jälkeen rivinvaihto"
+msgstr "Lopuksi kolme pistettä"
 
 #: trans/autofixes/chars.py:43 trans/checks/chars.py:293
 msgid "Zero-width space"
-msgstr ""
+msgstr "Ei yhtään tilaa"
 
 #: trans/autofixes/whitespace.py:31
-#, fuzzy
 #| msgid "Trailing space"
 msgid "Trailing and leading whitespace"
-msgstr "Tekstin jälkeen välilyönti"
+msgstr "Loppuun ja alkuun tyhjätila"
 
 #: trans/checks/chars.py:30
 msgid "Starting newline"
@@ -616,14 +614,12 @@ msgid "Source and translation do not both end with a newline"
 msgstr "Lähde ja käännös eivät pääty uudelta riviltä"
 
 #: trans/checks/chars.py:54
-#, fuzzy
 msgid "Starting spaces"
-msgstr "Aloituspäivä"
+msgstr "Alkaa välilyönnillä"
 
 #: trans/checks/chars.py:56
-#, fuzzy
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "Lähde ja käännös eivät ala uudelta riviltä"
+msgstr "Lähde ja käännös eivät ala samalta tasolta"
 
 #: trans/checks/chars.py:77
 msgid "Trailing space"
@@ -653,7 +649,7 @@ msgstr "Lähde ja käännös eivät pääty pilkuun tai pilkku on väärässä p
 
 #: trans/checks/chars.py:182
 msgid "Trailing question"
-msgstr "Tesktin jälkeen kysymysmerkki"
+msgstr "Tekstin jälkeen kysymysmerkki"
 
 #: trans/checks/chars.py:184
 msgid ""
@@ -673,22 +669,20 @@ msgid ""
 msgstr "Lähde ja käännös eivät pääty huutomerkkiin tai se on väärässä paikassa"
 
 #: trans/checks/chars.py:267
-#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "Lähde ja käännös eivät pääty uudelta riviltä"
+msgstr "Lähde ja käännös eivät pääty ellipsiin"
 
 #: trans/checks/chars.py:284
 msgid "Mismatched \\n"
-msgstr ""
+msgstr "Ristiriitaiset \\n"
 
 #: trans/checks/chars.py:285
-#, fuzzy
 msgid "Number of \\n in translation does not match source"
-msgstr "Muotoilumerkkijono ei vastaa lähdettä"
+msgstr "Numero \\n ei vastaa lähdettä"
 
 #: trans/checks/chars.py:294
 msgid "Translation contains extra zero-width space character"
-msgstr ""
+msgstr "Käännös sisältää liikaa tyhjää tilaa"
 
 #: trans/checks/consistency.py:30
 msgid "Missing plurals"
@@ -718,7 +712,7 @@ msgstr ""
 
 #: trans/checks/format.py:193
 msgid "Python format"
-msgstr "Python muodossa"
+msgstr "Python muoto"
 
 #: trans/checks/format.py:194 trans/checks/format.py:208
 #: trans/checks/format.py:222
@@ -727,7 +721,7 @@ msgstr "Muotoilumerkkijono ei vastaa lähdettä"
 
 #: trans/checks/format.py:207
 msgid "PHP format"
-msgstr "PHP-muoto"
+msgstr "PHP muoto"
 
 #: trans/checks/format.py:221
 msgid "C format"
@@ -735,21 +729,19 @@ msgstr "C muoto"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
-msgstr ""
+msgstr "Ristiriitainen BBcode"
 
 #: trans/checks/markup.py:41
-#, fuzzy
 msgid "BBcode in translation does not match source"
-msgstr "Muotoilumerkkijono ei vastaa lähdettä"
+msgstr "BBcode käännös ei vastaa lähdettä"
 
 #: trans/checks/markup.py:69
 msgid "XML tags mismatch"
-msgstr ""
+msgstr "XML tunnisteet ei täsmää"
 
 #: trans/checks/markup.py:70
-#, fuzzy
 msgid "XML tags in translation do not match source"
-msgstr "Muotoilumerkkijono ei vastaa lähdettä"
+msgstr "XML Tunniste käännös ei vastaa lähdettä"
 
 #: trans/checks/same.py:493
 msgid "Not translated"
@@ -760,103 +752,95 @@ msgid "Source and translated strings are same"
 msgstr "Lähde ja käännös tekstit ovat samat"
 
 #: trans/checks/source.py:34
-#, fuzzy
 msgid "Optional plural"
-msgstr "Puuttuvat monikot"
+msgstr "Valinnainen monikko"
 
 #: trans/checks/source.py:36
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
+"Merkkijonoa käytetään valinnaisesti monikossa, mutta ei käyttäen "
+"monikkomuotoja"
 
 #: trans/checks/source.py:50
 msgid "Ellipsis"
-msgstr ""
+msgstr "kolmen pisteen jono"
 
 #: trans/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
+"Merkkijono käyttää kolmen pisteen (...) sijasta kolmen pisteen jono merkkiä "
+"\"ellipsis\" (...)"
 
 #: trans/models/changes.py:131
 msgid "Resource update"
-msgstr ""
+msgstr "Resurssien päivitys"
 
 #: trans/models/changes.py:132
-#, fuzzy
 msgid "Translation completed"
-msgstr "Käännöksen sisältö"
+msgstr "Käännös valmistunut"
 
 #: trans/models/changes.py:133
-#, fuzzy
 msgid "Translation changed"
-msgstr "Käännöksen sisältö"
+msgstr "Käännös muuttunut"
 
 #: trans/models/changes.py:134
-#, fuzzy
 msgid "New translation"
-msgstr "Käännös"
+msgstr "Uusi käännös"
 
 #: trans/models/changes.py:135
-#, fuzzy
 msgid "Comment added"
-msgstr "Kommentit"
+msgstr "Kommentti lisätty"
 
 #: trans/models/changes.py:136
-#, fuzzy
 msgid "Suggestion added"
-msgstr "Ehdotukset"
+msgstr "Ehdotus lisätty"
 
 #: trans/models/changes.py:137 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automaattinen käännös"
 
 #: trans/models/changes.py:138
-#, fuzzy
 msgid "Suggestion accepted"
-msgstr "Ehdotukset"
+msgstr "Ehdotus hyväksytty"
 
 #: trans/models/changes.py:139
-#, fuzzy
 msgid "Translation reverted"
-msgstr "Käännöksen sisältö"
+msgstr "Käännös palautunut"
 
 #: trans/models/changes.py:140
-#, fuzzy
 msgid "Translation uploaded"
-msgstr "Käännökset"
+msgstr "Käännös ladattu"
 
 #: trans/models/changes.py:160
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(action)s at %(time)s on %(translation)s by %(user)s"
 
 #: trans/models/project.py:44
 msgid "Use contact form"
-msgstr ""
+msgstr "Ota yhteyttä lomakkeella"
 
 #: trans/models/project.py:45
-#, fuzzy
 msgid "Point to translation instructions URL"
-msgstr "Kääntämättömät merkkijonot"
+msgstr "Valitse URL käännös ohjeita"
 
 #: trans/models/project.py:46
-#, fuzzy
 #| msgid "Songhai languages"
 msgid "No adding of language"
-msgstr "Songhai"
+msgstr "Ei lisäyksiä kieleen"
 
 #: trans/models/project.py:49
 msgid "Merge"
-msgstr ""
+msgstr "Yhdistää"
 
 #: trans/models/project.py:50
 msgid "Rebase"
-msgstr ""
+msgstr "Rebase"
 
 #: trans/models/project.py:77
-#, fuzzy
 #| msgid "Project"
 msgid "Project name"
-msgstr "Projekti"
+msgstr "Projektin nimi"
 
 #: trans/models/project.py:80 trans/models/subproject.py:69
 msgid "Name to display"
@@ -864,22 +848,20 @@ msgstr "Näytettävä nimi"
 
 #: trans/models/project.py:83 trans/models/subproject.py:72
 msgid "URL slug"
-msgstr ""
+msgstr "URL slug"
 
 #: trans/models/project.py:85 trans/models/subproject.py:74
-#, fuzzy
 #| msgid "Name used in URLs"
 msgid "Name used in URLs and file names."
-msgstr "Osoitteissa (URL) käytettävä nimi"
+msgstr "Osoitteissa (URL) käytettävä nimi ja tiedosto nimet."
 
 #: trans/models/project.py:88
-#, fuzzy
 msgid "Project website"
-msgstr "Projektin verkkosivu:"
+msgstr "Projektin verkkosivu"
 
 #: trans/models/project.py:89
 msgid "Main website of translated project."
-msgstr ""
+msgstr "Käännösprojektin pääsivusto."
 
 #: trans/models/project.py:92
 #| msgid "Trailing stop"
@@ -887,37 +869,33 @@ msgid "Mailing list"
 msgstr "Postituslista"
 
 #: trans/models/project.py:94
-#, fuzzy
 #| msgid "Mailing list for translators:"
 msgid "Mailing list for translators."
-msgstr "Sähköpostituslista kääntäjille:"
+msgstr "Sähköpostituslista kääntäjille."
 
 #: trans/models/project.py:97
-#, fuzzy
 msgid "Translation instructions"
-msgstr "Käännökset"
+msgstr "Käännös ohjeet"
 
 #: trans/models/project.py:99
-#, fuzzy
 msgid "URL with instructions for translators."
-msgstr "Ohjeet kääntäjille:"
+msgstr "URL ohjeet kääntäjille."
 
 #: trans/models/project.py:102
-#, fuzzy
 msgid "Translation license"
-msgstr "Käännöksen sisältö"
+msgstr "Käännöksen lisenssi"
 
 #: trans/models/project.py:106
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "Valinnainen lyhyt yhteenveto käännöksissä käytettävästä lisenssistä."
 
 #: trans/models/project.py:110
 msgid "License URL"
-msgstr ""
+msgstr "Lisenssin URL"
 
 #: trans/models/project.py:112
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "Valinnainen URL lisenssin tietoihin."
 
 #: trans/models/project.py:115 weblate/html/subproject.html:32
 msgid "New language"
@@ -925,94 +903,96 @@ msgstr "Uusi kieli"
 
 #: trans/models/project.py:120
 msgid "How to handle requests for creating new languages."
-msgstr ""
+msgstr "Miten käsitellä pyyntöjä luoda uusia kieliä."
 
 #: trans/models/project.py:124
 msgid "Merge style"
-msgstr ""
+msgstr "Yhdistä tyyli"
 
 #: trans/models/project.py:129
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
+"Määrittää, pitäisikö Weblate yhdistää alkupään arkistoon tai rebase "
+"muutoksia sen päälle."
 
 #: trans/models/project.py:136
-#, fuzzy
 msgid "Commit message"
-msgstr "Virheen lisätiedot:"
+msgstr "toimitusviesti"
 
 #: trans/models/project.py:138
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
+"Voit käyttää merkkijonomuodoissa monenlaisia tietoja, Katso ohjeista "
+"lisätietoja."
 
 #: trans/models/project.py:145
-#, fuzzy
 #| msgid "Your name"
 msgid "Committer name"
-msgstr "Nimesi"
+msgstr "Ilmoittajan nimi"
 
 #: trans/models/project.py:150
-#, fuzzy
 #| msgid "Your email"
 msgid "Committer email"
-msgstr "Sähköpostiosoitteesi"
+msgstr "Ilmoittajan sähköpostiosoitte"
 
 #: trans/models/project.py:155
 msgid "Push on commit"
-msgstr ""
+msgstr "Pakota sitoutuminen"
 
 #: trans/models/project.py:158
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
 #: trans/models/project.py:163
-#, fuzzy
 msgid "Set Translation-Team header"
-msgstr "Käännökset"
+msgstr "Aseta Käännös-Team header"
 
 #: trans/models/project.py:166
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
+msgstr "Onko Käännös-Team tiedostojen otsikot päivitettävä Weblatessa."
 
 #: trans/models/project.py:172
 msgid "Enable ACL"
-msgstr ""
+msgstr "Ota käyttöön ACL"
 
 #: trans/models/project.py:175
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
+"Otetaanko käyttöön ACL tähän projektiin, tarkista ohjeet ennen asetuksen "
+"käyttöönottoa."
 
 #: trans/models/project.py:213
 #, python-format
 msgid "You are not allowed to access project %s."
-msgstr ""
+msgstr "Sinulle ei ole annettu oikeutta projektiin %s."
 
 #: trans/models/project.py:220
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Anna joko ohjeissa URL tai käytä eri vaihtoehtoa lisätäksesi uuden kielen."
 
 #: trans/models/project.py:226
 msgid "License URL can not be used without license summary."
-msgstr ""
+msgstr "Lisenssi URL osoitetta ei voi käyttää ilman lisenssin yhteenvetoa."
 
 #: trans/models/project.py:232
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr ""
+msgstr "Projektin kansiota ei voitu luoda: %s"
 
 #: trans/models/subproject.py:67
-#, fuzzy
 #| msgid "Subproject"
 msgid "Subproject name"
-msgstr "Aliprojekti"
+msgstr "Aliprojektin nimi"
 
 #: trans/models/subproject.py:78 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -1022,56 +1002,53 @@ msgid "Project"
 msgstr "Projekti"
 
 #: trans/models/subproject.py:81
-#, fuzzy
 #| msgid "Git repository:"
 msgid "Git repository"
-msgstr "Git ohjelmistolähde:"
+msgstr "Git ohjelmistolähde"
 
 #: trans/models/subproject.py:84
-#, fuzzy
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
-"Git tietolähteen osoite, käytä weblate://project/subproject jakaaksesi "
-"aliprojekteiksi"
+"Git tietolähteen URL-osoite, käytä weblate://project/subproject jakaaksesi "
+"aliprojekteiksi."
 
 #: trans/models/subproject.py:90
 msgid "Git push URL"
-msgstr ""
+msgstr "Git push URL"
 
 #: trans/models/subproject.py:93
-#, fuzzy
 #| msgid "URL of push Git repository"
 msgid "URL of push Git repository, pushing is disabled if empty."
-msgstr "Git ohjelmoistolähteen lähetysosoite (URL)"
+msgstr ""
+"Git ohjelmoistolähteen lähetysosoite (URL), ajaminen ei ole käytössä jos se "
+"on tyhjä."
 
 #: trans/models/subproject.py:98
-#, fuzzy
 msgid "Repository browser"
-msgstr "Git ohjelmistolähde:"
+msgstr "Arkistoselain"
 
 #: trans/models/subproject.py:100
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
-"Linkki tietolähdeselaimeen, käytä %(branch)s haaralle, %(file)s ja %(line)s "
-"tiedostonimenä ja linjan malleina"
+"Linkki arkistoselaimeen, käytä %(branch)s haaralle, %(file)s ja %(line)s "
+"tiedostonimenä ja linjan malleina."
 
 #: trans/models/subproject.py:107
 msgid "Exported Git URL"
-msgstr ""
+msgstr "Viedään Git URL"
 
 #: trans/models/subproject.py:110
 msgid "URL of Git repository where users can fetch changes from Weblate"
-msgstr ""
+msgstr "URL Git arkistoon, jossa käyttäjät voivat hakea muutoksia Weblatesta"
 
 #: trans/models/subproject.py:115
-#, fuzzy
 msgid "Source string bug report address"
-msgstr "Etsi lähdemerkkijonoista"
+msgstr "Merkkijono bugi raportin lähdeosoiteessa"
 
 #: trans/models/subproject.py:117
 msgid ""
@@ -1596,9 +1573,8 @@ msgid "Strings with suggestions"
 msgstr "Ehdotetut merkkijonot"
 
 #: trans/views/edit.py:56 weblate/html/list-translations.html:64
-#, fuzzy
 msgid "Strings with any failing checks"
-msgstr "Merkkijonojen ehdotukset (%d)"
+msgstr "Merkkijonoissa virheitä tarkastuksissa"
 
 #: trans/views/edit.py:66
 #, fuzzy, python-format
@@ -3073,9 +3049,8 @@ msgid "Translate"
 msgstr "Käännä"
 
 #: weblate/html/list-translations.html:63
-#, fuzzy
 msgid "Translated strings"
-msgstr "Kääntämättömät merkkijonot"
+msgstr "Käännetyt merkkijonot"
 
 #: weblate/html/profile.html:22
 msgid "Preferences"
