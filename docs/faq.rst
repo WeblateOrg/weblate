@@ -186,6 +186,21 @@ about used plural forms or text direction.
 You are free to define own language in administrative interface, you just need
 to provide information about it.
 
+Can Weblate highlight change in a fuzzy string?
+-----------------------------------------------
+
+Weblate supports this, however it needs the data to show the difference.
+
+For Gettext PO files, you have to pass parameter ``--previous`` to
+:command:`msgmerge` when updating PO files, for example:
+
+.. code-block:: sh
+
+    msgmerge --previous -U po/cs.po po/phpmyadmin.pot
+
+For monolingual translations, Weblate can find the previous string by ID, so it
+shows the differences automatically.
+
 Troubleshooting
 +++++++++++++++
 
