@@ -1,0 +1,40 @@
+#!/bin/bash -e
+#
+# This script is executed at the end of appliance creation.  Here you can do
+# one-time actions to modify your appliance before it is ever used, like
+# removing files and directories to make it smaller, creating symlinks,
+# generating indexes, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance (oem =
+# disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+. /studio/profile
+
+# read in KIWI utility functions
+. /.kconfig
+
+#======================================
+# Prune extraneous files
+#--------------------------------------
+# Remove all documentation
+docfiles=`find /usr/share/doc/packages -type f |grep -iv "copying\|license\|copyright"`
+rm -f $docfiles
+rm -rf /usr/share/info
+rm -rf /usr/share/man
+
+# Configure Apache
+sed -i 's/^\(APACHE_MODULES=".*\)"/\1 wsgi"/' /etc/sysconfig/apache2
+chkconfig -a apache2
+
+# Configure MySQL
+chkconfig -a mysql
+rcmysql start
+mysql -u root --execute="CREATE USER 'weblate'@'localhost' IDENTIFIED BY 'weblate'"
+mysql -u root --execute="GRANT ALL ON weblate.* TO 'weblate'@'localhost'"
+mysql -u root --execute="CREATE DATABASE `weblate` CHARACTER SET utf8;"
+rcmysql stop
+
+# Enable Weblate
+chkconfig -a weblate
