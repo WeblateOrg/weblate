@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-07-22 10:51+0200\n"
-"PO-Revision-Date: 2013-08-01 15:27+0200\n"
+"PO-Revision-Date: 2013-08-01 20:16+0200\n"
 "Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
 "Language: fi\n"
@@ -302,8 +302,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
 "that it is correct."
 msgstr ""
-"Lisätty isäntä avain %(isäntä)s sormenjäljellä %(sormenjälki)s, varmista "
-"että se on oikein."
+"Lisätty isäntä avain %(host)s sormenjäljellä %(fingerprint)s, varmista että "
+"se on oikein."
 
 #: trans/feeds.py:38 trans/feeds.py:76
 #, python-format
@@ -945,7 +945,7 @@ msgstr "Pakota sitoutuminen"
 
 #: trans/models/project.py:158
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Onko arkistoon vietävä alkupään toimitusikkunassa."
 
 #: trans/models/project.py:163
 msgid "Set Translation-Team header"
@@ -1055,129 +1055,132 @@ msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"Sähköpostiosoite, johon lähdemerkkijono virheet raportoidaan, pidä se "
+"tyhjänä sähköposteista."
 
 #: trans/models/subproject.py:123
-#, fuzzy
 #| msgid "Git branch to translate"
 msgid "Git branch"
-msgstr "Git haara käännettäväksi"
+msgstr "Git haara"
 
 #: trans/models/subproject.py:125
 msgid "Git branch to translate"
 msgstr "Git haara käännettäväksi"
 
 #: trans/models/subproject.py:129
-#, fuzzy
 msgid "File mask"
-msgstr "Tiedosto"
+msgstr "Tiedoston maski"
 
 #: trans/models/subproject.py:133
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Käännettävien tiedostojen polku, käytä * kielikoodina, esimerkiksi po/*.po "
-"tai locale/*/LC_MESSAGES/django.po"
+"Käännettävien tiedostojen polku, käytä * kielikoodina, esimerkiksi: po/*.po "
+"tai locale/*/LC_MESSAGES/django.po."
 
 #: trans/models/subproject.py:138
 msgid "Monolingual base language file"
-msgstr ""
+msgstr "Yksikielinen peruskieli tiedosto"
 
 #: trans/models/subproject.py:142
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
+"Käännöksien tiedostonimi base tiedosto, joka sisältää kaikki merkkijonot ja "
+"lähteen; Tämä on suositeltavaa käyttää yksikielisen käännöksen muodossa."
 
 #: trans/models/subproject.py:148
-#, fuzzy
 #| msgid "C format"
 msgid "File format"
-msgstr "C muoto"
+msgstr "Tiedostomuoto"
 
 #: trans/models/subproject.py:153
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
+"Automaattinen tunnistus saattaa epäonnistua tietyissä muodoissa ja on hieman "
+"hitaampi."
 
 #: trans/models/subproject.py:158
 msgid "Additional commit file"
-msgstr ""
+msgstr "Lisäksi commit tiedosto"
 
 #: trans/models/subproject.py:164
 msgid ""
 "Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
+"Ylimääräiseen tiedostoon sisältyy commits; tarkista ohjeesta lisätietoja."
 
 #: trans/models/subproject.py:169
 msgid "Pre-commit script"
-msgstr ""
+msgstr "Pre-commit merkkijono"
 
 #: trans/models/subproject.py:175
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
+"Merkkijono suoritetaan ennen sitoutumistaan käännökseen, katso lisätietoja "
+"ohjeesta."
 
 #: trans/models/subproject.py:181
 msgid "Locked"
-msgstr ""
+msgstr "Lukittu"
 
 #: trans/models/subproject.py:184
-#, fuzzy
 msgid "Whether subproject is locked for translation updates."
-msgstr "Automaattinen käännös"
+msgstr "Aliprojekti on lukittu käännös päivityksille."
 
 #: trans/models/subproject.py:188
-#, fuzzy
 msgid "Allow translation propagation"
-msgstr "Automaattinen käännös"
+msgstr "Sallii käännöksen lisäämisen"
 
 #: trans/models/subproject.py:191
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Käännös päivitykset muissa aliprojekteissa aiheuttaa automaattisen "
+"käännöksen tässä projektissa"
 
 #: trans/models/subproject.py:196
-#, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
-msgstr "Käännöksesi"
+msgstr "Tallenna käännös historia"
 
 #: trans/models/subproject.py:199
 msgid "Whether Weblate should keep history of translations"
-msgstr ""
+msgstr "Weblaten tulisi pitää käännös historia"
 
 #: trans/models/subproject.py:203
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Ehdotukset"
+msgstr "Äänestä ehdotusta"
 
 #: trans/models/subproject.py:206
-#, fuzzy
 #| msgid "There is %(count)s not translated string."
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "Whether users can vote for suggestions."
-msgstr "%(count)s kääntämätön merkkiketju."
+msgstr "Käyttäjät voivat äänestää ehdotuksia."
 
 #: trans/models/subproject.py:210
-#, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Autoaccept suggestions"
-msgstr "Sopimaton ehdotus!"
+msgstr "Automaattisesti hyväksyttyjä ehdotuksia"
 
 #: trans/models/subproject.py:213
 msgid "Automatically accept suggestions with this amount of votes."
-msgstr ""
+msgstr "Automaattisesti hyväksytyt ehdotukset saivat tämän määrän ääniä."
 
 #: trans/models/subproject.py:430
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Ei voitu varmistaa SSH isäntä avainta, voit lisätä ne SSH sivun admin "
+"käyttöliittymästä."
 
 #: trans/models/subproject.py:434
 #, python-format
@@ -1190,19 +1193,19 @@ msgid "Push is disabled for %s."
 msgstr "Lähetys ei ole mahdollista tekstille %s."
 
 #: trans/models/subproject.py:587
-#, python-format
+#, fuzzy, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "Failed to push to remote branch on %s."
 
 #: trans/models/subproject.py:623
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "Erähaaran liitääminen %s:n epäonnistui."
+msgstr "Erähaaran palauttaminen epäonnistui %s."
 
 #: trans/models/subproject.py:675
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Erähaaran liitääminen %s:n epäonnistui."
+msgstr "Erähaaran liitääminen epäonnistui %s."
 
 #: trans/models/subproject.py:678
 #, python-format
@@ -1215,27 +1218,26 @@ msgstr ""
 
 #: trans/models/subproject.py:803
 msgid "Export URL is not used when repository is linked!"
-msgstr ""
+msgstr "Viennin URL ei käytetä, kun arkisto on liitetty!"
 
 #: trans/models/subproject.py:813
 msgid "Template file not found!"
-msgstr ""
+msgstr "Mallitiedostoa ei löydy!"
 
 #: trans/models/subproject.py:819
-#, fuzzy
 #| msgid "Format of translation template could not be recognized."
 msgid "Format of translation base file could not be recognized."
-msgstr "Käännöspohjan muotoa ei voida tunnistaa."
+msgstr "Käännöspohjan tiedostomuotoa ei voida tunnistaa."
 
 #: trans/models/subproject.py:823
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template."
 msgid "Failed to parse translation base file: %s"
-msgstr "Käännöspohjan jäsennys epäonnistui."
+msgstr "Käännöspohjan tiedoston jäsennys epäonnistui: %s"
 
 #: trans/models/subproject.py:840
 msgid "File does not seem to be valid!"
-msgstr ""
+msgstr "Tiedosto ei näytä olevan voimassa!"
 
 #: trans/models/subproject.py:848
 #, python-format
@@ -1248,9 +1250,9 @@ msgid "Failed to parse %d matched files!"
 msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
 
 #: trans/models/subproject.py:874
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to update git: %s"
-msgstr "Lomakkeen käsittely epäonnistui!"
+msgstr "Git päivittäminen epäonnistui: %s"
 
 #: trans/models/subproject.py:882
 msgid "The mask did not match any files!"
@@ -1261,20 +1263,23 @@ msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
+"Lisää tiedostoja yhdellä kielellä, säädä maskia ja käytä aliprojektien "
+"kääntämiseen eri resursseja."
 
 #: trans/models/subproject.py:900 trans/models/subproject.py:906
-#, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You can not base file with bilingual translation!"
-msgstr "Sinulla ei ole oikeuksia tallentaa käännöstä!"
+msgstr "Sinulla ei ole perustiedostoa kaksikieliselle käännökselle!"
 
 #: trans/models/subproject.py:914
 msgid "You can not use monolingual translation without base file!"
-msgstr ""
+msgstr "Et voi käyttää yksikielistä käännöstä ilman perustiedostoa!"
 
 #: trans/models/subproject.py:920
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
+"Automaattisesti hyväksyttäviä ehdotuksia voidaan käsitellä vain, jos "
+"äänestys on käytössä!"
 
 #: trans/models/translation.py:185
 #, python-format
@@ -1282,35 +1287,37 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Tiedostonimi %s ei löydy arkistosta! Lisää uusi käännös lisäämällä "
+"kielitiedosto arkistoon."
 
 #: trans/models/translation.py:194
-#, fuzzy, python-format
+#, python-format
 msgid "Format of %s could not be recognized."
-msgstr "%d muotoisten tiedotojen muoto ei tunnisteta."
+msgstr "%s muotoisten tiedotojen muotoa ei tunnisteta."
 
 #: trans/models/translation.py:199
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
+msgstr "%(file)s: %(error)s täsmäävien tiedostojen jäsennys epäonnitui"
 
 #: trans/models/translation.py:232
-#, fuzzy, python-format
+#, python-format
 msgid "This translation is locked by %(user)s!"
-msgstr "Automaattinen käännös"
+msgstr "Tämän käännöksen on lukinnut %(user)s!"
 
 #: trans/models/translation.py:972 trans/models/translation.py:1005
 msgid "All strings"
 msgstr "Kaikki merkkijonot"
 
 #: trans/models/translation.py:979 trans/models/translation.py:1035
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with any failing checks (%d)"
-msgstr "Merkkijonojen ehdotukset (%d)"
+msgstr "Merkkijonoissa virheitä tarkistuksessa (%d)"
 
 #: trans/models/translation.py:996 trans/models/translation.py:1052
-#, fuzzy, python-format
+#, python-format
 msgid "Strings with comments (%d)"
-msgstr "Merkkijonojen ehdotukset (%d)"
+msgstr "Merkkijonojen kommentit (%d)"
 
 #: trans/models/translation.py:1012
 #, python-format
@@ -1333,7 +1340,7 @@ msgstr "Viesti jonka halusit kääntää ei ole enää olemassa!"
 
 #: trans/models/unit.py:609
 msgid "Failed to store message in the backend, lock timeout occurred!"
-msgstr ""
+msgstr "Ei voitu tallentaa viestiä backend, lukituksen aikakatkaisu!"
 
 #: trans/models/unit.py:621
 msgid "Message not found in backend storage, it is probably corrupted."
@@ -1342,55 +1349,54 @@ msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 #: trans/models/unit.py:768
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "yksikön ID %s"
 
 #: trans/templatetags/translations.py:65
 msgid "Tab character"
-msgstr ""
+msgstr "Sarkainmerkki"
 
 #: trans/templatetags/translations.py:136
-#, fuzzy
 msgid "New line"
-msgstr "Uusi kieli"
+msgstr "Uusi rivi"
 
 #: trans/templatetags/translations.py:277
-#, fuzzy, python-format
+#, python-format
 msgid "Avatar for %s"
-msgstr "Etsii \"%s\""
+msgstr "Avatar %s"
 
 #: trans/templatetags/translations.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "a year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] "tunti sitten"
-msgstr[1] "%(count)s tuntia sitten"
+msgstr[0] "vuosi sitten"
+msgstr[1] "%(count)s vuotta sitten"
 
 #: trans/templatetags/translations.py:321
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] "minuutti sitten"
-msgstr[1] "%(count)s minuuttia sitten"
+msgstr[0] "kuukausi sitten"
+msgstr[1] "%(count)s kuukautta sitten"
 
 #: trans/templatetags/translations.py:326
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] "sekunti sitten"
-msgstr[1] "%(count)s sekuntia sitten"
+msgstr[0] "viikko sitten"
+msgstr[1] "%(count)s viikkoa sitten"
 
 #: trans/templatetags/translations.py:330
 #, python-format
 msgid "yesterday"
 msgid_plural "%(count)s days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "eilen"
+msgstr[1] "%(count)s päivää sitten"
 
 #: trans/templatetags/translations.py:333
 #: trans/templatetags/translations.py:370
@@ -1419,38 +1425,38 @@ msgstr[0] "tunti sitten"
 msgstr[1] "%(count)s tuntia sitten"
 
 #: trans/templatetags/translations.py:353
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "a year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "tunnin kuluttua"
-msgstr[1] "%(count)s tunnin kuluttua"
+msgstr[0] "vuoden päästä"
+msgstr[1] "%(count)s vuoden päästä"
 
 #: trans/templatetags/translations.py:358
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "minuutin kuluttua"
-msgstr[1] "%(count)s minuutin kuluttua"
+msgstr[0] "kuukauden päästä"
+msgstr[1] "%(count)s kuukauden kuluttua"
 
 #: trans/templatetags/translations.py:363
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "sekunnin kuluttua"
-msgstr[1] "%(count)s sekunnin kuluttua"
+msgstr[0] "viikon päästä"
+msgstr[1] "%(count)s viikon kuluttua"
 
 #: trans/templatetags/translations.py:367
 #, python-format
 msgid "tomorrow"
 msgid_plural "%(count)s days from now"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "huomenna"
+msgstr[1] "%(count)s päivän kuluttua"
 
 #: trans/templatetags/translations.py:373
 #, python-format
@@ -1485,6 +1491,10 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
+"<a href=\"%(url)s\">Käännösprojekti %(project)s</a> tällä hetkellä sisältää %"
+"(total)s merkkijonot käännettäviksi ja on <a href=\"%(url)s\"> käännetty %"
+"(languages)s kielille</a>. Kaiken kaikkiaan nämä käännökset ovat %(percent)s"
+"%% valmiita."
 
 #: trans/views/basic.py:157
 #, python-format
@@ -1493,16 +1503,18 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
+"<a href=\"%(url)s\">Käännösprojekti %(project)s</a> Suomeksi tällä hetkellä "
+"sisältää %(total)s merkkijonoa käännettäviksi ja on %(percent)s%% valmis."
 
 #: trans/views/basic.py:253
-#, fuzzy, python-format
+#, python-format
 msgid "Review source strings in %s"
-msgstr "Etsi lähdemerkkijonoista"
+msgstr "Tarkastele lähdemerkkijonoista %s"
 
 #: trans/views/basic.py:272
-#, fuzzy, python-format
+#, python-format
 msgid "Source strings in %s"
-msgstr "Etsi lähdemerkkijonoista"
+msgstr "Lähdemerkkijonoista %s"
 
 #: trans/views/basic.py:335
 msgid "Page Not Found"
@@ -1514,17 +1526,15 @@ msgid "About Weblate"
 msgstr "Tietoa Weblatesta"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
-#, fuzzy
 #| msgid "Change word"
 msgid "Changes"
-msgstr "Vaihda sanaa"
+msgstr "Muutokset"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
 #: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:545
-#, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid search string!"
-msgstr "Sopimaton ehdotus!"
+msgstr "Virheellinen hakusana!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:261
@@ -1550,10 +1560,10 @@ msgid "Imported %d words from file."
 msgstr "Tuotavia %d sanoja tiedostosta."
 
 #: trans/views/dictionary.py:138
-#, fuzzy, python-format
+#, python-format
 #| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"
-msgstr "Tiedoston sisällön liittäminen epäonnistui: %s"
+msgstr "Tiedoston lataus epäonnistui: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
 #: trans/views/edit.py:657
@@ -1577,36 +1587,36 @@ msgid "Strings with any failing checks"
 msgstr "Merkkijonoissa virheitä tarkastuksissa"
 
 #: trans/views/edit.py:66
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
-msgstr "Etsii \"%s\""
+msgstr "Etsi koko tekstistä \"%s\""
 
 #: trans/views/edit.py:68
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search in context strings"
 msgid "Search for exact string \"%s\""
-msgstr "Etsi sisältömerkkijonoista"
+msgstr "Etsi tarkka merkkijono \"%s\""
 
 #: trans/views/edit.py:70
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Substring search for \"%s\""
-msgstr "Etsii \"%s\""
+msgstr "Alimerkkijonon etsiminen \"%s\""
 
 #: trans/views/edit.py:93
-#, fuzzy, python-format
+#, python-format
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "%d:n täsmäävien tiedostojen jäsennys epäonnitui!"
+msgstr "Virhe parametri %(field)s: %(error)s"
 
 #: trans/views/edit.py:135
-#, fuzzy, python-format
+#, python-format
 msgid "Review of translations since %s"
-msgstr "Etsi lähdemerkkijonoista"
+msgstr "Katsaus käännöksiä vuodesta %s"
 
 #: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
-msgstr ""
+msgstr "Mikään ei täsmännyt hakuusi!"
 
 #: trans/views/edit.py:233
 msgid "Your suggestion is empty!"
@@ -1628,9 +1638,8 @@ msgid "You don't have privileges to save translations!"
 msgstr "Sinulla ei ole oikeuksia tallentaa käännöstä!"
 
 #: trans/views/edit.py:270
-#, fuzzy
 msgid "Only suggestions are allowed in this translation!"
-msgstr "Automaattinen käännös"
+msgstr "Ainoastaan ehdotukset ovat sallittuja tähän käännökseen!"
 
 #: trans/views/edit.py:289
 #, python-format
@@ -1646,16 +1655,14 @@ msgid "Can not merge different messages!"
 msgstr "Et voi liittää toisia viestejä!"
 
 #: trans/views/edit.py:389
-#, fuzzy
 #| msgid "Can not merge different messages!"
 msgid "Can not revert to different unit!"
-msgstr "Et voi liittää toisia viestejä!"
+msgstr "Muuta yksikköä ei voi palauttaa!"
 
 #: trans/views/edit.py:394
-#, fuzzy
 #| msgid "Your translations"
 msgid "Can not revert to empty translation!"
-msgstr "Käännöksesi"
+msgstr "Ei voi palata tyhjä käännös!"
 
 #: trans/views/edit.py:412
 msgid "You need to log in to be able to manage suggestions!"
@@ -1670,10 +1677,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Sinulla ei ole oikeuksia poistaa ehdotuksia!"
 
 #: trans/views/edit.py:450 trans/views/edit.py:458
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Sinulla ei ole oikeuksia poistaa ehdotuksia!"
+msgstr "Sinulla ei ole oikeutta äänestää ehdotuksia!"
 
 #: trans/views/edit.py:464
 msgid "Invalid suggestion!"
@@ -1692,9 +1698,8 @@ msgid "Posted new comment"
 msgstr ""
 
 #: trans/views/edit.py:685
-#, fuzzy
 msgid "Failed to add comment!"
-msgstr "Lomakkeen käsittely epäonnistui!"
+msgstr "Kommentin lisääminen epäonnistui!"
 
 #: trans/views/files.py:81
 msgid "Access denied."
@@ -1705,22 +1710,28 @@ msgid "Please fix errors in the form."
 msgstr "Ole hyvä ja korjaa virheet lomakkeessa."
 
 #: trans/views/files.py:128
-#, fuzzy, python-format
+#, python-format
 #| msgid "File content successfully merged into translation."
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
-msgstr[0] "Tiedoston sisältö on liitetty onnistuneesti käännökseen."
-msgstr[1] "Tiedoston sisältö on liitetty onnistuneesti käännökseen."
+msgstr[0] ""
+"Tiedoston sisältö on liitetty onnistuneesti käännökseen, prosessoitu %d "
+"merkkijono."
+msgstr[1] ""
+"Tiedoston sisältö on liitetty onnistuneesti käännökseen, prosessoitu %d "
+"merkkijonoa."
 
 #: trans/views/files.py:139
-#, fuzzy, python-format
+#, python-format
 #| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
-msgstr[0] "Ladatussa tiedostossa ei ole uusia merkkijonoja."
-msgstr[1] "Ladatussa tiedostossa ei ole uusia merkkijonoja."
+msgstr[0] ""
+"Ladatussa tiedostossa ei ole uusia merkkijonoja, prosessoitu %d merkkijono."
+msgstr[1] ""
+"Ladatussa tiedostossa ei ole uusia merkkijonoja, prosessoitu %d merkkijonoa."
 
 #: trans/views/files.py:149
 #, python-format
@@ -1740,18 +1751,16 @@ msgid "All repositories were pushed."
 msgstr "Kaikki tietolähteet on lähtetty."
 
 #: trans/views/git.py:133 trans/views/git.py:144 trans/views/git.py:155
-#, fuzzy
 msgid "All repositories have been reset."
-msgstr "Kaikki tietolähteet on lähtetty."
+msgstr "Kaikki arkistot on palautettu."
 
 #: trans/views/lock.py:36
 msgid "Translation is now locked for you."
 msgstr ""
 
 #: trans/views/lock.py:60
-#, fuzzy
 msgid "Translation is now open for translation updates."
-msgstr "Automaattinen käännös"
+msgstr "Käännös on nyt avoinna päivityksille."
 
 #: trans/views/lock.py:78
 msgid "Subproject is now locked for translation updates!"
