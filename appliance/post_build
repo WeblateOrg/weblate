@@ -32,7 +32,7 @@ chkconfig -a apache2
 chkconfig -a mysql
 
 # Start MySQL for setup
-rcsyslog start
+/sbin/rsyslogd -c 5 -f /etc/rsyslog.conf
 rcmysql start
 
 # Configure MySQL
@@ -47,4 +47,4 @@ su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py createadmin'
 
 # Stop MySQL
 rcmysql stop
-rcsyslog stop
+
