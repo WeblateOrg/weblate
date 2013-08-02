@@ -222,7 +222,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'trans.context_processors.registration',
 )
 
-if DEBUG:
+# Default logging of Weblate messages
+# - to syslog in production (if available)
+# - otherwise to console
+
+if DEBUG or not os.path.exists('/dev/log'):
     DEFAULT_LOG = 'console'
 else:
     DEFAULT_LOG = 'syslog'
