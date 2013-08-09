@@ -6,6 +6,8 @@ weblate 1.7
 
 Released on ? 2013.
 
+* Support for checking Python brace format string.
+
 weblate 1.6
 -----------
 
