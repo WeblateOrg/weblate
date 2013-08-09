@@ -337,6 +337,15 @@ Python format string does not match source.
 
 .. seealso:: http://docs.python.org/2.7/library/stdtypes.html#string-formatting
 
+.. _check-python-brace-format:
+
+Python brace format
+~~~~~~~~~~~~~~~~~~~
+
+Python brace format string does not match source.
+
+.. seealso:: http://docs.python.org/3.3/library/string.html#string-formatting
+
 .. _check-php-format:
 
 PHP format

@@ -65,6 +65,39 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE
 )
 
+PYTHON_BRACE_MATCH = re.compile(
+    '''
+    {(                                  # initial {
+        |                               # blank for position based
+        (?P<field>
+            [0-9]+|                     # numerical
+            [_A-Za-z][_0-9A-Za-z]*      # identifier
+        )
+        (?P<attr>
+            \.[_A-Za-z][_0-9A-Za-z]*    # attribute identifier
+            |\[[^]]+\]                  # index identifier
+
+        )*
+        (?P<conversion>
+            ![rsa]
+        )?
+        (?P<format_spec>
+            :
+            .?                          # fill
+            [<>=^]?                     # align
+            [+ -]?                      # sign
+            [#]?                        # alternate
+            0?                          # 0 prefix
+            (?:[1-9][0-9]*)?            # width
+            ,?                          # , separator
+            (?:\.[1-9][0-9]*)?          # precision
+            [bcdeEfFgGnosxX%]?          # type
+        )?
+    )}                          # trailing }
+    ''',
+    re.VERBOSE
+)
+
 
 class BaseFormatCheck(TargetCheck):
     '''
@@ -222,3 +255,17 @@ class CFormatCheck(BaseFormatCheck):
     description = _('Format string does not match source')
     flag = 'c-format'
     regexp = C_PRINTF_MATCH
+
+
+class PythonBraceFormatCheck(BaseFormatCheck):
+    '''
+    Check for Python format string
+    '''
+    check_id = 'python_brace_format'
+    name = _('Python brace format')
+    description = _('Format string does not match source')
+    flag = 'python-brace-format'
+    regexp = PYTHON_BRACE_MATCH
+
+    def is_position_based(self, string):
+        return string == ''

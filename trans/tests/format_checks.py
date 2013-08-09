@@ -22,9 +22,9 @@
 Tests for quality checks.
 """
 
-from django.test import TestCase
+from unittest import TestCase
 from trans.checks.format import (
-    PythonFormatCheck, PHPFormatCheck, CFormatCheck,
+    PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
 )
 from trans.tests.checks import MockUnit
 
@@ -327,6 +327,110 @@ class CFormatCheckTest(TestCase):
             u'%10s string',
             u'%20s string',
             MockUnit('c_wrong_named_format'),
+            0,
+            False
+        ))
+
+
+class PythonBraceFormatCheckTest(TestCase):
+    def setUp(self):
+        self.check = PythonBraceFormatCheck()
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format(
+            'strins',
+            'string',
+            MockUnit('python_brace_no_format'),
+            0,
+            False
+        ))
+
+    def test_position_format(self):
+        self.assertFalse(self.check.check_format(
+            u'{} string {}',
+            u'{} string {}',
+            MockUnit('python_brace_position_format'),
+            0,
+            False
+        ))
+
+    def test_wrong_position_format(self):
+        self.assertTrue(self.check.check_format(
+            u'{} string',
+            u'{} string {}',
+            MockUnit('python_brace_wrong_position_format'),
+            0,
+            False
+        ))
+
+    def test_named_format(self):
+        self.assertFalse(self.check.check_format(
+            u'{s1} string {s2}',
+            u'{s1} string {s2}',
+            MockUnit('python_brace_named_format'),
+            0,
+            False
+        ))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format(
+            u'{} string',
+            u'string',
+            MockUnit('python_brace_missing_format'),
+            0,
+            False
+        ))
+
+    def test_missing_named_format(self):
+        self.assertTrue(self.check.check_format(
+            u'{s1} string',
+            u'string',
+            MockUnit('python_brace_missing_named_format'),
+            0,
+            False
+        ))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format(
+            u'{s} string',
+            u'string',
+            MockUnit('python_brace_missing_named_format'),
+            0,
+            True
+        ))
+
+    def test_wrong_format(self):
+        self.assertTrue(self.check.check_format(
+            u'{s} string',
+            u'{c} string',
+            MockUnit('python_brace_wrong_format'),
+            0,
+            False
+        ))
+
+    def test_escaping(self):
+        self.assertFalse(self.check.check_format(
+            u'{{ string }}',
+            u'string',
+            MockUnit('python_brace_escaping'),
+            0,
+            False
+        ))
+
+    def test_attribute_format(self):
+        self.assertFalse(self.check.check_format(
+            u'{s.foo} string',
+            u'{s.foo} string',
+            MockUnit('python_brace_attribute_format'),
+            0,
+            False
+        ))
+
+    def test_wrong_attribute_format(self):
+        self.assertTrue(self.check.check_format(
+            u'{s.foo} string',
+            u'{s.bar} string',
+            MockUnit('python_brace_wrong_attribute_format'),
             0,
             False
         ))

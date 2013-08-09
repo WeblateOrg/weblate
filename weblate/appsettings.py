@@ -105,6 +105,7 @@ CHECK_LIST = get('CHECK_LIST', (
     'trans.checks.chars.EndExclamationCheck',
     'trans.checks.chars.EndEllipsisCheck',
     'trans.checks.format.PythonFormatCheck',
+    'trans.checks.format.PythonBraceFormatCheck',
     'trans.checks.format.PHPFormatCheck',
     'trans.checks.format.CFormatCheck',
     'trans.checks.consistency.PluralsCheck',
