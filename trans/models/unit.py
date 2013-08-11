@@ -957,7 +957,7 @@ class Unit(models.Model):
         Returns union of own and subproject flags.
         '''
         if self._all_flags is None:
-            self._all_flags =  set(
+            self._all_flags = set(
                 self.flags.split(',')
                 + self.translation.subproject.all_flags
             )
