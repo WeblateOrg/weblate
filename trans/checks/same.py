@@ -21,7 +21,8 @@
 from django.utils.translation import ugettext_lazy as _
 from trans.checks.base import TargetCheck
 from trans.checks.format import (
-    PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH
+    PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH,
+    PYTHON_BRACE_MATCH,
 )
 from django.core.validators import email_re
 import re
@@ -503,6 +504,8 @@ class SameCheck(TargetCheck):
         '''
         if 'python-format' in flags:
             regex = PYTHON_PRINTF_MATCH
+        elif 'python-brace-format' in flags:
+            regex = PYTHON_BRACE_MATCH
         elif 'php-format' in flags:
             regex = PHP_PRINTF_MATCH
         elif 'c-format' in flags:
