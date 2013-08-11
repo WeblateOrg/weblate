@@ -32,10 +32,18 @@ class Check(object):
     target = False
     source = False
 
+    def __init__(self):
+        id_dash = self.check_id.replace('_', '-')
+        self.doc_id = 'check-%s' % id_dash
+        self.ignore_string = 'ignore-%s' % id_dash
+
     def check(self, sources, targets, unit):
         '''
         Checks single unit, handling plurals.
         '''
+        # Is this check ignored
+        if self.ignore_string in unit.all_flags:
+            return False
         # Check singular
         if self.check_single(sources[0], targets[0], unit, 0):
             return True
@@ -86,10 +94,7 @@ class Check(object):
         '''
         Returns link to documentation.
         '''
-        return weblate.get_doc_url(
-            'usage',
-            'check-%s' % self.check_id.replace('_', '-')
-        )
+        return weblate.get_doc_url('usage', self.doc_id)
 
     def get_cache_key(self, unit, cache_slot=0):
         '''

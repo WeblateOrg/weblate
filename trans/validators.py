@@ -20,6 +20,10 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
+VALID_FLAGS = (
+    'rst-text',
+)
+
 
 def validate_repoweb(val):
     '''
@@ -94,3 +98,12 @@ def validate_autoaccept(val):
             'Value of 1 is not allowed for autoaccept as '
             'every user gives vote to his suggestion.'
         ))
+
+
+def validate_check_flags(val):
+    '''
+    Validates check influencing flags.
+    '''
+    for flag in val.split(','):
+        if flag not in VALID_FLAGS:
+            raise ValidationError(_('Invalid check flag: "%s"') % flag)

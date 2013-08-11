@@ -21,7 +21,8 @@
 from django.utils.translation import ugettext_lazy as _
 from trans.checks.base import TargetCheck
 from trans.checks.format import (
-    PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH
+    PYTHON_PRINTF_MATCH, PHP_PRINTF_MATCH, C_PRINTF_MATCH,
+    PYTHON_BRACE_MATCH,
 )
 from django.core.validators import email_re
 import re
@@ -484,6 +485,8 @@ PATH_RE = re.compile(r'(/[a-zA-Z0-9=:?._-]+)+')
 
 TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
 
+RST_MATCH = re.compile(r':ref:`[^`]+`')
+
 
 class SameCheck(TargetCheck):
     '''
@@ -501,10 +504,14 @@ class SameCheck(TargetCheck):
         '''
         if 'python-format' in flags:
             regex = PYTHON_PRINTF_MATCH
+        elif 'python-brace-format' in flags:
+            regex = PYTHON_BRACE_MATCH
         elif 'php-format' in flags:
             regex = PHP_PRINTF_MATCH
         elif 'c-format' in flags:
             regex = C_PRINTF_MATCH
+        elif 'rst-text' in flags:
+            regex = RST_MATCH
         else:
             return msg
         stripped = regex.sub('', msg)
@@ -595,7 +602,7 @@ class SameCheck(TargetCheck):
             result = True
         else:
             # Strip format strings
-            stripped = self.strip_string(lower_source, unit.flags.split(', '))
+            stripped = self.strip_string(lower_source, unit.all_flags)
 
             # Ignore strings which don't contain any string to translate
             # or just single letter (usually unit or something like that)

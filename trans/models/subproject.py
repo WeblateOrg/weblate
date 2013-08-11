@@ -38,6 +38,7 @@ from trans.util import sleep_while_git_locked
 from trans.validators import (
     validate_repoweb, validate_filemask, validate_repo,
     validate_extra_file, validate_autoaccept,
+    validate_check_flags,
 )
 from weblate.appsettings import SCRIPT_CHOICES
 
@@ -215,6 +216,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
         validators=[validate_autoaccept],
     )
+    check_flags = models.TextField(
+        verbose_name=ugettext_lazy('Quality checks flags'),
+        default='',
+        help_text=ugettext_lazy(
+            'Additional comma separate flags to influence quality checks, '
+            'check documentation for possible values.'
+        ),
+        validators=[validate_check_flags],
+    )
 
     objects = SubProjectManager()
 
@@ -239,6 +249,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._file_format = None
         self._template_store = None
         self._percents = None
+        self._all_flags = None
 
     def has_acl(self, user):
         '''
@@ -1062,3 +1073,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return change[0].timestamp
         except IndexError:
             return None
+
+    @property
+    def all_flags(self):
+        '''
+        Returns parsed list of flags.
+        '''
+        if self._all_flags is None:
+            self._all_flags = self.check_flags.split(',')
+        return self._all_flags

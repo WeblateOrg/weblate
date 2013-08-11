@@ -21,12 +21,10 @@
 from django.db import models
 from weblate import appsettings
 from django.db.models import Q
-from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.core.cache import cache
-from whoosh import qparser
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
@@ -335,6 +333,13 @@ class Unit(models.Model):
         )
         ordering = ['position']
         app_label = 'trans'
+
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Unit, self).__init__(*args, **kwargs)
+        self._all_flags = None
 
     def has_acl(self, user):
         '''
@@ -945,3 +950,15 @@ class Unit(models.Model):
         saved = self.save_backend(request)
 
         return saved, fixups
+
+    @property
+    def all_flags(self):
+        '''
+        Returns union of own and subproject flags.
+        '''
+        if self._all_flags is None:
+            self._all_flags =  set(
+                self.flags.split(',')
+                + self.translation.subproject.all_flags
+            )
+        return self._all_flags
