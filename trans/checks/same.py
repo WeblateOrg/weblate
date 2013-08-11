@@ -595,7 +595,7 @@ class SameCheck(TargetCheck):
             result = True
         else:
             # Strip format strings
-            stripped = self.strip_string(lower_source, unit.flags.split(', '))
+            stripped = self.strip_string(lower_source, unit.get_all_flags())
 
             # Ignore strings which don't contain any string to translate
             # or just single letter (usually unit or something like that)
