@@ -72,6 +72,9 @@ class MockUnit(object):
         self.flags = flags
         self.translation = MockTranslation(code)
 
+    def get_all_flags(self):
+        return self.flags.split(',')
+
 
 class CheckTestCase(TestCase):
     '''
