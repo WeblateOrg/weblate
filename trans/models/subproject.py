@@ -224,6 +224,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'check documentation for possible values.'
         ),
         validators=[validate_check_flags],
+        blank=True,
     )
 
     objects = SubProjectManager()
