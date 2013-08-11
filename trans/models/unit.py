@@ -945,3 +945,12 @@ class Unit(models.Model):
         saved = self.save_backend(request)
 
         return saved, fixups
+
+    def get_all_flags(self):
+        '''
+        Returns union of own and subproject flags.
+        '''
+        return set(
+            self.flags.split(',')
+            + self.translation.subproject.flags.split(',')
+        )
