@@ -22,14 +22,11 @@
 Whoosh based full text search.
 '''
 
-import whoosh
-import os
 from whoosh.fields import Schema, TEXT, ID
 from whoosh.filedb.filestore import FileStorage
 from whoosh import qparser
 from django.db.models.signals import post_syncdb
 from weblate import appsettings
-from whoosh.index import create_in, open_dir
 from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
 from lang.models import Language
@@ -114,7 +111,6 @@ def update_index(units, source_units=None):
     '''
     Updates fulltext index for given set of units.
     '''
-    from trans.models import Unit
     languages = Language.objects.all()
 
     # Default to same set for both updates
