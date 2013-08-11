@@ -21,12 +21,10 @@
 from django.db import models
 from weblate import appsettings
 from django.db.models import Q
-from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.core.cache import cache
-from whoosh import qparser
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
@@ -952,5 +950,5 @@ class Unit(models.Model):
         '''
         return set(
             self.flags.split(',')
-            + self.translation.subproject.flags.split(',')
+            + self.translation.subproject.check_flags.split(',')
         )
