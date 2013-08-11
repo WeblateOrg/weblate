@@ -249,6 +249,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._file_format = None
         self._template_store = None
         self._percents = None
+        self._all_flags = None
 
     def has_acl(self, user):
         '''
@@ -1072,3 +1073,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return change[0].timestamp
         except IndexError:
             return None
+
+    @property
+    def all_flags(self):
+        '''
+        Returns parsed list of flags.
+        '''
+        if self._all_flags is None:
+            self._all_flags = self.check_flags.split(',')
+        return self._all_flags

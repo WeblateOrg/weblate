@@ -334,6 +334,13 @@ class Unit(models.Model):
         ordering = ['position']
         app_label = 'trans'
 
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Unit, self).__init__(*args, **kwargs)
+        self._all_flags = None
+
     def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
@@ -944,11 +951,14 @@ class Unit(models.Model):
 
         return saved, fixups
 
-    def get_all_flags(self):
+    @property
+    def all_flags(self):
         '''
         Returns union of own and subproject flags.
         '''
-        return set(
-            self.flags.split(',')
-            + self.translation.subproject.check_flags.split(',')
-        )
+        if self._all_flags is None:
+            self._all_flags =  set(
+                self.flags.split(',')
+                + self.translation.subproject.all_flags
+            )
+        return self._all_flags
