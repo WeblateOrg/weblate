@@ -165,6 +165,24 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+    def test_same_rst(self):
+        self.do_test(
+            False,
+            (
+                ':ref:`index`',
+                ':ref:`index`',
+                'rst-text',
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'See :ref:`index`',
+                'See :ref:`index`',
+                'rst-text',
+            )
+        )
+
     def test_same_email(self):
         self.do_test(
             False,
