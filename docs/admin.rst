@@ -775,6 +775,9 @@ current list of flags accepted:
 ``ignore-*``
     Ignores given check for a subproject.
 
+These flags are understood both in :ref:`subproject` settings and in
+translation file itself (eg. in GNU Gettext).
+
 Writing own checks
 ++++++++++++++++++
 
