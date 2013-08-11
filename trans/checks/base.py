@@ -41,6 +41,9 @@ class Check(object):
         '''
         Checks single unit, handling plurals.
         '''
+        # Is this check ignored
+        if self.ignore_string in unit.all_flags:
+            return False
         # Check singular
         if self.check_single(sources[0], targets[0], unit, 0):
             return True

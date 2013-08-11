@@ -772,6 +772,8 @@ current list of flags accepted:
     Treats all string like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`, 
     :ref:`check-python-brace-format`, :ref:`check-same`.
+``ignore-*``
+    Ignores given check for a subproject.
 
 Writing own checks
 ++++++++++++++++++

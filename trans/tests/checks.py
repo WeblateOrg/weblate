@@ -90,6 +90,7 @@ class CheckTestCase(TestCase):
         self.test_failure_1 = None
         self.test_failure_2 = None
         self.test_failure_3 = None
+        self.test_ignore_check = ('x', 'x', self.check.ignore_string)
 
     def do_test(self, expected, data, lang='cs'):
         '''
@@ -172,5 +173,14 @@ class CheckTestCase(TestCase):
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
                 MockUnit(None, self.test_failure_1[2])
+            )
+        )
+
+    def test_check_ignore_check(self):
+        self.assertFalse(
+            self.check.check(
+                [self.test_ignore_check[0]] * 2,
+                [self.test_ignore_check[1]] * 3,
+                MockUnit(None, self.test_ignore_check[2])
             )
         )
