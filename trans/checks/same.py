@@ -382,6 +382,8 @@ SAME_BLACKLIST = frozenset((
     'type',
     'twiki',
     'ubuntu',
+    'update',
+    'upload',
     'ukolovnik',
     'unicode',
     'unique',
