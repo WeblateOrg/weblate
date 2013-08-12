@@ -31,14 +31,14 @@ from trans.util import get_user_display
 
 class RelatedUnitMixin(object):
     '''
-    Mixin to provide access to related units for checksum referenced objects.
+    Mixin to provide access to related units for contentsum referenced objects.
     '''
     def get_related_units(self):
         '''
         Returns queryset with related units.
         '''
         related_units = Unit.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             translation__subproject__project=self.project,
         )
         if self.language is not None:
@@ -63,7 +63,7 @@ class SuggestionManager(models.Manager):
         # Create the suggestion
         suggestion = Suggestion.objects.create(
             target=target,
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             language=unit.translation.language,
             project=unit.translation.subproject.project,
             user=user
@@ -124,7 +124,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
     def accept(self, translation, request):
         allunits = translation.unit_set.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
         )
         for unit in allunits:
             unit.target = self.target
@@ -220,7 +220,7 @@ class CommentManager(models.Manager):
 
         new_comment = Comment.objects.create(
             user=user,
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             project=unit.translation.subproject.project,
             comment=text,
             language=lang

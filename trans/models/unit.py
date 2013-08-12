@@ -108,8 +108,8 @@ class UnitManager(models.Manager):
         if not rqtype in ['allchecks', 'sourcechecks']:
             checks = checks.filter(check=rqtype)
 
-        checks = checks.values_list('checksum', flat=True)
-        ret = self.filter(checksum__in=checks)
+        checks = checks.values_list('contentsum', flat=True)
+        ret = self.filter(contentsum__in=checks)
         if filter_translated:
             ret = ret.filter(translated=True)
         return ret
@@ -131,8 +131,8 @@ class UnitManager(models.Manager):
                 language=None,
                 project=translation.subproject.project
             )
-            coms = coms.values_list('checksum', flat=True)
-            return self.filter(checksum__in=coms)
+            coms = coms.values_list('contentsum', flat=True)
+            return self.filter(contentsum__in=coms)
         elif rqtype == 'targetcomments':
             return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
@@ -687,7 +687,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Suggestion
         return Suggestion.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language
         )
@@ -700,7 +700,7 @@ class Unit(models.Model):
         if len(source) == 0 and len(target) == 0:
             return False
         todelete = Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project
         ).filter(
             (Q(language=self.translation.language) & Q(check__in=target)) |
@@ -717,7 +717,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language
         )
@@ -728,7 +728,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=None
         )
@@ -739,7 +739,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language,
             ignore=False
@@ -751,7 +751,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=None,
             ignore=False
@@ -763,7 +763,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Comment
         return Comment.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language,
         )
@@ -774,7 +774,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Comment
         return Comment.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=None,
         )
@@ -796,7 +796,7 @@ class Unit(models.Model):
             same_source = Unit.objects.filter(
                 translation__language=self.translation.language,
                 translation__subproject__project=project,
-                checksum=self.checksum,
+                contentsum=self.contentsum,
                 translated=True,
             ).exclude(
                 id=self.id,
@@ -836,7 +836,7 @@ class Unit(models.Model):
                 else:
                     # Create new check
                     Check.objects.create(
-                        checksum=self.checksum,
+                        contentsum=self.contentsum,
                         project=self.translation.subproject.project,
                         language=self.translation.language,
                         ignore=False,
@@ -851,7 +851,7 @@ class Unit(models.Model):
                 else:
                     # Create new check
                     Check.objects.create(
-                        checksum=self.checksum,
+                        contentsum=self.contentsum,
                         project=self.translation.subproject.project,
                         language=None,
                         ignore=False,
