@@ -101,6 +101,7 @@ class SuggestionManager(models.Manager):
 
 class Suggestion(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
@@ -253,6 +254,7 @@ class CommentManager(models.Manager):
 
 class Comment(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
@@ -279,6 +281,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 class Check(models.Model, RelatedUnitMixin):
     checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
