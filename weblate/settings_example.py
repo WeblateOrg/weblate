@@ -99,10 +99,12 @@ LANGUAGES = (
     ('pt', u'Português'),
     ('pt_BR', u'Português brasileiro'),
     ('ru', u'русский'),
+    ('sk', u'Slovenčina'),
     ('sl', u'Slovenščina'),
     ('sv', u'Svenska'),
     ('tr', u'Türkçe'),
-    ('zh_CN', u'中文'),
+    ('zh_CN', u'简体字'),
+    ('zh_TW', u'正體字'),
 )
 
 SITE_ID = 1
