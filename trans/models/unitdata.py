@@ -31,14 +31,14 @@ from trans.util import get_user_display
 
 class RelatedUnitMixin(object):
     '''
-    Mixin to provide access to related units for checksum referenced objects.
+    Mixin to provide access to related units for contentsum referenced objects.
     '''
     def get_related_units(self):
         '''
         Returns queryset with related units.
         '''
         related_units = Unit.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             translation__subproject__project=self.project,
         )
         if self.language is not None:
@@ -63,7 +63,7 @@ class SuggestionManager(models.Manager):
         # Create the suggestion
         suggestion = Suggestion.objects.create(
             target=target,
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             language=unit.translation.language,
             project=unit.translation.subproject.project,
             user=user
@@ -100,7 +100,7 @@ class SuggestionManager(models.Manager):
 
 
 class Suggestion(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
@@ -124,7 +124,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
     def accept(self, translation, request):
         allunits = translation.unit_set.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
         )
         for unit in allunits:
             unit.target = self.target
@@ -220,7 +220,7 @@ class CommentManager(models.Manager):
 
         new_comment = Comment.objects.create(
             user=user,
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             project=unit.translation.subproject.project,
             comment=text,
             language=lang
@@ -252,7 +252,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
@@ -278,7 +278,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
 class Check(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
@@ -289,7 +289,7 @@ class Check(models.Model, RelatedUnitMixin):
             ('ignore_check', "Can ignore check results"),
         )
         app_label = 'trans'
-        unique_together = ('checksum', 'project', 'language', 'check')
+        unique_together = ('contentsum', 'project', 'language', 'check')
 
     def __unicode__(self):
         return '%s/%s: %s' % (
