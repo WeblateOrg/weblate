@@ -350,7 +350,7 @@ class NotificationTest(ViewTestCase):
         notify_new_suggestion(
             unit,
             Suggestion.objects.create(
-                checksum=unit.checksum,
+                contentsum=unit.contentsum,
                 project=unit.translation.subproject.project,
                 language=unit.translation.language,
                 target='Foo'
@@ -370,7 +370,7 @@ class NotificationTest(ViewTestCase):
         notify_new_comment(
             unit,
             Comment.objects.create(
-                checksum=unit.checksum,
+                contentsum=unit.contentsum,
                 project=unit.translation.subproject.project,
                 language=unit.translation.language,
                 comment='Foo'
@@ -391,7 +391,7 @@ class NotificationTest(ViewTestCase):
         notify_new_comment(
             unit,
             Comment.objects.create(
-                checksum=unit.checksum,
+                contentsum=unit.contentsum,
                 project=unit.translation.subproject.project,
                 language=None,
                 comment='Foo'
