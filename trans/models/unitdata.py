@@ -100,7 +100,6 @@ class SuggestionManager(models.Manager):
 
 
 class Suggestion(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
     contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -253,7 +252,6 @@ class CommentManager(models.Manager):
 
 
 class Comment(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
     contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -280,7 +278,6 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
 class Check(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
     contentsum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
@@ -292,7 +289,7 @@ class Check(models.Model, RelatedUnitMixin):
             ('ignore_check', "Can ignore check results"),
         )
         app_label = 'trans'
-        unique_together = ('checksum', 'project', 'language', 'check')
+        unique_together = ('contentsum', 'project', 'language', 'check')
 
     def __unicode__(self):
         return '%s/%s: %s' % (
