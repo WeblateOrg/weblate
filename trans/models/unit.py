@@ -308,6 +308,7 @@ class UnitManager(models.Manager):
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
     comment = models.TextField(default='', blank=True)
