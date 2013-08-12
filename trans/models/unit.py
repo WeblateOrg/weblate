@@ -308,6 +308,7 @@ class UnitManager(models.Manager):
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
     comment = models.TextField(default='', blank=True)
@@ -378,6 +379,7 @@ class Unit(models.Model):
         fuzzy = unit.is_fuzzy()
         translated = unit.is_translated()
         previous_source = unit.get_previous_source()
+        contentsum = unit.get_contentsum()
 
         # Monolingual files handling
         if unit.template is not None:
@@ -411,6 +413,7 @@ class Unit(models.Model):
                 translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
+                contentsum == self.contentsum and
                 previous_source == self.previous_source):
             return
 
@@ -423,6 +426,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
+        self.contentsum = contentsum
         self.previous_source = previous_source
         self.save(
             force_insert=created,
