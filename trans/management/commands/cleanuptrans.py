@@ -32,17 +32,17 @@ class Command(BaseCommand):
         '''
         for prj in Project.objects.all():
 
-            # List all current unit checksums
+            # List all current unit contentsums
             units = Unit.objects.filter(
                 translation__subproject__project=prj
-            ).values('checksum').distinct()
+            ).values('contentsum').distinct()
 
             # Remove source comments referring to deleted units
             Comment.objects.filter(
                 language=None,
                 project=prj
             ).exclude(
-                checksum__in=units
+                contentsum__in=units
             ).delete()
 
             # Remove source checks referring to deleted units
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 language=None,
                 project=prj
             ).exclude(
-                checksum__in=units
+                contentsum__in=units
             ).delete()
 
             for lang in Language.objects.all():
@@ -60,25 +60,25 @@ class Command(BaseCommand):
                     translation__language=lang,
                     translated=True,
                     translation__subproject__project=prj
-                ).values('checksum').distinct()
+                ).values('contentsum').distinct()
                 Check.objects.filter(
                     language=lang, project=prj
                 ).exclude(
-                    checksum__in=translatedunits
+                    contentsum__in=translatedunits
                 ).delete()
 
-                # List current unit checksums
+                # List current unit contentsums
                 units = Unit.objects.filter(
                     translation__language=lang,
                     translation__subproject__project=prj
-                ).values('checksum').distinct()
+                ).values('contentsum').distinct()
 
                 # Remove suggestions referring to deleted units
                 Suggestion.objects.filter(
                     language=lang,
                     project=prj
                 ).exclude(
-                    checksum__in=units
+                    contentsum__in=units
                 ).delete()
 
                 # Remove translation comments referring to deleted units
@@ -86,7 +86,7 @@ class Command(BaseCommand):
                     language=lang,
                     project=prj
                 ).exclude(
-                    checksum__in=units
+                    contentsum__in=units
                 ).delete()
 
                 # Process suggestions
@@ -97,7 +97,7 @@ class Command(BaseCommand):
                 for sug in all_suggestions.iterator():
                     # Remove suggestions with same text as real translation
                     units = Unit.objects.filter(
-                        checksum=sug.checksum,
+                        contentsum=sug.contentsum,
                         translation__language=lang,
                         translation__subproject__project=prj,
                         target=sug.target
@@ -107,7 +107,7 @@ class Command(BaseCommand):
 
                     # Remove duplicate suggestions
                     sugs = Suggestion.objects.filter(
-                        checksum=sug.checksum,
+                        contentsum=sug.contentsum,
                         language=lang,
                         project=prj,
                         target=sug.target
