@@ -6,9 +6,11 @@ weblate 1.7
 
 Released on ? 2013.
 
+* Please check manual for upgrade instructions.
 * Support for checking Python brace format string.
 * Per subproject customization of quality checks.
 * Detailed per translation stats.
+* Changed way of linking suggestions, checks and comments to units.
 
 weblate 1.6
 -----------

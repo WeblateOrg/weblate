@@ -639,6 +639,15 @@ recommended to put your site offline, while the migration is going on.
     all of them in Weblate's directory, for example by 
     ``find . -name '*.pyc' - delete``.
 
+Upgrade from 1.6 to 1.7
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The migration of database structure to 1.7 might take quite long, it is
+recommended to put your site offline, while the migration is going on.
+
+If you are translating monolingual files, it is recommended to rerun quality
+checks as they might have been wrongly linked to units in previous versions.
+
 .. _pootle-migration:
 
 Migrating from Pootle
