@@ -409,7 +409,10 @@ def new_language(request, project, subproject):
                 notify_new_language(obj, language, request.user)
                 messages.info(
                     request,
-                    _('Requested new language addition from the project maintainers.')
+                    _(
+                        'Requested new language addition '
+                        'from the project maintainers.'
+                    )
                 )
         except Language.DoesNotExist:
             messages.error(
