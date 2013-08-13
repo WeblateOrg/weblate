@@ -413,6 +413,8 @@ def new_language(request, project, subproject):
                     'from the project maintainers.'
                 )
             )
+        elif obj.project.new_lang == 'add':
+            obj.add_new_language(language, request)
     else:
         messages.error(
             request,

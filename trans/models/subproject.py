@@ -24,6 +24,7 @@ from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from glob import glob
 import os.path
 import weblate
@@ -1123,3 +1124,48 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self._all_flags is None:
             self._all_flags = self.check_flags.split(',')
         return self._all_flags
+
+    def add_new_language(self, language, request):
+        '''
+        Creates new language file.
+        '''
+        from trans.models.translation import Translation
+
+        if self.project.new_lang != 'add':
+            raise ValueError('Not supported operation!')
+
+        if not self.file_format_cls.supports_new_language():
+            raise ValueError('Not supported operation!')
+
+        base_filename = self.get_new_base_filename()
+        if not self.file_format_cls.is_valid_base_for_new(base_filename):
+            raise ValueError('Not supported operation!')
+
+        filename = os.path.join(
+            self.get_path(),
+            self.filemask.replace('*', language.code)
+        )
+
+        self.file_format_cls.add_language(
+            filename,
+            language.code,
+            base_filename
+        )
+
+        translation = Translation.objects.create(
+            subproject=self,
+            language=language,
+            filename=filename,
+            language_code=language.code,
+            commit_message='Created new translation'
+        )
+        translation.git_commit(
+            request,
+            translation.get_author_name(request.user),
+            timezone.now(),
+            force_commit=True,
+        )
+        translation.check_sync(
+            force=True,
+            request=request
+        )

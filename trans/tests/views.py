@@ -176,6 +176,9 @@ class ViewTestCase(RepoTestCase):
 
 
 class NewLangTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_po()
+
     def test_none(self):
         self.project.new_lang = 'none'
         self.project.save()
@@ -213,6 +216,36 @@ class NewLangTest(ViewTestCase):
         self.assertRedirects(
             response,
             self.subproject.get_absolute_url()
+        )
+
+    def test_add(self):
+        self.project.new_lang = 'add'
+        self.project.save()
+
+        self.assertFalse(
+            self.subproject.translation_set.filter(
+                language__code='af'
+            ).exists()
+        )
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'New language')
+        self.assertContains(response, '/new-lang/')
+
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+        )
+        self.assertRedirects(
+            response,
+            self.subproject.get_absolute_url()
+        )
+        self.assertTrue(
+            self.subproject.translation_set.filter(
+                language__code='af'
+            ).exists()
         )
 
 

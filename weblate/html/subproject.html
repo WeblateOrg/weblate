@@ -53,6 +53,8 @@
 <td>
 {% if object.project.new_lang == 'contact' %}
 <input class="button" type="submit" value="{% trans "Request new language" %}" />
+{% elif object.project.new_lang == 'add' %}
+<input class="button" type="submit" value="{% trans "Add new language" %}" />
 {% endif %}
 </td>
 </tr>

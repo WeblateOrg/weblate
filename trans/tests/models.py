@@ -93,7 +93,7 @@ class RepoTestCase(TestCase):
             web='http://weblate.org/'
         )
 
-    def _create_subproject(self, file_format, mask, template=''):
+    def _create_subproject(self, file_format, mask, template='', new_base=''):
         '''
         Creates real test subproject.
         '''
@@ -108,6 +108,7 @@ class RepoTestCase(TestCase):
             template=template,
             file_format=file_format,
             repoweb=REPOWEB_URL,
+            new_base=new_base,
         )
 
     def create_subproject(self):
@@ -123,6 +124,7 @@ class RepoTestCase(TestCase):
         return self._create_subproject(
             'po',
             'po/*.po',
+            new_base='po/hello.pot'
         )
 
     def create_po_link(self):
