@@ -586,7 +586,7 @@ class PoFormat(FileFormat):
         Checks whether base is valid.
         '''
         try:
-            pofile(base)
+            pofile.parsefile(base)
             return True
         except:
             return False
