@@ -137,7 +137,7 @@ class Translation(models.Model, URLMixin):
     lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
     lock_time = models.DateTimeField(default=datetime.now)
 
-    commit_message = models.TextField(default='')
+    commit_message = models.TextField(default='', blank=True)
 
     objects = TranslationManager()
 
