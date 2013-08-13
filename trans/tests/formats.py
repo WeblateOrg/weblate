@@ -52,7 +52,7 @@ class AutoFormatTest(TestCase):
         unit, add = storage.find_unit('', 'Hello, world!\n')
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertIsNone(unit)
+            self.assertTrue(unit is None)
         else:
             self.assertEquals(unit.get_target(), 'Ahoj světe!\n')
 
@@ -62,7 +62,7 @@ class AutoFormatTest(TestCase):
             out = tempfile.NamedTemporaryFile()
             self.FORMAT.add_language(out.name, 'cs', self.BASE)
             data = out.read()
-            self.assertIn(self.MATCH, data)
+            self.assertTrue(self.MATCH in data)
             out.close()
 
 
