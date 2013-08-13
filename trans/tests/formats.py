@@ -26,7 +26,6 @@ from trans.formats import (
     AutoFormat, PoFormat, AndroidFormat,
 )
 from trans.tests.util import get_test_file
-from django.utils.unittest import skipUnless
 
 TEST_PO = get_test_file('cs.po')
 TEST_ANDROID = get_test_file('strings.xml')
