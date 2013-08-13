@@ -57,7 +57,8 @@ class AutoFormatTest(TestCase):
             self.assertEquals(unit.get_target(), 'Ahoj světe!\n')
 
     def test_add(self):
-        if self.FORMAT.supports_new_language(self.BASE):
+        if self.FORMAT.supports_new_language():
+            self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
             out = tempfile.NamedTemporaryFile()
             self.FORMAT.add_language(out.name, 'cs', self.BASE)
             data = out.read()

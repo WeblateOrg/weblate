@@ -496,11 +496,18 @@ class FileFormat(object):
         return True
 
     @staticmethod
-    def supports_new_language(base):
+    def supports_new_language():
         '''
         Whether it supports creating new translation.
         '''
         return False
+
+    @staticmethod
+    def is_valid_base_for_new(base):
+        '''
+        Checks whether base is valid.
+        '''
+        return True
 
     @staticmethod
     def add_language(filename, code, base):
@@ -563,19 +570,24 @@ class PoFormat(FileFormat):
         )
 
     @staticmethod
-    def supports_new_language(base):
+    def supports_new_language():
         '''
         Checks whether we can create new language file.
         '''
         try:
             ret = subprocess.check_call(['msginit', '--help'])
-            if ret != 0:
-                return False
-            try:
-                storage = pofile(base)
-                return True
-            except:
-                return False
+            return ret == 0
+        except:
+            return False
+
+    @staticmethod
+    def is_valid_base_for_new(base):
+        '''
+        Checks whether base is valid.
+        '''
+        try:
+            storage = pofile(base)
+            return True
         except:
             return False
 
@@ -670,7 +682,7 @@ class AndroidFormat(FileFormat):
     monolingual = True
 
     @staticmethod
-    def supports_new_language(base):
+    def supports_new_language():
         '''
         Checks whether we can create new language file.
         '''
