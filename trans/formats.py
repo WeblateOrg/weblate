@@ -24,7 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
-from translate.storage.po import pounit
+from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
 from translate.storage import mo
 from translate.storage import factory
@@ -571,7 +571,11 @@ class PoFormat(FileFormat):
             ret = subprocess.check_call(['msginit', '--help'])
             if ret != 0:
                 return False
-            return os.path.exists(base)
+            try:
+                storage = pofile(base)
+                return True
+            except:
+                return False
         except:
             return False
 
