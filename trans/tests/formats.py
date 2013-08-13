@@ -39,6 +39,7 @@ class AutoFormatTest(TestCase):
     MIME = 'text/x-gettext-catalog'
     EXT = 'po'
     COUNT = 5
+    MATCH = 'msgid_plural'
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -59,6 +60,9 @@ class AutoFormatTest(TestCase):
         if self.FORMAT.supports_new_language(self.BASE):
             out = tempfile.NamedTemporaryFile()
             self.FORMAT.add_language(out.name, 'cs', self.BASE)
+            data = out.read()
+            self.assertIn(self.MATCH, data)
+            out.close()
 
 
 class PoFormatTest(AutoFormatTest):
@@ -71,3 +75,4 @@ class AndroidFormatTest(AutoFormatTest):
     MIME = 'application/xml'
     EXT = 'xml'
     COUNT = 0
+    MATCH = '<resources></resources>'
