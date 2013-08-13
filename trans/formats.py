@@ -665,6 +665,22 @@ class AndroidFormat(FileFormat):
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
 
+    @staticmethod
+    def supports_new_language(base):
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        with file(filename, 'w') as output:
+            output.write('''<?xml version="1.0" encoding="utf-8"?>
+<resources></resources>''')
+
 register_fileformat(AndroidFormat)
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
