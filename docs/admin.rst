@@ -25,6 +25,8 @@ organized as project/subproject structure.
 Weblate supports wide range of translation formats supported by translate
 toolkit, see :ref:`formats` for more information.
 
+.. _monolingual:
+
 Monolingual resources
 +++++++++++++++++++++
 
@@ -117,6 +119,10 @@ Filemask
     translation files (eg. more Gettext domains), you need to create separate
     subproject for each. For example ``po/*.po`` or
     ``locale/*/LC_MESSAGES/django.po``.
+Monolingual base language file
+    Base file containing strings definition for :ref:`monolingual`.
+Base file for new translations
+    Base file used to generate new translations, eg. ``.pot`` file with Gettext.
 Report source bugs
     Email address used for reporting upstream bugs. This address will also receive
     notification about any source string comments made in Weblate.

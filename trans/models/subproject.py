@@ -145,6 +145,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'for monolingual translation formats.'
         )
     )
+    new_base = models.CharField(
+        verbose_name=ugettext_lazy('Base file for new translations'),
+        max_length=200,
+        blank=True,
+        help_text=ugettext_lazy(
+            'Filename of file which is used for creating new translations.'
+            'For Gettext choose .pot file.'
+        )
+    )
     file_format = models.CharField(
         verbose_name=ugettext_lazy('File format'),
         max_length=50,
@@ -871,6 +880,29 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 '\n'.join(errors)
             ))
 
+    def clean_new_lang(self):
+        '''
+        Validates new language choices.
+        '''
+        if self.project.new_lang == 'add ':
+            if not self.file_format_cls.supports_new_language():
+                raise ValidationError(_(
+                    'Chosen file format does not support adding '
+                    'new translations as chosen in project settings.'
+                ))
+            filename = self.get_new_base_filename()
+            if not self.file_format_cls.is_valid_base_for_new(filename):
+                raise ValidationError(_(
+                    'Format of base file for new translations '
+                    'was not recognized!'
+                ))
+        elif self.project.new_lang != 'add ' and self.new_base:
+            raise ValidationError(_(
+                'Base file for new translations is not used because of '
+                'project settings.'
+            ))
+
+
     def clean(self):
         '''
         Validator fetches repository and tries to find translation files.
@@ -927,6 +959,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('You can not use monolingual translation without base file!')
             )
 
+        # New language options
+        self.clean_new_lang()
+
         # Suggestions
         if self.suggestion_autoaccept and not self.suggestion_voting:
             raise ValidationError(_(
@@ -939,6 +974,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Creates absolute filename for template.
         '''
         return os.path.join(self.get_path(), self.template)
+
+    def get_new_base_filename(self):
+        '''
+        Creates absolute filename for base file for new translations.
+        '''
+        return os.path.join(self.get_path(), self.new_base)
 
     def save(self, *args, **kwargs):
         '''
