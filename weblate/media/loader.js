@@ -388,12 +388,9 @@ $(function () {
             if (content.length > 0) {
                 element = content;
             }
-            if (element.is('span.git-commit')) {
-                element = $(this).find('.git-details');
-            }
             return element.html();
         },
-        items: ".tooltip, span.git-commit"
+        items: ".tooltip"
     });
     if (update_lock) {
         window.setInterval(function () {
