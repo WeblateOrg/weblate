@@ -161,6 +161,12 @@
 {% endif %}
 {% endif %}
 <input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
+{% if perms.trans.save_translation %}
+<div class="menu-float tooltip">
+<div class="tooltip-content">{% trans "Additional text to include in the commit message." %}</div>
+{% trans "Commit message:" %} <input type="text" name="commit-message" class="commit-message" value="{{ unit.translation.commit_message }}" />
+</div>
+{% endif %}
 </td></tr>
 
 </table>

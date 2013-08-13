@@ -152,22 +152,22 @@ class UnitAdmin(admin.ModelAdmin):
 
 
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ['checksum', 'target', 'project', 'language', 'user']
+    list_display = ['contentsum', 'target', 'project', 'language', 'user']
     list_filter = ['project', 'language']
-    search_fields = ['checksum', 'target']
+    search_fields = ['contentsum', 'target']
 
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = [
-        'checksum', 'comment', 'user', 'project', 'language', 'user'
+        'contentsum', 'comment', 'user', 'project', 'language', 'user'
     ]
     list_filter = ['project', 'language']
-    search_fields = ['checksum', 'comment']
+    search_fields = ['contentsum', 'comment']
 
 
 class CheckAdmin(admin.ModelAdmin):
-    list_display = ['checksum', 'check', 'project', 'language', 'ignore']
-    search_fields = ['checksum', 'check']
+    list_display = ['contentsum', 'check', 'project', 'language', 'ignore']
+    search_fields = ['contentsum', 'check']
     list_filter = ['check', 'project', 'ignore']
 
 

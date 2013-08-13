@@ -11,6 +11,7 @@ Released on ? 2013.
 * Per subproject customization of quality checks.
 * Detailed per translation stats.
 * Changed way of linking suggestions, checks and comments to units.
+* Users can now add text to commit message.
 
 weblate 1.6
 -----------
