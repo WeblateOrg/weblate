@@ -21,7 +21,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
-from django.http import HttpResponseNotFound, Http404
+from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Sum, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -36,9 +36,9 @@ from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
 from trans.forms import (
     UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
-    AutoForm, ReviewForm,
+    AutoForm, ReviewForm, NewLanguageForm,
 )
-from accounts.models import Profile
+from accounts.models import Profile, notify_new_language
 from trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
@@ -200,6 +200,8 @@ def show_subproject(request, project, subproject):
         translation__subproject=obj
     ).order_by('-timestamp')[:10]
 
+    new_lang_form = NewLanguageForm()
+
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
@@ -210,6 +212,7 @@ def show_subproject(request, project, subproject):
         'last_changes_url': urlencode(
             {'subproject': obj.slug, 'project': obj.project.slug}
         ),
+        'new_lang_form': new_lang_form,
     }))
 
 
@@ -386,3 +389,40 @@ def data_project(request, project):
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
     }))
+
+
+def new_language(request, project, subproject):
+    obj = get_subproject(request, project, subproject)
+
+    form = NewLanguageForm(request.POST)
+
+    if form.is_valid():
+        try:
+            language = Language.objects.get(code=form.cleaned_data['lang'])
+            same_lang = obj.translation_set.filter(language=language)
+            if same_lang.exists():
+                messages.error(
+                    request,
+                    _('Chosen language already exists in the project!')
+                )
+            elif obj.project.new_lang == 'contact':
+                notify_new_language(obj, language, request.user)
+                messages.info(
+                    request,
+                    _('Requested new language addition from the project maintainers.')
+                )
+        except Language.DoesNotExist:
+            messages.error(
+                request,
+                _('Failed to process new language request!')
+            )
+    else:
+        messages.error(
+            request,
+            _('Failed to process new language request!')
+        )
+
+    return HttpResponseRedirect(reverse(
+        'subproject',
+        kwargs={'subproject': obj.slug, 'project': obj.project.slug}
+    ))

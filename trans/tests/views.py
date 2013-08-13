@@ -175,6 +175,47 @@ class ViewTestCase(RepoTestCase):
         )
 
 
+class NewLangTest(ViewTestCase):
+    def test_none(self):
+        self.project.new_lang = 'none'
+        self.project.save()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertNotContains(response, 'New language')
+
+    def test_url(self):
+        self.project.new_lang = 'url'
+        self.project.instructions = 'http://example.com/instructions'
+        self.project.save()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'New language')
+        self.assertContains(response, 'http://example.com/instructions')
+
+    def test_contanct(self):
+        self.project.new_lang = 'contact'
+        self.project.save()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'New language')
+        self.assertContains(response, '/new-lang/')
+
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+        )
+        self.assertRedirects(
+            response,
+            self.subproject.get_absolute_url()
+        )
+
+
 class BasicViewTest(ViewTestCase):
     def test_view_home(self):
         response = self.client.get(

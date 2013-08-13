@@ -1,0 +1,31 @@
+{% extends "mail/base.html" %}
+
+{% load url from future %}
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans with site|site_title as site_title %}there has been a request for new language on {{ translation }} at {{ site_title }}.{% endblocktrans %}
+</p>
+
+<table>
+<tr>
+
+<th>
+{% trans "Requested language:" %}
+
+</th>
+
+<td>
+{{ language.name }} ({{ language.code }})
+</td>
+</tr>
+
+</table>
+
+{% include "mail/footer.html" %}
+{% endblock %}

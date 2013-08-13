@@ -12,6 +12,7 @@ Released on ? 2013.
 * Detailed per translation stats.
 * Changed way of linking suggestions, checks and comments to units.
 * Users can now add text to commit message.
+* Support for subscribing on new language requests.
 
 weblate 1.6
 -----------

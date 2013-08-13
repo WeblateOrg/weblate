@@ -25,6 +25,7 @@ from django.utils.translation import (
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
+from lang.models import Language
 
 
 def escape_newline(value):
@@ -396,3 +397,19 @@ class EnageLanguageForm(forms.Form):
         super(EnageLanguageForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += choices
+
+
+class NewLanguageForm(forms.Form):
+    '''
+    Form for requesting new language.
+    '''
+    lang = forms.ChoiceField(
+        label=_('Language'),
+        required=False,
+        choices=[]
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(NewLanguageForm, self).__init__(*args, **kwargs)
+        choices = [(l.code, l.__unicode__()) for l in Language.objects.all()]
+        self.fields['lang'].choices = choices

@@ -164,6 +164,11 @@ urlpatterns = patterns(
         'trans.views.edit.auto_translation',
         name='auto_translation',
     ),
+    url(
+        r'^new-lang/' + SUBPROJECT + '$',
+        'trans.views.basic.new_language',
+        name='new-language',
+    ),
 
     # Activity HTML
     url(

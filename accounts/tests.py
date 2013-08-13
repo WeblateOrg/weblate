@@ -36,6 +36,7 @@ from accounts.models import (
     notify_new_comment,
     notify_new_translation,
     notify_new_contributor,
+    notify_new_language,
 )
 
 from trans.tests.views import ViewTestCase
@@ -276,6 +277,7 @@ class NotificationTest(ViewTestCase):
         profile.subscribe_new_suggestion = True
         profile.subscribe_new_contributor = True
         profile.subscribe_new_comment = True
+        profile.subscribe_new_language = True
         profile.subscribe_merge_failure = True
         profile.subscriptions.add(self.project)
         profile.languages.add(
@@ -329,6 +331,20 @@ class NotificationTest(ViewTestCase):
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] New translation in Test/Test - Czech'
+        )
+
+    def test_notify_new_language(self):
+        notify_new_language(
+            self.subproject,
+            Language.objects.filter(code='de'),
+            self.second_user()
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New language request in Test/Test'
         )
 
     def test_notify_new_contributor(self):
