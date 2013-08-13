@@ -196,7 +196,7 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'New language')
         self.assertContains(response, 'http://example.com/instructions')
 
-    def test_contanct(self):
+    def test_contact(self):
         self.project.new_lang = 'contact'
         self.project.save()
 
