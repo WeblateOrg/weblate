@@ -137,6 +137,8 @@ class Translation(models.Model, URLMixin):
     lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
     lock_time = models.DateTimeField(default=datetime.now)
 
+    commit_message = models.TextField(default='')
+
     objects = TranslationManager()
 
     class Meta:
@@ -720,7 +722,7 @@ class Translation(models.Model, URLMixin):
         '''
         Formats commit message based on project configuration.
         '''
-        return self.subproject.project.commit_message % {
+        msg = self.subproject.project.commit_message % {
             'language': self.language_code,
             'language_name': self.language.name,
             'subproject': self.subproject.name,
@@ -731,6 +733,12 @@ class Translation(models.Model, URLMixin):
             'translated': self.translated,
             'translated_percent': self.get_translated_percent(),
         }
+        if self.commit_message:
+            msg = '%s\n\n%s' % (msg, self.commit_message)
+            self.commit_message = ''
+            self.save()
+
+        return msg
 
     def __configure_git(self, gitrepo, section, key, expected):
         '''
