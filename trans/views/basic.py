@@ -397,27 +397,21 @@ def new_language(request, project, subproject):
     form = NewLanguageForm(request.POST)
 
     if form.is_valid():
-        try:
-            language = Language.objects.get(code=form.cleaned_data['lang'])
-            same_lang = obj.translation_set.filter(language=language)
-            if same_lang.exists():
-                messages.error(
-                    request,
-                    _('Chosen language already exists in the project!')
-                )
-            elif obj.project.new_lang == 'contact':
-                notify_new_language(obj, language, request.user)
-                messages.info(
-                    request,
-                    _(
-                        'Requested new language addition '
-                        'from the project maintainers.'
-                    )
-                )
-        except Language.DoesNotExist:
+        language = Language.objects.get(code=form.cleaned_data['lang'])
+        same_lang = obj.translation_set.filter(language=language)
+        if same_lang.exists():
             messages.error(
                 request,
-                _('Failed to process new language request!')
+                _('Chosen language already exists in the project!')
+            )
+        elif obj.project.new_lang == 'contact':
+            notify_new_language(obj, language, request.user)
+            messages.info(
+                request,
+                _(
+                    'Requested new language addition '
+                    'from the project maintainers.'
+                )
             )
     else:
         messages.error(

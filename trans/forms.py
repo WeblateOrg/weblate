@@ -405,7 +405,6 @@ class NewLanguageForm(forms.Form):
     '''
     lang = forms.ChoiceField(
         label=_('Language'),
-        required=False,
         choices=[]
     )
 
