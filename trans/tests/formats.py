@@ -23,35 +23,52 @@ File format specific behavior.
 import tempfile
 from unittest import TestCase
 from trans.formats import (
-    AutoFormat, PoFormat,
+    AutoFormat, PoFormat, AndroidFormat,
 )
 from trans.tests.util import get_test_file
 from django.utils.unittest import skipUnless
 
 TEST_PO = get_test_file('cs.po')
+TEST_ANDROID = get_test_file('strings.xml')
 TEST_POT = get_test_file('hello.pot')
 
 
 class AutoFormatTest(TestCase):
     FORMAT = AutoFormat
+    FILE = TEST_PO
+    BASE = TEST_POT
+    MIME = 'text/x-gettext-catalog'
+    EXT = 'po'
+    COUNT = 5
 
     def test_parse(self):
-        storage = self.FORMAT(TEST_PO)
-        self.assertEquals(storage.count_units(), 5)
-        self.assertEquals(storage.mimetype, 'text/x-gettext-catalog')
-        self.assertEquals(storage.extension, 'po')
+        storage = self.FORMAT(self.FILE)
+        self.assertEquals(storage.count_units(), self.COUNT)
+        self.assertEquals(storage.mimetype, self.MIME)
+        self.assertEquals(storage.extension, self.EXT)
 
     def test_find(self):
-        storage = self.FORMAT(TEST_PO)
+        storage = self.FORMAT(self.FILE)
         unit, add = storage.find_unit('', 'Hello, world!\n')
         self.assertFalse(add)
-        self.assertEquals(unit.get_target(), 'Ahoj světe!\n')
+        if self.COUNT == 0:
+            self.assertIsNone(unit)
+        else:
+            self.assertEquals(unit.get_target(), 'Ahoj světe!\n')
 
     def test_add(self):
-        if self.FORMAT.supports_new_language(TEST_POT):
+        if self.FORMAT.supports_new_language(self.BASE):
             out = tempfile.NamedTemporaryFile()
-            self.FORMAT.add_language(out.name, 'cs', TEST_POT)
+            self.FORMAT.add_language(out.name, 'cs', self.BASE)
 
 
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
+
+
+class AndroidFormatTest(AutoFormatTest):
+    FORMAT = AndroidFormat
+    FILE = TEST_ANDROID
+    MIME = 'application/xml'
+    EXT = 'xml'
+    COUNT = 0
