@@ -48,3 +48,4 @@ from trans.tests.admin import *
 from trans.tests.requirements import *
 from trans.tests.autofix import *
 from trans.tests.lock import *
+from trans.tests.formats import *

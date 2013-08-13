@@ -30,6 +30,7 @@ from translate.storage import mo
 from translate.storage import factory
 from trans.util import get_string
 from translate.misc import quote
+import subprocess
 import os.path
 import re
 import hashlib
@@ -494,6 +495,20 @@ class FileFormat(object):
 
         return True
 
+    @staticmethod
+    def supports_new_language(base):
+        '''
+        Whether it supports creating new translation.
+        '''
+        return False
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        raise ValueError('Not supported')
+
 
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
@@ -546,6 +561,32 @@ class PoFormat(FileFormat):
             '%s.mo' % basefile,
             'application/x-gettext-catalog'
         )
+
+    @staticmethod
+    def supports_new_language(base):
+        '''
+        Checks whether we can create new language file.
+        '''
+        try:
+            ret = subprocess.check_call(['msginit', '--help'])
+            if ret != 0:
+                return False
+            return os.path.exists(base)
+        except:
+            return False
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        subprocess.check_call([
+            'msginit',
+            '-i', base,
+            '-o', filename,
+            '--no-translator',
+            '-l', code
+        ])
 
 register_fileformat(PoFormat)
 
