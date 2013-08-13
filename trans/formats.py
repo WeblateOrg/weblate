@@ -586,7 +586,7 @@ class PoFormat(FileFormat):
         Checks whether base is valid.
         '''
         try:
-            storage = pofile(base)
+            pofile(base)
             return True
         except:
             return False

@@ -902,7 +902,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 'project settings.'
             ))
 
-
     def clean(self):
         '''
         Validator fetches repository and tries to find translation files.
