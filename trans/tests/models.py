@@ -124,6 +124,12 @@ class RepoTestCase(TestCase):
         return self._create_subproject(
             'po',
             'po/*.po',
+        )
+
+    def create_po_new_base(self):
+        return self._create_subproject(
+            'po',
+            'po/*.po',
             new_base='po/hello.pot'
         )
 

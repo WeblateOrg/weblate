@@ -177,7 +177,7 @@ class ViewTestCase(RepoTestCase):
 
 class NewLangTest(ViewTestCase):
     def create_subproject(self):
-        return self.create_po()
+        return self.create_po_new_base()
 
     def test_none(self):
         self.project.new_lang = 'none'
