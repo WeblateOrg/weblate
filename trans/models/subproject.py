@@ -1157,7 +1157,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             language=language,
             filename=filename,
             language_code=language.code,
-            commit_message='Created new translation'
+            commit_message='Created new translation.'
         )
         translation.git_commit(
             request,
