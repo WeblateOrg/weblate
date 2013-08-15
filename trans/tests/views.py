@@ -249,6 +249,11 @@ class NewLangTest(ViewTestCase):
         )
 
 
+class AndroidNewLangTest(NewLangTest):
+    def create_subproject(self):
+        return self.create_android()
+
+
 class BasicViewTest(ViewTestCase):
     def test_view_home(self):
         response = self.client.get(
