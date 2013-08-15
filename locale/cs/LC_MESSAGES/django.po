@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-15 09:41+0200\n"
-"PO-Revision-Date: 2013-07-22 10:59+0200\n"
-"Last-Translator: Michal Čihař <mcihar@suse.cz>\n"
+"PO-Revision-Date: 2013-08-15 10:17+0200\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 1.6-dev\n"
+"X-Generator: Weblate 1.7-dev\n"
 
 #: accounts/forms.py:169 accounts/forms.py:216
 msgid "First name"
@@ -133,10 +133,9 @@ msgid "Notification on merge failure"
 msgstr "Upozornění na chybu při sloučení"
 
 #: accounts/models.py:361
-#, fuzzy
 #| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
-msgstr "Upozornění na nové návrhy"
+msgstr "Upozornění na požadavky o nový překlad"
 
 #: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -553,7 +552,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Chybná značka pro kontroly: „%s“"
 
 #: trans/widgets.py:260
 #, python-format
@@ -733,10 +732,9 @@ msgid "C format"
 msgstr "Formát C"
 
 #: trans/checks/format.py:265
-#, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
-msgstr "Formát Pythonu"
+msgstr "Závorkový formát Pythonu"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -832,10 +830,9 @@ msgid "Point to translation instructions URL"
 msgstr "Odkázat na instrukce pro překladatele"
 
 #: trans/models/project.py:46
-#, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Automatically add language file"
-msgstr "Základní soubor pro monolinguální překlady"
+msgstr "Automaticky přidat soubor s překladem"
 
 #: trans/models/project.py:47
 msgid "No adding of language"
@@ -1094,16 +1091,17 @@ msgstr ""
 "a jejich zdroj. Toto je doporučené pro monolinguální překlady."
 
 #: trans/models/subproject.py:150
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Base file for new translations"
-msgstr "Překlad selhal"
+msgstr "Základní soubor pro nové překlady"
 
 #: trans/models/subproject.py:154
 msgid ""
 "Filename of file which is used for creating new ranslations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Jméno souboru, který bude použit pro vytvoření nového překladu. Pokud "
+"používáte Gettext zvolte .pot soubor."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1180,20 +1178,19 @@ msgid "Autoaccept suggestions"
 msgstr "Automaticky přijímat návrhy"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
-msgstr "Automaticky přijímat návrhy pokud získají tento počet hlasů."
+msgstr ""
+"Automaticky přijímat návrhy pokud získají tento počet hlasů, použijte 0 pro "
+"vypnutí."
 
 #: trans/models/subproject.py:230
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "Selhavších kontrol"
+msgstr "Značky pro kontrolu kvality"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
 #| "more details."
@@ -1201,7 +1198,7 @@ msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Další soubor, který má být obsažen v comittech, více informací naleznete v "
+"Další značky pro ovlivnění kontroly kvality, více informací naleznete v "
 "dokumentaci."
 
 #: trans/models/subproject.py:453
@@ -1282,16 +1279,18 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Zvolený formát souborů nepodporuje automatické přidávání překladů, které "
+"máte nastavené pro tento projet."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Nepodařilo ze rozpoznat formát základního souboru překladů."
+msgstr "Nepodařilo ze rozpoznat formát základního souboru pro nové překlady!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Základní soubor pro nové překlady nebude použit kvůli nastavení projektu."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1573,17 +1572,16 @@ msgstr "O Weblate"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "Vybraný jazyk je již v projektu překládán!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
-msgstr ""
+msgstr "Správcům projektu byl odeslán požadavek na přidání jazyka."
 
 #: trans/views/basic.py:421
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
-msgstr "Nepodařilo se zpracovat formulář!"
+msgstr "Nepodařilo se zpracovat požadavek o nový překlad!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 msgid "Changes"
@@ -3259,19 +3257,17 @@ msgstr ""
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Prosím zvolte jazyk, do kterého chcete překládat."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New language"
 msgid "Request new language"
-msgstr "Nový jazyk"
+msgstr "Požadovat nový překlad"
 
 #: weblate/html/subproject.html:57
-#, fuzzy
 #| msgid "New language"
 msgid "Add new language"
-msgstr "Nový jazyk"
+msgstr "Přidat nový překlad"
 
 #: weblate/html/subproject.html:63
 #, python-format
@@ -3394,13 +3390,12 @@ msgstr "Navrhnout"
 
 #: weblate/html/translate.html:166
 msgid "Additional text to include in the commit message."
-msgstr ""
+msgstr "Text, který bude připojen do zprávy v commitu."
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
-msgstr "Text pro commit"
+msgstr "Text pro commit:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
@@ -3502,10 +3497,9 @@ msgid "Locking"
 msgstr "Zamykání"
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Status"
 msgid "Stats"
-msgstr "Stav"
+msgstr "Statistiky"
 
 #: weblate/html/translation.html:61
 #, python-format
@@ -3595,30 +3589,27 @@ msgstr "Zamknout"
 
 #: weblate/html/translation.html:144
 msgid "Percent"
-msgstr ""
+msgstr "Procenta"
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Částečný řetězec"
+msgstr "Řetězců"
 
 #: weblate/html/translation.html:149
 msgid "Total"
-msgstr ""
+msgstr "Celkem"
 
 #: weblate/html/translation.html:161
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
-msgstr "Nejasný"
+msgstr "Nejasných"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Selhavší kontroly"
+msgstr "Selhavších kontrol"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -4130,26 +4121,24 @@ msgid "New contributor in %(translation)s"
 msgstr "Nový přispěvatel v %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr ""
-"v překladu %(translation)s na %(site_title)s byl nově přeložen řetězec."
+msgstr "v překladu %(translation)s na %(site_title)s byl požadován nový jazyk."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Používaných jazyků"
+msgstr "Požadovaný jazyk:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
-msgstr "Nový návrh překladu v %(translation)s"
+msgstr "Požadován nový překlad v %(translation)s"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
