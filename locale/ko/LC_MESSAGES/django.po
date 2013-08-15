@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-07-22 10:51+0200\n"
+"POT-Creation-Date: 2013-08-15 09:41+0200\n"
 "PO-Revision-Date: 2013-07-09 11:49+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Korean <http://l10n.cihar.com/projects/weblate/master/ko/>\n"
@@ -89,47 +89,53 @@ msgstr "비밀번호는 적어도 6글자 이상이어야 합니다."
 msgid "Username needs to have at least five characters."
 msgstr "사용자 이름은 적어도 5글자 이상이어야 합니다."
 
-#: accounts/models.py:293
+#: accounts/models.py:313
 msgid "Interface Language"
 msgstr "인터페이스 설정언어"
 
-#: accounts/models.py:299 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
 msgid "Languages"
 msgstr "언어"
 
-#: accounts/models.py:304
+#: accounts/models.py:324
 msgid "Secondary languages"
 msgstr "제2언어"
 
-#: accounts/models.py:313
+#: accounts/models.py:333
 msgid "Subscribed projects"
 msgstr "구독중인 프로젝트"
 
-#: accounts/models.py:317
+#: accounts/models.py:337
 msgid "Notification on any translation"
 msgstr "번역이 있을경우 통보"
 
-#: accounts/models.py:321
+#: accounts/models.py:341
 msgid "Notification on new string to translate"
 msgstr "새로 번역해야할 문구가 있을경우 통보"
 
-#: accounts/models.py:325
+#: accounts/models.py:345
 msgid "Notification on new suggestion"
 msgstr "새 제안사항이 있을경우 통보"
 
-#: accounts/models.py:329
+#: accounts/models.py:349
 msgid "Notification on new contributor"
 msgstr "새 기여자가 있을경우 통보"
 
-#: accounts/models.py:333
+#: accounts/models.py:353
 msgid "Notification on new comment"
 msgstr "새 덧글이 있을경우 통보"
 
-#: accounts/models.py:337
+#: accounts/models.py:357
 msgid "Notification on merge failure"
 msgstr "번역 통합 실패시 통보"
 
-#: accounts/models.py:515
+#: accounts/models.py:361
+#, fuzzy
+#| msgid "Notification on new suggestion"
+msgid "Notification on new language request"
+msgstr "새 제안사항이 있을경우 통보"
+
+#: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
 msgstr "당신의 프로파일이 이전되었습니다, 환경 설정을 변경 할 수 있습니다."
 
@@ -312,233 +318,243 @@ msgstr ""
 msgid "All recent changes made using Weblate in %s."
 msgstr ""
 
-#: trans/formats.py:488
+#: trans/formats.py:521
 msgid "Automatic detection"
 msgstr ""
 
-#: trans/formats.py:502
+#: trans/formats.py:535
 msgid "Gettext PO file"
 msgstr ""
 
-#: trans/formats.py:543
+#: trans/formats.py:611
 msgid "Gettext PO file (monolingual)"
 msgstr ""
 
-#: trans/formats.py:552
+#: trans/formats.py:620
 msgid "Qt Linguist Translation File"
 msgstr ""
 
-#: trans/formats.py:560
+#: trans/formats.py:628
 msgid "XLIFF Translation File"
 msgstr ""
 
-#: trans/formats.py:568
+#: trans/formats.py:636
 msgid "OS X Strings"
 msgstr ""
 
-#: trans/formats.py:576
+#: trans/formats.py:644
 msgid "Java Properties"
 msgstr ""
 
-#: trans/formats.py:594
+#: trans/formats.py:662
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: trans/formats.py:603
+#: trans/formats.py:671
 msgid "PHP strings"
 msgstr ""
 
-#: trans/formats.py:611 ttkit/aresource.py:323
+#: trans/formats.py:679 ttkit/aresource.py:323
 msgid "Android String Resource"
 msgstr ""
 
-#: trans/forms.py:94
+#: trans/forms.py:95
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
 
-#: trans/forms.py:97
+#: trans/forms.py:98
 msgid "Plural equation"
 msgstr ""
 
-#: trans/forms.py:149
+#: trans/forms.py:150
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr ""
 
-#: trans/forms.py:173 trans/forms.py:334
+#: trans/forms.py:174 trans/forms.py:335
 msgid "File"
 msgstr "파일"
 
-#: trans/forms.py:175 trans/forms.py:337
+#: trans/forms.py:176 trans/forms.py:338
 msgid "Merge method"
 msgstr ""
 
-#: trans/forms.py:177
+#: trans/forms.py:178
 #, fuzzy
 #| msgid "Your translations"
 msgid "Add as translation"
 msgstr "참여 가능한 번역"
 
-#: trans/forms.py:178
+#: trans/forms.py:179
 #, fuzzy
 #| msgid "Your translations"
 msgid "Add as a suggestion"
 msgstr "참여 가능한 번역"
 
-#: trans/forms.py:179
+#: trans/forms.py:180
 #, fuzzy
 #| msgid "Your translations"
 msgid "Add as fuzzy translation"
 msgstr "참여 가능한 번역"
 
-#: trans/forms.py:184
+#: trans/forms.py:185
 msgid "Merge file header"
 msgstr ""
 
-#: trans/forms.py:185
+#: trans/forms.py:186
 msgid "Merges content of file header into the translation."
 msgstr ""
 
-#: trans/forms.py:196
+#: trans/forms.py:197
 msgid "Overwrite existing translations"
 msgstr "기존 번역 덮어쓰기"
 
-#: trans/forms.py:206
+#: trans/forms.py:207
 msgid "Author name"
 msgstr ""
 
-#: trans/forms.py:208 trans/forms.py:213
+#: trans/forms.py:209 trans/forms.py:214
 msgid "Keep empty for using currently logged in user."
 msgstr ""
 
-#: trans/forms.py:211
+#: trans/forms.py:212
 msgid "Author email"
 msgstr ""
 
-#: trans/forms.py:222
+#: trans/forms.py:223
 msgid "Query"
 msgstr ""
 
-#: trans/forms.py:226
+#: trans/forms.py:227
 msgid "Search type"
 msgstr ""
 
-#: trans/forms.py:229
+#: trans/forms.py:230
 msgid "Fulltext"
 msgstr ""
 
-#: trans/forms.py:230
+#: trans/forms.py:231
 msgid "Exact match"
 msgstr ""
 
-#: trans/forms.py:231
+#: trans/forms.py:232
 msgid "Substring"
 msgstr "부분 문자열"
 
-#: trans/forms.py:236
+#: trans/forms.py:237
 msgid "Search in source strings"
 msgstr ""
 
-#: trans/forms.py:241
+#: trans/forms.py:242
 msgid "Search in target strings"
 msgstr ""
 
-#: trans/forms.py:246
+#: trans/forms.py:247
 msgid "Search in context strings"
 msgstr ""
 
-#: trans/forms.py:289
+#: trans/forms.py:290
 msgid "Overwrite strings"
 msgstr ""
 
-#: trans/forms.py:294
+#: trans/forms.py:295
 msgid "Replace inconsistent"
 msgstr ""
 
-#: trans/forms.py:299
+#: trans/forms.py:300
 msgid "Subproject to use"
 msgstr ""
 
-#: trans/forms.py:318
+#: trans/forms.py:319
 msgid "All subprojects"
 msgstr ""
 
-#: trans/forms.py:325 weblate/html/check_subproject.html:39
+#: trans/forms.py:326 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
-#: weblate/html/translate.html.py:192 weblate/html/translate.html:200
-#: weblate/html/translate.html.py:221 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:198 weblate/html/translate.html:206
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "번역 원본"
 
-#: trans/forms.py:326 weblate/html/check_subproject.html:27
+#: trans/forms.py:327 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
-#: weblate/html/translate.html:85 weblate/html/translate.html.py:200
-#: weblate/html/translate.html:220 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:85 weblate/html/translate.html.py:206
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr "번역"
 
-#: trans/forms.py:339
+#: trans/forms.py:340
 msgid "Keep current"
 msgstr ""
 
-#: trans/forms.py:340
+#: trans/forms.py:341
 msgid "Overwrite existing"
 msgstr ""
 
-#: trans/forms.py:341
+#: trans/forms.py:342
 #, fuzzy
 #| msgid "Your translations"
 msgid "Add as other translation"
 msgstr "참여 가능한 번역"
 
-#: trans/forms.py:351
+#: trans/forms.py:352
 msgid "Starting date"
 msgstr ""
 
-#: trans/forms.py:365
+#: trans/forms.py:366
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr ""
 
-#: trans/forms.py:367
+#: trans/forms.py:368
 msgid "Starting letter"
 msgstr ""
 
-#: trans/forms.py:386
+#: trans/forms.py:387
 msgid "Whole project"
 msgstr ""
+
+#: trans/forms.py:407 weblate/html/dictionaries.html:15
+#: weblate/html/languages.html:14 weblate/html/list-translations.html:6
+msgid "Language"
+msgstr "언어"
 
 #: trans/util.py:106
 msgctxt "No known user"
 msgid "None"
 msgstr ""
 
-#: trans/validators.py:32 trans/validators.py:42 trans/validators.py:62
+#: trans/validators.py:36 trans/validators.py:46 trans/validators.py:66
 #, python-format
 msgid "Bad format string (%s)"
 msgstr ""
 
-#: trans/validators.py:71
+#: trans/validators.py:75
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
 
-#: trans/validators.py:83
+#: trans/validators.py:87
 msgid "Can not link to linked repository!"
 msgstr ""
 
-#: trans/validators.py:85
+#: trans/validators.py:89
 msgid "Invalid link to repository!"
 msgstr ""
 
-#: trans/validators.py:94
+#: trans/validators.py:98
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
+msgstr ""
+
+#: trans/validators.py:109
+#, python-format
+msgid "Invalid check flag: \"%s\""
 msgstr ""
 
 #: trans/widgets.py:260
@@ -693,21 +709,25 @@ msgstr ""
 msgid "Text direction can be either LTR or RTL"
 msgstr ""
 
-#: trans/checks/format.py:193
+#: trans/checks/format.py:226
 msgid "Python format"
 msgstr ""
 
-#: trans/checks/format.py:194 trans/checks/format.py:208
-#: trans/checks/format.py:222
+#: trans/checks/format.py:227 trans/checks/format.py:241
+#: trans/checks/format.py:255 trans/checks/format.py:266
 msgid "Format string does not match source"
 msgstr ""
 
-#: trans/checks/format.py:207
+#: trans/checks/format.py:240
 msgid "PHP format"
 msgstr ""
 
-#: trans/checks/format.py:221
+#: trans/checks/format.py:254
 msgid "C format"
+msgstr ""
+
+#: trans/checks/format.py:265
+msgid "Python brace format"
 msgstr ""
 
 #: trans/checks/markup.py:40
@@ -726,11 +746,11 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr ""
 
-#: trans/checks/same.py:493
+#: trans/checks/same.py:501
 msgid "Not translated"
 msgstr "미번역"
 
-#: trans/checks/same.py:494
+#: trans/checks/same.py:502
 msgid "Source and translated strings are same"
 msgstr ""
 
@@ -810,508 +830,551 @@ msgid "Point to translation instructions URL"
 msgstr ""
 
 #: trans/models/project.py:46
+msgid "Automatically add language file"
+msgstr ""
+
+#: trans/models/project.py:47
 #, fuzzy
 #| msgid "New language"
 msgid "No adding of language"
 msgstr "새로운 언어"
 
-#: trans/models/project.py:49
+#: trans/models/project.py:50
 msgid "Merge"
 msgstr ""
 
-#: trans/models/project.py:50
+#: trans/models/project.py:51
 msgid "Rebase"
 msgstr ""
 
-#: trans/models/project.py:77
+#: trans/models/project.py:78
 #, fuzzy
 #| msgid "Project"
 msgid "Project name"
 msgstr "프로젝트"
 
-#: trans/models/project.py:80 trans/models/subproject.py:69
+#: trans/models/project.py:81 trans/models/subproject.py:71
 msgid "Name to display"
 msgstr ""
 
-#: trans/models/project.py:83 trans/models/subproject.py:72
+#: trans/models/project.py:84 trans/models/subproject.py:74
 msgid "URL slug"
 msgstr ""
 
-#: trans/models/project.py:85 trans/models/subproject.py:74
+#: trans/models/project.py:86 trans/models/subproject.py:76
 msgid "Name used in URLs and file names."
 msgstr ""
 
-#: trans/models/project.py:88
+#: trans/models/project.py:89
 msgid "Project website"
 msgstr ""
 
-#: trans/models/project.py:89
+#: trans/models/project.py:90
 msgid "Main website of translated project."
 msgstr ""
 
-#: trans/models/project.py:92
+#: trans/models/project.py:93
 msgid "Mailing list"
 msgstr "메일링 리스트"
 
-#: trans/models/project.py:94
+#: trans/models/project.py:95
 #, fuzzy
 #| msgid "Not translated"
 msgid "Mailing list for translators."
 msgstr "미번역"
 
-#: trans/models/project.py:97
+#: trans/models/project.py:98
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation instructions"
 msgstr "번역 현황"
 
-#: trans/models/project.py:99
+#: trans/models/project.py:100
 msgid "URL with instructions for translators."
 msgstr ""
 
-#: trans/models/project.py:102
+#: trans/models/project.py:103
 #, fuzzy
 #| msgid "Translation change:"
 msgid "Translation license"
 msgstr "번역 변경:"
 
-#: trans/models/project.py:106
+#: trans/models/project.py:107
 msgid "Optional short summary of license used for translations."
 msgstr ""
 
-#: trans/models/project.py:110
+#: trans/models/project.py:111
 msgid "License URL"
 msgstr ""
 
-#: trans/models/project.py:112
+#: trans/models/project.py:113
 msgid "Optional URL with license details."
 msgstr ""
 
-#: trans/models/project.py:115 weblate/html/subproject.html:32
+#: trans/models/project.py:116 weblate/html/subproject.html:32
 msgid "New language"
 msgstr "새로운 언어"
 
-#: trans/models/project.py:120
+#: trans/models/project.py:121
 msgid "How to handle requests for creating new languages."
 msgstr ""
 
-#: trans/models/project.py:124
+#: trans/models/project.py:125
 msgid "Merge style"
 msgstr ""
 
-#: trans/models/project.py:129
+#: trans/models/project.py:130
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 
-#: trans/models/project.py:136
+#: trans/models/project.py:137
 #, fuzzy
 #| msgid "Error message"
 msgid "Commit message"
 msgstr "오류 메세지"
 
-#: trans/models/project.py:138
+#: trans/models/project.py:139
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models/project.py:145
+#: trans/models/project.py:146
 #, fuzzy
 #| msgid "Your name"
 msgid "Committer name"
 msgstr "당신의 이름"
 
-#: trans/models/project.py:150
+#: trans/models/project.py:151
 #, fuzzy
 #| msgid "Your email"
 msgid "Committer email"
 msgstr "당신의 이메일"
 
-#: trans/models/project.py:155
+#: trans/models/project.py:156
 msgid "Push on commit"
 msgstr ""
 
-#: trans/models/project.py:158
+#: trans/models/project.py:159
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: trans/models/project.py:163
+#: trans/models/project.py:164
 #, fuzzy
 #| msgid "Translations made"
 msgid "Set Translation-Team header"
 msgstr "게시된 번역들"
 
-#: trans/models/project.py:166
+#: trans/models/project.py:167
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 
-#: trans/models/project.py:172
+#: trans/models/project.py:173
 msgid "Enable ACL"
 msgstr ""
 
-#: trans/models/project.py:175
+#: trans/models/project.py:176
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
 
-#: trans/models/project.py:213
+#: trans/models/project.py:214
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr ""
 
-#: trans/models/project.py:220
+#: trans/models/project.py:221
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: trans/models/project.py:226
+#: trans/models/project.py:227
 msgid "License URL can not be used without license summary."
 msgstr ""
 
-#: trans/models/project.py:232
+#: trans/models/project.py:233
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr ""
 
-#: trans/models/subproject.py:67
+#: trans/models/subproject.py:69
 #, fuzzy
 #| msgid "Subproject"
 msgid "Subproject name"
 msgstr "하위 프로젝트"
 
-#: trans/models/subproject.py:78 weblate/html/check.html:26
+#: trans/models/subproject.py:80 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
 #: weblate/html/data.html.py:59 weblate/html/index.html:37
 #: weblate/html/list-translations.html:6 weblate/html/js/other.html:6
 msgid "Project"
 msgstr "프로젝트"
 
-#: trans/models/subproject.py:81
+#: trans/models/subproject.py:83
 #, fuzzy
 #| msgid "Git repository:"
 msgid "Git repository"
 msgstr "Git 저장소:"
 
-#: trans/models/subproject.py:84
+#: trans/models/subproject.py:86
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
 msgstr ""
 
-#: trans/models/subproject.py:90
+#: trans/models/subproject.py:92
 msgid "Git push URL"
 msgstr ""
 
-#: trans/models/subproject.py:93
+#: trans/models/subproject.py:95
 msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr ""
 
-#: trans/models/subproject.py:98
+#: trans/models/subproject.py:100
 msgid "Repository browser"
 msgstr ""
 
-#: trans/models/subproject.py:100
+#: trans/models/subproject.py:102
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
 
-#: trans/models/subproject.py:107
+#: trans/models/subproject.py:109
 msgid "Exported Git URL"
 msgstr ""
 
-#: trans/models/subproject.py:110
+#: trans/models/subproject.py:112
 msgid "URL of Git repository where users can fetch changes from Weblate"
 msgstr ""
 
-#: trans/models/subproject.py:115
+#: trans/models/subproject.py:117
 msgid "Source string bug report address"
 msgstr ""
 
-#: trans/models/subproject.py:117
+#: trans/models/subproject.py:119
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
 
-#: trans/models/subproject.py:123
+#: trans/models/subproject.py:125
 msgid "Git branch"
 msgstr ""
 
-#: trans/models/subproject.py:125
+#: trans/models/subproject.py:127
 msgid "Git branch to translate"
 msgstr ""
 
-#: trans/models/subproject.py:129
+#: trans/models/subproject.py:131
 #, fuzzy
 #| msgid "File"
 msgid "File mask"
 msgstr "파일"
 
-#: trans/models/subproject.py:133
+#: trans/models/subproject.py:135
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 
-#: trans/models/subproject.py:138
+#: trans/models/subproject.py:140
 msgid "Monolingual base language file"
 msgstr ""
 
-#: trans/models/subproject.py:142
+#: trans/models/subproject.py:144
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
 
-#: trans/models/subproject.py:148
+#: trans/models/subproject.py:150
+#, fuzzy
+#| msgid "Failed translation"
+msgid "Base file for new translations"
+msgstr "번역 실패"
+
+#: trans/models/subproject.py:154
+msgid ""
+"Filename of file which is used for creating new translations.For Gettext "
+"choose .pot file."
+msgstr ""
+
+#: trans/models/subproject.py:159
 msgid "File format"
 msgstr ""
 
-#: trans/models/subproject.py:153
+#: trans/models/subproject.py:164
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: trans/models/subproject.py:158
+#: trans/models/subproject.py:169
 msgid "Additional commit file"
 msgstr ""
 
-#: trans/models/subproject.py:164
+#: trans/models/subproject.py:175
 msgid ""
 "Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
 
-#: trans/models/subproject.py:169
+#: trans/models/subproject.py:180
 msgid "Pre-commit script"
 msgstr ""
 
-#: trans/models/subproject.py:175
+#: trans/models/subproject.py:186
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
 
-#: trans/models/subproject.py:181
+#: trans/models/subproject.py:192
 msgid "Locked"
 msgstr ""
 
-#: trans/models/subproject.py:184
+#: trans/models/subproject.py:195
 msgid "Whether subproject is locked for translation updates."
 msgstr ""
 
-#: trans/models/subproject.py:188
+#: trans/models/subproject.py:199
 #, fuzzy
 #| msgid "Your translations"
 msgid "Allow translation propagation"
 msgstr "참여 가능한 번역"
 
-#: trans/models/subproject.py:191
+#: trans/models/subproject.py:202
 msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
 
-#: trans/models/subproject.py:196
+#: trans/models/subproject.py:207
 #, fuzzy
 #| msgid "Your translations"
 msgid "Save translation history"
 msgstr "참여 가능한 번역"
 
-#: trans/models/subproject.py:199
+#: trans/models/subproject.py:210
 msgid "Whether Weblate should keep history of translations"
 msgstr ""
 
-#: trans/models/subproject.py:203
+#: trans/models/subproject.py:214
 #, fuzzy
 #| msgid "Suggestion:"
 msgid "Suggestion voting"
 msgstr "제안사항:"
 
-#: trans/models/subproject.py:206
+#: trans/models/subproject.py:217
 msgid "Whether users can vote for suggestions."
 msgstr ""
 
-#: trans/models/subproject.py:210
+#: trans/models/subproject.py:221
 #, fuzzy
 #| msgid "Your translations"
 msgid "Autoaccept suggestions"
 msgstr "참여 가능한 번역"
 
-#: trans/models/subproject.py:213
-msgid "Automatically accept suggestions with this amount of votes."
+#: trans/models/subproject.py:224
+msgid ""
+"Automatically accept suggestions with this amount of votes, use 0 to disable."
 msgstr ""
 
-#: trans/models/subproject.py:430
+#: trans/models/subproject.py:230
+#, fuzzy
+#| msgid "Failing checks found"
+msgid "Quality checks flags"
+msgstr "실패한 검사 발견"
+
+#: trans/models/subproject.py:233
+msgid ""
+"Additional comma separate flags to influence quality checks, check "
+"documentation for possible values."
+msgstr ""
+
+#: trans/models/subproject.py:453
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: trans/models/subproject.py:434
+#: trans/models/subproject.py:457
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr ""
 
-#: trans/models/subproject.py:538
+#: trans/models/subproject.py:561
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: trans/models/subproject.py:587
+#: trans/models/subproject.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: trans/models/subproject.py:623
+#: trans/models/subproject.py:646
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: trans/models/subproject.py:675
+#: trans/models/subproject.py:698
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: trans/models/subproject.py:678
+#: trans/models/subproject.py:701
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: trans/models/subproject.py:799
+#: trans/models/subproject.py:822
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:803
+#: trans/models/subproject.py:826
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: trans/models/subproject.py:813
+#: trans/models/subproject.py:836
 msgid "Template file not found!"
 msgstr ""
 
-#: trans/models/subproject.py:819
+#: trans/models/subproject.py:842
 msgid "Format of translation base file could not be recognized."
 msgstr ""
 
-#: trans/models/subproject.py:823
+#: trans/models/subproject.py:846
 #, fuzzy, python-format
 #| msgid "Failed translation"
 msgid "Failed to parse translation base file: %s"
 msgstr "번역 실패"
 
-#: trans/models/subproject.py:840
+#: trans/models/subproject.py:863
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: trans/models/subproject.py:848
+#: trans/models/subproject.py:871
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: trans/models/subproject.py:857
+#: trans/models/subproject.py:880
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: trans/models/subproject.py:874
+#: trans/models/subproject.py:891
+msgid ""
+"Chosen file format does not support adding new translations as chosen in "
+"project settings."
+msgstr ""
+
+#: trans/models/subproject.py:897
+msgid "Format of base file for new translations was not recognized!"
+msgstr ""
+
+#: trans/models/subproject.py:902
+msgid "Base file for new translations is not used because of project settings."
+msgstr ""
+
+#: trans/models/subproject.py:919
 #, fuzzy, python-format
 #| msgid "Failed translation"
 msgid "Failed to update git: %s"
 msgstr "번역 실패"
 
-#: trans/models/subproject.py:882
+#: trans/models/subproject.py:927
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: trans/models/subproject.py:888
+#: trans/models/subproject.py:933
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
 msgstr ""
 
-#: trans/models/subproject.py:900 trans/models/subproject.py:906
+#: trans/models/subproject.py:945 trans/models/subproject.py:951
 msgid "You can not base file with bilingual translation!"
 msgstr ""
 
-#: trans/models/subproject.py:914
+#: trans/models/subproject.py:959
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 
-#: trans/models/subproject.py:920
+#: trans/models/subproject.py:968
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: trans/models/translation.py:185
+#: trans/models/translation.py:187
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: trans/models/translation.py:194
+#: trans/models/translation.py:196
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr ""
 
-#: trans/models/translation.py:199
+#: trans/models/translation.py:201
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: trans/models/translation.py:232
+#: trans/models/translation.py:234
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr ""
 
-#: trans/models/translation.py:972 trans/models/translation.py:1005
+#: trans/models/translation.py:981 trans/models/translation.py:1014
 msgid "All strings"
 msgstr ""
 
-#: trans/models/translation.py:979 trans/models/translation.py:1035
+#: trans/models/translation.py:988 trans/models/translation.py:1044
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr ""
 
-#: trans/models/translation.py:996 trans/models/translation.py:1052
+#: trans/models/translation.py:1005 trans/models/translation.py:1061
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr ""
 
-#: trans/models/translation.py:1012
+#: trans/models/translation.py:1021
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr ""
 
-#: trans/models/translation.py:1020
+#: trans/models/translation.py:1029
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr ""
 
-#: trans/models/translation.py:1027
+#: trans/models/translation.py:1036
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr ""
 
-#: trans/models/unit.py:414
+#: trans/models/unit.py:303
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: trans/models/unit.py:609
+#: trans/models/unit.py:509
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:621
+#: trans/models/unit.py:521
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: trans/models/unit.py:768
+#: trans/models/unit.py:664
 #, python-format
 msgid "unit ID %s"
 msgstr ""
@@ -1439,24 +1502,36 @@ msgid ""
 "complete."
 msgstr ""
 
-#: trans/views/basic.py:253
+#: trans/views/basic.py:256
 #, python-format
 msgid "Review source strings in %s"
 msgstr ""
 
-#: trans/views/basic.py:272
+#: trans/views/basic.py:275
 #, python-format
 msgid "Source strings in %s"
 msgstr ""
 
-#: trans/views/basic.py:335
+#: trans/views/basic.py:338
 msgid "Page Not Found"
 msgstr ""
 
-#: trans/views/basic.py:358 weblate/html/about.html:11
+#: trans/views/basic.py:361 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Weblate에 대하여"
+
+#: trans/views/basic.py:405
+msgid "Chosen language already exists in the project!"
+msgstr ""
+
+#: trans/views/basic.py:412
+msgid "Requested new language addition from the project maintainers."
+msgstr ""
+
+#: trans/views/basic.py:421
+msgid "Failed to process new language request!"
+msgstr ""
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 #, fuzzy
@@ -1465,12 +1540,12 @@ msgid "Changes"
 msgstr "단어 변경"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:545
+#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:550
 msgid "Invalid search string!"
 msgstr ""
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:261
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:267
 msgid "Failing checks"
 msgstr ""
 
@@ -1498,7 +1573,7 @@ msgid "File upload has failed: %s"
 msgstr ""
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:657
+#: trans/views/edit.py:662
 msgid "Failed to process form!"
 msgstr ""
 
@@ -1563,7 +1638,7 @@ msgstr ""
 msgid "You need to log in to be able to save translations!"
 msgstr ""
 
-#: trans/views/edit.py:264 trans/views/edit.py:320 trans/views/edit.py:365
+#: trans/views/edit.py:264 trans/views/edit.py:325 trans/views/edit.py:370
 msgid "You don't have privileges to save translations!"
 msgstr ""
 
@@ -1571,62 +1646,62 @@ msgstr ""
 msgid "Only suggestions are allowed in this translation!"
 msgstr ""
 
-#: trans/views/edit.py:289
+#: trans/views/edit.py:294
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
-#: trans/views/edit.py:303
+#: trans/views/edit.py:308
 msgid "Some checks have failed on your translation!"
 msgstr ""
 
-#: trans/views/edit.py:344
+#: trans/views/edit.py:349
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: trans/views/edit.py:389
+#: trans/views/edit.py:394
 msgid "Can not revert to different unit!"
 msgstr ""
 
-#: trans/views/edit.py:394
+#: trans/views/edit.py:399
 #, fuzzy
 #| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
 msgstr "번역란으로 단어 복사"
 
-#: trans/views/edit.py:412
+#: trans/views/edit.py:417
 msgid "You need to log in to be able to manage suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:433
+#: trans/views/edit.py:438
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:442
+#: trans/views/edit.py:447
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:450 trans/views/edit.py:458
+#: trans/views/edit.py:455 trans/views/edit.py:463
 msgid "You do not have privilege to vote for suggestions!"
 msgstr ""
 
-#: trans/views/edit.py:464
+#: trans/views/edit.py:469
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: trans/views/edit.py:498
+#: trans/views/edit.py:503
 msgid "You have reached end of translating."
 msgstr ""
 
-#: trans/views/edit.py:655
+#: trans/views/edit.py:660
 msgid "Automatic translation completed."
 msgstr ""
 
-#: trans/views/edit.py:683
+#: trans/views/edit.py:688
 msgid "Posted new comment"
 msgstr ""
 
-#: trans/views/edit.py:685
+#: trans/views/edit.py:690
 msgid "Failed to add comment!"
 msgstr ""
 
@@ -1964,7 +2039,7 @@ msgstr ""
 "JSON 형식으로 제공됩니다. 자료의 형식은 <a href=\"%(api_docs)s\">문서</a>에 "
 "기술되어 있습니다."
 
-#: weblate/html/data.html:68 weblate/html/translation.html:58
+#: weblate/html/data.html:68 weblate/html/translation.html:59
 msgid "Download"
 msgstr "내려받기"
 
@@ -1972,16 +2047,11 @@ msgstr "내려받기"
 msgid "glossaries"
 msgstr "용어집"
 
-#: weblate/html/dictionaries.html:15 weblate/html/languages.html:14
-#: weblate/html/list-translations.html:6
-msgid "Language"
-msgstr "언어"
-
-#: weblate/html/dictionaries.html:16
+#: weblate/html/dictionaries.html:16 weblate/html/translation.html:146
 msgid "Words"
 msgstr "단어"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:176
+#: weblate/html/dictionary.html:15 weblate/html/translate.html:182
 msgid "Glossary"
 msgstr "어휘"
 
@@ -2041,8 +2111,8 @@ msgstr "어휘 가져오기"
 msgid "Export glossary"
 msgstr "어휘 내보내기"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:248
-#: weblate/html/translate.html.py:281
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:254
+#: weblate/html/translate.html.py:287
 msgid "Add"
 msgstr "추가"
 
@@ -2796,7 +2866,7 @@ msgstr "검사(교정)"
 
 #: weblate/html/index.html:38 weblate/html/index.html.py:81
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:21
+#: weblate/html/project.html:21 weblate/html/translation.html:155
 msgid "Translated"
 msgstr "번역됨"
 
@@ -2806,8 +2876,8 @@ msgstr "요약"
 
 #: weblate/html/index.html:65 weblate/html/language.html:23
 #: weblate/html/project.html:40 weblate/html/subproject.html:30
-#: weblate/html/translate.html:187 weblate/html/translation.html:35
-#: weblate/html/translation.html.py:87
+#: weblate/html/translate.html:193 weblate/html/translation.html:35
+#: weblate/html/translation.html.py:88
 msgid "History"
 msgstr ""
 
@@ -2821,7 +2891,7 @@ msgstr "가장 활발한 제안자"
 
 #: weblate/html/index.html:68 weblate/html/language.html:25
 #: weblate/html/project.html:46 weblate/html/subproject.html:39
-#: weblate/html/translation.html:46 weblate/html/user.html:28
+#: weblate/html/translation.html:47 weblate/html/user.html:28
 msgid "Activity"
 msgstr ""
 
@@ -3100,7 +3170,7 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:266
+#: weblate/html/source-review.html:62 weblate/html/translate.html:272
 msgid "User comments"
 msgstr ""
 
@@ -3120,13 +3190,29 @@ msgid ""
 msgstr ""
 
 #: weblate/html/subproject.html:47
+msgid "Please choose language into which you would like to translate."
+msgstr ""
+
+#: weblate/html/subproject.html:55
+#, fuzzy
+#| msgid "New language"
+msgid "Request new language"
+msgstr "새로운 언어"
+
+#: weblate/html/subproject.html:57
+#, fuzzy
+#| msgid "New language"
+msgid "Add new language"
+msgstr "새로운 언어"
+
+#: weblate/html/subproject.html:63
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
 
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:79
 msgid "Source strings review"
 msgstr ""
 
@@ -3134,7 +3220,9 @@ msgstr ""
 msgid "Git repository:"
 msgstr "Git 저장소:"
 
-#: weblate/html/subproject_info.html:17
+#: weblate/html/subproject_info.html:17 weblate/html/js/git-status.html:45
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
 msgstr ""
 
@@ -3231,94 +3319,104 @@ msgstr ""
 msgid "Suggest"
 msgstr ""
 
-#: weblate/html/translate.html:169
+#: weblate/html/translate.html:166
+msgid "Additional text to include in the commit message."
+msgstr ""
+
+#: weblate/html/translate.html:167
+#, fuzzy
+#| msgid "Error message"
+msgid "Commit message:"
+msgstr "오류 메세지"
+
+#: weblate/html/translate.html:175
 msgid "Translation context"
 msgstr ""
 
-#: weblate/html/translate.html:174
+#: weblate/html/translate.html:180
 msgid "Messages placed around this one"
 msgstr ""
 
-#: weblate/html/translate.html:174
+#: weblate/html/translate.html:180
 msgid "Nearby messages"
 msgstr ""
 
-#: weblate/html/translate.html:175
+#: weblate/html/translate.html:181
 msgid "Same message used in different subprojects"
 msgstr ""
 
-#: weblate/html/translate.html:175
+#: weblate/html/translate.html:181
 msgid "All locations"
 msgstr ""
 
-#: weblate/html/translate.html:176
+#: weblate/html/translate.html:182
 msgid "Words extracted from glossary"
 msgstr ""
 
-#: weblate/html/translate.html:178
+#: weblate/html/translate.html:184
 #, fuzzy
 #| msgid "New translation"
 msgid "Machine translation suggestions"
 msgstr "새로운 번역"
 
-#: weblate/html/translate.html:178
+#: weblate/html/translate.html:184
 #, fuzzy
 #| msgid "Failed translation"
 msgid "Machine translation"
 msgstr "번역 실패"
 
-#: weblate/html/translate.html:180
+#: weblate/html/translate.html:186
 msgid "Comments about this translation"
 msgstr ""
 
-#: weblate/html/translate.html:182
+#: weblate/html/translate.html:188
 #, python-format
 msgid "Comments (%(count)s)"
 msgstr ""
 
-#: weblate/html/translate.html:184 weblate/html/unit-details.html:10
+#: weblate/html/translate.html:190 weblate/html/unit-details.html:10
 msgid "Comments"
 msgstr ""
 
-#: weblate/html/translate.html:187
+#: weblate/html/translate.html:193
 msgid "List of recent changes done in Weblate"
 msgstr ""
 
-#: weblate/html/translate.html:188
+#: weblate/html/translate.html:194
 msgid "Source string details and feedback"
 msgstr ""
 
-#: weblate/html/translate.html:190
+#: weblate/html/translate.html:196
 #, python-format
 msgid "Source (%(count)s)"
 msgstr ""
 
-#: weblate/html/translate.html:195 weblate/html/translate.html.py:293
-#: weblate/html/translation.html:36 weblate/html/translation.html.py:52
+#: weblate/html/translate.html:201 weblate/html/translate.html.py:299
+#: weblate/html/translation.html:36 weblate/html/translation.html.py:53
 msgid "Search"
 msgstr ""
 
-#: weblate/html/translate.html:200 weblate/html/js/other.html:6
+#: weblate/html/translate.html:206 weblate/html/js/other.html:6
 msgid "State"
 msgstr ""
 
-#: weblate/html/translate.html:222
+#: weblate/html/translate.html:228
 msgid "Service"
 msgstr ""
 
-#: weblate/html/translate.html:237
+#: weblate/html/translate.html:243
 msgid "You can share comments about this translation with other translators."
 msgstr ""
 
-#: weblate/html/translate.html:241 weblate/html/translate.html.py:273
+#: weblate/html/translate.html:247 weblate/html/translate.html.py:279
 msgid "New comment"
 msgstr ""
 
-#: weblate/html/translate.html:251 weblate/html/translate.html.py:284
+#: weblate/html/translate.html:257 weblate/html/translate.html.py:290
 msgid "You are not allowed to add comments."
 msgstr ""
 
-#: weblate/html/translate.html:267
+#: weblate/html/translate.html:273
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -3332,47 +3430,53 @@ msgstr ""
 msgid "Locking"
 msgstr ""
 
-#: weblate/html/translation.html:60
+#: weblate/html/translation.html:46
+#, fuzzy
+#| msgid "Statistics"
+msgid "Stats"
+msgstr "통계"
+
+#: weblate/html/translation.html:61
 #, python-format
 msgid ""
 "You can <a href=\"%(download_url)s\">download</a> file for offline "
 "translation."
 msgstr ""
 
-#: weblate/html/translation.html:64
+#: weblate/html/translation.html:65
 #, python-format
 msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
 
-#: weblate/html/translation.html:68 weblate/html/translation.html.py:80
+#: weblate/html/translation.html:69 weblate/html/translation.html.py:81
 msgid "Upload"
 msgstr ""
 
-#: weblate/html/translation.html:70
+#: weblate/html/translation.html:71
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
 msgstr ""
 
-#: weblate/html/translation.html:72
+#: weblate/html/translation.html:73
 msgid "Uploaded file will be merged with current translation."
 msgstr ""
 
-#: weblate/html/translation.html:91
+#: weblate/html/translation.html:92
 msgid "Review"
 msgstr ""
 
-#: weblate/html/translation.html:93
+#: weblate/html/translation.html:94
 msgid "Review translations touched by other users."
 msgstr ""
 
-#: weblate/html/translation.html:98
+#: weblate/html/translation.html:99
 msgid "Start review"
 msgstr ""
 
-#: weblate/html/translation.html:105
+#: weblate/html/translation.html:106
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies it to the current subproject. It can be used to push translations to "
@@ -3380,33 +3484,60 @@ msgid ""
 "subproject using translation memory."
 msgstr ""
 
-#: weblate/html/translation.html:111
+#: weblate/html/translation.html:112
 msgid "Process"
 msgstr ""
 
-#: weblate/html/translation.html:117
+#: weblate/html/translation.html:118
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 
-#: weblate/html/translation.html:119
+#: weblate/html/translation.html:120
 msgid "Locked by:"
 msgstr ""
 
-#: weblate/html/translation.html:120
+#: weblate/html/translation.html:121
 msgid "Lock expires:"
 msgstr ""
 
-#: weblate/html/translation.html:122
+#: weblate/html/translation.html:123
 msgid "Translation is currently not locked."
 msgstr ""
 
-#: weblate/html/translation.html:126 weblate/html/js/git-status.html:16
+#: weblate/html/translation.html:127 weblate/html/js/git-status.html:16
 msgid "Unlock"
 msgstr ""
 
-#: weblate/html/translation.html:128 weblate/html/js/git-status.html:18
+#: weblate/html/translation.html:129 weblate/html/js/git-status.html:18
 msgid "Lock"
 msgstr ""
+
+#: weblate/html/translation.html:144
+msgid "Percent"
+msgstr ""
+
+#: weblate/html/translation.html:145
+#, fuzzy
+#| msgid "Substring"
+msgid "Strings"
+msgstr "부분 문자열"
+
+#: weblate/html/translation.html:149
+msgid "Total"
+msgstr ""
+
+#: weblate/html/translation.html:161
+#, fuzzy
+#| msgctxt "Number of fuzzy strings"
+#| msgid "Fuzzy"
+msgid "Fuzzy"
+msgstr "애매함"
+
+#: weblate/html/translation.html:167
+#, fuzzy
+#| msgid "Failing checks found"
+msgid "Failing check"
+msgstr "실패한 검사 발견"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -3730,7 +3861,7 @@ msgstr ""
 msgid "Last remote commit:"
 msgstr ""
 
-#: weblate/html/js/git-status.html:45
+#: weblate/html/js/git-status.html:53
 msgid "Details"
 msgstr ""
 
@@ -3756,8 +3887,10 @@ msgstr ""
 #: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:8
 #: weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:8
-#: weblate/html/mail/new_contributor.txt:1 weblate/html/mail/new_string.html:8
-#: weblate/html/mail/new_string.txt:1 weblate/html/mail/new_suggestion.html:8
+#: weblate/html/mail/new_contributor.txt:1
+#: weblate/html/mail/new_language.html:8 weblate/html/mail/new_language.txt:1
+#: weblate/html/mail/new_string.html:8 weblate/html/mail/new_string.txt:1
+#: weblate/html/mail/new_suggestion.html:8
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
@@ -3852,8 +3985,8 @@ msgstr "오류 메세지"
 msgid "Repository status"
 msgstr ""
 
-#: weblate/html/mail/merge_failure.html:28
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/mail/merge_failure.html:37
+#: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
 msgstr ""
 
@@ -3896,6 +4029,25 @@ msgstr ""
 #, python-format
 msgid "New contributor in %(translation)s"
 msgstr ""
+
+#: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
+#, python-format
+msgid ""
+"there has been a request for new language on %(translation)s at "
+"%(site_title)s."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
+#, fuzzy
+#| msgid "Used languages"
+msgid "Requested language:"
+msgstr "사용된 언어들"
+
+#: weblate/html/mail/new_language_subject.txt:1
+#, fuzzy, python-format
+#| msgid "Overwrite existing translations"
+msgid "New language request in %(translation)s"
+msgstr "기존 번역 덮어쓰기"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
