@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-15 09:41+0200\n"
-"PO-Revision-Date: 2013-07-22 11:17+0200\n"
+"PO-Revision-Date: 2013-08-15 12:07+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 1.6-dev\n"
+"X-Generator: Weblate 1.7-dev\n"
 
 #: accounts/forms.py:169 accounts/forms.py:216
 msgid "First name"
@@ -133,10 +133,9 @@ msgid "Notification on merge failure"
 msgstr "Birleştirmenin başarısız olmasında bildirim"
 
 #: accounts/models.py:361
-#, fuzzy
 #| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
-msgstr "Yeni öneride bildirim"
+msgstr "Yeni dil isteğinde bildirim"
 
 #: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -552,7 +551,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Geçersiz kontrol işareti: \"%s\""
 
 #: trans/widgets.py:260
 #, python-format
@@ -736,10 +735,9 @@ msgid "C format"
 msgstr "C biçimi"
 
 #: trans/checks/format.py:265
-#, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
-msgstr "Python biçimi"
+msgstr "Python brace biçimi"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -838,10 +836,9 @@ msgid "Point to translation instructions URL"
 msgstr "Çeviri talimatları URL'sini göster"
 
 #: trans/models/project.py:46
-#, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Automatically add language file"
-msgstr "Tek dil tabanlı dil dosyası"
+msgstr "Dil dosyasını otomatik olarak ekle"
 
 #: trans/models/project.py:47
 msgid "No adding of language"
@@ -1097,20 +1094,21 @@ msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
-"Tüm satırları ve kanaklarını içeren çevirilerin temel dosyasının dosya adı; "
+"Tüm satırları ve kaynaklarını içeren çevirilerin temel dosyasının dosya adı; "
 "bu, tek dilli çeviri biçimlerinin kullanılması için önerilir."
 
 #: trans/models/subproject.py:150
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Base file for new translations"
-msgstr "Başarısız çeviri"
+msgstr "Yeni çeviriler için temel dosya"
 
 #: trans/models/subproject.py:154
 msgid ""
 "Filename of file which is used for creating new ranslations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Yeni çevirileri oluşturmak için kullanılan dosyanın dosya adı. Gettext için "
+".pot dosyasını seçin."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1186,20 +1184,19 @@ msgid "Autoaccept suggestions"
 msgstr "Önerileri otomatik kabul et"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
-msgstr "Öneriler bu oy miktarı ile otomatik olarak kabul eder."
+msgstr ""
+"Bu oyların miktarı ile önerileri otomatik olarak kabul eder, "
+"etkisizleştirmek için 0 kullanın."
 
 #: trans/models/subproject.py:230
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "Bulunan başarısız kontrolü"
+msgstr "Kalite kontrolü işeretlemeleri"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
 #| "more details."
@@ -1207,8 +1204,8 @@ msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"İşlenenlere dahil etmek için ilave dosya; lütfen daha fazla ayrıntı için "
-"belgeleri kontrol edin."
+"Kalite kontrollerini etkilemek için ilave virgül ayırma işaretleri, olası "
+"değerler için belgeleri kontrol edin."
 
 #: trans/models/subproject.py:453
 msgid ""
@@ -1288,16 +1285,18 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Dosya biçiminin seçilmesi proje ayarlarında seçildiği gibi yeni çevirileri "
+"eklemeyi desteklemez."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Çeviri temel dosyasının biçimi tanınamadı."
+msgstr "Yeni çeviriler için temel dosyanın biçimi tanınmadı!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Yeni çeviriler için temel dosya, proje ayarlarından dolayı kullanılamıyor."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1550,17 +1549,16 @@ msgstr "Weblate hakkında"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "Seçilen dil projede zaten var!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
-msgstr ""
+msgstr "Proje geliştiricilerinden yeni dil ilavesi istendi."
 
 #: trans/views/basic.py:421
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
-msgstr "İşlem formu başarısız!"
+msgstr "Yeni dil isteğini işleme başarısız!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 msgid "Changes"
@@ -3227,19 +3225,17 @@ msgstr ""
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Lütfen çevirmek istediğiniz dili seçin."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New language"
 msgid "Request new language"
-msgstr "Yeni dil"
+msgstr "Yeni dil iste"
 
 #: weblate/html/subproject.html:57
-#, fuzzy
 #| msgid "New language"
 msgid "Add new language"
-msgstr "Yeni dil"
+msgstr "Yeni dil ekle"
 
 #: weblate/html/subproject.html:63
 #, python-format
@@ -3360,13 +3356,12 @@ msgstr "Öner"
 
 #: weblate/html/translate.html:166
 msgid "Additional text to include in the commit message."
-msgstr ""
+msgstr "İşlenen iletiye dahil etmek için ilave metin."
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
-msgstr "İletiyi işle"
+msgstr "İşlenen ileti:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
@@ -3469,10 +3464,9 @@ msgid "Locking"
 msgstr "Kilitleme"
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Status"
 msgid "Stats"
-msgstr "Durum"
+msgstr "İstatistikler"
 
 #: weblate/html/translation.html:61
 #, python-format
@@ -3564,30 +3558,27 @@ msgstr "Kilitle"
 
 #: weblate/html/translation.html:144
 msgid "Percent"
-msgstr ""
+msgstr "Yüzde"
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Satır içi"
+msgstr "Satırlar"
 
 #: weblate/html/translation.html:149
 msgid "Total"
-msgstr ""
+msgstr "Toplam"
 
 #: weblate/html/translation.html:161
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Başarısız kontrolleri"
+msgstr "Başarısız kontrolü"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -4104,25 +4095,26 @@ msgid "New contributor in %(translation)s"
 msgstr "%(translation)s içinde yeni katkıda bulunma"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr "%(site_title)s sitesinde %(translation)s dilinde yeni çeviri yapıldı."
+msgstr ""
+"%(site_title)s sitesinde %(translation)s dilinde yeni dil için bir istek "
+"oldu."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Kullanılan dil"
+msgstr "İstenen dil:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
-msgstr "%(translation)s içinde yeni öneri"
+msgstr "%(translation)s içinde yeni dil isteği"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
