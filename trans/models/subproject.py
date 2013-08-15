@@ -151,7 +151,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=200,
         blank=True,
         help_text=ugettext_lazy(
-            'Filename of file which is used for creating new translations.'
+            'Filename of file which is used for creating new translations. '
             'For Gettext choose .pot file.'
         )
     )
