@@ -26,7 +26,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from glob import glob
-import os.path
+import os
 import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
@@ -1145,6 +1145,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.get_path(),
             self.filemask.replace('*', language.code)
         )
+
+        # Create directory for a translation
+        dirname = os.path.dirname(filename)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
 
         self.file_format_cls.add_language(
             filename,
