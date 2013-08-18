@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-15 09:41+0200\n"
-"PO-Revision-Date: 2013-08-17 12:59+0200\n"
+"PO-Revision-Date: 2013-08-18 16:28+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -552,7 +552,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Μη έγκυρη σημαία ελέγχου: «%s»"
 
 #: trans/widgets.py:260
 #, python-format
@@ -1126,6 +1126,8 @@ msgid ""
 "Filename of file which is used for creating new ranslations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Το όνομα αρχείου του αρχείου που χρησιμοποιείται για δημιουργία νέων "
+"μεταφράσεων. Για Gettext επιλέξτε αρχείο .pot."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1215,7 +1217,6 @@ msgid "Quality checks flags"
 msgstr "Σημαίες ελέγχων ποιότητας"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
 #| "more details."
@@ -1223,8 +1224,8 @@ msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Μπορείτε να χρησιμιοποιήσετε πρόσθετα κείμενα για διάφορες πληροφορίες, για "
-"περισσότερες λεπτομέρειες δείτε την τεκμηρίωση."
+"Πρόσθετες σημαίες χωρισμένες με κόμμα που επηρεάζουν ελέγχους ποιότητας, "
+"δείτε την τεκμηρίωση για πιθανές τιμές."
 
 #: trans/models/subproject.py:453
 msgid ""
@@ -1306,16 +1307,19 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Η επιλεγμένη μορφή αρχείου δεν υποστηρίζει νέες μεταφράσεις όπως επιλέχτηκε "
+"στις ρυθμίσεις του έργου."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Η μορφή της βάσης μετάφρασης δεν μπορεί να αναγνωριστεί."
+msgstr "Η μορφή του αρχείου βάσης για νέες μεταφράσεις δεν αναγνωρίστηκε!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Το αρχείο βάσης για νέες μεταφράσεις δεν χρησιμοποιείται λόγω των ρυθμίσεων "
+"του έργου."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1583,17 +1587,16 @@ msgstr "Σχετικά με το Weblate"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "Η επιλεγμένη γλώσσα υπάρχει ήδη στο έργο!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
-msgstr ""
+msgstr "Η αιτούμενη νέα γλώσσα προστέθηκε από τους συντηρητές του έργου."
 
 #: trans/views/basic.py:421
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
-msgstr "Απέτυχε η προώθηση της φόμρας!"
+msgstr "Απέτυχε η προώθηση του αιτήματος νέας γλώσσας!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 msgid "Changes"
@@ -3280,19 +3283,17 @@ msgstr ""
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Επιλέξτε τη γλώσσα στη οποία θέλετε να μεταφράσετε."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New language"
 msgid "Request new language"
-msgstr "Νέα Γλώσσα"
+msgstr "Αίτημα νέας γλώσσας"
 
 #: weblate/html/subproject.html:57
-#, fuzzy
 #| msgid "New language"
 msgid "Add new language"
-msgstr "Νέα Γλώσσα"
+msgstr "Προσθήκη νέας γλώσσας"
 
 #: weblate/html/subproject.html:63
 #, python-format
@@ -3414,13 +3415,12 @@ msgstr "Πρόταση"
 
 #: weblate/html/translate.html:166
 msgid "Additional text to include in the commit message."
-msgstr ""
+msgstr "Πρόσθετο κείμενο για να συμπεριληφθεί στο μήνυμα ολοκλήρωσης."
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
-msgstr "Μήνυμα πράξης"
+msgstr "Μήνυμα πράξης:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
@@ -3523,10 +3523,9 @@ msgid "Locking"
 msgstr "Κλείδωμα"
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Status"
 msgid "Stats"
-msgstr "Κατάσταση"
+msgstr "Στατιστικά"
 
 #: weblate/html/translation.html:61
 #, python-format
@@ -3617,30 +3616,27 @@ msgstr "Κλείδωμα"
 
 #: weblate/html/translation.html:144
 msgid "Percent"
-msgstr ""
+msgstr "Ποσοστό"
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Υπο-κείμενο"
+msgstr "Κείμενα"
 
 #: weblate/html/translation.html:149
 msgid "Total"
-msgstr ""
+msgstr "Σύνολο"
 
 #: weblate/html/translation.html:161
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Αποτυχημένοι έλεγχοι"
+msgstr "Αποτυχημένος έλεγχος"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -4157,25 +4153,25 @@ msgid "New contributor in %(translation)s"
 msgstr "Νέα συμβολή στο %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr "υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
+msgstr ""
+"υπήρξε ένα αίτημα για νέα γλώσσα στη %(translation)s στο %(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Χρησιμοποιημένες γλώσσες"
+msgstr "Αιτούμενες γλώσσες:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
-msgstr "Αυτόματη πρόταση στο %(translation)s"
+msgstr "Νέο αίτημα γλώσσας στη %(translation)s"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
