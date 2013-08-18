@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-15 09:41+0200\n"
-"PO-Revision-Date: 2013-08-03 22:03+0200\n"
-"Last-Translator: Martin Jurík <martin@slovakdroid.sk>\n"
+"PO-Revision-Date: 2013-08-18 22:08+0200\n"
+"Last-Translator: Martin Jurík <martin@droid.sk>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -132,10 +132,9 @@ msgid "Notification on merge failure"
 msgstr "Upozornenie na chybu pri zlúčení"
 
 #: accounts/models.py:361
-#, fuzzy
 #| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
-msgstr "Upozornenie na nové návrhy"
+msgstr "Upozornenie na požidavky o nový preklad"
 
 #: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -553,7 +552,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Chybná značka pre kontroly: \"%s\""
 
 #: trans/widgets.py:260
 #, python-format
@@ -736,10 +735,9 @@ msgid "C format"
 msgstr "Formát C"
 
 #: trans/checks/format.py:265
-#, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
-msgstr "Formát Pythonu"
+msgstr "Zátvorkový formát Pythonu"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -835,10 +833,9 @@ msgid "Point to translation instructions URL"
 msgstr "Odkázať na inštrukcie pre prekladateľov"
 
 #: trans/models/project.py:46
-#, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Automatically add language file"
-msgstr "Základný súbor pre jednojazyčné preklady"
+msgstr "Automaticky pridať súbor s prekladom"
 
 #: trans/models/project.py:47
 msgid "No adding of language"
@@ -1098,16 +1095,17 @@ msgstr ""
 "ich zdroj. Toto je odporúčané pre jednojazyčné preklady."
 
 #: trans/models/subproject.py:150
-#, fuzzy
 #| msgid "Machine translation"
 msgid "Base file for new translations"
-msgstr "Strojový preklad"
+msgstr "Základný súbor pre nové preklady"
 
 #: trans/models/subproject.py:154
 msgid ""
 "Filename of file which is used for creating new ranslations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Názov súboru, ktorý bude použitý pre vytvorenie nového prekladu. Ak "
+"používate Gettext, vyberte .pot súbor."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1184,20 +1182,18 @@ msgid "Autoaccept suggestions"
 msgstr "Automaticky príjmať návrhy"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
-msgstr "Automaticky príjmať návrhy s týmto počtom hlasov."
+msgstr ""
+"Automaticky príjmať návrhy s týmto počtom hlasov, použite 0 pre vypnutie."
 
 #: trans/models/subproject.py:230
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "Nevyhovujúcich kontrol"
+msgstr "Značky pre kontrolu kvality"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
 #| "more details."
@@ -1205,7 +1201,7 @@ msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Ďalší súbor, ktorý má byť obsiahnutý v comittoch, viac informácií nájdete v "
+"Ďalšie značky pre ovplivnenie kontroly kvality, viac informácií nájdete v "
 "dokumentácii."
 
 #: trans/models/subproject.py:453
@@ -1286,16 +1282,18 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Zvolený formát súboru nepodporuje automatické pridávanie prekladov, ktoré "
+"máte nastavené pre tento projekt."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Nepodarilo zo rozpoznať formát základného súboru prekladov."
+msgstr "Nepodarilo zo rozpoznať formát základného súboru pre nové preklady!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Základný súbor pre nové preklady nebude použitý kvôli nastaveniam projektu."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1578,17 +1576,16 @@ msgstr "O Weblate"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "Vybraný jazyk už je v projekte prekladaný!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
-msgstr ""
+msgstr "Správcom projektu bola odoslaná požiadavka na pridanie jazyka."
 
 #: trans/views/basic.py:421
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
-msgstr "Nepodarilo sa spracovať formulár!"
+msgstr "Nepodarilo sa spracovať požiadavku na nový jazyk!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 msgid "Changes"
@@ -3266,19 +3263,17 @@ msgstr ""
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Prosím, vyberte jazyk, do ktorého chcete prekladať."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New language"
 msgid "Request new language"
-msgstr "Nový jazyk"
+msgstr "Požadovať nový jazyk"
 
 #: weblate/html/subproject.html:57
-#, fuzzy
 #| msgid "New language"
 msgid "Add new language"
-msgstr "Nový jazyk"
+msgstr "Pridať nový jazyk"
 
 #: weblate/html/subproject.html:63
 #, python-format
@@ -3401,13 +3396,12 @@ msgstr "Navrhnúť"
 
 #: weblate/html/translate.html:166
 msgid "Additional text to include in the commit message."
-msgstr ""
+msgstr "Text, ktorý bude pripojený k správe v commite."
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
-msgstr "Text pre commit"
+msgstr "Text pre commit:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
@@ -3509,10 +3503,9 @@ msgid "Locking"
 msgstr "Zamykanie"
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Status"
 msgid "Stats"
-msgstr "Stav"
+msgstr "Štatistiky"
 
 #: weblate/html/translation.html:61
 #, python-format
@@ -3602,30 +3595,27 @@ msgstr "Zamknúť"
 
 #: weblate/html/translation.html:144
 msgid "Percent"
-msgstr ""
+msgstr "Percentá"
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Čiastočný reťazec"
+msgstr "Reťazcov"
 
 #: weblate/html/translation.html:149
 msgid "Total"
-msgstr ""
+msgstr "Celkom"
 
 #: weblate/html/translation.html:161
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
-msgstr "Nejasný"
+msgstr "Nejasných"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Nevyhovujúce kontroly"
+msgstr "Nevyhovujúcich kontrole"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -4138,26 +4128,24 @@ msgid "New contributor in %(translation)s"
 msgstr "Nový prispievateľ v %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr ""
-"v preklade %(translation)s na %(site_title)s pribudol nový preklad reťazca."
+msgstr "v preklade %(translation)s na %(site_title)s bol požadovaný nový jazyk."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Používaných jazykov"
+msgstr "Požadovaný jazyk:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
-msgstr "Nový návrh preklade v%(translation)s"
+msgstr "Požadovaný nový jazyk v%(translation)s"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
