@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-15 09:41+0200\n"
-"PO-Revision-Date: 2013-08-14 16:49+0200\n"
-"Last-Translator: Stephan Souza <blad3d@gmail.com>\n"
+"PO-Revision-Date: 2013-08-18 23:10+0200\n"
+"Last-Translator: Mauricio Bastos <msbmail@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -553,7 +553,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Flag de verificação inválido: \"%s\""
 
 #: trans/widgets.py:260
 #, python-format
@@ -1107,16 +1107,17 @@ msgstr ""
 "fontes; isto é recomendado para uso de formatos de tradução mono-idiomática."
 
 #: trans/models/subproject.py:150
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Base file for new translations"
-msgstr "A tradução falhou"
+msgstr "Arquivo base para novas traduções"
 
 #: trans/models/subproject.py:154
 msgid ""
 "Filename of file which is used for creating new ranslations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Nome de arquivo do arquivo usado para criar novas traduções. Para Gettext "
+"escolha arquivos .pot."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1192,11 +1193,12 @@ msgid "Autoaccept suggestions"
 msgstr "Auto-aceitar sugestões"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
-msgstr "Automaticamente aceitar sugestões com esta quantidade de votos."
+msgstr ""
+"Aceitar automaticamente sugestões com esta quantidade de votos; use 0 para "
+"desativar."
 
 #: trans/models/subproject.py:230
 #, fuzzy
@@ -1205,7 +1207,6 @@ msgid "Quality checks flags"
 msgstr "Foram encontradas verificações com falhas"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
 #| "more details."
@@ -1213,8 +1214,8 @@ msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Arquivo adicional a incluir nas entregas; favor olhar a documentação para "
-"mais detalhes."
+"Flags adicionais separadas por vírgulas para influenciar a quantidade de "
+"verificações; consulte a documentação sobre os valores possíveis."
 
 #: trans/models/subproject.py:453
 msgid ""
@@ -1294,16 +1295,19 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"O formato de arquivo escolhido não suporta adição de novas traduções como "
+"definido nas configurações do projeto."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Formato do arquivo-base de tradução não pôde ser reconhecido."
+msgstr "Formato do arquivo-base para tradução não reconhecido!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Arquivo-base para novas traduções não é utilizado em razão das configurações "
+"do projeto."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1572,7 +1576,7 @@ msgstr "Sobre o Weblate"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "O idioma escolhido já existe no projeto!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
@@ -3265,19 +3269,17 @@ msgstr ""
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Por favor, escolha o idioma para o qual deseja traduzir."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New language"
 msgid "Request new language"
-msgstr "Novo idioma"
+msgstr "Solicitar novo idioma"
 
 #: weblate/html/subproject.html:57
-#, fuzzy
 #| msgid "New language"
 msgid "Add new language"
-msgstr "Novo idioma"
+msgstr "Adicionar Novo idioma"
 
 #: weblate/html/subproject.html:63
 #, python-format
@@ -3605,14 +3607,13 @@ msgid "Percent"
 msgstr ""
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Substring"
+msgstr "Sequências"
 
 #: weblate/html/translation.html:149
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: weblate/html/translation.html:161
 #, fuzzy
@@ -4149,10 +4150,9 @@ msgid ""
 msgstr "existe uma nova tradução de %(translation)s em %(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Idiomas utilizados"
+msgstr "Idioma solicitado:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, fuzzy, python-format
