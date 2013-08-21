@@ -1,4 +1,7 @@
-# Weblate [![build status](https://secure.travis-ci.org/nijel/weblate.png)](https://travis-ci.org/nijel/weblate)
+# Weblate 
+
+[![build status](https://secure.travis-ci.org/nijel/weblate.png)](https://travis-ci.org/nijel/weblate)
+[![Coverage Status](https://coveralls.io/repos/nijel/weblate/badge.png?branch=master)](https://coveralls.io/r/nijel/weblate?branch=master)
 
 Weblate is a free web-based translation tool with tight Git integration. It
 features simple and clean user interface, propagation of translations across
