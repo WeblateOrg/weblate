@@ -139,3 +139,6 @@ PRE_COMMIT_SCRIPTS = get('PRE_COMMIT_SCRIPTS', ())
 SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
 ] + [('', '')]
+
+# Font for charts and widgets
+TTF_FONT = get('TTF_FONT', os.path.join(WEB_ROOT, 'ttf', 'DejaVuSans.ttf'))

@@ -19,6 +19,8 @@
 #
 
 from distutils.version import LooseVersion
+import importlib
+
 
 
 def get_version_module(module, name, url, optional=False):
@@ -27,7 +29,7 @@ def get_version_module(module, name, url, optional=False):
     exception with name and URL.
     '''
     try:
-        mod = __import__(module)
+        mod = importlib.import_module(module)
     except ImportError:
         if optional:
             return None
@@ -171,6 +173,16 @@ def get_versions():
         url,
         mod.__version__,
         '0.7',
+    ))
+
+    name = 'Pillow (PIL)'
+    url = 'http://python-imaging.github.io/'
+    mod = get_version_module('PIL.Image', name, url)
+    result.append((
+        name,
+        url,
+        mod.VERSION,
+        '1.1.6',
     ))
 
     return result

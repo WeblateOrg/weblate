@@ -24,16 +24,14 @@ Charting library for Weblate.
 from trans.models import Change
 from lang.models import Language
 from trans.views.helper import get_project_translation
+from weblate import appsettings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from cStringIO import StringIO
 from django.core.urlresolvers import reverse
-import cairo
-import pango
-import pangocairo
-import math
+from PIL import Image, ImageDraw, ImageFont
 
 
 def render_activity(activity):
@@ -45,48 +43,24 @@ def render_activity(activity):
     step = 780.0 / len(activity)
     width = step / 2
 
-    # Prepare cairo surface and context
-    surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 800, 100)
-    ctx = cairo.Context(surface)
-
-    # Render background
-    ctx.set_source_rgb(1, 1, 1)
-    ctx.rectangle(0, 0, 800, 100)
-    ctx.fill()
+    # Prepare image
+    image = Image.new('RGB', (800, 100), 'white')
+    draw = ImageDraw.Draw(image)
 
     # Render axises
-    ctx.new_path()
-    ctx.set_line_width(1)
-    ctx.set_source_rgb(0, 0, 0)
-    ctx.move_to(15, 5)
-    ctx.line_to(15, 85)
-    ctx.line_to(795, 85)
-    ctx.stroke()
+    draw.line(((15, 5), (15, 85), (795, 85)), fill='black')
 
-    # Context for text rendering
-    pangocairo_context = pangocairo.CairoContext(ctx)
-    pangocairo_context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
-    font = pango.FontDescription('Sans 8')
-
-    # Rotate context for vertical text
-    ctx.rotate(-math.pi / 2)
+    # Load font
+    font = ImageFont.truetype(appsettings.TTF_FONT, 11)
 
     # Create Y axis label
-    layout = pangocairo_context.create_layout()
-    layout.set_width(80)
-    layout.set_alignment(pango.ALIGN_RIGHT)
-    layout.set_font_description(font)
-    layout.set_text(str(maximum))
+    y_label = str(maximum)
+    text = Image.new('L', font.getsize(y_label), 'white')
+    draw_txt = ImageDraw.Draw(text)
+    draw_txt.text((0, 0), y_label, font=font, fill='black')
+    text = text.transpose(Image.ROTATE_90)
 
-    # Render Y axis label
-    ctx.move_to(-5, 0)
-    ctx.set_source_rgb(0, 0, 0)
-    pangocairo_context.update_layout(layout)
-    pangocairo_context.show_layout(layout)
-
-    # Rotate context back
-    ctx.rotate(math.pi / 2)
-
+    image.paste(text, (2, 5))
     # Counter for rendering ticks
     last = -40
 
@@ -96,35 +70,31 @@ def render_activity(activity):
         current = offset * step
 
         # Render bar
-        ctx.new_path()
-        ctx.set_source_rgb(0, 67.0 / 255, 118.0 / 255)
-        ctx.rectangle(
-            20 + current,
-            84,
-            width,
-            - 1.0 - value[1] * 78.0 / maximum
+        draw.rectangle(
+            (
+                20 + current,
+                84,
+                20 + current + width,
+                84 - value[1] * 78.0 / maximum
+            ),
+            fill=(0, 67, 118)
         )
-        ctx.fill()
 
         # Skip axis labels if they are too frequent
         if current < last + 40:
             continue
         last = current
 
-        # Create text
-        layout = pangocairo_context.create_layout()
-        layout.set_font_description(font)
-        layout.set_text(value[0].strftime('%m/%d'))
-
-        # Render text
-        ctx.move_to(15 + current, 86)
-        ctx.set_source_rgb(0, 0, 0)
-        pangocairo_context.update_layout(layout)
-        pangocairo_context.show_layout(layout)
+        # X-Axis ticks
+        draw.text(
+            (15 + current, 86),
+            value[0].strftime('%m/%d'),
+            font=font, fill='black'
+        )
 
     # Render surface to PNG
     out = StringIO()
-    surface.write_to_png(out)
+    image.save(out, 'PNG')
 
     # Return response
     return HttpResponse(content_type='image/png', content=out.getvalue())

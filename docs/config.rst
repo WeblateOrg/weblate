@@ -345,6 +345,13 @@ SITE_TITLE
 
 Site title to be used in website and emails as well.
 
+.. setting:: TTF_FONT
+
+TTF_FONT
+--------
+
+TrueType font to be used for widgets and charts.
+
 .. setting:: WHOOSH_INDEX
 
 WHOOSH_INDEX
