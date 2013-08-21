@@ -68,7 +68,7 @@ script:
   - ./manage.py validate --settings weblate.settings_test_$DATABASE
   - ./manage.py syncdb --noinput --settings weblate.settings_test_$DATABASE
   - ./manage.py migrate --settings weblate.settings_test_$DATABASE
-  - coverage run --branch --omit '*/migrations/*' --source=. ./manage.py test --settings weblate.settings_test_$DATABASE trans lang accounts
+  - coverage run --source=. ./manage.py test --settings weblate.settings_test_$DATABASE trans lang accounts
   - pep8 --exclude migrations accounts trans lang
 after_success:
   - coveralls
