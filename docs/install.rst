@@ -22,6 +22,8 @@ Whoosh
     http://bitbucket.org/mchaput/whoosh/
 PyCairo
     http://cairographics.org/pycairo/
+PIL or Pillow library
+    http://python-imaging.github.io/
 PyGtk
     http://www.pygtk.org/
 south
