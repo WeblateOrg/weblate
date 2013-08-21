@@ -22,7 +22,6 @@ from distutils.version import LooseVersion
 import importlib
 
 
-
 def get_version_module(module, name, url, optional=False):
     '''
     Returns module object, on error raises verbose
