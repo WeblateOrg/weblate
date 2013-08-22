@@ -201,6 +201,36 @@ def search(translation, request):
     return search_result
 
 
+def handle_translate_suggest(unit, form, request,
+                             this_unit_url, next_unit_url):
+    '''
+    Handle suggesion saving.
+    '''
+    if form.cleaned_data['target'][0] == '':
+        messages.error(request, _('Your suggestion is empty!'))
+        # Stay on same entry
+        return HttpResponseRedirect(this_unit_url)
+    # Invite user to become translator if there is nobody else
+    recent_changes = Change.objects.content().filter(
+        translation=unit.translation,
+    ).exclude(
+        user=None
+    )
+    if not recent_changes.exists():
+        messages.info(request, _(
+            'There is currently no active translator for this '
+            'translation, please consider becoming a translator '
+            'as your suggestion might otherwise remain unreviewed.'
+        ))
+    # Create the suggestion
+    Suggestion.objects.add(
+        unit,
+        join_plural(form.cleaned_data['target']),
+        request,
+    )
+    return HttpResponseRedirect(next_unit_url)
+
+
 def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     '''
     Saves translation or suggestion to database and backend.
@@ -228,28 +258,8 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         return
 
     if 'suggest' in request.POST:
-        # Handle suggesion saving
-        if form.cleaned_data['target'][0] == '':
-            messages.error(request, _('Your suggestion is empty!'))
-            # Stay on same entry
-            return HttpResponseRedirect(this_unit_url)
-        # Invite user to become translator if there is nobody else
-        recent_changes = Change.objects.content().filter(
-            translation=unit.translation,
-        ).exclude(
-            user=None
-        )
-        if not recent_changes.exists():
-            messages.info(request, _(
-                'There is currently no active translator for this '
-                'translation, please consider becoming a translator '
-                'as your suggestion might otherwise remain unreviewed.'
-            ))
-        # Create the suggestion
-        Suggestion.objects.add(
-            unit,
-            join_plural(form.cleaned_data['target']),
-            request,
+        return handle_translate_suggest(
+            unit, form, request, this_unit_url, next_unit_url
         )
     elif not request.user.is_authenticated():
         # We accept translations only from authenticated

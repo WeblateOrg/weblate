@@ -189,7 +189,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Constructor to initialize some cache properties.
         '''
         super(Project, self).__init__(*args, **kwargs)
-        self._percents = None
 
     def has_acl(self, user):
         '''
@@ -269,14 +268,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def __unicode__(self):
         return self.name
 
-    def create_path(self):
-        '''
-        Create filesystem directory for storing data
-        '''
-        path = self.get_path()
-        if not os.path.exists(path):
-            os.makedirs(path)
-
     def save(self, *args, **kwargs):
 
         # Renaming detection
@@ -321,21 +312,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns percentages of translation status.
         '''
-        # Use cache if no filtering
-        if lang is None and self._percents is not None:
-            return self._percents
-
         # Import translations
         from trans.models.translation import Translation
 
         # Get prercents
-        result = Translation.objects.get_percents(project=self, language=lang)
-
-        # Update cache
-        if lang is None:
-            self._percents = result
-
-        return result
+        return Translation.objects.get_percents(project=self, language=lang)
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
@@ -344,6 +325,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns percent of translated strings.
         '''
+        if lang is None:
+            return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
 
     def get_total(self):

@@ -20,7 +20,6 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from weblate import appsettings
 from django.db.models import Q, Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
@@ -35,13 +34,14 @@ from translate.storage import poheader
 from datetime import datetime, timedelta
 
 import weblate
+from weblate import appsettings
 from lang.models import Language
 from trans.formats import AutoFormat
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
-from trans.mixins import URLMixin
+from trans.mixins import URLMixin, PercentMixin
 from trans.boolean_sum import BooleanSum
 
 
@@ -116,7 +116,7 @@ class TranslationManager(models.Manager):
         return tuple([round(value * 100.0 / total, 1) for value in result])
 
 
-class Translation(models.Model, URLMixin):
+class Translation(models.Model, URLMixin, PercentMixin):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -204,15 +204,19 @@ class Translation(models.Model, URLMixin):
                 }
             )
 
-    def get_fuzzy_percent(self):
+    def _get_percents(self):
+        '''
+        Returns percentages of translation status.
+        '''
+        # No units?
         if self.total == 0:
-            return 0
-        return round(self.fuzzy * 100.0 / self.total, 1)
+            return (0, 0, 0)
 
-    def get_translated_percent(self):
-        if self.total == 0:
-            return 0
-        return round(self.translated * 100.0 / self.total, 1)
+        return (
+            round(self.translated * 100.0 / self.total, 1),
+            round(self.fuzzy * 100.0 / self.total, 1),
+            round(self.failing_checks * 100.0 / self.total, 1),
+        )
 
     def get_words_percent(self):
         if self.total_words == 0:
@@ -992,7 +996,7 @@ class Translation(models.Model, URLMixin):
         for check in CHECKS:
             if not CHECKS[check].source:
                 continue
-            cnt = self.unit_set.count_type(check, self)
+            cnt = self.get_failing_checks(check)
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
@@ -1037,11 +1041,10 @@ class Translation(models.Model, URLMixin):
             ))
 
         # All checks
-        allchecks = self.unit_set.count_type('allchecks', self)
-        if allchecks > 0:
+        if self.failing_checks > 0:
             result.append((
                 'allchecks',
-                _('Strings with any failing checks (%d)') % allchecks
+                _('Strings with any failing checks (%d)') % self.failing_checks
             ))
 
         # Process specific checks
@@ -1200,29 +1203,13 @@ class Translation(models.Model, URLMixin):
 
         return ret, store.count_units()
 
-    def get_suggestions_count(self):
-        '''
-        Returns number of units with suggestions.
-        '''
-        return self.have_suggestion
-
-    def get_failing_checks(self, check='allchecks'):
+    def get_failing_checks(self, check):
         '''
         Returns number of units with failing checks.
 
         By default for all checks or check type can be specified.
         '''
-        if check == 'allchecks':
-            return self.failing_checks
         return self.unit_set.count_type(check, self)
-
-    def get_failing_checks_percent(self, check='allchecks'):
-        '''
-        Returns percentage of failed checks.
-        '''
-        if self.total == 0:
-            return 0
-        return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
 
     def invalidate_cache(self, cache_type=None):
         '''
