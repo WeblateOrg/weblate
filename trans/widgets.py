@@ -42,6 +42,11 @@ COLOR_DATA = {
         'border': 'rgb(255, 255, 255)',
         'text': 'rgb(255, 255, 255)',
     },
+    'badge': {
+        'bar': 'rgb(0, 67, 118)',
+        'border': 'rgb(255, 255, 255)',
+        'text': 'rgb(255, 255, 255)',
+    },
 }
 
 WIDGETS = {}
@@ -61,6 +66,7 @@ class Widget(object):
     name = None
     colors = ('grey', 'white', 'black')
     progress = None
+    alpha = False
 
     def __init__(self, obj, color=None, lang=None):
         '''
@@ -127,7 +133,11 @@ class Widget(object):
         Renders widget.
         '''
         # PIL objects
-        self.image = Image.open(self.get_filename()).convert('RGB')
+        if self.alpha:
+            mode = 'RGBA'
+        else:
+            mode = 'RGB'
+        self.image = Image.open(self.get_filename()).convert(mode)
         self.draw = ImageDraw.Draw(self.image)
         self.width = self.image.size[0]
 
@@ -220,7 +230,11 @@ class Widget(object):
         Returns PNG data.
         '''
         out = StringIO()
-        self.image.convert('P', palette=Image.ADAPTIVE).save(out, 'PNG')
+        if self.alpha:
+            image = self.image
+        else:
+            image = self.image.convert('P', palette=Image.ADAPTIVE)
+        image.save(out, 'PNG')
         return out.getvalue()
 
 
@@ -275,3 +289,36 @@ class SmallWidget(Widget):
         )
 
 register_widget(SmallWidget)
+
+
+class BadgeWidget(Widget):
+    name = 'status'
+    colors = ('badge', )
+    alpha = True
+
+    def get_filename(self):
+        if self.percent > 80:
+            mode = 'passing'
+        else:
+            mode = 'failing'
+        return os.path.join(
+            settings.MEDIA_ROOT,
+            'widgets',
+            'badge-%s.png' % mode
+        )
+
+    def render_texts(self):
+        self.render_text(
+            _('Translated'),
+            None,
+            10, False,
+            4, 1
+        )
+        self.render_text(
+            '%(percent)d%%',
+            None,
+            10, False,
+            60, 1
+        )
+
+register_widget(BadgeWidget)

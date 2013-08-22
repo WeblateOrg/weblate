@@ -15,6 +15,7 @@ Released on ? 2013.
 * Support for subscribing on new language requests.
 * Support for adding new translations.
 * Widgets and charts are now rendered using Pillow instead of Pango + Cairo.
+* Add status badge widget.
 
 weblate 1.6
 -----------
