@@ -130,7 +130,7 @@ def get_font(size, bold=False, cjk=False):
     Returns PIL font object matching parameters.
     '''
     if cjk:
-        name = 'DroidSansFallbackFull.ttf'
+        name = 'DroidSansFallback.ttf'
     elif bold:
         name = 'DroidSans-Bold.ttf'
     else:
