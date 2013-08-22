@@ -259,7 +259,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._git_repo = None
         self._file_format = None
         self._template_store = None
-        self._percents = None
         self._all_flags = None
 
     def has_acl(self, user):
@@ -1022,17 +1021,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns percentages of translation status.
         '''
-        # Use cache if available
-        if self._percents is not None:
-            return self._percents
-
-        # Get prercents
-        result = self.translation_set.get_percents()
-
-        # Update cache
-        self._percents = result
-
-        return result
+        return self.translation_set.get_percents()
 
     def git_needs_commit(self):
         '''

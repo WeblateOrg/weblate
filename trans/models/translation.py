@@ -41,7 +41,7 @@ from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
-from trans.mixins import URLMixin
+from trans.mixins import URLMixin, PercentMixin
 from trans.boolean_sum import BooleanSum
 
 
@@ -116,7 +116,7 @@ class TranslationManager(models.Manager):
         return tuple([round(value * 100.0 / total, 1) for value in result])
 
 
-class Translation(models.Model, URLMixin):
+class Translation(models.Model, URLMixin, PercentMixin):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -204,15 +204,19 @@ class Translation(models.Model, URLMixin):
                 }
             )
 
-    def get_fuzzy_percent(self):
+    def _get_percents(self):
+        '''
+        Returns percentages of translation status.
+        '''
+        # No units?
         if self.total == 0:
-            return 0
-        return round(self.fuzzy * 100.0 / self.total, 1)
+            return (0, 0, 0)
 
-    def get_translated_percent(self):
-        if self.total == 0:
-            return 0
-        return round(self.translated * 100.0 / self.total, 1)
+        return (
+            round(self.translated * 100.0 / self.total, 1),
+            round(self.fuzzy * 100.0 / self.total, 1),
+            round(self.get_failing_checks() * 100.0 / self.total, 1),
+        )
 
     def get_words_percent(self):
         if self.total_words == 0:
@@ -1214,14 +1218,6 @@ class Translation(models.Model, URLMixin):
         if check == 'allchecks':
             return self.failing_checks
         return self.unit_set.count_type(check, self)
-
-    def get_failing_checks_percent(self, check='allchecks'):
-        '''
-        Returns percentage of failed checks.
-        '''
-        if self.total == 0:
-            return 0
-        return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
 
     def invalidate_cache(self, cache_type=None):
         '''

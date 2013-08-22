@@ -26,6 +26,16 @@ class PercentMixin(object):
     '''
     Defines API to getting percentage status of translations.
     '''
+    _percents = None
+
+    def get_percents(self):
+        '''
+        Returns percentages of translation status.
+        '''
+        if self._percents is None:
+            self._percents = self._get_percents()
+
+        return self._percents
 
     def _get_percents(self):
         '''
@@ -37,19 +47,19 @@ class PercentMixin(object):
         '''
         Returns percent of translated strings.
         '''
-        return self._get_percents()[0]
+        return self.get_percents()[0]
 
     def get_fuzzy_percent(self):
         '''
         Returns percent of fuzzy strings.
         '''
-        return self._get_percents()[1]
+        return self.get_percents()[1]
 
     def get_failing_checks_percent(self):
         '''
         Returns percentage of failed checks.
         '''
-        return self._get_percents()[2]
+        return self.get_percents()[2]
 
 
 class URLMixin(object):
