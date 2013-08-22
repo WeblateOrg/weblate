@@ -187,7 +187,8 @@ class Widget(object):
             outline=COLOR_DATA[self.color]['border']
         )
 
-    def render_text(self, text, lang_text, base_font_size, bold_font, pos_x, pos_y):
+    def render_text(self, text, lang_text, base_font_size, bold_font,
+                    pos_x, pos_y):
         # Use language variant if desired
         if self.lang is not None and lang_text is not None:
             text = lang_text
