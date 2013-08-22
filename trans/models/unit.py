@@ -779,16 +779,14 @@ class Unit(models.Model):
             language=None,
         )
 
-    def check(self, same_state=True, is_new=False):
+    def get_checks_to_run(self, same_state, is_new):
         '''
-        Updates checks for this unit.
-        '''
-        from trans.models.unitdata import Check
+        Returns list of checks to run on state change.
 
+        Returns tupe of checks to run and whether to do cleanup.
+        '''
         checks_to_run = CHECKS
         cleanup_checks = True
-        was_change = False
-        checks = self.checks()
 
         if (same_state or is_new) and not self.translated:
             # Check whether there is any message with same source
@@ -805,18 +803,38 @@ class Unit(models.Model):
 
             # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
+                checks = self.checks()
                 if checks.exists():
                     checks.delete()
                     self.update_has_failing_check(True)
-                return
+                return ({}, False)
 
             # If there is no consistency checking, we can return
             if not 'inconsistent' in CHECKS:
-                return
+                return ({}, False)
 
             # Limit checks to consistency check for fuzzy messages
             checks_to_run = {'inconsistent': CHECKS['inconsistent']}
             cleanup_checks = False
+
+        return (checks_to_run, cleanup_checks)
+
+    def check(self, same_state=True, is_new=False):
+        '''
+        Updates checks for this unit.
+        '''
+        from trans.models.unitdata import Check
+
+        was_change = False
+
+        checks_to_run, cleanup_checks = self.get_checks_to_run(
+            same_state, is_new
+        )
+
+        if len(checks_to_run) == 0:
+            return
+
+        checks = self.checks()
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
