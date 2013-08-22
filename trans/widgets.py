@@ -20,7 +20,6 @@
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from weblate import appsettings
 from PIL import Image, ImageDraw
 from trans.fonts import is_cjk, get_font
 from cStringIO import StringIO
