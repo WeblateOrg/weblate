@@ -42,6 +42,7 @@ script:
   - ./manage.py migrate --settings weblate.settings_test_$DATABASE
   - coverage run --source=. ./manage.py test --settings weblate.settings_test_$DATABASE trans lang accounts
   - pep8 --exclude migrations accounts trans lang
+  - pylint --reports=n --rcfile=pylint.rc trans accounts weblate lang
 after_success:
   - coveralls
 notifications:
