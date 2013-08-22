@@ -24,12 +24,11 @@ before_install:
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev
 # commands to install dependencies
 install: 
-  - pip install Django==$DJANGO_VERSION
-  - pip install -r requirements.txt
-  - pip install mysql-python psycopg2
-  - pip install pep8
-  - pip install coveralls
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install -r requirements-2.6.txt ; fi
+  - pip install --use-mirrors Django==$DJANGO_VERSION
+  - pip install --use-mirrors -r requirements.txt
+  - pip install --use-mirrors mysql-python psycopg2
+  - pip install --use-mirrors pep8 coveralls
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors -r requirements-2.6.txt ; fi
 # generate configuration and create databases
 before_script:
   - cp weblate/settings_example.py weblate/settings.py
