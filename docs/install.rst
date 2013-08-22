@@ -20,12 +20,8 @@ Django-registration (= 0.8, 0.9 is not supported)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh
     http://bitbucket.org/mchaput/whoosh/
-PyCairo
-    http://cairographics.org/pycairo/
 PIL or Pillow library
     http://python-imaging.github.io/
-PyGtk
-    http://www.pygtk.org/
 south
     http://south.aeracode.org/
 libravatar (optional for federated avatar support)
@@ -49,7 +45,7 @@ On Debian or Ubuntu, all requirements are already packaged, to install them you 
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git python-django-registration \
-        python-whoosh python-cairo python-gtk2 python-django-south python-libravatar python-pyicu
+        python-whoosh python-imaging python-django-south python-libravatar python-pyicu
 
     # Optional for database backend
 
@@ -65,19 +61,11 @@ All requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-django python-django-registration translate-toolkit python-GitPython \
-        python-whoosh python-cairo python-South python-gtk
+        python-whoosh python-imaging python-South
 
 
 Requirements on OSX
-++++++++++++++++++++++++
-
-PyCairo and PyGtk are available to be installed using brew, all other requirements
-must be installed using pip as explained next. In a terminal:
-
-.. code-block:: sh
-
-    brew update
-    brew install py2cairo pygtk
++++++++++++++++++++
 
 If your python was not installed using brew, make sure you have this in
 your .bash_profile file or executed somehow:
@@ -97,10 +85,6 @@ Most requirements can be also installed using pip installer:
 .. code-block:: sh
 
     pip install -r requirements.txt
-
-However you need to get PyCairo and PyGtk for your platform elsewhere as they
-do not support this easy installation method. Check their website for options
-for getting appropriate binaries.
 
 Also you will need header files for ``libxml2`` and ``libxslt`` to compile some
 of the required Python modules.

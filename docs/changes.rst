@@ -14,6 +14,7 @@ Released on ? 2013.
 * Users can now add text to commit message.
 * Support for subscribing on new language requests.
 * Support for adding new translations.
+* Widgets and charts are now rendered using Pillow instead of Pango + Cairo.
 
 weblate 1.6
 -----------
