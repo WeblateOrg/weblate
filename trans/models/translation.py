@@ -215,7 +215,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         return (
             round(self.translated * 100.0 / self.total, 1),
             round(self.fuzzy * 100.0 / self.total, 1),
-            round(self.get_failing_checks() * 100.0 / self.total, 1),
+            round(self.failing_checks * 100.0 / self.total, 1),
         )
 
     def get_words_percent(self):
