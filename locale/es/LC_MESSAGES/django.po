@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-22 17:05+0200\n"
-"PO-Revision-Date: 2013-08-15 18:03+0200\n"
+"PO-Revision-Date: 2013-08-22 17:24+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -1109,7 +1109,6 @@ msgid "Base file for new translations"
 msgstr "Archivo base para nuevas traducciones"
 
 #: trans/models/subproject.py:154
-#, fuzzy
 #| msgid ""
 #| "Filename of file which is used for creating new ranslations. For Gettext "
 #| "choose .pot file."
@@ -1427,68 +1426,64 @@ msgid "Avatar for %s"
 msgstr "Avatar para %s"
 
 #: trans/templatetags/translations.py:317
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "hace un año"
 
 #: trans/templatetags/translations.py:319
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "hace %(count)s año"
+msgstr[1] "hace %(count)s años"
 
 #: trans/templatetags/translations.py:324
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "hace un mes"
 
 #: trans/templatetags/translations.py:326
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "hace %(count)s mes"
+msgstr[1] "hace %(count)s meses"
 
 #: trans/templatetags/translations.py:331
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "hace una semana"
 
 #: trans/templatetags/translations.py:333
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "hace %(count)s semana"
+msgstr[1] "hace %(count)s semanas"
 
 #: trans/templatetags/translations.py:337
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "ayer"
 
 #: trans/templatetags/translations.py:339
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "hace %(count)s día"
+msgstr[1] "hace %(count)s días"
 
 #: trans/templatetags/translations.py:342
 #: trans/templatetags/translations.py:393
@@ -1496,14 +1491,13 @@ msgid "now"
 msgstr "ahora"
 
 #: trans/templatetags/translations.py:345
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "hace un segundo"
 
 #: trans/templatetags/translations.py:347
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
@@ -1512,46 +1506,43 @@ msgstr[0] "hace un segundo"
 msgstr[1] "hace %(count)s segundos"
 
 #: trans/templatetags/translations.py:352
-#, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "hace un minuto"
 
 #: trans/templatetags/translations.py:354
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
-msgstr[0] "hace un minuto"
+msgstr[0] "hace %(count)s minuto"
 msgstr[1] "hace %(count)s minutos"
 
 #: trans/templatetags/translations.py:359
-#, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "hace una hora"
 
 #: trans/templatetags/translations.py:361
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
-msgstr[0] "hace una hora"
+msgstr[0] "hace %(count)s hora"
 msgstr[1] "hace %(count)s horas"
 
 #: trans/templatetags/translations.py:368
-#, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "en un año"
 
 #: trans/templatetags/translations.py:370
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
@@ -1560,99 +1551,93 @@ msgstr[0] "en un año"
 msgstr[1] "en %(count)s años"
 
 #: trans/templatetags/translations.py:375
-#, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "en un mes"
 
 #: trans/templatetags/translations.py:377
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "en un mes"
+msgstr[0] "en %(count)s mes"
 msgstr[1] "en %(count)s meses"
 
 #: trans/templatetags/translations.py:382
-#, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "en una semana"
 
 #: trans/templatetags/translations.py:384
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "en una semana"
+msgstr[0] "en %(count)s semana"
 msgstr[1] "en %(count)s semanas"
 
 #: trans/templatetags/translations.py:388
-#, fuzzy
 #| msgid "tomorrow"
 #| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
 msgstr "mañana"
 
 #: trans/templatetags/translations.py:390
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "un segundo a partir de ahora"
-msgstr[1] "%(count)s segundos a partir de ahora"
+msgstr[0] "en %(count)s día"
+msgstr[1] "en %(count)s días"
 
 #: trans/templatetags/translations.py:396
-#, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "en un segundo"
 
 #: trans/templatetags/translations.py:398
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "en un segundo"
+msgstr[0] "en %(count)s segundo"
 msgstr[1] "en %(count)s segundos"
 
 #: trans/templatetags/translations.py:405
-#, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "en un minuto"
 
 #: trans/templatetags/translations.py:407
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "en un minuto"
+msgstr[0] "en %(count)s minuto"
 msgstr[1] "en %(count)s minutos"
 
 #: trans/templatetags/translations.py:414
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "en una hora"
 
 #: trans/templatetags/translations.py:416
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "en una hora"
+msgstr[0] "en %(count)s hora"
 msgstr[1] "en %(count)s horas"
 
 #: trans/views/basic.py:69
