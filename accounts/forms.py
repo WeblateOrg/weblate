@@ -30,7 +30,7 @@ from django.utils.encoding import force_unicode
 from itertools import chain
 
 try:
-    from icu import Locale, Collator
+    import icu
     HAS_ICU = True
 except ImportError:
     HAS_ICU = False
@@ -45,7 +45,9 @@ def sort_choices(choices):
     if not HAS_ICU:
         sorter = cmp
     else:
-        sorter = Collator.createInstance(Locale(get_language())).compare
+        locale = icu.Locale(get_language())
+        collator = icu.Collator.createInstance(locale)
+        sorter = collator.compare
 
     # Actually sort values
     return sorted(
