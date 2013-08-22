@@ -1203,20 +1203,12 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         return ret, store.count_units()
 
-    def get_suggestions_count(self):
-        '''
-        Returns number of units with suggestions.
-        '''
-        return self.have_suggestion
-
-    def get_failing_checks(self, check='allchecks'):
+    def get_failing_checks(self, check):
         '''
         Returns number of units with failing checks.
 
         By default for all checks or check type can be specified.
         '''
-        if check == 'allchecks':
-            return self.failing_checks
         return self.unit_set.count_type(check, self)
 
     def invalidate_cache(self, cache_type=None):
