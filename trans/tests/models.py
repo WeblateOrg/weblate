@@ -29,9 +29,7 @@ from django.core.exceptions import ValidationError
 import shutil
 import os
 import git
-from trans.models import (
-    Project, SubProject
-)
+from trans.models import Project, SubProject
 from weblate import appsettings
 
 REPOWEB_URL = \
