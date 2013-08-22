@@ -20,28 +20,27 @@
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
-import cairo
-import pango
-import pangocairo
+from weblate import appsettings
+from PIL import Image, ImageDraw, ImageFont
 from cStringIO import StringIO
 import os.path
 
 
 COLOR_DATA = {
     'grey': {
-        'bar': (0, 67.0 / 255, 118.0 / 255),
-        'border': (0, 0, 0),
-        'text': (0, 0, 0),
+        'bar': 'rgb(0, 67, 118)',
+        'border': 'rgb(0, 0, 0)',
+        'text': 'rgb(0, 0, 0)',
     },
     'white': {
-        'bar': (0, 67.0 / 255, 118.0 / 255),
-        'border': (0, 0, 0),
-        'text': (0, 0, 0),
+        'bar': 'rgb(0, 67, 118)',
+        'border': 'rgb(0, 0, 0)',
+        'text': 'rgb(0, 0, 0)',
     },
     'black': {
-        'bar': (0, 67.0 / 255, 118.0 / 255),
-        'border': (255, 255, 255),
-        'text': (255, 255, 255),
+        'bar': 'rgb(0, 67, 118)',
+        'border': 'rgb(255, 255, 255)',
+        'text': 'rgb(255, 255, 255)',
     },
 }
 
@@ -79,9 +78,8 @@ class Widget(object):
         self.lang = lang
 
         # Set rendering variables
-        self.surface = None
-        self.context = None
-        self.pango_context = None
+        self.image = None
+        self.draw = None
         self.width = 0
 
     def get_color_name(self, color):
@@ -128,26 +126,16 @@ class Widget(object):
         '''
         Renders widget.
         '''
-        # Surface with background image
-        self.surface = cairo.ImageSurface.create_from_png(
-            self.get_filename()
-        )
-        self.width = self.surface.get_width()
-
-        # Cairo context for graphics
-        self.context = cairo.Context(self.surface)
-        self.context.set_line_width(self.get_line_width())
-
-        # Pango context for rendering text
-        self.pango_context = pangocairo.CairoContext(self.context)
-        self.pango_context.set_antialias(cairo.ANTIALIAS_SUBPIXEL)
+        # PIL objects
+        self.image = Image.open(self.get_filename()).convert('RGB')
+        self.draw = ImageDraw.Draw(self.image)
+        self.width = self.image.size[0]
 
         # Render progressbar
         if self.progress:
             self.render_progress()
 
         # Render texts
-        self.context.set_source_rgb(*COLOR_DATA[self.color]['text'])
         self.render_texts()
 
     def render_progress(self):
@@ -155,51 +143,41 @@ class Widget(object):
         Renders progress bar.
         '''
         # Filled bar
-        self.context.new_path()
-        self.context.set_source_rgb(*COLOR_DATA[self.color]['bar'])
         if self.progress['horizontal']:
-            self.context.rectangle(
-                self.progress['x'],
-                self.progress['y'],
-                self.progress['width'] / 100.0 * self.percent,
-                self.progress['height']
+            self.draw.rectangle(
+                (
+                    self.progress['x'],
+                    self.progress['y'],
+                    self.progress['x']
+                    + self.progress['width'] / 100.0 * self.percent,
+                    self.progress['y'] + self.progress['height']
+                ),
+                fill=COLOR_DATA[self.color]['bar'],
             )
         else:
             diff = self.progress['height'] / 100.0 * (100 - self.percent)
-            self.context.rectangle(
-                self.progress['x'],
-                self.progress['y'] + diff,
-                self.progress['width'],
-                self.progress['height'] - diff
+            self.draw.rectangle(
+                (
+                    self.progress['x'],
+                    self.progress['y'] + diff,
+                    self.progress['x'] + self.progress['width'],
+                    self.progress['y'] + self.progress['height'] - diff
+                ),
+                fill=COLOR_DATA[self.color]['bar'],
             )
-        self.context.fill()
 
         # Progress border
-        self.context.new_path()
-        self.context.set_source_rgb(*COLOR_DATA[self.color]['border'])
-        self.context.rectangle(
-            self.progress['x'],
-            self.progress['y'],
-            self.progress['width'],
-            self.progress['height']
+        self.draw.rectangle(
+            (
+                self.progress['x'],
+                self.progress['y'],
+                self.progress['x'] + self.progress['width'],
+                self.progress['y'] + self.progress['height']
+            ),
+            outline=COLOR_DATA[self.color]['border']
         )
-        self.context.stroke()
 
-    def get_text_layout(self, text, font_face, font_size):
-        '''
-        Generates Pango layout for text.
-        '''
-        # Create pango layout and set font
-        layout = self.pango_context.create_layout()
-        font = pango.FontDescription('%s %d' % (font_face, font_size))
-        layout.set_font_description(font)
-
-        # Add text
-        layout.set_text(text)
-
-        return layout
-
-    def render_text(self, text, lang_text, font_face, font_size, pos_x, pos_y):
+    def render_text(self, text, lang_text, base_font_size, pos_x, pos_y):
         # Use language variant if desired
         if self.lang is not None and lang_text is not None:
             text = lang_text
@@ -207,21 +185,27 @@ class Widget(object):
                 text = text.replace('English', self.lang.name)
         # Format text
         text = text % self.params
+        offset = 0
 
-        # Iterate until text fits into widget
-        layout_width = self.width + pos_x + 1
-        layout = None
-        while layout_width + pos_x > self.width and font_size > 4:
-            layout = self.get_text_layout(text, font_face, font_size)
-            layout_width = layout.get_pixel_extents()[1][2]
-            font_size -= 1
+        for line in text.splitlines():
 
-        # Set position
-        self.context.move_to(pos_x, pos_y)
+            # Iterate until text fits into widget
+            for font_size in range(base_font_size, 3, -1):
+                font = ImageFont.truetype(appsettings.TTF_FONT, font_size)
+                layout_size = font.getsize(line)
+                layout_width = layout_size[0]
+                if layout_width + pos_x < self.width:
+                    break
 
-        # Render to cairo context
-        self.pango_context.update_layout(layout)
-        self.pango_context.show_layout(layout)
+            # Render text
+            self.draw.text(
+                (pos_x, pos_y + offset),
+                line,
+                font=font,
+                fill=COLOR_DATA[self.color]['text']
+            )
+
+            offset += layout_size[1]
 
     def render_texts(self):
         '''
@@ -234,7 +218,7 @@ class Widget(object):
         Returns PNG data.
         '''
         out = StringIO()
-        self.surface.write_to_png(out)
+        self.image.save(out, 'PNG')
         return out.getvalue()
 
 
@@ -252,7 +236,7 @@ class NormalWidget(Widget):
         self.render_text(
             '%(name)s',
             None,
-            'Sans Bold', 10,
+            13,
             72, 6
         )
         self.render_text(
@@ -263,7 +247,7 @@ class NormalWidget(Widget):
             # Translators: please use your language name instead of English
             _('translating %(count)d strings into English\n%(percent)d%%'
               ' complete, help us improve!'),
-            'Sans', 8,
+            11,
             72, 22
         )
 
@@ -277,14 +261,14 @@ class SmallWidget(Widget):
         self.render_text(
             '%(name)s',
             None,
-            'Sans Bold', 7,
+            9,
             23, 2
         )
         self.render_text(
             _('translation\n%(percent)d%% done'),
             # Translators: please use your language name instead of English
             _('English translation\n%(percent)d%% done'),
-            'Sans', 7,
+            9,
             23, 11
         )
 
