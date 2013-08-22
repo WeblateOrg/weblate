@@ -187,9 +187,7 @@ class Widget(object):
         # Format text
         text = text % self.params
         cjk = is_cjk(text)
-        print cjk, text
         offset = 0
-
 
         for line in text.splitlines():
 
