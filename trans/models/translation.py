@@ -20,7 +20,6 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from weblate import appsettings
 from django.db.models import Q, Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
@@ -35,6 +34,7 @@ from translate.storage import poheader
 from datetime import datetime, timedelta
 
 import weblate
+from weblate import appsettings
 from lang.models import Language
 from trans.formats import AutoFormat
 from trans.checks import CHECKS
