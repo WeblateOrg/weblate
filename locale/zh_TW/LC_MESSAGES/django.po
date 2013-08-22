@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-15 09:41+0200\n"
+"POT-Creation-Date: 2013-08-22 11:43+0200\n"
 "PO-Revision-Date: 2013-08-22 10:34+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://l10n.cihar.com/projects/weblate/master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
+"master/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,7 +131,6 @@ msgid "Notification on merge failure"
 msgstr "在合併失敗時通知"
 
 #: accounts/models.py:361
-#| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
 msgstr "有新的語言要求時通知"
 
@@ -584,6 +583,13 @@ msgstr ""
 "英文翻譯了\n"
 "%(percent)d%% 完成"
 
+#: trans/widgets.py:312 weblate/html/index.html:38
+#: weblate/html/index.html.py:81 weblate/html/languages.html:15
+#: weblate/html/list-translations.html:8 weblate/html/project.html:21
+#: weblate/html/translation.html:155
+msgid "Translated"
+msgstr "已翻譯"
+
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
 msgstr "省略號結尾"
@@ -724,7 +730,6 @@ msgid "C format"
 msgstr "C 格式"
 
 #: trans/checks/format.py:265
-#| msgid "Python format"
 msgid "Python brace format"
 msgstr "Python 的括號格式"
 
@@ -822,7 +827,6 @@ msgid "Point to translation instructions URL"
 msgstr "指向翻譯指示網址"
 
 #: trans/models/project.py:46
-#| msgid "Monolingual base language file"
 msgid "Automatically add language file"
 msgstr "自動新增語言檔案"
 
@@ -996,7 +1000,8 @@ msgstr "Git資源庫"
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
-msgstr "Git 資源庫的網址，使用 weblate://project/subproject 分享給其它的子專案。"
+msgstr ""
+"Git 資源庫的網址，使用 weblate://project/subproject 分享給其它的子專案。"
 
 #: trans/models/subproject.py:92
 msgid "Git push URL"
@@ -1015,7 +1020,9 @@ msgstr "瀏覽資源庫"
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
-msgstr "連結到資源庫瀏覽器，使用 %(branch)s 作為分支，%(file)s 和 %(line)s 為檔案名稱和預留行。"
+msgstr ""
+"連結到資源庫瀏覽器，使用 %(branch)s 作為分支，%(file)s 和 %(line)s 為檔案名稱"
+"和預留行。"
 
 #: trans/models/subproject.py:109
 msgid "Exported Git URL"
@@ -1051,7 +1058,9 @@ msgstr "檔案遮罩"
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
-msgstr "翻譯檔案的路徑，使用*號而不是語言碼，例如：po/*.po or locale/*/LC_MESSAGES/django.po。"
+msgstr ""
+"翻譯檔案的路徑，使用*號而不是語言碼，例如：po/*.po or locale/*/LC_MESSAGES/"
+"django.po。"
 
 #: trans/models/subproject.py:140
 msgid "Monolingual base language file"
@@ -1061,16 +1070,21 @@ msgstr "單一語言的基礎語言檔案"
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
-msgstr "檔案名稱的翻譯基礎檔案，其中包含所有的字串和他們的來源；這是建議使用的單一語言翻譯格式。"
+msgstr ""
+"檔案名稱的翻譯基礎檔案，其中包含所有的字串和他們的來源；這是建議使用的單一語"
+"言翻譯格式。"
 
 #: trans/models/subproject.py:150
-#| msgid "Add as other translation"
 msgid "Base file for new translations"
 msgstr "為新翻譯的基本檔案"
 
 #: trans/models/subproject.py:154
+#, fuzzy
+#| msgid ""
+#| "Filename of file which is used for creating new ranslations. For Gettext "
+#| "choose .pot file."
 msgid ""
-"Filename of file which is used for creating new ranslations. For Gettext "
+"Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr "檔案的檔案名稱，用作建立新的翻譯。在 Gettext 選擇 .pot 檔案。"
 
@@ -1150,9 +1164,6 @@ msgid "Quality checks flags"
 msgstr "品質查核標記"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional file to include in commits; please check documentation for "
-#| "more details."
 msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
@@ -1453,8 +1464,9 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"<a href=\"%(url)s\">在 %(project)s 的翻譯專案</a>，目前含有 %(total)s 個字串翻譯，和<a href=\"%"
-"(url)s\">翻譯成 %(languages)s 語言</a>。整體來說，這些翻譯 %(percent)s%% 完成。"
+"<a href=\"%(url)s\">在 %(project)s 的翻譯專案</a>，目前含有 %(total)s 個字串"
+"翻譯，和<a href=\"%(url)s\">翻譯成 %(languages)s 語言</a>。整體來說，這些翻"
+"譯 %(percent)s%% 完成。"
 
 #: trans/views/basic.py:157
 #, python-format
@@ -1463,8 +1475,8 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">在 %(project)s 的翻譯專案</a>，目前含有 %(total)s 個字串譯成正體中文，這些翻譯 %"
-"(percent)s%% 完成。"
+"<a href=\"%(url)s\">在 %(project)s 的翻譯專案</a>，目前含有 %(total)s 個字串"
+"譯成正體中文，這些翻譯 %(percent)s%% 完成。"
 
 #: trans/views/basic.py:256
 #, python-format
@@ -1769,8 +1781,8 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
-"如果您正在尋找對  Weblate 的支援，或想到網站查對檔案的錯誤回報 <a href=\"%"
-"(weblate_url)s\">weblate.org</a>."
+"如果您正在尋找對  Weblate 的支援，或想到網站查對檔案的錯誤回報 <a href="
+"\"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/html/about.html:20
 msgid ""
@@ -1927,14 +1939,17 @@ msgstr "RSS 訂閱"
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
-msgstr "要追蹤翻譯的進度，您可以使用 RSS 訂閱，其中包括了在翻譯中的所有重要變更。"
+msgstr ""
+"要追蹤翻譯的進度，您可以使用 RSS 訂閱，其中包括了在翻譯中的所有重要變更。"
 
 #: weblate/html/data-root.html:21 weblate/html/data.html:22
 #, python-format
 msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
-msgstr "在 <a href=\"%(rss_docs)s\">文件檔</a>，有更多關於匯出 RSS 訂閱可用的詳細資訊。"
+msgstr ""
+"在 <a href=\"%(rss_docs)s\">文件檔</a>，有更多關於匯出 RSS 訂閱可用的詳細資"
+"訊。"
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60
@@ -1974,8 +1989,8 @@ msgid ""
 "these data in other websites or tools. Format of the data is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
-"翻譯統計資料為 JSON 格式，用在每一個子專案，這些資料允許您使用在其它網站中或是工具。資料格式請看<a href=\"%"
-"(api_docs)s\">文件</a>。"
+"翻譯統計資料為 JSON 格式，用在每一個子專案，這些資料允許您使用在其它網站中或"
+"是工具。資料格式請看<a href=\"%(api_docs)s\">文件</a>。"
 
 #: weblate/html/data.html:68 weblate/html/translation.html:59
 msgid "Download"
@@ -2058,7 +2073,9 @@ msgstr "增加"
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
-msgstr "您可以上傳任何這翻譯工具組能理解的格式，（包括 TBX、 CSV 或 Gettext PO 檔案）。"
+msgstr ""
+"您可以上傳任何這翻譯工具組能理解的格式，（包括 TBX、 CSV 或 Gettext PO 檔"
+"案）。"
 
 #: weblate/html/dictionary.html:106
 msgid "Import"
@@ -2769,8 +2786,8 @@ msgid ""
 "software projects listed below. You need to be logged in for translating, "
 "otherwise you can only make suggestions."
 msgstr ""
-"此網站運作於 <a href=\"%(weblate_url)s\"> "
-"Weblate</a>，為下方列出的軟體專案翻譯。您需要登入翻譯，否則您只能提出建議。"
+"此網站運作於 <a href=\"%(weblate_url)s\"> Weblate</a>，為下方列出的軟體專案翻"
+"譯。您需要登入翻譯，否則您只能提出建議。"
 
 #: weblate/html/index.html:13 weblate/html/subproject.html:17
 #: weblate/html/translate.html:85
@@ -2789,12 +2806,6 @@ msgstr "專案"
 #: weblate/html/index.html:22
 msgid "Checks"
 msgstr "查核"
-
-#: weblate/html/index.html:38 weblate/html/index.html.py:81
-#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:21 weblate/html/translation.html:155
-msgid "Translated"
-msgstr "已翻譯"
 
 #: weblate/html/index.html:60
 msgid "Summaries"
@@ -2987,7 +2998,9 @@ msgstr "您的公共設定檔："
 msgid ""
 "By registering you agree to use your name and email in Git commits and "
 "provide your contribution under license defined by each translated project."
-msgstr "經過註冊表示您同意在提交 Git 時使用您的姓名和 email，並且在您所定義的授權下提供每個翻譯專案。"
+msgstr ""
+"經過註冊表示您同意在提交 Git 時使用您的姓名和 email，並且在您所定義的授權下提"
+"供每個翻譯專案。"
 
 #: weblate/html/profile.html:67
 msgid ""
@@ -3111,12 +3124,10 @@ msgid "Please choose language into which you would like to translate."
 msgstr "請選擇您想翻譯的是哪個語言。"
 
 #: weblate/html/subproject.html:55
-#| msgid "New language"
 msgid "Request new language"
 msgstr "要求新的語言"
 
 #: weblate/html/subproject.html:57
-#| msgid "New language"
 msgid "Add new language"
 msgstr "新增語言"
 
@@ -3126,8 +3137,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"如果找不到您的語言，請<a href=\"%(contact_url)s?subject=New language request for %"
-"(object)s\">連絡我們</a> 。"
+"如果找不到您的語言，請<a href=\"%(contact_url)s?subject=New language request "
+"for %(object)s\">連絡我們</a> 。"
 
 #: weblate/html/subproject.html:79
 msgid "Source strings review"
@@ -3229,7 +3240,8 @@ msgstr "標記"
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
-msgstr "<a href=\"%(login_url)s?next=%(translate_url)s\">登入</a> 可以儲存翻譯。"
+msgstr ""
+"<a href=\"%(login_url)s?next=%(translate_url)s\">登入</a> 可以儲存翻譯。"
 
 #: weblate/html/translate.html:163
 msgid "Suggest"
@@ -3240,7 +3252,6 @@ msgid "Additional text to include in the commit message."
 msgstr "把增加文字含括在提交訊息。"
 
 #: weblate/html/translate.html:167
-#| msgid "Commit message"
 msgid "Commit message:"
 msgstr "提交訊息："
 
@@ -3357,7 +3368,9 @@ msgstr "您可以<a href=\"%(download_url)s\">下載</a>檔案以離線翻譯。
 msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
-msgstr "您還可以<a href=\"%(pack_download_url)s\">下載</a>已編譯的檔案，使用於應用程式中。"
+msgstr ""
+"您還可以<a href=\"%(pack_download_url)s\">下載</a>已編譯的檔案，使用於應用程"
+"式中。"
 
 #: weblate/html/translation.html:69 weblate/html/translation.html.py:81
 msgid "Upload"
@@ -3426,7 +3439,6 @@ msgid "Percent"
 msgstr "百分比"
 
 #: weblate/html/translation.html:145
-#| msgid "Substring"
 msgid "Strings"
 msgstr "字串"
 
@@ -3435,13 +3447,10 @@ msgid "Total"
 msgstr "總計"
 
 #: weblate/html/translation.html:161
-#| msgctxt "Checkbox for marking translation fuzzy"
-#| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "模糊的"
 
 #: weblate/html/translation.html:167
-#| msgid "Trailing space"
 msgid "Failing check"
 msgstr "缺點查核"
 
@@ -3450,7 +3459,9 @@ msgstr "缺點查核"
 msgid ""
 "There are %(count)s strings, out of which %(translated)s&#37; is translated "
 "and %(fuzzy)s&#37; is fuzzy."
-msgstr "有 %(count)s 字串，其中 %(translated)s&#37；已翻譯，和 %(fuzzy)s&#37；是模糊的翻譯。"
+msgstr ""
+"有 %(count)s 字串，其中 %(translated)s&#37；已翻譯，和 %(fuzzy)s&#37；是模糊"
+"的翻譯。"
 
 #: weblate/html/translation_info.html:10
 #, python-format
@@ -3934,21 +3945,17 @@ msgstr "在%(translation)s 中新的提供者"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
 #, python-format
-#| msgid ""
-#| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
 msgstr "又有了一個新的語言，在 %(translation)s 上的 %(site_title)s。"
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#| msgid "Used languages"
 msgid "Requested language:"
 msgstr "請求的語言："
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
-#| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
 msgstr "在%(translation)s 中新的語言要求"
 
@@ -4047,7 +4054,9 @@ msgstr ""
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
-msgstr "請在您的瀏覽器中開啟以下連結。如果連結分割成為幾行，您可能需要將它複製到網址列中。"
+msgstr ""
+"請在您的瀏覽器中開啟以下連結。如果連結分割成為幾行，您可能需要將它複製到網址"
+"列中。"
 
 #: weblate/html/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
@@ -4095,7 +4104,9 @@ msgstr[0] "請更正以下錯誤。"
 msgid ""
 "Please enter your old password, for security's sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
-msgstr "為了安全性的考量，請輸入您的舊密碼，接著輸入您的新密碼兩次，這樣我們才能驗證您沒有輸入錯誤。"
+msgstr ""
+"為了安全性的考量，請輸入您的舊密碼，接著輸入您的新密碼兩次，這樣我們才能驗證"
+"您沒有輸入錯誤。"
 
 #: weblate/html/registration/password_change_form.html:22
 #: weblate/html/registration/password_reset_confirm.html:14
@@ -4126,7 +4137,9 @@ msgstr ""
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
-msgstr "我們已經用電子郵件，把設定的密碼依您的指定，寄到您的電子郵件位址。您應該很快就會收到它。"
+msgstr ""
+"我們已經用電子郵件，把設定的密碼依您的指定，寄到您的電子郵件位址。您應該很快"
+"就會收到它。"
 
 #: weblate/html/registration/password_reset_email.html:2
 #, python-format
@@ -4156,7 +4169,9 @@ msgstr "%(site_name)s 的成員"
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr "忘記了您的密碼嗎？下面輸入您的電子郵件地址，我們會依指定的電子郵件發送一個新的設定。"
+msgstr ""
+"忘記了您的密碼嗎？下面輸入您的電子郵件地址，我們會依指定的電子郵件發送一個新"
+"的設定。"
 
 #: weblate/html/registration/password_reset_form.html:10
 msgid "Reset my password"
@@ -4183,8 +4198,8 @@ msgid ""
 "there, please <a href=\"%(contact_url)s?subject=Lost activation code"
 "\">contact us</a>."
 msgstr ""
-"如果您沒有收到，請檢查您的垃圾郵件夾。如果不在那裡，請<a href=\"%(contact_url)s?subject=Lost activation "
-"code\">連絡我們</a>。"
+"如果您沒有收到，請檢查您的垃圾郵件夾。如果不在那裡，請<a href="
+"\"%(contact_url)s?subject=Lost activation code\">連絡我們</a>。"
 
 #: weblate/html/registration/registration_form.html:11
 msgid "Please fix errors in registration form."

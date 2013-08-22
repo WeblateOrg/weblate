@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-15 09:41+0200\n"
+"POT-Creation-Date: 2013-08-22 11:43+0200\n"
 "PO-Revision-Date: 2013-08-18 23:10+0200\n"
 "Last-Translator: Mauricio Bastos <msbmail@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
+"master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -593,6 +593,13 @@ msgstr ""
 "Tradução em Português\n"
 "%(percent)d%% concluída"
 
+#: trans/widgets.py:312 weblate/html/index.html:38
+#: weblate/html/index.html.py:81 weblate/html/languages.html:15
+#: weblate/html/list-translations.html:8 weblate/html/project.html:21
+#: weblate/html/translation.html:155
+msgid "Translated"
+msgstr "Traduzido"
+
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
 msgstr "Reticências no final"
@@ -1107,13 +1114,16 @@ msgstr ""
 "fontes; isto é recomendado para uso de formatos de tradução mono-idiomática."
 
 #: trans/models/subproject.py:150
-#| msgid "Failed translation"
 msgid "Base file for new translations"
 msgstr "Arquivo base para novas traduções"
 
 #: trans/models/subproject.py:154
+#, fuzzy
+#| msgid ""
+#| "Filename of file which is used for creating new ranslations. For Gettext "
+#| "choose .pot file."
 msgid ""
-"Filename of file which is used for creating new ranslations. For Gettext "
+"Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
 "Nome de arquivo do arquivo usado para criar novas traduções. Para Gettext "
@@ -1193,7 +1203,6 @@ msgid "Autoaccept suggestions"
 msgstr "Auto-aceitar sugestões"
 
 #: trans/models/subproject.py:224
-#| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
 msgstr ""
@@ -1207,9 +1216,6 @@ msgid "Quality checks flags"
 msgstr "Foram encontradas verificações com falhas"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional file to include in commits; please check documentation for "
-#| "more details."
 msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
@@ -1299,7 +1305,6 @@ msgstr ""
 "definido nas configurações do projeto."
 
 #: trans/models/subproject.py:897
-#| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Formato do arquivo-base para tradução não reconhecido!"
 
@@ -1767,8 +1772,6 @@ msgstr "Por favor, corrija os erros no formulário."
 
 #: trans/views/files.py:128
 #, python-format
-#| msgid ""
-#| "File content successfully merged into translation, processed %d string."
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
@@ -1781,7 +1784,6 @@ msgstr[1] ""
 
 #: trans/views/files.py:139
 #, python-format
-#| msgid "There were no new strings in uploaded file, processed %d string."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
@@ -2933,12 +2935,6 @@ msgstr "Projetos"
 msgid "Checks"
 msgstr "Verificações"
 
-#: weblate/html/index.html:38 weblate/html/index.html.py:81
-#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:21 weblate/html/translation.html:155
-msgid "Translated"
-msgstr "Traduzido"
-
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "Resumos"
@@ -3272,12 +3268,10 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Por favor, escolha o idioma para o qual deseja traduzir."
 
 #: weblate/html/subproject.html:55
-#| msgid "New language"
 msgid "Request new language"
 msgstr "Solicitar novo idioma"
 
 #: weblate/html/subproject.html:57
-#| msgid "New language"
 msgid "Add new language"
 msgstr "Adicionar Novo idioma"
 
@@ -3607,7 +3601,6 @@ msgid "Percent"
 msgstr ""
 
 #: weblate/html/translation.html:145
-#| msgid "Substring"
 msgid "Strings"
 msgstr "Sequências"
 
@@ -4150,7 +4143,6 @@ msgid ""
 msgstr "existe uma nova tradução de %(translation)s em %(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#| msgid "Used languages"
 msgid "Requested language:"
 msgstr "Idioma solicitado:"
 

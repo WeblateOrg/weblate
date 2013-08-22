@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-15 09:41+0200\n"
+"POT-Creation-Date: 2013-08-22 11:43+0200\n"
 "PO-Revision-Date: 2013-08-19 19:55+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -134,13 +134,13 @@ msgid "Notification on merge failure"
 msgstr "Melding bij een samenvoegfout"
 
 #: accounts/models.py:361
-#| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
 msgstr "Melding bij verzoek nieuwe taal"
 
 #: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
-msgstr "Uw profiel werd gemigreerd, het is best om uw voorkeuren aan te passen."
+msgstr ""
+"Uw profiel werd gemigreerd, het is best om uw voorkeuren aan te passen."
 
 #: accounts/urls.py:38 accounts/views.py:53
 msgid "User registration"
@@ -593,6 +593,13 @@ msgstr ""
 "Engelse vertaling\n"
 "%(percent)d%% voltooid"
 
+#: trans/widgets.py:312 weblate/html/index.html:38
+#: weblate/html/index.html.py:81 weblate/html/languages.html:15
+#: weblate/html/list-translations.html:8 weblate/html/project.html:21
+#: weblate/html/translation.html:155
+msgid "Translated"
+msgstr "Vertaald"
+
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
 msgstr "Beletselteken (…) op het einde"
@@ -743,7 +750,6 @@ msgid "C format"
 msgstr "C-formaat"
 
 #: trans/checks/format.py:265
-#| msgid "Python format"
 msgid "Python brace format"
 msgstr "Python-haakjesformaat"
 
@@ -788,8 +794,7 @@ msgstr "Beletselteken (…)"
 #: trans/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
-"De tekenreeks gebruikt drie puntjes (...) in plaats van een beletselteken "
-"(…)"
+"De tekenreeks gebruikt drie puntjes (...) in plaats van een beletselteken (…)"
 
 #: trans/models/changes.py:131
 msgid "Resource update"
@@ -845,7 +850,6 @@ msgid "Point to translation instructions URL"
 msgstr "Verwijzen naar URL met vertaalinstructies"
 
 #: trans/models/project.py:46
-#| msgid "Monolingual base language file"
 msgid "Automatically add language file"
 msgstr "Automatisch taalbestand toevoegen"
 
@@ -907,7 +911,8 @@ msgstr "Licentie van de vertaling"
 
 #: trans/models/project.py:107
 msgid "Optional short summary of license used for translations."
-msgstr "Korte samenvatting van licenties gebruikt voor vertalingen (optioneel)."
+msgstr ""
+"Korte samenvatting van licenties gebruikt voor vertalingen (optioneel)."
 
 #: trans/models/project.py:111
 msgid "License URL"
@@ -1110,13 +1115,16 @@ msgstr ""
 "dit wordt aangeraden voor enkeltalige vertaalformaten."
 
 #: trans/models/subproject.py:150
-#| msgid "Failed translation"
 msgid "Base file for new translations"
 msgstr "Basisbestand voor nieuwe vertalingen"
 
 #: trans/models/subproject.py:154
+#, fuzzy
+#| msgid ""
+#| "Filename of file which is used for creating new ranslations. For Gettext "
+#| "choose .pot file."
 msgid ""
-"Filename of file which is used for creating new ranslations. For Gettext "
+"Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
 "Bestandsnaam van bestand dat wordt gebruikt voor het aanmaken van nieuwe "
@@ -1196,7 +1204,6 @@ msgid "Autoaccept suggestions"
 msgstr "Suggesties automatisch aanvaarden"
 
 #: trans/models/subproject.py:224
-#| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
 msgstr ""
@@ -1204,14 +1211,10 @@ msgstr ""
 "schakelen."
 
 #: trans/models/subproject.py:230
-#| msgid "Failing checks found"
 msgid "Quality checks flags"
 msgstr "Kwaliteitscontrolevlaggen"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional file to include in commits; please check documentation for "
-#| "more details."
 msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
@@ -1301,7 +1304,6 @@ msgstr ""
 "nieuwe vertalingen zoals gekozen in de projectinstellingen."
 
 #: trans/models/subproject.py:897
-#| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 "Het formaat van het basisbestand voor nieuwe vertalingen werd niet herkend!"
@@ -1546,9 +1548,9 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
-"Het <a href=\"%(url)s\">vertaalproject van %(project)s</a> bevat momenteel %"
-"(total)s te vertalen tekenreeksen en <a href=\"%(url)s\">wordt vertaald in %"
-"(languages)s talen</a>. Alles samen zijn de vertalingen %(percent)s%% "
+"Het <a href=\"%(url)s\">vertaalproject van %(project)s</a> bevat momenteel "
+"%(total)s te vertalen tekenreeksen en <a href=\"%(url)s\">wordt vertaald in "
+"%(languages)s talen</a>. Alles samen zijn de vertalingen %(percent)s%% "
 "volledig."
 
 #: trans/views/basic.py:157
@@ -1590,7 +1592,6 @@ msgid "Requested new language addition from the project maintainers."
 msgstr "Toevoegen van nieuwe taal aangevraagd bij projectbeheerders."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
 msgstr "Aanvraag voor nieuwe taal kon niet verwerkt worden!"
 
@@ -1790,8 +1791,7 @@ msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
 msgstr[0] ""
-"Het geüploade bestand bevat geen nieuwe tekenreeksen, %d tekenreeks "
-"verwerkt."
+"Het geüploade bestand bevat geen nieuwe tekenreeksen, %d tekenreeks verwerkt."
 msgstr[1] ""
 "Het geüploade bestand bevat geen nieuwe tekenreeksen, %d tekenreeksen "
 "verwerkt."
@@ -1994,8 +1994,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Meer informatie over deze controle is beschikbaar in de <a href=\"%"
-"(link)s\">documentatie</a>."
+"Meer informatie over deze controle is beschikbaar in de <a href=\"%(link)s"
+"\">documentatie</a>."
 
 #: weblate/html/check.html:27 weblate/html/check_project.html:27
 #: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
@@ -2063,8 +2063,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"Meer informatie over geexporteerde RSS-feeds is beschikbaar in de <a href=\"%"
-"(rss_docs)s\">documentatie</a>."
+"Meer informatie over geexporteerde RSS-feeds is beschikbaar in de <a href="
+"\"%(rss_docs)s\">documentatie</a>."
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60
@@ -2255,9 +2255,9 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"%(project)s wordt vertaald met behulp van <a href=\"%"
-"(weblate_url)s\">Weblate</a>, een webgebaseerde tool om vertalen eenvoudig te "
-"maken voor zowel ontwikkelaars als vertalers."
+"%(project)s wordt vertaald met behulp van <a href=\"%(weblate_url)s"
+"\">Weblate</a>, een webgebaseerde tool om vertalen eenvoudig te maken voor "
+"zowel ontwikkelaars als vertalers."
 
 #: weblate/html/engage.html:38
 #, python-format
@@ -2265,8 +2265,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Om te helpen bij vertaling van %(project)s, dient u zich te <a href=\"%"
-"(reg_url)s\">registreren op deze server</a>."
+"Om te helpen bij vertaling van %(project)s, dient u zich te <a href="
+"\"%(reg_url)s\">registreren op deze server</a>."
 
 #: weblate/html/engage.html:41
 #, python-format
@@ -2274,8 +2274,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Eens uw account geactiveerd is, kan u naar het <a href=\"%"
-"(url)s\">vertaalonderdeel</a> gaan."
+"Eens uw account geactiveerd is, kan u naar het <a href=\"%(url)s"
+"\">vertaalonderdeel</a> gaan."
 
 #: weblate/html/footer.html:6
 #, python-format
@@ -2918,8 +2918,8 @@ msgid ""
 "software projects listed below. You need to be logged in for translating, "
 "otherwise you can only make suggestions."
 msgstr ""
-"Deze website wordt aangedreven door <a href=\"%(weblate_url)s\">Weblate</a> om "
-"de hieronder vermeldde projecten te vertalen. U moet aangemeld zijn om te "
+"Deze website wordt aangedreven door <a href=\"%(weblate_url)s\">Weblate</a> "
+"om de hieronder vermeldde projecten te vertalen. U moet aangemeld zijn om te "
 "kunnen vertalen, anders kan u enkel suggesties doen."
 
 #: weblate/html/index.html:13 weblate/html/subproject.html:17
@@ -2939,12 +2939,6 @@ msgstr "Projecten"
 #: weblate/html/index.html:22
 msgid "Checks"
 msgstr "Controles"
-
-#: weblate/html/index.html:38 weblate/html/index.html.py:81
-#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:21 weblate/html/translation.html:155
-msgid "Translated"
-msgstr "Vertaald"
 
 #: weblate/html/index.html:60
 msgid "Summaries"
@@ -3223,8 +3217,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"U kan dit vertaalproject ook promoten met deze verschillende <a href=\"%"
-"(widgets_url)s\">andere mogelijkheden</a>."
+"U kan dit vertaalproject ook promoten met deze verschillende <a href="
+"\"%(widgets_url)s\">andere mogelijkheden</a>."
 
 #: weblate/html/share.html:15
 #, python-format
@@ -3232,8 +3226,8 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
-"Verschillende <a href=\"%(data_url)s\">gegevensexports</a> zijn beschikbaar in "
-"door machineleesbare formaten."
+"Verschillende <a href=\"%(data_url)s\">gegevensexports</a> zijn beschikbaar "
+"in door machineleesbare formaten."
 
 #: weblate/html/source-review.html:9 weblate/html/source.html:8
 msgid "source"
@@ -3277,12 +3271,10 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Gelieve de taal te kiezen waarin u wilt vertalen."
 
 #: weblate/html/subproject.html:55
-#| msgid "New language"
 msgid "Request new language"
 msgstr "Nieuwe taal aanvragen"
 
 #: weblate/html/subproject.html:57
-#| msgid "New language"
 msgid "Add new language"
 msgstr "Nieuwe taal toevoegen"
 
@@ -3292,9 +3284,8 @@ msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">contact us</a>."
 msgstr ""
-"Mocht uw taal ontbreken, gelieve <a href=\"%"
-"(contact_url)s?subject=New+language+request+for+%(object)s\">contact met ons "
-"op te nemen</a>."
+"Mocht uw taal ontbreken, gelieve <a href=\"%(contact_url)s?subject=New"
+"+language+request+for+%(object)s\">contact met ons op te nemen</a>."
 
 #: weblate/html/subproject.html:79
 msgid "Source strings review"
@@ -3410,7 +3401,6 @@ msgid "Additional text to include in the commit message."
 msgstr "Bijkomende tekst om in te voegen in commit-bericht."
 
 #: weblate/html/translate.html:167
-#| msgid "Commit message"
 msgid "Commit message:"
 msgstr "Commit-bericht:"
 
@@ -3514,7 +3504,6 @@ msgid "Locking"
 msgstr "Vergrendeling"
 
 #: weblate/html/translation.html:46
-#| msgid "Status"
 msgid "Stats"
 msgstr "Statistieken"
 
@@ -3533,8 +3522,8 @@ msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
-"U kan ook een gecompileerd bestand <a href=\"%"
-"(pack_download_url)s\">downloaden</a> om te gebruiken in de applicatie."
+"U kan ook een gecompileerd bestand <a href=\"%(pack_download_url)s"
+"\">downloaden</a> om te gebruiken in de applicatie."
 
 #: weblate/html/translation.html:69 weblate/html/translation.html.py:81
 msgid "Upload"
@@ -3551,7 +3540,8 @@ msgstr ""
 
 #: weblate/html/translation.html:73
 msgid "Uploaded file will be merged with current translation."
-msgstr "Het geüploade bestand zal samengevoegd worden met de huidige vertaling."
+msgstr ""
+"Het geüploade bestand zal samengevoegd worden met de huidige vertaling."
 
 #: weblate/html/translation.html:92
 msgid "Review"
@@ -3612,7 +3602,6 @@ msgid "Percent"
 msgstr "Procent"
 
 #: weblate/html/translation.html:145
-#| msgid "Substring"
 msgid "Strings"
 msgstr "Tekenreeksen"
 
@@ -3621,13 +3610,10 @@ msgid "Total"
 msgstr "Totaal"
 
 #: weblate/html/translation.html:161
-#| msgctxt "Checkbox for marking translation fuzzy"
-#| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Vaag"
 
 #: weblate/html/translation.html:167
-#| msgid "Failing checks"
 msgid "Failing check"
 msgstr "Gefaalde controle"
 
@@ -3715,8 +3701,8 @@ msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"U kan nieuwkomers verwijzen naar de introductiepagina op <a href=\"%"
-"(engage_url)s\">%(engage_url)s</a>."
+"U kan nieuwkomers verwijzen naar de introductiepagina op <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 
 #: weblate/html/widgets.html:22
 msgid "Promoting specific translations"
@@ -3881,8 +3867,8 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
-"U vindt meer informatie over het instellen van SSH-sleutels in <a href=\"%"
-"(ssh_docs)s\">de Weblate-handleiding</a>."
+"U vindt meer informatie over het instellen van SSH-sleutels in <a href="
+"\"%(ssh_docs)s\">de Weblate-handleiding</a>."
 
 #: weblate/html/admin/trans/change_form.html:8
 #, python-format
@@ -3905,9 +3891,8 @@ msgid ""
 "Importing a new translation can take some time, please check <a href="
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
-"Het importeren van een nieuwe vertaling kan enige tijd duren, bekijk <a "
-"href=\"%(url)s\">onze documentatie</a> voor informatie over hoe dit te "
-"verbeteren."
+"Het importeren van een nieuwe vertaling kan enige tijd duren, bekijk <a href="
+"\"%(url)s\">onze documentatie</a> voor informatie over hoe dit te verbeteren."
 
 #: weblate/html/js/dictionary.html:19
 msgid "Copy word to translation"
@@ -4077,7 +4062,8 @@ msgstr "Vage tekenreeksen:"
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr "U kan vertalen op <a href=\"%(translation_url)s\">%(translation_url)s</a>"
+msgstr ""
+"U kan vertalen op <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 
 #: weblate/html/mail/footer.txt:7
 #, python-format
@@ -4089,8 +4075,8 @@ msgstr "U kan vertalen op %(translation_url)s"
 #, python-format
 msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
 msgstr ""
-"er is een fout opgetreden bij het samenvoegen in %(subproject)s op %"
-"(site_title)s."
+"er is een fout opgetreden bij het samenvoegen in %(subproject)s op "
+"%(site_title)s."
 
 #: weblate/html/mail/merge_failure.html:16
 msgid "Error message"
@@ -4141,8 +4127,8 @@ msgid ""
 "%(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"%(username)s heeft een eerste bijdrage geleverd aan %(translation)s op %"
-"(site_title)s."
+"%(username)s heeft een eerste bijdrage geleverd aan %(translation)s op "
+"%(site_title)s."
 
 #: weblate/html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -4151,23 +4137,18 @@ msgstr "Nieuwe medewerker voor %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
 #, python-format
-#| msgid ""
-#| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"er is een aanvraag voor een nieuwe taal in %(translation)s op %"
-"(site_title)s."
+"er is een aanvraag voor een nieuwe taal in %(translation)s op %(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#| msgid "Used languages"
 msgid "Requested language:"
 msgstr "Gewenste taal:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
-#| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
 msgstr "Nieuwe taalaanvraag in %(translation)s"
 
@@ -4176,8 +4157,8 @@ msgstr "Nieuwe taalaanvraag in %(translation)s"
 msgid ""
 "there are new strings to translate on %(translation)s at %(site_title)s."
 msgstr ""
-"er zijn nieuwe tekenreeksen om te vertalen voor %(translation)s op %"
-"(site_title)s."
+"er zijn nieuwe tekenreeksen om te vertalen voor %(translation)s op "
+"%(site_title)s."
 
 #: weblate/html/mail/new_string_subject.txt:1
 #, python-format
@@ -4190,8 +4171,8 @@ msgstr "Nieuwe tekenreeks om te vertalen in %(translation)s"
 msgid ""
 "there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
 msgstr ""
-"er is een nieuwe na te kijken suggestie voor %(translation)s op %"
-"(site_title)s."
+"er is een nieuwe na te kijken suggestie voor %(translation)s op "
+"%(site_title)s."
 
 #: weblate/html/mail/new_suggestion.html:29
 #: weblate/html/mail/new_suggestion.txt:9
@@ -4225,7 +4206,8 @@ msgstr "Nieuwe vertaling in %(translation)s"
 
 #: weblate/html/mail/signature.txt:4
 msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr "Meer informatie over Weblate kan gevonden worden op http://weblate.org/"
+msgstr ""
+"Meer informatie over Weblate kan gevonden worden op http://weblate.org/"
 
 #: weblate/html/registration/activate.html:7
 msgid "Your account could not be activated"
@@ -4253,9 +4235,9 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"Als dit niet het geval is, gelieve de websitebeheerder te <a href=\"%"
-"(contact_url)s\">contacteren</a>. Zoniet, dan kunt u zich <a href=\"%"
-"(reg_url)s\">opnieuw registreren</a>."
+"Als dit niet het geval is, gelieve de websitebeheerder te <a href="
+"\"%(contact_url)s\">contacteren</a>. Zoniet, dan kunt u zich <a href="
+"\"%(reg_url)s\">opnieuw registreren</a>."
 
 #: weblate/html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -4265,7 +4247,8 @@ msgstr "Bedankt. Uw account is nu actief."
 #, python-format
 msgid ""
 "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "Misschien wilt u nu <a href=\"%(profile_url)s\">uw profiel bijwerken</a>."
+msgstr ""
+"Misschien wilt u nu <a href=\"%(profile_url)s\">uw profiel bijwerken</a>."
 
 #: weblate/html/registration/activation_email.txt:3
 #, python-format
@@ -4273,8 +4256,8 @@ msgid ""
 "This is an automatic email to help you complete your registration with "
 "%(site_title)s."
 msgstr ""
-"Dit is een automatische e-mail die u helpt om uw registratie bij %"
-"(site_title)s te voltooien."
+"Dit is een automatische e-mail die u helpt om uw registratie bij "
+"%(site_title)s te voltooien."
 
 #: weblate/html/registration/activation_email.txt:5
 msgid ""
@@ -4314,8 +4297,8 @@ msgstr ""
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
-"Wachtwoord vergeten? U kan <a href=\"%(reset_url)s\">dit opnieuw "
-"instellen</a>."
+"Wachtwoord vergeten? U kan <a href=\"%(reset_url)s\">dit opnieuw instellen</"
+"a>."
 
 #: weblate/html/registration/logout.html:7
 msgid "Thanks for using Weblate!"
@@ -4426,8 +4409,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Sorry, maar registraties op deze site zijn uitgeschakeld. U kan <a href=\"%"
-"(contact_url)s\">contact met ons opnemen</a> voor meer informatie."
+"Sorry, maar registraties op deze site zijn uitgeschakeld. U kan <a href="
+"\"%(contact_url)s\">contact met ons opnemen</a> voor meer informatie."
 
 #: weblate/html/registration/registration_complete.html:7
 msgid ""

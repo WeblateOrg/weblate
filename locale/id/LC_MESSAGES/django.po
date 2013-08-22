@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-15 09:41+0200\n"
+"POT-Creation-Date: 2013-08-22 11:43+0200\n"
 "PO-Revision-Date: 2013-08-16 04:39+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
-"Language-Team: Indonesian "
-"<http://l10n.cihar.com/projects/weblate/master/id/>\n"
+"Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
+">\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -133,7 +133,6 @@ msgid "Notification on merge failure"
 msgstr "Pemberitahuan pada penggabungan gagal"
 
 #: accounts/models.py:361
-#| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
 msgstr "Pemberitahuan atas permintaan bahasa baru"
 
@@ -593,6 +592,13 @@ msgstr ""
 "Terjemahan bahasa Inggris\n"
 "%(percent)d%% selesai"
 
+#: trans/widgets.py:312 weblate/html/index.html:38
+#: weblate/html/index.html.py:81 weblate/html/languages.html:15
+#: weblate/html/list-translations.html:8 weblate/html/project.html:21
+#: weblate/html/translation.html:155
+msgid "Translated"
+msgstr "Diterjemahkan"
+
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
 msgstr "Diekori tanda ellipsis"
@@ -740,7 +746,6 @@ msgid "C format"
 msgstr "Format C"
 
 #: trans/checks/format.py:265
-#| msgid "Python format"
 msgid "Python brace format"
 msgstr "Format pengapit python"
 
@@ -841,7 +846,6 @@ msgid "Point to translation instructions URL"
 msgstr "URL menunjuki ke petunjuk peterjemahan"
 
 #: trans/models/project.py:46
-#| msgid "Monolingual base language file"
 msgid "Automatically add language file"
 msgstr "Secara otomatis menambahkan berkas bahasa"
 
@@ -1105,13 +1109,16 @@ msgstr ""
 "mereka; ini dianjurkan untuk menggunakan format penerjemahan monolingual."
 
 #: trans/models/subproject.py:150
-#| msgid "Failed translation"
 msgid "Base file for new translations"
 msgstr "Berkas Dasar untuk penerjemahan baru"
 
 #: trans/models/subproject.py:154
+#, fuzzy
+#| msgid ""
+#| "Filename of file which is used for creating new ranslations. For Gettext "
+#| "choose .pot file."
 msgid ""
-"Filename of file which is used for creating new ranslations. For Gettext "
+"Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
 "Nama berkas dari berkas yang digunakan untuk menciptakan penerjemahan baru. "
@@ -1192,7 +1199,6 @@ msgid "Autoaccept suggestions"
 msgstr "Autoaccept saran"
 
 #: trans/models/subproject.py:224
-#| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
 msgstr ""
@@ -1200,14 +1206,10 @@ msgstr ""
 "gunakan 0 untuk menonaktifkan."
 
 #: trans/models/subproject.py:230
-#| msgid "Failing checks found"
 msgid "Quality checks flags"
 msgstr "Bendera pemeriksaan kualitas"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional file to include in commits; please check documentation for "
-#| "more details."
 msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
@@ -1297,7 +1299,6 @@ msgstr ""
 "sesuai dengan pilihan dalam pengaturan proyek."
 
 #: trans/models/subproject.py:897
-#| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Format berkas dasar untuk penerjemahan baru tidak dikenali!"
 
@@ -1567,7 +1568,6 @@ msgid "Requested new language addition from the project maintainers."
 msgstr "Permintaan penambahan bahasa baru berasal dari pengelola proyek."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
 msgstr "Gagal untuk memproses permintaan bahasa baru!"
 
@@ -2912,12 +2912,6 @@ msgstr "Proyek"
 msgid "Checks"
 msgstr "Pemeriksaan"
 
-#: weblate/html/index.html:38 weblate/html/index.html.py:81
-#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:21 weblate/html/translation.html:155
-msgid "Translated"
-msgstr "Diterjemahkan"
-
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "Ringkasan"
@@ -3246,12 +3240,10 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Silahkan pilih bahasa yang mana Anda ingin menerjemahkan."
 
 #: weblate/html/subproject.html:55
-#| msgid "New language"
 msgid "Request new language"
 msgstr "Permintaan bahasa baru"
 
 #: weblate/html/subproject.html:57
-#| msgid "New language"
 msgid "Add new language"
 msgstr "Tambah bahasa baru"
 
@@ -3378,7 +3370,6 @@ msgid "Additional text to include in the commit message."
 msgstr "Penambahan teks untuk memasukkan dalam pesan commit."
 
 #: weblate/html/translate.html:167
-#| msgid "Commit message"
 msgid "Commit message:"
 msgstr "Pesan komit:"
 
@@ -3484,7 +3475,6 @@ msgid "Locking"
 msgstr "Mengunci"
 
 #: weblate/html/translation.html:46
-#| msgid "Status"
 msgid "Stats"
 msgstr "Statistik"
 
@@ -3582,7 +3572,6 @@ msgid "Percent"
 msgstr "Persen"
 
 #: weblate/html/translation.html:145
-#| msgid "Substring"
 msgid "Strings"
 msgstr "String"
 
@@ -3591,13 +3580,10 @@ msgid "Total"
 msgstr "Total"
 
 #: weblate/html/translation.html:161
-#| msgctxt "Checkbox for marking translation fuzzy"
-#| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Samar"
 
 #: weblate/html/translation.html:167
-#| msgid "Failing checks"
 msgid "Failing check"
 msgstr "Periksa kegagalan"
 
@@ -4120,23 +4106,19 @@ msgstr "Kontributor baru dalam %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
 #, python-format
-#| msgid ""
-#| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"telah ada sebuah permintaan untuk bahasa baru dalam %(translation)s di %"
-"(site_title)s."
+"telah ada sebuah permintaan untuk bahasa baru dalam %(translation)s di "
+"%(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#| msgid "Used languages"
 msgid "Requested language:"
 msgstr "Bahasa yang diminta:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
-#| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
 msgstr "Permintaan bahasa baru di %(translation)s"
 

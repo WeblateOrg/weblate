@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-15 09:41+0200\n"
+"POT-Creation-Date: 2013-08-22 11:43+0200\n"
 "PO-Revision-Date: 2013-08-18 16:28+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -132,7 +132,6 @@ msgid "Notification on merge failure"
 msgstr "Ειδοποίηση για σφάλμα ένωσης"
 
 #: accounts/models.py:361
-#| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
 msgstr "Ειδοποίηση για νέο αίτημα γλώσσας"
 
@@ -592,6 +591,13 @@ msgstr ""
 "Αγγλική μετάφραση\n"
 "%(percent)d%% ολοκληρώθηκε"
 
+#: trans/widgets.py:312 weblate/html/index.html:38
+#: weblate/html/index.html.py:81 weblate/html/languages.html:15
+#: weblate/html/list-translations.html:8 weblate/html/project.html:21
+#: weblate/html/translation.html:155
+msgid "Translated"
+msgstr "Μεταφράστηκε"
+
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
 msgstr "Ακολουθεί έλλειψη"
@@ -746,7 +752,6 @@ msgid "C format"
 msgstr "Μορφή C"
 
 #: trans/checks/format.py:265
-#| msgid "Python format"
 msgid "Python brace format"
 msgstr "Μορφή τιράντας Python"
 
@@ -847,7 +852,6 @@ msgid "Point to translation instructions URL"
 msgstr "Εστιάστε στο URL οδηγιών μετάφρασης"
 
 #: trans/models/project.py:46
-#| msgid "Monolingual base language file"
 msgid "Automatically add language file"
 msgstr "Αυτόματη προσθήκη αρχείου γλώσσας"
 
@@ -1117,13 +1121,16 @@ msgstr ""
 "μονόγλωσσης μετάφρασης."
 
 #: trans/models/subproject.py:150
-#| msgid "Failed translation"
 msgid "Base file for new translations"
 msgstr "Αρχείο Βάση για νέες μεταφράσεις"
 
 #: trans/models/subproject.py:154
+#, fuzzy
+#| msgid ""
+#| "Filename of file which is used for creating new ranslations. For Gettext "
+#| "choose .pot file."
 msgid ""
-"Filename of file which is used for creating new ranslations. For Gettext "
+"Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
 "Το όνομα αρχείου του αρχείου που χρησιμοποιείται για δημιουργία νέων "
@@ -1204,7 +1211,6 @@ msgid "Autoaccept suggestions"
 msgstr "Αυτόματη αποδοχή προτάσεων"
 
 #: trans/models/subproject.py:224
-#| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
 msgstr ""
@@ -1212,14 +1218,10 @@ msgstr ""
 "απενεργοποίηση."
 
 #: trans/models/subproject.py:230
-#| msgid "Failing checks found"
 msgid "Quality checks flags"
 msgstr "Σημαίες ελέγχων ποιότητας"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional file to include in commits; please check documentation for "
-#| "more details."
 msgid ""
 "Additional comma separate flags to influence quality checks, check "
 "documentation for possible values."
@@ -1311,7 +1313,6 @@ msgstr ""
 "στις ρυθμίσεις του έργου."
 
 #: trans/models/subproject.py:897
-#| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Η μορφή του αρχείου βάσης για νέες μεταφράσεις δεν αναγνωρίστηκε!"
 
@@ -1594,7 +1595,6 @@ msgid "Requested new language addition from the project maintainers."
 msgstr "Η αιτούμενη νέα γλώσσα προστέθηκε από τους συντηρητές του έργου."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
 msgstr "Απέτυχε η προώθηση του αιτήματος νέας γλώσσας!"
 
@@ -2945,12 +2945,6 @@ msgstr "Έργα"
 msgid "Checks"
 msgstr "Έλεγχοι"
 
-#: weblate/html/index.html:38 weblate/html/index.html.py:81
-#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:21 weblate/html/translation.html:155
-msgid "Translated"
-msgstr "Μεταφράστηκε"
-
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "Περιλήψεις"
@@ -3286,12 +3280,10 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Επιλέξτε τη γλώσσα στη οποία θέλετε να μεταφράσετε."
 
 #: weblate/html/subproject.html:55
-#| msgid "New language"
 msgid "Request new language"
 msgstr "Αίτημα νέας γλώσσας"
 
 #: weblate/html/subproject.html:57
-#| msgid "New language"
 msgid "Add new language"
 msgstr "Προσθήκη νέας γλώσσας"
 
@@ -3418,7 +3410,6 @@ msgid "Additional text to include in the commit message."
 msgstr "Πρόσθετο κείμενο για να συμπεριληφθεί στο μήνυμα ολοκλήρωσης."
 
 #: weblate/html/translate.html:167
-#| msgid "Commit message"
 msgid "Commit message:"
 msgstr "Μήνυμα πράξης:"
 
@@ -3523,7 +3514,6 @@ msgid "Locking"
 msgstr "Κλείδωμα"
 
 #: weblate/html/translation.html:46
-#| msgid "Status"
 msgid "Stats"
 msgstr "Στατιστικά"
 
@@ -3619,7 +3609,6 @@ msgid "Percent"
 msgstr "Ποσοστό"
 
 #: weblate/html/translation.html:145
-#| msgid "Substring"
 msgid "Strings"
 msgstr "Κείμενα"
 
@@ -3628,13 +3617,10 @@ msgid "Total"
 msgstr "Σύνολο"
 
 #: weblate/html/translation.html:161
-#| msgctxt "Checkbox for marking translation fuzzy"
-#| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
 #: weblate/html/translation.html:167
-#| msgid "Failing checks"
 msgid "Failing check"
 msgstr "Αποτυχημένος έλεγχος"
 
@@ -4154,8 +4140,6 @@ msgstr "Νέα συμβολή στο %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
 #, python-format
-#| msgid ""
-#| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
@@ -4163,13 +4147,11 @@ msgstr ""
 "υπήρξε ένα αίτημα για νέα γλώσσα στη %(translation)s στο %(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#| msgid "Used languages"
 msgid "Requested language:"
 msgstr "Αιτούμενες γλώσσες:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
-#| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
 msgstr "Νέο αίτημα γλώσσας στη %(translation)s"
 
