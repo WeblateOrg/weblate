@@ -31,7 +31,7 @@ from trans.models.unitdata import Suggestion
 from trans.models import Project, SubProject
 from trans.tests.models import RepoTestCase, REPOWEB_URL
 from accounts.models import Profile
-import cairo
+from PIL import Image
 import re
 import time
 from urlparse import urlsplit
@@ -139,10 +139,9 @@ class ViewTestCase(RepoTestCase):
         '''
         # Check response status code
         self.assertEqual(response.status_code, 200)
-        # Try to load PNG with Cairo
-        cairo.ImageSurface.create_from_png(
-            StringIO(response.content)
-        )
+        # Try to load PNG with PIL
+        image = Image.open(StringIO(response.content))
+        self.assertEquals(image.format, 'PNG')
 
     def assertBackend(self, expected_translated):
         '''
