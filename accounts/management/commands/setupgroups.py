@@ -34,11 +34,11 @@ class Command(BaseCommand):
             help='Move all users to Users group'
         ),
         make_option(
-            '--no-update',
+            '--no-privs-update',
             action='store_false',
             dest='update',
             default=True,
-            help='Prevents updates to existing group definitions'
+            help='Prevents updates of privileges of existing groups'
         ),
     )
 
