@@ -94,7 +94,7 @@ def render_activity(activity):
 
     # Render surface to PNG
     out = StringIO()
-    image.save(out, 'PNG')
+    image.convert('P', palette=Image.ADAPTIVE).save(out, 'PNG')
 
     # Return response
     return HttpResponse(content_type='image/png', content=out.getvalue())

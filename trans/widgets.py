@@ -220,7 +220,7 @@ class Widget(object):
         Returns PNG data.
         '''
         out = StringIO()
-        self.image.save(out, 'PNG')
+        self.image.convert('P', palette=Image.ADAPTIVE).save(out, 'PNG')
         return out.getvalue()
 
 
