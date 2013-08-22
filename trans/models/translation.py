@@ -992,7 +992,7 @@ class Translation(models.Model, URLMixin):
         for check in CHECKS:
             if not CHECKS[check].source:
                 continue
-            cnt = self.unit_set.count_type(check, self)
+            cnt = self.get_failing_checks(check)
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
@@ -1037,11 +1037,10 @@ class Translation(models.Model, URLMixin):
             ))
 
         # All checks
-        allchecks = self.unit_set.count_type('allchecks', self)
-        if allchecks > 0:
+        if self.failing_checks > 0:
             result.append((
                 'allchecks',
-                _('Strings with any failing checks (%d)') % allchecks
+                _('Strings with any failing checks (%d)') % self.failing_checks
             ))
 
         # Process specific checks
