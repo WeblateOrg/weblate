@@ -1110,7 +1110,6 @@ class MultiRepoTest(ViewTestCase):
         )
         self.assertEqual(translation.translated, 1)
 
-
     def test_update(self):
         '''
         Tests handling update in case remote has changed.

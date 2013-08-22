@@ -20,8 +20,8 @@
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from weblate import appsettings
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
+from trans.fonts import is_cjk, get_font
 from cStringIO import StringIO
 import os.path
 
@@ -177,21 +177,23 @@ class Widget(object):
             outline=COLOR_DATA[self.color]['border']
         )
 
-    def render_text(self, text, lang_text, base_font_size, pos_x, pos_y):
+    def render_text(self, text, lang_text, base_font_size, bold_font, pos_x, pos_y):
         # Use language variant if desired
         if self.lang is not None and lang_text is not None:
             text = lang_text
             if 'English' in text:
                 text = text.replace('English', self.lang.name)
+
         # Format text
         text = text % self.params
+        cjk = is_cjk(text)
         offset = 0
 
         for line in text.splitlines():
 
             # Iterate until text fits into widget
             for font_size in range(base_font_size, 3, -1):
-                font = ImageFont.truetype(appsettings.TTF_FONT, font_size)
+                font = get_font(font_size, bold_font, cjk)
                 layout_size = font.getsize(line)
                 layout_width = layout_size[0]
                 if layout_width + pos_x < self.width:
@@ -236,7 +238,7 @@ class NormalWidget(Widget):
         self.render_text(
             '%(name)s',
             None,
-            13,
+            13, True,
             72, 6
         )
         self.render_text(
@@ -247,7 +249,7 @@ class NormalWidget(Widget):
             # Translators: please use your language name instead of English
             _('translating %(count)d strings into English\n%(percent)d%%'
               ' complete, help us improve!'),
-            11,
+            11, False,
             72, 22
         )
 
@@ -261,14 +263,14 @@ class SmallWidget(Widget):
         self.render_text(
             '%(name)s',
             None,
-            9,
+            9, True,
             23, 2
         )
         self.render_text(
             _('translation\n%(percent)d%% done'),
             # Translators: please use your language name instead of English
             _('English translation\n%(percent)d%% done'),
-            9,
+            9, False,
             23, 11
         )
 

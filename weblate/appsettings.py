@@ -141,4 +141,4 @@ SCRIPT_CHOICES = [
 ] + [('', '')]
 
 # Font for charts and widgets
-TTF_FONT = get('TTF_FONT', os.path.join(WEB_ROOT, 'ttf', 'DejaVuSans.ttf'))
+TTF_PATH = get('TTF_PATH', os.path.join(WEB_ROOT, 'ttf'))

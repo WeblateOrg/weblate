@@ -345,12 +345,12 @@ SITE_TITLE
 
 Site title to be used in website and emails as well.
 
-.. setting:: TTF_FONT
+.. setting:: TTF_PATH
 
-TTF_FONT
+TTF_PATH
 --------
 
-TrueType font to be used for widgets and charts.
+Path to Droid fonts used for widgets and charts.
 
 .. setting:: WHOOSH_INDEX
 
