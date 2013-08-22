@@ -140,3 +140,11 @@ class PathMixin(object):
             self._dir_path = None
             new_path = self.get_path()
             os.rename(old_path, new_path)
+
+    def create_path(self):
+        '''
+        Create filesystem directory for storing data
+        '''
+        path = self.get_path()
+        if not os.path.exists(path):
+            os.makedirs(path)

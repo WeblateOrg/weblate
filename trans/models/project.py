@@ -269,14 +269,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def __unicode__(self):
         return self.name
 
-    def create_path(self):
-        '''
-        Create filesystem directory for storing data
-        '''
-        path = self.get_path()
-        if not os.path.exists(path):
-            os.makedirs(path)
-
     def save(self, *args, **kwargs):
 
         # Renaming detection
