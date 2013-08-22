@@ -1084,7 +1084,7 @@ class MultiRepoTest(ViewTestCase):
         )
         self.request = self.get_request('/')
 
-    def push_first(self, propagate=True):
+    def push_first(self, propagate=True, newtext='Nazdar svete!\n'):
         '''
         Changes and pushes first subproject.
         '''
@@ -1094,11 +1094,7 @@ class MultiRepoTest(ViewTestCase):
             self.subproject2.save()
 
         unit = self.get_unit()
-        self.assertEqual(
-            self.get_translation().translated,
-            0
-        )
-        unit.translate(self.request, 'Nazdar svete!\n', False)
+        unit.translate(self.request, [newtext], False)
         self.assertEqual(self.get_translation().translated, 1)
         self.subproject.do_push(self.request)
 
@@ -1150,3 +1146,25 @@ class MultiRepoTest(ViewTestCase):
         unit.translate(self.request, 'Ahoj svete!\n', False)
 
         self.assertFalse(translation.do_update(self.request))
+
+    def test_more_changes(self):
+        '''
+        Test more string changes in remote repo.
+        '''
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+
+        self.push_first(False, 'Hello, world!\n')
+        translation.do_update(self.request)
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.failing_checks, 1)
+
+        self.push_first(False, 'Nazdar svete\n')
+        translation.do_update(self.request)
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.failing_checks, 0)
