@@ -65,6 +65,8 @@ class FileUnit(object):
             self.mainunit = template
         else:
             self.mainunit = unit
+        self.checksum = None
+        self.contentsum = None
 
     def get_locations(self):
         '''
@@ -211,11 +213,14 @@ class FileUnit(object):
 
         We use MD5 as it is faster than SHA1.
         '''
-        md5 = hashlib.md5()
-        if self.template is None:
-            md5.update(self.get_source().encode('utf-8'))
-        md5.update(self.get_context().encode('utf-8'))
-        return md5.hexdigest()
+        if self.checksum is None:
+            md5 = hashlib.md5()
+            if self.template is None:
+                md5.update(self.get_source().encode('utf-8'))
+            md5.update(self.get_context().encode('utf-8'))
+            self.checksum = md5.hexdigest()
+
+        return self.checksum
 
     def get_contentsum(self):
         '''
@@ -223,10 +228,16 @@ class FileUnit(object):
 
         We use MD5 as it is faster than SHA1.
         '''
-        md5 = hashlib.md5()
-        md5.update(self.get_source().encode('utf-8'))
-        md5.update(self.get_context().encode('utf-8'))
-        return md5.hexdigest()
+        if self.template is None:
+            return self.get_checksum()
+
+        if self.contentsum is None:
+            md5 = hashlib.md5()
+            md5.update(self.get_source().encode('utf-8'))
+            md5.update(self.get_context().encode('utf-8'))
+            self.contentsum = md5.hexdigest()
+
+        return self.contentsum
 
     def is_translated(self):
         '''
