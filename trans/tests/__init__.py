@@ -49,3 +49,4 @@ from trans.tests.requirements import *
 from trans.tests.autofix import *
 from trans.tests.lock import *
 from trans.tests.formats import *
+from trans.tests.test_naturaldate import *

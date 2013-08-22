@@ -292,7 +292,7 @@ def gitdate(value):
 
 
 @register.filter
-def naturaltime(value):
+def naturaltime(value, now=None):
     """
     Heavily based on Django's django.contrib.humanize
     implementation of naturaltime
@@ -307,7 +307,8 @@ def naturaltime(value):
     if not isinstance(value, date):
         return value
 
-    now = timezone.now()
+    if now is None:
+        now = timezone.now()
     if value < now:
         delta = now - value
         if delta.days >= 365:
