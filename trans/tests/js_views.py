@@ -60,13 +60,13 @@ class JSViewsTest(ViewTestCase):
                 {
                     'quality': 100,
                     'service': 'Dummy',
-                    'text': 'Nazdar světe!',
+                    'text': u'Nazdar světe!',
                     'source': u'Hello, world!\n',
                 },
                 {
                     'quality': 100,
                     'service': 'Dummy',
-                    'text': 'Ahoj světe!',
+                    'text': u'Ahoj světe!',
                     'source': u'Hello, world!\n',
                 },
             ]

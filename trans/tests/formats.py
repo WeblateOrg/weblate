@@ -54,7 +54,7 @@ class AutoFormatTest(TestCase):
         if self.COUNT == 0:
             self.assertTrue(unit is None)
         else:
-            self.assertEquals(unit.get_target(), 'Ahoj světe!\n')
+            self.assertEquals(unit.get_target(), u'Ahoj světe!\n')
 
     def test_add(self):
         if self.FORMAT.supports_new_language():
