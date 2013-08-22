@@ -117,6 +117,9 @@ BASE_CHARS = frozenset((
     0xd, 0xa,
 ))
 
+# Cache of open fonts
+FONT_CACHE = {}
+
 
 def is_cjk(text):
     '''
@@ -129,14 +132,17 @@ def get_font(size, bold=False, cjk=False):
     '''
     Returns PIL font object matching parameters.
     '''
-    if cjk:
-        name = 'DroidSansFallback.ttf'
-    elif bold:
-        name = 'DroidSans-Bold.ttf'
-    else:
-        name = 'DroidSans.ttf'
+    cache_key = '%d-%s-%s' % (size, bold, cjk)
+    if cache_key not in FONT_CACHE:
+        if cjk:
+            name = 'DroidSansFallback.ttf'
+        elif bold:
+            name = 'DroidSans-Bold.ttf'
+        else:
+            name = 'DroidSans.ttf'
 
-    return ImageFont.truetype(
-        os.path.join(appsettings.TTF_PATH, name),
-        size
-    )
+        FONT_CACHE[cache_key] = ImageFont.truetype(
+            os.path.join(appsettings.TTF_PATH, name),
+            size
+        )
+    return FONT_CACHE[cache_key]
