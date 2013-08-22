@@ -24,14 +24,14 @@ Charting library for Weblate.
 from trans.models import Change
 from lang.models import Language
 from trans.views.helper import get_project_translation
-from weblate import appsettings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from cStringIO import StringIO
 from django.core.urlresolvers import reverse
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
+from trans.fonts import get_font
 
 
 def render_activity(activity):
@@ -51,7 +51,7 @@ def render_activity(activity):
     draw.line(((15, 5), (15, 85), (795, 85)), fill='black')
 
     # Load font
-    font = ImageFont.truetype(appsettings.TTF_FONT, 11)
+    font = get_font(11)
 
     # Create Y axis label
     y_label = str(maximum)

@@ -21,7 +21,8 @@
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from weblate import appsettings
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
+from trans.fonts import is_cjk, get_font
 from cStringIO import StringIO
 import os.path
 
@@ -183,15 +184,19 @@ class Widget(object):
             text = lang_text
             if 'English' in text:
                 text = text.replace('English', self.lang.name)
+
         # Format text
         text = text % self.params
+        cjk = is_cjk(text)
+        print cjk, text
         offset = 0
+
 
         for line in text.splitlines():
 
             # Iterate until text fits into widget
             for font_size in range(base_font_size, 3, -1):
-                font = ImageFont.truetype(appsettings.TTF_FONT, font_size)
+                font = get_font(font_size, cjk=cjk)
                 layout_size = font.getsize(line)
                 layout_width = layout_size[0]
                 if layout_width + pos_x < self.width:
