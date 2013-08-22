@@ -28,7 +28,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.models.changes import Change
 from trans.models.unitdata import Suggestion
-from trans.models import Project, SubProject
+from trans.models import SubProject
 from trans.tests.models import RepoTestCase, REPOWEB_URL
 from accounts.models import Profile
 from PIL import Image
