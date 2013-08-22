@@ -71,20 +71,3 @@ class ConsistencyCheck(TargetCheck):
                     return True
 
         return False
-
-
-class DirectionCheck(TargetCheck):
-    '''
-    Check for text direction values
-    '''
-    check_id = 'direction'
-    name = _('Invalid text direction')
-    description = _('Text direction can be either LTR or RTL')
-
-    def check(self, sources, targets, unit):
-        # Is this plural?
-        if len(sources) > 1:
-            return False
-        if not sources[0].lower() in ['ltr', 'rtl']:
-            return False
-        return targets[0].lower() != unit.translation.language.direction

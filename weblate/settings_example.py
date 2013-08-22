@@ -384,7 +384,6 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.format.CFormatCheck',
 #    'trans.checks.consistency.PluralsCheck',
 #    'trans.checks.consistency.ConsistencyCheck',
-#    'trans.checks.consistency.DirectionCheck',
 #    'trans.checks.chars.NewlineCountingCheck',
 #    'trans.checks.markup.BBCodeCheck',
 #    'trans.checks.chars.ZeroWidthSpaceCheck',
