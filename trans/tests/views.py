@@ -28,7 +28,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.models.changes import Change
 from trans.models.unitdata import Suggestion
-from trans.tests.models import RepoTestCase
+from trans.models import Project, SubProject
+from trans.tests.models import RepoTestCase, REPOWEB_URL
 from accounts.models import Profile
 import cairo
 import re
@@ -1061,3 +1062,91 @@ class LanguagesViewTest(ViewTestCase):
         ))
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Test/Test')
+
+
+class MultiRepoTest(ViewTestCase):
+    '''
+    Tests handling of remote changes, conflicts and so on.
+    '''
+    def setUp(self):
+        super(MultiRepoTest, self).setUp()
+        self.subproject2 = SubProject.objects.create(
+            name='Test 2',
+            slug='test-2',
+            project=self.project,
+            repo=self.repo_path,
+            push=self.repo_path,
+            filemask='po/*.po',
+            template='',
+            file_format='po',
+            repoweb=REPOWEB_URL,
+            new_base='',
+        )
+        self.request = self.get_request('/')
+
+    def push_first(self, propagate=True):
+        '''
+        Changes and pushes first subproject.
+        '''
+        if not propagate:
+            # Disable changes propagating
+            self.subproject2.allow_translation_propagation = False
+            self.subproject2.save()
+
+        unit = self.get_unit()
+        self.assertEqual(
+            self.get_translation().translated,
+            0
+        )
+        unit.translate(self.request, 'Nazdar svete!\n', False)
+        self.assertEqual(self.get_translation().translated, 1)
+        self.subproject.do_push(self.request)
+
+    def test_propagate(self):
+        '''
+        Tests handling of propagating.
+        '''
+        # Do changes in first repo
+        self.push_first()
+
+        # Verify changes got to the second one
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.translated, 1)
+
+
+    def test_update(self):
+        '''
+        Tests handling update in case remote has changed.
+        '''
+        # Do changes in first repo
+        self.push_first(False)
+
+        # Test pull
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.translated, 0)
+
+        translation.do_update(self.request)
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.translated, 1)
+
+    def test_conflict(self):
+        '''
+        Tests conflict handling.
+        '''
+        # Do changes in first repo
+        self.push_first(False)
+
+        # Do changes in the second repo
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        unit = translation.unit_set.get(source='Hello, world!\n')
+        unit.translate(self.request, 'Ahoj svete!\n', False)
+
+        self.assertFalse(translation.do_update(self.request))
