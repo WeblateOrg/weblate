@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-22 11:43+0200\n"
-"PO-Revision-Date: 2013-08-22 13:38+0200\n"
+"PO-Revision-Date: 2013-08-22 14:02+0200\n"
 "Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
 "Language: fi\n"
@@ -1290,16 +1290,19 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Valitun tiedoston muoto ei tue uusien käännöksien lisäämistä, jotka on "
+"valittu projektiasetuksista."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Käännöspohjan tiedostomuotoa ei voida tunnistaa."
+msgstr "Uusien käännösten kantatiedoston tiedostomuotoa ei voitu tunnistaa!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Uusien käännösten kantatiedosto ei ole käytössä, johtuen projektin "
+"asetuksista."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1566,17 +1569,16 @@ msgstr "Tietoa Weblatesta"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "Valittu kieli on jo projektissa!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
-msgstr ""
+msgstr "Uuden kielen lisäyksen pyytäminen projektin ylläpitäjiltä."
 
 #: trans/views/basic.py:421
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new language request!"
-msgstr "Lomakkeen käsittely epäonnistui!"
+msgstr "Uuden kielen käsittely pyyntö epäonnistui!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 msgid "Changes"
@@ -1675,6 +1677,8 @@ msgid ""
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
+"Tällä hetkellä tällä käännöksellä ei ole aktiivisia kääntäjiä, ota huomioon "
+"jos et ole kääntäjä niin ehdotuksesi voi jäädä tarkastamatta."
 
 #: trans/views/edit.py:258
 msgid "You need to log in to be able to save translations!"
@@ -1691,7 +1695,7 @@ msgstr "Ainoastaan ehdotukset ovat sallittuja tähän käännökseen!"
 #: trans/views/edit.py:294
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr ""
+msgstr "Käännökseen on laitettu seuraavia korjauksia: %s"
 
 #: trans/views/edit.py:308
 msgid "Some checks have failed on your translation!"
@@ -1739,7 +1743,7 @@ msgstr "Automaattinen käännös valmis."
 
 #: trans/views/edit.py:688
 msgid "Posted new comment"
-msgstr ""
+msgstr "Lähetetty uusi kommentti"
 
 #: trans/views/edit.py:690
 msgid "Failed to add comment!"
@@ -1747,7 +1751,7 @@ msgstr "Kommentin lisääminen epäonnistui!"
 
 #: trans/views/files.py:81
 msgid "Access denied."
-msgstr ""
+msgstr "Käyttö estetty."
 
 #: trans/views/files.py:94 weblate/html/profile.html:12
 msgid "Please fix errors in the form."
@@ -1798,7 +1802,7 @@ msgstr "Kaikki arkistot on palautettu."
 
 #: trans/views/lock.py:36
 msgid "Translation is now locked for you."
-msgstr ""
+msgstr "Käännös on nyt lukittu sinulle."
 
 #: trans/views/lock.py:60
 msgid "Translation is now open for translation updates."
@@ -1806,30 +1810,29 @@ msgstr "Käännös on nyt avoinna päivityksille."
 
 #: trans/views/lock.py:78
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "Aliprojekti on nyt lukittu käännös päivityksille!"
 
 #: trans/views/lock.py:94
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "Aliprojekti on nyt auki käännös päivityksille."
 
 #: trans/views/lock.py:113
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "Kaikki aliprojektit on nyt lukittu käännös päivityksille!"
 
 #: trans/views/lock.py:128
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "Projekti on nyt avoinna käännös päivityksille."
 
 #: weblate/html/404.html:7
 msgid "The page you are looking for was not found."
 msgstr "Sivua jota etsit, ei löytynyt."
 
 #: weblate/html/404.html:11
-#, fuzzy
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
-"Kuitenkin seuraavat käännösprojektit ovat saatavilla tällä palvelimella:"
+"Kuitenkin seuraavat käännös projektit ovat saatavilla tällä palvelimella:"
 
 #: weblate/html/500.html:5
 msgid "Server Error"
@@ -1846,20 +1849,18 @@ msgstr ""
 
 #: weblate/html/about.html:6
 msgid "about"
-msgstr ""
+msgstr "noin"
 
 #: weblate/html/about.html:13
-#, fuzzy
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "subprojects, quality checks and automatic linking to source files."
 msgstr ""
 "Weblate on verkkopohjainen kääntämistyökalu, jolla on tiukka Git "
-"integraatio. Se tarjoaa yksinkertaisen ja\n"
-" siistin käyttöliittymän, käännösten etenemisen aliprojektien yli, "
-"johdonmukaisuus tarkistukset tai\n"
-" automaattisen linkittämisen lähdetiedostoihin."
+"integraatio. Se tarjoaa yksinkertaisen ja siistin käyttöliittymän, "
+"käännösten etenemisen aliprojektien yli, laatutarkistukset ja automaattisen "
+"linkittämisen lähdetiedostoihin."
 
 #: weblate/html/about.html:15 weblate/html/contact.html:15
 #, python-format
@@ -1867,14 +1868,17 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
+"Jos etsit Weblate tukea tai haluat lähettää virhe raportteja, katso tämä "
+"sivu <a href=\"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/html/about.html:20
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
+"Weblate esimerkiksi isännöi käännöksiä eri ilmaisohjelmien projekteissa."
 
 #: weblate/html/about.html:22 weblate/html/index.html:55
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Should your language be missing, please <a href=\"%(contact_url)s?"
 #| "subject=New+language+request+for+%(object)s\">contact us</a>."
@@ -1882,8 +1886,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
-"Mikäli kielesi puuttuu, ole hyvä ja <a href=\"%(contact_url)s?subject=New"
-"+language+request+for+%(object)s\">ota meihin yhteyttä</a>."
+"Me voimme isännöidä sinun omia projekteja myös, jos olet kiinnostunut <a "
+"href=\"%(contact_url)s?subject=Project hosting\">Ota yhteyttä</a>."
 
 #: weblate/html/about.html:26
 msgid ""
