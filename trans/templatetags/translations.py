@@ -327,12 +327,12 @@ def naturaltime(value, now=None):
             ) % {'count': count}
         elif delta.days >= 14:
             count = delta.days / 7
-            if count == 1:
-                return _('a week ago')
             return ungettext(
                 '%(count)s week ago', '%(count)s weeks ago', count
             ) % {'count': count}
         elif delta.days > 0:
+            if delta.days == 7:
+                return _('a week ago')
             if delta.days == 1:
                 return _('yesterday')
             return ungettext(
@@ -378,14 +378,14 @@ def naturaltime(value, now=None):
             ) % {'count': count}
         elif delta.days >= 14:
             count = delta.days / 7
-            if count == 1:
-                return _('a week from now')
             return ungettext(
                 '%(count)s week from now', '%(count)s weeks from now', count
             ) % {'count': count}
         elif delta.days > 0:
             if delta.days == 1:
                 return _('tomorrow')
+            if delta.days == 7:
+                return _('a week from now')
             return ungettext(
                 '%(count)s day from now', '%(count)s days from now', delta.days
             ) % {'count': delta.days}
