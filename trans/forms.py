@@ -219,6 +219,7 @@ class SearchForm(forms.Form):
     '''
     Text searching form.
     '''
+    # pylint: disable=C0103
     q = forms.CharField(
         label=_('Query'),
         min_length=4,
