@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-22 17:05+0200\n"
-"PO-Revision-Date: 2013-07-25 16:45+0200\n"
+"PO-Revision-Date: 2013-08-23 18:44+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 1.6\n"
+"X-Generator: Weblate 1.7-dev\n"
 
 #: accounts/forms.py:171 accounts/forms.py:218
 msgid "First name"
@@ -132,10 +132,9 @@ msgid "Notification on merge failure"
 msgstr "Aviser lors de l'échec d'une fusion"
 
 #: accounts/models.py:361
-#, fuzzy
 #| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
-msgstr "Aviser pour une nouvelle suggestion"
+msgstr "Avis à propos d'une requête de nouvelle langue"
 
 #: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -555,7 +554,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Drapeau de vérification « %s » incorrect"
 
 #: trans/widgets.py:261
 #, python-format
@@ -751,10 +750,9 @@ msgid "C format"
 msgstr "Format C"
 
 #: trans/checks/format.py:265
-#, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
-msgstr "Format Python"
+msgstr "Format d'accolade Python"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -854,10 +852,9 @@ msgid "Point to translation instructions URL"
 msgstr "Pointer vers l'URL des directives de traduction"
 
 #: trans/models/project.py:46
-#, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Automatically add language file"
-msgstr "Fichier de base unilingue"
+msgstr "Ajouter automatiquement un fichier de langue"
 
 #: trans/models/project.py:47
 msgid "No adding of language"
@@ -1127,13 +1124,16 @@ msgstr ""
 #, fuzzy
 #| msgid "Failed translation"
 msgid "Base file for new translations"
-msgstr "Échec de traduction"
+msgstr "Fichier de base pour nouvelles traductions"
 
 #: trans/models/subproject.py:154
+#, fuzzy
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Nom du fichier qui est utilisé pour la création de nouvelles traductions. "
+"Pour Gettext choisir fichier .pot."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1210,17 +1210,17 @@ msgid "Autoaccept suggestions"
 msgstr "Accepter automatiquement les suggestions"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
-msgstr "Accepter automatiquement les suggestions ayant ce nombre de votes."
+msgstr ""
+"Accepter automatiquement les suggestions ayant ce nombre de votes, utilisez "
+"0 pour désactiver."
 
 #: trans/models/subproject.py:230
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "Vérifications en échec"
+msgstr "Drapeaux de vérification de qualité"
 
 #: trans/models/subproject.py:233
 #, fuzzy
@@ -1312,16 +1312,21 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Format de fichier choisi ne supporte pas l'ajout de nouvelles traductions "
+"tel que déterminé dans les paramètres du projet."
 
 #: trans/models/subproject.py:896
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Le format de la traduction de base n'a pu être reconnu."
+msgstr ""
+"Le format du fichier de base pour les nouvelles traductions n'a pu être "
+"reconnu !"
 
 #: trans/models/subproject.py:901
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Le fichier de base pour de nouvelles traductions n'est pas utilisé en raison "
+"des paramètres du projet."
 
 #: trans/models/subproject.py:918
 #, python-format
@@ -1443,68 +1448,64 @@ msgid "Avatar for %s"
 msgstr "Avatar de %s"
 
 #: trans/templatetags/translations.py:317
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "il y a un an"
 
 #: trans/templatetags/translations.py:319
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] ", %(count)s vote"
-msgstr[1] ", %(count)s votes"
+msgstr[0] "Il y a %(count)s an"
+msgstr[1] "Il y a %(count)s ans"
 
 #: trans/templatetags/translations.py:324
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "il y a un mois"
 
 #: trans/templatetags/translations.py:326
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] ", %(count)s vote"
-msgstr[1] ", %(count)s votes"
+msgstr[0] "Il y a %(count)s mois"
+msgstr[1] "Il y a %(count)s mois"
 
 #: trans/templatetags/translations.py:331
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "il y a une semaine"
 
 #: trans/templatetags/translations.py:333
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] ", %(count)s vote"
-msgstr[1] ", %(count)s votes"
+msgstr[0] "Il a y %(count)s semaine"
+msgstr[1] "Il a y %(count)s semaines"
 
 #: trans/templatetags/translations.py:337
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "hier"
 
 #: trans/templatetags/translations.py:339
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] ", %(count)s vote"
-msgstr[1] ", %(count)s votes"
+msgstr[0] "Il y a %(count)s jour"
+msgstr[1] "Il y a %(count)s jours"
 
 #: trans/templatetags/translations.py:342
 #: trans/templatetags/translations.py:393
@@ -1512,7 +1513,6 @@ msgid "now"
 msgstr "maintenant"
 
 #: trans/templatetags/translations.py:345
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
