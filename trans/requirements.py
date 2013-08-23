@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# For some reasons, this fails in PyLint sometimes...
+# pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
 import importlib
 
