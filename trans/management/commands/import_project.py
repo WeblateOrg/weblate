@@ -136,7 +136,7 @@ class Command(BaseCommand):
                 'Invalid file format: %s' % options['file_format']
             )
 
-        # Read params
+        # Read params, pylint: disable=W0632
         prjname, repo, branch, filemask = args
 
         # Try to get project

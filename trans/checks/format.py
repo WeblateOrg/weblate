@@ -23,7 +23,7 @@ from trans.checks.base import TargetCheck
 import re
 
 PYTHON_PRINTF_MATCH = re.compile(
-    '''
+    r'''
     %(                          # initial %
           (?:\((?P<key>\w+)\))?    # Python style variables, like %(var)s
     (?P<fullvar>
@@ -38,7 +38,7 @@ PYTHON_PRINTF_MATCH = re.compile(
 
 
 PHP_PRINTF_MATCH = re.compile(
-    '''
+    r'''
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
@@ -53,7 +53,7 @@ PHP_PRINTF_MATCH = re.compile(
 
 
 C_PRINTF_MATCH = re.compile(
-    '''
+    r'''
     %(                          # initial %
     (?P<fullvar>
         [+#-]*                  # flags
@@ -66,7 +66,7 @@ C_PRINTF_MATCH = re.compile(
 )
 
 PYTHON_BRACE_MATCH = re.compile(
-    '''
+    r'''
     {(                                  # initial {
         |                               # blank for position based
         (?P<field>

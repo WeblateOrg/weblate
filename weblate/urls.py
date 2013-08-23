@@ -488,7 +488,7 @@ urlpatterns = patterns(
         name='widget-image-lang',
     ),
     url(
-        r'^widgets/' + WIDGET + '\.png$',
+        r'^widgets/' + WIDGET + r'\.png$',
         'trans.views.widgets.render',
         name='widget-image',
     ),

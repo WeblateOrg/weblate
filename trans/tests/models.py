@@ -218,7 +218,7 @@ class ProjectTest(RepoTestCase):
         backup = appsettings.GIT_ROOT
         appsettings.GIT_ROOT = '/weblate-nonexisting-path'
 
-        # Invalidate cache
+        # Invalidate cache, pylint: disable=W0212
         project._dir_path = None
 
         self.assertRaisesMessage(
