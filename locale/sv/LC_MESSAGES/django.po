@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-22 17:05+0200\n"
-"PO-Revision-Date: 2013-07-09 12:04+0200\n"
+"PO-Revision-Date: 2013-08-24 15:31+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.6-dev\n"
+"X-Generator: Weblate 1.7-dev\n"
 
 #: accounts/forms.py:171 accounts/forms.py:218
 msgid "First name"
@@ -280,7 +280,7 @@ msgstr "PyICU-bibliotek"
 
 #: trans/admin_views.py:136
 msgid "Allowed hosts"
-msgstr ""
+msgstr "Tillåtna värdar"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:162
@@ -971,7 +971,7 @@ msgstr ""
 
 #: trans/models/project.py:173
 msgid "Enable ACL"
-msgstr ""
+msgstr "Aktivera ACL"
 
 #: trans/models/project.py:176
 msgid ""
@@ -1184,28 +1184,27 @@ msgid "Whether Weblate should keep history of translations"
 msgstr ""
 
 #: trans/models/subproject.py:214
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Förslag"
+msgstr "Förslagsröstning"
 
 #: trans/models/subproject.py:217
-#, fuzzy
 #| msgid "There is %(count)s suggestion."
 #| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
-msgstr "Det finns %(count)s förslag."
+msgstr "Om användare kan rösta på förslag."
 
 #: trans/models/subproject.py:221
-#, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
-msgstr "Lägg till som förslag"
+msgstr "Acceptera förslag automatiskt"
 
 #: trans/models/subproject.py:224
 msgid ""
 "Automatically accept suggestions with this amount of votes, use 0 to disable."
 msgstr ""
+"Acceptera automatiskt förslag med detta antal röster, sätt 0 för att "
+"avaktivera."
 
 #: trans/models/subproject.py:230
 #, fuzzy
@@ -1431,68 +1430,64 @@ msgid "Avatar for %s"
 msgstr "Avatar för %s"
 
 #: trans/templatetags/translations.py:317
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "ett år sedan"
 
 #: trans/templatetags/translations.py:319
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] "ett år sedan"
+msgstr[0] "%(count)s år sedan"
 msgstr[1] "%(count)s år sedan"
 
 #: trans/templatetags/translations.py:324
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "en månad sedan"
 
 #: trans/templatetags/translations.py:326
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] "en månad sedan"
+msgstr[0] "%(count)s månad sedan"
 msgstr[1] "%(count)s månader sedan"
 
 #: trans/templatetags/translations.py:331
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "en vecka sedan"
 
 #: trans/templatetags/translations.py:333
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] "en vecka sedan"
+msgstr[0] "%(count)s vecka sedan"
 msgstr[1] "%(count)s veckor sedan"
 
 #: trans/templatetags/translations.py:337
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "igår"
 
 #: trans/templatetags/translations.py:339
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] "en sekund sedan"
-msgstr[1] "%(count)s sekunder sedan"
+msgstr[0] "%(count)s dag sedan"
+msgstr[1] "%(count)s dagar sedan"
 
 #: trans/templatetags/translations.py:342
 #: trans/templatetags/translations.py:393
@@ -1500,163 +1495,153 @@ msgid "now"
 msgstr "nu"
 
 #: trans/templatetags/translations.py:345
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "en sekund sedan"
 
 #: trans/templatetags/translations.py:347
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
-msgstr[0] "en sekund sedan"
+msgstr[0] "%(count)s sekund sedan"
 msgstr[1] "%(count)s sekunder sedan"
 
 #: trans/templatetags/translations.py:352
-#, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "en minut sedan"
 
 #: trans/templatetags/translations.py:354
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
-msgstr[0] "en minut sedan"
+msgstr[0] "%(count)s minut sedan"
 msgstr[1] "%(count)s minuter sedan"
 
 #: trans/templatetags/translations.py:359
-#, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "en timme sedan"
 
 #: trans/templatetags/translations.py:361
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
-msgstr[0] "en timme sedan"
+msgstr[0] "%(count)s timme sedan"
 msgstr[1] "%(count)s timmar sedan"
 
 #: trans/templatetags/translations.py:368
-#, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "om ett år"
 
 #: trans/templatetags/translations.py:370
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "om ett år"
+msgstr[0] "om %(count)s år"
 msgstr[1] "om %(count)s år"
 
 #: trans/templatetags/translations.py:375
-#, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "om en månad"
 
 #: trans/templatetags/translations.py:377
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "om en månad"
+msgstr[0] "om %(count)s månad"
 msgstr[1] "om %(count)s månader"
 
 #: trans/templatetags/translations.py:382
-#, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "om en vecka"
 
 #: trans/templatetags/translations.py:384
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "om en vecka"
+msgstr[0] "om %(count)s vecka"
 msgstr[1] "om %(count)s veckor"
 
 #: trans/templatetags/translations.py:388
-#, fuzzy
 #| msgid "tomorrow"
 #| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
 msgstr "i morgon"
 
 #: trans/templatetags/translations.py:390
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "en sekund från nu"
-msgstr[1] "%(count)s sekunder från nu"
+msgstr[0] "%(count)s dag från nu"
+msgstr[1] "%(count)s dagar från nu"
 
 #: trans/templatetags/translations.py:396
-#, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "om en sekund"
 
 #: trans/templatetags/translations.py:398
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "om en sekund"
+msgstr[0] "om %(count)s sekund"
 msgstr[1] "om %(count)s sekunder"
 
 #: trans/templatetags/translations.py:405
-#, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "om en minut"
 
 #: trans/templatetags/translations.py:407
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "om en minut"
+msgstr[0] "om %(count)s minut"
 msgstr[1] "om %(count)s minuter"
 
 #: trans/templatetags/translations.py:414
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "om en timme"
 
 #: trans/templatetags/translations.py:416
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "om en timme"
+msgstr[0] "om %(count)s timme"
 msgstr[1] "om %(count)s timmar"
 
 #: trans/views/basic.py:69
@@ -1708,7 +1693,7 @@ msgstr "Om Weblate"
 
 #: trans/views/basic.py:405
 msgid "Chosen language already exists in the project!"
-msgstr ""
+msgstr "Valt språk existerar redan i projektet!"
 
 #: trans/views/basic.py:412
 msgid "Requested new language addition from the project maintainers."
@@ -1829,10 +1814,9 @@ msgid "You don't have privileges to save translations!"
 msgstr "Du har inte behörighet att spara översättningar!"
 
 #: trans/views/edit.py:280
-#, fuzzy
 #| msgid "New suggestion in %(translation)s"
 msgid "Only suggestions are allowed in this translation!"
-msgstr "Nytt förslag i %(translation)s"
+msgstr "Endast förslag tillåts i denna översättning!"
 
 #: trans/views/edit.py:304
 #, python-format
@@ -1868,10 +1852,9 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Du har inte behörighet att ta bort förslag!"
 
 #: trans/views/edit.py:465 trans/views/edit.py:473
-#, fuzzy
 #| msgid "You do not have privilege to delete suggestions!"
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Du har inte behörighet att ta bort förslag!"
+msgstr "Du har inte behörighet att rösta på förslag!"
 
 #: trans/views/edit.py:479
 msgid "Invalid suggestion!"
@@ -2059,10 +2042,9 @@ msgid "Strings to translate"
 msgstr "Strängar att översätta"
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Words to translate"
-msgstr "Strängar att översätta"
+msgstr "Ord att översätta"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
@@ -3232,7 +3214,7 @@ msgstr "Information"
 
 #: weblate/html/profile.html:27
 msgid "Licenses"
-msgstr ""
+msgstr "Licenser"
 
 #: weblate/html/profile.html:28
 msgid "Avatar"
@@ -3385,12 +3367,12 @@ msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Om ditt spräk saknas, var god följ <a href=\"%(url)s"
-"\">översättarinstruktionerna</a>."
+"Om ditt språk saknas, var god följ <a href=\"%"
+"(url)s\">översättarinstruktionerna</a>."
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Var god välj språket du vill översätta till."
 
 #: weblate/html/subproject.html:55
 #, fuzzy
@@ -3399,10 +3381,9 @@ msgid "Request new language"
 msgstr "Nytt språk"
 
 #: weblate/html/subproject.html:57
-#, fuzzy
 #| msgid "New language"
 msgid "Add new language"
-msgstr "Nytt språk"
+msgstr "Lägg till nytt språk"
 
 #: weblate/html/subproject.html:63
 #, python-format
@@ -3490,8 +3471,8 @@ msgstr "Föreslaget av anonym användare"
 #, python-format
 msgid ", %(count)s vote"
 msgid_plural ", %(count)s votes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %(count)s röst"
+msgstr[1] ", %(count)s röster"
 
 #: weblate/html/translate.html:126
 msgid "+1 vote"
@@ -3632,10 +3613,9 @@ msgid "Locking"
 msgstr "Låsning"
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Status"
 msgid "Stats"
-msgstr "Status"
+msgstr "Statistik"
 
 #: weblate/html/translation.html:61
 #, python-format
@@ -3728,10 +3708,9 @@ msgid "Percent"
 msgstr ""
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Delsträng"
+msgstr "Strängar"
 
 #: weblate/html/translation.html:149
 msgid "Total"
