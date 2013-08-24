@@ -221,7 +221,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Autoaccept suggestions'),
         default=0,
         help_text=ugettext_lazy(
-            'Automatically accept suggestions with this amount of votes,'
+            'Automatically accept suggestions with this number of votes,'
             ' use 0 to disable.'
         ),
         validators=[validate_autoaccept],
@@ -230,7 +230,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Quality checks flags'),
         default='',
         help_text=ugettext_lazy(
-            'Additional comma separate flags to influence quality checks, '
+            'Additional comma-separated flags to influence quality checks, '
             'check documentation for possible values.'
         ),
         validators=[validate_check_flags],
