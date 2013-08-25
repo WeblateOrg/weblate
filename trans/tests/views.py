@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.models.changes import Change
+from django.utils import timezone
 from trans.models.unitdata import Suggestion
 from trans.models import SubProject
 from trans.tests.models import RepoTestCase, REPOWEB_URL
@@ -42,6 +43,28 @@ EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Jazyky"
+'''
+
+MINIMAL_PO = r'''
+msgid ""
+msgstr ""
+"Project-Id-Version: Weblate Hello World 2012\n"
+"Report-Msgid-Bugs-To: <noreply@example.net>\n"
+"POT-Creation-Date: 2012-03-14 15:54+0100\n"
+"PO-Revision-Date: 2013-08-25 15:23+0200\n"
+"Last-Translator: testuser <>\n"
+"Language-Team: Czech <http://example.com/projects/test/test/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 1.7-dev\n"
+
+#: main.c:11
+#, c-format
+msgid "Hello, world!\n"
+msgstr "Nazdar svete!\n"
 '''
 
 
@@ -1194,3 +1217,25 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         self.assertEqual(translation.total, 5)
+
+    def test_deleted_unit(self):
+        # Manually edit po file, adding new unit
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        with open(translation.get_filename(), 'w') as handle:
+            handle.write(MINIMAL_PO)
+
+        # Do changes in first repo
+        translation.git_commit(
+            self.request, 'TEST <test@example.net>', timezone.now(),
+            force_commit=True
+        )
+        translation.subproject.do_push(self.request)
+
+        self.subproject2.do_update(self.request)
+
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.total, 1)
