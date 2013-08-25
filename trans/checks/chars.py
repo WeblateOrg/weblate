@@ -185,7 +185,7 @@ class EndQuestionCheck(TargetCheck):
         'or it is not correctly spaced'
     )
     question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
-    question_el = ('?', ';', ';')
+    question_el = ('?', ';', u';')
 
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
