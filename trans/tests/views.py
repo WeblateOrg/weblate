@@ -33,9 +33,16 @@ from trans.tests.models import RepoTestCase, REPOWEB_URL
 from accounts.models import Profile
 from PIL import Image
 import re
+import git
 import time
 from urlparse import urlsplit
 from cStringIO import StringIO
+
+EXTRA_PO = '''
+#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+msgid "Languages"
+msgstr "Jazyky"
+'''
 
 
 class ViewTestCase(RepoTestCase):
@@ -1166,3 +1173,24 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         self.assertEqual(translation.failing_checks, 0)
+
+    def test_new_unit(self):
+        '''
+        Tests adding new unit with update.
+        '''
+        # Manually edit po file, adding new unit
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        with open(translation.get_filename(), 'a') as handle:
+            handle.write(EXTRA_PO)
+
+        # Do changes in first repo
+        self.push_first(False)
+
+        self.subproject2.do_update(self.request)
+
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.total, 5)
