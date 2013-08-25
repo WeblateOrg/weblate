@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-22 17:05+0200\n"
-"PO-Revision-Date: 2013-08-23 08:42+0200\n"
+"PO-Revision-Date: 2013-08-25 13:36+0200\n"
 "Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
@@ -379,7 +379,7 @@ msgstr "Fil"
 
 #: trans/forms.py:176 trans/forms.py:338
 msgid "Merge method"
-msgstr "Flette-metode"
+msgstr "Flettemetode"
 
 #: trans/forms.py:178
 msgid "Add as translation"
@@ -395,9 +395,10 @@ msgstr "Tilføj som uklar oversættelse"
 
 #: trans/forms.py:185
 msgid "Merge file header"
-msgstr "Flet filhoved"
+msgstr "Flet filheaderen"
 
 #: trans/forms.py:186
+#, fuzzy
 msgid "Merges content of file header into the translation."
 msgstr "Hoved for filindhold er flettet ind i oversættelsen."
 
@@ -416,7 +417,7 @@ msgstr ""
 
 #: trans/forms.py:212
 msgid "Author email"
-msgstr "Forfatterens e-post-adresse"
+msgstr "Forfatterens e-mail"
 
 #: trans/forms.py:223
 msgid "Query"
@@ -432,7 +433,7 @@ msgstr "Fuldtekst"
 
 #: trans/forms.py:231
 msgid "Exact match"
-msgstr "Eksakt match"
+msgstr "Nøjagtigt ens"
 
 #: trans/forms.py:232
 msgid "Substring"
@@ -444,11 +445,11 @@ msgstr "Søg i kildestrenge"
 
 #: trans/forms.py:242
 msgid "Search in target strings"
-msgstr "Søg i mål-strenge"
+msgstr "Søg i målstrenge"
 
 #: trans/forms.py:247
 msgid "Search in context strings"
-msgstr "Søg i kontekst-strenge"
+msgstr "Søg i kontekststrenge"
 
 #: trans/forms.py:290
 msgid "Overwrite strings"
@@ -502,11 +503,11 @@ msgstr "Startdato"
 #: trans/forms.py:366
 msgctxt "Select starting letter in glossary"
 msgid "Any"
-msgstr "Ethvert"
+msgstr "Alle"
 
 #: trans/forms.py:368
 msgid "Starting letter"
-msgstr "Begyndelsesbogstavet"
+msgstr "Begyndelsesbogstav"
 
 #: trans/forms.py:387
 msgid "Whole project"
@@ -582,7 +583,7 @@ msgstr ""
 
 #. Translators: please use your language name instead of English
 #: trans/widgets.py:287
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "English translation\n"
 "%(percent)d%% done"
@@ -598,24 +599,26 @@ msgid "Translated"
 msgstr "Oversat"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
+#, fuzzy
 msgid "Trailing ellipsis"
 msgstr "Efterfølgende udeladelsesprikker"
 
 #: trans/autofixes/chars.py:43 trans/checks/chars.py:293
+#, fuzzy
 msgid "Zero-width space"
 msgstr "Afstand med nul-bredde"
 
 #: trans/autofixes/whitespace.py:31
 msgid "Trailing and leading whitespace"
-msgstr "Efterfølgende og indlende mellemrum"
+msgstr "Indledende og afsluttende mellemrum"
 
 #: trans/checks/chars.py:30
 msgid "Starting newline"
-msgstr "Starter ny linje"
+msgstr "Indledende linjeskift"
 
 #: trans/checks/chars.py:31
 msgid "Source and translation do not both start with a newline"
-msgstr "Kilde og oversættelse starter ikke begge med en ny linje"
+msgstr "Kilde og oversættelse starter ikke begge med en linjeskift"
 
 #: trans/checks/chars.py:42
 msgid "Trailing newline"
@@ -686,16 +689,18 @@ msgstr ""
 "ikke korrekt afstand"
 
 #: trans/checks/chars.py:267
+#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Kilde og oversættelse slutter ikke begge med udeladelsesprikker"
 
 #: trans/checks/chars.py:284
+#, fuzzy
 msgid "Mismatched \\n"
-msgstr "Ikke i overensstemmelse \\n"
+msgstr "Uoverensstemmelse mellem \\n"
 
 #: trans/checks/chars.py:285
 msgid "Number of \\n in translation does not match source"
-msgstr "Antallet af \\n i oversættelsen matcher ikke kilden"
+msgstr "Antallet af  \\n i oversættelse svarer ikke til kilden"
 
 #: trans/checks/chars.py:294
 msgid "Translation contains extra zero-width space character"
@@ -783,7 +788,7 @@ msgstr ""
 
 #: trans/models/changes.py:131
 msgid "Resource update"
-msgstr "Ressource-opdatering"
+msgstr "Ressourceopdatering"
 
 #: trans/models/changes.py:132
 msgid "Translation completed"
@@ -1463,11 +1468,10 @@ msgstr[0] ", %(count)s stemme"
 msgstr[1] ", %(count)s stemmer"
 
 #: trans/templatetags/translations.py:337
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
-msgstr "forleden"
+msgstr "I går"
 
 #: trans/templatetags/translations.py:339
 #, fuzzy, python-format
