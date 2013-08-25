@@ -34,7 +34,6 @@ from trans.tests.models import RepoTestCase, REPOWEB_URL
 from accounts.models import Profile
 from PIL import Image
 import re
-import git
 import time
 from urlparse import urlsplit
 from cStringIO import StringIO
