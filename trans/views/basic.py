@@ -409,8 +409,8 @@ def new_language(request, project, subproject):
             messages.info(
                 request,
                 _(
-                    'Requested new language addition '
-                    'from the project maintainers.'
+                    'Sent request for language addition '
+                    'to the project maintainers.'
                 )
             )
         elif obj.project.new_lang == 'add':
