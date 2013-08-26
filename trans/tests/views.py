@@ -449,6 +449,26 @@ class EditTest(ViewTestCase):
         self.assertContains(response, "Can not revert to different unit")
         self.assertBackend(2)
 
+    def test_edit_message(self):
+        # Save with failing check
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!',
+            commit_message='Fixing issue #666',
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+
+        # Did the commit message got stored?
+        translation = self.get_translation()
+        self.assertEquals(
+            'Fixing issue #666',
+            translation.commit_message
+        )
+
+        # Try commiting
+        translation.commit_pending(self.get_request('/'))
+
     def test_edit_fixup(self):
         # Save with failing check
         response = self.edit_unit(
