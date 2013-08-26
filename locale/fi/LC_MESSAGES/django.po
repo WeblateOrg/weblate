@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-22 17:05+0200\n"
+"POT-Creation-Date: 2013-08-26 15:51+0200\n"
 "PO-Revision-Date: 2013-08-23 00:15+0200\n"
 "Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
@@ -374,11 +374,11 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Epätarkka"
 
-#: trans/forms.py:174 trans/forms.py:335
+#: trans/forms.py:174 trans/forms.py:336
 msgid "File"
 msgstr "Tiedosto"
 
-#: trans/forms.py:176 trans/forms.py:338
+#: trans/forms.py:176 trans/forms.py:339
 msgid "Merge method"
 msgstr "Yhdistä menetelmä"
 
@@ -418,55 +418,55 @@ msgstr "Pidä tyhjänä kirjautuneille käyttäjille."
 msgid "Author email"
 msgstr "Tekijän sähköposti"
 
-#: trans/forms.py:223
+#: trans/forms.py:224
 msgid "Query"
 msgstr "Kysely"
 
-#: trans/forms.py:227
+#: trans/forms.py:228
 msgid "Search type"
 msgstr "Hakutyyppi"
 
-#: trans/forms.py:230
+#: trans/forms.py:231
 msgid "Fulltext"
 msgstr "Kokoteksti"
 
-#: trans/forms.py:231
+#: trans/forms.py:232
 msgid "Exact match"
 msgstr "Täydellinen sopivuus"
 
-#: trans/forms.py:232
+#: trans/forms.py:233
 msgid "Substring"
 msgstr "Alimerkkijono"
 
-#: trans/forms.py:237
+#: trans/forms.py:238
 msgid "Search in source strings"
 msgstr "Etsi lähdemerkkijonoista"
 
-#: trans/forms.py:242
+#: trans/forms.py:243
 msgid "Search in target strings"
 msgstr "Etsi kohdemerkkijonoista"
 
-#: trans/forms.py:247
+#: trans/forms.py:248
 msgid "Search in context strings"
 msgstr "Etsi sisältömerkkijonoista"
 
-#: trans/forms.py:290
+#: trans/forms.py:291
 msgid "Overwrite strings"
 msgstr "Korvaa merkkijonot"
 
-#: trans/forms.py:295
+#: trans/forms.py:296
 msgid "Replace inconsistent"
 msgstr "Korjaa epämääräisyydet"
 
-#: trans/forms.py:300
+#: trans/forms.py:301
 msgid "Subproject to use"
 msgstr "Käytettävä aliprojekti"
 
-#: trans/forms.py:319
+#: trans/forms.py:320
 msgid "All subprojects"
 msgstr "Kaikki aliprojektit"
 
-#: trans/forms.py:326 weblate/html/check_subproject.html:39
+#: trans/forms.py:327 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
@@ -475,7 +475,7 @@ msgstr "Kaikki aliprojektit"
 msgid "Source"
 msgstr "Lähde"
 
-#: trans/forms.py:327 weblate/html/check_subproject.html:27
+#: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
 #: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
@@ -483,36 +483,36 @@ msgstr "Lähde"
 msgid "Translation"
 msgstr "Käännös"
 
-#: trans/forms.py:340
+#: trans/forms.py:341
 msgid "Keep current"
 msgstr "Pidä ajan tasalla"
 
-#: trans/forms.py:341
+#: trans/forms.py:342
 msgid "Overwrite existing"
 msgstr "Korvaa olemassa oleva"
 
-#: trans/forms.py:342
+#: trans/forms.py:343
 msgid "Add as other translation"
 msgstr "Lisää muita käännöksiä"
 
-#: trans/forms.py:352
+#: trans/forms.py:353
 msgid "Starting date"
 msgstr "Aloituspäivä"
 
-#: trans/forms.py:366
+#: trans/forms.py:367
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Kaikki"
 
-#: trans/forms.py:368
+#: trans/forms.py:369
 msgid "Starting letter"
 msgstr "Aloituskirjain"
 
-#: trans/forms.py:387
+#: trans/forms.py:388
 msgid "Whole project"
 msgstr "Koko projekti"
 
-#: trans/forms.py:407 weblate/html/dictionaries.html:15
+#: trans/forms.py:408 weblate/html/dictionaries.html:15
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:6
 msgid "Language"
 msgstr "Kieli"
@@ -1176,8 +1176,12 @@ msgid "Autoaccept suggestions"
 msgstr "Automaattisesti hyväksyttyjä ehdotuksia"
 
 #: trans/models/subproject.py:224
+#, fuzzy
+#| msgid ""
+#| "Automatically accept suggestions with this amount of votes, use 0 to "
+#| "disable."
 msgid ""
-"Automatically accept suggestions with this amount of votes, use 0 to disable."
+"Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 "Automaattisesti hyväksytyt ehdotukset saivat tämän määrän ääniä, 0 poistaa "
 "käytöstä."
@@ -1187,8 +1191,12 @@ msgid "Quality checks flags"
 msgstr "Laatutarkastus liput"
 
 #: trans/models/subproject.py:233
+#, fuzzy
+#| msgid ""
+#| "Additional comma separate flags to influence quality checks, check "
+#| "documentation for possible values."
 msgid ""
-"Additional comma separate flags to influence quality checks, check "
+"Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
 "Lisää pilkku, eri liput vaikuttaa laadunvalvontaan tarkista käyttöoppaasta "
@@ -1400,60 +1408,44 @@ msgid "Avatar for %s"
 msgstr "Avatar %s"
 
 #: trans/templatetags/translations.py:317
-#| msgid "a year ago"
-#| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "vuosi sitten"
 
 #: trans/templatetags/translations.py:319
 #, python-format
-#| msgid "a year ago"
-#| msgid_plural "%(count)s years ago"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s vuosi sitten"
 msgstr[1] "%(count)s vuotta sitten"
 
 #: trans/templatetags/translations.py:324
-#| msgid "a month ago"
-#| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "kuukausi sitten"
 
 #: trans/templatetags/translations.py:326
 #, python-format
-#| msgid "a month ago"
-#| msgid_plural "%(count)s months ago"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s kuukausi sitten"
 msgstr[1] "%(count)s kuukautta sitten"
 
 #: trans/templatetags/translations.py:331
-#| msgid "a week ago"
-#| msgid_plural "%(count)s weeks ago"
-msgid "a week ago"
-msgstr "viikko sitten"
-
-#: trans/templatetags/translations.py:333
 #, python-format
-#| msgid "a week ago"
-#| msgid_plural "%(count)s weeks ago"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s viikko sitten"
 msgstr[1] "%(count)s viikkoa sitten"
 
+#: trans/templatetags/translations.py:335
+msgid "a week ago"
+msgstr "viikko sitten"
+
 #: trans/templatetags/translations.py:337
-#| msgid "yesterday"
-#| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "eilen"
 
 #: trans/templatetags/translations.py:339
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s sekunti sitten"
@@ -1465,150 +1457,110 @@ msgid "now"
 msgstr "nyt"
 
 #: trans/templatetags/translations.py:345
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "sekunti sitten"
 
 #: trans/templatetags/translations.py:347
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s sekunti sitten"
 msgstr[1] "%(count)s sekuntia sitten"
 
 #: trans/templatetags/translations.py:352
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "minuutti sitten"
 
 #: trans/templatetags/translations.py:354
 #, python-format
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s minuutti sitten"
 msgstr[1] "%(count)s minuuttia sitten"
 
 #: trans/templatetags/translations.py:359
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "tunti sitten"
 
 #: trans/templatetags/translations.py:361
 #, python-format
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s tunti sitten"
 msgstr[1] "%(count)s tuntia sitten"
 
 #: trans/templatetags/translations.py:368
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "vuoden päästä"
 
 #: trans/templatetags/translations.py:370
 #, python-format
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "%(count)s vuoden päästä"
 msgstr[1] "%(count)s vuoden päästä"
 
 #: trans/templatetags/translations.py:375
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "kuukauden päästä"
 
 #: trans/templatetags/translations.py:377
 #, python-format
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s kuukauden päästä"
 msgstr[1] "%(count)s kuukauden kuluttua"
 
 #: trans/templatetags/translations.py:382
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
-msgid "a week from now"
-msgstr "viikon päästä"
-
-#: trans/templatetags/translations.py:384
 #, python-format
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s viikon päästä"
 msgstr[1] "%(count)s viikon kuluttua"
 
-#: trans/templatetags/translations.py:388
-#| msgid "tomorrow"
-#| msgid_plural "%(count)s days from now"
+#: trans/templatetags/translations.py:386
 msgid "tomorrow"
 msgstr "huomenna"
 
+#: trans/templatetags/translations.py:388
+msgid "a week from now"
+msgstr "viikon päästä"
+
 #: trans/templatetags/translations.py:390
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "%(count)s sekunnin kuluttua"
 msgstr[1] "%(count)s sekunnin kuluttua"
 
 #: trans/templatetags/translations.py:396
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "sekunnin kuluttua"
 
 #: trans/templatetags/translations.py:398
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "%(count)s sekunnin kuluttua"
 msgstr[1] "%(count)s sekunnin kuluttua"
 
 #: trans/templatetags/translations.py:405
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "minuutin kuluttua"
 
 #: trans/templatetags/translations.py:407
 #, python-format
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "%(count)s minuutin kuluttua"
 msgstr[1] "%(count)s minuutin kuluttua"
 
 #: trans/templatetags/translations.py:414
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "tunnin kuluttua"
 
 #: trans/templatetags/translations.py:416
 #, python-format
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s tunnin kuluttua"
@@ -1665,7 +1617,9 @@ msgid "Chosen language already exists in the project!"
 msgstr "Valittu kieli on jo projektissa!"
 
 #: trans/views/basic.py:412
-msgid "Requested new language addition from the project maintainers."
+#, fuzzy
+#| msgid "Requested new language addition from the project maintainers."
+msgid "Sent request for language addition to the project maintainers."
 msgstr "Uuden kielen lisäyksen pyytäminen projektin ylläpitäjiltä."
 
 #: trans/views/basic.py:421
@@ -2087,7 +2041,6 @@ msgid "Check"
 msgstr "Tarkistus"
 
 #: weblate/html/contact.html:6
-#| msgid "Contact"
 msgid "contact"
 msgstr "Ota yhteyttä"
 
@@ -2139,8 +2092,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"Lisätietoja RSS-syötteiden viennistä on saatavilla <a href=\"%"
-"(rss_docs)s\">asiakirjoista</a>."
+"Lisätietoja RSS-syötteiden viennistä on saatavilla <a href=\"%(rss_docs)s"
+"\">asiakirjoista</a>."
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60
@@ -2336,8 +2289,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Jos haluat edistää käännös %(project)s, sinun täytyy <a href=\"%"
-"(reg_url)s\">rekisteröityä tässä palvelimessa</a>."
+"Jos haluat edistää käännös %(project)s, sinun täytyy <a href=\"%(reg_url)s"
+"\">rekisteröityä tässä palvelimessa</a>."
 
 #: weblate/html/engage.html:41
 #, python-format
@@ -2603,7 +2556,6 @@ msgid "Gun"
 msgstr "Gun"
 
 #: weblate/html/i18n.html:76
-#| msgid "Croatian"
 msgid "Haitian"
 msgstr "Haiti"
 
@@ -2916,7 +2868,6 @@ msgid "Tigrinya"
 msgstr "Tigrinja"
 
 #: weblate/html/i18n.html:154
-#| msgid "dictionaries"
 msgid "Traditional Chinese"
 msgstr "Perinteinen Kiina"
 
@@ -3103,7 +3054,6 @@ msgid "Ignore: %(check)s"
 msgstr "Jätä huomioitta: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
 msgstr "Sanat"
@@ -3119,14 +3069,12 @@ msgid "Checks"
 msgstr "Tarkistukset"
 
 #: weblate/html/list-translations.html:12
-#| msgid "Suggestions"
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "Ehdotukset"
 
 #: weblate/html/list-translations.html:23
 #, python-format
-#| msgid "Your translations"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
 msgstr[0] "%(words)s sanaa jäljellä käännettäväksi!"
@@ -3134,8 +3082,6 @@ msgstr[1] "%(words)s sanaa jäljellä käännettäväksi!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "Täällä on %(count)s epäselvää merkkijonoa."
@@ -3150,8 +3096,6 @@ msgstr[1] "%(count)s epäonnistunutta tarkistusta."
 
 #: weblate/html/list-translations.html:44
 #, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "Täällä on %(count)s ehdotusta."
@@ -3297,8 +3241,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"Voit myös edistää tätä käännös projektia käyttämällä erilaisia <a href=\"%"
-"(widgets_url)s\">muita mahdollisuuksia</a>."
+"Voit myös edistää tätä käännös projektia käyttämällä erilaisia <a href="
+"\"%(widgets_url)s\">muita mahdollisuuksia</a>."
 
 #: weblate/html/share.html:15
 #, python-format
@@ -3349,12 +3293,10 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Valitse kieli, jonka haluat kääntää."
 
 #: weblate/html/subproject.html:55
-#| msgid "New language"
 msgid "Request new language"
 msgstr "Uuden kielen pyyntö"
 
 #: weblate/html/subproject.html:57
-#| msgid "New language"
 msgid "Add new language"
 msgstr "Lisää uusi kieli"
 
@@ -3481,7 +3423,6 @@ msgid "Additional text to include in the commit message."
 msgstr "Tämä teksti sisältää ilmoitusviestin."
 
 #: weblate/html/translate.html:167
-#| msgid "Commit message"
 msgid "Commit message:"
 msgstr "Ilmoitusviesti:"
 
@@ -3514,7 +3455,6 @@ msgid "Machine translation suggestions"
 msgstr "Kone käännetyt ehdotukset"
 
 #: weblate/html/translate.html:184
-#| msgid "Failed translation"
 msgid "Machine translation"
 msgstr "Kone käännös"
 
@@ -3586,7 +3526,6 @@ msgid "Locking"
 msgstr "Lukitus"
 
 #: weblate/html/translation.html:46
-#| msgid "Status"
 msgid "Stats"
 msgstr "Tilastot"
 
@@ -3601,9 +3540,6 @@ msgstr ""
 
 #: weblate/html/translation.html:65
 #, python-format
-#| msgid ""
-#| "You can <a href=\"%(download_url)s\">download</a> file for offline "
-#| "translation."
 msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
@@ -3686,7 +3622,6 @@ msgid "Percent"
 msgstr "Prosentti"
 
 #: weblate/html/translation.html:145
-#| msgid "Substring"
 msgid "Strings"
 msgstr "Merkkijonot"
 
@@ -3695,13 +3630,10 @@ msgid "Total"
 msgstr "Yhteensä"
 
 #: weblate/html/translation.html:161
-#| msgctxt "Checkbox for marking translation fuzzy"
-#| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Epäselvä"
 
 #: weblate/html/translation.html:167
-#| msgid "Failing checks"
 msgid "Failing check"
 msgstr "Epäonnistunut tarkistus"
 
@@ -3716,9 +3648,6 @@ msgstr ""
 
 #: weblate/html/translation_info.html:10
 #, python-format
-#| msgid ""
-#| "There are %(count)s strings, out of which %(translated)s&#37; is "
-#| "translated and %(fuzzy)s&#37; is fuzzy."
 msgid ""
 "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) is "
 "translated."
@@ -3733,7 +3662,6 @@ msgid "Message is fuzzy"
 msgstr "Viesti on epäselvä"
 
 #: weblate/html/unit-state.html:4
-#| msgid "Message is translated"
 msgid "Message is not translated"
 msgstr "Viesti ei ole käännetty"
 
@@ -3766,7 +3694,6 @@ msgid "Activity in last year"
 msgstr "Aktiivisuus viime vuonna"
 
 #: weblate/html/user.html:40
-#| msgid "Recent edits"
 msgid "Recent contributions"
 msgstr "Viimeaikaiset lahjoitukset"
 
@@ -3792,8 +3719,8 @@ msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"Voit osoittaa uusia tulokkaita johdantosivulle <a href=\"%(engage_url)s\">%"
-"(engage_url)s</a>."
+"Voit osoittaa uusia tulokkaita johdantosivulle <a href=\"%(engage_url)s\">"
+"%(engage_url)s</a>."
 
 #: weblate/html/widgets.html:22
 msgid "Promoting specific translations"
@@ -3890,8 +3817,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Ei näytä linkitetyn arkiston tilaa. Tarkista <a href=\"#%(slug)s\">%"
-"(repo)s</a> sen sijasta."
+"Ei näytä linkitetyn arkiston tilaa. Tarkista <a href=\"#%(slug)s\">%(repo)s</"
+"a> sen sijasta."
 
 #: weblate/html/admin/ssh.html:14
 msgid "Public SSH key"
@@ -3922,7 +3849,6 @@ msgid "Known host keys"
 msgstr "Tunnetut isäntä avaimet"
 
 #: weblate/html/admin/ssh.html:40
-#| msgid "Last name"
 msgid "Hostname"
 msgstr "Isäntänimi"
 
@@ -3961,9 +3887,6 @@ msgstr ""
 
 #: weblate/html/admin/trans/change_form.html:8
 #, python-format
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
 msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
@@ -3984,7 +3907,6 @@ msgid ""
 msgstr ""
 
 #: weblate/html/js/dictionary.html:19
-#| msgid "Your translations"
 msgid "Copy word to translation"
 msgstr "Kopioi sana käännökseen"
 
@@ -4211,8 +4133,8 @@ msgid ""
 "%(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"%(username)s on juuri tehnyt ensimmäisen avustuksen %(translation)s %"
-"(site_title)s."
+"%(username)s on juuri tehnyt ensimmäisen avustuksen %(translation)s "
+"%(site_title)s."
 
 #: weblate/html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -4256,7 +4178,6 @@ msgstr "Täällä on uusi ehdotuksen arvostelu %(translation)s %(site_title)s."
 
 #: weblate/html/mail/new_suggestion.html:29
 #: weblate/html/mail/new_suggestion.txt:9
-#| msgid "Suggestions"
 msgid "Suggestion:"
 msgstr "Ehdotus:"
 
@@ -4339,15 +4260,6 @@ msgstr ""
 "%(site_title)s."
 
 #: weblate/html/registration/activation_email.txt:5
-#| msgid ""
-#| "Hi,\n"
-#| "\n"
-#| "This is an automatic email to help you complete your registration\n"
-#| "with %(site_title)s.\n"
-#| "\n"
-#| "Please open the following link in your web browser. If the link\n"
-#| "is split over several lines, you may need to copy it in the\n"
-#| "address bar."
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
@@ -4357,13 +4269,6 @@ msgstr ""
 "osoiteriville."
 
 #: weblate/html/registration/activation_email.txt:9
-#| msgid ""
-#| "\n"
-#| "If there is a problem with your registration, please reply to\n"
-#| "this email.\n"
-#| "\n"
-#| "Best regards,\n"
-#| "%(site_title)s\n"
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "Mikäli rekisteröintisi kanssa on ongelma, ota yhteyttä meihin:"
 
@@ -4527,12 +4432,10 @@ msgid "Please fix errors in registration form."
 msgstr "Korjaa virheet rekisteröitymislomakkeessa."
 
 #: weblate/html/trans/change_list.html:7
-#| msgid "Recent changes"
 msgid "changes"
 msgstr "muutokset"
 
 #: weblate/html/trans/change_list.html:51
-#| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
 msgstr "Vastaavaa toimintaa ei ole havaittu."
 

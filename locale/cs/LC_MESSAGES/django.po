@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-22 17:05+0200\n"
+"POT-Creation-Date: 2013-08-26 15:51+0200\n"
 "PO-Revision-Date: 2013-08-23 08:55+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -375,11 +375,11 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Nejasný"
 
-#: trans/forms.py:174 trans/forms.py:335
+#: trans/forms.py:174 trans/forms.py:336
 msgid "File"
 msgstr "Soubor"
 
-#: trans/forms.py:176 trans/forms.py:338
+#: trans/forms.py:176 trans/forms.py:339
 msgid "Merge method"
 msgstr "Způsob nahrání"
 
@@ -419,55 +419,55 @@ msgstr "Ponechte prázdné pro použití přihlášeného uživatele."
 msgid "Author email"
 msgstr "Email autora"
 
-#: trans/forms.py:223
+#: trans/forms.py:224
 msgid "Query"
 msgstr "Dotaz"
 
-#: trans/forms.py:227
+#: trans/forms.py:228
 msgid "Search type"
 msgstr "Způsob vyhledávání"
 
-#: trans/forms.py:230
+#: trans/forms.py:231
 msgid "Fulltext"
 msgstr "Fulltextové"
 
-#: trans/forms.py:231
+#: trans/forms.py:232
 msgid "Exact match"
 msgstr "Přesná shoda"
 
-#: trans/forms.py:232
+#: trans/forms.py:233
 msgid "Substring"
 msgstr "Částečný řetězec"
 
-#: trans/forms.py:237
+#: trans/forms.py:238
 msgid "Search in source strings"
 msgstr "Vyhledávat ve zdrojových řetězcích"
 
-#: trans/forms.py:242
+#: trans/forms.py:243
 msgid "Search in target strings"
 msgstr "Vyhledávat ve přeložených řetězcích"
 
-#: trans/forms.py:247
+#: trans/forms.py:248
 msgid "Search in context strings"
 msgstr "Vyhledávat ve řetězcích kontextu"
 
-#: trans/forms.py:290
+#: trans/forms.py:291
 msgid "Overwrite strings"
 msgstr "Přepsat překlady"
 
-#: trans/forms.py:295
+#: trans/forms.py:296
 msgid "Replace inconsistent"
 msgstr "Nahradit nekonzistentní"
 
-#: trans/forms.py:300
+#: trans/forms.py:301
 msgid "Subproject to use"
 msgstr "Použité podprojekty"
 
-#: trans/forms.py:319
+#: trans/forms.py:320
 msgid "All subprojects"
 msgstr "Všechny podprojekty"
 
-#: trans/forms.py:326 weblate/html/check_subproject.html:39
+#: trans/forms.py:327 weblate/html/check_subproject.html:39
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
@@ -476,7 +476,7 @@ msgstr "Všechny podprojekty"
 msgid "Source"
 msgstr "Zdroj"
 
-#: trans/forms.py:327 weblate/html/check_subproject.html:27
+#: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
 #: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
@@ -484,36 +484,36 @@ msgstr "Zdroj"
 msgid "Translation"
 msgstr "Překlad"
 
-#: trans/forms.py:340
+#: trans/forms.py:341
 msgid "Keep current"
 msgstr "Zachovat stávající"
 
-#: trans/forms.py:341
+#: trans/forms.py:342
 msgid "Overwrite existing"
 msgstr "Přepsat stávající"
 
-#: trans/forms.py:342
+#: trans/forms.py:343
 msgid "Add as other translation"
 msgstr "Přidat další překlad"
 
-#: trans/forms.py:352
+#: trans/forms.py:353
 msgid "Starting date"
 msgstr "Počáteční datum"
 
-#: trans/forms.py:366
+#: trans/forms.py:367
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Jakékoliv"
 
-#: trans/forms.py:368
+#: trans/forms.py:369
 msgid "Starting letter"
 msgstr "Počáteční písmeno"
 
-#: trans/forms.py:387
+#: trans/forms.py:388
 msgid "Whole project"
 msgstr "Celý projekt"
 
-#: trans/forms.py:407 weblate/html/dictionaries.html:15
+#: trans/forms.py:408 weblate/html/dictionaries.html:15
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:6
 msgid "Language"
 msgstr "Jazyk"
@@ -1173,8 +1173,12 @@ msgid "Autoaccept suggestions"
 msgstr "Automaticky přijímat návrhy"
 
 #: trans/models/subproject.py:224
+#, fuzzy
+#| msgid ""
+#| "Automatically accept suggestions with this amount of votes, use 0 to "
+#| "disable."
 msgid ""
-"Automatically accept suggestions with this amount of votes, use 0 to disable."
+"Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 "Automaticky přijímat návrhy pokud získají tento počet hlasů, použijte 0 pro "
 "vypnutí."
@@ -1184,8 +1188,12 @@ msgid "Quality checks flags"
 msgstr "Značky pro kontrolu kvality"
 
 #: trans/models/subproject.py:233
+#, fuzzy
+#| msgid ""
+#| "Additional comma separate flags to influence quality checks, check "
+#| "documentation for possible values."
 msgid ""
-"Additional comma separate flags to influence quality checks, check "
+"Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
 "Další značky pro ovlivnění kontroly kvality, více informací naleznete v "
@@ -1398,15 +1406,11 @@ msgid "Avatar for %s"
 msgstr "Avatar pro %s"
 
 #: trans/templatetags/translations.py:317
-#| msgid "a year ago"
-#| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "před rokem"
 
 #: trans/templatetags/translations.py:319
 #, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "před %(count)s rokem"
@@ -1414,15 +1418,11 @@ msgstr[1] "před %(count)s roky"
 msgstr[2] "před %(count)s roky"
 
 #: trans/templatetags/translations.py:324
-#| msgid "a month ago"
-#| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "před měsícem"
 
 #: trans/templatetags/translations.py:326
 #, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "před %(count)s měsícem"
@@ -1430,31 +1430,23 @@ msgstr[1] "před %(count)s měsíci"
 msgstr[2] "před %(count)s měsíci"
 
 #: trans/templatetags/translations.py:331
-#| msgid "a week ago"
-#| msgid_plural "%(count)s weeks ago"
-msgid "a week ago"
-msgstr "před týdnem"
-
-#: trans/templatetags/translations.py:333
 #, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "před %(count)s týdnem"
 msgstr[1] "před %(count)s týdny"
 msgstr[2] "před %(count)s týdny"
 
+#: trans/templatetags/translations.py:335
+msgid "a week ago"
+msgstr "před týdnem"
+
 #: trans/templatetags/translations.py:337
-#| msgid "yesterday"
-#| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "včera"
 
 #: trans/templatetags/translations.py:339
 #, python-format
-#| msgid ", %(count)s vote"
-#| msgid_plural ", %(count)s votes"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "před %(count)s dnem"
@@ -1467,15 +1459,11 @@ msgid "now"
 msgstr "právě teď"
 
 #: trans/templatetags/translations.py:345
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "před sekundou"
 
 #: trans/templatetags/translations.py:347
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "před %(count)s sekundou"
@@ -1483,15 +1471,11 @@ msgstr[1] "před %(count)s sekundami"
 msgstr[2] "před %(count)s sekundami"
 
 #: trans/templatetags/translations.py:352
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "před minutou"
 
 #: trans/templatetags/translations.py:354
 #, python-format
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "před %(count)s minutou"
@@ -1499,15 +1483,11 @@ msgstr[1] "před %(count)s minutami"
 msgstr[2] "před %(count)s minutami"
 
 #: trans/templatetags/translations.py:359
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "před hodinou"
 
 #: trans/templatetags/translations.py:361
 #, python-format
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "před %(count)s hodinou"
@@ -1515,15 +1495,11 @@ msgstr[1] "před %(count)s hodinami"
 msgstr[2] "před %(count)s hodinami"
 
 #: trans/templatetags/translations.py:368
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "za rok"
 
 #: trans/templatetags/translations.py:370
 #, python-format
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "za %(count)s rok"
@@ -1531,15 +1507,11 @@ msgstr[1] "za %(count)s roky"
 msgstr[2] "za %(count)s let"
 
 #: trans/templatetags/translations.py:375
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "za měsíc"
 
 #: trans/templatetags/translations.py:377
 #, python-format
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "za %(count)s měsíc"
@@ -1547,31 +1519,23 @@ msgstr[1] "za %(count)s měsíce"
 msgstr[2] "za %(count)s měsíců"
 
 #: trans/templatetags/translations.py:382
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
-msgid "a week from now"
-msgstr "za týden"
-
-#: trans/templatetags/translations.py:384
 #, python-format
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "za %(count)s týden"
 msgstr[1] "za %(count)s týdny"
 msgstr[2] "za %(count)s týdnů"
 
-#: trans/templatetags/translations.py:388
-#| msgid "tomorrow"
-#| msgid_plural "%(count)s days from now"
+#: trans/templatetags/translations.py:386
 msgid "tomorrow"
 msgstr "zítra"
 
+#: trans/templatetags/translations.py:388
+msgid "a week from now"
+msgstr "za týden"
+
 #: trans/templatetags/translations.py:390
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "za %(count)s den"
@@ -1579,15 +1543,11 @@ msgstr[1] "za %(count)s dni"
 msgstr[2] "za %(count)s dní"
 
 #: trans/templatetags/translations.py:396
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "za sekundu"
 
 #: trans/templatetags/translations.py:398
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "za %(count)s sekundu"
@@ -1595,15 +1555,11 @@ msgstr[1] "za %(count)s sekundy"
 msgstr[2] "za %(count)s sekund"
 
 #: trans/templatetags/translations.py:405
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "za minutu"
 
 #: trans/templatetags/translations.py:407
 #, python-format
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "za %(count)s minutu"
@@ -1611,15 +1567,11 @@ msgstr[1] "za %(count)s minuty"
 msgstr[2] "za %(count)s minut"
 
 #: trans/templatetags/translations.py:414
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "za hodinu"
 
 #: trans/templatetags/translations.py:416
 #, python-format
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "za %(count)s hodinu"
@@ -1676,7 +1628,9 @@ msgid "Chosen language already exists in the project!"
 msgstr "Vybraný jazyk je již v projektu překládán!"
 
 #: trans/views/basic.py:412
-msgid "Requested new language addition from the project maintainers."
+#, fuzzy
+#| msgid "Requested new language addition from the project maintainers."
+msgid "Sent request for language addition to the project maintainers."
 msgstr "Správcům projektu byl odeslán požadavek na přidání jazyka."
 
 #: trans/views/basic.py:421
