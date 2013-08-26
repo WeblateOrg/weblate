@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.test import TestCase
+from unittest import TestCase
 from trans.simplediff import html_diff
 
 
