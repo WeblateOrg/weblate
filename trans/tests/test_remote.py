@@ -88,6 +88,24 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(self.get_translation().translated, 1)
         self.subproject.do_push(self.request)
 
+    def push_replace(self, content, mode):
+        '''
+        Replaces content of a po file and pushes it to remote repository.
+        '''
+        # Manually edit po file, adding new unit
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        with open(translation.get_filename(), mode) as handle:
+            handle.write(content)
+
+        # Do changes in first repo
+        translation.git_commit(
+            self.request, 'TEST <test@example.net>', timezone.now(),
+            force_commit=True
+        )
+        translation.subproject.do_push(self.request)
+
     def test_propagate(self):
         '''
         Tests handling of propagating.
@@ -162,15 +180,7 @@ class MultiRepoTest(ViewTestCase):
         '''
         Tests adding new unit with update.
         '''
-        # Manually edit po file, adding new unit
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        with open(translation.get_filename(), 'a') as handle:
-            handle.write(EXTRA_PO)
-
-        # Do changes in first repo
-        self.push_first(False)
+        self.push_replace(EXTRA_PO, 'a')
 
         self.subproject2.do_update(self.request)
 
@@ -180,19 +190,10 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(translation.total, 5)
 
     def test_deleted_unit(self):
-        # Manually edit po file, adding new unit
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        with open(translation.get_filename(), 'w') as handle:
-            handle.write(MINIMAL_PO)
-
-        # Do changes in first repo
-        translation.git_commit(
-            self.request, 'TEST <test@example.net>', timezone.now(),
-            force_commit=True
-        )
-        translation.subproject.do_push(self.request)
+        '''
+        Test removing several units from remote repo.
+        '''
+        self.push_replace(MINIMAL_PO, 'w')
 
         self.subproject2.do_update(self.request)
 
