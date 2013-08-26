@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-08-10 22:48+0200\n"
 "Last-Translator: Alaksiej Nieścieraŭ <alaksiej@screencustoms.com>\n"
 "Language-Team: Belarusian <http://l10n.cihar.com/projects/weblate/master/be/"
@@ -799,7 +799,7 @@ msgstr "Пераклад скончаны"
 msgid "Translation changed"
 msgstr "Пераклад зменены"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Новы пераклад"
 
@@ -914,7 +914,7 @@ msgstr "URL ліцэнзіі"
 msgid "Optional URL with license details."
 msgstr "Неабавязковы URL з падрабязнасцямі па ліцэнзіі."
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "Новая мова"
 
@@ -1705,17 +1705,18 @@ msgid "About Weblate"
 msgstr "Пра Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr ""
 
 #: trans/views/basic.py:412
-msgid "Sent request for language addition to the project maintainers."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 
 #: trans/views/basic.py:421
 #, fuzzy
 #| msgid "Failed to process form!"
-msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "Не ўдалося апрацаваць фармуляр!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3389,17 +3390,11 @@ msgstr ""
 
 #: weblate/html/subproject.html:55
 #, fuzzy
-#| msgid "New language"
-msgid "Request new language"
-msgstr "Новая мова"
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "Новы пераклад"
 
-#: weblate/html/subproject.html:57
-#, fuzzy
-#| msgid "New language"
-msgid "Add new language"
-msgstr "Новая мова"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3408,7 +3403,7 @@ msgstr ""
 "Калі вашай мовы няма, калі ласка, <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">скантактуйцеся з намі</a>."
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "Прагляд ключоў"
 
@@ -4573,6 +4568,16 @@ msgstr "змены"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Адпаведнай актыўнасці не знойдзена."
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Request new language"
+#~ msgstr "Новая мова"
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Add new language"
+#~ msgstr "Новая мова"
 
 #~ msgid "Invalid text direction"
 #~ msgstr "Няслушны накірунак тэксту"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-08-26 08:15+0200\n"
 "Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -798,7 +798,7 @@ msgstr "Oversættelse er færdiggjort"
 msgid "Translation changed"
 msgstr "Oversættelse er ændret"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Ny oversættelse"
 
@@ -911,7 +911,7 @@ msgstr "URL til licens"
 msgid "Optional URL with license details."
 msgstr "Valgfri URL med licensdetaljer."
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "Nyt sprog"
 
@@ -1699,17 +1699,22 @@ msgid "About Weblate"
 msgstr "Om Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+#, fuzzy
+#| msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr "Det valgte sprog findes allerede i projektet!"
 
 #: trans/views/basic.py:412
 #, fuzzy
 #| msgid "Requested new language addition from the project maintainers."
-msgid "Sent request for language addition to the project maintainers."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
 msgstr "Anmodning om nye sprog fra projektets udviklere."
 
 #: trans/views/basic.py:421
-msgid "Failed to process new language request!"
+#, fuzzy
+#| msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "Kunne ikke behandle anmodning om nyt sprog!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3376,14 +3381,12 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Vælg sprog, som du ønsker at oversætte."
 
 #: weblate/html/subproject.html:55
-msgid "Request new language"
-msgstr "Anmod om nyt sprog"
+#, fuzzy
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "Ny oversættelse"
 
-#: weblate/html/subproject.html:57
-msgid "Add new language"
-msgstr "Tilføj yt sprog"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3392,7 +3395,7 @@ msgstr ""
 "Skulle dit sprog mangle, så tag <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">kontakt til os</a>."
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "Gennemgang af kildestrenge"
 
@@ -4534,6 +4537,12 @@ msgstr "ændringer"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Der blev ikke fundet matchende aktiviteter."
+
+#~ msgid "Request new language"
+#~ msgstr "Anmod om nyt sprog"
+
+#~ msgid "Add new language"
+#~ msgstr "Tilføj yt sprog"
 
 #~ msgid "Invalid text direction"
 #~ msgstr "Ugyldig tekstretning"

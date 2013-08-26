@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-06-03 10:11+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
@@ -789,7 +789,7 @@ msgstr "התרגום הושלם"
 msgid "Translation changed"
 msgstr "התרגום השתנה"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "תרגום חדש"
 
@@ -916,7 +916,7 @@ msgstr "כתובת הרישיון"
 msgid "Optional URL with license details."
 msgstr "כתובת עם פרטי הרישוי כרשות."
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "שפה חדשה"
 
@@ -1723,17 +1723,18 @@ msgid "About Weblate"
 msgstr "על אודות Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr ""
 
 #: trans/views/basic.py:412
-msgid "Sent request for language addition to the project maintainers."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 
 #: trans/views/basic.py:421
 #, fuzzy
 #| msgid "Failed to process form!"
-msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "עיבוד הטופס נכשל!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3391,17 +3392,11 @@ msgstr ""
 
 #: weblate/html/subproject.html:55
 #, fuzzy
-#| msgid "New language"
-msgid "Request new language"
-msgstr "שפה חדשה"
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "תרגום חדש"
 
-#: weblate/html/subproject.html:57
-#, fuzzy
-#| msgid "New language"
-msgid "Add new language"
-msgstr "שפה חדשה"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3410,7 +3405,7 @@ msgstr ""
 "במקרה שהשפה שלך אינה מופיע להלן, ניתן <a href=\"%(contact_url)s?subject=New"
 "+language+request+for+%(object)s\">ליצור אתנו קשר</a>."
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "סקירת מחרוזות המקור"
 
@@ -4497,6 +4492,16 @@ msgstr "שינויים"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "לא נמצאה פעילות תואמת."
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Request new language"
+#~ msgstr "שפה חדשה"
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Add new language"
+#~ msgstr "שפה חדשה"
 
 #~ msgid "Invalid text direction"
 #~ msgstr "כיוון הטקסט שגוי"

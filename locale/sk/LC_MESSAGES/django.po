@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-08-18 22:08+0200\n"
 "Last-Translator: Martin Jurík <martin@droid.sk>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
@@ -788,7 +788,7 @@ msgstr "Dokončenie prekladu"
 msgid "Translation changed"
 msgstr "Zmena prekladu"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Nový preklad"
 
@@ -901,7 +901,7 @@ msgstr "URL licencie"
 msgid "Optional URL with license details."
 msgstr "Voliteľná URL s detailmi o licencii."
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "Nový jazyk"
 
@@ -1702,17 +1702,22 @@ msgid "About Weblate"
 msgstr "O Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+#, fuzzy
+#| msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr "Vybraný jazyk už je v projekte prekladaný!"
 
 #: trans/views/basic.py:412
 #, fuzzy
 #| msgid "Requested new language addition from the project maintainers."
-msgid "Sent request for language addition to the project maintainers."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
 msgstr "Správcom projektu bola odoslaná požiadavka na pridanie jazyka."
 
 #: trans/views/basic.py:421
-msgid "Failed to process new language request!"
+#, fuzzy
+#| msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "Nepodarilo sa spracovať požiadavku na nový jazyk!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3388,14 +3393,12 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Prosím, vyberte jazyk, do ktorého chcete prekladať."
 
 #: weblate/html/subproject.html:55
-msgid "Request new language"
-msgstr "Požadovať nový jazyk"
+#, fuzzy
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "Nový preklad"
 
-#: weblate/html/subproject.html:57
-msgid "Add new language"
-msgstr "Pridať nový jazyk"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3404,7 +3407,7 @@ msgstr ""
 "Ak Váš jazyk chýba, prosím, <a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">napíšte nám</a>."
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "Kontrola zdrojových reťazcov"
 
@@ -4537,6 +4540,12 @@ msgstr "zmeny"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Nebola nájdená žiadna zodpovedajúca aktivita."
+
+#~ msgid "Request new language"
+#~ msgstr "Požadovať nový jazyk"
+
+#~ msgid "Add new language"
+#~ msgstr "Pridať nový jazyk"
 
 #~ msgid "Invalid text direction"
 #~ msgstr "Nesprávny smer textu"

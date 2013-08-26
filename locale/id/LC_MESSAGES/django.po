@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-08-24 01:49+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -796,7 +796,7 @@ msgstr "Penerjemahan rampung"
 msgid "Translation changed"
 msgstr "Penerjemahan telah dirubah"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Penerjemahan baru"
 
@@ -910,7 +910,7 @@ msgstr "URL Lisensi"
 msgid "Optional URL with license details."
 msgstr "Opsional URL dengan rincian lisensi."
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "Bahasa baru"
 
@@ -1612,17 +1612,22 @@ msgid "About Weblate"
 msgstr "Tentang Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+#, fuzzy
+#| msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr "Bahasa yang dipilih sudah ada dalam proyek!"
 
 #: trans/views/basic.py:412
 #, fuzzy
 #| msgid "Requested new language addition from the project maintainers."
-msgid "Sent request for language addition to the project maintainers."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
 msgstr "Permintaan penambahan bahasa baru berasal dari pengelola proyek."
 
 #: trans/views/basic.py:421
-msgid "Failed to process new language request!"
+#, fuzzy
+#| msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "Gagal untuk memproses permintaan bahasa baru!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3294,14 +3299,12 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Silahkan pilih bahasa yang mana Anda ingin menerjemahkan."
 
 #: weblate/html/subproject.html:55
-msgid "Request new language"
-msgstr "Permintaan bahasa baru"
+#, fuzzy
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "Penerjemahan baru"
 
-#: weblate/html/subproject.html:57
-msgid "Add new language"
-msgstr "Tambah bahasa baru"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3310,7 +3313,7 @@ msgstr ""
 "Bahasa Anda tidak ada, silakan <a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">hubungi kami</a>."
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "Peninjauan sumber string"
 
@@ -4462,6 +4465,12 @@ msgstr "perubahan"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "Kegiatan yang tidak cocok telah ditemukan."
+
+#~ msgid "Request new language"
+#~ msgstr "Permintaan bahasa baru"
+
+#~ msgid "Add new language"
+#~ msgstr "Tambah bahasa baru"
 
 #~ msgid "Invalid text direction"
 #~ msgstr "Arah teks tidak valid"

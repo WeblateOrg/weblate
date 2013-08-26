@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-08-23 15:55+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
 "Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -777,7 +777,7 @@ msgstr "翻譯完成"
 msgid "Translation changed"
 msgstr "已更改的翻譯"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "新的翻譯"
 
@@ -890,7 +890,7 @@ msgstr "授權網址"
 msgid "Optional URL with license details."
 msgstr "網址選項與授權詳細資訊。"
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "新的語言"
 
@@ -1550,17 +1550,22 @@ msgid "About Weblate"
 msgstr "關於 Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+#, fuzzy
+#| msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr "所選取的語言，已經在專案裡！"
 
 #: trans/views/basic.py:412
 #, fuzzy
 #| msgid "Requested new language addition from the project maintainers."
-msgid "Sent request for language addition to the project maintainers."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
 msgstr "向專案的維護者，要求增加新的語言。"
 
 #: trans/views/basic.py:421
-msgid "Failed to process new language request!"
+#, fuzzy
+#| msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "處理新的語言請求失敗！"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3184,14 +3189,12 @@ msgid "Please choose language into which you would like to translate."
 msgstr "請選擇您想翻譯的是哪個語言。"
 
 #: weblate/html/subproject.html:55
-msgid "Request new language"
-msgstr "要求新的語言"
+#, fuzzy
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "新的翻譯"
 
-#: weblate/html/subproject.html:57
-msgid "Add new language"
-msgstr "新增語言"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3200,7 +3203,7 @@ msgstr ""
 "如果找不到您的語言，請<a href=\"%(contact_url)s?subject=New language request "
 "for %(object)s\">連絡我們</a> 。"
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "來源字串再次檢討"
 
@@ -4275,6 +4278,12 @@ msgstr "變更"
 #: weblate/html/trans/change_list.html:51
 msgid "No matching activity has been found."
 msgstr "沒有發現相符合的活動。"
+
+#~ msgid "Request new language"
+#~ msgstr "要求新的語言"
+
+#~ msgid "Add new language"
+#~ msgstr "新增語言"
 
 #~ msgid "Invalid text direction"
 #~ msgstr "無效的文字方向"

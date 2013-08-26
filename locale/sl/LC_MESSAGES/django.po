@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-07-30 16:28+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -796,7 +796,7 @@ msgstr "Dokončanje prevoda"
 msgid "Translation changed"
 msgstr "Sprememba prevoda"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Nov prevod"
 
@@ -911,7 +911,7 @@ msgstr "URL naslov licence"
 msgid "Optional URL with license details."
 msgstr "Dodaten URL naslov s podrobnostmi licence."
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "Nov jezik"
 
@@ -1718,17 +1718,20 @@ msgid "About Weblate"
 msgstr "O Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr ""
 
 #: trans/views/basic.py:412
-msgid "Sent request for language addition to the project maintainers."
-msgstr ""
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
+msgstr "Zahteva po strojnem prevodu je spodletela."
 
 #: trans/views/basic.py:421
 #, fuzzy
 #| msgid "Failed to process form!"
-msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "Nisem uspel obdelati obrazca!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3409,17 +3412,11 @@ msgstr ""
 
 #: weblate/html/subproject.html:55
 #, fuzzy
-#| msgid "New language"
-msgid "Request new language"
-msgstr "Nov jezik"
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "Nov prevod"
 
-#: weblate/html/subproject.html:57
-#, fuzzy
-#| msgid "New language"
-msgid "Add new language"
-msgstr "Nov jezik"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3428,7 +3425,7 @@ msgstr ""
 "Če vaš jezik manjka, stopite v <a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">stik z nami</a>."
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "Pregled izvirnih nizov"
 
@@ -4597,6 +4594,16 @@ msgstr "spremembe"
 msgid "No matching activity has been found."
 msgstr "Ni bilo najti nobene ustrezne dejavnosti."
 
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Request new language"
+#~ msgstr "Nov jezik"
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Add new language"
+#~ msgstr "Nov jezik"
+
 #~ msgid "Invalid text direction"
 #~ msgstr "Neveljavna smer besedila"
 
@@ -4665,11 +4672,6 @@ msgstr "Ni bilo najti nobene ustrezne dejavnosti."
 #~| msgid "The request for machine translation has failed."
 #~ msgid "The request for machine translation has failed:"
 #~ msgstr "Zahteva po strojnem prevodu je spodletela:"
-
-#, fuzzy
-#~| msgid "The request for machine translation has failed."
-#~ msgid "The request for machine translation using %%s has failed:"
-#~ msgstr "Zahteva po strojnem prevodu je spodletela."
 
 #~ msgid "Confirm resetting repository"
 #~ msgstr "Potrdite ponastavitev shrambe"

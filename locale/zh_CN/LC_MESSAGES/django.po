@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 15:51+0200\n"
+"POT-Creation-Date: 2013-08-26 17:25+0200\n"
 "PO-Revision-Date: 2013-08-23 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -777,7 +777,7 @@ msgstr "已完成翻译"
 msgid "Translation changed"
 msgstr "已修改翻译"
 
-#: trans/models/changes.py:134
+#: trans/models/changes.py:134 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "新翻译"
 
@@ -892,7 +892,7 @@ msgstr "许可证地址"
 msgid "Optional URL with license details."
 msgstr "含有许可证详细内容的地址 可选。"
 
-#: trans/models/project.py:116 weblate/html/subproject.html:32
+#: trans/models/project.py:116
 msgid "New language"
 msgstr "新增语言"
 
@@ -1566,17 +1566,20 @@ msgid "About Weblate"
 msgstr "关于 Weblate"
 
 #: trans/views/basic.py:405
-msgid "Chosen language already exists in the project!"
+msgid "Chosen translation already exists in this project!"
 msgstr ""
 
 #: trans/views/basic.py:412
-msgid "Sent request for language addition to the project maintainers."
-msgstr ""
+#, fuzzy
+#| msgid "The request for machine translation has failed."
+msgid ""
+"A request for a new translation has been sent to the project's maintainers."
+msgstr "机器翻译的请求已经失败。"
 
 #: trans/views/basic.py:421
 #, fuzzy
 #| msgid "Failed to process form!"
-msgid "Failed to process new language request!"
+msgid "Failed to process new translation request!"
 msgstr "处理表单失败！"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
@@ -3226,17 +3229,11 @@ msgstr ""
 
 #: weblate/html/subproject.html:55
 #, fuzzy
-#| msgid "New language"
-msgid "Request new language"
-msgstr "新增语言"
+#| msgid "New translation"
+msgid "Start new translation"
+msgstr "新翻译"
 
-#: weblate/html/subproject.html:57
-#, fuzzy
-#| msgid "New language"
-msgid "Add new language"
-msgstr "新增语言"
-
-#: weblate/html/subproject.html:63
+#: weblate/html/subproject.html:61
 #, python-format
 msgid ""
 "Should your language be missing, please <a href=\"%(contact_url)s?subject=New"
@@ -3245,7 +3242,7 @@ msgstr ""
 "如果没有您的语言，请 <a href=\"%(contact_url)s?subject=New+language+request"
 "+for+%(object)s\">联系我们</a>。"
 
-#: weblate/html/subproject.html:79
+#: weblate/html/subproject.html:77
 msgid "Source strings review"
 msgstr "复查源条目"
 
@@ -4459,6 +4456,16 @@ msgstr "最近的修改"
 msgid "No matching activity has been found."
 msgstr "没有最近活动的记录。"
 
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Request new language"
+#~ msgstr "新增语言"
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Add new language"
+#~ msgstr "新增语言"
+
 #~ msgid "Invalid text direction"
 #~ msgstr "无效的文字方向"
 
@@ -4528,11 +4535,6 @@ msgstr "没有最近活动的记录。"
 #, fuzzy
 #~| msgid "The request for machine translation has failed."
 #~ msgid "The request for machine translation has failed:"
-#~ msgstr "机器翻译的请求已经失败。"
-
-#, fuzzy
-#~| msgid "The request for machine translation has failed."
-#~ msgid "The request for machine translation using %%s has failed:"
 #~ msgstr "机器翻译的请求已经失败。"
 
 #~ msgid "Confirm resetting repository"
