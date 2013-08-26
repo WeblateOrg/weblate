@@ -20,6 +20,8 @@
 
 from unittest import TestCase
 from trans.simplediff import html_diff
+from trans.templatetags.translations import fmtsourcediff, fmtsearchmatch
+from trans.tests.checks import MockUnit
 
 
 class DiffTest(TestCase):
@@ -48,4 +50,21 @@ class DiffTest(TestCase):
         self.assertEqual(
             html_diff('first old text', 'first new text'),
             'first <del>old</del><ins>new</ins> text'
+        )
+
+    def test_fmtsourcediff(self):
+        unit = MockUnit(source='Hello word!')
+        self.assertEqual(
+            fmtsourcediff('Hello world!', unit),
+            u'<span lang="en" dir="ltr" class="direction">'
+            'Hello wor<del>l</del>d!'
+            '</span>'
+        )
+
+    def test_fmtsearchmatch(self):
+        self.assertEqual(
+            fmtsearchmatch('Hello world!', 'hello'),
+            u'<span lang="en" dir="ltr" class="direction">'
+            '<span class="hlmatch">Hello</span> world!'
+            '</span>'
         )

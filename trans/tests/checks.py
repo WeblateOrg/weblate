@@ -65,12 +65,13 @@ class MockUnit(object):
     '''
     Mock unit object.
     '''
-    def __init__(self, checksum=None, flags='', code='cs'):
+    def __init__(self, checksum=None, flags='', code='cs', source=''):
         if checksum is None:
             checksum = str(uuid.uuid1())
         self.checksum = checksum
         self.flags = flags
         self.translation = MockTranslation(code)
+        self.source = source
 
     @property
     def all_flags(self):
