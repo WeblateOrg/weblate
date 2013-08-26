@@ -29,7 +29,7 @@
 <ul>
 <li><a href="#changes">{% trans "History" %}</a></li>
 {% if object.can_add_language %}
-<li><a href="#new-lang">{% trans "New language" %}</a></li>
+<li><a href="#new-lang">{% trans "New translation" %}</a></li>
 {% endif %}
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
@@ -51,10 +51,8 @@
 {{ new_lang_form.as_table }}
 <tr><td></td>
 <td>
-{% if object.project.new_lang == 'contact' %}
-<input class="button" type="submit" value="{% trans "Request new language" %}" />
-{% elif object.project.new_lang == 'add' %}
-<input class="button" type="submit" value="{% trans "Add new language" %}" />
+{% if object.project.new_lang == 'contact' or object.project.new_lang == 'add' %}
+<input class="button" type="submit" value="{% trans "Start new translation" %}" />
 {% endif %}
 </td>
 </tr>

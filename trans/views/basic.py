@@ -402,15 +402,15 @@ def new_language(request, project, subproject):
         if same_lang.exists():
             messages.error(
                 request,
-                _('Chosen language already exists in the project!')
+                _('Chosen translation already exists in this project!')
             )
         elif obj.project.new_lang == 'contact':
             notify_new_language(obj, language, request.user)
             messages.info(
                 request,
                 _(
-                    'Sent request for language addition '
-                    'to the project maintainers.'
+                    "A request for a new translation has been "
+                    "sent to the project's maintainers."
                 )
             )
         elif obj.project.new_lang == 'add':
@@ -418,7 +418,7 @@ def new_language(request, project, subproject):
     else:
         messages.error(
             request,
-            _('Failed to process new language request!')
+            _('Failed to process new translation request!')
         )
 
     return HttpResponseRedirect(reverse(
