@@ -201,3 +201,18 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         self.assertEqual(translation.total, 1)
+
+    def test_deleted_stale_unit(self):
+        '''
+        Test removing several units from remote repo with no
+        other reference, so full cleanup has to happen.
+        '''
+        self.push_replace(MINIMAL_PO, 'w')
+        self.subproject.delete()
+
+        self.subproject2.do_update(self.request)
+
+        translation = self.subproject2.translation_set.get(
+            language_code='cs'
+        )
+        self.assertEqual(translation.total, 1)
