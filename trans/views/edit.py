@@ -286,8 +286,8 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         )
 
         # Custom commit message
-        if 'commit-message' in request.POST and request.POST['commit-message']:
-            unit.translation.commit_message = request.POST['commit-message']
+        if 'commit_message' in request.POST and request.POST['commit_message']:
+            unit.translation.commit_message = request.POST['commit_message']
             unit.translation.save()
 
         # Save
