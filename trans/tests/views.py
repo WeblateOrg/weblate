@@ -975,6 +975,10 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, 'Other')
         self.assertNotContains(response, 'Plural form ')
 
+    def test_checksum(self):
+        response = self.do_search({'checksum': 'invalid'}, None)
+        self.assertRedirects(response, self.get_translation().get_absolute_url())
+
 
 class CommentViewTest(ViewTestCase):
     def setUp(self):
