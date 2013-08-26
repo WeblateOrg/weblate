@@ -29,6 +29,8 @@ TEST_DATA = (
     (0, 'now'),
     (1, 'a second from now'),
     (-1, 'a second ago'),
+    (2, '2 seconds from now'),
+    (-2, '2 seconds ago'),
     (60, 'a minute from now'),
     (-60, 'a minute ago'),
     (120, '2 minutes from now'),
