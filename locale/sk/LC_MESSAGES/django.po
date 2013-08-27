@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-26 17:25+0200\n"
-"PO-Revision-Date: 2013-08-18 22:08+0200\n"
+"PO-Revision-Date: 2013-08-27 12:59+0200\n"
 "Last-Translator: Martin Jurík <martin@droid.sk>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
 "Language: sk\n"
@@ -1095,7 +1095,6 @@ msgid "Base file for new translations"
 msgstr "Základný súbor pre nové preklady"
 
 #: trans/models/subproject.py:154
-#, fuzzy
 #| msgid ""
 #| "Filename of file which is used for creating new ranslations. For Gettext "
 #| "choose .pot file."
@@ -1181,7 +1180,6 @@ msgid "Autoaccept suggestions"
 msgstr "Automaticky príjmať návrhy"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Automatically accept suggestions with this amount of votes, use 0 to "
 #| "disable."
@@ -1195,7 +1193,6 @@ msgid "Quality checks flags"
 msgstr "Značky pre kontrolu kvality"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional comma separate flags to influence quality checks, check "
 #| "documentation for possible values."
@@ -1203,7 +1200,7 @@ msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Ďalšie značky pre ovplivnenie kontroly kvality, viac informácií nájdete v "
+"Ďalšie značky pre ovplyvnenie kontroly kvality, viac informácií nájdete v "
 "dokumentácii."
 
 #: trans/models/subproject.py:452
@@ -1412,72 +1409,68 @@ msgid "Avatar for %s"
 msgstr "Avatar pre %s"
 
 #: trans/templatetags/translations.py:317
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "pred rokom"
 
 #: trans/templatetags/translations.py:319
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] ", %(count)s hlas"
-msgstr[1] ", %(count)s hlasy"
-msgstr[2] ", %(count)s hlasov"
+msgstr[0] "pred %(count)s rokom"
+msgstr[1] "pred %(count)s rokmi"
+msgstr[2] "pred %(count)s rokmi"
 
 #: trans/templatetags/translations.py:324
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "pred mesiacom"
 
 #: trans/templatetags/translations.py:326
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] ", %(count)s hlas"
-msgstr[1] ", %(count)s hlasy"
-msgstr[2] ", %(count)s hlasov"
+msgstr[0] "pred %(count)s mesiacom"
+msgstr[1] "pred %(count)s mesiacmi"
+msgstr[2] "pred %(count)s mesiacmi"
 
 #: trans/templatetags/translations.py:331
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] ", %(count)s hlas"
-msgstr[1] ", %(count)s hlasy"
-msgstr[2] ", %(count)s hlasov"
+msgstr[0] "pred %(count)s týždňom"
+msgstr[1] "pred %(count)s týždňami"
+msgstr[2] "pred %(count)s týždňami"
 
 #: trans/templatetags/translations.py:335
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "pred týždňom"
 
 #: trans/templatetags/translations.py:337
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "včera"
 
 #: trans/templatetags/translations.py:339
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] ", %(count)s hlas"
-msgstr[1] ", %(count)s hlasy"
-msgstr[2] ", %(count)s hlasov"
+msgstr[0] "pred %(count)s dňom"
+msgstr[1] "pred %(count)s dňami"
+msgstr[2] "pred %(count)s dňami"
 
 #: trans/templatetags/translations.py:342
 #: trans/templatetags/translations.py:393
@@ -1485,172 +1478,162 @@ msgid "now"
 msgstr "teraz"
 
 #: trans/templatetags/translations.py:345
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "pred sekundou"
 
 #: trans/templatetags/translations.py:347
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
-msgstr[0] "pred sekundou"
+msgstr[0] "pred %(count)s sekundou"
 msgstr[1] "pred %(count)s sekundami"
 msgstr[2] "pred %(count)s sekundami"
 
 #: trans/templatetags/translations.py:352
-#, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "pred minútou"
 
 #: trans/templatetags/translations.py:354
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
-msgstr[0] "pred minútou"
+msgstr[0] "pred %(count)s minútou"
 msgstr[1] "pred %(count)s minútami"
 msgstr[2] "pred %(count)s minútami"
 
 #: trans/templatetags/translations.py:359
-#, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "pred hodinou"
 
 #: trans/templatetags/translations.py:361
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
-msgstr[0] "pred hodinou"
+msgstr[0] "pred %(count)s hodinou"
 msgstr[1] "pred %(count)s hodinami"
 msgstr[2] "pred %(count)s hodinami"
 
 #: trans/templatetags/translations.py:368
-#, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "za rok"
 
 #: trans/templatetags/translations.py:370
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "za rok"
+msgstr[0] "za %(count)s rok"
 msgstr[1] "za %(count)s roky"
 msgstr[2] "za %(count)s rokov"
 
 #: trans/templatetags/translations.py:375
-#, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "za mesiac"
 
 #: trans/templatetags/translations.py:377
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "za mesiac"
+msgstr[0] "za %(count)s mesiac"
 msgstr[1] "za %(count)s mesiace"
 msgstr[2] "za %(count)s mesiacov"
 
 #: trans/templatetags/translations.py:382
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "za týždeň"
+msgstr[0] "za %(count)s týždeň"
 msgstr[1] "za %(count)s týždne"
 msgstr[2] "za %(count)s týždňov"
 
 #: trans/templatetags/translations.py:386
-#, fuzzy
 #| msgid "tomorrow"
 #| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
 msgstr "zajtra"
 
 #: trans/templatetags/translations.py:388
-#, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "za týždeň"
 
 #: trans/templatetags/translations.py:390
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "sekundu odteraz"
-msgstr[1] "%(count)s sekundy odteraz"
-msgstr[2] "%(count)s sekúnd odteraz"
+msgstr[0] "%(count)s sekundu"
+msgstr[1] "%(count)s sekundy"
+msgstr[2] "%(count)s sekúnd"
 
 #: trans/templatetags/translations.py:396
-#, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "za sekundu"
 
 #: trans/templatetags/translations.py:398
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "za sekundu"
+msgstr[0] "za %(count)s sekundu"
 msgstr[1] "za%(count)s sekundy"
-msgstr[2] "%(count)s sekúnd"
+msgstr[2] "za %(count)s sekúnd"
 
 #: trans/templatetags/translations.py:405
-#, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "za minútu"
 
 #: trans/templatetags/translations.py:407
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "za minútu"
+msgstr[0] "za %(count)s minútu"
 msgstr[1] "za%(count)s minúty"
 msgstr[2] "za %(count)s minút"
 
 #: trans/templatetags/translations.py:414
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "za hodinu"
 
 #: trans/templatetags/translations.py:416
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "za hodinu"
+msgstr[0] "za %(count)s hodinu"
 msgstr[1] "za %(count)s hodiny"
 msgstr[2] "za %(count)s hodín"
 
@@ -1702,20 +1685,17 @@ msgid "About Weblate"
 msgstr "O Weblate"
 
 #: trans/views/basic.py:405
-#, fuzzy
 #| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "Vybraný jazyk už je v projekte prekladaný!"
 
 #: trans/views/basic.py:412
-#, fuzzy
 #| msgid "Requested new language addition from the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Správcom projektu bola odoslaná požiadavka na pridanie jazyka."
 
 #: trans/views/basic.py:421
-#, fuzzy
 #| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
 msgstr "Nepodarilo sa spracovať požiadavku na nový jazyk!"
@@ -3393,7 +3373,6 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Prosím, vyberte jazyk, do ktorého chcete prekladať."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New translation"
 msgid "Start new translation"
 msgstr "Nový preklad"
