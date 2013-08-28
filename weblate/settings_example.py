@@ -227,6 +227,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # Default logging of Weblate messages
 # - to syslog in production (if available)
 # - otherwise to console
+# - you can also choose 'logfile' to log into separate file
 
 if DEBUG or not os.path.exists('/dev/log'):
     DEFAULT_LOG = 'console'
@@ -253,6 +254,9 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        'logfile': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
     },
     'handlers': {
         'mail_admins': {
@@ -271,6 +275,14 @@ LOGGING = {
             'formatter': 'syslog',
             'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': "/var/log/weblate/weblate.log",
+            'maxBytes': 100000,
+            'backupCount': 3,
+            'formatter': 'logfile',
         },
     },
     'loggers': {
@@ -380,6 +392,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.chars.EndExclamationCheck',
 #    'trans.checks.chars.EndEllipsisCheck',
 #    'trans.checks.format.PythonFormatCheck',
+#    'trans.checks.format.PythonBraceFormatCheck',
 #    'trans.checks.format.PHPFormatCheck',
 #    'trans.checks.format.CFormatCheck',
 #    'trans.checks.consistency.PluralsCheck',
