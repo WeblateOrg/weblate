@@ -47,29 +47,29 @@
 {% if secondary %}
 {% for unit in secondary %}
 <tr>
-<th class="source">{{ unit.translation.language }}</th>
+<th class="source labelscolumn">{{ unit.translation.language }}</th>
 <td class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</td>
 </tr>
 {% endfor %}
 {% endif %}
 <tr>
-<th class="source">{% trans "Source" %}</th>
+<th class="source labelscolumn">{% trans "Source" %}</th>
 <td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
 </tr>
 {% if unit.previous_source and unit.fuzzy %}
 <tr>
-<th>{% trans "Source change" %}</th>
+<th class="labelscolumn">{% trans "Source change" %}</th>
 <td>{{ unit.previous_source|fmtsourcediff:unit }}</td>
 </tr>
 {% endif %}
 {% if unit.context %}
 <tr>
-<th>{% trans "Context" %}</th>
+<th class="labelscolumn">{% trans "Context" %}</th>
 <td>{{ unit.context|fmtsearchmatch:search_query }}</td>
 </tr>
 {% endif %}
 <tr>
-<td></td>
+<td class="labelscolumn"></td>
 <td class="toolbar">
 <a href="#" id="copy-text">{% trans "Copy" %}</a>
 <img src="{% get_media_prefix %}loading.gif" id="loading" style="display: none" />
@@ -82,7 +82,7 @@
 </td>
 </tr>
 <tr>
-<th>{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>
+<th class="labelscolumn">{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>
 <td class="translator">
 {{ form.checksum }}
 {{ form.target }}
@@ -97,7 +97,7 @@
 {% with unit.active_checks as checks %}
 {% if checks %}
 <tr>
-<th>{% trans "Failing checks" %}</th>
+<th class="labelscolumn">{% trans "Failing checks" %}</th>
 <td>
 {% include "list-checks.html" %}
 </td>
@@ -107,7 +107,7 @@
 {% with unit.suggestions as suggestions %}
 {% if suggestions %}
 <tr>
-<th>{% trans "Suggestions" %}</th>
+<th class="labelscolumn">{% trans "Suggestions" %}</th>
 <td>
 <table class="suggestions">
 {% for suggestion in suggestions %}
@@ -145,11 +145,11 @@
 {% include "unit-details.html" %}
 {% if unit.flags %}
 <tr>
-<th>{% trans "Flags" %}</th>
+<th class="labelscolumn">{% trans "Flags" %}</th>
 <td><span class="legend">{{ unit.flags }}</span></td>
 </tr>
 {% endif %}
-<tr><td></td><td>
+<tr><td class="labelscolumn"></td><td>
 {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.save_translation %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
