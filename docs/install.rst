@@ -180,6 +180,13 @@ options:
 
     .. seealso:: `DEFAULT_FROM_EMAIL documentation`_
 
+``SECRET_KEY``
+
+    Key used by Django to sign some information in cookies. If you don't
+    change this, the cookies can be spoofed by anyone.
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
+
 ``SERVER_EMAIL``
 
     Email used as sender address for sending emails to administrator, for
@@ -362,6 +369,16 @@ way language names are properly sorted even in non-ascii languages like
 Japanese, Chinese or Arabic or for languages with accented letters.
 
 .. _PyICU: https://pypi.python.org/pypi/PyICU
+
+.. _production-secret:
+
+Django secret key
++++++++++++++++++
+
+The ``SECRET_KEY`` setting is used by Django to sign cookies and you should
+really use own value rather than using the one coming from example setup.
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
 
 .. _server:
 

@@ -26,6 +26,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.conf import settings
+from weblate import settings_example
 from weblate import appsettings
 from trans.util import HAS_LIBRAVATAR
 from accounts.forms import HAS_ICU
@@ -130,6 +131,11 @@ def performance(request):
         _('PyICU library'),
         HAS_ICU,
         'production-pyicu',
+    ))
+    checks.append((
+        _('Secret key'),
+        settings.SECRET_KEY != settings_example.SECRET_KEY,
+        'production-secret',
     ))
     if django.VERSION > (1, 5):
         checks.append((
