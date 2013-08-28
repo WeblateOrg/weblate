@@ -18,7 +18,7 @@ Git (>= 1.0)
     http://git-scm.com/
 Django-registration (= 0.8, 0.9 is not supported)
     https://bitbucket.org/ubernostrum/django-registration/
-Whoosh
+Whoosh (>= 2.5)
     http://bitbucket.org/mchaput/whoosh/
 PIL or Pillow library
     http://python-imaging.github.io/

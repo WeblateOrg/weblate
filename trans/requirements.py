@@ -119,7 +119,7 @@ def get_versions():
         name,
         url,
         mod.versionstring(),
-        '2.3',
+        '2.5',
     ))
 
     name = 'GitPython'
