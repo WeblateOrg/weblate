@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 17:25+0200\n"
+"POT-Creation-Date: 2013-08-28 16:27+0200\n"
 "PO-Revision-Date: 2013-08-27 14:11+0200\n"
 "Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -238,66 +238,70 @@ msgstr "Flertal"
 msgid "Plural form %d"
 msgstr "Flertalsform %d"
 
-#: trans/admin_views.py:65
+#: trans/admin_views.py:66
 msgid "Debug mode"
 msgstr "Fejlsøgningstilstand"
 
-#: trans/admin_views.py:71
+#: trans/admin_views.py:72
 msgid "Site domain"
 msgstr "Webstedsdomæne"
 
-#: trans/admin_views.py:77
+#: trans/admin_views.py:78
 msgid "Database backend"
 msgstr "Databasemotor"
 
-#: trans/admin_views.py:83
+#: trans/admin_views.py:84
 msgid "Site administrator"
 msgstr "Webstedets administrator"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:90
+#: trans/admin_views.py:91
 msgid "Indexing offloading"
 msgstr "Aflastning af indeksering"
 
-#: trans/admin_views.py:106
+#: trans/admin_views.py:107
 msgid "Django caching"
 msgstr "Django cachelagring"
 
-#: trans/admin_views.py:117
+#: trans/admin_views.py:118
 msgid "Email addresses"
 msgstr "E-mail-adresser"
 
-#: trans/admin_views.py:125
+#: trans/admin_views.py:126
 msgid "Federated avatar support"
 msgstr "Organisationsnetværk avatar support"
 
-#: trans/admin_views.py:130
+#: trans/admin_views.py:131
 msgid "PyICU library"
 msgstr "PyICU bibliotek"
 
 #: trans/admin_views.py:136
+msgid "Secret key"
+msgstr ""
+
+#: trans/admin_views.py:142
 msgid "Allowed hosts"
 msgstr "Tilladte værter"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:162
+#: trans/admin_views.py:168
 msgid "[hostname hashed]"
 msgstr "[værtsnavn hashed]"
 
-#: trans/admin_views.py:217
+#: trans/admin_views.py:223
 msgid "Created new SSH key."
 msgstr "Oprettede ny SSH nøgle."
 
-#: trans/admin_views.py:221
+#: trans/admin_views.py:227
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Oprettelse af nøgle mislykkedes: %s"
 
-#: trans/admin_views.py:241
+#: trans/admin_views.py:247
 msgid "Invalid host name given!"
 msgstr "Værtsnavnet er ugyldigt!"
 
-#: trans/admin_views.py:254
+#: trans/admin_views.py:260
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -1540,30 +1544,22 @@ msgstr[0] "en time siden"
 msgstr[1] "%(count)s timer siden"
 
 #: trans/templatetags/translations.py:368
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "et år fra nu"
 
 #: trans/templatetags/translations.py:370
 #, python-format
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "et år fra nu"
 msgstr[1] "%(count)s år fra nu"
 
 #: trans/templatetags/translations.py:375
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "en måned fra nu"
 
 #: trans/templatetags/translations.py:377
 #, python-format
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "en måned fra nu"
@@ -1571,74 +1567,54 @@ msgstr[1] "%(count)s måneder fra nu"
 
 #: trans/templatetags/translations.py:382
 #, python-format
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "en uge fra nu"
 msgstr[1] "%(count)s uger fra nu"
 
 #: trans/templatetags/translations.py:386
-#| msgid "tomorrow"
-#| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
 msgstr "i morgen"
 
 #: trans/templatetags/translations.py:388
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "en uge fra nu"
 
 #: trans/templatetags/translations.py:390
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "et sekund fra nu"
 msgstr[1] "%(count)s sekunder fra nu"
 
 #: trans/templatetags/translations.py:396
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "et sekund fra nu"
 
 #: trans/templatetags/translations.py:398
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "et sekund fra nu"
 msgstr[1] "%(count)s sekunder fra nu"
 
 #: trans/templatetags/translations.py:405
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "et minut fra nu"
 
 #: trans/templatetags/translations.py:407
 #, python-format
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "et minut fra nu"
 msgstr[1] "%(count)s minutter fra nu"
 
 #: trans/templatetags/translations.py:414
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "en time fra nu"
 
 #: trans/templatetags/translations.py:416
 #, python-format
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "en time fra nu"
@@ -1692,18 +1668,15 @@ msgid "About Weblate"
 msgstr "Om Weblate"
 
 #: trans/views/basic.py:405
-#| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "Valgte oversættelsen eksisterer allerede i projektet!"
 
 #: trans/views/basic.py:412
-#| msgid "Requested new language addition from the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Anmodning om ny oversættelse til projektets udviklere."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
 msgstr "Kunne ikke behandle anmodning om ny oversættelse!"
 
@@ -2005,8 +1978,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
-"Vi kan være vært for projektet, hvis du er interesseret så <a href=\"%"
-"(contact_url)s?subject=Project hosting\">kontakt os</a>."
+"Vi kan være vært for projektet, hvis du er interesseret så <a href="
+"\"%(contact_url)s?subject=Project hosting\">kontakt os</a>."
 
 #: weblate/html/about.html:26
 msgid ""
@@ -2100,8 +2073,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
-"Mere information om denne kontrol er tilgængeligt i <a href=\"%"
-"(link)s\">dokumentationen</a>."
+"Mere information om denne kontrol er tilgængeligt i <a href=\"%(link)s"
+"\">dokumentationen</a>."
 
 #: weblate/html/check.html:27 weblate/html/check_project.html:27
 #: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
@@ -3997,6 +3970,12 @@ msgstr "Kopier ord til oversættelse"
 #: weblate/html/js/dictionary.html:27
 msgid "No related strings found in dictionary."
 msgstr "Der blev ikke fundet relaterede strenge i ordbog."
+
+#: weblate/html/js/dictionary.html:30
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Manage glossary"
+msgstr "Administration af alle ordlister"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"

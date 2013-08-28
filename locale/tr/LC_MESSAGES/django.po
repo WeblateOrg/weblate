@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 17:25+0200\n"
+"POT-Creation-Date: 2013-08-28 16:27+0200\n"
 "PO-Revision-Date: 2013-08-26 19:41+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -240,66 +240,70 @@ msgstr "Çoğul"
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
 
-#: trans/admin_views.py:65
+#: trans/admin_views.py:66
 msgid "Debug mode"
 msgstr "Hata ayıklama kipi"
 
-#: trans/admin_views.py:71
+#: trans/admin_views.py:72
 msgid "Site domain"
 msgstr "Site etki alanı"
 
-#: trans/admin_views.py:77
+#: trans/admin_views.py:78
 msgid "Database backend"
 msgstr "Veritabanı arka ucu"
 
-#: trans/admin_views.py:83
+#: trans/admin_views.py:84
 msgid "Site administrator"
 msgstr "Site yöneticisi"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:90
+#: trans/admin_views.py:91
 msgid "Indexing offloading"
 msgstr "İndeksleme boşaltılıyor"
 
-#: trans/admin_views.py:106
+#: trans/admin_views.py:107
 msgid "Django caching"
 msgstr "Django önbellekleme"
 
-#: trans/admin_views.py:117
+#: trans/admin_views.py:118
 msgid "Email addresses"
 msgstr "Eposta adresleri"
 
-#: trans/admin_views.py:125
+#: trans/admin_views.py:126
 msgid "Federated avatar support"
 msgstr "Birleşmiş avatar desteği"
 
-#: trans/admin_views.py:130
+#: trans/admin_views.py:131
 msgid "PyICU library"
 msgstr "PyICU kütüphanesi"
 
 #: trans/admin_views.py:136
+msgid "Secret key"
+msgstr ""
+
+#: trans/admin_views.py:142
 msgid "Allowed hosts"
 msgstr "İzin verilen anamakineler"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:162
+#: trans/admin_views.py:168
 msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
-#: trans/admin_views.py:217
+#: trans/admin_views.py:223
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: trans/admin_views.py:221
+#: trans/admin_views.py:227
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Anahtar üretme başarısız: %s"
 
-#: trans/admin_views.py:241
+#: trans/admin_views.py:247
 msgid "Invalid host name given!"
 msgstr "Verilen geçersiz anamakine adı!"
 
-#: trans/admin_views.py:254
+#: trans/admin_views.py:260
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -1593,18 +1597,15 @@ msgid "About Weblate"
 msgstr "Weblate hakkında"
 
 #: trans/views/basic.py:405
-#| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "Seçilen çeviri bu projede zaten var!"
 
 #: trans/views/basic.py:412
-#| msgid "Sent request for language addition to the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni bir çeviri için istek projenin geliştiricilerine gönderildi."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
 msgstr "Yeni çeviri isteğini işleme başarısız!"
 
@@ -3270,7 +3271,6 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Lütfen çevirmek istediğiniz dili seçin."
 
 #: weblate/html/subproject.html:55
-#| msgid "New translation"
 msgid "Start new translation"
 msgstr "Yeni çeviri başlat"
 
@@ -3892,6 +3892,12 @@ msgstr "Kelimeyi çeviriye kopyala"
 #: weblate/html/js/dictionary.html:27
 msgid "No related strings found in dictionary."
 msgstr "Sözlükte bulunan ilgili dizgiler yok."
+
+#: weblate/html/js/dictionary.html:30
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Manage glossary"
+msgstr "Tüm terimler sözlüklerini yönet"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"

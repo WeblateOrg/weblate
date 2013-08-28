@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 17:25+0200\n"
+"POT-Creation-Date: 2013-08-28 16:27+0200\n"
 "PO-Revision-Date: 2013-08-28 12:39+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -240,66 +240,70 @@ msgstr "Πληθυντικός"
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
 
-#: trans/admin_views.py:65
+#: trans/admin_views.py:66
 msgid "Debug mode"
 msgstr "Κατάσταση αποσφαλμάτωσης"
 
-#: trans/admin_views.py:71
+#: trans/admin_views.py:72
 msgid "Site domain"
 msgstr "Τομέας σελίδας"
 
-#: trans/admin_views.py:77
+#: trans/admin_views.py:78
 msgid "Database backend"
 msgstr "Παρασκήνιο βάσης δεδομένων"
 
-#: trans/admin_views.py:83
+#: trans/admin_views.py:84
 msgid "Site administrator"
 msgstr "Διαχειριστής σελίδας"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:90
+#: trans/admin_views.py:91
 msgid "Indexing offloading"
 msgstr "Αποφόρτωση ευρετηρίου"
 
-#: trans/admin_views.py:106
+#: trans/admin_views.py:107
 msgid "Django caching"
 msgstr "Λανθάνουσα μνήμη Django"
 
-#: trans/admin_views.py:117
+#: trans/admin_views.py:118
 msgid "Email addresses"
 msgstr "Ηλεκτρονικές διευθύνσεις"
 
-#: trans/admin_views.py:125
+#: trans/admin_views.py:126
 msgid "Federated avatar support"
 msgstr "Υποσυήτιξη ομοσπονδιακών ειδώλων"
 
-#: trans/admin_views.py:130
+#: trans/admin_views.py:131
 msgid "PyICU library"
 msgstr "Βιβλιοθήκη PyICU"
 
 #: trans/admin_views.py:136
+msgid "Secret key"
+msgstr ""
+
+#: trans/admin_views.py:142
 msgid "Allowed hosts"
 msgstr "Επιτρεπόμενοι φιλοξενητές"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:162
+#: trans/admin_views.py:168
 msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
-#: trans/admin_views.py:217
+#: trans/admin_views.py:223
 msgid "Created new SSH key."
 msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
-#: trans/admin_views.py:221
+#: trans/admin_views.py:227
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Απέτυχε η δημιουργία κλειδιού: %s"
 
-#: trans/admin_views.py:241
+#: trans/admin_views.py:247
 msgid "Invalid host name given!"
 msgstr "Δόθηκε μη έγκυρο όνομα φιλοξενητή!"
 
-#: trans/admin_views.py:254
+#: trans/admin_views.py:260
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -1199,9 +1203,6 @@ msgid "Autoaccept suggestions"
 msgstr "Αυτόματη αποδοχή προτάσεων"
 
 #: trans/models/subproject.py:224
-#| msgid ""
-#| "Automatically accept suggestions with this amount of votes, use 0 to "
-#| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
@@ -1213,9 +1214,6 @@ msgid "Quality checks flags"
 msgstr "Σημαίες ελέγχων ποιότητας"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional comma separate flags to influence quality checks, check "
-#| "documentation for possible values."
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
@@ -1637,18 +1635,15 @@ msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
 #: trans/views/basic.py:405
-#| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "Η επιλεγμένη μετάφραση υπάρχει ήδη στο έργο!"
 
 #: trans/views/basic.py:412
-#| msgid "Requested new language addition from the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Ένα αίτημα για μια νέα μετάφραση εστάλει στους συντηρητές του έργου."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
 msgstr "Απέτυχε η προώθηση του αιτήματος νέας μετάφρασης!"
 
@@ -3334,7 +3329,6 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Επιλέξτε τη γλώσσα στη οποία θέλετε να μεταφράσετε."
 
 #: weblate/html/subproject.html:55
-#| msgid "New translation"
 msgid "Start new translation"
 msgstr "Εκκίνηση νέας μετάφρασης"
 
@@ -3959,6 +3953,12 @@ msgstr "Αντιγραφή λέξης στη μετάφραση"
 #: weblate/html/js/dictionary.html:27
 msgid "No related strings found in dictionary."
 msgstr "Δεν βρέθηκαν σχετικά κείμενα στο λεξικό."
+
+#: weblate/html/js/dictionary.html:30
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Manage glossary"
+msgstr "Διαχείριση όλων των γλωσσαρίων"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"

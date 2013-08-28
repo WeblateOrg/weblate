@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 17:25+0200\n"
+"POT-Creation-Date: 2013-08-28 16:27+0200\n"
 "PO-Revision-Date: 2013-08-26 17:41+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -242,66 +242,70 @@ msgstr "Meervoud"
 msgid "Plural form %d"
 msgstr "Meervoudsvorm %d"
 
-#: trans/admin_views.py:65
+#: trans/admin_views.py:66
 msgid "Debug mode"
 msgstr "Foutopsporingsmodus"
 
-#: trans/admin_views.py:71
+#: trans/admin_views.py:72
 msgid "Site domain"
 msgstr "Websitedomein"
 
-#: trans/admin_views.py:77
+#: trans/admin_views.py:78
 msgid "Database backend"
 msgstr "Achterliggende database"
 
-#: trans/admin_views.py:83
+#: trans/admin_views.py:84
 msgid "Site administrator"
 msgstr "Websitebeheerder"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:90
+#: trans/admin_views.py:91
 msgid "Indexing offloading"
 msgstr "Indexeren overladen"
 
-#: trans/admin_views.py:106
+#: trans/admin_views.py:107
 msgid "Django caching"
 msgstr "Django cache"
 
-#: trans/admin_views.py:117
+#: trans/admin_views.py:118
 msgid "Email addresses"
 msgstr "E-mailadressen"
 
-#: trans/admin_views.py:125
+#: trans/admin_views.py:126
 msgid "Federated avatar support"
 msgstr "Ondersteuning voor federated avatar"
 
-#: trans/admin_views.py:130
+#: trans/admin_views.py:131
 msgid "PyICU library"
 msgstr "PyICU-bibliotheek"
 
 #: trans/admin_views.py:136
+msgid "Secret key"
+msgstr ""
+
+#: trans/admin_views.py:142
 msgid "Allowed hosts"
 msgstr "Toegestane hosts"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:162
+#: trans/admin_views.py:168
 msgid "[hostname hashed]"
 msgstr "[hostnaam gehashed]"
 
-#: trans/admin_views.py:217
+#: trans/admin_views.py:223
 msgid "Created new SSH key."
 msgstr "Nieuwe SSH-sleutel aangemaakt."
 
-#: trans/admin_views.py:221
+#: trans/admin_views.py:227
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Genereren van de sleutel is mislukt: %s"
 
-#: trans/admin_views.py:241
+#: trans/admin_views.py:247
 msgid "Invalid host name given!"
 msgstr "Ongeldige hostnaam opgegeven!"
 
-#: trans/admin_views.py:254
+#: trans/admin_views.py:260
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -1626,19 +1630,16 @@ msgid "About Weblate"
 msgstr "Over Weblate"
 
 #: trans/views/basic.py:405
-#| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "Gekozen vertaling bestaat al in het project!"
 
 #: trans/views/basic.py:412
-#| msgid "Sent request for language addition to the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 "Aanvraag voor een nieuwe vertaling werd doorgestuurd naar projectbeheerders."
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
 msgstr "Aanvraag voor nieuwe vertaling kon niet verwerkt worden!"
 
@@ -3318,7 +3319,6 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Gelieve de taal te kiezen waarin u wilt vertalen."
 
 #: weblate/html/subproject.html:55
-#| msgid "New translation"
 msgid "Start new translation"
 msgstr "Start nieuwe vertaling"
 
@@ -3945,6 +3945,12 @@ msgstr "Woord kopiëren naar vertaling"
 #: weblate/html/js/dictionary.html:27
 msgid "No related strings found in dictionary."
 msgstr "Geen gerelateerde tekenreeksen gevonden in woordenboek."
+
+#: weblate/html/js/dictionary.html:30
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Manage glossary"
+msgstr "Alle woordenlijsten beheren"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"

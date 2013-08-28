@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-26 17:25+0200\n"
+"POT-Creation-Date: 2013-08-28 16:27+0200\n"
 "PO-Revision-Date: 2013-08-27 14:42+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://l10n.cihar.com/projects/weblate/master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
+"master/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,66 +238,70 @@ msgstr "複數"
 msgid "Plural form %d"
 msgstr "複數形態 %d"
 
-#: trans/admin_views.py:65
+#: trans/admin_views.py:66
 msgid "Debug mode"
 msgstr "除錯模式"
 
-#: trans/admin_views.py:71
+#: trans/admin_views.py:72
 msgid "Site domain"
 msgstr "網站域名"
 
-#: trans/admin_views.py:77
+#: trans/admin_views.py:78
 msgid "Database backend"
 msgstr "後端資料庫"
 
-#: trans/admin_views.py:83
+#: trans/admin_views.py:84
 msgid "Site administrator"
 msgstr "網站管理者"
 
 #. Translators: Indexing is postponed to cron job
-#: trans/admin_views.py:90
+#: trans/admin_views.py:91
 msgid "Indexing offloading"
 msgstr "索引卸載"
 
-#: trans/admin_views.py:106
+#: trans/admin_views.py:107
 msgid "Django caching"
 msgstr "Django 快取"
 
-#: trans/admin_views.py:117
+#: trans/admin_views.py:118
 msgid "Email addresses"
 msgstr "電子郵件地址"
 
-#: trans/admin_views.py:125
+#: trans/admin_views.py:126
 msgid "Federated avatar support"
 msgstr "支援聯合圖示"
 
-#: trans/admin_views.py:130
+#: trans/admin_views.py:131
 msgid "PyICU library"
 msgstr "PyICU程式庫"
 
 #: trans/admin_views.py:136
+msgid "Secret key"
+msgstr ""
+
+#: trans/admin_views.py:142
 msgid "Allowed hosts"
 msgstr "允許的主機"
 
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:162
+#: trans/admin_views.py:168
 msgid "[hostname hashed]"
 msgstr "[主機名稱雜湊]"
 
-#: trans/admin_views.py:217
+#: trans/admin_views.py:223
 msgid "Created new SSH key."
 msgstr "新建 SSH 金鑰。"
 
-#: trans/admin_views.py:221
+#: trans/admin_views.py:227
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "生成金鑰失敗：%s"
 
-#: trans/admin_views.py:241
+#: trans/admin_views.py:247
 msgid "Invalid host name given!"
 msgstr "無效的主機名稱！"
 
-#: trans/admin_views.py:254
+#: trans/admin_views.py:260
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -1143,9 +1147,6 @@ msgid "Autoaccept suggestions"
 msgstr "自動接受建議"
 
 #: trans/models/subproject.py:224
-#| msgid ""
-#| "Automatically accept suggestions with this amount of votes, use 0 to "
-#| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr "自動接受建議與此投票數，設為 0 則停用。"
@@ -1155,9 +1156,6 @@ msgid "Quality checks flags"
 msgstr "品質查核標記"
 
 #: trans/models/subproject.py:233
-#| msgid ""
-#| "Additional comma separate flags to influence quality checks, check "
-#| "documentation for possible values."
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
@@ -1548,18 +1546,15 @@ msgid "About Weblate"
 msgstr "關於 Weblate"
 
 #: trans/views/basic.py:405
-#| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "所選取的語言，已經在這個專案裡！"
 
 #: trans/views/basic.py:412
-#| msgid "Requested new language addition from the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "增加新的語言的要求，已向專案維護者發送。"
 
 #: trans/views/basic.py:421
-#| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
 msgstr "處理新的翻譯請求失敗！"
 
@@ -3184,7 +3179,6 @@ msgid "Please choose language into which you would like to translate."
 msgstr "請選擇您想翻譯的是哪個語言。"
 
 #: weblate/html/subproject.html:55
-#| msgid "New translation"
 msgid "Start new translation"
 msgstr "開始新翻譯"
 
@@ -3778,6 +3772,12 @@ msgstr "複製單字到翻譯"
 msgid "No related strings found in dictionary."
 msgstr "在字典中沒有找到關聯字串。"
 
+#: weblate/html/js/dictionary.html:30
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Manage glossary"
+msgstr "管理所有詞彙表"
+
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"
 msgstr "提交待決的變更"
@@ -4206,7 +4206,8 @@ msgstr ""
 msgid ""
 "You're receiving this e-mail because you requested a password reset for your "
 "user account at %(site_name)s."
-msgstr "您收到這封電子郵件，是因為您請求為您的使用者帳戶 %(site_name)s 重設密碼。"
+msgstr ""
+"您收到這封電子郵件，是因為您請求為您的使用者帳戶 %(site_name)s 重設密碼。"
 
 #: weblate/html/registration/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
@@ -4249,7 +4250,8 @@ msgid ""
 "Thank you for registering. You will very soon receive an email with a "
 "confirmation link. Please follow this link in order to complete your "
 "registration."
-msgstr "感謝您註冊。您將會很快收到一封有確認連結的電子郵件。請隨此連結完成您的註冊。"
+msgstr ""
+"感謝您註冊。您將會很快收到一封有確認連結的電子郵件。請隨此連結完成您的註冊。"
 
 #: weblate/html/registration/registration_complete.html:11
 #, python-format
