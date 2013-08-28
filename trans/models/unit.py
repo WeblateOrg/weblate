@@ -381,14 +381,14 @@ class Unit(models.Model):
         previous_source = unit.get_previous_source()
         contentsum = unit.get_contentsum()
 
-        # Monolingual files handling
-        if unit.template is not None:
+        # Monolingual files handling (without target change)
+        if unit.template is not None and target == self.target:
             if source != self.source and translated:
                 # Store previous source and fuzzy flag for monolingual files
                 if previous_source == '':
                     previous_source = self.source
                 fuzzy = True
-            elif target == self.target:
+            else:
                 # We should keep calculated flags if translation was
                 # not changed outside
                 previous_source = self.previous_source
