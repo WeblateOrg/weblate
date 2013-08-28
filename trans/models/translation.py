@@ -642,10 +642,10 @@ class Translation(models.Model, URLMixin, PercentMixin):
         else:
             self.total_words = stats['num_words__sum']
             self.total = stats['id__count']
-            self.fuzzy = stats['fuzzy__sum']
-            self.translated = stats['translated__sum']
-            self.failing_checks = stats['has_failing_check__sum']
-            self.have_suggestion = stats['has_suggestion__sum']
+            self.fuzzy = int(stats['fuzzy__sum'])
+            self.translated = int(stats['translated__sum'])
+            self.failing_checks = int(stats['has_failing_check__sum'])
+            self.have_suggestion = int(stats['has_suggestion__sum'])
 
         # Count translated words
         self.translated_words = self.unit_set.filter(
