@@ -692,6 +692,8 @@ class AndroidFormat(FileFormat):
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
+    # Whitespace is ignored in this format
+    check_flags = ('ignore-begin-space', 'ignore-end-space')
 
     @staticmethod
     def supports_new_language():
