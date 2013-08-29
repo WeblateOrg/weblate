@@ -84,7 +84,7 @@ def translate(request, unit_id):
 
     return HttpResponse(
         json.dumps(response),
-        mimetype='application/json'
+        content_type='application/json'
     )
 
 
@@ -209,5 +209,5 @@ def js_config(request):
                 'machine_services': machine_services,
             }
         ),
-        mimetype='application/javascript'
+        content_type='application/javascript'
     )

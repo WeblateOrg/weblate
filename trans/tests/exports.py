@@ -23,7 +23,7 @@ Tests for data exports.
 """
 
 from django.core.urlresolvers import reverse
-from django.utils import simplejson
+import json
 from trans.tests.views import ViewTestCase
 
 
@@ -56,7 +56,7 @@ class ExportsViewTest(ViewTestCase):
         response = self.client.get(
             reverse('export_stats', kwargs=self.kw_subproject)
         )
-        parsed = simplejson.loads(response.content)
+        parsed = json.loads(response.content)
         self.assertEqual(parsed[0]['name'], 'Czech')
 
     def test_data(self):

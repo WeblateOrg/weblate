@@ -40,7 +40,7 @@ def download_translation(request, project, subproject, lang):
     # Create response
     response = HttpResponse(
         file(srcfilename).read(),
-        mimetype=obj.store.mimetype
+        content_type=obj.store.mimetype
     )
 
     # Fill in response headers
@@ -59,7 +59,7 @@ def download_language_pack(request, project, subproject, lang):
     # Create response
     response = HttpResponse(
         obj.store.get_language_pack(),
-        mimetype=mime
+        content_type=mime
     )
 
     # Fill in response headers

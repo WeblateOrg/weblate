@@ -24,7 +24,7 @@ Tests for AJAX/JS views.
 
 from trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
-from django.utils import simplejson
+import json
 
 
 class JSViewsTest(ViewTestCase):
@@ -53,7 +53,7 @@ class JSViewsTest(ViewTestCase):
             {'service': 'dummy'}
         )
         self.assertContains(response, 'Ahoj')
-        data = simplejson.loads(response.content)
+        data = json.loads(response.content)
         self.assertEqual(
             data['translations'],
             [
