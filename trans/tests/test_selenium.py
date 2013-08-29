@@ -60,6 +60,7 @@ class SeleniumTests(LiveServerTestCase):
                 cls.caps['tags'] = [
                     os.environ['TRAVIS_PYTHON_VERSION'],
                     'django-%s' % os.environ['DJANGO_VERSION'],
+                    os.environ['TRAVIS_DATABASE'],
                     'CI'
                 ]
 
