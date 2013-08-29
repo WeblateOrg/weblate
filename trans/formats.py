@@ -291,6 +291,7 @@ class FileFormat(object):
     format_id = ''
     loader = None
     monolingual = None
+    check_flags = ()
 
     @classmethod
     def fixup(cls, store):
