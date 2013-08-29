@@ -38,7 +38,6 @@ class SeleniumTests(LiveServerTestCase):
         return result.status == 200
 
     def run(self, result=None):
-        print 'RUN'
         if result is None:
             result = self.defaultTestResult()
 
