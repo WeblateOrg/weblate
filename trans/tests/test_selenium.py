@@ -67,7 +67,7 @@ class SeleniumTests(LiveServerTestCase):
         self.driver.find_element_by_xpath('//input[@value="Login"]').click()
 
         # We should end up on login page as user was invalid
-        # FIXME: This is currently broken with Sauce labs
+        # This is currently broken with Sauce labs, see:
         # http://support.saucelabs.com/entries/20629691
         #self.driver.find_element_by_name('username')
 
