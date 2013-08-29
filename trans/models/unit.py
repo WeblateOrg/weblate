@@ -576,7 +576,7 @@ class Unit(models.Model):
 
         # Generate Change object for this change
         if gen_change:
-            self.generate_change(request, oldunit, change_action)
+            self.generate_change(request, user, oldunit, change_action)
 
         # Force commiting on completing translation
         if (old_translated < self.translation.translated
@@ -594,7 +594,7 @@ class Unit(models.Model):
 
         return True
 
-    def generate_change(self, request, oldunit, change_action):
+    def generate_change(self, request, author, oldunit, change_action):
         '''
         Creates Change entry for saving unit.
         '''
@@ -617,6 +617,7 @@ class Unit(models.Model):
             translation=self.translation,
             action=action,
             user=request.user,
+            author=author,
             target=history_target
         )
 
