@@ -489,6 +489,8 @@ class Unit(models.Model):
                      change_action=None, user=None):
         '''
         Stores unit to backend.
+
+        Optional user parameters defines authorship of a change.
         '''
         from accounts.models import (
             notify_new_translation, notify_new_contributor
@@ -497,6 +499,10 @@ class Unit(models.Model):
 
         # Update lock timestamp
         self.translation.update_lock(request)
+
+        # For case when authorship specified, use user from request
+        if user is None:
+            user = request.user
 
         # Store to backend
         try:
@@ -556,7 +562,7 @@ class Unit(models.Model):
         notify_new_translation(self, oldunit, request.user)
 
         # Update user stats
-        profile = request.user.get_profile()
+        profile = user.get_profile()
         profile.translated += 1
         profile.save()
 
