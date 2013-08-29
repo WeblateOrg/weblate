@@ -52,7 +52,7 @@ class SeleniumTests(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         if DO_SELENIUM:
-            cls.caps['name'] = 'Weblate'
+            cls.caps['name'] = 'Weblate CI build'
             # Fill in Travis details in caps
             if 'TRAVIS_JOB_NUMBER' in os.environ:
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
