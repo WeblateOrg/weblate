@@ -252,5 +252,5 @@ def export_stats(request, project, subproject):
             default=json_dt_handler,
             indent=indent,
         ),
-        mimetype='application/json'
+        content_type='application/json'
     )
