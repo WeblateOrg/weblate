@@ -46,8 +46,3 @@ script:
   - pylint --reports=n --rcfile=pylint.rc trans accounts weblate lang
 after_success:
   - coveralls
-notifications:
-  irc:
-    channels: "irc.freenode.org#weblate"
-    on_success: change
-    on_failure: change
