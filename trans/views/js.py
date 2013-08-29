@@ -209,5 +209,5 @@ def js_config(request):
                 'machine_services': machine_services,
             }
         ),
-        content_type='application/javascript'
+        mimetype='application/javascript'
     )
