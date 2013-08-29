@@ -1113,7 +1113,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self._all_flags is None:
             self._all_flags = (
                 self.check_flags.split(',')
-                + self.file_format_cls.check_flags
+                + list(self.file_format_cls.check_flags)
             )
         return self._all_flags
 
