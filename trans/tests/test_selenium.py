@@ -4,6 +4,9 @@ from selenium import webdriver
 from django.core.urlresolvers import reverse
 import os
 import new
+import json
+import httplib
+import base64
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
@@ -20,6 +23,33 @@ class SeleniumTests(LiveServerTestCase):
         'platform': 'LINUX',
     }
 
+    def set_test_status(self, passed=True):
+        body_content = json.dumps({"passed": passed})
+        connection = httplib.HTTPConnection("saucelabs.com")
+        connection.request(
+            'PUT',
+            '/rest/v1/%s/jobs/%s' % (
+                self.username, self.driver.session_id
+            ),
+            body_content,
+            headers={"Authorization": "Basic %s" % self.sauce_auth}
+        )
+        result = connection.getresponse()
+        return result.status == 200
+
+    def run(self, result=None):
+        print 'RUN'
+        if result is None:
+            result = self.defaultTestResult()
+
+        errors = result.errors
+        failures = result.failures
+        super(SeleniumTests, self).run(result)
+
+        self.set_test_status(
+            (errors == result.errors and failures == result.failures)
+        )
+
     @classmethod
     def setUpClass(cls):
         if DO_SELENIUM:
@@ -35,9 +65,12 @@ class SeleniumTests(LiveServerTestCase):
                 ]
 
             # Use Sauce connect
-            username = os.environ['SAUCE_USERNAME']
-            key = os.environ['SAUCE_ACCESS_KEY']
-            hub_url = "%s:%s@localhost:4445" % (username, key)
+            cls.username = os.environ['SAUCE_USERNAME']
+            cls.key = os.environ['SAUCE_ACCESS_KEY']
+            cls.sauce_auth = base64.encodestring(
+                '%s:%s' % (cls.username, cls.key)
+            )[:-1]
+            hub_url = "%s:%s@localhost:4445" % (cls.username, cls.key)
             cls.driver = webdriver.Remote(
                 desired_capabilities=cls.caps,
                 command_executor="http://%s/wd/hub" % hub_url
