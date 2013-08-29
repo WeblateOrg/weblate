@@ -24,6 +24,7 @@ Tests for translation models.
 
 from django.test import TestCase
 from django.conf import settings
+from django.utils import timezone
 from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
 import shutil
@@ -31,6 +32,7 @@ import os
 import git
 from trans.models import Project, SubProject
 from weblate import appsettings
+from trans.tests.util import get_test_file
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
@@ -447,3 +449,23 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.translated, 0)
         self.assertEqual(translation.total, 4)
         self.assertEqual(translation.fuzzy, 0)
+
+    def test_extra_file(self):
+        '''
+        Test extra commit file handling.
+        '''
+        subproject = self.create_subproject()
+        subproject.pre_commit_script = get_test_file(
+            '../../examples/hook-generate-mo'
+        )
+        appsettings.SCRIPT_CHOICES.append(
+            (subproject.pre_commit_script, 'hook-generate-mo')
+        )
+        subproject.extra_commit_file = 'po/%(language)s.mo'
+        subproject.save()
+        subproject.full_clean()
+        translation = subproject.translation_set.get(language_code='cs')
+        translation.git_commit(
+            None, 'TEST <test@example.net>', timezone.now(),
+            force_commit=True
+        )
