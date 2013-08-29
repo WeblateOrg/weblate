@@ -4,8 +4,6 @@ python:
   - "2.7"
 env:
   matrix:
-    - DJANGO_VERSION=1.4.6 TRAVIS_DATABASE=mysql
-    - DJANGO_VERSION=1.4.6 TRAVIS_DATABASE=postgresql
     - DJANGO_VERSION=1.4.6 TRAVIS_DATABASE=sqlite
     - DJANGO_VERSION=1.5.2 TRAVIS_DATABASE=mysql
     - DJANGO_VERSION=1.5.2 TRAVIS_DATABASE=postgresql
@@ -17,10 +15,6 @@ env:
 matrix:
 # Test with Python 2.6 just once for every Django version
   exclude:
-    - python: "2.6"
-      env: DJANGO_VERSION=1.4.6 TRAVIS_DATABASE=mysql
-    - python: "2.6"
-      env: DJANGO_VERSION=1.4.6 TRAVIS_DATABASE=postgresql
     - python: "2.6"
       env: DJANGO_VERSION=1.5.2 TRAVIS_DATABASE=mysql
     - python: "2.6"
