@@ -45,9 +45,10 @@ class SeleniumTests(LiveServerTestCase):
         failures = result.failures
         super(SeleniumTests, self).run(result)
 
-        self.set_test_status(
-            (errors == result.errors and failures == result.failures)
-        )
+        if DO_SELENIUM:
+            self.set_test_status(
+                (errors == result.errors and failures == result.failures)
+            )
 
     @classmethod
     def setUpClass(cls):
