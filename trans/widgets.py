@@ -310,16 +310,16 @@ class BadgeWidget(Widget):
 
     def render_texts(self):
         self.render_text(
-            _('Translated'),
+            _('translated'),
             None,
             10, False,
-            4, 1
+            4, 3
         )
         self.render_text(
             '%(percent)d%%',
             None,
             10, False,
-            60, 1
+            60, 3
         )
 
 register_widget(BadgeWidget)
