@@ -456,7 +456,7 @@ class TranslationTest(RepoTestCase):
         '''
         subproject = self.create_subproject()
         subproject.pre_commit_script = get_test_file(
-            '../../examples/hook-generate-mo'
+            '../../../examples/hook-generate-mo'
         )
         appsettings.SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-generate-mo')
@@ -465,6 +465,10 @@ class TranslationTest(RepoTestCase):
         subproject.save()
         subproject.full_clean()
         translation = subproject.translation_set.get(language_code='cs')
+        # change backend file
+        with open(translation.get_filename(), 'a') as handle:
+            handle.write(' ')
+        # Test committing
         translation.git_commit(
             None, 'TEST <test@example.net>', timezone.now(),
             force_commit=True
