@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-28 16:27+0200\n"
+"POT-Creation-Date: 2013-08-29 15:26+0200\n"
 "PO-Revision-Date: 2013-08-28 20:47+0200\n"
 "Last-Translator: Helder Santana <helder.bs.santana@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
+"master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "O nome do usuário deve ter pelo menos 5 caracteres."
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -133,7 +133,6 @@ msgid "Notification on merge failure"
 msgstr "Notificar sobre falhas na mesclagem"
 
 #: accounts/models.py:361
-#| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
 msgstr "Notificar sobre nova solicitação de idioma"
 
@@ -476,7 +475,7 @@ msgstr "Todos os subprojetos"
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
-#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Fonte"
@@ -484,7 +483,7 @@ msgstr "Fonte"
 #: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
-#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr "Tradução"
@@ -596,12 +595,11 @@ msgstr ""
 "Tradução em Português\n"
 "%(percent)d%% concluída"
 
-#: trans/widgets.py:313 weblate/html/index.html:38
-#: weblate/html/index.html.py:81 weblate/html/languages.html:15
-#: weblate/html/list-translations.html:8 weblate/html/project.html:21
-#: weblate/html/translation.html:155
-msgid "Translated"
-msgstr "Traduzido"
+#: trans/widgets.py:313
+#, fuzzy
+#| msgid "translate"
+msgid "translated"
+msgstr "traduzir"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -741,7 +739,6 @@ msgid "C format"
 msgstr "Formato C"
 
 #: trans/checks/format.py:265
-#| msgid "Python format"
 msgid "Python brace format"
 msgstr "Formato Python brace"
 
@@ -842,7 +839,6 @@ msgid "Point to translation instructions URL"
 msgstr "Apontar para a URL de instruções de tradução"
 
 #: trans/models/project.py:46
-#| msgid "Monolingual base language file"
 msgid "Automatically add language file"
 msgstr "Adicionar arquivo de idioma automaticamente"
 
@@ -1651,7 +1647,7 @@ msgstr[1] "%(count)s horas a partir de agora"
 msgid "Please set your full name in your profile."
 msgstr "Por favor, defina seu nome completo no perfil."
 
-#: trans/views/basic.py:148
+#: trans/views/basic.py:123
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1664,7 +1660,7 @@ msgstr ""
 "traduzido para %(languages)s idiomas</a>. No geral, estas traduções estão "
 "%(percent)s%% completas."
 
-#: trans/views/basic.py:157
+#: trans/views/basic.py:132
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1674,32 +1670,32 @@ msgstr ""
 "<a href=\"%(url)s\">O projeto de tradução para %(project)s</a> em Português "
 "contém %(total)s strings para traduzir e está %(percent)s%% completo."
 
-#: trans/views/basic.py:256
+#: trans/views/basic.py:231
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Rever strings-fonte em %s"
 
-#: trans/views/basic.py:275
+#: trans/views/basic.py:250
 #, python-format
 msgid "Source strings in %s"
 msgstr "Strings fonte em %s"
 
-#: trans/views/basic.py:338
+#: trans/views/basic.py:313
 msgid "Page Not Found"
 msgstr "Página não encontrada"
 
-#: trans/views/basic.py:361 weblate/html/about.html:11
+#: trans/views/basic.py:336 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
-#: trans/views/basic.py:405
+#: trans/views/basic.py:380
 #, fuzzy
 #| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "O idioma escolhido já existe no projeto!"
 
-#: trans/views/basic.py:412
+#: trans/views/basic.py:387
 #, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
@@ -1709,7 +1705,7 @@ msgstr ""
 "Arquivo-base para novas traduções não é utilizado em razão das configurações "
 "do projeto."
 
-#: trans/views/basic.py:421
+#: trans/views/basic.py:396
 #, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new translation request!"
@@ -3057,6 +3053,12 @@ msgstr "Projetos"
 msgid "Checks"
 msgstr "Verificações"
 
+#: weblate/html/index.html:38 weblate/html/index.html.py:81
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21 weblate/html/translation.html:155
+msgid "Translated"
+msgstr "Traduzido"
+
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "Resumos"
@@ -3435,7 +3437,7 @@ msgstr "Mudança da fonte"
 msgid "Context"
 msgstr "Contexto"
 
-#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
+#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
 msgstr "Copiar"
 
@@ -4017,15 +4019,15 @@ msgstr ""
 "Importar uma nova tradução pode levar algum tempo; favor olhe <a href="
 "\"%(url)s\">nossa documentação</a> para informações sobre como melhorar isto."
 
-#: weblate/html/js/dictionary.html:19
+#: weblate/html/js/dictionary.html:20
 msgid "Copy word to translation"
 msgstr "Copiar palavra para a tradução"
 
-#: weblate/html/js/dictionary.html:27
+#: weblate/html/js/dictionary.html:28
 msgid "No related strings found in dictionary."
 msgstr "Não foram encontradas strings relacionadas no dicionário."
 
-#: weblate/html/js/dictionary.html:30
+#: weblate/html/js/dictionary.html:31
 #, fuzzy
 #| msgid "Manage all glossaries"
 msgid "Manage glossary"

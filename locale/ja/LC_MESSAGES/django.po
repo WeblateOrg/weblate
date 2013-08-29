@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-28 16:27+0200\n"
+"POT-Creation-Date: 2013-08-29 15:26+0200\n"
 "PO-Revision-Date: 2013-07-25 16:28+0200\n"
 "Last-Translator: Satoru KURASHIKI <lurdan@gmail.com>\n"
 "Language-Team: Japanese <http://l10n.cihar.com/projects/weblate/master/ja/>\n"
@@ -93,7 +93,7 @@ msgstr "ユーザ名は、少なくとも 5 文字必要です。"
 msgid "Interface Language"
 msgstr "インターフェイスの言語"
 
-#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "言語"
 
@@ -472,7 +472,7 @@ msgstr "すべてのサブプロジェクト"
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
-#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "原文"
@@ -480,7 +480,7 @@ msgstr "原文"
 #: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
-#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr "翻訳"
@@ -584,12 +584,11 @@ msgid ""
 "%(percent)d%% done"
 msgstr ""
 
-#: trans/widgets.py:313 weblate/html/index.html:38
-#: weblate/html/index.html.py:81 weblate/html/languages.html:15
-#: weblate/html/list-translations.html:8 weblate/html/project.html:21
-#: weblate/html/translation.html:155
-msgid "Translated"
-msgstr "翻訳数"
+#: trans/widgets.py:313
+#, fuzzy
+#| msgid "translate"
+msgid "translated"
+msgstr "翻訳"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -1575,7 +1574,7 @@ msgstr[0] "今から%(count)s時間"
 msgid "Please set your full name in your profile."
 msgstr "個人情報のお名前をフルネームで設定してください。"
 
-#: trans/views/basic.py:148
+#: trans/views/basic.py:123
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1584,7 +1583,7 @@ msgid ""
 "%(percent)s%% complete."
 msgstr ""
 
-#: trans/views/basic.py:157
+#: trans/views/basic.py:132
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1592,37 +1591,37 @@ msgid ""
 "complete."
 msgstr ""
 
-#: trans/views/basic.py:256
+#: trans/views/basic.py:231
 #, python-format
 msgid "Review source strings in %s"
 msgstr "原文のレビュー：%s"
 
-#: trans/views/basic.py:275
+#: trans/views/basic.py:250
 #, python-format
 msgid "Source strings in %s"
 msgstr "原文の文字列：%s"
 
-#: trans/views/basic.py:338
+#: trans/views/basic.py:313
 msgid "Page Not Found"
 msgstr "ページが見つかりません"
 
-#: trans/views/basic.py:361 weblate/html/about.html:11
+#: trans/views/basic.py:336 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Weblate について"
 
-#: trans/views/basic.py:405
+#: trans/views/basic.py:380
 msgid "Chosen translation already exists in this project!"
 msgstr ""
 
-#: trans/views/basic.py:412
+#: trans/views/basic.py:387
 #, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "機械翻訳のリクエストが失敗しました。"
 
-#: trans/views/basic.py:421
+#: trans/views/basic.py:396
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Failed to process new translation request!"
@@ -2938,6 +2937,12 @@ msgstr "プロジェクト"
 msgid "Checks"
 msgstr "要校正"
 
+#: weblate/html/index.html:38 weblate/html/index.html.py:81
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21 weblate/html/translation.html:155
+msgid "Translated"
+msgstr "翻訳数"
+
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "概要"
@@ -3305,7 +3310,7 @@ msgstr "原文の変更"
 msgid "Context"
 msgstr "コンテキスト"
 
-#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
+#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
 msgstr "コピー"
 
@@ -3883,17 +3888,17 @@ msgid ""
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
-#: weblate/html/js/dictionary.html:19
+#: weblate/html/js/dictionary.html:20
 #, fuzzy
 #| msgid "Your translations"
 msgid "Copy word to translation"
 msgstr "対象言語が存在しているプロジェクト"
 
-#: weblate/html/js/dictionary.html:27
+#: weblate/html/js/dictionary.html:28
 msgid "No related strings found in dictionary."
 msgstr "関連するものが辞書内にありません。"
 
-#: weblate/html/js/dictionary.html:30
+#: weblate/html/js/dictionary.html:31
 #, fuzzy
 #| msgid "Manage all glossaries"
 msgid "Manage glossary"

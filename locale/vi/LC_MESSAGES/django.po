@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-28 16:27+0200\n"
+"POT-Creation-Date: 2013-08-29 15:26+0200\n"
 "PO-Revision-Date: 2013-08-16 18:04+0200\n"
 "Last-Translator: anh phan <ppanhh@gmail.com>\n"
 "Language-Team: Vietnamese <http://l10n.cihar.com/projects/weblate/master/vi/"
@@ -96,7 +96,7 @@ msgstr "Tên tài khoản phải có ít nhất năm ký tự."
 msgid "Interface Language"
 msgstr "Ngôn ngữ giao diện"
 
-#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Ngôn ngữ"
 
@@ -475,7 +475,7 @@ msgstr ""
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
-#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr ""
@@ -483,7 +483,7 @@ msgstr ""
 #: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
-#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr ""
@@ -585,11 +585,8 @@ msgid ""
 "%(percent)d%% done"
 msgstr ""
 
-#: trans/widgets.py:313 weblate/html/index.html:38
-#: weblate/html/index.html.py:81 weblate/html/languages.html:15
-#: weblate/html/list-translations.html:8 weblate/html/project.html:21
-#: weblate/html/translation.html:155
-msgid "Translated"
+#: trans/widgets.py:313
+msgid "translated"
 msgstr ""
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
@@ -1494,7 +1491,7 @@ msgstr[0] ""
 msgid "Please set your full name in your profile."
 msgstr ""
 
-#: trans/views/basic.py:148
+#: trans/views/basic.py:123
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1503,7 +1500,7 @@ msgid ""
 "%(percent)s%% complete."
 msgstr ""
 
-#: trans/views/basic.py:157
+#: trans/views/basic.py:132
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1511,35 +1508,35 @@ msgid ""
 "complete."
 msgstr ""
 
-#: trans/views/basic.py:256
+#: trans/views/basic.py:231
 #, python-format
 msgid "Review source strings in %s"
 msgstr ""
 
-#: trans/views/basic.py:275
+#: trans/views/basic.py:250
 #, python-format
 msgid "Source strings in %s"
 msgstr ""
 
-#: trans/views/basic.py:338
+#: trans/views/basic.py:313
 msgid "Page Not Found"
 msgstr ""
 
-#: trans/views/basic.py:361 weblate/html/about.html:11
+#: trans/views/basic.py:336 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr ""
 
-#: trans/views/basic.py:405
+#: trans/views/basic.py:380
 msgid "Chosen translation already exists in this project!"
 msgstr ""
 
-#: trans/views/basic.py:412
+#: trans/views/basic.py:387
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 
-#: trans/views/basic.py:421
+#: trans/views/basic.py:396
 msgid "Failed to process new translation request!"
 msgstr ""
 
@@ -2830,6 +2827,12 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
+#: weblate/html/index.html:38 weblate/html/index.html.py:81
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21 weblate/html/translation.html:155
+msgid "Translated"
+msgstr ""
+
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr ""
@@ -3191,7 +3194,7 @@ msgstr ""
 msgid "Context"
 msgstr ""
 
-#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
+#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
 msgstr ""
 
@@ -3724,15 +3727,15 @@ msgid ""
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
-#: weblate/html/js/dictionary.html:19
+#: weblate/html/js/dictionary.html:20
 msgid "Copy word to translation"
 msgstr ""
 
-#: weblate/html/js/dictionary.html:27
+#: weblate/html/js/dictionary.html:28
 msgid "No related strings found in dictionary."
 msgstr ""
 
-#: weblate/html/js/dictionary.html:30
+#: weblate/html/js/dictionary.html:31
 msgid "Manage glossary"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-28 16:27+0200\n"
+"POT-Creation-Date: 2013-08-29 15:26+0200\n"
 "PO-Revision-Date: 2013-08-26 17:09+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -95,7 +95,7 @@ msgstr "Le nom d'utilisateur doit comporter au moins cinq caractères."
 msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Langues"
 
@@ -475,7 +475,7 @@ msgstr "Tous les sous-projets"
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
-#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Source"
@@ -483,7 +483,7 @@ msgstr "Source"
 #: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
-#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr "Traduction"
@@ -597,12 +597,11 @@ msgstr ""
 "Traduction en anglais\n"
 "faite à %(percent)d%%"
 
-#: trans/widgets.py:313 weblate/html/index.html:38
-#: weblate/html/index.html.py:81 weblate/html/languages.html:15
-#: weblate/html/list-translations.html:8 weblate/html/project.html:21
-#: weblate/html/translation.html:155
-msgid "Translated"
-msgstr "Traduit"
+#: trans/widgets.py:313
+#, fuzzy
+#| msgid "translate"
+msgid "translated"
+msgstr "traduire"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -1602,7 +1601,7 @@ msgstr[1] "dans %(count)s heures"
 msgid "Please set your full name in your profile."
 msgstr "Veuillez définir votre nom complet dans votre profil."
 
-#: trans/views/basic.py:148
+#: trans/views/basic.py:123
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1615,7 +1614,7 @@ msgstr ""
 "cours de traduction en %(languages)s langues</a>. Dans l'ensemble, ces "
 "traductions sont complétées à %(percent)s%%."
 
-#: trans/views/basic.py:157
+#: trans/views/basic.py:132
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1626,32 +1625,32 @@ msgstr ""
 "contient actuellement %(total)s chaînes à traduire et le projet de "
 "traduction est complétée à %(percent)s%%."
 
-#: trans/views/basic.py:256
+#: trans/views/basic.py:231
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Passer en revue les chaînes sources de %s"
 
-#: trans/views/basic.py:275
+#: trans/views/basic.py:250
 #, python-format
 msgid "Source strings in %s"
 msgstr "Chaînes source de %s"
 
-#: trans/views/basic.py:338
+#: trans/views/basic.py:313
 msgid "Page Not Found"
 msgstr "Page introuvable"
 
-#: trans/views/basic.py:361 weblate/html/about.html:11
+#: trans/views/basic.py:336 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "À propos de Weblate"
 
-#: trans/views/basic.py:405
+#: trans/views/basic.py:380
 #, fuzzy
 #| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "La langue choisie existe déjà dans le projet !"
 
-#: trans/views/basic.py:412
+#: trans/views/basic.py:387
 #, fuzzy
 #| msgid "Sent request for language addition to the project maintainers."
 msgid ""
@@ -1660,7 +1659,7 @@ msgstr ""
 "Une demande pour une nouvelle traduction a été envoyée aux responsables du "
 "projet."
 
-#: trans/views/basic.py:421
+#: trans/views/basic.py:396
 #, fuzzy
 #| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
@@ -3024,6 +3023,12 @@ msgstr "Projets"
 msgid "Checks"
 msgstr "Vérifications"
 
+#: weblate/html/index.html:38 weblate/html/index.html.py:81
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21 weblate/html/translation.html:155
+msgid "Translated"
+msgstr "Traduit"
+
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "En bref"
@@ -3401,7 +3406,7 @@ msgstr "Changement dans la chaîne originale"
 msgid "Context"
 msgstr "Contexte"
 
-#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
+#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
 msgstr "Copier"
 
@@ -3978,15 +3983,15 @@ msgstr ""
 "vérifier <a href=\"%(url)s\">notre documentation</a> pour de l'aide afin "
 "d'améliorer ceci."
 
-#: weblate/html/js/dictionary.html:19
+#: weblate/html/js/dictionary.html:20
 msgid "Copy word to translation"
 msgstr "Copier le mot vers la traduction"
 
-#: weblate/html/js/dictionary.html:27
+#: weblate/html/js/dictionary.html:28
 msgid "No related strings found in dictionary."
 msgstr "Pas de chaîne similaire trouvée dans le dictionnaire."
 
-#: weblate/html/js/dictionary.html:30
+#: weblate/html/js/dictionary.html:31
 #, fuzzy
 #| msgid "Manage all glossaries"
 msgid "Manage glossary"

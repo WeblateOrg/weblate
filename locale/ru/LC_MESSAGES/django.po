@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-28 16:27+0200\n"
+"POT-Creation-Date: 2013-08-29 15:26+0200\n"
 "PO-Revision-Date: 2013-08-23 23:51+0200\n"
 "Last-Translator: Dmitri GOULIAEV <dmitri+weblate@gouliaev.info>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
@@ -96,7 +96,7 @@ msgstr "Имя пользователя должно иметь как мини�
 msgid "Interface Language"
 msgstr "Язык интерфейса"
 
-#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Языки"
 
@@ -474,7 +474,7 @@ msgstr "Все подпроекты"
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
-#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "Источник"
@@ -482,7 +482,7 @@ msgstr "Источник"
 #: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
-#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr "Перевод"
@@ -592,12 +592,11 @@ msgstr ""
 "перевод на английский\n"
 "%(percent)d%% выполнено"
 
-#: trans/widgets.py:313 weblate/html/index.html:38
-#: weblate/html/index.html.py:81 weblate/html/languages.html:15
-#: weblate/html/list-translations.html:8 weblate/html/project.html:21
-#: weblate/html/translation.html:155
-msgid "Translated"
-msgstr ""
+#: trans/widgets.py:313
+#, fuzzy
+#| msgid "Translate"
+msgid "translated"
+msgstr "Перевод"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -1623,7 +1622,7 @@ msgstr[2] "через %(count)s часов"
 msgid "Please set your full name in your profile."
 msgstr ""
 
-#: trans/views/basic.py:148
+#: trans/views/basic.py:123
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1632,7 +1631,7 @@ msgid ""
 "%(percent)s%% complete."
 msgstr ""
 
-#: trans/views/basic.py:157
+#: trans/views/basic.py:132
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1640,37 +1639,37 @@ msgid ""
 "complete."
 msgstr ""
 
-#: trans/views/basic.py:256
+#: trans/views/basic.py:231
 #, python-format
 msgid "Review source strings in %s"
 msgstr ""
 
-#: trans/views/basic.py:275
+#: trans/views/basic.py:250
 #, python-format
 msgid "Source strings in %s"
 msgstr ""
 
-#: trans/views/basic.py:338
+#: trans/views/basic.py:313
 msgid "Page Not Found"
 msgstr ""
 
-#: trans/views/basic.py:361 weblate/html/about.html:11
+#: trans/views/basic.py:336 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr ""
 
-#: trans/views/basic.py:405
+#: trans/views/basic.py:380
 msgid "Chosen translation already exists in this project!"
 msgstr ""
 
-#: trans/views/basic.py:412
+#: trans/views/basic.py:387
 #, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запрос на машинный перевод не удался."
 
-#: trans/views/basic.py:421
+#: trans/views/basic.py:396
 #, fuzzy
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to process new translation request!"
@@ -2973,6 +2972,12 @@ msgstr ""
 msgid "Checks"
 msgstr ""
 
+#: weblate/html/index.html:38 weblate/html/index.html.py:81
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21 weblate/html/translation.html:155
+msgid "Translated"
+msgstr ""
+
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr ""
@@ -3341,7 +3346,7 @@ msgstr "Изменение источника"
 msgid "Context"
 msgstr ""
 
-#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
+#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
 msgstr ""
 
@@ -3884,15 +3889,15 @@ msgid ""
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
-#: weblate/html/js/dictionary.html:19
+#: weblate/html/js/dictionary.html:20
 msgid "Copy word to translation"
 msgstr "Скопировать слово в перевод"
 
-#: weblate/html/js/dictionary.html:27
+#: weblate/html/js/dictionary.html:28
 msgid "No related strings found in dictionary."
 msgstr ""
 
-#: weblate/html/js/dictionary.html:30
+#: weblate/html/js/dictionary.html:31
 #, fuzzy
 #| msgid "Glossary"
 msgid "Manage glossary"

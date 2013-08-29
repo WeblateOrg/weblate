@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-28 16:27+0200\n"
+"POT-Creation-Date: 2013-08-29 15:26+0200\n"
 "PO-Revision-Date: 2013-08-29 01:23+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://l10n.cihar.com/projects/weblate/master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
+"master/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,7 +94,7 @@ msgstr "使用者名稱至少要5個字元。"
 msgid "Interface Language"
 msgstr "界面語言"
 
-#: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
+#: accounts/models.py:319 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "語言"
 
@@ -469,7 +469,7 @@ msgstr "所有的子專案"
 #: weblate/html/dictionary.html:32 weblate/html/source-review.html:32
 #: weblate/html/subproject.html:38 weblate/html/translate.html:56
 #: weblate/html/translate.html.py:198 weblate/html/translate.html:206
-#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:7
+#: weblate/html/translate.html.py:227 weblate/html/js/dictionary.html:8
 #: weblate/html/js/other.html:6
 msgid "Source"
 msgstr "來源"
@@ -477,7 +477,7 @@ msgstr "來源"
 #: trans/forms.py:328 weblate/html/check_subproject.html:27
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
-#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:8
+#: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
 #: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
 msgid "Translation"
 msgstr "翻譯"
@@ -587,12 +587,11 @@ msgstr ""
 "英文翻譯了\n"
 "%(percent)d%% 完成"
 
-#: trans/widgets.py:313 weblate/html/index.html:38
-#: weblate/html/index.html.py:81 weblate/html/languages.html:15
-#: weblate/html/list-translations.html:8 weblate/html/project.html:21
-#: weblate/html/translation.html:155
-msgid "Translated"
-msgstr "已翻譯"
+#: trans/widgets.py:313
+#, fuzzy
+#| msgid "translate"
+msgid "translated"
+msgstr "翻譯"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -1504,7 +1503,7 @@ msgstr[0] "現在起 %(count)s 小時後"
 msgid "Please set your full name in your profile."
 msgstr "請設定您的全名，在您個人資料上。"
 
-#: trans/views/basic.py:148
+#: trans/views/basic.py:123
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1516,7 +1515,7 @@ msgstr ""
 "翻譯，和<a href=\"%(url)s\">翻譯成 %(languages)s 語言</a>。整體來說，這些翻"
 "譯 %(percent)s%% 完成。"
 
-#: trans/views/basic.py:157
+#: trans/views/basic.py:132
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1526,35 +1525,35 @@ msgstr ""
 "<a href=\"%(url)s\">在 %(project)s 的翻譯專案</a>，目前含有 %(total)s 個字串"
 "譯成正體中文，這些翻譯 %(percent)s%% 完成。"
 
-#: trans/views/basic.py:256
+#: trans/views/basic.py:231
 #, python-format
 msgid "Review source strings in %s"
 msgstr "在 %s 裡再次檢討來源字串"
 
-#: trans/views/basic.py:275
+#: trans/views/basic.py:250
 #, python-format
 msgid "Source strings in %s"
 msgstr "在 %s 裡來源字串"
 
-#: trans/views/basic.py:338
+#: trans/views/basic.py:313
 msgid "Page Not Found"
 msgstr "頁面未找到"
 
-#: trans/views/basic.py:361 weblate/html/about.html:11
+#: trans/views/basic.py:336 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "關於 Weblate"
 
-#: trans/views/basic.py:405
+#: trans/views/basic.py:380
 msgid "Chosen translation already exists in this project!"
 msgstr "所選取的語言，已經在這個專案裡！"
 
-#: trans/views/basic.py:412
+#: trans/views/basic.py:387
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "增加新的語言的要求，已向專案維護者發送。"
 
-#: trans/views/basic.py:421
+#: trans/views/basic.py:396
 msgid "Failed to process new translation request!"
 msgstr "處理新的翻譯請求失敗！"
 
@@ -2862,6 +2861,12 @@ msgstr "專案"
 msgid "Checks"
 msgstr "查核"
 
+#: weblate/html/index.html:38 weblate/html/index.html.py:81
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
+#: weblate/html/project.html:21 weblate/html/translation.html:155
+msgid "Translated"
+msgstr "已翻譯"
+
 #: weblate/html/index.html:60
 msgid "Summaries"
 msgstr "概要"
@@ -3222,7 +3227,7 @@ msgstr "變更來源"
 msgid "Context"
 msgstr "內容"
 
-#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:19
+#: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
 msgstr "複製"
 
@@ -3727,7 +3732,8 @@ msgstr "增加主機金鑰"
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
-msgstr "要存取 SSH 主機，主機金鑰需要進行驗證。您可以在下面檢查主機金鑰使用方式。"
+msgstr ""
+"要存取 SSH 主機，主機金鑰需要進行驗證。您可以在下面檢查主機金鑰使用方式。"
 
 #: weblate/html/admin/ssh.html:60
 msgid "Submit"
@@ -3764,16 +3770,15 @@ msgid ""
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
 
-#: weblate/html/js/dictionary.html:19
+#: weblate/html/js/dictionary.html:20
 msgid "Copy word to translation"
 msgstr "複製單字到翻譯"
 
-#: weblate/html/js/dictionary.html:27
+#: weblate/html/js/dictionary.html:28
 msgid "No related strings found in dictionary."
 msgstr "在字典中沒有找到關聯字串。"
 
-#: weblate/html/js/dictionary.html:30
-#| msgid "Manage all glossaries"
+#: weblate/html/js/dictionary.html:31
 msgid "Manage glossary"
 msgstr "管理詞彙表"
 
@@ -4091,8 +4096,8 @@ msgid ""
 "website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
 "again</a>."
 msgstr ""
-"如果不是這種情況，請 <a href=\"%(contact_url)s\">連絡</a> 網站管理者。否則，您或許要<a href=\"%"
-"(reg_url)s\">重新註冊</a>。"
+"如果不是這種情況，請 <a href=\"%(contact_url)s\">連絡</a> 網站管理者。否則，"
+"您或許要<a href=\"%(reg_url)s\">重新註冊</a>。"
 
 #: weblate/html/registration/activation_complete.html:8
 msgid "Thank you. Your account is now activated."
@@ -4192,7 +4197,8 @@ msgstr "請輸入您的新密碼兩次，這樣我們才能驗證您的輸入正
 msgid ""
 "The password reset link is invalid, possibly because it has already been "
 "used. Please request a new password reset."
-msgstr "重設密碼的連結是無效的，可能是因為它已經被使用。請提出新的密碼重設要求。"
+msgstr ""
+"重設密碼的連結是無效的，可能是因為它已經被使用。請提出新的密碼重設要求。"
 
 #: weblate/html/registration/password_reset_done.html:7
 msgid ""
@@ -4244,7 +4250,9 @@ msgstr "重設我的密碼"
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
-msgstr "很抱歉，但這個網站上的註冊被停用。您可以<a href=\"%(contact_url)s\">連絡我們</a>取得更多詳細資訊。"
+msgstr ""
+"很抱歉，但這個網站上的註冊被停用。您可以<a href=\"%(contact_url)s\">連絡我們"
+"</a>取得更多詳細資訊。"
 
 #: weblate/html/registration/registration_complete.html:7
 msgid ""
