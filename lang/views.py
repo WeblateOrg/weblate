@@ -17,5 +17,35 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from django.shortcuts import render_to_response, get_object_or_404
+from django.utils.translation import ugettext as _
+from django.template import RequestContext
+from django.core.urlresolvers import reverse
+from lang.models import Language
+from trans.models import Project, Dictionary, Change
+from urllib import urlencode
 
-# Create your views here.
+
+def show_languages(request):
+    return render_to_response('languages.html', RequestContext(request, {
+        'languages': Language.objects.have_translation(),
+        'title': _('Languages'),
+    }))
+
+
+def show_language(request, lang):
+    obj = get_object_or_404(Language, code=lang)
+    last_changes = Change.objects.filter(
+        translation__language=obj
+    ).order_by('-timestamp')[:10]
+    dicts = Dictionary.objects.filter(
+        language=obj
+    ).values_list('project', flat=True).distinct()
+
+    return render_to_response('language.html', RequestContext(request, {
+        'object': obj,
+        'last_changes': last_changes,
+        'last_changes_rss': reverse('rss-language', kwargs={'lang': obj.code}),
+        'last_changes_url': urlencode({'lang': obj.code}),
+        'dicts': Project.objects.filter(id__in=dicts),
+    }))

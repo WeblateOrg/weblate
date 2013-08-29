@@ -375,12 +375,12 @@ urlpatterns = patterns(
     # Languages browsing
     url(
         r'^languages/$',
-        'trans.views.basic.show_languages',
+        'lang.views.show_languages',
         name='languages',
     ),
     url(
         r'^languages/' + LANGUAGE + '/$',
-        'trans.views.basic.show_language',
+        'lang.views.show_language',
         name='show_language',
     ),
 
