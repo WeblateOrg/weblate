@@ -675,7 +675,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(translation=self)[0]
-            return self.get_author_name(change.user, email)
+            return self.get_author_name(change.author, email)
         except IndexError:
             return None
 
