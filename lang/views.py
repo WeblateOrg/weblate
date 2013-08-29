@@ -47,5 +47,5 @@ def show_language(request, lang):
         'last_changes': last_changes,
         'last_changes_rss': reverse('rss-language', kwargs={'lang': obj.code}),
         'last_changes_url': urlencode({'lang': obj.code}),
-        'dicts': Project.objects.filter(id__in=dicts),
+        'dicts': Project.objects.all_acl(request.user).filter(id__in=dicts),
     }))
