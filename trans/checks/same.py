@@ -648,7 +648,7 @@ PATH_RE = re.compile(r'(/[a-zA-Z0-9=:?._-]+)+')
 
 TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
 
-RST_MATCH = re.compile(r':ref:`[^`]+`')
+RST_MATCH = re.compile(r'(?::ref:`[^`]+`|``[^`]+``)')
 
 
 class SameCheck(TargetCheck):

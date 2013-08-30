@@ -182,6 +182,22 @@ class SameCheckTest(CheckTestCase):
                 'rst-text',
             )
         )
+        self.do_test(
+            False,
+            (
+                '``mysql``',
+                '``mysql``',
+                'rst-text',
+            )
+        )
+        self.do_test(
+            True,
+            (
+                'Use ``mysql`` module',
+                'Use ``mysql`` module',
+                'rst-text',
+            )
+        )
 
     def test_same_email(self):
         self.do_test(
