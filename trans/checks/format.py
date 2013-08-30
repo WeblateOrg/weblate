@@ -132,19 +132,8 @@ class BaseFormatCheck(TargetCheck):
             0,
             len(sources) > 1
         )
-
         if singular_check:
-            if len(sources) == 1:
-                return True
-            plural_check = self.check_format(
-                sources[1],
-                targets[0],
-                unit,
-                1,
-                True
-            )
-            if plural_check:
-                return True
+            return True
 
         # Do we have more to check?
         if len(sources) == 1:
