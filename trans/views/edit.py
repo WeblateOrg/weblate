@@ -662,7 +662,8 @@ def auto_translation(request, project, subproject, lang):
                     change = Change.objects.create(
                         action=Change.ACTION_AUTO,
                         translation=unit.translation,
-                        user=request.user
+                        user=request.user,
+                        author=request.user
                     )
                 # Save unit to backend
                 unit.save_backend(request, False, False)

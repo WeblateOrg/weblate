@@ -585,7 +585,8 @@ class Unit(models.Model):
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,
-                user=request.user
+                user=request.user,
+                author=user
             )
 
         # Propagate to other projects

@@ -74,7 +74,8 @@ class SuggestionManager(models.Manager):
             unit=unit,
             action=Change.ACTION_SUGGESTION,
             translation=unit.translation,
-            user=user
+            user=user,
+            author=user
         )
 
         # Add unit vote
@@ -229,7 +230,8 @@ class CommentManager(models.Manager):
             unit=unit,
             action=Change.ACTION_COMMENT,
             translation=unit.translation,
-            user=user
+            user=user,
+            author=user
         )
 
         # Invalidate counts cache

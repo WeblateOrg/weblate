@@ -566,7 +566,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
         Change.objects.create(
             translation=self,
             action=change,
-            user=user
+            user=user,
+            author=user
         )
 
         # Notify subscribed users
