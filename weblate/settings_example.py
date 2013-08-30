@@ -281,14 +281,14 @@ LOGGING = {
             'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
         },
-#        'logfile': {
-#            'level':'DEBUG',
-#            'class':'logging.handlers.RotatingFileHandler',
-#            'filename': "/var/log/weblate/weblate.log",
-#            'maxBytes': 100000,
-#            'backupCount': 3,
-#            'formatter': 'logfile',
-#        },
+        #'logfile': {
+        #    'level':'DEBUG',
+        #    'class':'logging.handlers.RotatingFileHandler',
+        #    'filename': "/var/log/weblate/weblate.log",
+        #    'maxBytes': 100000,
+        #    'backupCount': 3,
+        #    'formatter': 'logfile',
+        #},
     },
     'loggers': {
         'django.request': {
