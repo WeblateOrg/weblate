@@ -42,7 +42,7 @@ script:
   - ./manage.py syncdb --noinput --settings weblate.settings_test_$TRAVIS_DATABASE
   - ./manage.py migrate --settings weblate.settings_test_$TRAVIS_DATABASE
   - coverage run --source=. ./manage.py test --settings weblate.settings_test_$TRAVIS_DATABASE trans lang accounts
-  - pep8 --exclude migrations accounts trans lang
+  - pep8 --exclude migrations accounts trans lang weblate
   - pylint --reports=n --rcfile=pylint.rc trans accounts weblate lang
 after_success:
   - coveralls
