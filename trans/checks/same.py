@@ -49,6 +49,7 @@ SAME_BLACKLIST = frozenset((
     'appliance',
     'appliances',
     'attribute',
+    'attribution',
     'atom',
     'audio',
     'auto',
@@ -83,6 +84,7 @@ SAME_BLACKLIST = frozenset((
     'ctrl+d',
     'ctrl+z',
     'cvs',
+    'cyrillic',
     'data',
     'database',
     'dbm',
@@ -411,6 +413,7 @@ SAME_BLACKLIST = frozenset((
     'www',
     'xhtml',
     'xml',
+    'zero',
     'zip',
 
     # Months are same in some languages
