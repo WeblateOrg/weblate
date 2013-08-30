@@ -30,7 +30,9 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
         if request is None:
             return repr(None)
 
-        result = super(WeblateExceptionReporterFilter, self).get_request_repr(request)
+        result = super(WeblateExceptionReporterFilter, self).get_request_repr(
+            request
+        )
 
         if 'django_language' in request.session:
             lang = request.session['django_language']
