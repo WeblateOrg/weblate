@@ -884,7 +884,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Validates new language choices.
         '''
-        if self.project.new_lang == 'add ':
+        if self.project.new_lang == 'add':
             if not self.file_format_cls.supports_new_language():
                 raise ValidationError(_(
                     'Chosen file format does not support adding '
@@ -896,7 +896,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     'Format of base file for new translations '
                     'was not recognized!'
                 ))
-        elif self.project.new_lang != 'add ' and self.new_base:
+        elif self.project.new_lang != 'add' and self.new_base:
             raise ValidationError(_(
                 'Base file for new translations is not used because of '
                 'project settings.'

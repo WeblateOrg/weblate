@@ -438,6 +438,40 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+    def test_validation_newlang(self):
+        subproject = self.create_subproject()
+        subproject.new_base = 'po/project.pot'
+        subproject.save()
+
+        # Check that it warns about unused pot
+        self.assertRaisesMessage(
+            ValidationError,
+            'Base file for new translations is not used '
+            'because of project settings.',
+            subproject.full_clean
+        )
+
+        subproject.project.new_lang = 'add'
+        subproject.project.save()
+
+        # Check that it warns about not supported format
+        self.assertRaisesMessage(
+            ValidationError,
+            'Chosen file format does not support adding new '
+            'translations as chosen in project settings.',
+            subproject.full_clean
+        )
+
+        subproject.file_format = 'po'
+        subproject.save()
+
+        # Clean class cache, pylint: disable=W0212
+        subproject._file_format = None
+
+        # With correct format it should validate
+        subproject.full_clean()
+
+
 
 class TranslationTest(RepoTestCase):
     '''
