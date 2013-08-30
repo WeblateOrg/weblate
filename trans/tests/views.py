@@ -751,6 +751,39 @@ class SuggestionsTest(ViewTestCase):
         self.assertBackend(1)
         self.assertEquals(len(self.get_unit().suggestions()), 1)
 
+    def test_accept_anonymous(self):
+        translate_url = self.get_translation().get_translate_url()
+        self.client.logout()
+        # Create suggestions
+        self.add_suggestion_1()
+
+        self.client.login(username='testuser', password='testpassword')
+
+        # Get ids of created suggestion
+        suggestions = list(self.get_unit().suggestions())
+        self.assertEquals(len(suggestions), 1)
+
+        self.assertIsNone(suggestions[0].user)
+
+        # Accept one of suggestions
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            accept=suggestions[0].pk,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 0)
+
+        # Unit should be translated
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+
     def test_vote(self):
         translate_url = self.get_translation().get_translate_url()
         self.subproject.suggestion_voting = True
