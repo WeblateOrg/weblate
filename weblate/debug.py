@@ -22,6 +22,7 @@ Wrapper to include useful information in error mails.
 '''
 
 from django.views.debug import SafeExceptionReporterFilter
+from trans.requirements import get_versions_string
 
 
 class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
@@ -41,8 +42,9 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
         else:
             user = None
 
-        return '%s\n\nLanguage: %s\nUser: %s' % (
+        return '%s\n\nLanguage: %s\nUser: %s\n\nVersions:\n%s' % (
             result,
             lang,
-            user
+            user,
+            get_versions_string()
         )
