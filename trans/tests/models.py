@@ -472,7 +472,6 @@ class SubProjectTest(RepoTestCase):
         subproject.full_clean()
 
 
-
 class TranslationTest(RepoTestCase):
     '''
     Translation testing.
