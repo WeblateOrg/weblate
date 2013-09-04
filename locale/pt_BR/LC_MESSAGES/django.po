@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-08-29 15:26+0200\n"
-"PO-Revision-Date: 2013-09-04 22:25+0200\n"
-"Last-Translator: Helder Santana <helder.bs.santana@gmail.com>\n"
+"PO-Revision-Date: 2013-09-04 22:40+0200\n"
+"Last-Translator: Rodrigo Souza <rodrigo.chrome@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -1106,7 +1106,6 @@ msgid "Base file for new translations"
 msgstr "Arquivo base para novas traduções"
 
 #: trans/models/subproject.py:154
-#, fuzzy
 #| msgid ""
 #| "Filename of file which is used for creating new ranslations. For Gettext "
 #| "choose .pot file."
@@ -1114,8 +1113,8 @@ msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
-"Nome de arquivo do arquivo usado para criar novas traduções. Para Gettext "
-"escolha arquivos .pot."
+"Nome do arquivo usado para criar novas traduções. Para Gettext escolha "
+"arquivos .pot."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1191,24 +1190,21 @@ msgid "Autoaccept suggestions"
 msgstr "Auto-aceitar sugestões"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Automatically accept suggestions with this amount of votes, use 0 to "
 #| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
-"Aceitar automaticamente sugestões com esta quantidade de votos; use 0 para "
+"Aceitar automaticamente sugestões com este número de votos, ou use 0 para "
 "desativar."
 
 #: trans/models/subproject.py:230
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "Foram encontradas verificações com falhas"
+msgstr "Marcações de verificação de qualidade"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional comma separate flags to influence quality checks, check "
 #| "documentation for possible values."
@@ -1216,8 +1212,8 @@ msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Flags adicionais separadas por vírgulas para influenciar a quantidade de "
-"verificações; consulte a documentação sobre os valores possíveis."
+"Marcações adicionais separadas por vírgulas para influenciar as verificações "
+"de qualidade, consulte a documentação sobre os valores possíveis."
 
 #: trans/models/subproject.py:452
 msgid ""
@@ -1427,68 +1423,64 @@ msgid "Avatar for %s"
 msgstr "Avatar para %s"
 
 #: trans/templatetags/translations.py:317
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
-msgstr "Um ano atrás"
+msgstr "um ano atrás"
 
 #: trans/templatetags/translations.py:319
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "%(count)s ano atrás"
+msgstr[1] "%(count)s anos atrás"
 
 #: trans/templatetags/translations.py:324
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "um mês atrás"
 
 #: trans/templatetags/translations.py:326
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "%(count)s mês atrás"
+msgstr[1] "%(count)s meses atrás"
 
 #: trans/templatetags/translations.py:331
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "%(count)s semana atrás"
+msgstr[1] "%(count)s semanas atrás"
 
 #: trans/templatetags/translations.py:335
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "uma semana atrás"
 
 #: trans/templatetags/translations.py:337
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "ontem"
 
 #: trans/templatetags/translations.py:339
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] ", %(count)s voto"
-msgstr[1] ", %(count)s votos"
+msgstr[0] "%(count)s dia atrás"
+msgstr[1] "%(count)s dias atrás"
 
 #: trans/templatetags/translations.py:342
 #: trans/templatetags/translations.py:393
@@ -1522,124 +1514,117 @@ msgid "an hour ago"
 msgstr "a uma hora"
 
 #: trans/templatetags/translations.py:361
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
-msgstr[0] "há 1 hora"
-msgstr[1] "há %(count)s horas"
+msgstr[0] "%(count)s hora atrás"
+msgstr[1] "%(count)s horas atrás"
 
 #: trans/templatetags/translations.py:368
-#, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "um ano a partir de agora"
 
 #: trans/templatetags/translations.py:370
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "um ano a partir de agora"
+msgstr[0] "%(count)s ano a partir de agora"
 msgstr[1] "%(count)s anos a partir de agora"
 
 #: trans/templatetags/translations.py:375
-#, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "um mês a partir de agora"
 
 #: trans/templatetags/translations.py:377
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "um mês a partir de agora"
+msgstr[0] "%(count)s mês a partir de agora"
 msgstr[1] "%(count)s meses a partir de agora"
 
 #: trans/templatetags/translations.py:382
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "uma semana a partir de agora"
+msgstr[0] "%(count)s semana a partir de agora"
 msgstr[1] "%(count)s semanas a partir de agora"
 
 #: trans/templatetags/translations.py:386
-#, fuzzy
 #| msgid "tomorrow"
 #| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
 msgstr "amanhã"
 
 #: trans/templatetags/translations.py:388
-#, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "uma semana a partir de agora"
 
 #: trans/templatetags/translations.py:390
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "1 segundo a partir de agora"
-msgstr[1] "%(count)s segundos a partir de agora"
+msgstr[0] "%(count)s dia a partir de agora"
+msgstr[1] "%(count)s dias a partir de agora"
 
 #: trans/templatetags/translations.py:396
-#, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
-msgstr "1 segundo a partir de agora"
+msgstr "um segundo a partir de agora"
 
 #: trans/templatetags/translations.py:398
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "1 segundo a partir de agora"
+msgstr[0] "%(count)s segundo a partir de agora"
 msgstr[1] "%(count)s segundos a partir de agora"
 
 #: trans/templatetags/translations.py:405
-#, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
-msgstr "1 minuto a partir de agora"
+msgstr "um minuto a partir de agora"
 
 #: trans/templatetags/translations.py:407
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "1 minuto a partir de agora"
+msgstr[0] "%(count)s minuto a partir de agora"
 msgstr[1] "%(count)s minutos a partir de agora"
 
 #: trans/templatetags/translations.py:414
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
-msgstr "1 hora a partir de agora"
+msgstr "uma hora a partir de agora"
 
 #: trans/templatetags/translations.py:416
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "1 hora a partir de agora"
+msgstr[0] "%(count)s hora a partir de agora"
 msgstr[1] "%(count)s horas a partir de agora"
 
 #: trans/views/basic.py:69
@@ -1689,26 +1674,22 @@ msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
 #: trans/views/basic.py:380
-#, fuzzy
 #| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
-msgstr "O idioma escolhido já existe no projeto!"
+msgstr "A tradução escolhida já existe neste projeto!"
 
 #: trans/views/basic.py:387
-#, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
-"Arquivo-base para novas traduções não é utilizado em razão das configurações "
-"do projeto."
+"Um pedido por uma nova tradução foi enviado aos mantenedores do projeto."
 
 #: trans/views/basic.py:396
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new translation request!"
-msgstr "Falha ao processar o formulário!"
+msgstr "Falha ao processar o novo pedido de tradução!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
 msgid "Changes"
@@ -3391,10 +3372,9 @@ msgid "Please choose language into which you would like to translate."
 msgstr "Por favor, escolha o idioma para o qual deseja traduzir."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New translation"
 msgid "Start new translation"
-msgstr "Nova tradução"
+msgstr "Começar nova tradução"
 
 #: weblate/html/subproject.html:61
 #, python-format
@@ -3516,13 +3496,12 @@ msgstr "Sugerir"
 
 #: weblate/html/translate.html:166
 msgid "Additional text to include in the commit message."
-msgstr ""
+msgstr "Texto adicional a incluir na mensagem de envio."
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
-msgstr "Mensagem de envio"
+msgstr "Mensagem de envio:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
