@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from urllib import urlencode
 
-from accounts.models import set_lang
+from accounts.models import set_lang, Profile
 from trans.models import Change, Project
 from accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
@@ -179,7 +179,7 @@ def user_page(request, user):
     User details page.
     '''
     user = get_object_or_404(User, username=user)
-    profile = user.get_profile()
+    profile = get_object_or_404(Profile, user=user)
 
     # Projects user is allowed to see
     acl_projects = Project.objects.all_acl(request.user)
