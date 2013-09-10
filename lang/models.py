@@ -464,6 +464,8 @@ class Language(models.Model, PercentMixin):
             self.name = 'Simplified Chinese'
         elif self.code == 'zh_TW':
             self.name = 'Traditional Chinese'
+        elif self.code == 'ca@valencia':
+            self.name = 'Valencian'
 
     def set_direction(self):
         '''
