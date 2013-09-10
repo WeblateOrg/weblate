@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-29 15:26+0200\n"
+"POT-Creation-Date: 2013-09-10 14:49+0200\n"
 "PO-Revision-Date: 2013-08-23 00:15+0200\n"
 "Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
@@ -284,25 +284,29 @@ msgstr ""
 msgid "Allowed hosts"
 msgstr "Sallitut isännät"
 
+#: trans/admin_views.py:148
+msgid "Admin static files"
+msgstr ""
+
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:168
+#: trans/admin_views.py:175
 msgid "[hostname hashed]"
 msgstr "[isäntänimi hajautettu]"
 
-#: trans/admin_views.py:223
+#: trans/admin_views.py:230
 msgid "Created new SSH key."
 msgstr "Luotu uusi SSH avain."
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:234
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Avaimen luominen epäonnistui: %s"
 
-#: trans/admin_views.py:247
+#: trans/admin_views.py:254
 msgid "Invalid host name given!"
 msgstr "Väärä isäntänimi annettu!"
 
-#: trans/admin_views.py:260
+#: trans/admin_views.py:267
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -321,43 +325,43 @@ msgstr "Viimeaikaiset muutokset %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Luettelo viimeaikaisista muutoksista Weblatessa %s."
 
-#: trans/formats.py:532
+#: trans/formats.py:533
 msgid "Automatic detection"
 msgstr "Automaattinen tunnistus"
 
-#: trans/formats.py:546
+#: trans/formats.py:547
 msgid "Gettext PO file"
 msgstr "Gettext PO tiedosto"
 
-#: trans/formats.py:622
+#: trans/formats.py:623
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO tiedosto (yksikielinen)"
 
-#: trans/formats.py:631
+#: trans/formats.py:632
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist käännöstiedosto"
 
-#: trans/formats.py:639
+#: trans/formats.py:640
 msgid "XLIFF Translation File"
 msgstr "XLIFF käännöstiedosto"
 
-#: trans/formats.py:647
+#: trans/formats.py:648
 msgid "OS X Strings"
 msgstr "OS X merkkijonot"
 
-#: trans/formats.py:655
+#: trans/formats.py:656
 msgid "Java Properties"
 msgstr "Java ominaisuudet"
 
-#: trans/formats.py:673
+#: trans/formats.py:674
 msgid "Java Properties (UTF-8)"
 msgstr "Java ominaisuudet (UTF-8)"
 
-#: trans/formats.py:682
+#: trans/formats.py:683
 msgid "PHP strings"
 msgstr "PHP merkkijonot"
 
-#: trans/formats.py:690 ttkit/aresource.py:323
+#: trans/formats.py:691 ttkit/aresource.py:323
 msgid "Android String Resource"
 msgstr "Android Merkkijono resurssit"
 
@@ -594,7 +598,7 @@ msgstr ""
 "Käännöstä Suomeksi\n"
 "%(percent)d%% tehty"
 
-#: trans/widgets.py:313
+#: trans/widgets.py:315
 #, fuzzy
 #| msgid "translate"
 msgid "translated"
@@ -715,24 +719,24 @@ msgstr "Epäjohdonmukainen"
 msgid "This message has more than one translation in this project"
 msgstr "Tällä viestillä on enemmäin kuin yksi käännös tässä projektissa"
 
-#: trans/checks/format.py:226
+#: trans/checks/format.py:215
 msgid "Python format"
 msgstr "Python muoto"
 
-#: trans/checks/format.py:227 trans/checks/format.py:241
-#: trans/checks/format.py:255 trans/checks/format.py:266
+#: trans/checks/format.py:216 trans/checks/format.py:230
+#: trans/checks/format.py:244 trans/checks/format.py:255
 msgid "Format string does not match source"
 msgstr "Muotoilumerkkijono ei vastaa lähdettä"
 
-#: trans/checks/format.py:240
+#: trans/checks/format.py:229
 msgid "PHP format"
 msgstr "PHP muoto"
 
-#: trans/checks/format.py:254
+#: trans/checks/format.py:243
 msgid "C format"
 msgstr "C muoto"
 
-#: trans/checks/format.py:265
+#: trans/checks/format.py:254
 msgid "Python brace format"
 msgstr "Python brace muoto"
 
@@ -752,11 +756,11 @@ msgstr "XML tunnisteet ei täsmää"
 msgid "XML tags in translation do not match source"
 msgstr "XML Tunniste käännös ei vastaa lähdettä"
 
-#: trans/checks/same.py:501
+#: trans/checks/same.py:659
 msgid "Not translated"
 msgstr "Ei käännetty"
 
-#: trans/checks/same.py:502
+#: trans/checks/same.py:660
 msgid "Source and translated strings are same"
 msgstr "Lähde ja käännös tekstit ovat samat"
 
@@ -820,7 +824,7 @@ msgstr "Käännös palautunut"
 msgid "Translation uploaded"
 msgstr "Käännös ladattu"
 
-#: trans/models/changes.py:160
+#: trans/models/changes.py:161
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s at %(time)s on %(translation)s by %(user)s"
@@ -1351,31 +1355,31 @@ msgstr "%(file)s: %(error)s täsmäävien tiedostojen jäsennys epäonnitui"
 msgid "This translation is locked by %(user)s!"
 msgstr "Tämän käännöksen on lukinnut %(user)s!"
 
-#: trans/models/translation.py:985 trans/models/translation.py:1018
+#: trans/models/translation.py:986 trans/models/translation.py:1019
 msgid "All strings"
 msgstr "Kaikki merkkijonot"
 
-#: trans/models/translation.py:992 trans/models/translation.py:1047
+#: trans/models/translation.py:993 trans/models/translation.py:1048
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Merkkijonoissa virheitä tarkistuksessa (%d)"
 
-#: trans/models/translation.py:1009 trans/models/translation.py:1064
+#: trans/models/translation.py:1010 trans/models/translation.py:1065
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Merkkijonojen kommentit (%d)"
 
-#: trans/models/translation.py:1025
+#: trans/models/translation.py:1026
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Kääntämättömät merkkijonot (%d)"
 
-#: trans/models/translation.py:1033
+#: trans/models/translation.py:1034
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Epäselvät merkkijonot (%d)"
 
-#: trans/models/translation.py:1040
+#: trans/models/translation.py:1041
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Merkkijonojen ehdotukset (%d)"
@@ -1384,185 +1388,201 @@ msgstr "Merkkijonojen ehdotukset (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Viesti jonka halusit kääntää ei ole enää olemassa!"
 
-#: trans/models/unit.py:509
+#: trans/models/unit.py:515
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Ei voitu tallentaa viestiä backend, lukituksen aikakatkaisu!"
 
-#: trans/models/unit.py:521
+#: trans/models/unit.py:527
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 
-#: trans/models/unit.py:664
+#: trans/models/unit.py:672
 #, python-format
 msgid "unit ID %s"
 msgstr "yksikön ID %s"
 
-#: trans/templatetags/translations.py:65
+#: trans/templatetags/translations.py:57
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Good configuration"
+msgstr "Uuden salasanan varmistus"
+
+#: trans/templatetags/translations.py:58
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Bad configuration"
+msgstr "Uuden salasanan varmistus"
+
+#: trans/templatetags/translations.py:59
+msgid "Possible configuration"
+msgstr ""
+
+#: trans/templatetags/translations.py:76
 msgid "Tab character"
 msgstr "Sarkainmerkki"
 
-#: trans/templatetags/translations.py:136
+#: trans/templatetags/translations.py:147
 msgid "New line"
 msgstr "Uusi rivi"
 
-#: trans/templatetags/translations.py:277
+#: trans/templatetags/translations.py:291
 #, python-format
 msgid "Avatar for %s"
 msgstr "Avatar %s"
 
-#: trans/templatetags/translations.py:317
+#: trans/templatetags/translations.py:331
 msgid "a year ago"
 msgstr "vuosi sitten"
 
-#: trans/templatetags/translations.py:319
+#: trans/templatetags/translations.py:333
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s vuosi sitten"
 msgstr[1] "%(count)s vuotta sitten"
 
-#: trans/templatetags/translations.py:324
+#: trans/templatetags/translations.py:338
 msgid "a month ago"
 msgstr "kuukausi sitten"
 
-#: trans/templatetags/translations.py:326
+#: trans/templatetags/translations.py:340
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s kuukausi sitten"
 msgstr[1] "%(count)s kuukautta sitten"
 
-#: trans/templatetags/translations.py:331
+#: trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s viikko sitten"
 msgstr[1] "%(count)s viikkoa sitten"
 
-#: trans/templatetags/translations.py:335
+#: trans/templatetags/translations.py:349
 msgid "a week ago"
 msgstr "viikko sitten"
 
-#: trans/templatetags/translations.py:337
+#: trans/templatetags/translations.py:351
 msgid "yesterday"
 msgstr "eilen"
 
-#: trans/templatetags/translations.py:339
+#: trans/templatetags/translations.py:353
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s sekunti sitten"
 msgstr[1] "%(count)s sekuntia sitten"
 
-#: trans/templatetags/translations.py:342
-#: trans/templatetags/translations.py:393
+#: trans/templatetags/translations.py:356
+#: trans/templatetags/translations.py:407
 msgid "now"
 msgstr "nyt"
 
-#: trans/templatetags/translations.py:345
+#: trans/templatetags/translations.py:359
 msgid "a second ago"
 msgstr "sekunti sitten"
 
-#: trans/templatetags/translations.py:347
+#: trans/templatetags/translations.py:361
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s sekunti sitten"
 msgstr[1] "%(count)s sekuntia sitten"
 
-#: trans/templatetags/translations.py:352
+#: trans/templatetags/translations.py:366
 msgid "a minute ago"
 msgstr "minuutti sitten"
 
-#: trans/templatetags/translations.py:354
+#: trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s minuutti sitten"
 msgstr[1] "%(count)s minuuttia sitten"
 
-#: trans/templatetags/translations.py:359
+#: trans/templatetags/translations.py:373
 msgid "an hour ago"
 msgstr "tunti sitten"
 
-#: trans/templatetags/translations.py:361
+#: trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s tunti sitten"
 msgstr[1] "%(count)s tuntia sitten"
 
-#: trans/templatetags/translations.py:368
+#: trans/templatetags/translations.py:382
 msgid "a year from now"
 msgstr "vuoden päästä"
 
-#: trans/templatetags/translations.py:370
+#: trans/templatetags/translations.py:384
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "%(count)s vuoden päästä"
 msgstr[1] "%(count)s vuoden päästä"
 
-#: trans/templatetags/translations.py:375
+#: trans/templatetags/translations.py:389
 msgid "a month from now"
 msgstr "kuukauden päästä"
 
-#: trans/templatetags/translations.py:377
+#: trans/templatetags/translations.py:391
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s kuukauden päästä"
 msgstr[1] "%(count)s kuukauden kuluttua"
 
-#: trans/templatetags/translations.py:382
+#: trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s viikon päästä"
 msgstr[1] "%(count)s viikon kuluttua"
 
-#: trans/templatetags/translations.py:386
+#: trans/templatetags/translations.py:400
 msgid "tomorrow"
 msgstr "huomenna"
 
-#: trans/templatetags/translations.py:388
+#: trans/templatetags/translations.py:402
 msgid "a week from now"
 msgstr "viikon päästä"
 
-#: trans/templatetags/translations.py:390
+#: trans/templatetags/translations.py:404
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "%(count)s sekunnin kuluttua"
 msgstr[1] "%(count)s sekunnin kuluttua"
 
-#: trans/templatetags/translations.py:396
+#: trans/templatetags/translations.py:410
 msgid "a second from now"
 msgstr "sekunnin kuluttua"
 
-#: trans/templatetags/translations.py:398
+#: trans/templatetags/translations.py:412
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "%(count)s sekunnin kuluttua"
 msgstr[1] "%(count)s sekunnin kuluttua"
 
-#: trans/templatetags/translations.py:405
+#: trans/templatetags/translations.py:419
 msgid "a minute from now"
 msgstr "minuutin kuluttua"
 
-#: trans/templatetags/translations.py:407
+#: trans/templatetags/translations.py:421
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "%(count)s minuutin kuluttua"
 msgstr[1] "%(count)s minuutin kuluttua"
 
-#: trans/templatetags/translations.py:414
+#: trans/templatetags/translations.py:428
 msgid "an hour from now"
 msgstr "tunnin kuluttua"
 
-#: trans/templatetags/translations.py:416
+#: trans/templatetags/translations.py:430
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -1672,7 +1692,7 @@ msgid "File upload has failed: %s"
 msgstr "Tiedoston lataus epäonnistui: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:672
+#: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "Lomakkeen käsittely epäonnistui!"
 
@@ -1791,15 +1811,15 @@ msgstr "Sopimaton ehdotus!"
 msgid "You have reached end of translating."
 msgstr "Olet saavuttanut viimeiseen käännöksen."
 
-#: trans/views/edit.py:670
+#: trans/views/edit.py:671
 msgid "Automatic translation completed."
 msgstr "Automaattinen käännös valmis."
 
-#: trans/views/edit.py:698
+#: trans/views/edit.py:699
 msgid "Posted new comment"
 msgstr "Lähetetty uusi kommentti"
 
-#: trans/views/edit.py:700
+#: trans/views/edit.py:701
 msgid "Failed to add comment!"
 msgstr "Kommentin lisääminen epäonnistui!"
 

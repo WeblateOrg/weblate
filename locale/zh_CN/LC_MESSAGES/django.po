@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-29 15:26+0200\n"
+"POT-Creation-Date: 2013-09-10 14:49+0200\n"
 "PO-Revision-Date: 2013-08-23 04:41+0200\n"
 "Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -283,25 +283,29 @@ msgstr ""
 msgid "Allowed hosts"
 msgstr ""
 
+#: trans/admin_views.py:148
+msgid "Admin static files"
+msgstr ""
+
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:168
+#: trans/admin_views.py:175
 msgid "[hostname hashed]"
 msgstr ""
 
-#: trans/admin_views.py:223
+#: trans/admin_views.py:230
 msgid "Created new SSH key."
 msgstr "已创建 SSH 密钥。"
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:234
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "生成密钥失败：%s"
 
-#: trans/admin_views.py:247
+#: trans/admin_views.py:254
 msgid "Invalid host name given!"
 msgstr "主机名无效！"
 
-#: trans/admin_views.py:260
+#: trans/admin_views.py:267
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -318,43 +322,43 @@ msgstr "%s 的最近变化"
 msgid "All recent changes made using Weblate in %s."
 msgstr "所有最近通过 Weblate 对 %s 作出的修改。"
 
-#: trans/formats.py:532
+#: trans/formats.py:533
 msgid "Automatic detection"
 msgstr "自动检测"
 
-#: trans/formats.py:546
+#: trans/formats.py:547
 msgid "Gettext PO file"
 msgstr "Gettext PO 文件"
 
-#: trans/formats.py:622
+#: trans/formats.py:623
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 文件（单语）"
 
-#: trans/formats.py:631
+#: trans/formats.py:632
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻译文件"
 
-#: trans/formats.py:639
+#: trans/formats.py:640
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻译文件"
 
-#: trans/formats.py:647
+#: trans/formats.py:648
 msgid "OS X Strings"
 msgstr "OS X 字符串"
 
-#: trans/formats.py:655
+#: trans/formats.py:656
 msgid "Java Properties"
 msgstr "Java 属性"
 
-#: trans/formats.py:673
+#: trans/formats.py:674
 msgid "Java Properties (UTF-8)"
 msgstr "Java 属性 (UTF-8)"
 
-#: trans/formats.py:682
+#: trans/formats.py:683
 msgid "PHP strings"
 msgstr "PHP 字符串"
 
-#: trans/formats.py:690 ttkit/aresource.py:323
+#: trans/formats.py:691 ttkit/aresource.py:323
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
@@ -587,7 +591,7 @@ msgstr ""
 "简体中文翻译\n"
 "已完成 %(percent)d%%"
 
-#: trans/widgets.py:313
+#: trans/widgets.py:315
 #, fuzzy
 #| msgid "translate"
 msgid "translated"
@@ -707,24 +711,24 @@ msgstr "不一致的"
 msgid "This message has more than one translation in this project"
 msgstr "此信息在项目中有不止一种翻译方式"
 
-#: trans/checks/format.py:226
+#: trans/checks/format.py:215
 msgid "Python format"
 msgstr "Python 格式"
 
-#: trans/checks/format.py:227 trans/checks/format.py:241
-#: trans/checks/format.py:255 trans/checks/format.py:266
+#: trans/checks/format.py:216 trans/checks/format.py:230
+#: trans/checks/format.py:244 trans/checks/format.py:255
 msgid "Format string does not match source"
 msgstr "条目格式与源条目不匹配"
 
-#: trans/checks/format.py:240
+#: trans/checks/format.py:229
 msgid "PHP format"
 msgstr "PHP 格式"
 
-#: trans/checks/format.py:254
+#: trans/checks/format.py:243
 msgid "C format"
 msgstr "C 格式"
 
-#: trans/checks/format.py:265
+#: trans/checks/format.py:254
 msgid "Python brace format"
 msgstr "Python brace 格式"
 
@@ -744,11 +748,11 @@ msgstr "XML 标签不一致"
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: trans/checks/same.py:501
+#: trans/checks/same.py:659
 msgid "Not translated"
 msgstr "未翻译"
 
-#: trans/checks/same.py:502
+#: trans/checks/same.py:660
 msgid "Source and translated strings are same"
 msgstr "源条目和已翻译条目相同"
 
@@ -808,7 +812,7 @@ msgstr "已撤销翻译"
 msgid "Translation uploaded"
 msgstr "已上传翻译"
 
-#: trans/models/changes.py:160
+#: trans/models/changes.py:161
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
@@ -1319,31 +1323,31 @@ msgstr "解析文件 %(file)s 失败: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "此翻译已被 %(user)s 锁定！"
 
-#: trans/models/translation.py:985 trans/models/translation.py:1018
+#: trans/models/translation.py:986 trans/models/translation.py:1019
 msgid "All strings"
 msgstr "所有条目"
 
-#: trans/models/translation.py:992 trans/models/translation.py:1047
+#: trans/models/translation.py:993 trans/models/translation.py:1048
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "未通过检查的条目 (%d)"
 
-#: trans/models/translation.py:1009 trans/models/translation.py:1064
+#: trans/models/translation.py:1010 trans/models/translation.py:1065
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "有注释的条目 (%d)"
 
-#: trans/models/translation.py:1025
+#: trans/models/translation.py:1026
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "未翻译条目 (%d)"
 
-#: trans/models/translation.py:1033
+#: trans/models/translation.py:1034
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "模糊条目 (%d)"
 
-#: trans/models/translation.py:1040
+#: trans/models/translation.py:1041
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "有建议的条目 (%d)"
@@ -1352,172 +1356,188 @@ msgstr "有建议的条目 (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "您想要翻译的信息已不存在了！"
 
-#: trans/models/unit.py:509
+#: trans/models/unit.py:515
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: trans/models/unit.py:521
+#: trans/models/unit.py:527
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "信息未在后端存储中发现，它可能已损坏。"
 
-#: trans/models/unit.py:664
+#: trans/models/unit.py:672
 #, python-format
 msgid "unit ID %s"
 msgstr "单元编号 %s"
 
-#: trans/templatetags/translations.py:65
+#: trans/templatetags/translations.py:57
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Good configuration"
+msgstr "确认新密码"
+
+#: trans/templatetags/translations.py:58
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Bad configuration"
+msgstr "确认新密码"
+
+#: trans/templatetags/translations.py:59
+msgid "Possible configuration"
+msgstr ""
+
+#: trans/templatetags/translations.py:76
 msgid "Tab character"
 msgstr "制表符"
 
-#: trans/templatetags/translations.py:136
+#: trans/templatetags/translations.py:147
 msgid "New line"
 msgstr "换行符"
 
-#: trans/templatetags/translations.py:277
+#: trans/templatetags/translations.py:291
 #, python-format
 msgid "Avatar for %s"
 msgstr "%s 的头像"
 
-#: trans/templatetags/translations.py:317
+#: trans/templatetags/translations.py:331
 msgid "a year ago"
 msgstr "去年"
 
-#: trans/templatetags/translations.py:319
+#: trans/templatetags/translations.py:333
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s 年前"
 
-#: trans/templatetags/translations.py:324
+#: trans/templatetags/translations.py:338
 msgid "a month ago"
 msgstr "上个月"
 
-#: trans/templatetags/translations.py:326
+#: trans/templatetags/translations.py:340
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s 个月前"
 
-#: trans/templatetags/translations.py:331
+#: trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s 周前"
 
-#: trans/templatetags/translations.py:335
+#: trans/templatetags/translations.py:349
 msgid "a week ago"
 msgstr "上周"
 
-#: trans/templatetags/translations.py:337
+#: trans/templatetags/translations.py:351
 msgid "yesterday"
 msgstr "昨天"
 
-#: trans/templatetags/translations.py:339
+#: trans/templatetags/translations.py:353
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s 天前"
 
-#: trans/templatetags/translations.py:342
-#: trans/templatetags/translations.py:393
+#: trans/templatetags/translations.py:356
+#: trans/templatetags/translations.py:407
 msgid "now"
 msgstr "现在"
 
-#: trans/templatetags/translations.py:345
+#: trans/templatetags/translations.py:359
 msgid "a second ago"
 msgstr "上一秒"
 
-#: trans/templatetags/translations.py:347
+#: trans/templatetags/translations.py:361
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s 秒前"
 
-#: trans/templatetags/translations.py:352
+#: trans/templatetags/translations.py:366
 msgid "a minute ago"
 msgstr "上一分钟"
 
-#: trans/templatetags/translations.py:354
+#: trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s 分钟前"
 
-#: trans/templatetags/translations.py:359
+#: trans/templatetags/translations.py:373
 msgid "an hour ago"
 msgstr "上个小时"
 
-#: trans/templatetags/translations.py:361
+#: trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s 小时前"
 
-#: trans/templatetags/translations.py:368
+#: trans/templatetags/translations.py:382
 msgid "a year from now"
 msgstr "明年"
 
-#: trans/templatetags/translations.py:370
+#: trans/templatetags/translations.py:384
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "%(count)s 年后"
 
-#: trans/templatetags/translations.py:375
+#: trans/templatetags/translations.py:389
 msgid "a month from now"
 msgstr "下个月"
 
-#: trans/templatetags/translations.py:377
+#: trans/templatetags/translations.py:391
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s 个月后"
 
-#: trans/templatetags/translations.py:382
+#: trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s 周后"
 
-#: trans/templatetags/translations.py:386
+#: trans/templatetags/translations.py:400
 msgid "tomorrow"
 msgstr "明天"
 
-#: trans/templatetags/translations.py:388
+#: trans/templatetags/translations.py:402
 msgid "a week from now"
 msgstr "下周"
 
-#: trans/templatetags/translations.py:390
+#: trans/templatetags/translations.py:404
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "%(count)s 天后"
 
-#: trans/templatetags/translations.py:396
+#: trans/templatetags/translations.py:410
 msgid "a second from now"
 msgstr "下一秒"
 
-#: trans/templatetags/translations.py:398
+#: trans/templatetags/translations.py:412
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "%(count)s 秒后"
 
-#: trans/templatetags/translations.py:405
+#: trans/templatetags/translations.py:419
 msgid "a minute from now"
 msgstr "下一分钟"
 
-#: trans/templatetags/translations.py:407
+#: trans/templatetags/translations.py:421
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "%(count)s 分钟后"
 
-#: trans/templatetags/translations.py:414
+#: trans/templatetags/translations.py:428
 msgid "an hour from now"
 msgstr "下个小时"
 
-#: trans/templatetags/translations.py:416
+#: trans/templatetags/translations.py:430
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -1625,7 +1645,7 @@ msgid "File upload has failed: %s"
 msgstr "文件上传失败：%s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:672
+#: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "处理表单失败！"
 
@@ -1746,15 +1766,15 @@ msgstr "无效建议！"
 msgid "You have reached end of translating."
 msgstr "您的翻译已经结束了。"
 
-#: trans/views/edit.py:670
+#: trans/views/edit.py:671
 msgid "Automatic translation completed."
 msgstr "已完成自动翻译。"
 
-#: trans/views/edit.py:698
+#: trans/views/edit.py:699
 msgid "Posted new comment"
 msgstr "新注释已发表"
 
-#: trans/views/edit.py:700
+#: trans/views/edit.py:701
 msgid "Failed to add comment!"
 msgstr "添加注释失败！"
 

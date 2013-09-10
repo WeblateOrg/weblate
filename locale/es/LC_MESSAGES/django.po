@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-29 15:26+0200\n"
+"POT-Creation-Date: 2013-09-10 14:49+0200\n"
 "PO-Revision-Date: 2013-08-30 16:49+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -284,25 +284,29 @@ msgstr "Llave secreta"
 msgid "Allowed hosts"
 msgstr "Servidores permitidos"
 
+#: trans/admin_views.py:148
+msgid "Admin static files"
+msgstr ""
+
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:168
+#: trans/admin_views.py:175
 msgid "[hostname hashed]"
 msgstr "[nombre de servidor cifrado]"
 
-#: trans/admin_views.py:223
+#: trans/admin_views.py:230
 msgid "Created new SSH key."
 msgstr "Se creó una nueva llave SSH."
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:234
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "No se pudo generar la llave: %s"
 
-#: trans/admin_views.py:247
+#: trans/admin_views.py:254
 msgid "Invalid host name given!"
 msgstr "¡Nombre de servidor inválido!"
 
-#: trans/admin_views.py:260
+#: trans/admin_views.py:267
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -321,43 +325,43 @@ msgstr "Cambios recientes en %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Todos los cambios recientes hechos utilizando Weblate en %s."
 
-#: trans/formats.py:532
+#: trans/formats.py:533
 msgid "Automatic detection"
 msgstr "Detección automática"
 
-#: trans/formats.py:546
+#: trans/formats.py:547
 msgid "Gettext PO file"
 msgstr "Archivo PO Gettext"
 
-#: trans/formats.py:622
+#: trans/formats.py:623
 msgid "Gettext PO file (monolingual)"
 msgstr "Archivo PO Gettext (monolenguaje)"
 
-#: trans/formats.py:631
+#: trans/formats.py:632
 msgid "Qt Linguist Translation File"
 msgstr "Archivo de traducción Qt Linguist"
 
-#: trans/formats.py:639
+#: trans/formats.py:640
 msgid "XLIFF Translation File"
 msgstr "Archivo de traducción XLIFF"
 
-#: trans/formats.py:647
+#: trans/formats.py:648
 msgid "OS X Strings"
 msgstr "Cadenas OS X"
 
-#: trans/formats.py:655
+#: trans/formats.py:656
 msgid "Java Properties"
 msgstr "Propiedades Java"
 
-#: trans/formats.py:673
+#: trans/formats.py:674
 msgid "Java Properties (UTF-8)"
 msgstr "Propiedades Java (UTF-8)"
 
-#: trans/formats.py:682
+#: trans/formats.py:683
 msgid "PHP strings"
 msgstr "Cadenas PHP"
 
-#: trans/formats.py:690 ttkit/aresource.py:323
+#: trans/formats.py:691 ttkit/aresource.py:323
 msgid "Android String Resource"
 msgstr "Recurso de cadenas Android"
 
@@ -595,8 +599,7 @@ msgstr ""
 "Traducción al español\n"
 "%(percent)d%% realizada"
 
-#: trans/widgets.py:313
-#| msgid "translate"
+#: trans/widgets.py:315
 msgid "translated"
 msgstr "traducido"
 
@@ -723,24 +726,24 @@ msgstr "Inconsistente"
 msgid "This message has more than one translation in this project"
 msgstr "Este mensaje tiene más de una traducción en este proyecto"
 
-#: trans/checks/format.py:226
+#: trans/checks/format.py:215
 msgid "Python format"
 msgstr "Formato Python"
 
-#: trans/checks/format.py:227 trans/checks/format.py:241
-#: trans/checks/format.py:255 trans/checks/format.py:266
+#: trans/checks/format.py:216 trans/checks/format.py:230
+#: trans/checks/format.py:244 trans/checks/format.py:255
 msgid "Format string does not match source"
 msgstr "El formato de cadena no coincide con cadena original"
 
-#: trans/checks/format.py:240
+#: trans/checks/format.py:229
 msgid "PHP format"
 msgstr "Formato PHP"
 
-#: trans/checks/format.py:254
+#: trans/checks/format.py:243
 msgid "C format"
 msgstr "Formato C"
 
-#: trans/checks/format.py:265
+#: trans/checks/format.py:254
 msgid "Python brace format"
 msgstr "Formato de llaves Python"
 
@@ -761,11 +764,11 @@ msgid "XML tags in translation do not match source"
 msgstr ""
 "Las etiquetas XML en la traducción no coincide con aquellas en el original"
 
-#: trans/checks/same.py:501
+#: trans/checks/same.py:659
 msgid "Not translated"
 msgstr "Sin traducir"
 
-#: trans/checks/same.py:502
+#: trans/checks/same.py:660
 msgid "Source and translated strings are same"
 msgstr "La cadena original y la traducida son iguales"
 
@@ -829,7 +832,7 @@ msgstr "Traducción revertida"
 msgid "Translation uploaded"
 msgstr "Traducción cargada"
 
-#: trans/models/changes.py:160
+#: trans/models/changes.py:161
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
@@ -1361,31 +1364,31 @@ msgstr "No se pudo procesar el archivo %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "¡Esta traducción está bloqueada por %(user)s!"
 
-#: trans/models/translation.py:985 trans/models/translation.py:1018
+#: trans/models/translation.py:986 trans/models/translation.py:1019
 msgid "All strings"
 msgstr "Todas las cadenas"
 
-#: trans/models/translation.py:992 trans/models/translation.py:1047
+#: trans/models/translation.py:993 trans/models/translation.py:1048
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Cadenas con chequeos fallidos (%d)"
 
-#: trans/models/translation.py:1009 trans/models/translation.py:1064
+#: trans/models/translation.py:1010 trans/models/translation.py:1065
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Cadenas con comentarios (%d)"
 
-#: trans/models/translation.py:1025
+#: trans/models/translation.py:1026
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Cadenas sin traducir (%d)"
 
-#: trans/models/translation.py:1033
+#: trans/models/translation.py:1034
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Cadenas parciales (%d)"
 
-#: trans/models/translation.py:1040
+#: trans/models/translation.py:1041
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Cadenas con sugerencias (%d)"
@@ -1394,189 +1397,205 @@ msgstr "Cadenas con sugerencias (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "¡El mensaje que deseaba traducir ya no está disponible!"
 
-#: trans/models/unit.py:509
+#: trans/models/unit.py:515
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "No se pudo almacenar el mensaje internamente, ¡se agotó el tiempo de espera "
 "de un bloqueo!"
 
-#: trans/models/unit.py:521
+#: trans/models/unit.py:527
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "No se encontró el mensaje almacenado en la base de datos, probablemente esté "
 "corrupto."
 
-#: trans/models/unit.py:664
+#: trans/models/unit.py:672
 #, python-format
 msgid "unit ID %s"
 msgstr "ID de unidad %s"
 
-#: trans/templatetags/translations.py:65
+#: trans/templatetags/translations.py:57
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Good configuration"
+msgstr "Confirmación de contraseña nueva"
+
+#: trans/templatetags/translations.py:58
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Bad configuration"
+msgstr "Confirmación de contraseña nueva"
+
+#: trans/templatetags/translations.py:59
+msgid "Possible configuration"
+msgstr ""
+
+#: trans/templatetags/translations.py:76
 msgid "Tab character"
 msgstr "Caracter de tabulación"
 
-#: trans/templatetags/translations.py:136
+#: trans/templatetags/translations.py:147
 msgid "New line"
 msgstr "Nueva línea"
 
-#: trans/templatetags/translations.py:277
+#: trans/templatetags/translations.py:291
 #, python-format
 msgid "Avatar for %s"
 msgstr "Avatar para %s"
 
-#: trans/templatetags/translations.py:317
+#: trans/templatetags/translations.py:331
 msgid "a year ago"
 msgstr "hace un año"
 
-#: trans/templatetags/translations.py:319
+#: trans/templatetags/translations.py:333
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "hace %(count)s año"
 msgstr[1] "hace %(count)s años"
 
-#: trans/templatetags/translations.py:324
+#: trans/templatetags/translations.py:338
 msgid "a month ago"
 msgstr "hace un mes"
 
-#: trans/templatetags/translations.py:326
+#: trans/templatetags/translations.py:340
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "hace %(count)s mes"
 msgstr[1] "hace %(count)s meses"
 
-#: trans/templatetags/translations.py:331
+#: trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "hace %(count)s semana"
 msgstr[1] "hace %(count)s semanas"
 
-#: trans/templatetags/translations.py:335
+#: trans/templatetags/translations.py:349
 msgid "a week ago"
 msgstr "hace una semana"
 
-#: trans/templatetags/translations.py:337
+#: trans/templatetags/translations.py:351
 msgid "yesterday"
 msgstr "ayer"
 
-#: trans/templatetags/translations.py:339
+#: trans/templatetags/translations.py:353
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "hace %(count)s día"
 msgstr[1] "hace %(count)s días"
 
-#: trans/templatetags/translations.py:342
-#: trans/templatetags/translations.py:393
+#: trans/templatetags/translations.py:356
+#: trans/templatetags/translations.py:407
 msgid "now"
 msgstr "ahora"
 
-#: trans/templatetags/translations.py:345
+#: trans/templatetags/translations.py:359
 msgid "a second ago"
 msgstr "hace un segundo"
 
-#: trans/templatetags/translations.py:347
+#: trans/templatetags/translations.py:361
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "hace un segundo"
 msgstr[1] "hace %(count)s segundos"
 
-#: trans/templatetags/translations.py:352
+#: trans/templatetags/translations.py:366
 msgid "a minute ago"
 msgstr "hace un minuto"
 
-#: trans/templatetags/translations.py:354
+#: trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "hace %(count)s minuto"
 msgstr[1] "hace %(count)s minutos"
 
-#: trans/templatetags/translations.py:359
+#: trans/templatetags/translations.py:373
 msgid "an hour ago"
 msgstr "hace una hora"
 
-#: trans/templatetags/translations.py:361
+#: trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "hace %(count)s hora"
 msgstr[1] "hace %(count)s horas"
 
-#: trans/templatetags/translations.py:368
+#: trans/templatetags/translations.py:382
 msgid "a year from now"
 msgstr "en un año"
 
-#: trans/templatetags/translations.py:370
+#: trans/templatetags/translations.py:384
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "en un año"
 msgstr[1] "en %(count)s años"
 
-#: trans/templatetags/translations.py:375
+#: trans/templatetags/translations.py:389
 msgid "a month from now"
 msgstr "en un mes"
 
-#: trans/templatetags/translations.py:377
+#: trans/templatetags/translations.py:391
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "en %(count)s mes"
 msgstr[1] "en %(count)s meses"
 
-#: trans/templatetags/translations.py:382
+#: trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "en %(count)s semana"
 msgstr[1] "en %(count)s semanas"
 
-#: trans/templatetags/translations.py:386
+#: trans/templatetags/translations.py:400
 msgid "tomorrow"
 msgstr "mañana"
 
-#: trans/templatetags/translations.py:388
+#: trans/templatetags/translations.py:402
 msgid "a week from now"
 msgstr "en una semana"
 
-#: trans/templatetags/translations.py:390
+#: trans/templatetags/translations.py:404
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "en %(count)s día"
 msgstr[1] "en %(count)s días"
 
-#: trans/templatetags/translations.py:396
+#: trans/templatetags/translations.py:410
 msgid "a second from now"
 msgstr "en un segundo"
 
-#: trans/templatetags/translations.py:398
+#: trans/templatetags/translations.py:412
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "en %(count)s segundo"
 msgstr[1] "en %(count)s segundos"
 
-#: trans/templatetags/translations.py:405
+#: trans/templatetags/translations.py:419
 msgid "a minute from now"
 msgstr "en un minuto"
 
-#: trans/templatetags/translations.py:407
+#: trans/templatetags/translations.py:421
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "en %(count)s minuto"
 msgstr[1] "en %(count)s minutos"
 
-#: trans/templatetags/translations.py:414
+#: trans/templatetags/translations.py:428
 msgid "an hour from now"
 msgstr "en una hora"
 
-#: trans/templatetags/translations.py:416
+#: trans/templatetags/translations.py:430
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -1683,7 +1702,7 @@ msgid "File upload has failed: %s"
 msgstr "Falló la carga del archivo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:672
+#: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "¡No se pudo procesar el formulario!"
 
@@ -1803,15 +1822,15 @@ msgstr "¡Sugerencia inválida!"
 msgid "You have reached end of translating."
 msgstr "Ha llegado al final de la traducción."
 
-#: trans/views/edit.py:670
+#: trans/views/edit.py:671
 msgid "Automatic translation completed."
 msgstr "Traducción automática completada."
 
-#: trans/views/edit.py:698
+#: trans/views/edit.py:699
 msgid "Posted new comment"
 msgstr "Nuevo comentario publicado"
 
-#: trans/views/edit.py:700
+#: trans/views/edit.py:701
 msgid "Failed to add comment!"
 msgstr "¡No se pudo agregar el comentario!"
 

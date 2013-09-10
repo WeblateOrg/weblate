@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-08-29 15:26+0200\n"
+"POT-Creation-Date: 2013-09-10 14:49+0200\n"
 "PO-Revision-Date: 2013-07-30 16:28+0200\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
@@ -287,25 +287,29 @@ msgstr ""
 msgid "Allowed hosts"
 msgstr "Dovoljena imena strežnikov"
 
+#: trans/admin_views.py:148
+msgid "Admin static files"
+msgstr ""
+
 #. Translators: placeholder SSH hashed hostname
-#: trans/admin_views.py:168
+#: trans/admin_views.py:175
 msgid "[hostname hashed]"
 msgstr "[ime gostitelja je šifrirano]"
 
-#: trans/admin_views.py:223
+#: trans/admin_views.py:230
 msgid "Created new SSH key."
 msgstr "Ustvaril sem nov ključ SSH."
 
-#: trans/admin_views.py:227
+#: trans/admin_views.py:234
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nisem uspel ustvariti ključa: %s"
 
-#: trans/admin_views.py:247
+#: trans/admin_views.py:254
 msgid "Invalid host name given!"
 msgstr "Podali ste neveljavno ime gostitelja!"
 
-#: trans/admin_views.py:260
+#: trans/admin_views.py:267
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
@@ -324,43 +328,43 @@ msgstr "Nedavne spremembe v %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Vse nedavne spremembe, narejene z Weblate v %s."
 
-#: trans/formats.py:532
+#: trans/formats.py:533
 msgid "Automatic detection"
 msgstr "Samodejno zaznavanje"
 
-#: trans/formats.py:546
+#: trans/formats.py:547
 msgid "Gettext PO file"
 msgstr "Datoteka Gettext PO"
 
-#: trans/formats.py:622
+#: trans/formats.py:623
 msgid "Gettext PO file (monolingual)"
 msgstr "Datoteka Gettext PO (enojezična)"
 
-#: trans/formats.py:631
+#: trans/formats.py:632
 msgid "Qt Linguist Translation File"
 msgstr "Datoteka s prevodom Qt Linguist"
 
-#: trans/formats.py:639
+#: trans/formats.py:640
 msgid "XLIFF Translation File"
 msgstr "Datoteka s prevodom XLIFF"
 
-#: trans/formats.py:647
+#: trans/formats.py:648
 msgid "OS X Strings"
 msgstr "Nizi OS X"
 
-#: trans/formats.py:655
+#: trans/formats.py:656
 msgid "Java Properties"
 msgstr "Lastnosti Java"
 
-#: trans/formats.py:673
+#: trans/formats.py:674
 msgid "Java Properties (UTF-8)"
 msgstr "Lastnosti Java (UTF-8)"
 
-#: trans/formats.py:682
+#: trans/formats.py:683
 msgid "PHP strings"
 msgstr "Nizi PHP"
 
-#: trans/formats.py:690 ttkit/aresource.py:323
+#: trans/formats.py:691 ttkit/aresource.py:323
 msgid "Android String Resource"
 msgstr "Vir nizov Android"
 
@@ -596,7 +600,7 @@ msgstr ""
 "Slovenščina\n"
 "%(percent)d%% končana"
 
-#: trans/widgets.py:313
+#: trans/widgets.py:315
 #, fuzzy
 #| msgid "translate"
 msgid "translated"
@@ -722,24 +726,24 @@ msgstr "Neskladno"
 msgid "This message has more than one translation in this project"
 msgstr "Sporočilo ima v tem projektu več kot en prevod"
 
-#: trans/checks/format.py:226
+#: trans/checks/format.py:215
 msgid "Python format"
 msgstr "Oblika Python"
 
-#: trans/checks/format.py:227 trans/checks/format.py:241
-#: trans/checks/format.py:255 trans/checks/format.py:266
+#: trans/checks/format.py:216 trans/checks/format.py:230
+#: trans/checks/format.py:244 trans/checks/format.py:255
 msgid "Format string does not match source"
 msgstr "Oblika niza se ne ujema z izvirnikom"
 
-#: trans/checks/format.py:240
+#: trans/checks/format.py:229
 msgid "PHP format"
 msgstr "Oblika PHP"
 
-#: trans/checks/format.py:254
+#: trans/checks/format.py:243
 msgid "C format"
 msgstr "Oblika C"
 
-#: trans/checks/format.py:265
+#: trans/checks/format.py:254
 #, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
@@ -761,11 +765,11 @@ msgstr "Razlika v XML oznakah"
 msgid "XML tags in translation do not match source"
 msgstr "XML oznake v prevodu se ne ujemajo z izvirnikom"
 
-#: trans/checks/same.py:501
+#: trans/checks/same.py:659
 msgid "Not translated"
 msgstr "Ni prevedeno"
 
-#: trans/checks/same.py:502
+#: trans/checks/same.py:660
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
@@ -827,7 +831,7 @@ msgstr "Vračilo prevoda"
 msgid "Translation uploaded"
 msgstr "Prevod poslan"
 
-#: trans/models/changes.py:160
+#: trans/models/changes.py:161
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s je ob %(time)s %(action)s na %(translation)s"
@@ -1359,31 +1363,31 @@ msgstr "Nisem uspel razčleniti datoteke %(file)s: %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Ta prevod je zaklenil %(user)s!"
 
-#: trans/models/translation.py:985 trans/models/translation.py:1018
+#: trans/models/translation.py:986 trans/models/translation.py:1019
 msgid "All strings"
 msgstr "Vsi nizi"
 
-#: trans/models/translation.py:992 trans/models/translation.py:1047
+#: trans/models/translation.py:993 trans/models/translation.py:1048
 #, python-format
 msgid "Strings with any failing checks (%d)"
 msgstr "Nizi s katerim koli spodletelim preverjanjem (%d)"
 
-#: trans/models/translation.py:1009 trans/models/translation.py:1064
+#: trans/models/translation.py:1010 trans/models/translation.py:1065
 #, python-format
 msgid "Strings with comments (%d)"
 msgstr "Nizi s pripombami (%d)"
 
-#: trans/models/translation.py:1025
+#: trans/models/translation.py:1026
 #, python-format
 msgid "Untranslated strings (%d)"
 msgstr "Neprevedeni nizi (%d)"
 
-#: trans/models/translation.py:1033
+#: trans/models/translation.py:1034
 #, python-format
 msgid "Fuzzy strings (%d)"
 msgstr "Neurejeni nizi (%d)"
 
-#: trans/models/translation.py:1040
+#: trans/models/translation.py:1041
 #, python-format
 msgid "Strings with suggestions (%d)"
 msgstr "Nizi s predlogi (%d)"
@@ -1392,40 +1396,56 @@ msgstr "Nizi s predlogi (%d)"
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
 
-#: trans/models/unit.py:509
+#: trans/models/unit.py:515
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Ni bilo mogoče shraniti sporočila v zaledje, zaklep je potekel!"
 
-#: trans/models/unit.py:521
+#: trans/models/unit.py:527
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Sporočila nisem našel v zaledni shrambi; najverjetneje je pokvarjeno."
 
-#: trans/models/unit.py:664
+#: trans/models/unit.py:672
 #, python-format
 msgid "unit ID %s"
 msgstr "ID enote %s"
 
-#: trans/templatetags/translations.py:65
+#: trans/templatetags/translations.py:57
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Good configuration"
+msgstr "Potrditev novega gesla"
+
+#: trans/templatetags/translations.py:58
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Bad configuration"
+msgstr "Potrditev novega gesla"
+
+#: trans/templatetags/translations.py:59
+msgid "Possible configuration"
+msgstr ""
+
+#: trans/templatetags/translations.py:76
 msgid "Tab character"
 msgstr "Znak za tabulator"
 
-#: trans/templatetags/translations.py:136
+#: trans/templatetags/translations.py:147
 msgid "New line"
 msgstr "Nova vrstica"
 
-#: trans/templatetags/translations.py:277
+#: trans/templatetags/translations.py:291
 #, python-format
 msgid "Avatar for %s"
 msgstr "Podoba osebe %s"
 
-#: trans/templatetags/translations.py:317
+#: trans/templatetags/translations.py:331
 #, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "pred %(count)s letom"
 
-#: trans/templatetags/translations.py:319
+#: trans/templatetags/translations.py:333
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -1436,14 +1456,14 @@ msgstr[1] ", %(count)s glasova"
 msgstr[2] ", %(count)s glasovi"
 msgstr[3] ", %(count)s glasov"
 
-#: trans/templatetags/translations.py:324
+#: trans/templatetags/translations.py:338
 #, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "pred %(count)s mesecem"
 
-#: trans/templatetags/translations.py:326
+#: trans/templatetags/translations.py:340
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -1454,7 +1474,7 @@ msgstr[1] ", %(count)s glasova"
 msgstr[2] ", %(count)s glasovi"
 msgstr[3] ", %(count)s glasov"
 
-#: trans/templatetags/translations.py:331
+#: trans/templatetags/translations.py:345
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -1465,21 +1485,21 @@ msgstr[1] ", %(count)s glasova"
 msgstr[2] ", %(count)s glasovi"
 msgstr[3] ", %(count)s glasov"
 
-#: trans/templatetags/translations.py:335
+#: trans/templatetags/translations.py:349
 #, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "pred %(count)s tednom"
 
-#: trans/templatetags/translations.py:337
+#: trans/templatetags/translations.py:351
 #, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
 msgstr "pred %(count)s dnevom"
 
-#: trans/templatetags/translations.py:339
+#: trans/templatetags/translations.py:353
 #, fuzzy, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
@@ -1490,19 +1510,19 @@ msgstr[1] ", %(count)s glasova"
 msgstr[2] ", %(count)s glasovi"
 msgstr[3] ", %(count)s glasov"
 
-#: trans/templatetags/translations.py:342
-#: trans/templatetags/translations.py:393
+#: trans/templatetags/translations.py:356
+#: trans/templatetags/translations.py:407
 msgid "now"
 msgstr "zdaj"
 
-#: trans/templatetags/translations.py:345
+#: trans/templatetags/translations.py:359
 #, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "pred %(count)s sekundo"
 
-#: trans/templatetags/translations.py:347
+#: trans/templatetags/translations.py:361
 #, fuzzy, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
@@ -1513,14 +1533,14 @@ msgstr[1] "pred %(count)s sekundama"
 msgstr[2] "pred %(count)s sekundami"
 msgstr[3] "pred %(count)s sekundami"
 
-#: trans/templatetags/translations.py:352
+#: trans/templatetags/translations.py:366
 #, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "pred %(count)s minuto"
 
-#: trans/templatetags/translations.py:354
+#: trans/templatetags/translations.py:368
 #, fuzzy, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
@@ -1531,14 +1551,14 @@ msgstr[1] "pred %(count)s minutama"
 msgstr[2] "pred %(count)s minutami"
 msgstr[3] "pred %(count)s minutami"
 
-#: trans/templatetags/translations.py:359
+#: trans/templatetags/translations.py:373
 #, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "pred %(count)s uro"
 
-#: trans/templatetags/translations.py:361
+#: trans/templatetags/translations.py:375
 #, fuzzy, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
@@ -1549,14 +1569,14 @@ msgstr[1] "pred %(count)s urama"
 msgstr[2] "pred %(count)s urami"
 msgstr[3] "pred %(count)s urami"
 
-#: trans/templatetags/translations.py:368
+#: trans/templatetags/translations.py:382
 #, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "čez %(count)s leto"
 
-#: trans/templatetags/translations.py:370
+#: trans/templatetags/translations.py:384
 #, fuzzy, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
@@ -1567,14 +1587,14 @@ msgstr[1] "čez %(count)s leti"
 msgstr[2] "čez %(count)s leta"
 msgstr[3] "čez %(count)s let"
 
-#: trans/templatetags/translations.py:375
+#: trans/templatetags/translations.py:389
 #, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "čez %(count)s mesec"
 
-#: trans/templatetags/translations.py:377
+#: trans/templatetags/translations.py:391
 #, fuzzy, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
@@ -1585,7 +1605,7 @@ msgstr[1] "čez %(count)s meseca"
 msgstr[2] "čez %(count)s mesece"
 msgstr[3] "čez %(count)s mesecev"
 
-#: trans/templatetags/translations.py:382
+#: trans/templatetags/translations.py:396
 #, fuzzy, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
@@ -1596,21 +1616,21 @@ msgstr[1] "čez %(count)s tedna"
 msgstr[2] "čez %(count)s tedene"
 msgstr[3] "čez %(count)s tednov"
 
-#: trans/templatetags/translations.py:386
+#: trans/templatetags/translations.py:400
 #, fuzzy
 #| msgid "tomorrow"
 #| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
 msgstr "čez %(count)s dan"
 
-#: trans/templatetags/translations.py:388
+#: trans/templatetags/translations.py:402
 #, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "čez %(count)s teden"
 
-#: trans/templatetags/translations.py:390
+#: trans/templatetags/translations.py:404
 #, fuzzy, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
@@ -1621,14 +1641,14 @@ msgstr[1] ""
 msgstr[2] "čez %(count)s sekunde"
 msgstr[3] "čez %(count)s sekund"
 
-#: trans/templatetags/translations.py:396
+#: trans/templatetags/translations.py:410
 #, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "čez %(count)s sekundo"
 
-#: trans/templatetags/translations.py:398
+#: trans/templatetags/translations.py:412
 #, fuzzy, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
@@ -1639,14 +1659,14 @@ msgstr[1] "čez %(count)s sekundi"
 msgstr[2] "čez %(count)s sekunde"
 msgstr[3] "čez %(count)s sekund"
 
-#: trans/templatetags/translations.py:405
+#: trans/templatetags/translations.py:419
 #, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "čez %(count)s minuto"
 
-#: trans/templatetags/translations.py:407
+#: trans/templatetags/translations.py:421
 #, fuzzy, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
@@ -1657,14 +1677,14 @@ msgstr[1] "čez %(count)s minuti"
 msgstr[2] "čez %(count)s minute"
 msgstr[3] "čez %(count)s minut"
 
-#: trans/templatetags/translations.py:414
+#: trans/templatetags/translations.py:428
 #, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "čez %(count)s uro"
 
-#: trans/templatetags/translations.py:416
+#: trans/templatetags/translations.py:430
 #, fuzzy, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
@@ -1775,7 +1795,7 @@ msgid "File upload has failed: %s"
 msgstr "Pošiljanje datoteke je spodletelo: %s"
 
 #: trans/views/dictionary.py:141 trans/views/dictionary.py:143
-#: trans/views/edit.py:672
+#: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "Nisem uspel obdelati obrazca!"
 
@@ -1894,15 +1914,15 @@ msgstr "Neveljaven predlog!"
 msgid "You have reached end of translating."
 msgstr "Dosegli ste konec prevajanja."
 
-#: trans/views/edit.py:670
+#: trans/views/edit.py:671
 msgid "Automatic translation completed."
 msgstr "Samodejno prevajanje je končano."
 
-#: trans/views/edit.py:698
+#: trans/views/edit.py:699
 msgid "Posted new comment"
 msgstr "Objava nove pripombe"
 
-#: trans/views/edit.py:700
+#: trans/views/edit.py:701
 msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 
