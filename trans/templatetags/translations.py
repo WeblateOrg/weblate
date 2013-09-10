@@ -54,9 +54,9 @@ TYPE_MAPPING = {
 }
 # Mapping of status report flags to names
 NAME_MAPPING = {
-    True: _('Good configuration'),
-    False: _('Bad configuration'),
-    None: _('Possible configuration')
+    True: ugettext_lazy('Good configuration'),
+    False: ugettext_lazy('Bad configuration'),
+    None: ugettext_lazy('Possible configuration')
 }
 
 
