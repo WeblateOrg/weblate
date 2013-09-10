@@ -380,6 +380,18 @@ really use own value rather than using the one coming from example setup.
 
     .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
 
+.. _production-admin-files:
+
+Admin static files
+++++++++++++++++++
+
+If you see purely designed admin interface, the CSS files required for it are
+not loaded. This is usually if you are running in non-debug mode and have not
+configured your webserver to serve them. Recommended setup is described in the
+:ref:`server` chapter.
+
+.. seealso:: :ref:`server`
+
 .. _server:
 
 Running server

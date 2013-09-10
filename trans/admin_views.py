@@ -143,6 +143,13 @@ def performance(request):
             len(settings.ALLOWED_HOSTS) > 0,
             'production-hosts',
         ))
+
+    checks.append((
+        _('Admin static files'),
+        False,
+        'production-admin-files',
+        'order-cell',
+    ))
     return render_to_response(
         "admin/performance.html",
         RequestContext(
