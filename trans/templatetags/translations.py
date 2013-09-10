@@ -54,9 +54,9 @@ TYPE_MAPPING = {
 }
 # Mapping of status report flags to names
 NAME_MAPPING = {
-    True: _('Good configuration'),
-    False: _('Bad configuration'),
-    None: _('Possible configuration')
+    True: ugettext_lazy('Good configuration'),
+    False: ugettext_lazy('Bad configuration'),
+    None: ugettext_lazy('Possible configuration')
 }
 
 
@@ -271,10 +271,12 @@ def admin_boolean_icon(val):
     '''
     icon_url = static('admin/img/icon-%s.gif' % TYPE_MAPPING[val]
                       )
-    return mark_safe(u'<img src="%(url)s" alt="%(text)s" title="%(text)s" />' % {
-        'url': icon_url,
-        'text': NAME_MAPPING[val],
-    })
+    return mark_safe(
+        u'<img src="%(url)s" alt="%(text)s" title="%(text)s" />' % {
+            'url': icon_url,
+            'text': NAME_MAPPING[val],
+        }
+    )
 
 
 @register.inclusion_tag('message.html')
