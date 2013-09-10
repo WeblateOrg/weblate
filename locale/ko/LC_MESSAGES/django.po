@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-09-10 15:20+0200\n"
-"PO-Revision-Date: 2013-09-10 15:53+0200\n"
+"PO-Revision-Date: 2013-09-10 16:23+0200\n"
 "Last-Translator: Deokyun Yu <i@saintjr.com>\n"
 "Language-Team: Korean <http://l10n.cihar.com/projects/weblate/master/ko/>\n"
 "Language: ko\n"
@@ -1228,10 +1228,10 @@ msgid "Format of translation base file could not be recognized."
 msgstr ""
 
 #: trans/models/subproject.py:845
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed translation"
 msgid "Failed to parse translation base file: %s"
-msgstr "번역 실패"
+msgstr "번역 기본 파일 분석 실패: %s"
 
 #: trans/models/subproject.py:862
 msgid "File does not seem to be valid!"
@@ -1262,10 +1262,10 @@ msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 
 #: trans/models/subproject.py:918
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed translation"
 msgid "Failed to update git: %s"
-msgstr "번역 실패"
+msgstr "git 업데이트 실패: %s"
 
 #: trans/models/subproject.py:926
 msgid "The mask did not match any files!"
@@ -1358,16 +1358,14 @@ msgid "unit ID %s"
 msgstr ""
 
 #: trans/templatetags/translations.py:57
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Good configuration"
-msgstr "새 비밀번호 확인"
+msgstr "적절한 구성"
 
 #: trans/templatetags/translations.py:58
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Bad configuration"
-msgstr "새 비밀번호 확인"
+msgstr "나쁜 구성"
 
 #: trans/templatetags/translations.py:59
 msgid "Possible configuration"
@@ -1466,24 +1464,24 @@ msgid "a year from now"
 msgstr ""
 
 #: trans/templatetags/translations.py:384
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "%(count)s 시간 전"
+msgstr[0] "%(count)s 년 전"
 
 #: trans/templatetags/translations.py:389
 msgid "a month from now"
 msgstr ""
 
 #: trans/templatetags/translations.py:391
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "%(count)s 시간 전"
+msgstr[0] "%(count)s 개월 전"
 
 #: trans/templatetags/translations.py:396
 #, python-format
@@ -1526,14 +1524,13 @@ msgid_plural "%(count)s minutes from now"
 msgstr[0] ""
 
 #: trans/templatetags/translations.py:428
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
-msgstr "%(count)s 시간 전"
+msgstr "1시간 전"
 
 #: trans/templatetags/translations.py:430
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
@@ -1585,23 +1582,20 @@ msgid "Chosen translation already exists in this project!"
 msgstr ""
 
 #: trans/views/basic.py:387
-#, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "기계 번역 요청이 실패하였습니다."
+msgstr "새로운 번역 요청을 프로젝트 유지보수자에게 보냈습니다."
 
 #: trans/views/basic.py:396
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Failed to process new translation request!"
-msgstr "번역 실패"
+msgstr "새로운 번역 요청을 처리하는데 실패했습니다!"
 
 #: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
-#, fuzzy
 #| msgid "Change word"
 msgid "Changes"
-msgstr "단어 변경"
+msgstr "변경 사항"
 
 #: trans/views/changes.py:92 trans/views/changes.py:101
 #: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:560
@@ -1678,10 +1672,10 @@ msgid "Error in parameter %(field)s: %(error)s"
 msgstr ""
 
 #: trans/views/edit.py:135
-#, fuzzy, python-format
+#, python-format
 #| msgid "New translation"
 msgid "Review of translations since %s"
-msgstr "새로운 번역"
+msgstr "%s 이후의 번역 다시보기"
 
 #: trans/views/edit.py:172 trans/views/edit.py:182
 msgid "No string matched your search!"
@@ -1728,10 +1722,9 @@ msgid "Can not revert to different unit!"
 msgstr ""
 
 #: trans/views/edit.py:409
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
-msgstr "번역란으로 단어 복사"
+msgstr "빈 내용의 번역으로 되돌릴 수 없습니다!"
 
 #: trans/views/edit.py:427
 msgid "You need to log in to be able to manage suggestions!"
@@ -1925,10 +1918,9 @@ msgid "Strings to translate"
 msgstr "번역할 문자열"
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Words to translate"
-msgstr "번역할 문자열"
+msgstr "번역할 단어들"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
@@ -2830,10 +2822,9 @@ msgid "Tigrinya"
 msgstr ""
 
 #: weblate/html/i18n.html:154
-#, fuzzy
 #| msgid "dictionaries"
 msgid "Traditional Chinese"
-msgstr "사전"
+msgstr "중국어(번체)"
 
 #: weblate/html/i18n.html:155
 msgid "Turkish"
@@ -3005,10 +2996,9 @@ msgid "Action"
 msgstr "활동"
 
 #: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Revert to this translation"
-msgstr "번역란으로 단어 복사"
+msgstr "이 번역으로 되돌림"
 
 #: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
 msgid "Revert"
@@ -3019,10 +3009,9 @@ msgid "No recent activity has been recorded."
 msgstr "최근 활동이 없었습니다."
 
 #: weblate/html/last-changes.html:42
-#, fuzzy
 #| msgid "Source change"
 msgid "Browse changes"
-msgstr "원본 변경사항"
+msgstr "변경사항 찾아보기"
 
 #: weblate/html/list-checks.html:6
 #, python-format
@@ -3030,7 +3019,6 @@ msgid "Ignore: %(check)s"
 msgstr "무시하기: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -3052,11 +3040,11 @@ msgid "Suggestions"
 msgstr "제안사항들"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Copy word to translation"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "번역란으로 단어 복사"
+msgstr[0] "번역해야 할 %(words)s 개의 단어가 있습니다!"
 
 #: weblate/html/list-translations.html:26
 #, python-format
@@ -3190,10 +3178,9 @@ msgid "Instructions for translators:"
 msgstr ""
 
 #: weblate/html/project_info.html:10
-#, fuzzy
 #| msgid "Translation change:"
 msgid "Translation license:"
-msgstr "번역 변경:"
+msgstr "번역 라이센스:"
 
 #: weblate/html/share.html:5
 msgid "Share on Facebook!"
@@ -3262,10 +3249,9 @@ msgid "Please choose language into which you would like to translate."
 msgstr ""
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New translation"
 msgid "Start new translation"
-msgstr "새로운 번역"
+msgstr "새로운 번역 시작하기"
 
 #: weblate/html/subproject.html:61
 #, python-format
@@ -3302,9 +3288,8 @@ msgid "Source change"
 msgstr "원본 변경사항"
 
 #: weblate/html/translate.html:67
-#, fuzzy
 msgid "Context"
-msgstr "상황・장면"
+msgstr "상황・문맥"
 
 #: weblate/html/translate.html:74 weblate/html/js/dictionary.html:20
 msgid "Copy"
@@ -3386,14 +3371,13 @@ msgid "Additional text to include in the commit message."
 msgstr ""
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Error message"
 msgid "Commit message:"
-msgstr "오류 메세지"
+msgstr "전송 메세지:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
-msgstr ""
+msgstr "번역 내용"
 
 #: weblate/html/translate.html:180
 msgid "Messages placed around this one"
@@ -3416,16 +3400,14 @@ msgid "Words extracted from glossary"
 msgstr ""
 
 #: weblate/html/translate.html:184
-#, fuzzy
 #| msgid "New translation"
 msgid "Machine translation suggestions"
-msgstr "새로운 번역"
+msgstr "기계 번역 제안사항"
 
 #: weblate/html/translate.html:184
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Machine translation"
-msgstr "번역 실패"
+msgstr "기계 번역"
 
 #: weblate/html/translate.html:186
 msgid "Comments about this translation"
@@ -3493,7 +3475,6 @@ msgid "Locking"
 msgstr ""
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Statistics"
 msgid "Stats"
 msgstr "통계"
@@ -3579,27 +3560,24 @@ msgid "Percent"
 msgstr ""
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "부분 문자열"
+msgstr "문자열"
 
 #: weblate/html/translation.html:149
 msgid "Total"
 msgstr ""
 
 #: weblate/html/translation.html:161
-#, fuzzy
 #| msgctxt "Number of fuzzy strings"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "애매함"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Failing check"
-msgstr "실패한 검사 발견"
+msgstr "실패한 검사"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -3624,10 +3602,9 @@ msgid "Message is fuzzy"
 msgstr ""
 
 #: weblate/html/unit-state.html:4
-#, fuzzy
 #| msgid "Not translated"
 msgid "Message is not translated"
-msgstr "미번역"
+msgstr "미번역된 메세지"
 
 #: weblate/html/unit-state.html:5
 msgid "Message has failing checks"
@@ -3803,10 +3780,9 @@ msgid "Known host keys"
 msgstr ""
 
 #: weblate/html/admin/ssh.html:40
-#, fuzzy
 #| msgid "Last name"
 msgid "Hostname"
-msgstr "성"
+msgstr "호스트이름"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Fingerprint"
@@ -3838,15 +3814,14 @@ msgid ""
 msgstr ""
 
 #: weblate/html/admin/trans/change_form.html:8
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "More information about this check is available in the <a href=\"%(link)s"
 #| "\">documentation</a>."
 msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
-msgstr ""
-"이 검사에 대한 세부 정보는 <a href=\"%(link)s\">문서</a>에서 찾을수 있습니다."
+msgstr "필수 입력 사항은 굵게 표시되어 있습니다, 추가 정보는 <a href=\"%(url)s\">문서</a>를 참고하세요."
 
 #: weblate/html/admin/trans/change_form.html:10
 msgid "Do not change this object here, please use Weblate interface instead."
@@ -3868,10 +3843,9 @@ msgid "No related strings found in dictionary."
 msgstr ""
 
 #: weblate/html/js/dictionary.html:31
-#, fuzzy
 #| msgid "Glossary"
 msgid "Manage glossary"
-msgstr "어휘"
+msgstr "어휘 관리"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"
@@ -4106,16 +4080,15 @@ msgid ""
 msgstr ""
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "사용된 언어들"
+msgstr "요청된 언어:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "Overwrite existing translations"
 msgid "New language request in %(translation)s"
-msgstr "기존 번역 덮어쓰기"
+msgstr "%(translation)s 로 새 번역언어 요청"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
@@ -4356,16 +4329,14 @@ msgid "Please fix errors in registration form."
 msgstr ""
 
 #: weblate/html/trans/change_list.html:7
-#, fuzzy
 #| msgid "Recent changes"
 msgid "changes"
-msgstr "최근 변경사항"
+msgstr "변경사항"
 
 #: weblate/html/trans/change_list.html:51
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
-msgstr "최근 활동이 없었습니다."
+msgstr "일치하는 활동사항이 없습니다."
 
 #, fuzzy
 #~| msgid "New language"
