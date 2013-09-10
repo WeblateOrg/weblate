@@ -54,9 +54,9 @@ TYPE_MAPPING = {
 }
 # Mapping of status report flags to names
 NAME_MAPPING = {
-    True: _('Good'),
-    False: _('Bad'),
-    None: _('Possible')
+    True: _('Good configuration'),
+    False: _('Bad configuration'),
+    None: _('Possible configuration')
 }
 
 
