@@ -264,7 +264,9 @@ def admin_boolean_icon(val):
     valname = name_mapping[val]
     icon_url = static('admin/img/icon-%s.gif' % valtype
                       )
-    return mark_safe(u'<img src="%s" alt="%s" />' % (icon_url, valname))
+    return mark_safe(u'<img src="%s" alt="%s" title="%s" />' % (
+        icon_url, valname, valname
+    ))
 
 
 @register.inclusion_tag('message.html')
