@@ -23,7 +23,7 @@ from django.utils.html import escape
 from django.contrib.admin.templatetags.admin_static import static
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
-from django.utils.translation import ugettext as _, ungettext
+from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils.formats import date_format
 from django.utils import timezone
 from django import template
@@ -47,6 +47,17 @@ register = template.Library()
 
 WHITESPACE_RE = re.compile(r'(  +| $|^ )')
 NEWLINES_RE = re.compile(r'\r\n|\r|\n')
+TYPE_MAPPING = {
+    True: 'yes',
+    False: 'no',
+    None: 'unknown'
+}
+# Mapping of status report flags to names
+NAME_MAPPING = {
+    True: _('Good'),
+    False: _('Bad'),
+    None: _('Possible')
+}
 
 
 def fmt_whitespace(value):
@@ -258,15 +269,12 @@ def admin_boolean_icon(val):
     '''
     Admin icon wrapper.
     '''
-    type_mapping = {True: 'yes', False: 'no', None: 'unknown'}
-    name_mapping = {True: _('Yes'), False: _('No'), None: _('Unknown')}
-    valtype = type_mapping[val]
-    valname = name_mapping[val]
-    icon_url = static('admin/img/icon-%s.gif' % valtype
+    icon_url = static('admin/img/icon-%s.gif' % TYPE_MAPPING[val]
                       )
-    return mark_safe(u'<img src="%s" alt="%s" title="%s" />' % (
-        icon_url, valname, valname
-    ))
+    return mark_safe(u'<img src="%(url)s" alt="%(text)s" title="%(text)s" />' % {
+        'url': icon_url,
+        'text': NAME_MAPPING[val],
+    })
 
 
 @register.inclusion_tag('message.html')
