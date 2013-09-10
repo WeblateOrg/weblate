@@ -298,8 +298,10 @@ class BadgeWidget(Widget):
     alpha = True
 
     def get_filename(self):
-        if self.percent > 80:
+        if self.percent > 90:
             mode = 'passing'
+        elif self.percent > 75:
+            mode = 'medium'
         else:
             mode = 'failing'
         return os.path.join(
