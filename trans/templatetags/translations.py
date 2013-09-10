@@ -258,9 +258,13 @@ def admin_boolean_icon(val):
     '''
     Admin icon wrapper.
     '''
-    icon_url = static('admin/img/icon-%s.gif' %
-                      {True: 'yes', False: 'no', None: 'unknown'}[val])
-    return mark_safe(u'<img src="%s" alt="%s" />' % (icon_url, val))
+    type_mapping = {True: 'yes', False: 'no', None: 'unknown'}
+    name_mapping = {True: _('Yes'), False: _('No'), None: _('Unknown')}
+    valtype = type_mapping[val]
+    valname = name_mapping[val]
+    icon_url = static('admin/img/icon-%s.gif' % valtype
+                      )
+    return mark_safe(u'<img src="%s" alt="%s" />' % (icon_url, valname))
 
 
 @register.inclusion_tag('message.html')
