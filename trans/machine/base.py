@@ -47,6 +47,8 @@ class MachineTranslation(object):
         Creates new machine translation object.
         '''
         self.mtid = self.name.lower().replace(' ', '-')
+        self.request_url = None
+        self.request_params = None
 
     def authenticate(self, request):
         '''
@@ -63,6 +65,10 @@ class MachineTranslation(object):
             params = urllib.urlencode(kwargs)
         else:
             params = ''
+
+        # Store for exception handling
+        self.request_url = url
+        self.request_params = params
 
         # Append parameters
         if len(params) > 0 and not http_post:
@@ -156,6 +162,11 @@ class MachineTranslation(object):
                 self.name,
                 exc.__class__.__name__,
                 str(exc)
+            )
+            weblate.logger.error(
+                'Last fetched URL: %s, params: %s',
+                self.request_url,
+                self.request_params,
             )
             if settings.DEBUG:
                 raise
