@@ -49,7 +49,7 @@ class ApertiumTranslation(MachineTranslation):
         '''
         args = {
             'langpair': 'en|%s' % language,
-            'q': text,
+            'q': text.encode('utf-8'),
         }
         if appsettings.MT_APERTIUM_KEY is not None:
             args['key'] = appsettings.MT_APERTIUM_KEY
