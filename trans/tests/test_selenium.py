@@ -58,7 +58,7 @@ class SeleniumTests(LiveServerTestCase):
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
                 cls.caps['build'] = os.environ['TRAVIS_BUILD_NUMBER']
                 cls.caps['tags'] = [
-                    os.environ['TRAVIS_PYTHON_VERSION'],
+                    'python-%s' % os.environ['TRAVIS_PYTHON_VERSION'],
                     'django-%s' % os.environ['DJANGO_VERSION'],
                     os.environ['TRAVIS_DATABASE'],
                     'CI'
