@@ -19,6 +19,8 @@ matrix:
       env: DJANGO_VERSION=1.5.2 TRAVIS_DATABASE=mysql
     - python: "2.6"
       env: DJANGO_VERSION=1.5.2 TRAVIS_DATABASE=postgresql
+    - python: "2.6"
+      env: DJANGO_VERSION=1.5.2 TRAVIS_DATABASE=sqlite
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
