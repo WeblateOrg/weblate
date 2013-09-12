@@ -53,9 +53,19 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse('admin-report'))
         self.assertContains(response, 'On branch master')
 
+    def test_create_project(self):
+        response = self.client.get(reverse('admin:trans_project_add'))
+        self.assertContains(response, 'Required fields are marked as bold')
+
+    def test_create_subproject(self):
+        response = self.client.get(reverse('admin:trans_subproject_add'))
+        self.assertContains(
+            response, 'Importing a new translation can take some time'
+        )
+
 
 class SSHKeysTest(TestCase):
     def test_parse(self):
         trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
         hosts = trans.admin_views.get_host_keys()
-        self.assertEquals(len(hosts), 50)
+        self.assertEqual(len(hosts), 50)

@@ -43,6 +43,7 @@ DEFAULT_COMMIT_MESSAGE = (
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
     ('url', ugettext_lazy('Point to translation instructions URL')),
+    ('add', ugettext_lazy('Automatically add language file')),
     ('none', ugettext_lazy('No adding of language')),
 )
 MERGE_CHOICES = (
@@ -89,9 +90,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         help_text=ugettext_lazy('Main website of translated project.'),
     )
     mail = models.EmailField(
-        verbose_name=ugettext_lazy('Email address'),
+        verbose_name=ugettext_lazy('Mailing list'),
         blank=True,
-        help_text=ugettext_lazy('Email conference for translators.'),
+        help_text=ugettext_lazy('Mailing list for translators.'),
     )
     instructions = models.URLField(
         verbose_name=ugettext_lazy('Translation instructions'),
@@ -188,7 +189,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Constructor to initialize some cache properties.
         '''
         super(Project, self).__init__(*args, **kwargs)
-        self._percents = None
 
     def has_acl(self, user):
         '''
@@ -262,19 +262,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             [subproject.locked for subproject in self.subproject_set.all()]
         )
 
-    def get_path(self):
+    def _get_path(self):
         return os.path.join(appsettings.GIT_ROOT, self.slug)
 
     def __unicode__(self):
         return self.name
-
-    def create_path(self):
-        '''
-        Create filesystem directory for storing data
-        '''
-        path = self.get_path()
-        if not os.path.exists(path):
-            os.makedirs(path)
 
     def save(self, *args, **kwargs):
 
@@ -320,21 +312,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns percentages of translation status.
         '''
-        # Use cache if no filtering
-        if lang is None and self._percents is not None:
-            return self._percents
-
         # Import translations
         from trans.models.translation import Translation
 
         # Get prercents
-        result = Translation.objects.get_percents(project=self, language=lang)
-
-        # Update cache
-        if lang is None:
-            self._percents = result
-
-        return result
+        return Translation.objects.get_percents(project=self, language=lang)
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
@@ -343,6 +325,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns percent of translated strings.
         '''
+        if lang is None:
+            return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
 
     def get_total(self):

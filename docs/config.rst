@@ -345,6 +345,13 @@ SITE_TITLE
 
 Site title to be used in website and emails as well.
 
+.. setting:: TTF_PATH
+
+TTF_PATH
+--------
+
+Path to Droid fonts used for widgets and charts.
+
 .. setting:: WHOOSH_INDEX
 
 WHOOSH_INDEX

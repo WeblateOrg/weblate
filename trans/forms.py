@@ -25,6 +25,7 @@ from django.utils.translation import (
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
+from lang.models import Language
 
 
 def escape_newline(value):
@@ -218,7 +219,11 @@ class SearchForm(forms.Form):
     '''
     Text searching form.
     '''
-    q = forms.CharField(label=_('Query'))
+    # pylint: disable=C0103
+    q = forms.CharField(
+        label=_('Query'),
+        min_length=2,
+    )
     search = forms.ChoiceField(
         label=_('Search type'),
         required=False,
@@ -252,7 +257,7 @@ class SearchForm(forms.Form):
         cleaned_data = super(SearchForm, self).clean()
 
         # Default to fulltext
-        if cleaned_data['search'] == '':
+        if 'search' in cleaned_data and cleaned_data['search'] == '':
             cleaned_data['search'] = 'ftx'
 
         # Default to source and target search
@@ -393,3 +398,18 @@ class EnageLanguageForm(forms.Form):
         super(EnageLanguageForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += choices
+
+
+class NewLanguageForm(forms.Form):
+    '''
+    Form for requesting new language.
+    '''
+    lang = forms.ChoiceField(
+        label=_('Language'),
+        choices=[]
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(NewLanguageForm, self).__init__(*args, **kwargs)
+        choices = [(l.code, l.__unicode__()) for l in Language.objects.all()]
+        self.fields['lang'].choices = choices

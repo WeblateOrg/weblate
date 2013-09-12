@@ -24,8 +24,9 @@ from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from glob import glob
-import os.path
+import os
 import weblate
 import git
 from trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
@@ -37,7 +38,8 @@ from trans.util import get_site_url
 from trans.util import sleep_while_git_locked
 from trans.validators import (
     validate_repoweb, validate_filemask, validate_repo,
-    validate_extra_file,
+    validate_extra_file, validate_autoaccept,
+    validate_check_flags,
 )
 from weblate.appsettings import SCRIPT_CHOICES
 
@@ -89,7 +91,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     push = models.CharField(
         verbose_name=ugettext_lazy('Git push URL'),
         max_length=200,
-        help_text=ugettext_lazy('URL of push Git repository'),
+        help_text=ugettext_lazy(
+            'URL of push Git repository, pushing is disabled if empty.'
+        ),
         blank=True
     )
     repoweb = models.URLField(
@@ -138,8 +142,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
         help_text=ugettext_lazy(
             'Filename of translations base file, which contains all strings '
-            'and their source, this is recommended to use '
+            'and their source; this is recommended to use '
             'for monolingual translation formats.'
+        )
+    )
+    new_base = models.CharField(
+        verbose_name=ugettext_lazy('Base file for new translations'),
+        max_length=200,
+        blank=True,
+        help_text=ugettext_lazy(
+            'Filename of file which is used for creating new translations. '
+            'For Gettext choose .pot file.'
         )
     )
     file_format = models.CharField(
@@ -159,7 +172,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
         validators=[validate_extra_file],
         help_text=ugettext_lazy(
-            'Additional file to include in commits, please check '
+            'Additional file to include in commits; please check '
             'documentation for more details.',
         )
     )
@@ -197,6 +210,32 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'Whether Weblate should keep history of translations'
         )
     )
+    suggestion_voting = models.BooleanField(
+        verbose_name=ugettext_lazy('Suggestion voting'),
+        default=False,
+        help_text=ugettext_lazy(
+            'Whether users can vote for suggestions.'
+        )
+    )
+    suggestion_autoaccept = models.PositiveSmallIntegerField(
+        verbose_name=ugettext_lazy('Autoaccept suggestions'),
+        default=0,
+        help_text=ugettext_lazy(
+            'Automatically accept suggestions with this number of votes,'
+            ' use 0 to disable.'
+        ),
+        validators=[validate_autoaccept],
+    )
+    check_flags = models.TextField(
+        verbose_name=ugettext_lazy('Quality checks flags'),
+        default='',
+        help_text=ugettext_lazy(
+            'Additional comma-separated flags to influence quality checks, '
+            'check documentation for possible values.'
+        ),
+        validators=[validate_check_flags],
+        blank=True,
+    )
 
     objects = SubProjectManager()
 
@@ -221,7 +260,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._git_repo = None
         self._file_format = None
         self._template_store = None
-        self._percents = None
+        self._all_flags = None
 
     def has_acl(self, user):
         '''
@@ -271,14 +310,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_full_slug(self):
         return '%s__%s' % (self.project.slug, self.slug)
 
-    def get_path(self):
+    def _get_path(self):
         '''
         Returns full path to subproject git repository.
         '''
         if self.is_repo_link():
             return self.linked_subproject.get_path()
-
-        return os.path.join(self.project.get_path(), self.slug)
+        else:
+            return os.path.join(self.project.get_path(), self.slug)
 
     def get_git_lock_path(self):
         '''
@@ -786,7 +825,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(
                 _('Export URL is not used when repository is linked!')
             )
-        validate_repo(self.repo)
 
     def clean_template(self):
         '''
@@ -814,10 +852,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         notrecognized = []
         errors = []
+        dir_path = self.get_path()
         for match in matches:
             try:
                 parsed = self.file_format_cls.load(
-                    os.path.join(self.get_path(), match),
+                    os.path.join(dir_path, match),
                 )
                 if not self.file_format_cls.is_valid(parsed):
                     errors.append('%s: %s' % (
@@ -840,6 +879,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError('%s\n%s' % (
                 (_('Failed to parse %d matched files!') % len(errors)),
                 '\n'.join(errors)
+            ))
+
+    def clean_new_lang(self):
+        '''
+        Validates new language choices.
+        '''
+        if self.project.new_lang == 'add':
+            if not self.file_format_cls.supports_new_language():
+                raise ValidationError(_(
+                    'Chosen file format does not support adding '
+                    'new translations as chosen in project settings.'
+                ))
+            filename = self.get_new_base_filename()
+            if not self.file_format_cls.is_valid_base_for_new(filename):
+                raise ValidationError(_(
+                    'Format of base file for new translations '
+                    'was not recognized!'
+                ))
+        elif self.project.new_lang != 'add' and self.new_base:
+            raise ValidationError(_(
+                'Base file for new translations is not used because of '
+                'project settings.'
             ))
 
     def clean(self):
@@ -898,11 +959,27 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('You can not use monolingual translation without base file!')
             )
 
+        # New language options
+        self.clean_new_lang()
+
+        # Suggestions
+        if self.suggestion_autoaccept and not self.suggestion_voting:
+            raise ValidationError(_(
+                'Automatically accepting suggestions can work only with '
+                'voting enabled!'
+            ))
+
     def get_template_filename(self):
         '''
         Creates absolute filename for template.
         '''
         return os.path.join(self.get_path(), self.template)
+
+    def get_new_base_filename(self):
+        '''
+        Creates absolute filename for base file for new translations.
+        '''
+        return os.path.join(self.get_path(), self.new_base)
 
     def save(self, *args, **kwargs):
         '''
@@ -925,6 +1002,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if changed_git:
             self.sync_git_repo()
 
+        # Remove leading ./ from paths
+        if self.filemask.startswith('./'):
+            self.filemask = self.filemask[2:]
+        if self.template.startswith('./'):
+            self.template = self.template[2:]
+        if self.extra_commit_file.startswith('./'):
+            self.extra_commit_file = self.extra_commit_file[2:]
+
         # Save/Create object
         super(SubProject, self).save(*args, **kwargs)
 
@@ -937,17 +1022,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns percentages of translation status.
         '''
-        # Use cache if available
-        if self._percents is not None:
-            return self._percents
-
-        # Get prercents
-        result = self.translation_set.get_percents()
-
-        # Update cache
-        self._percents = result
-
-        return result
+        return self.translation_set.get_percents()
 
     def git_needs_commit(self):
         '''
@@ -1030,3 +1105,65 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return change[0].timestamp
         except IndexError:
             return None
+
+    @property
+    def all_flags(self):
+        '''
+        Returns parsed list of flags.
+        '''
+        if self._all_flags is None:
+            self._all_flags = (
+                self.check_flags.split(',')
+                + list(self.file_format_cls.check_flags)
+            )
+        return self._all_flags
+
+    def add_new_language(self, language, request):
+        '''
+        Creates new language file.
+        '''
+        from trans.models.translation import Translation
+
+        if self.project.new_lang != 'add':
+            raise ValueError('Not supported operation!')
+
+        if not self.file_format_cls.supports_new_language():
+            raise ValueError('Not supported operation!')
+
+        base_filename = self.get_new_base_filename()
+        if not self.file_format_cls.is_valid_base_for_new(base_filename):
+            raise ValueError('Not supported operation!')
+
+        filename = os.path.join(
+            self.get_path(),
+            self.filemask.replace('*', language.code)
+        )
+
+        # Create directory for a translation
+        dirname = os.path.dirname(filename)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
+        self.file_format_cls.add_language(
+            filename,
+            language.code,
+            base_filename
+        )
+
+        translation = Translation.objects.create(
+            subproject=self,
+            language=language,
+            filename=filename,
+            language_code=language.code,
+            commit_message='Created new translation.'
+        )
+        translation.git_commit(
+            request,
+            translation.get_author_name(request.user),
+            timezone.now(),
+            force_commit=True,
+        )
+        translation.check_sync(
+            force=True,
+            request=request
+        )

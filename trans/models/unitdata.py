@@ -19,6 +19,7 @@
 #
 
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 from lang.models import Language
 from trans.checks import CHECKS
@@ -30,14 +31,14 @@ from trans.util import get_user_display
 
 class RelatedUnitMixin(object):
     '''
-    Mixin to provide access to related units for checksum referenced objects.
+    Mixin to provide access to related units for contentsum referenced objects.
     '''
     def get_related_units(self):
         '''
         Returns queryset with related units.
         '''
         related_units = Unit.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             translation__subproject__project=self.project,
         )
         if self.language is not None:
@@ -48,19 +49,21 @@ class RelatedUnitMixin(object):
 
 
 class SuggestionManager(models.Manager):
-    def add(self, unit, target, user):
+    def add(self, unit, target, request):
         '''
         Creates new suggestion for this unit.
         '''
         from accounts.models import notify_new_suggestion
 
-        if not user.is_authenticated():
+        if not request.user.is_authenticated():
             user = None
+        else:
+            user = request.user
 
         # Create the suggestion
         suggestion = Suggestion.objects.create(
             target=target,
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             language=unit.translation.language,
             project=unit.translation.subproject.project,
             user=user
@@ -71,8 +74,17 @@ class SuggestionManager(models.Manager):
             unit=unit,
             action=Change.ACTION_SUGGESTION,
             translation=unit.translation,
-            user=user
+            user=user,
+            author=user
         )
+
+        # Add unit vote
+        if user is not None and unit.can_vote_suggestions():
+            suggestion.add_vote(
+                unit.translation,
+                request,
+                True
+            )
 
         # Notify subscribed users
         notify_new_suggestion(unit, suggestion, user)
@@ -89,23 +101,31 @@ class SuggestionManager(models.Manager):
 
 
 class Suggestion(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
+
+    votes = models.ManyToManyField(
+        User,
+        through='Vote',
+        related_name='user_votes'
+    )
 
     objects = SuggestionManager()
 
     class Meta:
         permissions = (
             ('accept_suggestion', "Can accept suggestion"),
+            ('override_suggestion', 'Can override suggestion state'),
+            ('vote_suggestion', 'Can vote for suggestion'),
         )
         app_label = 'trans'
 
     def accept(self, translation, request):
         allunits = translation.unit_set.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
         )
         for unit in allunits:
             unit.target = self.target
@@ -144,6 +164,53 @@ class Suggestion(models.Model, RelatedUnitMixin):
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 
+    def get_num_votes(self):
+        '''
+        Returns number of votes.
+        '''
+        votes = Vote.objects.filter(suggestion=self)
+        positive = votes.filter(positive=True).aggregate(Count('id'))
+        negative = votes.filter(positive=False).aggregate(Count('id'))
+        return positive['id__count'] - negative['id__count']
+
+    def add_vote(self, translation, request, positive):
+        '''
+        Adds (or updates) vote for a suggestion.
+        '''
+        votes = Vote.objects.filter(
+            suggestion=self,
+            user=request.user
+        )
+        if votes.exists():
+            vote = votes[0]
+            if vote.positive != positive:
+                vote.positive = positive
+                vote.save()
+        else:
+            Vote.objects.create(
+                suggestion=self,
+                user=request.user,
+                positive=positive,
+            )
+
+        # Automatic accepting
+        required_votes = translation.subproject.suggestion_autoaccept
+        if required_votes and self.get_num_votes() >= required_votes:
+            self.accept(translation, request)
+
+
+class Vote(models.Model):
+    '''
+    Suggestion voting.
+    '''
+    suggestion = models.ForeignKey(Suggestion)
+    user = models.ForeignKey(User)
+    positive = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('suggestion', 'user')
+        app_label = 'trans'
+
 
 class CommentManager(models.Manager):
     def add(self, unit, user, lang, text):
@@ -154,7 +221,7 @@ class CommentManager(models.Manager):
 
         new_comment = Comment.objects.create(
             user=user,
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             project=unit.translation.subproject.project,
             comment=text,
             language=lang
@@ -163,7 +230,8 @@ class CommentManager(models.Manager):
             unit=unit,
             action=Change.ACTION_COMMENT,
             translation=unit.translation,
-            user=user
+            user=user,
+            author=user
         )
 
         # Invalidate counts cache
@@ -186,7 +254,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey(Project)
@@ -212,7 +280,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
 class Check(models.Model, RelatedUnitMixin):
-    checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
@@ -223,7 +291,7 @@ class Check(models.Model, RelatedUnitMixin):
             ('ignore_check', "Can ignore check results"),
         )
         app_label = 'trans'
-        unique_together = ('checksum', 'project', 'language', 'check')
+        unique_together = ('contentsum', 'project', 'language', 'check')
 
     def __unicode__(self):
         return '%s/%s: %s' % (
@@ -253,7 +321,7 @@ class Check(models.Model, RelatedUnitMixin):
 
         # Update related unit flags
         for unit in self.get_related_units():
-            unit.update_has_failing_check(True)
+            unit.update_has_failing_check(False)
 
 
 class IndexUpdate(models.Model):

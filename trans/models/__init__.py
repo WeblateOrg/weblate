@@ -28,7 +28,9 @@ from trans.models.project import Project
 from trans.models.subproject import SubProject
 from trans.models.translation import Translation
 from trans.models.unit import Unit
-from trans.models.unitdata import Check, Suggestion, Comment, IndexUpdate
+from trans.models.unitdata import (
+    Check, Suggestion, Comment, IndexUpdate, Vote
+)
 from trans.models.changes import Change
 from trans.models.dictionary import Dictionary
 
@@ -39,11 +41,11 @@ def delete_object_dir(sender, instance, **kwargs):
     '''
     Handler to delete (sub)project directory on project deletion.
     '''
-    project_path = instance.get_path()
-
     # Do not delete linked subprojects
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link():
         return
+
+    project_path = instance.get_path()
 
     # Remove path if it exists
     if os.path.exists(project_path):

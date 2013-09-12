@@ -26,6 +26,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.conf import settings
+from weblate import settings_example
 from weblate import appsettings
 from trans.util import HAS_LIBRAVATAR
 from accounts.forms import HAS_ICU
@@ -131,12 +132,24 @@ def performance(request):
         HAS_ICU,
         'production-pyicu',
     ))
+    checks.append((
+        _('Secret key'),
+        settings.SECRET_KEY != settings_example.SECRET_KEY,
+        'production-secret',
+    ))
     if django.VERSION > (1, 5):
         checks.append((
             _('Allowed hosts'),
             len(settings.ALLOWED_HOSTS) > 0,
             'production-hosts',
         ))
+
+    checks.append((
+        _('Admin static files'),
+        False,
+        'production-admin-files',
+        'order-cell',
+    ))
     return render_to_response(
         "admin/performance.html",
         RequestContext(

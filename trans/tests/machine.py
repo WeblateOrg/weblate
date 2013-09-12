@@ -109,7 +109,7 @@ class WeblateTranslationTest(ViewTestCase):
             unit,
             self.user
         )
-        self.assertEquals(results, [])
+        self.assertEqual(results, [])
 
     def test_similar(self):
         machine = WeblateSimilarTranslation()
@@ -120,4 +120,4 @@ class WeblateTranslationTest(ViewTestCase):
             unit,
             self.user
         )
-        self.assertEquals(results, [])
+        self.assertEqual(results, [])

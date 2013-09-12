@@ -1,10 +1,27 @@
 Changes
 =======
 
-weblate 1.6
+weblate 1.7
 -----------
 
 Released on ? 2013.
+
+* Please check manual for upgrade instructions.
+* Support for checking Python brace format string.
+* Per subproject customization of quality checks.
+* Detailed per translation stats.
+* Changed way of linking suggestions, checks and comments to units.
+* Users can now add text to commit message.
+* Support for subscribing on new language requests.
+* Support for adding new translations.
+* Widgets and charts are now rendered using Pillow instead of Pango + Cairo.
+* Add status badge widget.
+* Dropped invalid text direction check.
+
+weblate 1.6
+-----------
+
+Released on July 25th 2013.
 
 * Nicer error handling on registration.
 * Browsing of changes.
@@ -17,6 +34,11 @@ Released on ? 2013.
 * Tracking of translation history and option to revert it.
 * Added support for Google Translate API.
 * Added support for managing SSH host keys.
+* Various form validation improvements.
+* Various quality checks improvements.
+* Performance improvements for import.
+* Added support for voting on suggestions.
+* Cleanup of admin interface.
 
 weblate 1.5
 -----------

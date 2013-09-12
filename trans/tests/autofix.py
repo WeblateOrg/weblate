@@ -35,11 +35,11 @@ class AutoFixTest(TestCase):
     def test_ellipsis(self):
         unit = Unit(source=u'Foo…')
         fix = ReplaceTrailingDotsWithEllipsis()
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar...'], unit),
             ([u'Bar…'], True)
         )
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar... '], unit),
             ([u'Bar... '], False)
         )
@@ -47,11 +47,11 @@ class AutoFixTest(TestCase):
     def test_no_ellipsis(self):
         unit = Unit(source=u'Foo...')
         fix = ReplaceTrailingDotsWithEllipsis()
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar...'], unit),
             ([u'Bar...'], False)
         )
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target([u'Bar…'], unit),
             ([u'Bar…'], False)
         )
@@ -59,16 +59,16 @@ class AutoFixTest(TestCase):
     def test_whitespace(self):
         unit = Unit(source=u'Foo\n')
         fix = SameBookendingWhitespace()
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar'], unit),
             ([u'Bar\n'], True)
         )
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar\n'], unit),
             ([u'Bar\n'], False)
         )
         unit = Unit(source=u' ')
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['  '], unit),
             (['  '], False)
         )
@@ -76,11 +76,11 @@ class AutoFixTest(TestCase):
     def test_no_whitespace(self):
         unit = Unit(source=u'Foo')
         fix = SameBookendingWhitespace()
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar'], unit),
             ([u'Bar'], False)
         )
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar\n'], unit),
             ([u'Bar'], True)
         )
@@ -88,11 +88,11 @@ class AutoFixTest(TestCase):
     def test_zerospace(self):
         unit = Unit(source=u'Foo\u200b')
         fix = RemoveZeroSpace()
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar'], unit),
             ([u'Bar'], False)
         )
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target([u'Bar\u200b'], unit),
             ([u'Bar\u200b'], False)
         )
@@ -100,11 +100,11 @@ class AutoFixTest(TestCase):
     def test_no_zerospace(self):
         unit = Unit(source=u'Foo')
         fix = RemoveZeroSpace()
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target(['Bar'], unit),
             ([u'Bar'], False)
         )
-        self.assertEquals(
+        self.assertEqual(
             fix.fix_target([u'Bar\u200b'], unit),
             ([u'Bar'], True)
         )
@@ -112,6 +112,6 @@ class AutoFixTest(TestCase):
     def test_fix_target(self):
         unit = Unit(source=u'Foo…')
         fixed, fixups = fix_target(['Bar...'], unit)
-        self.assertEquals(fixed, [u'Bar…'])
-        self.assertEquals(len(fixups), 1)
-        self.assertEquals(unicode(fixups[0]), u'Trailing ellipsis')
+        self.assertEqual(fixed, [u'Bar…'])
+        self.assertEqual(len(fixups), 1)
+        self.assertEqual(unicode(fixups[0]), u'Trailing ellipsis')

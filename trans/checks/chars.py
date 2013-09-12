@@ -104,15 +104,16 @@ class EndStopCheck(TargetCheck):
     description = _('Source and translation do not both end with a full stop')
 
     def check_single(self, source, target, unit, cache_slot):
-        if len(source) <= 4 and len(target) <= 4:
+        if len(source) <= 4:
+            # Might need to use shortcut in translation
             return False
-        if not source:
+        if not target:
             return False
         if self.is_language(unit, ['ja']) and source[-1] in [':', ';']:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(
-                source, target, -1, [u':', u'：', u'.', u'。']
+                source, target, -1, [u';', u':', u'：', u'.', u'。']
             )
         if self.is_language(unit, ['hi']):
             # Using | instead of । is not typographically correct, but
@@ -150,6 +151,15 @@ class EndColonCheck(TargetCheck):
                 if check_string not in self.colon_fr:
                     return True
             return False
+        if self.is_language(unit, ['hy']):
+            if source[-1] == ':':
+                return self.check_chars(
+                    source,
+                    target,
+                    -1,
+                    [u':', u'՝', u'`']
+                )
+            return False
         if self.is_language(unit, ['ja']):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
@@ -158,7 +168,7 @@ class EndColonCheck(TargetCheck):
                     source,
                     target,
                     -1,
-                    [u':', u'：', u'.', u'。']
+                    [u';', u':', u'：', u'.', u'。']
                 )
             return False
         return self.check_chars(source, target, -1, [u':', u'：'])
@@ -175,7 +185,7 @@ class EndQuestionCheck(TargetCheck):
         'or it is not correctly spaced'
     )
     question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
-    question_el = ('?', ';', ';')
+    question_el = ('?', ';', u';')
 
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
@@ -185,6 +195,15 @@ class EndQuestionCheck(TargetCheck):
                 return False
             return target[-2:] not in self.question_fr
 
+        if self.is_language(unit, ['hy']):
+            if source[-1] == '?':
+                return self.check_chars(
+                    source,
+                    target,
+                    -1,
+                    [u'?', u'՞']
+                )
+            return False
         if self.is_language(unit, ['el']):
             if source[-1] != '?':
                 return False
@@ -217,6 +236,15 @@ class EndExclamationCheck(TargetCheck):
             if source[-1] == '!':
                 if u'¡' in target and u'!' in target:
                     return False
+        if self.is_language(unit, ['hy']):
+            if source[-1] == '!':
+                return self.check_chars(
+                    source,
+                    target,
+                    -1,
+                    [u'!', u'՜', u'~']
+                )
+            return False
         if self.is_language(unit, ['fr', 'br']):
             if source[-1] == '!':
                 if target[-2:] not in self.exclamation_fr:

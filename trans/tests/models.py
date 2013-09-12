@@ -24,15 +24,15 @@ Tests for translation models.
 
 from django.test import TestCase
 from django.conf import settings
+from django.utils import timezone
 from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
 import shutil
 import os
 import git
-from trans.models import (
-    Project, SubProject
-)
+from trans.models import Project, SubProject
 from weblate import appsettings
+from trans.tests.util import get_test_file
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
@@ -93,7 +93,7 @@ class RepoTestCase(TestCase):
             web='http://weblate.org/'
         )
 
-    def _create_subproject(self, file_format, mask, template=''):
+    def _create_subproject(self, file_format, mask, template='', new_base=''):
         '''
         Creates real test subproject.
         '''
@@ -108,6 +108,7 @@ class RepoTestCase(TestCase):
             template=template,
             file_format=file_format,
             repoweb=REPOWEB_URL,
+            new_base=new_base,
         )
 
     def create_subproject(self):
@@ -123,6 +124,13 @@ class RepoTestCase(TestCase):
         return self._create_subproject(
             'po',
             'po/*.po',
+        )
+
+    def create_po_new_base(self):
+        return self._create_subproject(
+            'po',
+            'po/*.po',
+            new_base='po/hello.pot'
         )
 
     def create_po_link(self):
@@ -183,6 +191,7 @@ class ProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(project.slug in project.get_path())
 
     def test_rename(self):
         project = self.create_project()
@@ -210,6 +219,9 @@ class ProjectTest(RepoTestCase):
 
         backup = appsettings.GIT_ROOT
         appsettings.GIT_ROOT = '/weblate-nonexisting-path'
+
+        # Invalidate cache, pylint: disable=W0212
+        project._dir_path = None
 
         self.assertRaisesMessage(
             ValidationError,
@@ -293,6 +305,15 @@ class SubProjectTest(RepoTestCase):
         project = self.create_subproject()
         self.verify_subproject(project, 3, 'cs', 4)
         self.assertTrue(os.path.exists(project.get_path()))
+
+    def test_create_dot(self):
+        project = self._create_subproject(
+            'auto',
+            './po/*.po',
+        )
+        self.verify_subproject(project, 3, 'cs', 4)
+        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertEqual('po/*.po', project.filemask)
 
     def test_rename(self):
         subproject = self.create_subproject()
@@ -417,6 +438,39 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+    def test_validation_newlang(self):
+        subproject = self.create_subproject()
+        subproject.new_base = 'po/project.pot'
+        subproject.save()
+
+        # Check that it warns about unused pot
+        self.assertRaisesMessage(
+            ValidationError,
+            'Base file for new translations is not used '
+            'because of project settings.',
+            subproject.full_clean
+        )
+
+        subproject.project.new_lang = 'add'
+        subproject.project.save()
+
+        # Check that it warns about not supported format
+        self.assertRaisesMessage(
+            ValidationError,
+            'Chosen file format does not support adding new '
+            'translations as chosen in project settings.',
+            subproject.full_clean
+        )
+
+        subproject.file_format = 'po'
+        subproject.save()
+
+        # Clean class cache, pylint: disable=W0212
+        subproject._file_format = None
+
+        # With correct format it should validate
+        subproject.full_clean()
+
 
 class TranslationTest(RepoTestCase):
     '''
@@ -428,3 +482,27 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.translated, 0)
         self.assertEqual(translation.total, 4)
         self.assertEqual(translation.fuzzy, 0)
+
+    def test_extra_file(self):
+        '''
+        Test extra commit file handling.
+        '''
+        subproject = self.create_subproject()
+        subproject.pre_commit_script = get_test_file(
+            '../../../examples/hook-generate-mo'
+        )
+        appsettings.SCRIPT_CHOICES.append(
+            (subproject.pre_commit_script, 'hook-generate-mo')
+        )
+        subproject.extra_commit_file = 'po/%(language)s.mo'
+        subproject.save()
+        subproject.full_clean()
+        translation = subproject.translation_set.get(language_code='cs')
+        # change backend file
+        with open(translation.get_filename(), 'a') as handle:
+            handle.write(' ')
+        # Test committing
+        translation.git_commit(
+            None, 'TEST <test@example.net>', timezone.now(),
+            force_commit=True
+        )

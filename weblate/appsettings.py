@@ -105,6 +105,7 @@ CHECK_LIST = get('CHECK_LIST', (
     'trans.checks.chars.EndExclamationCheck',
     'trans.checks.chars.EndEllipsisCheck',
     'trans.checks.format.PythonFormatCheck',
+    'trans.checks.format.PythonBraceFormatCheck',
     'trans.checks.format.PHPFormatCheck',
     'trans.checks.format.CFormatCheck',
     'trans.checks.consistency.PluralsCheck',
@@ -138,3 +139,6 @@ PRE_COMMIT_SCRIPTS = get('PRE_COMMIT_SCRIPTS', ())
 SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
 ] + [('', '')]
+
+# Font for charts and widgets
+TTF_PATH = get('TTF_PATH', os.path.join(WEB_ROOT, 'ttf'))

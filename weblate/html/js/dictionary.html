@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load translations %}
+{% load url from future %}
 {% if dictionary %}
 <table>
     <thead>
@@ -27,3 +28,4 @@
 <p>{% trans "No related strings found in dictionary." %}</p>
 {% endif %}
 
+<p><a href="{% url 'show_dictionary' project=translation.subproject.project.slug lang=translation.language.code %}" class="button">{% trans "Manage glossary" %}</a></p>

@@ -45,7 +45,7 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        # We should have loaded three subprojects
+        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_po(self):
@@ -58,7 +58,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             file_format='po'
         )
-        # We should have loaded three subprojects
+        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_invalid(self):
@@ -73,7 +73,7 @@ class ImportProjectTest(RepoTestCase):
             '**/*.po',
             file_format='INVALID'
         )
-        # We should have loaded three subprojects
+        # We should have loaded none subprojects
         self.assertEqual(project.subproject_set.count(), 0)
 
     def test_import_aresource(self):
@@ -113,10 +113,9 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        # We should have loaded three subprojects
+        # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
-        # We should load no more subprojects
         call_command(
             'import_project',
             'test',
@@ -124,6 +123,7 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
+        # We should load no more subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
     def test_import_against_existing(self):
@@ -140,7 +140,7 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '**/*.po',
         )
-        # We should have loaded four subprojects
+        # We should have loaded five subprojects
         self.assertEqual(project.subproject_set.count(), 5)
 
     def test_import_missing_project(self):

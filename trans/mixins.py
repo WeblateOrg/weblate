@@ -26,6 +26,16 @@ class PercentMixin(object):
     '''
     Defines API to getting percentage status of translations.
     '''
+    _percents = None
+
+    def get_percents(self):
+        '''
+        Returns percentages of translation status.
+        '''
+        if self._percents is None:
+            self._percents = self._get_percents()
+
+        return self._percents
 
     def _get_percents(self):
         '''
@@ -37,19 +47,19 @@ class PercentMixin(object):
         '''
         Returns percent of translated strings.
         '''
-        return self._get_percents()[0]
+        return self.get_percents()[0]
 
     def get_fuzzy_percent(self):
         '''
         Returns percent of fuzzy strings.
         '''
-        return self._get_percents()[1]
+        return self.get_percents()[1]
 
     def get_failing_checks_percent(self):
         '''
         Returns percentage of failed checks.
         '''
-        return self._get_percents()[2]
+        return self.get_percents()[2]
 
 
 class URLMixin(object):
@@ -110,18 +120,41 @@ class PathMixin(object):
     '''
     Mixin for path manipulations.
     '''
+    _dir_path = None
+
+    def _get_path(self):
+        '''
+        Actual calculation of path.
+        '''
+        raise NotImplementedError()
+
     def get_path(self):
         '''
         Return path to directory.
+
+        Caching is really necessary for linked project, otherwise
+        we end up fetching linked subproject again and again.
         '''
-        raise NotImplementedError()
+        if self._dir_path is None:
+            self._dir_path = self._get_path()
+
+        return self._dir_path
 
     def check_rename(self, old):
         '''
         Detects slug changes and possibly renames underlaying directory.
         '''
         if old.slug != self.slug:
-            os.rename(
-                old.get_path(),
-                self.get_path()
-            )
+            old_path = old.get_path()
+            # Invalidate cache
+            self._dir_path = None
+            new_path = self.get_path()
+            os.rename(old_path, new_path)
+
+    def create_path(self):
+        '''
+        Create filesystem directory for storing data
+        '''
+        path = self.get_path()
+        if not os.path.exists(path):
+            os.makedirs(path)

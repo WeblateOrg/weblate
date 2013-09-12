@@ -20,8 +20,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from weblate import appsettings
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
@@ -35,13 +34,15 @@ from translate.storage import poheader
 from datetime import datetime, timedelta
 
 import weblate
+from weblate import appsettings
 from lang.models import Language
 from trans.formats import AutoFormat
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
 from trans.util import get_user_display, get_site_url, sleep_while_git_locked
-from trans.mixins import URLMixin
+from trans.mixins import URLMixin, PercentMixin
+from trans.boolean_sum import BooleanSum
 
 
 class TranslationManager(models.Manager):
@@ -115,7 +116,7 @@ class TranslationManager(models.Manager):
         return tuple([round(value * 100.0 / total, 1) for value in result])
 
 
-class Translation(models.Model, URLMixin):
+class Translation(models.Model, URLMixin, PercentMixin):
     subproject = models.ForeignKey(SubProject)
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -135,6 +136,8 @@ class Translation(models.Model, URLMixin):
 
     lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
     lock_time = models.DateTimeField(default=datetime.now)
+
+    commit_message = models.TextField(default='', blank=True)
 
     objects = TranslationManager()
 
@@ -201,15 +204,19 @@ class Translation(models.Model, URLMixin):
                 }
             )
 
-    def get_fuzzy_percent(self):
+    def _get_percents(self):
+        '''
+        Returns percentages of translation status.
+        '''
+        # No units?
         if self.total == 0:
-            return 0
-        return round(self.fuzzy * 100.0 / self.total, 1)
+            return (0, 0, 0)
 
-    def get_translated_percent(self):
-        if self.total == 0:
-            return 0
-        return round(self.translated * 100.0 / self.total, 1)
+        return (
+            round(self.translated * 100.0 / self.total, 1),
+            round(self.fuzzy * 100.0 / self.total, 1),
+            round(self.failing_checks * 100.0 / self.total, 1),
+        )
 
     def get_words_percent(self):
         if self.total_words == 0:
@@ -413,17 +420,17 @@ class Translation(models.Model, URLMixin):
                 raise
         return self._store
 
-    def cleanup_deleted(self, deleted_checksums):
+    def cleanup_deleted(self, deleted_contentsums):
         '''
         Removes stale checks/comments/suggestions for deleted units.
         '''
         from trans.models.unit import Unit
         from trans.models.unitdata import Check, Suggestion, Comment
-        for checksum in deleted_checksums:
+        for contentsum in deleted_contentsums:
             units = Unit.objects.filter(
                 translation__language=self.language,
                 translation__subproject__project=self.subproject.project,
-                checksum=checksum
+                contentsum=contentsum
             )
             if units.exists():
                 # There are other units as well, but some checks
@@ -436,37 +443,37 @@ class Translation(models.Model, URLMixin):
             Check.objects.filter(
                 project=self.subproject.project,
                 language=self.language,
-                checksum=checksum
+                contentsum=contentsum
             ).delete()
             # Delete suggestons referencing this unit
             Suggestion.objects.filter(
                 project=self.subproject.project,
                 language=self.language,
-                checksum=checksum
+                contentsum=contentsum
             ).delete()
             # Delete translation comments referencing this unit
             Comment.objects.filter(
                 project=self.subproject.project,
                 language=self.language,
-                checksum=checksum
+                contentsum=contentsum
             ).delete()
             # Check for other units with same source
             other_units = Unit.objects.filter(
                 translation__subproject__project=self.subproject.project,
-                checksum=checksum
+                contentsum=contentsum
             )
             if not other_units.exists():
                 # Delete source comments as well if this was last reference
                 Comment.objects.filter(
                     project=self.subproject.project,
                     language=None,
-                    checksum=checksum
+                    contentsum=contentsum
                 ).delete()
                 # Delete source checks as well if this was last reference
                 Check.objects.filter(
                     project=self.subproject.project,
                     language=None,
-                    checksum=checksum
+                    contentsum=contentsum
                 ).delete()
 
     def check_sync(self, force=False, request=None, change=None):
@@ -520,9 +527,10 @@ class Translation(models.Model, URLMixin):
             # Check for possible duplicate units
             if newunit.id in created_units:
                 weblate.logger.error(
-                    'Duplicate string to translate in %s: %s',
+                    'Duplicate string to translate in %s: %s (%s)',
                     self,
-                    newunit
+                    newunit,
+                    repr(newunit.source)
                 )
 
             # Store current unit ID
@@ -534,20 +542,20 @@ class Translation(models.Model, URLMixin):
         )
         # We need to resolve this now as otherwise list will become empty after
         # delete
-        deleted_checksums = list(
-            units_to_delete.values_list('checksum', flat=True)
+        deleted_contentsums = list(
+            units_to_delete.values_list('contentsum', flat=True)
         )
         # Actually delete units
         units_to_delete.delete()
 
         # Cleanup checks for deleted units
-        self.cleanup_deleted(deleted_checksums)
+        self.cleanup_deleted(deleted_contentsums)
 
         # Update revision and stats
         self.update_stats()
 
         # Cleanup checks cache if there were some deleted units
-        if len(deleted_checksums) > 0:
+        if len(deleted_contentsums) > 0:
             self.invalidate_cache()
 
         # Store change entry
@@ -558,7 +566,8 @@ class Translation(models.Model, URLMixin):
         Change.objects.create(
             translation=self,
             action=change,
-            user=user
+            user=user,
+            author=user
         )
 
         # Notify subscribed users
@@ -613,12 +622,33 @@ class Translation(models.Model, URLMixin):
         '''
         Updates translation statistics.
         '''
-        self.total_words = self.unit_set.aggregate(
-            Sum('num_words')
-        )['num_words__sum']
-        # Nothing matches filter
-        if self.total_words is None:
+        # Grab stats
+        stats = self.unit_set.aggregate(
+            Sum('num_words'),
+            BooleanSum('fuzzy'),
+            BooleanSum('translated'),
+            BooleanSum('has_failing_check'),
+            BooleanSum('has_suggestion'),
+            Count('id'),
+        )
+
+        # Check if we have any units
+        if stats['num_words__sum'] is None:
             self.total_words = 0
+            self.total = 0
+            self.fuzzy = 0
+            self.translated = 0
+            self.failing_checks = 0
+            self.have_suggestion = 0
+        else:
+            self.total_words = stats['num_words__sum']
+            self.total = stats['id__count']
+            self.fuzzy = int(stats['fuzzy__sum'])
+            self.translated = int(stats['translated__sum'])
+            self.failing_checks = int(stats['has_failing_check__sum'])
+            self.have_suggestion = int(stats['has_suggestion__sum'])
+
+        # Count translated words
         self.translated_words = self.unit_set.filter(
             translated=True
         ).aggregate(
@@ -628,22 +658,7 @@ class Translation(models.Model, URLMixin):
         if self.translated_words is None:
             self.translated_words = 0
 
-        self.total = self.unit_set.count()
-        self.fuzzy = self.unit_set.filter(
-            fuzzy=True
-        ).count()
-        self.translated = self.unit_set.filter(
-            translated=True
-        ).count()
-
-        self.failing_checks = self.unit_set.filter(
-            has_failing_check=True
-        ).count()
-        self.have_suggestion = self.unit_set.filter(
-            has_suggestion=True
-        ).count()
-
-        self.save()
+        # Store hash will save object
         self.store_hash()
 
     def store_hash(self):
@@ -661,7 +676,7 @@ class Translation(models.Model, URLMixin):
         from trans.models.changes import Change
         try:
             change = Change.objects.content().filter(translation=self)[0]
-            return self.get_author_name(change.user, email)
+            return self.get_author_name(change.author, email)
         except IndexError:
             return None
 
@@ -712,7 +727,7 @@ class Translation(models.Model, URLMixin):
         '''
         Formats commit message based on project configuration.
         '''
-        return self.subproject.project.commit_message % {
+        msg = self.subproject.project.commit_message % {
             'language': self.language_code,
             'language_name': self.language.name,
             'subproject': self.subproject.name,
@@ -723,6 +738,12 @@ class Translation(models.Model, URLMixin):
             'translated': self.translated,
             'translated_percent': self.get_translated_percent(),
         }
+        if self.commit_message:
+            msg = '%s\n\n%s' % (msg, self.commit_message)
+            self.commit_message = ''
+            self.save()
+
+        return msg
 
     def __configure_git(self, gitrepo, section, key, expected):
         '''
@@ -976,7 +997,7 @@ class Translation(models.Model, URLMixin):
         for check in CHECKS:
             if not CHECKS[check].source:
                 continue
-            cnt = self.unit_set.count_type(check, self)
+            cnt = self.get_failing_checks(check)
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
                 result.append((check, desc))
@@ -1021,11 +1042,10 @@ class Translation(models.Model, URLMixin):
             ))
 
         # All checks
-        allchecks = self.unit_set.count_type('allchecks', self)
-        if allchecks > 0:
+        if self.failing_checks > 0:
             result.append((
                 'allchecks',
-                _('Strings with any failing checks (%d)') % allchecks
+                _('Strings with any failing checks (%d)') % self.failing_checks
             ))
 
         # Process specific checks
@@ -1113,9 +1133,6 @@ class Translation(models.Model, URLMixin):
             if not unit.is_translatable() or not unit.is_translated():
                 continue
 
-            # Indicate something new
-            ret = True
-
             # Calculate unit checksum
             checksum = unit.get_checksum()
 
@@ -1125,8 +1142,11 @@ class Translation(models.Model, URLMixin):
                 continue
             dbunit = dbunit[0]
 
+            # Indicate something new
+            ret = True
+
             # Add suggestion
-            Suggestion.objects.add(dbunit, unit.get_target(), request.user)
+            Suggestion.objects.add(dbunit, unit.get_target(), request)
 
         # Update suggestion count
         if ret:
@@ -1182,31 +1202,15 @@ class Translation(models.Model, URLMixin):
             # Add as sugestions
             ret = self.merge_suggestions(request, store)
 
-        return ret
+        return ret, store.count_units()
 
-    def get_suggestions_count(self):
-        '''
-        Returns number of units with suggestions.
-        '''
-        return self.have_suggestion
-
-    def get_failing_checks(self, check='allchecks'):
+    def get_failing_checks(self, check):
         '''
         Returns number of units with failing checks.
 
         By default for all checks or check type can be specified.
         '''
-        if check == 'allchecks':
-            return self.failing_checks
         return self.unit_set.count_type(check, self)
-
-    def get_failing_checks_percent(self, check='allchecks'):
-        '''
-        Returns percentage of failed checks.
-        '''
-        if self.total == 0:
-            return 0
-        return round(self.get_failing_checks(check) * 100.0 / self.total, 1)
 
     def invalidate_cache(self, cache_type=None):
         '''

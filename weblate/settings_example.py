@@ -78,6 +78,7 @@ TIME_ZONE = 'Europe/Prague'
 LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
+    ('be', u'беларуская'),
     ('ca', u'Català'),
     ('cs', u'Česky'),
     ('da', 'Dansk'),
@@ -98,10 +99,12 @@ LANGUAGES = (
     ('pt', u'Português'),
     ('pt_BR', u'Português brasileiro'),
     ('ru', u'русский'),
+    ('sk', u'Slovenčina'),
     ('sl', u'Slovenščina'),
     ('sv', u'Svenska'),
     ('tr', u'Türkçe'),
-    ('zh_CN', u'中文'),
+    ('zh_CN', u'简体字'),
+    ('zh_TW', u'正體字'),
 )
 
 SITE_ID = 1
@@ -221,7 +224,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'trans.context_processors.registration',
 )
 
-if DEBUG:
+# Custom exception reporter to include some details
+DEFAULT_EXCEPTION_REPORTER_FILTER = \
+    'weblate.debug.WeblateExceptionReporterFilter'
+
+# Default logging of Weblate messages
+# - to syslog in production (if available)
+# - otherwise to console
+# - you can also choose 'logfile' to log into separate file
+#   after configuring it below
+
+if DEBUG or not os.path.exists('/dev/log'):
     DEFAULT_LOG = 'console'
 else:
     DEFAULT_LOG = 'syslog'
@@ -246,6 +259,9 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        'logfile': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
     },
     'handlers': {
         'mail_admins': {
@@ -265,10 +281,18 @@ LOGGING = {
             'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
         },
+        #'logfile': {
+        #    'level':'DEBUG',
+        #    'class':'logging.handlers.RotatingFileHandler',
+        #    'filename': "/var/log/weblate/weblate.log",
+        #    'maxBytes': 100000,
+        #    'backupCount': 3,
+        #    'formatter': 'logfile',
+        #},
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins', DEFAULT_LOG],
             'level': 'ERROR',
             'propagate': True,
         },
@@ -373,11 +397,11 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.chars.EndExclamationCheck',
 #    'trans.checks.chars.EndEllipsisCheck',
 #    'trans.checks.format.PythonFormatCheck',
+#    'trans.checks.format.PythonBraceFormatCheck',
 #    'trans.checks.format.PHPFormatCheck',
 #    'trans.checks.format.CFormatCheck',
 #    'trans.checks.consistency.PluralsCheck',
 #    'trans.checks.consistency.ConsistencyCheck',
-#    'trans.checks.consistency.DirectionCheck',
 #    'trans.checks.chars.NewlineCountingCheck',
 #    'trans.checks.markup.BBCodeCheck',
 #    'trans.checks.chars.ZeroWidthSpaceCheck',

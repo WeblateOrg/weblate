@@ -27,23 +27,28 @@ class Command(BaseCommand):
     help = 'updates index for fulltext search'
 
     def handle(self, *args, **options):
-        # Grab all updates from the database
-        updates = list(IndexUpdate.objects.all())
+        indexupdates = set()
+        unit_ids = set()
+        source_unit_ids = set()
 
-        # Grab just IDs
-        update_ids = [update.id for update in updates]
-        source_update_ids = [update.id for update in updates if update.source]
+        # Grab all updates from the database
+        for update in IndexUpdate.objects.iterator():
+            indexupdates.add(update.pk)
+            unit_ids.add(update.unit_id)
+
+            if update.source:
+                source_unit_ids.add(update.unit_id)
 
         # Filter matching units
         units = Unit.objects.filter(
-            indexupdate__id__in=update_ids
+            id__in=unit_ids
         )
         source_units = Unit.objects.filter(
-            indexupdate__id__in=source_update_ids
+            id__in=source_unit_ids
         )
 
         # Udate index
         update_index(units, source_units)
 
         # Delete processed updates
-        IndexUpdate.objects.filter(id__in=update_ids).delete()
+        IndexUpdate.objects.filter(id__in=indexupdates).delete()

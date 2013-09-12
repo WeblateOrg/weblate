@@ -246,8 +246,8 @@ good quality of translations.
 Not translated
 ~~~~~~~~~~~~~~
 
-The source and translated strings are same at least in one of plural forms.
-This checks ignores some strings which are quite usually same in all languages
+The source and translated strings are the same at least in one of the plural forms.
+This check ignores some strings which are quite usually same in all languages
 and strips various markup, which can occur in the string, to reduce number of
 false positives.
 
@@ -294,7 +294,7 @@ checked in various language variants (Chinese, Japanese, Devanagari or Urdu).
 Trailing colon
 ~~~~~~~~~~~~~~
 
-Source and translated do not both end with a colon or colon is not correctly
+Source and translated do not both end with a colon or the colon is not correctly
 spaced. This includes spacing rules for French or Breton. Colon is also
 checked in various language variants (Chinese or Japanese).
 
@@ -303,7 +303,7 @@ checked in various language variants (Chinese or Japanese).
 Trailing question
 ~~~~~~~~~~~~~~~~~
 
-Source and translated do not both end with question mark or it is not
+Source and translated do not both end with a question mark or it is not
 correctly spaced. This includes spacing rules for French or Breton. Question
 mark is also checked in various language variants (Armenian, Arabic, Chinese,
 Korean, Japanese, Ethiopic, Vai or Coptic).
@@ -313,9 +313,9 @@ Korean, Japanese, Ethiopic, Vai or Coptic).
 Trailing exclamation
 ~~~~~~~~~~~~~~~~~~~~
 
-Source and translated do not both end with exclamation mark or it is not
+Source and translated do not both end with an exclamation mark or it is not
 correctly spaced. This includes spacing rules for French or Breton.
-Exclamation mark is also check in various language variants (Chinese,
+Exclamation mark is also checked in various language variants (Chinese,
 Japanese, Korean, Armenian, Limbu, Myanmar or Nko).
 
 .. _check-end-ellipsis:
@@ -336,6 +336,15 @@ Python format
 Python format string does not match source.
 
 .. seealso:: http://docs.python.org/2.7/library/stdtypes.html#string-formatting
+
+.. _check-python-brace-format:
+
+Python brace format
+~~~~~~~~~~~~~~~~~~~
+
+Python brace format string does not match source.
+
+.. seealso:: http://docs.python.org/3.3/library/string.html#string-formatting
 
 .. _check-php-format:
 
@@ -371,13 +380,6 @@ Inconsistent
 More different translations of one string in a project. This can also lead to
 inconsistencies in displayed checks. You can find other translations of this
 string on :guilabel:`All locations` tab.
-
-.. _check-direction:
-
-Invalid text direction
-~~~~~~~~~~~~~~~~~~~~~~
-
-Text direction can be either ``LTR`` or ``RTL``.
 
 .. _check-escaped-newline:
 

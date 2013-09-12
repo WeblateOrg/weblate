@@ -164,6 +164,11 @@ urlpatterns = patterns(
         'trans.views.edit.auto_translation',
         name='auto_translation',
     ),
+    url(
+        r'^new-lang/' + SUBPROJECT + '$',
+        'trans.views.basic.new_language',
+        name='new-language',
+    ),
 
     # Activity HTML
     url(
@@ -370,12 +375,12 @@ urlpatterns = patterns(
     # Languages browsing
     url(
         r'^languages/$',
-        'trans.views.basic.show_languages',
+        'lang.views.show_languages',
         name='languages',
     ),
     url(
         r'^languages/' + LANGUAGE + '/$',
-        'trans.views.basic.show_language',
+        'lang.views.show_language',
         name='show_language',
     ),
 
@@ -483,7 +488,7 @@ urlpatterns = patterns(
         name='widget-image-lang',
     ),
     url(
-        r'^widgets/' + WIDGET + '\.png$',
+        r'^widgets/' + WIDGET + r'\.png$',
         'trans.views.widgets.render',
         name='widget-image',
     ),

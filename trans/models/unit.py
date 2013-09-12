@@ -25,14 +25,14 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.core.cache import cache
-from whoosh import qparser
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
-from trans.search import FULLTEXT_INDEX, SOURCE_SCHEMA, TARGET_SCHEMA
+from trans.search import update_index_unit, fulltext_search, more_like
+from trans.autofixes import fix_target
 
 from trans.filelock import FileLockException
-from trans.util import is_plural, split_plural
+from trans.util import is_plural, split_plural, join_plural
 import weblate
 
 
@@ -108,8 +108,8 @@ class UnitManager(models.Manager):
         if not rqtype in ['allchecks', 'sourcechecks']:
             checks = checks.filter(check=rqtype)
 
-        checks = checks.values_list('checksum', flat=True)
-        ret = self.filter(checksum__in=checks)
+        checks = checks.values_list('contentsum', flat=True)
+        ret = self.filter(contentsum__in=checks)
         if filter_translated:
             ret = ret.filter(translated=True)
         return ret
@@ -131,8 +131,8 @@ class UnitManager(models.Manager):
                 language=None,
                 project=translation.subproject.project
             )
-            coms = coms.values_list('checksum', flat=True)
-            return self.filter(checksum__in=coms)
+            coms = coms.values_list('contentsum', flat=True)
+            return self.filter(contentsum__in=coms)
         elif rqtype == 'targetcomments':
             return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
@@ -188,59 +188,6 @@ class UnitManager(models.Manager):
         ).exclude(user=user)
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
-    def add_to_source_index(self, checksum, source, context, writer):
-        '''
-        Updates/Adds to source index given unit.
-        '''
-        writer.update_document(
-            checksum=unicode(checksum),
-            source=unicode(source),
-            context=unicode(context),
-        )
-
-    def add_to_target_index(self, checksum, target, writer):
-        '''
-        Updates/Adds to target index given unit.
-        '''
-        writer.update_document(
-            checksum=unicode(checksum),
-            target=unicode(target),
-        )
-
-    def add_to_index(self, unit, source=True):
-        '''
-        Updates/Adds to all indices given unit.
-        '''
-        if appsettings.OFFLOAD_INDEXING:
-            from trans.models.unitdata import IndexUpdate
-            IndexUpdate.objects.get_or_create(unit=unit, source=source)
-            return
-
-        writer_target = FULLTEXT_INDEX.target_writer(
-            unit.translation.language.code
-        )
-        writer_source = FULLTEXT_INDEX.source_writer()
-
-        if source:
-            self.add_to_source_index(
-                unit.checksum,
-                unit.source,
-                unit.context,
-                writer_source)
-        self.add_to_target_index(
-            unit.checksum,
-            unit.target,
-            writer_target)
-
-    def __search(self, searcher, field, schema, query):
-        '''
-        Wrapper for fulltext search.
-        '''
-        parser = qparser.QueryParser(field, schema)
-        parsed = parser.parse(query)
-        return [searcher.stored_fields(d)['checksum']
-                for d in searcher.docs_for_query(parsed)]
-
     def search(self, search_type, search_query,
                search_source=True, search_context=True, search_target=True):
         '''
@@ -280,43 +227,9 @@ class UnitManager(models.Manager):
 
         Returns queryset unless checksums is set.
         '''
-        ret = set()
 
-        # Search in source or context
-        if source or context:
-            index = FULLTEXT_INDEX.source_searcher()
-            with index as searcher:
-                if source:
-                    results = self.__search(
-                        searcher,
-                        'source',
-                        SOURCE_SCHEMA,
-                        query
-                    )
-                    ret = ret.union(results)
-                if context:
-                    results = self.__search(
-                        searcher,
-                        'context',
-                        SOURCE_SCHEMA,
-                        query
-                    )
-                    ret = ret.union(results)
-
-        # Search in target
-        if translation:
-            sample = self.all()[0]
-            index = FULLTEXT_INDEX.target_searcher(
-                sample.translation.language.code,
-            )
-            with index as searcher:
-                results = self.__search(
-                    searcher,
-                    'target',
-                    TARGET_SCHEMA,
-                    query
-                )
-                ret = ret.union(results)
+        lang = self.all()[0].translation.language.code
+        ret = fulltext_search(query, lang, source, context, translation)
 
         if checksums:
             return ret
@@ -327,16 +240,11 @@ class UnitManager(models.Manager):
         '''
         Finds units with same source.
         '''
-        index = FULLTEXT_INDEX.source_searcher()
-        source_string = unit.get_source_plurals()[0]
-        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
-        parsed = parser.parse(source_string)
-        checksums = set()
-        with index as searcher:
-            # Search for same string
-            results = searcher.search(parsed)
-            for result in results:
-                checksums.add(result['checksum'])
+        checksums = fulltext_search(
+            unit.get_source_plurals()[0],
+            unit.translation.language.code,
+            True, False, False
+        )
 
         return self.filter(
             checksum__in=checksums,
@@ -350,29 +258,15 @@ class UnitManager(models.Manager):
         '''
         Finds closely similar units.
         '''
-        index = FULLTEXT_INDEX.source_searcher()
-        source_string = unit.get_source_plurals()[0]
-        parser = qparser.QueryParser('source', SOURCE_SCHEMA)
-        parsed = parser.parse(source_string)
-        checksums = set()
-        with index as searcher:
-            # Search for same string
-            results = searcher.search(parsed)
-            if len(results) == 0:
-                return self.none()
-            first_hit = results[0]
-            # Find similar results to first one
-            more_results = first_hit.more_like_this(
-                'source',
-                source_string,
-                top
-            )
-            # Include all more like this results
-            for result in more_results:
-                checksums.add(result['checksum'])
-            # Remove all original matches
-            for result in results:
-                checksums.discard(result['checksum'])
+        more_results = more_like(unit.checksum, unit.source, top)
+
+        same_results = fulltext_search(
+            unit.get_source_plurals()[0],
+            unit.translation.language.code,
+            True, False, False
+        )
+
+        checksums = more_results - same_results
 
         return self.filter(
             checksum__in=checksums,
@@ -414,6 +308,7 @@ class UnitManager(models.Manager):
 class Unit(models.Model):
     translation = models.ForeignKey(Translation)
     checksum = models.CharField(max_length=40, db_index=True)
+    contentsum = models.CharField(max_length=40, db_index=True)
     location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
     comment = models.TextField(default='', blank=True)
@@ -439,6 +334,13 @@ class Unit(models.Model):
         )
         ordering = ['position']
         app_label = 'trans'
+
+    def __init__(self, *args, **kwargs):
+        '''
+        Constructor to initialize some cache properties.
+        '''
+        super(Unit, self).__init__(*args, **kwargs)
+        self._all_flags = None
 
     def has_acl(self, user):
         '''
@@ -477,15 +379,16 @@ class Unit(models.Model):
         fuzzy = unit.is_fuzzy()
         translated = unit.is_translated()
         previous_source = unit.get_previous_source()
+        contentsum = unit.get_contentsum()
 
-        # Monolingual files handling
-        if unit.template is not None:
+        # Monolingual files handling (without target change)
+        if unit.template is not None and target == self.target:
             if source != self.source and translated:
                 # Store previous source and fuzzy flag for monolingual files
                 if previous_source == '':
                     previous_source = self.source
                 fuzzy = True
-            elif target == self.target:
+            else:
                 # We should keep calculated flags if translation was
                 # not changed outside
                 previous_source = self.previous_source
@@ -510,6 +413,7 @@ class Unit(models.Model):
                 translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
+                contentsum == self.contentsum and
                 previous_source == self.previous_source):
             return
 
@@ -522,6 +426,7 @@ class Unit(models.Model):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
+        self.contentsum = contentsum
         self.previous_source = previous_source
         self.save(
             force_insert=created,
@@ -584,6 +489,8 @@ class Unit(models.Model):
                      change_action=None, user=None):
         '''
         Stores unit to backend.
+
+        Optional user parameters defines authorship of a change.
         '''
         from accounts.models import (
             notify_new_translation, notify_new_contributor
@@ -592,6 +499,10 @@ class Unit(models.Model):
 
         # Update lock timestamp
         self.translation.update_lock(request)
+
+        # For case when authorship specified, use user from request
+        if user is None:
+            user = request.user
 
         # Store to backend
         try:
@@ -651,7 +562,7 @@ class Unit(models.Model):
         notify_new_translation(self, oldunit, request.user)
 
         # Update user stats
-        profile = request.user.get_profile()
+        profile = user.get_profile()
         profile.translated += 1
         profile.save()
 
@@ -665,25 +576,7 @@ class Unit(models.Model):
 
         # Generate Change object for this change
         if gen_change:
-            if change_action is not None:
-                action = change_action
-            elif oldunit.translated:
-                action = Change.ACTION_CHANGE
-            else:
-                action = Change.ACTION_NEW
-            if self.translation.subproject.save_history:
-                history_target = self.target
-            else:
-                history_target = ''
-
-            # Create change object
-            Change.objects.create(
-                unit=self,
-                translation=self.translation,
-                action=action,
-                user=request.user,
-                target=history_target
-            )
+            self.generate_change(request, user, oldunit, change_action)
 
         # Force commiting on completing translation
         if (old_translated < self.translation.translated
@@ -692,7 +585,8 @@ class Unit(models.Model):
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,
-                user=request.user
+                user=request.user,
+                author=user
             )
 
         # Propagate to other projects
@@ -700,6 +594,33 @@ class Unit(models.Model):
             self.propagate(request, change_action)
 
         return True
+
+    def generate_change(self, request, author, oldunit, change_action):
+        '''
+        Creates Change entry for saving unit.
+        '''
+        from trans.models.changes import Change
+
+        if change_action is not None:
+            action = change_action
+        elif oldunit.translated:
+            action = Change.ACTION_CHANGE
+        else:
+            action = Change.ACTION_NEW
+        if self.translation.subproject.save_history:
+            history_target = self.target
+        else:
+            history_target = ''
+
+        # Create change object
+        Change.objects.create(
+            unit=self,
+            translation=self.translation,
+            action=action,
+            user=request.user,
+            author=author,
+            target=history_target
+        )
 
     def save(self, *args, **kwargs):
         '''
@@ -733,12 +654,8 @@ class Unit(models.Model):
             self.check(same_state, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
-        if force_insert:
-            # New unit, need to update both source and target index
-            Unit.objects.add_to_index(self, True)
-        else:
-            # We only update target index here
-            Unit.objects.add_to_index(self, False)
+        if force_insert or not same_content:
+            update_index_unit(self, force_insert)
 
     def get_location_links(self):
         '''
@@ -778,7 +695,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Suggestion
         return Suggestion.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language
         )
@@ -789,14 +706,18 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         if len(source) == 0 and len(target) == 0:
-            return
-        Check.objects.filter(
-            checksum=self.checksum,
+            return False
+        todelete = Check.objects.filter(
+            contentsum=self.contentsum,
             project=self.translation.subproject.project
         ).filter(
             (Q(language=self.translation.language) & Q(check__in=target)) |
             (Q(language=None) & Q(check__in=source))
-        ).delete()
+        )
+        if todelete.exists():
+            todelete.delete()
+            return True
+        return False
 
     def checks(self):
         '''
@@ -804,7 +725,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language
         )
@@ -815,7 +736,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=None
         )
@@ -826,7 +747,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language,
             ignore=False
@@ -838,7 +759,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
         return Check.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=None,
             ignore=False
@@ -850,7 +771,7 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Comment
         return Comment.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=self.translation.language,
         )
@@ -861,10 +782,50 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Comment
         return Comment.objects.filter(
-            checksum=self.checksum,
+            contentsum=self.contentsum,
             project=self.translation.subproject.project,
             language=None,
         )
+
+    def get_checks_to_run(self, same_state, is_new):
+        '''
+        Returns list of checks to run on state change.
+
+        Returns tupe of checks to run and whether to do cleanup.
+        '''
+        checks_to_run = CHECKS
+        cleanup_checks = True
+
+        if (same_state or is_new) and not self.translated:
+            # Check whether there is any message with same source
+            project = self.translation.subproject.project
+            same_source = Unit.objects.filter(
+                translation__language=self.translation.language,
+                translation__subproject__project=project,
+                contentsum=self.contentsum,
+                translated=True,
+            ).exclude(
+                id=self.id,
+                translation__subproject__allow_translation_propagation=False,
+            )
+
+            # Delete all checks if only message with this source is fuzzy
+            if not same_source.exists():
+                checks = self.checks()
+                if checks.exists():
+                    checks.delete()
+                    self.update_has_failing_check(True)
+                return ({}, False)
+
+            # If there is no consistency checking, we can return
+            if not 'inconsistent' in CHECKS:
+                return ({}, False)
+
+            # Limit checks to consistency check for fuzzy messages
+            checks_to_run = {'inconsistent': CHECKS['inconsistent']}
+            cleanup_checks = False
+
+        return (checks_to_run, cleanup_checks)
 
     def check(self, same_state=True, is_new=False):
         '''
@@ -872,39 +833,20 @@ class Unit(models.Model):
         '''
         from trans.models.unitdata import Check
 
-        checks_to_run = CHECKS
-        cleanup_checks = True
         was_change = False
 
-        if (same_state or is_new) and (self.fuzzy or not self.translated):
-            # Check whether there is any message with same source
-            project = self.translation.subproject.project
-            same_source = Unit.objects.filter(
-                translation__language=self.translation.language,
-                translation__subproject__project=project,
-                checksum=self.checksum,
-                fuzzy=False,
-            ).exclude(
-                id=self.id
-            )
+        checks_to_run, cleanup_checks = self.get_checks_to_run(
+            same_state, is_new
+        )
 
-            # Delete all checks if only message with this source is fuzzy
-            if not same_source.exists():
-                self.checks().delete()
-                self.translation.invalidate_cache()
-                return
+        if len(checks_to_run) == 0:
+            return
 
-            # If there is no consistency checking, we can return
-            if not 'inconsistent' in CHECKS:
-                return
-
-            # Limit checks to consistency check for fuzzy messages
-            checks_to_run = {'inconsistent': CHECKS['inconsistent']}
-            cleanup_checks = False
+        checks = self.checks()
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        old_target_checks = set(self.checks().values_list('check', flat=True))
+        old_target_checks = set(checks.values_list('check', flat=True))
         old_source_checks = set(self.source_checks().values_list(
             'check', flat=True
         ))
@@ -920,7 +862,7 @@ class Unit(models.Model):
                 else:
                     # Create new check
                     Check.objects.create(
-                        checksum=self.checksum,
+                        contentsum=self.contentsum,
                         project=self.translation.subproject.project,
                         language=self.translation.language,
                         ignore=False,
@@ -935,7 +877,7 @@ class Unit(models.Model):
                 else:
                     # Create new check
                     Check.objects.create(
-                        checksum=self.checksum,
+                        contentsum=self.contentsum,
                         project=self.translation.subproject.project,
                         language=None,
                         ignore=False,
@@ -945,15 +887,15 @@ class Unit(models.Model):
 
         # Delete no longer failing checks
         if cleanup_checks:
-            self.cleanup_checks(old_source_checks, old_target_checks)
-            was_change = True
+            was_change |= self.cleanup_checks(
+                old_source_checks, old_target_checks
+            )
 
         # Update failing checks flag
-        self.update_has_failing_check(was_change)
-        for unit in Unit.objects.same(self).exclude(id=self.id):
-            unit.update_has_failing_check(was_change)
+        if was_change or is_new:
+            self.update_has_failing_check(was_change)
 
-    def update_has_failing_check(self, was_change):
+    def update_has_failing_check(self, recurse=False):
         '''
         Updates flag counting failing checks.
         '''
@@ -968,10 +910,13 @@ class Unit(models.Model):
             self.translation.update_stats()
 
         # Invalidate checks cache if there was any change
-        # (avove code cares only about whether there is failing check
+        # (above code cares only about whether there is failing check
         # while here we care about any changed in checks)
-        if was_change:
-            self.translation.invalidate_cache()
+        self.translation.invalidate_cache()
+
+        if recurse:
+            for unit in Unit.objects.same(self).exclude(id=self.id):
+                unit.update_has_failing_check(False)
 
     def update_has_suggestion(self):
         '''
@@ -1006,3 +951,44 @@ class Unit(models.Model):
             position__gte=self.position - appsettings.NEARBY_MESSAGES,
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         ).select_related()
+
+    def can_vote_suggestions(self):
+        '''
+        Whether we can vote for suggestions.
+        '''
+        return self.translation.subproject.suggestion_voting
+
+    def only_vote_suggestions(self):
+        '''
+        Whether we can vote for suggestions.
+        '''
+        return (
+            self.translation.subproject.suggestion_voting
+            and self.translation.subproject.suggestion_autoaccept > 0
+        )
+
+    def translate(self, request, new_target, new_fuzzy):
+        '''
+        Stores new translation of a unit.
+        '''
+        # Run AutoFixes on user input
+        new_target, fixups = fix_target(new_target, self)
+
+        # Update unit and save it
+        self.target = join_plural(new_target)
+        self.fuzzy = new_fuzzy
+        saved = self.save_backend(request)
+
+        return saved, fixups
+
+    @property
+    def all_flags(self):
+        '''
+        Returns union of own and subproject flags.
+        '''
+        if self._all_flags is None:
+            self._all_flags = set(
+                self.flags.split(',')
+                + self.translation.subproject.all_flags
+            )
+        return self._all_flags

@@ -158,7 +158,7 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
         store = pofile()
 
         # Export parameters
-        mimetype = 'text/x-po'
+        content_type = 'text/x-po'
         extension = 'po'
         has_lang = False
 
@@ -182,12 +182,12 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
         store = tbxfile()
 
         # Export parameters
-        mimetype = 'application/x-tbx'
+        content_type = 'application/x-tbx'
         extension = 'tbx'
         has_lang = True
 
     # Setup response and headers
-    response = HttpResponse(mimetype='%s; charset=utf-8' % mimetype)
+    response = HttpResponse(content_type='%s; charset=utf-8' % content_type)
     filename = 'glossary-%s-%s.%s' % (prj.slug, lang.code, extension)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
@@ -231,7 +231,7 @@ def download_dictionary(request, project, lang):
         return download_dictionary_ttkit(export_format, prj, lang, words)
 
     # Manually create CSV file
-    response = HttpResponse(mimetype='text/csv; charset=utf-8')
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
     filename = 'dictionary-%s-%s.csv' % (prj.slug, lang.code)
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 

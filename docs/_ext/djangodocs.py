@@ -5,8 +5,6 @@ import json
 import os
 import re
 
-from docutils import nodes, transforms
-
 from sphinx import addnodes, roles, __version__ as sphinx_ver
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.writers.html import SmartyPantsHTMLTranslator

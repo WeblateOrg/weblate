@@ -103,9 +103,9 @@ def show_check_project(request, name, project):
                 project=prj,
                 language=lang,
                 ignore=ignore,
-            ).values_list('checksum', flat=True)
+            ).values_list('contentsum', flat=True)
             res = Unit.objects.filter(
-                checksum__in=checks,
+                contentsum__in=checks,
                 translation__language=lang,
                 translation__subproject__project=prj,
                 translated=True
@@ -121,12 +121,12 @@ def show_check_project(request, name, project):
             language=None,
             ignore=ignore,
         ).values_list(
-            'checksum', flat=True
+            'contentsum', flat=True
         )
         for subproject in prj.subproject_set.all():
             lang = subproject.translation_set.all()[0].language
             res = Unit.objects.filter(
-                checksum__in=checks,
+                contentsum__in=checks,
                 translation__language=lang,
                 translation__subproject=subproject
             ).values(
@@ -174,10 +174,10 @@ def show_check_subproject(request, name, project, subproject):
                 project=subprj.project,
                 language=lang,
                 ignore=ignore,
-            ).values_list('checksum', flat=True)
+            ).values_list('contentsum', flat=True)
             res = Unit.objects.filter(
                 translation__subproject=subprj,
-                checksum__in=checks,
+                contentsum__in=checks,
                 translation__language=lang,
                 translated=True
             ).values(
@@ -190,11 +190,11 @@ def show_check_subproject(request, name, project, subproject):
             check=name, project=subprj.project,
             language=None,
             ignore=ignore,
-        ).values_list('checksum', flat=True)
+        ).values_list('contentsum', flat=True)
         lang = subprj.translation_set.all()[0].language
         res = Unit.objects.filter(
             translation__subproject=subprj,
-            checksum__in=checks,
+            contentsum__in=checks,
             translation__language=lang
         ).count()
         if res > 0:

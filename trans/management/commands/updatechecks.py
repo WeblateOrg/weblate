@@ -25,7 +25,7 @@ class Command(WeblateCommand):
     help = 'updates checks for units'
 
     def handle(self, *args, **options):
-        units = self.get_units(*args, **options).filter(translated=True)
+        units = self.get_units(*args, **options)
 
         # Invoke check for every unit
         for unit in units.iterator():

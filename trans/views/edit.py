@@ -39,7 +39,6 @@ from trans.forms import (
 )
 from trans.views.helper import get_translation
 from trans.checks import CHECKS
-from trans.autofixes import fix_target
 from trans.util import join_plural
 
 
@@ -79,6 +78,23 @@ def cleanup_session(session):
     for key in session.keys():
         if key.startswith('search_') and session[key]['ttl'] < now:
             del session[key]
+
+
+def show_form_errors(request, form):
+    '''
+    Shows all form errors as a message.
+    '''
+    for error in form.non_field_errors():
+        messages.error(request, error)
+    for field in form:
+        for error in field.errors:
+            messages.error(
+                request,
+                _('Error in parameter %(field)s: %(error)s') % {
+                    'field': field.name,
+                    'error': error
+                }
+            )
 
 
 def search(translation, request):
@@ -133,6 +149,12 @@ def search(translation, request):
             search_query,
         )
     else:
+        # Error reporting
+        if 'date' in request.GET:
+            show_form_errors(request, review_form)
+        elif 'q' in request.GET:
+            show_form_errors(request, search_form)
+
         # Filtering by type
         allunits = translation.unit_set.filter_type(
             rqtype,
@@ -179,6 +201,36 @@ def search(translation, request):
     return search_result
 
 
+def handle_translate_suggest(unit, form, request,
+                             this_unit_url, next_unit_url):
+    '''
+    Handle suggesion saving.
+    '''
+    if form.cleaned_data['target'][0] == '':
+        messages.error(request, _('Your suggestion is empty!'))
+        # Stay on same entry
+        return HttpResponseRedirect(this_unit_url)
+    # Invite user to become translator if there is nobody else
+    recent_changes = Change.objects.content().filter(
+        translation=unit.translation,
+    ).exclude(
+        user=None
+    )
+    if not recent_changes.exists():
+        messages.info(request, _(
+            'There is currently no active translator for this '
+            'translation, please consider becoming a translator '
+            'as your suggestion might otherwise remain unreviewed.'
+        ))
+    # Create the suggestion
+    Suggestion.objects.add(
+        unit,
+        join_plural(form.cleaned_data['target']),
+        request,
+    )
+    return HttpResponseRedirect(next_unit_url)
+
+
 def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     '''
     Saves translation or suggestion to database and backend.
@@ -206,29 +258,8 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         return
 
     if 'suggest' in request.POST:
-        # Handle suggesion saving
-        user = request.user
-        if form.cleaned_data['target'][0] == '':
-            messages.error(request, _('Your suggestion is empty!'))
-            # Stay on same entry
-            return HttpResponseRedirect(this_unit_url)
-        # Invite user to become translator if there is nobody else
-        recent_changes = Change.objects.content().filter(
-            translation=unit.translation,
-        ).exclude(
-            user=None
-        )
-        if not recent_changes.exists():
-            messages.info(request, _(
-                'There is currently no active translator for this '
-                'translation, please consider becoming a translator '
-                'as your suggestion might otherwise remain unreviewed.'
-            ))
-        # Create the suggestion
-        Suggestion.objects.add(
-            unit,
-            join_plural(form.cleaned_data['target']),
-            user,
+        return handle_translate_suggest(
+            unit, form, request, this_unit_url, next_unit_url
         )
     elif not request.user.is_authenticated():
         # We accept translations only from authenticated
@@ -242,11 +273,31 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
             request,
             _('You don\'t have privileges to save translations!')
         )
+    elif (unit.only_vote_suggestions()
+            and not request.user.has_perm('trans.save_translation')):
+        messages.error(
+            request,
+            _('Only suggestions are allowed in this translation!')
+        )
     elif not user_locked:
-        # Run AutoFixes on user input
-        new_target = form.cleaned_data['target']
-        new_target, fixups = fix_target(new_target, unit)
+        # Remember old checks
+        oldchecks = set(
+            unit.active_checks().values_list('check', flat=True)
+        )
 
+        # Custom commit message
+        if 'commit_message' in request.POST and request.POST['commit_message']:
+            unit.translation.commit_message = request.POST['commit_message']
+            unit.translation.save()
+
+        # Save
+        saved, fixups = unit.translate(
+            request,
+            form.cleaned_data['target'],
+            form.cleaned_data['fuzzy']
+        )
+
+        # Warn about applied fixups
         if len(fixups) > 0:
             messages.info(
                 request,
@@ -254,29 +305,20 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
                 ', '.join([unicode(f) for f in fixups])
             )
 
-        # Remember old checks
-        oldchecks = set(
+        # Get new set of checks
+        newchecks = set(
             unit.active_checks().values_list('check', flat=True)
         )
-        # Update unit and save it
-        unit.target = join_plural(new_target)
-        unit.fuzzy = form.cleaned_data['fuzzy']
-        saved = unit.save_backend(request)
 
-        if saved:
-            # Get new set of checks
-            newchecks = set(
-                unit.active_checks().values_list('check', flat=True)
+        # Did we introduce any new failures?
+        if saved and newchecks > oldchecks:
+            # Show message to user
+            messages.error(
+                request,
+                _('Some checks have failed on your translation!')
             )
-            # Did we introduce any new failures?
-            if newchecks > oldchecks:
-                # Show message to user
-                messages.error(
-                    request,
-                    _('Some checks have failed on your translation!')
-                )
-                # Stay on same entry
-                return HttpResponseRedirect(this_unit_url)
+            # Stay on same entry
+            return HttpResponseRedirect(this_unit_url)
 
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
@@ -386,37 +428,54 @@ def handle_suggestions(obj, request, this_unit_url):
         )
         return HttpResponseRedirect(this_unit_url)
 
+    sugid = ''
+
     # Parse suggestion ID
-    if 'accept' in request.GET:
-        if not request.user.has_perm('trans.accept_suggestion'):
-            messages.error(
-                request,
-                _('You do not have privilege to accept suggestions!')
-            )
-            return HttpResponseRedirect(this_unit_url)
-        sugid = request.GET['accept']
-    else:
-        if not request.user.has_perm('trans.delete_suggestion'):
-            messages.error(
-                request,
-                _('You do not have privilege to delete suggestions!')
-            )
-            return HttpResponseRedirect(this_unit_url)
-        sugid = request.GET['delete']
+    for param in ('accept', 'delete', 'upvote', 'downvote'):
+        if param in request.POST:
+            sugid = request.POST[param]
+            break
+
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
-    except Suggestion.DoesNotExist:
-        suggestion = None
 
-    if suggestion is not None:
-        if 'accept' in request.GET:
+        if 'accept' in request.POST:
             # Accept suggesion
+            if not request.user.has_perm('trans.accept_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to accept suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
             suggestion.accept(obj, request)
-        else:
+        elif 'delete' in request.POST:
             # Delete suggestion
+            if not request.user.has_perm('trans.delete_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to delete suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
             suggestion.delete()
-    else:
+        elif 'upvote' in request.POST:
+            if not request.user.has_perm('trans.vote_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to vote for suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
+            suggestion.add_vote(obj, request, True)
+        elif 'downvote' in request.POST:
+            if not request.user.has_perm('trans.vote_suggestion'):
+                messages.error(
+                    request,
+                    _('You do not have privilege to vote for suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
+            suggestion.add_vote(obj, request, False)
+
+    except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
 
     # Redirect to same entry for possible editing
@@ -469,9 +528,17 @@ def translate(request, project, subproject, lang):
 
     # Any form submitted?
     if request.method == 'POST' and not project_locked:
-        response = handle_translate(
-            obj, request, user_locked, this_unit_url, next_unit_url
-        )
+
+        # Handle accepting/deleting suggestions
+        if ('accept' not in request.POST
+                and 'delete' not in request.POST
+                and 'upvote' not in request.POST
+                and 'downvote' not in request.POST):
+            response = handle_translate(
+                obj, request, user_locked, this_unit_url, next_unit_url
+            )
+        elif not locked:
+            response = handle_suggestions(obj, request, this_unit_url)
 
     # Handle translation merging
     elif 'merge' in request.GET and not locked:
@@ -480,10 +547,6 @@ def translate(request, project, subproject, lang):
     # Handle reverting
     elif 'revert' in request.GET and not locked:
         response = handle_revert(obj, request, this_unit_url)
-
-    # Handle accepting/deleting suggestions
-    elif not locked and ('accept' in request.GET or 'delete' in request.GET):
-        response = handle_suggestions(obj, request, this_unit_url)
 
     # Pass possible redirect further
     if response is not None:
@@ -599,7 +662,8 @@ def auto_translation(request, project, subproject, lang):
                     change = Change.objects.create(
                         action=Change.ACTION_AUTO,
                         translation=unit.translation,
-                        user=request.user
+                        user=request.user,
+                        author=request.user
                     )
                 # Save unit to backend
                 unit.save_backend(request, False, False)

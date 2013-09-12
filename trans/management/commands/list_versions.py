@@ -19,7 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand
-from trans.requirements import get_versions
+from trans.requirements import get_versions_string
 
 
 class Command(BaseCommand):
@@ -29,8 +29,4 @@ class Command(BaseCommand):
         '''
         Prints versions of dependencies.
         '''
-        for version in get_versions():
-            print ' * %s %s' % (
-                version[0],
-                version[2],
-            )
+        print get_versions_string()

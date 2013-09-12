@@ -56,37 +56,18 @@ class ConsistencyCheck(TargetCheck):
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False
-        project = unit.translation.subproject.project
-        language = unit.translation.language
-        related = Unit.objects.filter(
-            translation__language=language,
-            translation__subproject__project=project,
-            checksum=unit.checksum,
-        ).exclude(
+        related = Unit.objects.same(unit).exclude(
             id=unit.id,
-            translation__subproject__allow_translation_propagation=False,
         )
-        if unit.fuzzy:
-            related = related.exclude(fuzzy=True)
+        if not related.exists():
+            return False
+
+        if not unit.translated:
+            related = related.filter(translated=True)
+
         for unit2 in related.iterator():
             if unit2.target != unit.target:
-                return True
+                if unit2.translation.subproject.allow_translation_propagation:
+                    return True
 
         return False
-
-
-class DirectionCheck(TargetCheck):
-    '''
-    Check for text direction values
-    '''
-    check_id = 'direction'
-    name = _('Invalid text direction')
-    description = _('Text direction can be either LTR or RTL')
-
-    def check(self, sources, targets, unit):
-        # Is this plural?
-        if len(sources) > 1:
-            return False
-        if not sources[0].lower() in ['ltr', 'rtl']:
-            return False
-        return targets[0].lower() != unit.translation.language.direction

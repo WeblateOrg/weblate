@@ -14,7 +14,7 @@
   <h1>{% trans "Performance report" %}</h1>
   <div id="changelist" class="module filtered">
     <div class="results">
-  <table id="result_list">
+  <table id="result_list" class="orderable-initalized">
   <thead>
   <tr>
     <th>{% trans "Check" %}</th>
@@ -24,7 +24,7 @@
   </thead>
   <tbody>
   {% for check in checks %}
-  <tr class="row{% cycle 1,2 %}">
+  <tr class="row{% cycle 1,2 %} {{ check.3 }}">
       <td>{{ check.0 }}</td>
       <td>{% admin_boolean_icon check.1 %}</td>
       <td><a href="{% documentation "install" check.2 %}">{% trans "Documentation" %}</a></td>

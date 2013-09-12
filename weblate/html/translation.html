@@ -43,6 +43,7 @@
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
 <li><a href="#share">{% trans "Share" %}</a></li>
+<li><a href="#stats">{% trans "Stats" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>
 
@@ -134,6 +135,41 @@
 {% url 'widgets' project=object.subproject.project.slug as widgets_url %}
 {% url 'data_project' project=object.subproject.project.slug as data_url %}
 {% include 'share.html' %}
+</div>
+
+<div id="stats">
+<table>
+<tr>
+<td></td>
+<th>{% trans "Percent" %}</th>
+<th>{% trans "Strings" %}</th>
+<th>{% trans "Words" %}</th>
+</tr>
+<tr>
+<th>{% trans "Total" %}</th>
+<td class="percent"></td>
+<td class="number">{{ object.total }}</td>
+<td class="number">{{ object.total_words }}</td>
+</tr>
+<tr>
+<th>{% trans "Translated" %}</th>
+<td class="percent">{{ object.get_translated_percent }}%</td>
+<td class="number">{{ object.translated }}</td>
+<td class="number">{{ object.translated_words }}</td>
+</tr>
+<tr>
+<th>{% trans "Fuzzy" %}</th>
+<td class="percent">{{ object.get_fuzzy_percent }}%</td>
+<td class="number">{{ object.fuzzy }}</td>
+<td class="number"></td>
+</tr>
+<tr>
+<th>{% trans "Failing check" %}</th>
+<td class="percent">{{ object.get_failing_checks_percent }}%</td>
+<td class="number">{{ object.failing_checks }}</td>
+<td class="number"></td>
+</tr>
+</table>
 </div>
 
 </div>

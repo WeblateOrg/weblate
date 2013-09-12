@@ -237,6 +237,8 @@ $(function () {
     load_progress();
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
+    $('.sug-upvote').button({text: false, icons: { primary: "ui-icon-plusthick" }});
+    $('.sug-downvote').button({text: false, icons: { primary: "ui-icon-minusthick" }});
     $('.historybutton').button({text: true, icons: { primary: "ui-icon-arrowreturn-1-w" }});
     $('#navi').buttonset();
     $('#button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
@@ -296,6 +298,7 @@ $(function () {
         load: function (e, ui) {
             $(ui.panel).find(".tab-loading").remove();
             $('a.mergebutton').button({text: true, icons: { primary: "ui-icon-check" }});
+            $('.button').button();
             $('a.copydict').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
                 var text = $(this).parent().parent().find('.target').text();
                 $('#id_target').insertAtCaret(text);
@@ -382,12 +385,13 @@ $(function () {
     $(document).tooltip({
         content: function () {
             var element = $(this);
-            if (element.is('span.git-commit')) {
-                element = $(this).find('.git-details');
+            var content = $(this).find('.tooltip-content');
+            if (content.length > 0) {
+                element = content;
             }
             return element.html();
         },
-        items: "span.tooltip, span.git-commit"
+        items: ".tooltip"
     });
     if (update_lock) {
         window.setInterval(function () {

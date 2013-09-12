@@ -18,7 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# For some reasons, this fails in PyLint sometimes...
+# pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
+from weblate import GIT_VERSION
+import importlib
 
 
 def get_version_module(module, name, url, optional=False):
@@ -27,7 +31,7 @@ def get_version_module(module, name, url, optional=False):
     exception with name and URL.
     '''
     try:
-        mod = __import__(module)
+        mod = importlib.import_module(module)
     except ImportError:
         if optional:
             return None
@@ -116,7 +120,7 @@ def get_versions():
         name,
         url,
         mod.versionstring(),
-        '2.3',
+        '2.5',
     ))
 
     name = 'GitPython'
@@ -143,26 +147,6 @@ def get_versions():
         # Happens with too old GitPython
         pass
 
-    name = 'PyCairo'
-    url = 'http://cairographics.org/pycairo/'
-    mod = get_version_module('cairo', name, url)
-    result.append((
-        name,
-        url,
-        mod.version,
-        '1.8',
-    ))
-
-    name = 'Pango (PyGtk)'
-    url = 'http://www.pygtk.org/'
-    mod = get_version_module('pango', name, url)
-    result.append((
-        name,
-        url,
-        mod.version_string(),
-        '1.2',
-    ))
-
     name = 'South'
     url = 'http://south.aeracode.org/'
     mod = get_version_module('south', name, url)
@@ -171,6 +155,16 @@ def get_versions():
         url,
         mod.__version__,
         '0.7',
+    ))
+
+    name = 'Pillow (PIL)'
+    url = 'http://python-imaging.github.io/'
+    mod = get_version_module('PIL.Image', name, url)
+    result.append((
+        name,
+        url,
+        mod.VERSION,
+        '1.1.6',
     ))
 
     return result
@@ -193,3 +187,18 @@ def check_version(name, url, version, expected, highest=None):
         return True
 
     return False
+
+
+def get_versions_string():
+    '''
+    Returns string with version information summary.
+    '''
+    result = [' * Weblate %s' % GIT_VERSION]
+    for version in get_versions() + get_optional_versions():
+        result.append(
+            ' * %s %s' % (
+                version[0],
+                version[2],
+            )
+        )
+    return '\n'.join(result)

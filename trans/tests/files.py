@@ -69,13 +69,13 @@ class ImportTest(ViewTestCase):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEquals(translation.translated, 1)
-        self.assertEquals(translation.fuzzy, 0)
-        self.assertEquals(translation.total, 4)
+        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEquals(unit.target, TRANSLATION_PO)
+        self.assertEqual(unit.target, TRANSLATION_PO)
 
     def test_import_author(self):
         '''
@@ -89,13 +89,13 @@ class ImportTest(ViewTestCase):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEquals(translation.translated, 1)
-        self.assertEquals(translation.fuzzy, 0)
-        self.assertEquals(translation.total, 4)
+        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEquals(unit.target, TRANSLATION_PO)
+        self.assertEqual(unit.target, TRANSLATION_PO)
 
     def test_import_overwrite(self):
         '''
@@ -109,7 +109,7 @@ class ImportTest(ViewTestCase):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEquals(unit.target, TRANSLATION_PO)
+        self.assertEqual(unit.target, TRANSLATION_PO)
 
     def test_import_no_overwrite(self):
         '''
@@ -123,7 +123,7 @@ class ImportTest(ViewTestCase):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEquals(unit.target, TRANSLATION_OURS)
+        self.assertEqual(unit.target, TRANSLATION_OURS)
 
     def test_import_fuzzy(self):
         '''
@@ -134,14 +134,14 @@ class ImportTest(ViewTestCase):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEquals(unit.target, TRANSLATION_PO)
-        self.assertEquals(unit.fuzzy, True)
+        self.assertEqual(unit.target, TRANSLATION_PO)
+        self.assertEqual(unit.fuzzy, True)
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEquals(translation.translated, 0)
-        self.assertEquals(translation.fuzzy, 1)
-        self.assertEquals(translation.total, 4)
+        self.assertEqual(translation.translated, 0)
+        self.assertEqual(translation.fuzzy, 1)
+        self.assertEqual(translation.total, 4)
 
     def test_import_suggest(self):
         '''
@@ -152,14 +152,14 @@ class ImportTest(ViewTestCase):
 
         # Verify unit
         unit = self.get_unit()
-        self.assertEquals(unit.translated, False)
+        self.assertEqual(unit.translated, False)
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEquals(translation.translated, 0)
-        self.assertEquals(translation.fuzzy, 0)
-        self.assertEquals(translation.total, 4)
-        self.assertEquals(
+        self.assertEqual(translation.translated, 0)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
+        self.assertEqual(
             translation.have_suggestion,
             1
         )

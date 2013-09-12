@@ -24,7 +24,7 @@ Tests for AJAX/JS views.
 
 from trans.tests.views import ViewTestCase
 from django.core.urlresolvers import reverse
-from django.utils import simplejson
+import json
 
 
 class JSViewsTest(ViewTestCase):
@@ -38,13 +38,13 @@ class JSViewsTest(ViewTestCase):
             reverse('js-get', kwargs={'checksum': unit.checksum}),
         )
         self.assertContains(response, 'Hello')
-        self.assertEquals(response.content, unit.get_source_plurals()[0])
+        self.assertEqual(response.content, unit.get_source_plurals()[0])
 
         response = self.client.get(
             reverse('js-get', kwargs={'checksum': 'x'}),
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEquals(response.content, '')
+        self.assertEqual(response.content, '')
 
     def test_translate(self):
         unit = self.get_unit()
@@ -53,20 +53,20 @@ class JSViewsTest(ViewTestCase):
             {'service': 'dummy'}
         )
         self.assertContains(response, 'Ahoj')
-        data = simplejson.loads(response.content)
+        data = json.loads(response.content)
         self.assertEqual(
             data['translations'],
             [
                 {
                     'quality': 100,
                     'service': 'Dummy',
-                    'text': 'Nazdar světe!',
+                    'text': u'Nazdar světe!',
                     'source': u'Hello, world!\n',
                 },
                 {
                     'quality': 100,
                     'service': 'Dummy',
-                    'text': 'Ahoj světe!',
+                    'text': u'Ahoj světe!',
                     'source': u'Hello, world!\n',
                 },
             ]

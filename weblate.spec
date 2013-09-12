@@ -1,5 +1,5 @@
 Name:           weblate
-Version: 1.6
+Version: 1.7
 Release:        1
 License:        GPL-3+
 Summary:        Web-based translation tool
@@ -17,9 +17,8 @@ Requires:       python-django-registration >= 0.8
 Requires:       translate-toolkit
 Requires:       python-GitPython >= 0.3
 Requires:       python-whoosh
-Requires:       python-cairo
+Requires:       python-imaging
 Requires:       python-South
-Requires:       python-gtk
 %py_requires
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch

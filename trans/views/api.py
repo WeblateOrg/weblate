@@ -241,7 +241,7 @@ def export_stats(request, project, subproject):
             'translated_percent': trans.get_translated_percent(),
             'fuzzy': trans.fuzzy,
             'fuzzy_percent': trans.get_fuzzy_percent(),
-            'failing': trans.get_failing_checks(),
+            'failing': trans.failing_checks,
             'failing_percent': trans.get_failing_checks_percent(),
             'url': trans.get_share_url(),
             'url_translate': get_site_url(trans.get_absolute_url()),
@@ -252,5 +252,5 @@ def export_stats(request, project, subproject):
             default=json_dt_handler,
             indent=indent,
         ),
-        mimetype='application/json'
+        content_type='application/json'
     )

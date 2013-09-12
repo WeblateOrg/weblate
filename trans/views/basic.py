@@ -18,10 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response
 from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
-from django.http import HttpResponseNotFound, Http404
+from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Sum, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -36,9 +36,9 @@ from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
 from trans.forms import (
     UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
-    AutoForm, ReviewForm,
+    AutoForm, ReviewForm, NewLanguageForm,
 )
-from accounts.models import Profile
+from accounts.models import Profile, notify_new_language
 from trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
@@ -95,31 +95,6 @@ def home(request):
         'last_changes_rss': reverse('rss'),
         'last_changes_url': '',
         'usertranslations': usertranslations,
-    }))
-
-
-def show_languages(request):
-    return render_to_response('languages.html', RequestContext(request, {
-        'languages': Language.objects.have_translation(),
-        'title': _('Languages'),
-    }))
-
-
-def show_language(request, lang):
-    obj = get_object_or_404(Language, code=lang)
-    last_changes = Change.objects.filter(
-        translation__language=obj
-    ).order_by('-timestamp')[:10]
-    dicts = Dictionary.objects.filter(
-        language=obj
-    ).values_list('project', flat=True).distinct()
-
-    return render_to_response('language.html', RequestContext(request, {
-        'object': obj,
-        'last_changes': last_changes,
-        'last_changes_rss': reverse('rss-language', kwargs={'lang': obj.code}),
-        'last_changes_url': urlencode({'lang': obj.code}),
-        'dicts': Project.objects.filter(id__in=dicts),
     }))
 
 
@@ -200,6 +175,8 @@ def show_subproject(request, project, subproject):
         translation__subproject=obj
     ).order_by('-timestamp')[:10]
 
+    new_lang_form = NewLanguageForm()
+
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
         'last_changes': last_changes,
@@ -210,6 +187,7 @@ def show_subproject(request, project, subproject):
         'last_changes_url': urlencode(
             {'subproject': obj.slug, 'project': obj.project.slug}
         ),
+        'new_lang_form': new_lang_form,
     }))
 
 
@@ -386,3 +364,39 @@ def data_project(request, project):
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
     }))
+
+
+def new_language(request, project, subproject):
+    obj = get_subproject(request, project, subproject)
+
+    form = NewLanguageForm(request.POST)
+
+    if form.is_valid():
+        language = Language.objects.get(code=form.cleaned_data['lang'])
+        same_lang = obj.translation_set.filter(language=language)
+        if same_lang.exists():
+            messages.error(
+                request,
+                _('Chosen translation already exists in this project!')
+            )
+        elif obj.project.new_lang == 'contact':
+            notify_new_language(obj, language, request.user)
+            messages.info(
+                request,
+                _(
+                    "A request for a new translation has been "
+                    "sent to the project's maintainers."
+                )
+            )
+        elif obj.project.new_lang == 'add':
+            obj.add_new_language(language, request)
+    else:
+        messages.error(
+            request,
+            _('Failed to process new translation request!')
+        )
+
+    return HttpResponseRedirect(reverse(
+        'subproject',
+        kwargs={'subproject': obj.slug, 'project': obj.project.slug}
+    ))

@@ -18,12 +18,10 @@ Git (>= 1.0)
     http://git-scm.com/
 Django-registration (= 0.8, 0.9 is not supported)
     https://bitbucket.org/ubernostrum/django-registration/
-Whoosh
+Whoosh (>= 2.5, 2.5.2 is recommended)
     http://bitbucket.org/mchaput/whoosh/
-PyCairo
-    http://cairographics.org/pycairo/
-PyGtk
-    http://www.pygtk.org/
+PIL or Pillow library
+    http://python-imaging.github.io/
 south
     http://south.aeracode.org/
 libravatar (optional for federated avatar support)
@@ -47,7 +45,7 @@ On Debian or Ubuntu, all requirements are already packaged, to install them you 
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git python-django-registration \
-        python-whoosh python-cairo python-gtk2 python-django-south python-libravatar python-pyicu
+        python-whoosh python-imaging python-django-south python-libravatar python-pyicu
 
     # Optional for database backend
 
@@ -63,19 +61,11 @@ All requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-django python-django-registration translate-toolkit python-GitPython \
-        python-whoosh python-cairo python-South python-gtk
+        python-whoosh python-imaging python-South
 
 
 Requirements on OSX
-++++++++++++++++++++++++
-
-PyCairo and PyGtk are available to be installed using brew, all other requirements
-must be installed using pip as explained next. In a terminal:
-
-.. code-block:: sh
-
-    brew update
-    brew install py2cairo pygtk
++++++++++++++++++++
 
 If your python was not installed using brew, make sure you have this in
 your .bash_profile file or executed somehow:
@@ -95,10 +85,6 @@ Most requirements can be also installed using pip installer:
 .. code-block:: sh
 
     pip install -r requirements.txt
-
-However you need to get PyCairo and PyGtk for your platform elsewhere as they
-do not support this easy installation method. Check their website for options
-for getting appropriate binaries.
 
 Also you will need header files for ``libxml2`` and ``libxslt`` to compile some
 of the required Python modules.
@@ -128,7 +114,7 @@ The default configuration places them in same tree as Weblate sources, however
 you might prefer to move these to better location such as
 :file:`/var/lib/weblate`.
 
-Weblate tries to create these directiories automatically, but it will fail
+Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
 
 You should also take care when running :ref:`manage`, as they should be run
@@ -194,6 +180,13 @@ options:
 
     .. seealso:: `DEFAULT_FROM_EMAIL documentation`_
 
+``SECRET_KEY``
+
+    Key used by Django to sign some information in cookies. If you don't
+    change this, the cookies can be spoofed by anyone.
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
+
 ``SERVER_EMAIL``
 
     Email used as sender address for sending emails to administrator, for
@@ -238,7 +231,7 @@ Disable Django's debug mode by:
 
     DEBUG = False
 
-With debug mode Django stores all executed queries and shows users backtrackes
+With debug mode Django stores all executed queries and shows users backtraces
 of errors what is not desired in production setup.
 
 .. seealso:: :ref:`installation`
@@ -377,6 +370,28 @@ Japanese, Chinese or Arabic or for languages with accented letters.
 
 .. _PyICU: https://pypi.python.org/pypi/PyICU
 
+.. _production-secret:
+
+Django secret key
++++++++++++++++++
+
+The ``SECRET_KEY`` setting is used by Django to sign cookies and you should
+really use own value rather than using the one coming from example setup.
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
+
+.. _production-admin-files:
+
+Admin static files
+++++++++++++++++++
+
+If you see purely designed admin interface, the CSS files required for it are
+not loaded. This is usually if you are running in non-debug mode and have not
+configured your webserver to serve them. Recommended setup is described in the
+:ref:`server` chapter.
+
+.. seealso:: :ref:`server`
+
 .. _server:
 
 Running server
@@ -503,7 +518,7 @@ weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
 admin    admin    Weblate Weblate/Django admin user
 ======== ======== ======= ==================================================
 
-The appliance is built using SUSE Studio and is based on openSUSE 12.2.
+The appliance is built using SUSE Studio and is based on openSUSE 12.3.
 
 You should also adjust some settings to match your environment, namely:
 
@@ -638,6 +653,15 @@ recommended to put your site offline, while the migration is going on.
     left around and cause various import errors. To recover from this, delete
     all of them in Weblate's directory, for example by 
     ``find . -name '*.pyc' - delete``.
+
+Upgrade from 1.6 to 1.7
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The migration of database structure to 1.7 might take quite long, it is
+recommended to put your site offline, while the migration is going on.
+
+If you are translating monolingual files, it is recommended to rerun quality
+checks as they might have been wrongly linked to units in previous versions.
 
 .. _pootle-migration:
 

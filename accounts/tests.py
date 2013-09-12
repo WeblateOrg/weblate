@@ -36,6 +36,7 @@ from accounts.models import (
     notify_new_comment,
     notify_new_translation,
     notify_new_contributor,
+    notify_new_language,
 )
 
 from trans.tests.views import ViewTestCase
@@ -161,7 +162,7 @@ class CommandTest(TestCase):
         user.save()
         call_command('importusers', get_test_file('users.json'))
         user2 = User.objects.get(username='weblate')
-        self.assertEquals(user.first_name, user2.first_name)
+        self.assertEqual(user.first_name, user2.first_name)
 
 
 class ViewTest(TestCase):
@@ -276,6 +277,7 @@ class NotificationTest(ViewTestCase):
         profile.subscribe_new_suggestion = True
         profile.subscribe_new_contributor = True
         profile.subscribe_new_comment = True
+        profile.subscribe_new_language = True
         profile.subscribe_merge_failure = True
         profile.subscriptions.add(self.project)
         profile.languages.add(
@@ -331,6 +333,20 @@ class NotificationTest(ViewTestCase):
             '[Weblate] New translation in Test/Test - Czech'
         )
 
+    def test_notify_new_language(self):
+        notify_new_language(
+            self.subproject,
+            Language.objects.filter(code='de'),
+            self.second_user()
+        )
+
+        # Check mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] New language request in Test/Test'
+        )
+
     def test_notify_new_contributor(self):
         unit = self.get_unit()
         notify_new_contributor(
@@ -350,7 +366,7 @@ class NotificationTest(ViewTestCase):
         notify_new_suggestion(
             unit,
             Suggestion.objects.create(
-                checksum=unit.checksum,
+                contentsum=unit.contentsum,
                 project=unit.translation.subproject.project,
                 language=unit.translation.language,
                 target='Foo'
@@ -370,7 +386,7 @@ class NotificationTest(ViewTestCase):
         notify_new_comment(
             unit,
             Comment.objects.create(
-                checksum=unit.checksum,
+                contentsum=unit.contentsum,
                 project=unit.translation.subproject.project,
                 language=unit.translation.language,
                 comment='Foo'
@@ -391,7 +407,7 @@ class NotificationTest(ViewTestCase):
         notify_new_comment(
             unit,
             Comment.objects.create(
-                checksum=unit.checksum,
+                contentsum=unit.contentsum,
                 project=unit.translation.subproject.project,
                 language=None,
                 comment='Foo'

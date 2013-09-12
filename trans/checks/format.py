@@ -23,7 +23,7 @@ from trans.checks.base import TargetCheck
 import re
 
 PYTHON_PRINTF_MATCH = re.compile(
-    '''
+    r'''
     %(                          # initial %
           (?:\((?P<key>\w+)\))?    # Python style variables, like %(var)s
     (?P<fullvar>
@@ -31,14 +31,14 @@ PYTHON_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh\|h\|l\|ll)?         # length formatting
-        (?P<type>[\w%]))        # type (%s, %d, etc.)
+        (?P<type>.))        # type (%s, %d, etc.)
     )''',
     re.VERBOSE
 )
 
 
 PHP_PRINTF_MATCH = re.compile(
-    '''
+    r'''
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
@@ -46,22 +46,55 @@ PHP_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh\|h\|l\|ll)?         # length formatting
-        (?P<type>[\w%]))        # type (%s, %d, etc.)
+        (?P<type>.))        # type (%s, %d, etc.)
     )''',
     re.VERBOSE
 )
 
 
 C_PRINTF_MATCH = re.compile(
-    '''
+    r'''
     %(                          # initial %
     (?P<fullvar>
         [+#-]*                  # flags
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh\|h\|l\|ll)?         # length formatting
-        (?P<type>[\w%]))        # type (%s, %d, etc.)
+        (?P<type>.))        # type (%s, %d, etc.)
     )''',
+    re.VERBOSE
+)
+
+PYTHON_BRACE_MATCH = re.compile(
+    r'''
+    {(                                  # initial {
+        |                               # blank for position based
+        (?P<field>
+            [0-9]+|                     # numerical
+            [_A-Za-z][_0-9A-Za-z]*      # identifier
+        )
+        (?P<attr>
+            \.[_A-Za-z][_0-9A-Za-z]*    # attribute identifier
+            |\[[^]]+\]                  # index identifier
+
+        )*
+        (?P<conversion>
+            ![rsa]
+        )?
+        (?P<format_spec>
+            :
+            .?                          # fill
+            [<>=^]?                     # align
+            [+ -]?                      # sign
+            [#]?                        # alternate
+            0?                          # 0 prefix
+            (?:[1-9][0-9]*)?            # width
+            ,?                          # , separator
+            (?:\.[1-9][0-9]*)?          # precision
+            [bcdeEfFgGnosxX%]?          # type
+        )?
+    )}                          # trailing }
+    ''',
     re.VERBOSE
 )
 
@@ -78,7 +111,7 @@ class BaseFormatCheck(TargetCheck):
         Checks single unit, handling plurals.
         '''
         # Verify unit is properly flagged
-        if not self.flag in unit.flags.split(', '):
+        if not self.flag in unit.all_flags:
             return False
 
         # Special case languages with single plural form
@@ -99,19 +132,8 @@ class BaseFormatCheck(TargetCheck):
             0,
             len(sources) > 1
         )
-
         if singular_check:
-            if len(sources) == 1:
-                return True
-            plural_check = self.check_format(
-                sources[1],
-                targets[0],
-                unit,
-                1,
-                True
-            )
-            if plural_check:
-                return True
+            return True
 
         # Do we have more to check?
         if len(sources) == 1:
@@ -138,19 +160,39 @@ class BaseFormatCheck(TargetCheck):
         '''
         if len(target) == 0 or len(source) == 0:
             return False
+
+        uses_position = True
+
         # Try geting source parsing from cache
         src_matches = self.get_cache(unit, cache_slot)
-        # Cache miss
+
+        # New style cache
+        if type(src_matches) is tuple:
+            uses_position, src_matches = src_matches
+        else:
+            src_matches = None
+
+        # Cache miss, so calculate value
         if src_matches is None:
-            src_matches = set([x[0] for x in self.regexp.findall(source)])
-            self.set_cache(unit, src_matches, cache_slot)
-        tgt_matches = set([x[0] for x in self.regexp.findall(target)])
+            src_matches = [x[0] for x in self.regexp.findall(source)]
+            if src_matches:
+                uses_position = max(
+                    [self.is_position_based(x) for x in src_matches]
+                )
+            self.set_cache(unit, (uses_position, src_matches), cache_slot)
+
+        tgt_matches = [x[0] for x in self.regexp.findall(target)]
+
         # We ignore %% as this is really not relevant. However it needs
         # to be matched to prevent handling %%s as %s.
-        if '%' in src_matches:
+        while '%' in src_matches:
             src_matches.remove('%')
-        if '%' in tgt_matches:
+        while '%' in tgt_matches:
             tgt_matches.remove('%')
+
+        if not uses_position:
+            src_matches = set(src_matches)
+            tgt_matches = set(tgt_matches)
 
         if src_matches != tgt_matches:
             # We can ignore missing format strings
@@ -160,6 +202,9 @@ class BaseFormatCheck(TargetCheck):
             return True
 
         return False
+
+    def is_position_based(self, string):
+        return True
 
 
 class PythonFormatCheck(BaseFormatCheck):
@@ -172,6 +217,9 @@ class PythonFormatCheck(BaseFormatCheck):
     flag = 'python-format'
     regexp = PYTHON_PRINTF_MATCH
 
+    def is_position_based(self, string):
+        return '(' not in string and string != '%'
+
 
 class PHPFormatCheck(BaseFormatCheck):
     '''
@@ -183,6 +231,9 @@ class PHPFormatCheck(BaseFormatCheck):
     flag = 'php-format'
     regexp = PHP_PRINTF_MATCH
 
+    def is_position_based(self, string):
+        return '$' not in string and string != '%'
+
 
 class CFormatCheck(BaseFormatCheck):
     '''
@@ -193,3 +244,17 @@ class CFormatCheck(BaseFormatCheck):
     description = _('Format string does not match source')
     flag = 'c-format'
     regexp = C_PRINTF_MATCH
+
+
+class PythonBraceFormatCheck(BaseFormatCheck):
+    '''
+    Check for Python format string
+    '''
+    check_id = 'python_brace_format'
+    name = _('Python brace format')
+    description = _('Format string does not match source')
+    flag = 'python-brace-format'
+    regexp = PYTHON_BRACE_MATCH
+
+    def is_position_based(self, string):
+        return string == ''

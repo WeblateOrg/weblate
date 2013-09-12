@@ -22,13 +22,12 @@
 Whoosh based full text search.
 '''
 
-import whoosh
-import os
 from whoosh.fields import Schema, TEXT, ID
+from whoosh.filedb.filestore import FileStorage
+from whoosh import qparser
 from django.db.models.signals import post_syncdb
 from weblate import appsettings
-from whoosh.index import create_in, open_dir
-from whoosh.writing import AsyncWriter
+from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
 from lang.models import Language
 
@@ -43,35 +42,75 @@ SOURCE_SCHEMA = Schema(
     context=TEXT
 )
 
-
-def create_source_index():
-    return create_in(
-        appsettings.WHOOSH_INDEX,
-        schema=SOURCE_SCHEMA,
-        indexname='source'
-    )
-
-
-def create_target_index(lang):
-    return create_in(
-        appsettings.WHOOSH_INDEX,
-        schema=TARGET_SCHEMA,
-        indexname='target-%s' % lang
-    )
+STORAGE = FileStorage(appsettings.WHOOSH_INDEX)
 
 
 @receiver(post_syncdb)
 def create_index(sender=None, **kwargs):
-    if not os.path.exists(appsettings.WHOOSH_INDEX):
-        os.mkdir(appsettings.WHOOSH_INDEX)
+    '''
+    Automatically creates storage directory.
+    '''
+    STORAGE.create()
+
+
+def create_source_index():
+    '''
+    Creates source string index.
+    '''
+    return STORAGE.create_index(SOURCE_SCHEMA, 'source')
+
+
+def create_target_index(lang):
+    '''
+    Creates traget string index for given language.
+    '''
+    return STORAGE.create_index(TARGET_SCHEMA, 'target-%s' % lang)
+
+
+def update_source_unit_index(writer, unit):
+    '''
+    Updates source index for given unit.
+    '''
+    writer.update_document(
+        checksum=unicode(unit.checksum),
+        source=unicode(unit.source),
+        context=unicode(unit.context),
+    )
+
+
+def update_target_unit_index(writer, unit):
+    '''
+    Updates target index for given unit.
+    '''
+    writer.update_document(
+        checksum=unicode(unit.checksum),
+        target=unicode(unit.target)
+    )
+
+
+def get_source_index():
+    '''
+    Returns source index object.
+    '''
+    if not STORAGE.index_exists('source'):
         create_source_index()
+    return STORAGE.open_index('source')
+
+
+def get_target_index(lang):
+    '''
+    Returns target index object.
+    '''
+    name = 'target-%s' % lang
+    if not STORAGE.index_exists(name):
+        create_target_index(lang)
+    return STORAGE.open_index(name)
 
 
 def update_index(units, source_units=None):
     '''
     Updates fulltext index for given set of units.
     '''
-    from trans.models import Unit
     languages = Language.objects.all()
 
     # Default to same set for both updates
@@ -79,103 +118,101 @@ def update_index(units, source_units=None):
         source_units = units
 
     # Update source index
-    with FULLTEXT_INDEX.source_writer(async=False) as writer:
-        source_units = source_units.values('checksum', 'source', 'context')
+    index = get_source_index()
+    writer = BufferedWriter(index)
+    try:
         for unit in source_units.iterator():
-            Unit.objects.add_to_source_index(
-                unit['checksum'],
-                unit['source'],
-                unit['context'],
-                writer
-            )
+            update_source_unit_index(writer, unit)
+    finally:
+        writer.close()
 
     # Update per language indices
     for lang in languages:
-        index = FULLTEXT_INDEX.target_writer(
-            lang=lang.code, async=False
-        )
-        with index as writer:
-
+        index = get_target_index(lang.code)
+        writer = BufferedWriter(index)
+        try:
             language_units = units.filter(
                 translation__language=lang
             ).exclude(
                 target=''
-            ).values(
-                'checksum', 'target'
             )
 
             for unit in language_units.iterator():
-                Unit.objects.add_to_target_index(
-                    unit['checksum'],
-                    unit['target'],
-                    writer
-                )
+                update_target_unit_index(writer, unit)
+        finally:
+            writer.close()
 
 
-class Index(object):
+def update_index_unit(unit, source=True):
     '''
-    Class to manage index readers and writers.
+    Adds single unit to index.
     '''
+    # Should this happen in background?
+    if appsettings.OFFLOAD_INDEXING:
+        from trans.models.unitdata import IndexUpdate
+        IndexUpdate.objects.create(unit=unit, source=source)
+        return
 
-    _source = None
-    _target = {}
+    # Update source
+    if source:
+        index = get_source_index()
+        with AsyncWriter(index) as writer:
+            update_source_unit_index(writer, unit)
 
-    def source(self):
-        '''
-        Returns source index.
-        '''
-        if self._source is None:
-            try:
-                self._source = open_dir(
-                    appsettings.WHOOSH_INDEX,
-                    indexname='source'
+    # Update target
+    if unit.target != '':
+        index = get_target_index(unit.translation.language.code)
+        with AsyncWriter(index) as writer:
+            update_target_unit_index(writer, unit)
+
+
+def base_search(searcher, field, schema, query):
+    '''
+    Wrapper for fulltext search.
+    '''
+    parser = qparser.QueryParser(field, schema)
+    parsed = parser.parse(query)
+    return [result['checksum'] for result in searcher.search(parsed)]
+
+
+def fulltext_search(query, lang, source=True, context=True, target=True):
+    '''
+    Performs fulltext search in given areas, returns set of checksums.
+    '''
+    checksums = set()
+
+    if source or context:
+        index = get_source_index()
+        with index.searcher() as searcher:
+            if source:
+                checksums.update(
+                    base_search(searcher, 'source', SOURCE_SCHEMA, query)
                 )
-            except (whoosh.index.EmptyIndexError, IOError):
-                # eg. path or index does not exist
-                self._source = create_source_index()
-        return self._source
-
-    def target(self, lang):
-        '''
-        Returns target index for given language.
-        '''
-        if not lang in self._target:
-            try:
-                self._target[lang] = open_dir(
-                    appsettings.WHOOSH_INDEX,
-                    indexname='target-%s' % lang
+            if context:
+                checksums.update(
+                    base_search(searcher, 'context', SOURCE_SCHEMA, query)
                 )
-            except (whoosh.index.EmptyIndexError, IOError):
-                self._target[lang] = create_target_index(lang)
-        return self._target[lang]
 
-    def source_writer(self, async=True):
-        '''
-        Returns source index writer (by default buffered).
-        '''
-        if async:
-            return AsyncWriter(self.source())
-        return self.source().writer()
+    if target:
+        index = get_target_index(lang)
+        with index.searcher() as searcher:
+            checksums.update(
+                base_search(searcher, 'target', TARGET_SCHEMA, query)
+            )
 
-    def target_writer(self, lang, async=True):
-        '''
-        Returns target index writer (by default buffered) for given language.
-        '''
-        if async:
-            return AsyncWriter(self.target(lang))
-        return self.target(lang).writer()
-
-    def source_searcher(self):
-        '''
-        Returns source index searcher (on buffered writer).
-        '''
-        return self.source().searcher()
-
-    def target_searcher(self, lang):
-        '''
-        Returns target index searcher (on buffered writer) for given language.
-        '''
-        return self.target(lang).searcher()
+    return checksums
 
 
-FULLTEXT_INDEX = Index()
+def more_like(checksum, source, top=5):
+    '''
+    Finds similar units.
+    '''
+    index = get_source_index()
+    with index.searcher() as searcher:
+        docnum = searcher.document_number(checksum=checksum)
+        if docnum is None:
+            return set()
+
+        results = searcher.more_like(docnum, 'source', source, top)
+
+        return set([result['checksum'] for result in results])

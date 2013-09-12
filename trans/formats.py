@@ -24,11 +24,13 @@ from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
-from translate.storage.po import pounit
+from translate.storage.po import pounit, pofile
+from translate.storage.php import phpunit
 from translate.storage import mo
 from translate.storage import factory
 from trans.util import get_string
 from translate.misc import quote
+import subprocess
 import os.path
 import re
 import hashlib
@@ -63,14 +65,17 @@ class FileUnit(object):
             self.mainunit = template
         else:
             self.mainunit = unit
+        self.checksum = None
+        self.contentsum = None
 
     def get_locations(self):
         '''
         Returns comma separated list of locations.
         '''
-        # XLIFF is special in ttkit - it uses locations for what
+        # XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if isinstance(self.mainunit, xliffunit):
+        if (isinstance(self.mainunit, xliffunit)
+                or isinstance(self.mainunit, phpunit)):
             return ''
         return ', '.join(self.mainunit.getlocations())
 
@@ -208,11 +213,31 @@ class FileUnit(object):
 
         We use MD5 as it is faster than SHA1.
         '''
-        md5 = hashlib.md5()
+        if self.checksum is None:
+            md5 = hashlib.md5()
+            if self.template is None:
+                md5.update(self.get_source().encode('utf-8'))
+            md5.update(self.get_context().encode('utf-8'))
+            self.checksum = md5.hexdigest()
+
+        return self.checksum
+
+    def get_contentsum(self):
+        '''
+        Returns checksum of source string and conntext, used for quick lookup.
+
+        We use MD5 as it is faster than SHA1.
+        '''
         if self.template is None:
+            return self.get_checksum()
+
+        if self.contentsum is None:
+            md5 = hashlib.md5()
             md5.update(self.get_source().encode('utf-8'))
-        md5.update(self.get_context().encode('utf-8'))
-        return md5.hexdigest()
+            md5.update(self.get_context().encode('utf-8'))
+            self.contentsum = md5.hexdigest()
+
+        return self.contentsum
 
     def is_translated(self):
         '''
@@ -266,6 +291,7 @@ class FileFormat(object):
     format_id = ''
     loader = None
     monolingual = None
+    check_flags = ()
 
     @classmethod
     def fixup(cls, store):
@@ -423,6 +449,15 @@ class FileFormat(object):
                     template_unit
                 )
 
+    def count_units(self):
+        '''
+        Returns count of units.
+        '''
+        if not self.has_template:
+            return len(self.store.units)
+        else:
+            return len(self.template_store.units)
+
     @property
     def mimetype(self):
         '''
@@ -471,6 +506,27 @@ class FileFormat(object):
             return False
 
         return True
+
+    @staticmethod
+    def supports_new_language():
+        '''
+        Whether it supports creating new translation.
+        '''
+        return False
+
+    @staticmethod
+    def is_valid_base_for_new(base):
+        '''
+        Checks whether base is valid.
+        '''
+        return True
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        raise ValueError('Not supported')
 
 
 class AutoFormat(FileFormat):
@@ -524,6 +580,41 @@ class PoFormat(FileFormat):
             '%s.mo' % basefile,
             'application/x-gettext-catalog'
         )
+
+    @staticmethod
+    def supports_new_language():
+        '''
+        Checks whether we can create new language file.
+        '''
+        try:
+            ret = subprocess.check_call(['msginit', '--help'])
+            return ret == 0
+        except:
+            return False
+
+    @staticmethod
+    def is_valid_base_for_new(base):
+        '''
+        Checks whether base is valid.
+        '''
+        try:
+            pofile.parsefile(base)
+            return True
+        except:
+            return False
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        subprocess.check_call([
+            'msginit',
+            '-i', base,
+            '-o', filename,
+            '--no-translator',
+            '-l', code
+        ])
 
 register_fileformat(PoFormat)
 
@@ -601,6 +692,24 @@ class AndroidFormat(FileFormat):
     format_id = 'aresource'
     loader = ('aresource', 'AndroidResourceFile')
     monolingual = True
+    # Whitespace is ignored in this format
+    check_flags = ('ignore-begin-space', 'ignore-end-space')
+
+    @staticmethod
+    def supports_new_language():
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        with file(filename, 'w') as output:
+            output.write('''<?xml version="1.0" encoding="utf-8"?>
+<resources></resources>''')
 
 register_fileformat(AndroidFormat)
 

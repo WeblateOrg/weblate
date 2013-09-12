@@ -27,9 +27,10 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from trans.models.changes import Change
+from trans.models.unitdata import Suggestion
 from trans.tests.models import RepoTestCase
 from accounts.models import Profile
-import cairo
+from PIL import Image
 import re
 import time
 from urlparse import urlsplit
@@ -137,10 +138,119 @@ class ViewTestCase(RepoTestCase):
         '''
         # Check response status code
         self.assertEqual(response.status_code, 200)
-        # Try to load PNG with Cairo
-        cairo.ImageSurface.create_from_png(
-            StringIO(response.content)
+        # Try to load PNG with PIL
+        image = Image.open(StringIO(response.content))
+        self.assertEquals(image.format, 'PNG')
+
+    def assertBackend(self, expected_translated):
+        '''
+        Checks that backend has correct data.
+        '''
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
         )
+        store = translation.subproject.file_format_cls(
+            translation.get_filename(),
+            None
+        )
+        messages = set()
+        translated = 0
+
+        for unit in store.all_units():
+            if not unit.is_translatable():
+                continue
+            checksum = unit.get_checksum()
+            self.assertFalse(
+                checksum in messages,
+                'Duplicate string in in backend file!'
+            )
+            if unit.is_translated():
+                translated += 1
+
+        self.assertEqual(
+            translated,
+            expected_translated,
+            'Did not found expected number of translations.'
+        )
+
+
+class NewLangTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_po_new_base()
+
+    def test_none(self):
+        self.project.new_lang = 'none'
+        self.project.save()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertNotContains(response, 'New translation')
+
+    def test_url(self):
+        self.project.new_lang = 'url'
+        self.project.instructions = 'http://example.com/instructions'
+        self.project.save()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'New translation')
+        self.assertContains(response, 'http://example.com/instructions')
+
+    def test_contact(self):
+        self.project.new_lang = 'contact'
+        self.project.save()
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'New translation')
+        self.assertContains(response, '/new-lang/')
+
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+        )
+        self.assertRedirects(
+            response,
+            self.subproject.get_absolute_url()
+        )
+
+    def test_add(self):
+        self.project.new_lang = 'add'
+        self.project.save()
+
+        self.assertFalse(
+            self.subproject.translation_set.filter(
+                language__code='af'
+            ).exists()
+        )
+
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'New translation')
+        self.assertContains(response, '/new-lang/')
+
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+        )
+        self.assertRedirects(
+            response,
+            self.subproject.get_absolute_url()
+        )
+        self.assertTrue(
+            self.subproject.translation_set.filter(
+                language__code='af'
+            ).exists()
+        )
+
+
+class AndroidNewLangTest(NewLangTest):
+    def create_subproject(self):
+        return self.create_android()
 
 
 class BasicViewTest(ViewTestCase):
@@ -241,6 +351,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertBackend(1)
 
         # Test that second edit with no change does not break anything
         response = self.edit_unit(
@@ -254,6 +365,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
+        self.assertBackend(1)
 
         # Test that third edit still works
         response = self.edit_unit(
@@ -267,89 +379,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-
-    def test_suggest(self):
-        # Try empty suggestion (should not be added)
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            suggest='yes'
-        )
-        # We should stay on same message
-        self.assertRedirectsOffset(response, self.translate_url, 0)
-
-        # Add first suggestion
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            suggest='yes'
-        )
-        # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
-
-        # Add second suggestion
-        response = self.edit_unit(
-            'Hello, world!\n',
-            'Ahoj svete!\n',
-            suggest='yes'
-        )
-        # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
-
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
-
-        # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertFalse(unit.translated)
-        self.assertFalse(unit.fuzzy)
-
-        # Get ids of created suggestions
-        suggestions = [sug.pk for sug in unit.suggestions()]
-
-        # Delete one of suggestions
-        self.client.get(
-            self.translate_url,
-            {'delete': suggestions[0]},
-        )
-
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
-
-        # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertFalse(unit.translated)
-        self.assertFalse(unit.fuzzy)
-
-        # Accept one of suggestions
-        self.client.get(
-            self.translate_url,
-            {'accept': suggestions[1]},
-        )
-
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 0)
-
-        # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertTrue(unit.translated)
-        self.assertFalse(unit.fuzzy)
-        self.assertEqual(unit.target, 'Ahoj svete!\n')
+        self.assertBackend(1)
 
     def test_merge(self):
         # Translate unit to have something to start with
@@ -363,6 +393,7 @@ class EditTest(ViewTestCase):
             self.translate_url,
             {'checksum': unit.checksum, 'merge': unit.id}
         )
+        self.assertBackend(1)
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
 
@@ -394,6 +425,7 @@ class EditTest(ViewTestCase):
         changes = Change.objects.filter(unit=unit)
         self.assertEqual(changes[1].target, target)
         self.assertEqual(changes[0].target, target_2)
+        self.assertBackend(1)
         # revert it
         self.client.get(
             self.translate_url,
@@ -415,6 +447,27 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'revert': change.id}
         )
         self.assertContains(response, "Can not revert to different unit")
+        self.assertBackend(2)
+
+    def test_edit_message(self):
+        # Save with failing check
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!',
+            commit_message='Fixing issue #666',
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+
+        # Did the commit message got stored?
+        translation = self.get_translation()
+        self.assertEquals(
+            'Fixing issue #666',
+            translation.commit_message
+        )
+
+        # Try commiting
+        translation.commit_pending(self.get_request('/'))
 
     def test_edit_fixup(self):
         # Save with failing check
@@ -430,6 +483,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
+        self.assertBackend(1)
 
     def test_edit_check(self):
         # Save with failing check
@@ -471,6 +525,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
+        self.assertBackend(1)
 
     def test_commit_push(self):
         response = self.edit_unit(
@@ -578,6 +633,226 @@ class EditLinkTest(EditTest):
         return self.create_link()
 
 
+class SuggestionsTest(ViewTestCase):
+    def add_suggestion_1(self):
+        return self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            suggest='yes'
+        )
+
+    def add_suggestion_2(self):
+        return self.edit_unit(
+            'Hello, world!\n',
+            'Ahoj svete!\n',
+            suggest='yes'
+        )
+
+    def test_add(self):
+        translate_url = self.get_translation().get_translate_url()
+        # Try empty suggestion (should not be added)
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            suggest='yes'
+        )
+        # We should stay on same message
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Add first suggestion
+        response = self.add_suggestion_1()
+        # We should get to second message
+        self.assertRedirectsOffset(response, translate_url, 1)
+
+        # Add second suggestion
+        response = self.add_suggestion_2()
+        # We should get to second message
+        self.assertRedirectsOffset(response, translate_url, 1)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+        self.assertBackend(0)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEquals(len(self.get_unit().suggestions()), 2)
+
+    def test_delete(self):
+        translate_url = self.get_translation().get_translate_url()
+        # Create two suggestions
+        self.add_suggestion_1()
+        self.add_suggestion_2()
+
+        # Get ids of created suggestions
+        suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+        self.assertEquals(len(suggestions), 2)
+
+        # Delete one of suggestions
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            delete=suggestions[0],
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+        self.assertBackend(0)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEquals(len(self.get_unit().suggestions()), 1)
+
+    def test_accept(self):
+        translate_url = self.get_translation().get_translate_url()
+        # Create two suggestions
+        self.add_suggestion_1()
+        self.add_suggestion_2()
+
+        # Get ids of created suggestions
+        suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+        self.assertEquals(len(suggestions), 2)
+
+        # Accept one of suggestions
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            accept=suggestions[1],
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+
+        # Unit should be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Ahoj svete!\n')
+        self.assertBackend(1)
+        self.assertEquals(len(self.get_unit().suggestions()), 1)
+
+    def test_accept_anonymous(self):
+        translate_url = self.get_translation().get_translate_url()
+        self.client.logout()
+        # Create suggestions
+        self.add_suggestion_1()
+
+        self.client.login(username='testuser', password='testpassword')
+
+        # Get ids of created suggestion
+        suggestions = list(self.get_unit().suggestions())
+        self.assertEquals(len(suggestions), 1)
+
+        self.assertIsNone(suggestions[0].user)
+
+        # Accept one of suggestions
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            accept=suggestions[0].pk,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 0)
+
+        # Unit should be translated
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+
+    def test_vote(self):
+        translate_url = self.get_translation().get_translate_url()
+        self.subproject.suggestion_voting = True
+        self.subproject.suggestion_autoaccept = 0
+        self.subproject.save()
+
+        self.add_suggestion_1()
+
+        suggestion_id = self.get_unit().suggestions()[0].pk
+
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            upvote=suggestion_id,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+        self.assertEqual(
+            suggestion.get_num_votes(),
+            1
+        )
+
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            downvote=suggestion_id,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        suggestion = Suggestion.objects.get(pk=suggestion_id)
+        self.assertEqual(
+            suggestion.get_num_votes(),
+            -1
+        )
+
+    def test_vote_autoaccept(self):
+        self.add_suggestion_1()
+
+        translate_url = self.get_translation().get_translate_url()
+        self.subproject.suggestion_voting = True
+        self.subproject.suggestion_autoaccept = 1
+        self.subproject.save()
+
+        suggestion_id = self.get_unit().suggestions()[0].pk
+
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            upvote=suggestion_id,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 0)
+
+        # Unit should be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertBackend(1)
+
+
 class SearchViewTest(ViewTestCase):
     def setUp(self):
         super(SearchViewTest, self).setUp()
@@ -627,10 +902,27 @@ class SearchViewTest(ViewTestCase):
             {'q': 'Thank you for using Weblate.', 'search': 'exact'},
             'Current filter: Search for exact string'
         )
+        # Short string
+        self.do_search(
+            {'q': 'x'},
+            'Ensure this value has at least 2 characters (it has 1).'
+        )
+        # Wrong type
+        self.do_search(
+            {'q': 'xxxxx', 'search': 'xxxx'},
+            'Select a valid choice. xxxx is not one of the available choices.'
+        )
+
+    def test_review(self):
         # Review
         self.do_search(
             {'date': '2010-01-10', 'type': 'review'},
             None
+        )
+        # Review, invalid date
+        self.do_search(
+            {'date': '2010-01-', 'type': 'review'},
+            'Enter a valid date.'
         )
 
     def test_search_links(self):
@@ -735,6 +1027,13 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, 'Few')
         self.assertContains(response, 'Other')
         self.assertNotContains(response, 'Plural form ')
+
+    def test_checksum(self):
+        response = self.do_search({'checksum': 'invalid'}, None)
+        self.assertRedirects(
+            response,
+            self.get_translation().get_absolute_url()
+        )
 
 
 class CommentViewTest(ViewTestCase):

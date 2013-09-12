@@ -39,11 +39,12 @@ def is_running_git():
     return os.path.exists(os.path.join(get_root_dir(), '.git'))
 
 # Weblate version
-VERSION = '1.6'
+VERSION = '1.7'
 
 # Are we running git
 RUNNING_GIT = is_running_git()
 GIT_RELEASE = False
+GIT_VERSION = VERSION
 
 # Grab some information from git
 if RUNNING_GIT:

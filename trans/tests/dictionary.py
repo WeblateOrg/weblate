@@ -66,7 +66,7 @@ class DictionaryTest(ViewTestCase):
         self.assertRedirects(response, show_url)
 
         # Check number of imported objects
-        self.assertEquals(Dictionary.objects.count(), 164)
+        self.assertEqual(Dictionary.objects.count(), 164)
 
         # Check they are shown
         response = self.client.get(show_url)
@@ -81,7 +81,7 @@ class DictionaryTest(ViewTestCase):
         response = self.import_file(TEST_TBX, method='overwrite')
 
         # Check number of imported objects
-        self.assertEquals(Dictionary.objects.count(), 164)
+        self.assertEqual(Dictionary.objects.count(), 164)
 
         # Check entry got overwritten
         response = self.client.get(show_url)
@@ -96,7 +96,7 @@ class DictionaryTest(ViewTestCase):
         response = self.import_file(TEST_TBX, method='add')
 
         # Check number of imported objects
-        self.assertEquals(Dictionary.objects.count(), 165)
+        self.assertEqual(Dictionary.objects.count(), 165)
 
     def test_import_csv(self):
         # Import file
@@ -106,7 +106,7 @@ class DictionaryTest(ViewTestCase):
         self.assertRedirects(response, self.get_url('show_dictionary'))
 
         # Check number of imported objects
-        self.assertEquals(Dictionary.objects.count(), 164)
+        self.assertEqual(Dictionary.objects.count(), 164)
 
     def test_import_csv_header(self):
         # Import file
@@ -116,7 +116,7 @@ class DictionaryTest(ViewTestCase):
         self.assertRedirects(response, self.get_url('show_dictionary'))
 
         # Check number of imported objects
-        self.assertEquals(Dictionary.objects.count(), 164)
+        self.assertEqual(Dictionary.objects.count(), 164)
 
     def test_import_po(self):
         # Import file
@@ -126,7 +126,7 @@ class DictionaryTest(ViewTestCase):
         self.assertRedirects(response, self.get_url('show_dictionary'))
 
         # Check number of imported objects
-        self.assertEquals(Dictionary.objects.count(), 164)
+        self.assertEqual(Dictionary.objects.count(), 164)
 
     def test_edit(self):
         '''
@@ -146,7 +146,7 @@ class DictionaryTest(ViewTestCase):
         self.assertRedirects(response, show_url)
 
         # Check number of objects
-        self.assertEquals(Dictionary.objects.count(), 1)
+        self.assertEqual(Dictionary.objects.count(), 1)
 
         dict_id = Dictionary.objects.all()[0].id
         dict_id_url = '?id=%d' % dict_id
@@ -175,7 +175,7 @@ class DictionaryTest(ViewTestCase):
         self.assertRedirects(response, show_url)
 
         # Check number of objects
-        self.assertEquals(Dictionary.objects.count(), 0)
+        self.assertEqual(Dictionary.objects.count(), 0)
 
     def test_download_csv(self):
         '''

@@ -79,6 +79,18 @@ def notify_new_string(translation):
         subscription.notify_new_string(translation)
 
 
+def notify_new_language(subproject, language, user):
+    '''
+    Notify subscribed users about new translation
+    '''
+    subscriptions = Profile.objects.subscribed_new_language(
+        subproject.project,
+        user
+    )
+    for subscription in subscriptions:
+        subscription.notify_new_language(subproject, language, user)
+
+
 def notify_new_translation(unit, oldunit, user):
     '''
     Notify subscribed users about new translation
@@ -241,6 +253,14 @@ class ProfileManager(models.Manager):
             user=user
         )
 
+    def subscribed_new_language(self, project, user):
+        return self.filter(
+            subscribe_new_language=True,
+            subscriptions=project,
+        ).exclude(
+            user=user
+        )
+
     def subscribed_new_string(self, project, language):
         return self.filter(
             subscribe_new_string=True,
@@ -337,6 +357,10 @@ class Profile(models.Model):
         verbose_name=_('Notification on merge failure'),
         default=False
     )
+    subscribe_new_language = models.BooleanField(
+        verbose_name=_('Notification on new language request'),
+        default=False
+    )
 
     objects = ProfileManager()
 
@@ -407,6 +431,18 @@ class Profile(models.Model):
             {
                 'unit': unit,
                 'oldunit': oldunit,
+            }
+        )
+
+    def notify_new_language(self, subproject, language, user):
+        '''
+        Sends notification on new language request.
+        '''
+        self.notify_user(
+            'new_language',
+            subproject,
+            {
+                'language': language,
             }
         )
 
@@ -534,6 +570,7 @@ def create_groups(update):
             Permission.objects.get(codename='save_translation'),
             Permission.objects.get(codename='accept_suggestion'),
             Permission.objects.get(codename='delete_suggestion'),
+            Permission.objects.get(codename='vote_suggestion'),
             Permission.objects.get(codename='ignore_check'),
             Permission.objects.get(codename='upload_dictionary'),
             Permission.objects.get(codename='add_dictionary'),
@@ -555,6 +592,8 @@ def create_groups(update):
             Permission.objects.get(codename='automatic_translation'),
             Permission.objects.get(codename='save_translation'),
             Permission.objects.get(codename='accept_suggestion'),
+            Permission.objects.get(codename='vote_suggestion'),
+            Permission.objects.get(codename='override_suggestion'),
             Permission.objects.get(codename='delete_suggestion'),
             Permission.objects.get(codename='ignore_check'),
             Permission.objects.get(codename='upload_dictionary'),

@@ -66,7 +66,7 @@ class GoogleTranslation(MachineTranslation):
         response = self.json_req(
             'https://www.googleapis.com/language/translate/v2/',
             key=appsettings.MT_GOOGLE_KEY,
-            q=text,
+            q=text.encode('utf-8'),
             source='en',
             target=language,
         )
@@ -98,7 +98,7 @@ class GoogleWebTranslation(MachineTranslation):
         response = self.json_req(
             'http://translate.google.com/translate_a/t',
             client='t',
-            text=text,
+            text=text.encode('utf-8'),
             sl='en',
             tl=language,
             ie='UTF-8',

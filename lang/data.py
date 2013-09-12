@@ -98,6 +98,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'vls',
+        'West Flemish',
+        2,
+        'n != 1',
+    ),
 )
 
 # List of defaul languages - the ones, where using
@@ -209,6 +215,7 @@ DEFAULT_LANGS = (
 RTL_LANGS = set((
     'ar',
     'arc',
+    'ckb',
     'dv',
     'fa',
     'ha',

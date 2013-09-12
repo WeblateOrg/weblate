@@ -33,7 +33,7 @@ supported by Weblate and still has best support.
 Weblate supports contextual information stored in the file, adjusting it's
 headers or linking to corresponding source files.
 
-.. seealso:: https://en.wikipedia.org/wiki/Gettext
+.. seealso:: https://en.wikipedia.org/wiki/Gettext, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/po.html
 
 Monolingual Gettext
 +++++++++++++++++++
@@ -53,7 +53,7 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual.
 
-.. seealso:: https://en.wikipedia.org/wiki/XLIFF
+.. seealso:: https://en.wikipedia.org/wiki/XLIFF, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/xliff.html
 
 Java properties
 ---------------
@@ -62,7 +62,7 @@ Native Java format for translations.
 
 Java properties are usually used as bilingual.
 
-.. seealso:: https://en.wikipedia.org/wiki/.properties
+.. seealso:: https://en.wikipedia.org/wiki/.properties, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html
 
 Qt Linguist .ts
 ---------------
@@ -71,7 +71,7 @@ Translation format used in Qt based applications.
 
 Qt Linguist files are used as both bilingual and monolingual.
 
-.. seealso:: http://qt-project.org/doc/qt-4.8/linguist-manual.html
+.. seealso:: http://qt-project.org/doc/qt-4.8/linguist-manual.html, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/ts.html
 
 .. _aresource:
 
@@ -101,7 +101,7 @@ and iPhone/iPad application translations.
 
 Apple OS X strings are usually used as bilingual.
 
-.. seealso:: https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html
+.. seealso:: https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/strings.html
 
 .. note::
 
@@ -116,6 +116,9 @@ PHP files can be processed directly, though currently Translate-toolkit has
 some problems writing them properly, so please double check that your files
 won't get corrupted.
 
+PHP translations are usually monolingual, so it is recommended to specify base
+file with English strings.
+
 Sample file which should work:
 
 .. code-block:: php
@@ -123,6 +126,8 @@ Sample file which should work:
     <?php
 
     $string['foo'] = 'This is foo string';
+
+.. seealso:: http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/php.html
 
 
 Others

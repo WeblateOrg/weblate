@@ -65,12 +65,17 @@ class MockUnit(object):
     '''
     Mock unit object.
     '''
-    def __init__(self, checksum=None, flags='', code='cs'):
+    def __init__(self, checksum=None, flags='', code='cs', source=''):
         if checksum is None:
             checksum = str(uuid.uuid1())
         self.checksum = checksum
         self.flags = flags
         self.translation = MockTranslation(code)
+        self.source = source
+
+    @property
+    def all_flags(self):
+        return self.flags.split(',')
 
 
 class CheckTestCase(TestCase):
@@ -86,6 +91,7 @@ class CheckTestCase(TestCase):
         self.test_failure_1 = None
         self.test_failure_2 = None
         self.test_failure_3 = None
+        self.test_ignore_check = ('x', 'x', self.check.ignore_string)
 
     def do_test(self, expected, data, lang='cs'):
         '''
@@ -93,15 +99,22 @@ class CheckTestCase(TestCase):
         '''
         if data is None:
             return
-        self.assertEqual(
-            self.check.check_single(
-                data[0],
-                data[1],
-                MockUnit(None, data[2], lang),
-                0
-            ),
-            expected
+        result = self.check.check_single(
+            data[0],
+            data[1],
+            MockUnit(None, data[2], lang),
+            0
         )
+        if expected:
+            self.assertTrue(
+                result,
+                'Check did not fire for "%s"/"%s" (%s)' % data
+            )
+        else:
+            self.assertFalse(
+                result,
+                'Check did fire for "%s"/"%s" (%s)' % data
+            )
 
     def test_single_good_matching(self):
         self.do_test(False, self.test_good_matching)
@@ -161,5 +174,14 @@ class CheckTestCase(TestCase):
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
                 MockUnit(None, self.test_failure_1[2])
+            )
+        )
+
+    def test_check_ignore_check(self):
+        self.assertFalse(
+            self.check.check(
+                [self.test_ignore_check[0]] * 2,
+                [self.test_ignore_check[1]] * 3,
+                MockUnit(None, self.test_ignore_check[2])
             )
         )

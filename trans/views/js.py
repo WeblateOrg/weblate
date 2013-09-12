@@ -84,7 +84,7 @@ def translate(request, unit_id):
 
     return HttpResponse(
         json.dumps(response),
-        mimetype='application/json'
+        content_type='application/json'
     )
 
 
@@ -143,6 +143,7 @@ def get_dictionary(request, unit_id):
 
     return render_to_response('js/dictionary.html', RequestContext(request, {
         'dictionary': dictionary,
+        'translation': unit.translation,
     }))
 
 
