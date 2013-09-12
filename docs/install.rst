@@ -18,7 +18,7 @@ Git (>= 1.0)
     http://git-scm.com/
 Django-registration (= 0.8, 0.9 is not supported)
     https://bitbucket.org/ubernostrum/django-registration/
-Whoosh (>= 2.5)
+Whoosh (>= 2.5, 2.5.2 is recommended)
     http://bitbucket.org/mchaput/whoosh/
 PIL or Pillow library
     http://python-imaging.github.io/
@@ -114,7 +114,7 @@ The default configuration places them in same tree as Weblate sources, however
 you might prefer to move these to better location such as
 :file:`/var/lib/weblate`.
 
-Weblate tries to create these directiories automatically, but it will fail
+Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
 
 You should also take care when running :ref:`manage`, as they should be run
@@ -231,7 +231,7 @@ Disable Django's debug mode by:
 
     DEBUG = False
 
-With debug mode Django stores all executed queries and shows users backtrackes
+With debug mode Django stores all executed queries and shows users backtraces
 of errors what is not desired in production setup.
 
 .. seealso:: :ref:`installation`
@@ -518,7 +518,7 @@ weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
 admin    admin    Weblate Weblate/Django admin user
 ======== ======== ======= ==================================================
 
-The appliance is built using SUSE Studio and is based on openSUSE 12.2.
+The appliance is built using SUSE Studio and is based on openSUSE 12.3.
 
 You should also adjust some settings to match your environment, namely:
 

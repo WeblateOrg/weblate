@@ -9,7 +9,7 @@ Translation organization
 
 Weblate organizes translatable content into tree like structure. The toplevel
 object is :ref:`project`, which should hold all translations which belong
-together (for example translation of an application in serveral versions
+together (for example translation of an application in several versions
 and/or documentation). On the next level, there is :ref:`subproject`, which is
 actually the resource to translate. Here you define Git repository to use and
 mask of files to translate. Bellow :ref:`subproject` there are individual
@@ -154,7 +154,7 @@ Quality checks flags
 Importing speed
 ---------------
 
-Fetching Git repository and importing translations to Weblate can be lenghty
+Fetching Git repository and importing translations to Weblate can be lengthy
 process depending on size of your translations. Here are some tips to improve
 this situation:
 
@@ -728,8 +728,13 @@ individual phrases or words to keep the translation consistent.
 
 To enable these services, add
 ``trans.machine.weblatetm.WeblateSimilarTranslation`` (for similar string
-maching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
-string maching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
+matching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
+string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. note:: 
+
+    For similarity matching, it is recommended to have Whoosh 2.5.2 or later,
+    earlier versions can cause infinite looks under some occasions.
 
 Custom machine translation
 ++++++++++++++++++++++++++
@@ -755,7 +760,7 @@ include them in :setting:`AUTOFIX_LIST`.
 The automatic fixes are powerful, but can also cause damage, be careful when
 writing one.
 
-For example following automatic fixup would replace every occurence of string
+For example following automatic fixup would replace every occurrence of string
 ``foo`` in translation with ``bar``:
 
 .. literalinclude:: ../examples/fix_foo.py
