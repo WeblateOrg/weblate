@@ -114,7 +114,7 @@ The default configuration places them in same tree as Weblate sources, however
 you might prefer to move these to better location such as
 :file:`/var/lib/weblate`.
 
-Weblate tries to create these directiories automatically, but it will fail
+Weblate tries to create these directories automatically, but it will fail
 when it does not have permissions to do so.
 
 You should also take care when running :ref:`manage`, as they should be run
