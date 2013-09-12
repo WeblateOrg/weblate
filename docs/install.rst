@@ -231,7 +231,7 @@ Disable Django's debug mode by:
 
     DEBUG = False
 
-With debug mode Django stores all executed queries and shows users backtrackes
+With debug mode Django stores all executed queries and shows users backtraces
 of errors what is not desired in production setup.
 
 .. seealso:: :ref:`installation`
@@ -518,7 +518,7 @@ weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
 admin    admin    Weblate Weblate/Django admin user
 ======== ======== ======= ==================================================
 
-The appliance is built using SUSE Studio and is based on openSUSE 12.2.
+The appliance is built using SUSE Studio and is based on openSUSE 12.3.
 
 You should also adjust some settings to match your environment, namely:
 
