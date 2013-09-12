@@ -212,4 +212,9 @@ class MachineTranslation(object):
                 exc.__class__.__name__,
                 str(exc)
             )
+            weblate.logger.error(
+                'Last fetched URL: %s, params: %s',
+                self.request_url,
+                self.request_params,
+            )
             raise
