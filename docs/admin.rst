@@ -731,6 +731,11 @@ To enable these services, add
 maching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
 string maching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
 
+.. note:: 
+
+    For similarity matching, it is recommended to have Whoosh 2.5.2 or later,
+    earlier versions can cause infinite looks under some occasions.
+
 Custom machine translation
 ++++++++++++++++++++++++++
 
