@@ -367,6 +367,8 @@ Can define author of translation upload [Managers]
     Allows to define custom authorship when uploading translation file.
 Can force committing of translation [Managers]
     Can force Git commit in the web interface.
+Can see git repository URL [Users, Managers]
+    Can see Git repository URL inside Weblate
 Can update translation from git [Managers]
     Can force Git pull in the web interface.
 Can push translations to remote git [Managers]
