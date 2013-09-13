@@ -190,12 +190,12 @@ class LanguageManager(models.Manager):
         baselang = None
 
         # Check for different variant
-        if baselang is None and'@' in code:
+        if baselang is None and '@' in code:
             parts = code.split('@')
             baselang = self.try_get(parts[0])
 
         # Check for different country
-        if baselang is None and'_' in code or '-' in code:
+        if baselang is None and '_' in code or '-' in code:
             parts = code.replace('-', '_').split('_')
             baselang = self.try_get(parts[0])
 
