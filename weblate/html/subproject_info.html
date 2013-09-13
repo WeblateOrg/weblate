@@ -3,6 +3,7 @@
 {% with object.project as object %}
 {% include "project_info.html" %}
 {% endwith %}
+{% if perms.trans.can_see_git_repository %}
 <p>{% trans "Git repository:" %} 
 <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code> ({{ object.get_repo_branch }}
  @ 
@@ -19,3 +20,4 @@
 </p>
 {% endif %}
 {% endwith %}
+{% endif %}
