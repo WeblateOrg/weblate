@@ -25,6 +25,7 @@ from datetime import datetime
 from trans.util import get_site_url
 
 URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
+URL_DONATE = 'http://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 
 
 def version(request):
@@ -33,7 +34,8 @@ def version(request):
 
 def weblate_url(request):
     return {
-        'weblate_url': URL_BASE % weblate.VERSION
+        'weblate_url': URL_BASE % weblate.VERSION,
+        'donate_url': URL_DONATE % weblate.VERSION,
     }
 
 
