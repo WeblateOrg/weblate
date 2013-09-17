@@ -31,7 +31,7 @@ class GlosbeTranslation(MachineTranslation):
         '''
         Converts language to service specific code.
         '''
-        return language.replace('_', '-').lower()
+        return language.replace('_', '-').split('-')[0].lower()
 
     def is_supported(self, language):
         '''
