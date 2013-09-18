@@ -23,7 +23,7 @@ from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
 from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.contrib import messages
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
@@ -84,7 +84,8 @@ def home(request):
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
     last_changes = Change.objects.filter(
-        translation__subproject__project__in=acl_projects,
+        Q(translation__subproject__project__in=acl_projects) |
+        Q(dictionary__project__in=acl_projects)
     ).order_by('-timestamp')[:10]
 
     return render_to_response('index.html', RequestContext(request, {
@@ -151,7 +152,8 @@ def show_project(request, project):
     ).distinct()
 
     last_changes = Change.objects.filter(
-        translation__subproject__project=obj
+        Q(translation__subproject__project=obj) |
+        Q(dictionary__project=obj)
     ).order_by('-timestamp')[:10]
 
     return render_to_response('project.html', RequestContext(request, {
