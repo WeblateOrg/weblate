@@ -271,6 +271,7 @@ def show_dictionary(request, project, lang):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(
+                request,
                 project=prj,
                 language=lang,
                 source=form.cleaned_data['source'],

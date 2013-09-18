@@ -40,7 +40,7 @@ class DictionaryManager(models.Manager):
             # Retry with different CSV scheme
             fileobj.seek(0)
             store = csvfile(fileobj, ('source', 'target'))
-            ret, skipped = self.import_store(project, language, store, method)
+            ret, skipped = self.import_store(request, project, language, store, method)
 
         return ret
 
@@ -48,6 +48,7 @@ class DictionaryManager(models.Manager):
         '''
         Actual importer
         '''
+        from trans.models.changes import Change
         ret = 0
         skipped = 0
 
@@ -99,9 +100,9 @@ class DictionaryManager(models.Manager):
         '''
         Creates new dictionary object.
         '''
+        from trans.models.changes import Change
         action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
         created = super(DictionaryManager, self).create(**kwargs)
-        from trans.models.changes import Change
         Change.objects.create(
             action=action,
             dictionary=created,
