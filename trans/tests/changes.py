@@ -37,31 +37,31 @@ class ChangesTest(ViewTestCase):
             {'project': 'test'}
         )
         self.assertContains(response, 'Resource update')
-        self.assertNotContains(response, 'Invalid search string!')
+        self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
             reverse('changes'),
             {'project': 'test', 'subproject': 'test'}
         )
         self.assertContains(response, 'Resource update')
-        self.assertNotContains(response, 'Invalid search string!')
+        self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
             reverse('changes'),
             {'project': 'test', 'subproject': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
-        self.assertNotContains(response, 'Invalid search string!')
+        self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
             reverse('changes'),
             {'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
-        self.assertNotContains(response, 'Invalid search string!')
+        self.assertNotContains(response, 'Failed to find matching language!')
         response = self.client.get(
             reverse('changes'),
             {'project': 'testx', 'subproject': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
-        self.assertContains(response, 'Invalid search string!')
+        self.assertContains(response, 'Failed to find matching project!')
 
     def test_user(self):
         self.edit_unit(
