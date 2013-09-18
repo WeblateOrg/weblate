@@ -43,7 +43,6 @@
 <td>
 {% if perms.trans.change_dictionary %}
 <form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get">
-{% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
 <input type="submit" class="button" value="{% trans "Edit" %}" />
 </form>
