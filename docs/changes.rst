@@ -18,6 +18,7 @@ Released on ? 2013.
 * Add status badge widget.
 * Dropped invalid text direction check.
 * Changes in dictionary are now logged in history.
+* Performance improvements for translating view.
 
 weblate 1.6
 -----------
