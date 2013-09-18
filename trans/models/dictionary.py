@@ -34,13 +34,17 @@ class DictionaryManager(models.Manager):
         # Load file using translate-toolkit
         store = AutoFormat.load(fileobj)
 
-        ret, skipped = self.import_store(request, project, language, store, method)
+        ret, skipped = self.import_store(
+            request, project, language, store, method
+        )
 
         if ret == 0 and skipped > 0 and isinstance(store, csvfile):
             # Retry with different CSV scheme
             fileobj.seek(0)
             store = csvfile(fileobj, ('source', 'target'))
-            ret, skipped = self.import_store(request, project, language, store, method)
+            ret, skipped = self.import_store(
+                request, project, language, store, method
+            )
 
         return ret
 
@@ -139,7 +143,10 @@ class Dictionary(models.Model):
         return '%s?id=%d' % (
             reverse(
                 'edit_dictionary',
-                kwargs={'project': self.project.slug, 'lang': self.language.code}
+                kwargs={
+                    'project': self.project.slug,
+                    'lang': self.language.code
+                }
             ),
             self.pk
         )
