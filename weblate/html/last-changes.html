@@ -34,7 +34,11 @@
 {% endif %}
 {% empty %}
 <tr><td colspan="4" class="tablenotice">
+{% if not hide_browse %}
 {% trans "No recent activity has been recorded." %}
+{% else %}
+{% trans "No matching activity has been found." %}
+{% endif %}
 </td></tr>
 {% endfor %}
 </tbody>
