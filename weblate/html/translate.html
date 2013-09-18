@@ -184,7 +184,7 @@
         <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
         {% endif %}
         <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">
-        {% if comments.exists %}
+        {% if comments %}
         {% blocktrans with comments.count as  count %}Comments ({{ count }}){% endblocktrans %}
         {% else %}
         {% trans "Comments" %}
@@ -192,7 +192,7 @@
         </a></li>
         <li><a href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">
-        {% if source_comments.exists %}
+        {% if source_comments %}
         {% blocktrans with source_comments.count as  count %}Source ({{ count }}){% endblocktrans %}
         {% else %}
         {% trans "Source" %}
