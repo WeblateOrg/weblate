@@ -89,7 +89,7 @@ class ChangesView(ListView):
                         self.request.GET.get('lang', None),
                     )
             except Http404:
-                messages.error(self.request, _('Invalid search string!'))
+                messages.error(self.request, _('Failed to find matching project!'))
 
         # Filtering by language
         if self.translation is None and 'lang' in self.request.GET:
@@ -98,7 +98,7 @@ class ChangesView(ListView):
                     code=self.request.GET['lang']
                 )
             except Language.DoesNotExist:
-                messages.error(self.request, _('Invalid search string!'))
+                messages.error(self.request, _('Failed to find matching language!'))
 
         # Filtering by user
         if 'user' in self.request.GET:
@@ -107,7 +107,7 @@ class ChangesView(ListView):
                     username=self.request.GET['user']
                 )
             except User.DoesNotExist:
-                messages.error(self.request, _('Invalid search string!'))
+                messages.error(self.request, _('Failed to find matching user!'))
 
         result = Change.objects.prefetch()
 
