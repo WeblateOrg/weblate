@@ -115,6 +115,17 @@ class ChangeManager(models.Manager):
         '''
         return self.base_stats(365, 7, *args, **kwargs)
 
+    def prefetch(self):
+        '''
+        Fetches related fields in a big chungs to avoid loading them
+        individually.
+        '''
+        return self.prefetch_related(
+            'user', 'translation', 'unit', 'dictionary',
+            'translation__subproject', 'translation__language',
+            'translation__subproject__project',
+        )
+
 
 class Change(models.Model):
     ACTION_UPDATE = 0

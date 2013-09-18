@@ -109,7 +109,7 @@ class ChangesView(ListView):
             except User.DoesNotExist:
                 messages.error(self.request, _('Invalid search string!'))
 
-        result = Change.objects.all()
+        result = Change.objects.prefetch()
 
         if self.translation is not None:
             result = result.filter(
