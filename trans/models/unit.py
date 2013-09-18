@@ -1001,7 +1001,6 @@ class Unit(models.Model):
         '''
         flags = []
 
-
         if self.fuzzy:
             flags.append(
                 _('Message is fuzzy'),
