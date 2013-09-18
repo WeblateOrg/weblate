@@ -75,7 +75,7 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
     Returns project, subproject, translation tuple for given parameters.
     '''
 
-    if lang is not None:
+    if lang is not None and subproject is not None:
         # Language defined? We can get all
         translation = get_translation(request, project, subproject, lang)
         subproject = translation.subproject
