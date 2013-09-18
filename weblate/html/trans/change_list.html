@@ -22,35 +22,8 @@
 <form class="autosubmit">{{ letterform.as_p }}</form>
 </span>
 
-<table>
-<thead>
-<tr>
-<th>{% trans "When" %}</th>
-<th>{% trans "User" %}</th>
-<th>{% trans "Action" %}</th>
-<th>{% trans "Translation" %}</th>
-<th></th>
-<th></th>
-</tr>
-<tbody>
-{% for c in object_list %}
-<tr>
-<td>{{ c.timestamp|naturaltime }}</td>
-<td>{{ c.get_user_display }}</td>
-<td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
-<td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
-{% if c.target %}
-<td class="translatetext">{{ c.target|fmttranslation }}</td>
-<td>{% if perms.trans.save_translation and c.target != c.unit.target %}<a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>{% endif %}</td>
-{% else %}
-<td></td>
-<td></td>
-{% endif %}
-</tr>
-{% empty %}
-<tr><td colspan="4">{% trans "No matching activity has been found." %}</td></tr>
-{% endfor %}
-</tbody>
-</table>
+{% with object_list as last_changes and True as hide_browse %}
+{% include "last-changes.html" %}
+{% endwith %}
 
 {% endblock %}

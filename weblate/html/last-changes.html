@@ -38,7 +38,9 @@
 </td></tr>
 {% endfor %}
 </tbody>
+{% if not hide_browse %}
 <tfoot><tr><td colspan="4" class="tablenotice">
 <a href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse changes" %}</a>
 </td></tr></tfoot>
+{% endif %}
 </table>
