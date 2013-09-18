@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-09-18 11:06+0200\n"
+"POT-Creation-Date: 2013-09-18 16:05+0200\n"
 "PO-Revision-Date: 2013-09-18 11:10+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -778,62 +778,59 @@ msgstr "Výpustka"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Řetězec používá tři tečky (...) namísto výpustky (…)"
 
-#: trans/models/changes.py:146
+#: trans/models/changes.py:149
 msgid "Resource update"
 msgstr "Aktualizace zdroje"
 
-#: trans/models/changes.py:147
+#: trans/models/changes.py:150
 msgid "Translation completed"
 msgstr "Dokončení překladu"
 
-#: trans/models/changes.py:148
+#: trans/models/changes.py:151
 msgid "Translation changed"
 msgstr "Změna překladu"
 
-#: trans/models/changes.py:149 weblate/html/subproject.html:32
+#: trans/models/changes.py:152 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Nový překlad"
 
-#: trans/models/changes.py:150
+#: trans/models/changes.py:153
 msgid "Comment added"
 msgstr "Přidán komentář"
 
-#: trans/models/changes.py:151
+#: trans/models/changes.py:154
 msgid "Suggestion added"
 msgstr "Přidán návrh"
 
-#: trans/models/changes.py:152 weblate/html/translation.html:39
+#: trans/models/changes.py:155 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automatický překlad"
 
-#: trans/models/changes.py:153
+#: trans/models/changes.py:156
 msgid "Suggestion accepted"
 msgstr "Přijat návrh"
 
-#: trans/models/changes.py:154
+#: trans/models/changes.py:157
 msgid "Translation reverted"
 msgstr "Překlad vrácen"
 
-#: trans/models/changes.py:155
+#: trans/models/changes.py:158
 msgid "Translation uploaded"
 msgstr "Nahrán překlad"
 
-#: trans/models/changes.py:156
-#| msgid "Glossary"
+#: trans/models/changes.py:159
 msgid "Glossary added"
 msgstr "Přidáno do glosáře"
 
-#: trans/models/changes.py:157
-#| msgid "Glossary"
+#: trans/models/changes.py:160
 msgid "Glossary updated"
 msgstr "Upraveno v glosáři"
 
-#: trans/models/changes.py:158
-#| msgid "Glossary"
+#: trans/models/changes.py:161
 msgid "Glossary uploaded"
 msgstr "Nahráno do glosáře"
 
-#: trans/models/changes.py:180
+#: trans/models/changes.py:183
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
@@ -1385,24 +1382,44 @@ msgstr "Nejasných řetězců (%d)"
 msgid "Strings with suggestions (%d)"
 msgstr "Řetězců s návrhy (%d)"
 
-#: trans/models/unit.py:303
+#: trans/models/unit.py:305
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
-#: trans/models/unit.py:515
+#: trans/models/unit.py:517
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
 
-#: trans/models/unit.py:527
+#: trans/models/unit.py:529
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
 "poškození."
 
-#: trans/models/unit.py:672
+#: trans/models/unit.py:674
 #, python-format
 msgid "unit ID %s"
 msgstr "ID jednotky %s"
+
+#: trans/models/unit.py:1006
+msgid "Message is fuzzy"
+msgstr "Řetězec je nejasný"
+
+#: trans/models/unit.py:1011
+msgid "Message is not translated"
+msgstr "Řetězec není přeložený"
+
+#: trans/models/unit.py:1016
+msgid "Message has failing checks"
+msgstr "Řetězec má selhavší kontroly"
+
+#: trans/models/unit.py:1021
+msgid "Message is translated"
+msgstr "Řetězec je přeložený"
+
+#: trans/models/unit.py:1027
+msgid "Message has comments"
+msgstr "Řetězec má komentáře"
 
 #: trans/templatetags/translations.py:57
 msgid "Good configuration"
@@ -1660,28 +1677,25 @@ msgstr "Správcům projektu byl odeslán požadavek na přidání překladu."
 msgid "Failed to process new translation request!"
 msgstr "Nepodařilo se zpracovat požadavek o nový překlad!"
 
-#: trans/views/changes.py:54 weblate/html/edit_dictionary.html:25
+#: trans/views/changes.py:55 weblate/html/edit_dictionary.html:25
 #: weblate/html/trans/change_list.html:12
 msgid "Changes"
 msgstr "Změny"
 
-#: trans/views/changes.py:96
-#| msgid "Failed to add comment!"
+#: trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr "Nepodařilo se najít odpovídající projekt!"
 
-#: trans/views/changes.py:105
-#| msgid "Failed to parse %d matched files!"
+#: trans/views/changes.py:111
 msgid "Failed to find matching language!"
 msgstr "Nepodařilo se najít odpovídající jazyk!"
 
-#: trans/views/changes.py:114
-#| msgid "Failed to parse %d matched files!"
+#: trans/views/changes.py:123
 msgid "Failed to find matching user!"
 msgstr "Nepodařilo se najít odpovídajícího uživatele!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:267
+#: weblate/html/translate.html:100 weblate/html/translate.html.py:264
 msgid "Failing checks"
 msgstr "Selhavší kontroly"
 
@@ -1689,7 +1703,7 @@ msgstr "Selhavší kontroly"
 msgid "Dictionaries"
 msgstr "Slovníky"
 
-#: trans/views/dictionary.py:88 trans/views/dictionary.py:319
+#: trans/views/dictionary.py:88 trans/views/dictionary.py:320
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Slovník pro %(project)s - %(language)s"
@@ -1709,64 +1723,64 @@ msgid "File upload has failed: %s"
 msgstr "Selhalo nahrání obsahu souboru: %s"
 
 #: trans/views/dictionary.py:155 trans/views/dictionary.py:157
-#: trans/views/edit.py:673
+#: trans/views/edit.py:665
 msgid "Failed to process form!"
 msgstr "Nepodařilo se zpracovat formulář!"
 
-#: trans/views/edit.py:50 weblate/html/list-translations.html:65
+#: trans/views/edit.py:48 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
 msgstr "Nejasné řetězce"
 
-#: trans/views/edit.py:52
+#: trans/views/edit.py:50
 msgid "Untranslated strings"
 msgstr "Nepřeložené řetězce"
 
-#: trans/views/edit.py:54
+#: trans/views/edit.py:52
 msgid "Strings with suggestions"
 msgstr "Řetězce s návrhy"
 
-#: trans/views/edit.py:56 weblate/html/list-translations.html:64
+#: trans/views/edit.py:54 weblate/html/list-translations.html:64
 msgid "Strings with any failing checks"
 msgstr "Řetězce s jakoukoliv selhavší kontrolou"
 
-#: trans/views/edit.py:66
+#: trans/views/edit.py:64
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Fulltextové vyhledávání „%s“"
 
-#: trans/views/edit.py:68
+#: trans/views/edit.py:66
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Vyhledávání celého řetězce „%s“"
 
-#: trans/views/edit.py:70
+#: trans/views/edit.py:68
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Vyhledávání částečného řetězce „%s“"
 
-#: trans/views/edit.py:93
+#: trans/views/edit.py:91
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Chyba v parametru %(field)s: %(error)s"
 
-#: trans/views/edit.py:112 trans/views/edit.py:560
+#: trans/views/edit.py:110 trans/views/edit.py:558
 msgid "Invalid search string!"
 msgstr "Chybný vyhledávací řetězec!"
 
-#: trans/views/edit.py:135
+#: trans/views/edit.py:133
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Kontrola překladů od %s"
 
-#: trans/views/edit.py:172 trans/views/edit.py:182
+#: trans/views/edit.py:170 trans/views/edit.py:180
 msgid "No string matched your search!"
 msgstr "Žádný řetězec neodpovídá vašemu vyhledávání!"
 
-#: trans/views/edit.py:210
+#: trans/views/edit.py:208
 msgid "Your suggestion is empty!"
 msgstr "Váš návrh je prázdný!"
 
-#: trans/views/edit.py:221
+#: trans/views/edit.py:219
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -1775,72 +1789,72 @@ msgstr ""
 "Na tomto překladu momentálně nikdo nepracuje, prosím zvažte, že se jím "
 "stanete, protože jinak může zůstat váš návrh nepoužitý."
 
-#: trans/views/edit.py:268
+#: trans/views/edit.py:266
 msgid "You need to log in to be able to save translations!"
 msgstr "Pro ukládání překladů musíte být přihlášen!"
 
-#: trans/views/edit.py:274 trans/views/edit.py:335 trans/views/edit.py:380
+#: trans/views/edit.py:272 trans/views/edit.py:333 trans/views/edit.py:378
 msgid "You don't have privileges to save translations!"
 msgstr "Pro ukládání překladů nemáte oprávnění!"
 
-#: trans/views/edit.py:280
+#: trans/views/edit.py:278
 msgid "Only suggestions are allowed in this translation!"
 msgstr "V tomto překladu jsou povoleny jen návrhy!"
 
-#: trans/views/edit.py:304
+#: trans/views/edit.py:302
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Na vašem překladu byly provedeny následující opravy: %s"
 
-#: trans/views/edit.py:318
+#: trans/views/edit.py:316
 msgid "Some checks have failed on your translation!"
 msgstr "Na vašem překladu selhaly některé kontroly!"
 
-#: trans/views/edit.py:359
+#: trans/views/edit.py:357
 msgid "Can not merge different messages!"
 msgstr "Nelze sloučit rozdílné řetězce!"
 
-#: trans/views/edit.py:404
+#: trans/views/edit.py:402
 msgid "Can not revert to different unit!"
 msgstr "Nelze vrátit rozdílné řetězce!"
 
-#: trans/views/edit.py:409
+#: trans/views/edit.py:407
 msgid "Can not revert to empty translation!"
 msgstr "Nelze se vrátit k prázdnému překladu!"
 
-#: trans/views/edit.py:427
+#: trans/views/edit.py:425
 msgid "You need to log in to be able to manage suggestions!"
 msgstr "Pro práci s návrhy musíte být přihlášen!"
 
-#: trans/views/edit.py:448
+#: trans/views/edit.py:446
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Pro přijmutí návrhu nemáte oprávnění!"
 
-#: trans/views/edit.py:457
+#: trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Pro odstranění návrhu nemáte oprávnění!"
 
-#: trans/views/edit.py:465 trans/views/edit.py:473
+#: trans/views/edit.py:463 trans/views/edit.py:471
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Pro hlasování o návrhu nemáte oprávnění!"
 
-#: trans/views/edit.py:479
+#: trans/views/edit.py:477
 msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
-#: trans/views/edit.py:513
+#: trans/views/edit.py:511
 msgid "You have reached end of translating."
 msgstr "Jste na konci překládání."
 
-#: trans/views/edit.py:671
+#: trans/views/edit.py:663
 msgid "Automatic translation completed."
 msgstr "Automatický překlad byl dokončen."
 
-#: trans/views/edit.py:699
+#: trans/views/edit.py:691
 msgid "Posted new comment"
 msgstr "Přidán nový komentář"
 
-#: trans/views/edit.py:701
+#: trans/views/edit.py:693
 msgid "Failed to add comment!"
 msgstr "Nepodařilo se vytvořit komentář!"
 
@@ -2266,8 +2280,8 @@ msgstr "Exportovat glosář"
 msgid "History"
 msgstr "Historie"
 
-#: weblate/html/dictionary.html:90 weblate/html/translate.html:254
-#: weblate/html/translate.html.py:287
+#: weblate/html/dictionary.html:90 weblate/html/translate.html:251
+#: weblate/html/translate.html.py:284
 msgid "Add"
 msgstr "Přidat"
 
@@ -2497,502 +2511,508 @@ msgid "Central Khmer"
 msgstr "khmerština"
 
 #: weblate/html/i18n.html:47
+#, fuzzy
+#| msgid "Chinese (China)"
+msgid "Chinese"
+msgstr "čínština (Čína)"
+
+#: weblate/html/i18n.html:48
 msgid "Chinese (Hong Kong)"
 msgstr "čínština (Hongkong)"
 
-#: weblate/html/i18n.html:48
+#: weblate/html/i18n.html:49
 msgid "Chinese (China)"
 msgstr "čínština (Čína)"
 
-#: weblate/html/i18n.html:49
+#: weblate/html/i18n.html:50
 msgid "Chinese (Taiwan)"
 msgstr "čínština (Taiwan)"
 
-#: weblate/html/i18n.html:50
+#: weblate/html/i18n.html:51
 msgid "Cornish"
 msgstr "kornština"
 
-#: weblate/html/i18n.html:51
+#: weblate/html/i18n.html:52
 msgid "Croatian"
 msgstr "chorvatština"
 
-#: weblate/html/i18n.html:52
+#: weblate/html/i18n.html:53
 msgid "Czech"
 msgstr "čeština"
 
-#: weblate/html/i18n.html:53
+#: weblate/html/i18n.html:54
 msgid "Danish"
 msgstr "dánština"
 
-#: weblate/html/i18n.html:54
+#: weblate/html/i18n.html:55
 msgid "Dutch"
 msgstr "holandština"
 
-#: weblate/html/i18n.html:55
+#: weblate/html/i18n.html:56
 msgid "Dzongkha"
 msgstr "dzongkä"
 
-#: weblate/html/i18n.html:56
+#: weblate/html/i18n.html:57
 msgid "English"
 msgstr "angličtina"
 
-#: weblate/html/i18n.html:57
+#: weblate/html/i18n.html:58
 msgid "English (South Africa)"
 msgstr "angličtina (Jižní Afrika)"
 
-#: weblate/html/i18n.html:58
+#: weblate/html/i18n.html:59
 msgid "English (United Kingdom)"
 msgstr "angličtina (Velká Británie)"
 
-#: weblate/html/i18n.html:59
+#: weblate/html/i18n.html:60
 msgid "English (United States)"
 msgstr "angličtina (Spojené Státy)"
 
-#: weblate/html/i18n.html:60
+#: weblate/html/i18n.html:61
 msgid "Esperanto"
 msgstr "esperanto"
 
-#: weblate/html/i18n.html:61
+#: weblate/html/i18n.html:62
 msgid "Estonian"
 msgstr "estonština"
 
-#: weblate/html/i18n.html:62
+#: weblate/html/i18n.html:63
 msgid "Faroese"
 msgstr "faerština"
 
-#: weblate/html/i18n.html:63
+#: weblate/html/i18n.html:64
 msgid "Filipino"
 msgstr "filipínština"
 
-#: weblate/html/i18n.html:64
+#: weblate/html/i18n.html:65
 msgid "Finnish"
 msgstr "finština"
 
-#: weblate/html/i18n.html:65
+#: weblate/html/i18n.html:66
 msgid "French"
 msgstr "francouzština"
 
-#: weblate/html/i18n.html:66
+#: weblate/html/i18n.html:67
 msgid "Frisian"
 msgstr "fríština"
 
-#: weblate/html/i18n.html:67
+#: weblate/html/i18n.html:68
 msgid "Friulian"
 msgstr "furlanština"
 
-#: weblate/html/i18n.html:68
+#: weblate/html/i18n.html:69
 msgid "Fulah"
 msgstr "Fulbština"
 
-#: weblate/html/i18n.html:69
+#: weblate/html/i18n.html:70
 msgid "Gaelic"
 msgstr "gaelština"
 
-#: weblate/html/i18n.html:70
+#: weblate/html/i18n.html:71
 msgid "Galician"
 msgstr "galicijština"
 
-#: weblate/html/i18n.html:71
+#: weblate/html/i18n.html:72
 msgid "Georgian"
 msgstr "gruzínština"
 
-#: weblate/html/i18n.html:72
+#: weblate/html/i18n.html:73
 msgid "German"
 msgstr "němčina"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:74
 msgid "Greek"
 msgstr "řečtina"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:75
 msgid "Gujarati"
 msgstr "gudžarátština"
 
-#: weblate/html/i18n.html:75
+#: weblate/html/i18n.html:76
 msgid "Gun"
 msgstr "fonština"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:77
 msgid "Haitian"
 msgstr "haitština"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:78
 msgid "Hausa"
 msgstr "hauština"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:79
 msgid "Hebrew"
 msgstr "hebrejština"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:80
 msgid "Hindi"
 msgstr "hindština"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:81
 msgid "Hungarian"
 msgstr "maďarština"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:82
 msgid "Icelandic"
 msgstr "islandština"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:83
 msgid "Indonesian"
 msgstr "indonéština"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:84
 msgid "Interlingua"
 msgstr "interlingua"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:85
 msgid "Irish"
 msgstr "irština"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:86
 msgid "Italian"
 msgstr "italština"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:87
 msgid "Japanese"
 msgstr "japonština"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:88
 msgid "Javanese"
 msgstr "javánština"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:89
 msgid "Kannada"
 msgstr "kannadština"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:90
 msgid "Kashubian"
 msgstr "kašubština"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:91
 msgid "Kazakh"
 msgstr "kazaština"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:92
 msgid "Kirghiz"
 msgstr "kyrgyzština"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:93
 msgid "Korean"
 msgstr "korejština"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:94
 msgid "Kurdish"
 msgstr "kurdština"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:95
 msgid "Kurdish Sorani"
 msgstr "kurdština sorání"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:96
 msgid "Lao"
 msgstr "laoština"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:97
 msgid "Latvian"
 msgstr "lotyština"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:98
 msgid "Lingala"
 msgstr "ngalština"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:99
 msgid "Lithuanian"
 msgstr "litevština"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:100
 msgid "Luxembourgish"
 msgstr "lucemburština"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:101
 msgid "Macedonian"
 msgstr "makedonština"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:102
 msgid "Maithili"
 msgstr "maithilština"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:103
 msgid "Malagasy"
 msgstr "malgaština"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:104
 msgid "Malay"
 msgstr "malajština"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:105
 msgid "Malayalam"
 msgstr "malajálamština"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:106
 msgid "Maltese"
 msgstr "maltština"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:107
 msgid "Maori"
 msgstr "maorština"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:108
 msgid "Mapudungun"
 msgstr "araukánština"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:109
 msgid "Marathi"
 msgstr "maráthština"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:110
 msgid "Mongolian"
 msgstr "mongolština"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:111
 msgid "Morisyen"
 msgstr "mauretánština"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:112
 msgid "N'Ko"
 msgstr "n'ko"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:113
 msgid "Nahuatl languages"
 msgstr "aztéčtina"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:114
 msgid "Neapolitan"
 msgstr "neapolština"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:115
 msgid "Nepali"
 msgstr "nepálština"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:116
 msgid "Norwegian Bokmål"
 msgstr "norština (Bokmål)"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:117
 msgid "Norwegian Nynorsk"
 msgstr "norština (Nynorsk)"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:118
 msgid "Occitan"
 msgstr "okcitánština"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:119
 msgid "Oriya"
 msgstr "urijština"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:120
 msgid "Papiamento"
 msgstr "papiamento"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:121
 msgid "Pedi"
 msgstr "sothoština (severní)"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:122
 msgid "Persian"
 msgstr "perština"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:123
 msgid "Piemontese"
 msgstr "piemontština"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:124
 msgid "Polish"
 msgstr "polština"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:125
 msgid "Portuguese"
 msgstr "portugalština"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:126
 msgid "Portuguese (Brazil)"
 msgstr "portugalština (Brazílie)"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:127
 msgid "Portuguese (Portugal)"
 msgstr "portugalština (Portugalsko)"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:128
 msgid "Punjabi"
 msgstr "pandžábština"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:129
 msgid "Pushto"
 msgstr "paštština"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:130
 msgid "Romanian"
 msgstr "rumunština"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:131
 msgid "Romansh"
 msgstr "rétorománština"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:132
 msgid "Russian"
 msgstr "ruština"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:133
 msgid "Scots"
 msgstr "skotština"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:134
 msgid "Serbian"
 msgstr "srbština"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:135
 msgid "Serbian (cyrillic)"
 msgstr "srbština (cyrilicí)"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:136
 msgid "Serbian (latin)"
 msgstr "srbština (latinkou)"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:137
 msgid "Simplified Chinese"
 msgstr "zjednodušená čínština"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:138
 msgid "Sinhala"
 msgstr "sinhálština"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:139
 msgid "Slovak"
 msgstr "slovenština"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:140
 msgid "Slovenian"
 msgstr "slovinština"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:141
 msgid "Somali"
 msgstr "somálština"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:142
 msgid "Songhai languages"
 msgstr "songhaiština"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:143
 msgid "Sotho"
 msgstr "sothoština (jižní)"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:144
 msgid "Spanish"
 msgstr "španělština"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:145
 msgid "Sundanese"
 msgstr "sundánština"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:146
 msgid "Swahili"
 msgstr "svahilština"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:147
 msgid "Swedish"
 msgstr "švédština"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:148
 msgid "Tajik"
 msgstr "tádžičtina"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:149
 msgid "Tamil"
 msgstr "tamilština"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:150
 msgid "Tatar"
 msgstr "tatarština"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:151
 msgid "Telugu"
 msgstr "telužština"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:152
 msgid "Thai"
 msgstr "thajština"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:153
 msgid "Tibetan"
 msgstr "tibetština"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:154
 msgid "Tigrinya"
 msgstr "tigriňa"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:155
 msgid "Traditional Chinese"
 msgstr "tradiční čínština"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:156
 msgid "Turkish"
 msgstr "turečtina"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:157
 msgid "Turkmen"
 msgstr "turkmenština"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:158
 msgid "Uighur"
 msgstr "ujgurština"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:159
 msgid "Ukrainian"
 msgstr "ukrajinština"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:160
 msgid "Urdu"
 msgstr "urdština"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:161
 msgid "Uzbek"
 msgstr "uzbečtina"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:162
 msgid "Uzbek (latin)"
 msgstr "uzbečtina (latinkou)"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:163
 msgid "Valencian"
 msgstr "valencijština"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:164
 msgid "Venda"
 msgstr "vendština"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:165
 msgid "Vietnamese"
 msgstr "vietnamština"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:166
 msgid "Walloon"
 msgstr "valonština"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:167
 msgid "Welsh"
 msgstr "welština"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:168
 msgid "West Flemish"
 msgstr "západní vlámština"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:169
 msgid "Wolof"
 msgstr "volofština"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:170
 msgid "Yakut"
 msgstr "jakutština"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:171
 msgid "Yoruba"
 msgstr "jorubština"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:172
 msgid "Zulu"
 msgstr "zulština"
 
@@ -3334,7 +3354,7 @@ msgstr "Řetězce ke kontrole"
 msgid "Comment"
 msgstr "Komentář"
 
-#: weblate/html/source-review.html:62 weblate/html/translate.html:272
+#: weblate/html/source-review.html:62 weblate/html/translate.html:269
 msgid "User comments"
 msgstr "Komentáře od uživatelů"
 
@@ -3548,7 +3568,7 @@ msgstr "Podrobnosti o zdrojovém řetězci a možnost zpětné vazby"
 msgid "Source (%(count)s)"
 msgstr "Zdroj (%(count)s)"
 
-#: weblate/html/translate.html:201 weblate/html/translate.html.py:299
+#: weblate/html/translate.html:201 weblate/html/translate.html.py:296
 #: weblate/html/translation.html:36 weblate/html/translation.html.py:53
 msgid "Search"
 msgstr "Hledat"
@@ -3561,19 +3581,19 @@ msgstr "Stav"
 msgid "Service"
 msgstr "Služba"
 
-#: weblate/html/translate.html:243
+#: weblate/html/translate.html:240
 msgid "You can share comments about this translation with other translators."
 msgstr "Můžete sdílet svoje komentáře k překladu s dalšími překladateli."
 
-#: weblate/html/translate.html:247 weblate/html/translate.html.py:279
+#: weblate/html/translate.html:244 weblate/html/translate.html.py:276
 msgid "New comment"
 msgstr "Nový komentář"
 
-#: weblate/html/translate.html:257 weblate/html/translate.html.py:290
+#: weblate/html/translate.html:254 weblate/html/translate.html.py:287
 msgid "You are not allowed to add comments."
 msgstr "Nemáte oprávnění přidávat komentáře."
 
-#: weblate/html/translate.html:273
+#: weblate/html/translate.html:270
 msgid ""
 "You can share comments about source string for this translation with other "
 "translators and developers."
@@ -3720,26 +3740,6 @@ msgstr ""
 #: weblate/html/unit-details.html:4
 msgid "Used in"
 msgstr "Použito v"
-
-#: weblate/html/unit-state.html:3
-msgid "Message is fuzzy"
-msgstr "Řetězec je nejasný"
-
-#: weblate/html/unit-state.html:4
-msgid "Message is not translated"
-msgstr "Řetězec není přeložený"
-
-#: weblate/html/unit-state.html:5
-msgid "Message has failing checks"
-msgstr "Řetězec má selhavší kontroly"
-
-#: weblate/html/unit-state.html:6
-msgid "Message is translated"
-msgstr "Řetězec je přeložený"
-
-#: weblate/html/unit-state.html:8
-msgid "Message has comments"
-msgstr "Řetězec má komentáře"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
