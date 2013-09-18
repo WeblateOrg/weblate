@@ -23,7 +23,7 @@
 <td>{{ c.timestamp|naturaltime }}</td>
 <td>{{ c.get_user_display }}</td>
 <td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
-<td><a href="{{ c.translation.get_absolute_url }}">{{ c.translation }}</a></td>
+<td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
 <td></td>
 </tr>
 {% if c.target %}

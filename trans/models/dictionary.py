@@ -23,6 +23,7 @@ from lang.models import Language
 from trans.formats import AutoFormat
 from trans.models.project import Project
 from translate.storage.csvl10n import csvfile
+from django.core.urlresolvers import reverse
 
 
 class DictionaryManager(models.Manager):
@@ -114,4 +115,10 @@ class Dictionary(models.Model):
             self.language,
             self.source,
             self.target
+        )
+
+    def get_absolute_url(self):
+        reverse(
+            'show_dictionary',
+            kwargs={'project': self.project.slug, 'language': language.code}
         )

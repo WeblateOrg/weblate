@@ -176,5 +176,32 @@ class Change(models.Model):
         '''
         if self.unit is not None:
             return self.unit.get_absolute_url()
-        else:
+        elif self.translation is not None:
             return self.translation.get_absolute_url()
+        elif self.dictionary is not None:
+            return self.dictionary.get_absolute_url()
+        else:
+            return
+
+    def get_translation_url(self):
+        '''
+        Returns URL for translation.
+        '''
+        if self.translation is not None:
+            return self.translation.get_absolute_url()
+        elif self.dictionary is not None:
+            return self.dictionary.get_absolute_url()
+        return None
+
+    def get_translation_display(self):
+        '''
+        Returns display name for translation.
+        '''
+        if self.translation is not None:
+            return unicode(self.translation)
+        elif self.dictionary is not None:
+            return '%s/%s' % (
+                self.dictionary.project,
+                self.dictionary.language
+            )
+        return None
