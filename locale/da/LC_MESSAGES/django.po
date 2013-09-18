@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-09-13 11:43+0200\n"
+"POT-Creation-Date: 2013-09-18 11:06+0200\n"
 "PO-Revision-Date: 2013-09-11 07:02+0200\n"
 "Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -488,7 +488,7 @@ msgstr "Kilde"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
 #: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
-#: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Oversættelse"
 
@@ -787,47 +787,65 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 "Tekststrengen bruger tre prikker (...) i stedet for udeladelsestegnet (...)"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:146
 msgid "Resource update"
 msgstr "Ressourceopdatering"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:147
 msgid "Translation completed"
 msgstr "Oversættelse er færdiggjort"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:148
 msgid "Translation changed"
 msgstr "Oversættelse er ændret"
 
-#: trans/models/changes.py:134 weblate/html/subproject.html:32
+#: trans/models/changes.py:149 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Ny oversættelse"
 
-#: trans/models/changes.py:135
+#: trans/models/changes.py:150
 msgid "Comment added"
 msgstr "Kommentar tilføjet"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:151
 msgid "Suggestion added"
 msgstr "Forslag tilføjet"
 
-#: trans/models/changes.py:137 weblate/html/translation.html:39
+#: trans/models/changes.py:152 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automatisk oversættelse"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:153
 msgid "Suggestion accepted"
 msgstr "Forslag er accepteret"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:154
 msgid "Translation reverted"
 msgstr "Oversættelse er rullet tilbage"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:155
 msgid "Translation uploaded"
 msgstr "Overførte oversættelser"
 
-#: trans/models/changes.py:161
+#: trans/models/changes.py:156
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary added"
+msgstr "Ordliste"
+
+#: trans/models/changes.py:157
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary updated"
+msgstr "Ordliste"
+
+#: trans/models/changes.py:158
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary uploaded"
+msgstr "Ordliste"
+
+#: trans/models/changes.py:180
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
@@ -1202,7 +1220,7 @@ msgstr ""
 "Yderligere komma adskilte flag for at påvirke kvalitetskontrol, se "
 "dokumentationen for mulige værdier."
 
-#: trans/models/subproject.py:452
+#: trans/models/subproject.py:453
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -1210,74 +1228,74 @@ msgstr ""
 "Mislykkedes med verificering af SSH-værtsnøgle - tilføj dem på SSH-siden i "
 "adminstrationsdelen."
 
-#: trans/models/subproject.py:456
+#: trans/models/subproject.py:457
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Kunne ikke hente git-arkiv: %s"
 
-#: trans/models/subproject.py:560
+#: trans/models/subproject.py:561
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push er deaktiveret for %s."
 
-#: trans/models/subproject.py:609
+#: trans/models/subproject.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Mislykkedes med at skubbe (push) til fjern forgrening på %s."
 
-#: trans/models/subproject.py:645
+#: trans/models/subproject.py:646
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Mislykkedes med at nulstille fjern forgrening på %s."
 
-#: trans/models/subproject.py:697
+#: trans/models/subproject.py:698
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Mislykkedes med at flytte forgreningspunkt ovenpå fjernt beliggende "
 "forgrening %s."
 
-#: trans/models/subproject.py:700
+#: trans/models/subproject.py:701
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Mislykkedes med at flette fjern forgrening i ind %s."
 
-#: trans/models/subproject.py:821
+#: trans/models/subproject.py:822
 msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL anvendes ikke når arkivet er sammenkædet!"
 
-#: trans/models/subproject.py:825
+#: trans/models/subproject.py:826
 msgid "Export URL is not used when repository is linked!"
 msgstr "Eksport af URL anvendes ikke når arkivet er sammenkædet!"
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:836
 msgid "Template file not found!"
 msgstr "Skabelonfil blev ikke fundet!"
 
-#: trans/models/subproject.py:841
+#: trans/models/subproject.py:842
 msgid "Format of translation base file could not be recognized."
 msgstr "Format på oversættelsesskabelon kunne ikke genkendes."
 
-#: trans/models/subproject.py:845
+#: trans/models/subproject.py:846
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Kunne ikke fortolke oversættelsesskabelon: %s"
 
-#: trans/models/subproject.py:862
+#: trans/models/subproject.py:863
 msgid "File does not seem to be valid!"
 msgstr "Filen synes ikke at være gyldigt!"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format på %d matchede filer, kunne ikke genkendes."
 
-#: trans/models/subproject.py:879
+#: trans/models/subproject.py:880
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Kunne ikke fortolke %d matchede filer!"
 
-#: trans/models/subproject.py:890
+#: trans/models/subproject.py:891
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -1285,27 +1303,27 @@ msgstr ""
 "Det valgte filformat understøtter ikke tilføjelse af nye oversættelser, som "
 "valgt i projektindstillinger."
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 "Format på oversættelsesskabelon for nye oversættelser kunne ikke genkendes!"
 
-#: trans/models/subproject.py:901
+#: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 "Basisfilen til nye oversættelser bliver ikke brugt på grund af "
 "projektetindstillinger."
 
-#: trans/models/subproject.py:918
+#: trans/models/subproject.py:919
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "Kunne ikke opdatere Git: %s"
 
-#: trans/models/subproject.py:926
+#: trans/models/subproject.py:927
 msgid "The mask did not match any files!"
 msgstr "Masken matchede ingen filer!"
 
-#: trans/models/subproject.py:932
+#: trans/models/subproject.py:933
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1313,15 +1331,15 @@ msgstr ""
 "Der er flere filer til et enkelt sprog. Juster masken og brug underprojekter "
 "til at oversættelse forskellige ressourcer."
 
-#: trans/models/subproject.py:944 trans/models/subproject.py:950
+#: trans/models/subproject.py:945 trans/models/subproject.py:951
 msgid "You can not base file with bilingual translation!"
 msgstr "Du kan ikke bruge basissprogfil til tosprogede oversættelser!"
 
-#: trans/models/subproject.py:958
+#: trans/models/subproject.py:959
 msgid "You can not use monolingual translation without base file!"
 msgstr "Du kan ikke bruge enkeltsprogede oversættelse uden basissprogfil!"
 
-#: trans/models/subproject.py:967
+#: trans/models/subproject.py:968
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatisk accepterer forslag kan kun arbejde med stemmeafgivelse aktiveret!"
@@ -1586,7 +1604,7 @@ msgstr[1] "%(count)s timer fra nu"
 msgid "Please set your full name in your profile."
 msgstr "Angiv dit fulde navn i din profil."
 
-#: trans/views/basic.py:123
+#: trans/views/basic.py:124
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1599,7 +1617,7 @@ msgstr ""
 "oversat til %(languages)s sprog</a>. I gennemsnit er %(percent)s%% af "
 "oversættelserne komplette."
 
-#: trans/views/basic.py:132
+#: trans/views/basic.py:133
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1610,76 +1628,90 @@ msgstr ""
 "indeholder i øjeblikket %(total)s strenge til oversættelse, og er "
 "%(percent)s komplet."
 
-#: trans/views/basic.py:231
+#: trans/views/basic.py:233
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Gennemgå kildestrenge i %s"
 
-#: trans/views/basic.py:250
+#: trans/views/basic.py:252
 #, python-format
 msgid "Source strings in %s"
 msgstr "Kildestrenge i %s"
 
-#: trans/views/basic.py:313
+#: trans/views/basic.py:315
 msgid "Page Not Found"
 msgstr "Siden blev ikke fundet"
 
-#: trans/views/basic.py:336 weblate/html/about.html:11
+#: trans/views/basic.py:338 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Om Weblate"
 
-#: trans/views/basic.py:380
+#: trans/views/basic.py:382
 msgid "Chosen translation already exists in this project!"
 msgstr "Valgte oversættelsen eksisterer allerede i projektet!"
 
-#: trans/views/basic.py:387
+#: trans/views/basic.py:389
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Anmodning om ny oversættelse til projektets udviklere."
 
-#: trans/views/basic.py:396
+#: trans/views/basic.py:398
 msgid "Failed to process new translation request!"
 msgstr "Kunne ikke behandle anmodning om ny oversættelse!"
 
-#: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
+#: trans/views/changes.py:54 weblate/html/edit_dictionary.html:25
+#: weblate/html/trans/change_list.html:12
 msgid "Changes"
 msgstr "Ændringer"
 
-#: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:560
-msgid "Invalid search string!"
-msgstr "Ugyldigt søgestreng!"
+#: trans/views/changes.py:96
+#, fuzzy
+#| msgid "Failed to add comment!"
+msgid "Failed to find matching project!"
+msgstr "Kunne ikke tilføje kommentar!"
+
+#: trans/views/changes.py:105
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to find matching language!"
+msgstr "Kunne ikke fortolke %d matchede filer!"
+
+#: trans/views/changes.py:114
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to find matching user!"
+msgstr "Kunne ikke fortolke %d matchede filer!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:267
 msgid "Failing checks"
 msgstr "Mislykket kontrol"
 
-#: trans/views/dictionary.py:47
+#: trans/views/dictionary.py:48
 msgid "Dictionaries"
 msgstr "Ordbøger"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
+#: trans/views/dictionary.py:88 trans/views/dictionary.py:319
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "%(language)s-ordbog for %(project)s"
 
-#: trans/views/dictionary.py:128
+#: trans/views/dictionary.py:142
 msgid "No words to import found in file."
 msgstr "Fandt ingen ord i fil til import."
 
-#: trans/views/dictionary.py:133
+#: trans/views/dictionary.py:147
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Importerede %d ord fra fil."
 
-#: trans/views/dictionary.py:138
+#: trans/views/dictionary.py:152
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Filoverførsel mislykkedes: %s"
 
-#: trans/views/dictionary.py:141 trans/views/dictionary.py:143
+#: trans/views/dictionary.py:155 trans/views/dictionary.py:157
 #: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "Kunne ikke behandle formular!"
@@ -1719,6 +1751,10 @@ msgstr "Delstrengsøgning efter \"%s\""
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Fejl i parameter %(field)s: %(error)s"
+
+#: trans/views/edit.py:112 trans/views/edit.py:560
+msgid "Invalid search string!"
+msgstr "Ugyldigt søgestreng!"
 
 #: trans/views/edit.py:135
 #, python-format
@@ -2194,35 +2230,42 @@ msgstr "Næste"
 msgid "Last"
 msgstr "Sidste"
 
-#: weblate/html/dictionary.html:48
+#: weblate/html/dictionary.html:47
 msgid "Edit"
 msgstr "Redigér"
 
-#: weblate/html/dictionary.html:57 weblate/html/translate.html:134
+#: weblate/html/dictionary.html:56 weblate/html/translate.html:134
 msgid "Delete"
 msgstr "Slet"
 
-#: weblate/html/dictionary.html:66
+#: weblate/html/dictionary.html:65
 msgid "No words found!"
 msgstr "Fandt ingen ord!"
 
-#: weblate/html/dictionary.html:69 weblate/html/language.html:18
+#: weblate/html/dictionary.html:68 weblate/html/language.html:18
 #: weblate/html/project.html:36 weblate/html/subproject.html:26
 #: weblate/html/translation.html:31
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: weblate/html/dictionary.html:74
+#: weblate/html/dictionary.html:73
 msgid "Add new word"
 msgstr "Tilføj nyt ord"
 
-#: weblate/html/dictionary.html:77
+#: weblate/html/dictionary.html:76
 msgid "Import glossary"
 msgstr "Importér ordliste"
 
-#: weblate/html/dictionary.html:79
+#: weblate/html/dictionary.html:78
 msgid "Export glossary"
 msgstr "Eksportér ordliste"
+
+#: weblate/html/dictionary.html:79 weblate/html/index.html:65
+#: weblate/html/language.html:23 weblate/html/project.html:40
+#: weblate/html/subproject.html:30 weblate/html/translate.html:193
+#: weblate/html/translation.html:35 weblate/html/translation.html.py:88
+msgid "History"
+msgstr "Historik"
 
 #: weblate/html/dictionary.html:90 weblate/html/translate.html:254
 #: weblate/html/translate.html.py:287
@@ -2992,13 +3035,6 @@ msgstr "Oversat"
 msgid "Summaries"
 msgstr "Oversigter"
 
-#: weblate/html/index.html:65 weblate/html/language.html:23
-#: weblate/html/project.html:40 weblate/html/subproject.html:30
-#: weblate/html/translate.html:193 weblate/html/translation.html:35
-#: weblate/html/translation.html.py:88
-msgid "History"
-msgstr "Historik"
-
 #: weblate/html/index.html:66
 msgid "Most active translators"
 msgstr "Mest aktive oversættere"
@@ -3018,7 +3054,7 @@ msgid "Others"
 msgstr "Andre"
 
 #: weblate/html/index.html:80 weblate/html/index.html.py:99
-#: weblate/html/last-changes.html:15 weblate/html/trans/change_list.html:29
+#: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "Bruger"
 
@@ -3046,27 +3082,31 @@ msgstr "sprog"
 msgid "Glossaries"
 msgstr "Ordlister"
 
-#: weblate/html/last-changes.html:14 weblate/html/trans/change_list.html:28
+#: weblate/html/last-changes.html:14
 msgid "When"
 msgstr "Hvornår"
 
-#: weblate/html/last-changes.html:16 weblate/html/trans/change_list.html:30
+#: weblate/html/last-changes.html:16
 msgid "Action"
 msgstr "Handling"
 
-#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32
 msgid "Revert to this translation"
 msgstr "Rul oversættelsen tilbage"
 
-#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32
 msgid "Revert"
 msgstr "Rul tilbage"
 
-#: weblate/html/last-changes.html:37
+#: weblate/html/last-changes.html:38
 msgid "No recent activity has been recorded."
 msgstr "Der er ikke registreret aktivitet for nylig."
 
-#: weblate/html/last-changes.html:42
+#: weblate/html/last-changes.html:40
+msgid "No matching activity has been found."
+msgstr "Der blev ikke fundet matchende aktiviteter."
+
+#: weblate/html/last-changes.html:47
 msgid "Browse changes"
 msgstr "Gennemse ændringer"
 
@@ -3332,11 +3372,11 @@ msgstr ""
 msgid "Source strings review"
 msgstr "Gennemgang af kildestrenge"
 
-#: weblate/html/subproject_info.html:6
+#: weblate/html/subproject_info.html:7
 msgid "Git repository:"
 msgstr "Git-arkiv:"
 
-#: weblate/html/subproject_info.html:17 weblate/html/js/git-status.html:45
+#: weblate/html/subproject_info.html:18 weblate/html/js/git-status.html:45
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
@@ -4466,10 +4506,6 @@ msgstr "Ret fejlene i tilmeldingsformularen."
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "ændringer"
-
-#: weblate/html/trans/change_list.html:51
-msgid "No matching activity has been found."
-msgstr "Der blev ikke fundet matchende aktiviteter."
 
 #~ msgid "Request new language"
 #~ msgstr "Anmod om nyt sprog"

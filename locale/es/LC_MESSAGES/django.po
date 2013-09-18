@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-09-13 11:43+0200\n"
+"POT-Creation-Date: 2013-09-18 11:06+0200\n"
 "PO-Revision-Date: 2013-09-10 18:12+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -488,7 +488,7 @@ msgstr "Original"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
 #: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
-#: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Traducción"
 
@@ -792,47 +792,65 @@ msgstr ""
 "La cadena utiliza tres puntos (...) en lugar del caracter de puntos "
 "suspensivos (…)"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:146
 msgid "Resource update"
 msgstr "Actualización de recurso"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:147
 msgid "Translation completed"
 msgstr "Traducción completada"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:148
 msgid "Translation changed"
 msgstr "Traducción cambiada"
 
-#: trans/models/changes.py:134 weblate/html/subproject.html:32
+#: trans/models/changes.py:149 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Nueva traducción"
 
-#: trans/models/changes.py:135
+#: trans/models/changes.py:150
 msgid "Comment added"
 msgstr "Comentario agregado"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:151
 msgid "Suggestion added"
 msgstr "Sugerencia agregada"
 
-#: trans/models/changes.py:137 weblate/html/translation.html:39
+#: trans/models/changes.py:152 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Traducción automática"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:153
 msgid "Suggestion accepted"
 msgstr "Sugerencia aceptada"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:154
 msgid "Translation reverted"
 msgstr "Traducción revertida"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:155
 msgid "Translation uploaded"
 msgstr "Traducción cargada"
 
-#: trans/models/changes.py:161
+#: trans/models/changes.py:156
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary added"
+msgstr "Glosario"
+
+#: trans/models/changes.py:157
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary updated"
+msgstr "Glosario"
+
+#: trans/models/changes.py:158
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary uploaded"
+msgstr "Glosario"
+
+#: trans/models/changes.py:180
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
@@ -1214,7 +1232,7 @@ msgstr ""
 "Opciones adicionales, separadas por comas, para afectar los chequeos de "
 "calidad, revise la documentación para los valores posibles."
 
-#: trans/models/subproject.py:452
+#: trans/models/subproject.py:453
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -1222,72 +1240,72 @@ msgstr ""
 "No se pudo verificar la llave de servidor SSH, agrégela en en la interfaz de "
 "administración."
 
-#: trans/models/subproject.py:456
+#: trans/models/subproject.py:457
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "No se pudieron importar los cambios del repositorio git: %s"
 
-#: trans/models/subproject.py:560
+#: trans/models/subproject.py:561
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "«Push» desactivado para %s."
 
-#: trans/models/subproject.py:609
+#: trans/models/subproject.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 
-#: trans/models/subproject.py:645
+#: trans/models/subproject.py:646
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "No se pudieron deshacer los cambios a la rama remota en %s."
 
-#: trans/models/subproject.py:697
+#: trans/models/subproject.py:698
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "No se pudo cambiar la base sobre la rama remota %s."
 
-#: trans/models/subproject.py:700
+#: trans/models/subproject.py:701
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: trans/models/subproject.py:821
+#: trans/models/subproject.py:822
 msgid "Push URL is not used when repository is linked!"
 msgstr "¡No se utiliza la URL de «Push» cuando se enlaza el repositorio!"
 
-#: trans/models/subproject.py:825
+#: trans/models/subproject.py:826
 msgid "Export URL is not used when repository is linked!"
 msgstr "¡No se utiliza la URL de exportación cuando se enlaza el repositorio!"
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:836
 msgid "Template file not found!"
 msgstr "¡No se encontró el archivo de plantilla!"
 
-#: trans/models/subproject.py:841
+#: trans/models/subproject.py:842
 msgid "Format of translation base file could not be recognized."
 msgstr "No se reconoció el formato del archivo de traducción base."
 
-#: trans/models/subproject.py:845
+#: trans/models/subproject.py:846
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "No se pudo procesar el archivo de traducción base: %s"
 
-#: trans/models/subproject.py:862
+#: trans/models/subproject.py:863
 msgid "File does not seem to be valid!"
 msgstr "¡El archivo no parece ser válido!"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "No se reconoció el formato de %d archivos encontrados."
 
-#: trans/models/subproject.py:879
+#: trans/models/subproject.py:880
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "¡No se pudieron procesar %d archivos encontrados!"
 
-#: trans/models/subproject.py:890
+#: trans/models/subproject.py:891
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -1295,26 +1313,26 @@ msgstr ""
 "El formato de archivo seleccionado no es compatible con la forma de agregar "
 "nuevas traducciones en la configuración del proyecto."
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 msgid "Format of base file for new translations was not recognized!"
 msgstr "¡No se reconoció el formato del archivo base para nuevas traducciones!"
 
-#: trans/models/subproject.py:901
+#: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 "No se utilizó el archivo base para nuevas traducciones debido a la "
 "configuración del proyecto."
 
-#: trans/models/subproject.py:918
+#: trans/models/subproject.py:919
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "No se pudo actualizar git: %s"
 
-#: trans/models/subproject.py:926
+#: trans/models/subproject.py:927
 msgid "The mask did not match any files!"
 msgstr "¡No se encontraron archivos en la ruta provista!"
 
-#: trans/models/subproject.py:932
+#: trans/models/subproject.py:933
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1322,19 +1340,19 @@ msgstr ""
 "Existen más archivos por idioma individual, ajuste la ruta y utilice "
 "subproyectos para traducir diferentes recursos."
 
-#: trans/models/subproject.py:944 trans/models/subproject.py:950
+#: trans/models/subproject.py:945 trans/models/subproject.py:951
 msgid "You can not base file with bilingual translation!"
 msgstr ""
 "¡No puede utilizar un archivo de traducción base con una traducción "
 "multiidioma!"
 
-#: trans/models/subproject.py:958
+#: trans/models/subproject.py:959
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 "¡No puede utilizar una traducción monoidioma sin un archivo de traducción "
 "base!"
 
-#: trans/models/subproject.py:967
+#: trans/models/subproject.py:968
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "¡La aceptación automática de sugerencias sólo funcionará cuando active los "
@@ -1602,7 +1620,7 @@ msgstr[1] "en %(count)s horas"
 msgid "Please set your full name in your profile."
 msgstr "Configure su nombre completo en su perfil."
 
-#: trans/views/basic.py:123
+#: trans/views/basic.py:124
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1615,7 +1633,7 @@ msgstr ""
 "\">es traducido a %(languages)s idiomas</a>. En general, estas traducciones "
 "están %(percent)s%% completas."
 
-#: trans/views/basic.py:132
+#: trans/views/basic.py:133
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1626,78 +1644,92 @@ msgstr ""
 "español actualmente contiene %(total)s cadenas para traducción y está "
 "%(percent)s%% completo."
 
-#: trans/views/basic.py:231
+#: trans/views/basic.py:233
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Revisar cadenas originales en %s"
 
-#: trans/views/basic.py:250
+#: trans/views/basic.py:252
 #, python-format
 msgid "Source strings in %s"
 msgstr "Cadenas originales en %s"
 
-#: trans/views/basic.py:313
+#: trans/views/basic.py:315
 msgid "Page Not Found"
 msgstr "Página no encontrada"
 
-#: trans/views/basic.py:336 weblate/html/about.html:11
+#: trans/views/basic.py:338 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Acerca de Weblate"
 
-#: trans/views/basic.py:380
+#: trans/views/basic.py:382
 msgid "Chosen translation already exists in this project!"
 msgstr "¡La traducción seleccionada ya existe en este proyecto!"
 
-#: trans/views/basic.py:387
+#: trans/views/basic.py:389
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 "Se envió una solicitud para una nueva traducción a los administradores del "
 "proyecto."
 
-#: trans/views/basic.py:396
+#: trans/views/basic.py:398
 msgid "Failed to process new translation request!"
 msgstr "¡No se pudo procesar el pedido para una nueva traducción!"
 
-#: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
+#: trans/views/changes.py:54 weblate/html/edit_dictionary.html:25
+#: weblate/html/trans/change_list.html:12
 msgid "Changes"
 msgstr "Cambios"
 
-#: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:560
-msgid "Invalid search string!"
-msgstr "¡Cadena de búsqueda inválida!"
+#: trans/views/changes.py:96
+#, fuzzy
+#| msgid "Failed to add comment!"
+msgid "Failed to find matching project!"
+msgstr "¡No se pudo agregar el comentario!"
+
+#: trans/views/changes.py:105
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to find matching language!"
+msgstr "¡No se pudieron procesar %d archivos encontrados!"
+
+#: trans/views/changes.py:114
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to find matching user!"
+msgstr "¡No se pudieron procesar %d archivos encontrados!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:267
 msgid "Failing checks"
 msgstr "Chequeos fallidos"
 
-#: trans/views/dictionary.py:47
+#: trans/views/dictionary.py:48
 msgid "Dictionaries"
 msgstr "Diccionarios"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
+#: trans/views/dictionary.py:88 trans/views/dictionary.py:319
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "diccionario %(language)s para %(project)s"
 
-#: trans/views/dictionary.py:128
+#: trans/views/dictionary.py:142
 msgid "No words to import found in file."
 msgstr "No se encontraron palabras para importar en el archivo."
 
-#: trans/views/dictionary.py:133
+#: trans/views/dictionary.py:147
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Se importaron %d palabras del archivo."
 
-#: trans/views/dictionary.py:138
+#: trans/views/dictionary.py:152
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Falló la carga del archivo: %s"
 
-#: trans/views/dictionary.py:141 trans/views/dictionary.py:143
+#: trans/views/dictionary.py:155 trans/views/dictionary.py:157
 #: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "¡No se pudo procesar el formulario!"
@@ -1737,6 +1769,10 @@ msgstr "Búsqueda en subcadenas de «%s»"
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Error en el parámetro %(field)s: %(error)s"
+
+#: trans/views/edit.py:112 trans/views/edit.py:560
+msgid "Invalid search string!"
+msgstr "¡Cadena de búsqueda inválida!"
 
 #: trans/views/edit.py:135
 #, python-format
@@ -2218,35 +2254,42 @@ msgstr "Siguiente"
 msgid "Last"
 msgstr "Último"
 
-#: weblate/html/dictionary.html:48
+#: weblate/html/dictionary.html:47
 msgid "Edit"
 msgstr "Editar"
 
-#: weblate/html/dictionary.html:57 weblate/html/translate.html:134
+#: weblate/html/dictionary.html:56 weblate/html/translate.html:134
 msgid "Delete"
 msgstr "Borrar"
 
-#: weblate/html/dictionary.html:66
+#: weblate/html/dictionary.html:65
 msgid "No words found!"
 msgstr "¡No se encontraron palabras!"
 
-#: weblate/html/dictionary.html:69 weblate/html/language.html:18
+#: weblate/html/dictionary.html:68 weblate/html/language.html:18
 #: weblate/html/project.html:36 weblate/html/subproject.html:26
 #: weblate/html/translation.html:31
 msgid "Tools"
 msgstr "Herramientas"
 
-#: weblate/html/dictionary.html:74
+#: weblate/html/dictionary.html:73
 msgid "Add new word"
 msgstr "Agregar nueva palabra"
 
-#: weblate/html/dictionary.html:77
+#: weblate/html/dictionary.html:76
 msgid "Import glossary"
 msgstr "Importar glosario"
 
-#: weblate/html/dictionary.html:79
+#: weblate/html/dictionary.html:78
 msgid "Export glossary"
 msgstr "Exportar glosario"
+
+#: weblate/html/dictionary.html:79 weblate/html/index.html:65
+#: weblate/html/language.html:23 weblate/html/project.html:40
+#: weblate/html/subproject.html:30 weblate/html/translate.html:193
+#: weblate/html/translation.html:35 weblate/html/translation.html.py:88
+msgid "History"
+msgstr "Historia"
 
 #: weblate/html/dictionary.html:90 weblate/html/translate.html:254
 #: weblate/html/translate.html.py:287
@@ -3018,13 +3061,6 @@ msgstr "Traducido"
 msgid "Summaries"
 msgstr "Resúmenes"
 
-#: weblate/html/index.html:65 weblate/html/language.html:23
-#: weblate/html/project.html:40 weblate/html/subproject.html:30
-#: weblate/html/translate.html:193 weblate/html/translation.html:35
-#: weblate/html/translation.html.py:88
-msgid "History"
-msgstr "Historia"
-
 #: weblate/html/index.html:66
 msgid "Most active translators"
 msgstr "Traductores más activos"
@@ -3044,7 +3080,7 @@ msgid "Others"
 msgstr "Otros"
 
 #: weblate/html/index.html:80 weblate/html/index.html.py:99
-#: weblate/html/last-changes.html:15 weblate/html/trans/change_list.html:29
+#: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "Usuario"
 
@@ -3072,27 +3108,31 @@ msgstr "idiomas"
 msgid "Glossaries"
 msgstr "Glosarios"
 
-#: weblate/html/last-changes.html:14 weblate/html/trans/change_list.html:28
+#: weblate/html/last-changes.html:14
 msgid "When"
 msgstr "Cuándo"
 
-#: weblate/html/last-changes.html:16 weblate/html/trans/change_list.html:30
+#: weblate/html/last-changes.html:16
 msgid "Action"
 msgstr "Acción"
 
-#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32
 msgid "Revert to this translation"
 msgstr "Revertir a esta traducción"
 
-#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32
 msgid "Revert"
 msgstr "Revertir"
 
-#: weblate/html/last-changes.html:37
+#: weblate/html/last-changes.html:38
 msgid "No recent activity has been recorded."
 msgstr "No se registró actividad reciente."
 
-#: weblate/html/last-changes.html:42
+#: weblate/html/last-changes.html:40
+msgid "No matching activity has been found."
+msgstr "No se encontró la actividad buscada."
+
+#: weblate/html/last-changes.html:47
 msgid "Browse changes"
 msgstr "Explorar cambios"
 
@@ -3364,11 +3404,11 @@ msgstr ""
 msgid "Source strings review"
 msgstr "Revision de cadenas originales"
 
-#: weblate/html/subproject_info.html:6
+#: weblate/html/subproject_info.html:7
 msgid "Git repository:"
 msgstr "Repositorio Git:"
 
-#: weblate/html/subproject_info.html:17 weblate/html/js/git-status.html:45
+#: weblate/html/subproject_info.html:18 weblate/html/js/git-status.html:45
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
@@ -4499,10 +4539,6 @@ msgstr "Corrija los errores en el formulario de registro."
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "cambios"
-
-#: weblate/html/trans/change_list.html:51
-msgid "No matching activity has been found."
-msgstr "No se encontró la actividad buscada."
 
 #~ msgid "Request new language"
 #~ msgstr "Solicitar nuevo idioma"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-09-13 11:43+0200\n"
+"POT-Creation-Date: 2013-09-18 11:06+0200\n"
 "PO-Revision-Date: 2013-09-10 15:22+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -488,7 +488,7 @@ msgstr "Zdroj"
 #: weblate/html/dictionary.html:33 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:85 weblate/html/translate.html.py:206
 #: weblate/html/translate.html:226 weblate/html/js/dictionary.html:9
-#: weblate/html/js/other.html:6 weblate/html/trans/change_list.html:31
+#: weblate/html/js/other.html:6
 msgid "Translation"
 msgstr "Překlad"
 
@@ -778,47 +778,65 @@ msgstr "Výpustka"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "Řetězec používá tři tečky (...) namísto výpustky (…)"
 
-#: trans/models/changes.py:131
+#: trans/models/changes.py:146
 msgid "Resource update"
 msgstr "Aktualizace zdroje"
 
-#: trans/models/changes.py:132
+#: trans/models/changes.py:147
 msgid "Translation completed"
 msgstr "Dokončení překladu"
 
-#: trans/models/changes.py:133
+#: trans/models/changes.py:148
 msgid "Translation changed"
 msgstr "Změna překladu"
 
-#: trans/models/changes.py:134 weblate/html/subproject.html:32
+#: trans/models/changes.py:149 weblate/html/subproject.html:32
 msgid "New translation"
 msgstr "Nový překlad"
 
-#: trans/models/changes.py:135
+#: trans/models/changes.py:150
 msgid "Comment added"
 msgstr "Přidán komentář"
 
-#: trans/models/changes.py:136
+#: trans/models/changes.py:151
 msgid "Suggestion added"
 msgstr "Přidán návrh"
 
-#: trans/models/changes.py:137 weblate/html/translation.html:39
+#: trans/models/changes.py:152 weblate/html/translation.html:39
 msgid "Automatic translation"
 msgstr "Automatický překlad"
 
-#: trans/models/changes.py:138
+#: trans/models/changes.py:153
 msgid "Suggestion accepted"
 msgstr "Přijat návrh"
 
-#: trans/models/changes.py:139
+#: trans/models/changes.py:154
 msgid "Translation reverted"
 msgstr "Překlad vrácen"
 
-#: trans/models/changes.py:140
+#: trans/models/changes.py:155
 msgid "Translation uploaded"
 msgstr "Nahrán překlad"
 
-#: trans/models/changes.py:161
+#: trans/models/changes.py:156
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary added"
+msgstr "Glosář"
+
+#: trans/models/changes.py:157
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary updated"
+msgstr "Glosář"
+
+#: trans/models/changes.py:158
+#, fuzzy
+#| msgid "Glossary"
+msgid "Glossary uploaded"
+msgstr "Glosář"
+
+#: trans/models/changes.py:180
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
@@ -1196,7 +1214,7 @@ msgstr ""
 "Další značky pro ovlivnění kontroly kvality, více informací naleznete v "
 "dokumentaci."
 
-#: trans/models/subproject.py:452
+#: trans/models/subproject.py:453
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -1204,72 +1222,72 @@ msgstr ""
 "Nepodařilo se ověřit SSH klíč hostitele, prosím přidejte ho na SSH stránce "
 "správcovského rozhraní."
 
-#: trans/models/subproject.py:456
+#: trans/models/subproject.py:457
 #, python-format
 msgid "Failed to fetch git repository: %s"
 msgstr "Nepodařilo se stáhnout Git repozitář: %s"
 
-#: trans/models/subproject.py:560
+#: trans/models/subproject.py:561
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Odesílání je vypnuté pro %s."
 
-#: trans/models/subproject.py:609
+#: trans/models/subproject.py:610
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Nepodařilo se odeslat do vzdálené větve %s."
 
-#: trans/models/subproject.py:645
+#: trans/models/subproject.py:646
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Nepodařilo se resetovat na vzdálenou větev %s."
 
-#: trans/models/subproject.py:697
+#: trans/models/subproject.py:698
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Nepodařilo se přeskládat změny na vzdálenou větev %s."
 
-#: trans/models/subproject.py:700
+#: trans/models/subproject.py:701
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Nepodařilo se sloučit vzdálenou větev do %s."
 
-#: trans/models/subproject.py:821
+#: trans/models/subproject.py:822
 msgid "Push URL is not used when repository is linked!"
 msgstr "URL pro odesílání se nepoužije pro odkazované repozitáře!"
 
-#: trans/models/subproject.py:825
+#: trans/models/subproject.py:826
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL pro export se nepoužije pro odkazované repozitáře!"
 
-#: trans/models/subproject.py:835
+#: trans/models/subproject.py:836
 msgid "Template file not found!"
 msgstr "Soubor s šablonou nemohl být nalezen!"
 
-#: trans/models/subproject.py:841
+#: trans/models/subproject.py:842
 msgid "Format of translation base file could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát základního souboru překladů."
 
-#: trans/models/subproject.py:845
+#: trans/models/subproject.py:846
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Nepodařilo se zpracovat základní soubor překladů: %s"
 
-#: trans/models/subproject.py:862
+#: trans/models/subproject.py:863
 msgid "File does not seem to be valid!"
 msgstr "Soubor nevypadá jako platný!"
 
-#: trans/models/subproject.py:870
+#: trans/models/subproject.py:871
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Nepodařilo ze rozpoznat formát %d souborů."
 
-#: trans/models/subproject.py:879
+#: trans/models/subproject.py:880
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nepodařilo ze zpracovat %d souborů!"
 
-#: trans/models/subproject.py:890
+#: trans/models/subproject.py:891
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -1277,25 +1295,25 @@ msgstr ""
 "Zvolený formát souborů nepodporuje automatické přidávání překladů, které "
 "máte nastavené pro tento projet."
 
-#: trans/models/subproject.py:896
+#: trans/models/subproject.py:897
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Nepodařilo ze rozpoznat formát základního souboru pro nové překlady!"
 
-#: trans/models/subproject.py:901
+#: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 "Základní soubor pro nové překlady nebude použit kvůli nastavení projektu."
 
-#: trans/models/subproject.py:918
+#: trans/models/subproject.py:919
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "Nepodařilo se aktualizovat git: %s"
 
-#: trans/models/subproject.py:926
+#: trans/models/subproject.py:927
 msgid "The mask did not match any files!"
 msgstr "Masce neodpovídají žádné soubory!"
 
-#: trans/models/subproject.py:932
+#: trans/models/subproject.py:933
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "subprojects for translating different resources."
@@ -1303,15 +1321,15 @@ msgstr ""
 "Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
 "podprojekty pro překládání různých souborů."
 
-#: trans/models/subproject.py:944 trans/models/subproject.py:950
+#: trans/models/subproject.py:945 trans/models/subproject.py:951
 msgid "You can not base file with bilingual translation!"
 msgstr "Nelze použít základní soubor pro dvoujazyčný překlad!"
 
-#: trans/models/subproject.py:958
+#: trans/models/subproject.py:959
 msgid "You can not use monolingual translation without base file!"
 msgstr "Nelze vytvořit jednojazyčný překlad bez základního soubor!"
 
-#: trans/models/subproject.py:967
+#: trans/models/subproject.py:968
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
@@ -1591,7 +1609,7 @@ msgstr[2] "za %(count)s hodin"
 msgid "Please set your full name in your profile."
 msgstr "Prosím nastavte si v profilu vaše jméno."
 
-#: trans/views/basic.py:123
+#: trans/views/basic.py:124
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1603,7 +1621,7 @@ msgstr ""
 "obsahuje %(total)s řetězců k překladu a je <a href=\"%(url)s\">překládán do "
 "%(languages)s jazyků</a>. Celkově je tento překlad hotový z %(percent)s%%."
 
-#: trans/views/basic.py:132
+#: trans/views/basic.py:133
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1613,76 +1631,90 @@ msgstr ""
 "<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné "
 "době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
-#: trans/views/basic.py:231
+#: trans/views/basic.py:233
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Zkontrolovat zdrojové řetězce v %s"
 
-#: trans/views/basic.py:250
+#: trans/views/basic.py:252
 #, python-format
 msgid "Source strings in %s"
 msgstr "Zdrojové řetězce v %s"
 
-#: trans/views/basic.py:313
+#: trans/views/basic.py:315
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
-#: trans/views/basic.py:336 weblate/html/about.html:11
+#: trans/views/basic.py:338 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "O Weblate"
 
-#: trans/views/basic.py:380
+#: trans/views/basic.py:382
 msgid "Chosen translation already exists in this project!"
 msgstr "Vybraný překlad již v projektu existuje!"
 
-#: trans/views/basic.py:387
+#: trans/views/basic.py:389
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Správcům projektu byl odeslán požadavek na přidání překladu."
 
-#: trans/views/basic.py:396
+#: trans/views/basic.py:398
 msgid "Failed to process new translation request!"
 msgstr "Nepodařilo se zpracovat požadavek o nový překlad!"
 
-#: trans/views/changes.py:53 weblate/html/trans/change_list.html:12
+#: trans/views/changes.py:54 weblate/html/edit_dictionary.html:25
+#: weblate/html/trans/change_list.html:12
 msgid "Changes"
 msgstr "Změny"
 
-#: trans/views/changes.py:92 trans/views/changes.py:101
-#: trans/views/changes.py:110 trans/views/edit.py:112 trans/views/edit.py:560
-msgid "Invalid search string!"
-msgstr "Chybný vyhledávací řetězec!"
+#: trans/views/changes.py:96
+#, fuzzy
+#| msgid "Failed to add comment!"
+msgid "Failed to find matching project!"
+msgstr "Nepodařilo se vytvořit komentář!"
+
+#: trans/views/changes.py:105
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to find matching language!"
+msgstr "Nepodařilo ze zpracovat %d souborů!"
+
+#: trans/views/changes.py:114
+#, fuzzy
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to find matching user!"
+msgstr "Nepodařilo ze zpracovat %d souborů!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:267
 msgid "Failing checks"
 msgstr "Selhavší kontroly"
 
-#: trans/views/dictionary.py:47
+#: trans/views/dictionary.py:48
 msgid "Dictionaries"
 msgstr "Slovníky"
 
-#: trans/views/dictionary.py:81 trans/views/dictionary.py:300
+#: trans/views/dictionary.py:88 trans/views/dictionary.py:319
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
 msgstr "Slovník pro %(project)s - %(language)s"
 
-#: trans/views/dictionary.py:128
+#: trans/views/dictionary.py:142
 msgid "No words to import found in file."
 msgstr "V souboru nebyla nalezena žádná slova k importu."
 
-#: trans/views/dictionary.py:133
+#: trans/views/dictionary.py:147
 #, python-format
 msgid "Imported %d words from file."
 msgstr "Ze souboru bylo importováno %d slov."
 
-#: trans/views/dictionary.py:138
+#: trans/views/dictionary.py:152
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Selhalo nahrání obsahu souboru: %s"
 
-#: trans/views/dictionary.py:141 trans/views/dictionary.py:143
+#: trans/views/dictionary.py:155 trans/views/dictionary.py:157
 #: trans/views/edit.py:673
 msgid "Failed to process form!"
 msgstr "Nepodařilo se zpracovat formulář!"
@@ -1722,6 +1754,10 @@ msgstr "Vyhledávání částečného řetězce „%s“"
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Chyba v parametru %(field)s: %(error)s"
+
+#: trans/views/edit.py:112 trans/views/edit.py:560
+msgid "Invalid search string!"
+msgstr "Chybný vyhledávací řetězec!"
 
 #: trans/views/edit.py:135
 #, python-format
@@ -2199,35 +2235,42 @@ msgstr "Následující"
 msgid "Last"
 msgstr "Poslední"
 
-#: weblate/html/dictionary.html:48
+#: weblate/html/dictionary.html:47
 msgid "Edit"
 msgstr "Upravit"
 
-#: weblate/html/dictionary.html:57 weblate/html/translate.html:134
+#: weblate/html/dictionary.html:56 weblate/html/translate.html:134
 msgid "Delete"
 msgstr "Smazat"
 
-#: weblate/html/dictionary.html:66
+#: weblate/html/dictionary.html:65
 msgid "No words found!"
 msgstr "Nebyly nalezena žádná slova!"
 
-#: weblate/html/dictionary.html:69 weblate/html/language.html:18
+#: weblate/html/dictionary.html:68 weblate/html/language.html:18
 #: weblate/html/project.html:36 weblate/html/subproject.html:26
 #: weblate/html/translation.html:31
 msgid "Tools"
 msgstr "Nástroje"
 
-#: weblate/html/dictionary.html:74
+#: weblate/html/dictionary.html:73
 msgid "Add new word"
 msgstr "Přidat nové slovo"
 
-#: weblate/html/dictionary.html:77
+#: weblate/html/dictionary.html:76
 msgid "Import glossary"
 msgstr "Importovat glosář"
 
-#: weblate/html/dictionary.html:79
+#: weblate/html/dictionary.html:78
 msgid "Export glossary"
 msgstr "Exportovat glosář"
+
+#: weblate/html/dictionary.html:79 weblate/html/index.html:65
+#: weblate/html/language.html:23 weblate/html/project.html:40
+#: weblate/html/subproject.html:30 weblate/html/translate.html:193
+#: weblate/html/translation.html:35 weblate/html/translation.html.py:88
+msgid "History"
+msgstr "Historie"
 
 #: weblate/html/dictionary.html:90 weblate/html/translate.html:254
 #: weblate/html/translate.html.py:287
@@ -2998,13 +3041,6 @@ msgstr "Přeloženo"
 msgid "Summaries"
 msgstr "Souhrny"
 
-#: weblate/html/index.html:65 weblate/html/language.html:23
-#: weblate/html/project.html:40 weblate/html/subproject.html:30
-#: weblate/html/translate.html:193 weblate/html/translation.html:35
-#: weblate/html/translation.html.py:88
-msgid "History"
-msgstr "Historie"
-
 #: weblate/html/index.html:66
 msgid "Most active translators"
 msgstr "Nejaktivnější překladatelé"
@@ -3024,7 +3060,7 @@ msgid "Others"
 msgstr "Další"
 
 #: weblate/html/index.html:80 weblate/html/index.html.py:99
-#: weblate/html/last-changes.html:15 weblate/html/trans/change_list.html:29
+#: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "Uživatel"
 
@@ -3052,27 +3088,31 @@ msgstr "jazyky"
 msgid "Glossaries"
 msgstr "Glosáře"
 
-#: weblate/html/last-changes.html:14 weblate/html/trans/change_list.html:28
+#: weblate/html/last-changes.html:14
 msgid "When"
 msgstr "Kdy"
 
-#: weblate/html/last-changes.html:16 weblate/html/trans/change_list.html:30
+#: weblate/html/last-changes.html:16
 msgid "Action"
 msgstr "Akce"
 
-#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32
 msgid "Revert to this translation"
 msgstr "Vrátit se k tomuto překladu"
 
-#: weblate/html/last-changes.html:32 weblate/html/trans/change_list.html:44
+#: weblate/html/last-changes.html:32
 msgid "Revert"
 msgstr "Vrátit"
 
-#: weblate/html/last-changes.html:37
+#: weblate/html/last-changes.html:38
 msgid "No recent activity has been recorded."
 msgstr "Nebyla zaznamenána žádná nedávná aktivita."
 
-#: weblate/html/last-changes.html:42
+#: weblate/html/last-changes.html:40
+msgid "No matching activity has been found."
+msgstr "Nebyla nalezena žádná odpovídající aktivita."
+
+#: weblate/html/last-changes.html:47
 msgid "Browse changes"
 msgstr "Procházet změny"
 
@@ -3342,11 +3382,11 @@ msgstr ""
 msgid "Source strings review"
 msgstr "Kontrola zdrojových řetězců"
 
-#: weblate/html/subproject_info.html:6
+#: weblate/html/subproject_info.html:7
 msgid "Git repository:"
 msgstr "Git repozitář:"
 
-#: weblate/html/subproject_info.html:17 weblate/html/js/git-status.html:45
+#: weblate/html/subproject_info.html:18 weblate/html/js/git-status.html:45
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
@@ -4471,10 +4511,6 @@ msgstr "Prosím opravte chyby v registračním formuláři."
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "změny"
-
-#: weblate/html/trans/change_list.html:51
-msgid "No matching activity has been found."
-msgstr "Nebyla nalezena žádná odpovídající aktivita."
 
 #~ msgid "Request new language"
 #~ msgstr "Požadovat nový překlad"
