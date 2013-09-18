@@ -35,6 +35,7 @@ from trans.views.helper import get_project
 import weblate
 
 import csv
+from urllib import urlencode
 
 
 def show_dictionaries(request, project):
@@ -90,6 +91,11 @@ def edit_dictionary(request, project, lang):
         'language': lang,
         'form': form,
         'last_changes': last_changes,
+        'last_changes_url': urlencode({
+            'project': prj.slug,
+            'lang': lang.code,
+            'glossary': 1
+        }),
     }))
 
 
@@ -320,4 +326,9 @@ def show_dictionary(request, project, lang):
         'letterform': letterform,
         'letter': letter,
         'last_changes': last_changes,
+        'last_changes_url': urlencode({
+            'project': prj.slug,
+            'lang': lang.code,
+            'glossary': 1
+        }),
     }))

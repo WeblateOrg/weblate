@@ -23,6 +23,7 @@ from django.http import Http404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.db.models import Q
 from trans.models.changes import Change
 from trans.views.helper import get_project_translation
 from lang.models import Language
@@ -70,6 +71,9 @@ class ChangesView(ListView):
         if self.user is not None:
             url['user'] = self.user.username
 
+        if self.glossary:
+            url['glossary'] = 1
+
         context['search_url'] = urlencode(url)
 
         return context
@@ -109,6 +113,9 @@ class ChangesView(ListView):
             except User.DoesNotExist:
                 messages.error(self.request, _('Failed to find matching user!'))
 
+        # Glossary entries
+        self.glossary = 'glossary' in self.request.GET
+
         result = Change.objects.prefetch()
 
         if self.translation is not None:
@@ -121,12 +128,19 @@ class ChangesView(ListView):
             )
         elif self.project is not None:
             result = result.filter(
-                translation__subproject__project=self.project
+                Q(translation__subproject__project=self.project) |
+                Q(dictionary__project=self.project)
             )
 
         if self.language is not None:
             result = result.filter(
-                translation__language=self.language
+                Q(translation__language=self.language) |
+                Q(dictionary__language=self.language)
+            )
+
+        if self.glossary:
+            result = result.filter(
+                dictionary__isnull=False
             )
 
         if self.user is not None:
