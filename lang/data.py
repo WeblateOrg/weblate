@@ -104,6 +104,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'zh',
+        'Chinese',
+        1,
+        '0',
+    ),
 )
 
 # List of defaul languages - the ones, where using
