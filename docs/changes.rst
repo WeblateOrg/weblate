@@ -17,6 +17,7 @@ Released on ? 2013.
 * Widgets and charts are now rendered using Pillow instead of Pango + Cairo.
 * Add status badge widget.
 * Dropped invalid text direction check.
+* Changes in dictionary are now logged in history.
 
 weblate 1.6
 -----------
