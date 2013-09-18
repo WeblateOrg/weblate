@@ -209,7 +209,7 @@ def handle_translate_suggest(unit, form, request,
         # Stay on same entry
         return HttpResponseRedirect(this_unit_url)
     # Invite user to become translator if there is nobody else
-    recent_changes = Change.objects.prefetch().content().filter(
+    recent_changes = Change.objects.content(True).filter(
         translation=unit.translation,
     ).exclude(
         user=None

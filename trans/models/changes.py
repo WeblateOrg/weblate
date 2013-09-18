@@ -30,11 +30,14 @@ from trans.util import get_user_display
 
 
 class ChangeManager(models.Manager):
-    def content(self):
+    def content(self, prefetch=False):
         '''
         Returns queryset with content changes.
         '''
-        return self.filter(
+        base = self
+        if prefetch:
+            base = base.prefetch()
+        return base.filter(
             action__in=(
                 Change.ACTION_CHANGE,
                 Change.ACTION_NEW,
