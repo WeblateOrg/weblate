@@ -25,6 +25,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
 from trans.models.unit import Unit
 from trans.models.translation import Translation
+from trans.models.dictionary import Dictionary
 from trans.util import get_user_display
 
 
@@ -141,7 +142,8 @@ class Change(models.Model):
     )
 
     unit = models.ForeignKey(Unit, null=True)
-    translation = models.ForeignKey(Translation)
+    translation = models.ForeignKey(Translation, null=True)
+    dictionary = models.ForeignKey(Dictionary, null=True)
     user = models.ForeignKey(User, null=True)
     author = models.ForeignKey(User, null=True, related_name='author_set')
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
