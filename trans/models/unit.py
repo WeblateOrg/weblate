@@ -35,6 +35,8 @@ from trans.filelock import FileLockException
 from trans.util import is_plural, split_plural, join_plural
 import weblate
 
+FLAG_TEMPLATE = '<span title="%s" class="flag-icon ui-icon ui-icon-%s"></span>'
+
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
@@ -992,3 +994,41 @@ class Unit(models.Model):
                 + self.translation.subproject.all_flags
             )
         return self._all_flags
+
+    def get_state_flags(self):
+        '''
+        Returns state flags.
+        '''
+        flags = []
+
+
+        if self.fuzzy:
+            flags.append(
+                _('Message is fuzzy'),
+                'help'
+            )
+        elif not self.translated:
+            flags.append(
+                _('Message is not translated'),
+                'document-b'
+            )
+        elif self.has_failing_check:
+            flags.append(
+                _('Message has failing checks'),
+                'notice'
+            )
+        elif self.translated:
+            flags.append(
+                _('Message is translated'),
+                'check'
+            )
+
+        if self.has_comment:
+            flags.append(
+                _('Message has comments'),
+                'comment'
+            )
+
+        return mark_safe(
+            '\n'.join([FLAG_TEMPLATE % flag for flag in flags])
+        )
