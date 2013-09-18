@@ -79,12 +79,17 @@ def edit_dictionary(request, project, lang):
             initial={'source': word.source, 'target': word.target}
         )
 
+    last_changes = Change.objects.filter(
+        dictionary=word,
+    ).order_by('-timestamp')[:10]
+
     return render_to_response('edit_dictionary.html', RequestContext(request, {
         'title': _('%(language)s dictionary for %(project)s') %
         {'language': lang, 'project': prj},
         'project': prj,
         'language': lang,
         'form': form,
+        'last_changes': last_changes,
     }))
 
 
@@ -303,7 +308,6 @@ def show_dictionary(request, project, lang):
         dictionary__project=prj,
         dictionary__language=lang
     ).order_by('-timestamp')[:10]
-
 
     return render_to_response('dictionary.html', RequestContext(request, {
         'title': _('%(language)s dictionary for %(project)s') %
