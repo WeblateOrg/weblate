@@ -110,6 +110,18 @@ EXTRALANGS = (
         1,
         '0',
     ),
+    (
+        'tlh',
+        'Klingon',
+        1,
+        '0',
+    ),
+    (
+        'tlh-qaak',
+        'Klingon (pIqaD)',
+        1,
+        '0',
+    ),
 )
 
 # List of defaul languages - the ones, where using
