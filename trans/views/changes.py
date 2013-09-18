@@ -43,6 +43,7 @@ class ChangesView(ListView):
         self.translation = None
         self.language = None
         self.user = None
+        self.glossary = False
 
     def get_context_data(self, **kwargs):
         '''
