@@ -83,7 +83,7 @@ def home(request):
     # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.prefetch().filter(
         Q(translation__subproject__project__in=acl_projects) |
         Q(dictionary__project__in=acl_projects)
     ).order_by('-timestamp')[:10]
@@ -151,7 +151,7 @@ def show_project(request, project):
         'language', flat=True
     ).distinct()
 
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.prefetch().filter(
         Q(translation__subproject__project=obj) |
         Q(dictionary__project=obj)
     ).order_by('-timestamp')[:10]
@@ -173,7 +173,7 @@ def show_project(request, project):
 def show_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.prefetch().filter(
         translation__subproject=obj
     ).order_by('-timestamp')[:10]
 
@@ -255,7 +255,7 @@ def show_source(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.prefetch().filter(
         translation=obj
     ).order_by('-timestamp')[:10]
 
