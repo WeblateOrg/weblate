@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
-from trans.models import Translation, Dictionary
+from trans.models import Translation, Dictionary, Change
 from lang.models import Language
 from trans.util import get_site_url
 from trans.forms import WordForm, DictUploadForm, LetterForm
@@ -65,9 +65,11 @@ def edit_dictionary(request, project, lang):
     if request.method == 'POST':
         form = WordForm(request.POST)
         if form.is_valid():
-            word.source = form.cleaned_data['source']
-            word.target = form.cleaned_data['target']
-            word.save()
+            word.edit(
+                request,
+                form.cleaned_data['source'],
+                form.cleaned_data['target']
+            )
             return HttpResponseRedirect(reverse(
                 'show_dictionary',
                 kwargs={'project': prj.slug, 'lang': lang.code}
@@ -117,6 +119,7 @@ def upload_dictionary(request, project, lang):
         if form.is_valid():
             try:
                 count = Dictionary.objects.upload(
+                    request,
                     prj,
                     lang,
                     request.FILES['file'],
@@ -296,6 +299,12 @@ def show_dictionary(request, project, lang):
         # If page is out of range (e.g. 9999), deliver last page of results.
         words = paginator.page(paginator.num_pages)
 
+    last_changes = Change.objects.filter(
+        dictionary__project=prj,
+        dictionary__language=lang
+    ).order_by('-timestamp')[:10]
+
+
     return render_to_response('dictionary.html', RequestContext(request, {
         'title': _('%(language)s dictionary for %(project)s') %
         {'language': lang, 'project': prj},
@@ -306,4 +315,5 @@ def show_dictionary(request, project, lang):
         'uploadform': uploadform,
         'letterform': letterform,
         'letter': letter,
+        'last_changes': last_changes,
     }))

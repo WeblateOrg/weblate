@@ -77,6 +77,7 @@
 <li><a href="#import">{% trans "Import glossary" %}</a></li>
 {% endif %}
 <li><a href="#export">{% trans "Export glossary" %}</a></li>
+<li><a href="#changes">{% trans "History" %}</a></li>
 </ul>
 
 {% if perms.trans.add_dictionary %}
@@ -118,5 +119,10 @@
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
+</div>
+
+<div id="changes">
+{% include "last-changes.html" %}
+</div>
 
 {% endblock %}

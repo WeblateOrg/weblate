@@ -27,14 +27,14 @@ from django.core.urlresolvers import reverse
 
 
 class DictionaryManager(models.Manager):
-    def upload(self, project, language, fileobj, method):
+    def upload(self, request, project, language, fileobj, method):
         '''
         Handles dictionary update.
         '''
         # Load file using translate-toolkit
         store = AutoFormat.load(fileobj)
 
-        ret, skipped = self.import_store(project, language, store, method)
+        ret, skipped = self.import_store(request, project, language, store, method)
 
         if ret == 0 and skipped > 0 and isinstance(store, csvfile):
             # Retry with different CSV scheme
@@ -44,7 +44,7 @@ class DictionaryManager(models.Manager):
 
         return ret
 
-    def import_store(self, project, language, store, method):
+    def import_store(self, request, project, language, store, method):
         '''
         Actual importer
         '''
@@ -77,6 +77,8 @@ class DictionaryManager(models.Manager):
                 if method == 'add':
                     # Add word
                     word = self.create(
+                        request,
+                        action=Change.ACTION_DICTIONARY_UPLOAD,
                         project=project,
                         language=language,
                         source=unit.source
@@ -92,6 +94,21 @@ class DictionaryManager(models.Manager):
             ret += 1
 
         return ret, skipped
+
+    def create(self, request, **kwargs):
+        '''
+        Creates new dictionary object.
+        '''
+        action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
+        created = super(DictionaryManager, self).create(**kwargs)
+        from trans.models.changes import Change
+        Change.objects.create(
+            action=action,
+            dictionary=created,
+            user=request.user,
+            target=created.target,
+        )
+        return created
 
 
 class Dictionary(models.Model):
@@ -118,7 +135,31 @@ class Dictionary(models.Model):
         )
 
     def get_absolute_url(self):
-        reverse(
+        return '%s?id=%d' % (
+            reverse(
+                'edit_dictionary',
+                kwargs={'project': self.project.slug, 'lang': self.language.code}
+            ),
+            self.pk
+        )
+
+    def get_parent_url(self):
+        return reverse(
             'show_dictionary',
-            kwargs={'project': self.project.slug, 'language': language.code}
+            kwargs={'project': self.project.slug, 'lang': self.language.code}
+        )
+
+    def edit(self, request, source, target):
+        '''
+        Edits word in a dictionary.
+        '''
+        from trans.models.changes import Change
+        self.source = source
+        self.target = target
+        self.save()
+        Change.objects.create(
+            action=Change.ACTION_DICTIONARY_EDIT,
+            dictionary=self,
+            user=request.user,
+            target=self.target,
         )

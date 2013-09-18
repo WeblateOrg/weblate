@@ -138,6 +138,9 @@ class Change(models.Model):
     ACTION_ACCEPT = 7
     ACTION_REVERT = 8
     ACTION_UPLOAD = 9
+    ACTION_DICTIONARY_NEW = 10
+    ACTION_DICTIONARY_EDIT = 11
+    ACTION_DICTIONARY_UPLOAD = 12
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -150,6 +153,9 @@ class Change(models.Model):
         (ACTION_ACCEPT, ugettext_lazy('Suggestion accepted')),
         (ACTION_REVERT, ugettext_lazy('Translation reverted')),
         (ACTION_UPLOAD, ugettext_lazy('Translation uploaded')),
+        (ACTION_DICTIONARY_NEW, ugettext_lazy('Glossary added')),
+        (ACTION_DICTIONARY_EDIT, ugettext_lazy('Glossary updated')),
+        (ACTION_DICTIONARY_UPLOAD, ugettext_lazy('Glossary uploaded')),
     )
 
     unit = models.ForeignKey(Unit, null=True)
@@ -191,8 +197,7 @@ class Change(models.Model):
             return self.translation.get_absolute_url()
         elif self.dictionary is not None:
             return self.dictionary.get_absolute_url()
-        else:
-            return
+        return None
 
     def get_translation_url(self):
         '''
@@ -201,7 +206,7 @@ class Change(models.Model):
         if self.translation is not None:
             return self.translation.get_absolute_url()
         elif self.dictionary is not None:
-            return self.dictionary.get_absolute_url()
+            return self.dictionary.get_parent_url()
         return None
 
     def get_translation_display(self):
