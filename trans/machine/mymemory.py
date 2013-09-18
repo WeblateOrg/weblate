@@ -38,7 +38,7 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         Any language without modifiers is supported.
         '''
-        return '@' not in language
+        return '@' not in language and len(language) == 2
 
     def format_match(self, match):
         '''
