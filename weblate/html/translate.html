@@ -190,7 +190,7 @@
         {% trans "Comments" %}
         {% endif %}
         </a></li>
-        <li><a href="#tab-changes" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
+        <li><a href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">
         {% if source_comments.exists %}
         {% blocktrans with source_comments.count as  count %}Source ({{ count }}){% endblocktrans %}
@@ -236,9 +236,6 @@
     </ul>
     </div>
     {% endif %}
-    <div id="tab-changes">
-    {% include "last-changes.html" %}
-    </div>
     <div id="tab-comments">
     <p>{% trans "You can share comments about this translation with other translators." %}</p>
     <table>

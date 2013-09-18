@@ -23,6 +23,7 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required, login_required
 from django.db.models import Q
+from django.core.urlresolvers import reverse
 
 from trans.models import Unit, Check, Dictionary
 from trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -30,6 +31,7 @@ from trans.decorators import any_permission_required
 from trans.views.helper import get_project, get_subproject, get_translation
 
 from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
+from urllib import urlencode
 import json
 
 
@@ -102,6 +104,23 @@ def get_other(request, unit_id):
         'unit': unit,
         'search_id': request.GET.get('sid', ''),
         'offset': request.GET.get('offset', ''),
+    }))
+
+
+def get_unit_changes(request, unit_id):
+    '''
+    Returns unit's recent changes.
+    '''
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit.check_acl(request)
+
+    return render_to_response('last-changes.html', RequestContext(request, {
+        'last_changes': unit.change_set.all()[:10],
+        'last_changes_rss': reverse(
+            'rss-translation',
+            kwargs=unit.translation.get_kwargs(),
+        ),
+        'last_changes_url': urlencode(unit.translation.get_kwargs()),
     }))
 
 

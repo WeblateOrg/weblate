@@ -86,6 +86,13 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertContains(response, unit.checksum)
 
+    def test_get_unit_changes(self):
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse('js-unit-changes', kwargs={'unit_id': unit.id}),
+        )
+        self.assertContains(response, 'href="/exports/rss/')
+
     def test_get_dictionary(self):
         unit = self.get_unit()
         response = self.client.get(

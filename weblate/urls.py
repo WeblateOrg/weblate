@@ -548,6 +548,11 @@ urlpatterns = patterns(
         name='js-translate',
     ),
     url(
+        r'^js/changes/(?P<unit_id>[0-9]+)/$',
+        'trans.views.js.get_unit_changes',
+        name='js-unit-changes',
+    ),
+    url(
         r'^js/other/(?P<unit_id>[0-9]+)/$',
         'trans.views.js.get_other',
         name='js-other',
