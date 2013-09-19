@@ -22,6 +22,7 @@ from django.shortcuts import render_to_response
 from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
 from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -368,6 +369,7 @@ def data_project(request, project):
     }))
 
 
+@login_required
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
