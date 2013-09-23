@@ -64,7 +64,7 @@ def mail_admins_sender(subject, message, sender, fail_silently=False,
 
     mail = EmailMultiAlternatives(
         u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject),
-        message, sender, [a[1] for a in settings.ADMINS],
+        message, settings.DEFAULT_FROM_EMAIL, [a[1] for a in settings.ADMINS],
         connection=connection
     )
 
