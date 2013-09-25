@@ -401,6 +401,14 @@ The home directory for user which is running Weblate should be existing and
 writable by this user. This is especially needed if you want to use SSH 
 to access private repositories.
 
+.. note::
+
+    On Linux and other UNIX like systems, the path to user's home directory is
+    defined in :file:`/etc/passwd`. Many distributions default to non writable
+    directory for users used for serving web content (such as ``apache``,
+    ``www-data`` or ``wwwrun``, so you either have to run Weblate under
+    different user or change this setting.
+
 .. seealso:: :ref:`private`
 
 .. _server:
