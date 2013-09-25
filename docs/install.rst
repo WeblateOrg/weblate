@@ -392,6 +392,17 @@ configured your webserver to serve them. Recommended setup is described in the
 
 .. seealso:: :ref:`server`
 
+.. _production-home:
+
+Home directory
+++++++++++++++
+
+The home directory for user which is running Weblate should be existing and
+writable by this user. This is especially needed if you want to use SSH 
+to access private repositories.
+
+.. seealso:: :ref:`private`
+
 .. _server:
 
 Running server

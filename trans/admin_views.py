@@ -122,21 +122,25 @@ def performance(request):
         ),
         'production-email',
     ))
+    # libravatar library
     checks.append((
         _('Federated avatar support'),
         HAS_LIBRAVATAR,
         'production-avatar',
     ))
+    # PyICU library
     checks.append((
         _('PyICU library'),
         HAS_ICU,
         'production-pyicu',
     ))
+    # Cookie signing key
     checks.append((
         _('Secret key'),
         settings.SECRET_KEY != settings_example.SECRET_KEY,
         'production-secret',
     ))
+    # Allowed hosts for Django 1.5
     if django.VERSION > (1, 5):
         checks.append((
             _('Allowed hosts'),
@@ -144,6 +148,15 @@ def performance(request):
             'production-hosts',
         ))
 
+    # Writable home directory
+    checks.append((
+        _('Home directory'),
+        os.access(os.path.expanduser('~'), os.W_OK),
+        'production-home'
+    ))
+
+    # Check for serving static files
+    # This uses CSS magic to hide this check when CSS is properly loaded.
     checks.append((
         _('Admin static files'),
         False,
