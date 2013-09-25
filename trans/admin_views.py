@@ -148,6 +148,13 @@ def performance(request):
             'production-hosts',
         ))
 
+    # Writable home directory
+    checks.append((
+        _('Home directory'),
+        os.access(os.path.expanduser('~'), os.W_OK),
+        'production-home'
+    ))
+
     # Check for serving static files
     # This uses CSS magic to hide this check when CSS is properly loaded.
     checks.append((
