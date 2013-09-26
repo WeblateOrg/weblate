@@ -200,7 +200,7 @@ def send_notification_email(language, email, notification, translation_obj,
         context['subject_template'] = subject_template
 
         # Render subject
-        subject = render_to_string(subject_template, context)
+        subject = render_to_string(subject_template, context).strip()
 
         # Render body
         body = render_to_string(body_template, context)
@@ -215,14 +215,14 @@ def send_notification_email(language, email, notification, translation_obj,
         if email == 'ADMINS':
             # Special handling for ADMINS
             mail_admins(
-                subject.strip(),
+                subject,
                 body,
                 html_message=html_body
             )
         else:
             # Create message
             email = EmailMultiAlternatives(
-                settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
+                settings.EMAIL_SUBJECT_PREFIX + subject,
                 body,
                 to=[email],
                 headers=headers,
