@@ -159,12 +159,12 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
                 'comment': comment,
                 'subproject': unit.translation.subproject,
             },
-            from_email=user.email,
+            user=user,
         )
 
 
 def send_notification_email(language, email, notification, translation_obj,
-                            context=None, headers=None, from_email=None):
+                            context=None, headers=None, user=None):
     '''
     Renders and sends notification email.
     '''
@@ -212,6 +212,10 @@ def send_notification_email(language, email, notification, translation_obj,
         headers['Precedence'] = 'bulk'
         headers['X-Mailer'] = 'Weblate %s' % weblate.VERSION
 
+        # Reply to header
+        if user is not None:
+            headers['Reply-To'] = user.email
+
         if email == 'ADMINS':
             # Special handling for ADMINS
             mail_admins(
@@ -226,7 +230,6 @@ def send_notification_email(language, email, notification, translation_obj,
                 body,
                 to=[email],
                 headers=headers,
-                from_email=from_email,
             )
             email.attach_alternative(
                 html_body,
