@@ -31,8 +31,7 @@ from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.core.mail import mail_admins
+from django.core.mail import EmailMultiAlternatives, mail_admins
 
 from south.signals import post_migrate
 
@@ -160,12 +159,12 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
                 'comment': comment,
                 'subproject': unit.translation.subproject,
             },
-            from_email=user.email,
+            user=user,
         )
 
 
 def send_notification_email(language, email, notification, translation_obj,
-                            context=None, headers=None, from_email=None):
+                            context=None, headers=None, user=None):
     '''
     Renders and sends notification email.
     '''
@@ -201,7 +200,7 @@ def send_notification_email(language, email, notification, translation_obj,
         context['subject_template'] = subject_template
 
         # Render subject
-        subject = render_to_string(subject_template, context)
+        subject = render_to_string(subject_template, context).strip()
 
         # Render body
         body = render_to_string(body_template, context)
@@ -213,21 +212,24 @@ def send_notification_email(language, email, notification, translation_obj,
         headers['Precedence'] = 'bulk'
         headers['X-Mailer'] = 'Weblate %s' % weblate.VERSION
 
+        # Reply to header
+        if user is not None:
+            headers['Reply-To'] = user.email
+
         if email == 'ADMINS':
             # Special handling for ADMINS
             mail_admins(
-                subject.strip(),
+                subject,
                 body,
                 html_message=html_body
             )
         else:
             # Create message
             email = EmailMultiAlternatives(
-                settings.EMAIL_SUBJECT_PREFIX + subject.strip(),
+                settings.EMAIL_SUBJECT_PREFIX + subject,
                 body,
                 to=[email],
                 headers=headers,
-                from_email=from_email,
             )
             email.attach_alternative(
                 html_body,
