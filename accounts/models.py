@@ -31,8 +31,7 @@ from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
-from django.core.mail import mail_admins
+from django.core.mail import EmailMultiAlternatives, mail_admins
 
 from south.signals import post_migrate
 
