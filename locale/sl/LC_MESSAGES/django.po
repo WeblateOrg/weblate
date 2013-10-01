@@ -8,17 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-09-25 16:04+0200\n"
-"PO-Revision-Date: 2013-07-30 16:28+0200\n"
-"Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
-">\n"
+"PO-Revision-Date: 2013-10-01 17:47+0200\n"
+"Last-Translator: Domen <dbc334@gmail.com>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 1.6-dev\n"
+"X-Generator: Weblate 1.7-dev\n"
 
 #: accounts/forms.py:171 accounts/forms.py:218
 msgid "First name"
@@ -133,10 +132,9 @@ msgid "Notification on merge failure"
 msgstr "Obvestilo ob konfliktu pri združevanju"
 
 #: accounts/models.py:361
-#, fuzzy
 #| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
-msgstr "Obvestilo ob novem predlogu"
+msgstr "Obvestilo ob novi prošnji za jezik"
 
 #: accounts/models.py:551
 msgid "Your profile has been migrated, you might want to adjust preferences."
@@ -281,7 +279,7 @@ msgstr "Knjižnica PyICU"
 
 #: trans/admin_views.py:139
 msgid "Secret key"
-msgstr ""
+msgstr "Skrivni ključ"
 
 #: trans/admin_views.py:146
 msgid "Allowed hosts"
@@ -289,11 +287,11 @@ msgstr "Dovoljena imena strežnikov"
 
 #: trans/admin_views.py:153
 msgid "Home directory"
-msgstr ""
+msgstr "Domača mapa"
 
 #: trans/admin_views.py:161
 msgid "Admin static files"
-msgstr ""
+msgstr "Administratorske statične datoteke"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:188
@@ -564,7 +562,7 @@ msgstr ""
 #: trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Neveljavna zastavica preverjanja: \"%s\""
 
 #: trans/widgets.py:261
 #, python-format
@@ -605,10 +603,9 @@ msgstr ""
 "%(percent)d%% končana"
 
 #: trans/widgets.py:315
-#, fuzzy
 #| msgid "translate"
 msgid "translated"
-msgstr "prevedi"
+msgstr "prevedeno"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -748,10 +745,9 @@ msgid "C format"
 msgstr "Oblika C"
 
 #: trans/checks/format.py:254
-#, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
-msgstr "Oblika Python"
+msgstr "Oblika oklepajev Python"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -836,22 +832,19 @@ msgid "Translation uploaded"
 msgstr "Prevod poslan"
 
 #: trans/models/changes.py:159
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary added"
-msgstr "Slovar"
+msgstr "Dodan slovar"
 
 #: trans/models/changes.py:160
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary updated"
-msgstr "Slovar"
+msgstr "Posodobljen slovar"
 
 #: trans/models/changes.py:161
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary uploaded"
-msgstr "Slovar"
+msgstr "Naložen slovar"
 
 #: trans/models/changes.py:183
 #, python-format
@@ -867,10 +860,9 @@ msgid "Point to translation instructions URL"
 msgstr "Pokažite na URL z navodili za prevajanje"
 
 #: trans/models/project.py:46
-#, fuzzy
 #| msgid "Monolingual base language file"
 msgid "Automatically add language file"
-msgstr "Enojezikovna temeljna jezikovna datoteka"
+msgstr "Samodejno dodaj jezikovno datoteko"
 
 #: trans/models/project.py:47
 msgid "No adding of language"
@@ -1129,16 +1121,17 @@ msgstr ""
 "priporočljivo za oblike enojezičnih prevodov."
 
 #: trans/models/subproject.py:150
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Base file for new translations"
-msgstr "Prevajanje je spodletelo"
+msgstr "Temeljna datoteka za nove prevode"
 
 #: trans/models/subproject.py:154
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Ime datotete, ki ga bomo uporabili za ustvarjanje novih prevodov. Za Gettext "
+"izberite datoteko .pot."
 
 #: trans/models/subproject.py:159
 msgid "File format"
@@ -1215,20 +1208,18 @@ msgid "Autoaccept suggestions"
 msgstr "Samodejno sprejmi predloge"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid "Automatically accept suggestions with this amount of votes."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
-msgstr "Samodejno sprejmi predloge s to količino glasov."
+msgstr ""
+"Samodejno sprejmi predloge s toliko glasovi; uporabite 0 za onemogočitev."
 
 #: trans/models/subproject.py:230
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "Nekatera preverjanja niso uspela"
+msgstr "Zastavite preverjanja kakovosti"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
 #| "more details."
@@ -1236,8 +1227,8 @@ msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Dodatna datoteka, ki naj bo vključena v objavi; za podrobnosti si oglejte "
-"dokumentacijo."
+"Dodatne zastavice, ločene z vejico, ki vplivajo na preverjanja kakovosti; za "
+"možne vrednosti si oglejte dokumentacijo."
 
 #: trans/models/subproject.py:453
 msgid ""
@@ -1320,16 +1311,18 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Izbrana oblika datoteke ne podpira dodajanja novih prevodov, kot je izbrano "
+"v nastavitvah projekta."
 
 #: trans/models/subproject.py:897
-#, fuzzy
 #| msgid "Format of translation base file could not be recognized."
 msgid "Format of base file for new translations was not recognized!"
-msgstr "Ne morem prepoznati oblike temeljne datoteke prevoda."
+msgstr "Ne morem prepoznati oblike temeljne datoteke za nove prevode!"
 
 #: trans/models/subproject.py:902
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Temeljne datoteke za nove prevode ne uporabljamo zaradi nastavitev projekta."
 
 #: trans/models/subproject.py:919
 #, python-format
@@ -1452,20 +1445,18 @@ msgid "Message has comments"
 msgstr "Sporočilo ima pripombe"
 
 #: trans/templatetags/translations.py:57
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Good configuration"
-msgstr "Potrditev novega gesla"
+msgstr "Dobra konfiguracija"
 
 #: trans/templatetags/translations.py:58
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Bad configuration"
-msgstr "Potrditev novega gesla"
+msgstr "Slaba konfiguracija"
 
 #: trans/templatetags/translations.py:59
 msgid "Possible configuration"
-msgstr ""
+msgstr "Možna konfiguracija"
 
 #: trans/templatetags/translations.py:76
 msgid "Tab character"
@@ -1481,76 +1472,72 @@ msgid "Avatar for %s"
 msgstr "Podoba osebe %s"
 
 #: trans/templatetags/translations.py:333
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
-msgstr "pred %(count)s letom"
+msgstr "pred enim letom"
 
 #: trans/templatetags/translations.py:335
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] ", %(count)s glas"
-msgstr[1] ", %(count)s glasova"
-msgstr[2] ", %(count)s glasovi"
-msgstr[3] ", %(count)s glasov"
+msgstr[0] "pred %(count)s letom"
+msgstr[1] "pred %(count)s letoma"
+msgstr[2] "pred %(count)s leti"
+msgstr[3] "pred %(count)s leti"
 
 #: trans/templatetags/translations.py:340
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
-msgstr "pred %(count)s mesecem"
+msgstr "pred enim mesecem"
 
 #: trans/templatetags/translations.py:342
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] ", %(count)s glas"
-msgstr[1] ", %(count)s glasova"
-msgstr[2] ", %(count)s glasovi"
-msgstr[3] ", %(count)s glasov"
+msgstr[0] "pred %(count)s mesecem"
+msgstr[1] "pred %(count)s mesecema"
+msgstr[2] "pred %(count)s meseci"
+msgstr[3] "pred %(count)s meseci"
 
 #: trans/templatetags/translations.py:347
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] ", %(count)s glas"
-msgstr[1] ", %(count)s glasova"
-msgstr[2] ", %(count)s glasovi"
-msgstr[3] ", %(count)s glasov"
+msgstr[0] "pred %(count)s tednom"
+msgstr[1] "pred %(count)s tednoma"
+msgstr[2] "pred %(count)s tedni"
+msgstr[3] "pred %(count)s tedni"
 
 #: trans/templatetags/translations.py:351
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
-msgstr "pred %(count)s tednom"
+msgstr "pred enim tednom"
 
 #: trans/templatetags/translations.py:353
-#, fuzzy
 #| msgid "yesterday"
 #| msgid_plural "%(count)s days ago"
 msgid "yesterday"
-msgstr "pred %(count)s dnevom"
+msgstr "včeraj"
 
 #: trans/templatetags/translations.py:355
-#, fuzzy, python-format
+#, python-format
 #| msgid ", %(count)s vote"
 #| msgid_plural ", %(count)s votes"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] ", %(count)s glas"
-msgstr[1] ", %(count)s glasova"
-msgstr[2] ", %(count)s glasovi"
-msgstr[3] ", %(count)s glasov"
+msgstr[0] "pred %(count)s dnevom"
+msgstr[1] "pred %(count)s dnevoma"
+msgstr[2] "pred %(count)s dnevi"
+msgstr[3] "pred %(count)s dnevi"
 
 #: trans/templatetags/translations.py:358
 #: trans/templatetags/translations.py:409
@@ -1558,14 +1545,13 @@ msgid "now"
 msgstr "zdaj"
 
 #: trans/templatetags/translations.py:361
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
-msgstr "pred %(count)s sekundo"
+msgstr "pred eno sekundo"
 
 #: trans/templatetags/translations.py:363
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
@@ -1576,14 +1562,13 @@ msgstr[2] "pred %(count)s sekundami"
 msgstr[3] "pred %(count)s sekundami"
 
 #: trans/templatetags/translations.py:368
-#, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
-msgstr "pred %(count)s minuto"
+msgstr "pred eno minuto"
 
 #: trans/templatetags/translations.py:370
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
@@ -1594,14 +1579,13 @@ msgstr[2] "pred %(count)s minutami"
 msgstr[3] "pred %(count)s minutami"
 
 #: trans/templatetags/translations.py:375
-#, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
-msgstr "pred %(count)s uro"
+msgstr "pred eno uro"
 
 #: trans/templatetags/translations.py:377
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
@@ -1612,14 +1596,13 @@ msgstr[2] "pred %(count)s urami"
 msgstr[3] "pred %(count)s urami"
 
 #: trans/templatetags/translations.py:384
-#, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
-msgstr "čez %(count)s leto"
+msgstr "čez eno leto"
 
 #: trans/templatetags/translations.py:386
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
@@ -1630,14 +1613,13 @@ msgstr[2] "čez %(count)s leta"
 msgstr[3] "čez %(count)s let"
 
 #: trans/templatetags/translations.py:391
-#, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
-msgstr "čez %(count)s mesec"
+msgstr "čez en mesec"
 
 #: trans/templatetags/translations.py:393
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
@@ -1648,50 +1630,47 @@ msgstr[2] "čez %(count)s mesece"
 msgstr[3] "čez %(count)s mesecev"
 
 #: trans/templatetags/translations.py:398
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "čez %(count)s teden"
 msgstr[1] "čez %(count)s tedna"
-msgstr[2] "čez %(count)s tedene"
+msgstr[2] "čez %(count)s tedne"
 msgstr[3] "čez %(count)s tednov"
 
 #: trans/templatetags/translations.py:402
-#, fuzzy
 #| msgid "tomorrow"
 #| msgid_plural "%(count)s days from now"
 msgid "tomorrow"
-msgstr "čez %(count)s dan"
+msgstr "jutri"
 
 #: trans/templatetags/translations.py:404
-#, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
-msgstr "čez %(count)s teden"
+msgstr "čez en teden"
 
 #: trans/templatetags/translations.py:406
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "čez sekundo"
-msgstr[1] ""
-msgstr[2] "čez %(count)s sekunde"
-msgstr[3] "čez %(count)s sekund"
+msgstr[0] "čez %(count)s dan"
+msgstr[1] "čez %(count)s dneva"
+msgstr[2] "čez %(count)s dni"
+msgstr[3] "čez %(count)s dni"
 
 #: trans/templatetags/translations.py:412
-#, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
-msgstr "čez %(count)s sekundo"
+msgstr "čez eno sekundo"
 
 #: trans/templatetags/translations.py:414
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
@@ -1702,14 +1681,13 @@ msgstr[2] "čez %(count)s sekunde"
 msgstr[3] "čez %(count)s sekund"
 
 #: trans/templatetags/translations.py:421
-#, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
-msgstr "čez %(count)s minuto"
+msgstr "čez eno minuto"
 
 #: trans/templatetags/translations.py:423
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
@@ -1720,14 +1698,13 @@ msgstr[2] "čez %(count)s minute"
 msgstr[3] "čez %(count)s minut"
 
 #: trans/templatetags/translations.py:430
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
-msgstr "čez %(count)s uro"
+msgstr "čez eno uro"
 
 #: trans/templatetags/translations.py:432
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
@@ -1784,20 +1761,18 @@ msgstr "O Weblate"
 
 #: trans/views/basic.py:384
 msgid "Chosen translation already exists in this project!"
-msgstr ""
+msgstr "Izbrani prevod že obstaja v tem projektu!"
 
 #: trans/views/basic.py:391
-#, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "Zahteva po strojnem prevodu je spodletela."
+msgstr "Prošnjo za nov prevod smo poslali vzdrževalcem projekta."
 
 #: trans/views/basic.py:400
-#, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new translation request!"
-msgstr "Nisem uspel obdelati obrazca!"
+msgstr "Nisem uspel obdelati prošnje za nov prevod!"
 
 #: trans/views/changes.py:55 weblate/html/edit_dictionary.html:25
 #: weblate/html/trans/change_list.html:12
@@ -1805,22 +1780,19 @@ msgid "Changes"
 msgstr "Spremembe"
 
 #: trans/views/changes.py:99
-#, fuzzy
 #| msgid "Failed to add comment!"
 msgid "Failed to find matching project!"
-msgstr "Nisem uspel dodati pripombe!"
+msgstr "Nisem uspel najti ujemajočega projekta!"
 
 #: trans/views/changes.py:111
-#, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to find matching language!"
-msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
+msgstr "Nisem uspel najti ujemajočega jezika!"
 
 #: trans/views/changes.py:123
-#, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to find matching user!"
-msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
+msgstr "Nisem uspel najti ujemajočega uporabnika!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:264
@@ -1932,7 +1904,7 @@ msgstr "Pri tem prevodu so dovoljeni samo predlogi!"
 #: trans/views/edit.py:302
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr "Na prevodu so bili uporabljeni naslednji popravki: %s"
+msgstr "Na prevodu smo izvedli naslednje popravke: %s"
 
 #: trans/views/edit.py:316
 msgid "Some checks have failed on your translation!"
@@ -2639,10 +2611,9 @@ msgid "Central Khmer"
 msgstr "osrednja kmerščina"
 
 #: weblate/html/i18n.html:47
-#, fuzzy
 #| msgid "Chinese (China)"
 msgid "Chinese"
-msgstr "kitajščina (Kitajska)"
+msgstr "kitajščina"
 
 #: weblate/html/i18n.html:48
 msgid "Chinese (Hong Kong)"
@@ -2826,11 +2797,11 @@ msgstr "kirgiščina"
 
 #: weblate/html/i18n.html:93
 msgid "Klingon"
-msgstr ""
+msgstr "klingonščina"
 
 #: weblate/html/i18n.html:94
 msgid "Klingon (pIqaD)"
-msgstr ""
+msgstr "klingonščina (pIqaD)"
 
 #: weblate/html/i18n.html:95
 msgid "Korean"
@@ -3113,10 +3084,9 @@ msgid "Uzbek (latin)"
 msgstr "uzbeščina (latinica)"
 
 #: weblate/html/i18n.html:165
-#, fuzzy
 #| msgid "Galician"
 msgid "Valencian"
-msgstr "galicijščina"
+msgstr "valencijanščina"
 
 #: weblate/html/i18n.html:166
 msgid "Venda"
@@ -3521,13 +3491,12 @@ msgstr ""
 
 #: weblate/html/subproject.html:47
 msgid "Please choose language into which you would like to translate."
-msgstr ""
+msgstr "Prosimo, izberite jezik, v katerega želite prevajati."
 
 #: weblate/html/subproject.html:55
-#, fuzzy
 #| msgid "New translation"
 msgid "Start new translation"
-msgstr "Nov prevod"
+msgstr "Začni nov prevod"
 
 #: weblate/html/subproject.html:61
 #, python-format
@@ -3651,13 +3620,12 @@ msgstr "Predlagaj"
 
 #: weblate/html/translate.html:166
 msgid "Additional text to include in the commit message."
-msgstr ""
+msgstr "Dodatno besedilo za vključitev v opis objave."
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
-msgstr "Opis objave"
+msgstr "Opis objave:"
 
 #: weblate/html/translate.html:175
 msgid "Translation context"
@@ -3759,10 +3727,9 @@ msgid "Locking"
 msgstr "Zaklepanje"
 
 #: weblate/html/translation.html:46
-#, fuzzy
 #| msgid "Status"
 msgid "Stats"
-msgstr "Stanje"
+msgstr "Statistike"
 
 #: weblate/html/translation.html:61
 #, python-format
@@ -3828,7 +3795,7 @@ msgstr "Obdelaj"
 
 #: weblate/html/translation.html:118
 msgid "Locking the translation will prevent others to work on translation."
-msgstr "Zaklep prevoda bo drugim onemogočilo sodelovanje pri prevajanju."
+msgstr "Zaklep prevoda bo drugim onemogočil sodelovanje pri prevajanju."
 
 #: weblate/html/translation.html:120
 msgid "Locked by:"
@@ -3852,30 +3819,27 @@ msgstr "Zakleni"
 
 #: weblate/html/translation.html:144
 msgid "Percent"
-msgstr ""
+msgstr "Odstotek"
 
 #: weblate/html/translation.html:145
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Podniz"
+msgstr "Nizi"
 
 #: weblate/html/translation.html:149
 msgid "Total"
-msgstr ""
+msgstr "Skupaj"
 
 #: weblate/html/translation.html:161
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Neurejeno"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Spodletela preverjanja"
+msgstr "Spodletelo preverjanje"
 
 #: weblate/html/translation_info.html:8
 #, python-format
@@ -4141,10 +4105,9 @@ msgid "No related strings found in dictionary."
 msgstr "V slovarju nisem našel sorodnih nizov."
 
 #: weblate/html/js/dictionary.html:31
-#, fuzzy
 #| msgid "Manage all glossaries"
 msgid "Manage glossary"
-msgstr "Upravljaj vse slovarje"
+msgstr "Upravljaj slovar"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"
@@ -4377,25 +4340,24 @@ msgid "New contributor in %(translation)s"
 msgstr "Nov sodelavec pri %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr "na %(site_title)s je nov prevod %(translation)s."
+msgstr "na %(site_title)s je prošnja za nov jezik %(translation)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "Used languages"
 msgid "Requested language:"
-msgstr "Uporabljeni jeziki"
+msgstr "Zaprošeni jeziki:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "New suggestion in %(translation)s"
 msgid "New language request in %(translation)s"
-msgstr "Nov predlog pri %(translation)s"
+msgstr "Nova prošnja za jezik %(translation)s"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
