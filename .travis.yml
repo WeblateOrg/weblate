@@ -36,7 +36,7 @@ before_script:
   - cp weblate/settings_example.py weblate/settings.py
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
-  - if [[ 0$TRAVIS_SELENIUM == 1 ]]; then curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
+  - if [[ 0$TRAVIS_SELENIUM -eq 1 ]]; then curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
 # commands to run tests
 script: 
   - ./scripts/generate-locales
