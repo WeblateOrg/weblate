@@ -28,6 +28,12 @@ EXTRALANGS = (
         '(n != 1)',
     ),
     (
+        'tl',
+        'Tagalog',
+        1,
+        '0',
+    ),
+    (
         'ur',
         'Urdu',
         2,
