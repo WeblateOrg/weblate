@@ -536,9 +536,10 @@ class Translation(models.Model, URLMixin, PercentMixin):
             # Store current unit ID
             created_units.add(newunit.id)
 
-        # Get lists of stale units to delete
-        # FIXME: this query can get huge, so we should find better way
+        # Following query can get huge, so we should find better way
         # to delete stale units, probably sort of garbage collection
+
+        # Get lists of stale units to delete
         units_to_delete = self.unit_set.exclude(
             id__in=created_units
         )
