@@ -12,7 +12,7 @@ Django (>= 1.4)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.9.0, 1.10.0 or newer strong recommended)
     http://toolkit.translatehouse.org/
-GitPython (>= 0.3)
+GitPython (>= 0.3.2)
     https://github.com/gitpython-developers/GitPython
 Git (>= 1.0)
     http://git-scm.com/

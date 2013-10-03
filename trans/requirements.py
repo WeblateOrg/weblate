@@ -130,7 +130,7 @@ def get_versions():
         name,
         url,
         mod.__version__,
-        '0.3',
+        '0.3.2',
     ))
 
     name = 'Git'
