@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-03 11:01+0200\n"
-"PO-Revision-Date: 2013-08-23 23:51+0200\n"
-"Last-Translator: Dmitri GOULIAEV <dmitri+weblate@gouliaev.info>\n"
+"PO-Revision-Date: 2013-10-04 23:24+0200\n"
+"Last-Translator: klef Ursong <klef@wasteland.su>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
 #: accounts/forms.py:171 accounts/forms.py:218
@@ -279,15 +279,16 @@ msgstr "Библиотека PyICU"
 
 #: trans/admin_views.py:139
 msgid "Secret key"
-msgstr ""
+msgstr "Секретный ключ"
 
 #: trans/admin_views.py:146
+#, fuzzy
 msgid "Allowed hosts"
-msgstr ""
+msgstr "Разрешенные хосты"
 
 #: trans/admin_views.py:153
 msgid "Home directory"
-msgstr ""
+msgstr "Домашняя директория"
 
 #: trans/admin_views.py:161
 msgid "Admin static files"
@@ -527,7 +528,7 @@ msgstr "Весь проект"
 #: trans/forms.py:408 weblate/html/dictionaries.html:15
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:6
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: trans/util.py:106
 msgctxt "No known user"
@@ -601,7 +602,6 @@ msgstr ""
 "%(percent)d%% выполнено"
 
 #: trans/widgets.py:315
-#, fuzzy
 #| msgid "Translate"
 msgid "translated"
 msgstr "Перевод"
@@ -765,11 +765,11 @@ msgstr ""
 
 #: trans/checks/same.py:659
 msgid "Not translated"
-msgstr ""
+msgstr "Не переведено"
 
 #: trans/checks/same.py:660
 msgid "Source and translated strings are same"
-msgstr ""
+msgstr "Источник и перевод совпадают"
 
 #: trans/checks/source.py:34
 msgid "Optional plural"
@@ -828,22 +828,19 @@ msgid "Translation uploaded"
 msgstr "Перевод загружен"
 
 #: trans/models/changes.py:159
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary added"
-msgstr "Глоссарий"
+msgstr "Словарь добавлен"
 
 #: trans/models/changes.py:160
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary updated"
-msgstr "Глоссарий"
+msgstr "Словарь обновлен"
 
 #: trans/models/changes.py:161
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary uploaded"
-msgstr "Глоссарий"
+msgstr "Словарь загружен"
 
 #: trans/models/changes.py:183
 #, python-format
@@ -952,7 +949,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Error message"
 msgid "Commit message"
-msgstr "Сообщение об ошибке"
+msgstr "Сообщение транзакции"
 
 #: trans/models/project.py:139
 msgid ""
@@ -964,7 +961,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Your name"
 msgid "Committer name"
-msgstr "Имя"
+msgstr "Имя коммитера"
 
 #: trans/models/project.py:151
 #, fuzzy
@@ -1020,10 +1017,9 @@ msgid "Could not create project directory: %s"
 msgstr ""
 
 #: trans/models/subproject.py:69
-#, fuzzy
 #| msgid "Subproject"
 msgid "Subproject name"
-msgstr "Подпроект"
+msgstr "Имя подпроекта"
 
 #: trans/models/subproject.py:80 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -1033,10 +1029,9 @@ msgid "Project"
 msgstr ""
 
 #: trans/models/subproject.py:83
-#, fuzzy
 #| msgid "Invalid link to repository!"
 msgid "Git repository"
-msgstr "Неверная ссылка на репозиторий!"
+msgstr "Git репозиторий"
 
 #: trans/models/subproject.py:86
 msgid ""
@@ -1090,10 +1085,9 @@ msgid "Git branch to translate"
 msgstr ""
 
 #: trans/models/subproject.py:131
-#, fuzzy
 #| msgid "File"
 msgid "File mask"
-msgstr "Файл"
+msgstr "Маска файла"
 
 #: trans/models/subproject.py:135
 msgid ""
@@ -1112,10 +1106,9 @@ msgid ""
 msgstr ""
 
 #: trans/models/subproject.py:150
-#, fuzzy
 #| msgid "Machine translation"
 msgid "Base file for new translations"
-msgstr "Машинный перевод"
+msgstr "Базовый файл для нового перевода"
 
 #: trans/models/subproject.py:154
 msgid ""
@@ -1124,10 +1117,9 @@ msgid ""
 msgstr ""
 
 #: trans/models/subproject.py:159
-#, fuzzy
 #| msgid "C format"
 msgid "File format"
-msgstr "Форматирование C"
+msgstr "Формат файла"
 
 #: trans/models/subproject.py:164
 msgid "Automatic detection might fail for some formats and is slightly slower."
@@ -1174,10 +1166,9 @@ msgid ""
 msgstr ""
 
 #: trans/models/subproject.py:207
-#, fuzzy
 #| msgid "New translation"
 msgid "Save translation history"
-msgstr "Новый перевод"
+msgstr "Сохранить историю переводов"
 
 #: trans/models/subproject.py:210
 msgid "Whether Weblate should keep history of translations"
@@ -1192,10 +1183,9 @@ msgid "Whether users can vote for suggestions."
 msgstr ""
 
 #: trans/models/subproject.py:221
-#, fuzzy
 #| msgid "Add as a suggestion"
 msgid "Autoaccept suggestions"
-msgstr "Добавить предложение"
+msgstr "Автоматическое добавление"
 
 #: trans/models/subproject.py:224
 msgid ""
