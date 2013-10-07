@@ -6,6 +6,7 @@ weblate 1.8
 
 Released on ? 2013.
 
+* Please check manual for upgrade instructions.
 * Nicer listing of project summary.
 * Better visible options for sharing.
 

@@ -682,6 +682,12 @@ recommended to put your site offline, while the migration is going on.
 If you are translating monolingual files, it is recommended to rerun quality
 checks as they might have been wrongly linked to units in previous versions.
 
+Upgrade from 1.7 to 1.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Some internal modules have changed name, please adjust your :file:`settings.py`
+to match that (consult :file:`settings_example.py` for correct values).
+
 .. _pootle-migration:
 
 Migrating from Pootle
