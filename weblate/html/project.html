@@ -62,9 +62,9 @@
 </div>
 
 <div id="share">
-{% url 'widgets' project=object.slug as widgets_url %}
-{% url 'data_project' project=object.slug as data_url %}
+{% with object as project %}
 {% include 'share.html' %}
+{% endwith %}
 </div>
 
 </div>

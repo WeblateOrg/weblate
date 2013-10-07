@@ -1,16 +1,25 @@
 {% load i18n %}
 
+{% url 'widgets' project=project.slug as widgets_url %}
+{% url 'data_project' project=project.slug as data_url %}
 {% with object.get_share_url as share_url %}
+
+<h3>{% trans "Share your translation" %}</h3>
+
 <p>
 <a href="http://www.facebook.com/sharer.php?u={{ share_url }}" class="button">{% trans "Share on Facebook!" %}</a>
 <a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}" class="button">{% trans "Tweet this translation!" %}</a>
 </p>
-{% endwith %}
+
+<h3>{% trans "Widgets" %}</h3>
 
 <p>
 {% blocktrans %}You can also promote this translation project using various <a href="{{ widgets_url }}">other possibilities</a>.{% endblocktrans %}
 </p>
 
+<h3>{% trans "Data export" %}</h3>
+
 <p>
 {% blocktrans %}Various <a href="{{ data_url }}">data exports</a> are available in machine readable formats.{% endblocktrans %}
 </p>
+{% endwith %}

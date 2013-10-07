@@ -134,9 +134,9 @@
 </div>
 
 <div id="share">
-{% url 'widgets' project=object.subproject.project.slug as widgets_url %}
-{% url 'data_project' project=object.subproject.project.slug as data_url %}
+{% with object.subproject.project as project %}
 {% include 'share.html' %}
+{% endwith %}
 </div>
 
 <div id="stats">
