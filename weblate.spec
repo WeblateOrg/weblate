@@ -16,7 +16,7 @@ Requires:       python-django >= 1.3
 Requires:       python-django-registration >= 0.8
 Requires:       translate-toolkit
 Requires:       python-GitPython >= 0.3
-Requires:       python-whoosh
+Requires:       python-whoosh >= 2.5
 Requires:       python-imaging
 Requires:       python-South
 %py_requires
