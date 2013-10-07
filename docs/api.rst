@@ -26,6 +26,12 @@ repository has been updated.
     Special hook for handling GitHub notifications and automatically updating
     matching subprojects.
 
+    .. note::
+
+        GitHub includes direct support for notifying Weblate, just enable
+        Weblate service hook in repository settings and set URL to URL of your
+        Weblate installation.
+
     .. seealso:: http://help.github.com/post-receive-hooks/ :setting:`ENABLE_HOOKS`
 
 .. describe:: POST /hooks/bitbucket/
