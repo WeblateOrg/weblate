@@ -14,6 +14,12 @@
 <h3>{% trans "Widgets" %}</h3>
 
 <p>
+<a href="{{ widgets_url }}">
+<img src="{% url 'widget-image' project=project.slug widget='status' color='badge' %}" />
+</a>
+</p>
+
+<p>
 {% blocktrans %}You can also promote this translation project using various <a href="{{ widgets_url }}">other possibilities</a>.{% endblocktrans %}
 </p>
 
