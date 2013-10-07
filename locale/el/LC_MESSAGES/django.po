@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-07 16:54+0200\n"
-"PO-Revision-Date: 2013-10-03 11:29+0200\n"
+"PO-Revision-Date: 2013-10-07 20:25+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.7-dev\n"
+"X-Generator: Weblate 1.7\n"
 
 #: accounts/forms.py:171 accounts/forms.py:218
 msgid "First name"
@@ -551,6 +551,8 @@ msgstr "Αδύνατη η σύνδεση με το συνδεδεμένο απο
 #: trans/validators.py:91
 msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgstr ""
+"Μη έγκυρος σύνδεσμος για το έργο Weblate, χρησιμοποιείστε το "
+"weblate://project/subproject."
 
 #: trans/validators.py:103
 msgid ""
@@ -2210,10 +2212,9 @@ msgstr ""
 "συνδέσμους για περισσότερες πληροφορίες."
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
-#, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "Ειδοποίηση για νέο σχόλιο"
+msgstr "Άγκιστρα ειδοποίησης"
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
@@ -2222,6 +2223,10 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Με τα άγκιστρα ειδοποίησης, το Weblate θα εισάγει αυτόματα αλλαγές που "
+"έγιναν από τους δημιουργούς σας και θα επιτρέπουν συνεχή μετάφραση. "
+"Περισσότερες πληροφορίες είναι διαθέσιμες στην <a href=\"%"
+"(hooks_docs)s\">τεκμηρίωση</a>."
 
 #: weblate/html/data.html:48
 msgid ""
@@ -2249,7 +2254,7 @@ msgstr "Λήψη"
 
 #: weblate/html/data.html:93 weblate/html/data.html.py:99
 msgid "Hook"
-msgstr ""
+msgstr "Άγκιστρο"
 
 #: weblate/html/data.html:105
 msgid ""
@@ -2257,16 +2262,14 @@ msgid ""
 msgstr ""
 
 #: weblate/html/data.html:110
-#, fuzzy
 #| msgid "Hostname"
 msgid "Hosting site"
-msgstr "Όνομα φιλοξενητή"
+msgstr "Ιστοσελίδα φιλοξενητή"
 
 #: weblate/html/data.html:112
-#, fuzzy
 #| msgid "Notes"
 msgid "Note"
-msgstr "Σημειώσεις"
+msgstr "Σημείωση"
 
 #: weblate/html/data.html:119
 msgid "Enable Weblate service hook in repository settings."
@@ -3392,10 +3395,9 @@ msgid "Translation license:"
 msgstr "Άδεια μετάφρασης:"
 
 #: weblate/html/share.html:7
-#, fuzzy
 #| msgid "Your translations"
 msgid "Share your translation"
-msgstr "Οι μεταφράσεις σας"
+msgstr "Μοιραστείτε τη μετάφρασή σας"
 
 #: weblate/html/share.html:10
 msgid "Share on Facebook!"
@@ -3812,16 +3814,16 @@ msgid "Failing check"
 msgstr "Αποτυχημένος έλεγχος"
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid "Source (%(count)s)"
 msgid "Strings (%(count)s):"
-msgstr "Προέλευση (%(count)s)"
+msgstr "Κείμενα (%(count)s):"
 
 #: weblate/html/translation_info.html:15
-#, fuzzy, python-format
+#, python-format
 #| msgid "Source (%(count)s)"
 msgid "Words (%(count)s):"
-msgstr "Προέλευση (%(count)s)"
+msgstr "Λέξεις (%(count)s):"
 
 #: weblate/html/unit-details.html:4
 msgid "Used in"
