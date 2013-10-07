@@ -50,6 +50,7 @@ def weblate_context(request):
         'current_url': request.get_full_path(),
 
         'mt_enabled': appsettings.MACHINE_TRANSLATION_ENABLED,
+        'hooks_enabled': appsettings.ENABLE_HOOKS,
 
         'registration_open': getattr(settings, 'REGISTRATION_OPEN', True),
     }
