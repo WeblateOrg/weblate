@@ -79,4 +79,27 @@
 </p>
 {% endif %}
 
+<table>
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Link" %}</th>
+</thead>
+<tbody>
+<tr>
+<th>{{ object }}</th>
+<td>{{ site_url }}{% url 'hook-project' project=object.slug %}</td>
+<td><a href="{{ site_url }}{% url 'hook-project' project=object.slug %}">{% trans "Hook" %}</a></td>
+</tr>
+{% for subproject in object.subproject_set.all %}
+<tr>
+<th>{{ subproject }}</th>
+<td>{{ site_url }}{% url 'hook-subproject' project=object.slug subproject=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'hook-subproject' project=object.slug subproject=subproject.slug %}">{% trans "Hook" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
 {% endblock %}
