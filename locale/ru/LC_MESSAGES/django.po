@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-07 16:54+0200\n"
-"PO-Revision-Date: 2013-10-04 23:24+0200\n"
+"PO-Revision-Date: 2013-10-07 21:00+0200\n"
 "Last-Translator: klef Ursong <klef@wasteland.su>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 1.7-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 1.7\n"
 
 #: accounts/forms.py:171 accounts/forms.py:218
 msgid "First name"
@@ -282,7 +282,6 @@ msgid "Secret key"
 msgstr "Секретный ключ"
 
 #: trans/admin_views.py:146
-#, fuzzy
 msgid "Allowed hosts"
 msgstr "Разрешенные хосты"
 
@@ -942,7 +941,6 @@ msgid ""
 msgstr ""
 
 #: trans/models/project.py:137
-#, fuzzy
 #| msgid "Error message"
 msgid "Commit message"
 msgstr "Сообщение транзакции"
@@ -954,16 +952,14 @@ msgid ""
 msgstr ""
 
 #: trans/models/project.py:146
-#, fuzzy
 #| msgid "Your name"
 msgid "Committer name"
 msgstr "Имя коммитера"
 
 #: trans/models/project.py:151
-#, fuzzy
 #| msgid "Your email"
 msgid "Committer email"
-msgstr "E-mail"
+msgstr "E-mail коммитера"
 
 #: trans/models/project.py:156
 msgid "Push on commit"
@@ -1146,10 +1142,9 @@ msgid "Whether subproject is locked for translation updates."
 msgstr ""
 
 #: trans/models/subproject.py:199
-#, fuzzy
 #| msgid "New translation"
 msgid "Allow translation propagation"
-msgstr "Новый перевод"
+msgstr "Разрешить распространение перевода"
 
 #: trans/models/subproject.py:202
 msgid ""
@@ -1245,10 +1240,10 @@ msgid "Format of translation base file could not be recognized."
 msgstr ""
 
 #: trans/models/subproject.py:854
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to parse translation base file: %s"
-msgstr "Не удалось разобрать шаблон перевода: %s"
+msgstr "Не удалось разобрать файл перевода: %s"
 
 #: trans/models/subproject.py:871
 msgid "File does not seem to be valid!"
@@ -1279,10 +1274,10 @@ msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 
 #: trans/models/subproject.py:927
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key!"
 msgid "Failed to update git: %s"
-msgstr "Не удалось создать ключ!"
+msgstr "Не удалось обновить git: %s"
 
 #: trans/models/subproject.py:935
 msgid "The mask did not match any files!"
@@ -1379,10 +1374,9 @@ msgid "Message is fuzzy"
 msgstr ""
 
 #: trans/models/unit.py:1011
-#, fuzzy
 #| msgid "Some plural forms are not translated"
 msgid "Message is not translated"
-msgstr "Некоторые формы множественного числа не переведены"
+msgstr "Сообщение не переведено"
 
 #: trans/models/unit.py:1016
 msgid "Message has failing checks"
@@ -1397,16 +1391,14 @@ msgid "Message has comments"
 msgstr ""
 
 #: trans/templatetags/translations.py:57
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Good configuration"
-msgstr "Подтверждение нового пароля"
+msgstr "Хорошая конфигурация"
 
 #: trans/templatetags/translations.py:58
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Bad configuration"
-msgstr "Подтверждение нового пароля"
+msgstr "Плохая конфигурация"
 
 #: trans/templatetags/translations.py:59
 msgid "Possible configuration"
@@ -1426,14 +1418,13 @@ msgid "Avatar for %s"
 msgstr ""
 
 #: trans/templatetags/translations.py:333
-#, fuzzy
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "a year ago"
-msgstr "%(count)s год назад"
+msgstr "год назад"
 
 #: trans/templatetags/translations.py:335
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year ago"
 #| msgid_plural "%(count)s years ago"
 msgid "%(count)s year ago"
@@ -1443,14 +1434,13 @@ msgstr[1] "%(count)s года назад"
 msgstr[2] "%(count)s лет назад"
 
 #: trans/templatetags/translations.py:340
-#, fuzzy
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "a month ago"
-msgstr "%(count)s месяц назад"
+msgstr "месяц назад"
 
 #: trans/templatetags/translations.py:342
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month ago"
 #| msgid_plural "%(count)s months ago"
 msgid "%(count)s month ago"
@@ -1460,7 +1450,7 @@ msgstr[1] "%(count)s месяца назад"
 msgstr[2] "%(count)s месяцев назад"
 
 #: trans/templatetags/translations.py:347
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "%(count)s week ago"
@@ -1470,25 +1460,24 @@ msgstr[1] "%(count)s недели назад"
 msgstr[2] "%(count)s недель назад"
 
 #: trans/templatetags/translations.py:351
-#, fuzzy
 #| msgid "a week ago"
 #| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
-msgstr "%(count)s неделю назад"
+msgstr "неделю назад"
 
 #: trans/templatetags/translations.py:353
 msgid "yesterday"
 msgstr ""
 
 #: trans/templatetags/translations.py:355
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] "%(count)s секунду назад"
-msgstr[1] "%(count)s секунды назад"
-msgstr[2] "%(count)s секунд назад"
+msgstr[0] "%(count)s день назад"
+msgstr[1] "%(count)s дней назад"
+msgstr[2] "%(count)s дня назад"
 
 #: trans/templatetags/translations.py:358
 #: trans/templatetags/translations.py:409
@@ -1496,14 +1485,13 @@ msgid "now"
 msgstr "сейчас"
 
 #: trans/templatetags/translations.py:361
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
-msgstr "%(count)s секунду назад"
+msgstr "секунду назад"
 
 #: trans/templatetags/translations.py:363
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
@@ -1513,14 +1501,13 @@ msgstr[1] "%(count)s секунды назад"
 msgstr[2] "%(count)s секунд назад"
 
 #: trans/templatetags/translations.py:368
-#, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
-msgstr "%(count)s минуту назад"
+msgstr "минуту назад"
 
 #: trans/templatetags/translations.py:370
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
@@ -1530,14 +1517,13 @@ msgstr[1] "%(count)s минуты назад"
 msgstr[2] "%(count)s минут назад"
 
 #: trans/templatetags/translations.py:375
-#, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
-msgstr "%(count)s час назад"
+msgstr "час назад"
 
 #: trans/templatetags/translations.py:377
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
@@ -1547,14 +1533,13 @@ msgstr[1] "%(count)s часа назад"
 msgstr[2] "%(count)s часов назад"
 
 #: trans/templatetags/translations.py:384
-#, fuzzy
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "a year from now"
-msgstr "через %(count)s год"
+msgstr "через год"
 
 #: trans/templatetags/translations.py:386
-#, fuzzy, python-format
+#, python-format
 #| msgid "a year from now"
 #| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
@@ -1564,14 +1549,13 @@ msgstr[1] "через %(count)s года"
 msgstr[2] "через %(count)s лет"
 
 #: trans/templatetags/translations.py:391
-#, fuzzy
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "a month from now"
-msgstr "через %(count)s месяц"
+msgstr "через месяц"
 
 #: trans/templatetags/translations.py:393
-#, fuzzy, python-format
+#, python-format
 #| msgid "a month from now"
 #| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
@@ -1581,7 +1565,7 @@ msgstr[1] "через %(count)s месяца"
 msgstr[2] "через %(count)s месяцев"
 
 #: trans/templatetags/translations.py:398
-#, fuzzy, python-format
+#, python-format
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
@@ -1595,31 +1579,29 @@ msgid "tomorrow"
 msgstr ""
 
 #: trans/templatetags/translations.py:404
-#, fuzzy
 #| msgid "a week from now"
 #| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
-msgstr "через %(count)s неделю"
+msgstr "через неделю"
 
 #: trans/templatetags/translations.py:406
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "через %(count)s секунду"
-msgstr[1] "через %(count)s секунды"
-msgstr[2] "через %(count)s секунд"
+msgstr[0] "через %(count)s день"
+msgstr[1] "через %(count)s дней"
+msgstr[2] "через %(count)s дня"
 
 #: trans/templatetags/translations.py:412
-#, fuzzy
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
-msgstr "через %(count)s секунду"
+msgstr "через секунду"
 
 #: trans/templatetags/translations.py:414
-#, fuzzy, python-format
+#, python-format
 #| msgid "a second from now"
 #| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
@@ -1629,14 +1611,13 @@ msgstr[1] "через %(count)s секунды"
 msgstr[2] "через %(count)s секунд"
 
 #: trans/templatetags/translations.py:421
-#, fuzzy
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
-msgstr "через %(count)s минуту"
+msgstr "через минуту"
 
 #: trans/templatetags/translations.py:423
-#, fuzzy, python-format
+#, python-format
 #| msgid "a minute from now"
 #| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
@@ -1646,14 +1627,13 @@ msgstr[1] "через %(count)s минуты"
 msgstr[2] "через %(count)s минут"
 
 #: trans/templatetags/translations.py:430
-#, fuzzy
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
-msgstr "через %(count)s час"
+msgstr "через час"
 
 #: trans/templatetags/translations.py:432
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour from now"
 #| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
@@ -1707,11 +1687,10 @@ msgid "Chosen translation already exists in this project!"
 msgstr ""
 
 #: trans/views/basic.py:393
-#, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "Запрос на машинный перевод не удался."
+msgstr "Запрос на новый перевод отправлен сопровождающему проекта."
 
 #: trans/views/basic.py:402
 #, fuzzy
@@ -1733,10 +1712,9 @@ msgid "Failed to find matching language!"
 msgstr ""
 
 #: trans/views/changes.py:123
-#, fuzzy
 #| msgid "Failed to generate key!"
 msgid "Failed to find matching user!"
-msgstr "Не удалось создать ключ!"
+msgstr "Не удалось найти пользователя!"
 
 #: trans/views/checks.py:46 weblate/html/source-review.html:33
 #: weblate/html/translate.html:100 weblate/html/translate.html.py:264
@@ -2054,11 +2032,10 @@ msgid "Strings to translate"
 msgstr ""
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "%(words)s word to translate!"
 #| msgid_plural "%(words)s words to translate!"
 msgid "Words to translate"
-msgstr "Перевести %(words)s слово!"
+msgstr "Слова для перевода"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
@@ -2208,7 +2185,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "Уведомление о новом комментарии"
+msgstr "Уведомление \"крюком\""
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
