@@ -347,6 +347,21 @@ class Translation(models.Model, URLMixin, PercentMixin):
             'lang': self.language.code
         }
 
+    def get_widgets_url(self):
+        '''
+        Returns absolute URL for widgets.
+        '''
+        return get_site_url(
+            '%s?lang=%s' % (
+                reverse(
+                    'widgets', kwargs={
+                        'project': self.subproject.project.slug,
+                    }
+                ),
+                self.language.code,
+            )
+        )
+
     def get_share_url(self):
         '''
         Returns absolute URL usable for sharing.

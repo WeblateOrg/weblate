@@ -1,8 +1,7 @@
 {% load i18n %}
 
-{% url 'widgets' project=project.slug as widgets_url %}
 {% url 'data_project' project=project.slug as data_url %}
-{% with object.get_share_url as share_url %}
+{% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
 
 <h3>{% trans "Share your translation" %}</h3>
 
@@ -15,7 +14,11 @@
 
 <p>
 <a href="{{ widgets_url }}">
+{% if object.language %}
+<img src="{% url 'widget-image-lang' project=project.slug widget='status' color='badge' lang=object.language.code %}" />
+{% else %}
 <img src="{% url 'widget-image' project=project.slug widget='status' color='badge' %}" />
+{% endif %}
 </a>
 </p>
 
