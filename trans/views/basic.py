@@ -354,6 +354,7 @@ def about(request):
 
 def data_root(request):
     return render_to_response('data-root.html', RequestContext(request, {
+        'hooks_docs': weblate.get_doc_url('api', 'hooks'),
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
         'projects': Project.objects.all_acl(request.user),
@@ -364,6 +365,7 @@ def data_project(request, project):
     obj = get_project(request, project)
     return render_to_response('data.html', RequestContext(request, {
         'object': obj,
+        'hooks_docs': weblate.get_doc_url('api', 'hooks'),
         'api_docs': weblate.get_doc_url('api', 'exports'),
         'rss_docs': weblate.get_doc_url('api', 'rss'),
     }))

@@ -47,4 +47,12 @@
 {% endfor %}
 </ul>
 
+{% if hooks_enabled %}
+<h3>{% trans "Notification hooks" %}</h3>
+
+<p>
+{% blocktrans %}With notification hooks, Weblate will automatically import changes done by your developers and will allow continuous translation. More information is available in <a href="{{ hooks_docs }}">the documentation</a>.{% endblocktrans %}
+</p>
+{% endif %}
+
 {% endblock %}
