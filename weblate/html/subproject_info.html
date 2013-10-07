@@ -3,21 +3,26 @@
 {% with object.project as object %}
 {% include "project_info.html" %}
 {% endwith %}
+
 {% if perms.trans.can_see_git_repository %}
-<p>{% trans "Git repository:" %} 
+<tr>
+<th>{% trans "Git repository:" %}</th>
+<td>
 <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code> ({{ object.get_repo_branch }}
  @ 
 {% with object.get_last_remote_commit as commit %}
 {% include "git-commit-info.html" %}
 {% endwith %}
 )
-</p>
+</td>
+</tr>
+
 {% with object.get_export_url as export_url %}
 {% if export_url %}
-<p>
-{% trans "Git repository with Weblate translations:" %}
-<code class="git-repo ui-corner-all">{{ export_url }}</code>
-</p>
+<tr>
+<th>{% trans "Git repository with Weblate translations:" %}</th>
+<td><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
+</tr>
 {% endif %}
 {% endwith %}
 {% endif %}

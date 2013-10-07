@@ -1,16 +1,32 @@
 {% load i18n %}
-<p>{% trans "Project website:" %} <a href="{{ object.web }}">{{ object.web }}</a></p>
+<tr>
+<th>{% trans "Project website:" %}</th>
+<td><a href="{{ object.web }}">{{ object.web }}</a></td>
+</tr>
+
 {% if object.mail %}
-<p>{% trans "Mailing list for translators:" %} <a href="mailto:{{ object.mail }}">{{ object.mail }}</a></p>
+<tr>
+<th>{% trans "Mailing list for translators:" %}</th>
+<td><a href="mailto:{{ object.mail }}">{{ object.mail }}</a></td>
+</tr>
 {% endif %}
+
 {% if object.instructions %}
-<p>{% trans "Instructions for translators:" %} <a href="{{ object.instructions }}">{{ object.instructions }}</a></p>
+<tr>
+<th>{% trans "Instructions for translators:" %}</th>
+<td><a href="{{ object.instructions }}">{{ object.instructions }}</a></td>
+</tr>
 {% endif %}
+
 {% if object.license %}
-<p>{% trans "Translation license:" %} 
+<tr>
+<th>{% trans "Translation license:" %}</th>
+<td>
 {% if object.license_url %}
 <a href="{{ object.license_url }}">{{ object.license }}</a></p>
 {% else %}
 {{ object.license }}
 {% endif %}
+</td>
+</tr>
 {% endif %}

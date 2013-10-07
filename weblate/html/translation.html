@@ -15,7 +15,9 @@
 
 <h2>{% trans "Project Information" %}</h2>
 
+<table class="info">
 {% include "translation_info.html" %}
+</table>
 
 {% with object.get_translation_checks as checks%}
 {% if checks %}

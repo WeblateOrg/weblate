@@ -6,6 +6,8 @@ weblate 1.8
 
 Released on ? 2013.
 
+* Nicer listing of project summary.
+
 weblate 1.7
 -----------
 
