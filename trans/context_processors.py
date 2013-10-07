@@ -28,46 +28,28 @@ URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'http://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 
 
-def version(request):
-    return {'version': weblate.VERSION}
-
-
-def weblate_url(request):
+def weblate_context(request):
+    '''
+    Context processor to inject various useful variables into context.
+    '''
     return {
+        'version': weblate.VERSION,
+
         'weblate_url': URL_BASE % weblate.VERSION,
         'donate_url': URL_DONATE % weblate.VERSION,
-    }
 
-
-def title(request):
-    return {
         'site_title': appsettings.SITE_TITLE,
         'site_url': get_site_url(),
+
         'offer_hosting': appsettings.OFFER_HOSTING,
-    }
 
-
-def date(request):
-    return {
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),
         'current_month': datetime.utcnow().strftime('%m'),
-    }
 
-
-def url(request):
-    return {
         'current_url': request.get_full_path(),
-    }
 
-
-def machine_translations(request):
-    return {
         'mt_enabled': appsettings.MACHINE_TRANSLATION_ENABLED,
-    }
 
-
-def registration(request):
-    return {
         'registration_open': getattr(settings, 'REGISTRATION_OPEN', True),
     }

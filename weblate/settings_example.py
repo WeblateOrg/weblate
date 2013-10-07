@@ -215,13 +215,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
-    'trans.context_processors.version',
-    'trans.context_processors.weblate_url',
-    'trans.context_processors.title',
-    'trans.context_processors.date',
-    'trans.context_processors.url',
-    'trans.context_processors.machine_translations',
-    'trans.context_processors.registration',
+    'trans.context_processors.weblate_context',
 )
 
 # Custom exception reporter to include some details
