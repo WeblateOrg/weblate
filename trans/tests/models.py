@@ -422,6 +422,26 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+        # Bad link
+        project.repo = 'weblate://foo'
+        project.push = ''
+        self.assertRaisesMessage(
+            ValidationError,
+            'Invalid link to Weblate project, '
+            'use weblate://project/subproject.',
+            project.full_clean
+        )
+
+        # Bad link
+        project.repo = 'weblate://foo/bar'
+        project.push = ''
+        self.assertRaisesMessage(
+            ValidationError,
+            'Invalid link to Weblate project, '
+            'use weblate://project/subproject.',
+            project.full_clean
+        )
+
         # Translation validation
         translation = project.translation_set.get(language_code='cs')
         translation.full_clean()

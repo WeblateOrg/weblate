@@ -85,8 +85,13 @@ def validate_repo(val):
         repo = SubProject.objects.get_linked(val)
         if repo is not None and repo.is_repo_link():
             raise ValidationError(_('Can not link to linked repository!'))
-    except SubProject.DoesNotExist:
-        raise ValidationError(_('Invalid link to repository!'))
+    except (SubProject.DoesNotExist, ValueError):
+        raise ValidationError(
+            _(
+                'Invalid link to Weblate project, '
+                'use weblate://project/subproject.'
+            )
+        )
 
 
 def validate_autoaccept(val):
