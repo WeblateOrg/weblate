@@ -4,7 +4,7 @@ Changes
 weblate 1.7
 -----------
 
-Released on ? 2013.
+Released on October 7th 2013.
 
 * Please check manual for upgrade instructions.
 * Support for checking Python brace format string.
