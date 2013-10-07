@@ -102,4 +102,29 @@
 </tbody>
 </table>
 
+<p>{% blocktrans %}Weblate also support direct notification from several code hosting sites:{% endblocktrans %}</p>
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Hosting site" %}</th>
+<th>{% trans "URL" %}</th>
+<th>{% trans "Note" %}</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th><a href="https://github.com/">GitHub</a></th>
+<td>{{ site_url }}{% url 'hook-github' %}</td>
+<td>{% trans "Enable Weblate service hook in repository settings." %}</td>
+</tr>
+<tr>
+<th><a href="https://bitbucket.org/">Bitbucket</a></th>
+<td>{{ site_url }}{% url 'hook-bitbucket' %}</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
 {% endblock %}
