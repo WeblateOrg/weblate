@@ -49,7 +49,7 @@ copyright = u'2012 - 2013, Michal Čihař'
 # built documents.
 #
 # The short X.Y version.
-version = '1.7'
+version = '1.8'
 # The full version, including alpha/beta/rc tags.
 release = version
 
