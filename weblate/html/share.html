@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load url from future %}
 
 {% url 'data_project' project=project.slug as data_url %}
 {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
