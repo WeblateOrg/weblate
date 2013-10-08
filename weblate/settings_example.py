@@ -165,6 +165,12 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
+# Authentication configuration
+AUTHENTICATION_BACKENDS = (
+    'accounts.auth.AnonymousUserBackend',
+)
+
+# Middleware
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

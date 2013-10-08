@@ -685,8 +685,9 @@ checks as they might have been wrongly linked to units in previous versions.
 Upgrade from 1.7 to 1.8
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Some internal modules have changed name, please adjust your :file:`settings.py`
-to match that (consult :file:`settings_example.py` for correct values).
+Authentication setup has been changed and some internal modules have changed
+name, please adjust your :file:`settings.py` to match that (consult
+:file:`settings_example.py` for correct values).
 
 .. _pootle-migration:
 
