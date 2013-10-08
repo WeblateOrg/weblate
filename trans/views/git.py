@@ -19,8 +19,8 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from trans.views.helper import get_project, get_subproject, get_translation
 
@@ -33,7 +33,7 @@ def commit_project(request, project):
 
     messages.info(request, _('All pending translations were committed.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -44,7 +44,7 @@ def commit_subproject(request, project, subproject):
 
     messages.info(request, _('All pending translations were committed.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -55,7 +55,7 @@ def commit_translation(request, project, subproject, lang):
 
     messages.info(request, _('All pending translations were committed.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -66,7 +66,7 @@ def update_project(request, project):
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -77,7 +77,7 @@ def update_subproject(request, project, subproject):
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -88,7 +88,7 @@ def update_translation(request, project, subproject, lang):
     if obj.do_update(request):
         messages.info(request, _('All repositories were updated.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -99,7 +99,7 @@ def push_project(request, project):
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -110,7 +110,7 @@ def push_subproject(request, project, subproject):
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -121,7 +121,7 @@ def push_translation(request, project, subproject, lang):
     if obj.do_push(request):
         messages.info(request, _('All repositories were pushed.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -132,7 +132,7 @@ def reset_project(request, project):
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -143,7 +143,7 @@ def reset_subproject(request, project, subproject):
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -154,4 +154,4 @@ def reset_translation(request, project, subproject, lang):
     if obj.do_reset(request):
         messages.info(request, _('All repositories have been reset.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)

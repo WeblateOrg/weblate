@@ -18,10 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.utils.translation import ugettext as _
 from django.template import RequestContext, loader
-from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
+from django.http import HttpResponseNotFound, Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum, Count, Q
@@ -402,7 +402,8 @@ def new_language(request, project, subproject):
             _('Failed to process new translation request!')
         )
 
-    return HttpResponseRedirect(reverse(
+    return redirect(
         'subproject',
-        kwargs={'subproject': obj.slug, 'project': obj.project.slug}
-    ))
+        subproject=obj.slug,
+        project=obj.project.slug
+    )

@@ -18,12 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
@@ -105,7 +104,7 @@ def user_profile(request):
             set_lang(request.user, request=request, user=request.user)
 
             # Redirect after saving (and possibly changing language)
-            response = HttpResponseRedirect(reverse('profile'))
+            response = redirect('profile')
 
             # Set language cookie and activate new language (for message below)
             lang_code = profile.language
@@ -158,7 +157,7 @@ def contact(request):
                 request,
                 _('Message has been sent to administrator.')
             )
-            return HttpResponseRedirect(reverse('home'))
+            return redirect('home')
     else:
         initial = {}
         if request.user.is_authenticated():

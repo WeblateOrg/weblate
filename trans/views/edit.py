@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
@@ -108,7 +108,7 @@ def search(translation, request):
         # Check if we know the search
         if search_id not in request.session:
             messages.error(request, _('Invalid search string!'))
-            return HttpResponseRedirect(translation.get_absolute_url())
+            return redirect(translation)
 
         return request.session[search_id]
 
@@ -168,7 +168,7 @@ def search(translation, request):
     # Check empty search results
     if len(unit_ids) == 0:
         messages.warning(request, _('No string matched your search!'))
-        return HttpResponseRedirect(translation.get_absolute_url())
+        return redirect(translation)
 
     # Checksum unit access
     offset = 0
@@ -178,7 +178,7 @@ def search(translation, request):
             offset = unit_ids.index(unit.id)
         except (Unit.DoesNotExist, IndexError):
             messages.warning(request, _('No string matched your search!'))
-            return HttpResponseRedirect(translation.get_absolute_url())
+            return redirect(translation)
 
     # Remove old search results
     cleanup_session(request.session)
@@ -506,7 +506,7 @@ def translate(request, project, subproject, lang):
         # Delete search
         del request.session['search_%s' % search_result['search_id']]
         # Redirect to translation
-        return HttpResponseRedirect(obj.get_absolute_url())
+        return redirect(obj)
 
     # Some URLs we will most likely use
     base_unit_url = '%s?sid=%s&offset=' % (
@@ -550,7 +550,7 @@ def translate(request, project, subproject, lang):
     except Unit.DoesNotExist:
         # Can happen when using SID for other translation
         messages.error(request, _('Invalid search string!'))
-        return HttpResponseRedirect(obj.get_absolute_url())
+        return redirect(obj)
 
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
@@ -659,7 +659,7 @@ def auto_translation(request, project, subproject, lang):
     else:
         messages.error(request, _('Failed to process form!'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -687,4 +687,4 @@ def comment(request, pk):
     else:
         messages.error(request, _('Failed to add comment!'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)

@@ -19,7 +19,8 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -35,7 +36,7 @@ def lock_translation(request, project, subproject, lang):
         obj.create_lock(request.user, True)
         messages.info(request, _('Translation is now locked for you.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -60,7 +61,7 @@ def unlock_translation(request, project, subproject, lang):
             _('Translation is now open for translation updates.')
         )
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -78,7 +79,7 @@ def lock_subproject(request, project, subproject):
         _('Subproject is now locked for translation updates!')
     )
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -94,7 +95,7 @@ def unlock_subproject(request, project, subproject):
         _('Subproject is now open for translation updates.')
     )
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -113,7 +114,7 @@ def lock_project(request, project):
         _('All subprojects are now locked for translation updates!')
     )
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
 
 
 @login_required
@@ -127,4 +128,4 @@ def unlock_project(request, project):
 
     messages.info(request, _('Project is now open for translation updates.'))
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)

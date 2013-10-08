@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -71,10 +71,11 @@ def edit_dictionary(request, project, lang):
                 form.cleaned_data['source'],
                 form.cleaned_data['target']
             )
-            return HttpResponseRedirect(reverse(
+            return redirect(
                 'show_dictionary',
-                kwargs={'project': prj.slug, 'lang': lang.code}
-            ))
+                project=prj.slug,
+                lang=lang.code
+            )
     else:
         form = WordForm(
             initial={'source': word.source, 'target': word.target}
@@ -113,9 +114,10 @@ def delete_dictionary(request, project, lang):
 
     word.delete()
 
-    return HttpResponseRedirect(reverse(
+    return redirect(
         'show_dictionary',
-        kwargs={'project': prj.slug, 'lang': lang.code})
+        project=prj.slug,
+        lang=lang.code
     )
 
 
@@ -155,10 +157,11 @@ def upload_dictionary(request, project, lang):
             messages.error(request, _('Failed to process form!'))
     else:
         messages.error(request, _('Failed to process form!'))
-    return HttpResponseRedirect(reverse(
+    return redirect(
         'show_dictionary',
-        kwargs={'project': prj.slug, 'lang': lang.code}
-    ))
+        project=prj.slug,
+        lang=lang.code
+    )
 
 
 def download_dictionary_ttkit(export_format, prj, lang, words):

@@ -19,7 +19,8 @@
 #
 
 from django.utils.translation import ugettext as _, ungettext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import Http404
@@ -79,7 +80,7 @@ def upload_translation(request, project, subproject, lang):
     # Check method and lock
     if obj.is_locked(request) or request.method != 'POST':
         messages.error(request, _('Access denied.'))
-        return HttpResponseRedirect(obj.get_absolute_url())
+        return redirect(obj)
 
     # Get correct form handler based on permissions
     if request.user.has_perm('trans.author_translation'):
@@ -92,7 +93,7 @@ def upload_translation(request, project, subproject, lang):
     # Check form validity
     if not form.is_valid():
         messages.error(request, _('Please fix errors in the form.'))
-        return HttpResponseRedirect(obj.get_absolute_url())
+        return redirect(obj)
 
     # Create author name
     if (request.user.has_perm('trans.author_translation')
@@ -149,4 +150,4 @@ def upload_translation(request, project, subproject, lang):
             _('File content merge failed: %s' % unicode(e))
         )
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return redirect(obj)
