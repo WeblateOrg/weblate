@@ -33,7 +33,7 @@ class AnonymousUserBackend(ModelBackend):
     permissions.
     '''
 
-    def get_all_permissions(self, user_obj):
+    def get_all_permissions(self, user_obj, obj=None):
         '''
         Overrides get_all_permissions for anonymous users
         to pass permissions of defined user.
@@ -43,25 +43,27 @@ class AnonymousUserBackend(ModelBackend):
                 anon_user = User.objects.get(username=ANONYMOUS_USER_NAME)
                 user_obj._perm_cache = self.get_all_permissions(anon_user)
             return user_obj._perm_cache
-        return super(AnonymousUserBackend, self).get_all_permissions(user_obj)
+        return super(AnonymousUserBackend, self).get_all_permissions(
+            user_obj, obj
+        )
 
-    def authenticate(self, username=None, password=None):
+    def authenticate(self, username=None, password=None, **kwargs):
         '''
         Prohibits login for anonymous user.
         '''
         if username == ANONYMOUS_USER_NAME:
             return False
         return super(AnonymousUserBackend, self).authenticate(
-            username, password
+            username, password, **kwargs
         )
 
-    def has_perm(self, user_obj, perm):
+    def has_perm(self, user_obj, perm, obj=None):
         '''
         Allows checking permissions for anonymous user as well.
         '''
         if not user_obj.is_active and not user_obj.is_anonymous:
             return False
-        return perm in self.get_all_permissions(user_obj)
+        return perm in self.get_all_permissions(user_obj, obj)
 
 
 @receiver(pre_save, sender=User)
