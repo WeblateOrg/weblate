@@ -39,6 +39,7 @@ class AnonymousUserBackend(ModelBackend):
         to pass permissions of defined user.
         '''
         if user_obj.is_anonymous():
+            # Need to access private attribute, pylint: disable=W0212
             if not hasattr(user_obj, '_perm_cache'):
                 anon_user = User.objects.get(username=ANONYMOUS_USER_NAME)
                 user_obj._perm_cache = self.get_all_permissions(anon_user)
