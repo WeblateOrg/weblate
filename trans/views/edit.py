@@ -259,12 +259,6 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         return handle_translate_suggest(
             unit, form, request, this_unit_url, next_unit_url
         )
-    elif not request.user.is_authenticated():
-        # We accept translations only from authenticated
-        messages.error(
-            request,
-            _('You need to log in to be able to save translations!')
-        )
     elif not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -418,14 +412,6 @@ def handle_suggestions(obj, request, this_unit_url):
     '''
     Handles suggestion deleting/accepting.
     '''
-    # Check for authenticated users
-    if not request.user.is_authenticated():
-        messages.error(
-            request,
-            _('You need to log in to be able to manage suggestions!')
-        )
-        return HttpResponseRedirect(this_unit_url)
-
     sugid = ''
 
     # Parse suggestion ID
