@@ -382,6 +382,13 @@ $(function () {
     $('.code-example').focus(function () {
         $(this).select();
     });
+    $('a.disconnect').click(function (e) {
+        e.preventDefault();
+        $('form#disconnect-form')
+            .attr('action', $(this).attr('href'))
+            .submit();
+    });
+
     $(document).tooltip({
         content: function () {
             var element = $(this);
