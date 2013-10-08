@@ -46,7 +46,7 @@
 <ul>
   {% for name in backends.not_associated %}
     <li>
-      <a href="{% url 'social:begin' name %}">{{ name }}</a>
+      <a href="{% url 'social:begin' name %}?next={{ next }}">{{ name }}</a>
     </li>
   {% endfor %}
 </ul>
