@@ -564,6 +564,12 @@ def create_groups(update):
     '''
     Creates standard groups and gives them permissions.
     '''
+    group, created = Group.objects.get_or_create(name='Guests')
+    if created or update:
+        group.permissions.add(
+            Permission.objects.get(codename='can_see_git_repository'),
+        )
+
     group, created = Group.objects.get_or_create(name='Users')
     if created or update:
         group.permissions.add(
@@ -582,6 +588,7 @@ def create_groups(update):
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
         )
+
     group, created = Group.objects.get_or_create(name='Managers')
     if created or update:
         group.permissions.add(
