@@ -47,7 +47,7 @@ def get_string(request, checksum):
     return HttpResponse(units[0].get_source_plurals()[0])
 
 
-@login_required
+@permission_required('trans.use_mt')
 def translate(request, unit_id):
     '''
     AJAX handler for translating.

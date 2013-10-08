@@ -186,7 +186,7 @@
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
         <li><a href="{% url 'js-other' unit_id=unit.id %}?type={{ type }}&amp;offset={{ offset }}&amp;sid={{ search_id }}" title="{% trans "Same message used in different subprojects" %}">{% trans "All locations" %}</a></li>
         <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
-        {% if mt_enabled and user.is_authenticated %}
+        {% if mt_enabled and perms.trans.use_mt %}
         <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
         {% endif %}
         <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">
@@ -223,7 +223,7 @@
     </tbody>
     </table>
     </div>
-    {% if mt_enabled and user.is_authenticated %}
+    {% if mt_enabled and perms.trans.use_mt %}
     <div id="tab-machine">
     <img src="{% get_media_prefix %}loading.gif" id="mt-loading" style="display: none" />
     <table>

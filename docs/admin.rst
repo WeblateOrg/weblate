@@ -403,6 +403,8 @@ Can lock translation for translating [Users, Managers]
     Can lock translation while translating (see :ref:`locking`).
 Can add suggestion [Users, Managers, Guests]
     Can add new suggestions.
+Can use machine translation [Users, Managers]
+    Can use machine translations (see :ref:`machine-translation-setup`).
 
 The default setup (after you run :djadmin:`setupgroups`) consists of three
 groups `Guests`, `Users` and `Managers` which have privileges as described

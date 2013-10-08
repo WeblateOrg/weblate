@@ -153,6 +153,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
             ('reset_translation', "Can reset translations to match remote"),
             ('automatic_translation', "Can do automatic translation"),
             ('lock_translation', "Can lock whole translation project"),
+            ('use_mt', "Can use machine translation"),
         )
         app_label = 'trans'
 
