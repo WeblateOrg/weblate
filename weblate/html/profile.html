@@ -70,13 +70,9 @@
 </table>
 
 <p>{% trans "Add new association:" %}</p>
-<ul>
-  {% for name in backends.not_associated %}
-    <li>
-      <a href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
-    </li>
-  {% endfor %}
-</ul>
+{% for name in backends.not_associated %}
+  <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
+{% endfor %}
 </div>
 <div id="info">
 {% with request.user as user %}

@@ -14,6 +14,8 @@
 </div>
 {% endif %}
 
+<h2>{% trans "Password log in" %}</h2>
+
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
 <table>
@@ -43,13 +45,10 @@
 {% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
 </p>
 
-<ul>
-  {% for name in backends.not_associated %}
-    <li>
-      <a href="{% url 'social:begin' name %}?next={{ next }}">{{ name }}</a>
-    </li>
-  {% endfor %}
-</ul>
+<h2>{% trans "Third party log in" %}</h2>
 
+{% for name in backends.not_associated %}
+  <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
+{% endfor %}
 
 {% endblock %}
