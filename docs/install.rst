@@ -478,6 +478,23 @@ But Django can be configured to authenticate against other means as well.
 Currently you have to register and confirm your email even when using other
 authentication backend.
 
+Third party authentication
+++++++++++++++++++++++++++
+
+Thanks python-social-auth, Weblate support authentication using many third
+party services such as Facebook, GitHub, Google or Bitbucket.
+
+Please check their documentation for generic configuration instructions:
+
+http://psa.matiasaguirre.net/docs/configuration/django.html
+
+.. note::
+
+    By default, Weblate relies on authentication services provide validated
+    email address, in case some of services you want to use do not support
+    this, please remove ``social.pipeline.social_auth.associate_by_email`` from
+    ``SOCIAL_AUTH_PIPELINE`` settings.
+
 LDAP authentication
 +++++++++++++++++++
 
