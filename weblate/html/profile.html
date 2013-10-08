@@ -23,6 +23,7 @@
 <li><a href="#subscriptions">{% trans "Subscriptions" %}</a></li>
 <li><a href="#account">{% trans "Account" %}</a></li>
 <li><a href="#password">{% trans "Password" %}</a></li>
+<li><a href="#connections">{% trans "Connections" %}</a></li>
 <li><a href="#info">{% trans "Information" %}</a></li>
 <li><a href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a href="#avatar">{% trans "Avatar" %}</a></li>
@@ -47,6 +48,25 @@
 <div id="password">
 {% url 'django.contrib.auth.views.password_change' as pw_url %}
 {% blocktrans %}You can change password on <a href="{{ pw_url }}">separate page</a>.{% endblocktrans %}
+</div>
+<div id="connections">
+<p>Associated:</p>
+<ul>
+  {% for assoc in backends.associated %}
+    <li>
+      {{ assoc.provider }} <form action="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" method="post">{% csrf_token %}<input type="submit" value="Disconnect" /></form>
+    </li>
+  {% endfor %}
+</ul>
+
+<p>Associate:</p>
+<ul>
+  {% for name in backends.not_associated %}
+    <li>
+      <a href="{% url 'social:begin' name %}">{{ name }}</a>
+    </li>
+  {% endfor %}
+</ul>
 </div>
 <div id="info">
 {% with request.user as user %}
