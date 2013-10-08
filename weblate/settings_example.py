@@ -169,7 +169,7 @@ TEMPLATE_LOADERS = (
 AUTHENTICATION_BACKENDS = (
     'social.backends.google.GoogleOpenId',
     #'social.backends.github.GithubOAuth2',
-    #'social.backends.open_id.OpenIdAuth',
+    #'social.backends.suse.OpenSUSEOpenId',
     'accounts.auth.AnonymousUserBackend',
 )
 
