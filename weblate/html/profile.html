@@ -69,10 +69,13 @@
 </tbody>
 </table>
 
+{% if backends.not_associated %}
 <p>{% trans "Add new association:" %}</p>
 {% for name in backends.not_associated %}
   <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
 {% endfor %}
+{% endif %}
+
 </div>
 <div id="info">
 {% with request.user as user %}
