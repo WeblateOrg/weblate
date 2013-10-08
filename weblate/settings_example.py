@@ -349,6 +349,9 @@ ACCOUNT_ACTIVATION_DAYS = 7
 # Profile module
 AUTH_PROFILE_MODULE = 'accounts.Profile'
 
+# Anonymous user name
+ANONYMOUS_USER_NAME = 'anonymous'
+
 # Sending HTML in mails
 EMAIL_SEND_HTML = False
 
