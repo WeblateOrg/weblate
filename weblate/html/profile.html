@@ -54,6 +54,7 @@
 <thead>
 <tr>
 <th>{% trans "Service" %}</th>
+<th>{% trans "User ID" %}</th>
 <th>{% trans "Action" %}</th>
 </td>
 </tr>
@@ -61,6 +62,7 @@
 {% for assoc in backends.associated %}
 <tr>
 <th>{{ assoc.provider }}</th>
+<td>{{ assoc.uid }}</th>
 <td><a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect button">Disconnect</a></td>
 </tr>
 {% endfor %}
