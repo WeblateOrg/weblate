@@ -50,13 +50,22 @@
 
 <p>{% trans "You can manage third party services which are associated to this account." %}</p>
 <p>{% trans "Currently associated:" %}</p>
-<ul>
-  {% for assoc in backends.associated %}
-    <li>
-      {{ assoc.provider }} (<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect">Disconnect</a>)
-    </li>
-  {% endfor %}
-</ul>
+<table>
+<thead>
+<tr>
+<th>{% trans "Service" %}</th>
+<th>{% trans "Action" %}</th>
+</td>
+</tr>
+<tbody>
+{% for assoc in backends.associated %}
+<tr>
+<th>{{ assoc.provider }}</th>
+<td><a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect button">Disconnect</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
 
 <p>{% trans "Add new association:" %}</p>
 <ul>
