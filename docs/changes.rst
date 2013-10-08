@@ -9,6 +9,7 @@ Released on ? 2013.
 * Please check manual for upgrade instructions.
 * Nicer listing of project summary.
 * Better visible options for sharing.
+* More control over anonymous users privileges.
 
 weblate 1.7
 -----------

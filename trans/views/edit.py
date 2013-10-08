@@ -208,6 +208,14 @@ def handle_translate_suggest(unit, form, request,
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
         return HttpResponseRedirect(this_unit_url)
+    elif not request.user.has_perm('trans.add_suggestion'):
+        # Need privilege to add
+        messages.error(
+            request,
+            _('You don\'t have privileges to add suggestions!')
+        )
+        # Stay on same entry
+        return HttpResponseRedirect(this_unit_url)
     # Invite user to become translator if there is nobody else
     recent_changes = Change.objects.content(True).filter(
         translation=unit.translation,

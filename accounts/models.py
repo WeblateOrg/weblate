@@ -571,6 +571,7 @@ def create_groups(update):
     if created or update:
         guest_group.permissions.add(
             Permission.objects.get(codename='can_see_git_repository'),
+            Permission.objects.get(codename='add_suggestion'),
         )
 
     group, created = Group.objects.get_or_create(name='Users')
@@ -590,6 +591,7 @@ def create_groups(update):
             Permission.objects.get(codename='lock_translation'),
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
+            Permission.objects.get(codename='add_suggestion'),
         )
 
     group, created = Group.objects.get_or_create(name='Managers')
@@ -618,6 +620,7 @@ def create_groups(update):
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
             Permission.objects.get(codename='delete_comment'),
+            Permission.objects.get(codename='add_suggestion'),
         )
 
     try:

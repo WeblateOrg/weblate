@@ -401,13 +401,13 @@ Can delete dictionary [Users, Managers]
     Can delete dictionary entries.
 Can lock translation for translating [Users, Managers]
     Can lock translation while translating (see :ref:`locking`).
+Can add suggestion [Users, Managers, Guests]
+    Can add new suggestions.
 
 The default setup (after you run :djadmin:`setupgroups`) consists of three
 groups `Guests`, `Users` and `Managers` which have privileges as described
 above.  All new users are automatically added to `Users` group. The `Guests`
 groups is used for not logged in users.
-
-Additionally anonymous users are allowed to make suggestions to any translation.
 
 Basically `Users` are meant as regular translators and `Managers` for
 developers who need more control over the translation - they can force
