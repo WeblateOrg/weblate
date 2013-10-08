@@ -21,6 +21,7 @@
 from django.shortcuts import redirect
 
 from social.pipeline.partial import partial
+from social.exceptions import AuthException
 
 
 @partial
@@ -35,3 +36,19 @@ def require_email(strategy, details, user=None, is_new=False,
             details['email'] = strategy.session_pop('saved_email')
         else:
             return redirect('require_email')
+
+
+def user_password(strategy, user, is_new=False, *args, **kwargs):
+    '''
+    Password validation/storing for email based auth.
+    '''
+    if strategy.backend_name != 'email':
+        return
+
+    password = strategy.request_data()['password']
+
+    if is_new:
+        user.set_password(password)
+        user.save()
+    elif not user.check_password(password):
+        raise AuthException(strategy.backend)
