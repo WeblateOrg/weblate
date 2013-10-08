@@ -45,8 +45,6 @@
 <span class="helptext">{% trans "Your name and email will appear as author on Git commits." %}</span>
 </div>
 <div id="auth">
-{% url 'django.contrib.auth.views.password_change' as pw_url %}
-{% blocktrans %}You can change password on <a href="{{ pw_url }}">separate page</a>.{% endblocktrans %}
 
 <p>{% trans "You can manage third party services which are associated to this account." %}</p>
 <p>{% trans "Currently associated:" %}</p>
@@ -63,7 +61,13 @@
 <tr>
 <th>{{ assoc.provider }}</th>
 <td>{{ assoc.uid }}</th>
-<td><a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect button">Disconnect</a></td>
+<td>
+<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect button">Disconnect</a>
+{% if assoc.provider == 'email' %}
+<a href="{% url 'django.contrib.auth.views.password_change' %}" class="button">{% trans "Change password" %}</a>
+{% endif %}
+</td>
+
 </tr>
 {% endfor %}
 </tbody>
