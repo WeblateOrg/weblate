@@ -43,4 +43,13 @@
 {% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
 </p>
 
+<ul>
+  {% for name in backends.not_associated %}
+    <li>
+      <a href="{% url 'social:begin' name %}">{{ name }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+
 {% endblock %}

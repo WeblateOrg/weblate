@@ -103,6 +103,16 @@ def get_versions():
         '0.8',
     ))
 
+    name = 'python-social-auth'
+    url = 'http://psa.matiasaguirre.net/'
+    mod = get_version_module('social', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '0.1',
+    ))
+
     name = 'Translate Toolkit'
     url = 'http://toolkit.translatehouse.org/'
     mod = get_version_module('translate', name, url)

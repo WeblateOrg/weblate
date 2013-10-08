@@ -16,6 +16,8 @@ GitPython (>= 0.3.2)
     https://github.com/gitpython-developers/GitPython
 Git (>= 1.0)
     http://git-scm.com/
+python-social-auth (>= 0.1)
+    http://psa.matiasaguirre.net/
 Django-registration (= 0.8, 0.9 or newer are not supported)
     https://bitbucket.org/ubernostrum/django-registration/
 Whoosh (>= 2.5, 2.5.2 is recommended)

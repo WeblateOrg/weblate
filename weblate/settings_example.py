@@ -167,7 +167,30 @@ TEMPLATE_LOADERS = (
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
+    'social.backends.google.GoogleOpenId',
+    #'social.backends.github.GithubOAuth2',
+    #'social.backends.open_id.OpenIdAuth',
     'accounts.auth.AnonymousUserBackend',
+)
+
+# Social auth backends setup
+SOCIAL_AUTH_GITHUB_KEY = ''
+SOCIAL_AUTH_GITHUB_SECRET = ''
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
+# Social auth settings
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'accounts.pipeline.require_email',
+    'social.pipeline.mail.mail_validation',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details'
 )
 
 # Middleware
@@ -201,6 +224,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.sitemaps',
+    'social.apps.django_app.default',
     'registration',
     'south',
     'trans',
@@ -221,6 +245,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
     'trans.context_processors.weblate_context',
 )
 

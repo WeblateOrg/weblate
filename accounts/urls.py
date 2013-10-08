@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -131,4 +131,5 @@ urlpatterns = patterns(
         'accounts.views.user_profile',
         name='profile',
     ),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
 )
