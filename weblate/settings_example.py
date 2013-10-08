@@ -165,6 +165,12 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
+# Authentication configuration
+AUTHENTICATION_BACKENDS = (
+    'accounts.auth.AnonymousUserBackend',
+)
+
+# Middleware
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -348,6 +354,9 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 # Profile module
 AUTH_PROFILE_MODULE = 'accounts.Profile'
+
+# Anonymous user name
+ANONYMOUS_USER_NAME = 'anonymous'
 
 # Sending HTML in mails
 EMAIL_SEND_HTML = False

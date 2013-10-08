@@ -32,6 +32,16 @@ be an integer.
 
     This is actually django-registration settings.
 
+
+.. setting:: ANONYMOUS_USER_NAME
+
+ANONYMOUS_USER_NAME
+-------------------
+
+User name of user for definining privileges of not logged in user.
+
+.. seealso:: :ref:`privileges`
+
 .. setting:: AUTO_LOCK
 
 AUTO_LOCK

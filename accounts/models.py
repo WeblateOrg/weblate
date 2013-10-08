@@ -18,14 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import (
+    Group, User, UNUSABLE_PASSWORD, Permission
+)
 from django.db.models.signals import post_syncdb
 from registration.signals import user_registered
 from django.contrib.sites.models import Site
@@ -41,6 +43,7 @@ from trans.util import (
     get_user_display, get_site_url, get_distinct_translations
 )
 import weblate
+from weblate.appsettings import ANONYMOUS_USER_NAME
 
 
 def notify_merge_failure(subproject, error, status):
@@ -564,6 +567,12 @@ def create_groups(update):
     '''
     Creates standard groups and gives them permissions.
     '''
+    guest_group, created = Group.objects.get_or_create(name='Guests')
+    if created or update:
+        guest_group.permissions.add(
+            Permission.objects.get(codename='can_see_git_repository'),
+        )
+
     group, created = Group.objects.get_or_create(name='Users')
     if created or update:
         group.permissions.add(
@@ -582,6 +591,7 @@ def create_groups(update):
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
         )
+
     group, created = Group.objects.get_or_create(name='Managers')
     if created or update:
         group.permissions.add(
@@ -608,6 +618,25 @@ def create_groups(update):
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_comment'),
             Permission.objects.get(codename='delete_comment'),
+        )
+
+    try:
+        anon_user, created = User.objects.get_or_create(
+            username=ANONYMOUS_USER_NAME,
+            password=UNUSABLE_PASSWORD,
+            is_active=False,
+        )
+        if created or update:
+            anon_user.groups.clear()
+            anon_user.groups.add(guest_group)
+    except IntegrityError as error:
+        raise ValueError(
+            'Anonymous user (%s) already exists and enabled, '
+            'please change ANONYMOUS_USER_NAME setting.\n'
+            'Raised error was: %s' % (
+                ANONYMOUS_USER_NAME,
+                repr(error)
+            )
         )
 
 

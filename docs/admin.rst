@@ -367,7 +367,7 @@ Can define author of translation upload [Managers]
     Allows to define custom authorship when uploading translation file.
 Can force committing of translation [Managers]
     Can force Git commit in the web interface.
-Can see git repository URL [Users, Managers]
+Can see git repository URL [Users, Managers, Guests]
     Can see Git repository URL inside Weblate
 Can update translation from git [Managers]
     Can force Git pull in the web interface.
@@ -402,9 +402,10 @@ Can delete dictionary [Users, Managers]
 Can lock translation for translating [Users, Managers]
     Can lock translation while translating (see :ref:`locking`).
 
-The default setup (after you run :djadmin:`setupgroups`) consists
-of two groups `Users` and `Managers` which have privileges as described above.
-All new users are automatically added to `Users` group.
+The default setup (after you run :djadmin:`setupgroups`) consists of three
+groups `Guests`, `Users` and `Managers` which have privileges as described
+above.  All new users are automatically added to `Users` group. The `Guests`
+groups is used for not logged in users.
 
 Additionally anonymous users are allowed to make suggestions to any translation.
 
