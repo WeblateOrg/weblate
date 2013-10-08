@@ -26,7 +26,6 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from urllib import urlencode
