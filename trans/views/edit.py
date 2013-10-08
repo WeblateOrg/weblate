@@ -243,7 +243,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     '''
     # Antispam protection
     antispam = AntispamForm(request.POST)
-    if not request.user.is_authenticated() and not antispam.is_valid():
+    if not antispam.is_valid():
         # Silently redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
@@ -555,10 +555,11 @@ def translate(request, project, subproject, lang):
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
         secondary = request.user.get_profile().get_secondary_units(unit)
-        antispam = None
     else:
         secondary = None
-        antispam = AntispamForm()
+
+    # Spam protection
+    antispam = AntispamForm()
 
     # Prepare form
     form = TranslationForm(initial={
