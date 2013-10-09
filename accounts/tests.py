@@ -131,7 +131,7 @@ class RegistrationTest(TestCase):
         )
         self.assertContains(
             response,
-            'Username needs to have at least five characters.'
+            'Ensure this value has at least 5 characters (it has 1).'
         )
 
     def test_wrong_mail(self):
