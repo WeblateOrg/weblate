@@ -29,7 +29,6 @@ from django.contrib.auth.models import (
     Group, User, UNUSABLE_PASSWORD, Permission
 )
 from django.db.models.signals import post_syncdb
-from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
@@ -676,19 +675,6 @@ def sync_create_groups(sender, app, **kwargs):
     if (app == 'accounts'
             or getattr(app, '__name__', '') == 'accounts.models'):
         create_groups(False)
-
-
-@receiver(user_registered)
-def store_user_details(sender, user, request, **kwargs):
-    '''
-    Stores user details on registration and creates user profile. We rely on
-    validation done by RegistrationForm.
-    '''
-    user.first_name = request.POST['first_name']
-    user.last_name = request.POST['last_name']
-    user.save()
-    # Ensure user has profile
-    Profile.objects.get_or_create(user=user)
 
 
 @receiver(post_save, sender=User)
