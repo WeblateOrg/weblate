@@ -19,7 +19,6 @@
 #
 
 import weblate
-from django.conf import settings
 from weblate import appsettings
 from datetime import datetime
 from trans.util import get_site_url
