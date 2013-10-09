@@ -27,12 +27,22 @@ from trans.models import Project
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
+import unicodedata
 
 try:
     import icu
     HAS_ICU = True
 except ImportError:
     HAS_ICU = False
+
+
+def remove_accents(input_str):
+    '''
+    Removes accents from a string.
+    '''
+    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+    only_ascii = nkfd_form.encode('ASCII', 'ignore')
+    return only_ascii
 
 
 def sort_choices(choices):
@@ -42,18 +52,18 @@ def sort_choices(choices):
     Either using cmp or ICU.
     '''
     if not HAS_ICU:
-        sorter = cmp
+        return sorted(
+            choices,
+            key=lambda tup: remove_accents(tup[1])
+        )
     else:
         locale = icu.Locale(get_language())
         collator = icu.Collator.createInstance(locale)
-        sorter = collator.compare
-
-    # Actually sort values
-    return sorted(
-        choices,
-        key=lambda tup: tup[1],
-        cmp=sorter
-    )
+        return sorted(
+            choices,
+            key=lambda tup: tup[1],
+            cmp=collator.compare
+        )
 
 
 class UsernameField(forms.RegexField):
