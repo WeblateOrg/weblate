@@ -169,7 +169,7 @@ def get_versions():
     return result
 
 
-def check_version(name, url, version, expected, highest=None):
+def check_version(name, url, version, expected):
     '''
     Check for single module version.
     '''
@@ -179,10 +179,6 @@ def check_version(name, url, version, expected, highest=None):
     if looseversion < expected:
         print '*** %s <%s> is too old! ***' % (name, url)
         print 'Installed version %s, required %s' % (version, expected)
-        return True
-    if highest is not None and looseversion > highest:
-        print '*** %s <%s> is not supported! ***' % (name, url)
-        print 'Installed version %s, required %s' % (version, highest)
         return True
 
     return False
