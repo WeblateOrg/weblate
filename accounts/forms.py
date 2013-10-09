@@ -259,6 +259,7 @@ class RegistrationForm(EmailForm):
     username = forms.RegexField(
         regex=r'^[\w.@+-]+$',
         max_length=30,
+        min_length=5,
         label=_("Username"),
         help_text=_('At least five characters long.'),
         error_messages={
@@ -276,11 +277,6 @@ class RegistrationForm(EmailForm):
         '''
         Username validation, requires length of five chars and unique.
         '''
-        if len(self.cleaned_data['username']) < 5:
-            raise forms.ValidationError(
-                _(u'Username needs to have at least five characters.')
-            )
-
         existing = User.objects.filter(
             username__iexact=self.cleaned_data['username']
         )
