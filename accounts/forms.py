@@ -25,7 +25,6 @@ from accounts.models import Profile
 from lang.models import Language
 from trans.models import Project
 from django.contrib.auth.models import User
-from registration.forms import RegistrationFormUniqueEmail
 from django.utils.encoding import force_unicode
 from itertools import chain
 
@@ -196,10 +195,10 @@ class ContactForm(forms.Form):
         return ''
 
 
-class RegistrationForm(RegistrationFormUniqueEmail):
+class RegistrationForm(forms.Form):
     '''
-    Registration form, please note it does not save first/last name
-    this is done by signal handler in accounts.models.
+    Registration form, please note it does not save anything
+    it is done further in the pipeline.
     '''
     required_css_class = "required"
     error_css_class = "error"
@@ -208,6 +207,7 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         regex=r'^[\w.@+-]+$',
         max_length=30,
         label=_("Username"),
+        help_text=_('At least five characters long.'),
         error_messages={
             'invalid': _(
                 'This value may contain only letters, '
@@ -215,34 +215,61 @@ class RegistrationForm(RegistrationFormUniqueEmail):
             )
         }
     )
+    email = forms.EmailField(
+        max_length=75,
+        label=_("E-mail"),
+        help_text=_('Activation email will be sent here.'),
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(render_value=False),
+        label=_("Password"),
+        help_text=_('At least six characters long.'),
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(render_value=False),
+        label=_("Password (again)"),
+        help_text=_(
+            'Repeat the password so we can verify '
+            'you typed it in correctly.'
+        ),
+    )
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)
 
-    def __init__(self, *args, **kwargs):
-
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-
-        # Change labels to match Weblate language
-        self.fields['username'].label = \
-            _('Username')
-        self.fields['username'].help_text = \
-            _('At least five characters long.')
-        self.fields['email'].label = \
-            _('E-mail')
-        self.fields['email'].help_text = \
-            _('Activation email will be sent here.')
-        self.fields['password1'].label = \
-            _('Password')
-        self.fields['password1'].help_text = \
-            _('At least six characters long.')
-        self.fields['password2'].label = \
-            _('Password (again)')
-        self.fields['password2'].help_text = \
-            _(
-                'Repeat the password so we can verify '
-                'you typed it in correctly.'
+    def clean_username(self):
+        '''
+        Username validation, requires length of five chars and unique.
+        '''
+        if len(self.cleaned_data['username']) < 5:
+            raise forms.ValidationError(
+                _(u'Username needs to have at least five characters.')
             )
+
+        existing = User.objects.filter(
+            username__iexact=self.cleaned_data['username']
+        )
+        if existing.exists():
+            raise forms.ValidationError(
+                _("A user with that username already exists.")
+            )
+        else:
+            return self.cleaned_data['username']
+
+    def clean_email(self):
+        """
+        Validate that the supplied email address is unique for the
+        site.
+
+        """
+        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+            raise forms.ValidationError(
+                _(
+                    "This email address is already in use. "
+                    "Please supply a different email address."
+                )
+            )
+        return self.cleaned_data['email']
 
     def clean_password1(self):
         '''
@@ -254,16 +281,6 @@ class RegistrationForm(RegistrationFormUniqueEmail):
             )
         return self.cleaned_data['password1']
 
-    def clean_username(self):
-        '''
-        Username validation, requires length of five chars.
-        '''
-        if len(self.cleaned_data['username']) < 5:
-            raise forms.ValidationError(
-                _(u'Username needs to have at least five characters.')
-            )
-        return super(RegistrationForm, self).clean_username()
-
     def clean_content(self):
         '''
         Check if content is empty.
@@ -271,3 +288,25 @@ class RegistrationForm(RegistrationFormUniqueEmail):
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
+
+    def clean(self):
+        """
+        Verifiy that the values entered into the two password fields
+        match. Note that an error here will end up in
+        ``non_field_errors()`` because it doesn't apply to a single
+        field.
+
+        """
+        try:
+            password1 = self.cleaned_data['password1']
+            password2 = self.cleaned_data['password2']
+
+            if password1 != password2:
+                raise forms.ValidationError(
+                    _("The two password fields didn't match.")
+                )
+
+        except KeyError:
+            pass
+
+        return self.cleaned_data
