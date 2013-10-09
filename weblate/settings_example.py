@@ -235,7 +235,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.sitemaps',
     'social.apps.django_app.default',
-    'registration',
     'south',
     'trans',
     'lang',
