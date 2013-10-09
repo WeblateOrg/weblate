@@ -31,7 +31,9 @@ from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 from urllib import urlencode
 
-from accounts.forms import RegistrationForm, PasswordForm, PasswordChangeForm
+from accounts.forms import (
+    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm
+)
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
@@ -282,6 +284,30 @@ def register(request):
                     x for x in load_backends(BACKENDS).keys() if x != 'email'
                 ],
                 'title': _('User registration'),
+                'form': form,
+            }
+        )
+    )
+
+
+@login_required
+def email_login(request):
+    '''
+    Connect email.
+    '''
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            return complete(request, 'email')
+    else:
+        form = EmailForm()
+
+    return render_to_response(
+        'accounts/email.html',
+        RequestContext(
+            request,
+            {
+                'title': _('Register email'),
                 'form': form,
             }
         )

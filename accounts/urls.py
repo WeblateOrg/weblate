@@ -64,5 +64,6 @@ urlpatterns = patterns(
     url(r'^profile/', 'accounts.views.user_profile', name='profile'),
     url(r'^login/$', 'accounts.views.weblate_login', name='login'),
     url(r'^register/$', 'accounts.views.register', name='register'),
+    url(r'^email/$', 'accounts.views.email_login', name='email_login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 )

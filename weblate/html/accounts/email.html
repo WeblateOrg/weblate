@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans "Register email" %}</h2>
+
+{% if form.errors %}
+<div class="ui-widget">
+    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
+        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
+        {% trans "Please fix errors in registration form." %}
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<form action="{% url 'social:complete' "email" %}" method="post" accept-charset="utf-8">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<p>
+{% trans "By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project." %}
+</p>
+<p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
+</form>
+
+{% endblock %}

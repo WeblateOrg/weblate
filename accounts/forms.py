@@ -195,7 +195,45 @@ class ContactForm(forms.Form):
         return ''
 
 
-class RegistrationForm(forms.Form):
+class EmailForm(forms.Form):
+    '''
+    Registration form.
+    '''
+    required_css_class = "required"
+    error_css_class = "error"
+
+    email = forms.EmailField(
+        max_length=75,
+        label=_("E-mail"),
+        help_text=_('Activation email will be sent here.'),
+    )
+    content = forms.CharField(required=False)
+
+    def clean_email(self):
+        """
+        Validate that the supplied email address is unique for the
+        site.
+
+        """
+        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+            raise forms.ValidationError(
+                _(
+                    "This email address is already in use. "
+                    "Please supply a different email address."
+                )
+            )
+        return self.cleaned_data['email']
+
+    def clean_content(self):
+        '''
+        Check if content is empty.
+        '''
+        if self.cleaned_data['content'] != '':
+            raise forms.ValidationError('Invalid value')
+        return ''
+
+
+class RegistrationForm(EmailForm):
     '''
     Registration form.
     '''
@@ -213,11 +251,6 @@ class RegistrationForm(forms.Form):
                 'numbers and following characters: @ . + - _'
             )
         }
-    )
-    email = forms.EmailField(
-        max_length=75,
-        label=_("E-mail"),
-        help_text=_('Activation email will be sent here.'),
     )
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
@@ -244,21 +277,6 @@ class RegistrationForm(forms.Form):
             )
         else:
             return self.cleaned_data['username']
-
-    def clean_email(self):
-        """
-        Validate that the supplied email address is unique for the
-        site.
-
-        """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError(
-                _(
-                    "This email address is already in use. "
-                    "Please supply a different email address."
-                )
-            )
-        return self.cleaned_data['email']
 
     def clean_content(self):
         '''
