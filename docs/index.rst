@@ -15,12 +15,8 @@ Contents:
     usage
     faq
     formats
+    admin/index
     api
-    quick
-    install
-    admin
-    config
-    management
     changes
     contributing
     license

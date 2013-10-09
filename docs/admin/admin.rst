@@ -748,7 +748,7 @@ You can also implement own machine translation services using few lines of
 Python code. Following example implements translation to fixed list of
 languages using ``dictionary`` Python module:
 
-.. literalinclude:: ../examples/mt_service.py
+.. literalinclude:: ../../examples/mt_service.py
     :language: python
 
 You can list own class in :setting:`MACHINE_TRANSLATION_SERVICES` and Weblate
@@ -768,7 +768,7 @@ writing one.
 For example following automatic fixup would replace every occurrence of string
 ``foo`` in translation with ``bar``:
 
-.. literalinclude:: ../examples/fix_foo.py
+.. literalinclude:: ../../examples/fix_foo.py
     :language: python
 
 .. _custom-checks:
@@ -811,7 +811,7 @@ Checking translation text does not contain "foo"
 This is pretty simple check which just checks whether translation does not
 contain string "foo".
 
-.. literalinclude:: ../examples/check_foo.py
+.. literalinclude:: ../../examples/check_foo.py
     :language: python
 
 Checking Czech translation text plurals differ
@@ -820,5 +820,5 @@ Checking Czech translation text plurals differ
 Check using language information to verify that two plural forms in Czech
 language are not same.
 
-.. literalinclude:: ../examples/check_czech.py
+.. literalinclude:: ../../examples/check_czech.py
     :language: python
