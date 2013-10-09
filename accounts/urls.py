@@ -73,9 +73,6 @@ urlpatterns = patterns(
         name='registration_activate'
     ),
     url(
-        r'^login/$', 'accounts.views.weblate_login', name='login',
-    ),
-    url(
         r'^logout/$',
         auth_views.logout,
         {
@@ -120,10 +117,8 @@ urlpatterns = patterns(
         {'extra_context': {'title': _('Password reset')}},
         name='auth_password_reset_done'
     ),
-    url(
-        r'^profile/',
-        'accounts.views.user_profile',
-        name='profile',
-    ),
+
+    url(r'^profile/', 'accounts.views.user_profile', name='profile'),
+    url(r'^login/$', 'accounts.views.weblate_login', name='login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 )
