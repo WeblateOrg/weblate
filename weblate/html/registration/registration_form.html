@@ -14,7 +14,7 @@
 </div>
 {% endif %}
 
-<form action="{% url 'registration_register' %}" method="post" accept-charset="utf-8">
+<form action="{% url 'register' %}" method="post" accept-charset="utf-8">
 {% csrf_token %}
 <table>
 {{ form.as_table }}

@@ -196,6 +196,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details'
 )
 
+SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'accounts.pipeline.send_validation'
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX
+
+
 # Middleware
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',

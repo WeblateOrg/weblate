@@ -19,9 +19,12 @@
 #
 
 from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
 
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
+
+from accounts.models import send_notification_email
 
 
 @partial
@@ -52,3 +55,23 @@ def user_password(strategy, user, is_new=False, *args, **kwargs):
         user.save()
     elif not user.check_password(password):
         raise AuthException(strategy.backend)
+
+
+def send_validation(strategy, code):
+    '''
+    Sends verification email.
+    '''
+    url = '%s?verification_code=%s' % (
+        reverse('social:complete', args=(strategy.backend_name,)),
+        code.code
+    )
+
+    send_notification_email(
+        'en', # FIXME: should probably stay same
+        code.email,
+        'activation',
+        info=code.code,
+        context={
+            'url': url
+        }
+    )

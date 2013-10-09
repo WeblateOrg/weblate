@@ -31,8 +31,10 @@ from django.contrib.auth.views import login
 from django.views.generic import TemplateView
 from urllib import urlencode
 
+from accounts.forms import RegistrationForm
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
+from social.apps.django_app.views import complete
 
 from accounts.models import set_lang, Profile
 from trans.models import Change, Project
@@ -234,4 +236,30 @@ def weblate_login(request):
             ],
             'title': _('Login'),
         }
+    )
+
+
+def register(request):
+    '''
+    Registration form.
+    '''
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            return complete(request, 'email')
+    else:
+        form = RegistrationForm()
+
+    return render_to_response(
+        'registration/registration_form.html',
+        RequestContext(
+            request,
+            {
+                'registration_backends': [
+                    x for x in load_backends(BACKENDS).keys() if x != 'email'
+                ],
+                'title': _('User registration'),
+                'form': form,
+            }
+        )
     )

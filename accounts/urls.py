@@ -25,27 +25,11 @@ from django.conf import settings
 
 from registration.views import activate, register
 
-from accounts.forms import RegistrationForm
 from accounts.views import RegistrationTemplateView
 
 
 urlpatterns = patterns(
     '',
-    url(
-        r'^register/$', register, {
-            'backend': 'registration.backends.default.DefaultBackend',
-            'form_class': RegistrationForm,
-            'extra_context': {'title': _('User registration')}
-        },
-        name='registration_register'
-    ),
-    url(
-        r'^register/complete/$',
-        RegistrationTemplateView.as_view(
-            template_name='registration/registration_complete.html'
-        ),
-        name='registration_complete'
-    ),
     url(
         r'^register/closed/$',
         RegistrationTemplateView.as_view(
@@ -118,7 +102,15 @@ urlpatterns = patterns(
         name='auth_password_reset_done'
     ),
 
+    url(
+        r'^email-sent/$',
+        RegistrationTemplateView.as_view(
+            template_name='registration/registration_complete.html'
+        ),
+        name='email-sent'
+    ),
     url(r'^profile/', 'accounts.views.user_profile', name='profile'),
     url(r'^login/$', 'accounts.views.weblate_login', name='login'),
+    url(r'^register/$', 'accounts.views.register', name='register'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 )

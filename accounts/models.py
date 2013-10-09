@@ -166,8 +166,9 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
         )
 
 
-def send_notification_email(language, email, notification, translation_obj,
-                            context=None, headers=None, user=None):
+def send_notification_email(language, email, notification,
+                            translation_obj=None, context=None, headers=None,
+                            user=None, info=None):
     '''
     Renders and sends notification email.
     '''
@@ -177,10 +178,12 @@ def send_notification_email(language, email, notification, translation_obj,
     if headers is None:
         headers = {}
     try:
+        if info is None:
+            info = translation_obj.__unicode__()
         weblate.logger.info(
             'sending notification %s on %s to %s',
             notification,
-            translation_obj.__unicode__(),
+            info,
             email
         )
 
@@ -194,12 +197,13 @@ def send_notification_email(language, email, notification, translation_obj,
 
         # Adjust context
         site = Site.objects.get_current()
-        context['translation'] = translation_obj
         context['current_site'] = site.domain
         context['site'] = site
-        context['translation_url'] = get_site_url(
-            translation_obj.get_absolute_url()
-        )
+        if translation_obj is not None:
+            context['translation'] = translation_obj
+            context['translation_url'] = get_site_url(
+                translation_obj.get_absolute_url()
+            )
         context['subject_template'] = subject_template
 
         # Render subject
