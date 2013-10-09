@@ -29,7 +29,6 @@ from django.contrib.auth.models import (
     Group, User, UNUSABLE_PASSWORD, Permission
 )
 from django.db.models.signals import post_syncdb
-from registration.signals import user_registered
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
@@ -166,8 +165,9 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
         )
 
 
-def send_notification_email(language, email, notification, translation_obj,
-                            context=None, headers=None, user=None):
+def send_notification_email(language, email, notification,
+                            translation_obj=None, context=None, headers=None,
+                            user=None, info=None):
     '''
     Renders and sends notification email.
     '''
@@ -177,15 +177,18 @@ def send_notification_email(language, email, notification, translation_obj,
     if headers is None:
         headers = {}
     try:
+        if info is None:
+            info = translation_obj.__unicode__()
         weblate.logger.info(
             'sending notification %s on %s to %s',
             notification,
-            translation_obj.__unicode__(),
+            info,
             email
         )
 
         # Load user language
-        django_translation.activate(language)
+        if language is not None:
+            django_translation.activate(language)
 
         # Template names
         subject_template = 'mail/%s_subject.txt' % notification
@@ -194,12 +197,13 @@ def send_notification_email(language, email, notification, translation_obj,
 
         # Adjust context
         site = Site.objects.get_current()
-        context['translation'] = translation_obj
         context['current_site'] = site.domain
         context['site'] = site
-        context['translation_url'] = get_site_url(
-            translation_obj.get_absolute_url()
-        )
+        if translation_obj is not None:
+            context['translation'] = translation_obj
+            context['translation_url'] = get_site_url(
+                translation_obj.get_absolute_url()
+            )
         context['subject_template'] = subject_template
 
         # Render subject
@@ -672,19 +676,6 @@ def sync_create_groups(sender, app, **kwargs):
     if (app == 'accounts'
             or getattr(app, '__name__', '') == 'accounts.models'):
         create_groups(False)
-
-
-@receiver(user_registered)
-def store_user_details(sender, user, request, **kwargs):
-    '''
-    Stores user details on registration and creates user profile. We rely on
-    validation done by RegistrationForm.
-    '''
-    user.first_name = request.POST['first_name']
-    user.last_name = request.POST['last_name']
-    user.save()
-    # Ensure user has profile
-    Profile.objects.get_or_create(user=user)
 
 
 @receiver(post_save, sender=User)

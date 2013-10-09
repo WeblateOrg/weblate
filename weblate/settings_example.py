@@ -189,12 +189,19 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.get_username',
     'accounts.pipeline.require_email',
     'social.pipeline.mail.mail_validation',
+    'social.pipeline.social_auth.associate_by_email',
+    'accounts.pipeline.verify_open',
     'social.pipeline.user.create_user',
     'accounts.pipeline.user_password',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details'
 )
+
+SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'accounts.pipeline.send_validation'
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX
+SOCIAL_AUTH_LOGIN_ERROR_URL = '%s/accounts/login/' % URL_PREFIX
+
 
 # Middleware
 MIDDLEWARE_CLASSES = (
@@ -204,6 +211,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'accounts.middleware.RequireLoginMiddleware',
 )
 

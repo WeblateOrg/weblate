@@ -41,7 +41,7 @@
 <li><a class="button" href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
 {% else %}
 {% if registration_open %}
-<li><a class="button" href="{% url 'registration_register' %}">{% trans "Register" %}</a></li>
+<li><a class="button" href="{% url 'register' %}">{% trans "Register" %}</a></li>
 {% endif %}
 <li><a class="button" href="{% url 'login' %}{% if not skip_next %}?next={{ current_url }}{% endif %}">{% trans "Login" %}</a></li>
 {% endif %}

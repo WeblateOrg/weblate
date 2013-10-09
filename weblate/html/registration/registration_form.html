@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% if registration_open %}
+
 {% if form.errors %}
 <div class="ui-widget">
     <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
@@ -14,7 +16,7 @@
 </div>
 {% endif %}
 
-<form action="{% url 'registration_register' %}" method="post" accept-charset="utf-8">
+<form action="{% url 'register' %}" method="post" accept-charset="utf-8">
 {% csrf_token %}
 <table>
 {{ form.as_table }}
@@ -25,5 +27,12 @@
 <p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
 </form>
 
+{% else %}
+
+<p>
+{% trans "Sorry but this site is not open for registrations." %}
+</p>
+
+{% endif %}
 
 {% endblock %}

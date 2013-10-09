@@ -145,3 +145,6 @@ TTF_PATH = get('TTF_PATH', os.path.join(WEB_ROOT, 'ttf'))
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = get('ANONYMOUS_USER_NAME', 'anonymous')
+
+# Enable registrations
+REGISTRATION_OPEN = get('REGISTRATION_OPEN', True)

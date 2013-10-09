@@ -39,7 +39,7 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
         else:
             lang = None
 
-        if request.user.is_authenticated():
+        if hasattr(request, 'user') and request.user.is_authenticated():
             user = request.user.username
         else:
             user = None

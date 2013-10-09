@@ -52,5 +52,5 @@ def weblate_context(request):
         'mt_enabled': appsettings.MACHINE_TRANSLATION_ENABLED,
         'hooks_enabled': appsettings.ENABLE_HOOKS,
 
-        'registration_open': getattr(settings, 'REGISTRATION_OPEN', True),
+        'registration_open': appsettings.REGISTRATION_OPEN,
     }
