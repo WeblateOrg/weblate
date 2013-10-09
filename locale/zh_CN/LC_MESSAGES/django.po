@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-08 16:57+0200\n"
+"POT-Creation-Date: 2013-10-09 15:40+0200\n"
 "PO-Revision-Date: 2013-10-04 15:08+0200\n"
 "Last-Translator: Jeffrey Shao <shaojf2001@qq.com>\n"
 "Language-Team: Simplified Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -19,169 +19,204 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:171 accounts/forms.py:218
-msgid "First name"
-msgstr "名字"
-
-#: accounts/forms.py:172 accounts/forms.py:219
-msgid "Last name"
-msgstr "姓氏"
-
-#: accounts/forms.py:173 accounts/forms.py:232 weblate/html/i18n.html:15
+#: accounts/forms.py:156 accounts/forms.py:223
 msgid "E-mail"
 msgstr "电子邮箱"
 
-#: accounts/forms.py:180
+#: accounts/forms.py:158
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:186 accounts/forms.py:271
+msgid "First name"
+msgstr "名字"
+
+#: accounts/forms.py:187 accounts/forms.py:272
+msgid "Last name"
+msgstr "姓氏"
+
+#: accounts/forms.py:195
 msgid "Subject"
 msgstr "主题"
 
-#: accounts/forms.py:181
+#: accounts/forms.py:196
 msgid "Your name"
 msgstr "您的姓名"
 
-#: accounts/forms.py:182
+#: accounts/forms.py:197
 msgid "Your email"
 msgstr "您的邮箱"
 
-#: accounts/forms.py:184
+#: accounts/forms.py:199
 msgid "Message"
 msgstr "信息"
 
-#: accounts/forms.py:210 accounts/forms.py:228 weblate/html/i18n.html:16
+#: accounts/forms.py:224
+msgid "Activation email will be sent here."
+msgstr "激活邮件将发送到这里。"
+
+#: accounts/forms.py:237
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "此电子邮件地址已被使用。请提供一个新的电子邮件地址。"
+
+#: accounts/forms.py:262
 msgid "Username"
 msgstr "用户名"
 
-#: accounts/forms.py:213
+#: accounts/forms.py:263
+msgid "At least five characters long."
+msgstr "至少 5 个字符。"
+
+#: accounts/forms.py:266
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
 msgstr "只能使用字母、数字以及 @ . + - _ 这些字符"
 
-#: accounts/forms.py:230
-msgid "At least five characters long."
-msgstr "至少 5 个字符。"
-
-#: accounts/forms.py:234
-msgid "Activation email will be sent here."
-msgstr "激活邮件将发送到这里。"
-
-#: accounts/forms.py:236 weblate/html/i18n.html:17
-msgid "Password"
-msgstr "密码"
-
-#: accounts/forms.py:238
-msgid "At least six characters long."
-msgstr "至少 6 个字符。"
-
-#: accounts/forms.py:240
-msgid "Password (again)"
-msgstr "密码 (再输入一次)"
-
-#: accounts/forms.py:243
-msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr "再次输入密码能让我们确定您是否正确输入了您想要设置的密码。"
-
-#: accounts/forms.py:253
-msgid "Password needs to have at least six characters."
-msgstr "密码至少要 6 个字符。"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:281
 msgid "Username needs to have at least five characters."
 msgstr "用户名至少要 5 个字符。"
 
-#: accounts/models.py:318
+#: accounts/forms.py:290
+msgid "This username is already taken. Please choose another."
+msgstr "此用户名已被占用。请选择另一个。"
+
+#: accounts/forms.py:312
+msgid "New password"
+msgstr "新密码"
+
+#: accounts/forms.py:313
+msgid "At least six characters long."
+msgstr "至少 6 个字符。"
+
+#: accounts/forms.py:317
+#, fuzzy
+#| msgid "Password (again)"
+msgid "New password (again)"
+msgstr "密码 (再输入一次)"
+
+#: accounts/forms.py:319
+msgid "Repeat the password so we can verify you typed it in correctly."
+msgstr "再次输入密码能让我们确定您是否正确输入了您想要设置的密码。"
+
+#: accounts/forms.py:330
+msgid "Password needs to have at least six characters."
+msgstr "密码至少要 6 个字符。"
+
+#: accounts/forms.py:348
+#, fuzzy
+#| msgid "You must type the same password each time"
+msgid "You must type the same password each time."
+msgstr "您两次输入的密码必须相同"
+
+#: accounts/forms.py:360
+#, fuzzy
+#| msgid "New password"
+msgid "Current password"
+msgstr "新密码"
+
+#: accounts/forms.py:370
+msgid "User with this email address was not found."
+msgstr ""
+
+#: accounts/models.py:330
 msgid "Interface Language"
 msgstr "界面语言"
 
-#: accounts/models.py:324 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:336 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "语言"
 
-#: accounts/models.py:329
+#: accounts/models.py:341
 msgid "Secondary languages"
 msgstr "第二语言"
 
-#: accounts/models.py:338
+#: accounts/models.py:350
 msgid "Subscribed projects"
 msgstr "已订阅的项目"
 
-#: accounts/models.py:342
+#: accounts/models.py:354
 msgid "Notification on any translation"
 msgstr "在有任何翻译时通知"
 
-#: accounts/models.py:346
+#: accounts/models.py:358
 msgid "Notification on new string to translate"
 msgstr "在有新条目需要翻译时通知"
 
-#: accounts/models.py:350
+#: accounts/models.py:362
 msgid "Notification on new suggestion"
 msgstr "在有新建议时通知"
 
-#: accounts/models.py:354
+#: accounts/models.py:366
 msgid "Notification on new contributor"
 msgstr "在有新贡献者时通知"
 
-#: accounts/models.py:358
+#: accounts/models.py:370
 msgid "Notification on new comment"
 msgstr "在有新注释时通知"
 
-#: accounts/models.py:362
+#: accounts/models.py:374
 msgid "Notification on merge failure"
 msgstr "在合并失败时通知"
 
-#: accounts/models.py:366
+#: accounts/models.py:378
 msgid "Notification on new language request"
 msgstr "在有新语言请求时通知"
 
-#: accounts/models.py:556
-msgid "Your profile has been migrated, you might want to adjust preferences."
-msgstr "您的资料已经迁移，您也许想要调整首选项。"
-
-#: accounts/urls.py:38 accounts/views.py:51
+#: accounts/views.py:60 accounts/views.py:301
 msgid "User registration"
 msgstr "注册用户"
 
-#: accounts/urls.py:69
-msgid "Account activation"
-msgstr "激活帐号"
-
-#: accounts/urls.py:80 weblate/html/base.html:46
-#: weblate/html/registration/login.html:32
-msgid "Login"
-msgstr "登录"
-
-#: accounts/urls.py:89
-msgid "Logged out"
-msgstr "已退出"
-
-#: accounts/urls.py:96 weblate/html/profile.html:67
-msgid "Change password"
-msgstr "修改密码"
-
-#: accounts/urls.py:102
-msgid "Password changed"
-msgstr "密码已修改"
-
-#: accounts/urls.py:108 accounts/urls.py:114 accounts/urls.py:120
-#: accounts/urls.py:126
-msgid "Password reset"
-msgstr "重设密码"
-
-#: accounts/views.py:113
+#: accounts/views.py:122
 msgid "Your profile has been updated."
 msgstr "您的资料已更新。"
 
-#: accounts/views.py:132
+#: accounts/views.py:152
 msgid "User profile"
 msgstr "用户资料"
 
-#: accounts/views.py:157
+#: accounts/views.py:181
 msgid "Message has been sent to administrator."
 msgstr "信息已经发送给了管理员。"
 
-#: accounts/views.py:171
+#: accounts/views.py:199
 msgid "Contact"
 msgstr "联系"
+
+#: accounts/views.py:264 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:32
+msgid "Login"
+msgstr "登录"
+
+#: accounts/views.py:274
+msgid "Thanks for using Weblate!"
+msgstr "感谢您使用 Weblate！"
+
+#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#, fuzzy
+#| msgid "Register"
+msgid "Register email"
+msgstr "注册"
+
+#: accounts/views.py:350
+msgid "You have entered invalid password."
+msgstr ""
+
+#: accounts/views.py:372
+#, fuzzy
+#| msgid "Your password was changed."
+msgid "Your password has been changed."
+msgstr "您的密码已修改。"
+
+#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+msgid "Change password"
+msgstr "修改密码"
+
+#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+msgid "Password reset"
+msgstr "重设密码"
 
 #: lang/models.py:289 lang/models.py:293 lang/models.py:299 lang/models.py:306
 #: lang/models.py:311 lang/models.py:317 lang/models.py:323 lang/models.py:328
@@ -1547,11 +1582,17 @@ msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s 小时后"
 
-#: trans/views/basic.py:70
+#: trans/views/basic.py:63
+msgid ""
+"You have activated your account, now you should set the password to be able "
+"to login next time."
+msgstr ""
+
+#: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
 msgstr "请在资料中设置您的全名。"
 
-#: trans/views/basic.py:125
+#: trans/views/basic.py:136
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1563,7 +1604,7 @@ msgstr ""
 "href=\"%(url)s\">已翻译为 %(languages)s 种语言</a>。这些翻译共完成了 "
 "%(percent)s%% 。"
 
-#: trans/views/basic.py:134
+#: trans/views/basic.py:145
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1573,35 +1614,35 @@ msgstr ""
 "<a href=\"%(url)s\">翻译项目 %(project)s</a>到简体中文当前有 %(total)s 个条"
 "目，已完成 %(percent)s%%。"
 
-#: trans/views/basic.py:234
+#: trans/views/basic.py:245
 #, python-format
 msgid "Review source strings in %s"
 msgstr "复查 %s 的源条目"
 
-#: trans/views/basic.py:253
+#: trans/views/basic.py:264
 #, python-format
 msgid "Source strings in %s"
 msgstr "%s 的源条目"
 
-#: trans/views/basic.py:316
+#: trans/views/basic.py:327
 msgid "Page Not Found"
 msgstr "页面未找到"
 
-#: trans/views/basic.py:339 weblate/html/about.html:11
+#: trans/views/basic.py:350 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
-#: trans/views/basic.py:386
+#: trans/views/basic.py:397
 msgid "Chosen translation already exists in this project!"
 msgstr "您所选取的翻译已在本项目中存在！"
 
-#: trans/views/basic.py:393
+#: trans/views/basic.py:404
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增翻译的请求已发送给项目维护者。"
 
-#: trans/views/basic.py:402
+#: trans/views/basic.py:413
 msgid "Failed to process new translation request!"
 msgstr "处理新翻译请求失败！"
 
@@ -1788,7 +1829,7 @@ msgstr "添加注释失败！"
 msgid "Access denied."
 msgstr "访问被拒绝。"
 
-#: trans/views/files.py:95 weblate/html/profile.html:12
+#: trans/views/files.py:95 weblate/html/accounts/profile.html:12
 msgid "Please fix errors in the form."
 msgstr "请更正表单中的错误。"
 
@@ -1884,7 +1925,7 @@ msgstr ""
 "Weblate 是一个高度 Git 集成的在线翻译工具。它具有简洁清爽的用户界面，子项目间"
 "翻译同步、质量检查以及自动链接到源文件等功能。"
 
-#: weblate/html/about.html:15 weblate/html/contact.html:15
+#: weblate/html/about.html:15 weblate/html/accounts/contact.html:15
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
@@ -1974,8 +2015,8 @@ msgstr "作为 %(name)s 登录"
 msgid "Logout"
 msgstr "退出"
 
-#: weblate/html/base.html:44
-#: weblate/html/registration/registration_form.html:25
+#: weblate/html/base.html:44 weblate/html/accounts/email.html:27
+#: weblate/html/accounts/register.html:29
 msgid "Register"
 msgstr "注册"
 
@@ -2010,24 +2051,6 @@ msgstr "所有条目均已通过检查！"
 #: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
 msgid "Check"
 msgstr "检查"
-
-#: weblate/html/contact.html:6
-msgid "contact"
-msgstr "联系"
-
-#: weblate/html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr "您可以通过这里联系此服务器的管理员。"
-
-#: weblate/html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr "请用英语与我们联系，否则我们可能无法理解您的请求。"
-
-#: weblate/html/contact.html:21
-msgid "Send"
-msgstr "发送"
 
 #: weblate/html/data-root.html:6 weblate/html/data.html:7
 msgid "data"
@@ -2259,8 +2282,8 @@ msgstr "词典"
 msgid "Change word"
 msgstr "修改单词"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:121
-#: weblate/html/translate.html:155
+#: weblate/html/edit_dictionary.html:21 weblate/html/translate.html:155
+#: weblate/html/accounts/profile.html:120
 msgid "Save"
 msgstr "保存"
 
@@ -2332,634 +2355,604 @@ msgid "Authored by %(author)s on %(date)s"
 msgstr "由 %(author)s 于 %(date)s"
 
 #: weblate/html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr "此用户名已被占用。请选择另一个。"
-
-#: weblate/html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "您两次输入的密码必须相同"
-
-#: weblate/html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "此电子邮件地址已被使用。请提供一个新的电子邮件地址。"
-
-#: weblate/html/i18n.html:11
-msgid "Old password"
-msgstr "原密码"
-
-#: weblate/html/i18n.html:12
-msgid "New password"
-msgstr "新密码"
-
-#: weblate/html/i18n.html:13
-msgid "New password confirmation"
-msgstr "确认新密码"
-
-#: weblate/html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "两次输入的密码不一致。"
-
-#: weblate/html/i18n.html:18
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr "按住 “Ctrl” 或 Mac 上的 “Command” 键多选。"
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:18
 msgid "Afrikaans"
 msgstr "南非语"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:19
 msgid "Akan"
 msgstr "阿坎语"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:20
 msgid "Albanian"
 msgstr "阿尔巴尼亚语"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:21
 msgid "Amharic"
 msgstr "阿姆哈拉语"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:22
 msgid "Arabic"
 msgstr "阿拉伯语"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:23
 msgid "Aragonese"
 msgstr "阿拉贡语"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:24
 msgid "Armenian"
 msgstr "亚美尼亚语"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:25
 msgid "Asturian"
 msgstr "阿斯图里亚斯语"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:26
 msgid "Azerbaijani"
 msgstr "阿塞拜疆语"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:27
 msgid "Basque"
 msgstr "巴斯克语"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:28
 msgid "Belarusian"
 msgstr "白俄罗斯语"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:29
 msgid "Belarusian (latin)"
 msgstr "白俄罗斯语(拉丁)"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:30
 msgid "Bengali"
 msgstr "孟加拉语"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:31
 msgid "Bengali (India)"
 msgstr "孟加拉语(印度)"
 
-#: weblate/html/i18n.html:42
+#: weblate/html/i18n.html:32
 msgid "Bosnian"
 msgstr "波斯尼亚语"
 
-#: weblate/html/i18n.html:43
+#: weblate/html/i18n.html:33
 msgid "Breton"
 msgstr "布列塔尼语"
 
-#: weblate/html/i18n.html:44
+#: weblate/html/i18n.html:34
 msgid "Bulgarian"
 msgstr "保加利亚语"
 
-#: weblate/html/i18n.html:45
+#: weblate/html/i18n.html:35
 msgid "Catalan"
 msgstr "加泰罗尼亚语"
 
-#: weblate/html/i18n.html:46
+#: weblate/html/i18n.html:36
 msgid "Central Khmer"
 msgstr "高棉语"
 
-#: weblate/html/i18n.html:47
+#: weblate/html/i18n.html:37
 msgid "Chinese"
 msgstr "汉语"
 
-#: weblate/html/i18n.html:48
+#: weblate/html/i18n.html:38
 msgid "Chinese (Hong Kong)"
 msgstr "汉语 (中国香港)"
 
-#: weblate/html/i18n.html:49
+#: weblate/html/i18n.html:39
 msgid "Chinese (China)"
 msgstr "汉语 (中国大陆)"
 
-#: weblate/html/i18n.html:50
+#: weblate/html/i18n.html:40
 msgid "Chinese (Taiwan)"
 msgstr "汉语 (中国台湾)"
 
-#: weblate/html/i18n.html:51
+#: weblate/html/i18n.html:41
 msgid "Cornish"
 msgstr "康沃尔语"
 
-#: weblate/html/i18n.html:52
+#: weblate/html/i18n.html:42
 msgid "Croatian"
 msgstr "克罗地亚语"
 
-#: weblate/html/i18n.html:53
+#: weblate/html/i18n.html:43
 msgid "Czech"
 msgstr "捷克语"
 
-#: weblate/html/i18n.html:54
+#: weblate/html/i18n.html:44
 msgid "Danish"
 msgstr "丹麦语"
 
-#: weblate/html/i18n.html:55
+#: weblate/html/i18n.html:45
 msgid "Dutch"
 msgstr "荷兰语"
 
-#: weblate/html/i18n.html:56
+#: weblate/html/i18n.html:46
 msgid "Dzongkha"
 msgstr "宗喀语"
 
-#: weblate/html/i18n.html:57
+#: weblate/html/i18n.html:47
 msgid "English"
 msgstr "英语"
 
-#: weblate/html/i18n.html:58
+#: weblate/html/i18n.html:48
 msgid "English (South Africa)"
 msgstr "英语(南非)"
 
-#: weblate/html/i18n.html:59
+#: weblate/html/i18n.html:49
 msgid "English (United Kingdom)"
 msgstr "英语(英国)"
 
-#: weblate/html/i18n.html:60
+#: weblate/html/i18n.html:50
 msgid "English (United States)"
 msgstr "英语(美国)"
 
-#: weblate/html/i18n.html:61
+#: weblate/html/i18n.html:51
 msgid "Esperanto"
 msgstr "世界语"
 
-#: weblate/html/i18n.html:62
+#: weblate/html/i18n.html:52
 msgid "Estonian"
 msgstr "爱沙尼亚语"
 
-#: weblate/html/i18n.html:63
+#: weblate/html/i18n.html:53
 msgid "Faroese"
 msgstr "法罗语"
 
-#: weblate/html/i18n.html:64
+#: weblate/html/i18n.html:54
 msgid "Filipino"
 msgstr "菲律宾语"
 
-#: weblate/html/i18n.html:65
+#: weblate/html/i18n.html:55
 msgid "Finnish"
 msgstr "芬兰语"
 
-#: weblate/html/i18n.html:66
+#: weblate/html/i18n.html:56
 msgid "French"
 msgstr "法语"
 
-#: weblate/html/i18n.html:67
+#: weblate/html/i18n.html:57
 msgid "Frisian"
 msgstr "弗里西亚语"
 
-#: weblate/html/i18n.html:68
+#: weblate/html/i18n.html:58
 msgid "Friulian"
 msgstr "弗留利语"
 
-#: weblate/html/i18n.html:69
+#: weblate/html/i18n.html:59
 msgid "Fulah"
 msgstr "富拉语"
 
-#: weblate/html/i18n.html:70
+#: weblate/html/i18n.html:60
 msgid "Gaelic"
 msgstr "盖尔语"
 
-#: weblate/html/i18n.html:71
+#: weblate/html/i18n.html:61
 msgid "Galician"
 msgstr "加利西亚语"
 
-#: weblate/html/i18n.html:72
+#: weblate/html/i18n.html:62
 msgid "Georgian"
 msgstr "格鲁吉亚语"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:63
 msgid "German"
 msgstr "德语"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:64
 msgid "Greek"
 msgstr "希腊语"
 
-#: weblate/html/i18n.html:75
+#: weblate/html/i18n.html:65
 msgid "Gujarati"
 msgstr "古吉拉特语"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:66
 msgid "Gun"
 msgstr "丰语"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:67
 msgid "Haitian"
 msgstr "海地语"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:68
 msgid "Hausa"
 msgstr "豪撒语"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:69
 msgid "Hebrew"
 msgstr "希伯来语"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:70
 msgid "Hindi"
 msgstr "印地语"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:71
 msgid "Hungarian"
 msgstr "匈牙利语"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:72
 msgid "Icelandic"
 msgstr "冰岛语"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:73
 msgid "Indonesian"
 msgstr "印尼语"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:74
 msgid "Interlingua"
 msgstr "国际语"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:75
 msgid "Irish"
 msgstr "爱尔兰语"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:76
 msgid "Italian"
 msgstr "意大利语"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:77
 msgid "Japanese"
 msgstr "日语"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:78
 msgid "Javanese"
 msgstr "爪哇语"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:79
 msgid "Kannada"
 msgstr "堪纳德语"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:80
 msgid "Kashubian"
 msgstr "卡舒比语"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:81
 msgid "Kazakh"
 msgstr "哈萨克语"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:82
 msgid "Kirghiz"
 msgstr "吉尔吉斯语"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:83
 msgid "Klingon"
 msgstr "克林贡"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:84
 msgid "Klingon (pIqaD)"
 msgstr "克林贡 (pIqaD)"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:85
 msgid "Korean"
 msgstr "韩语"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:86
 msgid "Kurdish"
 msgstr "库尔德语"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:87
 msgid "Kurdish Sorani"
 msgstr "库尔德语 索拉尼"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:88
 msgid "Lao"
 msgstr "老挝语"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:89
 msgid "Latvian"
 msgstr "拉脱维亚语"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:90
 msgid "Limburgish"
 msgstr "林堡语"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:91
 msgid "Lingala"
 msgstr "林加拉语"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:92
 msgid "Lithuanian"
 msgstr "立陶宛语"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:93
 msgid "Luxembourgish"
 msgstr "卢森堡语"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:94
 msgid "Macedonian"
 msgstr "马其顿语"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:95
 msgid "Maithili"
 msgstr "米提里语"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:96
 msgid "Malagasy"
 msgstr "马尔加什语"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:97
 msgid "Malay"
 msgstr "马来语"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:98
 msgid "Malayalam"
 msgstr "马来亚拉姆语"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:99
 msgid "Maltese"
 msgstr "马尔他语"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:100
 msgid "Maori"
 msgstr "毛利语"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:101
 msgid "Mapudungun"
 msgstr "马普彻语"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:102
 msgid "Marathi"
 msgstr "马拉地语"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:103
 msgid "Mongolian"
 msgstr "蒙古语"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:104
 msgid "Morisyen"
 msgstr "毛里求斯语"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:105
 #, fuzzy
 msgid "N'Ko"
 msgstr "N'Ko"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:106
 msgid "Nahuatl languages"
 msgstr "那瓦特语"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:107
 msgid "Neapolitan"
 msgstr "那不勒斯语"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:108
 msgid "Nepali"
 msgstr "尼泊尔语"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:109
 msgid "Norwegian Bokmål"
 msgstr "挪威博克马尔语"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:110
 msgid "Norwegian Nynorsk"
 msgstr "挪威尼诺斯克语"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:111
 msgid "Occitan"
 msgstr "奥克斯坦语"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:112
 msgid "Oriya"
 msgstr "奥里雅语"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:113
 msgid "Papiamento"
 msgstr "帕皮阿门托语"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:114
 msgid "Pedi"
 msgstr "佩地语"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:115
 msgid "Persian"
 msgstr "波斯语"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:116
 msgid "Piemontese"
 msgstr "皮埃蒙特语"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:117
 msgid "Polish"
 msgstr "波兰语"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:118
 msgid "Portuguese"
 msgstr "葡萄牙语"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:119
 msgid "Portuguese (Brazil)"
 msgstr "葡萄牙语(巴西)"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:120
 msgid "Portuguese (Portugal)"
 msgstr "葡萄牙语(葡萄牙)"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:121
 msgid "Punjabi"
 msgstr "旁遮普语"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:122
 msgid "Pushto"
 msgstr "普什图语"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:123
 msgid "Romanian"
 msgstr "罗马尼亚语"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:124
 msgid "Romansh"
 msgstr "罗曼斯语"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:125
 msgid "Russian"
 msgstr "俄语"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:126
 msgid "Scots"
 msgstr "苏格兰语"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:127
 msgid "Serbian"
 msgstr "塞尔维亚语"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:128
 msgid "Serbian (cyrillic)"
 msgstr "塞尔维亚语(西里尔)"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:129
 msgid "Serbian (latin)"
 msgstr "塞尔维亚语(拉丁)"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:130
 msgid "Simplified Chinese"
 msgstr "简体中文"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:131
 msgid "Sinhala"
 msgstr "僧伽罗语"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:132
 msgid "Slovak"
 msgstr "斯洛伐克语"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:133
 msgid "Slovenian"
 msgstr "斯洛文尼亚语"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:134
 msgid "Somali"
 msgstr "索马里语"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:135
 msgid "Songhai languages"
 msgstr "桑海语"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:136
 msgid "Sotho"
 msgstr "梭托语"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:137
 msgid "Spanish"
 msgstr "西班牙语"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:138
 msgid "Sundanese"
 msgstr "巽他语"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:139
 msgid "Swahili"
 msgstr "斯瓦希里语"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:140
 msgid "Swedish"
 msgstr "瑞典语"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:141
 msgid "Tajik"
 msgstr "塔吉克语"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:142
 msgid "Tagalog"
 msgstr "塔加拉族语"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:143
 msgid "Tamil"
 msgstr "坦米儿语"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:144
 msgid "Tatar"
 msgstr "鞑靼语"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:145
 msgid "Telugu"
 msgstr "泰卢固语"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:146
 msgid "Thai"
 msgstr "泰语"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:147
 msgid "Tibetan"
 msgstr "藏语"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:148
 msgid "Tigrinya"
 msgstr "提格里尼亚语"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:149
 msgid "Traditional Chinese"
 msgstr "繁体中文"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:150
 msgid "Turkish"
 msgstr "土耳其语"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:151
 msgid "Turkmen"
 msgstr "土库曼语"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:152
 msgid "Uighur"
 msgstr "维吾尔语"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:153
 msgid "Ukrainian"
 msgstr "乌克兰语"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:154
 msgid "Urdu"
 msgstr "乌尔都语"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:155
 msgid "Uzbek"
 msgstr "乌兹别克语"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:156
 msgid "Uzbek (latin)"
 msgstr "乌兹别克语(拉丁)"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:157
 msgid "Valencian"
 msgstr "巴伦西亚语"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:158
 msgid "Venda"
 msgstr "文达语"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:159
 msgid "Vietnamese"
 msgstr "越南语"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:160
 msgid "Walloon"
 msgstr "瓦龙语"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:161
 msgid "Welsh"
 msgstr "威尔士语"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:162
 msgid "West Flemish"
 msgstr "西佛兰德语"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:163
 msgid "Wolof"
 msgstr "沃洛夫语"
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:164
 msgid "Yakut"
 msgstr "雅库特语"
 
-#: weblate/html/i18n.html:175
+#: weblate/html/i18n.html:165
 msgid "Yoruba"
 msgstr "约鲁巴语"
 
-#: weblate/html/i18n.html:176
+#: weblate/html/i18n.html:166
 msgid "Zulu"
 msgstr "祖鲁语"
 
@@ -2983,7 +2976,7 @@ msgid "Your translations"
 msgstr "我的翻译项目"
 
 #: weblate/html/index.html:20 weblate/html/language.html:12
-#: weblate/html/user.html:19
+#: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "项目"
 
@@ -3011,7 +3004,7 @@ msgstr "最活跃的建议者"
 
 #: weblate/html/index.html:68 weblate/html/language.html:25
 #: weblate/html/project.html:48 weblate/html/subproject.html:41
-#: weblate/html/translation.html:49 weblate/html/user.html:28
+#: weblate/html/translation.html:49 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr "动态"
 
@@ -3052,7 +3045,7 @@ msgstr "词汇表"
 msgid "When"
 msgstr "时间"
 
-#: weblate/html/last-changes.html:16 weblate/html/profile.html:56
+#: weblate/html/last-changes.html:16 weblate/html/accounts/profile.html:58
 msgid "Action"
 msgstr "操作"
 
@@ -3143,96 +3136,6 @@ msgstr "翻译"
 #: weblate/html/list-translations.html:63
 msgid "Translated strings"
 msgstr "已翻译条目"
-
-#: weblate/html/profile.html:22
-msgid "Preferences"
-msgstr "首选项"
-
-#: weblate/html/profile.html:23
-msgid "Subscriptions"
-msgstr "订阅"
-
-#: weblate/html/profile.html:24
-msgid "Account"
-msgstr "帐号"
-
-#: weblate/html/profile.html:25
-#, fuzzy
-#| msgid "Documentation"
-msgid "Authentication"
-msgstr "文档"
-
-#: weblate/html/profile.html:26
-msgid "Information"
-msgstr "信息"
-
-#: weblate/html/profile.html:27
-msgid "Licenses"
-msgstr "许可证"
-
-#: weblate/html/profile.html:28
-msgid "Avatar"
-msgstr "头像"
-
-#: weblate/html/profile.html:36
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr "您将收到所有您的语言下您所选择的通知邮件。"
-
-#: weblate/html/profile.html:45
-msgid "Your name and email will appear as author on Git commits."
-msgstr "您的姓名和邮箱将作为作者出现在 Git 提交信息中。"
-
-#: weblate/html/profile.html:49
-msgid ""
-"You can manage third party identities which are associated to this account."
-msgstr ""
-
-#: weblate/html/profile.html:50
-msgid "Currently associated:"
-msgstr ""
-
-#: weblate/html/profile.html:54
-msgid "Identity"
-msgstr ""
-
-#: weblate/html/profile.html:55
-#, fuzzy
-#| msgid "User"
-msgid "User ID"
-msgstr "用户"
-
-#: weblate/html/profile.html:65
-msgid "Disconnect"
-msgstr ""
-
-#: weblate/html/profile.html:77
-#, fuzzy
-#| msgid "Add as translation"
-msgid "Add new association:"
-msgstr "添加为翻译"
-
-#: weblate/html/profile.html:90
-msgid "Your public profile:"
-msgstr "您的公开简介："
-
-#: weblate/html/profile.html:96
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and "
-"provide your contribution under license defined by each translated project."
-msgstr ""
-"注册意味着您同意将您的姓名和邮箱用于 Git 提交并且您的翻译成果将依照该项目的许"
-"可协议来授权。"
-
-#: weblate/html/profile.html:100
-msgid ""
-"Following projects have explicitely specified their licensing and copyright "
-"conditions:"
-msgstr "以下项目特殊制定了他们的许可协议和版权条件："
-
-#: weblate/html/profile.html:117
-msgid "Avatars are provided using libravatar."
-msgstr "头像使用libravatar提供。"
 
 #: weblate/html/project.html:11 weblate/html/source.html:13
 #: weblate/html/subproject.html:13 weblate/html/translation.html:16
@@ -3716,18 +3619,6 @@ msgstr "上次登录"
 msgid "Registration date"
 msgstr "注册日期"
 
-#: weblate/html/user.html:34 weblate/html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "在最近30天有活动"
-
-#: weblate/html/user.html:37 weblate/html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "去年有活动"
-
-#: weblate/html/user.html:40
-msgid "Recent contributions"
-msgstr "最近的贡献"
-
 #: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
 msgid "widgets"
 msgstr "小部件"
@@ -3807,6 +3698,223 @@ msgstr "Textile 代码"
 #: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
 msgid "Translation status"
 msgstr "翻译状态"
+
+#: weblate/html/accounts/contact.html:6
+msgid "contact"
+msgstr "联系"
+
+#: weblate/html/accounts/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr "您可以通过这里联系此服务器的管理员。"
+
+#: weblate/html/accounts/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr "请用英语与我们联系，否则我们可能无法理解您的请求。"
+
+#: weblate/html/accounts/contact.html:21
+msgid "Send"
+msgstr "发送"
+
+#: weblate/html/accounts/email-sent.html:7
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"感谢您的注册。您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注"
+"册。"
+
+#: weblate/html/accounts/email-sent.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+"如果您没有收到，请检查垃圾箱。若仍未收到，请<a href=\"%(contact_url)s?"
+"subject=Lost activation code\">联系我们</a>。"
+
+#: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:15
+#: weblate/html/accounts/reset.html:15
+msgid "Please fix errors in registration form."
+msgstr "请更正注册表单中的错误。"
+
+#: weblate/html/accounts/email.html:25 weblate/html/accounts/profile.html:95
+#: weblate/html/accounts/register.html:27
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"注册意味着您同意将您的姓名和邮箱用于 Git 提交并且您的翻译成果将依照该项目的许"
+"可协议来授权。"
+
+#: weblate/html/accounts/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr "未找到相应的用户名/密码组合。请重试。"
+
+#: weblate/html/accounts/login.html:17
+#, fuzzy
+#| msgid "Password (again)"
+msgid "Password log in"
+msgstr "密码 (再输入一次)"
+
+#: weblate/html/accounts/login.html:39
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr "还没有帐号？您可以<a href=\"%(register_url)s\">注册</a>。"
+
+#: weblate/html/accounts/login.html:45
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr "忘记您的密码了？您可以 <a href=\"%(reset_url)s\">重设密码</a>。"
+
+#: weblate/html/accounts/login.html:50
+msgid "Third party log in"
+msgstr ""
+
+#: weblate/html/accounts/password.html:6
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr "请输入两次让我们校验您是否正确地输入了您想要设置的密码。"
+
+#: weblate/html/accounts/password.html:13
+msgid "Change my password"
+msgstr "修改我的密码"
+
+#: weblate/html/accounts/profile.html:22
+msgid "Preferences"
+msgstr "首选项"
+
+#: weblate/html/accounts/profile.html:23
+msgid "Subscriptions"
+msgstr "订阅"
+
+#: weblate/html/accounts/profile.html:24
+msgid "Account"
+msgstr "帐号"
+
+#: weblate/html/accounts/profile.html:25
+#, fuzzy
+#| msgid "Documentation"
+msgid "Authentication"
+msgstr "文档"
+
+#: weblate/html/accounts/profile.html:26
+msgid "Information"
+msgstr "信息"
+
+#: weblate/html/accounts/profile.html:27
+msgid "Licenses"
+msgstr "许可证"
+
+#: weblate/html/accounts/profile.html:28
+msgid "Avatar"
+msgstr "头像"
+
+#: weblate/html/accounts/profile.html:36
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr "您将收到所有您的语言下您所选择的通知邮件。"
+
+#: weblate/html/accounts/profile.html:45
+msgid "Your name and email will appear as author on Git commits."
+msgstr "您的姓名和邮箱将作为作者出现在 Git 提交信息中。"
+
+#: weblate/html/accounts/profile.html:49
+#, fuzzy
+#| msgid "New password"
+msgid "Set password"
+msgstr "新密码"
+
+#: weblate/html/accounts/profile.html:51
+msgid ""
+"You can manage third party identities which are associated to this account."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:52
+msgid "Currently associated:"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:56
+msgid "Identity"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:57
+#, fuzzy
+#| msgid "User"
+msgid "User ID"
+msgstr "用户"
+
+#: weblate/html/accounts/profile.html:67
+msgid "Disconnect"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:76
+#, fuzzy
+#| msgid "Add as translation"
+msgid "Add new association:"
+msgstr "添加为翻译"
+
+#: weblate/html/accounts/profile.html:89
+msgid "Your public profile:"
+msgstr "您的公开简介："
+
+#: weblate/html/accounts/profile.html:99
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr "以下项目特殊制定了他们的许可协议和版权条件："
+
+#: weblate/html/accounts/profile.html:116
+msgid "Avatars are provided using libravatar."
+msgstr "头像使用libravatar提供。"
+
+#: weblate/html/accounts/register.html:9
+#, fuzzy
+#| msgid "Registered users"
+msgid "Register using email"
+msgstr "注册用户"
+
+#: weblate/html/accounts/register.html:34
+#, fuzzy
+#| msgid "User registration"
+msgid "Third party registration"
+msgstr "注册用户"
+
+#: weblate/html/accounts/register.html:46
+#, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+"抱歉，本站已关闭注册。您可以<a href=\"%(contact_url)s\">联系我们</a>以了解详"
+"细情况。"
+
+#: weblate/html/accounts/reset.html:9
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr "忘记了您的密码？输入您的电子邮箱地址，我们将向您发送设置新密码的说明。"
+
+#: weblate/html/accounts/reset.html:28
+msgid "Reset my password"
+msgstr "重设我的密码"
+
+#: weblate/html/accounts/user.html:34 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "在最近30天有活动"
+
+#: weblate/html/accounts/user.html:37 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "去年有活动"
+
+#: weblate/html/accounts/user.html:40
+msgid "Recent contributions"
+msgstr "最近的贡献"
 
 #: weblate/html/admin/custom-index.html:11
 msgid "Reports"
@@ -4013,10 +4121,7 @@ msgstr "使用此翻译"
 msgid "No other strings found."
 msgstr "未找到其它条目。"
 
-#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
-msgid "Sent by Weblate translation system"
-msgstr "由 Weblate 翻译系统发送"
-
+#: weblate/html/mail/activation.html:8 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:8
 #: weblate/html/mail/changed_translation.txt:1
 #: weblate/html/mail/merge_failure.html:8
@@ -4030,10 +4135,37 @@ msgstr "由 Weblate 翻译系统发送"
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
-#: weblate/html/registration/activation_email.txt:1
 #, fuzzy
 msgid "Hi,"
 msgstr "Hi,"
+
+#: weblate/html/mail/activation.html:12 weblate/html/mail/activation.txt:3
+#, python-format
+msgid ""
+"This is an automatic email to help you complete your registration with "
+"%(site_title)s."
+msgstr "这是一份自动邮件以便帮您完成在 %(site_title)s 上的注册。"
+
+#: weblate/html/mail/activation.html:16 weblate/html/mail/activation.txt:5
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
+msgstr ""
+"请在您的浏览器中打开下面的链接。如果链接被分成几行，您或许需要将它拷到地址栏"
+"内。"
+
+#: weblate/html/mail/activation.html:24 weblate/html/mail/activation.txt:9
+msgid "If there is a problem with your registration, please contact us:"
+msgstr "如果您的注册还有问题，请联系我们："
+
+#: weblate/html/mail/activation_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "您在 %(site_title)s 上的注册"
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
+msgid "Sent by Weblate translation system"
+msgstr "由 Weblate 翻译系统发送"
 
 #: weblate/html/mail/changed_translation.html:12
 #: weblate/html/mail/changed_translation.txt:3
@@ -4244,215 +4376,107 @@ msgstr "%(translation)s 的新翻译"
 msgid "More information about Weblate can be found at http://weblate.org/"
 msgstr "关于Weblate的更多信息可以在 http://weblate.org/ 找到"
 
-#: weblate/html/registration/activate.html:7
-msgid "Your account could not be activated"
-msgstr "无法激活您的帐号"
-
-#: weblate/html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] "您可能已经激活了账户或超过了 %(days)s 天才来激活。"
-
-#: weblate/html/registration/activate.html:12
-#, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-"如果都不是上面所提到的情况，请<a href=\"%(contact_url)s\">联系</a>网站管理"
-"员。您也可以<a href=\"%(reg_url)s\">重新注册</a>。"
-
-#: weblate/html/registration/activation_complete.html:8
-msgid "Thank you. Your account is now activated."
-msgstr "谢谢。您的帐号已激活。"
-
-#: weblate/html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "您现在也许要<a href=\"%(profile_url)s\">修改您的资料</a>。"
-
-#: weblate/html/registration/activation_email.txt:3
-#, python-format
-msgid ""
-"This is an automatic email to help you complete your registration with "
-"%(site_title)s."
-msgstr "这是一份自动邮件以便帮您完成在 %(site_title)s 上的注册。"
-
-#: weblate/html/registration/activation_email.txt:5
-msgid ""
-"Please open the following link in your web browser. If the link is split "
-"over several lines, you may need to copy it in the address bar."
-msgstr ""
-"请在您的浏览器中打开下面的链接。如果链接被分成几行，您或许需要将它拷到地址栏"
-"内。"
-
-#: weblate/html/registration/activation_email.txt:9
-msgid "If there is a problem with your registration, please contact us:"
-msgstr "如果您的注册还有问题，请联系我们："
-
-#: weblate/html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "您在 %(site_title)s 上的注册"
-
-#: weblate/html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr "未找到相应的用户名/密码组合。请重试。"
-
-#: weblate/html/registration/login.html:17
-#, fuzzy
-#| msgid "Password (again)"
-msgid "Password log in"
-msgstr "密码 (再输入一次)"
-
-#: weblate/html/registration/login.html:39
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr "还没有帐号？您可以<a href=\"%(register_url)s\">注册</a>。"
-
-#: weblate/html/registration/login.html:45
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr "忘记您的密码了？您可以 <a href=\"%(reset_url)s\">重设密码</a>。"
-
-#: weblate/html/registration/login.html:48
-msgid "Third party log in"
-msgstr ""
-
-#: weblate/html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "感谢您使用 Weblate！"
-
-#: weblate/html/registration/logout.html:9
-msgid "Log in again"
-msgstr "重新登录"
-
-#: weblate/html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "您的密码已修改。"
-
-#: weblate/html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "请修正下列错误。"
-
-#: weblate/html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"为了安全起见，请先输入您的原密码，然后输入两次新密码，以便我们确定您正确输入"
-"了您想要设置的密码。"
-
-#: weblate/html/registration/password_change_form.html:22
-#: weblate/html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "修改我的密码"
-
-#: weblate/html/registration/password_reset_complete.html:6
-msgid "Your password has been set. You may go ahead and log in now."
-msgstr "您的密码已经设置。现在您可以去登录了。"
-
-#: weblate/html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "登录"
-
-#: weblate/html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr "请输入两次让我们校验您是否正确地输入了您想要设置的密码。"
-
-#: weblate/html/registration/password_reset_confirm.html:19
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr "密码重设链接无效，可能因为它已经被使用过了。请重新申请密码重设。"
-
-#: weblate/html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr "我们已经向您提交的邮箱发送了设置密码的说明。您很快就能收到它。"
-
-#: weblate/html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr "您收到此邮件的原因是您请求重设您在 %(site_name)s 上帐号的密码。"
-
-#: weblate/html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "请进入以下页面后设置一个新密码："
-
-#: weblate/html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "您的用户名，万一您忘记了："
-
-#: weblate/html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "感谢使用我们的网站！"
-
-#: weblate/html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "%(site_name)s 团队"
-
-#: weblate/html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr "忘记了您的密码？输入您的电子邮箱地址，我们将向您发送设置新密码的说明。"
-
-#: weblate/html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "重设我的密码"
-
-#: weblate/html/registration/registration_closed.html:9
-#, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-"抱歉，本站已关闭注册。您可以<a href=\"%(contact_url)s\">联系我们</a>以了解详"
-"细情况。"
-
-#: weblate/html/registration/registration_complete.html:7
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"感谢您的注册。您将很快收到一封含有确认链接的邮件。请按照链接的指引完成您的注"
-"册。"
-
-#: weblate/html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-"如果您没有收到，请检查垃圾箱。若仍未收到，请<a href=\"%(contact_url)s?"
-"subject=Lost activation code\">联系我们</a>。"
-
-#: weblate/html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "请更正注册表单中的错误。"
-
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "修改"
+
+#~ msgid "Password"
+#~ msgstr "密码"
+
+#~ msgid ""
+#~ "Your profile has been migrated, you might want to adjust preferences."
+#~ msgstr "您的资料已经迁移，您也许想要调整首选项。"
+
+#~ msgid "Account activation"
+#~ msgstr "激活帐号"
+
+#~ msgid "Logged out"
+#~ msgstr "已退出"
+
+#~ msgid "Password changed"
+#~ msgstr "密码已修改"
+
+#~ msgid "Old password"
+#~ msgstr "原密码"
+
+#~ msgid "New password confirmation"
+#~ msgstr "确认新密码"
+
+#~ msgid "The two password fields didn't match."
+#~ msgstr "两次输入的密码不一致。"
+
+#~ msgid "Your account could not be activated"
+#~ msgstr "无法激活您的帐号"
+
+#~ msgid ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s day to activate it."
+#~ msgid_plural ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s days to activate it."
+#~ msgstr[0] "您可能已经激活了账户或超过了 %(days)s 天才来激活。"
+
+#~ msgid ""
+#~ "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> "
+#~ "the website administrator. Otherwise, you may <a href=\"%(reg_url)s"
+#~ "\">register again</a>."
+#~ msgstr ""
+#~ "如果都不是上面所提到的情况，请<a href=\"%(contact_url)s\">联系</a>网站管理"
+#~ "员。您也可以<a href=\"%(reg_url)s\">重新注册</a>。"
+
+#~ msgid "Thank you. Your account is now activated."
+#~ msgstr "谢谢。您的帐号已激活。"
+
+#~ msgid ""
+#~ "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+#~ msgstr "您现在也许要<a href=\"%(profile_url)s\">修改您的资料</a>。"
+
+#~ msgid "Log in again"
+#~ msgstr "重新登录"
+
+#~ msgid "Please correct the error below."
+#~ msgid_plural "Please correct the errors below."
+#~ msgstr[0] "请修正下列错误。"
+
+#~ msgid ""
+#~ "Please enter your old password, for security's sake, and then enter your "
+#~ "new password twice so we can verify you typed it in correctly."
+#~ msgstr ""
+#~ "为了安全起见，请先输入您的原密码，然后输入两次新密码，以便我们确定您正确输"
+#~ "入了您想要设置的密码。"
+
+#~ msgid "Your password has been set. You may go ahead and log in now."
+#~ msgstr "您的密码已经设置。现在您可以去登录了。"
+
+#~ msgid "Log in"
+#~ msgstr "登录"
+
+#~ msgid ""
+#~ "The password reset link is invalid, possibly because it has already been "
+#~ "used. Please request a new password reset."
+#~ msgstr "密码重设链接无效，可能因为它已经被使用过了。请重新申请密码重设。"
+
+#~ msgid ""
+#~ "We've e-mailed you instructions for setting your password to the e-mail "
+#~ "address you submitted. You should be receiving it shortly."
+#~ msgstr "我们已经向您提交的邮箱发送了设置密码的说明。您很快就能收到它。"
+
+#~ msgid ""
+#~ "You're receiving this e-mail because you requested a password reset for "
+#~ "your user account at %(site_name)s."
+#~ msgstr "您收到此邮件的原因是您请求重设您在 %(site_name)s 上帐号的密码。"
+
+#~ msgid "Please go to the following page and choose a new password:"
+#~ msgstr "请进入以下页面后设置一个新密码："
+
+#~ msgid "Your username, in case you've forgotten:"
+#~ msgstr "您的用户名，万一您忘记了："
+
+#~ msgid "Thanks for using our site!"
+#~ msgstr "感谢使用我们的网站！"
+
+#~ msgid "The %(site_name)s team"
+#~ msgstr "%(site_name)s 团队"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "您需要登录才能保存译文！"

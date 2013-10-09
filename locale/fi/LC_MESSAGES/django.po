@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-08 16:57+0200\n"
+"POT-Creation-Date: 2013-10-09 15:40+0200\n"
 "PO-Revision-Date: 2013-08-23 00:15+0200\n"
 "Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
@@ -18,39 +18,58 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:171 accounts/forms.py:218
-msgid "First name"
-msgstr "Etunimi"
-
-#: accounts/forms.py:172 accounts/forms.py:219
-msgid "Last name"
-msgstr "Sukunimi"
-
-#: accounts/forms.py:173 accounts/forms.py:232 weblate/html/i18n.html:15
+#: accounts/forms.py:156 accounts/forms.py:223
 msgid "E-mail"
 msgstr "Sähköposti"
 
-#: accounts/forms.py:180
+#: accounts/forms.py:158
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:186 accounts/forms.py:271
+msgid "First name"
+msgstr "Etunimi"
+
+#: accounts/forms.py:187 accounts/forms.py:272
+msgid "Last name"
+msgstr "Sukunimi"
+
+#: accounts/forms.py:195
 msgid "Subject"
 msgstr "Aihe"
 
-#: accounts/forms.py:181
+#: accounts/forms.py:196
 msgid "Your name"
 msgstr "Nimesi"
 
-#: accounts/forms.py:182
+#: accounts/forms.py:197
 msgid "Your email"
 msgstr "Sähköpostiosoitteesi"
 
-#: accounts/forms.py:184
+#: accounts/forms.py:199
 msgid "Message"
 msgstr "Viesti"
 
-#: accounts/forms.py:210 accounts/forms.py:228 weblate/html/i18n.html:16
+#: accounts/forms.py:224
+msgid "Activation email will be sent here."
+msgstr "Aktivointisähköposti lähetetään tähän osoitteeseen."
+
+#: accounts/forms.py:237
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
+
+#: accounts/forms.py:262
 msgid "Username"
 msgstr "Käyttäjänimi"
 
-#: accounts/forms.py:213
+#: accounts/forms.py:263
+msgid "At least five characters long."
+msgstr "Vähintään viisi merkkiä pitkä."
+
+#: accounts/forms.py:266
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -58,131 +77,149 @@ msgstr ""
 "Tämä arvo voi sisältää vain kirjaimia, numeroita ja seuraavia merkkejä: @. + "
 "- _"
 
-#: accounts/forms.py:230
-msgid "At least five characters long."
-msgstr "Vähintään viisi merkkiä pitkä."
-
-#: accounts/forms.py:234
-msgid "Activation email will be sent here."
-msgstr "Aktivointisähköposti lähetetään tähän osoitteeseen."
-
-#: accounts/forms.py:236 weblate/html/i18n.html:17
-msgid "Password"
-msgstr "Salasana"
-
-#: accounts/forms.py:238
-msgid "At least six characters long."
-msgstr "Vähintään kuusi merkkiä pitkä."
-
-#: accounts/forms.py:240
-msgid "Password (again)"
-msgstr "Salasana (uudelleen)"
-
-#: accounts/forms.py:243
-msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr "Toista salasana, jotta voimme varmistaa että se on kirjoitettu oikein."
-
-#: accounts/forms.py:253
-msgid "Password needs to have at least six characters."
-msgstr "Salasanassa täytyy olla vähintään kuusi merkkiä."
-
-#: accounts/forms.py:263
+#: accounts/forms.py:281
 msgid "Username needs to have at least five characters."
 msgstr "Käyttäjänimessä on oltava vähintään viisi merkkiä."
 
-#: accounts/models.py:318
+#: accounts/forms.py:290
+msgid "This username is already taken. Please choose another."
+msgstr ""
+"Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
+
+#: accounts/forms.py:312
+msgid "New password"
+msgstr "Uusi salasana"
+
+#: accounts/forms.py:313
+msgid "At least six characters long."
+msgstr "Vähintään kuusi merkkiä pitkä."
+
+#: accounts/forms.py:317
+#, fuzzy
+#| msgid "Password (again)"
+msgid "New password (again)"
+msgstr "Salasana (uudelleen)"
+
+#: accounts/forms.py:319
+msgid "Repeat the password so we can verify you typed it in correctly."
+msgstr "Toista salasana, jotta voimme varmistaa että se on kirjoitettu oikein."
+
+#: accounts/forms.py:330
+msgid "Password needs to have at least six characters."
+msgstr "Salasanassa täytyy olla vähintään kuusi merkkiä."
+
+#: accounts/forms.py:348
+#, fuzzy
+#| msgid "You must type the same password each time"
+msgid "You must type the same password each time."
+msgstr "Salasanan täytyy olla sama molemmilla kerroilla"
+
+#: accounts/forms.py:360
+#, fuzzy
+#| msgid "New password"
+msgid "Current password"
+msgstr "Uusi salasana"
+
+#: accounts/forms.py:370
+msgid "User with this email address was not found."
+msgstr ""
+
+#: accounts/models.py:330
 msgid "Interface Language"
 msgstr "Käyttöliittymän kieli"
 
-#: accounts/models.py:324 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:336 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Kielet"
 
-#: accounts/models.py:329
+#: accounts/models.py:341
 msgid "Secondary languages"
 msgstr "Toissijaiset kielet"
 
-#: accounts/models.py:338
+#: accounts/models.py:350
 msgid "Subscribed projects"
 msgstr "Tilatut projektit"
 
-#: accounts/models.py:342
+#: accounts/models.py:354
 msgid "Notification on any translation"
 msgstr "Ilmoitus jokaisesta käännoksestä"
 
-#: accounts/models.py:346
+#: accounts/models.py:358
 msgid "Notification on new string to translate"
 msgstr "Ilmoitus uusista käännettävistä merkkijonoista"
 
-#: accounts/models.py:350
+#: accounts/models.py:362
 msgid "Notification on new suggestion"
 msgstr "Ilmoitus uudesta ehdotuksesta"
 
-#: accounts/models.py:354
+#: accounts/models.py:366
 msgid "Notification on new contributor"
 msgstr "Ilmoitus uudesta osallistujasta"
 
-#: accounts/models.py:358
+#: accounts/models.py:370
 msgid "Notification on new comment"
 msgstr "Ilmoitus uudesta kommentista"
 
-#: accounts/models.py:362
+#: accounts/models.py:374
 msgid "Notification on merge failure"
 msgstr "Yhdistämisen vika ilmoitus"
 
-#: accounts/models.py:366
+#: accounts/models.py:378
 msgid "Notification on new language request"
 msgstr "Ilmoitus uudesta kielen pyynnöstä"
 
-#: accounts/models.py:556
-msgid "Your profile has been migrated, you might want to adjust preferences."
-msgstr "Profiilisi on muutettu, saatat haluta muokata asetuksiasi."
-
-#: accounts/urls.py:38 accounts/views.py:51
+#: accounts/views.py:60 accounts/views.py:301
 msgid "User registration"
 msgstr "Käyttäjän rekisteröinti"
 
-#: accounts/urls.py:69
-msgid "Account activation"
-msgstr "Käyttäjätilin aktivointi"
-
-#: accounts/urls.py:80 weblate/html/base.html:46
-#: weblate/html/registration/login.html:32
-msgid "Login"
-msgstr "Kirjaudu sisään"
-
-#: accounts/urls.py:89
-msgid "Logged out"
-msgstr "kirjautunut ulos"
-
-#: accounts/urls.py:96 weblate/html/profile.html:67
-msgid "Change password"
-msgstr "Vaihda salasana"
-
-#: accounts/urls.py:102
-msgid "Password changed"
-msgstr "Salasana vaihdettu"
-
-#: accounts/urls.py:108 accounts/urls.py:114 accounts/urls.py:120
-#: accounts/urls.py:126
-msgid "Password reset"
-msgstr "Salasanan palauttaminen"
-
-#: accounts/views.py:113
+#: accounts/views.py:122
 msgid "Your profile has been updated."
 msgstr "Profiilisi on päivitetty."
 
-#: accounts/views.py:132
+#: accounts/views.py:152
 msgid "User profile"
 msgstr "Käyttäjäprofiili"
 
-#: accounts/views.py:157
+#: accounts/views.py:181
 msgid "Message has been sent to administrator."
 msgstr "Viesti ylläpitäjälle on lähetetty."
 
-#: accounts/views.py:171
+#: accounts/views.py:199
 msgid "Contact"
 msgstr "Ota yhteyttä"
+
+#: accounts/views.py:264 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:32
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+#: accounts/views.py:274
+msgid "Thanks for using Weblate!"
+msgstr "Kiitos Weblaten käyttämisestä!"
+
+#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#, fuzzy
+#| msgid "Register"
+msgid "Register email"
+msgstr "Rekisteröidy"
+
+#: accounts/views.py:350
+msgid "You have entered invalid password."
+msgstr ""
+
+#: accounts/views.py:372
+#, fuzzy
+#| msgid "Your password was changed."
+msgid "Your password has been changed."
+msgstr "Salasanasi vaihdettiin."
+
+#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+msgid "Change password"
+msgstr "Vaihda salasana"
+
+#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+msgid "Password reset"
+msgstr "Salasanan palauttaminen"
 
 #: lang/models.py:289 lang/models.py:293 lang/models.py:299 lang/models.py:306
 #: lang/models.py:311 lang/models.py:317 lang/models.py:323 lang/models.py:328
@@ -1631,11 +1668,17 @@ msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s tunnin kuluttua"
 msgstr[1] "%(count)s tunnin kuluttua"
 
-#: trans/views/basic.py:70
+#: trans/views/basic.py:63
+msgid ""
+"You have activated your account, now you should set the password to be able "
+"to login next time."
+msgstr ""
+
+#: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
 msgstr "Kirjoita koko nimesi profiilisi."
 
-#: trans/views/basic.py:125
+#: trans/views/basic.py:136
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1648,7 +1691,7 @@ msgstr ""
 "%(languages)s kielille</a>. Kaiken kaikkiaan nämä käännökset ovat %(percent)s"
 "%% valmiita."
 
-#: trans/views/basic.py:134
+#: trans/views/basic.py:145
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1658,39 +1701,39 @@ msgstr ""
 "<a href=\"%(url)s\">Käännösprojekti %(project)s</a> Suomeksi tällä hetkellä "
 "sisältää %(total)s merkkijonoa käännettäviksi ja on %(percent)s%% valmis."
 
-#: trans/views/basic.py:234
+#: trans/views/basic.py:245
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Tarkastele lähdemerkkijonoista %s"
 
-#: trans/views/basic.py:253
+#: trans/views/basic.py:264
 #, python-format
 msgid "Source strings in %s"
 msgstr "Lähdemerkkijonoista %s"
 
-#: trans/views/basic.py:316
+#: trans/views/basic.py:327
 msgid "Page Not Found"
 msgstr "Sivua ei löydy"
 
-#: trans/views/basic.py:339 weblate/html/about.html:11
+#: trans/views/basic.py:350 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Tietoa Weblatesta"
 
-#: trans/views/basic.py:386
+#: trans/views/basic.py:397
 #, fuzzy
 #| msgid "Chosen language already exists in the project!"
 msgid "Chosen translation already exists in this project!"
 msgstr "Valittu kieli on jo projektissa!"
 
-#: trans/views/basic.py:393
+#: trans/views/basic.py:404
 #, fuzzy
 #| msgid "Requested new language addition from the project maintainers."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Uuden kielen lisäyksen pyytäminen projektin ylläpitäjiltä."
 
-#: trans/views/basic.py:402
+#: trans/views/basic.py:413
 #, fuzzy
 #| msgid "Failed to process new language request!"
 msgid "Failed to process new translation request!"
@@ -1885,7 +1928,7 @@ msgstr "Kommentin lisääminen epäonnistui!"
 msgid "Access denied."
 msgstr "Käyttö estetty."
 
-#: trans/views/files.py:95 weblate/html/profile.html:12
+#: trans/views/files.py:95 weblate/html/accounts/profile.html:12
 msgid "Please fix errors in the form."
 msgstr "Ole hyvä ja korjaa virheet lomakkeessa."
 
@@ -1994,7 +2037,7 @@ msgstr ""
 "käännösten etenemisen aliprojektien yli, laatutarkistukset ja automaattisen "
 "linkittämisen lähdetiedostoihin."
 
-#: weblate/html/about.html:15 weblate/html/contact.html:15
+#: weblate/html/about.html:15 weblate/html/accounts/contact.html:15
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
@@ -2087,8 +2130,8 @@ msgstr "Kirjauduttu sisään nimellä %(name)s"
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
-#: weblate/html/base.html:44
-#: weblate/html/registration/registration_form.html:25
+#: weblate/html/base.html:44 weblate/html/accounts/email.html:27
+#: weblate/html/accounts/register.html:29
 msgid "Register"
 msgstr "Rekisteröidy"
 
@@ -2125,26 +2168,6 @@ msgstr "Täsmääviä epäonnistuneita tarkistuksia ei ole!"
 #: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
 msgid "Check"
 msgstr "Tarkistus"
-
-#: weblate/html/contact.html:6
-msgid "contact"
-msgstr "Ota yhteyttä"
-
-#: weblate/html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr "Voit ottaa yhteyttä palvelimen ylläpitäjiin."
-
-#: weblate/html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"Ole hyvä ja ota meihin yhteyttä englanniksi, muutoin emme ehkä ymmärrä "
-"pyyntöäsi."
-
-#: weblate/html/contact.html:21
-msgid "Send"
-msgstr "Lähetä"
 
 #: weblate/html/data-root.html:6 weblate/html/data.html:7
 msgid "data"
@@ -2380,8 +2403,8 @@ msgstr "sanakirjat"
 msgid "Change word"
 msgstr "Vaihda sanaa"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:121
-#: weblate/html/translate.html:155
+#: weblate/html/edit_dictionary.html:21 weblate/html/translate.html:155
+#: weblate/html/accounts/profile.html:120
 msgid "Save"
 msgstr "Tallenna"
 
@@ -2456,643 +2479,611 @@ msgid "Authored by %(author)s on %(date)s"
 msgstr "Kirjoittanut %(author)s %(date)s"
 
 #: weblate/html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr ""
-"Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
-
-#: weblate/html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "Salasanan täytyy olla sama molemmilla kerroilla"
-
-#: weblate/html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
-
-#: weblate/html/i18n.html:11
-msgid "Old password"
-msgstr "Vanha salasana"
-
-#: weblate/html/i18n.html:12
-msgid "New password"
-msgstr "Uusi salasana"
-
-#: weblate/html/i18n.html:13
-msgid "New password confirmation"
-msgstr "Uuden salasanan varmistus"
-
-#: weblate/html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "Kaksi salasana kenttää eivät täsmää."
-
-#: weblate/html/i18n.html:18
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
 "Paina \"Control\" tai \"Command\" näppäintä Macilla, valitaksesi useamman, "
 "kuin yhden."
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:18
 msgid "Afrikaans"
 msgstr "Afrikaans"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:19
 msgid "Akan"
 msgstr "Akan"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:20
 msgid "Albanian"
 msgstr "Albania"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:21
 msgid "Amharic"
 msgstr "Amharic"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:22
 msgid "Arabic"
 msgstr "Arabia"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:23
 msgid "Aragonese"
 msgstr "Aragon"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:24
 msgid "Armenian"
 msgstr "Armenia"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:25
 msgid "Asturian"
 msgstr "Asturia"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:26
 msgid "Azerbaijani"
 msgstr "Azerbaitsan"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:27
 msgid "Basque"
 msgstr "Baski"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:28
 msgid "Belarusian"
 msgstr "Valkovenäjä"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:29
 msgid "Belarusian (latin)"
 msgstr "Valkovenäjä(latin)"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:30
 msgid "Bengali"
 msgstr "Bengali"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:31
 msgid "Bengali (India)"
 msgstr "Bengali (Intia)"
 
-#: weblate/html/i18n.html:42
+#: weblate/html/i18n.html:32
 msgid "Bosnian"
 msgstr "Bosnia"
 
-#: weblate/html/i18n.html:43
+#: weblate/html/i18n.html:33
 msgid "Breton"
 msgstr "Breton"
 
-#: weblate/html/i18n.html:44
+#: weblate/html/i18n.html:34
 msgid "Bulgarian"
 msgstr "Bulgaria"
 
-#: weblate/html/i18n.html:45
+#: weblate/html/i18n.html:35
 msgid "Catalan"
 msgstr "Katalonia"
 
-#: weblate/html/i18n.html:46
+#: weblate/html/i18n.html:36
 msgid "Central Khmer"
 msgstr "Keski-khmer"
 
-#: weblate/html/i18n.html:47
+#: weblate/html/i18n.html:37
 #, fuzzy
 #| msgid "Chinese (China)"
 msgid "Chinese"
 msgstr "Kiina (Kiina)"
 
-#: weblate/html/i18n.html:48
+#: weblate/html/i18n.html:38
 msgid "Chinese (Hong Kong)"
 msgstr "Kiina (Hong Kong)"
 
-#: weblate/html/i18n.html:49
+#: weblate/html/i18n.html:39
 msgid "Chinese (China)"
 msgstr "Kiina (Kiina)"
 
-#: weblate/html/i18n.html:50
+#: weblate/html/i18n.html:40
 msgid "Chinese (Taiwan)"
 msgstr "Kiina (Taiwan)"
 
-#: weblate/html/i18n.html:51
+#: weblate/html/i18n.html:41
 msgid "Cornish"
 msgstr "Korni"
 
-#: weblate/html/i18n.html:52
+#: weblate/html/i18n.html:42
 msgid "Croatian"
 msgstr "Kroatia"
 
-#: weblate/html/i18n.html:53
+#: weblate/html/i18n.html:43
 msgid "Czech"
 msgstr "Tsekki"
 
-#: weblate/html/i18n.html:54
+#: weblate/html/i18n.html:44
 msgid "Danish"
 msgstr "Tanska"
 
-#: weblate/html/i18n.html:55
+#: weblate/html/i18n.html:45
 msgid "Dutch"
 msgstr "Hollanti"
 
-#: weblate/html/i18n.html:56
+#: weblate/html/i18n.html:46
 msgid "Dzongkha"
 msgstr "Dzongkha"
 
-#: weblate/html/i18n.html:57
+#: weblate/html/i18n.html:47
 msgid "English"
 msgstr "Englanti"
 
-#: weblate/html/i18n.html:58
+#: weblate/html/i18n.html:48
 msgid "English (South Africa)"
 msgstr "Englanti (Etelä-Afrikka)"
 
-#: weblate/html/i18n.html:59
+#: weblate/html/i18n.html:49
 msgid "English (United Kingdom)"
 msgstr "Englanti (UK)"
 
-#: weblate/html/i18n.html:60
+#: weblate/html/i18n.html:50
 msgid "English (United States)"
 msgstr "Englanti (USA)"
 
-#: weblate/html/i18n.html:61
+#: weblate/html/i18n.html:51
 msgid "Esperanto"
 msgstr "Esperanto"
 
-#: weblate/html/i18n.html:62
+#: weblate/html/i18n.html:52
 msgid "Estonian"
 msgstr "Viro"
 
-#: weblate/html/i18n.html:63
+#: weblate/html/i18n.html:53
 msgid "Faroese"
 msgstr "Färsaaret"
 
-#: weblate/html/i18n.html:64
+#: weblate/html/i18n.html:54
 msgid "Filipino"
 msgstr "Filippiinit"
 
-#: weblate/html/i18n.html:65
+#: weblate/html/i18n.html:55
 msgid "Finnish"
 msgstr "Suomi"
 
-#: weblate/html/i18n.html:66
+#: weblate/html/i18n.html:56
 msgid "French"
 msgstr "Ranska"
 
-#: weblate/html/i18n.html:67
+#: weblate/html/i18n.html:57
 msgid "Frisian"
 msgstr "Friisi"
 
-#: weblate/html/i18n.html:68
+#: weblate/html/i18n.html:58
 msgid "Friulian"
 msgstr "Friuli"
 
-#: weblate/html/i18n.html:69
+#: weblate/html/i18n.html:59
 msgid "Fulah"
 msgstr "Fulah"
 
-#: weblate/html/i18n.html:70
+#: weblate/html/i18n.html:60
 msgid "Gaelic"
 msgstr "Gaeli"
 
-#: weblate/html/i18n.html:71
+#: weblate/html/i18n.html:61
 msgid "Galician"
 msgstr "Galisia"
 
-#: weblate/html/i18n.html:72
+#: weblate/html/i18n.html:62
 msgid "Georgian"
 msgstr "Georgia"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:63
 msgid "German"
 msgstr "Saksa"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:64
 msgid "Greek"
 msgstr "Kreikka"
 
-#: weblate/html/i18n.html:75
+#: weblate/html/i18n.html:65
 msgid "Gujarati"
 msgstr "Gujarati"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:66
 msgid "Gun"
 msgstr "Gun"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:67
 msgid "Haitian"
 msgstr "Haiti"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:68
 msgid "Hausa"
 msgstr "Hausa"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:69
 msgid "Hebrew"
 msgstr "Hebrea"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:70
 msgid "Hindi"
 msgstr "Hindi"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:71
 msgid "Hungarian"
 msgstr "Unkari"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:72
 msgid "Icelandic"
 msgstr "Islanti"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:73
 msgid "Indonesian"
 msgstr "Indonesia"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:74
 msgid "Interlingua"
 msgstr "Interlingua"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:75
 msgid "Irish"
 msgstr "Iiri"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:76
 msgid "Italian"
 msgstr "Italia"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:77
 msgid "Japanese"
 msgstr "Japani"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:78
 msgid "Javanese"
 msgstr "Java"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:79
 msgid "Kannada"
 msgstr "Kannada"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:80
 msgid "Kashubian"
 msgstr "Kasubi"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:81
 msgid "Kazakh"
 msgstr "Kazakki"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:82
 msgid "Kirghiz"
 msgstr "Kirgiisi"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:83
 msgid "Klingon"
 msgstr ""
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:84
 msgid "Klingon (pIqaD)"
 msgstr ""
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:85
 msgid "Korean"
 msgstr "Korea"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:86
 msgid "Kurdish"
 msgstr "Kurdi"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:87
 msgid "Kurdish Sorani"
 msgstr "Sorani (Kurdi)"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:88
 msgid "Lao"
 msgstr "Lao"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:89
 msgid "Latvian"
 msgstr "Latvia"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:90
 #, fuzzy
 #| msgid "Luxembourgish"
 msgid "Limburgish"
 msgstr "Luxemburg"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:91
 msgid "Lingala"
 msgstr "Lingala"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:92
 msgid "Lithuanian"
 msgstr "Liettua"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:93
 msgid "Luxembourgish"
 msgstr "Luxemburg"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:94
 msgid "Macedonian"
 msgstr "Makedonia"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:95
 msgid "Maithili"
 msgstr "Maithili"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:96
 msgid "Malagasy"
 msgstr "Malagasi"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:97
 msgid "Malay"
 msgstr "Malai"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:98
 msgid "Malayalam"
 msgstr "Malayalam"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:99
 msgid "Maltese"
 msgstr "Malta"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:100
 msgid "Maori"
 msgstr "Maori"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:101
 msgid "Mapudungun"
 msgstr "Mapudungun"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:102
 msgid "Marathi"
 msgstr "Marathi"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:103
 msgid "Mongolian"
 msgstr "Mongolia"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:104
 msgid "Morisyen"
 msgstr "Mauritania"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:105
 msgid "N'Ko"
 msgstr "N'Ko"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:106
 msgid "Nahuatl languages"
 msgstr "Nahuatl kieli"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:107
 msgid "Neapolitan"
 msgstr "Neapolitan Italia"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:108
 msgid "Nepali"
 msgstr "Nepali"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:109
 msgid "Norwegian Bokmål"
 msgstr "Kirjanorja"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:110
 msgid "Norwegian Nynorsk"
 msgstr "Uusnorja"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:111
 msgid "Occitan"
 msgstr "Oksitaani"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:112
 msgid "Oriya"
 msgstr "Orija"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:113
 msgid "Papiamento"
 msgstr "Papiamentu"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:114
 msgid "Pedi"
 msgstr "Pohjoissotho"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:115
 msgid "Persian"
 msgstr "Persia"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:116
 msgid "Piemontese"
 msgstr "Piemonte"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:117
 msgid "Polish"
 msgstr "Puola"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:118
 msgid "Portuguese"
 msgstr "Portugali"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:119
 msgid "Portuguese (Brazil)"
 msgstr "Portugali (Brasilia)"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:120
 msgid "Portuguese (Portugal)"
 msgstr "Portugali (Portugali)"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:121
 msgid "Punjabi"
 msgstr "Punjabi"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:122
 msgid "Pushto"
 msgstr "Pastu"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:123
 msgid "Romanian"
 msgstr "Romalia"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:124
 msgid "Romansh"
 msgstr "Retoromaani"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:125
 msgid "Russian"
 msgstr "Venäjä"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:126
 msgid "Scots"
 msgstr "Skotti"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:127
 msgid "Serbian"
 msgstr "Serbia"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:128
 msgid "Serbian (cyrillic)"
 msgstr "Serbia (Kyrillinen)"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:129
 msgid "Serbian (latin)"
 msgstr "Serbia (latin)"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:130
 msgid "Simplified Chinese"
 msgstr "Yksinkertaistettu Kiina"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:131
 msgid "Sinhala"
 msgstr "singaleesi"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:132
 msgid "Slovak"
 msgstr "Slovakki"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:133
 msgid "Slovenian"
 msgstr "Slovenia"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:134
 msgid "Somali"
 msgstr "Somali"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:135
 msgid "Songhai languages"
 msgstr "Songhai"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:136
 msgid "Sotho"
 msgstr "Eteläsotho"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:137
 msgid "Spanish"
 msgstr "Espanja"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:138
 msgid "Sundanese"
 msgstr "Sundaneesi"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:139
 msgid "Swahili"
 msgstr "Swahili"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:140
 msgid "Swedish"
 msgstr "Ruotsi"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:141
 msgid "Tajik"
 msgstr "Tadziki"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:142
 msgid "Tagalog"
 msgstr ""
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:143
 msgid "Tamil"
 msgstr "Tamili"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:144
 msgid "Tatar"
 msgstr "Tatar"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:145
 msgid "Telugu"
 msgstr "Telugu"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:146
 msgid "Thai"
 msgstr "Thai"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:147
 msgid "Tibetan"
 msgstr "Tiibet"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:148
 msgid "Tigrinya"
 msgstr "Tigrinja"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:149
 msgid "Traditional Chinese"
 msgstr "Perinteinen Kiina"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:150
 msgid "Turkish"
 msgstr "Turkki"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:151
 msgid "Turkmen"
 msgstr "Turkmeeni"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:152
 msgid "Uighur"
 msgstr "Uiguuri"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:153
 msgid "Ukrainian"
 msgstr "Ukraina"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:154
 msgid "Urdu"
 msgstr "Urdu"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:155
 msgid "Uzbek"
 msgstr "Udzbekki"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:156
 msgid "Uzbek (latin)"
 msgstr "Udzbekki (latin)"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:157
 #, fuzzy
 #| msgid "Galician"
 msgid "Valencian"
 msgstr "Galisia"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:158
 msgid "Venda"
 msgstr "Venda"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:159
 msgid "Vietnamese"
 msgstr "Vietnam"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:160
 msgid "Walloon"
 msgstr "Vallooni"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:161
 msgid "Welsh"
 msgstr "Kymri"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:162
 msgid "West Flemish"
 msgstr "Länsi-Flanderin"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:163
 msgid "Wolof"
 msgstr "Wolof"
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:164
 msgid "Yakut"
 msgstr "Yakut"
 
-#: weblate/html/i18n.html:175
+#: weblate/html/i18n.html:165
 msgid "Yoruba"
 msgstr "Joruba"
 
-#: weblate/html/i18n.html:176
+#: weblate/html/i18n.html:166
 msgid "Zulu"
 msgstr "Zulu"
 
@@ -3119,7 +3110,7 @@ msgid "Your translations"
 msgstr "Käännöksesi"
 
 #: weblate/html/index.html:20 weblate/html/language.html:12
-#: weblate/html/user.html:19
+#: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "Projektit"
 
@@ -3147,7 +3138,7 @@ msgstr "Aktiivisimmat ehdottajat"
 
 #: weblate/html/index.html:68 weblate/html/language.html:25
 #: weblate/html/project.html:48 weblate/html/subproject.html:41
-#: weblate/html/translation.html:49 weblate/html/user.html:28
+#: weblate/html/translation.html:49 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr "Toiminta"
 
@@ -3188,7 +3179,7 @@ msgstr "Sanastot"
 msgid "When"
 msgstr "Milloin"
 
-#: weblate/html/last-changes.html:16 weblate/html/profile.html:56
+#: weblate/html/last-changes.html:16 weblate/html/accounts/profile.html:58
 msgid "Action"
 msgstr "Toiminta"
 
@@ -3279,98 +3270,6 @@ msgstr "Käännä"
 #: weblate/html/list-translations.html:63
 msgid "Translated strings"
 msgstr "Käännetyt merkkijonot"
-
-#: weblate/html/profile.html:22
-msgid "Preferences"
-msgstr "Asetukset"
-
-#: weblate/html/profile.html:23
-msgid "Subscriptions"
-msgstr "Tilaukset"
-
-#: weblate/html/profile.html:24
-msgid "Account"
-msgstr "Käyttäjätili"
-
-#: weblate/html/profile.html:25
-#, fuzzy
-#| msgid "Documentation"
-msgid "Authentication"
-msgstr "Ohjeet"
-
-#: weblate/html/profile.html:26
-msgid "Information"
-msgstr "Tiedot"
-
-#: weblate/html/profile.html:27
-msgid "Licenses"
-msgstr "Lisenssit"
-
-#: weblate/html/profile.html:28
-msgid "Avatar"
-msgstr "Avatar"
-
-#: weblate/html/profile.html:36
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr "Saat valittuja ilmoituksia sähköpostitse kaikilla kielillä."
-
-#: weblate/html/profile.html:45
-msgid "Your name and email will appear as author on Git commits."
-msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
-
-#: weblate/html/profile.html:49
-msgid ""
-"You can manage third party identities which are associated to this account."
-msgstr ""
-
-#: weblate/html/profile.html:50
-msgid "Currently associated:"
-msgstr ""
-
-#: weblate/html/profile.html:54
-msgid "Identity"
-msgstr ""
-
-#: weblate/html/profile.html:55
-#, fuzzy
-#| msgid "User"
-msgid "User ID"
-msgstr "Käyttäjä"
-
-#: weblate/html/profile.html:65
-msgid "Disconnect"
-msgstr ""
-
-#: weblate/html/profile.html:77
-#, fuzzy
-#| msgid "Add as translation"
-msgid "Add new association:"
-msgstr "Lisää käännös"
-
-#: weblate/html/profile.html:90
-msgid "Your public profile:"
-msgstr "Julkinen profiili:"
-
-#: weblate/html/profile.html:96
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and "
-"provide your contribution under license defined by each translated project."
-msgstr ""
-"Rekisteröitymällä sitoudut käyttämään nimeäsi ja sähköpostiosoitettasi "
-"Gitissä ja osallistut lisenssillä määritteltyihin käännös projekteihin."
-
-#: weblate/html/profile.html:100
-msgid ""
-"Following projects have explicitely specified their licensing and copyright "
-"conditions:"
-msgstr ""
-"Seuraavat projektit ovat yksiselitteisesti määritelty lisensseillä ja "
-"tekijänoikeus ehdoin:"
-
-#: weblate/html/profile.html:117
-msgid "Avatars are provided using libravatar."
-msgstr ""
 
 #: weblate/html/project.html:11 weblate/html/source.html:13
 #: weblate/html/subproject.html:13 weblate/html/translation.html:16
@@ -3864,18 +3763,6 @@ msgstr "Viimeisin kirjautuminen"
 msgid "Registration date"
 msgstr "Rekisteröintipäivä"
 
-#: weblate/html/user.html:34 weblate/html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Aktiivisuus viimeisen 30 päivän aikana"
-
-#: weblate/html/user.html:37 weblate/html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Aktiivisuus viime vuonna"
-
-#: weblate/html/user.html:40
-msgid "Recent contributions"
-msgstr "Viimeaikaiset lahjoitukset"
-
 #: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
 msgid "widgets"
 msgstr "Widgetit"
@@ -3957,6 +3844,236 @@ msgstr "Textile koodi"
 #: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
 msgid "Translation status"
 msgstr "Käännöksen tila"
+
+#: weblate/html/accounts/contact.html:6
+msgid "contact"
+msgstr "Ota yhteyttä"
+
+#: weblate/html/accounts/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr "Voit ottaa yhteyttä palvelimen ylläpitäjiin."
+
+#: weblate/html/accounts/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"Ole hyvä ja ota meihin yhteyttä englanniksi, muutoin emme ehkä ymmärrä "
+"pyyntöäsi."
+
+#: weblate/html/accounts/contact.html:21
+msgid "Send"
+msgstr "Lähetä"
+
+#: weblate/html/accounts/email-sent.html:7
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Kiitos rekisteröitymisestäsi. Saat pian sähköpostiisi vahvistuslinkin. "
+"Valitse linkki vahvistaaksesi rekisteröitymisesi."
+
+#: weblate/html/accounts/email-sent.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+"Jos et saa sitä pian, tarkista roskapostikansiosi. Jos se ei ole siellä,<a "
+"href=\"%(contact_url)s?subject=Lost activation code\">ota yhteyttä</a>."
+
+#: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:15
+#: weblate/html/accounts/reset.html:15
+msgid "Please fix errors in registration form."
+msgstr "Korjaa virheet rekisteröitymislomakkeessa."
+
+#: weblate/html/accounts/email.html:25 weblate/html/accounts/profile.html:95
+#: weblate/html/accounts/register.html:27
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Rekisteröitymällä sitoudut käyttämään nimeäsi ja sähköpostiosoitettasi "
+"Gitissä ja osallistut lisenssillä määritteltyihin käännös projekteihin."
+
+#: weblate/html/accounts/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr ""
+"Tätä käyttäjätunnus/salasana yhdistelmää ei löydetty. Ole hyvä ja yritä "
+"uudelleen."
+
+#: weblate/html/accounts/login.html:17
+#, fuzzy
+#| msgid "Password (again)"
+msgid "Password log in"
+msgstr "Salasana (uudelleen)"
+
+#: weblate/html/accounts/login.html:39
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
+"Eikö sinulla ole vielä tunnusta? Voit <a href=\"%(register_url)s"
+"\">rekisteröityä</a>."
+
+#: weblate/html/accounts/login.html:45
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
+
+#: weblate/html/accounts/login.html:50
+msgid "Third party log in"
+msgstr ""
+
+#: weblate/html/accounts/password.html:6
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa, että kirjoitit sen "
+"oikein."
+
+#: weblate/html/accounts/password.html:13
+msgid "Change my password"
+msgstr "Vaihda salasanaani"
+
+#: weblate/html/accounts/profile.html:22
+msgid "Preferences"
+msgstr "Asetukset"
+
+#: weblate/html/accounts/profile.html:23
+msgid "Subscriptions"
+msgstr "Tilaukset"
+
+#: weblate/html/accounts/profile.html:24
+msgid "Account"
+msgstr "Käyttäjätili"
+
+#: weblate/html/accounts/profile.html:25
+#, fuzzy
+#| msgid "Documentation"
+msgid "Authentication"
+msgstr "Ohjeet"
+
+#: weblate/html/accounts/profile.html:26
+msgid "Information"
+msgstr "Tiedot"
+
+#: weblate/html/accounts/profile.html:27
+msgid "Licenses"
+msgstr "Lisenssit"
+
+#: weblate/html/accounts/profile.html:28
+msgid "Avatar"
+msgstr "Avatar"
+
+#: weblate/html/accounts/profile.html:36
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr "Saat valittuja ilmoituksia sähköpostitse kaikilla kielillä."
+
+#: weblate/html/accounts/profile.html:45
+msgid "Your name and email will appear as author on Git commits."
+msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät luojana Git committeissa."
+
+#: weblate/html/accounts/profile.html:49
+#, fuzzy
+#| msgid "New password"
+msgid "Set password"
+msgstr "Uusi salasana"
+
+#: weblate/html/accounts/profile.html:51
+msgid ""
+"You can manage third party identities which are associated to this account."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:52
+msgid "Currently associated:"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:56
+msgid "Identity"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:57
+#, fuzzy
+#| msgid "User"
+msgid "User ID"
+msgstr "Käyttäjä"
+
+#: weblate/html/accounts/profile.html:67
+msgid "Disconnect"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:76
+#, fuzzy
+#| msgid "Add as translation"
+msgid "Add new association:"
+msgstr "Lisää käännös"
+
+#: weblate/html/accounts/profile.html:89
+msgid "Your public profile:"
+msgstr "Julkinen profiili:"
+
+#: weblate/html/accounts/profile.html:99
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr ""
+"Seuraavat projektit ovat yksiselitteisesti määritelty lisensseillä ja "
+"tekijänoikeus ehdoin:"
+
+#: weblate/html/accounts/profile.html:116
+msgid "Avatars are provided using libravatar."
+msgstr ""
+
+#: weblate/html/accounts/register.html:9
+#, fuzzy
+#| msgid "Registered users"
+msgid "Register using email"
+msgstr "Rekisteröityneet käyttäjät"
+
+#: weblate/html/accounts/register.html:34
+#, fuzzy
+#| msgid "User registration"
+msgid "Third party registration"
+msgstr "Käyttäjän rekisteröinti"
+
+#: weblate/html/accounts/register.html:46
+#, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+"Anteeksi, mutta rekisteröinnit tällä sivustolla on poistettu käytöstä. Voit "
+"<a href=\"%(contact_url)s\">ottaa yhteyttä</a> saadaksesi lisätietoja."
+
+#: weblate/html/accounts/reset.html:9
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Salasana hukassa? Anna sähköpostiosoitteesi, niin saat ohjeet uuden "
+"salasanan luomiseksi."
+
+#: weblate/html/accounts/reset.html:28
+msgid "Reset my password"
+msgstr "Nollaa salasanani"
+
+#: weblate/html/accounts/user.html:34 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Aktiivisuus viimeisen 30 päivän aikana"
+
+#: weblate/html/accounts/user.html:37 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Aktiivisuus viime vuonna"
+
+#: weblate/html/accounts/user.html:40
+msgid "Recent contributions"
+msgstr "Viimeaikaiset lahjoitukset"
 
 #: weblate/html/admin/custom-index.html:11
 msgid "Reports"
@@ -4171,10 +4288,7 @@ msgstr "Käytä tätä käännöstä"
 msgid "No other strings found."
 msgstr "Muita merkkiketjuja ei löytynyt."
 
-#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
-msgid "Sent by Weblate translation system"
-msgstr "Lähettänyt Weblate käännös järjestelmä"
-
+#: weblate/html/mail/activation.html:8 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:8
 #: weblate/html/mail/changed_translation.txt:1
 #: weblate/html/mail/merge_failure.html:8
@@ -4188,9 +4302,39 @@ msgstr "Lähettänyt Weblate käännös järjestelmä"
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
-#: weblate/html/registration/activation_email.txt:1
 msgid "Hi,"
 msgstr "Hei,"
+
+#: weblate/html/mail/activation.html:12 weblate/html/mail/activation.txt:3
+#, python-format
+msgid ""
+"This is an automatic email to help you complete your registration with "
+"%(site_title)s."
+msgstr ""
+"Tämä on automaattinen sähköposti jonka avulla voit suorittaa rekisteröinnin "
+"%(site_title)s."
+
+#: weblate/html/mail/activation.html:16 weblate/html/mail/activation.txt:5
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
+msgstr ""
+"Ole hyvä ja avaa seuraava linkki verkkoselaimessasi. Mikäli linkki on \n"
+"jakaantunut usealle riville, sinun täytyy mahdollisesti kopioida se \n"
+"osoiteriville."
+
+#: weblate/html/mail/activation.html:24 weblate/html/mail/activation.txt:9
+msgid "If there is a problem with your registration, please contact us:"
+msgstr "Mikäli rekisteröintisi kanssa on ongelma, ota yhteyttä meihin:"
+
+#: weblate/html/mail/activation_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "Rekisteröitymisesi palvelussa %(site_title)s"
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
+msgid "Sent by Weblate translation system"
+msgstr "Lähettänyt Weblate käännös järjestelmä"
 
 #: weblate/html/mail/changed_translation.html:12
 #: weblate/html/mail/changed_translation.txt:3
@@ -4395,240 +4539,121 @@ msgstr "Uusi käännös %(translation)s"
 msgid "More information about Weblate can be found at http://weblate.org/"
 msgstr "Lisätietoja Weblatesta osoitteessa http://weblate.org/"
 
-#: weblate/html/registration/activate.html:7
-msgid "Your account could not be activated"
-msgstr "Tiliäsi ei voi aktivoida"
-
-#: weblate/html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] ""
-"Koska se on jo käytössä tai koska olet odottanut yli %(days)s päivää "
-"aktivoidaksesi sen."
-msgstr[1] ""
-"Koska se on jo käytössä tai koska olet odottanut yli %(days)s päivää "
-"aktivoidaksesi sen."
-
-#: weblate/html/registration/activate.html:12
-#, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-"Jos näin ei ole, ota <a href=\"%(contact_url)s\">yhteyttä</a> sivuston "
-"ylläpitäjään. Muussa tapauksessa voit <a href=\"%(reg_url)s\">rekisteröityä "
-"uudelleen</a>."
-
-#: weblate/html/registration/activation_complete.html:8
-msgid "Thank you. Your account is now activated."
-msgstr "Kiitos. Tilisi on nyt aktivoitu."
-
-#: weblate/html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr "Haluat ehkä <a href=\"%(profile_url)s\">muokata profiilisi</a> nyt."
-
-#: weblate/html/registration/activation_email.txt:3
-#, python-format
-msgid ""
-"This is an automatic email to help you complete your registration with "
-"%(site_title)s."
-msgstr ""
-"Tämä on automaattinen sähköposti jonka avulla voit suorittaa rekisteröinnin "
-"%(site_title)s."
-
-#: weblate/html/registration/activation_email.txt:5
-msgid ""
-"Please open the following link in your web browser. If the link is split "
-"over several lines, you may need to copy it in the address bar."
-msgstr ""
-"Ole hyvä ja avaa seuraava linkki verkkoselaimessasi. Mikäli linkki on \n"
-"jakaantunut usealle riville, sinun täytyy mahdollisesti kopioida se \n"
-"osoiteriville."
-
-#: weblate/html/registration/activation_email.txt:9
-msgid "If there is a problem with your registration, please contact us:"
-msgstr "Mikäli rekisteröintisi kanssa on ongelma, ota yhteyttä meihin:"
-
-#: weblate/html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "Rekisteröitymisesi palvelussa %(site_title)s"
-
-#: weblate/html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr ""
-"Tätä käyttäjätunnus/salasana yhdistelmää ei löydetty. Ole hyvä ja yritä "
-"uudelleen."
-
-#: weblate/html/registration/login.html:17
-#, fuzzy
-#| msgid "Password (again)"
-msgid "Password log in"
-msgstr "Salasana (uudelleen)"
-
-#: weblate/html/registration/login.html:39
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr ""
-"Eikö sinulla ole vielä tunnusta? Voit <a href=\"%(register_url)s"
-"\">rekisteröityä</a>."
-
-#: weblate/html/registration/login.html:45
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"Unohditko salasanasi? Voit <a href=\"%(reset_url)s\">palauttaa sen</a>."
-
-#: weblate/html/registration/login.html:48
-msgid "Third party log in"
-msgstr ""
-
-#: weblate/html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "Kiitos Weblaten käyttämisestä!"
-
-#: weblate/html/registration/logout.html:9
-msgid "Log in again"
-msgstr "Kirjaudu sisään uudestaan"
-
-#: weblate/html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "Salasanasi vaihdettiin."
-
-#: weblate/html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Ole hyvä ja korjaa virhe, joka on alapuolella."
-msgstr[1] "Ole hyvä ja korjaa virheet, jotka ovat alapuolella."
-
-#: weblate/html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Ole hyvä ja anna vanha salasanasi turvallisuuden vuoksi ja sen jälkeen anna "
-"uusi salasanasi kahdesti, jotta voimme varmistaa, että kirjoitit sen oikein."
-
-#: weblate/html/registration/password_change_form.html:22
-#: weblate/html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "Vaihda salasanaani"
-
-#: weblate/html/registration/password_reset_complete.html:6
-msgid "Your password has been set. You may go ahead and log in now."
-msgstr "Salasanasi on asetettu Voit jatkaa ja kirjautua sisään nyt."
-
-#: weblate/html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "Kirjaudu sisään"
-
-#: weblate/html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr ""
-"Kirjoita uusi salasana kahdesti, jotta voimme tarkistaa, että kirjoitit sen "
-"oikein."
-
-#: weblate/html/registration/password_reset_confirm.html:19
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
-"Salasanan palautuslinkki oli virheellinen, koska se on luultavasti jo "
-"käytetty. Ole hyvä ja pyydä uusi salasananpalautus."
-
-#: weblate/html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Lähetimme sähköpostilla ohjeet, kuinka voit palauttaa salasanasi, antamaasi "
-"sähköpostiosoitteeseen. Sinun pitäisi vastaanottaa se pian."
-
-#: weblate/html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Vastaanotat tämän sähköpostin, koska olet pyytänyt salasananpalautusta "
-"käyttäjätunnuksellesi palvelussa %(site_name)s."
-
-#: weblate/html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "Mene seuraavalle sivulle ja valitse uusi salasana:"
-
-#: weblate/html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "Käyttäjätunnuksesi, jos olet unohtanut:"
-
-#: weblate/html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "Kiitos että käytit sivustoamme!"
-
-#: weblate/html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "Onnellinen %(site_name)s team"
-
-#: weblate/html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Salasana hukassa? Anna sähköpostiosoitteesi, niin saat ohjeet uuden "
-"salasanan luomiseksi."
-
-#: weblate/html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "Nollaa salasanani"
-
-#: weblate/html/registration/registration_closed.html:9
-#, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-"Anteeksi, mutta rekisteröinnit tällä sivustolla on poistettu käytöstä. Voit "
-"<a href=\"%(contact_url)s\">ottaa yhteyttä</a> saadaksesi lisätietoja."
-
-#: weblate/html/registration/registration_complete.html:7
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"Kiitos rekisteröitymisestäsi. Saat pian sähköpostiisi vahvistuslinkin. "
-"Valitse linkki vahvistaaksesi rekisteröitymisesi."
-
-#: weblate/html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-"Jos et saa sitä pian, tarkista roskapostikansiosi. Jos se ei ole siellä,<a "
-"href=\"%(contact_url)s?subject=Lost activation code\">ota yhteyttä</a>."
-
-#: weblate/html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "Korjaa virheet rekisteröitymislomakkeessa."
-
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "muutokset"
+
+#~ msgid "Password"
+#~ msgstr "Salasana"
+
+#~ msgid ""
+#~ "Your profile has been migrated, you might want to adjust preferences."
+#~ msgstr "Profiilisi on muutettu, saatat haluta muokata asetuksiasi."
+
+#~ msgid "Account activation"
+#~ msgstr "Käyttäjätilin aktivointi"
+
+#~ msgid "Logged out"
+#~ msgstr "kirjautunut ulos"
+
+#~ msgid "Password changed"
+#~ msgstr "Salasana vaihdettu"
+
+#~ msgid "Old password"
+#~ msgstr "Vanha salasana"
+
+#~ msgid "New password confirmation"
+#~ msgstr "Uuden salasanan varmistus"
+
+#~ msgid "The two password fields didn't match."
+#~ msgstr "Kaksi salasana kenttää eivät täsmää."
+
+#~ msgid "Your account could not be activated"
+#~ msgstr "Tiliäsi ei voi aktivoida"
+
+#~ msgid ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s day to activate it."
+#~ msgid_plural ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s days to activate it."
+#~ msgstr[0] ""
+#~ "Koska se on jo käytössä tai koska olet odottanut yli %(days)s päivää "
+#~ "aktivoidaksesi sen."
+#~ msgstr[1] ""
+#~ "Koska se on jo käytössä tai koska olet odottanut yli %(days)s päivää "
+#~ "aktivoidaksesi sen."
+
+#~ msgid ""
+#~ "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> "
+#~ "the website administrator. Otherwise, you may <a href=\"%(reg_url)s"
+#~ "\">register again</a>."
+#~ msgstr ""
+#~ "Jos näin ei ole, ota <a href=\"%(contact_url)s\">yhteyttä</a> sivuston "
+#~ "ylläpitäjään. Muussa tapauksessa voit <a href=\"%(reg_url)s"
+#~ "\">rekisteröityä uudelleen</a>."
+
+#~ msgid "Thank you. Your account is now activated."
+#~ msgstr "Kiitos. Tilisi on nyt aktivoitu."
+
+#~ msgid ""
+#~ "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+#~ msgstr "Haluat ehkä <a href=\"%(profile_url)s\">muokata profiilisi</a> nyt."
+
+#~ msgid "Log in again"
+#~ msgstr "Kirjaudu sisään uudestaan"
+
+#~ msgid "Please correct the error below."
+#~ msgid_plural "Please correct the errors below."
+#~ msgstr[0] "Ole hyvä ja korjaa virhe, joka on alapuolella."
+#~ msgstr[1] "Ole hyvä ja korjaa virheet, jotka ovat alapuolella."
+
+#~ msgid ""
+#~ "Please enter your old password, for security's sake, and then enter your "
+#~ "new password twice so we can verify you typed it in correctly."
+#~ msgstr ""
+#~ "Ole hyvä ja anna vanha salasanasi turvallisuuden vuoksi ja sen jälkeen "
+#~ "anna uusi salasanasi kahdesti, jotta voimme varmistaa, että kirjoitit sen "
+#~ "oikein."
+
+#~ msgid "Your password has been set. You may go ahead and log in now."
+#~ msgstr "Salasanasi on asetettu Voit jatkaa ja kirjautua sisään nyt."
+
+#~ msgid "Log in"
+#~ msgstr "Kirjaudu sisään"
+
+#~ msgid ""
+#~ "The password reset link is invalid, possibly because it has already been "
+#~ "used. Please request a new password reset."
+#~ msgstr ""
+#~ "Salasanan palautuslinkki oli virheellinen, koska se on luultavasti jo "
+#~ "käytetty. Ole hyvä ja pyydä uusi salasananpalautus."
+
+#~ msgid ""
+#~ "We've e-mailed you instructions for setting your password to the e-mail "
+#~ "address you submitted. You should be receiving it shortly."
+#~ msgstr ""
+#~ "Lähetimme sähköpostilla ohjeet, kuinka voit palauttaa salasanasi, "
+#~ "antamaasi sähköpostiosoitteeseen. Sinun pitäisi vastaanottaa se pian."
+
+#~ msgid ""
+#~ "You're receiving this e-mail because you requested a password reset for "
+#~ "your user account at %(site_name)s."
+#~ msgstr ""
+#~ "Vastaanotat tämän sähköpostin, koska olet pyytänyt salasananpalautusta "
+#~ "käyttäjätunnuksellesi palvelussa %(site_name)s."
+
+#~ msgid "Please go to the following page and choose a new password:"
+#~ msgstr "Mene seuraavalle sivulle ja valitse uusi salasana:"
+
+#~ msgid "Your username, in case you've forgotten:"
+#~ msgstr "Käyttäjätunnuksesi, jos olet unohtanut:"
+
+#~ msgid "Thanks for using our site!"
+#~ msgstr "Kiitos että käytit sivustoamme!"
+
+#~ msgid "The %(site_name)s team"
+#~ msgstr "Onnellinen %(site_name)s team"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "Sinun pitää kirjautua tallentaaksesi käännöksen!"

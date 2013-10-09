@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-08 16:57+0200\n"
+"POT-Creation-Date: 2013-10-09 15:40+0200\n"
 "PO-Revision-Date: 2013-10-03 11:08+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -19,39 +19,57 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:171 accounts/forms.py:218
-msgid "First name"
-msgstr "Křestní jméno"
-
-#: accounts/forms.py:172 accounts/forms.py:219
-msgid "Last name"
-msgstr "Příjmení"
-
-#: accounts/forms.py:173 accounts/forms.py:232 weblate/html/i18n.html:15
+#: accounts/forms.py:156 accounts/forms.py:223
 msgid "E-mail"
 msgstr "E-mail"
 
-#: accounts/forms.py:180
+#: accounts/forms.py:158
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:186 accounts/forms.py:271
+msgid "First name"
+msgstr "Křestní jméno"
+
+#: accounts/forms.py:187 accounts/forms.py:272
+msgid "Last name"
+msgstr "Příjmení"
+
+#: accounts/forms.py:195
 msgid "Subject"
 msgstr "Předmět"
 
-#: accounts/forms.py:181
+#: accounts/forms.py:196
 msgid "Your name"
 msgstr "Vaše jméno"
 
-#: accounts/forms.py:182
+#: accounts/forms.py:197
 msgid "Your email"
 msgstr "Váš email"
 
-#: accounts/forms.py:184
+#: accounts/forms.py:199
 msgid "Message"
 msgstr "Zpráva"
 
-#: accounts/forms.py:210 accounts/forms.py:228 weblate/html/i18n.html:16
+#: accounts/forms.py:224
+msgid "Activation email will be sent here."
+msgstr "Na tuto adresu vám přijde aktivační email."
+
+#: accounts/forms.py:237
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "Tuto adresu již někdo používá. Prosím zadejte jinou."
+
+#: accounts/forms.py:262
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: accounts/forms.py:213
+#: accounts/forms.py:263
+msgid "At least five characters long."
+msgstr "Alespoň pět znaků dlouhé."
+
+#: accounts/forms.py:266
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -59,131 +77,148 @@ msgstr ""
 "Tato hodnota může obsahovat pouze písmena, číslice a následující znaky: @ . "
 "+ - _"
 
-#: accounts/forms.py:230
-msgid "At least five characters long."
-msgstr "Alespoň pět znaků dlouhé."
-
-#: accounts/forms.py:234
-msgid "Activation email will be sent here."
-msgstr "Na tuto adresu vám přijde aktivační email."
-
-#: accounts/forms.py:236 weblate/html/i18n.html:17
-msgid "Password"
-msgstr "Heslo"
-
-#: accounts/forms.py:238
-msgid "At least six characters long."
-msgstr "Alespoň šest znaků dlouhé."
-
-#: accounts/forms.py:240
-msgid "Password (again)"
-msgstr "Heslo (znovu)"
-
-#: accounts/forms.py:243
-msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr "Zopakujte heslo, ať můžeme ověřit, že bylo zadáno správně."
-
-#: accounts/forms.py:253
-msgid "Password needs to have at least six characters."
-msgstr "Heslo musí být alespoň šest znaků dlouhé."
-
-#: accounts/forms.py:263
+#: accounts/forms.py:281
 msgid "Username needs to have at least five characters."
 msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
 
-#: accounts/models.py:318
+#: accounts/forms.py:290
+msgid "This username is already taken. Please choose another."
+msgstr "Toto uživatelské jméno je již zabrané. Prosím zvolte si jiné."
+
+#: accounts/forms.py:312
+msgid "New password"
+msgstr "Nové heslo"
+
+#: accounts/forms.py:313
+msgid "At least six characters long."
+msgstr "Alespoň šest znaků dlouhé."
+
+#: accounts/forms.py:317
+#, fuzzy
+#| msgid "Password (again)"
+msgid "New password (again)"
+msgstr "Heslo (znovu)"
+
+#: accounts/forms.py:319
+msgid "Repeat the password so we can verify you typed it in correctly."
+msgstr "Zopakujte heslo, ať můžeme ověřit, že bylo zadáno správně."
+
+#: accounts/forms.py:330
+msgid "Password needs to have at least six characters."
+msgstr "Heslo musí být alespoň šest znaků dlouhé."
+
+#: accounts/forms.py:348
+#, fuzzy
+#| msgid "You must type the same password each time"
+msgid "You must type the same password each time."
+msgstr "Obě zadaná hesla se musí shodovat"
+
+#: accounts/forms.py:360
+#, fuzzy
+#| msgid "New password"
+msgid "Current password"
+msgstr "Nové heslo"
+
+#: accounts/forms.py:370
+msgid "User with this email address was not found."
+msgstr ""
+
+#: accounts/models.py:330
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
 
-#: accounts/models.py:324 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:336 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Jazyky"
 
-#: accounts/models.py:329
+#: accounts/models.py:341
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
-#: accounts/models.py:338
+#: accounts/models.py:350
 msgid "Subscribed projects"
 msgstr "Sledované projekty"
 
-#: accounts/models.py:342
+#: accounts/models.py:354
 msgid "Notification on any translation"
 msgstr "Upozornění při každém překladu"
 
-#: accounts/models.py:346
+#: accounts/models.py:358
 msgid "Notification on new string to translate"
 msgstr "Upozornění na nové řetězce k překladu"
 
-#: accounts/models.py:350
+#: accounts/models.py:362
 msgid "Notification on new suggestion"
 msgstr "Upozornění na nové návrhy"
 
-#: accounts/models.py:354
+#: accounts/models.py:366
 msgid "Notification on new contributor"
 msgstr "Upozornění na nového přispěvatele"
 
-#: accounts/models.py:358
+#: accounts/models.py:370
 msgid "Notification on new comment"
 msgstr "Upozornění na nový komentář"
 
-#: accounts/models.py:362
+#: accounts/models.py:374
 msgid "Notification on merge failure"
 msgstr "Upozornění na chybu při sloučení"
 
-#: accounts/models.py:366
+#: accounts/models.py:378
 msgid "Notification on new language request"
 msgstr "Upozornění na požadavky o nový překlad"
 
-#: accounts/models.py:556
-msgid "Your profile has been migrated, you might want to adjust preferences."
-msgstr "Váš profil byl aktualizován, můžete chtít změnit některá nastavení."
-
-#: accounts/urls.py:38 accounts/views.py:51
+#: accounts/views.py:60 accounts/views.py:301
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: accounts/urls.py:69
-msgid "Account activation"
-msgstr "Aktivace účtu"
-
-#: accounts/urls.py:80 weblate/html/base.html:46
-#: weblate/html/registration/login.html:32
-msgid "Login"
-msgstr "Přihlásit"
-
-#: accounts/urls.py:89
-msgid "Logged out"
-msgstr "Odhlášen"
-
-#: accounts/urls.py:96 weblate/html/profile.html:67
-msgid "Change password"
-msgstr "Změna hesla"
-
-#: accounts/urls.py:102
-msgid "Password changed"
-msgstr "Heslo bylo změněno"
-
-#: accounts/urls.py:108 accounts/urls.py:114 accounts/urls.py:120
-#: accounts/urls.py:126
-msgid "Password reset"
-msgstr "Obnovení hesla"
-
-#: accounts/views.py:113
+#: accounts/views.py:122
 msgid "Your profile has been updated."
 msgstr "Váš profil byl aktualizován."
 
-#: accounts/views.py:132
+#: accounts/views.py:152
 msgid "User profile"
 msgstr "Uživatelský profil"
 
-#: accounts/views.py:157
+#: accounts/views.py:181
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:171
+#: accounts/views.py:199
 msgid "Contact"
 msgstr "Kontakt"
+
+#: accounts/views.py:264 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:32
+msgid "Login"
+msgstr "Přihlásit"
+
+#: accounts/views.py:274
+msgid "Thanks for using Weblate!"
+msgstr "Děkujeme za použití Weblate!"
+
+#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#, fuzzy
+#| msgid "Register"
+msgid "Register email"
+msgstr "Registrace"
+
+#: accounts/views.py:350
+msgid "You have entered invalid password."
+msgstr ""
+
+#: accounts/views.py:372
+#, fuzzy
+#| msgid "Your password was changed."
+msgid "Your password has been changed."
+msgstr "Vaše heslo bylo změněno."
+
+#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+msgid "Change password"
+msgstr "Změna hesla"
+
+#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+msgid "Password reset"
+msgstr "Obnovení hesla"
 
 #: lang/models.py:289 lang/models.py:293 lang/models.py:299 lang/models.py:306
 #: lang/models.py:311 lang/models.py:317 lang/models.py:323 lang/models.py:328
@@ -1623,11 +1658,17 @@ msgstr[0] "za %(count)s hodinu"
 msgstr[1] "za %(count)s hodiny"
 msgstr[2] "za %(count)s hodin"
 
-#: trans/views/basic.py:70
+#: trans/views/basic.py:63
+msgid ""
+"You have activated your account, now you should set the password to be able "
+"to login next time."
+msgstr ""
+
+#: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
 msgstr "Prosím nastavte si v profilu vaše jméno."
 
-#: trans/views/basic.py:125
+#: trans/views/basic.py:136
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1639,7 +1680,7 @@ msgstr ""
 "obsahuje %(total)s řetězců k překladu a je <a href=\"%(url)s\">překládán do "
 "%(languages)s jazyků</a>. Celkově je tento překlad hotový z %(percent)s%%."
 
-#: trans/views/basic.py:134
+#: trans/views/basic.py:145
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1649,35 +1690,35 @@ msgstr ""
 "<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné "
 "době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
-#: trans/views/basic.py:234
+#: trans/views/basic.py:245
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Zkontrolovat zdrojové řetězce v %s"
 
-#: trans/views/basic.py:253
+#: trans/views/basic.py:264
 #, python-format
 msgid "Source strings in %s"
 msgstr "Zdrojové řetězce v %s"
 
-#: trans/views/basic.py:316
+#: trans/views/basic.py:327
 msgid "Page Not Found"
 msgstr "Stránka nenalezena"
 
-#: trans/views/basic.py:339 weblate/html/about.html:11
+#: trans/views/basic.py:350 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "O Weblate"
 
-#: trans/views/basic.py:386
+#: trans/views/basic.py:397
 msgid "Chosen translation already exists in this project!"
 msgstr "Vybraný překlad již v projektu existuje!"
 
-#: trans/views/basic.py:393
+#: trans/views/basic.py:404
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Správcům projektu byl odeslán požadavek na přidání překladu."
 
-#: trans/views/basic.py:402
+#: trans/views/basic.py:413
 msgid "Failed to process new translation request!"
 msgstr "Nepodařilo se zpracovat požadavek o nový překlad!"
 
@@ -1864,7 +1905,7 @@ msgstr "Nepodařilo se vytvořit komentář!"
 msgid "Access denied."
 msgstr "Nedovolený přístup."
 
-#: trans/views/files.py:95 weblate/html/profile.html:12
+#: trans/views/files.py:95 weblate/html/accounts/profile.html:12
 msgid "Please fix errors in the form."
 msgstr "Prosím opravte chyby ve formuláři."
 
@@ -1971,7 +2012,7 @@ msgstr ""
 "podprojekty, kontrolu kvality překladu nebo zobrazení odkazů na zdrojové "
 "soubory."
 
-#: weblate/html/about.html:15 weblate/html/contact.html:15
+#: weblate/html/about.html:15 weblate/html/accounts/contact.html:15
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
@@ -2063,8 +2104,8 @@ msgstr "Přihlášen jako %(name)s"
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: weblate/html/base.html:44
-#: weblate/html/registration/registration_form.html:25
+#: weblate/html/base.html:44 weblate/html/accounts/email.html:27
+#: weblate/html/accounts/register.html:29
 msgid "Register"
 msgstr "Registrace"
 
@@ -2101,26 +2142,6 @@ msgstr "Neodpovídají žádné selhavší kontroly!"
 #: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
 msgid "Check"
 msgstr "Kontrola"
-
-#: weblate/html/contact.html:6
-msgid "contact"
-msgstr "kontakt"
-
-#: weblate/html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr "Zde můžete kontaktovat správce tohoto serveru."
-
-#: weblate/html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"Prosím pište nám v angličtině, jinak se může stát, že vašemu požadavku "
-"nebudeme rozumět."
-
-#: weblate/html/contact.html:21
-msgid "Send"
-msgstr "Odeslat"
 
 #: weblate/html/data-root.html:6 weblate/html/data.html:7
 msgid "data"
@@ -2363,8 +2384,8 @@ msgstr "slovníky"
 msgid "Change word"
 msgstr "Změna slova"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:121
-#: weblate/html/translate.html:155
+#: weblate/html/edit_dictionary.html:21 weblate/html/translate.html:155
+#: weblate/html/accounts/profile.html:120
 msgid "Save"
 msgstr "Uložit"
 
@@ -2440,635 +2461,605 @@ msgid "Authored by %(author)s on %(date)s"
 msgstr "Vytvořil %(author)s dne %(date)s"
 
 #: weblate/html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr "Toto uživatelské jméno je již zabrané. Prosím zvolte si jiné."
-
-#: weblate/html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "Obě zadaná hesla se musí shodovat"
-
-#: weblate/html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "Tuto adresu již někdo používá. Prosím zadejte jinou."
-
-#: weblate/html/i18n.html:11
-msgid "Old password"
-msgstr "Původní heslo"
-
-#: weblate/html/i18n.html:12
-msgid "New password"
-msgstr "Nové heslo"
-
-#: weblate/html/i18n.html:13
-msgid "New password confirmation"
-msgstr "Potvrzení nového hesla"
-
-#: weblate/html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "Zadaná hesla se neshodují."
-
-#: weblate/html/i18n.html:18
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
 "Výběr více než jedné položky je možný přidržením klávesy \"Control\" (nebo "
 "\"Command\" na Macu)."
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:18
 msgid "Afrikaans"
 msgstr "afrikánština"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:19
 msgid "Akan"
 msgstr "akanština"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:20
 msgid "Albanian"
 msgstr "albánština"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:21
 msgid "Amharic"
 msgstr "amharština"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:22
 msgid "Arabic"
 msgstr "arabština"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:23
 msgid "Aragonese"
 msgstr "aragonština"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:24
 msgid "Armenian"
 msgstr "arménština"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:25
 msgid "Asturian"
 msgstr "asturština"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:26
 msgid "Azerbaijani"
 msgstr "ázerbájdžánština"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:27
 msgid "Basque"
 msgstr "baskičtina"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:28
 msgid "Belarusian"
 msgstr "běloruština"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:29
 msgid "Belarusian (latin)"
 msgstr "běloruština (latinkou)"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:30
 msgid "Bengali"
 msgstr "bengálština"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:31
 msgid "Bengali (India)"
 msgstr "bengálština (Indie)"
 
-#: weblate/html/i18n.html:42
+#: weblate/html/i18n.html:32
 msgid "Bosnian"
 msgstr "bosenština"
 
-#: weblate/html/i18n.html:43
+#: weblate/html/i18n.html:33
 msgid "Breton"
 msgstr "bretoňština"
 
-#: weblate/html/i18n.html:44
+#: weblate/html/i18n.html:34
 msgid "Bulgarian"
 msgstr "bulharština"
 
-#: weblate/html/i18n.html:45
+#: weblate/html/i18n.html:35
 msgid "Catalan"
 msgstr "katalánština"
 
-#: weblate/html/i18n.html:46
+#: weblate/html/i18n.html:36
 msgid "Central Khmer"
 msgstr "khmerština"
 
-#: weblate/html/i18n.html:47
+#: weblate/html/i18n.html:37
 msgid "Chinese"
 msgstr "čínština"
 
-#: weblate/html/i18n.html:48
+#: weblate/html/i18n.html:38
 msgid "Chinese (Hong Kong)"
 msgstr "čínština (Hongkong)"
 
-#: weblate/html/i18n.html:49
+#: weblate/html/i18n.html:39
 msgid "Chinese (China)"
 msgstr "čínština (Čína)"
 
-#: weblate/html/i18n.html:50
+#: weblate/html/i18n.html:40
 msgid "Chinese (Taiwan)"
 msgstr "čínština (Taiwan)"
 
-#: weblate/html/i18n.html:51
+#: weblate/html/i18n.html:41
 msgid "Cornish"
 msgstr "kornština"
 
-#: weblate/html/i18n.html:52
+#: weblate/html/i18n.html:42
 msgid "Croatian"
 msgstr "chorvatština"
 
-#: weblate/html/i18n.html:53
+#: weblate/html/i18n.html:43
 msgid "Czech"
 msgstr "čeština"
 
-#: weblate/html/i18n.html:54
+#: weblate/html/i18n.html:44
 msgid "Danish"
 msgstr "dánština"
 
-#: weblate/html/i18n.html:55
+#: weblate/html/i18n.html:45
 msgid "Dutch"
 msgstr "holandština"
 
-#: weblate/html/i18n.html:56
+#: weblate/html/i18n.html:46
 msgid "Dzongkha"
 msgstr "dzongkä"
 
-#: weblate/html/i18n.html:57
+#: weblate/html/i18n.html:47
 msgid "English"
 msgstr "angličtina"
 
-#: weblate/html/i18n.html:58
+#: weblate/html/i18n.html:48
 msgid "English (South Africa)"
 msgstr "angličtina (Jižní Afrika)"
 
-#: weblate/html/i18n.html:59
+#: weblate/html/i18n.html:49
 msgid "English (United Kingdom)"
 msgstr "angličtina (Velká Británie)"
 
-#: weblate/html/i18n.html:60
+#: weblate/html/i18n.html:50
 msgid "English (United States)"
 msgstr "angličtina (Spojené Státy)"
 
-#: weblate/html/i18n.html:61
+#: weblate/html/i18n.html:51
 msgid "Esperanto"
 msgstr "esperanto"
 
-#: weblate/html/i18n.html:62
+#: weblate/html/i18n.html:52
 msgid "Estonian"
 msgstr "estonština"
 
-#: weblate/html/i18n.html:63
+#: weblate/html/i18n.html:53
 msgid "Faroese"
 msgstr "faerština"
 
-#: weblate/html/i18n.html:64
+#: weblate/html/i18n.html:54
 msgid "Filipino"
 msgstr "filipínština"
 
-#: weblate/html/i18n.html:65
+#: weblate/html/i18n.html:55
 msgid "Finnish"
 msgstr "finština"
 
-#: weblate/html/i18n.html:66
+#: weblate/html/i18n.html:56
 msgid "French"
 msgstr "francouzština"
 
-#: weblate/html/i18n.html:67
+#: weblate/html/i18n.html:57
 msgid "Frisian"
 msgstr "fríština"
 
-#: weblate/html/i18n.html:68
+#: weblate/html/i18n.html:58
 msgid "Friulian"
 msgstr "furlanština"
 
-#: weblate/html/i18n.html:69
+#: weblate/html/i18n.html:59
 msgid "Fulah"
 msgstr "Fulbština"
 
-#: weblate/html/i18n.html:70
+#: weblate/html/i18n.html:60
 msgid "Gaelic"
 msgstr "gaelština"
 
-#: weblate/html/i18n.html:71
+#: weblate/html/i18n.html:61
 msgid "Galician"
 msgstr "galicijština"
 
-#: weblate/html/i18n.html:72
+#: weblate/html/i18n.html:62
 msgid "Georgian"
 msgstr "gruzínština"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:63
 msgid "German"
 msgstr "němčina"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:64
 msgid "Greek"
 msgstr "řečtina"
 
-#: weblate/html/i18n.html:75
+#: weblate/html/i18n.html:65
 msgid "Gujarati"
 msgstr "gudžarátština"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:66
 msgid "Gun"
 msgstr "fonština"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:67
 msgid "Haitian"
 msgstr "haitština"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:68
 msgid "Hausa"
 msgstr "hauština"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:69
 msgid "Hebrew"
 msgstr "hebrejština"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:70
 msgid "Hindi"
 msgstr "hindština"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:71
 msgid "Hungarian"
 msgstr "maďarština"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:72
 msgid "Icelandic"
 msgstr "islandština"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:73
 msgid "Indonesian"
 msgstr "indonéština"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:74
 msgid "Interlingua"
 msgstr "interlingua"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:75
 msgid "Irish"
 msgstr "irština"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:76
 msgid "Italian"
 msgstr "italština"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:77
 msgid "Japanese"
 msgstr "japonština"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:78
 msgid "Javanese"
 msgstr "javánština"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:79
 msgid "Kannada"
 msgstr "kannadština"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:80
 msgid "Kashubian"
 msgstr "kašubština"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:81
 msgid "Kazakh"
 msgstr "kazaština"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:82
 msgid "Kirghiz"
 msgstr "kyrgyzština"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:83
 msgid "Klingon"
 msgstr "Klingonština"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:84
 msgid "Klingon (pIqaD)"
 msgstr "Klingonština (pIqaD)"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:85
 msgid "Korean"
 msgstr "korejština"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:86
 msgid "Kurdish"
 msgstr "kurdština"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:87
 msgid "Kurdish Sorani"
 msgstr "kurdština sorání"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:88
 msgid "Lao"
 msgstr "laoština"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:89
 msgid "Latvian"
 msgstr "lotyština"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:90
 msgid "Limburgish"
 msgstr "limburština"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:91
 msgid "Lingala"
 msgstr "ngalština"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:92
 msgid "Lithuanian"
 msgstr "litevština"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:93
 msgid "Luxembourgish"
 msgstr "lucemburština"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:94
 msgid "Macedonian"
 msgstr "makedonština"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:95
 msgid "Maithili"
 msgstr "maithilština"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:96
 msgid "Malagasy"
 msgstr "malgaština"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:97
 msgid "Malay"
 msgstr "malajština"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:98
 msgid "Malayalam"
 msgstr "malajálamština"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:99
 msgid "Maltese"
 msgstr "maltština"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:100
 msgid "Maori"
 msgstr "maorština"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:101
 msgid "Mapudungun"
 msgstr "araukánština"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:102
 msgid "Marathi"
 msgstr "maráthština"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:103
 msgid "Mongolian"
 msgstr "mongolština"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:104
 msgid "Morisyen"
 msgstr "mauretánština"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:105
 msgid "N'Ko"
 msgstr "n'ko"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:106
 msgid "Nahuatl languages"
 msgstr "aztéčtina"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:107
 msgid "Neapolitan"
 msgstr "neapolština"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:108
 msgid "Nepali"
 msgstr "nepálština"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:109
 msgid "Norwegian Bokmål"
 msgstr "norština (Bokmål)"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:110
 msgid "Norwegian Nynorsk"
 msgstr "norština (Nynorsk)"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:111
 msgid "Occitan"
 msgstr "okcitánština"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:112
 msgid "Oriya"
 msgstr "urijština"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:113
 msgid "Papiamento"
 msgstr "papiamento"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:114
 msgid "Pedi"
 msgstr "sothoština (severní)"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:115
 msgid "Persian"
 msgstr "perština"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:116
 msgid "Piemontese"
 msgstr "piemontština"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:117
 msgid "Polish"
 msgstr "polština"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:118
 msgid "Portuguese"
 msgstr "portugalština"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:119
 msgid "Portuguese (Brazil)"
 msgstr "portugalština (Brazílie)"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:120
 msgid "Portuguese (Portugal)"
 msgstr "portugalština (Portugalsko)"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:121
 msgid "Punjabi"
 msgstr "pandžábština"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:122
 msgid "Pushto"
 msgstr "paštština"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:123
 msgid "Romanian"
 msgstr "rumunština"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:124
 msgid "Romansh"
 msgstr "rétorománština"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:125
 msgid "Russian"
 msgstr "ruština"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:126
 msgid "Scots"
 msgstr "skotština"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:127
 msgid "Serbian"
 msgstr "srbština"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:128
 msgid "Serbian (cyrillic)"
 msgstr "srbština (cyrilicí)"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:129
 msgid "Serbian (latin)"
 msgstr "srbština (latinkou)"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:130
 msgid "Simplified Chinese"
 msgstr "zjednodušená čínština"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:131
 msgid "Sinhala"
 msgstr "sinhálština"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:132
 msgid "Slovak"
 msgstr "slovenština"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:133
 msgid "Slovenian"
 msgstr "slovinština"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:134
 msgid "Somali"
 msgstr "somálština"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:135
 msgid "Songhai languages"
 msgstr "songhaiština"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:136
 msgid "Sotho"
 msgstr "sothoština (jižní)"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:137
 msgid "Spanish"
 msgstr "španělština"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:138
 msgid "Sundanese"
 msgstr "sundánština"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:139
 msgid "Swahili"
 msgstr "svahilština"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:140
 msgid "Swedish"
 msgstr "švédština"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:141
 msgid "Tajik"
 msgstr "tádžičtina"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:142
 msgid "Tagalog"
 msgstr "tagalština"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:143
 msgid "Tamil"
 msgstr "tamilština"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:144
 msgid "Tatar"
 msgstr "tatarština"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:145
 msgid "Telugu"
 msgstr "telužština"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:146
 msgid "Thai"
 msgstr "thajština"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:147
 msgid "Tibetan"
 msgstr "tibetština"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:148
 msgid "Tigrinya"
 msgstr "tigriňa"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:149
 msgid "Traditional Chinese"
 msgstr "tradiční čínština"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:150
 msgid "Turkish"
 msgstr "turečtina"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:151
 msgid "Turkmen"
 msgstr "turkmenština"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:152
 msgid "Uighur"
 msgstr "ujgurština"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:153
 msgid "Ukrainian"
 msgstr "ukrajinština"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:154
 msgid "Urdu"
 msgstr "urdština"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:155
 msgid "Uzbek"
 msgstr "uzbečtina"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:156
 msgid "Uzbek (latin)"
 msgstr "uzbečtina (latinkou)"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:157
 msgid "Valencian"
 msgstr "valencijština"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:158
 msgid "Venda"
 msgstr "vendština"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:159
 msgid "Vietnamese"
 msgstr "vietnamština"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:160
 msgid "Walloon"
 msgstr "valonština"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:161
 msgid "Welsh"
 msgstr "welština"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:162
 msgid "West Flemish"
 msgstr "západní vlámština"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:163
 msgid "Wolof"
 msgstr "volofština"
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:164
 msgid "Yakut"
 msgstr "jakutština"
 
-#: weblate/html/i18n.html:175
+#: weblate/html/i18n.html:165
 msgid "Yoruba"
 msgstr "jorubština"
 
-#: weblate/html/i18n.html:176
+#: weblate/html/i18n.html:166
 msgid "Zulu"
 msgstr "zulština"
 
@@ -3093,7 +3084,7 @@ msgid "Your translations"
 msgstr "Vaše překlady"
 
 #: weblate/html/index.html:20 weblate/html/language.html:12
-#: weblate/html/user.html:19
+#: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "Projekty"
 
@@ -3121,7 +3112,7 @@ msgstr "Nejaktivnější navrhovatelé"
 
 #: weblate/html/index.html:68 weblate/html/language.html:25
 #: weblate/html/project.html:48 weblate/html/subproject.html:41
-#: weblate/html/translation.html:49 weblate/html/user.html:28
+#: weblate/html/translation.html:49 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr "Aktivita"
 
@@ -3162,7 +3153,7 @@ msgstr "Glosáře"
 msgid "When"
 msgstr "Kdy"
 
-#: weblate/html/last-changes.html:16 weblate/html/profile.html:56
+#: weblate/html/last-changes.html:16 weblate/html/accounts/profile.html:58
 msgid "Action"
 msgstr "Akce"
 
@@ -3258,96 +3249,6 @@ msgstr "Překlad"
 #: weblate/html/list-translations.html:63
 msgid "Translated strings"
 msgstr "Přeložené řetězce"
-
-#: weblate/html/profile.html:22
-msgid "Preferences"
-msgstr "Nastavení"
-
-#: weblate/html/profile.html:23
-msgid "Subscriptions"
-msgstr "Upozornění"
-
-#: weblate/html/profile.html:24
-msgid "Account"
-msgstr "Účet"
-
-#: weblate/html/profile.html:25
-#, fuzzy
-#| msgid "Documentation"
-msgid "Authentication"
-msgstr "Dokumentace"
-
-#: weblate/html/profile.html:26
-msgid "Information"
-msgstr "Informace"
-
-#: weblate/html/profile.html:27
-msgid "Licenses"
-msgstr "Licence"
-
-#: weblate/html/profile.html:28
-msgid "Avatar"
-msgstr "Avatar"
-
-#: weblate/html/profile.html:36
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr "Vybraná upozornění vám budou chodit pro všechny vaše jazyky."
-
-#: weblate/html/profile.html:45
-msgid "Your name and email will appear as author on Git commits."
-msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
-
-#: weblate/html/profile.html:49
-msgid ""
-"You can manage third party identities which are associated to this account."
-msgstr ""
-
-#: weblate/html/profile.html:50
-msgid "Currently associated:"
-msgstr ""
-
-#: weblate/html/profile.html:54
-msgid "Identity"
-msgstr ""
-
-#: weblate/html/profile.html:55
-#, fuzzy
-#| msgid "User"
-msgid "User ID"
-msgstr "Uživatel"
-
-#: weblate/html/profile.html:65
-msgid "Disconnect"
-msgstr ""
-
-#: weblate/html/profile.html:77
-#, fuzzy
-#| msgid "Add as translation"
-msgid "Add new association:"
-msgstr "Přidat jako překlad"
-
-#: weblate/html/profile.html:90
-msgid "Your public profile:"
-msgstr "Váš veřejný profil:"
-
-#: weblate/html/profile.html:96
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and "
-"provide your contribution under license defined by each translated project."
-msgstr ""
-"Registrací souhlasíte s použitím vašeho jména a emailu v commitech do Gitu a "
-"licencováním vašich příspěvků pod licencí jakou daný projekt používá."
-
-#: weblate/html/profile.html:100
-msgid ""
-"Following projects have explicitely specified their licensing and copyright "
-"conditions:"
-msgstr "Následující projekty mají uvedenou svoji licenci:"
-
-#: weblate/html/profile.html:117
-msgid "Avatars are provided using libravatar."
-msgstr "Avatary jsou získávány prostřednictvím služby libravatar."
 
 #: weblate/html/project.html:11 weblate/html/source.html:13
 #: weblate/html/subproject.html:13 weblate/html/translation.html:16
@@ -3840,18 +3741,6 @@ msgstr "Poslední přihlášení"
 msgid "Registration date"
 msgstr "Datum registrace"
 
-#: weblate/html/user.html:34 weblate/html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Aktivita za posledních 30 dní"
-
-#: weblate/html/user.html:37 weblate/html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Aktivita za poslední rok"
-
-#: weblate/html/user.html:40
-msgid "Recent contributions"
-msgstr "Nedávné příspěvky"
-
 #: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
 msgid "widgets"
 msgstr "widgety"
@@ -3933,6 +3822,231 @@ msgstr "Textile kód"
 #: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
 msgid "Translation status"
 msgstr "Stav překladu"
+
+#: weblate/html/accounts/contact.html:6
+msgid "contact"
+msgstr "kontakt"
+
+#: weblate/html/accounts/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr "Zde můžete kontaktovat správce tohoto serveru."
+
+#: weblate/html/accounts/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"Prosím pište nám v angličtině, jinak se může stát, že vašemu požadavku "
+"nebudeme rozumět."
+
+#: weblate/html/accounts/contact.html:21
+msgid "Send"
+msgstr "Odeslat"
+
+#: weblate/html/accounts/email-sent.html:7
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Děkujeme za registraci. Brzy vám přijde email s odkazem na potvrzení "
+"registrace. Prosím následujte jej pro dokončení registrace."
+
+#: weblate/html/accounts/email-sent.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+"Pokud vám email během chvíle nedorazí, podívejte se do složky s nevyžádanou "
+"poštou. Pokud ho nenajdete ani tam, prosím <a href=\"%(contact_url)s?"
+"subject=Lost activation code\">napište nám</a>."
+
+#: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:15
+#: weblate/html/accounts/reset.html:15
+msgid "Please fix errors in registration form."
+msgstr "Prosím opravte chyby v registračním formuláři."
+
+#: weblate/html/accounts/email.html:25 weblate/html/accounts/profile.html:95
+#: weblate/html/accounts/register.html:27
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Registrací souhlasíte s použitím vašeho jména a emailu v commitech do Gitu a "
+"licencováním vašich příspěvků pod licencí jakou daný projekt používá."
+
+#: weblate/html/accounts/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr ""
+"Toto uživatelské jméno a heslo nebyly nalezeny. Prosím zkuste to znovu."
+
+#: weblate/html/accounts/login.html:17
+#, fuzzy
+#| msgid "Password (again)"
+msgid "Password log in"
+msgstr "Heslo (znovu)"
+
+#: weblate/html/accounts/login.html:39
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
+"Nemáte ještě účet? Můžete se <a href=\"%(register_url)s\">zaregistrovat</a>."
+
+#: weblate/html/accounts/login.html:45
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"Zapomněli jste heslo? Můžete si <a href=\"%(reset_url)s\">ho obnovit</a>."
+
+#: weblate/html/accounts/login.html:50
+msgid "Third party log in"
+msgstr ""
+
+#: weblate/html/accounts/password.html:6
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr "Vložte dvakrát nové heslo. Tak ověříme, že bylo zadáno správně."
+
+#: weblate/html/accounts/password.html:13
+msgid "Change my password"
+msgstr "Změnit heslo"
+
+#: weblate/html/accounts/profile.html:22
+msgid "Preferences"
+msgstr "Nastavení"
+
+#: weblate/html/accounts/profile.html:23
+msgid "Subscriptions"
+msgstr "Upozornění"
+
+#: weblate/html/accounts/profile.html:24
+msgid "Account"
+msgstr "Účet"
+
+#: weblate/html/accounts/profile.html:25
+#, fuzzy
+#| msgid "Documentation"
+msgid "Authentication"
+msgstr "Dokumentace"
+
+#: weblate/html/accounts/profile.html:26
+msgid "Information"
+msgstr "Informace"
+
+#: weblate/html/accounts/profile.html:27
+msgid "Licenses"
+msgstr "Licence"
+
+#: weblate/html/accounts/profile.html:28
+msgid "Avatar"
+msgstr "Avatar"
+
+#: weblate/html/accounts/profile.html:36
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr "Vybraná upozornění vám budou chodit pro všechny vaše jazyky."
+
+#: weblate/html/accounts/profile.html:45
+msgid "Your name and email will appear as author on Git commits."
+msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
+
+#: weblate/html/accounts/profile.html:49
+#, fuzzy
+#| msgid "New password"
+msgid "Set password"
+msgstr "Nové heslo"
+
+#: weblate/html/accounts/profile.html:51
+msgid ""
+"You can manage third party identities which are associated to this account."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:52
+msgid "Currently associated:"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:56
+msgid "Identity"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:57
+#, fuzzy
+#| msgid "User"
+msgid "User ID"
+msgstr "Uživatel"
+
+#: weblate/html/accounts/profile.html:67
+msgid "Disconnect"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:76
+#, fuzzy
+#| msgid "Add as translation"
+msgid "Add new association:"
+msgstr "Přidat jako překlad"
+
+#: weblate/html/accounts/profile.html:89
+msgid "Your public profile:"
+msgstr "Váš veřejný profil:"
+
+#: weblate/html/accounts/profile.html:99
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr "Následující projekty mají uvedenou svoji licenci:"
+
+#: weblate/html/accounts/profile.html:116
+msgid "Avatars are provided using libravatar."
+msgstr "Avatary jsou získávány prostřednictvím služby libravatar."
+
+#: weblate/html/accounts/register.html:9
+#, fuzzy
+#| msgid "Registered users"
+msgid "Register using email"
+msgstr "Registrovaných uživatelů"
+
+#: weblate/html/accounts/register.html:34
+#, fuzzy
+#| msgid "User registration"
+msgid "Third party registration"
+msgstr "Registrace uživatele"
+
+#: weblate/html/accounts/register.html:46
+#, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+"Omlouváme se, ale registrace na tomto webu jsou zakázány. Pro další "
+"informace nás můžete <a href=\"%(contact_url)s\">kontaktovat</a>."
+
+#: weblate/html/accounts/reset.html:9
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Zapomněl(a) jste své současné heslo? Vložte svou e-mailovou adresu a e-"
+"mailem obdržíte pokyny pro nastavení nového."
+
+#: weblate/html/accounts/reset.html:28
+msgid "Reset my password"
+msgstr "Obnovit heslo"
+
+#: weblate/html/accounts/user.html:34 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Aktivita za posledních 30 dní"
+
+#: weblate/html/accounts/user.html:37 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Aktivita za poslední rok"
+
+#: weblate/html/accounts/user.html:40
+msgid "Recent contributions"
+msgstr "Nedávné příspěvky"
 
 #: weblate/html/admin/custom-index.html:11
 msgid "Reports"
@@ -4146,10 +4260,7 @@ msgstr "Použít tento překlad"
 msgid "No other strings found."
 msgstr "Nebyly nalezeny žádné další řetězce."
 
-#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
-msgid "Sent by Weblate translation system"
-msgstr "Odesláno překladovým systémem Weblate"
-
+#: weblate/html/mail/activation.html:8 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:8
 #: weblate/html/mail/changed_translation.txt:1
 #: weblate/html/mail/merge_failure.html:8
@@ -4163,9 +4274,39 @@ msgstr "Odesláno překladovým systémem Weblate"
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
-#: weblate/html/registration/activation_email.txt:1
 msgid "Hi,"
 msgstr "Ahoj,"
+
+#: weblate/html/mail/activation.html:12 weblate/html/mail/activation.txt:3
+#, python-format
+msgid ""
+"This is an automatic email to help you complete your registration with "
+"%(site_title)s."
+msgstr ""
+"Toto je automatický email pro potvrzení registrace na stránkách "
+"%(site_title)s."
+
+#: weblate/html/mail/activation.html:16 weblate/html/mail/activation.txt:5
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
+msgstr ""
+"Prosíme otevřete následující odkaz ve vašem prohlížeči. Pokud je odkaz "
+"rozdělen na několik řádek, možná ho budete muset zkopírovat do adresního "
+"řádku prohlížeče."
+
+#: weblate/html/mail/activation.html:24 weblate/html/mail/activation.txt:9
+msgid "If there is a problem with your registration, please contact us:"
+msgstr "Pokud máte problémy s registrací, kontaktujte nás:"
+
+#: weblate/html/mail/activation_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "Vaše registrace na %(site_title)s"
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
+msgid "Sent by Weblate translation system"
+msgstr "Odesláno překladovým systémem Weblate"
 
 #: weblate/html/mail/changed_translation.html:12
 #: weblate/html/mail/changed_translation.txt:3
@@ -4373,239 +4514,123 @@ msgstr "Nový překlad v %(translation)s"
 msgid "More information about Weblate can be found at http://weblate.org/"
 msgstr "Více informací o Weblate naleznete na http://weblate.org/"
 
-#: weblate/html/registration/activate.html:7
-msgid "Your account could not be activated"
-msgstr "Váš účet nemohl být aktivován"
-
-#: weblate/html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] ""
-"Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s den."
-msgstr[1] ""
-"Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s dny."
-msgstr[2] ""
-"Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s dní."
-
-#: weblate/html/registration/activate.html:12
-#, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-"Pokud tomu tak není, prosíme <a href=\"%(contact_url)s\">kontaktujte</a> "
-"správce serveru. V opačném případě se můžete <a href=\"%(reg_url)s"
-"\">zaregistrovat znovu</a>."
-
-#: weblate/html/registration/activation_complete.html:8
-msgid "Thank you. Your account is now activated."
-msgstr "Děkujeme. Váš účet byl aktivován."
-
-#: weblate/html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr ""
-"Nyní je ten správný čas <a href=\"%(profile_url)s\">upravit váš profil</a>."
-
-#: weblate/html/registration/activation_email.txt:3
-#, python-format
-msgid ""
-"This is an automatic email to help you complete your registration with "
-"%(site_title)s."
-msgstr ""
-"Toto je automatický email pro potvrzení registrace na stránkách "
-"%(site_title)s."
-
-#: weblate/html/registration/activation_email.txt:5
-msgid ""
-"Please open the following link in your web browser. If the link is split "
-"over several lines, you may need to copy it in the address bar."
-msgstr ""
-"Prosíme otevřete následující odkaz ve vašem prohlížeči. Pokud je odkaz "
-"rozdělen na několik řádek, možná ho budete muset zkopírovat do adresního "
-"řádku prohlížeče."
-
-#: weblate/html/registration/activation_email.txt:9
-msgid "If there is a problem with your registration, please contact us:"
-msgstr "Pokud máte problémy s registrací, kontaktujte nás:"
-
-#: weblate/html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "Vaše registrace na %(site_title)s"
-
-#: weblate/html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr ""
-"Toto uživatelské jméno a heslo nebyly nalezeny. Prosím zkuste to znovu."
-
-#: weblate/html/registration/login.html:17
-#, fuzzy
-#| msgid "Password (again)"
-msgid "Password log in"
-msgstr "Heslo (znovu)"
-
-#: weblate/html/registration/login.html:39
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr ""
-"Nemáte ještě účet? Můžete se <a href=\"%(register_url)s\">zaregistrovat</a>."
-
-#: weblate/html/registration/login.html:45
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"Zapomněli jste heslo? Můžete si <a href=\"%(reset_url)s\">ho obnovit</a>."
-
-#: weblate/html/registration/login.html:48
-msgid "Third party log in"
-msgstr ""
-
-#: weblate/html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "Děkujeme za použití Weblate!"
-
-#: weblate/html/registration/logout.html:9
-msgid "Log in again"
-msgstr "Přihlásit znovu"
-
-#: weblate/html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "Vaše heslo bylo změněno."
-
-#: weblate/html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Prosím opravte níže uvedenou chybu."
-msgstr[1] "Prosím opravte níže uvedené chyby."
-msgstr[2] "Prosím opravte níže uvedené chyby."
-
-#: weblate/html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Vložte svoje současné heslo a poté vložte dvakrát heslo nové. Omezíme tak "
-"možnost překlepu."
-
-#: weblate/html/registration/password_change_form.html:22
-#: weblate/html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "Změnit heslo"
-
-#: weblate/html/registration/password_reset_complete.html:6
-msgid "Your password has been set. You may go ahead and log in now."
-msgstr "Vaše heslo bylo nastaveno. Nyní se můžete přihlásit."
-
-#: weblate/html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "Přihlásit"
-
-#: weblate/html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr "Vložte dvakrát nové heslo. Tak ověříme, že bylo zadáno správně."
-
-#: weblate/html/registration/password_reset_confirm.html:19
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
-"Odkaz pro obnovení hesla byl neplatný, možná již byl použit. Požádejte o "
-"obnovení hesla znovu."
-
-#: weblate/html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Poslali jsme vám e-mailem pokyny pro nastavení hesla na vámi zadanou e-"
-"mailovou adresu. Za chvíli by měly dorazit do vaší schránky."
-
-#: weblate/html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Obdrželi jste tento e-mail, protože byl vyžádán reset hesla pro vaše "
-"uživatelské jméno na %(site_name)s."
-
-#: weblate/html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "Přejděte na následující stránku a zadejte nové heslo:"
-
-#: weblate/html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "Pro jistotu vaše uživatelské jméno:"
-
-#: weblate/html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "Děkujeme za používání našeho webu!"
-
-#: weblate/html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "Tým aplikace %(site_name)s"
-
-#: weblate/html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Zapomněl(a) jste své současné heslo? Vložte svou e-mailovou adresu a e-"
-"mailem obdržíte pokyny pro nastavení nového."
-
-#: weblate/html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "Obnovit heslo"
-
-#: weblate/html/registration/registration_closed.html:9
-#, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-"Omlouváme se, ale registrace na tomto webu jsou zakázány. Pro další "
-"informace nás můžete <a href=\"%(contact_url)s\">kontaktovat</a>."
-
-#: weblate/html/registration/registration_complete.html:7
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"Děkujeme za registraci. Brzy vám přijde email s odkazem na potvrzení "
-"registrace. Prosím následujte jej pro dokončení registrace."
-
-#: weblate/html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-"Pokud vám email během chvíle nedorazí, podívejte se do složky s nevyžádanou "
-"poštou. Pokud ho nenajdete ani tam, prosím <a href=\"%(contact_url)s?"
-"subject=Lost activation code\">napište nám</a>."
-
-#: weblate/html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "Prosím opravte chyby v registračním formuláři."
-
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "změny"
+
+#~ msgid "Password"
+#~ msgstr "Heslo"
+
+#~ msgid ""
+#~ "Your profile has been migrated, you might want to adjust preferences."
+#~ msgstr "Váš profil byl aktualizován, můžete chtít změnit některá nastavení."
+
+#~ msgid "Account activation"
+#~ msgstr "Aktivace účtu"
+
+#~ msgid "Logged out"
+#~ msgstr "Odhlášen"
+
+#~ msgid "Password changed"
+#~ msgstr "Heslo bylo změněno"
+
+#~ msgid "Old password"
+#~ msgstr "Původní heslo"
+
+#~ msgid "New password confirmation"
+#~ msgstr "Potvrzení nového hesla"
+
+#~ msgid "The two password fields didn't match."
+#~ msgstr "Zadaná hesla se neshodují."
+
+#~ msgid "Your account could not be activated"
+#~ msgstr "Váš účet nemohl být aktivován"
+
+#~ msgid ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s day to activate it."
+#~ msgid_plural ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s days to activate it."
+#~ msgstr[0] ""
+#~ "Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s den."
+#~ msgstr[1] ""
+#~ "Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s dny."
+#~ msgstr[2] ""
+#~ "Buď je již aktivován nebo jste s aktivací čekali déle než %(days)s dní."
+
+#~ msgid ""
+#~ "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> "
+#~ "the website administrator. Otherwise, you may <a href=\"%(reg_url)s"
+#~ "\">register again</a>."
+#~ msgstr ""
+#~ "Pokud tomu tak není, prosíme <a href=\"%(contact_url)s\">kontaktujte</a> "
+#~ "správce serveru. V opačném případě se můžete <a href=\"%(reg_url)s"
+#~ "\">zaregistrovat znovu</a>."
+
+#~ msgid "Thank you. Your account is now activated."
+#~ msgstr "Děkujeme. Váš účet byl aktivován."
+
+#~ msgid ""
+#~ "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+#~ msgstr ""
+#~ "Nyní je ten správný čas <a href=\"%(profile_url)s\">upravit váš profil</"
+#~ "a>."
+
+#~ msgid "Log in again"
+#~ msgstr "Přihlásit znovu"
+
+#~ msgid "Please correct the error below."
+#~ msgid_plural "Please correct the errors below."
+#~ msgstr[0] "Prosím opravte níže uvedenou chybu."
+#~ msgstr[1] "Prosím opravte níže uvedené chyby."
+#~ msgstr[2] "Prosím opravte níže uvedené chyby."
+
+#~ msgid ""
+#~ "Please enter your old password, for security's sake, and then enter your "
+#~ "new password twice so we can verify you typed it in correctly."
+#~ msgstr ""
+#~ "Vložte svoje současné heslo a poté vložte dvakrát heslo nové. Omezíme tak "
+#~ "možnost překlepu."
+
+#~ msgid "Your password has been set. You may go ahead and log in now."
+#~ msgstr "Vaše heslo bylo nastaveno. Nyní se můžete přihlásit."
+
+#~ msgid "Log in"
+#~ msgstr "Přihlásit"
+
+#~ msgid ""
+#~ "The password reset link is invalid, possibly because it has already been "
+#~ "used. Please request a new password reset."
+#~ msgstr ""
+#~ "Odkaz pro obnovení hesla byl neplatný, možná již byl použit. Požádejte o "
+#~ "obnovení hesla znovu."
+
+#~ msgid ""
+#~ "We've e-mailed you instructions for setting your password to the e-mail "
+#~ "address you submitted. You should be receiving it shortly."
+#~ msgstr ""
+#~ "Poslali jsme vám e-mailem pokyny pro nastavení hesla na vámi zadanou e-"
+#~ "mailovou adresu. Za chvíli by měly dorazit do vaší schránky."
+
+#~ msgid ""
+#~ "You're receiving this e-mail because you requested a password reset for "
+#~ "your user account at %(site_name)s."
+#~ msgstr ""
+#~ "Obdrželi jste tento e-mail, protože byl vyžádán reset hesla pro vaše "
+#~ "uživatelské jméno na %(site_name)s."
+
+#~ msgid "Please go to the following page and choose a new password:"
+#~ msgstr "Přejděte na následující stránku a zadejte nové heslo:"
+
+#~ msgid "Your username, in case you've forgotten:"
+#~ msgstr "Pro jistotu vaše uživatelské jméno:"
+
+#~ msgid "Thanks for using our site!"
+#~ msgstr "Děkujeme za používání našeho webu!"
+
+#~ msgid "The %(site_name)s team"
+#~ msgstr "Tým aplikace %(site_name)s"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "Pro ukládání překladů musíte být přihlášen!"

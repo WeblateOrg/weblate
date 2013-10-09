@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-08 16:57+0200\n"
+"POT-Creation-Date: 2013-10-09 15:40+0200\n"
 "PO-Revision-Date: 2013-10-08 20:27+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -18,39 +18,58 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.7\n"
 
-#: accounts/forms.py:171 accounts/forms.py:218
-msgid "First name"
-msgstr "Ad"
-
-#: accounts/forms.py:172 accounts/forms.py:219
-msgid "Last name"
-msgstr "Soyad"
-
-#: accounts/forms.py:173 accounts/forms.py:232 weblate/html/i18n.html:15
+#: accounts/forms.py:156 accounts/forms.py:223
 msgid "E-mail"
 msgstr "E-posta"
 
-#: accounts/forms.py:180
+#: accounts/forms.py:158
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:186 accounts/forms.py:271
+msgid "First name"
+msgstr "Ad"
+
+#: accounts/forms.py:187 accounts/forms.py:272
+msgid "Last name"
+msgstr "Soyad"
+
+#: accounts/forms.py:195
 msgid "Subject"
 msgstr "Konu"
 
-#: accounts/forms.py:181
+#: accounts/forms.py:196
 msgid "Your name"
 msgstr "Adınız"
 
-#: accounts/forms.py:182
+#: accounts/forms.py:197
 msgid "Your email"
 msgstr "Epostanız"
 
-#: accounts/forms.py:184
+#: accounts/forms.py:199
 msgid "Message"
 msgstr "Mesaj"
 
-#: accounts/forms.py:210 accounts/forms.py:228 weblate/html/i18n.html:16
+#: accounts/forms.py:224
+msgid "Activation email will be sent here."
+msgstr "Etkinleştirme epostası buraya gönderilecektir."
+
+#: accounts/forms.py:237
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Bu eposta adresi zaten kullanılıyor. Lütfen farklı bir eposta adresi verin."
+
+#: accounts/forms.py:262
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#: accounts/forms.py:213
+#: accounts/forms.py:263
+msgid "At least five characters long."
+msgstr "En az beş karakter uzunluğunda."
+
+#: accounts/forms.py:266
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -58,132 +77,149 @@ msgstr ""
 "Bu değer sadece harfleri, sayıları ve şurada belirtilen karakterleri "
 "içerebilir: @ . + - _"
 
-#: accounts/forms.py:230
-msgid "At least five characters long."
-msgstr "En az beş karakter uzunluğunda."
+#: accounts/forms.py:281
+msgid "Username needs to have at least five characters."
+msgstr "Kullanıcı adının en az altı karakter olması gerekir."
 
-#: accounts/forms.py:234
-msgid "Activation email will be sent here."
-msgstr "Etkinleştirme epostası buraya gönderilecektir."
+#: accounts/forms.py:290
+msgid "This username is already taken. Please choose another."
+msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 
-#: accounts/forms.py:236 weblate/html/i18n.html:17
-msgid "Password"
-msgstr "Parola"
+#: accounts/forms.py:312
+msgid "New password"
+msgstr "Yeni parola"
 
-#: accounts/forms.py:238
+#: accounts/forms.py:313
 msgid "At least six characters long."
 msgstr "En az altı karakter uzunluğunda."
 
-#: accounts/forms.py:240
-msgid "Password (again)"
+#: accounts/forms.py:317
+#, fuzzy
+#| msgid "Password (again)"
+msgid "New password (again)"
 msgstr "Parola (tekrar)"
 
-#: accounts/forms.py:243
+#: accounts/forms.py:319
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Parolayı tekrarlayın böylece doğru olarak yazdığınızı doğrulayabiliriz."
 
-#: accounts/forms.py:253
+#: accounts/forms.py:330
 msgid "Password needs to have at least six characters."
 msgstr "Parolanın en az altı karakter olması gerekir."
 
-#: accounts/forms.py:263
-msgid "Username needs to have at least five characters."
-msgstr "Kullanıcı adının en az altı karakter olması gerekir."
+#: accounts/forms.py:348
+#, fuzzy
+#| msgid "You must type the same password each time"
+msgid "You must type the same password each time."
+msgstr "Sürekli aynı parolayı girmek zorundasınız"
 
-#: accounts/models.py:318
+#: accounts/forms.py:360
+#, fuzzy
+#| msgid "New password"
+msgid "Current password"
+msgstr "Yeni parola"
+
+#: accounts/forms.py:370
+msgid "User with this email address was not found."
+msgstr ""
+
+#: accounts/models.py:330
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: accounts/models.py:324 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:336 lang/views.py:32 weblate/html/index.html:21
 msgid "Languages"
 msgstr "Diller"
 
-#: accounts/models.py:329
+#: accounts/models.py:341
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: accounts/models.py:338
+#: accounts/models.py:350
 msgid "Subscribed projects"
 msgstr "Abone olunmuş projeler"
 
-#: accounts/models.py:342
+#: accounts/models.py:354
 msgid "Notification on any translation"
 msgstr "Herhangi bir çeviride bildirim"
 
-#: accounts/models.py:346
+#: accounts/models.py:358
 msgid "Notification on new string to translate"
 msgstr "Yeni satır çevirmek için bildirim"
 
-#: accounts/models.py:350
+#: accounts/models.py:362
 msgid "Notification on new suggestion"
 msgstr "Yeni öneride bildirim"
 
-#: accounts/models.py:354
+#: accounts/models.py:366
 msgid "Notification on new contributor"
 msgstr "Yeni katkıda bulunmada bildirim"
 
-#: accounts/models.py:358
+#: accounts/models.py:370
 msgid "Notification on new comment"
 msgstr "Yeni yorumda bildirim"
 
-#: accounts/models.py:362
+#: accounts/models.py:374
 msgid "Notification on merge failure"
 msgstr "Birleştirmenin başarısız olmasında bildirim"
 
-#: accounts/models.py:366
+#: accounts/models.py:378
 msgid "Notification on new language request"
 msgstr "Yeni dil isteğinde bildirim"
 
-#: accounts/models.py:556
-msgid "Your profile has been migrated, you might want to adjust preferences."
-msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
-
-#: accounts/urls.py:38 accounts/views.py:51
+#: accounts/views.py:60 accounts/views.py:301
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: accounts/urls.py:69
-msgid "Account activation"
-msgstr "Hesap etkinleştirme"
-
-#: accounts/urls.py:80 weblate/html/base.html:46
-#: weblate/html/registration/login.html:32
-msgid "Login"
-msgstr "Oturum aç"
-
-#: accounts/urls.py:89
-msgid "Logged out"
-msgstr "Oturum kapandı"
-
-#: accounts/urls.py:96 weblate/html/profile.html:67
-msgid "Change password"
-msgstr "Parolayı değiştir"
-
-#: accounts/urls.py:102
-msgid "Password changed"
-msgstr "Parola değiştirildi"
-
-#: accounts/urls.py:108 accounts/urls.py:114 accounts/urls.py:120
-#: accounts/urls.py:126
-msgid "Password reset"
-msgstr "Parola sıfırlama"
-
-#: accounts/views.py:113
+#: accounts/views.py:122
 msgid "Your profile has been updated."
 msgstr "Profiliniz güncellendi."
 
-#: accounts/views.py:132
+#: accounts/views.py:152
 msgid "User profile"
 msgstr "Kullanıcı profili"
 
-#: accounts/views.py:157
+#: accounts/views.py:181
 msgid "Message has been sent to administrator."
 msgstr "Mesaj yöneticiye gönderildi."
 
-#: accounts/views.py:171
+#: accounts/views.py:199
 msgid "Contact"
 msgstr "İletişim"
+
+#: accounts/views.py:264 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:32
+msgid "Login"
+msgstr "Oturum aç"
+
+#: accounts/views.py:274
+msgid "Thanks for using Weblate!"
+msgstr "Weblate'i kullandığınız için teşekkürler!"
+
+#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#, fuzzy
+#| msgid "Register"
+msgid "Register email"
+msgstr "Kayıt ol"
+
+#: accounts/views.py:350
+msgid "You have entered invalid password."
+msgstr ""
+
+#: accounts/views.py:372
+#, fuzzy
+#| msgid "Your password was changed."
+msgid "Your password has been changed."
+msgstr "Parolanız değiştirildi."
+
+#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+msgid "Change password"
+msgstr "Parolayı değiştir"
+
+#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+msgid "Password reset"
+msgstr "Parola sıfırlama"
 
 #: lang/models.py:289 lang/models.py:293 lang/models.py:299 lang/models.py:306
 #: lang/models.py:311 lang/models.py:317 lang/models.py:323 lang/models.py:328
@@ -1602,11 +1638,17 @@ msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "şu andan itibaren %(count)s saat"
 
-#: trans/views/basic.py:70
+#: trans/views/basic.py:63
+msgid ""
+"You have activated your account, now you should set the password to be able "
+"to login next time."
+msgstr ""
+
+#: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
 msgstr "Lütfen profilinizde tam adınızı girin."
 
-#: trans/views/basic.py:125
+#: trans/views/basic.py:136
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -1618,7 +1660,7 @@ msgstr ""
 "%(total)s satır içeriyor ve <a href=\"%(url)s\"> %(languages)s dile "
 "çevrilmektedir</a>. Toplamda, bu çeviriler %%%(percent)s tamamlandı."
 
-#: trans/views/basic.py:134
+#: trans/views/basic.py:145
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -1628,35 +1670,35 @@ msgstr ""
 "Türkçe dilinde <a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri "
 "için şu anda %(total)s satır içeriyor ve %%%(percent)s tamamlandı."
 
-#: trans/views/basic.py:234
+#: trans/views/basic.py:245
 #, python-format
 msgid "Review source strings in %s"
 msgstr "%s içindeki kaynak satırları gözden geçir"
 
-#: trans/views/basic.py:253
+#: trans/views/basic.py:264
 #, python-format
 msgid "Source strings in %s"
 msgstr "%s içindeki kaynak satır"
 
-#: trans/views/basic.py:316
+#: trans/views/basic.py:327
 msgid "Page Not Found"
 msgstr "Sayfa Bulunamadı"
 
-#: trans/views/basic.py:339 weblate/html/about.html:11
+#: trans/views/basic.py:350 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
-#: trans/views/basic.py:386
+#: trans/views/basic.py:397
 msgid "Chosen translation already exists in this project!"
 msgstr "Seçilen çeviri bu projede zaten var!"
 
-#: trans/views/basic.py:393
+#: trans/views/basic.py:404
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni bir çeviri için istek projenin geliştiricilerine gönderildi."
 
-#: trans/views/basic.py:402
+#: trans/views/basic.py:413
 msgid "Failed to process new translation request!"
 msgstr "Yeni çeviri isteğini işleme başarısız!"
 
@@ -1764,7 +1806,6 @@ msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
 #: trans/views/edit.py:215
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You don't have privileges to add suggestions!"
 msgstr "Önerileri eklemek için yetkileriniz yok!"
 
@@ -1842,7 +1883,7 @@ msgstr "Yorum ekleme başarısız!"
 msgid "Access denied."
 msgstr "Erişim reddedildi."
 
-#: trans/views/files.py:95 weblate/html/profile.html:12
+#: trans/views/files.py:95 weblate/html/accounts/profile.html:12
 msgid "Please fix errors in the form."
 msgstr "Lütfen formdaki hataları düzeltin."
 
@@ -1941,7 +1982,7 @@ msgstr ""
 "basit ve temiz bir kullanıcı arayüzü, alt projeler arasında çevirileri "
 "yayma, kalite kontrolleri ve kaynak dosyalara otomatik bağlantılardır."
 
-#: weblate/html/about.html:15 weblate/html/contact.html:15
+#: weblate/html/about.html:15 weblate/html/accounts/contact.html:15
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
@@ -2036,8 +2077,8 @@ msgstr "%(name)s olarak oturum açtınız"
 msgid "Logout"
 msgstr "Oturumu kapat"
 
-#: weblate/html/base.html:44
-#: weblate/html/registration/registration_form.html:25
+#: weblate/html/base.html:44 weblate/html/accounts/email.html:27
+#: weblate/html/accounts/register.html:29
 msgid "Register"
 msgstr "Kayıt ol"
 
@@ -2074,26 +2115,6 @@ msgstr "Eşleşen başarısız olmuş kontroller yok!"
 #: weblate/html/checks.html:15 weblate/html/admin/performance.html:20
 msgid "Check"
 msgstr "Kontrol"
-
-#: weblate/html/contact.html:6
-msgid "contact"
-msgstr "iletişim"
-
-#: weblate/html/contact.html:11
-msgid "You can contact maintainers of this server here."
-msgstr "Burada bu sunucunun bakıcılarına irtibata geçebilirsiniz."
-
-#: weblate/html/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"Lütfen bizimle İngilizce olarak temas kurun, yoksa isteğinizi "
-"anlayamayabiliriz."
-
-#: weblate/html/contact.html:21
-msgid "Send"
-msgstr "Gönder"
 
 #: weblate/html/data-root.html:6 weblate/html/data.html:7
 msgid "data"
@@ -2159,7 +2180,6 @@ msgstr ""
 "için aşağıdaki bağlantıları kontrol edin."
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
-#| msgid "Notification on new comment"
 msgid "Notification hooks"
 msgstr "Bildirim kancaları"
 
@@ -2335,8 +2355,8 @@ msgstr "sözlükler"
 msgid "Change word"
 msgstr "Kelimeyi değiştir"
 
-#: weblate/html/edit_dictionary.html:21 weblate/html/profile.html:121
-#: weblate/html/translate.html:155
+#: weblate/html/edit_dictionary.html:21 weblate/html/translate.html:155
+#: weblate/html/accounts/profile.html:120
 msgid "Save"
 msgstr "Kaydet"
 
@@ -2414,636 +2434,605 @@ msgid "Authored by %(author)s on %(date)s"
 msgstr "%(date)s tarihinde %(author)s tarafından yazıldı"
 
 #: weblate/html/i18n.html:8
-msgid "This username is already taken. Please choose another."
-msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
-
-#: weblate/html/i18n.html:9
-msgid "You must type the same password each time"
-msgstr "Sürekli aynı parolayı girmek zorundasınız"
-
-#: weblate/html/i18n.html:10
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"Bu eposta adresi zaten kullanılıyor. Lütfen farklı bir eposta adresi verin."
-
-#: weblate/html/i18n.html:11
-msgid "Old password"
-msgstr "Eski parola"
-
-#: weblate/html/i18n.html:12
-msgid "New password"
-msgstr "Yeni parola"
-
-#: weblate/html/i18n.html:13
-msgid "New password confirmation"
-msgstr "Yeni parola tekrarı"
-
-#: weblate/html/i18n.html:14
-msgid "The two password fields didn't match."
-msgstr "İki parola alanı eşleşmedi."
-
-#: weblate/html/i18n.html:18
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
 "Birden fazla seçmek için \"Control (Ctrl)\" veya Mac'deki \"Command\" tuşuna "
 "basılı tutun."
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:18
 msgid "Afrikaans"
 msgstr "Afrikaanca"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:19
 msgid "Akan"
 msgstr "Akan dili"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:20
 msgid "Albanian"
 msgstr "Arnavutça"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:21
 msgid "Amharic"
 msgstr "Amharca"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:22
 msgid "Arabic"
 msgstr "Arapça"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:23
 msgid "Aragonese"
 msgstr "Aragonca"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:24
 msgid "Armenian"
 msgstr "Ermenice"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:25
 msgid "Asturian"
 msgstr "Asturyaca"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:26
 msgid "Azerbaijani"
 msgstr "Azerice"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:27
 msgid "Basque"
 msgstr "Baskça"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:28
 msgid "Belarusian"
 msgstr "Beyaz Rusça"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:29
 msgid "Belarusian (latin)"
 msgstr "Beyaz Rusça (latin)"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:30
 msgid "Bengali"
 msgstr "Bengalce"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:31
 msgid "Bengali (India)"
 msgstr "Bengalce (Hindistan)"
 
-#: weblate/html/i18n.html:42
+#: weblate/html/i18n.html:32
 msgid "Bosnian"
 msgstr "Boşnakça"
 
-#: weblate/html/i18n.html:43
+#: weblate/html/i18n.html:33
 msgid "Breton"
 msgstr "Bretonca"
 
-#: weblate/html/i18n.html:44
+#: weblate/html/i18n.html:34
 msgid "Bulgarian"
 msgstr "Bulgarca"
 
-#: weblate/html/i18n.html:45
+#: weblate/html/i18n.html:35
 msgid "Catalan"
 msgstr "Katalanca"
 
-#: weblate/html/i18n.html:46
+#: weblate/html/i18n.html:36
 msgid "Central Khmer"
 msgstr "Merkez Khmerce"
 
-#: weblate/html/i18n.html:47
+#: weblate/html/i18n.html:37
 msgid "Chinese"
 msgstr "Çince"
 
-#: weblate/html/i18n.html:48
+#: weblate/html/i18n.html:38
 msgid "Chinese (Hong Kong)"
 msgstr "Çince (Hong Kong)"
 
-#: weblate/html/i18n.html:49
+#: weblate/html/i18n.html:39
 msgid "Chinese (China)"
 msgstr "Çince (Çin)"
 
-#: weblate/html/i18n.html:50
+#: weblate/html/i18n.html:40
 msgid "Chinese (Taiwan)"
 msgstr "Çince (Tayvan)"
 
-#: weblate/html/i18n.html:51
+#: weblate/html/i18n.html:41
 msgid "Cornish"
 msgstr "Kelt dili"
 
-#: weblate/html/i18n.html:52
+#: weblate/html/i18n.html:42
 msgid "Croatian"
 msgstr "Hırvatça"
 
-#: weblate/html/i18n.html:53
+#: weblate/html/i18n.html:43
 msgid "Czech"
 msgstr "Çekçe"
 
-#: weblate/html/i18n.html:54
+#: weblate/html/i18n.html:44
 msgid "Danish"
 msgstr "Danca"
 
-#: weblate/html/i18n.html:55
+#: weblate/html/i18n.html:45
 msgid "Dutch"
 msgstr "Felemenkçe"
 
-#: weblate/html/i18n.html:56
+#: weblate/html/i18n.html:46
 msgid "Dzongkha"
 msgstr "Dzongkha dili"
 
-#: weblate/html/i18n.html:57
+#: weblate/html/i18n.html:47
 msgid "English"
 msgstr "İngilizce"
 
-#: weblate/html/i18n.html:58
+#: weblate/html/i18n.html:48
 msgid "English (South Africa)"
 msgstr "İngilizce (Güney Afrika)"
 
-#: weblate/html/i18n.html:59
+#: weblate/html/i18n.html:49
 msgid "English (United Kingdom)"
 msgstr "İngilizce (Birleşik Krallık)"
 
-#: weblate/html/i18n.html:60
+#: weblate/html/i18n.html:50
 msgid "English (United States)"
 msgstr "İngilizce (ABD)"
 
-#: weblate/html/i18n.html:61
+#: weblate/html/i18n.html:51
 msgid "Esperanto"
 msgstr "Esperanto dili"
 
-#: weblate/html/i18n.html:62
+#: weblate/html/i18n.html:52
 msgid "Estonian"
 msgstr "Estçe"
 
-#: weblate/html/i18n.html:63
+#: weblate/html/i18n.html:53
 msgid "Faroese"
 msgstr "Faroe dili"
 
-#: weblate/html/i18n.html:64
+#: weblate/html/i18n.html:54
 msgid "Filipino"
 msgstr "Filipin dili"
 
-#: weblate/html/i18n.html:65
+#: weblate/html/i18n.html:55
 msgid "Finnish"
 msgstr "Fince"
 
-#: weblate/html/i18n.html:66
+#: weblate/html/i18n.html:56
 msgid "French"
 msgstr "Fransızca"
 
-#: weblate/html/i18n.html:67
+#: weblate/html/i18n.html:57
 msgid "Frisian"
 msgstr "Frizce"
 
-#: weblate/html/i18n.html:68
+#: weblate/html/i18n.html:58
 msgid "Friulian"
 msgstr "Friulice"
 
-#: weblate/html/i18n.html:69
+#: weblate/html/i18n.html:59
 msgid "Fulah"
 msgstr "Fulah"
 
-#: weblate/html/i18n.html:70
+#: weblate/html/i18n.html:60
 msgid "Gaelic"
 msgstr "Keltçe"
 
-#: weblate/html/i18n.html:71
+#: weblate/html/i18n.html:61
 msgid "Galician"
 msgstr "Galiçyaca"
 
-#: weblate/html/i18n.html:72
+#: weblate/html/i18n.html:62
 msgid "Georgian"
 msgstr "Gürcüce"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:63
 msgid "German"
 msgstr "Almanca"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:64
 msgid "Greek"
 msgstr "Yunanca"
 
-#: weblate/html/i18n.html:75
+#: weblate/html/i18n.html:65
 msgid "Gujarati"
 msgstr "Gucerat dili"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:66
 msgid "Gun"
 msgstr "Gun dili"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:67
 msgid "Haitian"
 msgstr "Haitice"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:68
 msgid "Hausa"
 msgstr "Hausa dili"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:69
 msgid "Hebrew"
 msgstr "İbranice"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:70
 msgid "Hindi"
 msgstr "Hinduca"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:71
 msgid "Hungarian"
 msgstr "Macarca"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:72
 msgid "Icelandic"
 msgstr "İzlanda dili"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:73
 msgid "Indonesian"
 msgstr "Endonezce"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:74
 msgid "Interlingua"
 msgstr "İnterlingua"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:75
 msgid "Irish"
 msgstr "İrlandaca"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:76
 msgid "Italian"
 msgstr "İtalyanca"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:77
 msgid "Japanese"
 msgstr "Japonca"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:78
 msgid "Javanese"
 msgstr "Cavaca"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:79
 msgid "Kannada"
 msgstr "Kannada dili"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:80
 msgid "Kashubian"
 msgstr "Kaşubyan"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:81
 msgid "Kazakh"
 msgstr "Kazakça"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:82
 msgid "Kirghiz"
 msgstr "Kırgızca"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:83
 msgid "Klingon"
 msgstr "Klingon dili"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:84
 msgid "Klingon (pIqaD)"
 msgstr "Klingon dili (pIqaD)"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:85
 msgid "Korean"
 msgstr "Korece"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:86
 msgid "Kurdish"
 msgstr "Kürtçe"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:87
 msgid "Kurdish Sorani"
 msgstr "Sorani Kürtçe"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:88
 msgid "Lao"
 msgstr "Laoca"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:89
 msgid "Latvian"
 msgstr "Letonca"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:90
 msgid "Limburgish"
 msgstr "Limburgça"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:91
 msgid "Lingala"
 msgstr "Bantu dili"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:92
 msgid "Lithuanian"
 msgstr "Litvanca"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:93
 msgid "Luxembourgish"
 msgstr "Lüksemburgca"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:94
 msgid "Macedonian"
 msgstr "Makedonca"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:95
 msgid "Maithili"
 msgstr "Hindu-Aryan dili"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:96
 msgid "Malagasy"
 msgstr "Malgaşça"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:97
 msgid "Malay"
 msgstr "Malayca"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:98
 msgid "Malayalam"
 msgstr "Malayamca"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:99
 msgid "Maltese"
 msgstr "Malta dili"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:100
 msgid "Maori"
 msgstr "Maori dili"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:101
 msgid "Mapudungun"
 msgstr "Araukanca"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:102
 msgid "Marathi"
 msgstr "Marathi Hint dili"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:103
 msgid "Mongolian"
 msgstr "Moğolca"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:104
 msgid "Morisyen"
 msgstr "Morisyen dili"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:105
 msgid "N'Ko"
 msgstr "N'Ko"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:106
 msgid "Nahuatl languages"
 msgstr "Nahuatl dili"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:107
 msgid "Neapolitan"
 msgstr "Napoli dili"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:108
 msgid "Nepali"
 msgstr "Nepalce"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:109
 msgid "Norwegian Bokmål"
 msgstr "Bokmål Norveççe"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:110
 msgid "Norwegian Nynorsk"
 msgstr "Nynorsk Norveçce"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:111
 msgid "Occitan"
 msgstr "Oksitanca"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:112
 msgid "Oriya"
 msgstr "Oriya dili"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:113
 msgid "Papiamento"
 msgstr "Creole dili"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:114
 msgid "Pedi"
 msgstr "Pedi dili"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:115
 msgid "Persian"
 msgstr "Farsça"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:116
 msgid "Piemontese"
 msgstr "Piedmont dili"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:117
 msgid "Polish"
 msgstr "Lehçe"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:118
 msgid "Portuguese"
 msgstr "Portekizce"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:119
 msgid "Portuguese (Brazil)"
 msgstr "Portekizce (Brezilya)"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:120
 msgid "Portuguese (Portugal)"
 msgstr "Portekizce (Portekiz)"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:121
 msgid "Punjabi"
 msgstr "Pencapça"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:122
 msgid "Pushto"
 msgstr "Peştuca"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:123
 msgid "Romanian"
 msgstr "Romence"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:124
 msgid "Romansh"
 msgstr "Romanş"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:125
 msgid "Russian"
 msgstr "Rusça"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:126
 msgid "Scots"
 msgstr "İskoç İngilizcesi"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:127
 msgid "Serbian"
 msgstr "Sırpça"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:128
 msgid "Serbian (cyrillic)"
 msgstr "Sırpça (kiril)"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:129
 msgid "Serbian (latin)"
 msgstr "Sırpça (latin)"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:130
 msgid "Simplified Chinese"
 msgstr "Basitleştirilmiş Çince"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:131
 msgid "Sinhala"
 msgstr "Sinhalese dili"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:132
 msgid "Slovak"
 msgstr "Slovakça"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:133
 msgid "Slovenian"
 msgstr "Slovence"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:134
 msgid "Somali"
 msgstr "Somalice"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:135
 msgid "Songhai languages"
 msgstr "Songhai dilleri"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:136
 msgid "Sotho"
 msgstr "Sotho dili"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:137
 msgid "Spanish"
 msgstr "İspanyolca"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:138
 msgid "Sundanese"
 msgstr "Sundanese dili"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:139
 msgid "Swahili"
 msgstr "Svahili dili"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:140
 msgid "Swedish"
 msgstr "İsveççe"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:141
 msgid "Tajik"
 msgstr "Tacikçe"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:142
 msgid "Tagalog"
 msgstr "Takalotça"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:143
 msgid "Tamil"
 msgstr "Tamilce"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:144
 msgid "Tatar"
 msgstr "Tatarca"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:145
 msgid "Telugu"
 msgstr "Telugu dili"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:146
 msgid "Thai"
 msgstr "Tayca"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:147
 msgid "Tibetan"
 msgstr "Tibet dili"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:148
 msgid "Tigrinya"
 msgstr "Tigrinya dili"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:149
 msgid "Traditional Chinese"
 msgstr "Geleneksel Çince"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:150
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:151
 msgid "Turkmen"
 msgstr "Türkmence"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:152
 msgid "Uighur"
 msgstr "Uygurca"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:153
 msgid "Ukrainian"
 msgstr "Ukraynaca"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:154
 msgid "Urdu"
 msgstr "Urduca"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:155
 msgid "Uzbek"
 msgstr "Özbekçe"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:156
 msgid "Uzbek (latin)"
 msgstr "Özbekçe (latin)"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:157
 msgid "Valencian"
 msgstr "Valensiyaca"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:158
 msgid "Venda"
 msgstr "Venda dili"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:159
 msgid "Vietnamese"
 msgstr "Vietnamca"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:160
 msgid "Walloon"
 msgstr "Valonca"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:161
 msgid "Welsh"
 msgstr "Galce"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:162
 msgid "West Flemish"
 msgstr "Batı Flamanca"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:163
 msgid "Wolof"
 msgstr "Volof dili"
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:164
 msgid "Yakut"
 msgstr "Yakut dili"
 
-#: weblate/html/i18n.html:175
+#: weblate/html/i18n.html:165
 msgid "Yoruba"
 msgstr "Yoruba dili"
 
-#: weblate/html/i18n.html:176
+#: weblate/html/i18n.html:166
 msgid "Zulu"
 msgstr "Zulu dili"
 
@@ -3068,7 +3057,7 @@ msgid "Your translations"
 msgstr "Çevirileriniz"
 
 #: weblate/html/index.html:20 weblate/html/language.html:12
-#: weblate/html/user.html:19
+#: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "Projeler"
 
@@ -3096,7 +3085,7 @@ msgstr "En aktif öneride bulunanlar"
 
 #: weblate/html/index.html:68 weblate/html/language.html:25
 #: weblate/html/project.html:48 weblate/html/subproject.html:41
-#: weblate/html/translation.html:49 weblate/html/user.html:28
+#: weblate/html/translation.html:49 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr "Etkinlik"
 
@@ -3137,7 +3126,7 @@ msgstr "Terimler Sözlükleri"
 msgid "When"
 msgstr "Ne zaman"
 
-#: weblate/html/last-changes.html:16 weblate/html/profile.html:56
+#: weblate/html/last-changes.html:16 weblate/html/accounts/profile.html:58
 msgid "Action"
 msgstr "Eylem"
 
@@ -3223,96 +3212,6 @@ msgstr "Çevir"
 #: weblate/html/list-translations.html:63
 msgid "Translated strings"
 msgstr "Çevrilmiş satır"
-
-#: weblate/html/profile.html:22
-msgid "Preferences"
-msgstr "Tercihler"
-
-#: weblate/html/profile.html:23
-msgid "Subscriptions"
-msgstr "Abonelikler"
-
-#: weblate/html/profile.html:24
-msgid "Account"
-msgstr "Hesap"
-
-#: weblate/html/profile.html:25
-#| msgid "Documentation"
-msgid "Authentication"
-msgstr "Kimlik doğrulaması"
-
-#: weblate/html/profile.html:26
-msgid "Information"
-msgstr "Bilgi"
-
-#: weblate/html/profile.html:27
-msgid "Licenses"
-msgstr "Lisanslar"
-
-#: weblate/html/profile.html:28
-msgid "Avatar"
-msgstr "Avatar"
-
-#: weblate/html/profile.html:36
-msgid "You will receive chosen notifications via email for all your languages."
-msgstr "Tüm dilleriniz için seçilen bildirimleri eposta yoluyla alacaksınız."
-
-#: weblate/html/profile.html:45
-msgid "Your name and email will appear as author on Git commits."
-msgstr "Adınız ve epostanız Git sunumlarında hazırlayan olarak görünecek."
-
-#: weblate/html/profile.html:49
-msgid ""
-"You can manage third party identities which are associated to this account."
-msgstr "Bu hesapla ilişkilendirilmiş üçüncü parti kimlikleri yönetebilirsiniz."
-
-#: weblate/html/profile.html:50
-msgid "Currently associated:"
-msgstr "Şu anda ilişkilendirilmiş:"
-
-#: weblate/html/profile.html:54
-msgid "Identity"
-msgstr "Kimlik"
-
-#: weblate/html/profile.html:55
-#| msgid "User"
-msgid "User ID"
-msgstr "Kullanıcı KİMLİĞİ"
-
-#: weblate/html/profile.html:65
-msgid "Disconnect"
-msgstr "Bağlantıyı kes"
-
-#: weblate/html/profile.html:77
-#| msgid "Add as translation"
-msgid "Add new association:"
-msgstr "Yeni ilişkilendirme ekle:"
-
-#: weblate/html/profile.html:90
-msgid "Your public profile:"
-msgstr "Açık profiliniz:"
-
-#: weblate/html/profile.html:96
-#: weblate/html/registration/registration_form.html:23
-msgid ""
-"By registering you agree to use your name and email in Git commits and "
-"provide your contribution under license defined by each translated project."
-msgstr ""
-"Kayıt olarak Git sunumlarında adınızı ve epostanızı kullanmayı ve her "
-"çevrilmiş proje tarafından tanımlanmış lisans altında katkı sağlamayı kabul "
-"ettiniz."
-
-#: weblate/html/profile.html:100
-msgid ""
-"Following projects have explicitely specified their licensing and copyright "
-"conditions:"
-msgstr ""
-"Aşağıdaki projeler açıkça belirtilmiş kendi lisans ve telif hakkı şartlarına "
-"sahiptir:"
-
-#: weblate/html/profile.html:117
-msgid "Avatars are provided using libravatar."
-msgstr "Avatarlar libravatar kullanılarak sağlanır."
 
 #: weblate/html/project.html:11 weblate/html/source.html:13
 #: weblate/html/subproject.html:13 weblate/html/translation.html:16
@@ -3556,7 +3455,6 @@ msgid "Suggest"
 msgstr "Öner"
 
 #: weblate/html/translate.html:167
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "No privileges for adding suggestions!"
 msgstr "Önerileri eklemek için yetkiler yok!"
 
@@ -3802,18 +3700,6 @@ msgstr "Son oturum açma"
 msgid "Registration date"
 msgstr "Kayıt olma tarihi"
 
-#: weblate/html/user.html:34 weblate/html/js/activity.html:2
-msgid "Activity in last 30 days"
-msgstr "Son 30 günlük etkinlik"
-
-#: weblate/html/user.html:37 weblate/html/js/activity.html:5
-msgid "Activity in last year"
-msgstr "Geçen yıldaki etkinlik"
-
-#: weblate/html/user.html:40
-msgid "Recent contributions"
-msgstr "Son katkılar"
-
 #: weblate/html/widgets-root.html:6 weblate/html/widgets.html:7
 msgid "widgets"
 msgstr "parçacıklar"
@@ -3898,6 +3784,229 @@ msgstr "Textile kodu"
 #: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
 msgid "Translation status"
 msgstr "Çeviri durumu"
+
+#: weblate/html/accounts/contact.html:6
+msgid "contact"
+msgstr "iletişim"
+
+#: weblate/html/accounts/contact.html:11
+msgid "You can contact maintainers of this server here."
+msgstr "Burada bu sunucunun bakıcılarına irtibata geçebilirsiniz."
+
+#: weblate/html/accounts/contact.html:13
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"Lütfen bizimle İngilizce olarak temas kurun, yoksa isteğinizi "
+"anlayamayabiliriz."
+
+#: weblate/html/accounts/contact.html:21
+msgid "Send"
+msgstr "Gönder"
+
+#: weblate/html/accounts/email-sent.html:7
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Kayıt olduğunuz için teşekkür ederiz. Çok yakında bir onaylama bağlantısı "
+"içeren bir eposta alacaksınız. Lütfen kaydınızı tamamlamak için bu "
+"bağlantıyı takip edin."
+
+#: weblate/html/accounts/email-sent.html:11
+#, python-format
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+"\">contact us</a>."
+msgstr ""
+"Eğer kısa sürede almadıysanız, lütfen gereksiz/istenmeyen mesajlar klasörünü "
+"kontrol edin. Eğer orada yoksa, lütfen <a href=\"%(contact_url)s?"
+"subject=Lost activation code\">bize ulaşın</a>."
+
+#: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:15
+#: weblate/html/accounts/reset.html:15
+msgid "Please fix errors in registration form."
+msgstr "Lütfen kayıt formundaki hataları düzeltin."
+
+#: weblate/html/accounts/email.html:25 weblate/html/accounts/profile.html:95
+#: weblate/html/accounts/register.html:27
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Kayıt olarak Git sunumlarında adınızı ve epostanızı kullanmayı ve her "
+"çevrilmiş proje tarafından tanımlanmış lisans altında katkı sağlamayı kabul "
+"ettiniz."
+
+#: weblate/html/accounts/login.html:11
+msgid "This username/password combination was not found. Please try again."
+msgstr "Bu kullanıcı adı/parola birleşimi bulunamadı. Lütfen tekrar deneyin."
+
+#: weblate/html/accounts/login.html:17
+msgid "Password log in"
+msgstr "Parolayla oturum açma"
+
+#: weblate/html/accounts/login.html:39
+#, python-format
+msgid ""
+"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
+"a>."
+msgstr ""
+"Henüz bir hesabınız yok mu? <a href=\"%(register_url)s\">Kayıt</a> "
+"olabilirsiniz."
+
+#: weblate/html/accounts/login.html:45
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"Parolanızı mı unuttunuz? <a href=\"%(reset_url)s\">Sıfırlayabilirsiniz</a>."
+
+#: weblate/html/accounts/login.html:50
+msgid "Third party log in"
+msgstr "Üçüncü parti oturum açma"
+
+#: weblate/html/accounts/password.html:6
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Lütfen yeni parolanızı iki defa girin böylece doğru olarak yazdığınızı "
+"doğrulayabiliriz."
+
+#: weblate/html/accounts/password.html:13
+msgid "Change my password"
+msgstr "Parolamı değiştir"
+
+#: weblate/html/accounts/profile.html:22
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: weblate/html/accounts/profile.html:23
+msgid "Subscriptions"
+msgstr "Abonelikler"
+
+#: weblate/html/accounts/profile.html:24
+msgid "Account"
+msgstr "Hesap"
+
+#: weblate/html/accounts/profile.html:25
+msgid "Authentication"
+msgstr "Kimlik doğrulaması"
+
+#: weblate/html/accounts/profile.html:26
+msgid "Information"
+msgstr "Bilgi"
+
+#: weblate/html/accounts/profile.html:27
+msgid "Licenses"
+msgstr "Lisanslar"
+
+#: weblate/html/accounts/profile.html:28
+msgid "Avatar"
+msgstr "Avatar"
+
+#: weblate/html/accounts/profile.html:36
+msgid "You will receive chosen notifications via email for all your languages."
+msgstr "Tüm dilleriniz için seçilen bildirimleri eposta yoluyla alacaksınız."
+
+#: weblate/html/accounts/profile.html:45
+msgid "Your name and email will appear as author on Git commits."
+msgstr "Adınız ve epostanız Git sunumlarında hazırlayan olarak görünecek."
+
+#: weblate/html/accounts/profile.html:49
+#, fuzzy
+#| msgid "New password"
+msgid "Set password"
+msgstr "Yeni parola"
+
+#: weblate/html/accounts/profile.html:51
+msgid ""
+"You can manage third party identities which are associated to this account."
+msgstr "Bu hesapla ilişkilendirilmiş üçüncü parti kimlikleri yönetebilirsiniz."
+
+#: weblate/html/accounts/profile.html:52
+msgid "Currently associated:"
+msgstr "Şu anda ilişkilendirilmiş:"
+
+#: weblate/html/accounts/profile.html:56
+msgid "Identity"
+msgstr "Kimlik"
+
+#: weblate/html/accounts/profile.html:57
+msgid "User ID"
+msgstr "Kullanıcı KİMLİĞİ"
+
+#: weblate/html/accounts/profile.html:67
+msgid "Disconnect"
+msgstr "Bağlantıyı kes"
+
+#: weblate/html/accounts/profile.html:76
+msgid "Add new association:"
+msgstr "Yeni ilişkilendirme ekle:"
+
+#: weblate/html/accounts/profile.html:89
+msgid "Your public profile:"
+msgstr "Açık profiliniz:"
+
+#: weblate/html/accounts/profile.html:99
+msgid ""
+"Following projects have explicitely specified their licensing and copyright "
+"conditions:"
+msgstr ""
+"Aşağıdaki projeler açıkça belirtilmiş kendi lisans ve telif hakkı şartlarına "
+"sahiptir:"
+
+#: weblate/html/accounts/profile.html:116
+msgid "Avatars are provided using libravatar."
+msgstr "Avatarlar libravatar kullanılarak sağlanır."
+
+#: weblate/html/accounts/register.html:9
+#, fuzzy
+#| msgid "Registered users"
+msgid "Register using email"
+msgstr "Kayıtlı kullanıcı"
+
+#: weblate/html/accounts/register.html:34
+#, fuzzy
+#| msgid "Third party log in"
+msgid "Third party registration"
+msgstr "Üçüncü parti oturum açma"
+
+#: weblate/html/accounts/register.html:46
+#, python-format
+msgid ""
+"Sorry, but registrations on this site are disabled. You can <a href="
+"\"%(contact_url)s\">contact us</a> for more details."
+msgstr ""
+"Üzgünüm, bu sitedeki kayıtlar kapalı. Daha fazla ayrıntı için <a href="
+"\"%(contact_url)s\">bizimle temasa</a> geçebilirsiniz."
+
+#: weblate/html/accounts/reset.html:9
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Parolanızı mı unuttunuz? Aşağıya e-posta adresinizi girin ve yeni bir "
+"tanesini ayarlamak için talimatları postalayalım."
+
+#: weblate/html/accounts/reset.html:28
+msgid "Reset my password"
+msgstr "Parolamı sıfırla"
+
+#: weblate/html/accounts/user.html:34 weblate/html/js/activity.html:2
+msgid "Activity in last 30 days"
+msgstr "Son 30 günlük etkinlik"
+
+#: weblate/html/accounts/user.html:37 weblate/html/js/activity.html:5
+msgid "Activity in last year"
+msgstr "Geçen yıldaki etkinlik"
+
+#: weblate/html/accounts/user.html:40
+msgid "Recent contributions"
+msgstr "Son katkılar"
 
 #: weblate/html/admin/custom-index.html:11
 msgid "Reports"
@@ -4113,10 +4222,7 @@ msgstr "Bu çeviriyi kullan"
 msgid "No other strings found."
 msgstr "Bulunan diğer satırlar yok."
 
-#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
-msgid "Sent by Weblate translation system"
-msgstr "Weblate çeviri sistemi tarafından gönderildi"
-
+#: weblate/html/mail/activation.html:8 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:8
 #: weblate/html/mail/changed_translation.txt:1
 #: weblate/html/mail/merge_failure.html:8
@@ -4130,9 +4236,38 @@ msgstr "Weblate çeviri sistemi tarafından gönderildi"
 #: weblate/html/mail/new_suggestion.txt:1
 #: weblate/html/mail/new_translation.html:8
 #: weblate/html/mail/new_translation.txt:1
-#: weblate/html/registration/activation_email.txt:1
 msgid "Hi,"
 msgstr "Merhaba,"
+
+#: weblate/html/mail/activation.html:12 weblate/html/mail/activation.txt:3
+#, python-format
+msgid ""
+"This is an automatic email to help you complete your registration with "
+"%(site_title)s."
+msgstr ""
+"Bu, %(site_title)s ile kaydınızı tamamlamanıza yardımcı olan otomatik bir "
+"epostadır."
+
+#: weblate/html/mail/activation.html:16 weblate/html/mail/activation.txt:5
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
+msgstr ""
+"Lütfen aşağıdaki bağlantıyı web tarayıcınızda açın. Eğer bağlantı birden çok "
+"satırla bölünmüşse bunu adres çubuğuna kopyalamanız gerekebilir."
+
+#: weblate/html/mail/activation.html:24 weblate/html/mail/activation.txt:9
+msgid "If there is a problem with your registration, please contact us:"
+msgstr "Eğer kaydınız ile ilgili bir sorun varsa, lütfen bizimle temasa geçin:"
+
+#: weblate/html/mail/activation_subject.txt:1
+#, python-format
+msgid "Your registration on %(site_title)s"
+msgstr "%(site_title)s kaydınız"
+
+#: weblate/html/mail/base.html:31 weblate/html/mail/signature.txt:2
+msgid "Sent by Weblate translation system"
+msgstr "Weblate çeviri sistemi tarafından gönderildi"
 
 #: weblate/html/mail/changed_translation.html:12
 #: weblate/html/mail/changed_translation.txt:3
@@ -4348,235 +4483,119 @@ msgid "More information about Weblate can be found at http://weblate.org/"
 msgstr ""
 "Weblate hakkında daha fazla bilgi http://weblate.org/ adresinde bulunabilir"
 
-#: weblate/html/registration/activate.html:7
-msgid "Your account could not be activated"
-msgstr "Hesabınız etkinleştirilemedi"
-
-#: weblate/html/registration/activate.html:9
-#, python-format
-msgid ""
-"This may be because it is already active or because you waited over %(days)s "
-"day to activate it."
-msgid_plural ""
-"This may be because it is already active or because you waited over %(days)s "
-"days to activate it."
-msgstr[0] ""
-"Bunun sebebi zaten hesabınız etkin olması ya da etkinleştirmek için %(days)s "
-"günden fazla beklemiş olmanız olabilir."
-
-#: weblate/html/registration/activate.html:12
-#, python-format
-msgid ""
-"If this is not the case, please <a href=\"%(contact_url)s\">contact</a> the "
-"website administrator. Otherwise, you may <a href=\"%(reg_url)s\">register "
-"again</a>."
-msgstr ""
-"Eğer sebebi bu değilse, lütfen web sitesi yöneticisiyle <a href="
-"\"%(contact_url)s\">temasa geçin</a>. Aksi halde, <a href=\"%(reg_url)s"
-"\">tekrar kayıt</a> olabilirsiniz."
-
-#: weblate/html/registration/activation_complete.html:8
-msgid "Thank you. Your account is now activated."
-msgstr "Teşekkür ederim. Hesabınız artık etkin."
-
-#: weblate/html/registration/activation_complete.html:12
-#, python-format
-msgid ""
-"You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
-msgstr ""
-"Şimdi <a href=\"%(profile_url)s\">profilinizi ayarlamak</a> isteyebilirsiniz."
-
-#: weblate/html/registration/activation_email.txt:3
-#, python-format
-msgid ""
-"This is an automatic email to help you complete your registration with "
-"%(site_title)s."
-msgstr ""
-"Bu, %(site_title)s ile kaydınızı tamamlamanıza yardımcı olan otomatik bir "
-"epostadır."
-
-#: weblate/html/registration/activation_email.txt:5
-msgid ""
-"Please open the following link in your web browser. If the link is split "
-"over several lines, you may need to copy it in the address bar."
-msgstr ""
-"Lütfen aşağıdaki bağlantıyı web tarayıcınızda açın. Eğer bağlantı birden çok "
-"satırla bölünmüşse bunu adres çubuğuna kopyalamanız gerekebilir."
-
-#: weblate/html/registration/activation_email.txt:9
-msgid "If there is a problem with your registration, please contact us:"
-msgstr "Eğer kaydınız ile ilgili bir sorun varsa, lütfen bizimle temasa geçin:"
-
-#: weblate/html/registration/activation_email_subject.txt:1
-#, python-format
-msgid "Your registration on %(site_title)s"
-msgstr "%(site_title)s kaydınız"
-
-#: weblate/html/registration/login.html:11
-msgid "This username/password combination was not found. Please try again."
-msgstr "Bu kullanıcı adı/parola birleşimi bulunamadı. Lütfen tekrar deneyin."
-
-#: weblate/html/registration/login.html:17
-#| msgid "Password (again)"
-msgid "Password log in"
-msgstr "Parolayla oturum açma"
-
-#: weblate/html/registration/login.html:39
-#, python-format
-msgid ""
-"Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
-"a>."
-msgstr ""
-"Henüz bir hesabınız yok mu? <a href=\"%(register_url)s\">Kayıt</a> "
-"olabilirsiniz."
-
-#: weblate/html/registration/login.html:45
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"Parolanızı mı unuttunuz? <a href=\"%(reset_url)s\">Sıfırlayabilirsiniz</a>."
-
-#: weblate/html/registration/login.html:48
-msgid "Third party log in"
-msgstr "Üçüncü parti oturum açma"
-
-#: weblate/html/registration/logout.html:7
-msgid "Thanks for using Weblate!"
-msgstr "Weblate'i kullandığınız için teşekkürler!"
-
-#: weblate/html/registration/logout.html:9
-msgid "Log in again"
-msgstr "Tekrar oturum açın"
-
-#: weblate/html/registration/password_change_done.html:6
-msgid "Your password was changed."
-msgstr "Parolanız değiştirildi."
-
-#: weblate/html/registration/password_change_form.html:11
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Lütfen aşağıdan hatayı düzeltin."
-
-#: weblate/html/registration/password_change_form.html:17
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Lütfen eski parolanızı girin, güvenlik amacı için, ve sonra yeni parolanızı "
-"iki defa girin böylece doğru olarak yazdığınızı doğrulayabiliriz."
-
-#: weblate/html/registration/password_change_form.html:22
-#: weblate/html/registration/password_reset_confirm.html:14
-msgid "Change my password"
-msgstr "Parolamı değiştir"
-
-#: weblate/html/registration/password_reset_complete.html:6
-msgid "Your password has been set. You may go ahead and log in now."
-msgstr "Parolanız ayarlandı. Devam edebilir ve hemen oturum açabilirsiniz."
-
-#: weblate/html/registration/password_reset_complete.html:8
-msgid "Log in"
-msgstr "Oturum aç"
-
-#: weblate/html/registration/password_reset_confirm.html:8
-msgid ""
-"Please enter your new password twice so we can verify you typed it in "
-"correctly."
-msgstr ""
-"Lütfen yeni parolanızı iki defa girin böylece doğru olarak yazdığınızı "
-"doğrulayabiliriz."
-
-#: weblate/html/registration/password_reset_confirm.html:19
-msgid ""
-"The password reset link is invalid, possibly because it has already been "
-"used. Please request a new password reset."
-msgstr ""
-"Parola sıfırlama bağlantısı geçersiz, muhtemelen zaten kullanılmıştır. "
-"Lütfen yeni parola sıfırlama isteyin."
-
-#: weblate/html/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Size parolanızı ayarlamanız için talimatları bize gönderdiğiniz e-posta "
-"adresinize postaladık. Kısa sürede almalısınız."
-
-#: weblate/html/registration/password_reset_email.html:2
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Bu e-postayı aldınız çünkü %(site_name)s adresindeki kullanıcı hesabınız "
-"için parola sıfırlama istediniz."
-
-#: weblate/html/registration/password_reset_email.html:4
-msgid "Please go to the following page and choose a new password:"
-msgstr "Lütfen aşağıdaki sayfaya gidin ve yeni bir parola seçin:"
-
-#: weblate/html/registration/password_reset_email.html:8
-msgid "Your username, in case you've forgotten:"
-msgstr "Kullanıcı adınız, unuttuysanız:"
-
-#: weblate/html/registration/password_reset_email.html:10
-msgid "Thanks for using our site!"
-msgstr "Sitemizi kullandığınız için teşekkürler!"
-
-#: weblate/html/registration/password_reset_email.html:12
-#, python-format
-msgid "The %(site_name)s team"
-msgstr "%(site_name)s takımı"
-
-#: weblate/html/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Parolanızı mı unuttunuz? Aşağıya e-posta adresinizi girin ve yeni bir "
-"tanesini ayarlamak için talimatları postalayalım."
-
-#: weblate/html/registration/password_reset_form.html:10
-msgid "Reset my password"
-msgstr "Parolamı sıfırla"
-
-#: weblate/html/registration/registration_closed.html:9
-#, python-format
-msgid ""
-"Sorry, but registrations on this site are disabled. You can <a href="
-"\"%(contact_url)s\">contact us</a> for more details."
-msgstr ""
-"Üzgünüm, bu sitedeki kayıtlar kapalı. Daha fazla ayrıntı için <a href="
-"\"%(contact_url)s\">bizimle temasa</a> geçebilirsiniz."
-
-#: weblate/html/registration/registration_complete.html:7
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
-msgstr ""
-"Kayıt olduğunuz için teşekkür ederiz. Çok yakında bir onaylama bağlantısı "
-"içeren bir eposta alacaksınız. Lütfen kaydınızı tamamlamak için bu "
-"bağlantıyı takip edin."
-
-#: weblate/html/registration/registration_complete.html:11
-#, python-format
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
-msgstr ""
-"Eğer kısa sürede almadıysanız, lütfen gereksiz/istenmeyen mesajlar klasörünü "
-"kontrol edin. Eğer orada yoksa, lütfen <a href=\"%(contact_url)s?"
-"subject=Lost activation code\">bize ulaşın</a>."
-
-#: weblate/html/registration/registration_form.html:11
-msgid "Please fix errors in registration form."
-msgstr "Lütfen kayıt formundaki hataları düzeltin."
-
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
 msgstr "değişiklikler"
+
+#~ msgid "Password"
+#~ msgstr "Parola"
+
+#~ msgid ""
+#~ "Your profile has been migrated, you might want to adjust preferences."
+#~ msgstr "Profiliniz değiştirildi, tercihleri ayarlamak isteyebilirsiniz."
+
+#~ msgid "Account activation"
+#~ msgstr "Hesap etkinleştirme"
+
+#~ msgid "Logged out"
+#~ msgstr "Oturum kapandı"
+
+#~ msgid "Password changed"
+#~ msgstr "Parola değiştirildi"
+
+#~ msgid "Old password"
+#~ msgstr "Eski parola"
+
+#~ msgid "New password confirmation"
+#~ msgstr "Yeni parola tekrarı"
+
+#~ msgid "The two password fields didn't match."
+#~ msgstr "İki parola alanı eşleşmedi."
+
+#~ msgid "Your account could not be activated"
+#~ msgstr "Hesabınız etkinleştirilemedi"
+
+#~ msgid ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s day to activate it."
+#~ msgid_plural ""
+#~ "This may be because it is already active or because you waited over "
+#~ "%(days)s days to activate it."
+#~ msgstr[0] ""
+#~ "Bunun sebebi zaten hesabınız etkin olması ya da etkinleştirmek için "
+#~ "%(days)s günden fazla beklemiş olmanız olabilir."
+
+#~ msgid ""
+#~ "If this is not the case, please <a href=\"%(contact_url)s\">contact</a> "
+#~ "the website administrator. Otherwise, you may <a href=\"%(reg_url)s"
+#~ "\">register again</a>."
+#~ msgstr ""
+#~ "Eğer sebebi bu değilse, lütfen web sitesi yöneticisiyle <a href="
+#~ "\"%(contact_url)s\">temasa geçin</a>. Aksi halde, <a href=\"%(reg_url)s"
+#~ "\">tekrar kayıt</a> olabilirsiniz."
+
+#~ msgid "Thank you. Your account is now activated."
+#~ msgstr "Teşekkür ederim. Hesabınız artık etkin."
+
+#~ msgid ""
+#~ "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
+#~ msgstr ""
+#~ "Şimdi <a href=\"%(profile_url)s\">profilinizi ayarlamak</a> "
+#~ "isteyebilirsiniz."
+
+#~ msgid "Log in again"
+#~ msgstr "Tekrar oturum açın"
+
+#~ msgid "Please correct the error below."
+#~ msgid_plural "Please correct the errors below."
+#~ msgstr[0] "Lütfen aşağıdan hatayı düzeltin."
+
+#~ msgid ""
+#~ "Please enter your old password, for security's sake, and then enter your "
+#~ "new password twice so we can verify you typed it in correctly."
+#~ msgstr ""
+#~ "Lütfen eski parolanızı girin, güvenlik amacı için, ve sonra yeni "
+#~ "parolanızı iki defa girin böylece doğru olarak yazdığınızı "
+#~ "doğrulayabiliriz."
+
+#~ msgid "Your password has been set. You may go ahead and log in now."
+#~ msgstr "Parolanız ayarlandı. Devam edebilir ve hemen oturum açabilirsiniz."
+
+#~ msgid "Log in"
+#~ msgstr "Oturum aç"
+
+#~ msgid ""
+#~ "The password reset link is invalid, possibly because it has already been "
+#~ "used. Please request a new password reset."
+#~ msgstr ""
+#~ "Parola sıfırlama bağlantısı geçersiz, muhtemelen zaten kullanılmıştır. "
+#~ "Lütfen yeni parola sıfırlama isteyin."
+
+#~ msgid ""
+#~ "We've e-mailed you instructions for setting your password to the e-mail "
+#~ "address you submitted. You should be receiving it shortly."
+#~ msgstr ""
+#~ "Size parolanızı ayarlamanız için talimatları bize gönderdiğiniz e-posta "
+#~ "adresinize postaladık. Kısa sürede almalısınız."
+
+#~ msgid ""
+#~ "You're receiving this e-mail because you requested a password reset for "
+#~ "your user account at %(site_name)s."
+#~ msgstr ""
+#~ "Bu e-postayı aldınız çünkü %(site_name)s adresindeki kullanıcı hesabınız "
+#~ "için parola sıfırlama istediniz."
+
+#~ msgid "Please go to the following page and choose a new password:"
+#~ msgstr "Lütfen aşağıdaki sayfaya gidin ve yeni bir parola seçin:"
+
+#~ msgid "Your username, in case you've forgotten:"
+#~ msgstr "Kullanıcı adınız, unuttuysanız:"
+
+#~ msgid "Thanks for using our site!"
+#~ msgstr "Sitemizi kullandığınız için teşekkürler!"
+
+#~ msgid "The %(site_name)s team"
+#~ msgstr "%(site_name)s takımı"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
