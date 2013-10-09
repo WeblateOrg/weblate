@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% if registration_open %}
+
 {% if form.errors %}
 <div class="ui-widget">
     <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
@@ -25,5 +27,12 @@
 <p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
 </form>
 
+{% else %}
+
+<p>
+{% trans "Sorry but this site is not open for registrations." %}
+</p>
+
+{% endif %}
 
 {% endblock %}
