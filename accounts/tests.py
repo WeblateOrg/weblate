@@ -53,14 +53,7 @@ REGISTRATION_DATA = {
 
 
 class RegistrationTest(TestCase):
-    def test_register(self):
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA
-        )
-        # Check we did succeed
-        self.assertRedirects(response, reverse('email-sent'))
-
+    def assertRegistration(self):
         # Check registration mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
@@ -80,6 +73,17 @@ class RegistrationTest(TestCase):
             response,
             reverse('password')
         )
+
+    def test_register(self):
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA
+        )
+        # Check we did succeed
+        self.assertRedirects(response, reverse('email-sent'))
+
+        # Confirm account
+        self.assertRegistration()
 
         # Set password
         response = self.client.post(
@@ -101,6 +105,22 @@ class RegistrationTest(TestCase):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First')
         self.assertEqual(user.last_name, 'Last')
+
+    def test_reset(self):
+        '''
+        Test for password reset.
+        '''
+        user = User.objects.create_user('testuser', 'test@example.com', 'x')
+
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'email': 'test@example.com'
+            }
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+
+        self.assertRegistration()
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
