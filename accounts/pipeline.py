@@ -38,11 +38,6 @@ def require_email(strategy, details, user=None, is_new=False,
 
         # Force validation of new email address
         if strategy.backend_name == 'email':
-
-            # Password reset form
-            if strategy.session_get('password_reset'):
-                strategy.session_pop('password_reset')
-
             return {'is_new': True}
 
         return
