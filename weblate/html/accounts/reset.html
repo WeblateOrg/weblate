@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans "Password reset" %}</h2>
+
+<p>{% trans "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one." %}</p>
+
+{% if form.errors %}
+<div class="ui-widget">
+    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
+        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
+        {% trans "Please fix errors in registration form." %}
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<form action="{% url 'password_reset' %}" method="post" accept-charset="utf-8">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<p>
+</p>
+<p><input type="submit" value="{% trans 'Reset my password' %}" class="button" /></p>
+</form>
+
+{% endblock %}

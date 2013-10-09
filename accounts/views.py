@@ -32,7 +32,7 @@ from django.views.generic import TemplateView
 from urllib import urlencode
 
 from accounts.forms import (
-    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm
+    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm
 )
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
@@ -382,6 +382,33 @@ def password(request):
             {
                 'title': _('Change password'),
                 'change_form': change_form,
+                'form': form,
+            }
+        )
+    )
+
+
+def reset_password(request):
+    '''
+    Password reset handling.
+    '''
+    if request.method == 'POST':
+        form = ResetForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data['email']
+            user.set_unusable_password()
+            user.save()
+            request.session['password_reset'] = True
+            return complete(request, 'email')
+    else:
+        form = ResetForm()
+
+    return render_to_response(
+        'accounts/reset.html',
+        RequestContext(
+            request,
+            {
+                'title': _('Password reset'),
                 'form': form,
             }
         )

@@ -43,6 +43,11 @@ def require_email(strategy, details, user=None, is_new=False,
             if email and user.email != email:
                 return {'is_new': True}
 
+            # Password reset form
+            if strategy.session_get('password_reset'):
+                strategy.session_pop('password_reset')
+                return {'is_new': True}
+
         return
 
     elif is_new and not details.get('email'):

@@ -357,3 +357,14 @@ class PasswordChangeForm(forms.Form):
         widget=forms.PasswordInput(render_value=False),
         label=_("Current password"),
     )
+
+
+class ResetForm(EmailForm):
+    def clean_email(self):
+        users = User.objects.filter(email__iexact=self.cleaned_data['email'])
+
+        if not users.exists():
+            raise forms.ValidationError(
+                _('User with this email address was not found.')
+            )
+        return users[0]

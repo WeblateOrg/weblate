@@ -60,6 +60,7 @@ urlpatterns = patterns(
         name='email-sent'
     ),
     url(r'^password/', 'accounts.views.password', name='password'),
+    url(r'^reset/', 'accounts.views.reset_password', name='password_reset'),
     url(r'^logout/', 'accounts.views.weblate_logout', name='logout'),
     url(r'^profile/', 'accounts.views.user_profile', name='profile'),
     url(r'^login/$', 'accounts.views.weblate_login', name='login'),
