@@ -92,17 +92,6 @@ def get_versions():
         '1.4',
     ))
 
-    name = 'Django-registration'
-    url = 'https://bitbucket.org/ubernostrum/django-registration/'
-    mod = get_version_module('registration', name, url)
-    result.append((
-        name,
-        url,
-        mod.get_version(),
-        '0.8',
-        '0.8',
-    ))
-
     name = 'python-social-auth'
     url = 'http://psa.matiasaguirre.net/'
     mod = get_version_module('social', name, url)
