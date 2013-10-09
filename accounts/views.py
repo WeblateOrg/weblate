@@ -317,6 +317,11 @@ def password(request):
     if request.method == 'POST':
         form = PasswordForm(request.POST)
         if form.is_valid() and do_change:
+
+            # Clear flag forcing user to set password
+            if 'show_set_password' in request.session:
+                del request.session['show_set_password']
+
             request.user.set_password(
                 form.cleaned_data['password1']
             )

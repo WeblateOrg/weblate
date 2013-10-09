@@ -55,6 +55,17 @@ def home(request):
     Home page of Weblate showing list of projects, stats
     and user links if logged in.
     '''
+
+    if 'show_set_password' in request.session:
+        messages.warning(
+            request,
+            _(
+                'You have activated your account, now you should set '
+                'the password to be able to login next time.'
+            )
+        )
+        return redirect('password')
+
     projects = Project.objects.all_acl(request.user)
     acl_projects = projects
     if projects.count() == 1:
