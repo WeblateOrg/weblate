@@ -131,7 +131,7 @@ def user_profile(request):
             instance=request.user
         )
 
-    response = render_to_response('profile.html', RequestContext(request, {
+    response = render_to_response('accounts/profile.html', RequestContext(request, {
         'form': form,
         'userform': userform,
         'subscriptionform': subscriptionform,
@@ -173,10 +173,16 @@ def contact(request):
             initial['subject'] = request.GET['subject']
         form = ContactForm(initial=initial)
 
-    return render_to_response('contact.html', RequestContext(request, {
-        'form': form,
-        'title': _('Contact'),
-    }))
+    return render_to_response(
+        'accounts/contact.html',
+        RequestContext(
+            request,
+            {
+                'form': form,
+                'title': _('Contact'),
+            }
+        )
+    )
 
 
 def user_page(request, user):
@@ -205,7 +211,7 @@ def user_page(request, user):
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 
     return render_to_response(
-        'user.html',
+        'accounts/user.html',
         RequestContext(
             request,
             {
