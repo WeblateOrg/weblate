@@ -133,14 +133,20 @@ def user_profile(request):
             instance=request.user
         )
 
-    response = render_to_response('accounts/profile.html', RequestContext(request, {
-        'form': form,
-        'userform': userform,
-        'subscriptionform': subscriptionform,
-        'profile': profile,
-        'title': _('User profile'),
-        'licenses': Project.objects.exclude(license=''),
-    }))
+    response = render_to_response(
+        'accounts/profile.html',
+        RequestContext(
+            request,
+            {
+                'form': form,
+                'userform': userform,
+                'subscriptionform': subscriptionform,
+                'profile': profile,
+                'title': _('User profile'),
+                'licenses': Project.objects.exclude(license=''),
+            }
+        )
+    )
     response.set_cookie(
         settings.LANGUAGE_COOKIE_NAME,
         profile.language
