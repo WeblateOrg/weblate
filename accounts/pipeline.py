@@ -20,6 +20,7 @@
 
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
@@ -48,13 +49,18 @@ def user_password(strategy, user, is_new=False, *args, **kwargs):
     if strategy.backend_name != 'email':
         return
 
-    password = strategy.request_data()['password']
+    request = strategy.request_data()
 
-    if is_new:
-        user.set_password(password)
+    if ('password' not in request
+            or not user.check_password(request['password'])):
+
+        user.is_active = True
         user.save()
-    elif not user.check_password(password):
-        raise AuthException(strategy.backend)
+
+        raise AuthException(
+            strategy.backend,
+            _('Activation completed, you can now login.')
+        )
 
 
 def send_validation(strategy, code):

@@ -197,8 +197,7 @@ class ContactForm(forms.Form):
 
 class RegistrationForm(forms.Form):
     '''
-    Registration form, please note it does not save anything
-    it is done further in the pipeline.
+    Registration form.
     '''
     required_css_class = "required"
     error_css_class = "error"
@@ -310,3 +309,20 @@ class RegistrationForm(forms.Form):
             pass
 
         return self.cleaned_data
+
+    def save(self):
+        '''
+        Creates user.
+        '''
+        user = User.objects.create(
+            email=self.cleaned_data['email'],
+            username=self.cleaned_data['username'],
+            first_name=self.cleaned_data['first_name'],
+            last_name=self.cleaned_data['last_name'],
+            is_active=False,
+        )
+        user.set_password(
+            self.cleaned_data['password1']
+        )
+        user.save()
+        return user

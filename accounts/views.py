@@ -227,6 +227,9 @@ def weblate_login(request):
     if request.user.is_authenticated():
         return redirect('profile')
 
+    if 'message' in request.GET:
+        messages.info(request, request.GET['message'])
+
     return login(
         request,
         template_name='registration/login.html',
@@ -246,6 +249,7 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
+            request.user = form.save()
             return complete(request, 'email')
     else:
         form = RegistrationForm()

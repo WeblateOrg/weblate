@@ -189,6 +189,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.get_username',
     'accounts.pipeline.require_email',
     'social.pipeline.mail.mail_validation',
+    'social.pipeline.social_auth.associate_by_email',
     'social.pipeline.user.create_user',
     'accounts.pipeline.user_password',
     'social.pipeline.social_auth.associate_user',
@@ -208,6 +209,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'accounts.middleware.RequireLoginMiddleware',
 )
 
