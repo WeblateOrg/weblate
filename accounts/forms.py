@@ -21,7 +21,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _, get_language
 
-from accounts.models import Profile
+from accounts.models import Profile, VerifiedEmail
 from lang.models import Language
 from trans.models import Project
 from django.contrib.auth.models import User
@@ -152,6 +152,17 @@ class UserForm(forms.ModelForm):
     '''
     User information form.
     '''
+    email = forms.ChoiceField(
+        label=_('E-mail'),
+        help_text=_(
+            'You can add another emails on Authentication tab.'
+        ),
+        choices=(
+            ('', ''),
+        ),
+        required=True
+    )
+
     class Meta:
         model = User
         fields = (
@@ -164,12 +175,15 @@ class UserForm(forms.ModelForm):
 
         super(UserForm, self).__init__(*args, **kwargs)
 
+        verified_mails = VerifiedEmail.objects.filter(social__user=self.instance)
+        emails = set([x.email for x in verified_mails])
+        emails.add(self.instance.email)
+
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
-        self.fields['email'].required = True
         self.fields['first_name'].label = _('First name')
         self.fields['last_name'].label = _('Last name')
-        self.fields['email'].label = _('E-mail')
+        self.fields['email'].choices = [(x, x) for x in emails]
 
 
 class ContactForm(forms.Form):

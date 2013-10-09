@@ -256,7 +256,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
-    'social.apps.django_app.context_processors.backends',
     'trans.context_processors.weblate_context',
 )
 

@@ -133,6 +133,13 @@ def user_profile(request):
             instance=request.user
         )
 
+    social = request.user.social_auth.all()
+    social_names = [assoc.provider for assoc in social]
+    new_backends = [
+        x for x in load_backends(BACKENDS).keys()
+        if x == 'email' or x not in social_names
+    ]
+
     response = render_to_response(
         'accounts/profile.html',
         RequestContext(
@@ -144,6 +151,8 @@ def user_profile(request):
                 'profile': profile,
                 'title': _('User profile'),
                 'licenses': Project.objects.exclude(license=''),
+                'associated': social,
+                'new_backends': new_backends,
             }
         )
     )

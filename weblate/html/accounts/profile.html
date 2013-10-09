@@ -59,7 +59,7 @@
 </td>
 </tr>
 <tbody>
-{% for assoc in backends.associated %}
+{% for assoc in associated %}
 <tr>
 <th>{{ assoc.provider }}</th>
 <td>{{ assoc.uid }}</th>
@@ -72,9 +72,9 @@
 </tbody>
 </table>
 
-{% if backends.not_associated %}
+{% if new_backends %}
 <p>{% trans "Add new association:" %}</p>
-{% for name in backends.not_associated %}
+{% for name in new_backends %}
   <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
 {% endfor %}
 {% endif %}
