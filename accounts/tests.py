@@ -47,8 +47,6 @@ from lang.models import Language
 REGISTRATION_DATA = {
     'username': 'username',
     'email': 'noreply@weblate.org',
-    'password1': 'password',
-    'password2': 'password',
     'first_name': 'First',
     'last_name': 'Last',
 }
@@ -77,11 +75,25 @@ class RegistrationTest(TestCase):
                 break
 
         # Confirm account
-        response = self.client.get(line[18:])
+        response = self.client.get(line[18:], follow=True)
         self.assertRedirects(
             response,
-            reverse('home')
+            reverse('password')
         )
+
+        # Set password
+        response = self.client.post(
+            reverse('password'),
+            {
+                'password1': 'password',
+                'password2': 'password',
+            }
+        )
+        self.assertRedirects(response, reverse('profile'))
+
+        # Check we can access home (was redirected to password change)
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'Logged in as')
 
         user = User.objects.get(username='username')
         # Verify user is active
