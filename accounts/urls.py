@@ -29,18 +29,6 @@ from accounts.views import RegistrationTemplateView
 urlpatterns = patterns(
     '',
     url(
-        r'^password/change/$',
-        auth_views.password_change,
-        {'extra_context': {'title': _('Change password')}},
-        name='auth_password_change'
-    ),
-    url(
-        r'^password/change/done/$',
-        auth_views.password_change_done,
-        {'extra_context': {'title': _('Password changed')}},
-        name='auth_password_change_done'
-    ),
-    url(
         r'^password/reset/$',
         auth_views.password_reset,
         {'extra_context': {'title': _('Password reset')}},

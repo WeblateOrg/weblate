@@ -46,6 +46,8 @@
 </div>
 <div id="auth">
 
+<p><a href="{% url 'password' %}" class="button">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a></p>
+
 <p>{% trans "You can manage third party identities which are associated to this account." %}</p>
 <p>{% trans "Currently associated:" %}</p>
 <table>
@@ -63,9 +65,6 @@
 <td>{{ assoc.uid }}</th>
 <td>
 <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect button">{% trans "Disconnect" %}</a>
-{% if assoc.provider == 'email' %}
-<a href="{% url 'django.contrib.auth.views.password_change' %}" class="button">{% trans "Change password" %}</a>
-{% endif %}
 </td>
 
 </tr>

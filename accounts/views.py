@@ -31,7 +31,7 @@ from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 from urllib import urlencode
 
-from accounts.forms import RegistrationForm
+from accounts.forms import RegistrationForm, PasswordForm, PasswordChangeForm
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
@@ -282,8 +282,55 @@ def register(request):
     )
 
 
+@login_required
 def password(request):
+    '''
+    Password change / set form.
+    '''
+
+    do_change = False
+
     if request.user.has_usable_password():
-        print 'US'
+        if request.method == 'POST':
+            change_form = PasswordChangeForm(request.POST)
+            if change_form.is_valid():
+                password = change_form.cleaned_data['password']
+                if request.user.check_password(password):
+                    do_change = True
+                else:
+                    messages.error(
+                        request,
+                        _('You have entered invalid password.')
+                    )
+        else:
+            change_form = PasswordChangeForm()
     else:
-        print 'UNUS'
+        do_change = True
+        change_form = None
+
+    if request.method == 'POST':
+        form = PasswordForm(request.POST)
+        if form.is_valid() and do_change:
+            request.user.set_password(
+                form.cleaned_data['password1']
+            )
+            request.user.save()
+            messages.info(
+                request,
+                _('Your password has been changed.')
+            )
+            return redirect('profile')
+    else:
+        form = PasswordForm()
+
+    return render_to_response(
+        'accounts/password.html',
+        RequestContext(
+            request,
+            {
+                'title': _('Change password'),
+                'change_form': change_form,
+                'form': form,
+            }
+        )
+    )

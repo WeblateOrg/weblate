@@ -267,3 +267,61 @@ class RegistrationForm(forms.Form):
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
+
+
+class PasswordForm(forms.Form):
+    '''
+    Form for setting password.
+    '''
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(render_value=False),
+        label=_("New password"),
+        help_text=_('At least six characters long.'),
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(render_value=False),
+        label=_("New password (again)"),
+        help_text=_(
+            'Repeat the password so we can verify '
+            'you typed it in correctly.'
+        ),
+    )
+
+    def clean_password1(self):
+        '''
+        Password validation, requires length of six chars.
+        '''
+        if len(self.cleaned_data['password1']) < 6:
+            raise forms.ValidationError(
+                _(u'Password needs to have at least six characters.')
+            )
+        return self.cleaned_data['password1']
+
+    def clean(self):
+        """
+        Verify that the values entered into the two password fields
+        match. Note that an error here will end up in
+        ``non_field_errors()`` because it doesn't apply to a single
+        field.
+
+        """
+        try:
+            password1 = self.cleaned_data['password1']
+            password2 = self.cleaned_data['password2']
+
+            if password1 != password2:
+                raise forms.ValidationError(
+                    _('You must type the same password each time.')
+                )
+
+        except KeyError:
+            pass
+
+        return self.cleaned_data
+
+
+class PasswordChangeForm(forms.Form):
+    password = forms.CharField(
+        widget=forms.PasswordInput(render_value=False),
+        label=_("Current password"),
+    )
