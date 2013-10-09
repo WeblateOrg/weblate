@@ -105,7 +105,7 @@ urlpatterns = patterns(
     url(
         r'^email-sent/$',
         RegistrationTemplateView.as_view(
-            template_name='registration/registration_complete.html'
+            template_name='accounts/email-sent.html',
         ),
         name='email-sent'
     ),

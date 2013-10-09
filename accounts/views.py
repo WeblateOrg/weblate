@@ -233,7 +233,7 @@ def weblate_login(request):
 
     return login(
         request,
-        template_name='registration/login.html',
+        template_name='accounts/login.html',
         extra_context={
             'login_backends': [
                 x for x in load_backends(BACKENDS).keys() if x != 'email'
@@ -256,7 +256,7 @@ def register(request):
         form = RegistrationForm()
 
     return render_to_response(
-        'registration/registration_form.html',
+        'accounts/register.html',
         RequestContext(
             request,
             {
