@@ -29,15 +29,6 @@ from accounts.views import RegistrationTemplateView
 urlpatterns = patterns(
     '',
     url(
-        r'^logout/$',
-        auth_views.logout,
-        {
-            'template_name': 'registration/logout.html',
-            'extra_context': {'title': _('Logged out'), 'skip_next': True},
-        },
-        name='auth_logout'
-    ),
-    url(
         r'^password/change/$',
         auth_views.password_change,
         {'extra_context': {'title': _('Change password')}},
@@ -81,6 +72,7 @@ urlpatterns = patterns(
         ),
         name='email-sent'
     ),
+    url(r'^logout/', 'accounts.views.weblate_logout', name='logout'),
     url(r'^profile/', 'accounts.views.user_profile', name='profile'),
     url(r'^login/$', 'accounts.views.weblate_login', name='login'),
     url(r'^register/$', 'accounts.views.register', name='register'),

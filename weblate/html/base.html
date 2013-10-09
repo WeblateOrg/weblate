@@ -38,7 +38,7 @@
 <ul class="menu-float">
 {% if user.is_authenticated %}
 <li><a class="button" href="{% url 'profile' %}">{% blocktrans with user.get_profile.get_user_display as name %}Logged in as {{ name }}{% endblocktrans %}</a></li>
-<li><a class="button" href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
+<li><a class="button" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
 {% else %}
 {% if registration_open %}
 <li><a class="button" href="{% url 'register' %}">{% trans "Register" %}</a></li>

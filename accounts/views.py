@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login
+from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 from urllib import urlencode
 
@@ -240,6 +240,19 @@ def weblate_login(request):
             ],
             'title': _('Login'),
         }
+    )
+
+
+def weblate_logout(request):
+    '''
+    Logout handler, just wrapper around standard logout.
+    '''
+    if request.user.is_authenticated():
+        messages.info(request, _('Thanks for using Weblate!'))
+
+    return logout(
+        request,
+        next_page=settings.LOGIN_URL,
     )
 
 
