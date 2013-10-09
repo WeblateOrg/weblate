@@ -30,7 +30,8 @@
 {% else %}
 
 <p>
-{% trans "Sorry but this site is not open for registrations." %}
+{% url 'contact' as contact_url %}
+{% blocktrans %}Sorry, but registrations on this site are disabled. You can <a href="{{ contact_url }}">contact us</a> for more details.{% endblocktrans %}
 </p>
 
 {% endif %}
