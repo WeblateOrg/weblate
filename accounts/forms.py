@@ -325,4 +325,6 @@ class RegistrationForm(forms.Form):
             self.cleaned_data['password1']
         )
         user.save()
+        # Ensure user has profile
+        Profile.objects.get_or_create(user=user)
         return user
