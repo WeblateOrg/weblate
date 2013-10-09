@@ -44,7 +44,7 @@ On Debian or Ubuntu, all requirements are already packaged, to install them you 
 
 .. code-block:: sh
 
-    apt-get install python-django translate-toolkit python-git python-django-registration \
+    apt-get install python-django translate-toolkit python-git python-social-auth \
         python-whoosh python-imaging python-django-south python-libravatar python-pyicu
 
     # Optional for database backend
@@ -60,7 +60,7 @@ All requirements are available either directly in openSUSE or in
 
 .. code-block:: sh
 
-    zypper install python-django python-django-registration translate-toolkit python-GitPython \
+    zypper install python-django python-social-auth translate-toolkit python-GitPython \
         python-whoosh python-imaging python-South
 
 
@@ -705,6 +705,9 @@ Upgrade from 1.7 to 1.8
 Authentication setup has been changed and some internal modules have changed
 name, please adjust your :file:`settings.py` to match that (consult
 :file:`settings_example.py` for correct values).
+
+Also please note that there are several new requirements, see
+:ref:`requirements` for more details.
 
 .. _pootle-migration:
 

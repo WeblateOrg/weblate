@@ -345,7 +345,7 @@ their name start with ``hook-``.
 User registration
 -----------------
 
-The default setup for Weblate is to use django-registration for handling new
+The default setup for Weblate is to use python-social-auth for handling new
 users. This allows them to register using form on the website and after
 confirming their email they can contribute. 
 

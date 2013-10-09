@@ -329,10 +329,6 @@ A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is currently permitted. This setting is optional, and a default of
 True will be assumed if it is not supplied.
 
-.. note::
-
-    This is actually django-registration settings.
-
 .. setting:: SITE_TITLE
 
 SITE_TITLE

@@ -13,7 +13,7 @@ Url:            http://weblate.org/
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       python-django >= 1.4
-Requires:       python-django-registration = 0.8
+Requires:       python-social-auth >= 0.1
 Requires:       translate-toolkit >= 1.10.0
 Requires:       python-GitPython >= 0.3
 Requires:       python-whoosh >= 2.5
