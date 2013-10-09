@@ -25,7 +25,9 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import (
+    Group, User, Permission, UNUSABLE_PASSWORD
+)
 from django.db.models.signals import post_syncdb
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
@@ -33,6 +35,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, mail_admins
 
 from south.signals import post_migrate
+from social.apps.django_app.default.models import UserSocialAuth
 
 from lang.models import Language
 from trans.models import Project, Change
@@ -245,6 +248,14 @@ def send_notification_email(language, email, notification,
             email.send(fail_silently=False)
     finally:
         django_translation.activate(cur_language)
+
+
+class VerifiedEmail(models.Model):
+    '''
+    Storage for verified emails from auth backends.
+    '''
+    social = models.ForeignKey(UserSocialAuth)
+    email = models.EmailField()
 
 
 class ProfileManager(models.Manager):
@@ -560,8 +571,12 @@ def set_lang(sender, **kwargs):
     # Migrate django-registration based verification to python-social-auth
     if (not user.has_usable_password()
             and not user.social_auth.filter(provider='email').exists()):
-        user.social_auth.create(
+        social = user.social_auth.create(
             provider='email',
+            uid=user.email,
+        )
+        VerifiedEmail.objects.create(
+            social=social,
             uid=user.email,
         )
 

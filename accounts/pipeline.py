@@ -24,7 +24,7 @@ from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 from social.exceptions import AuthForbidden
 
-from accounts.models import send_notification_email
+from accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
 
 
@@ -80,3 +80,14 @@ def verify_open(strategy, user, *args, **kwargs):
 
     if not user and not appsettings.REGISTRATION_OPEN:
         raise AuthForbidden(strategy.backend)
+
+
+def store_email(strategy, user, social, details, *args, **kwargs):
+    '''
+    Stores verified email.
+    '''
+    if 'email' in details:
+        verified, dummy = VerifiedEmail.objects.get_or_create(social=social)
+        if verified.email != details['email']:
+            verified.email = details['email']
+            verified.save()

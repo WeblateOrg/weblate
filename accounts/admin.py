@@ -19,7 +19,7 @@
 #
 
 from django.contrib import admin
-from accounts.models import Profile
+from accounts.models import Profile, VerifiedEmail
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
@@ -34,6 +34,14 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ['language']
 
 admin.site.register(Profile, ProfileAdmin)
+
+
+class VerifiedEmailAdmin(admin.ModelAdmin):
+    list_display = ('social', 'email')
+    search_fields = ('email', )
+    raw_id_fields = ('social',)
+
+admin.site.register(VerifiedEmail, VerifiedEmailAdmin)
 
 
 class WeblateUserAdmin(UserAdmin):
