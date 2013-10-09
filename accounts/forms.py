@@ -56,6 +56,39 @@ def sort_choices(choices):
     )
 
 
+class UsernameField(forms.RegexField):
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 30
+        kwargs['min_length'] = 5
+        kwargs['regex'] = r'^[\w.@+-]+$'
+        kwargs['help_text'] =_('At least five characters long.')
+        kwargs['error_messages'] = {
+            'invalid': _(
+                'This value may contain only letters, '
+                'numbers and following characters: @ . + - _'
+            )
+        }
+
+        super(UsernameField, self).__init__(*args, **kwargs)
+
+    def clean(self, value):
+        '''
+        Username validation, requires length of five chars and unique.
+        '''
+        existing = User.objects.filter(
+            username__iexact=value
+        )
+        if existing.exists():
+            raise forms.ValidationError(
+                _(
+                    'This username is already taken. '
+                    'Please choose another.'
+                )
+            )
+
+        return super(UsernameField, self).clean(value)
+
+
 class SortedSelectMixin(object):
     '''
     Mixin for Select widgets to sort choices alphabetically.
@@ -256,39 +289,10 @@ class RegistrationForm(EmailForm):
     required_css_class = "required"
     error_css_class = "error"
 
-    username = forms.RegexField(
-        regex=r'^[\w.@+-]+$',
-        max_length=30,
-        min_length=5,
-        label=_("Username"),
-        help_text=_('At least five characters long.'),
-        error_messages={
-            'invalid': _(
-                'This value may contain only letters, '
-                'numbers and following characters: @ . + - _'
-            )
-        }
-    )
+    username = UsernameField()
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)
-
-    def clean_username(self):
-        '''
-        Username validation, requires length of five chars and unique.
-        '''
-        existing = User.objects.filter(
-            username__iexact=self.cleaned_data['username']
-        )
-        if existing.exists():
-            raise forms.ValidationError(
-                _(
-                    'This username is already taken. '
-                    'Please choose another.'
-                )
-            )
-        else:
-            return self.cleaned_data['username']
 
     def clean_content(self):
         '''
