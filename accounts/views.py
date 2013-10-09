@@ -300,8 +300,8 @@ def password(request):
         if request.method == 'POST':
             change_form = PasswordChangeForm(request.POST)
             if change_form.is_valid():
-                password = change_form.cleaned_data['password']
-                if request.user.check_password(password):
+                cur_password = change_form.cleaned_data['password']
+                if request.user.check_password(cur_password):
                     do_change = True
                 else:
                     messages.error(
