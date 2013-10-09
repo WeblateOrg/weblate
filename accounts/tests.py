@@ -80,7 +80,7 @@ class RegistrationTest(TestCase):
         response = self.client.get(line[18:])
         self.assertRedirects(
             response,
-            reverse('registration_activation_complete')
+            reverse('home')
         )
 
         user = User.objects.get(username='username')

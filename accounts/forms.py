@@ -219,19 +219,6 @@ class RegistrationForm(forms.Form):
         label=_("E-mail"),
         help_text=_('Activation email will be sent here.'),
     )
-    password1 = forms.CharField(
-        widget=forms.PasswordInput(render_value=False),
-        label=_("Password"),
-        help_text=_('At least six characters long.'),
-    )
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(render_value=False),
-        label=_("Password (again)"),
-        help_text=_(
-            'Repeat the password so we can verify '
-            'you typed it in correctly.'
-        ),
-    )
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)
@@ -273,16 +260,6 @@ class RegistrationForm(forms.Form):
             )
         return self.cleaned_data['email']
 
-    def clean_password1(self):
-        '''
-        Password validation, requires length of six chars.
-        '''
-        if len(self.cleaned_data['password1']) < 6:
-            raise forms.ValidationError(
-                _(u'Password needs to have at least six characters.')
-            )
-        return self.cleaned_data['password1']
-
     def clean_content(self):
         '''
         Check if content is empty.
@@ -290,44 +267,3 @@ class RegistrationForm(forms.Form):
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
-
-    def clean(self):
-        """
-        Verifiy that the values entered into the two password fields
-        match. Note that an error here will end up in
-        ``non_field_errors()`` because it doesn't apply to a single
-        field.
-
-        """
-        try:
-            password1 = self.cleaned_data['password1']
-            password2 = self.cleaned_data['password2']
-
-            if password1 != password2:
-                raise forms.ValidationError(
-                    _('You must type the same password each time.')
-                )
-
-        except KeyError:
-            pass
-
-        return self.cleaned_data
-
-    def save(self):
-        '''
-        Creates user.
-        '''
-        user = User.objects.create(
-            email=self.cleaned_data['email'],
-            username=self.cleaned_data['username'],
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
-            is_active=False,
-        )
-        user.set_password(
-            self.cleaned_data['password1']
-        )
-        user.save()
-        # Ensure user has profile
-        Profile.objects.get_or_create(user=user)
-        return user

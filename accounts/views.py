@@ -263,7 +263,6 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid() and appsettings.REGISTRATION_OPEN:
-            request.user = form.save()
             return complete(request, 'email')
     else:
         form = RegistrationForm()
@@ -281,3 +280,10 @@ def register(request):
             }
         )
     )
+
+
+def password(request):
+    if request.user.has_usable_password():
+        print 'US'
+    else:
+        print 'UNUS'

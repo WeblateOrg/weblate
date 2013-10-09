@@ -44,27 +44,6 @@ def require_email(strategy, details, user=None, is_new=False,
             return redirect('require_email')
 
 
-def user_password(strategy, user, is_new=False, *args, **kwargs):
-    '''
-    Password validation/storing for email based auth.
-    '''
-    if strategy.backend_name != 'email':
-        return
-
-    request = strategy.request_data()
-
-    if ('password' not in request
-            or not user.check_password(request['password'])):
-
-        user.is_active = True
-        user.save()
-
-        raise AuthException(
-            strategy.backend,
-            _('Activation completed, you can now login.')
-        )
-
-
 def send_validation(strategy, code):
     '''
     Sends verification email.
