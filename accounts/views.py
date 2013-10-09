@@ -243,12 +243,12 @@ def weblate_login(request):
     )
 
 
+@login_required
 def weblate_logout(request):
     '''
     Logout handler, just wrapper around standard logout.
     '''
-    if request.user.is_authenticated():
-        messages.info(request, _('Thanks for using Weblate!'))
+    messages.info(request, _('Thanks for using Weblate!'))
 
     return logout(
         request,
