@@ -41,6 +41,7 @@ from trans.models import Change, Project
 from accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )
+from weblate import appsettings
 
 
 class RegistrationTemplateView(TemplateView):
@@ -248,7 +249,7 @@ def register(request):
     '''
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and appsettings.REGISTRATION_OPEN:
             request.user = form.save()
             return complete(request, 'email')
     else:

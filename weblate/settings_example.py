@@ -190,6 +190,7 @@ SOCIAL_AUTH_PIPELINE = (
     'accounts.pipeline.require_email',
     'social.pipeline.mail.mail_validation',
     'social.pipeline.social_auth.associate_by_email',
+    'accounts.pipeline.verify_open',
     'social.pipeline.user.create_user',
     'accounts.pipeline.user_password',
     'social.pipeline.social_auth.associate_user',

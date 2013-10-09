@@ -23,9 +23,10 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 
 from social.pipeline.partial import partial
-from social.exceptions import AuthException
+from social.exceptions import AuthException, AuthForbidden
 
 from accounts.models import send_notification_email
+from weblate import appsettings
 
 
 @partial
@@ -81,3 +82,12 @@ def send_validation(strategy, code):
             'url': url
         }
     )
+
+
+def verify_open(strategy, user, *args, **kwargs):
+    '''
+    Checks whether it is possible to create new user.
+    '''
+
+    if not user and not appsettings.REGISTRATION_OPEN:
+        raise AuthForbidden(strategy.backend)
