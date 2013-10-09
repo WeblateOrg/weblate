@@ -84,7 +84,7 @@ LANGUAGES = (
     ('da', 'Dansk'),
     ('de', 'Deutsch'),
     ('en', 'English'),
-    ('el', 'Ελληνικά'),
+    ('el', u'Ελληνικά'),
     ('es', u'Español'),
     ('fi', 'Suomi'),
     ('fr', u'Français'),
