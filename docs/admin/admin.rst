@@ -347,8 +347,7 @@ User registration
 
 The default setup for Weblate is to use django-registration for handling new
 users. This allows them to register using form on the website and after
-confirming their email they can contribute. The validity of activation key can
-be controlled using :setting:`ACCOUNT_ACTIVATION_DAYS`.
+confirming their email they can contribute. 
 
 You can also completely disable registration using :setting:`REGISTRATION_OPEN`.
 
