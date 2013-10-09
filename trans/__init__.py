@@ -52,6 +52,6 @@ def check_versions(sender, app, **kwargs):
 
         if failure:
             raise Exception(
-                'Some of required modules are missing or in wrong version! '
+                'Some of required modules are missing or too old! '
                 'Check above output for details.'
             )
