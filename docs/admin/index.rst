@@ -5,6 +5,7 @@ Administrators guide
 
     quick
     install
+    upgrade
     admin
     config
     management
