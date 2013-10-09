@@ -439,7 +439,7 @@ Sample configuration for Lighttpd
 The configuration for Lighttpd web server might look like following (available
 as :file:`examples/lighttpd.conf`):
 
-.. literalinclude:: ../examples/lighttpd.conf
+.. literalinclude:: ../../examples/lighttpd.conf
 
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
@@ -447,7 +447,7 @@ Sample configuration for Apache
 Following configuration runs Weblate as WSGI, you need to have enabled
 mod_wsgi (available as :file:`examples/apache.conf`):
 
-.. literalinclude:: ../examples/apache.conf
+.. literalinclude:: ../../examples/apache.conf
 
 Running Weblate under path
 ++++++++++++++++++++++++++
@@ -456,7 +456,7 @@ Minimalistic configuration to serve Weblate under /weblate (you will need to
 include portions of above full configuration to allow access to the files). Again
 using mod_wsgi (also available as :file:`examples/apache-path.conf`):
 
-.. literalinclude:: ../examples/apache-path.conf
+.. literalinclude:: ../../examples/apache-path.conf
 
 Additionally you will have to adjust :file:`weblate/settings.py`::
 
