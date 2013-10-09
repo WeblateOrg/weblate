@@ -25,9 +25,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _, gettext
 from django.contrib import messages
-from django.contrib.auth.models import (
-    Group, User, UNUSABLE_PASSWORD, Permission
-)
+from django.contrib.auth.models import Group, User, Permission
 from django.db.models.signals import post_syncdb
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
@@ -551,6 +549,11 @@ def set_lang(sender, **kwargs):
     request = kwargs['request']
     user = kwargs['user']
 
+    # Warning about setting password
+    if (user.backend == 'social.backends.email.EmailAuth'
+            and not user.has_usable_password()):
+        request.session['show_set_password'] = True
+
     # Get or create profile
     profile, newprofile = Profile.objects.get_or_create(user=user)
     if newprofile:
@@ -563,7 +566,7 @@ def set_lang(sender, **kwargs):
         )
 
     # Migrate django-registration based verification to python-social-auth
-    if (user.password != UNUSABLE_PASSWORD
+    if (not user.has_usable_password()
             and not user.social_auth.filter(provider='email').exists()):
         user.social_auth.create(
             provider='email',
