@@ -110,7 +110,7 @@ class RegistrationTest(TestCase):
         '''
         Test for password reset.
         '''
-        user = User.objects.create_user('testuser', 'test@example.com', 'x')
+        User.objects.create_user('testuser', 'test@example.com', 'x')
 
         response = self.client.post(
             reverse('password_reset'),

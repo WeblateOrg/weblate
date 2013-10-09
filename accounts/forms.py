@@ -27,12 +27,22 @@ from trans.models import Project
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
+import unicodedata
 
 try:
     import icu
     HAS_ICU = True
 except ImportError:
     HAS_ICU = False
+
+
+def remove_accents(input_str):
+    '''
+    Removes accents from a string.
+    '''
+    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+    only_ascii = nkfd_form.encode('ASCII', 'ignore')
+    return only_ascii
 
 
 def sort_choices(choices):
@@ -42,18 +52,52 @@ def sort_choices(choices):
     Either using cmp or ICU.
     '''
     if not HAS_ICU:
-        sorter = cmp
+        return sorted(
+            choices,
+            key=lambda tup: remove_accents(tup[1])
+        )
     else:
         locale = icu.Locale(get_language())
         collator = icu.Collator.createInstance(locale)
-        sorter = collator.compare
+        return sorted(
+            choices,
+            key=lambda tup: tup[1],
+            cmp=collator.compare
+        )
 
-    # Actually sort values
-    return sorted(
-        choices,
-        key=lambda tup: tup[1],
-        cmp=sorter
-    )
+
+class UsernameField(forms.RegexField):
+    def __init__(self, *args, **kwargs):
+        kwargs['max_length'] = 30
+        kwargs['min_length'] = 5
+        kwargs['regex'] = r'^[\w.@+-]+$'
+        kwargs['help_text'] =_('At least five characters long.')
+        kwargs['error_messages'] = {
+            'invalid': _(
+                'This value may contain only letters, '
+                'numbers and following characters: @ . + - _'
+            )
+        }
+        self.valid = None
+
+        super(UsernameField, self).__init__(*args, **kwargs)
+
+    def clean(self, value):
+        '''
+        Username validation, requires length of five chars and unique.
+        '''
+        existing = User.objects.filter(
+            username__iexact=value
+        )
+        if existing.exists() and value != self.valid:
+            raise forms.ValidationError(
+                _(
+                    'This username is already taken. '
+                    'Please choose another.'
+                )
+            )
+
+        return super(UsernameField, self).clean(value)
 
 
 class SortedSelectMixin(object):
@@ -152,6 +196,7 @@ class UserForm(forms.ModelForm):
     '''
     User information form.
     '''
+    username = UsernameField()
     email = forms.ChoiceField(
         label=_('E-mail'),
         help_text=_(
@@ -166,6 +211,7 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
+            'username',
             'first_name',
             'last_name',
             'email',
@@ -186,6 +232,7 @@ class UserForm(forms.ModelForm):
         self.fields['first_name'].label = _('First name')
         self.fields['last_name'].label = _('Last name')
         self.fields['email'].choices = [(x, x) for x in emails]
+        self.fields['username'].valid = self.instance.username
 
 
 class ContactForm(forms.Form):
@@ -256,43 +303,10 @@ class RegistrationForm(EmailForm):
     required_css_class = "required"
     error_css_class = "error"
 
-    username = forms.RegexField(
-        regex=r'^[\w.@+-]+$',
-        max_length=30,
-        label=_("Username"),
-        help_text=_('At least five characters long.'),
-        error_messages={
-            'invalid': _(
-                'This value may contain only letters, '
-                'numbers and following characters: @ . + - _'
-            )
-        }
-    )
+    username = UsernameField()
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
     content = forms.CharField(required=False)
-
-    def clean_username(self):
-        '''
-        Username validation, requires length of five chars and unique.
-        '''
-        if len(self.cleaned_data['username']) < 5:
-            raise forms.ValidationError(
-                _(u'Username needs to have at least five characters.')
-            )
-
-        existing = User.objects.filter(
-            username__iexact=self.cleaned_data['username']
-        )
-        if existing.exists():
-            raise forms.ValidationError(
-                _(
-                    'This username is already taken. '
-                    'Please choose another.'
-                )
-            )
-        else:
-            return self.cleaned_data['username']
 
     def clean_content(self):
         '''
