@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-09 15:40+0200\n"
-"PO-Revision-Date: 2013-10-07 20:27+0200\n"
+"PO-Revision-Date: 2013-10-09 22:36+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <http://l10n.cihar.com/projects/weblate/master/el/>\n"
 "Language: el\n"
@@ -25,6 +25,8 @@ msgstr "Ηλεκτρονική διευθυνση"
 #: accounts/forms.py:158
 msgid "You can add another emails on Authentication tab."
 msgstr ""
+"Μπορείτε να προσθέσετε άλλες ηλεκτρονικές διευθύνσεις στην καρτέλα "
+"Πιστοποίηση."
 
 #: accounts/forms.py:186 accounts/forms.py:271
 msgid "First name"
@@ -93,10 +95,9 @@ msgid "At least six characters long."
 msgstr "Τουλάχιστον έξι χαρακτήρες."
 
 #: accounts/forms.py:317
-#, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
-msgstr "Κωδικός (επανάληψη)"
+msgstr "Νέος κωδικός (επανάληψη)"
 
 #: accounts/forms.py:319
 msgid "Repeat the password so we can verify you typed it in correctly."
@@ -107,20 +108,18 @@ msgid "Password needs to have at least six characters."
 msgstr "Ο κωδικός χρειάζεται να έχει τουλάιχτον έξι χαρακτήρες."
 
 #: accounts/forms.py:348
-#, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
-msgstr "Πρέπει να γράψετε τον ίδιο κωδικό κάθε φορά"
+msgstr "Πρέπει να γράψετε τον ίδιο κωδικό κάθε φορά."
 
 #: accounts/forms.py:360
-#, fuzzy
 #| msgid "New password"
 msgid "Current password"
-msgstr "Νέος κωδικός"
+msgstr "Τρέχων κωδικός"
 
 #: accounts/forms.py:370
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "Ο χρήστης με αυτή την ηλεκτρονική διεύθυνση δεν βρέθηκε."
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -196,20 +195,18 @@ msgid "Thanks for using Weblate!"
 msgstr "Ευχαριστούμε που χρησιμποιείτε το Weblate!"
 
 #: accounts/views.py:325 weblate/html/accounts/email.html:7
-#, fuzzy
 #| msgid "Register"
 msgid "Register email"
-msgstr "Εγγραφή"
+msgstr "Εγγραφή ηλεκτρονικής διεύθυνσης"
 
 #: accounts/views.py:350
 msgid "You have entered invalid password."
-msgstr ""
+msgstr "Έχετε εισαγάγει μη έγκυρο κωδικό πρόσβασης."
 
 #: accounts/views.py:372
-#, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
-msgstr "Ο κωδικός σας έχει αλλάξει."
+msgstr "Ο κωδικός σας έχει αλλαχτεί."
 
 #: accounts/views.py:383 weblate/html/accounts/profile.html:49
 msgid "Change password"
@@ -1677,6 +1674,8 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
+"Έχετε ενεργοποιησει τον λογαριασμό σας, τώρα θα πρέπει να ορίσετε τον κωδικό "
+"πρόσβασης για να μπορείτε να συνδεθείτε την επόμενη φορά."
 
 #: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
@@ -1842,10 +1841,9 @@ msgid "Your suggestion is empty!"
 msgstr "Η πρότασή σας είναι άδεια!"
 
 #: trans/views/edit.py:215
-#, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "You don't have privileges to add suggestions!"
-msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
+msgstr "Δεν έχετε δικαιώματα να προσθέσετε προτάσεις!"
 
 #: trans/views/edit.py:227
 msgid ""
@@ -3512,10 +3510,9 @@ msgid "Suggest"
 msgstr "Πρόταση"
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "No privileges for adding suggestions!"
-msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
+msgstr "Κανένα δικαίωμα για προσθήκη προτάσεων!"
 
 #: weblate/html/translate.html:172
 msgid "Additional text to include in the commit message."
@@ -3907,10 +3904,9 @@ msgstr ""
 "Αυτός ο συνδυασμός ονόματος χρήστη/κωδικού δεν βρέθηκε. Δοκιμάστε ξανά."
 
 #: weblate/html/accounts/login.html:17
-#, fuzzy
 #| msgid "Password (again)"
 msgid "Password log in"
-msgstr "Κωδικός (επανάληψη)"
+msgstr "Σύνδεση με κωδικό"
 
 #: weblate/html/accounts/login.html:39
 #, python-format
@@ -3930,7 +3926,7 @@ msgstr ""
 
 #: weblate/html/accounts/login.html:50
 msgid "Third party log in"
-msgstr ""
+msgstr "Σύνδεση τρίτων"
 
 #: weblate/html/accounts/password.html:6
 msgid ""
@@ -3957,10 +3953,9 @@ msgid "Account"
 msgstr "Λογαριασμός"
 
 #: weblate/html/accounts/profile.html:25
-#, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
-msgstr "Τεκμηρίωση"
+msgstr "Πιστοποίηση"
 
 #: weblate/html/accounts/profile.html:26
 msgid "Information"
@@ -3987,39 +3982,38 @@ msgstr ""
 "στους συμμετέχοντες του Git."
 
 #: weblate/html/accounts/profile.html:49
-#, fuzzy
 #| msgid "New password"
 msgid "Set password"
-msgstr "Νέος κωδικός"
+msgstr "Ορισμός κωδικού"
 
 #: weblate/html/accounts/profile.html:51
 msgid ""
 "You can manage third party identities which are associated to this account."
 msgstr ""
+"Μπορείτε να διαχειριστείτε ταυτότητες τρίτων που σχετίζονται με αυτό το "
+"λογαριασμό."
 
 #: weblate/html/accounts/profile.html:52
 msgid "Currently associated:"
-msgstr ""
+msgstr "Τρέχουσες συσχετισμένες:"
 
 #: weblate/html/accounts/profile.html:56
 msgid "Identity"
-msgstr ""
+msgstr "Ταυτότητα"
 
 #: weblate/html/accounts/profile.html:57
-#, fuzzy
 #| msgid "User"
 msgid "User ID"
-msgstr "Χρήστης"
+msgstr "Ταυτότητα χρήστη"
 
 #: weblate/html/accounts/profile.html:67
 msgid "Disconnect"
-msgstr ""
+msgstr "Αποσύνδεση"
 
 #: weblate/html/accounts/profile.html:76
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
-msgstr "Προσθήκη ως μετάφραση"
+msgstr "Προσθήκη νέας συσχέτισης:"
 
 #: weblate/html/accounts/profile.html:89
 msgid "Your public profile:"
@@ -4038,16 +4032,14 @@ msgid "Avatars are provided using libravatar."
 msgstr "Τα είδωλα παρέχονται με χρήτη του libravatar."
 
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "Registered users"
 msgid "Register using email"
-msgstr "Εγγεγραμμένοι χρήστες"
+msgstr "Εγγραφή με χρήση ηλεκτρονικής διεύθυνσης"
 
 #: weblate/html/accounts/register.html:34
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
-msgstr "Εγγραφή χρήστη"
+msgstr "Εγγραφή τρίτων"
 
 #: weblate/html/accounts/register.html:46
 #, python-format
