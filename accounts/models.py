@@ -554,16 +554,8 @@ def set_lang(sender, **kwargs):
             and not user.has_usable_password()):
         request.session['show_set_password'] = True
 
-    # Get or create profile
-    profile, newprofile = Profile.objects.get_or_create(user=user)
-    if newprofile:
-        messages.info(
-            request,
-            gettext(
-                'Your profile has been migrated, '
-                'you might want to adjust preferences.'
-            )
-        )
+    # Ensure user has a profile
+    Profile.objects.get_or_create(user=user)
 
     # Migrate django-registration based verification to python-social-auth
     if (not user.has_usable_password()
