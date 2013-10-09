@@ -10,6 +10,7 @@ Released on ? 2013.
 * Nicer listing of project summary.
 * Better visible options for sharing.
 * More control over anonymous users privileges.
+* Supports login using third party services, check manual for more details.
 
 weblate 1.7
 -----------
