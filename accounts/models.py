@@ -187,7 +187,8 @@ def send_notification_email(language, email, notification,
         )
 
         # Load user language
-        django_translation.activate(language)
+        if language is not None:
+            django_translation.activate(language)
 
         # Template names
         subject_template = 'mail/%s_subject.txt' % notification

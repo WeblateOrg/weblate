@@ -74,7 +74,7 @@ def send_validation(strategy, code):
     )
 
     send_notification_email(
-        'en', # FIXME: should probably stay same
+        None,
         code.email,
         'activation',
         info=code.code,
