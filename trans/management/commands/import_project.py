@@ -234,7 +234,7 @@ class Command(BaseCommand):
         # Rename gitrepository to new name
         os.rename(
             workdir,
-            os.path.join(project.get_path(), name)
+            os.path.join(project.get_path(), slug)
         )
 
         SubProject.objects.create(
