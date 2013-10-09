@@ -560,7 +560,7 @@ def set_lang(sender, **kwargs):
     user = kwargs['user']
 
     # Warning about setting password
-    if (user.backend == 'social.backends.email.EmailAuth'
+    if (getattr(user, 'backend', '') == 'social.backends.email.EmailAuth'
             and not user.has_usable_password()):
         request.session['show_set_password'] = True
 
