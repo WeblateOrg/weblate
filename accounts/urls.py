@@ -23,39 +23,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 
-from registration.views import activate, register
-
 from accounts.views import RegistrationTemplateView
 
 
 urlpatterns = patterns(
     '',
-    url(
-        r'^register/closed/$',
-        RegistrationTemplateView.as_view(
-            template_name='registration/registration_closed.html'
-        ),
-        name='registration_disallowed'
-    ),
-    url(
-        r'^activate/complete/$',
-        RegistrationTemplateView.as_view(
-            template_name='registration/activation_complete.html',
-        ),
-        name='registration_activation_complete'
-    ),
-    url(
-        r'^activate/(?P<activation_key>\w+)/$',
-        activate,
-        {
-            'backend': 'registration.backends.default.DefaultBackend',
-            'extra_context': {
-                'title': _('Account activation'),
-                'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
-            }
-        },
-        name='registration_activate'
-    ),
     url(
         r'^logout/$',
         auth_views.logout,
