@@ -44,8 +44,9 @@ class ViewTestCase(RepoTestCase):
         self.factory = RequestFactory()
         # Create user
         self.user = User.objects.create_user(
-            username='testuser',
-            password='testpassword'
+            'testuser',
+            'noreply@weblate.org',
+            'testpassword'
         )
         # Create profile for him
         Profile.objects.create(user=self.user)
