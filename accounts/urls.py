@@ -19,39 +19,12 @@
 #
 
 from django.conf.urls import patterns, url, include
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import views as auth_views
 
 from accounts.views import RegistrationTemplateView
 
 
 urlpatterns = patterns(
     '',
-    url(
-        r'^password/reset/$',
-        auth_views.password_reset,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset'
-    ),
-    url(
-        r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
-        auth_views.password_reset_confirm,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_confirm'
-    ),
-    url(
-        r'^password/reset/complete/$',
-        auth_views.password_reset_complete,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_complete'
-    ),
-    url(
-        r'^password/reset/done/$',
-        auth_views.password_reset_done,
-        {'extra_context': {'title': _('Password reset')}},
-        name='auth_password_reset_done'
-    ),
-
     url(
         r'^email-sent/$',
         RegistrationTemplateView.as_view(
