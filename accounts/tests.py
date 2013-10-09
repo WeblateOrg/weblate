@@ -61,7 +61,7 @@ class RegistrationTest(TestCase):
             REGISTRATION_DATA
         )
         # Check we did succeed
-        self.assertRedirects(response, reverse('registration_complete'))
+        self.assertRedirects(response, reverse('login'))
 
         # Check registration mail
         self.assertEqual(len(mail.outbox), 1)
