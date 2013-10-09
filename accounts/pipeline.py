@@ -20,10 +20,9 @@
 
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
 
 from social.pipeline.partial import partial
-from social.exceptions import AuthException, AuthForbidden
+from social.exceptions import AuthForbidden
 
 from accounts.models import send_notification_email
 from weblate import appsettings

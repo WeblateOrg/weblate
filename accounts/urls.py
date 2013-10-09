@@ -21,7 +21,6 @@
 from django.conf.urls import patterns, url, include
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import views as auth_views
-from django.conf import settings
 
 from accounts.views import RegistrationTemplateView
 
