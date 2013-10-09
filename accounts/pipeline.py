@@ -32,6 +32,7 @@ from weblate import appsettings
 @partial
 def require_email(strategy, details, user=None, is_new=False,
                   *args, **kwargs):
+
     if user and user.email:
         return
 
