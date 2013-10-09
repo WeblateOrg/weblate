@@ -175,7 +175,9 @@ class UserForm(forms.ModelForm):
 
         super(UserForm, self).__init__(*args, **kwargs)
 
-        verified_mails = VerifiedEmail.objects.filter(social__user=self.instance)
+        verified_mails = VerifiedEmail.objects.filter(
+            social__user=self.instance
+        )
         emails = set([x.email for x in verified_mails])
         emails.add(self.instance.email)
 
