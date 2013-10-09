@@ -67,7 +67,7 @@ class RegistrationTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
-            'Your registration on Weblate'
+            '[Weblate] Your registration on Weblate'
         )
 
         # Get confirmation URL from mail
