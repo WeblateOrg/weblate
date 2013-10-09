@@ -71,7 +71,8 @@ class UsernameField(forms.RegexField):
         kwargs['max_length'] = 30
         kwargs['min_length'] = 5
         kwargs['regex'] = r'^[\w.@+-]+$'
-        kwargs['help_text'] =_('At least five characters long.')
+        kwargs['help_text'] = _('At least five characters long.')
+        kwargs['label'] = _('Username')
         kwargs['error_messages'] = {
             'invalid': _(
                 'This value may contain only letters, '
