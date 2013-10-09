@@ -568,7 +568,7 @@ def set_lang(sender, **kwargs):
     profile, dummy = Profile.objects.get_or_create(user=user)
 
     # Migrate django-registration based verification to python-social-auth
-    if (not user.has_usable_password()
+    if (user.has_usable_password()
             and not user.social_auth.filter(provider='email').exists()):
         social = user.social_auth.create(
             provider='email',
@@ -576,7 +576,7 @@ def set_lang(sender, **kwargs):
         )
         VerifiedEmail.objects.create(
             social=social,
-            uid=user.email,
+            email=user.email,
         )
 
     # Set language for session based on preferences
