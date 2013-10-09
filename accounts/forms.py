@@ -250,7 +250,10 @@ class RegistrationForm(forms.Form):
         )
         if existing.exists():
             raise forms.ValidationError(
-                _("A user with that username already exists.")
+                _(
+                    'This username is already taken. '
+                    'Please choose another.'
+                )
             )
         else:
             return self.cleaned_data['username']
@@ -302,7 +305,7 @@ class RegistrationForm(forms.Form):
 
             if password1 != password2:
                 raise forms.ValidationError(
-                    _("The two password fields didn't match.")
+                    _('You must type the same password each time.')
                 )
 
         except KeyError:
