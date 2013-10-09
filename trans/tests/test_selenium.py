@@ -95,7 +95,7 @@ class SeleniumTests(LiveServerTestCase):
             cls.driver.quit()
 
     def test_login(self):
-        self.driver.get('%s%s' % (self.live_server_url, reverse('auth_login')))
+        self.driver.get('%s%s' % (self.live_server_url, reverse('login')))
 
         username_input = self.driver.find_element_by_name('username')
         username_input.send_keys("myuser")

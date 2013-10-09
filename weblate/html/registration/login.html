@@ -16,7 +16,7 @@
 
 <h2>{% trans "Password log in" %}</h2>
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>
 <tr>
@@ -45,10 +45,14 @@
 {% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
 </p>
 
+{% if login_backends %}
+
 <h2>{% trans "Third party log in" %}</h2>
 
-{% for name in backends.not_associated %}
+{% for name in login_backends %}
   <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
 {% endfor %}
+
+{% endif %}
 
 {% endblock %}

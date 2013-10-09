@@ -154,7 +154,7 @@
 {% if perms.trans.save_translation %}
 <input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
 {% else %}
-{% url 'django.contrib.auth.views.login' as login_url %}
+{% url 'login' as login_url %}
 {% with unit.translation.get_translate_url as translate_url %}
 {% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
 {% endwith %}

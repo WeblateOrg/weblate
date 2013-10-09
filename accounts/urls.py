@@ -73,13 +73,7 @@ urlpatterns = patterns(
         name='registration_activate'
     ),
     url(
-        r'^login/$',
-        auth_views.login,
-        {
-            'template_name': 'registration/login.html',
-            'extra_context': {'title': _('Login')},
-        },
-        name='auth_login'
+        r'^login/$', 'accounts.views.weblate_login', name='login',
     ),
     url(
         r'^logout/$',

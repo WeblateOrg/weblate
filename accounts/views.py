@@ -27,8 +27,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.contrib.auth.models import User
+from django.contrib.auth.views import login
 from django.views.generic import TemplateView
 from urllib import urlencode
+
+from social.backends.utils import load_backends
+from social.apps.django_app.utils import BACKENDS
 
 from accounts.models import set_lang, Profile
 from trans.models import Change, Project
@@ -209,4 +213,25 @@ def user_page(request, user):
                 'user_projects': user_projects,
             }
         )
+    )
+
+
+def weblate_login(request):
+    '''
+    Login handler, just wrapper around login.
+    '''
+
+    # Redirect logged in users to profile
+    if request.user.is_authenticated():
+        return redirect('profile')
+
+    return login(
+        request,
+        template_name='registration/login.html',
+        extra_context={
+            'login_backends': [
+                x for x in load_backends(BACKENDS).keys() if x != 'email'
+            ],
+            'title': _('Login'),
+        }
     )
