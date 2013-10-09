@@ -68,6 +68,7 @@ class UsernameField(forms.RegexField):
                 'numbers and following characters: @ . + - _'
             )
         }
+        self.valid = None
 
         super(UsernameField, self).__init__(*args, **kwargs)
 
@@ -78,7 +79,7 @@ class UsernameField(forms.RegexField):
         existing = User.objects.filter(
             username__iexact=value
         )
-        if existing.exists():
+        if existing.exists() and value != self.valid:
             raise forms.ValidationError(
                 _(
                     'This username is already taken. '
@@ -185,6 +186,7 @@ class UserForm(forms.ModelForm):
     '''
     User information form.
     '''
+    username = UsernameField()
     email = forms.ChoiceField(
         label=_('E-mail'),
         help_text=_(
@@ -199,6 +201,7 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
+            'username',
             'first_name',
             'last_name',
             'email',
@@ -219,6 +222,7 @@ class UserForm(forms.ModelForm):
         self.fields['first_name'].label = _('First name')
         self.fields['last_name'].label = _('Last name')
         self.fields['email'].choices = [(x, x) for x in emails]
+        self.fields['username'].valid = self.instance.username
 
 
 class ContactForm(forms.Form):
