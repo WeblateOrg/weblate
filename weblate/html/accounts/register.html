@@ -6,6 +6,8 @@
 
 {% if registration_open %}
 
+<h2>{% trans "Register using email" %}</h2>
+
 {% if form.errors %}
 <div class="ui-widget">
     <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
@@ -26,6 +28,16 @@
 </p>
 <p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
 </form>
+
+{% if registration_backends %}
+
+<h2>{% trans "Third party registration" %}</h2>
+
+{% for name in registration_backends %}
+  <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
+{% endfor %}
+
+{% endif %}
 
 {% else %}
 
