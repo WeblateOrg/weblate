@@ -196,23 +196,28 @@ class UnitManager(models.Manager):
         High level wrapper for searching.
         '''
 
-        if search_type == 'exact':
-            query = Q()
+        if search_type in ('exact', 'substring'):
+            queries = []
+
+            if search_type == 'exact':
+                modifier = ''
+            else:
+                modifier = '__icontains'
+
             if search_source:
-                query |= Q(source=search_query)
+                queries.append('source')
             if search_target:
-                query |= Q(target=search_query)
+                queries.append('target')
             if search_context:
-                query |= Q(context=search_query)
-            return self.filter(query)
-        elif search_type == 'substring':
-            query = Q()
-            if search_source:
-                query |= Q(source__icontains=search_query)
-            if search_target:
-                query |= Q(target__icontains=search_query)
-            if search_context:
-                query |= Q(context__icontains=search_query)
+                queries.append('context')
+
+            query = reduce(
+                lambda q, value:
+                q | Q(**{'%s%s' % (value, modifier): search_query}),
+                queries,
+                Q()
+            )
+
             return self.filter(query)
         else:
             return self.fulltext(
