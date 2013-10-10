@@ -12,7 +12,9 @@
 
 <h2>{% trans "Project Information" %}</h2>
 
+<table>
 {% include "subproject_info.html" %}
+</table>
 
 {% url 'review_source' project=source.subproject.project.slug subproject=source.subproject.slug as review_url %}
 {% with source.get_source_checks as checks %}
