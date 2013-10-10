@@ -293,6 +293,7 @@ class ProfileTest(ViewTestCase):
                 'first_name': 'First',
                 'last_name': 'Last',
                 'email': 'noreply@weblate.org',
+                'username': 'testik',
             }
         )
         self.assertRedirects(response, reverse('profile'))
