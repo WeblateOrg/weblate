@@ -449,6 +449,7 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 #    'trans.checks.markup.XMLTagsCheck',
 #    'trans.checks.source.OptionalPluralCheck',
 #    'trans.checks.source.EllipsisCheck',
+#    'trans.checks.source.MultipleFailingCheck',
 #)
 
 # List of automatic fixups

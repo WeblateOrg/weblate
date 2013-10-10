@@ -55,3 +55,24 @@ class EllipsisCheck(SourceCheck):
 
     def check_source(self, source, unit):
         return '...' in source[0]
+
+
+class MultipleFailingCheck(SourceCheck):
+    '''
+    Checks whether there are more failing checks on this translation.
+    '''
+    check_id = 'multiple_failures'
+    name = _('Multiple failing checks')
+    description = _(
+        'Translation in several languages have failing checks.'
+    )
+
+    def check_source(self, source, unit):
+        from trans.models.unitdata import Check
+        related = Check.objects.filter(
+            contentsum=unit.contentsum,
+            project=unit.translation.subproject.project
+        ).exclude(
+            language__isnull=True
+        )
+        return related.count() > 2

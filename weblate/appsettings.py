@@ -116,6 +116,7 @@ CHECK_LIST = get('CHECK_LIST', (
     'trans.checks.markup.XMLTagsCheck',
     'trans.checks.source.OptionalPluralCheck',
     'trans.checks.source.EllipsisCheck',
+    'trans.checks.source.MultipleFailingCheck',
 ))
 
 # List of automatic fixups
