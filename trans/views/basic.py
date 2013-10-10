@@ -134,7 +134,6 @@ def search(request):
 
         limit = request.GET.get('limit', 50)
         page = request.GET.get('page', 1)
-        ignored = 'ignored' in request.GET
 
         paginator = Paginator(units, limit)
 
