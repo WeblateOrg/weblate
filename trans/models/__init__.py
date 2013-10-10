@@ -33,6 +33,7 @@ from trans.models.unitdata import (
 )
 from trans.models.changes import Change
 from trans.models.dictionary import Dictionary
+from trans.models.source import Source
 
 
 @receiver(post_delete, sender=Project)
