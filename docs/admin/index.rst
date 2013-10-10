@@ -12,6 +12,5 @@ Administrators guide
     translating
     checks
     machine
-    admin
     config
     management
