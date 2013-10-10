@@ -76,6 +76,29 @@ Weblate makes it easy to interact with others using it's API.
 
 .. seealso:: :ref:`api`
 
+.. _lazy-commit:
+
+Lazy commits
+------------
+
+Default behaviour (configured by :setting:`LAZY_COMMITS`) of Weblate is to group
+commits from same author into one if possible. This heavily reduces number of
+commits, however you might need to explicitly tell to do the commits in case
+you want to get Git repository in sync, eg. for merge (this is by default
+allowed for Managers group, see :ref:`privileges`).
+
+The changes are in this mode committed once any of following conditions is
+fulfilled:
+
+* somebody else works on the translation
+* merge from upstream occurs
+* import of translation happens
+* translation for a language is completed
+* explicit commit is requested
+
+You can also additionally set a cron job to commit pending changes after some
+delay, see :djadmin:`commit_pending`.
+
 .. _processing:
 
 Pre commit processing of translations
