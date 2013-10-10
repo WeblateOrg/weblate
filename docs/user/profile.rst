@@ -49,3 +49,12 @@ languages you have indicated for translation (see above).
 
 .. image:: ../_static/profile-subscriptions.png
 
+Authentication
+++++++++++++++
+
+On the :guilabel:`Authentication` tab you can connect various services which
+you can use to login into Weblate. List of services depends on Weblate
+configuration, but can include popular sites such as Google, Facebook, GitHub
+or Bitbucket.
+
+.. image:: ../_static/authentication.png
