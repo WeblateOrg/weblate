@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'hosting' %}">{% trans "hosting" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<p>{% blocktrans %}Please check whether your project is eligible of project hosting on this site in advance.{% endblocktrans %}</p>
+
+<form method="post" action="{% url 'hosting' %}">
+{% csrf_token %}
+<table class="contact-table">
+{{ form.as_table }}
+<tr><td></td><td><input type="submit" class="button" value="{% trans "Send" %}" /></td></tr>
+</table>
+</form>
+
+{% endblock %}

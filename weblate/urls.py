@@ -607,6 +607,7 @@ urlpatterns = patterns(
 
     # Static pages
     url(r'^contact/', 'accounts.views.contact', name='contact'),
+    url(r'^hosting/', 'accounts.views.hosting', name='hosting'),
     url(r'^about/$', 'trans.views.basic.about', name='about'),
 
     # User pages

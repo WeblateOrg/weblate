@@ -33,7 +33,7 @@ from urllib import urlencode
 
 from accounts.forms import (
     RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
-    LoginForm
+    LoginForm, HostingForm
 )
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
@@ -45,6 +45,19 @@ from accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )
 from weblate import appsettings
+
+HOSTING_TEMPLATE = '''
+%(name)s <%(email)s> wants to host %(project)s
+
+Project:    %(project)s
+Website:    %(url)s
+Repository: %(repo)s
+Filemask:   %(mask)s
+
+Additional message:
+
+%(message)s
+'''
 
 
 class RegistrationTemplateView(TemplateView):
@@ -198,6 +211,45 @@ def contact(request):
             {
                 'form': form,
                 'title': _('Contact'),
+            }
+        )
+    )
+
+
+def hosting(request):
+    '''
+    Form for hosting request.
+    '''
+    if not appsettings.OFFER_HOSTING:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = HostingForm(request.POST)
+        if form.is_valid():
+            mail_admins_sender(
+                'Hosting request for %(project)s' % form.cleaned_data,
+                HOSTING_TEMPLATE % form.cleaned_data,
+                form.cleaned_data['email'],
+            )
+            messages.info(
+                request,
+                _('Message has been sent to administrator.')
+            )
+            return redirect('home')
+    else:
+        initial = {}
+        if request.user.is_authenticated():
+            initial['name'] = request.user.get_full_name()
+            initial['email'] = request.user.email
+        form = HostingForm(initial=initial)
+
+    return render_to_response(
+        'accounts/hosting.html',
+        RequestContext(
+            request,
+            {
+                'form': form,
+                'title': _('Hosting'),
             }
         )
     )

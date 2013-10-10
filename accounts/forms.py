@@ -397,3 +397,44 @@ class LoginForm(AuthenticationForm):
 
         self.fields['username'].label = _('Username or email')
         self.fields['password'].label = _('Password')
+
+
+class HostingForm(forms.Form):
+    '''
+    Form for asking for hosting.
+    '''
+    name = forms.CharField(label=_('Your name'), required=True)
+    email = forms.EmailField(label=_('Your email'), required=True)
+    project = forms.CharField(label=_('Project name'), required=True)
+    url = forms.URLField(label=_('Project website'), required=True)
+    repo = forms.CharField(
+        label=_('Git repository'),
+        help_text=_(
+            'URL of Git repository, use weblate://project/subproject '
+            'for sharing with other subproject.'
+        ),
+        required=True
+    )
+    mask = forms.CharField(
+        label=_('Mask of translatable files'),
+        help_text=_(
+            'Path of files to translate, use * instead of language code, '
+            'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
+        ),
+        required=True
+    )
+
+    message = forms.CharField(
+        label=_('Additional message'),
+        required=True,
+        widget=forms.Textarea
+    )
+    content = forms.CharField(required=False)
+
+    def clean_content(self):
+        '''
+        Check if content is empty.
+        '''
+        if self.cleaned_data['content'] != '':
+            raise forms.ValidationError('Invalid value')
+        return ''
