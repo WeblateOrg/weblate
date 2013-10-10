@@ -14,7 +14,7 @@
 <tr>
 <th>{{ unit.translation.language }}</th>
 <td>{{ unit.get_state_flags }}</td>
-<td>{% with unit.checks as checks %}{% include "list-checks.html" %}{% endwith %}</td>
+<td>{% show_checks unit.checks %}</td>
 <td><a href="{{ unit.get_absolute_url }}" class="button small-button">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}

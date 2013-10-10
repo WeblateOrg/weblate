@@ -36,16 +36,15 @@
 </thead>
 <tbody>
 {% for source in sources.object_list %}
+{% with source.get_source_comments as comments %}
 <tr>
 <td class="expander">
 <span class="ui-icon ui-icon-triangle-1-e expander-icon"></span>
 </td>
 <td class="translatetext expander">{{ source.source|fmttranslation }}</td>
 <td>
-{% with source.active_source_checks as checks %}
-{% include "list-checks.html" %}
-{% endwith %}
-{% if source.get_source_comments.exists %}
+{% show_checks source.active_source_checks %}
+{% if comments %}
 <span class="check">{% trans "Comment" %}</span>
 {% endif %}
 </td>
@@ -58,18 +57,17 @@
 {% with source as unit %}
 {% include "unit-details.html" %}
 {% endwith %}
-{% with source.get_source_comments as comments %}
 {% if comments %}
 <tr><th colspan="2">{% trans "User comments" %}</th></tr>
 {% include "list-comments.html" %}
 {% endif %}
-{% endwith %}
 <tr class="details"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
 </table>
 </td>
 <td>
 </td>
 </tr>
+{% endwith %}
 {% endfor %}
 </tbody>
 </table>

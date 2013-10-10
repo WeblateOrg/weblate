@@ -287,6 +287,13 @@ def show_message(tags, message):
     }
 
 
+@register.inclusion_tag('list-checks.html')
+def show_checks(checks):
+    return {
+        'checks': checks,
+    }
+
+
 @register.simple_tag
 def avatar(user, size=80):
     url = avatar_for_email(user.email, size)
