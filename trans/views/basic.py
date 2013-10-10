@@ -122,7 +122,7 @@ def search(request):
             search_form.cleaned_data['src'],
             search_form.cleaned_data['ctx'],
             search_form.cleaned_data['tgt'],
-        ).filter(translation__language__code="en").order_by("translation")[:1000]
+        )
         context = {
             'units': units,
             'search_query': search_form.cleaned_data['q']
