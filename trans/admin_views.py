@@ -250,16 +250,13 @@ def ssh(request):
     # Read key data if it exists
     if os.path.exists(RSA_KEY_FILE):
         key_data = file(RSA_KEY_FILE).read()
-        if len(key_data) > 0:
-            key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
-            key = {
-                'key': key_data,
-                'type': key_type,
-                'fingerprint': key_fingerprint,
-                'id': key_id,
-            }
-        else:
-            key = None
+        key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
+        key = {
+            'key': key_data,
+            'type': key_type,
+            'fingerprint': key_fingerprint,
+            'id': key_id,
+        }
     else:
         key = None
 
