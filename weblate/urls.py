@@ -635,4 +635,10 @@ urlpatterns = patterns(
         'django.views.static.serve',
         {'document_root': settings.MEDIA_ROOT}
     ),
+
+    url(
+        r'^search/$',
+        'trans.views.basic.search',
+        name="search"
+    ),
 )

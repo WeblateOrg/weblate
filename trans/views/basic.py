@@ -31,7 +31,7 @@ from django.utils.safestring import mark_safe
 
 from trans.models import (
     Project, SubProject, Translation, Check,
-    Dictionary, Change,
+    Dictionary, Change, Unit
 )
 from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
@@ -108,7 +108,28 @@ def home(request):
         'last_changes_rss': reverse('rss'),
         'last_changes_url': '',
         'usertranslations': usertranslations,
+        'search_form': SearchForm(),
     }))
+
+
+def search(request):
+    search_form = SearchForm(request.GET)
+    context = {}
+    if search_form.is_valid():
+        units = Unit.objects.search(
+            search_form.cleaned_data['search'],
+            search_form.cleaned_data['q'],
+            search_form.cleaned_data['src'],
+            search_form.cleaned_data['ctx'],
+            search_form.cleaned_data['tgt'],
+        ).filter(translation__language__code="en").order_by("translation")[:1000]
+        context = {
+            'units': units,
+            'search_query': search_form.cleaned_data['q']
+        }
+    else:
+        messages.error(request, _('Invalid search query!'))
+    return render_to_response('search.html', RequestContext(request, context))
 
 
 def show_engage(request, project, lang=None):

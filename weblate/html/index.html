@@ -63,6 +63,7 @@
 
 <ul>
 <li><a href="#changes">{% trans "History" %}</a></li>
+<li><a href="#search">{% trans "Search" %}</a></li>
 <li><a href="#translators">{% trans "Most active translators" %}</a></li>
 <li><a href="#suggesters">{% trans "Most active suggesters" %}</a></li>
 <li><a href="{% url 'view_activity' %}">{% trans "Activity" %}</a></li>
@@ -71,6 +72,13 @@
 
 <div id="changes">
 {% include "last-changes.html" %}
+</div>
+
+<div id="search">
+<form action="{% url 'search' %}" method="GET">
+{{ search_form.as_p }}
+<input type="submit" value="{% trans "Search" %}" class="button" />
+</form>
 </div>
 
 <div id="translators">
