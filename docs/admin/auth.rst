@@ -36,9 +36,10 @@ http://psa.matiasaguirre.net/docs/configuration/django.html
 
 .. note::
 
-    By default, Weblate relies on authentication services provide validated
-    email address, in case some of services you want to use do not support
-    this, please remove ``social.pipeline.social_auth.associate_by_email`` from
+    By default, Weblate relies on third-party authentication services to
+    provide validated email address, in case some of services you want to use
+    do not support this, please remove
+    ``social.pipeline.social_auth.associate_by_email`` from
     ``SOCIAL_AUTH_PIPELINE`` settings.
 
 Enabling individual backends is quite easy, it's just matter of adding entry to
