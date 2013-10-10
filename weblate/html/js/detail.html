@@ -1,0 +1,22 @@
+{% load url from future %}
+{% load i18n %}
+
+<table>
+<thead>
+<tr>
+<th>{% trans "Language" %}</th>
+<th>{% trans "Status" %}</th>
+<th>{% trans "Checks" %}</th>
+<th>{% trans "Edit" %}</th>
+</thead>
+<tbody>
+{% for unit in units %}
+<tr>
+<th>{{ unit.translation.language }}</th>
+<td>{{ unit.get_state_flags }}</td>
+<td>{% with unit.checks as checks %}{% include "list-checks.html" %}{% endwith %}</td>
+<td><a href="{{ unit.get_absolute_url }}" class="button small-button">{% trans "Edit" %}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

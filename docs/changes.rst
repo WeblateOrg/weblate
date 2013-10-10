@@ -13,6 +13,7 @@ Released on ? 2013.
 * Supports login using third party services, check manual for more details.
 * Users can login by email instead of username.
 * Documentation improvements.
+* Improved source strings review.
 
 weblate 1.7
 -----------

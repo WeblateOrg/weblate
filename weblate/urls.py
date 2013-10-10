@@ -563,6 +563,11 @@ urlpatterns = patterns(
         name='js-dictionary',
     ),
     url(
+        r'^js/detail/' + SUBPROJECT + '(?P<checksum>[^/]+)/$',
+        'trans.views.js.get_detail',
+        name='js-detail',
+    ),
+    url(
         r'^js/git/' + PROJECT + '$',
         'trans.views.js.git_status_project',
         name='git_status_project',

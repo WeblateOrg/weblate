@@ -63,6 +63,7 @@
 {% include "list-comments.html" %}
 {% endif %}
 {% endwith %}
+<tr class="hidden"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a></td></tr>
 </table>
 </td>
 <td>

@@ -230,3 +230,24 @@ def js_config(request):
         ),
         mimetype='application/javascript'
     )
+
+
+def get_detail(request, project, subproject, checksum):
+    '''
+    Returns source translation detail in all languages.
+    '''
+    subproject = get_subproject(request, project, subproject)
+    units = Unit.objects.filter(
+        checksum=checksum,
+        translation__subproject=subproject
+    )
+
+    return render_to_response(
+        'js/detail.html',
+        RequestContext(
+            request,
+            {
+                'units': units,
+            }
+        )
+    )
