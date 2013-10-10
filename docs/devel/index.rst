@@ -21,9 +21,30 @@ Promotion the translation
 Weblate provides you widgets to share on your website or other sources to
 promote translation project. It also has nice welcome page for new contributors
 to give them basic information about the translation. Additionally you can
-share information about translation using Facebook or Twitter.
+share information about translation using Facebook or Twitter. All these
+possibilities can be found on :guilabel:`Share` tab. Example of status badges
+for Weblate itself are show below.
 
-.. image:: ../_static/promote.png
+Small badge often used to quickly see status of a project:
+
+.. image:: ../_static/weblate-status-badge.png
+    :alt: Translation status
+    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+
+Big badge with status details useful for inclusion on a web page:
+
+.. image:: ../_static/weblate-287x66-white.png
+    :alt: Translation status
+    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+
+Small badge with status useful for inclusion on a web page:
+
+.. image:: ../_static/weblate-88x31-grey.png
+    :alt: Translation status
+    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+
+All these badges come with links to simple page which explains users how to
+translate using Weblate.
 
 Reviewing source strings
 ------------------------
