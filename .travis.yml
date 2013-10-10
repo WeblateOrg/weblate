@@ -1,6 +1,5 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
 env:
   matrix:
@@ -12,15 +11,6 @@ env:
 # Sauce labs setup
     - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
     - secure: "AYu5aeoSHEbBA67Y60yhVa5B/3a7ZLvECnGvyKGfH4oJU/yeEBokgiqFzwRAcXWILMVSMTVGw3vpcq3B/5SRg1vuq+OzRzZ/kopwd4z7P91MYNeXgKNC0bIgEyKg0Fb3ElK1XjFlAXLlIZTwhVBwuJSX+EUFluecN8kJ7Cf7yjE="
-matrix:
-# Test with Python 2.6 just once for every Django version
-  exclude:
-    - python: "2.6"
-      env: DJANGO_VERSION=1.5.4 TRAVIS_DATABASE=mysql
-    - python: "2.6"
-      env: DJANGO_VERSION=1.5.4 TRAVIS_DATABASE=postgresql
-    - python: "2.6"
-      env: DJANGO_VERSION=1.5.4 TRAVIS_DATABASE=sqlite
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
@@ -30,7 +20,6 @@ install:
   - pip install --use-mirrors -r requirements.txt
   - pip install --use-mirrors -r requirements-optional.txt
   - pip install --use-mirrors -r requirements-test.txt
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors -r requirements-2.6.txt ; fi
 # generate configuration and create databases
 before_script:
   - cp weblate/settings_example.py weblate/settings.py

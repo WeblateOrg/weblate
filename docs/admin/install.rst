@@ -8,6 +8,8 @@ Installation instructions
 Requirements
 ------------
 
+Python (2.7)
+    http://www.python.org/
 Django (>= 1.4)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.9.0, 1.10.0 or newer strongly recommended)
@@ -30,12 +32,6 @@ PyICU (optional for proper sorting of strings)
     https://pypi.python.org/pypi/PyICU
 Database backend
     Any database supported in Django will work, check their documentation for more details.
-
-If you want to run Weblate with Python 2.6, you should also install following
-modules:
-
-importlib
-    https://pypi.python.org/pypi/importlib
 
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
