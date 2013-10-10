@@ -380,14 +380,17 @@ $(function () {
         var $next_row = $table_row.next();
         $table_row.find('.expander-icon').toggleClass('ui-icon-triangle-1-s').toggleClass('ui-icon-triangle-1-e');
         $next_row.toggle();
-        if ($next_row.find('tr.details').length === 0) {
+        var $loader = $next_row.find('tr.details .load-details');
+        if ($loader.length > 0) {
+            var url = $loader.attr('href');
+            $loader.remove();
             $.get(
-                $next_row.find('.load-details').attr('href'),
+                url,
                 function (data) {
-                    $next_row.find('table').append(
-                        $('<tr class="details"><td colspan="2">' + data + '</td></tr>')
-                    );
-                    $next_row.find('.button').button();
+                    var $cell = $next_row.find('tr.details td');
+                    $cell.find('img').remove();
+                    $cell.append(data);
+                    $cell.find('.button').button();
                 }
             );
         }

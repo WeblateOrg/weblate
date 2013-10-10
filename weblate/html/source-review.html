@@ -2,6 +2,7 @@
 {% load url from future %}
 {% load i18n %}
 {% load translations %}
+{% load static %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -63,7 +64,7 @@
 {% include "list-comments.html" %}
 {% endif %}
 {% endwith %}
-<tr class="hidden"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a></td></tr>
+<tr class="details"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
 </table>
 </td>
 <td>
