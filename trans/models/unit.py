@@ -819,12 +819,13 @@ class Unit(models.Model):
                     self.update_has_failing_check(True)
                 return ({}, False)
 
-            # If there is no consistency checking, we can return
-            if not 'inconsistent' in CHECKS:
-                return ({}, False)
+            # We run only checks which span across more units
+            checks_to_run = {}
 
-            # Limit checks to consistency check for fuzzy messages
-            checks_to_run = {'inconsistent': CHECKS['inconsistent']}
+            # Consistency check checks across more translations
+            if 'inconsistent' in CHECKS:
+                checks_to_run['inconsistent'] = CHECKS['inconsistent']
+
             cleanup_checks = False
 
         return (checks_to_run, cleanup_checks)
