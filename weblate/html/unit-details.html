@@ -11,4 +11,11 @@
 <td class="translation_comment">{{ unit.comment }}</td>
 </tr>
 {% endif %}
-
+{% with unit.get_source_string_info as source %}
+{% if source %}
+<tr>
+<th class="labelscolumn">{% trans "First seen" %}</th>
+<td class="translation_comment">{{ source.timestamp|naturaltime }}</td>
+</tr>
+{% endif %}
+{% endwith %}

@@ -1056,3 +1056,16 @@ class Unit(models.Model):
         return mark_safe(
             '\n'.join([FLAG_TEMPLATE % flag for flag in flags])
         )
+
+    def get_source_string_info(self):
+        '''
+        Returns related source string object.
+        '''
+        from trans.models.source import Source
+        try:
+            return Source.objects.get(
+                checksum=self.checksum,
+                subproject=self.translation.subproject
+            )
+        except Source.DoesNotExist:
+            return None
