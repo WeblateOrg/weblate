@@ -46,6 +46,17 @@ class JSViewsTest(ViewTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, '')
 
+    def test_get_detail(self):
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse('js-detail', kwargs={
+                'checksum': unit.checksum,
+                'subproject': unit.translation.subproject.slug,
+                'project': unit.translation.subproject.project.slug,
+            }),
+        )
+        self.assertContains(response, 'Czech')
+
     def test_translate(self):
         unit = self.get_unit()
         response = self.client.get(
