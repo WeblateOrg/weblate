@@ -1158,10 +1158,10 @@ class Translation(models.Model, URLMixin, PercentMixin):
             checksum = unit.get_checksum()
 
             # Grab database unit
-            dbunit = self.unit_set.filter(checksum=checksum)
-            if not dbunit.exists():
+            try:
+                dbunit = self.unit_set.filter(checksum=checksum)[0]
+            except Unit.DoesNotExist:
                 continue
-            dbunit = dbunit[0]
 
             # Indicate something new
             ret = True
