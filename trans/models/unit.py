@@ -185,7 +185,7 @@ class UnitManager(models.Manager):
             return self.none()
         from trans.models.changes import Change
         sample = self.all()[0]
-        changes = Change.objects.filter(
+        changes = Change.objects.content().filter(
             translation=sample.translation,
             timestamp__gte=date
         ).exclude(user=user)
