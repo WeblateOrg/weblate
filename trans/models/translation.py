@@ -1147,6 +1147,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         Merges contect of translate-toolkit store as a suggestions.
         '''
         from trans.models.unitdata import Suggestion
+        from trans.models.unit import Unit
         ret = False
         for unit in store.all_units():
 
