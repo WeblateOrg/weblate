@@ -118,6 +118,7 @@ def search(request):
     '''
     search_form = SearchForm(request.GET)
     context = {}
+
     if search_form.is_valid():
         units = Unit.objects.search(
             search_form.cleaned_data['search'],
@@ -132,7 +133,11 @@ def search(request):
         }
     else:
         messages.error(request, _('Invalid search query!'))
-    return render_to_response('search.html', RequestContext(request, context))
+
+    return render_to_response(
+        'search.html',
+        RequestContext(request, context)
+    )
 
 
 def show_engage(request, project, lang=None):
