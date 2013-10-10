@@ -8,6 +8,7 @@ Administrators guide
     upgrade
     auth
     checks
+    machine
     admin
     config
     management
