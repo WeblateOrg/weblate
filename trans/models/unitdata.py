@@ -177,7 +177,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
         '''
         Adds (or updates) vote for a suggestion.
         '''
-        votes, dummy = Vote.objects.get_or_create(
+        vote, dummy = Vote.objects.get_or_create(
             suggestion=self,
             user=request.user
         )
