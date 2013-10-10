@@ -1058,7 +1058,6 @@ class Unit(models.Model):
         '''
         Returns related source string object.
         '''
-        from trans.models.source import Source
         try:
             return Source.objects.get(
                 checksum=self.checksum,
