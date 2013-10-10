@@ -236,3 +236,15 @@ The string uses three dots (...) instead of an ellipsis character (…). Using
 Unicode character is in most cases better approach and looks better.
 
 .. seealso:: https://en.wikipedia.org/wiki/Ellipsis
+
+.. _check-multiple-failures:
+
+Multiple failing checks
+~~~~~~~~~~~~~~~~~~~~~~~
+
+More translations of this string have some failed quality checks. This is
+usually indication that something could be done about improving the source
+string. 
+
+This check can be quite often caused by missing full stop at the end of
+sentence or similar minor issues which translators tend to fix in translations.
