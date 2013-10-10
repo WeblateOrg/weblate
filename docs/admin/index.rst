@@ -8,6 +8,7 @@ Administrators guide
     upgrade
     auth
     projects
+    continuous
     checks
     machine
     admin
