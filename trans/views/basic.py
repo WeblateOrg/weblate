@@ -262,12 +262,12 @@ def review_source(request, project, subproject):
     '''
     obj = get_subproject(request, project, subproject)
 
-    if not obj.translation_set.exists():
-        raise Http404('No translation exists in this subproject.')
-
     # Grab first translation in subproject
     # (this assumes all have same source strings)
-    source = obj.translation_set.all()[0]
+    try:
+        source = obj.translation_set.all()[0]
+    except Translation.DoesNotExist:
+        raise Http404('No translation exists in this subproject.')
 
     # Grab search type and page number
     rqtype = request.GET.get('type', 'all')
@@ -303,12 +303,13 @@ def show_source(request, project, subproject):
     Show source strings summary and checks.
     '''
     obj = get_subproject(request, project, subproject)
-    if not obj.translation_set.exists():
-        raise Http404('No translation exists in this subproject.')
 
     # Grab first translation in subproject
     # (this assumes all have same source strings)
-    source = obj.translation_set.all()[0]
+    try:
+        source = obj.translation_set.all()[0]
+    except Translation.DoesNotExist:
+        raise Http404('No translation exists in this subproject.')
 
     return render_to_response('source.html', RequestContext(request, {
         'object': obj,
