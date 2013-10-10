@@ -20,6 +20,7 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _, get_language
+from django.contrib.auth.forms import AuthenticationForm
 
 from accounts.models import Profile, VerifiedEmail
 from lang.models import Language
@@ -387,3 +388,12 @@ class ResetForm(EmailForm):
                 _('User with this email address was not found.')
             )
         return users[0]
+
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+
+        super(LoginForm, self).__init__(*args, **kwargs)
+
+        self.fields['username'].label = _('Username or email')
+        self.fields['password'].label = _('Password')

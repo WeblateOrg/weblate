@@ -27,10 +27,10 @@ from django.dispatch.dispatcher import receiver
 from django.contrib.auth.backends import ModelBackend
 
 
-class AnonymousUserBackend(ModelBackend):
+class WeblateUserBackend(ModelBackend):
     '''
     Authentication backend which allows to control anonymous user
-    permissions.
+    permissions and to login using email.
     '''
 
     def get_all_permissions(self, user_obj, obj=None):
@@ -44,19 +44,27 @@ class AnonymousUserBackend(ModelBackend):
                 anon_user = User.objects.get(username=ANONYMOUS_USER_NAME)
                 user_obj._perm_cache = self.get_all_permissions(anon_user)
             return user_obj._perm_cache
-        return super(AnonymousUserBackend, self).get_all_permissions(
+        return super(WeblateUserBackend, self).get_all_permissions(
             user_obj, obj
         )
 
     def authenticate(self, username=None, password=None, **kwargs):
         '''
-        Prohibits login for anonymous user.
+        Prohibits login for anonymous user and allows to login by email.
         '''
         if username == ANONYMOUS_USER_NAME:
             return False
-        return super(AnonymousUserBackend, self).authenticate(
-            username, password, **kwargs
-        )
+
+        if '@' in username:
+            kwargs = {'email': username}
+        else:
+            kwargs = {'username': username}
+        try:
+            user = User.objects.get(**kwargs)
+            if user.check_password(password):
+                return user
+        except User.DoesNotExist:
+            return None
 
     def has_perm(self, user_obj, perm, obj=None):
         '''

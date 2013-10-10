@@ -32,7 +32,8 @@ from django.views.generic import TemplateView
 from urllib import urlencode
 
 from accounts.forms import (
-    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm
+    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
+    LoginForm
 )
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
@@ -257,6 +258,7 @@ def weblate_login(request):
     return login(
         request,
         template_name='accounts/login.html',
+        authentication_form=LoginForm,
         extra_context={
             'login_backends': [
                 x for x in load_backends(BACKENDS).keys() if x != 'email'
