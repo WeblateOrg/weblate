@@ -444,10 +444,22 @@ class Unit(models.Model):
         )
 
         # Ensure we track source string
-        Source.objects.get_or_create(
+        dummy, created = Source.objects.get_or_create(
             checksum=self.checksum,
             subproject=self.translation.subproject
         )
+
+        # Create change object for new source string
+        if created:
+            from trans.models.changes import Change
+
+            Change.objects.create(
+                translation=self.translation,
+                action=Change.ACTION_NEW_SOURCE,
+                user=request.user,
+                unit=self,
+                author=user
+            )
 
     def is_plural(self):
         '''

@@ -144,6 +144,7 @@ class Change(models.Model):
     ACTION_DICTIONARY_NEW = 10
     ACTION_DICTIONARY_EDIT = 11
     ACTION_DICTIONARY_UPLOAD = 12
+    ACTION_NEW_SOURCE = 13
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -159,6 +160,7 @@ class Change(models.Model):
         (ACTION_DICTIONARY_NEW, ugettext_lazy('Glossary added')),
         (ACTION_DICTIONARY_EDIT, ugettext_lazy('Glossary updated')),
         (ACTION_DICTIONARY_UPLOAD, ugettext_lazy('Glossary uploaded')),
+        (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
     )
 
     unit = models.ForeignKey(Unit, null=True)
