@@ -402,7 +402,7 @@ def password(request):
                 else:
                     messages.error(
                         request,
-                        _('You have entered invalid password.')
+                        _('You have entered an invalid password.')
                     )
         else:
             change_form = PasswordChangeForm()
