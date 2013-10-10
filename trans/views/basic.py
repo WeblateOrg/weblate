@@ -129,7 +129,7 @@ def search(request):
             search_form.cleaned_data['ctx'],
             search_form.cleaned_data['tgt'],
         ).select_related(
-            'translation'
+            'translation',
         )
 
         limit = request.GET.get('limit', 50)

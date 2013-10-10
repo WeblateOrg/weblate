@@ -23,7 +23,10 @@
 <table>
 <tbody>
 {% for unit in units.object_list %}
-<tr><th colspan="2"><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation }}</a></th></tr>
+<tr><th colspan="2">
+<a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation }}</a> 
+{{ unit.get_state_flags }}
+</th></tr>
 <tr>
 <th class="source">{% trans "Source" %}</th>
 <td class="translatetext"><a href="{{ unit.get_absolute_url }}">{{ unit.source|fmtsearchmatch:search_query }}</a></td>
