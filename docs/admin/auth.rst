@@ -15,19 +15,20 @@ You can also completely disable new users registration using
 Authentication backends
 -----------------------
 
-By default Weblate uses Django built-in user database. Thanks to this, you can
+By default Weblate uses Django built-in authentication and includes various
+social authentication options. Thanks to using Django authentication, you can
 also import user database from other Django based projects (see
 :ref:`pootle-migration`).
 
-But Django can be configured to authenticate against other means as well.
-Currently you have to register and confirm your email even when using other
-authentication backend.
+Django can be additionally configured to authenticate against other means as
+well.
 
-Third party authentication
-++++++++++++++++++++++++++
+Social authentication
++++++++++++++++++++++
 
-Thanks python-social-auth, Weblate support authentication using many third
-party services such as Facebook, GitHub, Google or Bitbucket.
+Thanks `python-social-auth <http://psa.matiasaguirre.net/>`_, Weblate support
+authentication using many third party services such as Facebook, GitHub,
+Google or Bitbucket.
 
 Please check their documentation for generic configuration instructions:
 
