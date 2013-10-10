@@ -4,8 +4,8 @@ Translating using Weblate
 Translation links
 -----------------
 
-Once you navigate to translation, you will be shown set of links which lead to
-translation. These are results of various checks, like untranslated or fuzzy
+Once you navigate to a translation, you will be shown set of links which lead
+to translation. These are results of various checks, like untranslated or fuzzy
 strings. Should no other checks fire, there will be still link to all
 translations. Alternatively you can use search field to find translation you
 need to fix.
@@ -19,6 +19,11 @@ As an anonymous user, you have no other choice than making a suggestion.
 However if you are logged in you can still decide to make only a suggestion
 instead of saving translation, for example in case you are unsure about the
 translation and you want somebody else to review it.
+
+.. note::
+    
+    Permissions might vary depending on your setup, what is described is
+    default Weblate behaviour.
 
 Translating
 -----------
@@ -63,6 +68,9 @@ Recent edits
 Project
     Project information like instructions for translators or information about
     Git repository.
+
+If translation format supports it, you can also follow links to source code
+which contains translated strings.
 
 Translation history
 +++++++++++++++++++
