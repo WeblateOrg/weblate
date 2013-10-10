@@ -28,6 +28,7 @@ from django.core.cache import cache
 import traceback
 from trans.checks import CHECKS
 from trans.models.translation import Translation
+from trans.models.source import Source
 from trans.search import update_index_unit, fulltext_search, more_like
 from trans.autofixes import fix_target
 
@@ -440,6 +441,12 @@ class Unit(models.Model):
             backend=True,
             same_content=same_content,
             same_state=same_state
+        )
+
+        # Ensure we track source string
+        Source.objects.get_or_create(
+            checksum=self.checksum,
+            subproject=self.translation.subproject
         )
 
     def is_plural(self):
