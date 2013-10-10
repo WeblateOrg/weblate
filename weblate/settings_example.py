@@ -171,7 +171,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.email.EmailAuth',
     #'social.backends.github.GithubOAuth2',
     #'social.backends.suse.OpenSUSEOpenId',
-    'accounts.auth.AnonymousUserBackend',
+    'accounts.auth.WeblateUserBackend',
 )
 
 # Social auth backends setup
