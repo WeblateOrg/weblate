@@ -26,9 +26,9 @@ well.
 Social authentication
 +++++++++++++++++++++
 
-Thanks `python-social-auth <http://psa.matiasaguirre.net/>`_, Weblate support
-authentication using many third party services such as Facebook, GitHub,
-Google or Bitbucket.
+Thanks to `python-social-auth <http://psa.matiasaguirre.net/>`_, Weblate
+support authentication using many third party services such as Facebook,
+GitHub, Google or Bitbucket.
 
 Please check their documentation for generic configuration instructions:
 
