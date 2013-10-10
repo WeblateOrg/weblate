@@ -6,12 +6,14 @@ User registration
 
 The default setup for Weblate is to use python-social-auth for handling new
 users. This allows them to register using form on the website and after
-confirming their email they can contribute. 
+confirming their email they can contribute or by using some third party service
+to authenticate.
 
-You can also completely disable registration using :setting:`REGISTRATION_OPEN`.
+You can also completely disable new users registration using
+:setting:`REGISTRATION_OPEN`.
 
-Authentication
---------------
+Authentication backends
+-----------------------
 
 By default Weblate uses Django built-in user database. Thanks to this, you can
 also import user database from other Django based projects (see
@@ -37,6 +39,30 @@ http://psa.matiasaguirre.net/docs/configuration/django.html
     email address, in case some of services you want to use do not support
     this, please remove ``social.pipeline.social_auth.associate_by_email`` from
     ``SOCIAL_AUTH_PIPELINE`` settings.
+
+Enabling individual backends is quite easy, it's just matter of adding entry to
+``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
+authentication. Please note that some backends do not provide user email by
+default, you have to request it explicitely, otherwise Weblate will not be able
+to properly credit users contributions.
+
+For example, enabling authentication against GitHub:
+
+.. code-block:: python
+    
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.github.GithubOAuth2',
+        'social.backends.email.EmailAuth',
+        'accounts.auth.AnonymousUserBackend',
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_GITHUB_KEY = 'gihub api key'
+    SOCIAL_AUTH_GITHUB_SECRET = 'github api secret'
+    SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
+.. seealso:: http://psa.matiasaguirre.net/docs/backends/index.html
 
 LDAP authentication
 +++++++++++++++++++
