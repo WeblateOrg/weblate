@@ -177,21 +177,13 @@ class Suggestion(models.Model, RelatedUnitMixin):
         '''
         Adds (or updates) vote for a suggestion.
         '''
-        votes = Vote.objects.filter(
+        votes, dummy = Vote.objects.get_or_create(
             suggestion=self,
             user=request.user
         )
-        if votes.exists():
-            vote = votes[0]
-            if vote.positive != positive:
-                vote.positive = positive
-                vote.save()
-        else:
-            Vote.objects.create(
-                suggestion=self,
-                user=request.user,
-                positive=positive,
-            )
+        if vote.positive != positive:
+            vote.positive = positive
+            vote.save()
 
         # Automatic accepting
         required_votes = translation.subproject.suggestion_autoaccept
