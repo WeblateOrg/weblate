@@ -23,6 +23,9 @@ import trans.admin_views
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from trans.tests.util import get_test_file
+import tempfile
+import shutil
+import os
 
 TEST_HOSTS = get_test_file('known_hosts')
 
@@ -45,6 +48,26 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse('admin-ssh'))
         self.assertContains(response, 'SSH keys')
 
+    def test_ssh_generate(self):
+        tempdir = tempfile.mkdtemp()
+        rsafile = os.path.join(tempdir, 'id_rsa.pub')
+        try:
+            backup = trans.admin_views.RSA_KEY_FILE
+            trans.admin_views.RSA_KEY_FILE = rsafile
+
+            response = self.client.get(reverse('admin-ssh'))
+            self.assertContains(response, 'Generate SSH key')
+
+            response = self.client.post(
+                reverse('admin-ssh'),
+                {'action': 'generate'}
+            )
+            self.assertContains(response, 'Created new SSH key')
+
+        finally:
+            trans.admin_views.RSA_KEY_FILE = backup
+            shutil.rmtree(tempdir)
+
     def test_performace(self):
         response = self.client.get(reverse('admin-performance'))
         self.assertContains(response, 'Django caching')
@@ -66,6 +89,10 @@ class AdminTest(ViewTestCase):
 
 class SSHKeysTest(TestCase):
     def test_parse(self):
-        trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
-        hosts = trans.admin_views.get_host_keys()
-        self.assertEqual(len(hosts), 50)
+        try:
+            backup = trans.admin_views.KNOWN_HOSTS_FILE
+            trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
+            hosts = trans.admin_views.get_host_keys()
+            self.assertEqual(len(hosts), 50)
+        finally:
+            trans.admin_views.KNOWN_HOSTS_FILE = backup
