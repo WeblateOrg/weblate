@@ -47,6 +47,6 @@ String comments
 +++++++++++++++
 
 Weblate allows translators to comment on both translation and source strings.
-Each :ref:`supbroject` can be configured to receive such comments on email
+Each :ref:`subproject` can be configured to receive such comments on email
 address and sending this to developers mailing list is usually best approach.
 This way you can monitor when translators find problems and fix them quickly.
