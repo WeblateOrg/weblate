@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'search' %}">{% trans "search" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<span class="navi-toolbar ui-widget-header ui-corner-all">
+<span id="navi">
+<a id="button-first" {% if units.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;{{ query_string }}">{% trans "First" %}</a>
+<a id="button-prev" {% if not units.has_previous %}class="button-disabled"{% else %}href="?page={{ units.previous_page_number }}&amp;{{ query_string }}"{% endif %}>{% trans "Previous" %}</a>
+<a id="button-pos" class="textbutton">{% blocktrans with units.number as position and units.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
+<a id="button-next" {% if not units.has_next %}class="button-disabled"{% else %}href="?page={{ units.next_page_number }}&amp;{{ query_string }}"{% endif %}>{% trans "Next" %}</a>
+<a id="button-end" {% if units.paginator.num_pages == units.number %}class="button-disabled"{% endif %} href="?page={{ units.paginator.num_pages }}&amp;{{ query_string }}">{% trans "Last" %}</a>
+</span>
+</span>
+
+{% if units.object_list %}
+<table>
+<tbody>
+{% for unit in units.object_list %}
+<tr><th colspan="2">
+<a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation }}</a> 
+{{ unit.get_state_flags }}
+</th></tr>
+<tr>
+<th class="source">{% trans "Source" %}</th>
+<td class="translatetext"><a href="{{ unit.get_absolute_url }}">{{ unit.source|fmtsearchmatch:search_query }}</a></td>
+</tr>
+<tr>
+<th class="source">{{ unit.translation.language }}</th>
+<td class="translatetext"><a href="{{ unit.get_absolute_url }}">{{ unit.target|fmtsearchmatch:search_query }}</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>{% trans "No matching strings found!" %}</p>
+{% endif %}
+
+<h2>{% trans "Search" %}</h2>
+<form action="{% url 'search' %}" method="GET">
+{{ search_form.as_p }}
+<input type="submit" value="{% trans "Search" %}" class="button" />
+</form>
+
+{% endblock %}

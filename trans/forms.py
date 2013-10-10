@@ -26,6 +26,7 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
 from lang.models import Language
+from urllib import urlencode
 
 
 def escape_newline(value):
@@ -268,6 +269,23 @@ class SearchForm(forms.Form):
             cleaned_data['tgt'] = True
 
         return cleaned_data
+
+    def urlencode(self):
+        '''
+        Encodes query string to be used in URL.
+        '''
+        query = {
+            'q': self.cleaned_data['q'],
+            'search': self.cleaned_data['search'],
+        }
+        if self.cleaned_data['src']:
+            query['src'] = 'on'
+        if self.cleaned_data['tgt']:
+            query['tgt'] = 'on'
+        if self.cleaned_data['ctx']:
+            query['ctx'] = 'on'
+
+        return urlencode(query)
 
 
 class MergeForm(forms.Form):

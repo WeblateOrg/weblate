@@ -31,7 +31,7 @@ from django.utils.safestring import mark_safe
 
 from trans.models import (
     Project, SubProject, Translation, Check,
-    Dictionary, Change,
+    Dictionary, Change, Unit
 )
 from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
@@ -108,7 +108,58 @@ def home(request):
         'last_changes_rss': reverse('rss'),
         'last_changes_url': '',
         'usertranslations': usertranslations,
+        'search_form': SearchForm(),
     }))
+
+
+def search(request):
+    '''
+    Performs sitewide search on units.
+    '''
+    search_form = SearchForm(request.GET)
+    context = {
+        'search_form': search_form,
+    }
+
+    if search_form.is_valid():
+        units = Unit.objects.search(
+            search_form.cleaned_data['search'],
+            search_form.cleaned_data['q'],
+            search_form.cleaned_data['src'],
+            search_form.cleaned_data['ctx'],
+            search_form.cleaned_data['tgt'],
+        ).select_related(
+            'translation',
+        )
+
+        limit = request.GET.get('limit', 50)
+        page = request.GET.get('page', 1)
+        ignored = 'ignored' in request.GET
+
+        paginator = Paginator(units, limit)
+
+        try:
+            units = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            units = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            units = paginator.page(paginator.num_pages)
+
+        context['units'] = units
+        context['title'] = _('Search for %s') % (
+            search_form.cleaned_data['q']
+        )
+        context['query_string'] = search_form.urlencode()
+        context['search_query'] = search_form.cleaned_data['q']
+    else:
+        messages.error(request, _('Invalid search query!'))
+
+    return render_to_response(
+        'search.html',
+        RequestContext(request, context)
+    )
 
 
 def show_engage(request, project, lang=None):
