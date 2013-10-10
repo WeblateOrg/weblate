@@ -11,6 +11,8 @@ You can check activity reports for translations, project or individual users.
 
 .. image:: ../_static/activity.png
 
+.. _promotion:
+
 Promotion the translation
 -------------------------
 
