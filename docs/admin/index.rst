@@ -9,6 +9,7 @@ Administrators guide
     auth
     projects
     continuous
+    translating
     checks
     machine
     admin
