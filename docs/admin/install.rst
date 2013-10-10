@@ -491,3 +491,37 @@ You should also adjust some settings to match your environment, namely:
 * :ref:`production-debug`
 * :ref:`production-site`
 * :ref:`production-email`
+
+Migrating Weblate to another server
+-----------------------------------
+
+Migrating Weblate to another server should be pretty easy, however it stores
+data in few locations which you should migrate carefully. The best approach is
+to stop migrated Weblate for the migration.
+
+Migrating database
+++++++++++++++++++
+
+Depending on your database backend, you might have several options to migrate
+the database. The most straightforward one is to dump the database on one
+server and import it on the new one. Alternatively you can use replication in
+case your database supports it.
+
+Migrating Git repositories
++++++++++++++++++++++++++++
+
+The Git repositories stored under :setting:`GIT_ROOT` need to be migrated as
+well. You can simply copy them or use :command:`rsync` to do the migration
+more effectively.
+
+Migrating fulltext index
+++++++++++++++++++++++++
+
+For the fulltext index (stored in :setting:`WHOOSH_INDEX`) it is better not to
+migrate it, but rather to generate fresh one using :djadmin:`rebuild_index`.
+
+Other notes
++++++++++++
+
+Don't forget to move other services which Weblate might have been using like
+memcached, cron jobs or custom authentication backends.
