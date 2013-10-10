@@ -46,6 +46,12 @@ from accounts.forms import (
 )
 from weblate import appsettings
 
+CONTACT_TEMPLATE = '''
+'Message from %(name)s <%(email)s>:
+
+%(message)s
+'''
+
 HOSTING_TEMPLATE = '''
 %(name)s <%(email)s> wants to host %(project)s
 
@@ -183,11 +189,7 @@ def contact(request):
         if form.is_valid():
             mail_admins_sender(
                 form.cleaned_data['subject'],
-                'Message from %s <%s>:\n\n%s' % (
-                    form.cleaned_data['name'],
-                    form.cleaned_data['email'],
-                    form.cleaned_data['message']
-                ),
+                CONTACT_TEMPLATE % form.cleaned_data,
                 form.cleaned_data['email'],
             )
             messages.info(
