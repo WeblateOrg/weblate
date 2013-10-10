@@ -456,9 +456,7 @@ class Unit(models.Model):
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_NEW_SOURCE,
-                user=request.user,
                 unit=self,
-                author=user
             )
 
     def is_plural(self):
