@@ -205,12 +205,12 @@ XML tags in translation do not match source. This usually means resulting
 output will look different. In most cases this is not desired result from
 translation, but occasionally it is desired.
 
-.. _check-optional-plural:
-
 Source checks
 +++++++++++++
 
 Source checks can help developers to improve quality of source strings.
+
+.. _check-optional-plural:
 
 Optional plural
 ~~~~~~~~~~~~~~~
