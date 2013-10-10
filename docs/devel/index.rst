@@ -44,7 +44,9 @@ Small badge with status useful for inclusion on a web page:
     :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 All these badges come with links to simple page which explains users how to
-translate using Weblate.
+translate using Weblate:
+
+.. image:: ../_static/engage.png
 
 Reviewing source strings
 ------------------------
