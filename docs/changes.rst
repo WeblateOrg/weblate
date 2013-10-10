@@ -14,6 +14,7 @@ Released on ? 2013.
 * Users can login by email instead of username.
 * Documentation improvements.
 * Improved source strings review.
+* Searching across all units.
 
 weblate 1.7
 -----------
