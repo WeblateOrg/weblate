@@ -114,7 +114,32 @@ Once you have the package installed, you can hook it to Django authentication:
 Access control
 --------------
 
-Weblate uses privileges system based on Django. It defines following extra privileges:
+Weblate uses privileges system based on Django.  The default setup (after you
+run :djadmin:`setupgroups`) consists of three groups `Guests`, `Users` and
+`Managers` which have privileges as described above.  All new users are
+automatically added to `Users` group. The `Guests` groups is used for not
+logged in users.
+
+Basically `Users` are meant as regular translators and `Managers` for
+developers who need more control over the translation - they can force
+committing changes to git, push changes upstream (if Weblate is configured to do
+so) or disable translation (eg. when there are some major changes happening
+upstream). 
+
+To customize this setup, it is recommended to remove privileges from `Users`
+group and create additional groups with finer privileges (eg. `Translators`
+group, which will be allowed to save translations and manage suggestions) and
+add selected users to this group. You can do all this from Django admin
+interface.
+
+To completely lock down your Weblate installation you can use
+:setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
+:setting:`REGISTRATION_OPEN` for disallowing new registrations.
+
+Extra privileges
+++++++++++++++++
+
+Weblate defines following extra privileges:
 
 Can upload translation [Users, Managers]
     Uploading of translation files.
@@ -163,26 +188,6 @@ Can add suggestion [Users, Managers, Guests]
 Can use machine translation [Users, Managers]
     Can use machine translations (see :ref:`machine-translation-setup`).
 
-The default setup (after you run :djadmin:`setupgroups`) consists of three
-groups `Guests`, `Users` and `Managers` which have privileges as described
-above.  All new users are automatically added to `Users` group. The `Guests`
-groups is used for not logged in users.
-
-Basically `Users` are meant as regular translators and `Managers` for
-developers who need more control over the translation - they can force
-committing changes to git, push changes upstream (if Weblate is configured to do
-so) or disable translation (eg. when there are some major changes happening
-upstream). 
-
-To customize this setup, it is recommended to remove privileges from `Users`
-group and create additional groups with finer privileges (eg. `Translators`
-group, which will be allowed to save translations and manage suggestions) and
-add selected users to this group. You can do all this from Django admin
-interface.
-
-To completely lock down your Weblate installation you can use
-:setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
-:setting:`REGISTRATION_OPEN` for disallowing new registrations.
 
 Per project access control
 ++++++++++++++++++++++++++
